@@ -11,6 +11,20 @@
         "row": 101,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 74,
+        "row": 60,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 35,
+        "row": 19,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -94,7 +108,30 @@
         "height": 0
       },
       "sprite": "npc-134",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2124",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2124",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2125",
@@ -105,7 +142,30 @@
       },
       "sprite": "npc-134",
       "facing": "up",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2125",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2125",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2126",
@@ -116,7 +176,30 @@
       },
       "sprite": "npc-134",
       "facing": "right",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2126",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2126",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2127",
@@ -127,7 +210,30 @@
       },
       "sprite": "npc-134",
       "facing": "right",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2127",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2127",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2128",
@@ -138,7 +244,30 @@
       },
       "sprite": "npc-134",
       "facing": "right",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2128",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2128",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2129",
@@ -149,7 +278,30 @@
       },
       "sprite": "npc-134",
       "facing": "right",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2129",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2129",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2130",
@@ -176,6 +328,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2130",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2130",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -208,6 +379,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2131",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2131",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }

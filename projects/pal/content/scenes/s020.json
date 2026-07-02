@@ -17,6 +17,20 @@
         "row": 7,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 71,
+        "row": 7,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 61,
+        "row": 42,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -297,7 +311,111 @@
       },
       "sprite": "npc-2",
       "facing": "right",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e344",
+                    "to": {
+                      "col": 111,
+                      "row": 35,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 120
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e344",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e344",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e344",
+                    "to": {
+                      "col": 111,
+                      "row": 37,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e344",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e344",
+                    "frame": 0
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e344",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e344",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e344",
+                    "to": {
+                      "col": 111,
+                      "row": 36,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e344",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e344",
+                    "frame": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e345",
@@ -371,25 +489,27 @@
                     "frame": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      65535,
-                      8,
-                      65532
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e348",
+                    "dx": 8,
+                    "dy": -4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e348"
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      65535,
-                      8,
-                      65532
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e348",
+                    "dx": 8,
+                    "dy": -4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e348"
                   },
                   {
                     "kind": "teleportParty",
@@ -400,25 +520,17 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      16,
-                      65528,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 16,
+                    "dy": -8
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      16,
-                      65528,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 16,
+                    "dy": -8
                   },
                   {
                     "kind": "clearDialog"
@@ -460,97 +572,105 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      343,
-                      65520,
-                      8
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e343",
+                    "dx": -16,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e343"
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      343,
-                      65520,
-                      8
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e343",
+                    "dx": -16,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e343"
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      343,
-                      65520,
-                      8
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e343",
+                    "dx": -16,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e343"
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      343,
-                      65520,
-                      8
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e343",
+                    "dx": -16,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e343"
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      343,
-                      65520,
-                      8
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e343",
+                    "dx": -16,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e343"
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      343,
-                      65520,
-                      8
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e343",
+                    "dx": -16,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e343"
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      343,
-                      65528,
-                      4
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e343",
+                    "dx": -8,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e343"
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      343,
-                      65528,
-                      4
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e343",
+                    "dx": -8,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e343"
                   },
                   {
                     "kind": "setEntityFacing",
@@ -566,13 +686,14 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      343,
-                      16,
-                      8
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e343",
+                    "dx": 16,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e343"
                   },
                   {
                     "kind": "clearDialog"
@@ -685,25 +806,17 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": -4
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
@@ -740,13 +853,10 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 125,
-                    "operands": [
-                      343,
-                      16,
-                      65528
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e343",
+                    "dx": 16,
+                    "dy": -8
                   },
                   {
                     "kind": "clearDialog"
@@ -907,104 +1017,112 @@
                     "ms": 240
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      343,
-                      4,
-                      2
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e343",
+                    "dx": 4,
+                    "dy": 2
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e343"
                   },
                   {
                     "kind": "wait",
                     "ms": 80
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      343,
-                      4,
-                      2
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e343",
+                    "dx": 4,
+                    "dy": 2
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e343"
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      343,
-                      4,
-                      2
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e343",
+                    "dx": 4,
+                    "dy": 2
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e343"
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      343,
-                      4,
-                      2
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e343",
+                    "dx": 4,
+                    "dy": 2
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e343"
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      343,
-                      4,
-                      2
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e343",
+                    "dx": 4,
+                    "dy": 2
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e343"
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      343,
-                      4,
-                      2
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e343",
+                    "dx": 4,
+                    "dy": 2
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e343"
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      343,
-                      4,
-                      2
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e343",
+                    "dx": 4,
+                    "dy": 2
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e343"
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      343,
-                      4,
-                      2
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e343",
+                    "dx": 4,
+                    "dy": 2
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e343"
                   },
                   {
                     "kind": "wait",
@@ -1166,25 +1284,17 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65520,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -16,
+                    "dy": 8
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65520,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -16,
+                    "dy": 8
                   },
                   {
                     "kind": "clearDialog"
@@ -2566,104 +2676,72 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
@@ -2677,52 +2755,36 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
@@ -2753,78 +2815,54 @@
                     "ms": 160
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65528,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65528,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65528,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65528,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65528,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65528,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
@@ -3166,6 +3204,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e360",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e360",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -3365,7 +3422,49 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e364",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e364",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e364",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e364",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e364",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e364",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e365",
@@ -3375,7 +3474,39 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e365",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e365",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e365",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e365",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e366",
@@ -3385,7 +3516,49 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e366",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e366",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e366",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e366",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e366",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e366",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e367",
@@ -3395,7 +3568,29 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e367",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e367",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e368",
@@ -3405,7 +3600,39 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e368",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e368",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e368",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e368",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e369",
@@ -3415,7 +3642,49 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e369",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e369",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e369",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e369",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e369",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e369",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e370",
@@ -3425,7 +3694,29 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e370",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e370",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e371",
@@ -3435,7 +3726,39 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e371",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e371",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e371",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e371",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e372",
@@ -3445,7 +3768,49 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e372",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e372",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e372",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e372",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e372",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e372",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e373",
@@ -3455,7 +3820,29 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e373",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e373",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e374",
@@ -3465,7 +3852,49 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e374",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e374",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e374",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e374",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e374",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e374",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e375",
@@ -3475,7 +3904,49 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e375",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e375",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e375",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e375",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e375",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e375",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e376",
@@ -3485,7 +3956,39 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e376",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e376",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e376",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e376",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e377",
@@ -3495,7 +3998,29 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e377",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e377",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e378",
@@ -3505,7 +4030,39 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e378",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e378",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e378",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e378",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e379",
@@ -3515,7 +4072,49 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e379",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e379",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e379",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e379",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e379",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e379",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e380",
@@ -3525,7 +4124,29 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e380",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e380",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e381",
@@ -3535,7 +4156,29 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e381",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e381",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e382",
@@ -3545,7 +4188,49 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e382",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e382",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e382",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e382",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e382",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e382",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e383",
@@ -3555,7 +4240,29 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e383",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e383",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e384",
@@ -3565,7 +4272,49 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e384",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e384",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e384",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e384",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e384",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e384",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e385",
@@ -3575,7 +4324,39 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e385",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e385",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e385",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e385",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e386",
@@ -3585,7 +4366,29 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e386",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e386",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e387",
@@ -3595,7 +4398,29 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e387",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e387",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e388",
@@ -3605,7 +4430,49 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e388",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e388",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e388",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e388",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e388",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e388",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e389",
@@ -3615,7 +4482,39 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e389",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e389",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e389",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e389",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e390",
@@ -3625,7 +4524,29 @@
         "height": 0
       },
       "sprite": "npc-8",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e390",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e390",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e391",
@@ -3635,7 +4556,49 @@
         "height": 0
       },
       "sprite": "npc-9",
-      "zBias": 9
+      "zBias": 9,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e391",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e391",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e391",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e391",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e391",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e391",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e392",

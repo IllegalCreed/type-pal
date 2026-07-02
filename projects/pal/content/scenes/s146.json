@@ -3,10 +3,19 @@
   "map": {
     "reuseOriginalMap": 141
   },
+  "entries": {
+    "from-shared": {
+      "pos": {
+        "col": 87,
+        "row": 58,
+        "height": 0
+      }
+    }
+  },
   "entry": {
     "pos": {
-      "col": 96,
-      "row": 32,
+      "col": 87,
+      "row": 58,
       "height": 0
     },
     "facing": "down"
@@ -80,13 +89,9 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65520,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -16,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",

@@ -10,6 +10,20 @@
         "row": 95,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 89,
+        "row": 69,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 116,
+        "row": 95,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -70,52 +84,36 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65528,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65528,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65528,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65528,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",

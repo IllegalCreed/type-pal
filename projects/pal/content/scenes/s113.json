@@ -3,10 +3,26 @@
   "map": {
     "reuseOriginalMap": 96
   },
+  "entries": {
+    "from-shared": {
+      "pos": {
+        "col": 78,
+        "row": 54,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 57,
+        "row": 14,
+        "height": 0
+      }
+    }
+  },
   "entry": {
     "pos": {
-      "col": 96,
-      "row": 32,
+      "col": 78,
+      "row": 54,
       "height": 0
     },
     "facing": "down"
@@ -84,7 +100,243 @@
         "height": 0
       },
       "sprite": "npc-301",
-      "facing": "right"
+      "facing": "right",
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 96
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "down"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "left"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 96
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 93
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "up"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2113",
+                    "dir": "up"
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2114",
@@ -94,7 +346,243 @@
         "height": 0
       },
       "sprite": "npc-301",
-      "facing": "left"
+      "facing": "left",
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 96
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "down"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "left"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 96
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 93
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "up"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2114",
+                    "dir": "up"
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2115",
@@ -104,7 +592,243 @@
         "height": 0
       },
       "sprite": "npc-301",
-      "facing": "up"
+      "facing": "up",
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 96
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "down"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "left"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 96
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 93
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "up"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e2115",
+                    "dir": "up"
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2116",
@@ -124,16 +848,96 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      120,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 120,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2116"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -158,16 +962,96 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      120,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 120,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2117"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -192,16 +1076,70 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      135,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 135,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      9,
+                      0,
+                      0
+                    ]
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -226,16 +1164,96 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      120,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 120,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2119"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -260,16 +1278,96 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      120,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 120,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2120"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -294,16 +1392,70 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      136,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 136,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      9,
+                      0,
+                      0
+                    ]
+                  }
+                ],
+                "next": 0
               }
             ]
           }

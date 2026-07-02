@@ -20,8 +20,15 @@
     },
     "from-shared": {
       "pos": {
-        "col": 34,
-        "row": 14,
+        "col": 152,
+        "row": 68,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 153,
+        "row": 59,
         "height": 0
       }
     }
@@ -132,6 +139,109 @@
       ]
     },
     {
+      "id": "e1928",
+      "pos": {
+        "col": 0,
+        "row": 0,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 93
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 80
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 640
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 61
+                    },
+                    "then": [
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 93
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "playSound",
+                        "soundId": 80
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 640
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 61
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 96
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "playSound",
+                        "soundId": 74
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 320
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 96
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 74
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 320
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "e1929",
       "pos": {
         "col": 124,
@@ -149,16 +259,96 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      126,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 126,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1929"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -183,14 +373,67 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      133,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 133,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      6,
+                      2,
+                      0
+                    ]
                   }
                 ]
               }
@@ -217,16 +460,96 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      129,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 129,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1931"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -251,16 +574,65 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      134,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 134,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1932"
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -285,16 +657,96 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      130,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 130,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1933"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -319,16 +771,70 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      137,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 137,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      9,
+                      0,
+                      0
+                    ]
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -353,14 +859,50 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      125,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 125,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -387,14 +929,50 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      122,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 122,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -421,14 +999,50 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      129,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 129,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -455,16 +1069,70 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      137,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 137,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      9,
+                      0,
+                      0
+                    ]
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -489,16 +1157,96 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      97,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 97,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1939"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -523,16 +1271,96 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      126,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 126,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1940"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -557,16 +1385,65 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      130,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 130,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1941"
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -591,16 +1468,96 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      94,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 94,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1942"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -625,14 +1582,50 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      93,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 93,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -659,16 +1652,96 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      126,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 126,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1944"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -693,16 +1766,70 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      135,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 135,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      9,
+                      0,
+                      0
+                    ]
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -727,16 +1854,96 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      93,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 93,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1946"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -761,14 +1968,50 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      99,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 99,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -795,16 +2038,65 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      133,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 133,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1948"
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -829,16 +2121,96 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      129,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 129,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1949"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -863,14 +2235,50 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      130,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 130,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -897,16 +2305,70 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      137,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 137,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      9,
+                      0,
+                      0
+                    ]
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -931,14 +2393,50 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      94,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 94,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -965,16 +2463,96 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      122,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 122,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1953"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -999,16 +2577,96 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      125,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 125,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1954"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  }
+                ],
+                "next": 0
               }
             ]
           }

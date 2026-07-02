@@ -93,15 +93,30 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 38,
-                    "operands": [
-                      3,
-                      0,
-                      0
-                    ]
+                    "kind": "openShop",
+                    "shop": 3,
+                    "mode": "buy"
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e199",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e199",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }

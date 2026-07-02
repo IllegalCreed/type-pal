@@ -10,6 +10,13 @@
         "row": 80,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 132,
+        "row": 56,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -221,7 +228,56 @@
         "height": 0
       },
       "sprite": "npc-578",
-      "zBias": -9
+      "zBias": -9,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 61
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4488",
+                    "dx": 0,
+                    "dy": 1
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4488",
+                    "dx": 0,
+                    "dy": -1
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 51
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e4489",
@@ -231,7 +287,56 @@
         "height": 0
       },
       "sprite": "npc-578",
-      "zBias": -9
+      "zBias": -9,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 61
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4489",
+                    "dx": 0,
+                    "dy": 1
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4489",
+                    "dx": 0,
+                    "dy": -1
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 51
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e4490",
@@ -241,7 +346,56 @@
         "height": 0
       },
       "sprite": "npc-578",
-      "zBias": -9
+      "zBias": -9,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 61
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4490",
+                    "dx": 0,
+                    "dy": 1
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4490",
+                    "dx": 0,
+                    "dy": -1
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 51
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e4491",
@@ -251,7 +405,56 @@
         "height": 0
       },
       "sprite": "npc-578",
-      "zBias": -9
+      "zBias": -9,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 61
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4491",
+                    "dx": 0,
+                    "dy": 1
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4491",
+                    "dx": 0,
+                    "dy": -1
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 51
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e4492",
@@ -261,7 +464,56 @@
         "height": 0
       },
       "sprite": "npc-578",
-      "zBias": -9
+      "zBias": -9,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 61
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4492",
+                    "dx": 0,
+                    "dy": 1
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4492",
+                    "dx": 0,
+                    "dy": -1
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 51
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e4493",
@@ -271,7 +523,56 @@
         "height": 0
       },
       "sprite": "npc-578",
-      "zBias": -9
+      "zBias": -9,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 61
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4493",
+                    "dx": 0,
+                    "dy": 1
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4493",
+                    "dx": 0,
+                    "dy": -1
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 51
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e4494",
@@ -281,7 +582,56 @@
         "height": 0
       },
       "sprite": "npc-580",
-      "zBias": -9
+      "zBias": -9,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 61
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4494",
+                    "dx": 0,
+                    "dy": 1
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4494",
+                    "dx": 0,
+                    "dy": -1
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 51
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e4495",
@@ -291,7 +641,56 @@
         "height": 0
       },
       "sprite": "npc-580",
-      "zBias": -9
+      "zBias": -9,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 61
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4495",
+                    "dx": 0,
+                    "dy": 1
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4495",
+                    "dx": 0,
+                    "dy": -1
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 51
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e4496",
@@ -301,7 +700,56 @@
         "height": 0
       },
       "sprite": "npc-580",
-      "zBias": -9
+      "zBias": -9,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 61
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4496",
+                    "dx": 0,
+                    "dy": 1
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4496",
+                    "dx": 0,
+                    "dy": -1
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 51
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e4497",
@@ -311,7 +759,56 @@
         "height": 0
       },
       "sprite": "npc-580",
-      "zBias": -9
+      "zBias": -9,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 61
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4497",
+                    "dx": 0,
+                    "dy": 1
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4497",
+                    "dx": 0,
+                    "dy": -1
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 51
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e4498",
@@ -321,7 +818,56 @@
         "height": 0
       },
       "sprite": "npc-580",
-      "zBias": -9
+      "zBias": -9,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 61
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4498",
+                    "dx": 0,
+                    "dy": 1
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4498",
+                    "dx": 0,
+                    "dy": -1
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 51
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e4499",
@@ -331,7 +877,56 @@
         "height": 0
       },
       "sprite": "npc-580",
-      "zBias": -9
+      "zBias": -9,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 61
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4499",
+                    "dx": 0,
+                    "dy": 1
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4499",
+                    "dx": 0,
+                    "dy": -1
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 51
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e4500",
@@ -793,6 +1388,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4518",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4518",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -823,6 +1437,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4519",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4519",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -857,6 +1490,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4520",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4520",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -887,6 +1539,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4521",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4521",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -921,6 +1592,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4522",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4522",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -951,6 +1641,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4523",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4523",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -1017,6 +1726,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4525",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4525",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -1057,6 +1785,49 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4526",
+                    "to": {
+                      "col": 140,
+                      "row": 41,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4526",
+                    "to": {
+                      "col": 96,
+                      "row": 41,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4526",
+                    "to": {
+                      "col": 96,
+                      "row": 36,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4526",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
           }
         }
       ]
@@ -1084,6 +1855,148 @@
                       "text": "dlg.11699",
                       "speaker": "spk.士兵"
                     }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4527",
+                    "to": {
+                      "col": 119,
+                      "row": 61,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4527",
+                    "to": {
+                      "col": 119,
+                      "row": 69,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4527",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4527",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 93
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4527",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4527",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4527",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4527",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4527",
+                    "to": {
+                      "col": 119,
+                      "row": 61,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4527",
+                    "to": {
+                      "col": 133,
+                      "row": 61,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4527",
+                    "to": {
+                      "col": 133,
+                      "row": 71,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4527",
+                    "to": {
+                      "col": 142,
+                      "row": 71,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4527",
+                    "to": {
+                      "col": 142,
+                      "row": 56,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4527",
+                    "to": {
+                      "col": 134,
+                      "row": 56,
+                      "height": 0
+                    },
+                    "speed": "slow"
                   }
                 ]
               }

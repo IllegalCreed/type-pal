@@ -101,78 +101,54 @@
                     "facing": "down"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65520,
-                      65528,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -16,
+                    "dy": -8
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65520,
-                      65528,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -16,
+                    "dy": -8
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65520,
-                      65528,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -16,
+                    "dy": -8
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65520,
-                      65528,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -16,
+                    "dy": -8
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65520,
-                      65528,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -16,
+                    "dy": -8
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65520,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -16,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -206,78 +182,54 @@
                     "facing": "up"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      16,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 16,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      16,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 16,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      16,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 16,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      16,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 16,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      16,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 16,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      16,
-                      65528,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 16,
+                    "dy": -8
                   },
                   {
                     "kind": "wait",
@@ -431,6 +383,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2093",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2093",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -460,6 +431,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2094",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2094",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -794,6 +784,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2105",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2105",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -908,6 +917,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2107",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2107",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -951,7 +979,406 @@
         "row": 61,
         "height": 0
       },
-      "sprite": "npc-502"
+      "sprite": "npc-502",
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 61
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2109",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2109",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 71
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2109",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2109",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 71
+                    },
+                    "then": [
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 61
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e2109",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e2109",
+                        "frame": 0
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 71
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 80
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e2109",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e2109",
+                        "frame": 1
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 71
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e2109",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e2109",
+                        "frame": 2
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 51
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 80
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e2109",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e2109",
+                        "frame": 1
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 61
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 71
+                        },
+                        "then": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e2109",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e2109",
+                            "frame": 2
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 51
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 80
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e2109",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e2109",
+                            "frame": 1
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 61
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 71
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e2109",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e2109",
+                            "frame": 3
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e2109",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e2109",
+                        "frame": 3
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2109",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2109",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 51
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2109",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2109",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 61
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 71
+                    },
+                    "then": [
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e2109",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e2109",
+                        "frame": 2
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 51
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 80
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e2109",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e2109",
+                        "frame": 1
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 61
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 71
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e2109",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e2109",
+                        "frame": 3
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2109",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2109",
+                    "frame": 3
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 71
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2109",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2109",
+                    "frame": 4
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 61
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 71
+                    },
+                    "then": [
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e2109",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e2109",
+                        "frame": 3
+                      }
+                    ]
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2110",

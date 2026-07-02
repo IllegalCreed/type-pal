@@ -27,8 +27,36 @@
     },
     "from-shared": {
       "pos": {
-        "col": 131,
-        "row": 42,
+        "col": 57,
+        "row": 12,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 96,
+        "row": 71,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 69,
+        "row": 36,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 41,
+        "row": -25,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 57,
+        "row": -25,
         "height": 0
       }
     }
@@ -304,14 +332,30 @@
                     "musicId": 47
                   },
                   {
+                    "kind": "startBattle",
+                    "team": 25
+                  },
+                  {
                     "kind": "unmigrated",
-                    "opcode": 7,
+                    "opcode": 119,
                     "operands": [
-                      25,
+                      1,
                       0,
                       0
-                    ],
-                    "note": "jump-family 0x7"
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 109,
+                    "operands": [
+                      38,
+                      8857,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "loadScene",
+                    "scene": "s038"
                   }
                 ]
               }
@@ -360,7 +404,29 @@
         "height": 0
       },
       "sprite": "npc-9",
-      "zBias": 4
+      "zBias": 4,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e604",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e604",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e605",
@@ -370,7 +436,49 @@
         "height": 0
       },
       "sprite": "npc-9",
-      "zBias": 4
+      "zBias": 4,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e605",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e605",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e605",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e605",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e605",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e605",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e606",
@@ -380,7 +488,39 @@
         "height": 0
       },
       "sprite": "npc-9",
-      "zBias": 4
+      "zBias": 4,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e606",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e606",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e606",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e606",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e607",

@@ -56,6 +56,19 @@ if (existsSync(resolve(repo, 'data/extracted/events/shared.json'))) {
   const ev = readJson<{ segments: { commands: SourceCmd[] }[] }>('data/extracted/events/shared.json')
   eventsByScene.set(-1, ev.segments.flatMap((sg) => sg.commands))
 }
+// 全流兜底(key -2,label 索引后置:场景/共享文件优先):跳进战斗侧等未分区段的目标
+eventsByScene.set(-2, allJson.segments.flatMap((sg) => sg.commands))
+const DEBUG_SCENES = process.env.MIG_DEBUG === '1'
+if (DEBUG_SCENES) {
+  // 逐场景跑,找翻译爆点
+  for (const sc of srcScenes) {
+    process.stderr.write(`scene ${sc.sceneId}...`)
+    const t0 = Date.now()
+    const one = mapScenesStatic([sc], eventsByScene)
+    process.stderr.write(` cmds=${one.scriptReport.commands} ${Date.now() - t0}ms\n`)
+  }
+  process.exit(0)
+}
 const scenesOut = mapScenesStatic(srcScenes, eventsByScene)
 
 // ── 与 demo 手作合并(youhun/ghost 等 demo 独有条目保留;工程底座种自 demo)──

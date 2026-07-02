@@ -24,6 +24,27 @@
         "row": -19,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 72,
+        "row": 20,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 84,
+        "row": 50,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 69,
+        "row": -19,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -245,6 +266,19 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e517"
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -369,6 +403,83 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e521",
+                    "to": {
+                      "col": 65,
+                      "row": 2,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e521",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e521",
+                    "frame": 0
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e521",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e521",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e521",
+                    "to": {
+                      "col": 70,
+                      "row": 2,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e521",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e521",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }

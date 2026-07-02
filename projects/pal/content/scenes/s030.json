@@ -90,15 +90,30 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 38,
-                    "operands": [
-                      5,
-                      0,
-                      0
-                    ]
+                    "kind": "openShop",
+                    "shop": 5,
+                    "mode": "buy"
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e539",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e539",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -138,14 +153,70 @@
                     }
                   },
                   {
+                    "kind": "confirm",
+                    "onNo": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 0,
+                        "operands": [
+                          7469
+                        ],
+                        "note": "分支臂不可内联"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "not",
+                      "cond": {
+                        "kind": "hasMoney",
+                        "atLeast": 100
+                      }
+                    },
+                    "then": [
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.2644",
+                          "speaker": "spk.李逍遥"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "giveMoney",
+                    "delta": -100
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.2632",
+                      "speaker": "spk.李逍遥"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
                     "kind": "unmigrated",
-                    "opcode": 10,
+                    "opcode": 8,
                     "operands": [
-                      7469,
+                      0,
                       0,
                       0
-                    ],
-                    "note": "jump-family 0xa"
+                    ]
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.2636",
+                      "speaker": "spk.少女",
+                      "slot": "top"
+                    }
                   }
                 ]
               }

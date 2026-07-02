@@ -3,10 +3,19 @@
   "map": {
     "reuseOriginalMap": 103
   },
+  "entries": {
+    "from-shared": {
+      "pos": {
+        "col": 95,
+        "row": 38,
+        "height": 0
+      }
+    }
+  },
   "entry": {
     "pos": {
-      "col": 96,
-      "row": 32,
+      "col": 95,
+      "row": 38,
       "height": 0
     },
     "facing": "down"
@@ -51,7 +60,52 @@
         "height": 0
       },
       "sprite": "npc-196",
-      "zBias": -9
+      "zBias": -9,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2072",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2072",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 360
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2072",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2072",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2073",
@@ -73,7 +127,39 @@
       },
       "sprite": "npc-81",
       "facing": "up",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2074",
+                    "to": {
+                      "col": 92,
+                      "row": 17,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2074",
+                    "to": {
+                      "col": 94,
+                      "row": 17,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2075",
@@ -84,7 +170,39 @@
       },
       "sprite": "npc-401",
       "facing": "up",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2075",
+                    "to": {
+                      "col": 92,
+                      "row": 17,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2075",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2075",
+                    "frame": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2076",
@@ -95,7 +213,39 @@
       },
       "sprite": "npc-401",
       "facing": "up",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2076",
+                    "to": {
+                      "col": 92,
+                      "row": 18,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2076",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2076",
+                    "frame": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2077",
@@ -122,6 +272,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2077",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2077",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -155,6 +324,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2078",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2078",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -184,6 +372,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2079",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2079",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -218,6 +425,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2080",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2080",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -247,6 +473,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2081",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2081",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -281,6 +526,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2082",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2082",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -311,6 +575,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2083",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2083",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -369,14 +652,47 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 10,
-                    "operands": [
-                      17178,
-                      0,
-                      0
-                    ],
-                    "note": "jump-family 0xa"
+                    "kind": "confirm",
+                    "onNo": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 0,
+                        "operands": [
+                          17178
+                        ],
+                        "note": "分支臂不可内联"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "not",
+                      "cond": {
+                        "kind": "hasMoney",
+                        "atLeast": 30
+                      }
+                    },
+                    "then": [
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.5989",
+                          "speaker": "spk.小贩"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "giveMoney",
+                    "delta": -30
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "80"
                   }
                 ]
               }

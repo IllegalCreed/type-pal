@@ -48,10 +48,23 @@ export type Command =
   | { kind: 'playMusic'; musicId: number }
   | { kind: 'setBattleMusic'; musicId: number }
   | { kind: 'setBattleField'; fieldId: number }
+  // 走位 / 演出(M3b;速度=原版 2/3/4/8 → slow/normal/fast/run)
+  | { kind: 'moveEntity'; entity: string; to: GridPos; speed: WalkSpeed } // 阻塞:直线走到(原版 walkTo)
+  | { kind: 'stepEntity'; entity: string; dir: Facing } // 单步(0x0B-0E:设向+走一步)
+  | { kind: 'animEntity'; entity: string } // 0x87:仅推动画帧(不位移)
+  | { kind: 'nudgeEntity'; entity: string; dx: number; dy: number } // 0x7D/0x6C:像素位移(瞬时)
+  | { kind: 'moveParty'; to: GridPos; speed: WalkSpeed } // 阻塞:队伍走到
+  | { kind: 'nudgeParty'; dx: number; dy: number } // 0x6E:队伍相对单步(带走姿)
+  // 战斗 / 商店 / 确认(M3b 翻译;战斗引擎 M4,先桩)
+  | { kind: 'startBattle'; team: number; onLose?: Command[]; onFlee?: Command[] }
+  | { kind: 'openShop'; shop: number; mode: 'buy' | 'sell' }
+  | { kind: 'confirm'; onNo: Command[] } // 0x0A 是/否框:选"否"走 onNo,"是"继续
   // 控制流(M3b 引擎;schema 先行防返工)
   | { kind: 'branch'; cond: ScriptCondition; then: Command[]; else?: Command[] }
   // 逃生口
   | { kind: 'unmigrated'; opcode: number; operands: number[]; note?: string }
+
+export type WalkSpeed = 'slow' | 'normal' | 'fast' | 'run'
 
 /**
  * 触发段(stage):原版 end.advance/end.reset(合计 1,699 次)的 clean 版。
@@ -79,8 +92,8 @@ export interface EntityPage {
   /** 匹配 world.entityState(迁移内容);M3b 增 when?: ScriptCondition(手工内容)。 */
   state?: number
   trigger?: TriggerSpec
-  /** autoScript(每帧环境行为,M3b):巡逻/动画循环。 */
-  auto?: { body: Command[]; loop: boolean }
+  /** autoScript(M3b):巡逻/环境动画;循环跑 stages(段间 1 tick 让步,主脚本期间暂停)。 */
+  auto?: { stages: ScriptStage[] }
 }
 
 /** 脚本世界状态(跟存档;flags/vars 手工内容用,entityState/entityStage 迁移内容用)。 */

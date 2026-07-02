@@ -31,6 +31,41 @@
         "row": 29,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 76,
+        "row": 13,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 59,
+        "row": 5,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 59,
+        "row": 17,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 68,
+        "row": -5,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 102,
+        "row": 29,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -146,7 +181,23 @@
         "height": 0
       },
       "sprite": "npc-619",
-      "zBias": 6
+      "zBias": 6,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4564"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e4565",
@@ -156,7 +207,23 @@
         "height": 0
       },
       "sprite": "npc-619",
-      "zBias": 6
+      "zBias": 6,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4565"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "dialogues": []

@@ -236,13 +236,13 @@
                     "ms": 320
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 112,
-                    "operands": [
-                      45,
-                      65,
-                      1
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 111,
+                      "row": 20,
+                      "height": 0
+                    },
+                    "speed": "slow"
                   },
                   {
                     "kind": "wait",
@@ -430,7 +430,43 @@
         "height": 0
       },
       "sprite": "npc-575",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "wait",
+                    "ms": 120
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4369",
+                    "to": {
+                      "col": 104,
+                      "row": 20,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4369",
+                    "to": {
+                      "col": 107,
+                      "row": 20,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "dialogues": [],

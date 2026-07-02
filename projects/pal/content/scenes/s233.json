@@ -10,6 +10,20 @@
         "row": 53,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 34,
+        "row": 3,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 96,
+        "row": 78,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -49,7 +63,58 @@
       },
       "sprite": "npc-38",
       "facing": "right",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4195",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4195",
+                    "frame": 0
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4195",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4195",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4195",
+                    "to": {
+                      "col": 84,
+                      "row": 13,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e4196",

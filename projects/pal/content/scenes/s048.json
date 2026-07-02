@@ -11,6 +11,13 @@
         "row": 90,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 61,
+        "row": 31,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -62,7 +69,29 @@
         "height": 0
       },
       "sprite": "npc-267",
-      "facing": "up"
+      "facing": "up",
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e790",
+                    "dir": "down"
+                  }
+                ],
+                "next": 1
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e791",
@@ -72,7 +101,25 @@
         "height": 0
       },
       "sprite": "npc-148",
-      "facing": "left"
+      "facing": "left",
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e791",
+                    "dir": "down"
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e792",
@@ -82,7 +129,29 @@
         "height": 0
       },
       "sprite": "npc-143",
-      "facing": "up"
+      "facing": "up",
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e792",
+                    "dir": "down"
+                  }
+                ],
+                "next": 1
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e793",
@@ -92,7 +161,29 @@
         "height": 0
       },
       "sprite": "npc-139",
-      "facing": "left"
+      "facing": "left",
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e793",
+                    "dir": "down"
+                  }
+                ],
+                "next": 1
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e794",
@@ -102,7 +193,25 @@
         "height": 0
       },
       "sprite": "npc-141",
-      "facing": "right"
+      "facing": "right",
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e794",
+                    "dir": "down"
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e795",
@@ -153,6 +262,71 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e795",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e795",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e795",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e795",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e795",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e795",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 120
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e795",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e795",
+                    "frame": 3
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -353,6 +527,24 @@
                       "text": "dlg.3665",
                       "slot": "narration"
                     }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 131,
+                    "operands": [
+                      797,
+                      0,
+                      10423
+                    ],
+                    "note": "jump-family 0x83"
                   }
                 ]
               }

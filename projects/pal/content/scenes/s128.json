@@ -10,6 +10,13 @@
         "row": 27,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 104,
+        "row": 59,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -230,6 +237,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2233",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2233",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -262,6 +288,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2234",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2234",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -291,6 +336,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2235",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2235",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -498,6 +562,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2238",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2238",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -530,6 +613,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2239",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2239",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -560,6 +662,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2240",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2240",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -623,6 +744,210 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2242",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2242",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 96
+                    },
+                    "then": [
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e2242",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e2242",
+                        "frame": 0
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 96
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 51
+                        },
+                        "then": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e2242",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e2242",
+                            "frame": 2
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 280
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e2242",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e2242",
+                            "frame": 3
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 640
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e2242",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e2242",
+                            "frame": 2
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 240
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e2242",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e2242",
+                            "frame": 0
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 160
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e2242",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e2242",
+                        "frame": 1
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 360
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 51
+                    },
+                    "then": [
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e2242",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e2242",
+                        "frame": 2
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 280
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e2242",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e2242",
+                        "frame": 3
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 640
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e2242",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e2242",
+                        "frame": 2
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 240
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e2242",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e2242",
+                        "frame": 0
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 160
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2242",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2242",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 360
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -698,13 +1023,9 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 38,
-                    "operands": [
-                      20,
-                      0,
-                      0
-                    ]
+                    "kind": "openShop",
+                    "shop": 20,
+                    "mode": "buy"
                   },
                   {
                     "kind": "clearDialog"

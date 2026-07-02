@@ -17,6 +17,13 @@
         "row": 16,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 98,
+        "row": 58,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -77,26 +84,22 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 123,
-                    "operands": [
-                      27,
-                      96,
-                      0
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 123,
+                      "row": 69,
+                      "height": 0
+                    },
+                    "speed": "run"
                   },
                   {
                     "kind": "setPartyFacing",
                     "facing": "right"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -107,13 +110,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -124,13 +123,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -141,13 +136,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -158,13 +149,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -175,13 +162,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -192,13 +175,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -209,13 +188,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -226,13 +201,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -243,13 +214,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -260,13 +227,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -277,13 +240,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -294,13 +253,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -311,13 +266,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -328,13 +279,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -345,13 +292,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -362,13 +305,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -379,13 +318,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -396,13 +331,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -413,13 +344,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -430,13 +357,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -447,13 +370,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -464,13 +383,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -481,13 +396,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -498,13 +409,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -515,13 +422,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -532,13 +435,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -549,13 +448,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -566,13 +461,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -583,13 +474,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -600,13 +487,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -617,13 +500,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -634,13 +513,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -651,13 +526,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -668,13 +539,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -685,13 +552,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -702,13 +565,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -719,13 +578,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -736,13 +591,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -753,13 +604,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -770,13 +617,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -787,13 +630,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -804,13 +643,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -821,13 +656,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -838,13 +669,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -855,13 +682,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -872,13 +695,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -889,13 +708,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -906,13 +721,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -923,13 +734,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -940,13 +747,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -957,13 +760,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -974,13 +773,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -991,13 +786,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1008,13 +799,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1025,13 +812,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1042,13 +825,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1059,13 +838,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1076,13 +851,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1093,13 +864,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1110,13 +877,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1127,13 +890,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1144,13 +903,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1161,13 +916,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1178,13 +929,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1195,13 +942,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1212,13 +955,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1229,13 +968,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1246,13 +981,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1263,13 +994,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1280,13 +1007,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1297,13 +1020,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1314,13 +1033,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1331,13 +1046,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1348,13 +1059,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1365,13 +1072,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1382,13 +1085,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1399,13 +1098,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1416,13 +1111,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1433,13 +1124,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1450,13 +1137,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1467,13 +1150,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1484,13 +1163,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1501,13 +1176,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1518,13 +1189,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1535,13 +1202,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1552,13 +1215,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1569,13 +1228,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1586,13 +1241,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1603,13 +1254,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1620,13 +1267,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1637,13 +1280,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1654,13 +1293,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1671,13 +1306,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1688,13 +1319,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1705,13 +1332,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1722,13 +1345,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1739,13 +1358,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1756,13 +1371,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1773,13 +1384,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1790,13 +1397,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1807,13 +1410,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1824,13 +1423,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1841,13 +1436,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1858,13 +1449,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1875,13 +1462,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1892,13 +1475,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1909,13 +1488,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1926,13 +1501,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1943,13 +1514,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1960,13 +1527,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1977,13 +1540,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -1994,13 +1553,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2011,13 +1566,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2028,13 +1579,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2045,13 +1592,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2062,13 +1605,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2079,13 +1618,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2096,13 +1631,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2113,13 +1644,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2130,13 +1657,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2147,13 +1670,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2164,13 +1683,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2181,13 +1696,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2198,13 +1709,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2215,13 +1722,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2232,13 +1735,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2249,13 +1748,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2266,13 +1761,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2283,13 +1774,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2300,13 +1787,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2317,13 +1800,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2334,13 +1813,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2351,13 +1826,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2368,13 +1839,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2385,13 +1852,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2402,13 +1865,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2419,13 +1878,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2436,13 +1891,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2453,13 +1904,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2470,13 +1917,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2487,13 +1930,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2504,13 +1943,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2521,13 +1956,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2538,13 +1969,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2555,13 +1982,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2572,13 +1995,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2589,13 +2008,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2606,13 +2021,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2623,13 +2034,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2640,13 +2047,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2657,13 +2060,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2674,13 +2073,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2691,13 +2086,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2708,13 +2099,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2725,13 +2112,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2742,13 +2125,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2759,13 +2138,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2776,13 +2151,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2793,13 +2164,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2810,13 +2177,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2827,13 +2190,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2844,13 +2203,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2861,13 +2216,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2878,13 +2229,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2895,13 +2242,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2912,13 +2255,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2929,13 +2268,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2946,13 +2281,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2963,13 +2294,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2980,13 +2307,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -2997,13 +2320,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3014,13 +2333,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3031,13 +2346,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3048,13 +2359,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3065,13 +2372,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3082,13 +2385,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3099,13 +2398,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3116,13 +2411,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3133,13 +2424,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3150,13 +2437,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3167,13 +2450,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3184,13 +2463,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3201,13 +2476,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3218,13 +2489,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3235,13 +2502,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3252,13 +2515,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3269,13 +2528,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3286,13 +2541,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3303,13 +2554,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3320,13 +2567,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3337,13 +2580,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3354,13 +2593,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3371,13 +2606,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3388,13 +2619,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3405,13 +2632,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3422,13 +2645,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3439,13 +2658,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3456,13 +2671,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3473,13 +2684,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3490,13 +2697,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3507,13 +2710,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3524,13 +2723,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3541,13 +2736,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3558,13 +2749,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3575,13 +2762,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3592,13 +2775,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3609,13 +2788,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3626,13 +2801,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3643,13 +2814,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3660,13 +2827,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3677,13 +2840,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3694,13 +2853,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3711,13 +2866,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3728,13 +2879,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3745,13 +2892,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3762,13 +2905,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3779,13 +2918,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3796,13 +2931,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3813,13 +2944,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3830,13 +2957,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3847,13 +2970,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3864,13 +2983,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3881,13 +2996,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3898,13 +3009,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3915,13 +3022,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3932,13 +3035,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3949,13 +3048,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3966,13 +3061,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -3983,13 +3074,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4000,13 +3087,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4017,13 +3100,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4034,13 +3113,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4051,13 +3126,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4068,13 +3139,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4085,13 +3152,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4102,13 +3165,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4119,13 +3178,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4136,13 +3191,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4153,13 +3204,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4170,13 +3217,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4187,13 +3230,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4204,13 +3243,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4221,13 +3256,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4238,13 +3269,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4255,13 +3282,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4272,13 +3295,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4289,13 +3308,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4306,13 +3321,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4323,13 +3334,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4340,13 +3347,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4357,13 +3360,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4374,13 +3373,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4391,13 +3386,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4408,13 +3399,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4425,13 +3412,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4442,13 +3425,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4459,13 +3438,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4476,13 +3451,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4493,13 +3464,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4510,13 +3477,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4527,13 +3490,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4544,13 +3503,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4561,13 +3516,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4578,13 +3529,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -4595,13 +3542,9 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",

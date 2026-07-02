@@ -11,6 +11,13 @@
         "row": 19,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 65,
+        "row": -3,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -127,7 +134,34 @@
       },
       "sprite": "npc-147",
       "facing": "left",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e623",
+                    "to": {
+                      "col": 117,
+                      "row": 30,
+                      "height": 0
+                    },
+                    "speed": "fast"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e623",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e624",
@@ -138,7 +172,38 @@
       },
       "sprite": "npc-143",
       "facing": "left",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e624",
+                    "to": {
+                      "col": 117,
+                      "row": 30,
+                      "height": 0
+                    },
+                    "speed": "fast"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e624",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e625",
@@ -148,7 +213,49 @@
         "height": 0
       },
       "sprite": "npc-9",
-      "zBias": 4
+      "zBias": 4,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e625",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e625",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e625",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e625",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e625",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e625",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e626",
@@ -158,7 +265,29 @@
         "height": 0
       },
       "sprite": "npc-9",
-      "zBias": 4
+      "zBias": 4,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e626",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e626",
+                    "frame": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e627",

@@ -59,6 +59,62 @@
         "row": -12,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 73,
+        "row": -17,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 130,
+        "row": 96,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 145,
+        "row": 43,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 130,
+        "row": 68,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 114,
+        "row": 97,
+        "height": 0
+      }
+    },
+    "from-shared-6": {
+      "pos": {
+        "col": 126,
+        "row": 26,
+        "height": 0
+      }
+    },
+    "from-shared-7": {
+      "pos": {
+        "col": 96,
+        "row": 70,
+        "height": 0
+      }
+    },
+    "from-shared-8": {
+      "pos": {
+        "col": 106,
+        "row": 72,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -392,6 +448,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3553",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3553",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -421,6 +496,19 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3554"
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -454,6 +542,19 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3555"
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -484,6 +585,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3556",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3556",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -520,6 +640,60 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 96
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3557",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3557",
+                    "frame": 0
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 93
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3557",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3557",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -585,6 +759,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3559",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3559",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -648,6 +841,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3561",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3561",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -676,6 +888,111 @@
                       "text": "dlg.10401",
                       "speaker": "spk.汉人居民"
                     }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3562",
+                    "to": {
+                      "col": 66,
+                      "row": 12,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3562",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3562",
+                    "frame": 0
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 36,
+                    "operands": [
+                      3559,
+                      35633,
+                      0
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 97
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3562",
+                    "to": {
+                      "col": 79,
+                      "row": 12,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3562",
+                    "to": {
+                      "col": 79,
+                      "row": 14,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3562",
+                    "to": {
+                      "col": 82,
+                      "row": 14,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3562",
+                    "to": {
+                      "col": 82,
+                      "row": 17,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3562",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3562",
+                    "frame": 0
                   }
                 ]
               }
@@ -719,6 +1036,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3563",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3563",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }

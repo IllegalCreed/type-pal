@@ -48,7 +48,29 @@
         "height": 0
       },
       "sprite": "npc-2",
-      "facing": "right"
+      "facing": "right",
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3343",
+                    "to": {
+                      "col": 91,
+                      "row": 36,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3344",
@@ -58,7 +80,29 @@
         "height": 0
       },
       "sprite": "npc-228",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3344",
+                    "to": {
+                      "col": 91,
+                      "row": 36,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "dialogues": [],

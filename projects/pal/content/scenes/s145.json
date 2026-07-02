@@ -86,13 +86,13 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 123,
-                    "operands": [
-                      49,
-                      25,
-                      1
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 75,
+                      "row": -24,
+                      "height": 0
+                    },
+                    "speed": "run"
                   },
                   {
                     "kind": "setPartyFacing",
@@ -146,13 +146,9 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65520,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -16,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
@@ -173,26 +169,18 @@
                     "ms": 80
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65528,
-                      4,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -8,
+                    "dy": 4
                   },
                   {
                     "kind": "wait",
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65528,
-                      4,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -8,
+                    "dy": 4
                   },
                   {
                     "kind": "wait",
@@ -314,7 +302,91 @@
         "height": 0
       },
       "sprite": "npc-484",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2402",
+                    "dx": -16,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2402",
+                    "dx": -16,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2402",
+                    "dx": -12,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2402",
+                    "dx": -12,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2402",
+                    "dx": -8,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2402",
+                    "dx": -8,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2402",
+                    "dx": -6,
+                    "dy": 3
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2402",
+                    "dx": -6,
+                    "dy": 3
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2402",
+                    "dx": -4,
+                    "dy": 2
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2402",
+                    "dx": -4,
+                    "dy": 2
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2402",
+                    "dx": -2,
+                    "dy": 1
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2402",
+                    "dx": -2,
+                    "dy": 1
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "dialogues": [],

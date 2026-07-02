@@ -10,6 +10,20 @@
         "row": 13,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 46,
+        "row": 13,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 53,
+        "row": -2,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -464,6 +478,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3471",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3471",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -494,6 +527,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3472",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3472",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -537,6 +589,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3473",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3473",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -592,6 +663,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3474",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3474",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -636,6 +726,400 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3475",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3475",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 93
+                    },
+                    "then": [
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e3475",
+                        "facing": "up"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e3475",
+                        "frame": 0
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 93
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e3475",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e3475",
+                        "frame": 0
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 240
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e3475",
+                        "facing": "right"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e3475",
+                        "frame": 0
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 160
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e3475",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e3475",
+                        "frame": 0
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e3475",
+                        "facing": "left"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e3475",
+                        "frame": 0
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 160
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 81
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "moveEntity",
+                        "entity": "e3475",
+                        "to": {
+                          "col": 138,
+                          "row": 43,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 200
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e3475",
+                        "facing": "up"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e3475",
+                        "frame": 0
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 280
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e3475",
+                        "facing": "right"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e3475",
+                        "frame": 0
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 200
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e3475",
+                        "facing": "left"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e3475",
+                        "frame": 0
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3475",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3475",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3475",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3475",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3475",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3475",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3475",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3475",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 81
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3475",
+                    "to": {
+                      "col": 138,
+                      "row": 43,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 200
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3475",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3475",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 280
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3475",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3475",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 200
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3475",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3475",
+                    "frame": 0
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 36,
+                    "operands": [
+                      3477,
+                      29262,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3475",
+                    "to": {
+                      "col": 133,
+                      "row": 43,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 36,
+                    "operands": [
+                      3477,
+                      29264,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 200
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3475",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3475",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3475",
+                    "to": {
+                      "col": 140,
+                      "row": 43,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 120
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 36,
+                    "operands": [
+                      3477,
+                      29270,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 120
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3475",
+                    "to": {
+                      "col": 142,
+                      "row": 43,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  }
+                ],
+                "next": 3
+              },
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3475",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3475",
+                    "frame": 0
+                  }
+                ],
+                "next": 3
+              }
+            ]
           }
         }
       ]
@@ -667,6 +1151,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3476",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3476",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -696,6 +1199,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3477",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3477",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -730,6 +1252,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3478",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3478",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -759,6 +1300,234 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3479",
+                    "to": {
+                      "col": 115,
+                      "row": 74,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3479",
+                    "to": {
+                      "col": 115,
+                      "row": 66,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3479",
+                    "to": {
+                      "col": 106,
+                      "row": 66,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3479",
+                    "to": {
+                      "col": 106,
+                      "row": 74,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3479",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3479",
+                    "frame": 0
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 99
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3479",
+                    "to": {
+                      "col": 106,
+                      "row": 76,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3479",
+                    "to": {
+                      "col": 113,
+                      "row": 76,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3479",
+                    "to": {
+                      "col": 113,
+                      "row": 77,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3479",
+                    "to": {
+                      "col": 115,
+                      "row": 77,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3479",
+                    "to": {
+                      "col": 115,
+                      "row": 75,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3479",
+                    "to": {
+                      "col": 126,
+                      "row": 75,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3479",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3479",
+                    "frame": 0
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 96
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3479",
+                    "to": {
+                      "col": 126,
+                      "row": 73,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 97
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3479",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3479",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3479",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3479",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 93
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3479",
+                    "to": {
+                      "col": 126,
+                      "row": 74,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 86
+                    },
+                    "then": []
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [],
+                "next": 0
               }
             ]
           }
@@ -793,6 +1562,133 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3480",
+                    "to": {
+                      "col": 145,
+                      "row": 84,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3480",
+                    "to": {
+                      "col": 145,
+                      "row": 73,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3480",
+                    "to": {
+                      "col": 148,
+                      "row": 73,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3480",
+                    "to": {
+                      "col": 148,
+                      "row": 59,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3480",
+                    "to": {
+                      "col": 171,
+                      "row": 59,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3480",
+                    "to": {
+                      "col": 148,
+                      "row": 59,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3480",
+                    "to": {
+                      "col": 148,
+                      "row": 73,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3480",
+                    "to": {
+                      "col": 145,
+                      "row": 73,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3480",
+                    "to": {
+                      "col": 145,
+                      "row": 84,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3480",
+                    "to": {
+                      "col": 124,
+                      "row": 84,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3480",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3480",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 98
+                    },
+                    "then": []
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -825,6 +1721,144 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3481",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3481",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 95
+                    },
+                    "then": [
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e3481",
+                        "facing": "right"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e3481",
+                        "frame": 0
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 95
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "moveEntity",
+                        "entity": "e3481",
+                        "to": {
+                          "col": 133,
+                          "row": 28,
+                          "height": 0
+                        },
+                        "speed": "slow"
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e3481",
+                        "facing": "right"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e3481",
+                        "frame": 0
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 95
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "moveEntity",
+                        "entity": "e3481",
+                        "to": {
+                          "col": 131,
+                          "row": 28,
+                          "height": 0
+                        },
+                        "speed": "slow"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 97
+                        },
+                        "then": []
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3481",
+                    "to": {
+                      "col": 133,
+                      "row": 28,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3481",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3481",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 95
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e3481",
+                    "to": {
+                      "col": 131,
+                      "row": 28,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 97
+                    },
+                    "then": []
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -855,6 +1889,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3482",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3482",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -890,6 +1943,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3483",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3483",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -938,6 +2010,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3484",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3484",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -981,6 +2072,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3485",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3485",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -1110,14 +2220,39 @@
                     "musicId": 37
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      240,
-                      41075,
-                      0
-                    ],
-                    "note": "jump-family 0x7"
+                    "kind": "startBattle",
+                    "team": 240,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -1201,7 +2336,251 @@
         "height": 0
       },
       "sprite": "npc-46",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3489"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3489"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3489",
+                        "dir": "right"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3489",
+                    "dir": "right"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3489",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 120
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3489"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3489"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 120
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3489",
+                        "dir": "up"
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3489",
+                        "dir": "up"
+                      },
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3489"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": [
+                          {
+                            "kind": "animEntity",
+                            "entity": "e3489"
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 91
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e3489",
+                            "dir": "left"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3489",
+                        "dir": "left"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 120
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3489",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3489",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3489"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3489"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3489",
+                        "dir": "left"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3489",
+                    "dir": "left"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3489",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3489"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3489"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3489",
+                        "dir": "down"
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3489",
+                        "dir": "down"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3489",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3489",
+                    "dir": "down"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3490",
@@ -1211,7 +2590,45 @@
         "height": 0
       },
       "sprite": "npc-45",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3490"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 51
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3490"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 51
+                        },
+                        "then": []
+                      }
+                    ]
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3491",
@@ -1221,7 +2638,251 @@
         "height": 0
       },
       "sprite": "npc-46",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3491"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3491"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3491",
+                        "dir": "right"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3491",
+                    "dir": "right"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3491",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 120
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3491"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3491"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 120
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3491",
+                        "dir": "up"
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3491",
+                        "dir": "up"
+                      },
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3491"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": [
+                          {
+                            "kind": "animEntity",
+                            "entity": "e3491"
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 91
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e3491",
+                            "dir": "left"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3491",
+                        "dir": "left"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 120
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3491",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3491",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3491"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3491"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3491",
+                        "dir": "left"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3491",
+                    "dir": "left"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3491",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3491"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3491"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3491",
+                        "dir": "down"
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3491",
+                        "dir": "down"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3491",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3491",
+                    "dir": "down"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3492",
@@ -1230,7 +2891,287 @@
         "row": 25,
         "height": 0
       },
-      "sprite": "npc-47"
+      "sprite": "npc-47",
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3492"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 85
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3492"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 85
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3492",
+                        "dir": "down"
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3492",
+                        "dir": "down"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3492",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3492",
+                    "dir": "down"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3492",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3492",
+                    "dir": "down"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3492"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 85
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3492"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 85
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3492",
+                        "dir": "left"
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3492",
+                        "dir": "left"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3492",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3492",
+                    "dir": "left"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3492",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3492",
+                    "dir": "left"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3492"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 85
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3492"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 85
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3492",
+                        "dir": "right"
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3492",
+                        "dir": "right"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3492",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3492",
+                    "dir": "right"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3492",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3492",
+                    "dir": "up"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3492"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 85
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3492"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 85
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3492",
+                        "dir": "right"
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3492",
+                        "dir": "right"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3492",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3492",
+                    "dir": "right"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3492",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3492",
+                    "dir": "up"
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3493",
@@ -1240,7 +3181,491 @@
         "height": 0
       },
       "sprite": "npc-47",
-      "facing": "right"
+      "facing": "right",
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3493"
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3493"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3493"
+                      },
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3493"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3493",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3493",
+                    "frame": 9
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 76
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3493"
+                      },
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3493"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3493",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3493",
+                    "frame": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 200
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3493",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3493",
+                    "frame": 9
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3493",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3493",
+                    "frame": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3493",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3493",
+                    "frame": 11
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3493",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3493",
+                    "frame": 12
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3493",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3493",
+                    "frame": 13
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 200
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3493"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3493"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3493",
+                        "dir": "right"
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3493",
+                        "dir": "right"
+                      },
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3493"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": [
+                          {
+                            "kind": "animEntity",
+                            "entity": "e3493"
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 91
+                            },
+                            "then": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3493",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3493",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3493"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3493"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": []
+                      }
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3493",
+                    "dir": "right"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3493",
+                    "dir": "right"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3493"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3493"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 51
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e3493",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e3493",
+                        "frame": 10
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": []
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 51
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3493",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3493",
+                    "frame": 10
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3493"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 51
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e3493",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e3493",
+                        "frame": 10
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": []
+                      }
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3493",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3493"
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3493"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3493",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3493",
+                    "dir": "left"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3493"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 61
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3493",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3493",
+                    "frame": 13
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 61
+                    },
+                    "then": []
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3493"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3493"
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3493"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3493",
+                    "dir": "left"
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3494",
@@ -1250,7 +3675,491 @@
         "height": 0
       },
       "sprite": "npc-47",
-      "facing": "right"
+      "facing": "right",
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3494"
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3494"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3494"
+                      },
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3494"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3494",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3494",
+                    "frame": 9
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 76
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3494"
+                      },
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3494"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3494",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3494",
+                    "frame": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 200
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3494",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3494",
+                    "frame": 9
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3494",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3494",
+                    "frame": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3494",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3494",
+                    "frame": 11
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3494",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3494",
+                    "frame": 12
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3494",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3494",
+                    "frame": 13
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 200
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3494"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3494"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3494",
+                        "dir": "right"
+                      },
+                      {
+                        "kind": "stepEntity",
+                        "entity": "e3494",
+                        "dir": "right"
+                      },
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3494"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": [
+                          {
+                            "kind": "animEntity",
+                            "entity": "e3494"
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 91
+                            },
+                            "then": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3494",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3494",
+                    "dir": "right"
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3494"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3494"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": []
+                      }
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3494",
+                    "dir": "right"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3494",
+                    "dir": "right"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3494"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3494"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 51
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e3494",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e3494",
+                        "frame": 10
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": []
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 51
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3494",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3494",
+                    "frame": 10
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "animEntity",
+                        "entity": "e3494"
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 51
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e3494",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e3494",
+                        "frame": 10
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": []
+                      }
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3494",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3494"
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3494"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3494",
+                    "dir": "left"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3494",
+                    "dir": "left"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3494"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 61
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3494",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3494",
+                    "frame": 13
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 61
+                    },
+                    "then": []
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3494"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3494"
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e3494"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e3494",
+                    "dir": "left"
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "dialogues": [],

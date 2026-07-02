@@ -24,6 +24,62 @@
         "row": 11,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 92,
+        "row": 69,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 79,
+        "row": -28,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 82,
+        "row": 31,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 128,
+        "row": 99,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 84,
+        "row": 33,
+        "height": 0
+      }
+    },
+    "from-shared-6": {
+      "pos": {
+        "col": 84,
+        "row": 11,
+        "height": 0
+      }
+    },
+    "from-shared-7": {
+      "pos": {
+        "col": 46,
+        "row": 16,
+        "height": 0
+      }
+    },
+    "from-shared-8": {
+      "pos": {
+        "col": 64,
+        "row": 12,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -166,6 +222,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e1572",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1572",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }

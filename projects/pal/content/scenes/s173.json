@@ -4,10 +4,19 @@
     "reuseOriginalMap": 20
   },
   "musicId": 28,
+  "entries": {
+    "from-shared": {
+      "pos": {
+        "col": 61,
+        "row": 17,
+        "height": 0
+      }
+    }
+  },
   "entry": {
     "pos": {
-      "col": 96,
-      "row": 32,
+      "col": 61,
+      "row": 17,
       "height": 0
     },
     "facing": "down"

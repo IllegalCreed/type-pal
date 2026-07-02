@@ -11,6 +11,27 @@
         "row": 19,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 131,
+        "row": 101,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 169,
+        "row": 67,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 104,
+        "row": 68,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -267,7 +288,24 @@
         "height": 0
       },
       "sprite": "npc-432",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1984"
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e1985",

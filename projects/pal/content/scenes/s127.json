@@ -113,6 +113,135 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2223",
+                    "to": {
+                      "col": 73,
+                      "row": 2,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2223",
+                    "to": {
+                      "col": 73,
+                      "row": 13,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 320
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2223",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2223",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 120
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2223",
+                    "to": {
+                      "col": 64,
+                      "row": 13,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 320
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2223",
+                    "to": {
+                      "col": 64,
+                      "row": 8,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2223",
+                    "to": {
+                      "col": 61,
+                      "row": 8,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2223",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2223",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 320
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2223",
+                    "to": {
+                      "col": 74,
+                      "row": 7,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2223",
+                    "to": {
+                      "col": 74,
+                      "row": 2,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2223",
+                    "to": {
+                      "col": 65,
+                      "row": 2,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 320
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -142,14 +271,40 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 10,
-                    "operands": [
-                      16219,
-                      0,
-                      0
-                    ],
-                    "note": "jump-family 0xa"
+                    "kind": "confirm",
+                    "onNo": []
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "not",
+                      "cond": {
+                        "kind": "hasMoney",
+                        "atLeast": 100
+                      }
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "giveMoney",
+                    "delta": -100
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "86"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.5583",
+                      "speaker": "spk.酒馆老板"
+                    }
                   }
                 ]
               }
@@ -184,6 +339,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2225",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2225",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -387,14 +561,84 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 30,
-                    "operands": [
-                      65036,
-                      20070,
-                      0
-                    ],
-                    "note": "jump-family 0x1e"
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "not",
+                      "cond": {
+                        "kind": "hasMoney",
+                        "atLeast": 500
+                      }
+                    },
+                    "then": [
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.7319",
+                          "speaker": "spk.算命仙",
+                          "slot": "top"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "giveMoney",
+                    "delta": -500
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7321",
+                      "speaker": "spk.李逍遥"
+                    }
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7323",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7325",
+                      "speaker": "spk.算命仙",
+                      "slot": "top"
+                    }
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7330",
+                      "speaker": "spk.李逍遥"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7332",
+                      "speaker": "spk.算命仙",
+                      "slot": "top"
+                    }
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7334",
+                      "speaker": "spk.算命仙",
+                      "slot": "top"
+                    }
                   }
                 ]
               }

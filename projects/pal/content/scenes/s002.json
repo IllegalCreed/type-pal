@@ -38,6 +38,48 @@
         "row": 32,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 60,
+        "row": -15,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 108,
+        "row": 30,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 38,
+        "row": 9,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 100,
+        "row": 59,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 66,
+        "row": 32,
+        "height": 0
+      }
+    },
+    "from-shared-6": {
+      "pos": {
+        "col": 57,
+        "row": -24,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -662,25 +704,27 @@
                     "ms": 160
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      65535,
-                      65528,
-                      65532
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e38",
+                    "dx": -8,
+                    "dy": -4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e38"
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      65535,
-                      65528,
-                      65532
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e38",
+                    "dx": -8,
+                    "dy": -4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e38"
                   },
                   {
                     "kind": "clearDialog"

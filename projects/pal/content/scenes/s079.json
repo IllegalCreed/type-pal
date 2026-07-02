@@ -4,10 +4,19 @@
     "reuseOriginalMap": 79
   },
   "musicId": 54,
+  "entries": {
+    "from-shared": {
+      "pos": {
+        "col": 48,
+        "row": 18,
+        "height": 0
+      }
+    }
+  },
   "entry": {
     "pos": {
-      "col": 96,
-      "row": 32,
+      "col": 48,
+      "row": 18,
       "height": 0
     },
     "facing": "down"
@@ -97,52 +106,56 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      65535,
-                      65528,
-                      0
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e1500",
+                    "dx": -8,
+                    "dy": 0
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1500"
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      65535,
-                      65528,
-                      0
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e1500",
+                    "dx": -8,
+                    "dy": 0
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1500"
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      65535,
-                      65528,
-                      0
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e1500",
+                    "dx": -8,
+                    "dy": 0
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1500"
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      65535,
-                      65528,
-                      0
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e1500",
+                    "dx": -8,
+                    "dy": 0
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1500"
                   },
                   {
                     "kind": "setEntityFacing",
@@ -159,78 +172,58 @@
                     "ms": 160
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 112,
-                    "operands": [
-                      13,
-                      75,
-                      0
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 88,
+                      "row": 62,
+                      "height": 0
+                    },
+                    "speed": "slow"
                   },
                   {
                     "kind": "setPartyFacing",
                     "facing": "up"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": -4
                   },
                   {
                     "kind": "setEntityFacing",
@@ -253,97 +246,91 @@
                     "frame": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      65535,
-                      8,
-                      4
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e1500",
+                    "dx": 8,
+                    "dy": 4
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      1502,
-                      8,
-                      4
-                    ]
+                    "kind": "animEntity",
+                    "entity": "e1500"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      1503,
-                      65528,
-                      65532
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e1502",
+                    "dx": 8,
+                    "dy": 4
                   },
                   {
-                    "kind": "wait",
-                    "ms": 40
+                    "kind": "animEntity",
+                    "entity": "e1502"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e1503",
+                    "dx": -8,
+                    "dy": -4
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      0,
-                      8,
-                      4
-                    ]
-                  },
-                  {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      1502,
-                      8,
-                      4
-                    ]
-                  },
-                  {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      1503,
-                      65528,
-                      65532
-                    ]
+                    "kind": "animEntity",
+                    "entity": "e1503"
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": -4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1500",
+                    "dx": 8,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1500"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1502",
+                    "dx": 8,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1502"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1503",
+                    "dx": -8,
+                    "dy": -4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1503"
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      8,
-                      65532,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": -4
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 8,
+                    "dy": -4
                   },
                   {
                     "kind": "wait",
@@ -388,6 +375,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e1501",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1501",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -418,6 +424,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e1502",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1502",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -480,6 +505,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e1504",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1504",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }

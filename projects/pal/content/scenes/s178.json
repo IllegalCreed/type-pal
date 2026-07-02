@@ -68,13 +68,9 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      16,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 16,
+                    "dy": 8
                   }
                 ]
               }

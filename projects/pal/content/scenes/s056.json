@@ -11,6 +11,20 @@
         "row": 55,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 69,
+        "row": 9,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 161,
+        "row": 55,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -512,6 +526,179 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e939",
+                    "to": {
+                      "col": 151,
+                      "row": 75,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e939",
+                    "to": {
+                      "col": 151,
+                      "row": 62,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e939",
+                    "to": {
+                      "col": 140,
+                      "row": 62,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e939",
+                    "to": {
+                      "col": 140,
+                      "row": 72,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e939",
+                    "to": {
+                      "col": 130,
+                      "row": 72,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e939",
+                    "to": {
+                      "col": 130,
+                      "row": 68,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e939",
+                    "to": {
+                      "col": 128,
+                      "row": 68,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e939",
+                    "to": {
+                      "col": 128,
+                      "row": 48,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e939",
+                    "to": {
+                      "col": 125,
+                      "row": 48,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e939",
+                    "to": {
+                      "col": 125,
+                      "row": 44,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e939",
+                    "to": {
+                      "col": 112,
+                      "row": 44,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e939",
+                    "to": {
+                      "col": 112,
+                      "row": 50,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e939",
+                    "to": {
+                      "col": 106,
+                      "row": 50,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e939",
+                    "to": {
+                      "col": 106,
+                      "row": 38,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e939",
+                    "to": {
+                      "col": 104,
+                      "row": 38,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e939",
+                    "to": {
+                      "col": 104,
+                      "row": 32,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e939",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
           }
         }
       ]
@@ -540,6 +727,96 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 41
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 80
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 41
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 80
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e940",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e940",
+                        "frame": 0
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 160
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e940",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e940",
+                        "frame": 1
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e940",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e940",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e940",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e940",
+                    "frame": 1
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -597,26 +874,26 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 122,
-                    "operands": [
-                      45,
-                      52,
-                      1
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 98,
+                      "row": 7,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "wait",
                     "ms": 320
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 122,
-                    "operands": [
-                      45,
-                      52,
-                      0
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 97,
+                      "row": 7,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "setPartyFacing",
@@ -865,7 +1142,103 @@
       },
       "sprite": "npc-220",
       "facing": "right",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e942",
+                    "to": {
+                      "col": 100,
+                      "row": 6,
+                      "height": 0
+                    },
+                    "speed": "run"
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e942",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e942",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e942",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e942",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 120
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e942",
+                    "to": {
+                      "col": 100,
+                      "row": 3,
+                      "height": 0
+                    },
+                    "speed": "run"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e942",
+                    "to": {
+                      "col": 97,
+                      "row": 3,
+                      "height": 0
+                    },
+                    "speed": "run"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e942",
+                    "to": {
+                      "col": 97,
+                      "row": 11,
+                      "height": 0
+                    },
+                    "speed": "run"
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e942",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e942",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e942",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e942",
+                    "frame": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e943",
@@ -891,6 +1264,73 @@
                       "text": "dlg.4162",
                       "speaker": "spk.智杖"
                     }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e943",
+                    "to": {
+                      "col": 100,
+                      "row": 6,
+                      "height": 0
+                    },
+                    "speed": "run"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e943",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e943",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 120
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e943",
+                    "to": {
+                      "col": 100,
+                      "row": 3,
+                      "height": 0
+                    },
+                    "speed": "run"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e943",
+                    "to": {
+                      "col": 97,
+                      "row": 3,
+                      "height": 0
+                    },
+                    "speed": "run"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e943",
+                    "to": {
+                      "col": 97,
+                      "row": 5,
+                      "height": 0
+                    },
+                    "speed": "run"
                   }
                 ]
               }

@@ -31,6 +31,83 @@
         "row": 15,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 133,
+        "row": 98,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 50,
+        "row": 18,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 103,
+        "row": 88,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 117,
+        "row": 29,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 82,
+        "row": -8,
+        "height": 0
+      }
+    },
+    "from-shared-6": {
+      "pos": {
+        "col": 131,
+        "row": 24,
+        "height": 0
+      }
+    },
+    "from-shared-7": {
+      "pos": {
+        "col": 73,
+        "row": 11,
+        "height": 0
+      }
+    },
+    "from-shared-8": {
+      "pos": {
+        "col": 87,
+        "row": 48,
+        "height": 0
+      }
+    },
+    "from-shared-9": {
+      "pos": {
+        "col": 63,
+        "row": 40,
+        "height": 0
+      }
+    },
+    "from-shared-10": {
+      "pos": {
+        "col": 101,
+        "row": 15,
+        "height": 0
+      }
+    },
+    "from-shared-11": {
+      "pos": {
+        "col": 84,
+        "row": 28,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -146,7 +223,24 @@
         "height": 0
       },
       "sprite": "npc-300",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1373"
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e1374",
@@ -156,7 +250,24 @@
         "height": 0
       },
       "sprite": "npc-300",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1374"
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e1375",

@@ -4,10 +4,26 @@
     "reuseOriginalMap": 102
   },
   "musicId": 12,
+  "entries": {
+    "from-shared": {
+      "pos": {
+        "col": 164,
+        "row": 55,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 34,
+        "row": 14,
+        "height": 0
+      }
+    }
+  },
   "entry": {
     "pos": {
-      "col": 96,
-      "row": 32,
+      "col": 164,
+      "row": 55,
       "height": 0
     },
     "facing": "down"
@@ -98,65 +114,45 @@
                     "facing": "up"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      12,
-                      65520,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 12,
+                    "dy": -16
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      12,
-                      65520,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 12,
+                    "dy": -16
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      12,
-                      65520,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 12,
+                    "dy": -16
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      12,
-                      65528,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 12,
+                    "dy": -8
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      16,
-                      65528,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 16,
+                    "dy": -8
                   },
                   {
                     "kind": "wait",
@@ -190,65 +186,45 @@
                     "facing": "down"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65524,
-                      16,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -12,
+                    "dy": 16
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65524,
-                      16,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -12,
+                    "dy": 16
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65524,
-                      16,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -12,
+                    "dy": 16
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65524,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -12,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65520,
-                      8,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -16,
+                    "dy": 8
                   },
                   {
                     "kind": "wait",

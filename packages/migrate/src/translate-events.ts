@@ -14,7 +14,7 @@
  *  - 其它未知 op → unmigrated + 继续(不破坏后续可译部分)。
  */
 import type { Command, DialogueLine, ScriptStage } from '@type-pal/content'
-import { FACING_BY_DIR, partyPosToGrid, sceneSlug, signExtendI16 } from './source-facts.js'
+import { FACING_BY_DIR, partyPosToGrid, ROLE_SLUGS, sceneSlug, signExtendI16 } from './source-facts.js'
 import type { SourceCmd } from './source-facts.js'
 
 /** 提取 JSON 的宽字段(SourceCmd 之上,具名 op 的专有字段)。 */
@@ -47,16 +47,25 @@ export function emptyTranslateReport(): TranslateReport {
 export interface TranslateCtx {
   /** 全局 label 索引(跨场景/共享段;mapScenesStatic 已建)。 */
   labelAt: Map<string, { cmds: readonly SourceCmd[]; idx: number }>
+  /** 分支臂记忆化(label|owner → 已译体;同一游戏over/败臂被数百战斗共享,防重复走+堆爆)。 */
+  armMemo?: Map<string, Command[]>
   /** 文本累积(dlg.<msgIdx> / spk.<名>);IO 壳并入工程 locale。 */
   locale: Record<string, string>
   report: TranslateReport
 }
 
-/** 原版跳转族(census 全清单)—— 未实现的命中即截断本段,不猜控制流。 */
+/** 尚未结构化的跳转族(census 全清单减去 M3b 已实现:0x06/07/0A/1E/20/79/94)。
+ * 命中即截断本段,不猜控制流。 */
 const JUMP_FAMILY = new Set([
-  0x06, 0x07, 0x0a, 0x1e, 0x20, 0x2e, 0x33, 0x34, 0x38, 0x3a, 0x58, 0x5d, 0x5e, 0x61, 0x64,
-  0x68, 0x74, 0x79, 0x81, 0x83, 0x84, 0x86, 0x91, 0x94, 0x95, 0x9c, 0x9e, 0xa2,
+  0x2e, 0x33, 0x34, 0x38, 0x3a, 0x58, 0x5d, 0x5e, 0x61, 0x64,
+  0x68, 0x74, 0x81, 0x83, 0x84, 0x86, 0x91, 0x95, 0x9c, 0x9e, 0xa2,
 ])
+/** 原版速度码 → WalkSpeed。 */
+const SPEED: Record<number, 'slow' | 'normal' | 'fast' | 'run'> = { 2: 'slow', 3: 'normal', 4: 'fast', 8: 'run' }
+/** 分支臂内联深度上限(臂内再遇跳转的嵌套;更深 → unmigrated,M3c 提共享脚本)。 */
+const MAX_ARM_DEPTH = 2
+/** 单臂命令上限(超限 → unmigrated;防组合爆炸,如层层嵌套的战斗败臂)。 */
+const MAX_ARM_BODY = 200
 /** 每逻辑帧 40ms(一阶段主循环 tick;waitFrames/goto frameDelay 换算)。 */
 const FRAME_MS = 40
 /** 段体命令上限(防御:超长 cutscene 截断上报,不静默膨胀)。 */
@@ -94,6 +103,19 @@ export function translateStages(
 
   const stages: (ScriptStage & { _next?: string })[] = []
   const idxByLabel = new Map<string, number>()
+  /** 段位置去重:goto 回跳 + end.advance 会产生无 label 的重复段位置 → 无限段(scene23 堆爆根因)。 */
+  const seenPos = new Set<string>()
+  const arrId = new Map<readonly SourceCmd[], number>()
+  const posKey = (cmds: readonly SourceCmd[], idx: number): string => {
+    let id = arrId.get(cmds)
+    if (id === undefined) {
+      id = arrId.size
+      arrId.set(cmds, id)
+    }
+    return `${id}:${idx}`
+  }
+  /** 每链命令总预算(超限截断上报;防病理链膨胀)。 */
+  let budget = 4000
   /** 待走队列:reset 目标(按 label);advance 续段在主循环内联(保证 index+1 相邻)。 */
   const queue: string[] = []
 
@@ -103,6 +125,13 @@ export function translateStages(
   }
   while (cursor) {
     const stageIdx = stages.length
+    const pk = posKey(cursor.cmds, cursor.idx)
+    if (seenPos.has(pk) || budget <= 0) {
+      if (budget <= 0 && stages.length) note(ctx, '链命令预算截断')
+      cursor = nextFromQueue()
+      continue
+    }
+    seenPos.add(pk)
     if (cursor.label) {
       if (idxByLabel.has(cursor.label)) {
         cursor = nextFromQueue()
@@ -111,6 +140,7 @@ export function translateStages(
       idxByLabel.set(cursor.label, stageIdx)
     }
     const { body, term } = walkBody(cursor.cmds, cursor.idx, ownerEntity, ctx)
+    budget -= body.length
     ctx.report.stages++
     ctx.report.commands += body.length
     if (term.kind === 'advance' && term.nextIdx !== undefined) {
@@ -158,6 +188,7 @@ function walkBody(
   startIdx: number,
   owner: string | undefined,
   ctx: TranslateCtx,
+  depth = 0,
 ): { body: Command[]; term: WalkTerm } {
   const body: Command[] = []
   let slot: DialogueLine['slot'] | undefined
@@ -215,7 +246,15 @@ function walkBody(
     if (op === 'goto') {
       flush()
       if ((c.frameDelay ?? 0) > 0) body.push({ kind: 'wait', ms: c.frameDelay! * FRAME_MS })
-      const target = ctx.labelAt.get(c.to ?? '')
+      // 跨库目标(带 "shared#" 限定前缀)= 战斗侧怪物追逐/遇敌配置枢纽(0x4C 海)→
+      // 显式截断归 M4,不内联(2026-07-03 实测:内联会展开 49.8 万条 0x4C)
+      const toName = c.to ?? ''
+      if (toName.includes('#')) {
+        note(ctx, 'goto 跨库(战斗侧枢纽,归 M4)')
+        ctx.report.flowCuts++
+        return { body, term: { kind: 'cut' } }
+      }
+      const target = ctx.labelAt.get(toName)
       if (!target || (target.cmds === at.cmds && visited.has(target.idx))) {
         note(ctx, target ? 'goto 环截断' : `goto 目标缺失`)
         ctx.report.flowCuts++
@@ -260,6 +299,32 @@ function walkBody(
       }
       // 对象引用:操作数 0xFFFF = 脚本属主"自己"(sdlpal script.c wEventObjectID 解析约定)
       const entRef = (v: number): string | undefined => (v === 0xffff ? owner : `e${v}`)
+      // pCurrent 式引用:0 也是"自己"(script.c 解释器预amble:op0==0 → pEvtObj)
+      const pcRef = (v: number): string | undefined => (v === 0 || v === 0xffff ? owner : `e${v}`)
+      /** 跳走臂内联:跳转目标链整段翻成 Command[](臂自行终结;环/深度超限 → unmigrated)。 */
+      const inlineArm = (addr: number | undefined): Command[] => {
+        if (!addr) return []
+        const memoKey = `L_${addr}|${owner ?? ''}`
+        const memo = (ctx.armMemo ??= new Map())
+        const hit = memo.get(memoKey)
+        if (hit) return hit
+        const target = ctx.labelAt.get(`L_${addr}`)
+        if (!target || depth >= MAX_ARM_DEPTH) {
+          note(ctx, target ? '分支臂深度截断' : '分支臂目标缺失')
+          return [{ kind: 'unmigrated', opcode: 0, operands: [addr], note: '分支臂不可内联' }]
+        }
+        memo.set(memoKey, []) // 先占位:环(臂内再跳回自己)拿到空臂而非无限递归
+        const r = walkBody(target.cmds, target.idx, owner, ctx, depth + 1)
+        if (r.term.kind === 'advance' || r.term.kind === 'reset')
+          note(ctx, '分支臂含段转移(按 end 处理)')
+        let arm = r.body
+        if (arm.length > MAX_ARM_BODY) {
+          note(ctx, '分支臂超长截断')
+          arm = [{ kind: 'unmigrated', opcode: 0, operands: [addr], note: `臂超长(${arm.length})` }]
+        }
+        memo.set(memoKey, arm)
+        return arm
+      }
       if (oc === 0x09) push({ kind: 'wait', ms: Math.max(1, o[0] ?? 1) * FRAME_MS })
       else if (oc === 0x46) {
         push({ kind: 'teleportParty', pos: partyPosToGrid(o[0] ?? 0, o[1] ?? 0, o[2] ?? 0) })
@@ -299,6 +364,81 @@ function walkBody(
       else if (oc === 0x20 && (o[2] ?? 0) === 0) {
         const cnt = (o[1] ?? 0) > 1 ? o[1] : undefined
         push({ kind: 'loseItem', itemId: String(o[0]), ...(cnt ? { count: cnt } : {}) })
+      } else if (oc >= 0x0b && oc <= 0x0e) {
+        if (owner) push({ kind: 'stepEntity', entity: owner, dir: FACING_BY_DIR[oc - 0x0b] ?? 'down' })
+        else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '单步无属主' })
+      } else if (oc === 0x10 || oc === 0x11 || oc === 0x7c || oc === 0x82) {
+        const sp = oc === 0x11 ? 2 : oc === 0x10 ? 3 : oc === 0x7c ? 4 : 8
+        if (owner)
+          push({ kind: 'moveEntity', entity: owner, to: partyPosToGrid(o[0] ?? 0, o[1] ?? 0, o[2] ?? 0), speed: SPEED[sp]! })
+        else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: 'walkTo 无属主' })
+      } else if (oc === 0x70 || oc === 0x7a || oc === 0x7b) {
+        const sp = oc === 0x70 ? 2 : oc === 0x7a ? 4 : 8
+        push({ kind: 'moveParty', to: partyPosToGrid(o[0] ?? 0, o[1] ?? 0, o[2] ?? 0), speed: SPEED[sp]! })
+      } else if (oc === 0x6e) {
+        push({ kind: 'nudgeParty', dx: signExtendI16(o[0] ?? 0), dy: signExtendI16(o[1] ?? 0) })
+      } else if (oc === 0x7d) {
+        const ent = pcRef(o[0] ?? 0)
+        if (ent) push({ kind: 'nudgeEntity', entity: ent, dx: signExtendI16(o[1] ?? 0), dy: signExtendI16(o[2] ?? 0) })
+        else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: 'moveObject 无属主' })
+      } else if (oc === 0x6c) {
+        const ent = pcRef(o[0] ?? 0)
+        if (ent) {
+          flush()
+          body.push({ kind: 'nudgeEntity', entity: ent, dx: signExtendI16(o[1] ?? 0), dy: signExtendI16(o[2] ?? 0) })
+          body.push({ kind: 'animEntity', entity: ent })
+        } else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: 'walkOneStep 无属主' })
+      } else if (oc === 0x87) {
+        if (owner) push({ kind: 'animEntity', entity: owner })
+        else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: 'animate 无属主' })
+      } else if (oc === 0x07) {
+        flush()
+        const onLose = (o[1] ?? 0) !== 0 ? inlineArm(o[1]) : undefined
+        const onFlee = (o[2] ?? 0) !== 0 ? inlineArm(o[2]) : undefined
+        body.push({
+          kind: 'startBattle',
+          team: o[0] ?? 0,
+          ...(onLose?.length ? { onLose } : {}),
+          ...(onFlee?.length ? { onFlee } : {}),
+        })
+      } else if (oc === 0x06) {
+        flush()
+        // jumpByRate:random(1,100) ≥ op0 → 跳。跳走臂结构:branch{chance,then:臂},不中直走
+        body.push({ kind: 'branch', cond: { kind: 'chance', percent: 101 - (o[0] ?? 100) }, then: inlineArm(o[1]) })
+      } else if (oc === 0x0a) {
+        flush()
+        body.push({ kind: 'confirm', onNo: inlineArm(o[0]) })
+      } else if (oc === 0x1e && (o[1] ?? 0) !== 0) {
+        flush()
+        const amt = signExtendI16(o[0] ?? 0)
+        if (amt < 0) {
+          // 钱不够 → 跳走臂;够 → 扣钱直走
+          body.push({ kind: 'branch', cond: { kind: 'not', cond: { kind: 'hasMoney', atLeast: -amt } }, then: inlineArm(o[1]) })
+          body.push({ kind: 'giveMoney', delta: amt })
+        } else {
+          body.push({ kind: 'giveMoney', delta: amt })
+          note(ctx, 'addCash 正数带跳(原版不可能跳)')
+        }
+      } else if (oc === 0x20 && (o[2] ?? 0) !== 0) {
+        flush()
+        const cnt = Math.max(1, o[1] ?? 1)
+        body.push({
+          kind: 'branch',
+          cond: { kind: 'not', cond: { kind: 'hasItem', itemId: String(o[0]), atLeast: cnt } },
+          then: inlineArm(o[2]),
+        })
+        body.push({ kind: 'loseItem', itemId: String(o[0]), ...(cnt > 1 ? { count: cnt } : {}) })
+      } else if (oc === 0x94) {
+        flush()
+        const ent = entRef(o[0] ?? 0)
+        if (ent)
+          body.push({ kind: 'branch', cond: { kind: 'entityState', entity: ent, is: signExtendI16(o[1] ?? 0) }, then: inlineArm(o[2]) })
+        else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: 'jumpIfObjState 无属主' })
+      } else if (oc === 0x79) {
+        flush()
+        body.push({ kind: 'branch', cond: { kind: 'inParty', actorId: ROLE_SLUGS[o[0] ?? 0] ?? String(o[0]) }, then: inlineArm(o[1]) })
+      } else if (oc === 0x26 || oc === 0x27) {
+        push({ kind: 'openShop', shop: o[0] ?? 0, mode: oc === 0x26 ? 'buy' : 'sell' })
       } else if (JUMP_FAMILY.has(oc)) {
         // 未实现的跳转族:截断本段(不猜控制流)
         flush()

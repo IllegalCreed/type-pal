@@ -24,6 +24,34 @@
         "row": 17,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 53,
+        "row": 26,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 40,
+        "row": 17,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 68,
+        "row": -9,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 77,
+        "row": 57,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -56,52 +84,36 @@
                     "facing": "left"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65526,
-                      65526,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": -10
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65530,
-                      65530,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": -6
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65526,
-                      65526,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": -10
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65530,
-                      65530,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": -6
                   },
                   {
                     "kind": "wait",
@@ -112,104 +124,72 @@
                     "facing": "left"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65526,
-                      65526,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": -10
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65530,
-                      65530,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": -6
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65526,
-                      65526,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": -10
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65530,
-                      65530,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": -6
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65526,
-                      65526,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": -10
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65530,
-                      65530,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": -6
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65526,
-                      65526,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": -10
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65530,
-                      65530,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": -6
                   },
                   {
                     "kind": "wait",
@@ -243,52 +223,36 @@
                     "facing": "right"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      10,
-                      10,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 10,
+                    "dy": 10
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      6,
-                      6,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 6,
+                    "dy": 6
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      10,
-                      10,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 10,
+                    "dy": 10
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      6,
-                      6,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 6,
+                    "dy": 6
                   },
                   {
                     "kind": "wait",
@@ -299,104 +263,72 @@
                     "facing": "right"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      10,
-                      10,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 10,
+                    "dy": 10
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      6,
-                      6,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 6,
+                    "dy": 6
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      10,
-                      10,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 10,
+                    "dy": 10
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      6,
-                      6,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 6,
+                    "dy": 6
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      10,
-                      10,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 10,
+                    "dy": 10
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      6,
-                      6,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 6,
+                    "dy": 6
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      10,
-                      10,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 10,
+                    "dy": 10
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      6,
-                      6,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 6,
+                    "dy": 6
                   },
                   {
                     "kind": "wait",
@@ -434,6 +366,1075 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 65,
+                      "row": 5,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e480",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e480",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 280
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 56,
+                      "row": 5,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 56,
+                      "row": 9,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 59,
+                      "row": 9,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 5,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 3,
+                    "dy": 3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 5,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 3,
+                    "dy": 3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 5,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 3,
+                    "dy": 3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 5,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 3,
+                    "dy": 3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 5,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 3,
+                    "dy": 3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 5,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 3,
+                    "dy": 3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 5,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 3,
+                    "dy": 3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 5,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 3,
+                    "dy": 3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 5,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 3,
+                    "dy": 3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 5,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 3,
+                    "dy": 3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 5,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 3,
+                    "dy": 3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 5,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": 3,
+                    "dy": 3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 72,
+                      "row": 12,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 72,
+                      "row": 9,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 77,
+                      "row": 9,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 77,
+                      "row": 12,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 97
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 78,
+                      "row": 12,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 78,
+                      "row": 10,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 72,
+                      "row": 10,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 72,
+                      "row": 18,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 69,
+                      "row": 18,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 69,
+                      "row": 24,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 62,
+                      "row": 24,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 62,
+                      "row": 30,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e480",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e480",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 120
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 69,
+                      "row": 30,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 69,
+                      "row": 12,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 68,
+                      "row": 12,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 67,
+                      "row": 12,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -5,
+                    "dy": -5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -3,
+                    "dy": -3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -5,
+                    "dy": -5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -3,
+                    "dy": -3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -5,
+                    "dy": -5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -3,
+                    "dy": -3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -5,
+                    "dy": -5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -3,
+                    "dy": -3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -5,
+                    "dy": -5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -3,
+                    "dy": -3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -5,
+                    "dy": -5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -3,
+                    "dy": -3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -5,
+                    "dy": -5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -3,
+                    "dy": -3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -5,
+                    "dy": -5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -3,
+                    "dy": -3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -5,
+                    "dy": -5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -3,
+                    "dy": -3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -5,
+                    "dy": -5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -3,
+                    "dy": -3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -5,
+                    "dy": -5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -3,
+                    "dy": -3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -5,
+                    "dy": -5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e480",
+                    "dx": -3,
+                    "dy": -3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e480"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 53,
+                      "row": 9,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 53,
+                      "row": 24,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 54,
+                      "row": 24,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 54,
+                      "row": 11,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 56,
+                      "row": 11,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 56,
+                      "row": 5,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e480",
+                    "to": {
+                      "col": 77,
+                      "row": 5,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -566,6 +1567,210 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e482",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e482",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 96
+                    },
+                    "then": [
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e482",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e482",
+                        "frame": 0
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 96
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 51
+                        },
+                        "then": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e482",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e482",
+                            "frame": 2
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 280
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e482",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e482",
+                            "frame": 3
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 640
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e482",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e482",
+                            "frame": 2
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 240
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e482",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e482",
+                            "frame": 0
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 160
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e482",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e482",
+                        "frame": 1
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 360
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 51
+                    },
+                    "then": [
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e482",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e482",
+                        "frame": 2
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 280
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e482",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e482",
+                        "frame": 3
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 640
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e482",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e482",
+                        "frame": 2
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 240
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e482",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e482",
+                        "frame": 0
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 160
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e482",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e482",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 360
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -917,6 +2122,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e491",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e491",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }

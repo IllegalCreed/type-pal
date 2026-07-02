@@ -20,7 +20,29 @@
         "height": 0
       },
       "sprite": "npc-405",
-      "zBias": 10
+      "zBias": 10,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2379",
+                    "to": {
+                      "col": 68,
+                      "row": -18,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2380",
@@ -31,7 +53,40 @@
       },
       "sprite": "npc-166",
       "facing": "up",
-      "zBias": 10
+      "zBias": 10,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2380"
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2380"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 200
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2380"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2381",
@@ -126,39 +181,38 @@
           "ms": 200
         },
         {
-          "kind": "unmigrated",
-          "opcode": 108,
-          "operands": [
-            2382,
-            8,
-            4
-          ]
+          "kind": "nudgeEntity",
+          "entity": "e2382",
+          "dx": 8,
+          "dy": 4
+        },
+        {
+          "kind": "animEntity",
+          "entity": "e2382"
         },
         {
           "kind": "wait",
           "ms": 120
         },
         {
-          "kind": "unmigrated",
-          "opcode": 108,
-          "operands": [
-            2382,
-            65532,
-            65534
-          ]
+          "kind": "nudgeEntity",
+          "entity": "e2382",
+          "dx": -4,
+          "dy": -2
+        },
+        {
+          "kind": "animEntity",
+          "entity": "e2382"
         },
         {
           "kind": "wait",
           "ms": 40
         },
         {
-          "kind": "unmigrated",
-          "opcode": 125,
-          "operands": [
-            2380,
-            8,
-            4
-          ]
+          "kind": "nudgeEntity",
+          "entity": "e2380",
+          "dx": 8,
+          "dy": 4
         },
         {
           "kind": "setEntityFacing",
@@ -175,13 +229,10 @@
           "ms": 40
         },
         {
-          "kind": "unmigrated",
-          "opcode": 125,
-          "operands": [
-            2380,
-            8,
-            4
-          ]
+          "kind": "nudgeEntity",
+          "entity": "e2380",
+          "dx": 8,
+          "dy": 4
         },
         {
           "kind": "setEntityFacing",
@@ -242,13 +293,10 @@
           "state": 1
         },
         {
-          "kind": "unmigrated",
-          "opcode": 125,
-          "operands": [
-            2381,
-            48,
-            8
-          ]
+          "kind": "nudgeEntity",
+          "entity": "e2381",
+          "dx": 48,
+          "dy": 8
         },
         {
           "kind": "unmigrated",

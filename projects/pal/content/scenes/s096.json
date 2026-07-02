@@ -17,6 +17,20 @@
         "row": 10,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 121,
+        "row": 28,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 51,
+        "row": 10,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -195,6 +209,23 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1771"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -226,13 +257,9 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 38,
-                    "operands": [
-                      10,
-                      0,
-                      0
-                    ]
+                    "kind": "openShop",
+                    "shop": 10,
+                    "mode": "buy"
                   }
                 ]
               }
@@ -324,13 +351,9 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 38,
-                    "operands": [
-                      11,
-                      0,
-                      0
-                    ]
+                    "kind": "openShop",
+                    "shop": 11,
+                    "mode": "buy"
                   }
                 ]
               }

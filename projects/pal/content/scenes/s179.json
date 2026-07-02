@@ -10,6 +10,13 @@
         "row": 14,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 109,
+        "row": 76,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -38,13 +45,13 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 122,
-                    "operands": [
-                      40,
-                      44,
-                      0
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 84,
+                      "row": 4,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "unmigrated",
@@ -73,13 +80,13 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 122,
-                    "operands": [
-                      38,
-                      41,
-                      1
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 80,
+                      "row": 3,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   }
                 ]
               }
@@ -105,13 +112,13 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 122,
-                    "operands": [
-                      40,
-                      40,
-                      0
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 80,
+                      "row": 0,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "unmigrated",
@@ -140,13 +147,13 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 122,
-                    "operands": [
-                      41,
-                      45,
-                      1
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 87,
+                      "row": 4,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   }
                 ]
               }
@@ -172,13 +179,13 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 122,
-                    "operands": [
-                      27,
-                      39,
-                      1
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 67,
+                      "row": 12,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "unmigrated",
@@ -207,13 +214,13 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 122,
-                    "operands": [
-                      29,
-                      65,
-                      0
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 94,
+                      "row": 36,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   }
                 ]
               }
@@ -239,13 +246,13 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 122,
-                    "operands": [
-                      27,
-                      63,
-                      1
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 91,
+                      "row": 36,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "unmigrated",
@@ -274,13 +281,13 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 122,
-                    "operands": [
-                      28,
-                      40,
-                      1
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 69,
+                      "row": 12,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   }
                 ]
               }
@@ -370,6 +377,428 @@
       },
       "sprite": "npc-592",
       "collide": true
+    },
+    {
+      "id": "e2956",
+      "pos": {
+        "col": 0,
+        "row": 0,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 76
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 16
+                    },
+                    "then": [
+                      {
+                        "kind": "playSound",
+                        "soundId": 63
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 480
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 81
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 31
+                        },
+                        "then": [
+                          {
+                            "kind": "playSound",
+                            "soundId": 64
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 560
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 81
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 56
+                            },
+                            "then": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 19
+                    },
+                    "then": [
+                      {
+                        "kind": "playSound",
+                        "soundId": 64
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 560
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 81
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 56
+                        },
+                        "then": []
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 21
+                    },
+                    "then": [
+                      {
+                        "kind": "playSound",
+                        "soundId": 65
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 240
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 81
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 31
+                        },
+                        "then": []
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 21
+                    },
+                    "then": [
+                      {
+                        "kind": "playSound",
+                        "soundId": 68
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 320
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 81
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 26
+                        },
+                        "then": [
+                          {
+                            "kind": "playSound",
+                            "soundId": 69
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 240
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 81
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 26
+                            },
+                            "then": [
+                              {
+                                "kind": "unmigrated",
+                                "opcode": 0,
+                                "operands": [
+                                  38710
+                                ],
+                                "note": "分支臂不可内联"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 26
+                    },
+                    "then": [
+                      {
+                        "kind": "playSound",
+                        "soundId": 69
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 240
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 81
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 26
+                        },
+                        "then": [
+                          {
+                            "kind": "unmigrated",
+                            "opcode": 0,
+                            "operands": [
+                              38710
+                            ],
+                            "note": "分支臂不可内联"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 31
+                    },
+                    "then": [
+                      {
+                        "kind": "playSound",
+                        "soundId": 70
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 320
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 81
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 26
+                        },
+                        "then": [
+                          {
+                            "kind": "playSound",
+                            "soundId": 68
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 320
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 81
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 26
+                            },
+                            "then": [
+                              {
+                                "kind": "playSound",
+                                "soundId": 69
+                              },
+                              {
+                                "kind": "wait",
+                                "ms": 240
+                              },
+                              {
+                                "kind": "branch",
+                                "cond": {
+                                  "kind": "chance",
+                                  "percent": 81
+                                },
+                                "then": []
+                              },
+                              {
+                                "kind": "branch",
+                                "cond": {
+                                  "kind": "chance",
+                                  "percent": 26
+                                },
+                                "then": [
+                                  {
+                                    "kind": "unmigrated",
+                                    "opcode": 0,
+                                    "operands": [
+                                      38710
+                                    ],
+                                    "note": "分支臂不可内联"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 36
+                    },
+                    "then": [
+                      {
+                        "kind": "playSound",
+                        "soundId": 84
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 320
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 61
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 76
+                        },
+                        "then": [
+                          {
+                            "kind": "playSound",
+                            "soundId": 83
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 320
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 41
+                    },
+                    "then": [
+                      {
+                        "kind": "playSound",
+                        "soundId": 83
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 320
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 96
+                    },
+                    "then": []
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2957",

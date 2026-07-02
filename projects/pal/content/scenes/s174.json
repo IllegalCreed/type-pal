@@ -173,7 +173,29 @@
       },
       "sprite": "npc-609",
       "facing": "left",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2874",
+                    "to": {
+                      "col": 50,
+                      "row": 12,
+                      "height": 0
+                    },
+                    "speed": "fast"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2875",
@@ -299,6 +321,19 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2878"
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -760,13 +795,13 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 123,
-          "operands": [
-            24,
-            36,
-            0
-          ]
+          "kind": "moveParty",
+          "to": {
+            "col": 60,
+            "row": 12,
+            "height": 0
+          },
+          "speed": "run"
         },
         {
           "kind": "wait",
@@ -781,13 +816,13 @@
           "ms": 120
         },
         {
-          "kind": "unmigrated",
-          "opcode": 123,
-          "operands": [
-            17,
-            29,
-            1
-          ]
+          "kind": "moveParty",
+          "to": {
+            "col": 47,
+            "row": 12,
+            "height": 0
+          },
+          "speed": "run"
         },
         {
           "kind": "setPartyFacing",
@@ -813,13 +848,13 @@
           "state": 2
         },
         {
-          "kind": "unmigrated",
-          "opcode": 122,
-          "operands": [
-            18,
-            29,
-            0
-          ]
+          "kind": "moveParty",
+          "to": {
+            "col": 47,
+            "row": 11,
+            "height": 0
+          },
+          "speed": "fast"
         },
         {
           "kind": "dialog",
@@ -1040,13 +1075,13 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 123,
-          "operands": [
-            16,
-            31,
-            0
-          ]
+          "kind": "moveParty",
+          "to": {
+            "col": 47,
+            "row": 15,
+            "height": 0
+          },
+          "speed": "run"
         },
         {
           "kind": "wait",

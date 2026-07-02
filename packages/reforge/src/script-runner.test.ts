@@ -34,6 +34,26 @@ function fakeHost(calls: string[]): ScriptHost {
     playMusic: log('playMusic'),
     setBattleMusic: log('setBattleMusic'),
     setBattleField: log('setBattleField'),
+    moveEntity: alog('moveEntity'),
+    stepEntity: log('stepEntity'),
+    animEntity: log('animEntity'),
+    nudgeEntity: log('nudgeEntity'),
+    moveParty: alog('moveParty'),
+    nudgeParty: log('nudgeParty'),
+    startBattle: async (team: number) => {
+      calls.push(`startBattle(${team})`)
+      return 'win' as const
+    },
+    openShop: log('openShop'),
+    confirm: async () => {
+      calls.push('confirm()')
+      return true
+    },
+    query: {
+      hasItem: () => false,
+      money: () => 50,
+      inParty: (id: string) => id === 'li-xiaoyao',
+    },
     report: log('report'),
   }
 }
@@ -109,13 +129,76 @@ test('abort:await 间隙取消,后续命令不再执行', async () => {
   expect(calls).toEqual(['dialog']) // giveItem 未执行
 })
 
-test('unmigrated 上报不中断;branch 上报走 then 臂(M3b 前保守)', async () => {
+test('unmigrated 上报不中断', async () => {
   const calls: string[] = []
   const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
-  await r.run([
-    { kind: 'unmigrated', opcode: 0x24, operands: [1, 2, 0], note: 'setAutoScript' },
-    { kind: 'branch', cond: { kind: 'chance', percent: 50 }, then: [{ kind: 'giveMoney', delta: 5 }] },
-  ])
+  await r.run([{ kind: 'unmigrated', opcode: 0x24, operands: [1, 2, 0], note: 'setAutoScript' }])
   expect(calls.some((c) => c.startsWith('report') && c.includes('24'))).toBe(true)
-  expect(calls.some((c) => c.startsWith('giveMoney(5'))).toBe(true)
+})
+
+describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
+  test('branch:chance 注入 random 定率;then/else 二选一', async () => {
+    const calls: string[] = []
+    const world = emptyWorldScriptState()
+    const mk = (rnd: number) => new ScriptRunner(fakeHost(calls), world, new AbortController().signal, () => rnd)
+    const body: Command[] = [
+      {
+        kind: 'branch',
+        cond: { kind: 'chance', percent: 30 },
+        then: [{ kind: 'giveMoney', delta: 1 }],
+        else: [{ kind: 'giveMoney', delta: -1 }],
+      },
+    ]
+    await mk(0.1).run(body) // 10 < 30 → then
+    await mk(0.9).run(body) // 90 ≥ 30 → else
+    expect(calls).toEqual(['giveMoney(1)', 'giveMoney(-1)'])
+  })
+  test('branch:hasMoney/inParty/entityState/not 组合走 query/world', async () => {
+    const calls: string[] = []
+    const world = emptyWorldScriptState()
+    world.entityState.e7 = 2
+    const r = new ScriptRunner(fakeHost(calls), world, new AbortController().signal)
+    await r.run([
+      { kind: 'branch', cond: { kind: 'hasMoney', atLeast: 40 }, then: [{ kind: 'playSound', soundId: 1 }] }, // 50≥40 ✓
+      { kind: 'branch', cond: { kind: 'not', cond: { kind: 'hasMoney', atLeast: 60 } }, then: [{ kind: 'playSound', soundId: 2 }] },
+      { kind: 'branch', cond: { kind: 'inParty', actorId: 'li-xiaoyao' }, then: [{ kind: 'playSound', soundId: 3 }] },
+      { kind: 'branch', cond: { kind: 'entityState', entity: 'e7', is: 2 }, then: [{ kind: 'playSound', soundId: 4 }] },
+      { kind: 'branch', cond: { kind: 'hasItem', itemId: '1' }, then: [{ kind: 'playSound', soundId: 9 }] }, // false
+    ])
+    expect(calls).toEqual(['playSound(1)', 'playSound(2)', 'playSound(3)', 'playSound(4)'])
+  })
+  test('startBattle:win 直走;lose 走 onLose 臂', async () => {
+    const calls: string[] = []
+    const host = fakeHost(calls)
+    let result: 'win' | 'lose' | 'flee' = 'lose'
+    host.startBattle = async () => result
+    const r = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal)
+    const body: Command[] = [
+      { kind: 'startBattle', team: 5, onLose: [{ kind: 'playSound', soundId: 99 }] },
+      { kind: 'playSound', soundId: 1 },
+    ]
+    await r.run(body)
+    expect(calls).toEqual(['playSound(99)', 'playSound(1)']) // 败臂后仍续走(臂内自终结才会停)
+    calls.length = 0
+    result = 'win'
+    await r.run(body)
+    expect(calls).toEqual(['playSound(1)'])
+  })
+  test('confirm:是 → 直走;否 → onNo 臂', async () => {
+    const calls: string[] = []
+    const host = fakeHost(calls)
+    let yes = false
+    host.confirm = async () => yes
+    const r = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal)
+    const body: Command[] = [
+      { kind: 'confirm', onNo: [{ kind: 'playSound', soundId: 7 }] },
+      { kind: 'playSound', soundId: 1 },
+    ]
+    await r.run(body)
+    expect(calls).toEqual(['playSound(7)', 'playSound(1)'])
+    calls.length = 0
+    yes = true
+    await r.run(body)
+    expect(calls).toEqual(['playSound(1)'])
+  })
 })

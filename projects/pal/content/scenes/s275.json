@@ -10,6 +10,13 @@
         "row": 21,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 124,
+        "row": 21,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -78,15 +85,80 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 38,
-                    "operands": [
-                      2,
-                      0,
-                      0
-                    ]
+                    "kind": "openShop",
+                    "shop": 2,
+                    "mode": "buy"
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4732",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4732",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4732",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4732",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4732",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4732",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 135
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4732",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4732",
+                    "frame": 3
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 120
+                  }
+                ],
+                "next": 0
               }
             ]
           }

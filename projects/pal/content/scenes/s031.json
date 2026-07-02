@@ -10,6 +10,13 @@
         "row": 17,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 87,
+        "row": 1,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -91,15 +98,30 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 38,
-                    "operands": [
-                      6,
-                      0,
-                      0
-                    ]
+                    "kind": "openShop",
+                    "shop": 6,
+                    "mode": "buy"
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e542",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e542",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -155,6 +177,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e543",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e543",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -206,6 +247,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e544",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e544",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }

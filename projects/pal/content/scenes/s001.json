@@ -66,104 +66,72 @@
                     "facing": "right"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      10,
-                      10,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 10,
+                    "dy": 10
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      6,
-                      6,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 6,
+                    "dy": 6
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      10,
-                      10,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 10,
+                    "dy": 10
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      6,
-                      6,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 6,
+                    "dy": 6
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      10,
-                      10,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 10,
+                    "dy": 10
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      6,
-                      6,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 6,
+                    "dy": 6
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      10,
-                      10,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 10,
+                    "dy": 10
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      6,
-                      6,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 6,
+                    "dy": 6
                   },
                   {
                     "kind": "wait",
@@ -197,104 +165,72 @@
                     "facing": "left"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65526,
-                      65526,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": -10
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65530,
-                      65530,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": -6
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65526,
-                      65526,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": -10
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65530,
-                      65530,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": -6
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65526,
-                      65526,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": -10
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65530,
-                      65530,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": -6
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65526,
-                      65526,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": -10
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65530,
-                      65530,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": -6
                   },
                   {
                     "kind": "wait",
@@ -527,13 +463,9 @@
                     "ms": 80
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      0,
-                      65520,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 0,
+                    "dy": -16
                   },
                   {
                     "kind": "setPartyFacing",
@@ -560,13 +492,9 @@
                     "ms": 80
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      0,
-                      65520,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 0,
+                    "dy": -16
                   },
                   {
                     "kind": "setPartyFacing",
@@ -593,13 +521,9 @@
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      0,
-                      65520,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 0,
+                    "dy": -16
                   },
                   {
                     "kind": "setPartyFacing",
@@ -626,13 +550,9 @@
                     "ms": 80
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      0,
-                      65520,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 0,
+                    "dy": -16
                   },
                   {
                     "kind": "setPartyFacing",
@@ -688,49 +608,53 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      9,
-                      65532,
-                      65534
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e9",
+                    "dx": -4,
+                    "dy": -2
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e9"
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      9,
-                      65532,
-                      65534
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e9",
+                    "dx": -4,
+                    "dy": -2
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e9"
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      9,
-                      65532,
-                      65534
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e9",
+                    "dx": -4,
+                    "dy": -2
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e9"
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      9,
-                      65532,
-                      65534
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e9",
+                    "dx": -4,
+                    "dy": -2
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e9"
                   },
                   {
                     "kind": "clearDialog"
@@ -797,49 +721,53 @@
                     "facing": "up"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      9,
-                      4,
-                      2
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e9",
+                    "dx": 4,
+                    "dy": 2
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e9"
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      9,
-                      4,
-                      2
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e9",
+                    "dx": 4,
+                    "dy": 2
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e9"
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      9,
-                      4,
-                      2
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e9",
+                    "dx": 4,
+                    "dy": 2
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e9"
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      9,
-                      4,
-                      2
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e9",
+                    "dx": 4,
+                    "dy": 2
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e9"
                   },
                   {
                     "kind": "clearDialog"
@@ -865,49 +793,53 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      9,
-                      65532,
-                      65534
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e9",
+                    "dx": -4,
+                    "dy": -2
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e9"
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      9,
-                      65532,
-                      65534
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e9",
+                    "dx": -4,
+                    "dy": -2
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e9"
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      9,
-                      65532,
-                      65534
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e9",
+                    "dx": -4,
+                    "dy": -2
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e9"
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      9,
-                      65532,
-                      65534
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e9",
+                    "dx": -4,
+                    "dy": -2
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e9"
                   },
                   {
                     "kind": "clearDialog"
@@ -942,7 +874,39 @@
       },
       "sprite": "npc-21",
       "facing": "left",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e10",
+                    "to": {
+                      "col": 60,
+                      "row": -12,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4",
+                    "state": 1
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e10",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e11",
@@ -1120,13 +1084,13 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 112,
-                    "operands": [
-                      41,
-                      67,
-                      0
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 108,
+                      "row": 26,
+                      "height": 0
+                    },
+                    "speed": "slow"
                   },
                   {
                     "kind": "setPartyFacing",
@@ -1171,73 +1135,79 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      27,
-                      8,
-                      4
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e27",
+                    "dx": 8,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e27"
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      27,
-                      8,
-                      4
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e27",
+                    "dx": 8,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e27"
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      27,
-                      8,
-                      4
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e27",
+                    "dx": 8,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e27"
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      27,
-                      8,
-                      4
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e27",
+                    "dx": 8,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e27"
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      27,
-                      8,
-                      4
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e27",
+                    "dx": 8,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e27"
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 108,
-                    "operands": [
-                      27,
-                      8,
-                      4
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e27",
+                    "dx": 8,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e27"
                   },
                   {
                     "kind": "clearDialog"
@@ -1530,6 +1500,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e19",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e19",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -1753,6 +1742,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e25",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e25",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -2040,14 +2048,298 @@
                     "fieldId": 24
                   },
                   {
+                    "kind": "startBattle",
+                    "team": 18,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "playMusic",
+                    "musicId": 24
+                  },
+                  {
                     "kind": "unmigrated",
-                    "opcode": 7,
+                    "opcode": 117,
                     "operands": [
-                      18,
-                      41075,
+                      1,
+                      0,
                       0
-                    ],
-                    "note": "jump-family 0x7"
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.919",
+                      "speaker": "spk.苗人喽罗",
+                      "slot": "top"
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 36,
+                    "operands": [
+                      26,
+                      2619,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 36,
+                    "operands": [
+                      27,
+                      2619,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "setPartyFacing",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.921",
+                      "speaker": "spk.李逍遥"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.923",
+                      "speaker": "spk.赵灵儿",
+                      "slot": "top"
+                    }
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.927",
+                      "speaker": "spk.李逍遥"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.929",
+                      "speaker": "spk.赵灵儿",
+                      "slot": "top"
+                    }
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.931",
+                      "speaker": "spk.李逍遥"
+                    }
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e29",
+                    "state": 0
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 37,
+                    "operands": [
+                      57,
+                      2624,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 64,
+                    "operands": [
+                      57,
+                      6,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 117,
+                    "operands": [
+                      1,
+                      2,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "setPartyFacing",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 34,
+                    "operands": [
+                      1,
+                      10,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 29,
+                    "operands": [
+                      1,
+                      9999,
+                      9999
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 64,
+                    "operands": [
+                      77,
+                      6,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 37,
+                    "operands": [
+                      77,
+                      3223,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 37,
+                    "operands": [
+                      177,
+                      3250,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e178",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e85",
+                    "state": 2
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 37,
+                    "operands": [
+                      85,
+                      3278,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 37,
+                    "operands": [
+                      86,
+                      3295,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 37,
+                    "operands": [
+                      87,
+                      3301,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 37,
+                    "operands": [
+                      128,
+                      3304,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 37,
+                    "operands": [
+                      192,
+                      3308,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 37,
+                    "operands": [
+                      10,
+                      191,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 37,
+                    "operands": [
+                      8,
+                      207,
+                      0
+                    ]
                   }
                 ]
               }
@@ -2536,22 +2828,22 @@
           "ms": 480
         },
         {
-          "kind": "unmigrated",
-          "opcode": 112,
-          "operands": [
-            41,
-            18,
-            1
-          ]
+          "kind": "moveParty",
+          "to": {
+            "col": 60,
+            "row": -23,
+            "height": 0
+          },
+          "speed": "slow"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 112,
-          "operands": [
-            42,
-            18,
-            0
-          ]
+          "kind": "moveParty",
+          "to": {
+            "col": 60,
+            "row": -24,
+            "height": 0
+          },
+          "speed": "slow"
         },
         {
           "kind": "setPartyFacing",
@@ -2599,49 +2891,53 @@
           "kind": "clearDialog"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 108,
-          "operands": [
-            9,
-            4,
-            2
-          ]
+          "kind": "nudgeEntity",
+          "entity": "e9",
+          "dx": 4,
+          "dy": 2
+        },
+        {
+          "kind": "animEntity",
+          "entity": "e9"
         },
         {
           "kind": "clearDialog"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 108,
-          "operands": [
-            9,
-            4,
-            2
-          ]
+          "kind": "nudgeEntity",
+          "entity": "e9",
+          "dx": 4,
+          "dy": 2
+        },
+        {
+          "kind": "animEntity",
+          "entity": "e9"
         },
         {
           "kind": "clearDialog"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 108,
-          "operands": [
-            9,
-            4,
-            2
-          ]
+          "kind": "nudgeEntity",
+          "entity": "e9",
+          "dx": 4,
+          "dy": 2
+        },
+        {
+          "kind": "animEntity",
+          "entity": "e9"
         },
         {
           "kind": "clearDialog"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 108,
-          "operands": [
-            9,
-            4,
-            2
-          ]
+          "kind": "nudgeEntity",
+          "entity": "e9",
+          "dx": 4,
+          "dy": 2
+        },
+        {
+          "kind": "animEntity",
+          "entity": "e9"
         },
         {
           "kind": "clearDialog"
@@ -2766,49 +3062,53 @@
           "facing": "down"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 108,
-          "operands": [
-            9,
-            65532,
-            65534
-          ]
+          "kind": "nudgeEntity",
+          "entity": "e9",
+          "dx": -4,
+          "dy": -2
+        },
+        {
+          "kind": "animEntity",
+          "entity": "e9"
         },
         {
           "kind": "clearDialog"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 108,
-          "operands": [
-            9,
-            65532,
-            65534
-          ]
+          "kind": "nudgeEntity",
+          "entity": "e9",
+          "dx": -4,
+          "dy": -2
+        },
+        {
+          "kind": "animEntity",
+          "entity": "e9"
         },
         {
           "kind": "clearDialog"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 108,
-          "operands": [
-            9,
-            65532,
-            65534
-          ]
+          "kind": "nudgeEntity",
+          "entity": "e9",
+          "dx": -4,
+          "dy": -2
+        },
+        {
+          "kind": "animEntity",
+          "entity": "e9"
         },
         {
           "kind": "clearDialog"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 108,
-          "operands": [
-            9,
-            65532,
-            65534
-          ]
+          "kind": "nudgeEntity",
+          "entity": "e9",
+          "dx": -4,
+          "dy": -2
+        },
+        {
+          "kind": "animEntity",
+          "entity": "e9"
         },
         {
           "kind": "wait",

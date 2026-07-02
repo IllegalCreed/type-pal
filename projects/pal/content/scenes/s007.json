@@ -17,6 +17,13 @@
         "row": 63,
         "height": 0
       }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 18,
+        "row": 5,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -258,6 +265,501 @@
       },
       "sprite": "npc-443",
       "hidden": true
+    },
+    {
+      "id": "e173",
+      "pos": {
+        "col": 0,
+        "row": 0,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "wait",
+                    "ms": 320
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 66
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 41
+                    },
+                    "then": [
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 93
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 68
+                        },
+                        "then": [
+                          {
+                            "kind": "wait",
+                            "ms": 320
+                          },
+                          {
+                            "kind": "playSound",
+                            "soundId": 66
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 41
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 240
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 81
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "playSound",
+                            "soundId": 66
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 320
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 93
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 68
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 800
+                          },
+                          {
+                            "kind": "playSound",
+                            "soundId": 73
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 800
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 31
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "playSound",
+                            "soundId": 73
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 99
+                            },
+                            "then": []
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 800
+                      },
+                      {
+                        "kind": "playSound",
+                        "soundId": 73
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 800
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 31
+                        },
+                        "then": [
+                          {
+                            "kind": "wait",
+                            "ms": 320
+                          },
+                          {
+                            "kind": "playSound",
+                            "soundId": 66
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 41
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 240
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 81
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "playSound",
+                            "soundId": 66
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 320
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 93
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 68
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 800
+                          },
+                          {
+                            "kind": "playSound",
+                            "soundId": 73
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 800
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 31
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "playSound",
+                            "soundId": 73
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 99
+                            },
+                            "then": []
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "playSound",
+                        "soundId": 73
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 99
+                        },
+                        "then": []
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 81
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 66
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 320
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 93
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 68
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 320
+                      },
+                      {
+                        "kind": "playSound",
+                        "soundId": 66
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 41
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 240
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 81
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "playSound",
+                        "soundId": 66
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 320
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 93
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 68
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 800
+                      },
+                      {
+                        "kind": "playSound",
+                        "soundId": 73
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 800
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 31
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "playSound",
+                        "soundId": 73
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 99
+                        },
+                        "then": []
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 800
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 73
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 800
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 31
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 320
+                      },
+                      {
+                        "kind": "playSound",
+                        "soundId": 66
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 41
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 240
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 81
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "playSound",
+                        "soundId": 66
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 320
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 93
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 68
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 800
+                      },
+                      {
+                        "kind": "playSound",
+                        "soundId": 73
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 800
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 31
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "playSound",
+                        "soundId": 73
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 99
+                        },
+                        "then": []
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 73
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 99
+                    },
+                    "then": []
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "dialogues": []

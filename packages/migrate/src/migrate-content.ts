@@ -66,10 +66,10 @@ export interface SourceItem {
   flags: { usable: boolean; equipable: boolean; throwable: boolean; consuming: boolean; applyToAll: boolean; sellable: boolean; equipableBy: boolean[] }
 }
 /** all.json 命令(disasm 只具名 end/goto/showDialog/giveItem,其余 raw)。 */
-export { FACING_BY_DIR, partyPosToGrid, sceneSlug, signExtendI16 } from './source-facts.js'
+export { FACING_BY_DIR, partyPosToGrid, ROLE_SLUGS, sceneSlug, signExtendI16 } from './source-facts.js'
 export type { SourceCmd } from './source-facts.js'
 import type { SourceCmd } from './source-facts.js'
-import { FACING_BY_DIR, partyPosToGrid, sceneSlug, signExtendI16 } from './source-facts.js'
+import { FACING_BY_DIR, partyPosToGrid, ROLE_SLUGS, sceneSlug, signExtendI16 } from './source-facts.js'
 import type { TranslateReport } from './translate-events.js'
 import { emptyTranslateReport, foldStages, translateStages } from './translate-events.js'
 export interface LevelUpMagicCell {
@@ -79,7 +79,6 @@ export interface LevelUpMagicCell {
 
 // ── 身份/槽位真值 ──────────────────────────────────────────
 /** roleId → 语义 slug(原版 6 角色固定;roleId 3=巫后 4=阿奴,勿按 words 顺序重取——parser 已修对调)。 */
-export const ROLE_SLUGS = ['li-xiaoyao', 'zhao-linger', 'lin-yueru', 'wu-hou', 'anu', 'gai-luojiao'] as const
 
 /**
  * role.equipment[] 下标 → 装备槽真序。
@@ -984,21 +983,28 @@ export function mapScenesStatic(
       ? { on: 'interact' as const, range: mode, stages: foldStages(stages) }
       : { on: 'touch' as const, range: mode - 4, stages: foldStages(stages) }
   }
+  /** M3b:autoScript 链 → auto 页(巡逻/环境动画;引擎循环跑,主脚本期间暂停)。 */
+  const autoOf = (eo: SourceEventObject) => {
+    if (!eo.autoLabel) return undefined
+    const stages = translateStages(eo.autoLabel, `e${eo.id}`, tctx)
+    return stages?.length ? { stages: foldStages(stages) } : undefined
+  }
 
   const scenes: SceneDef[] = srcScenes.map((sc) => {
     const slug = sceneSlug(sc.sceneId)
     const entities = []
     for (const eo of sc.eventObjects) {
       if (eo.spriteNum <= 0) {
-        // 隐形触发区(门/脚本锚):有触发脚本的迁成 zone 实体;没有的(纯占位)跳过
+        // 隐形触发区(门/脚本锚):有触发/自动脚本的迁成 zone 实体;纯占位跳过
         const trigger = triggerOf(eo)
-        if (trigger) {
+        const auto = autoOf(eo)
+        if (trigger || auto) {
           entities.push({
             id: `e${eo.id}`,
             pos: { ...pixelToGrid(eo.x, eo.y), height: 0 },
             zone: true as const,
             ...((eo.sState ?? 1) === 0 ? { hidden: true } : {}),
-            pages: [{ trigger }],
+            pages: [{ ...(trigger ? { trigger } : {}), ...(auto ? { auto } : {}) }],
           })
           report.zonesMigrated++
         } else report.triggerZonesSkipped++
@@ -1013,6 +1019,7 @@ export function mapScenesStatic(
       if (autoDir !== undefined && autoDir !== (eo.direction ?? 0)) report.facingFromAuto++
       const dir = autoDir ?? eo.direction ?? 0
       const trigger = triggerOf(eo)
+      const auto = autoOf(eo)
       entities.push({
         id: `e${eo.id}`,
         pos: { ...pixelToGrid(eo.x, eo.y), height: 0 },
@@ -1021,7 +1028,9 @@ export function mapScenesStatic(
         ...(hidden ? { hidden: true } : {}),
         ...((eo.sState ?? 0) >= 2 ? { collide: true } : {}),
         ...(eo.sLayer ? { zBias: eo.sLayer } : {}),
-        ...(trigger ? { pages: [{ trigger }] } : {}),
+        ...(trigger || auto
+          ? { pages: [{ ...(trigger ? { trigger } : {}), ...(auto ? { auto } : {}) }] }
+          : {}),
       })
     }
     const { start, musicId } = headScan(sc.sceneId, sc.onEnterLabel)

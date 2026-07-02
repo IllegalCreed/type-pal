@@ -10,6 +10,41 @@
         "row": 39,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 143,
+        "row": 70,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 64,
+        "row": 45,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 128,
+        "row": 84,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 100,
+        "row": 82,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 126,
+        "row": 81,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -154,6 +189,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4531",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4531",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -184,6 +238,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4532",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4532",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -234,6 +307,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4533",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4533",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }

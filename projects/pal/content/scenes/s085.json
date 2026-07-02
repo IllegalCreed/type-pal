@@ -27,8 +27,64 @@
     },
     "from-shared": {
       "pos": {
-        "col": 128,
-        "row": 99,
+        "col": 100,
+        "row": -6,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 30,
+        "row": 17,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 103,
+        "row": 41,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 35,
+        "row": 14,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 102,
+        "row": 51,
+        "height": 0
+      }
+    },
+    "from-shared-6": {
+      "pos": {
+        "col": 102,
+        "row": 51,
+        "height": 0
+      }
+    },
+    "from-shared-7": {
+      "pos": {
+        "col": 46,
+        "row": 12,
+        "height": 0
+      }
+    },
+    "from-shared-8": {
+      "pos": {
+        "col": 63,
+        "row": -14,
+        "height": 0
+      }
+    },
+    "from-shared-9": {
+      "pos": {
+        "col": 112,
+        "row": 84,
         "height": 0
       }
     }
@@ -237,6 +293,166 @@
                     "soundId": 178
                   }
                 ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e1623",
+      "pos": {
+        "col": 0,
+        "row": 0,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "wait",
+                    "ms": 800
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 52
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 400
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 93
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 51
+                    },
+                    "then": [
+                      {
+                        "kind": "playSound",
+                        "soundId": 52
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 1200
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 95
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "playSound",
+                        "soundId": 53
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 98
+                        },
+                        "then": []
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 53
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 600
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 51
+                    },
+                    "then": [
+                      {
+                        "kind": "playSound",
+                        "soundId": 53
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 98
+                        },
+                        "then": []
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 97
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 53
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 400
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 93
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 52
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 1200
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 95
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 53
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 98
+                    },
+                    "then": []
+                  }
+                ],
+                "next": 0
               }
             ]
           }

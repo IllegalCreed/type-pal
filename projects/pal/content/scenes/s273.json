@@ -24,6 +24,27 @@
         "row": 47,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 77,
+        "row": 0,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 100,
+        "row": 22,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 103,
+        "row": 41,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -171,7 +192,52 @@
         "height": 0
       },
       "sprite": "npc-196",
-      "zBias": -9
+      "zBias": -9,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4723",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4723",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 360
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4723",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4723",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e4724",
@@ -267,7 +333,85 @@
       },
       "sprite": "npc-21",
       "facing": "up",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4729",
+                    "to": {
+                      "col": 114,
+                      "row": 57,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 200
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4729",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4729",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4729",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4729",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 200
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4729",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4729",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4729",
+                    "to": {
+                      "col": 115,
+                      "row": 57,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "dialogues": []

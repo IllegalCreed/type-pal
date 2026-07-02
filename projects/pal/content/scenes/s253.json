@@ -10,6 +10,13 @@
         "row": 24,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 145,
+        "row": 34,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -97,31 +104,31 @@
                     "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 123,
-                    "operands": [
-                      39,
-                      72,
-                      0
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 111,
+                      "row": 33,
+                      "height": 0
+                    },
+                    "speed": "run"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 123,
-                    "operands": [
-                      37,
-                      74,
-                      0
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 111,
+                      "row": 37,
+                      "height": 0
+                    },
+                    "speed": "run"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 123,
-                    "operands": [
-                      36,
-                      73,
-                      1
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 110,
+                      "row": 37,
+                      "height": 0
+                    },
+                    "speed": "run"
                   },
                   {
                     "kind": "dialog",
@@ -465,13 +472,13 @@
                     "frame": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 122,
-                    "operands": [
-                      37,
-                      72,
-                      1
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 110,
+                      "row": 35,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "unmigrated",

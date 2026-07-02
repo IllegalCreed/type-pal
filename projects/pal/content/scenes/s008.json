@@ -10,6 +10,20 @@
         "row": 14,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 103,
+        "row": 14,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 46,
+        "row": 17,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -184,6 +198,85 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e177",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e177",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e177",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e177",
+                    "dir": "down"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e177",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e177",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e177",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "stepEntity",
+                    "entity": "e177",
+                    "dir": "up"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 120
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e177",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e177",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }

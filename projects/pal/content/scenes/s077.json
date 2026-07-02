@@ -17,6 +17,27 @@
         "row": 87,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 103,
+        "row": 60,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 148,
+        "row": 87,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 132,
+        "row": 81,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -80,7 +101,29 @@
       },
       "sprite": "npc-91",
       "facing": "up",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e1488",
+                    "to": {
+                      "col": 101,
+                      "row": 24,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e1489",
@@ -91,7 +134,29 @@
       },
       "sprite": "npc-112",
       "facing": "up",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e1489",
+                    "to": {
+                      "col": 99,
+                      "row": 26,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e1490",
@@ -102,7 +167,39 @@
       },
       "sprite": "npc-13",
       "facing": "up",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e1490",
+                    "to": {
+                      "col": 102,
+                      "row": 26,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e1490",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1490",
+                    "frame": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e1491",
@@ -113,7 +210,44 @@
       },
       "sprite": "npc-82",
       "facing": "up",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e1491",
+                    "to": {
+                      "col": 97,
+                      "row": 25,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e1491",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1491",
+                    "frame": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e1492",
@@ -133,7 +267,23 @@
         "height": 0
       },
       "sprite": "npc-618",
-      "zBias": 6
+      "zBias": 6,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1493"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e1494",
@@ -143,7 +293,23 @@
         "height": 0
       },
       "sprite": "npc-618",
-      "zBias": 6
+      "zBias": 6,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1494"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "dialogues": [],
@@ -300,13 +466,10 @@
           "facing": "down"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 125,
-          "operands": [
-            1489,
-            32,
-            16
-          ]
+          "kind": "nudgeEntity",
+          "entity": "e1489",
+          "dx": 32,
+          "dy": 16
         },
         {
           "kind": "setEntityFacing",

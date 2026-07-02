@@ -484,6 +484,78 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4183",
+                    "to": {
+                      "col": 88,
+                      "row": 31,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4183",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4183",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 1200
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4183",
+                    "to": {
+                      "col": 88,
+                      "row": 15,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 400
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4183",
+                    "to": {
+                      "col": 83,
+                      "row": 15,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  }
+                ],
+                "next": 1
+              },
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4183",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4183",
+                    "frame": 0
+                  }
+                ],
+                "next": 1
+              }
+            ]
           }
         }
       ]
@@ -701,6 +773,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4190",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4190",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -761,6 +852,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4192",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4192",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }

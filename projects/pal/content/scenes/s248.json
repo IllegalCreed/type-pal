@@ -11,6 +11,13 @@
         "row": 39,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 120,
+        "row": 39,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -94,7 +101,29 @@
         "height": 0
       },
       "sprite": "npc-562",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4372",
+                    "to": {
+                      "col": 89,
+                      "row": 13,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e4373",
@@ -119,6 +148,44 @@
                       "text": "dlg.11673",
                       "speaker": "spk.士兵"
                     }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4373",
+                    "to": {
+                      "col": 88,
+                      "row": 12,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4373",
+                    "to": {
+                      "col": 86,
+                      "row": 12,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4373",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4373",
+                    "frame": 0
                   }
                 ]
               }
@@ -150,6 +217,44 @@
                       "text": "dlg.11675",
                       "speaker": "spk.士兵"
                     }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4374",
+                    "to": {
+                      "col": 90,
+                      "row": 12,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4374",
+                    "to": {
+                      "col": 92,
+                      "row": 12,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4374",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4374",
+                    "frame": 0
                   }
                 ]
               }
@@ -196,6 +301,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4376",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4376",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -228,6 +352,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4377",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4377",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -257,6 +400,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4378",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4378",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -297,6 +459,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4379",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4379",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -428,6 +609,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4389",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4389",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -458,6 +658,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4390",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4390",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -492,6 +711,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4391",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4391",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -524,6 +762,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4392",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4392",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -550,22 +807,22 @@
                     "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 123,
-                    "operands": [
-                      31,
-                      60,
-                      0
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 91,
+                      "row": 29,
+                      "height": 0
+                    },
+                    "speed": "run"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 112,
-                    "operands": [
-                      32,
-                      59,
-                      0
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 91,
+                      "row": 27,
+                      "height": 0
+                    },
+                    "speed": "slow"
                   },
                   {
                     "kind": "unmigrated",

@@ -10,6 +10,13 @@
         "row": 60,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 102,
+        "row": 60,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -30,7 +37,4285 @@
       },
       "sprite": "npc-570",
       "hidden": true,
-      "zBias": -6
+      "zBias": -6,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4348",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4348"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e4349",
@@ -40,7 +4325,317 @@
         "height": 0
       },
       "sprite": "npc-569",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 0,
+                    "dy": -4
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4349"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 0,
+                    "dy": -6
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 0,
+                    "dy": -8
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4349"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 0,
+                    "dy": -8
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 0,
+                    "dy": -8
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4349"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 0,
+                    "dy": -8
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 0,
+                    "dy": -6
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4349"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 0,
+                    "dy": -4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 0,
+                    "dy": -2
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4349"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 0,
+                    "dy": -1
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 0,
+                    "dy": -1
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4349"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4349"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4349"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4349"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 0,
+                    "dy": 1
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 1,
+                    "dy": 1
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4349"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 2,
+                    "dy": 2
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 3,
+                    "dy": 3
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4349"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 4,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 5,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4349"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 7,
+                    "dy": 7
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4349"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 8,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 9,
+                    "dy": 9
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4349"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 11,
+                    "dy": 11
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4349"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 12,
+                    "dy": 12
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 12,
+                    "dy": 12
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4349"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 12,
+                    "dy": 12
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 12,
+                    "dy": 12
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4349"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 12,
+                    "dy": 12
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 12,
+                    "dy": 12
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4349"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 12,
+                    "dy": 12
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 12,
+                    "dy": 12
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4349"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 12,
+                    "dy": 12
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e4349",
+                    "dx": 12,
+                    "dy": 12
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4349"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4349",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e4350",
@@ -197,14 +4792,456 @@
                     "fieldId": 13
                   },
                   {
+                    "kind": "startBattle",
+                    "team": 102,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
+                  },
+                  {
                     "kind": "unmigrated",
-                    "opcode": 7,
+                    "opcode": 120,
                     "operands": [
-                      102,
-                      41075,
+                      0,
+                      0,
                       0
-                    ],
-                    "note": "jump-family 0x7"
+                    ]
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4353",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4354",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4355",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4359",
+                    "state": 2
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4360",
+                    "state": 2
+                  },
+                  {
+                    "kind": "fade",
+                    "dir": "out"
+                  },
+                  {
+                    "kind": "setPartyFacing",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 149,
+                      "row": 74,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4349",
+                    "state": 1
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4352",
+                    "state": 1
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 1760
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 36,
+                    "operands": [
+                      4349,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 36,
+                    "operands": [
+                      4352,
+                      32588,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 1440
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.11254",
+                      "speaker": "spk.妇人"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.11256",
+                      "speaker": "spk.李逍遥",
+                      "slot": "top"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.11261",
+                      "speaker": "spk.妇人"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.11263",
+                      "speaker": "spk.李逍遥",
+                      "slot": "top"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.11265",
+                      "speaker": "spk.妇人"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.11269"
+                    }
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4352",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4352",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4352",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4349",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4350",
+                    "state": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.11271"
+                    }
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 1120
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 36,
+                    "operands": [
+                      4356,
+                      32596,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4357",
+                    "state": 1
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4358",
+                    "state": 1
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 400
+                  },
+                  {
+                    "kind": "setPartyFacing",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.11273",
+                      "speaker": "spk.黑苗士兵"
+                    }
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4356",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4356",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4358",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4358",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.11275",
+                      "speaker": "spk.黑苗士兵"
+                    }
+                  },
+                  {
+                    "kind": "startBattle",
+                    "team": 113,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4356",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4357",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4358",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4361",
+                    "state": 2
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4362",
+                    "state": 2
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4363",
+                    "state": 2
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.11278",
+                      "speaker": "spk.李逍遥"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.11280"
+                    }
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -16,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -16,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 120
+                  },
+                  {
+                    "kind": "fade",
+                    "dir": "out"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4359",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4360",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4361",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4362",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e4363",
+                    "state": 0
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 101,
+                    "operands": [
+                      0,
+                      563,
+                      65535
+                    ]
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.11282",
+                      "speaker": "spk.李逍遥"
+                    }
                   }
                 ]
               }
@@ -272,7 +5309,29 @@
       },
       "sprite": "npc-544",
       "facing": "right",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4356",
+                    "to": {
+                      "col": 144,
+                      "row": 76,
+                      "height": 0
+                    },
+                    "speed": "run"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e4357",
@@ -283,7 +5342,29 @@
       },
       "sprite": "npc-544",
       "facing": "right",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e4357",
+                    "to": {
+                      "col": 146,
+                      "row": 77,
+                      "height": 0
+                    },
+                    "speed": "run"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e4358",

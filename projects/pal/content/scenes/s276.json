@@ -10,6 +10,13 @@
         "row": 56,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 125,
+        "row": 88,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -98,15 +105,30 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 38,
-                    "operands": [
-                      3,
-                      0,
-                      0
-                    ]
+                    "kind": "openShop",
+                    "shop": 3,
+                    "mode": "buy"
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4734",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4734",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }

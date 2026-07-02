@@ -10,6 +10,13 @@
         "row": 3,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 63,
+        "row": 3,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -50,6 +57,25 @@
                     "note": "jump-family 0x74"
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e191",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e191",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }

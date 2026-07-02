@@ -13,8 +13,15 @@
     },
     "from-shared": {
       "pos": {
-        "col": 71,
-        "row": 47,
+        "col": 129,
+        "row": 16,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 119,
+        "row": 10,
         "height": 0
       }
     }
@@ -35,7 +42,39 @@
         "row": -3,
         "height": 0
       },
-      "sprite": "npc-609"
+      "sprite": "npc-609",
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2944",
+                    "to": {
+                      "col": 89,
+                      "row": 0,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2944",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2944",
+                    "frame": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2945",

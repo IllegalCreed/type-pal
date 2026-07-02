@@ -3,10 +3,19 @@
   "map": {
     "reuseOriginalMap": 28
   },
+  "entries": {
+    "from-shared": {
+      "pos": {
+        "col": 88,
+        "row": 16,
+        "height": 0
+      }
+    }
+  },
   "entry": {
     "pos": {
-      "col": 96,
-      "row": 32,
+      "col": 88,
+      "row": 16,
       "height": 0
     },
     "facing": "down"
@@ -81,15 +90,30 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 39,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
+                    "kind": "openShop",
+                    "shop": 0,
+                    "mode": "sell"
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e535",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e535",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -121,14 +145,56 @@
                     }
                   },
                   {
+                    "kind": "confirm",
+                    "onNo": [
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.2644",
+                          "speaker": "spk.李逍遥"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "giveMoney",
+                    "delta": -50
+                  },
+                  {
                     "kind": "unmigrated",
-                    "opcode": 10,
+                    "opcode": 37,
                     "operands": [
-                      7477,
+                      538,
+                      7502,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 36,
+                    "operands": [
+                      65535,
+                      7492,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 8,
+                    "operands": [
+                      0,
                       0,
                       0
-                    ],
-                    "note": "jump-family 0xa"
+                    ]
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.2648"
+                    }
                   }
                 ]
               }

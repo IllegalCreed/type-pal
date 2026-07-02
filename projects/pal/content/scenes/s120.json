@@ -10,6 +10,13 @@
         "row": 26,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 90,
+        "row": 26,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -156,6 +163,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2191",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2191",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -262,6 +288,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2192",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2192",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }

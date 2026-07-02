@@ -10,6 +10,13 @@
         "row": 46,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 146,
+        "row": 77,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -127,13 +134,13 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 123,
-                    "operands": [
-                      42,
-                      83,
-                      0
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 125,
+                      "row": 41,
+                      "height": 0
+                    },
+                    "speed": "run"
                   },
                   {
                     "kind": "playMusic",
@@ -363,31 +370,31 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 123,
-                    "operands": [
-                      43,
-                      81,
-                      1
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 125,
+                      "row": 38,
+                      "height": 0
+                    },
+                    "speed": "run"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 123,
-                    "operands": [
-                      41,
-                      79,
-                      0
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 120,
+                      "row": 38,
+                      "height": 0
+                    },
+                    "speed": "run"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 123,
-                    "operands": [
-                      43,
-                      76,
-                      1
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 120,
+                      "row": 33,
+                      "height": 0
+                    },
+                    "speed": "run"
                   },
                   {
                     "kind": "setPartyFacing",
@@ -422,13 +429,10 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 125,
-                    "operands": [
-                      2339,
-                      16,
-                      8
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e2339",
+                    "dx": 16,
+                    "dy": 8
                   },
                   {
                     "kind": "setEntityFacing",
@@ -445,13 +449,10 @@
                     "ms": 80
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 125,
-                    "operands": [
-                      2339,
-                      16,
-                      8
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e2339",
+                    "dx": 16,
+                    "dy": 8
                   },
                   {
                     "kind": "setEntityFacing",
@@ -468,13 +469,10 @@
                     "ms": 80
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 125,
-                    "operands": [
-                      2339,
-                      16,
-                      8
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e2339",
+                    "dx": 16,
+                    "dy": 8
                   },
                   {
                     "kind": "setEntityFacing",
@@ -522,14 +520,304 @@
                     "musicId": 38
                   },
                   {
+                    "kind": "startBattle",
+                    "team": 42
+                  },
+                  {
                     "kind": "unmigrated",
-                    "opcode": 7,
+                    "opcode": 144,
                     "operands": [
-                      42,
+                      435,
                       0,
                       0
-                    ],
-                    "note": "jump-family 0x7"
+                    ]
+                  },
+                  {
+                    "kind": "playMusic",
+                    "musicId": 0
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8085",
+                      "speaker": "spk.空中传来宏亮的声音",
+                      "slot": "top"
+                    }
+                  },
+                  {
+                    "kind": "playMusic",
+                    "musicId": 21
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e2343",
+                    "state": 1
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e2340",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e2341",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e0",
+                    "state": 2
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e0",
+                    "state": 2
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      42,
+                      32,
+                      65535
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      24,
+                      18
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e2343",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2339",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2339",
+                    "frame": 2
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 95
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 320
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 269
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2339",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2339",
+                    "frame": 3
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 115,
+                    "operands": [
+                      2,
+                      60,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e2344",
+                    "state": 2
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 640
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 36,
+                    "operands": [
+                      2344,
+                      21895,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 400
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 36,
+                    "operands": [
+                      2344,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 119,
+                      "row": 33,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8087",
+                      "speaker": "spk.酒剑仙",
+                      "slot": "top"
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 119,
+                    "operands": [
+                      1,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8090",
+                      "speaker": "spk.李逍遥"
+                    }
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2344",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2344",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2344",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2344",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8092",
+                      "speaker": "spk.酒剑仙",
+                      "slot": "top"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8097",
+                      "speaker": "spk.林月如"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8099",
+                      "speaker": "spk.酒剑仙",
+                      "slot": "top"
+                    }
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8104",
+                      "speaker": "spk.林月如"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8106",
+                      "speaker": "spk.李逍遥"
+                    }
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8108",
+                      "speaker": "spk.酒剑仙",
+                      "slot": "top"
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 117,
+                    "operands": [
+                      1,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "fade",
+                    "dir": "out"
+                  },
+                  {
+                    "kind": "loadScene",
+                    "scene": "s141"
                   }
                 ]
               }
@@ -546,7 +834,4819 @@
         "height": 0
       },
       "sprite": "npc-487",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2342",
+                    "dx": 0,
+                    "dy": 32
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2343",
@@ -557,7 +5657,91 @@
       },
       "sprite": "npc-16",
       "facing": "left",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2343",
+                    "dx": 0,
+                    "dy": 16
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2343",
+                    "dx": 0,
+                    "dy": 16
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2343",
+                    "dx": 0,
+                    "dy": 16
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2343",
+                    "dx": 0,
+                    "dy": 16
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2343",
+                    "dx": 0,
+                    "dy": 16
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2343",
+                    "dx": 0,
+                    "dy": 16
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2343",
+                    "dx": 0,
+                    "dy": 16
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2343",
+                    "dx": 0,
+                    "dy": 16
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2343",
+                    "dx": 0,
+                    "dy": 16
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2343",
+                    "dx": 0,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2343",
+                    "dx": 0,
+                    "dy": 4
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2343",
+                    "dx": 0,
+                    "dy": 2
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "dialogues": []

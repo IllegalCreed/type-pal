@@ -10,6 +10,13 @@
         "row": 17,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 97,
+        "row": 9,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -127,6 +134,68 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2333",
+                    "to": {
+                      "col": 55,
+                      "row": -6,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2333",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2333",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 120
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2333",
+                    "to": {
+                      "col": 55,
+                      "row": -1,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2333",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2333",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }

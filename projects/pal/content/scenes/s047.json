@@ -66,6 +66,76 @@
         "row": 32,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 60,
+        "row": 25,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 133,
+        "row": 39,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 93,
+        "row": 6,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 97,
+        "row": 32,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 127,
+        "row": 77,
+        "height": 0
+      }
+    },
+    "from-shared-6": {
+      "pos": {
+        "col": 124,
+        "row": 87,
+        "height": 0
+      }
+    },
+    "from-shared-7": {
+      "pos": {
+        "col": 158,
+        "row": 54,
+        "height": 0
+      }
+    },
+    "from-shared-8": {
+      "pos": {
+        "col": 148,
+        "row": 48,
+        "height": 0
+      }
+    },
+    "from-shared-9": {
+      "pos": {
+        "col": 84,
+        "row": 44,
+        "height": 0
+      }
+    },
+    "from-shared-10": {
+      "pos": {
+        "col": 95,
+        "row": 23,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -313,14 +383,132 @@
                     "fieldId": 27
                   },
                   {
+                    "kind": "startBattle",
+                    "team": 44,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setBattleMusic",
+                    "musicId": 40
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "289"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.3416",
+                      "slot": "narration"
+                    }
+                  },
+                  {
                     "kind": "unmigrated",
-                    "opcode": 7,
+                    "opcode": 120,
                     "operands": [
-                      44,
-                      41075,
+                      0,
+                      0,
                       0
-                    ],
-                    "note": "jump-family 0x7"
+                    ]
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.3418",
+                      "speaker": "spk.林月如"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.3421",
+                      "speaker": "spk.李逍遥"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.3423",
+                      "speaker": "spk.林月如"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.3426",
+                      "speaker": "spk.李逍遥"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.3428",
+                      "speaker": "spk.林月如"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.3429"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.3434",
+                      "speaker": "spk.李逍遥"
+                    }
                   }
                 ]
               }
@@ -356,13 +544,10 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 125,
-                    "operands": [
-                      65535,
-                      65520,
-                      65528
-                    ]
+                    "kind": "nudgeEntity",
+                    "entity": "e761",
+                    "dx": -16,
+                    "dy": -8
                   },
                   {
                     "kind": "setEntityFacing",

@@ -10,6 +10,13 @@
         "row": 11,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 84,
+        "row": 11,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -381,7 +388,24 @@
         "height": 0
       },
       "sprite": "npc-300",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1368"
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e1369",
@@ -391,7 +415,24 @@
         "height": 0
       },
       "sprite": "npc-300",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1369"
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "dialogues": [],

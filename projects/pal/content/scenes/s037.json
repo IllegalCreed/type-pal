@@ -10,6 +10,13 @@
         "row": 71,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 84,
+        "row": -25,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -133,7 +140,29 @@
         "height": 0
       },
       "sprite": "npc-248",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e617",
+                    "to": {
+                      "col": 77,
+                      "row": 8,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e618",
@@ -143,7 +172,29 @@
         "height": 0
       },
       "sprite": "npc-353",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e618",
+                    "to": {
+                      "col": 77,
+                      "row": 8,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e619",
@@ -153,7 +204,33 @@
         "height": 0
       },
       "sprite": "npc-148",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e619",
+                    "to": {
+                      "col": 77,
+                      "row": 7,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "dialogues": [],

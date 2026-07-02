@@ -3,10 +3,19 @@
   "map": {
     "reuseOriginalMap": 162
   },
+  "entries": {
+    "from-shared": {
+      "pos": {
+        "col": 109,
+        "row": 92,
+        "height": 0
+      }
+    }
+  },
   "entry": {
     "pos": {
-      "col": 96,
-      "row": 32,
+      "col": 109,
+      "row": 92,
       "height": 0
     },
     "facing": "down"
@@ -136,6 +145,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3385",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3385",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -166,6 +194,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3386",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3386",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -199,6 +246,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3387",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3387",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -228,6 +294,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3388",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3388",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -283,14 +368,227 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 121,
-                    "operands": [
-                      39,
-                      29058,
-                      0
-                    ],
-                    "note": "jump-family 0x79"
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "inParty",
+                      "actorId": "39"
+                    },
+                    "then": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 64,
+                        "operands": [
+                          65535,
+                          2,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e3392",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e3392",
+                        "frame": 0
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.10225",
+                          "speaker": "spk.士兵",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.10227",
+                          "speaker": "spk.阿奴"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.10230",
+                          "speaker": "spk.士兵",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.10235",
+                          "speaker": "spk.阿奴"
+                        }
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.10237",
+                          "speaker": "spk.士兵",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.10240",
+                          "speaker": "spk.阿奴"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 36,
+                        "operands": [
+                          65535,
+                          29097,
+                          0
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.10220",
+                      "speaker": "spk.士兵"
+                    }
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -16,
+                    "dy": 8
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "inParty",
+                      "actorId": "39"
+                    },
+                    "then": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 64,
+                        "operands": [
+                          65535,
+                          2,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e3392",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e3392",
+                        "frame": 0
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.10225",
+                          "speaker": "spk.士兵",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.10227",
+                          "speaker": "spk.阿奴"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.10230",
+                          "speaker": "spk.士兵",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.10235",
+                          "speaker": "spk.阿奴"
+                        }
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.10237",
+                          "speaker": "spk.士兵",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.10240",
+                          "speaker": "spk.阿奴"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 36,
+                        "operands": [
+                          65535,
+                          29097,
+                          0
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.10222",
+                      "speaker": "spk.士兵"
+                    }
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -16,
+                    "dy": 8
                   }
                 ]
               }

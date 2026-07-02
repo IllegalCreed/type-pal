@@ -10,6 +10,20 @@
         "row": -15,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 96,
+        "row": -15,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 130,
+        "row": 96,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -86,6 +100,109 @@
       ]
     },
     {
+      "id": "e1881",
+      "pos": {
+        "col": 0,
+        "row": 0,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 93
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 80
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 640
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 61
+                    },
+                    "then": [
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 93
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "playSound",
+                        "soundId": 80
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 640
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 61
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 96
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "playSound",
+                        "soundId": 74
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 320
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 96
+                    },
+                    "then": []
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 74
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 320
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "e1882",
       "pos": {
         "col": 119,
@@ -151,14 +268,53 @@
                     }
                   },
                   {
+                    "kind": "confirm",
+                    "onNo": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 0,
+                        "operands": [
+                          21220
+                        ],
+                        "note": "分支臂不可内联"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7830",
+                      "speaker": "spk.秀才",
+                      "slot": "top"
+                    }
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7833",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveMoney",
+                    "delta": 1000
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e1882",
+                    "state": 0
+                  },
+                  {
                     "kind": "unmigrated",
-                    "opcode": 10,
+                    "opcode": 152,
                     "operands": [
-                      21220,
+                      82,
                       0,
                       0
-                    ],
-                    "note": "jump-family 0xa"
+                    ]
                   }
                 ]
               }
@@ -406,14 +562,113 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 148,
-                    "operands": [
-                      1883,
-                      0,
-                      16475
-                    ],
-                    "note": "jump-family 0x94"
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "entity": "e1883",
+                      "is": 0
+                    },
+                    "then": [
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.5714",
+                          "speaker": "spk.秀才"
+                        }
+                      },
+                      {
+                        "kind": "setPartyFacing",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.5717",
+                          "speaker": "spk.林月如",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.5719",
+                          "speaker": "spk.秀才"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.5721",
+                          "speaker": "spk.林月如",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.5725",
+                          "speaker": "spk.秀才"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.5727"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 152,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "fade",
+                        "dir": "out"
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.5728",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.5730",
+                          "speaker": "spk.林月如",
+                          "slot": "top"
+                        }
+                      }
+                    ]
                   }
                 ]
               }
@@ -430,7 +685,4019 @@
         "height": 0
       },
       "sprite": "npc-444",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e1884",
+                    "dx": 0,
+                    "dy": 8
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 480
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e1885",
@@ -466,6 +4733,19 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1885"
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -681,14 +4961,50 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      97,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 97,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -715,16 +5031,70 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      136,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 136,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      9,
+                      0,
+                      0
+                    ]
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -749,16 +5119,65 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      131,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 131,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1892"
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -783,14 +5202,67 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      134,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 134,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      6,
+                      2,
+                      0
+                    ]
                   }
                 ]
               }
@@ -817,16 +5289,96 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      93,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 93,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1894"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -851,16 +5403,96 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      121,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 121,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1895"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -885,16 +5517,65 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      132,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 132,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1896"
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -919,16 +5600,96 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      118,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 118,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1897"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -953,16 +5714,70 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      132,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 132,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      9,
+                      0,
+                      0
+                    ]
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -987,16 +5802,96 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      101,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 101,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1899"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -1021,16 +5916,96 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      97,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 97,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1900"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -1055,16 +6030,70 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      135,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 135,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      9,
+                      0,
+                      0
+                    ]
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -1089,16 +6118,96 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      129,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 129,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1902"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -1123,16 +6232,96 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 7,
-                    "operands": [
-                      93,
-                      41075,
-                      41073
+                    "kind": "startBattle",
+                    "team": 93,
+                    "onLose": [
+                      {
+                        "kind": "playMusic",
+                        "musicId": 1
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 79,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.13135",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 78,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
                     ],
-                    "note": "jump-family 0x7"
+                    "onFlee": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 75,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      }
+                    ]
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 76,
+                    "operands": [
+                      10,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e1903"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  }
+                ],
+                "next": 0
               }
             ]
           }

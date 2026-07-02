@@ -10,6 +10,20 @@
         "row": 97,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 135,
+        "row": 97,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 55,
+        "row": 10,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -120,6 +134,96 @@
                       "text": "dlg.6498",
                       "speaker": "spk.婢　女"
                     }
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 41
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 80
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 41
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 80
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e2150",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e2150",
+                        "frame": 0
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 160
+                      },
+                      {
+                        "kind": "setEntityFacing",
+                        "entity": "e2150",
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "entity": "e2150",
+                        "frame": 1
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2150",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2150",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2150",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2150",
+                    "frame": 1
                   }
                 ],
                 "next": 0

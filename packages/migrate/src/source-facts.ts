@@ -14,6 +14,9 @@ export interface SourceCmd {
   operands?: number[]
 }
 
+/** 六主角稳定 slug(下标 = 原版 roleId;⚠ 3=巫后 4=阿奴,原版名字指针对调已在解析器修正)。 */
+export const ROLE_SLUGS = ['li-xiaoyao', 'zhao-linger', 'lin-yueru', 'wu-hou', 'anu', 'gai-luojiao'] as const
+
 /** 原版 direction 0-3 = 下/左/上/右(kDirSouth/West/North/East;sdlpal palcommon.h)。 */
 export const FACING_BY_DIR = ['down', 'left', 'up', 'right'] as const
 

@@ -31,6 +31,48 @@
         "row": 24,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 154,
+        "row": 59,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 128,
+        "row": 19,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 109,
+        "row": 65,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 87,
+        "row": 31,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 101,
+        "row": 17,
+        "height": 0
+      }
+    },
+    "from-shared-6": {
+      "pos": {
+        "col": 53,
+        "row": 4,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -230,13 +272,9 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 39,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
+                    "kind": "openShop",
+                    "shop": 0,
+                    "mode": "sell"
                   },
                   {
                     "kind": "clearDialog"
@@ -283,13 +321,9 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 38,
-                    "operands": [
-                      17,
-                      0,
-                      0
-                    ]
+                    "kind": "openShop",
+                    "shop": 17,
+                    "mode": "buy"
                   }
                 ]
               }
@@ -326,13 +360,9 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 38,
-                    "operands": [
-                      19,
-                      0,
-                      0
-                    ]
+                    "kind": "openShop",
+                    "shop": 19,
+                    "mode": "buy"
                   },
                   {
                     "kind": "clearDialog"
@@ -425,6 +455,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3573",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3573",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -469,6 +518,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3574",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3574",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }

@@ -176,6 +176,302 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2164",
+                    "to": {
+                      "col": 56,
+                      "row": 9,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2164",
+                    "to": {
+                      "col": 66,
+                      "row": 9,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2164",
+                    "to": {
+                      "col": 66,
+                      "row": 15,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2164",
+                    "to": {
+                      "col": 71,
+                      "row": 15,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2164",
+                    "to": {
+                      "col": 71,
+                      "row": 22,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2164",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2164",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 400
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 80
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": []
+                      }
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2164",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2164",
+                    "frame": 0
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2164",
+                    "to": {
+                      "col": 71,
+                      "row": 15,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2164",
+                    "to": {
+                      "col": 74,
+                      "row": 15,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 120
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2164",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2164",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 520
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2164",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2164",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 200
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2164",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2164",
+                    "frame": 0
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2164",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2164",
+                    "frame": 0
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2164",
+                    "to": {
+                      "col": 53,
+                      "row": 15,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2164",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2164",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2164",
+                    "to": {
+                      "col": 67,
+                      "row": 15,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2164",
+                    "to": {
+                      "col": 67,
+                      "row": 10,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 120
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2164",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2164",
+                    "frame": 0
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2164",
+                    "to": {
+                      "col": 56,
+                      "row": 10,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2164",
+                    "to": {
+                      "col": 56,
+                      "row": -6,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 280
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -207,6 +503,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2165",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2165",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -236,6 +551,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2166",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2166",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -465,22 +799,22 @@
     {
       "body": [
         {
-          "kind": "unmigrated",
-          "opcode": 123,
-          "operands": [
-            30,
-            36,
-            1
-          ]
+          "kind": "moveParty",
+          "to": {
+            "col": 67,
+            "row": 6,
+            "height": 0
+          },
+          "speed": "run"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 123,
-          "operands": [
-            35,
-            31,
-            1
-          ]
+          "kind": "moveParty",
+          "to": {
+            "col": 67,
+            "row": -4,
+            "height": 0
+          },
+          "speed": "run"
         },
         {
           "kind": "setEntityFacing",
@@ -493,13 +827,13 @@
           "frame": 0
         },
         {
-          "kind": "unmigrated",
-          "opcode": 112,
-          "operands": [
-            36,
-            32,
-            0
-          ]
+          "kind": "moveParty",
+          "to": {
+            "col": 68,
+            "row": -4,
+            "height": 0
+          },
+          "speed": "slow"
         },
         {
           "kind": "setPartyFacing",

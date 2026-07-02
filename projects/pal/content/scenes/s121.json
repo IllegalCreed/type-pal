@@ -3,10 +3,19 @@
   "map": {
     "reuseOriginalMap": 128
   },
+  "entries": {
+    "from-shared": {
+      "pos": {
+        "col": 55,
+        "row": 2,
+        "height": 0
+      }
+    }
+  },
   "entry": {
     "pos": {
-      "col": 96,
-      "row": 32,
+      "col": 55,
+      "row": 2,
       "height": 0
     },
     "facing": "down"
@@ -105,6 +114,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2197",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2197",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }

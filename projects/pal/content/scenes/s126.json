@@ -101,7 +101,4019 @@
         "height": 0
       },
       "sprite": "npc-453",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  },
+                  {
+                    "kind": "nudgeEntity",
+                    "entity": "e2220",
+                    "dx": -10,
+                    "dy": 5
+                  },
+                  {
+                    "kind": "animEntity",
+                    "entity": "e2220"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "dialogues": [],

@@ -24,6 +24,48 @@
         "row": 41,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 85,
+        "row": 63,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 137,
+        "row": 72,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 124,
+        "row": 81,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 86,
+        "row": 47,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 52,
+        "row": 10,
+        "height": 0
+      }
+    },
+    "from-shared-6": {
+      "pos": {
+        "col": 110,
+        "row": 95,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -215,13 +257,13 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 122,
-                    "operands": [
-                      25,
-                      23,
-                      0
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 48,
+                      "row": -2,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "setPartyFacing",
@@ -259,26 +301,18 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65528,
-                      4,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -8,
+                    "dy": 4
                   },
                   {
                     "kind": "wait",
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65528,
-                      4,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -8,
+                    "dy": 4
                   },
                   {
                     "kind": "wait",
@@ -315,52 +349,36 @@
                     "ms": 160
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65528,
-                      4,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -8,
+                    "dy": 4
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65528,
-                      4,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -8,
+                    "dy": 4
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65528,
-                      4,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -8,
+                    "dy": 4
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65528,
-                      4,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -8,
+                    "dy": 4
                   },
                   {
                     "kind": "wait",
@@ -495,6 +513,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4676",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4676",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -508,7 +545,24 @@
       },
       "sprite": "npc-587",
       "hidden": true,
-      "zBias": -1
+      "zBias": -1,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "animEntity",
+                    "entity": "e4677"
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e4678",
@@ -527,13 +581,13 @@
     {
       "body": [
         {
-          "kind": "unmigrated",
-          "opcode": 123,
-          "operands": [
-            15,
-            30,
-            1
-          ]
+          "kind": "moveParty",
+          "to": {
+            "col": 46,
+            "row": 15,
+            "height": 0
+          },
+          "speed": "run"
         },
         {
           "kind": "setEntityFacing",

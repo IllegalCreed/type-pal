@@ -10,6 +10,13 @@
         "row": 5,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 87,
+        "row": 5,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -154,22 +161,22 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 123,
-                    "operands": [
-                      35,
-                      69,
-                      0
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 104,
+                      "row": 34,
+                      "height": 0
+                    },
+                    "speed": "run"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 123,
-                    "operands": [
-                      34,
-                      68,
-                      0
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 102,
+                      "row": 34,
+                      "height": 0
+                    },
+                    "speed": "run"
                   },
                   {
                     "kind": "setPartyFacing",
@@ -703,13 +710,13 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 123,
-                    "operands": [
-                      25,
-                      82,
-                      0
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 107,
+                      "row": 57,
+                      "height": 0
+                    },
+                    "speed": "run"
                   },
                   {
                     "kind": "unmigrated",
@@ -721,22 +728,22 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 123,
-                    "operands": [
-                      28,
-                      85,
-                      1
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 114,
+                      "row": 57,
+                      "height": 0
+                    },
+                    "speed": "run"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 123,
-                    "operands": [
-                      29,
-                      84,
-                      1
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 114,
+                      "row": 55,
+                      "height": 0
+                    },
+                    "speed": "run"
                   },
                   {
                     "kind": "wait",
@@ -772,22 +779,22 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 123,
-                    "operands": [
-                      31,
-                      83,
-                      0
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 114,
+                      "row": 52,
+                      "height": 0
+                    },
+                    "speed": "run"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 123,
-                    "operands": [
-                      35,
-                      87,
-                      0
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 122,
+                      "row": 52,
+                      "height": 0
+                    },
+                    "speed": "run"
                   },
                   {
                     "kind": "unmigrated",
@@ -949,13 +956,13 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 123,
-                    "operands": [
-                      25,
-                      82,
-                      0
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 107,
+                      "row": 57,
+                      "height": 0
+                    },
+                    "speed": "run"
                   },
                   {
                     "kind": "unmigrated",
@@ -967,22 +974,22 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 123,
-                    "operands": [
-                      28,
-                      85,
-                      1
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 114,
+                      "row": 57,
+                      "height": 0
+                    },
+                    "speed": "run"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 123,
-                    "operands": [
-                      29,
-                      84,
-                      1
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 114,
+                      "row": 55,
+                      "height": 0
+                    },
+                    "speed": "run"
                   },
                   {
                     "kind": "wait",
@@ -1018,22 +1025,22 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 123,
-                    "operands": [
-                      31,
-                      83,
-                      0
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 114,
+                      "row": 52,
+                      "height": 0
+                    },
+                    "speed": "run"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 123,
-                    "operands": [
-                      35,
-                      87,
-                      0
-                    ]
+                    "kind": "moveParty",
+                    "to": {
+                      "col": 122,
+                      "row": 52,
+                      "height": 0
+                    },
+                    "speed": "run"
                   },
                   {
                     "kind": "unmigrated",
@@ -1117,6 +1124,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3443",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3443",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -1145,6 +1171,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3444",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3444",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -1179,6 +1224,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3445",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3445",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -1211,6 +1275,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3446",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3446",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -1241,6 +1324,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3447",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3447",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }
@@ -1371,6 +1473,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3451",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3451",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -1412,6 +1533,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3452",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3452",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -1444,6 +1584,25 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3453",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3453",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
+              }
+            ]
           }
         }
       ]
@@ -1474,6 +1633,25 @@
                     }
                   }
                 ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3454",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3454",
+                    "frame": 0
+                  }
+                ],
+                "next": 0
               }
             ]
           }

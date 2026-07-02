@@ -11,6 +11,13 @@
         "row": 16,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 89,
+        "row": 0,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -325,39 +332,27 @@
                     "ms": 320
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65520,
-                      65528,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -16,
+                    "dy": -8
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65520,
-                      65528,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -16,
+                    "dy": -8
                   },
                   {
                     "kind": "wait",
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 110,
-                    "operands": [
-                      65520,
-                      65528,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": -16,
+                    "dy": -8
                   },
                   {
                     "kind": "wait",
@@ -1427,6 +1422,34 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2909",
+                    "to": {
+                      "col": 124,
+                      "row": 92,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2909",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2909",
+                    "frame": 0
+                  }
+                ]
+              }
+            ]
           }
         }
       ]
@@ -1454,6 +1477,34 @@
                       "text": "dlg.9574",
                       "speaker": "spk.妇人乙"
                     }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2910",
+                    "to": {
+                      "col": 120,
+                      "row": 81,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2910",
+                    "to": {
+                      "col": 120,
+                      "row": 87,
+                      "height": 0
+                    },
+                    "speed": "slow"
                   }
                 ]
               }
@@ -1486,6 +1537,44 @@
                       "text": "dlg.9577",
                       "speaker": "spk.村人"
                     }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2911",
+                    "to": {
+                      "col": 117,
+                      "row": 87,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  },
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2911",
+                    "to": {
+                      "col": 119,
+                      "row": 87,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2911",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2911",
+                    "frame": 0
                   }
                 ]
               }
@@ -1533,6 +1622,24 @@
                 ]
               }
             ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2912",
+                    "to": {
+                      "col": 121,
+                      "row": 87,
+                      "height": 0
+                    },
+                    "speed": "slow"
+                  }
+                ]
+              }
+            ]
           }
         }
       ]
@@ -1561,6 +1668,24 @@
                       "text": "dlg.9586",
                       "speaker": "spk.村人"
                     }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e2913",
+                    "to": {
+                      "col": 125,
+                      "row": 90,
+                      "height": 0
+                    },
+                    "speed": "slow"
                   }
                 ]
               }

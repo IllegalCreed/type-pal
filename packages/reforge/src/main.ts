@@ -302,6 +302,13 @@ async function main(): Promise<void> {
   let fadeBlack = 0 // 0 透明 → 1 全黑(fade out 后保持,fade in 释放)
   let scriptDialogResolve: (() => void) | null = null
   const entityFrameOverride = new Map<string, number>() // setEntityFrame 演出帧覆盖(切场景清)
+  // ── M3b 走位/动画驱动(tick 推进;abort 全兑现)──
+  const SPEED_MS: Record<string, number> = { slow: 200, normal: 130, fast: 100, run: 50 }
+  const entityMoves = new Map<string, { to: GridPos; stepMs: number; acc: number; resolve: () => void }>()
+  let partyMove: { to: GridPos; stepMs: number; acc: number; resolve: () => void } | null = null
+  const entityAnim = new Map<string, number>() // 实体走帧计数(移动/0x87 动画共用)
+  // auto 巡逻:每实体独立 runner(主脚本期间暂停;切场景全停)
+  const autoAborts = new Map<string, AbortController>()
 
   /** 世界脚本状态 → 场景实体(entityState:≤0 隐,≥2 挡路;进场/读档/设态后重放)。 */
   function applyWorldToScene(): void {
@@ -339,10 +346,12 @@ async function main(): Promise<void> {
     },
     loadScene: async (sceneId, pos, fc) => {
       await hostFade('out', 260)
+      stopAutoRunners()
       await switchScene(sceneId, { pos, facing: fc })
       applyWorldToScene()
       entityFrameOverride.clear()
       pendingOnEnter = sceneId // 新场景 onEnter 排队(当前脚本收尾后跑,不嵌套)
+      startAutoRunners()
       await hostFade('in', 260)
     },
     setPartyFacing: (fc) => {
@@ -378,9 +387,157 @@ async function main(): Promise<void> {
     setBattleField: (id) => {
       world.script!.vars['sys:battleField'] = id
     },
-    report: (msg) => {
-      if (import.meta.env.DEV) console.warn('[script]', msg)
+    moveEntity: (id, to, speed) =>
+      new Promise((resolve) => {
+        const e = scene.entities.find((x) => x.id === id)
+        if (!e) {
+          host.report(`moveEntity: 实体 ${id} 不在场`)
+          resolve()
+          return
+        }
+        entityMoves.set(id, { to, stepMs: SPEED_MS[speed] ?? 130, acc: SPEED_MS[speed] ?? 130, resolve })
+      }),
+    stepEntity: (id, dir) => {
+      const e = scene.entities.find((x) => x.id === id)
+      if (!e) return
+      e.facing = dir
+      const d = WALK_STEP[dir]
+      // 原版 NPC 步长 = 16/8px = 半格(play.c:213;玩家整格是 reforge 自己的手感设计)
+      e.pos = { ...e.pos, col: e.pos.col + d.dcol * 0.5, row: e.pos.row + d.drow * 0.5 }
+      entityAnim.set(id, (entityAnim.get(id) ?? 0) + 1)
     },
+    animEntity: (id) => {
+      entityAnim.set(id, (entityAnim.get(id) ?? 0) + 1)
+    },
+    nudgeEntity: (id, dx, dy) => {
+      const e = scene.entities.find((x) => x.id === id)
+      if (!e) return
+      const px = gridToPixel(e.pos)
+      e.pos = { ...pixelToGrid(px.x + dx, px.y + dy), height: e.pos.height }
+    },
+    moveParty: (to, speed) =>
+      new Promise((resolve) => {
+        partyMove = { to, stepMs: SPEED_MS[speed] ?? 130, acc: SPEED_MS[speed] ?? 130, resolve }
+      }),
+    nudgeParty: (dx, dy) => {
+      const px = gridToPixel(player.pos)
+      player.pos = { ...pixelToGrid(px.x + dx, px.y + dy), height: player.pos.height }
+      stepFrame = (stepFrame + 1) % 4 // 原版 0x6E 带走姿推进
+      updateCamera()
+    },
+    startBattle: async (team) => {
+      showToast(`遇敌 #${team} —— 战斗桩:自动胜(M4)`)
+      await host.wait(400)
+      return 'win'
+    },
+    openShop: (shop, mode) => {
+      showToast(`商店 #${shop}(${mode === 'buy' ? '买' : '卖'})—— M3c 落地`)
+      host.report(`openShop ${shop} ${mode} 未实现`)
+    },
+    confirm: async () => {
+      host.report('confirm 是/否框未实现(暂按"是")')
+      return true
+    },
+    query: {
+      hasItem: (itemId, atLeast) =>
+        (world.inventory.find((x) => x.itemId === itemId)?.count ?? 0) >= atLeast,
+      money: () => world.money,
+      inParty: (actorId) =>
+        world.party.some((c) => c.id === actorId || c.template === actorId),
+    },
+    report: (msg) => {
+      if (!import.meta.env.DEV) return
+      if (reportedOnce.has(msg)) return // auto 循环会反复撞同一缺口,去重防刷屏
+      reportedOnce.add(msg)
+      console.warn('[script]', msg)
+    },
+  }
+  const reportedOnce = new Set<string>()
+
+  /** M3b:tick 推进走位驱动(实体 + 队伍;到达即兑现)。 */
+  function advanceMoves(dt: number): void {
+    for (const [id, mv] of entityMoves) {
+      const e = scene.entities.find((x) => x.id === id)
+      if (!e) {
+        entityMoves.delete(id)
+        mv.resolve()
+        continue
+      }
+      mv.acc += dt
+      while (mv.acc >= mv.stepMs) {
+        mv.acc -= mv.stepMs
+        const dcol = mv.to.col - e.pos.col
+        const drow = mv.to.row - e.pos.row
+        if (Math.abs(dcol) < 0.26 && Math.abs(drow) < 0.26) break
+        // 半格步长(原版 16/8px);对角同步走(原版逐轴双步近似)
+        const dc = Math.abs(dcol) >= 0.26 ? Math.sign(dcol) * 0.5 : 0
+        const dr = Math.abs(drow) >= 0.26 ? Math.sign(drow) * 0.5 : 0
+        e.pos = { ...e.pos, col: e.pos.col + dc, row: e.pos.row + dr }
+        e.facing = Math.abs(dcol) >= Math.abs(drow) ? (dcol < 0 ? 'left' : 'right') : (drow < 0 ? 'up' : 'down')
+        entityAnim.set(id, (entityAnim.get(id) ?? 0) + 1)
+      }
+      if (Math.abs(mv.to.col - e.pos.col) < 0.26 && Math.abs(mv.to.row - e.pos.row) < 0.26) {
+        e.pos = { ...mv.to }
+        entityMoves.delete(id)
+        mv.resolve()
+      }
+    }
+    if (partyMove) {
+      const mv = partyMove
+      mv.acc += dt
+      while (mv.acc >= mv.stepMs) {
+        mv.acc -= mv.stepMs
+        const dc = Math.sign(mv.to.col - player.pos.col)
+        const dr = Math.sign(mv.to.row - player.pos.row)
+        if (dc === 0 && dr === 0) break
+        player.pos = { ...player.pos, col: player.pos.col + dc, row: player.pos.row + dr }
+        facing = Math.abs(mv.to.col - player.pos.col) >= Math.abs(mv.to.row - player.pos.row)
+          ? (dc < 0 ? 'left' : 'right')
+          : (dr < 0 ? 'up' : 'down')
+        walking = true
+        stepFrame = (stepFrame + 1) % 4
+        updateCamera()
+      }
+      if (player.pos.col === mv.to.col && player.pos.row === mv.to.row) {
+        partyMove = null
+        walking = false
+        mv.resolve()
+      }
+    }
+  }
+
+  /** M3b:auto 巡逻/环境动画 —— 每实体独立循环 runner(主脚本期间暂停;hidden 挂起)。 */
+  function startAutoRunners(): void {
+    for (const e of scene.entities) {
+      const auto = e.pages?.[0]?.auto
+      if (!auto?.stages.length || autoAborts.has(e.id)) continue
+      const ac = new AbortController()
+      autoAborts.set(e.id, ac)
+      const r = new ScriptRunner(host, world.script!, ac.signal)
+      r.paceMs = 80 // 原版 auto 一帧一 op 的节拍近似(一阶段同语义)
+      void (async () => {
+        while (!ac.signal.aborted) {
+          if (runner || e.hidden) {
+            await host.wait(120) // 主脚本演出中 / 实体隐藏:挂起
+            continue
+          }
+          try {
+            await r.runStages(`auto:${e.id}`, auto.stages)
+          } catch (err) {
+            if ((err as DOMException)?.name !== 'AbortError') console.error('[auto]', e.id, err)
+            break
+          }
+          await host.wait(40) // 段间让步(防空体紧转;原版 auto 一帧一段)
+        }
+      })()
+    }
+  }
+  function stopAutoRunners(): void {
+    for (const ac of autoAborts.values()) ac.abort()
+    autoAborts.clear()
+    for (const [, mv] of entityMoves) mv.resolve()
+    entityMoves.clear()
+    entityAnim.clear()
   }
 
   /** 起一段触发/进场脚本(单脚本槽;收尾后接排队的 onEnter)。 */
@@ -424,6 +581,9 @@ async function main(): Promise<void> {
     fadeFx = null
     fadeBlack = 0
     entityFrameOverride.clear()
+    partyMove?.resolve()
+    partyMove = null
+    walking = false
   }
 
   /** 格距(切比雪夫)。 */
@@ -513,6 +673,7 @@ async function main(): Promise<void> {
     const p = await saveStore.getPayload(slotId)
     if (!p) return false
     abortScript() // 演出中读档:全树取消 + 清演出态
+    stopAutoRunners()
     // 存档绑工程:projectId 不匹配(把 A 工程存档读进 B 工程)→ 拒绝,防世界态错乱。
     if (p.projectId !== project.manifest.id) {
       console.warn(
@@ -530,6 +691,7 @@ async function main(): Promise<void> {
       facing = p.position.facing
     }
     applyWorldToScene() // 实体隐现/挡路按存档世界态重放(读档不重跑 onEnter,对齐原版)
+    startAutoRunners()
     return true
   }
 
@@ -566,11 +728,15 @@ async function main(): Promise<void> {
       if (e.hidden) continue
       const def = entitySpriteDefs.get(e.id)
       const sp = def ? spriteByNum.get(def.spriteNum) : undefined
-      // 帧下标 = 布局站立帧 + 脚本演出帧覆盖(0x14/0x0F 的 within-direction 帧号)
+      // 帧下标:移动/动画中 → 走帧(anim 计数);静止 → 站立帧 + 演出帧覆盖(0x14/0x0F)
+      const anim = entityAnim.get(e.id)
       const fo = entityFrameOverride.get(e.id) ?? 0
-      const f = def
-        ? (sp?.frames[idleFrameIndex(def.layout, e.facing ?? 'down') + fo] ?? sp?.frames[0])
-        : undefined
+      const fi = def
+        ? anim !== undefined && (entityMoves.has(e.id) || fo === 0)
+          ? walkFrameIndex(def.layout, e.facing ?? 'down', anim)
+          : idleFrameIndex(def.layout, e.facing ?? 'down') + fo
+        : 0
+      const f = def ? (sp?.frames[fi] ?? sp?.frames[0]) : undefined
       if (!sp || !f) continue
       const p = gridToPixel(e.pos)
       sprites.push({
@@ -816,6 +982,7 @@ async function main(): Promise<void> {
       scriptDialogResolve = null
       r()
     }
+    advanceMoves(dt) // M3b 走位驱动(实体巡逻/剧情走位;与输入无关,菜单/对话期照走)
     const pressed = keyboard.consumePressed()
     const interact = pressed.has(' ') || pressed.has('Enter')
     const esc = pressed.has('Escape')
@@ -1044,9 +1211,11 @@ async function main(): Promise<void> {
           const cur = ids.indexOf(scene.id)
           const nextId = ids[(cur + (pressed.has(']') ? 1 : ids.length - 1)) % ids.length]!
           abortScript()
+          stopAutoRunners()
           void switchScene(nextId)
             .then(() => {
               applyWorldToScene()
+              startAutoRunners()
               showToast(`${nextId}(${ids.indexOf(nextId) + 1}/${ids.length})`)
               if (scene.onEnter) startScript(`s:${scene.id}`, scene.onEnter)
             })
@@ -1092,8 +1261,9 @@ async function main(): Promise<void> {
     requestAnimationFrame(tick)
   }
   void refreshSaveMetas() // 预载已有存档 metas + 缩略图(浏览界面首开即有内容)
-  // M3a boot:应用世界脚本态 + 跑入口场景 onEnter(演出/音乐/战场配置)
+  // M3a boot:应用世界脚本态 + 跑入口场景 onEnter(演出/音乐/战场配置)+ auto 巡逻
   applyWorldToScene()
+  startAutoRunners()
   if (scene.onEnter) startScript(`s:${scene.id}`, scene.onEnter)
   requestAnimationFrame(tick)
 
