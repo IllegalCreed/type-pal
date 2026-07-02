@@ -1,0 +1,2872 @@
+[
+  {
+    "id": "61",
+    "name": "观音符",
+    "desc": [
+      "以观音圣水书写的灵符。",
+      "HP+150"
+    ],
+    "icon": 197,
+    "buyPrice": 150,
+    "sellPrice": 75,
+    "sellable": true
+  },
+  {
+    "id": "62",
+    "name": "圣灵符",
+    "desc": [
+      "具有女娲神强大灵力的符咒。",
+      "全体HP+300"
+    ],
+    "icon": 221,
+    "buyPrice": 2000,
+    "sellPrice": 1000,
+    "sellable": true
+  },
+  {
+    "id": "63",
+    "name": "金刚符",
+    "desc": [
+      "使用后如有金钟铁罩护身。",
+      "增加防御七回合"
+    ],
+    "icon": 216,
+    "buyPrice": 1300,
+    "sellPrice": 650,
+    "sellable": true
+  },
+  {
+    "id": "64",
+    "name": "净衣符",
+    "desc": [
+      "具有祛病、驱邪的法力，",
+      "可解赤毒、尸毒、瘴毒。"
+    ],
+    "icon": 217,
+    "buyPrice": 120,
+    "sellPrice": 60,
+    "sellable": true
+  },
+  {
+    "id": "65",
+    "name": "灵心符",
+    "desc": [
+      "具有宁神、驱邪的灵效，",
+      "可解疯魔、定身、昏睡、封咒。"
+    ],
+    "icon": 218,
+    "buyPrice": 120,
+    "sellPrice": 60,
+    "sellable": true
+  },
+  {
+    "id": "66",
+    "name": "天师符",
+    "desc": [
+      "茅山道士用来对付妖怪的符咒。"
+    ],
+    "icon": 196,
+    "buyPrice": 500,
+    "sellPrice": 250,
+    "sellable": true
+  },
+  {
+    "id": "67",
+    "name": "风灵符",
+    "desc": [
+      "产生风系法术的符咒。"
+    ],
+    "icon": 192,
+    "buyPrice": 1000,
+    "sellPrice": 500,
+    "sellable": true
+  },
+  {
+    "id": "68",
+    "name": "雷灵符",
+    "desc": [
+      "产生雷系法术的符咒。"
+    ],
+    "icon": 193,
+    "buyPrice": 1200,
+    "sellPrice": 600,
+    "sellable": true
+  },
+  {
+    "id": "69",
+    "name": "水灵符",
+    "desc": [
+      "产生冰系法术的符咒。"
+    ],
+    "icon": 194,
+    "buyPrice": 1400,
+    "sellPrice": 700,
+    "sellable": true
+  },
+  {
+    "id": "70",
+    "name": "火灵符",
+    "desc": [
+      "产生火系法术的符咒。"
+    ],
+    "icon": 152,
+    "buyPrice": 1600,
+    "sellPrice": 800,
+    "sellable": true
+  },
+  {
+    "id": "71",
+    "name": "土灵符",
+    "desc": [
+      "产生土系法术的符咒。"
+    ],
+    "icon": 144,
+    "buyPrice": 1800,
+    "sellPrice": 900,
+    "sellable": true
+  },
+  {
+    "id": "72",
+    "name": "舍利子",
+    "desc": [
+      "得道高僧佛身火化后，",
+      "结成如珠状的东西。",
+      "最大真气值+3"
+    ],
+    "icon": 214,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "73",
+    "name": "玉菩提",
+    "desc": [
+      "墨玉菩提树的种籽。",
+      "最大真气值+5"
+    ],
+    "icon": 149,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "74",
+    "name": "银杏子",
+    "desc": [
+      "银杏树所结的白色核果。",
+      "最大体力值+3"
+    ],
+    "icon": 40,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "75",
+    "name": "糯米",
+    "desc": [
+      "糯稻的米，富于黏性，可解尸毒。"
+    ],
+    "icon": 15,
+    "buyPrice": 60,
+    "sellPrice": 30,
+    "sellable": true
+  },
+  {
+    "id": "76",
+    "name": "糯米糕",
+    "desc": [
+      "糯米加麦芽、甜豆所煮的米糕，",
+      "可解尸毒。",
+      "HP+25"
+    ],
+    "icon": 35,
+    "buyPrice": 100,
+    "sellPrice": 50,
+    "sellable": true
+  },
+  {
+    "id": "77",
+    "name": "盐巴",
+    "desc": [
+      "取海水煎熬或曝晒而成，",
+      "用来调味，有时可解毒。"
+    ],
+    "icon": 34,
+    "buyPrice": 10,
+    "sellPrice": 5,
+    "sellable": true
+  },
+  {
+    "id": "78",
+    "name": "茶叶蛋",
+    "desc": [
+      "鸡蛋水煮后，以茶叶入味。",
+      "便宜而好吃的食物。",
+      "HPMP+15"
+    ],
+    "icon": 30,
+    "buyPrice": 40,
+    "sellPrice": 20,
+    "sellable": true
+  },
+  {
+    "id": "79",
+    "name": "鸡蛋",
+    "desc": [
+      "便宜而常见的食物。",
+      "HPMP+10"
+    ],
+    "icon": 111,
+    "buyPrice": 30,
+    "sellPrice": 15,
+    "sellable": true
+  },
+  {
+    "id": "80",
+    "name": "糖葫芦",
+    "desc": [
+      "以竹签串李子，裹上麦芽糖，",
+      "形如葫芦，故称「糖葫芦」。",
+      "HPMP+22"
+    ],
+    "icon": 17,
+    "buyPrice": 20,
+    "sellPrice": 10,
+    "sellable": true
+  },
+  {
+    "id": "81",
+    "name": "蜡烛",
+    "desc": [
+      "用蜡制的点火照明的东西。"
+    ],
+    "icon": 12,
+    "buyPrice": 50,
+    "sellPrice": 25,
+    "sellable": false
+  },
+  {
+    "id": "82",
+    "name": "符纸",
+    "desc": [
+      "泛黄的空白符纸。"
+    ],
+    "icon": 23,
+    "buyPrice": 8,
+    "sellPrice": 4,
+    "sellable": false
+  },
+  {
+    "id": "83",
+    "name": "檀香",
+    "desc": [
+      "含有檀香料的一种香，点燃用",
+      "以薰衣、薰室内，驱逐恶气。"
+    ],
+    "icon": 27,
+    "buyPrice": 30,
+    "sellPrice": 15,
+    "sellable": false
+  },
+  {
+    "id": "84",
+    "name": "大蒜",
+    "desc": [
+      "具有除秽、祛病、护身等功能，",
+      "可以入药。",
+      "战斗中服食避毒率+30%"
+    ],
+    "icon": 28,
+    "buyPrice": 12,
+    "sellPrice": 6,
+    "sellable": true
+  },
+  {
+    "id": "85",
+    "name": "黑狗血",
+    "desc": [
+      "纯黑无半根杂毛的狗血。",
+      "咒封四回合"
+    ],
+    "icon": 14,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "86",
+    "name": "酒",
+    "desc": [
+      "以米加酒麴酿制而成，",
+      "可解赤毒。",
+      "HPMP+15"
+    ],
+    "icon": 36,
+    "buyPrice": 80,
+    "sellPrice": 40,
+    "sellable": true
+  },
+  {
+    "id": "87",
+    "name": "雄黄",
+    "desc": [
+      "天然产的矿物，块状、色黄，",
+      "可解赤毒。"
+    ],
+    "icon": 148,
+    "buyPrice": 50,
+    "sellPrice": 25,
+    "sellable": true
+  },
+  {
+    "id": "88",
+    "name": "雄黄酒",
+    "desc": [
+      "一点点的雄黄，撒在酒中，",
+      "习俗在端午节喝这种酒；",
+      "可解赤毒、瘴毒。"
+    ],
+    "icon": 222,
+    "buyPrice": 150,
+    "sellPrice": 75,
+    "sellable": true
+  },
+  {
+    "id": "89",
+    "name": "九节菖蒲",
+    "desc": [
+      "一种水草，叶子狭长如剑，可解",
+      "赤毒、尸毒、瘴毒、毒丝。"
+    ],
+    "icon": 165,
+    "buyPrice": 330,
+    "sellPrice": 165,
+    "sellable": true
+  },
+  {
+    "id": "90",
+    "name": "驱魔香",
+    "desc": [
+      "以大蒜、雄黄、艾草、檀香..等",
+      "混合炼制而成，点燃后发出魔物",
+      "厌恶的气味，使魔物不敢接近。"
+    ],
+    "icon": 44,
+    "buyPrice": 3000,
+    "sellPrice": 1500,
+    "sellable": true
+  },
+  {
+    "id": "91",
+    "name": "十里香",
+    "desc": [
+      "以生血、内藏、肉桂..等炼制，",
+      "点燃后散发出吸引魔物的香味。"
+    ],
+    "icon": 47,
+    "buyPrice": 640,
+    "sellPrice": 320,
+    "sellable": true
+  },
+  {
+    "id": "92",
+    "name": "水果",
+    "desc": [
+      "养颜美容、帮助消化。",
+      "HPMP+20"
+    ],
+    "icon": 37,
+    "buyPrice": 25,
+    "sellPrice": 12,
+    "sellable": true
+  },
+  {
+    "id": "93",
+    "name": "烧肉",
+    "desc": [
+      "以炭火熏烤的酱汁猪肉。",
+      "HPMP+30"
+    ],
+    "icon": 151,
+    "buyPrice": 40,
+    "sellPrice": 20,
+    "sellable": true
+  },
+  {
+    "id": "94",
+    "name": "腌肉",
+    "desc": [
+      "用盐巴腌渍的猪肉。",
+      "HP+85"
+    ],
+    "icon": 155,
+    "buyPrice": 170,
+    "sellPrice": 85,
+    "sellable": true
+  },
+  {
+    "id": "95",
+    "name": "还魂香",
+    "desc": [
+      "点燃后会散发奇异的香气，",
+      "能牵引离体魂魄回归躯体。",
+      "HP恢复10%"
+    ],
+    "icon": 154,
+    "buyPrice": 550,
+    "sellPrice": 275,
+    "sellable": true
+  },
+  {
+    "id": "96",
+    "name": "赎魂灯",
+    "desc": [
+      "以莲灯作法与鬼差交涉，",
+      "赎回死者魂魄。",
+      "HP恢复30%"
+    ],
+    "icon": 153,
+    "buyPrice": 1500,
+    "sellPrice": 750,
+    "sellable": true
+  },
+  {
+    "id": "97",
+    "name": "孟婆汤",
+    "desc": [
+      "消除死者罪孽业障，使死者复活。",
+      "HP恢复50%"
+    ],
+    "icon": 42,
+    "buyPrice": 2800,
+    "sellPrice": 1400,
+    "sellable": true
+  },
+  {
+    "id": "98",
+    "name": "天香续命露",
+    "desc": [
+      "以大量珍贵秘药精炼而成，",
+      "具有肉白骨、药死人之奇效。",
+      "HP恢复100%"
+    ],
+    "icon": 166,
+    "buyPrice": 5000,
+    "sellPrice": 2500,
+    "sellable": true
+  },
+  {
+    "id": "99",
+    "name": "止血草",
+    "desc": [
+      "嚼碎后敷在伤口上，可迅速止血。",
+      "HP+50"
+    ],
+    "icon": 136,
+    "buyPrice": 50,
+    "sellPrice": 25,
+    "sellable": true
+  },
+  {
+    "id": "100",
+    "name": "行军丹",
+    "desc": [
+      "活血顺气的药丸。",
+      "HP+100"
+    ],
+    "icon": 137,
+    "buyPrice": 120,
+    "sellPrice": 60,
+    "sellable": true
+  },
+  {
+    "id": "101",
+    "name": "金创药",
+    "desc": [
+      "上等刀伤药，去腐生肌。",
+      "HP+200"
+    ],
+    "icon": 138,
+    "buyPrice": 280,
+    "sellPrice": 140,
+    "sellable": true
+  },
+  {
+    "id": "102",
+    "name": "蟠果",
+    "desc": [
+      "西王母蟠桃园遗种，",
+      "籽小肉厚汁液香甜。",
+      "HP+450"
+    ],
+    "icon": 46,
+    "buyPrice": 600,
+    "sellPrice": 300,
+    "sellable": true
+  },
+  {
+    "id": "103",
+    "name": "紫菁玉蓉膏",
+    "desc": [
+      "依宫廷秘方，采珍贵药材炼制，",
+      "是疗伤药的极品。",
+      "HP+1000"
+    ],
+    "icon": 179,
+    "buyPrice": 1700,
+    "sellPrice": 850,
+    "sellable": true
+  },
+  {
+    "id": "104",
+    "name": "鼠儿果",
+    "desc": [
+      "产于山间野地，多为鼠类所食，",
+      "经人发现移种平地。",
+      "MP+36"
+    ],
+    "icon": 142,
+    "buyPrice": 80,
+    "sellPrice": 40,
+    "sellable": true
+  },
+  {
+    "id": "105",
+    "name": "还神丹",
+    "desc": [
+      "宁神醒脑的药丸。",
+      "MP+50"
+    ],
+    "icon": 195,
+    "buyPrice": 200,
+    "sellPrice": 100,
+    "sellable": true
+  },
+  {
+    "id": "106",
+    "name": "龙涎草",
+    "desc": [
+      "经蛟龙唾涎灌溉而生，",
+      "具有补中益气之疗效。",
+      "MP+110"
+    ],
+    "icon": 139,
+    "buyPrice": 440,
+    "sellPrice": 220,
+    "sellable": true
+  },
+  {
+    "id": "107",
+    "name": "灵山仙芝",
+    "desc": [
+      "寄生于枯木上的菌类，俗称瑞草，",
+      "具有养气培元之神效。",
+      "MP+260"
+    ],
+    "icon": 45,
+    "buyPrice": 900,
+    "sellPrice": 450,
+    "sellable": true
+  },
+  {
+    "id": "108",
+    "name": "雪莲子",
+    "desc": [
+      "白玉雪莲之莲子，其形珠圆玉润，",
+      "服食者真气充盈，经脉通畅。",
+      "MP+400"
+    ],
+    "icon": 143,
+    "buyPrice": 2000,
+    "sellPrice": 1000,
+    "sellable": true
+  },
+  {
+    "id": "109",
+    "name": "天仙玉露",
+    "desc": [
+      "观音菩萨净瓶甘露水，",
+      "人间难求的仙界圣药。",
+      "MP+700"
+    ],
+    "icon": 163,
+    "buyPrice": 4000,
+    "sellPrice": 2000,
+    "sellable": true
+  },
+  {
+    "id": "110",
+    "name": "神仙茶",
+    "desc": [
+      "神仙广成子养生延寿之秘方。",
+      "HPMP+440"
+    ],
+    "icon": 41,
+    "buyPrice": 5500,
+    "sellPrice": 2750,
+    "sellable": true
+  },
+  {
+    "id": "111",
+    "name": "灵葫仙丹",
+    "desc": [
+      "修道隐士所炼丹药。",
+      "HPMP+250"
+    ],
+    "icon": 109,
+    "buyPrice": 2500,
+    "sellPrice": 1250,
+    "sellable": true
+  },
+  {
+    "id": "112",
+    "name": "试炼果",
+    "desc": [
+      "药王神农氏　百草时，最早",
+      "发现的珍药。",
+      "灵力最大值+3"
+    ],
+    "icon": 147,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "113",
+    "name": "女娲石",
+    "desc": [
+      "女神娲皇炼石补天后，",
+      "所遗之五色石。",
+      "防御最大值+3"
+    ],
+    "icon": 135,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "114",
+    "name": "八仙石",
+    "desc": [
+      "八仙石洞中所采集之丹矿。",
+      "防御最大值+2"
+    ],
+    "icon": 108,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "115",
+    "name": "蜂巢",
+    "desc": [
+      "蜜蜂的窝，可以拿来丢敌人。"
+    ],
+    "icon": 211,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "116",
+    "name": "尸腐肉",
+    "desc": [
+      "沾染尸毒的腐败肉块。",
+      "毒性∶尸毒"
+    ],
+    "icon": 115,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "117",
+    "name": "毒蛇卵",
+    "desc": [
+      "炼蛊的材料。",
+      "毒性∶赤毒"
+    ],
+    "icon": 189,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "118",
+    "name": "毒蝎卵",
+    "desc": [
+      "炼蛊的材料。",
+      "毒性∶赤毒"
+    ],
+    "icon": 200,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "119",
+    "name": "毒蟾卵",
+    "desc": [
+      "炼蛊的材料。",
+      "毒性∶赤毒"
+    ],
+    "icon": 190,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "120",
+    "name": "蜘蛛卵",
+    "desc": [
+      "炼蛊的材料。",
+      "毒性∶赤毒"
+    ],
+    "icon": 199,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "121",
+    "name": "蜈蚣卵",
+    "desc": [
+      "炼蛊的材料。",
+      "毒性∶赤毒"
+    ],
+    "icon": 203,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "122",
+    "name": "鹤顶红",
+    "desc": [
+      "七大毒蛊，中毒后每回合损血，",
+      "至死方休。",
+      "解药∶血海棠  致命药引∶孔雀胆"
+    ],
+    "icon": 158,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "123",
+    "name": "孔雀胆",
+    "desc": [
+      "七大毒蛊，中毒后每回合损血，",
+      "至死方休。",
+      "解药∶金蚕蛊  致命药引∶鹤顶红"
+    ],
+    "icon": 116,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "124",
+    "name": "血海棠",
+    "desc": [
+      "七大毒蛊，中毒后每回合损血，",
+      "至死方休。",
+      "解药∶断肠草  致命药引∶三尸蛊"
+    ],
+    "icon": 162,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "125",
+    "name": "断肠草",
+    "desc": [
+      "七大毒蛊，中毒后每回合损血，",
+      "至死方休。",
+      "解药∶三尸蛊  致命药引∶金蚕蛊"
+    ],
+    "icon": 156,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "126",
+    "name": "醍醐香",
+    "desc": [
+      "紫叶小白花，散发浓郁香气，",
+      "闻到香气，便如酒醉一般。",
+      "定身四回合"
+    ],
+    "icon": 160,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "127",
+    "name": "忘魂花",
+    "desc": [
+      "青蓝色小花，散发淡淡香气，",
+      "闻到香气，便会浑然忘我、",
+      "昏睡三回合。"
+    ],
+    "icon": 171,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "128",
+    "name": "紫罂粟",
+    "desc": [
+      "服食者会产生幻觉，敌我不分。",
+      "疯魔四回合"
+    ],
+    "icon": 170,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "129",
+    "name": "鬼枯藤",
+    "desc": [
+      "具毒性的黑褐色野生藤蔓，",
+      "可解赤毒、尸毒、瘴毒、毒丝。",
+      "HP-30"
+    ],
+    "icon": 161,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "130",
+    "name": "腹蛇涎",
+    "desc": [
+      "腹蛇的毒涎。",
+      "毒性∶瘴毒"
+    ],
+    "icon": 159,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "131",
+    "name": "蜂王蜜",
+    "desc": [
+      "蜜蜂所酿最好的蜜。",
+      "HPMP+150"
+    ],
+    "icon": 157,
+    "buyPrice": 1200,
+    "sellPrice": 600,
+    "sellable": true
+  },
+  {
+    "id": "132",
+    "name": "雪蛤蟆",
+    "desc": [
+      "生长于天山极寒之地，",
+      "仅铜钱般大小。",
+      "武术最大值+2　防御最大值+2",
+      "灵力最大值+2"
+    ],
+    "icon": 164,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "133",
+    "name": "赤蝎粉",
+    "desc": [
+      "以整只赤尾蝎研磨成的粉末，",
+      "可使敌方全体中赤毒。"
+    ],
+    "icon": 175,
+    "buyPrice": 700,
+    "sellPrice": 350,
+    "sellable": true
+  },
+  {
+    "id": "134",
+    "name": "化尸水",
+    "desc": [
+      "碰到伤口血水，便腐蚀溃烂，",
+      "受伤者沾染立毙。"
+    ],
+    "icon": 172,
+    "buyPrice": 1800,
+    "sellPrice": 900,
+    "sellable": true
+  },
+  {
+    "id": "135",
+    "name": "迷魂香",
+    "desc": [
+      "点燃蒙汗药散发迷香，",
+      "可使敌人昏睡五回合。"
+    ],
+    "icon": 167,
+    "buyPrice": 1300,
+    "sellPrice": 650,
+    "sellable": false
+  },
+  {
+    "id": "136",
+    "name": "九阴散",
+    "desc": [
+      "服食前若已中毒，可补满体力，",
+      "但无法解毒；服食前若没中毒，",
+      "即刻毙命。"
+    ],
+    "icon": 174,
+    "buyPrice": 1100,
+    "sellPrice": 550,
+    "sellable": true
+  },
+  {
+    "id": "137",
+    "name": "无影毒",
+    "desc": [
+      "七大毒蛊，中毒后立即发作，",
+      "耗损一半体力。"
+    ],
+    "icon": 173,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "138",
+    "name": "三尸蛊",
+    "desc": [
+      "七大毒蛊；中毒后，潜伏片刻",
+      "即会发作，毒性非常猛烈。",
+      "解药∶孔雀胆  致命药引∶血海棠"
+    ],
+    "icon": 131,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "139",
+    "name": "金蚕蛊",
+    "desc": [
+      "七大毒蛊，中毒后每回合损血，",
+      "至死方休。",
+      "解药∶鹤顶红  致命药引∶断肠草菝"
+    ],
+    "icon": 133,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "140",
+    "name": "幻蛊",
+    "desc": [
+      "分泌的毒液会影响人的脑部，",
+      "使人敌我不分，疯魔五回合。"
+    ],
+    "icon": 127,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "141",
+    "name": "隐蛊",
+    "desc": [
+      "形如带刺甲虫，将其身体捏破，",
+      "散发之烟雾可助我方隐匿形迹。",
+      "全体隐形三回合。"
+    ],
+    "icon": 120,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "142",
+    "name": "冰蚕蛊",
+    "desc": [
+      "以雪山冰洞内所产所冰蚕培养",
+      "的蛊虫，可做为攻击道具。"
+    ],
+    "icon": 201,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "143",
+    "name": "火蚕蛊",
+    "desc": [
+      "以麒麟炎洞内所产火蚕所培养",
+      "的蛊虫，可做为攻击道具。"
+    ],
+    "icon": 124,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "144",
+    "name": "食妖虫",
+    "desc": [
+      "寄生宿主吸取灵气，九回合后，",
+      "可炼成灵蛊。"
+    ],
+    "icon": 129,
+    "buyPrice": 800,
+    "sellPrice": 400,
+    "sellable": false
+  },
+  {
+    "id": "145",
+    "name": "灵蛊",
+    "desc": [
+      "以稀有药物豢养的雌蛊。",
+      "全体MP+250"
+    ],
+    "icon": 130,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "146",
+    "name": "爆烈蛊",
+    "desc": [
+      "预先将法力灌输在蛊虫体内，",
+      "投掷敌人产生强烈爆炸。"
+    ],
+    "icon": 122,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "147",
+    "name": "碧血蚕",
+    "desc": [
+      "寄生宿主吸取血液，九回合后，",
+      "可炼成赤血蚕。"
+    ],
+    "icon": 125,
+    "buyPrice": 800,
+    "sellPrice": 400,
+    "sellable": false
+  },
+  {
+    "id": "148",
+    "name": "蛊",
+    "desc": [
+      "巫师施法所需的材料。"
+    ],
+    "icon": 132,
+    "buyPrice": 100,
+    "sellPrice": 50,
+    "sellable": true
+  },
+  {
+    "id": "149",
+    "name": "赤血蚕",
+    "desc": [
+      "吸血维生的毒蛊，使服食者",
+      "体力完全恢复。"
+    ],
+    "icon": 126,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "150",
+    "name": "金蚕王",
+    "desc": [
+      "蛊中之王，月夜散发金色磷光，",
+      "服食后可提升修行。"
+    ],
+    "icon": 121,
+    "buyPrice": 9000,
+    "sellPrice": 4500,
+    "sellable": true
+  },
+  {
+    "id": "151",
+    "name": "引路蜂",
+    "desc": [
+      "跟随引路蜂而行，",
+      "可回到迷宫起点。"
+    ],
+    "icon": 114,
+    "buyPrice": 200,
+    "sellPrice": 100,
+    "sellable": true
+  },
+  {
+    "id": "152",
+    "name": "傀儡虫",
+    "desc": [
+      "湘西云贵巫师用以控制尸体，",
+      "可使死者继续攻击九回合。"
+    ],
+    "icon": 123,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "153",
+    "name": "梅花镖",
+    "desc": [
+      "形如梅花的暗器。",
+      "敌人HP-90"
+    ],
+    "icon": 113,
+    "buyPrice": 280,
+    "sellPrice": 140,
+    "sellable": true
+  },
+  {
+    "id": "154",
+    "name": "袖里剑",
+    "desc": [
+      "暗藏在衣袖中的飞剑。",
+      "敌人HP-170"
+    ],
+    "icon": 81,
+    "buyPrice": 600,
+    "sellPrice": 300,
+    "sellable": true
+  },
+  {
+    "id": "155",
+    "name": "透骨钉",
+    "desc": [
+      "精铁打造、三寸长的铁针",
+      "是很锋利的暗器。",
+      "敌人HP-250"
+    ],
+    "icon": 73,
+    "buyPrice": 1100,
+    "sellPrice": 550,
+    "sellable": true
+  },
+  {
+    "id": "156",
+    "name": "雷火珠",
+    "desc": [
+      "填充火药的铁珠，投掷撞击",
+      "后会爆裂伤人。",
+      "敌人HP-135"
+    ],
+    "icon": 118,
+    "buyPrice": 1500,
+    "sellPrice": 750,
+    "sellable": true
+  },
+  {
+    "id": "157",
+    "name": "毒龙砂",
+    "desc": [
+      "以腹蛇毒炼制成的细砂，",
+      "可使敌方全体中瘴毒；",
+      "HP-55"
+    ],
+    "icon": 146,
+    "buyPrice": 1200,
+    "sellPrice": 600,
+    "sellable": true
+  },
+  {
+    "id": "158",
+    "name": "吸星锁",
+    "desc": [
+      "铁制钢抓，尾端系以灵蛊蚕丝，",
+      "可吸取敌人HP180。"
+    ],
+    "icon": 134,
+    "buyPrice": 1500,
+    "sellPrice": 750,
+    "sellable": true
+  },
+  {
+    "id": "159",
+    "name": "缠魂丝",
+    "desc": [
+      "千年蜘蛛的毒丝。",
+      "毒性∶毒丝"
+    ],
+    "icon": 72,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "160",
+    "name": "捆仙绳",
+    "desc": [
+      "施有咒术的粗麻绳，可令妖怪",
+      "动弹不得，妖缚五回合。"
+    ],
+    "icon": 207,
+    "buyPrice": 900,
+    "sellPrice": 450,
+    "sellable": true
+  },
+  {
+    "id": "161",
+    "name": "无影神针",
+    "desc": [
+      "细如牛毛，伤人于无形。",
+      "敌人HP-400"
+    ],
+    "icon": 80,
+    "buyPrice": 2000,
+    "sellPrice": 1000,
+    "sellable": true
+  },
+  {
+    "id": "162",
+    "name": "血玲珑",
+    "desc": [
+      "红色铁球，四周装有锋利刀片。",
+      "敌方全体HP-300"
+    ],
+    "icon": 202,
+    "buyPrice": 2800,
+    "sellPrice": 1400,
+    "sellable": true
+  },
+  {
+    "id": "163",
+    "name": "长鞭",
+    "desc": [
+      "生牛皮制的七尺软鞭。",
+      "武术+20　身法+20"
+    ],
+    "icon": 16,
+    "buyPrice": 1700,
+    "sellPrice": 850,
+    "sellable": true
+  },
+  {
+    "id": "164",
+    "name": "九截鞭",
+    "desc": [
+      "以铁节铁环组成的九节软鞭。",
+      "武术+66　身法+33"
+    ],
+    "icon": 18,
+    "buyPrice": 4400,
+    "sellPrice": 2200,
+    "sellable": true
+  },
+  {
+    "id": "165",
+    "name": "金蛇鞭",
+    "desc": [
+      "以蛇皮绞以金丝编织成九尺软鞭。",
+      "武术+99　身法+60"
+    ],
+    "icon": 20,
+    "buyPrice": 10100,
+    "sellPrice": 5050,
+    "sellable": true
+  },
+  {
+    "id": "166",
+    "name": "木剑",
+    "desc": [
+      "用木材雕刻的剑，小孩玩具。",
+      "武术+2　身法+3"
+    ],
+    "icon": 56,
+    "buyPrice": 50,
+    "sellPrice": 25,
+    "sellable": true
+  },
+  {
+    "id": "167",
+    "name": "短刀",
+    "desc": [
+      "一尺半长的钝刀，",
+      "可用来劈砍木材。",
+      "武术+6　身法-5"
+    ],
+    "icon": 48,
+    "buyPrice": 200,
+    "sellPrice": 100,
+    "sellable": true
+  },
+  {
+    "id": "168",
+    "name": "铁剑",
+    "desc": [
+      "一般铁匠大量生产的剑，",
+      "打造得颇为粗劣。",
+      "武术+10　防御+3"
+    ],
+    "icon": 49,
+    "buyPrice": 850,
+    "sellPrice": 425,
+    "sellable": true
+  },
+  {
+    "id": "169",
+    "name": "大刀",
+    "desc": [
+      "刀身宽而长，刃部锋利，",
+      "背部厚重。",
+      "武术+16　防御+1"
+    ],
+    "icon": 76,
+    "buyPrice": 900,
+    "sellPrice": 450,
+    "sellable": true
+  },
+  {
+    "id": "170",
+    "name": "仙女剑",
+    "desc": [
+      "一尺长的双手剑，适合女子使用，",
+      "可发出两次攻击。",
+      "武术+8　防御+5"
+    ],
+    "icon": 63,
+    "buyPrice": 2000,
+    "sellPrice": 1000,
+    "sellable": true
+  },
+  {
+    "id": "171",
+    "name": "长剑",
+    "desc": [
+      "一般铁匠接受订造的剑，",
+      "比铁剑精致锋利。",
+      "武术+25"
+    ],
+    "icon": 59,
+    "buyPrice": 1500,
+    "sellPrice": 750,
+    "sellable": true
+  },
+  {
+    "id": "172",
+    "name": "红缨刀",
+    "desc": [
+      "精钢打造，背厚刃薄，",
+      "刀柄饰以红色长穗。",
+      "武术+38"
+    ],
+    "icon": 52,
+    "buyPrice": 1950,
+    "sellPrice": 975,
+    "sellable": true
+  },
+  {
+    "id": "173",
+    "name": "越女剑",
+    "desc": [
+      "剑身宽仅两指，专为女子打造。",
+      "武术+22　身法+8"
+    ],
+    "icon": 184,
+    "buyPrice": 1000,
+    "sellPrice": 500,
+    "sellable": true
+  },
+  {
+    "id": "174",
+    "name": "戒刀",
+    "desc": [
+      "佛门中人练武所用之刀，",
+      "严禁伤生染血。",
+      "武术+55　防御+5　灵力+10"
+    ],
+    "icon": 60,
+    "buyPrice": 2500,
+    "sellPrice": 1250,
+    "sellable": true
+  },
+  {
+    "id": "175",
+    "name": "玄铁剑",
+    "desc": [
+      "以珍贵的黑色铁矿打造而成，",
+      "坚韧锋利但极笨重。",
+      "武术+70　身法-20　灵力-15",
+      "防御+9"
+    ],
+    "icon": 88,
+    "buyPrice": 4800,
+    "sellPrice": 2400,
+    "sellable": true
+  },
+  {
+    "id": "176",
+    "name": "芙蓉刀",
+    "desc": [
+      "百花派独门兵器双手弯刀，",
+      "可发出两次攻击。",
+      "武术+16　身法+8"
+    ],
+    "icon": 64,
+    "buyPrice": 1300,
+    "sellPrice": 650,
+    "sellable": true
+  },
+  {
+    "id": "177",
+    "name": "柳月刀",
+    "desc": [
+      "细长铁制双刀，形如柳叶新月，",
+      "可发出两次攻击。",
+      "武术+28　身法+12　防御+3"
+    ],
+    "icon": 77,
+    "buyPrice": 2600,
+    "sellPrice": 1300,
+    "sellable": true
+  },
+  {
+    "id": "178",
+    "name": "青锋剑",
+    "desc": [
+      "名家精心打造的剑，轻薄锋利。",
+      "武术+75　身法+15"
+    ],
+    "icon": 58,
+    "buyPrice": 5100,
+    "sellPrice": 2550,
+    "sellable": true
+  },
+  {
+    "id": "179",
+    "name": "苗刀",
+    "desc": [
+      "苗族战士所惯用的佩刀。",
+      "武术+70　身法+32"
+    ],
+    "icon": 51,
+    "buyPrice": 5000,
+    "sellPrice": 2500,
+    "sellable": true
+  },
+  {
+    "id": "180",
+    "name": "凤鸣刀",
+    "desc": [
+      "出鞘之声有如凤鸣，故称「凤鸣刀」",
+      "武术+124　防御+9　",
+      "身法+32   灵力+16"
+    ],
+    "icon": 66,
+    "buyPrice": 14000,
+    "sellPrice": 7000,
+    "sellable": true
+  },
+  {
+    "id": "181",
+    "name": "双龙剑",
+    "desc": [
+      "与一般剑长度相同的双手剑，",
+      "可发出两次攻击。",
+      "武术+62　防制+9　身法+9"
+    ],
+    "icon": 61,
+    "buyPrice": 7200,
+    "sellPrice": 3600,
+    "sellable": true
+  },
+  {
+    "id": "182",
+    "name": "玉女剑",
+    "desc": [
+      "鸳鸯双剑中的雌剑，与金童剑",
+      "为一对。  武术+100　灵力+15",
+      "身法+20  吉运+30"
+    ],
+    "icon": 62,
+    "buyPrice": 12000,
+    "sellPrice": 6000,
+    "sellable": true
+  },
+  {
+    "id": "183",
+    "name": "金童剑",
+    "desc": [
+      "鸳鸯双剑中的雄剑，与玉女剑",
+      "为一对。  武术+100　吉运+30",
+      "身法+20  灵力+15　 防御+3"
+    ],
+    "icon": 54,
+    "buyPrice": 12000,
+    "sellPrice": 6000,
+    "sellable": true
+  },
+  {
+    "id": "184",
+    "name": "龙泉剑",
+    "desc": [
+      "龙泉的水质非常适合造剑，",
+      "当地生产的剑叫龙泉剑。",
+      "武术+88　身法+20　吉运+22"
+    ],
+    "icon": 50,
+    "buyPrice": 9000,
+    "sellPrice": 4500,
+    "sellable": true
+  },
+  {
+    "id": "185",
+    "name": "鬼牙刀",
+    "desc": [
+      "苗刀的一种，刀尖倒钩，",
+      "又称「勾魂刀」。",
+      "武术+90　身法+26　吉运-9"
+    ],
+    "icon": 65,
+    "buyPrice": 13000,
+    "sellPrice": 6500,
+    "sellable": true
+  },
+  {
+    "id": "186",
+    "name": "七星剑",
+    "desc": [
+      "剑身镶嵌七颗金黄宝石，可吸取北",
+      "斗七星之精气。  武术+120　灵力+50",
+      "身法+32  吉运+33 　防御+7"
+    ],
+    "icon": 57,
+    "buyPrice": 16000,
+    "sellPrice": 8000,
+    "sellable": true
+  },
+  {
+    "id": "187",
+    "name": "玄冥宝刀",
+    "desc": [
+      "可连续攻击敌方全体两次，",
+      "传说是魔族的邪异兵器。",
+      "武术+98　身法+98　吉运+98"
+    ],
+    "icon": 67,
+    "buyPrice": 20000,
+    "sellPrice": 10000,
+    "sellable": true
+  },
+  {
+    "id": "188",
+    "name": "巫月神刀",
+    "desc": [
+      "苗族拜月教镇教之宝。",
+      "武术+132　灵力+55　防御+29",
+      "身法+45 　吉运+36"
+    ],
+    "icon": 53,
+    "buyPrice": 28000,
+    "sellPrice": 14000,
+    "sellable": true
+  },
+  {
+    "id": "189",
+    "name": "磐龙剑",
+    "desc": [
+      "铸剑宗师欧冶子所炼宝剑，剑身铸",
+      "有青龙盘柱。 武术+134　灵力+37",
+      "防御+8  身法+40 　吉运+32"
+    ],
+    "icon": 55,
+    "buyPrice": 24000,
+    "sellPrice": 12000,
+    "sellable": true
+  },
+  {
+    "id": "190",
+    "name": "太极剑",
+    "desc": [
+      "道祖张陵之随身配剑，天师仗以",
+      "降妖伏魔。  武术+158  灵力+90",
+      "　防御+35  身法+50  吉运+33"
+    ],
+    "icon": 185,
+    "buyPrice": 30000,
+    "sellPrice": 15000,
+    "sellable": true
+  },
+  {
+    "id": "191",
+    "name": "无尘剑",
+    "desc": [
+      "上古神剑，指天天崩、划地地裂。",
+      "武术+200　防御+20　身法+77",
+      "吉运+33"
+    ],
+    "icon": 186,
+    "buyPrice": 32000,
+    "sellPrice": 16000,
+    "sellable": true
+  },
+  {
+    "id": "192",
+    "name": "青蛇杖",
+    "desc": [
+      "雕刻双蛇缠绕的绿玉杖。",
+      "武术+50　灵力+62　防御+6"
+    ],
+    "icon": 71,
+    "buyPrice": 6500,
+    "sellPrice": 3250,
+    "sellable": true
+  },
+  {
+    "id": "193",
+    "name": "鬼头杖",
+    "desc": [
+      "苗族巫师役鬼炼蛊之法器，",
+      "头颅中囚禁四十九条生魂。",
+      "武术+70　灵力+88　防御+11"
+    ],
+    "icon": 69,
+    "buyPrice": 14000,
+    "sellPrice": 7000,
+    "sellable": true
+  },
+  {
+    "id": "194",
+    "name": "冥蛇杖",
+    "desc": [
+      "来自冥界之魔杖，号令群邪，",
+      "杖头镶嵌千年蛇王内丹。",
+      "武术+88　灵力+120　防御+22"
+    ],
+    "icon": 70,
+    "buyPrice": 27000,
+    "sellPrice": 13500,
+    "sellable": true
+  },
+  {
+    "id": "195",
+    "name": "天蛇杖",
+    "desc": [
+      "女神娲皇炼化五色石所用法杖。",
+      "武术+100　灵力+150　防御+33",
+      "吉运+36"
+    ],
+    "icon": 68,
+    "buyPrice": 31000,
+    "sellPrice": 15500,
+    "sellable": true
+  },
+  {
+    "id": "196",
+    "name": "头巾",
+    "desc": [
+      "以剩余布料缝制的头巾。",
+      "防御+1"
+    ],
+    "icon": 176,
+    "buyPrice": 40,
+    "sellPrice": 20,
+    "sellable": true
+  },
+  {
+    "id": "197",
+    "name": "青丝巾",
+    "desc": [
+      "青色的丝织发带。",
+      "防御+2"
+    ],
+    "icon": 169,
+    "buyPrice": 100,
+    "sellPrice": 50,
+    "sellable": true
+  },
+  {
+    "id": "198",
+    "name": "发饰",
+    "desc": [
+      "锡制的女子头饰。",
+      "防御+3"
+    ],
+    "icon": 177,
+    "buyPrice": 60,
+    "sellPrice": 30,
+    "sellable": true
+  },
+  {
+    "id": "199",
+    "name": "银钗",
+    "desc": [
+      "纯银的发钗。",
+      "防御+5"
+    ],
+    "icon": 145,
+    "buyPrice": 420,
+    "sellPrice": 210,
+    "sellable": true
+  },
+  {
+    "id": "200",
+    "name": "翠玉金钗",
+    "desc": [
+      "镶有绿翡翠的黄金发钗。",
+      "防御+9"
+    ],
+    "icon": 178,
+    "buyPrice": 1800,
+    "sellPrice": 900,
+    "sellable": true
+  },
+  {
+    "id": "201",
+    "name": "皮帽",
+    "desc": [
+      "羊皮缝制的帽子，非常保暖。",
+      "防御+4"
+    ],
+    "icon": 85,
+    "buyPrice": 390,
+    "sellPrice": 195,
+    "sellable": true
+  },
+  {
+    "id": "202",
+    "name": "珍珠冠",
+    "desc": [
+      "以珍珠缝缀的红色锦冠。",
+      "防御+13"
+    ],
+    "icon": 182,
+    "buyPrice": 2700,
+    "sellPrice": 1350,
+    "sellable": true
+  },
+  {
+    "id": "203",
+    "name": "天师帽",
+    "desc": [
+      "道士做法时所戴的帽子。",
+      "防御+11　灵力+3"
+    ],
+    "icon": 180,
+    "buyPrice": 3300,
+    "sellPrice": 1650,
+    "sellable": true
+  },
+  {
+    "id": "204",
+    "name": "紫金冠",
+    "desc": [
+      "紫金冠以薄铜片铸成，",
+      "外壳以紫饰金而成。",
+      "防御+18"
+    ],
+    "icon": 181,
+    "buyPrice": 5600,
+    "sellPrice": 2800,
+    "sellable": true
+  },
+  {
+    "id": "205",
+    "name": "天蚕丝带",
+    "desc": [
+      "以极珍贵的天蚕丝织成，",
+      "轻薄柔韧。",
+      "防御+25　身法+8"
+    ],
+    "icon": 168,
+    "buyPrice": 11000,
+    "sellPrice": 5500,
+    "sellable": true
+  },
+  {
+    "id": "206",
+    "name": "凤凰羽毛",
+    "desc": [
+      "金翅凤凰腹部的银色羽毛。",
+      "防御+7　身法+24　吉运+9"
+    ],
+    "icon": 206,
+    "buyPrice": 5000,
+    "sellPrice": 2500,
+    "sellable": true
+  },
+  {
+    "id": "207",
+    "name": "冲天冠",
+    "desc": [
+      "天兵神将遗留的护头金盔，",
+      "顶插双雉尾羽。防御+28",
+      "法+5　灵力+3  吉运+3"
+    ],
+    "icon": 183,
+    "buyPrice": 19800,
+    "sellPrice": 9900,
+    "sellable": true
+  },
+  {
+    "id": "208",
+    "name": "布袍",
+    "desc": [
+      "粗布缝制的交领长袖白袍。",
+      "防御+3"
+    ],
+    "icon": 78,
+    "buyPrice": 100,
+    "sellPrice": 50,
+    "sellable": true
+  },
+  {
+    "id": "209",
+    "name": "藤甲",
+    "desc": [
+      "以荆藤编制的护甲。",
+      "防御+7"
+    ],
+    "icon": 74,
+    "buyPrice": 400,
+    "sellPrice": 200,
+    "sellable": true
+  },
+  {
+    "id": "210",
+    "name": "丝衣",
+    "desc": [
+      "以蚕丝纺织而成，轻柔透气。",
+      "防御+3　身法+4"
+    ],
+    "icon": 198,
+    "buyPrice": 750,
+    "sellPrice": 375,
+    "sellable": true
+  },
+  {
+    "id": "211",
+    "name": "铁锁衣",
+    "desc": [
+      "以铁环扣锁制成的护甲。",
+      "防御+13　身法-10"
+    ],
+    "icon": 213,
+    "buyPrice": 1230,
+    "sellPrice": 615,
+    "sellable": true
+  },
+  {
+    "id": "212",
+    "name": "夜行衣",
+    "desc": [
+      "暗黑色的紧身衣靠，",
+      "便于隐匿夜色之中。",
+      "防御+18　身法+12　吉运+12"
+    ],
+    "icon": 82,
+    "buyPrice": 2000,
+    "sellPrice": 1000,
+    "sellable": true
+  },
+  {
+    "id": "213",
+    "name": "青铜甲",
+    "desc": [
+      "青铜制的兽面纹胸护甲。",
+      "防御+22　身法-13"
+    ],
+    "icon": 225,
+    "buyPrice": 3200,
+    "sellPrice": 1600,
+    "sellable": true
+  },
+  {
+    "id": "214",
+    "name": "罗汉袍",
+    "desc": [
+      "修行得道的和尚所穿的衣袍。",
+      "防御+10　吉运+10　灵力+10"
+    ],
+    "icon": 187,
+    "buyPrice": 4000,
+    "sellPrice": 2000,
+    "sellable": true
+  },
+  {
+    "id": "215",
+    "name": "铁鳞甲",
+    "desc": [
+      "以鱼鳞形甲片编缀而成的铠甲。",
+      "防御+28　身法-4"
+    ],
+    "icon": 79,
+    "buyPrice": 6500,
+    "sellPrice": 3250,
+    "sellable": true
+  },
+  {
+    "id": "216",
+    "name": "天师道袍",
+    "desc": [
+      "天师道祖修行时所穿的法衣。",
+      "防御+33　灵力+28"
+    ],
+    "icon": 75,
+    "buyPrice": 8000,
+    "sellPrice": 4000,
+    "sellable": true
+  },
+  {
+    "id": "217",
+    "name": "精铁战甲",
+    "desc": [
+      "以椭圆形的精铁片编缀而成，",
+      "光亮照人，又称「光明铠」。",
+      "防御+40　身法-7"
+    ],
+    "icon": 83,
+    "buyPrice": 9900,
+    "sellPrice": 4950,
+    "sellable": true
+  },
+  {
+    "id": "218",
+    "name": "金缕衣",
+    "desc": [
+      "以金线穿玉片编制而成*",
+      "又称「金缕玉衣」。",
+      "防御+7　身法-10"
+    ],
+    "icon": 208,
+    "buyPrice": 12000,
+    "sellPrice": 6000,
+    "sellable": true
+  },
+  {
+    "id": "219",
+    "name": "鬼针胄",
+    "desc": [
+      "长满倒刺的铜制盔肌�",
+      "防御+55　武术+9"
+    ],
+    "icon": 93,
+    "buyPrice": 14800,
+    "sellPrice": 7400,
+    "sellable": true
+  },
+  {
+    "id": "220",
+    "name": "天蚕宝衣",
+    "desc": [
+      "以极珍贵的天蚕丝织成，",
+      "轻薄柔韧。",
+      "防御+66"
+    ],
+    "icon": 230,
+    "buyPrice": 18000,
+    "sellPrice": 9000,
+    "sellable": true
+  },
+  {
+    "id": "221",
+    "name": "青龙宝甲",
+    "desc": [
+      "龙鳞编缀而成，世间绝顶战甲。",
+      "防御+90"
+    ],
+    "icon": 209,
+    "buyPrice": 29500,
+    "sellPrice": 14750,
+    "sellable": true
+  },
+  {
+    "id": "222",
+    "name": "白虎之铠",
+    "desc": [
+      "以罕见的白虎皮制成的皮甲。",
+      "防御+80"
+    ],
+    "icon": 210,
+    "buyPrice": 22000,
+    "sellPrice": 11000,
+    "sellable": true
+  },
+  {
+    "id": "223",
+    "name": "玄武战袍",
+    "desc": [
+      "以玄武的壳甲锻造而成，",
+      "材质坚韧色黑而无光泽。",
+      "防御+80"
+    ],
+    "icon": 89,
+    "buyPrice": 25000,
+    "sellPrice": 12500,
+    "sellable": true
+  },
+  {
+    "id": "224",
+    "name": "朱雀战衣",
+    "desc": [
+      "以南方火鸟的羽毛编织而成。",
+      "防御+80"
+    ],
+    "icon": 228,
+    "buyPrice": 24000,
+    "sellPrice": 12000,
+    "sellable": true
+  },
+  {
+    "id": "225",
+    "name": "披风",
+    "desc": [
+      "无领对襟、无袖的披衣，",
+      "俗称「斗篷」。",
+      "防御+2"
+    ],
+    "icon": 95,
+    "buyPrice": 160,
+    "sellPrice": 80,
+    "sellable": true
+  },
+  {
+    "id": "226",
+    "name": "护肩",
+    "desc": [
+      "披于肩臂上的铠甲，",
+      "又称「掩膊」。",
+      "防御+6"
+    ],
+    "icon": 84,
+    "buyPrice": 400,
+    "sellPrice": 200,
+    "sellable": true
+  },
+  {
+    "id": "227",
+    "name": "武士披风",
+    "desc": [
+      "将帅所穿有护肩软甲的战帔。",
+      "防御+12"
+    ],
+    "icon": 91,
+    "buyPrice": 900,
+    "sellPrice": 450,
+    "sellable": true
+  },
+  {
+    "id": "228",
+    "name": "护心镜",
+    "desc": [
+      "防护前胸要害的披甲，形如",
+      "铜镜。  防御+20"
+    ],
+    "icon": 94,
+    "buyPrice": 2000,
+    "sellPrice": 1000,
+    "sellable": true
+  },
+  {
+    "id": "229",
+    "name": "霓虹羽衣",
+    "desc": [
+      "东海霓虹鸟的羽毛织成的披肩。",
+      "防御+18　身法+18　吉运+18"
+    ],
+    "icon": 229,
+    "buyPrice": 3900,
+    "sellPrice": 1950,
+    "sellable": true
+  },
+  {
+    "id": "230",
+    "name": "菩提袈裟",
+    "desc": [
+      "高等僧衣，又名「无垢衣」，",
+      "多为高僧与长老所穿。",
+      "防御+31　灵力+16"
+    ],
+    "icon": 205,
+    "buyPrice": 4100,
+    "sellPrice": 2050,
+    "sellable": true
+  },
+  {
+    "id": "231",
+    "name": "虎纹披风",
+    "desc": [
+      "以整张千年白额虎虎皮制成，",
+      "毛皮呈黄色，带黑色横纹。",
+      "防御+40"
+    ],
+    "icon": 90,
+    "buyPrice": 9000,
+    "sellPrice": 4500,
+    "sellable": true
+  },
+  {
+    "id": "232",
+    "name": "凤纹披风",
+    "desc": [
+      "相传为织女缝制的披风，",
+      "绣凤织锦，光彩夺目。",
+      "防御+52"
+    ],
+    "icon": 87,
+    "buyPrice": 15000,
+    "sellPrice": 7500,
+    "sellable": true
+  },
+  {
+    "id": "233",
+    "name": "龙纹披风",
+    "desc": [
+      "布面绣双龙抢珠之彩纹，",
+      "有神龙护体之功效。",
+      "防御+60"
+    ],
+    "icon": 86,
+    "buyPrice": 16000,
+    "sellPrice": 8000,
+    "sellable": true
+  },
+  {
+    "id": "234",
+    "name": "圣灵披风",
+    "desc": [
+      "巫后的遗物，潜藏神圣的力量",
+      "防御+66　灵力+30"
+    ],
+    "icon": 226,
+    "buyPrice": 30000,
+    "sellPrice": 15000,
+    "sellable": true
+  },
+  {
+    "id": "235",
+    "name": "草鞋",
+    "desc": [
+      "以蔺草编织而成，十分便宜，",
+      "穿起来很轻便，适宜行走。",
+      "防御+1"
+    ],
+    "icon": 97,
+    "buyPrice": 30,
+    "sellPrice": 15,
+    "sellable": true
+  },
+  {
+    "id": "236",
+    "name": "木鞋",
+    "desc": [
+      "以木材削制而成，",
+      "鞋面刻有吉祥图案。",
+      "防御+2"
+    ],
+    "icon": 98,
+    "buyPrice": 80,
+    "sellPrice": 40,
+    "sellable": true
+  },
+  {
+    "id": "237",
+    "name": "布靴",
+    "desc": [
+      "粗布缝制的长统靴。",
+      "防御+3　身法+2"
+    ],
+    "icon": 212,
+    "buyPrice": 120,
+    "sellPrice": 60,
+    "sellable": true
+  },
+  {
+    "id": "238",
+    "name": "绣花鞋",
+    "desc": [
+      "以丝缎缝制，鞋面绣有",
+      "龙头凤尾花。",
+      "防御+4"
+    ],
+    "icon": 107,
+    "buyPrice": 450,
+    "sellPrice": 225,
+    "sellable": true
+  },
+  {
+    "id": "239",
+    "name": "铁履",
+    "desc": [
+      "鞋底夹缝铁片，较普通布靴重。",
+      "防御+6"
+    ],
+    "icon": 96,
+    "buyPrice": 1100,
+    "sellPrice": 550,
+    "sellable": true
+  },
+  {
+    "id": "240",
+    "name": "武僧靴",
+    "desc": [
+      "罗汉僧练武所穿的布靴。",
+      "防御+8　身法+6"
+    ],
+    "icon": 102,
+    "buyPrice": 2000,
+    "sellPrice": 1000,
+    "sellable": true
+  },
+  {
+    "id": "241",
+    "name": "鹿皮靴",
+    "desc": [
+      "鞋面以鹿皮毛缝制，质地轻柔，",
+      "行动可如鹿般迅捷。",
+      "防御+11　身法+9"
+    ],
+    "icon": 105,
+    "buyPrice": 3900,
+    "sellPrice": 1950,
+    "sellable": true
+  },
+  {
+    "id": "242",
+    "name": "疾风靴",
+    "desc": [
+      "以薄如云雾的蝉纱织成，",
+      "助穿者疾行如风。",
+      "防御+14　身法+17"
+    ],
+    "icon": 100,
+    "buyPrice": 5700,
+    "sellPrice": 2850,
+    "sellable": true
+  },
+  {
+    "id": "243",
+    "name": "莲花靴",
+    "desc": [
+      "饰以金莲的长统绣花鞋。",
+      "防御+18　身法+5"
+    ],
+    "icon": 101,
+    "buyPrice": 6000,
+    "sellPrice": 3000,
+    "sellable": true
+  },
+  {
+    "id": "244",
+    "name": "虎皮靴",
+    "desc": [
+      "取自东北虎的皮毛缝制。",
+      "防御+21　身法+16"
+    ],
+    "icon": 106,
+    "buyPrice": 9000,
+    "sellPrice": 4500,
+    "sellable": true
+  },
+  {
+    "id": "245",
+    "name": "龙鳞靴",
+    "desc": [
+      "以龙鳞编缀而成。",
+      "防御+25　身法+12"
+    ],
+    "icon": 103,
+    "buyPrice": 10000,
+    "sellPrice": 5000,
+    "sellable": true
+  },
+  {
+    "id": "246",
+    "name": "步云靴",
+    "desc": [
+      "云中子羽化登仙后，",
+      "所遗留之神靴。",
+      "防御+28　身法+20"
+    ],
+    "icon": 104,
+    "buyPrice": 18000,
+    "sellPrice": 9000,
+    "sellable": true
+  },
+  {
+    "id": "247",
+    "name": "魅影神靴",
+    "desc": [
+      "妖魔附体，身如鬼魅。",
+      "防御+32　身法+26"
+    ],
+    "icon": 99,
+    "buyPrice": 27000,
+    "sellPrice": 13500,
+    "sellable": true
+  },
+  {
+    "id": "248",
+    "name": "香袋",
+    "desc": [
+      "填充木屑、香粉的小布包，",
+      "常用来装饰兼避邪的物品。",
+      "灵力+8　吉运+9　避毒率+20%"
+    ],
+    "icon": 227,
+    "buyPrice": 10,
+    "sellPrice": 5,
+    "sellable": true
+  },
+  {
+    "id": "249",
+    "name": "护腕",
+    "desc": [
+      "粗布缝制之腕部护套。",
+      "防御+2"
+    ],
+    "icon": 224,
+    "buyPrice": 70,
+    "sellPrice": 35,
+    "sellable": true
+  },
+  {
+    "id": "250",
+    "name": "铁护腕",
+    "desc": [
+      "精钢打造之腕部护环。",
+      "防御+5"
+    ],
+    "icon": 10,
+    "buyPrice": 360,
+    "sellPrice": 180,
+    "sellable": true
+  },
+  {
+    "id": "251",
+    "name": "竹笛",
+    "desc": [
+      "青竹削制之七孔横笛。",
+      "吉运+18"
+    ],
+    "icon": 128,
+    "buyPrice": 100,
+    "sellPrice": 50,
+    "sellable": true
+  },
+  {
+    "id": "252",
+    "name": "珍珠",
+    "desc": [
+      "蚌类所生的球状物，",
+      "是珍贵的装饰品。",
+      "吉运+20"
+    ],
+    "icon": 140,
+    "buyPrice": 400,
+    "sellPrice": 200,
+    "sellable": true
+  },
+  {
+    "id": "253",
+    "name": "玉镯",
+    "desc": [
+      "戴在手臂上的玉制环形首饰。",
+      "防御+5　吉运+9"
+    ],
+    "icon": 29,
+    "buyPrice": 950,
+    "sellPrice": 475,
+    "sellable": true
+  },
+  {
+    "id": "254",
+    "name": "念珠",
+    "desc": [
+      "佛教徒记数念经咒或佛号",
+      "次数的计算珠。",
+      "灵力+5　防御+5"
+    ],
+    "icon": 117,
+    "buyPrice": 70,
+    "sellPrice": 35,
+    "sellable": true
+  },
+  {
+    "id": "255",
+    "name": "银针",
+    "desc": [
+      "用银针刺肉，以痛楚唤醒神智，",
+      "可解定身、昏睡、疯魔；",
+      "HP-9"
+    ],
+    "icon": 19,
+    "buyPrice": 500,
+    "sellPrice": 250,
+    "sellable": true
+  },
+  {
+    "id": "256",
+    "name": "铜镜",
+    "desc": [
+      "青铜铸造的照容用具。",
+      "防御+6"
+    ],
+    "icon": 24,
+    "buyPrice": 800,
+    "sellPrice": 400,
+    "sellable": true
+  },
+  {
+    "id": "257",
+    "name": "八卦镜",
+    "desc": [
+      "用朱砂在镜面画八卦，",
+      "可借用自然界的灵气。",
+      "灵力+8　防御+8"
+    ],
+    "icon": 38,
+    "buyPrice": 3100,
+    "sellPrice": 1550,
+    "sellable": true
+  },
+  {
+    "id": "258",
+    "name": "乾坤镜",
+    "desc": [
+      "铜镜背面铸有太极乾坤图，",
+      "可吸取天地阴阳灵气。",
+      "灵力+14　防御+14"
+    ],
+    "icon": 39,
+    "buyPrice": 4900,
+    "sellPrice": 2450,
+    "sellable": true
+  },
+  {
+    "id": "259",
+    "name": "豹牙手环",
+    "desc": [
+      "收集花豹的利牙串成的手环。",
+      "防御+9"
+    ],
+    "icon": 25,
+    "buyPrice": 4400,
+    "sellPrice": 2200,
+    "sellable": true
+  },
+  {
+    "id": "260",
+    "name": "圣灵珠",
+    "desc": [
+      "女娲末族祖传宝物，历代圣魂归依",
+      "之所。合体法术∶武神",
+      "灵力+128　防御+15　避毒率+35"
+    ],
+    "icon": 2,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "261",
+    "name": "金罡珠",
+    "desc": [
+      "大罗金仙修炼千年的内丹。",
+      "防御+90"
+    ],
+    "icon": 13,
+    "buyPrice": 10000,
+    "sellPrice": 5000,
+    "sellable": true
+  },
+  {
+    "id": "262",
+    "name": "五毒珠",
+    "desc": [
+      "成精蟾怪的内丹，",
+      "佩戴后百毒不侵。"
+    ],
+    "icon": 3,
+    "buyPrice": 10000,
+    "sellPrice": 5000,
+    "sellable": true
+  },
+  {
+    "id": "263",
+    "name": "风灵珠",
+    "desc": [
+      "女娲降伏风神后，禁制风神于内",
+      "的宝珠。  合体法术∶风卷残云",
+      "避风率+50%"
+    ],
+    "icon": 7,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "264",
+    "name": "雷灵珠",
+    "desc": [
+      "女娲降伏雷神后，禁制雷神于内",
+      "的宝珠。  合体法术∶狂雷",
+      "避雷率+50%"
+    ],
+    "icon": 5,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "265",
+    "name": "水灵珠",
+    "desc": [
+      "女娲降伏雪妖后，禁制雪妖于内",
+      "的宝珠。  合体法术∶风雪冰天",
+      "避水率+50%"
+    ],
+    "icon": 1,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "266",
+    "name": "火灵珠",
+    "desc": [
+      "女娲降伏火神后，禁制火神于内",
+      "的宝珠。  合体法术∶炼狱真火",
+      "避火率+50%"
+    ],
+    "icon": 4,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "267",
+    "name": "土灵珠",
+    "desc": [
+      "女娲降伏山神后，禁制山神于内",
+      "的宝珠。  合体法术∶泰山压顶",
+      "避土率+50%。可用于脱离洞窟。"
+    ],
+    "icon": 6,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "268",
+    "name": "炼蛊皿",
+    "desc": [
+      "可将毒蛇卵、毒蝎卵、毒蟾卵、",
+      "蜘蛛卵、蜈蚣卵炼成蛊。"
+    ],
+    "icon": 9,
+    "buyPrice": 1000,
+    "sellPrice": 500,
+    "sellable": true
+  },
+  {
+    "id": "269",
+    "name": "寿葫芦",
+    "desc": [
+      "战斗中发出真气补充持有者，",
+      "有提神振气之奇效。",
+      "HPMP每回合+20"
+    ],
+    "icon": 8,
+    "buyPrice": 8600,
+    "sellPrice": 4300,
+    "sellable": true
+  },
+  {
+    "id": "270",
+    "name": "紫金葫芦",
+    "desc": [
+      "收妖炼丹；需与灵葫咒配合。"
+    ],
+    "icon": 21,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "271",
+    "name": "布包",
+    "desc": [
+      "长安富商的行李。"
+    ],
+    "icon": 242,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "272",
+    "name": "桂花酒",
+    "desc": [
+      "掺了水的酒。"
+    ],
+    "icon": 110,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "273",
+    "name": "紫金丹",
+    "desc": [
+      "水月宫最珍贵的仙丹灵药。"
+    ],
+    "icon": 141,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "274",
+    "name": "玉佛珠",
+    "desc": [
+      "西方如来檀前的念珠，经佛法薰陶",
+      "变化通灵。合体法术∶佛法无边",
+      "灵力+88　防御+18　避毒率+30"
+    ],
+    "icon": 11,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "275",
+    "name": "金凤凰蛋壳",
+    "desc": [
+      "药材*"
+    ],
+    "icon": 112,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "276",
+    "name": "火眼麒麟角",
+    "desc": [
+      "药材。"
+    ],
+    "icon": 92,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "277",
+    "name": "青龙碧血玉",
+    "desc": [],
+    "icon": 0,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "278",
+    "name": "毒龙胆",
+    "desc": [
+      "千年毒蛟的胆，以毒攻毒",
+      "可解天下所有的毒；若没",
+      "中毒吃毒龙胆会毙命。"
+    ],
+    "icon": 215,
+    "buyPrice": 2000,
+    "sellPrice": 1000,
+    "sellable": true
+  },
+  {
+    "id": "279",
+    "name": "破天锤",
+    "desc": [
+      "用来敲碎仙灵岛石像的法宝。"
+    ],
+    "icon": 238,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "280",
+    "name": "包袱",
+    "desc": [
+      "婶婶替逍遥收拾的行李。"
+    ],
+    "icon": 22,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "281",
+    "name": "银杏果",
+    "desc": [
+      "药材。"
+    ],
+    "icon": 245,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "282",
+    "name": "鲤鱼",
+    "desc": [
+      "药材。"
+    ],
+    "icon": 239,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "283",
+    "name": "鹿茸",
+    "desc": [
+      "药材。"
+    ],
+    "icon": 250,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "284",
+    "name": "钓竿",
+    "desc": [
+      "借来的，记得还！"
+    ],
+    "icon": 233,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "285",
+    "name": "捕兽夹",
+    "desc": [
+      "猎户放置的捕鹿的道具。"
+    ],
+    "icon": 234,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "286",
+    "name": "六神丹",
+    "desc": [
+      "韩家药铺的祖传妇女良药。"
+    ],
+    "icon": 236,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "287",
+    "name": "情书",
+    "desc": [
+      "士兵委托的情书。"
+    ],
+    "icon": 246,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "288",
+    "name": "玉佩",
+    "desc": [
+      "婢女委托的玉佩。"
+    ],
+    "icon": 241,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "289",
+    "name": "石钥匙",
+    "desc": [
+      "开启隐龙窟后洞石门的钥匙。"
+    ],
+    "icon": 237,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "290",
+    "name": "天书",
+    "desc": [
+      "书中仙附身于书中。"
+    ],
+    "icon": 243,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "291",
+    "name": "香蕉",
+    "desc": [
+      "谁喜欢吃香蕉？"
+    ],
+    "icon": 235,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "292",
+    "name": "凤纹手绢",
+    "desc": [
+      "某人交付的信物。"
+    ],
+    "icon": 251,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "293",
+    "name": "手卷",
+    "desc": [
+      "李逍遥的父母亲所留下",
+      "的武功秘笈。"
+    ],
+    "icon": 231,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  },
+  {
+    "id": "294",
+    "name": "芦苇漂",
+    "desc": [
+      "可载人漂浮水面的草席。"
+    ],
+    "icon": 240,
+    "buyPrice": 0,
+    "sellPrice": 0,
+    "sellable": false
+  }
+]

@@ -1,0 +1,65 @@
+[
+  {
+    "id": "li-xiaoyao",
+    "spriteNum": 2,
+    "label": "李逍遥(大世界)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  },
+  {
+    "id": "zhao-linger",
+    "spriteNum": 3,
+    "label": "赵灵儿(大世界)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  },
+  {
+    "id": "lin-yueru",
+    "spriteNum": 7,
+    "label": "林月如(大世界)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  },
+  {
+    "id": "wu-hou",
+    "spriteNum": 525,
+    "label": "巫后(大世界)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  },
+  {
+    "id": "anu",
+    "spriteNum": 5,
+    "label": "阿奴(大世界)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  },
+  {
+    "id": "gai-luojiao",
+    "spriteNum": 26,
+    "label": "盖罗娇(大世界)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  },
+  {
+    "id": "ghost",
+    "spriteNum": 16,
+    "label": "游魂(占位)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  }
+]

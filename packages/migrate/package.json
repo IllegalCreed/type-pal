@@ -7,7 +7,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
     "check": "pnpm typecheck && pnpm test",
-    "bake": "tsx scripts/bake-assets.mts"
+    "bake": "tsx scripts/bake-assets.mts",
+    "migrate:content": "tsx scripts/migrate-content.mts"
   },
   "dependencies": {
     "@type-pal/content": "workspace:*",

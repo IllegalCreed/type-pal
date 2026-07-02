@@ -127,7 +127,9 @@ export function parsePlayerRoles(dataMkfBytes: Uint8Array, words?: Words): Playe
   const mp = readPlayers(cursor); cursor += PLAYER_FIELD_SIZE
 
   // rgwEquipment[MAX_PLAYER_EQUIPMENTS=6][MAX_PLAYER_ROLES=6](72 B)
-  // 6 行 × 6 player(slot 0 = 武器,1 = 头,2 = 身,3 = 鞋,4 = 饰品,5 = 护身符)
+  // 6 行 × 6 player。⚠ 行序真值(2026-07-02 对 role0 [196头巾,225披风,208布袍,166木剑,235草鞋,249护腕]
+  // 逐位核验;= sdlpal 身体部位枚举):0 = 头,1 = 披风,2 = 身,3 = 武器,4 = 鞋,5 = 饰品。
+  // (旧注释「0=武器…」是错的,勿据此解码 —— migrate/migrate-content.ts EQUIP_INDEX_TO_SLOT 为准。)
   const equipRows: number[][] = []
   for (let e = 0; e < PLAYER_EQUIPMENTS; e++) {
     equipRows.push(readPlayers(cursor))

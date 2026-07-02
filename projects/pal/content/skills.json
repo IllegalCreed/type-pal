@@ -1,0 +1,1339 @@
+{
+  "skills": [
+    {
+      "id": "312",
+      "name": "风咒",
+      "desc": "风系初级法术，\n攻击敌方单人。",
+      "cost": {
+        "mp": 5
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 45,
+          "elemental": 1
+        }
+      ],
+      "animation": {
+        "effectSprite": 0
+      }
+    },
+    {
+      "id": "313",
+      "name": "旋风咒",
+      "desc": "风系中级法术，\n攻击敌方全体。",
+      "cost": {
+        "mp": 11
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 88,
+          "elemental": 1
+        }
+      ],
+      "animation": {
+        "effectSprite": 36
+      }
+    },
+    {
+      "id": "316",
+      "name": "雷咒",
+      "desc": "雷系初级法术，\n攻击敌方单人。",
+      "cost": {
+        "mp": 7
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 60,
+          "elemental": 2
+        }
+      ],
+      "animation": {
+        "effectSprite": 1
+      }
+    },
+    {
+      "id": "317",
+      "name": "五雷咒",
+      "desc": "雷系中级法术，\n攻击敌方全体。",
+      "cost": {
+        "mp": 15
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 110,
+          "elemental": 2
+        }
+      ],
+      "animation": {
+        "effectSprite": 1
+      }
+    },
+    {
+      "id": "318",
+      "name": "天雷破",
+      "desc": "雷系高级法术，\n攻击敌方单人。",
+      "cost": {
+        "mp": 28
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 250,
+          "elemental": 2
+        }
+      ],
+      "animation": {
+        "effectSprite": 35
+      }
+    },
+    {
+      "id": "319",
+      "name": "狂雷",
+      "desc": "雷系高级法术，\n攻击敌方全体。",
+      "cost": {
+        "mp": 45
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 298,
+          "elemental": 2
+        }
+      ],
+      "animation": {
+        "effectSprite": 46
+      }
+    },
+    {
+      "id": "321",
+      "name": "冰咒",
+      "desc": "冰系初级法术，\n攻击敌方单人。",
+      "cost": {
+        "mp": 5
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 45,
+          "elemental": 3
+        }
+      ],
+      "animation": {
+        "effectSprite": 2
+      }
+    },
+    {
+      "id": "322",
+      "name": "玄冰咒",
+      "desc": "冰系中级法术，\n攻击敌方全体。",
+      "cost": {
+        "mp": 12
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 95,
+          "elemental": 3
+        }
+      ],
+      "animation": {
+        "effectSprite": 2
+      }
+    },
+    {
+      "id": "323",
+      "name": "风雪冰天",
+      "desc": "冰系高级法术，\n攻击敌方全体。",
+      "cost": {
+        "mp": 44
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 288,
+          "elemental": 3
+        }
+      ],
+      "animation": {
+        "effectSprite": 15
+      }
+    },
+    {
+      "id": "324",
+      "name": "风雪冰天",
+      "desc": "",
+      "cost": {
+        "mp": 45
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 170,
+          "elemental": 3
+        }
+      ],
+      "animation": {
+        "effectSprite": 53
+      }
+    },
+    {
+      "id": "326",
+      "name": "火术",
+      "desc": "",
+      "cost": {
+        "mp": 3
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 40,
+          "elemental": 4
+        }
+      ],
+      "animation": {
+        "effectSprite": 3
+      }
+    },
+    {
+      "id": "327",
+      "name": "炎咒",
+      "desc": "火系初级法术，\n攻击敌方单人。",
+      "cost": {
+        "mp": 8
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 70,
+          "elemental": 4
+        }
+      ],
+      "animation": {
+        "effectSprite": 7
+      }
+    },
+    {
+      "id": "328",
+      "name": "三昧真火",
+      "desc": "火系中级法术，\n攻击敌方全体。",
+      "cost": {
+        "mp": 16
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 115,
+          "elemental": 4
+        }
+      ],
+      "animation": {
+        "effectSprite": 7
+      }
+    },
+    {
+      "id": "329",
+      "name": "炎杀咒",
+      "desc": "火系高级法术，\n攻击敌方单人。",
+      "cost": {
+        "mp": 33
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 245,
+          "elemental": 4
+        }
+      ],
+      "animation": {
+        "effectSprite": 9
+      }
+    },
+    {
+      "id": "331",
+      "name": "火龙",
+      "desc": "",
+      "cost": {
+        "mp": 5
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 45,
+          "elemental": 1
+        }
+      ],
+      "animation": {
+        "effectSprite": 0
+      }
+    },
+    {
+      "id": "332",
+      "name": "土咒",
+      "desc": "土系初级法术，\n攻击敌方单人。",
+      "cost": {
+        "mp": 6
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 52,
+          "elemental": 5
+        }
+      ],
+      "animation": {
+        "effectSprite": 4
+      }
+    },
+    {
+      "id": "333",
+      "name": "飞岩术",
+      "desc": "土系中级法术，\n攻击敌方全体。",
+      "cost": {
+        "mp": 13
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 100,
+          "elemental": 5
+        }
+      ],
+      "animation": {
+        "effectSprite": 4
+      }
+    },
+    {
+      "id": "335",
+      "name": "泰山压顶",
+      "desc": "土系高级法术，\n攻击敌方全体。",
+      "cost": {
+        "mp": 45
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 290,
+          "elemental": 5
+        }
+      ],
+      "animation": {
+        "effectSprite": 17
+      }
+    },
+    {
+      "id": "337",
+      "name": "气剑指",
+      "desc": "苏州林家的家传武艺\n攻击敌方全体。",
+      "cost": {
+        "mp": 7
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 50,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 6
+      }
+    },
+    {
+      "id": "338",
+      "name": "弦月斩",
+      "desc": "",
+      "cost": {
+        "mp": 5
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 44,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 10
+      }
+    },
+    {
+      "id": "339",
+      "name": "弦月斩",
+      "desc": "",
+      "cost": {
+        "mp": 16
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 150,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 10
+      }
+    },
+    {
+      "id": "340",
+      "name": "一阳指",
+      "desc": "聚劲食指，发出刚猛的气芒，\n攻击敌方单人。",
+      "cost": {
+        "mp": 18
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 130,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 8
+      }
+    },
+    {
+      "id": "341",
+      "name": "七诀剑气",
+      "desc": "以指代剑，发出裂地剑气\n攻击敌方全体。",
+      "cost": {
+        "mp": 30
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 188,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 8
+      }
+    },
+    {
+      "id": "343",
+      "name": "暗器",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 33,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 24
+      }
+    },
+    {
+      "id": "345",
+      "name": "御剑术",
+      "desc": "蜀山派入门剑法，\n攻击敌方单人。",
+      "cost": {
+        "mp": 10
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 77,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 5
+      }
+    },
+    {
+      "id": "346",
+      "name": "万剑诀",
+      "desc": "剑芒如雨直落，\n攻击敌方全体。",
+      "cost": {
+        "mp": 25
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 170,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 21
+      }
+    },
+    {
+      "id": "347",
+      "name": "心剑合一",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 0,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 14
+      }
+    },
+    {
+      "id": "349",
+      "name": "天师符法",
+      "desc": "茅山道士用来对付妖怪的符法，\n攻击敌方单人。",
+      "cost": {
+        "mp": 18
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 140,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 32
+      }
+    },
+    {
+      "id": "350",
+      "name": "斩魔刀",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 0,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 13
+      }
+    },
+    {
+      "id": "353",
+      "name": "御蜂术",
+      "desc": "以笛音指挥毒蜂，\n攻击敌方全体。",
+      "cost": {
+        "mp": 18
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 150,
+          "elemental": 6
+        }
+      ],
+      "animation": {
+        "effectSprite": 16
+      }
+    },
+    {
+      "id": "354",
+      "name": "万蚁蚀象",
+      "desc": "操纵食人毒蚁攻击敌方单人。",
+      "cost": {
+        "mp": 37
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 350,
+          "elemental": 6
+        }
+      ],
+      "animation": {
+        "effectSprite": 43
+      }
+    },
+    {
+      "id": "355",
+      "name": "天女散花",
+      "desc": "",
+      "cost": {
+        "mp": 22
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 109,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 18
+      }
+    },
+    {
+      "id": "356",
+      "name": "剑气",
+      "desc": "",
+      "cost": {
+        "mp": 8
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 40,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 6
+      }
+    },
+    {
+      "id": "358",
+      "name": "血魔神功",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 140,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 23
+      }
+    },
+    {
+      "id": "359",
+      "name": "狂风术",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 283,
+          "elemental": 1
+        }
+      ],
+      "animation": {
+        "effectSprite": 26
+      }
+    },
+    {
+      "id": "360",
+      "name": "鞭击",
+      "desc": "",
+      "cost": {
+        "mp": 1
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 40,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 19
+      }
+    },
+    {
+      "id": "361",
+      "name": "御剑伏魔",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 170,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 33
+      }
+    },
+    {
+      "id": "362",
+      "name": "御剑伏魔",
+      "desc": "",
+      "cost": {
+        "mp": 40
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 240,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 52
+      }
+    },
+    {
+      "id": "364",
+      "name": "风灵符法",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 85,
+          "elemental": 1
+        }
+      ],
+      "animation": {
+        "effectSprite": 0
+      }
+    },
+    {
+      "id": "365",
+      "name": "雷灵符法",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 96,
+          "elemental": 2
+        }
+      ],
+      "animation": {
+        "effectSprite": 1
+      }
+    },
+    {
+      "id": "366",
+      "name": "水灵符法",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 100,
+          "elemental": 3
+        }
+      ],
+      "animation": {
+        "effectSprite": 15
+      }
+    },
+    {
+      "id": "367",
+      "name": "火灵符法",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 103,
+          "elemental": 4
+        }
+      ],
+      "animation": {
+        "effectSprite": 7
+      }
+    },
+    {
+      "id": "368",
+      "name": "土灵符法",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 110,
+          "elemental": 5
+        }
+      ],
+      "animation": {
+        "effectSprite": 17
+      }
+    },
+    {
+      "id": "369",
+      "name": "气吞天下",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 0,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 34
+      }
+    },
+    {
+      "id": "371",
+      "name": "瘴气",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 65,
+          "elemental": 6
+        }
+      ],
+      "animation": {
+        "effectSprite": 25
+      }
+    },
+    {
+      "id": "374",
+      "name": "爆炸蛊",
+      "desc": "预先将法力灌输在蛊虫体内，\n投掷敌人产生强烈爆炸。",
+      "cost": {
+        "mp": 49
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 392,
+          "elemental": 4
+        }
+      ],
+      "animation": {
+        "effectSprite": 37
+      }
+    },
+    {
+      "id": "375",
+      "name": "镇天鼎",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 380,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 38
+      }
+    },
+    {
+      "id": "379",
+      "name": "灭绝一击",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 185,
+          "elemental": 5
+        }
+      ],
+      "animation": {
+        "effectSprite": 47
+      }
+    },
+    {
+      "id": "381",
+      "name": "爆炸",
+      "desc": "",
+      "cost": {
+        "mp": 10
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 100,
+          "elemental": 4
+        }
+      ],
+      "animation": {
+        "effectSprite": 12
+      }
+    },
+    {
+      "id": "382",
+      "name": "魔掌天下",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 320,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 48
+      }
+    },
+    {
+      "id": "383",
+      "name": "佛法无边",
+      "desc": "",
+      "cost": {
+        "mp": 15
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 165,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 49
+      }
+    },
+    {
+      "id": "386",
+      "name": "合体气功",
+      "desc": "",
+      "cost": {
+        "mp": 9
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 90,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 50
+      }
+    },
+    {
+      "id": "387",
+      "name": "气功",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 220,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 51
+      }
+    },
+    {
+      "id": "388",
+      "name": "剑气斩",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 70,
+          "elemental": 5
+        }
+      ],
+      "animation": {
+        "effectSprite": 47
+      }
+    },
+    {
+      "id": "391",
+      "name": "投掷",
+      "desc": "",
+      "cost": {
+        "mp": 5
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 45,
+          "elemental": 1
+        }
+      ],
+      "animation": {
+        "effectSprite": 0
+      }
+    },
+    {
+      "id": "396",
+      "name": "腥风血雨",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 333,
+          "elemental": 1
+        }
+      ],
+      "animation": {
+        "effectSprite": 54
+      }
+    },
+    {
+      "id": "397",
+      "name": "群魔乱舞",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 368,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 48
+      }
+    },
+    {
+      "id": "296",
+      "name": "气疗术",
+      "desc": "我方单人HP+75",
+      "cost": {
+        "mp": 6
+      },
+      "usableOutsideBattle": true,
+      "target": "oneAlly",
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 75
+        }
+      ],
+      "animation": {
+        "effectSprite": 27
+      }
+    },
+    {
+      "id": "298",
+      "name": "凝神归元",
+      "desc": "我方单人HP+220",
+      "cost": {
+        "mp": 18
+      },
+      "usableOutsideBattle": true,
+      "target": "oneAlly",
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 220
+        }
+      ],
+      "animation": {
+        "effectSprite": 29
+      }
+    },
+    {
+      "id": "299",
+      "name": "元灵归心术",
+      "desc": "我方单人HP+500",
+      "cost": {
+        "mp": 40
+      },
+      "usableOutsideBattle": true,
+      "target": "oneAlly",
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 500
+        }
+      ],
+      "animation": {
+        "effectSprite": 29
+      }
+    }
+  ],
+  "levelUp": {
+    "li-xiaoyao": [
+      {
+        "level": 7,
+        "skillId": "349"
+      },
+      {
+        "level": 8,
+        "skillId": "311"
+      },
+      {
+        "level": 10,
+        "skillId": "298"
+      },
+      {
+        "level": 12,
+        "skillId": "346"
+      },
+      {
+        "level": 17,
+        "skillId": "299"
+      },
+      {
+        "level": 20,
+        "skillId": "310"
+      },
+      {
+        "level": 22,
+        "skillId": "348"
+      },
+      {
+        "level": 26,
+        "skillId": "392"
+      },
+      {
+        "level": 34,
+        "skillId": "363"
+      }
+    ],
+    "zhao-linger": [
+      {
+        "level": 7,
+        "skillId": "313"
+      },
+      {
+        "level": 8,
+        "skillId": "300"
+      },
+      {
+        "level": 9,
+        "skillId": "322"
+      },
+      {
+        "level": 10,
+        "skillId": "333"
+      },
+      {
+        "level": 11,
+        "skillId": "317"
+      },
+      {
+        "level": 13,
+        "skillId": "328"
+      },
+      {
+        "level": 15,
+        "skillId": "314"
+      },
+      {
+        "level": 17,
+        "skillId": "323"
+      },
+      {
+        "level": 20,
+        "skillId": "334"
+      },
+      {
+        "level": 22,
+        "skillId": "318"
+      },
+      {
+        "level": 24,
+        "skillId": "335"
+      },
+      {
+        "level": 26,
+        "skillId": "319"
+      },
+      {
+        "level": 28,
+        "skillId": "330"
+      },
+      {
+        "level": 30,
+        "skillId": "351"
+      }
+    ],
+    "lin-yueru": [
+      {
+        "level": 7,
+        "skillId": "340"
+      },
+      {
+        "level": 9,
+        "skillId": "344"
+      },
+      {
+        "level": 13,
+        "skillId": "341"
+      },
+      {
+        "level": 15,
+        "skillId": "299"
+      },
+      {
+        "level": 16,
+        "skillId": "394"
+      },
+      {
+        "level": 20,
+        "skillId": "342"
+      }
+    ],
+    "anu": [
+      {
+        "level": 30,
+        "skillId": "354"
+      },
+      {
+        "level": 33,
+        "skillId": "374"
+      },
+      {
+        "level": 35,
+        "skillId": "372"
+      }
+    ]
+  }
+}
