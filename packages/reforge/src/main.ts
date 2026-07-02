@@ -7,6 +7,8 @@ import {
   gridToPixel,
   lookupText,
   pixelToGrid,
+  resolveEntitySpriteId,
+  type SpriteDef,
   spriteScreenY,
 } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
@@ -53,6 +55,7 @@ import { back, CLOSED, confirm, type MenuState, moveCursor, openMenu } from './m
 import { resolveMove } from './movement.js'
 import { Canvas2DRenderer, type SpriteDraw } from './render.js'
 import { renderSceneFrame } from './render-scene.js'
+import { idleFrameIndex, walkFrameIndex } from './sprite-anim.js'
 import {
   browserConfirm,
   browserConfirmOverwriteNo,
@@ -91,10 +94,7 @@ const TILE_W = 32
 const TILE_H = 16
 const _MARGIN = 32
 
-// 大世界精灵帧 + 移动手感（port sdlpal）。4 方向 × 3 帧；4 向移动 = 等距对角世界位移。
-const WALK_FRAMES = 3
-const FACING_TO_DIR: Record<Facing, number> = { down: 0, left: 1, up: 2, right: 3 }
-const STEP_CYCLE = [0, 1, 0, 2] // iStepFrameLeader（scene.c:663）：站 / 迈左 / 站 / 迈右
+// 移动手感（port sdlpal）。帧下标计算已数据化 → sprite-anim.ts(读 SpriteDef.layout,C0)。
 const STEP_MS = 100 // 探索步进 ~10fps = 仙剑「卡顿感」（不是 60fps 平滑滑行）
 // 方向 → 菱形轴单轴步进(D16):走一格只动一个轴。down=右下视野=row+1,up=左上=row-1,
 // left=左下=col-1,right=右下=col+1(屏幕位移与原版 WALK_STEP 一致,见 gridToPixel 验证)。
@@ -176,19 +176,28 @@ async function main(): Promise<void> {
     camera.y = clamp(pp.y - PARTY_OY, roomMinY, Math.max(roomMinY, roomMaxY - VIEW_H))
   }
 
-  // 实体精灵:走 sprites 注册表(EntityDef.sprite 语义 id → SpriteDef.spriteNum),去硬编码。
-  // 玩家(队长)精灵是角色概念,暂留原号 2 —— TODO: 待 CharacterTemplate.sprite(非 B0)。
+  // 精灵解析(C0):实体 → actor/prop → sprites 注册表;玩家 = party[0] 的 ActorDef.spriteId(硬编码 2 已去)。
+  const requireSpriteDef = (spriteId: string | undefined, what: string): SpriteDef => {
+    const def = spriteId ? project.spritesById[spriteId] : undefined
+    if (!def) throw new Error(`reforge: ${what} 的精灵 "${spriteId ?? '(未解析)'}" 不在 sprites 注册表`)
+    return def
+  }
+  const leaderId = project.manifest.startWorld.party[0]
+  const leaderActor = leaderId ? project.actorsById[leaderId] : undefined
+  if (!leaderActor) throw new Error(`reforge: 队长 "${leaderId ?? '(空)'}" 不在 actors 表`)
+  const leaderSpriteDef = requireSpriteDef(leaderActor.spriteId, `队长 ${leaderActor.id}`)
   const ghost = requireFirst(scene.entities, '场景缺少鬼实体')
-  const ghostSpriteDef = project.spritesById[ghost.sprite]
-  if (!ghostSpriteDef)
-    throw new Error(`reforge: 精灵 "${ghost.sprite}" 不在 sprites 注册表`)
+  const ghostSpriteDef = requireSpriteDef(
+    resolveEntitySpriteId(ghost, project.actorsById),
+    `实体 ${ghost.id}`,
+  )
   const [playerSprite, ghostSprite] = await Promise.all([
-    loadSprite(project.assetBase, 2), // TODO: 玩家精灵待 CharacterTemplate.sprite(非 B0)
+    loadSprite(project.assetBase, leaderSpriteDef.spriteNum),
     loadSprite(project.assetBase, ghostSpriteDef.spriteNum),
   ])
   const player: { pos: GridPos } = { pos: { ...scene.entry.pos } }
   const dialogBox = new DialogBox(ctx, glyphs, cursorFrames, portraits, project.locale)
-  let world = buildWorld(project.manifest.startWorld, project.charactersById)
+  let world = buildWorld(project.manifest.startWorld, project.actorsById)
   const menuAssets = await loadMenuAssets(project.items)
   const menuBox = new MenuBox(glyphs, project.locale, menuAssets, project.items)
   let menu: MenuState = CLOSED
@@ -293,7 +302,10 @@ async function main(): Promise<void> {
     updateCamera() // 相机跟随玩家
     // 精灵 + 高物瓦片由 renderScene 按投影 Y 统一深度排序（遮挡）；地板自动铺底。
     const sprites: SpriteDraw[] = []
-    const gf = ghostSprite.frames[0]
+    // 实体站立帧:布局数据化(idleFrameIndex;directional×3 + facing 缺省 down → 下标 0,与旧 frames[0] 等值)。
+    const gf =
+      ghostSprite.frames[idleFrameIndex(ghostSpriteDef.layout, ghost.facing ?? 'down')] ??
+      ghostSprite.frames[0]
     if (gf) {
       const gp = gridToPixel(ghost.pos)
       sprites.push({
@@ -304,8 +316,10 @@ async function main(): Promise<void> {
         anchorY: ghostSprite.anchorY,
       })
     }
-    const dir = FACING_TO_DIR[facing]
-    const fi = walking ? dir * WALK_FRAMES + (STEP_CYCLE[stepFrame] ?? 0) : dir * WALK_FRAMES
+    // 玩家帧:walk/idle 走 sprite-anim(与旧 WALK_FRAMES/STEP_CYCLE 硬编码逐拍等值,见其测试)。
+    const fi = walking
+      ? walkFrameIndex(leaderSpriteDef.layout, facing, stepFrame)
+      : idleFrameIndex(leaderSpriteDef.layout, facing)
     const pf = playerSprite.frames[fi] ?? playerSprite.frames[0]
     if (pf) {
       const pp = gridToPixel(player.pos)

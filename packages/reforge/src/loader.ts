@@ -2,7 +2,7 @@
 // assembleProject 是纯核(可单测,喂 fixture JSON);loadProject 是 IO 壳(fetch)。
 // main.ts 不再 import 任何具体游戏数据,全靠 loader 注入。
 import type {
-  CharacterTemplate,
+  ActorDef,
   ItemDataMap,
   LevelUpSkill,
   LoadedManifest,
@@ -12,7 +12,7 @@ import type {
   SpriteDef,
 } from '@type-pal/content'
 import {
-  validateCharacters,
+  validateActors,
   validateItems,
   validateLocale,
   validateScenes,
@@ -27,7 +27,7 @@ export interface LoadedProject {
   scenes: SceneDef[]
   /** 入口场景(entryScene 解析;取不到 assembleProject 已 throw)。 */
   entryScene: SceneDef
-  charactersById: Record<string, CharacterTemplate>
+  actorsById: Record<string, ActorDef>
   skills: SkillDataMap
   levelUp: Record<string, LevelUpSkill[]>
   items: ItemDataMap
@@ -40,7 +40,7 @@ export interface LoadedProject {
 
 /** content JSON 输入(assembleProject 的纯参,便于单测喂 fixture)。 */
 export interface ContentJsons {
-  characters: unknown
+  actors: unknown
   scenes: unknown
   skills: unknown
   items: unknown
@@ -58,7 +58,7 @@ function indexById<T extends { id: string }>(arr: T[]): Record<string, T> {
 /** 纯组装核:manifest + content JSON(5 必 + sprites 可选) → guard → LoadedProject。无 IO,可单测。 */
 export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): LoadedProject {
   const scenes = validateScenes(jsons.scenes)
-  const characters = validateCharacters(jsons.characters)
+  const actors = validateActors(jsons.actors)
   const { skills, levelUp } = validateSkills(jsons.skills)
   const items = validateItems(jsons.items)
   const locale = validateLocale(jsons.locale)
@@ -73,7 +73,7 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
     manifest,
     scenes,
     entryScene,
-    charactersById: indexById(characters),
+    actorsById: indexById(actors),
     skills: indexById(skills),
     levelUp: levelUp as Record<string, LevelUpSkill[]>,
     items: indexById(items),
@@ -94,15 +94,15 @@ export async function loadProject(projectId: string): Promise<LoadedProject> {
   const root = `projects/${projectId}`
   const manifest = (await fetchJson(`${root}/manifest.json`)) as LoadedManifest
   const content = manifest.content
-  const [characters, scenes, skills, items, locale, sprites] = await Promise.all([
-    fetchJson(`${root}/${content.characters}`),
+  const [actors, scenes, skills, items, locale, sprites] = await Promise.all([
+    fetchJson(`${root}/${content.actors}`),
     fetchJson(`${root}/${content.scenes}`),
     fetchJson(`${root}/${content.skills}`),
     fetchJson(`${root}/${content.items}`),
     fetchJson(`${root}/${content.locale}`),
     content.sprites ? fetchJson(`${root}/${content.sprites}`) : Promise.resolve(undefined),
   ])
-  return assembleProject(manifest, { characters, scenes, skills, items, locale, sprites })
+  return assembleProject(manifest, { actors, scenes, skills, items, locale, sprites })
 }
 
 async function fetchJson(url: string): Promise<unknown> {

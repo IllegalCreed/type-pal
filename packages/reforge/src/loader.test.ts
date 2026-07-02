@@ -4,7 +4,7 @@ import { assembleProject } from './loader.js'
 
 const manifest: LoadedManifest = {
   id: 'demo',
-  name: '鬼界·民居(DLC-01)',
+  name: '鬼界·民居(验证 demo)',
   contentVersion: 1,
   entryScene: 'guijie-minju',
   content: {},
@@ -23,25 +23,30 @@ const manifest: LoadedManifest = {
   },
 }
 
-const charactersJson = [
+// C0:characters → actors(battler 包住战斗数据)
+const actorsJson = [
   {
     id: 'li-xiaoyao',
     name: 'name.li-xiaoyao',
-    baseStats: {
-      level: 1,
-      hp: 150,
-      maxHP: 150,
-      mp: 100,
-      maxMP: 100,
-      attack: 33,
-      defense: 32,
-      magicAttack: 20,
-      speed: 28,
-      luck: 32,
+    spriteId: 'li-xiaoyao',
+    battler: {
+      baseStats: {
+        level: 1,
+        hp: 150,
+        maxHP: 150,
+        mp: 100,
+        maxMP: 100,
+        attack: 33,
+        defense: 32,
+        magicAttack: 20,
+        speed: 28,
+        luck: 32,
+      },
+      initialEquipment: { weapon: '166' },
+      initialMagic: ['296'],
     },
-    initialEquipment: { weapon: '166' },
-    initialMagic: ['296'],
   },
+  { id: 'youhun', name: 'name.youhun', spriteId: 'ghost' },
 ]
 const scenesJson = [
   {
@@ -52,7 +57,8 @@ const scenesJson = [
       {
         id: 'wandering-ghost',
         pos: { col: 92, row: 12, height: 0 },
-        sprite: 'ghost',
+        actor: 'youhun',
+        facing: 'down',
         collide: true,
         interact: 'ghost-hearsay',
       },
@@ -79,70 +85,48 @@ const itemsJson = [
   { id: '166', name: '木剑', desc: 'x', icon: 56, buyPrice: 50, sellPrice: 25, sellable: true },
 ]
 const localeJson = { 'menu.status': '状态' }
+const spritesJson = [
+  { id: 'ghost', spriteNum: 16, label: '游魂', layout: { kind: 'directional', framesPerDir: 3 } },
+]
+const baseJsons = {
+  actors: actorsJson,
+  scenes: scenesJson,
+  skills: skillsJson,
+  items: itemsJson,
+  locale: localeJson,
+}
 
 describe('assembleProject(纯核)', () => {
-  test('组装:scenes 数组 + charactersById/skills/items Record + locale + manifest', () => {
-    const p = assembleProject(manifest, {
-      characters: charactersJson,
-      scenes: scenesJson,
-      skills: skillsJson,
-      items: itemsJson,
-      locale: localeJson,
-    })
+  test('组装:scenes 数组 + actorsById/skills/items Record + locale + manifest', () => {
+    const p = assembleProject(manifest, baseJsons)
     expect(p.manifest.id).toBe('demo')
     expect(p.scenes.map((s) => s.id)).toEqual(['guijie-minju'])
     expect(p.entryScene?.id).toBe('guijie-minju') // entryScene 解析 = scenes.find(entryScene)
-    expect(p.charactersById['li-xiaoyao']?.baseStats.attack).toBe(33)
+    expect(p.actorsById['li-xiaoyao']?.battler?.baseStats.attack).toBe(33)
+    expect(p.actorsById['youhun']?.spriteId).toBe('ghost') // 无 battler 的 NPC 也在表
     expect(p.skills['296']?.name).toBe('气疗术')
     expect(p.levelUp['li-xiaoyao']).toEqual([{ level: 7, skillId: '349' }])
     expect(p.items['166']?.name).toBe('木剑')
     expect(p.locale['menu.status']).toBe('状态')
   })
   test('entryScene 在 scenes 里找不到 → throw', () => {
-    expect(() =>
-      assembleProject(
-        { ...manifest, entryScene: 'nope' },
-        {
-          characters: charactersJson,
-          scenes: scenesJson,
-          skills: skillsJson,
-          items: itemsJson,
-          locale: localeJson,
-        },
-      ),
-    ).toThrow('入口场景')
+    expect(() => assembleProject({ ...manifest, entryScene: 'nope' }, baseJsons)).toThrow('入口场景')
   })
   test('guard 拦截:items 缺 id → throw', () => {
+    expect(() => assembleProject(manifest, { ...baseJsons, items: [{ name: 'x' }] })).toThrow('id')
+  })
+  test('guard 拦截:actors 缺 spriteId → throw(C0)', () => {
     expect(() =>
-      assembleProject(manifest, {
-        characters: charactersJson,
-        scenes: scenesJson,
-        skills: skillsJson,
-        items: [{ name: 'x' }],
-        locale: localeJson,
-      }),
-    ).toThrow('id')
+      assembleProject(manifest, { ...baseJsons, actors: [{ id: 'a', name: 'n' }] }),
+    ).toThrow('spriteId')
   })
   test('sprites 可选:不传 → spritesById 为空 {}(向后兼容)', () => {
-    const p = assembleProject(manifest, {
-      characters: charactersJson,
-      scenes: scenesJson,
-      skills: skillsJson,
-      items: itemsJson,
-      locale: localeJson,
-    })
+    const p = assembleProject(manifest, baseJsons)
     expect(p.spritesById).toEqual({})
   })
-  test('sprites 传入 → 按 id 索引到 spritesById', () => {
-    const p = assembleProject(manifest, {
-      characters: charactersJson,
-      scenes: scenesJson,
-      skills: skillsJson,
-      items: itemsJson,
-      locale: localeJson,
-      sprites: [{ id: 'ghost', spriteNum: 16, label: '游魂' }],
-    })
+  test('sprites 传入 → 按 id 索引到 spritesById(含 layout)', () => {
+    const p = assembleProject(manifest, { ...baseJsons, sprites: spritesJson })
     expect(p.spritesById['ghost']?.spriteNum).toBe(16)
-    expect(p.spritesById['ghost']?.label).toBe('游魂')
+    expect(p.spritesById['ghost']?.layout).toEqual({ kind: 'directional', framesPerDir: 3 })
   })
 })

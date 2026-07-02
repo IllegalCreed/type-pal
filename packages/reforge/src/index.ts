@@ -40,3 +40,7 @@ import { renderSceneFrame } from './render-scene.js'
 import type { RenderSceneFrameArgs } from './render-scene.js'
 export { renderSceneFrame }
 export type { RenderSceneFrameArgs }
+
+// 精灵帧下标计算(C0 布局数据化;editor 画布/角色模式走路预览共用,单一真源)
+import { deriveStepCycle, FACING_TO_DIR, idleFrameIndex, walkFrameIndex } from './sprite-anim.js'
+export { deriveStepCycle, FACING_TO_DIR, idleFrameIndex, walkFrameIndex }

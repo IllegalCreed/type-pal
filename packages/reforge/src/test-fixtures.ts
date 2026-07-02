@@ -1,8 +1,8 @@
 // 测试共享 fixture:内联最小 demo 数据(替代已删的 initialWorld/DEMO_ITEMS/DEMO_SKILLS)。
 // state 机测试验"行为"(换装/连用/光标),用等价内联数据即可,不依赖工程 JSON(避免引入 node fs)。
 import {
+  type ActorDef,
   buildWorld,
-  type CharacterTemplate,
   type ItemData,
   type ItemDataMap,
   type SkillData,
@@ -11,23 +11,27 @@ import {
   type WorldState,
 } from '@type-pal/content'
 
-const hero: CharacterTemplate = {
+// C0:CharacterTemplate → ActorDef(battler 包住战斗数据)
+const hero: ActorDef = {
   id: 'li-xiaoyao',
   name: 'name.li-xiaoyao',
-  baseStats: {
-    level: 1,
-    hp: 150,
-    maxHP: 150,
-    mp: 100,
-    maxMP: 100,
-    attack: 33,
-    defense: 32,
-    magicAttack: 20,
-    speed: 28,
-    luck: 32,
+  spriteId: 'li-xiaoyao',
+  battler: {
+    baseStats: {
+      level: 1,
+      hp: 150,
+      maxHP: 150,
+      mp: 100,
+      maxMP: 100,
+      attack: 33,
+      defense: 32,
+      magicAttack: 20,
+      speed: 28,
+      luck: 32,
+    },
+    initialEquipment: { weapon: '166', accessory: '249' },
+    initialMagic: ['296'],
   },
-  initialEquipment: { weapon: '166', accessory: '249' },
-  initialMagic: ['296'],
 }
 
 // 等价 demo items:护腕(起手穿戴 accessory)/土灵珠(背包,可装可用)/观音符(背包,单体回复)/茶叶蛋(背包,HP+MP)
