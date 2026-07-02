@@ -111,13 +111,6 @@ function get2dContext(c: HTMLCanvasElement): CanvasRenderingContext2D {
   return context
 }
 
-/** 取数组首元素,空则抛——让类型非空(闭包内可用,替代 entities[0]! 断言)。 */
-function requireFirst<T>(arr: readonly T[], what: string): T {
-  const v = arr[0]
-  if (!v) throw new Error(`reforge: ${what}`)
-  return v
-}
-
 const canvas = document.getElementById('screen') as HTMLCanvasElement
 const ctx = get2dContext(canvas)
 
@@ -155,7 +148,8 @@ async function main(): Promise<void> {
   }
 
   // 切片：只取 room#0。逻辑视口 320×200;物理 canvas 1280×800(4x),世界渲染 ×4 放大(D16)。
-  const room = scene.map.room
+  // M2a:视窗可选 —— 缺省整张图(原版无房间概念;demo 保留单间裁剪)
+  const room = scene.map.room ?? { col: 0, row: 0, cols: map.width, rows: map.height }
   const WORLD_SCALE = 4 // 逻辑 320×200 → 物理 1280×800;整数倍 + pixelated 保点阵锐利
   const VIEW_W = 320
   const VIEW_H = 200
@@ -186,15 +180,19 @@ async function main(): Promise<void> {
   const leaderActor = leaderId ? project.actorsById[leaderId] : undefined
   if (!leaderActor) throw new Error(`reforge: 队长 "${leaderId ?? '(空)'}" 不在 actors 表`)
   const leaderSpriteDef = requireSpriteDef(leaderActor.spriteId, `队长 ${leaderActor.id}`)
-  const ghost = requireFirst(scene.entities, '场景缺少鬼实体')
-  const ghostSpriteDef = requireSpriteDef(
-    resolveEntitySpriteId(ghost, project.actorsById),
-    `实体 ${ghost.id}`,
+  // 实体精灵批量解析(M2a N 实体泛化,去单鬼硬编码):entityId → SpriteDef;按 spriteNum 去重加载
+  const entitySpriteDefs = new Map<string, SpriteDef>()
+  for (const e of scene.entities) {
+    if (e.hidden) continue
+    entitySpriteDefs.set(e.id, requireSpriteDef(resolveEntitySpriteId(e, project.actorsById), `实体 ${e.id}`))
+  }
+  const neededNums = [
+    ...new Set([leaderSpriteDef.spriteNum, ...[...entitySpriteDefs.values()].map((d) => d.spriteNum)]),
+  ]
+  const spriteByNum = new Map(
+    await Promise.all(neededNums.map(async (n) => [n, await loadSprite(project.assetBase, n)] as const)),
   )
-  const [playerSprite, ghostSprite] = await Promise.all([
-    loadSprite(project.assetBase, leaderSpriteDef.spriteNum),
-    loadSprite(project.assetBase, ghostSpriteDef.spriteNum),
-  ])
+  const playerSprite = spriteByNum.get(leaderSpriteDef.spriteNum)!
   const player: { pos: GridPos } = { pos: { ...scene.entry.pos } }
   const dialogBox = new DialogBox(ctx, glyphs, cursorFrames, portraits, project.locale)
   let world = buildWorld(project.manifest.startWorld, project.actorsById)
@@ -302,18 +300,21 @@ async function main(): Promise<void> {
     updateCamera() // 相机跟随玩家
     // 精灵 + 高物瓦片由 renderScene 按投影 Y 统一深度排序（遮挡）；地板自动铺底。
     const sprites: SpriteDraw[] = []
-    // 实体站立帧:布局数据化(idleFrameIndex;directional×3 + facing 缺省 down → 下标 0,与旧 frames[0] 等值)。
-    const gf =
-      ghostSprite.frames[idleFrameIndex(ghostSpriteDef.layout, ghost.facing ?? 'down')] ??
-      ghostSprite.frames[0]
-    if (gf) {
-      const gp = gridToPixel(ghost.pos)
+    // 实体站立帧(N 实体;hidden 跳过;zBias 进画序):布局数据化 idleFrameIndex
+    for (const e of scene.entities) {
+      if (e.hidden) continue
+      const def = entitySpriteDefs.get(e.id)
+      const sp = def ? spriteByNum.get(def.spriteNum) : undefined
+      const f = def ? (sp?.frames[idleFrameIndex(def.layout, e.facing ?? 'down')] ?? sp?.frames[0]) : undefined
+      if (!sp || !f) continue
+      const p = gridToPixel(e.pos)
       sprites.push({
-        frame: gf,
-        worldX: gp.x,
-        worldY: spriteScreenY(ghost.pos), // 含 height 上移(D16);地面=0 同 gp.y
-        anchorX: ghostSprite.anchorX,
-        anchorY: ghostSprite.anchorY,
+        frame: f,
+        worldX: p.x,
+        worldY: spriteScreenY(e.pos), // 含 height 上移(D16)
+        anchorX: sp.anchorX,
+        anchorY: sp.anchorY,
+        baseYBias: e.zBias,
       })
     }
     // 玩家帧:walk/idle 走 sprite-anim(与旧 WALK_FRAMES/STEP_CYCLE 硬编码逐拍等值,见其测试)。
@@ -467,14 +468,14 @@ async function main(): Promise<void> {
   // 静态实体碰撞:collide 实体占其 pos 所在格,玩家目标落该格 → 挡。
   // 闭包读 entities 当前 pos(将来移动 NPC 也自然生效;静态阶段 pos 不变)。
   const isBlocked = (pos: GridPos): boolean =>
-    isBlockedAt(map, pos) || scene.entities.some((e) => e.collide === true && sameGrid(pos, e.pos))
+    isBlockedAt(map, pos) || scene.entities.some((e) => !e.hidden && e.collide === true && sameGrid(pos, e.pos))
   const keyboard = new Keyboard()
   const INTERACT_RANGE = 48 // 像素：靠近实体即可交互
 
   // 调试 / 验证：暴露活动态
   ;(window as unknown as { __reforge?: unknown }).__reforge = {
     player,
-    ghost,
+    entities: scene.entities,
     room,
     get dialogue() {
       return dialogBox.active

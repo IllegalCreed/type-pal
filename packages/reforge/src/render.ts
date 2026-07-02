@@ -63,6 +63,8 @@ export interface SpriteDraw {
   worldY: number
   anchorX: number
   anchorY: number
+  /** 画序偏置(原版 sLayer 人工覆盖;加进 baseY 排序键,不动 blit 位置)。 */
+  baseYBias?: number
 }
 
 interface DrawEntry {
@@ -155,7 +157,7 @@ export class Canvas2DRenderer implements Renderer {
       const img = this.bake(s.frame)
       const bx = Math.round(s.worldX - s.anchorX + ox)
       const by = Math.round(s.worldY - s.anchorY + oy)
-      entries.push({ baseY: s.worldY + 10, draw: () => this.ctx.drawImage(img, bx, by) })
+      entries.push({ baseY: s.worldY + 10 + (s.baseYBias ?? 0), draw: () => this.ctx.drawImage(img, bx, by) })
       this.addCoverTiles(entries, map, s.worldX, s.worldY, s.frame.width, s.frame.height, ox, oy)
     }
 

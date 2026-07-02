@@ -97,9 +97,10 @@ export function SceneCanvas(props: {
   const leaderDef = leaderSpriteId ? spriteById.get(leaderSpriteId) : undefined
   const spriteNums = [
     ...new Set(
-      [leaderDef?.spriteNum, ...scene.entities.map((e) => entitySpriteDef(e)?.spriteNum)].filter(
-        (n): n is number => n != null,
-      ),
+      [
+        leaderDef?.spriteNum,
+        ...scene.entities.filter((e) => !e.hidden).map((e) => entitySpriteDef(e)?.spriteNum),
+      ].filter((n): n is number => n != null),
     ),
   ]
   const spriteNumsKey = spriteNums.join(',')
@@ -140,7 +141,8 @@ export function SceneCanvas(props: {
     if (!loaded || !ctx) return
     const { renderer, map, spritesByNum } = loaded
 
-    const room = scene.map.room
+    // M2a:视窗可选 —— 缺省整张图(迁移场景无 room;demo 保留)
+    const room = scene.map.room ?? { col: 0, row: 0, cols: map.width, rows: map.height }
     const roomMinX = room.col * TILE_W - TILE_W
     const roomMinY = room.row * TILE_H - 40
     const roomMaxX = (room.col + room.cols) * TILE_W + TILE_W
@@ -171,6 +173,7 @@ export function SceneCanvas(props: {
     }
     // 各实体(站立帧 = layout × facing)+ 记命中盒
     for (const e of scene.entities) {
+      if (e.hidden) continue // 初始隐藏(M2a):编辑器画布同引擎不渲染(后续可加"显隐透视"开关)
       const def = entitySpriteDef(e)
       const sp = def ? spritesByNum.get(def.spriteNum) : undefined
       const f = def ? (sp?.frames[idleFrameIndex(def.layout, e.facing ?? 'down')] ?? sp?.frames[0]) : undefined
@@ -179,7 +182,7 @@ export function SceneCanvas(props: {
       const pos = drag && drag.id === e.id ? { col: drag.col, row: drag.row, height: e.pos.height } : e.pos
       const p = gridToPixel(pos)
       const wy = spriteScreenY(pos)
-      draws.push({ frame: f, worldX: p.x, worldY: wy, anchorX: sp.anchorX, anchorY: sp.anchorY })
+      draws.push({ frame: f, worldX: p.x, worldY: wy, anchorX: sp.anchorX, anchorY: sp.anchorY, baseYBias: e.zBias })
       hits.push({ id: e.id, ...physRect(p.x, wy, sp.anchorX, sp.anchorY, f.width, f.height) })
     }
     hitsRef.current = hits

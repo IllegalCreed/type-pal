@@ -69,6 +69,10 @@ export interface EntityBase {
   collide?: boolean
   /** 交互触发的对话 id */
   interact?: string
+  /** 初始隐藏(原版 sState=0;脚本届时显形 = M3/B2 状态页)。隐藏 = 不渲染不碰撞。 */
+  hidden?: boolean
+  /** 画序偏置(原版 sLayer 人工覆盖;叠加进 Y-sort 基线,防遮挡漂移)。 */
+  zBias?: number
 }
 
 /** 场景实体 = 公共字段 & (actor ⊕ sprite)。判别用 isActorEntity / resolveEntitySpriteId(actor.ts)。 */
@@ -84,9 +88,14 @@ export interface SceneDef {
    */
   map: {
     reuseOriginalMap: number
-    /** 取哪一间：该房间在原图里的格子矩形（左上角 col/row + 宽高格数,旧 cell 坐标,显示层用） */
-    room: { col: number; row: number; cols: number; rows: number }
+    /** 可选视窗:房间在原图里的格子矩形(旧 cell 坐标)。**缺省 = 整张图**(原版无房间概念,
+     *  相机夹全图包围盒;room 是 demo 单间切片的发明,迁移场景一律不填)。M2 设计 §1。 */
+    room?: { col: number; row: number; cols: number; rows: number }
   }
+  /** BGM 槽(原版音乐号;窄扫描自 onEnter 链头 playMusic)。缺省 = 延续上一曲(忠实原版)。 */
+  musicId?: number
+  /** 命名入口(M3 传送引用;迁移自 setPartyPos→loadScene 对:from-scene-<src>[-k] / start)。 */
+  entries?: Record<string, { pos: GridPos; facing?: Facing }>
   /**
    * 调色板号(原版调色板下标);缺省 0 向后兼容。引擎据此 loadPalette,去 URL `?pal=` 兜底。
    * (demo 未跑 setPalette 脚本,此前靠 URL 手动指定;现在场景自带。)
