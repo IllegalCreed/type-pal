@@ -2,7 +2,7 @@
  * M4a · 敌人数据迁移:enemies.json(154 stats) + enemy-objects.json(153 AI 指针) → EnemyDef[]。
  * 纯函数,golden 钉真值。AI 脚本(scriptOnReady 等)= M4c 翻译,此处只搬 fallback-AI 参数 + 记指针。
  */
-import type { EnemyDef } from '@type-pal/content'
+import type { EnemyDef, EnemyTeamDef } from '@type-pal/content'
 
 export interface SourceEnemy {
   id: number
@@ -139,4 +139,44 @@ export function mapEnemies(
   }
 
   return { enemies: out, localeNames, report: { total: out.length, withScript, danglingEnemyId } }
+}
+
+// ════════════════════════════════════════════════════════════════════
+// M4b · 敌队表(enemy-teams.json → EnemyTeamDef;startBattle 的 team 号查此)
+// ════════════════════════════════════════════════════════════════════
+
+export interface SourceEnemyTeam {
+  id: number
+  /** 5 槽 enemyObjectIndexes;65535 = 空位。 */
+  enemyObjectIndexes: number[]
+  _names?: string[]
+}
+
+/** 敌队稳定 id(team-<原版队号>;startBattle{team:n} → `team-${n}` 查表)。 */
+export function teamSlug(id: number): string {
+  return `team-${id}`
+}
+
+const EMPTY_SLOT = 65535
+
+export function mapEnemyTeams(
+  teams: readonly SourceEnemyTeam[],
+  knownEnemyIds: ReadonlySet<string>,
+): { teams: EnemyTeamDef[]; report: { total: number; danglingMember: string[] } } {
+  const danglingMember: string[] = []
+  const out: EnemyTeamDef[] = []
+  for (const t of teams) {
+    const members: string[] = []
+    for (const oi of t.enemyObjectIndexes) {
+      if (oi === EMPTY_SLOT) continue
+      const id = enemySlug(oi)
+      if (!knownEnemyIds.has(id)) {
+        danglingMember.push(`${teamSlug(t.id)}:${id}`)
+        continue
+      }
+      members.push(id)
+    }
+    out.push({ id: teamSlug(t.id), members })
+  }
+  return { teams: out, report: { total: out.length, danglingMember } }
 }

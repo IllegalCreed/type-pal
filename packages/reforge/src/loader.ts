@@ -8,6 +8,8 @@
 // 编辑器 loadAllScenes 一次拉全量。见 scene-model-m2-design §2。
 import type {
   ActorDef,
+  EnemyDef,
+  EnemyTeamDef,
   ItemDataMap,
   LevelUpSkill,
   LoadedManifest,
@@ -42,6 +44,10 @@ export interface LoadedProject {
   locale: Locale
   /** 精灵注册表(EntityDef.sprite 语义 id → SpriteDef);无 sprites.json 时为空 {}。 */
   spritesById: Record<string, SpriteDef>
+  /** 敌人定义(M4;无 enemies.json 时空 {})。 */
+  enemiesById: Record<string, EnemyDef>
+  /** 敌队表(M4;startBattle team-<n> 查;无时空 {})。 */
+  enemyTeamsById: Record<string, EnemyTeamDef>
   /** 工程资源根 + 子目录(assets.ts load* 用;来自 manifest.assets)。 */
   assetBase: AssetBase
 }
@@ -58,6 +64,9 @@ export interface ContentJsons {
   locale: unknown
   /** 精灵注册表(可选:缺 → spritesById 为空 {};向后兼容不传 sprites 的旧测)。 */
   sprites?: unknown
+  /** 敌人/敌队(可选,M4;缺 → 空表)。 */
+  enemies?: unknown
+  enemyTeams?: unknown
 }
 
 function indexById<T extends { id: string }>(arr: T[]): Record<string, T> {
@@ -82,6 +91,9 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
   const items = validateItems(jsons.items)
   const locale = validateLocale(jsons.locale)
   const sprites = jsons.sprites ? validateSprites(jsons.sprites) : []
+  // M4:敌人/敌队轻校验(数组 + id;详校验编辑器期上 zod)
+  const enemies = Array.isArray(jsons.enemies) ? (jsons.enemies as EnemyDef[]) : []
+  const enemyTeams = Array.isArray(jsons.enemyTeams) ? (jsons.enemyTeams as EnemyTeamDef[]) : []
 
   if (!entryScene || entryScene.id !== manifest.entryScene)
     throw new Error(
@@ -102,6 +114,8 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
     items: indexById(items),
     locale,
     spritesById: indexById(sprites),
+    enemiesById: indexById(enemies),
+    enemyTeamsById: indexById(enemyTeams),
     assetBase: {
       // root 以 "/" 开头 = 应用绝对路径(如 "/extracted/data",pal 共享提取源,免拷 221 张图进仓);
       // 否则 = 工程自包含相对路径(demo)。
@@ -126,7 +140,7 @@ export async function loadProject(projectId: string): Promise<LoadedProject> {
   const manifest = (await fetchJson(`${root}/manifest.json`)) as LoadedManifest
   const content = manifest.content
   const dir = scenesDir(manifest)
-  const [actors, sceneIds, entryScene, skills, items, locale, sprites] = await Promise.all([
+  const [actors, sceneIds, entryScene, skills, items, locale, sprites, enemies, enemyTeams] = await Promise.all([
     fetchJson(`${root}/${content.actors}`),
     fetchJson(`${root}/${dir}index.json`),
     fetchJson(`${root}/${dir}${manifest.entryScene}.json`),
@@ -134,8 +148,10 @@ export async function loadProject(projectId: string): Promise<LoadedProject> {
     fetchJson(`${root}/${content.items}`),
     fetchJson(`${root}/${content.locale}`),
     content.sprites ? fetchJson(`${root}/${content.sprites}`) : Promise.resolve(undefined),
+    content.enemies ? fetchJson(`${root}/${content.enemies}`) : Promise.resolve(undefined),
+    content.enemyTeams ? fetchJson(`${root}/${content.enemyTeams}`) : Promise.resolve(undefined),
   ])
-  return assembleProject(manifest, { actors, sceneIds, entryScene, skills, items, locale, sprites })
+  return assembleProject(manifest, { actors, sceneIds, entryScene, skills, items, locale, sprites, enemies, enemyTeams })
 }
 
 /** 按需载单场景(引擎 switchScene / 编辑器切场景用)。 */

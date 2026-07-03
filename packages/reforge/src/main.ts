@@ -1,6 +1,7 @@
 import {
   buildWorld,
   type Dialogue,
+  effectiveStat,
   type DialogueLine,
   emptyWorldScriptState,
   type EntityDef,
@@ -28,6 +29,7 @@ import {
   loadTileset,
 } from './assets.js'
 import { getEnemyBasePos, getPlayerBasePos } from './battle/battle-positions.js'
+import { BattleSession } from './battle/battle-session.js'
 import { type BattleSpriteDraw, renderBattleScene } from './battle/present-battle.js'
 import { isBlockedAt, sameGrid } from './collision.js'
 import { loadCursorFrames, loadPortraits } from './dialog/dialog-assets.js'
@@ -320,6 +322,7 @@ async function main(): Promise<void> {
   let fadeBlack = 0 // 0 透明 → 1 全黑(fade out 后保持,fade in 释放)
   let scriptDialogResolve: (() => void) | null = null
   const entityFrameOverride = new Map<string, number>() // setEntityFrame 演出帧覆盖(切场景清)
+  let activeBattle: BattleSession | null = null // M4b:进行中的战斗(主循环转发 tick/render)
   // ── M3b 走位/动画驱动(tick 推进;abort 全兑现)──
   const SPEED_MS: Record<string, number> = { slow: 200, normal: 130, fast: 100, run: 50 }
   const entityMoves = new Map<string, { to: GridPos; stepMs: number; acc: number; resolve: () => void }>()
@@ -487,9 +490,54 @@ async function main(): Promise<void> {
       }
     },
     startBattle: async (team) => {
-      showToast(`遇敌 #${team} —— 战斗桩:自动胜(M4)`)
-      await host.wait(400)
-      return 'win'
+      const teamDef = project.enemyTeamsById[`team-${team}`]
+      const enemyDefs = (teamDef?.members ?? [])
+        .map((id) => project.enemiesById[id])
+        .filter((e): e is NonNullable<typeof e> => !!e)
+      if (enemyDefs.length === 0) {
+        showToast(`遇敌 #${team} —— 敌队缺数据,桩胜(M4c)`)
+        await host.wait(400)
+        return 'win'
+      }
+      // 队员战斗态:CharacterInstance + 装备加成(effectiveStat)
+      const itemsById = project.items
+      const players = world.party.map((c) => ({
+        roleId: c.id,
+        hp: c.hp,
+        maxHp: c.maxHP,
+        mp: c.mp,
+        maxMp: c.maxMP,
+        attackStrength: effectiveStat(c, 'attack', itemsById),
+        defense: effectiveStat(c, 'defense', itemsById),
+        magicStrength: effectiveStat(c, 'magicAttack', itemsById),
+        baseDexterity: effectiveStat(c, 'speed', itemsById),
+      }))
+      // 资产:战场背景(sys:battleField 记账 → 当前场景 palette 着色)+ 敌我战斗精灵
+      const fieldId = world.script?.vars['sys:battleField'] ?? 24
+      const [bg, enemySprites, playerSprites] = await Promise.all([
+        loadBattleBg(project.assetBase, fieldId, palette).catch(() => undefined),
+        Promise.all(enemyDefs.map((e) => loadBattleSprite(project.assetBase, 'enemy', e.spriteNum).catch(() => undefined))),
+        Promise.all(
+          world.party.map((c) =>
+            loadBattleSprite(project.assetBase, 'player', project.actorsById[c.template]?.battler?.battleSpriteNum ?? 0).catch(() => undefined),
+          ),
+        ),
+      ])
+      const session = new BattleSession(
+        players,
+        enemyDefs,
+        { bg, palette, glyphs, enemySprites, playerSprites },
+        (roleId) => {
+          const c = world.party.find((x) => x.id === roleId)
+          return c ? lookupText(`name.${c.template}`, project.locale) : roleId
+        },
+      )
+      activeBattle = session
+      const result = await session.done
+      activeBattle = null
+      // 写回战斗结果的 HP/MP(战斗内伤害持久;原版同)
+      session.writeBackHp(world.party)
+      return result
     },
     openShop: (shop, mode) => {
       showToast(`商店 #${shop}(${mode === 'buy' ? '买' : '卖'})—— M3c 落地`)
@@ -1074,6 +1122,13 @@ async function main(): Promise<void> {
     }
     advanceMoves(dt) // M3b 走位驱动(实体巡逻/剧情走位;与输入无关,菜单/对话期照走)
     const pressed = keyboard.consumePressed()
+    // M4b:战斗接管(大世界暂停;渲染/输入全走 BattleSession)
+    if (activeBattle) {
+      activeBattle.tick(dt, pressed)
+      activeBattle.render(ctx, WORLD_SCALE)
+      requestAnimationFrame(tick)
+      return
+    }
     const interact = pressed.has(' ') || pressed.has('Enter')
     const esc = pressed.has('Escape')
 

@@ -9,7 +9,9 @@
     "skills": "content/skills.json",
     "items": "content/items.json",
     "locale": "content/locale.json",
-    "sprites": "content/sprites.json"
+    "sprites": "content/sprites.json",
+    "enemies": "content/enemies.json",
+    "enemyTeams": "content/enemy-teams.json"
   },
   "assets": {
     "root": "/extracted/data",

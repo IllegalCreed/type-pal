@@ -72,8 +72,8 @@ import type { SourceCmd } from './source-facts.js'
 import { FACING_BY_DIR, partyPosToGrid, ROLE_SLUGS, sceneSlug, signExtendI16 } from './source-facts.js'
 import type { TranslateReport } from './translate-events.js'
 import { emptyTranslateReport, foldStages, translateStages } from './translate-events.js'
-import type { EnemyMigrationResult, SourceEnemy, SourceEnemyObject } from './migrate-enemies.js'
-import { mapEnemies } from './migrate-enemies.js'
+import type { EnemyMigrationResult, SourceEnemy, SourceEnemyObject, SourceEnemyTeam } from './migrate-enemies.js'
+import { mapEnemies, mapEnemyTeams } from './migrate-enemies.js'
 export interface LevelUpMagicCell {
   level: number
   magic: number
@@ -673,6 +673,7 @@ export interface MigrateSources {
   commands: SourceCmd[]
   enemies?: SourceEnemy[]
   enemyObjects?: SourceEnemyObject[]
+  enemyTeams?: SourceEnemyTeam[]
 }
 export interface MigrateOutput {
   actors: ActorDef[]
@@ -683,7 +684,10 @@ export interface MigrateOutput {
   localeNames: Record<string, string>
   /** M4a:敌人定义(enemies+enemy-objects 合并;无源时空数组)。 */
   enemies: EnemyDef[]
+  /** M4b:敌队表(startBattle team 号查);无源时空数组。 */
+  enemyTeams: EnemyTeamDef[]
   enemyReport?: EnemyMigrationResult['report']
+  enemyTeamReport?: { total: number; danglingMember: string[] }
   report: {
     pendingSkills: SkillMigrationResult['pending']
     lossySkills: SkillMigrationResult['lossy']
@@ -760,6 +764,9 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
   // M4a:敌人(有源才迁;name.<enemy> 并入 locale)
   const enemyRes = src.enemies && src.enemyObjects ? mapEnemies(src.enemies, src.enemyObjects) : undefined
   if (enemyRes) Object.assign(localeNames, enemyRes.localeNames)
+  const teamRes = enemyRes && src.enemyTeams
+    ? mapEnemyTeams(src.enemyTeams, new Set(enemyRes.enemies.map((e) => e.id)))
+    : undefined
   return {
     actors,
     sprites,
@@ -767,7 +774,9 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
     items,
     localeNames,
     enemies: enemyRes?.enemies ?? [],
+    enemyTeams: teamRes?.teams ?? [],
     enemyReport: enemyRes?.report,
+    enemyTeamReport: teamRes?.report,
     report: { pendingSkills: skillsRes.pending, lossySkills: skillsRes.lossy, blockedDescs, pendingEquip, pendingUse, lossyUse },
   }
 }
@@ -784,7 +793,7 @@ export function mergeExtras<T extends { id: string }>(migrated: T[], extras: T[]
 // 事实锚(2026-07-02 实测):实体 id 全局唯一;direction 0-3 = 下/左/上/右;
 // loadScene 是具名 op 且 sceneId 已解析为 0-based;setPartyPos=raw 70;playMusic=raw 67。
 // ════════════════════════════════════════════════════════════════════
-import type { EnemyDef } from '@type-pal/content'
+import type { EnemyDef, EnemyTeamDef } from '@type-pal/content'
 import { pixelToGrid } from '@type-pal/content'
 import type { SceneDef } from '@type-pal/content'
 
