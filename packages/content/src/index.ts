@@ -115,6 +115,7 @@ export interface SceneDef {
 }
 
 export * from './actor.js'
+export * from './battle-formulas.js'
 export * from './character.js'
 export * from './script.js'
 export * from './grid.js'
