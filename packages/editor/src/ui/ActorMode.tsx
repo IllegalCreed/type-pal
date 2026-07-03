@@ -63,7 +63,7 @@ export function ActorMode(props: {
       {/* 中:精灵帧标注(C1c) */}
       <div className="center actor-center">
         {actor && sprite ? (
-          <SpriteFrames sprite={sprite} assetBase={assetBase} />
+          <SpriteFrames sprite={sprite} assetBase={assetBase} session={session} />
         ) : (
           <div className="insp-empty" style={{ padding: 40 }}>
             {actor ? `精灵 "${actor.spriteId}" 不在注册表` : '无角色'}

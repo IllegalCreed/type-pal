@@ -5,7 +5,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { bakeFrame, deriveStepCycle, loadPalette, loadSprite } from '@type-pal/reforge'
 import type { AssetBase, LoadedSprite } from '@type-pal/reforge'
-import type { SpriteDef } from '@type-pal/content'
+import type { PoseDef, SpriteDef } from '@type-pal/content'
+import { UpdateSpriteCommand } from '../core/commands.js'
+import type { EditSession } from '../core/edit-session.js'
 
 const DIRS = ['down', 'left', 'up', 'right'] as const
 const DIR_LABEL: Record<string, string> = { down: '下', left: '左', up: '上', right: '右' }
@@ -36,11 +38,37 @@ function FrameCell(props: { canvas: HTMLCanvasElement | undefined; maxW: number;
   return <canvas ref={ref} className="fcell-canvas" />
 }
 
-export function SpriteFrames(props: { sprite: SpriteDef; assetBase: AssetBase }) {
-  const { sprite, assetBase } = props
+export function SpriteFrames(props: { sprite: SpriteDef; assetBase: AssetBase; session: EditSession }) {
+  const { sprite, assetBase, session } = props
   const [loaded, setLoaded] = useState<LoadedSprite | null>(null)
   const [baked, setBaked] = useState<HTMLCanvasElement[]>([])
   const [err, setErr] = useState('')
+  // 命名姿势框选:选中的未分配帧 + 待建姿势名/播放方式
+  const [selFrames, setSelFrames] = useState<Set<number>>(new Set())
+  const [poseName, setPoseName] = useState('')
+  const [poseMode, setPoseMode] = useState<PoseDef['mode']>('static')
+
+  const toggleFrame = (i: number): void => {
+    setSelFrames((prev) => {
+      const next = new Set(prev)
+      if (next.has(i)) next.delete(i)
+      else next.add(i)
+      return next
+    })
+  }
+  const createPose = (): void => {
+    const name = poseName.trim()
+    if (!name || selFrames.size === 0) return
+    const frames = [...selFrames].sort((a, b) => a - b)
+    session.dispatch(new UpdateSpriteCommand(sprite.id, { poses: { ...sprite.poses, [name]: { frames, mode: poseMode } } }))
+    setSelFrames(new Set())
+    setPoseName('')
+  }
+  const deletePose = (name: string): void => {
+    const rest = { ...sprite.poses }
+    delete rest[name]
+    session.dispatch(new UpdateSpriteCommand(sprite.id, { poses: Object.keys(rest).length ? rest : undefined }))
+  }
 
   useEffect(() => {
     let alive = true
@@ -118,26 +146,41 @@ export function SpriteFrames(props: { sprite: SpriteDef; assetBase: AssetBase })
           </div>
         )}
 
-        {/* 命名姿势(C1;编辑交互 C1d) */}
+        {/* 命名姿势(C1d:点选未分配帧 + 命名 → 建姿势) */}
         <div className="posegroup">
           <div className="posehead">
             <span className="t">特殊动作 · 命名姿势</span>
-            <span className="why">绝对帧号(无分方向)· 脚本按名字引用 · 编辑交互 C1d</span>
+            <span className="why">绝对帧号(无分方向)· 脚本按名字引用 · 点下方帧框选新建</span>
           </div>
           <div className="poselist">
             {Object.entries(sprite.poses ?? {}).map(([name, pose]) => (
               <div key={name} className="posecard">
-                <b>{name}</b>
+                <div className="pc-head"><b>{name}</b><button className="pc-del" title="删除姿势" onClick={() => deletePose(name)}>×</button></div>
                 <div className="pf">{pose.frames.map((fi) => <FrameCell key={fi} canvas={baked[fi]} maxW={maxW} maxH={maxH} scale={1.3} />)}</div>
                 <span className="pmode">{pose.mode === 'loop' ? '循环' : '静态'} · 帧 {pose.frames.join(',')}</span>
               </div>
             ))}
-            {Object.keys(sprite.poses ?? {}).length === 0 ? <span className="hint">（暂无命名姿势;从未分配帧框选新建 — C1d）</span> : null}
+            {Object.keys(sprite.poses ?? {}).length === 0 ? <span className="hint">（暂无命名姿势;点下方帧框选 + 命名新建）</span> : null}
           </div>
           {unassigned.length > 0 ? (
             <div className="unassigned">
-              未分配帧:{unassigned.map((i) => <span key={i} className="uf">{i}</span>)}
-              <span style={{ marginLeft: 4 }}>← 特殊动作候选(施法/受击/坐…)</span>
+              <span>未分配帧(点选):</span>
+              {unassigned.map((i) => (
+                <button key={i} className={`uf${selFrames.has(i) ? ' sel' : ''}`} onClick={() => toggleFrame(i)}>{i}</button>
+              ))}
+            </div>
+          ) : null}
+          {selFrames.size > 0 ? (
+            <div className="pose-form">
+              <span className="pf">{[...selFrames].sort((a, b) => a - b).map((fi) => <FrameCell key={fi} canvas={baked[fi]} maxW={maxW} maxH={maxH} scale={1.1} />)}</span>
+              <input className="in" placeholder="姿势名(摔倒/坐下/施法…)" value={poseName}
+                onChange={(e) => setPoseName(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && createPose()} autoFocus />
+              <select className="in" value={poseMode} onChange={(e) => setPoseMode(e.target.value as PoseDef['mode'])}>
+                <option value="static">静态</option>
+                <option value="loop">循环</option>
+              </select>
+              <button className="tool active" onClick={createPose} disabled={!poseName.trim()}>建姿势 · 帧 {[...selFrames].sort((a, b) => a - b).join(',')}</button>
+              <button className="tool" onClick={() => setSelFrames(new Set())}>取消</button>
             </div>
           ) : null}
         </div>

@@ -90,7 +90,7 @@ export function DataMode(props: {
       {/* 中:精灵帧 */}
       <div className="center actor-center">
         {tab === 'sprite' ? (
-          sprite ? <SpriteFrames sprite={sprite} assetBase={assetBase} /> : <div className="insp-empty" style={{ padding: 40 }}>无精灵</div>
+          sprite ? <SpriteFrames sprite={sprite} assetBase={assetBase} session={session} /> : <div className="insp-empty" style={{ padding: 40 }}>无精灵</div>
         ) : (
           <div className="insp-empty" style={{ padding: 40 }}>此标签编辑器待做。数据模式采 RPG Maker 数据库范式:各类游戏数据表标签页组织。</div>
         )}

@@ -220,3 +220,12 @@ body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-s
 .sprite-list { flex: 1; overflow-y: auto; }
 .stat-in { width: 60px; background: var(--panel3); border: 1px solid var(--line); color: var(--fg); border-radius: 3px; padding: 2px 5px; font-size: 12px; text-align: right; }
 .stat-in:focus { border-color: var(--accent); outline: none; }
+.uf { background: rgba(0,0,0,.3); border: 1px dashed #4a5162; color: var(--dim); cursor: pointer; font: inherit; }
+.uf:hover { border-color: var(--accent); color: var(--fg); }
+.uf.sel { background: var(--accent); border-style: solid; border-color: var(--accent); color: #06121f; font-weight: 600; }
+.pose-form { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding: 8px; background: var(--panel2); border: 1px solid var(--accent); border-radius: 6px; flex-wrap: wrap; }
+.pose-form .pf { display: flex; gap: 3px; }
+.pose-form .in { max-width: 180px; }
+.pc-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.pc-del { background: none; border: 0; color: var(--faint); cursor: pointer; font-size: 14px; line-height: 1; }
+.pc-del:hover { color: var(--err); }
