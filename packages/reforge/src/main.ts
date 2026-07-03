@@ -437,7 +437,9 @@ async function main(): Promise<void> {
           resolve()
           return
         }
-        entityMoves.set(id, { to, stepMs: SPEED_MS[speed] ?? 130, acc: SPEED_MS[speed] ?? 130, resolve })
+        // acc 从 0 起:曾预充满 stepMs → 首步零延迟,1-2 步的短距走位在相邻帧内瞬完
+        // = 瞬移(开场李逍遥两条 partyWalk 到密道口,2026-07-03 用户报;实体同防)
+        entityMoves.set(id, { to, stepMs: SPEED_MS[speed] ?? 130, acc: 0, resolve })
       }),
     stepEntity: (id, dir) => {
       const e = scene.entities.find((x) => x.id === id)
@@ -461,7 +463,7 @@ async function main(): Promise<void> {
     },
     moveParty: (to, speed) =>
       new Promise((resolve) => {
-        partyMove = { to, stepMs: SPEED_MS[speed] ?? 130, acc: SPEED_MS[speed] ?? 130, resolve }
+        partyMove = { to, stepMs: SPEED_MS[speed] ?? 130, acc: 0, resolve } // acc 同上从 0 起
       }),
     nudgeParty: (dx, dy) => {
       const d = pixelDeltaToGridDelta(dx, dy) // 同 nudgeEntity:增量制保碎步小数
@@ -643,9 +645,12 @@ async function main(): Promise<void> {
       mv.acc += dt
       while (mv.acc >= mv.stepMs) {
         mv.acc -= mv.stepMs
-        const dc = Math.sign(mv.to.col - player.pos.col)
-        const dr = Math.sign(mv.to.row - player.pos.row)
-        if (dc === 0 && dr === 0) break
+        const dcol = mv.to.col - player.pos.col
+        const drow = mv.to.row - player.pos.row
+        if (Math.abs(dcol) < 0.26 && Math.abs(drow) < 0.26) break
+        // 半格步长(同 moveEntity;曾整格步 → 短距 partyWalk 一两帧跳完 = 瞬移)
+        const dc = Math.abs(dcol) >= 0.26 ? Math.sign(dcol) * 0.5 : 0
+        const dr = Math.abs(drow) >= 0.26 ? Math.sign(drow) * 0.5 : 0
         player.pos = { ...player.pos, col: player.pos.col + dc, row: player.pos.row + dr }
         // 同上:像素轴象限(曾错套格轴)
         const dpx = dc - dr
@@ -656,9 +661,11 @@ async function main(): Promise<void> {
         stepFrame = (stepFrame + 1) % 4
         updateCamera()
       }
-      if (player.pos.col === mv.to.col && player.pos.row === mv.to.row) {
+      if (Math.abs(mv.to.col - player.pos.col) < 0.26 && Math.abs(mv.to.row - player.pos.row) < 0.26) {
+        player.pos = { ...mv.to }
         partyMove = null
         walking = false
+        updateCamera()
         mv.resolve()
       }
     }
