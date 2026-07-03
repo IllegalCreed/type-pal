@@ -16,13 +16,15 @@ export type { Camera, CellRect, Renderer, SpriteDraw }
 // 资产加载(tilemap/palette/tileset/sprite + gzip 解压)
 import {
   decompressGzip,
+  loadBattleBg,
+  loadBattleSprite,
   loadPalette,
   loadSprite,
   loadTilemap,
   loadTileset,
 } from './assets.js'
 import type { AssetBase, LoadedSprite } from './assets.js'
-export { decompressGzip, loadPalette, loadSprite, loadTilemap, loadTileset }
+export { decompressGzip, loadBattleBg, loadBattleSprite, loadPalette, loadSprite, loadTilemap, loadTileset }
 export type { AssetBase, LoadedSprite }
 
 // 工程 loader(manifest + content JSON → LoadedProject)

@@ -63,6 +63,37 @@ export async function loadSprite(base: AssetBase, spriteNum: number): Promise<Lo
 }
 
 /**
+ * 战斗精灵(M4b):{root}/battle-sprite/{kind}/{id}.rle(gzip RLE 帧组;kind=enemy/player)。
+ * 帧格式同大世界精灵(parseSpriteChunk),故复用 LoadedSprite。
+ */
+export async function loadBattleSprite(
+  base: AssetBase,
+  kind: 'enemy' | 'player',
+  id: number,
+): Promise<LoadedSprite> {
+  const res = await fetch(`${base.root}/battle-sprite/${kind}/${id}.rle`)
+  if (!res.ok) throw new Error(`battle sprite ${kind}/${id}: ${res.status}`)
+  const frames = parseSpriteChunk(await decompressGzip(await res.blob()))
+  const first = frames[0]
+  return {
+    frames,
+    anchorX: first ? Math.floor(first.width / 2) : 0,
+    anchorY: first ? first.height : 0,
+  }
+}
+
+/**
+ * 战斗背景(M4b):{root}/../images/battle/bg/{NNN}.png —— FBP 解码后的真彩 RGBA PNG(320×200)。
+ * 提取器已着色(非 indexed),故直接 ImageBitmap 铺底,无需 palette。
+ */
+export async function loadBattleBg(base: AssetBase, id: number): Promise<ImageBitmap> {
+  const imagesRoot = base.root.replace(/\/data$/, '/images')
+  const res = await fetch(`${imagesRoot}/battle/bg/${String(id).padStart(3, '0')}.png`)
+  if (!res.ok) throw new Error(`battle bg ${id}: ${res.status}`)
+  return createImageBitmap(await res.blob())
+}
+
+/**
  * 浏览器原生 gzip 解压（端口自 game/assets/tileset-blob.ts）。
  * 含 Content-Encoding 双解压防御：无 gzip 魔数(1f 8b) = 上游已解，直接返回。
  */

@@ -19,12 +19,16 @@ import type { Palette, RleFrame, Tilemap } from '@type-pal/shared'
 import {
   type AssetBase,
   type LoadedSprite,
+  loadBattleBg,
+  loadBattleSprite,
   loadGlyphs,
   loadPalette,
   loadSprite,
   loadTilemap,
   loadTileset,
 } from './assets.js'
+import { getEnemyBasePos, getPlayerBasePos } from './battle/battle-positions.js'
+import { type BattleSpriteDraw, renderBattleScene } from './battle/present-battle.js'
 import { isBlockedAt, sameGrid } from './collision.js'
 import { loadCursorFrames, loadPortraits } from './dialog/dialog-assets.js'
 import { DialogBox } from './dialog/dialog-box.js'
@@ -193,6 +197,12 @@ async function main(): Promise<void> {
   // 调试：?gallery 渲染精灵速查图（确认哪个 spriteNum 是人/物），不进场景。
   if (params.has('gallery')) {
     await renderSpriteGallery(project.assetBase, await getPalette(0))
+    return
+  }
+
+  // M4b-1：?battle=<field>&enemies=1,2,3 战斗场景预览（不进主循环,验证 loader+摆位+渲染）。
+  if (params.has('battle')) {
+    await renderBattlePreview(project, params)
     return
   }
 
@@ -1350,6 +1360,50 @@ async function main(): Promise<void> {
   console.log(
     '[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话',
   )
+}
+
+/**
+ * M4b-1 战斗场景预览：?battle=<field>&enemies=1,2,3 → 加载背景 + 敌队 + 队员战斗精灵,
+ * 摆位渲染一帧。验证 loader + battle-positions + renderBattleScene(不进主循环/回合)。
+ */
+async function renderBattlePreview(
+  project: LoadedProject,
+  params: URLSearchParams,
+): Promise<void> {
+  const WORLD_SCALE = 4
+  canvas.width = 320 * WORLD_SCALE
+  canvas.height = 200 * WORLD_SCALE
+  const palette = await loadPalette(project.assetBase, 0)
+  const field = Number(params.get('battle')) || 2
+  const bg = await loadBattleBg(project.assetBase, field).catch((e: unknown) => {
+    console.warn('[battle] bg 加载失败:', e)
+    return undefined
+  })
+  const load = async (kind: 'enemy' | 'player', id: number): Promise<LoadedSprite | undefined> =>
+    loadBattleSprite(project.assetBase, kind, id).catch((e: unknown) => {
+      console.warn(`[battle] ${kind} 精灵 ${id} 加载失败:`, e)
+      return undefined
+    })
+
+  const enemyIds = (params.get('enemies') ?? '1,2,3').split(',').map(Number).filter((n) => n >= 0)
+  const enemies: BattleSpriteDraw[] = []
+  for (const [i, id] of enemyIds.entries()) {
+    const sprite = await load('enemy', id)
+    const pos = getEnemyBasePos(undefined, i) ?? { x: 160, y: 80 }
+    if (sprite) enemies.push({ sprite, x: pos.x, y: pos.y, frame: 0 })
+  }
+
+  const party = project.manifest.startWorld.party.slice(0, 3)
+  const players: BattleSpriteDraw[] = []
+  for (const [i, aid] of party.entries()) {
+    const bsn = project.actorsById[aid]?.battler?.battleSpriteNum ?? 0
+    const sprite = await load('player', bsn)
+    const pos = getPlayerBasePos(party.length, i) ?? { x: 240, y: 170 }
+    if (sprite) players.push({ sprite, x: pos.x, y: pos.y, frame: 0 })
+  }
+
+  renderBattleScene(ctx, { bg, enemies, players, palette }, WORLD_SCALE)
+  console.log(`[reforge] battle preview: field ${field}, ${enemies.length} 敌 / ${players.length} 队员`)
 }
 
 /** 调试速查：把 spriteNum 0..47 的第 0 帧排成网格 + 标号，肉眼分辨人 / 物。 */
