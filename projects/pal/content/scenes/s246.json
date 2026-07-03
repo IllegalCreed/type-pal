@@ -5343,13 +5343,9 @@
                     "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 101,
-                    "operands": [
-                      0,
-                      563,
-                      65535
-                    ]
+                    "kind": "setActorSprite",
+                    "actor": "li-xiaoyao",
+                    "sprite": "npc-563"
                   },
                   {
                     "kind": "clearDialog"

@@ -52,13 +52,9 @@
           "state": 1
         },
         {
-          "kind": "unmigrated",
-          "opcode": 115,
-          "operands": [
-            4,
-            80,
-            0
-          ]
+          "kind": "fade",
+          "dir": "in",
+          "ms": 1200
         },
         {
           "kind": "dialog",

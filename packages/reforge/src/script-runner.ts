@@ -26,7 +26,13 @@ export interface ScriptHost {
   wait(ms: number): Promise<void>
   teleportParty(pos: GridPos, facing?: Facing): void
   loadScene(scene: string, pos?: GridPos, facing?: Facing): Promise<void>
-  setPartyFacing(facing: Facing): void
+  /**
+   * 0x15:朝向 + 脚本姿势帧。gesture 缺省 = 清姿势(站立);>0 = 姿势帧
+   * (渲染 = dir*framesPerDir + gesture,走路/传送时清)。member 0 = 队长。
+   */
+  setPartyFacing(facing: Facing, gesture?: number, member?: number): void
+  /** 0x65:换角色大世界精灵(异步:精灵可能需加载)。持续到下一次显式切换。 */
+  setActorSprite(actor: string, sprite: string): Promise<void>
   setEntityState(entity: string, state: number): void
   setEntityFacing(entity: string, facing: Facing): void
   setEntityFrame(entity: string, frame: number): void
@@ -168,7 +174,9 @@ export class ScriptRunner {
       case 'loadScene':
         return h.loadScene(cmd.scene, cmd.pos, cmd.facing)
       case 'setPartyFacing':
-        return h.setPartyFacing(cmd.facing)
+        return h.setPartyFacing(cmd.facing, cmd.gesture, cmd.member)
+      case 'setActorSprite':
+        return h.setActorSprite(cmd.actor, cmd.sprite)
       case 'setEntityState':
         this.world.entityState[cmd.entity] = cmd.state
         return h.setEntityState(cmd.entity, cmd.state)

@@ -234,7 +234,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -284,7 +285,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "up"
+                    "facing": "up",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -292,7 +294,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "right"
+                    "facing": "right",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -300,7 +303,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -331,7 +335,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "right"
+                    "facing": "right",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -351,7 +356,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 2
                   },
                   {
                     "kind": "wait",
@@ -370,7 +376,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "up"
+                    "facing": "up",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -455,7 +462,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "up"
+                    "facing": "up",
+                    "member": 2
                   },
                   {
                     "kind": "clearDialog"
@@ -1008,11 +1016,13 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "up"
+                    "facing": "up",
+                    "member": 1
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "up"
+                    "facing": "up",
+                    "member": 2
                   },
                   {
                     "kind": "wait",

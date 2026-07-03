@@ -1091,7 +1091,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -1348,13 +1349,9 @@
                     "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 101,
-                    "operands": [
-                      0,
-                      242,
-                      65535
-                    ]
+                    "kind": "setActorSprite",
+                    "actor": "li-xiaoyao",
+                    "sprite": "npc-242"
                   },
                   {
                     "kind": "setPartyFacing",
@@ -1370,7 +1367,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 1
                   },
                   {
                     "kind": "wait",
@@ -1677,7 +1675,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 2
                   },
                   {
                     "kind": "wait",
@@ -1685,7 +1684,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 3
                   },
                   {
                     "kind": "wait",
@@ -1693,7 +1693,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 2
                   },
                   {
                     "kind": "wait",
@@ -1701,7 +1702,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 3
                   },
                   {
                     "kind": "wait",
@@ -1709,7 +1711,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 2
                   },
                   {
                     "kind": "wait",
@@ -1717,7 +1720,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 3
                   },
                   {
                     "kind": "wait",
@@ -1725,7 +1729,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 2
                   },
                   {
                     "kind": "wait",
@@ -1733,7 +1738,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 3
                   },
                   {
                     "kind": "wait",
@@ -1750,7 +1756,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 4
                   },
                   {
                     "kind": "wait",
@@ -1783,13 +1790,9 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 101,
-                    "operands": [
-                      0,
-                      2,
-                      65535
-                    ]
+                    "kind": "setActorSprite",
+                    "actor": "li-xiaoyao",
+                    "sprite": "li-xiaoyao"
                   },
                   {
                     "kind": "setPartyFacing",

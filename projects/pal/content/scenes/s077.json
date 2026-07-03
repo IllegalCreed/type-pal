@@ -317,13 +317,9 @@
     {
       "body": [
         {
-          "kind": "unmigrated",
-          "opcode": 101,
-          "operands": [
-            0,
-            193,
-            0
-          ]
+          "kind": "setActorSprite",
+          "actor": "li-xiaoyao",
+          "sprite": "npc-193"
         },
         {
           "kind": "unmigrated",
@@ -336,7 +332,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 12
         },
         {
           "kind": "teleportParty",
@@ -477,13 +474,9 @@
           "state": 0
         },
         {
-          "kind": "unmigrated",
-          "opcode": 101,
-          "operands": [
-            0,
-            2,
-            0
-          ]
+          "kind": "setActorSprite",
+          "actor": "li-xiaoyao",
+          "sprite": "li-xiaoyao"
         },
         {
           "kind": "unmigrated",
@@ -500,7 +493,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "member": 1
         },
         {
           "kind": "nudgeEntity",
@@ -660,7 +654,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "member": 1
         },
         {
           "kind": "setEntityState",

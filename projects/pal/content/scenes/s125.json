@@ -305,7 +305,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "right"
+          "facing": "right",
+          "member": 1
         },
         {
           "kind": "wait",
@@ -321,7 +322,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "member": 1
         },
         {
           "kind": "wait",
@@ -341,7 +343,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "up"
+          "facing": "up",
+          "member": 1
         },
         {
           "kind": "wait",

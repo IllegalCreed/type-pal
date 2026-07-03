@@ -7657,13 +7657,9 @@
                     "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 101,
-                    "operands": [
-                      2,
-                      245,
-                      0
-                    ]
+                    "kind": "setActorSprite",
+                    "actor": "lin-yueru",
+                    "sprite": "npc-245"
                   },
                   {
                     "kind": "unmigrated",

@@ -3609,7 +3609,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "up"
+          "facing": "up",
+          "member": 1
         },
         {
           "kind": "teleportParty",

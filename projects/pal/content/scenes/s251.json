@@ -4078,13 +4078,9 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 101,
-          "operands": [
-            0,
-            193,
-            0
-          ]
+          "kind": "setActorSprite",
+          "actor": "li-xiaoyao",
+          "sprite": "npc-193"
         },
         {
           "kind": "unmigrated",
@@ -4097,7 +4093,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 8
         },
         {
           "kind": "clearDialog"
@@ -4117,7 +4114,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 9
         },
         {
           "kind": "wait",
@@ -4133,13 +4131,9 @@
           "soundId": 175
         },
         {
-          "kind": "unmigrated",
-          "opcode": 115,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "fade",
+          "dir": "in",
+          "ms": 300
         },
         {
           "kind": "setEntityFacing",
@@ -4152,22 +4146,14 @@
           "frame": 1
         },
         {
-          "kind": "unmigrated",
-          "opcode": 115,
-          "operands": [
-            2,
-            0,
-            0
-          ]
+          "kind": "fade",
+          "dir": "in",
+          "ms": 600
         },
         {
-          "kind": "unmigrated",
-          "opcode": 101,
-          "operands": [
-            0,
-            2,
-            65535
-          ]
+          "kind": "setActorSprite",
+          "actor": "li-xiaoyao",
+          "sprite": "li-xiaoyao"
         },
         {
           "kind": "setPartyFacing",
@@ -4192,13 +4178,9 @@
           "frame": 2
         },
         {
-          "kind": "unmigrated",
-          "opcode": 115,
-          "operands": [
-            4,
-            0,
-            0
-          ]
+          "kind": "fade",
+          "dir": "in",
+          "ms": 1200
         },
         {
           "kind": "dialog",

@@ -24,6 +24,7 @@ function fakeHost(calls: string[]): ScriptHost {
     teleportParty: log('teleportParty'),
     loadScene: alog('loadScene'),
     setPartyFacing: log('setPartyFacing'),
+    setActorSprite: alog('setActorSprite'),
     setEntityState: log('setEntityState'),
     setEntityFacing: log('setEntityFacing'),
     setEntityFrame: log('setEntityFrame'),
@@ -87,6 +88,21 @@ test('顺序执行 + 世界状态写入(flags/vars/entityState 双写)', async (
   expect(world.flags.met).toBe(true)
   expect(world.vars.n).toBe(5)
   expect(world.entityState.e9).toBe(0)
+})
+
+test('0x15/0x65 演出命令分发:姿势帧透传 gesture/member,换装走 setActorSprite', async () => {
+  const calls: string[] = []
+  const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
+  await r.run([
+    { kind: 'setPartyFacing', facing: 'down', gesture: 9 },
+    { kind: 'setPartyFacing', facing: 'right' }, // 无 gesture = 清姿势(host 侧语义)
+    { kind: 'setActorSprite', actor: 'li-xiaoyao', sprite: 'npc-627' },
+  ])
+  expect(calls).toEqual([
+    'setPartyFacing("down",9,)',
+    'setPartyFacing("right",,)',
+    'setActorSprite("li-xiaoyao","npc-627")',
+  ])
 })
 
 describe('stages 阶段机', () => {

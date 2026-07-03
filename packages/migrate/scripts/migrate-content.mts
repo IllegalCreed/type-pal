@@ -67,12 +67,12 @@ if (DEBUG_SCENES) {
   for (const sc of srcScenes) {
     process.stderr.write(`scene ${sc.sceneId}...`)
     const t0 = Date.now()
-    const one = mapScenesStatic([sc], eventsByScene)
+    const one = mapScenesStatic([sc], eventsByScene, out.sprites)
     process.stderr.write(` cmds=${one.scriptReport.commands} ${Date.now() - t0}ms\n`)
   }
   process.exit(0)
 }
-const scenesOut = mapScenesStatic(srcScenes, eventsByScene)
+const scenesOut = mapScenesStatic(srcScenes, eventsByScene, out.sprites)
 
 // ── 与 demo 手作合并(youhun/ghost 等 demo 独有条目保留;工程底座种自 demo)──
 const demoActors = readJson<ActorDef[]>('projects/demo/content/actors.json')

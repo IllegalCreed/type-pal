@@ -53,7 +53,8 @@
                 "body": [
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 1
                   },
                   {
                     "kind": "nudgeParty",
@@ -402,7 +403,7 @@
         "row": 21,
         "height": 0
       },
-      "sprite": "npc-232"
+      "sprite": "npc-232-f0"
     },
     {
       "id": "e2183",

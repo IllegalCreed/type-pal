@@ -72,7 +72,13 @@ function describe(cmd: Command, locale: Locale): Described {
     case 'loadScene':
       return { icon: '🚪', label: `切到场景 ${cmd.scene}`, detail: cmd.pos ? `落点 (${cmd.pos.col},${cmd.pos.row})` : undefined }
     case 'setPartyFacing':
-      return { icon: '🧭', label: `队伍转向 ${cmd.facing}` }
+      return {
+        icon: '🧭',
+        label: cmd.gesture ? `队伍姿势帧 ${cmd.gesture}(向 ${cmd.facing})` : `队伍转向 ${cmd.facing}`,
+        detail: cmd.member ? `队员 ${cmd.member}` : undefined,
+      }
+    case 'setActorSprite':
+      return { icon: '🎭', label: `${cmd.actor} 换精灵`, detail: cmd.sprite }
     case 'setEntityState':
       return { icon: '👁', label: `${cmd.entity} 状态 → ${cmd.state}`, detail: cmd.state <= 0 ? '隐藏' : cmd.state >= 2 ? '现身+挡路' : '现身' }
     case 'setEntityFacing':

@@ -1,5 +1,24 @@
 import { describe, expect, test } from 'vitest'
-import { type GridPos, gridToPixel, pixelToGrid, spriteScreenY } from './grid.js'
+import { type GridPos, gridToPixel, pixelDeltaToGridDelta, pixelToGrid, spriteScreenY } from './grid.js'
+
+describe('pixelDeltaToGridDelta(碎步增量,不取整)', () => {
+  test('开场锅挥动 walkStep (+4,+2)px = (+0.25, 0) 格 —— round 版会吞成 0', () => {
+    expect(pixelDeltaToGridDelta(4, 2)).toEqual({ dcol: 0.25, drow: 0 })
+    expect(pixelDeltaToGridDelta(-4, -2)).toEqual({ dcol: -0.25, drow: 0 })
+  })
+  test('四步累积 = 整格(与原版 16,8px = 1 col 对齐)', () => {
+    const d = pixelDeltaToGridDelta(4, 2)
+    expect(d.dcol * 4).toBe(1)
+  })
+  test('纯 y 位移 → col/row 各半(iso 轴)', () => {
+    expect(pixelDeltaToGridDelta(0, 8)).toEqual({ dcol: 0.5, drow: 0.5 })
+  })
+  test('与 gridToPixel 互逆(任意增量往返)', () => {
+    const { dcol, drow } = pixelDeltaToGridDelta(7, -3)
+    expect(16 * (dcol - drow)).toBeCloseTo(7)
+    expect(8 * (dcol + drow)).toBeCloseTo(-3)
+  })
+})
 
 describe('grid 坐标(菱形轴)', () => {
   test('格 → 像素 = (16(col−row), 8(col+row))', () => {

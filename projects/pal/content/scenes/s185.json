@@ -9829,13 +9829,9 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 101,
-                    "operands": [
-                      0,
-                      232,
-                      65535
-                    ]
+                    "kind": "setActorSprite",
+                    "actor": "li-xiaoyao",
+                    "sprite": "npc-232"
                   },
                   {
                     "kind": "setPartyFacing",

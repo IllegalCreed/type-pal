@@ -4147,7 +4147,7 @@
         "row": 7,
         "height": 0
       },
-      "sprite": "npc-541",
+      "sprite": "npc-541-f0",
       "zBias": 10,
       "pages": [
         {
@@ -8863,13 +8863,9 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 101,
-          "operands": [
-            0,
-            232,
-            65535
-          ]
+          "kind": "setActorSprite",
+          "actor": "li-xiaoyao",
+          "sprite": "npc-232"
         },
         {
           "kind": "setPartyFacing",
@@ -8899,13 +8895,9 @@
           "state": 0
         },
         {
-          "kind": "unmigrated",
-          "opcode": 101,
-          "operands": [
-            0,
-            2,
-            65535
-          ]
+          "kind": "setActorSprite",
+          "actor": "li-xiaoyao",
+          "sprite": "li-xiaoyao"
         },
         {
           "kind": "setPartyFacing",

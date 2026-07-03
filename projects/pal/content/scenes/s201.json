@@ -251,13 +251,9 @@
                     "state": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 115,
-                    "operands": [
-                      2,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 600
                   },
                   {
                     "kind": "dialog",
@@ -680,13 +676,9 @@
                     "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 115,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 300
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1132,13 +1124,9 @@
                             "ms": 240
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 101,
-                            "operands": [
-                              0,
-                              232,
-                              0
-                            ]
+                            "kind": "setActorSprite",
+                            "actor": "li-xiaoyao",
+                            "sprite": "npc-232"
                           },
                           {
                             "kind": "unmigrated",
@@ -1520,13 +1508,9 @@
                             "dir": "out"
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 101,
-                            "operands": [
-                              0,
-                              2,
-                              65535
-                            ]
+                            "kind": "setActorSprite",
+                            "actor": "li-xiaoyao",
+                            "sprite": "li-xiaoyao"
                           },
                           {
                             "kind": "loadScene",

@@ -367,13 +367,9 @@
                     "soundId": 260
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 115,
-                    "operands": [
-                      2,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 600
                   },
                   {
                     "kind": "setEntityFacing",
@@ -460,7 +456,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 1
                   },
                   {
                     "kind": "clearDialog"
@@ -695,13 +692,9 @@
                     "frame": 3
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 115,
-                    "operands": [
-                      2,
-                      60,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 600
                   },
                   {
                     "kind": "setEntityState",

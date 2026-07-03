@@ -177,11 +177,13 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 1
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 2
                   },
                   {
                     "kind": "wait",
@@ -243,13 +245,9 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 101,
-                    "operands": [
-                      0,
-                      394,
-                      0
-                    ]
+                    "kind": "setActorSprite",
+                    "actor": "li-xiaoyao",
+                    "sprite": "npc-394"
                   },
                   {
                     "kind": "unmigrated",
@@ -280,20 +278,17 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 1
                   },
                   {
                     "kind": "wait",
                     "ms": 240
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 101,
-                    "operands": [
-                      0,
-                      3,
-                      65535
-                    ]
+                    "kind": "setActorSprite",
+                    "actor": "li-xiaoyao",
+                    "sprite": "zhao-linger"
                   },
                   {
                     "kind": "setPartyFacing",
@@ -826,7 +821,7 @@
         "row": 23,
         "height": 0
       },
-      "sprite": "npc-193",
+      "sprite": "npc-193-f0",
       "hidden": true
     },
     {

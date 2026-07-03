@@ -506,13 +506,9 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 101,
-          "operands": [
-            0,
-            232,
-            0
-          ]
+          "kind": "setActorSprite",
+          "actor": "li-xiaoyao",
+          "sprite": "npc-232"
         },
         {
           "kind": "unmigrated",
@@ -592,13 +588,9 @@
           "frame": 6
         },
         {
-          "kind": "unmigrated",
-          "opcode": 115,
-          "operands": [
-            5,
-            0,
-            0
-          ]
+          "kind": "fade",
+          "dir": "in",
+          "ms": 1500
         },
         {
           "kind": "unmigrated",

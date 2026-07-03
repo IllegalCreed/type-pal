@@ -1016,7 +1016,8 @@
                           },
                           {
                             "kind": "setPartyFacing",
-                            "facing": "down"
+                            "facing": "down",
+                            "member": 1
                           },
                           {
                             "kind": "wait",
@@ -1151,7 +1152,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 1
                   },
                   {
                     "kind": "nudgeParty",
@@ -1478,7 +1480,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 1
                   },
                   {
                     "kind": "nudgeParty",
@@ -1643,7 +1646,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 1
                   },
                   {
                     "kind": "nudgeParty",
@@ -1970,7 +1974,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 1
                   },
                   {
                     "kind": "nudgeParty",

@@ -28,7 +28,7 @@
         "row": 14,
         "height": 0
       },
-      "sprite": "npc-379",
+      "sprite": "npc-379-f0",
       "zBias": 5
     }
   ],
@@ -45,13 +45,9 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 115,
-          "operands": [
-            4,
-            72,
-            0
-          ]
+          "kind": "fade",
+          "dir": "in",
+          "ms": 1200
         },
         {
           "kind": "wait",

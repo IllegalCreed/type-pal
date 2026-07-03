@@ -1549,13 +1549,9 @@
           "musicId": 84
         },
         {
-          "kind": "unmigrated",
-          "opcode": 101,
-          "operands": [
-            0,
-            2,
-            0
-          ]
+          "kind": "setActorSprite",
+          "actor": "li-xiaoyao",
+          "sprite": "li-xiaoyao"
         },
         {
           "kind": "unmigrated",

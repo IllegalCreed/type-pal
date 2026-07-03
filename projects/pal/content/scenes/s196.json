@@ -79,7 +79,7 @@
         "row": 36,
         "height": 0
       },
-      "sprite": "npc-228",
+      "sprite": "npc-228-f0",
       "hidden": true,
       "pages": [
         {
@@ -118,13 +118,9 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 115,
-          "operands": [
-            4,
-            72,
-            0
-          ]
+          "kind": "fade",
+          "dir": "in",
+          "ms": 1200
         },
         {
           "kind": "dialog",

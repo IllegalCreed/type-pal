@@ -139,7 +139,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 1
                   },
                   {
                     "kind": "setEntityAuto",
@@ -520,13 +521,9 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 101,
-                    "operands": [
-                      0,
-                      2,
-                      0
-                    ]
+                    "kind": "setActorSprite",
+                    "actor": "li-xiaoyao",
+                    "sprite": "li-xiaoyao"
                   },
                   {
                     "kind": "unmigrated",
@@ -600,13 +597,9 @@
                     "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 101,
-                    "operands": [
-                      0,
-                      232,
-                      65535
-                    ]
+                    "kind": "setActorSprite",
+                    "actor": "li-xiaoyao",
+                    "sprite": "npc-232"
                   },
                   {
                     "kind": "setPartyFacing",
@@ -868,7 +861,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "right"
+          "facing": "right",
+          "gesture": 1
         },
         {
           "kind": "clearDialog"

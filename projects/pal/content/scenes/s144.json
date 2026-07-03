@@ -110,13 +110,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -150,13 +146,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -190,13 +182,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -230,13 +218,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -270,13 +254,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -310,13 +290,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -350,13 +326,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -407,7 +379,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "up"
+                    "facing": "up",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -415,7 +388,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 2
                   },
                   {
                     "kind": "wait",
@@ -440,7 +414,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "right"
+                    "facing": "right",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -448,7 +423,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "member": 2
                   },
                   {
                     "kind": "wait",
@@ -473,7 +449,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -481,7 +458,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "right"
+                    "facing": "right",
+                    "member": 2
                   },
                   {
                     "kind": "unmigrated",
@@ -601,13 +579,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -641,13 +615,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -681,13 +651,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -721,13 +687,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -761,13 +723,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -801,13 +759,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -841,13 +795,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -898,7 +848,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "up"
+                    "facing": "up",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -906,7 +857,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 2
                   },
                   {
                     "kind": "wait",
@@ -931,7 +883,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "right"
+                    "facing": "right",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -939,7 +892,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "member": 2
                   },
                   {
                     "kind": "wait",
@@ -964,7 +918,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -972,7 +927,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "right"
+                    "facing": "right",
+                    "member": 2
                   },
                   {
                     "kind": "unmigrated",
@@ -1092,13 +1048,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -1132,13 +1084,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -1172,13 +1120,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -1212,13 +1156,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -1252,13 +1192,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -1292,13 +1228,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -1332,13 +1264,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -1389,7 +1317,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "up"
+                    "facing": "up",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -1397,7 +1326,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 2
                   },
                   {
                     "kind": "wait",
@@ -1422,7 +1352,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "right"
+                    "facing": "right",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -1430,7 +1361,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "member": 2
                   },
                   {
                     "kind": "wait",
@@ -1455,7 +1387,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -1463,7 +1396,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "right"
+                    "facing": "right",
+                    "member": 2
                   },
                   {
                     "kind": "unmigrated",
@@ -1583,13 +1517,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -1623,13 +1553,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -1663,13 +1589,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -1703,13 +1625,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -1743,13 +1661,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -1783,13 +1697,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -1823,13 +1733,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -1880,7 +1786,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "up"
+                    "facing": "up",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -1888,7 +1795,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 2
                   },
                   {
                     "kind": "wait",
@@ -1913,7 +1821,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "right"
+                    "facing": "right",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -1921,7 +1830,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "member": 2
                   },
                   {
                     "kind": "wait",
@@ -1946,7 +1856,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -1954,7 +1865,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "right"
+                    "facing": "right",
+                    "member": 2
                   },
                   {
                     "kind": "unmigrated",
@@ -2074,13 +1986,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -2114,13 +2022,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -2154,13 +2058,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -2194,13 +2094,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -2234,13 +2130,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -2274,13 +2166,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -2314,13 +2202,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -2371,7 +2255,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "up"
+                    "facing": "up",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -2379,7 +2264,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 2
                   },
                   {
                     "kind": "wait",
@@ -2404,7 +2290,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "right"
+                    "facing": "right",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -2412,7 +2299,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "member": 2
                   },
                   {
                     "kind": "wait",
@@ -2437,7 +2325,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -2445,7 +2334,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "right"
+                    "facing": "right",
+                    "member": 2
                   },
                   {
                     "kind": "unmigrated",
@@ -2565,13 +2455,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -2605,13 +2491,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -2645,13 +2527,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -2685,13 +2563,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -2725,13 +2599,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -2765,13 +2635,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -2805,13 +2671,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -2862,7 +2724,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "up"
+                    "facing": "up",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -2870,7 +2733,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 2
                   },
                   {
                     "kind": "wait",
@@ -2895,7 +2759,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "right"
+                    "facing": "right",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -2903,7 +2768,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "member": 2
                   },
                   {
                     "kind": "wait",
@@ -2928,7 +2794,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -2936,7 +2803,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "right"
+                    "facing": "right",
+                    "member": 2
                   },
                   {
                     "kind": "unmigrated",
@@ -3056,13 +2924,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -3096,13 +2960,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -3136,13 +2996,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -3176,13 +3032,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -3216,13 +3068,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -3256,13 +3104,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -3296,13 +3140,9 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 115,
-                        "operands": [
-                          2,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "in",
+                        "ms": 600
                       }
                     ]
                   },
@@ -3353,7 +3193,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "up"
+                    "facing": "up",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -3361,7 +3202,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 2
                   },
                   {
                     "kind": "wait",
@@ -3386,7 +3228,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "right"
+                    "facing": "right",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -3394,7 +3237,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "member": 2
                   },
                   {
                     "kind": "wait",
@@ -3419,7 +3263,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -3427,7 +3272,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "right"
+                    "facing": "right",
+                    "member": 2
                   },
                   {
                     "kind": "unmigrated",
@@ -3463,31 +3309,19 @@
           "musicId": 42
         },
         {
-          "kind": "unmigrated",
-          "opcode": 101,
-          "operands": [
-            0,
-            532,
-            0
-          ]
+          "kind": "setActorSprite",
+          "actor": "li-xiaoyao",
+          "sprite": "npc-532"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 101,
-          "operands": [
-            1,
-            534,
-            0
-          ]
+          "kind": "setActorSprite",
+          "actor": "zhao-linger",
+          "sprite": "npc-534"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 101,
-          "operands": [
-            2,
-            533,
-            0
-          ]
+          "kind": "setActorSprite",
+          "actor": "lin-yueru",
+          "sprite": "npc-533"
         },
         {
           "kind": "unmigrated",

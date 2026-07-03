@@ -44,26 +44,19 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 101,
-          "operands": [
-            0,
-            361,
-            65535
-          ]
+          "kind": "setActorSprite",
+          "actor": "li-xiaoyao",
+          "sprite": "npc-361"
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 4
         },
         {
-          "kind": "unmigrated",
-          "opcode": 115,
-          "operands": [
-            6,
-            0,
-            0
-          ]
+          "kind": "fade",
+          "dir": "in",
+          "ms": 1800
         },
         {
           "kind": "setEntityFacing",
@@ -105,7 +98,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 2
         },
         {
           "kind": "wait",
@@ -113,7 +107,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 3
         },
         {
           "kind": "wait",
@@ -121,7 +116,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 2
         },
         {
           "kind": "wait",
@@ -129,7 +125,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 3
         },
         {
           "kind": "setEntityFacing",
@@ -147,7 +144,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 2
         },
         {
           "kind": "setEntityFacing",
@@ -165,7 +163,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 3
         },
         {
           "kind": "setEntityFacing",

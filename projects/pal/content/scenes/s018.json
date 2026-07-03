@@ -172,13 +172,9 @@
           "soundId": 260
         },
         {
-          "kind": "unmigrated",
-          "opcode": 115,
-          "operands": [
-            2,
-            0,
-            0
-          ]
+          "kind": "fade",
+          "dir": "in",
+          "ms": 600
         }
       ],
       "next": "advance"

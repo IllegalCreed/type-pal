@@ -291,13 +291,9 @@
                     "state": 1
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 115,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 300
                   },
                   {
                     "kind": "dialog",
@@ -323,17 +319,14 @@
                     "soundId": 212
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 115,
-                    "operands": [
-                      2,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 600
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 1
                   },
                   {
                     "kind": "clearDialog"
@@ -431,13 +424,9 @@
                     "soundId": 217
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 115,
-                    "operands": [
-                      2,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 600
                   },
                   {
                     "kind": "setBattleField",
@@ -1755,22 +1744,14 @@
     {
       "body": [
         {
-          "kind": "unmigrated",
-          "opcode": 101,
-          "operands": [
-            0,
-            531,
-            0
-          ]
+          "kind": "setActorSprite",
+          "actor": "li-xiaoyao",
+          "sprite": "npc-531"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 101,
-          "operands": [
-            3,
-            576,
-            0
-          ]
+          "kind": "setActorSprite",
+          "actor": "wu-hou",
+          "sprite": "npc-576"
         },
         {
           "kind": "unmigrated",

@@ -295,7 +295,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "right"
+                    "facing": "right",
+                    "member": 1
                   },
                   {
                     "kind": "clearDialog"

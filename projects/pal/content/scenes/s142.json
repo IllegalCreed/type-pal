@@ -4143,13 +4143,9 @@
           "state": 1
         },
         {
-          "kind": "unmigrated",
-          "opcode": 115,
-          "operands": [
-            3,
-            70,
-            0
-          ]
+          "kind": "fade",
+          "dir": "in",
+          "ms": 900
         },
         {
           "kind": "setEntityFacing",

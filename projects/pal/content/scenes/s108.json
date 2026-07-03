@@ -1073,7 +1073,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "member": 1
                   },
                   {
                     "kind": "wait",

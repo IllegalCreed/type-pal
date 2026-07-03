@@ -55,6 +55,11 @@ export interface TranslateCtx {
   /** 文本累积(dlg.<msgIdx> / spk.<名>);IO 壳并入工程 locale。 */
   locale: Record<string, string>
   report: TranslateReport
+  /**
+   * 0x65(换角色精灵)的 spriteNum → 精灵 id 解析(mapScenesStatic 注入:
+   * 角色本体精灵优先,未注册的补登记 npc-<num>)。缺省 → 0x65 落 unmigrated。
+   */
+  spriteIdForNum?: (num: number) => string
 }
 
 /** 尚未结构化的跳转族(census 全清单减去 M3b 已实现:0x06/07/0A/1E/20/79/94)。
@@ -323,10 +328,10 @@ function walkBody(
         flush()
         if (cmd) body.push(cmd)
       }
-      // 对象引用:操作数 0xFFFF = 脚本属主"自己";其余是 **1-based** 全局对象号
-      // (sdlpal script.c 预amble `pCurrent = &obj[operand-1]`),提取数据 id 是 0-based
-      // → 减 1。⚠ 曾直译 e${v} 全体错位 +1:开场敲锅动画给了 zone、该藏的李大娘没藏
-      // (2026-07-03 用户报 + 一阶段 oracle 对照实锤)。
+      // 对象引用:操作数 0xFFFF = 脚本属主"自己";其余是 **1-based 全局**对象号
+      // (script.c:631 `pCurrent = &lprgEventObject[operand-1]`;一阶段 resolveGlobalEventObject
+      // 同语义)。提取的 eo.id 是 0-based 全局累加(scene1=0..31,scene2=32..),故 -1 即得
+      // e<id>。⚠ 曾直译 e${v} 全体 +1 错位(2026-07-03 用户报,考证见 opcode 缺口审计)。
       const entRef = (v: number): string | undefined => (v === 0xffff ? owner : `e${v - 1}`)
       // pCurrent 式引用:0 也是"自己"(script.c:op0==0 → pEvtObj)
       const pcRef = (v: number): string | undefined => (v === 0 || v === 0xffff ? owner : `e${v - 1}`)
@@ -357,7 +362,19 @@ function walkBody(
       if (oc === 0x09) push({ kind: 'wait', ms: Math.max(1, o[0] ?? 1) * FRAME_MS })
       else if (oc === 0x46) {
         push({ kind: 'teleportParty', pos: partyPosToGrid(o[0] ?? 0, o[1] ?? 0, o[2] ?? 0) })
-      } else if (oc === 0x15) push({ kind: 'setPartyFacing', facing: FACING_BY_DIR[o[0] ?? 0] ?? 'down' })
+      } else if (oc === 0x15) {
+        // 原版(script.c 0x0015)同时写 wPartyDirection 和 rgParty[o[2]].wFrame = dir*3 + o[1]。
+        // ⚠ 曾只译 o[0] 朝向、丢 o[1] 姿势帧 —— 全场景 775 处的脚本姿势(开场李逍遥
+        // 练武/摊手)全部不显(2026-07-03 用户实测 + 一阶段 partyScriptedFrame oracle 实锤)。
+        const gesture = o[1] ?? 0
+        const member = o[2] ?? 0
+        push({
+          kind: 'setPartyFacing',
+          facing: FACING_BY_DIR[o[0] ?? 0] ?? 'down',
+          ...(gesture ? { gesture } : {}), // 0 = 站立帧,省略 → 运行时清脚本姿势
+          ...(member ? { member } : {}),
+        })
+      }
       else if (oc === 0x49) {
         const ent = entRef(o[0] ?? 0)
         if (ent) push({ kind: 'setEntityState', entity: ent, state: signExtendI16(o[1] ?? 0) })
@@ -387,6 +404,22 @@ function walkBody(
       else if (oc === 0x4a) push({ kind: 'setBattleField', fieldId: o[0] ?? 0 })
       else if (oc === 0x50) push({ kind: 'fade', dir: 'out' })
       else if (oc === 0x51) push({ kind: 'fade', dir: 'in' })
+      else if (oc === 0x73) {
+        // 淡入场景(script.c 0x0073:PAL_MakeScene + VIDEO_FadeScreen(o[0]))。
+        // o[0] 为原版 fade 速度档(开场=2);换算成 ms 走通用 fade 驱动。
+        push({ kind: 'fade', dir: 'in', ms: Math.max(1, o[0] ?? 1) * 300 })
+      } else if (oc === 0x65) {
+        // 换角色大世界精灵(script.c 0x0065:rgwSpriteNum[o[0]] = o[1])。开场李逍遥
+        // 练武 627/疯跑 193 全靠它;未迁移时角色只会站桩(2026-07-03 用户实测)。
+        // o[2](即时重载 flag)不建模:clean 引擎换精灵即时生效,无"延迟到下次装载"语义。
+        const actor = ROLE_SLUGS[o[0] ?? 0]
+        const sprite = actor !== undefined ? ctx.spriteIdForNum?.(o[1] ?? 0) : undefined
+        if (actor && sprite) push({ kind: 'setActorSprite', actor, sprite })
+        else {
+          push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: sprite ? `未知 roleId ${o[0]}` : '无精灵注册回调' })
+          note(ctx, sprite ? 'setActorSprite 未知角色' : 'setActorSprite 无注册回调')
+        }
+      }
       else if (oc === 0x05 || oc === 0x8e) push({ kind: 'clearDialog' })
       else if (oc === 0xa7) push(undefined) // noop(备份屏)
       else if (oc === 0x1e && (o[1] ?? 0) === 0) push({ kind: 'giveMoney', delta: signExtendI16(o[0] ?? 0) })

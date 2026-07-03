@@ -232,13 +232,9 @@
                     "soundId": 43
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 101,
-                    "operands": [
-                      0,
-                      228,
-                      65535
-                    ]
+                    "kind": "setActorSprite",
+                    "actor": "li-xiaoyao",
+                    "sprite": "npc-228"
                   },
                   {
                     "kind": "setPartyFacing",
@@ -264,7 +260,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 1
                   },
                   {
                     "kind": "clearDialog"
@@ -289,7 +286,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 2
                   },
                   {
                     "kind": "clearDialog"
@@ -326,7 +324,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 3
                   },
                   {
                     "kind": "clearDialog"
@@ -4420,7 +4419,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 2
                   },
                   {
                     "kind": "wait",
@@ -4436,7 +4436,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 4
                   },
                   {
                     "kind": "clearDialog"
@@ -4470,7 +4471,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 5
                   },
                   {
                     "kind": "clearDialog"
@@ -4495,7 +4497,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 6
                   },
                   {
                     "kind": "wait",
@@ -4503,7 +4506,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 5
                   },
                   {
                     "kind": "wait",
@@ -4511,7 +4515,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 6
                   },
                   {
                     "kind": "wait",
@@ -4519,7 +4524,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 5
                   },
                   {
                     "kind": "wait",
@@ -4527,7 +4533,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 6
                   },
                   {
                     "kind": "wait",
@@ -4535,7 +4542,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 5
                   },
                   {
                     "kind": "wait",
@@ -4543,7 +4551,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 6
                   },
                   {
                     "kind": "wait",
@@ -4551,7 +4560,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 5
                   },
                   {
                     "kind": "wait",
@@ -4559,7 +4569,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 6
                   },
                   {
                     "kind": "wait",
@@ -4567,7 +4578,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 5
                   },
                   {
                     "kind": "wait",
@@ -4575,7 +4587,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 6
                   },
                   {
                     "kind": "wait",
@@ -4583,7 +4596,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 5
                   },
                   {
                     "kind": "wait",
@@ -4591,7 +4605,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 6
                   },
                   {
                     "kind": "wait",
@@ -4599,7 +4614,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 5
                   },
                   {
                     "kind": "wait",
@@ -4607,7 +4623,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 6
                   },
                   {
                     "kind": "wait",
@@ -4615,7 +4632,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 7
                   },
                   {
                     "kind": "wait",
@@ -4623,7 +4641,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 8
                   },
                   {
                     "kind": "wait",
@@ -4631,7 +4650,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 9
                   },
                   {
                     "kind": "wait",
@@ -4639,7 +4659,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 10
                   },
                   {
                     "kind": "wait",
@@ -4651,7 +4672,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 11
                   },
                   {
                     "kind": "wait",
@@ -4659,7 +4681,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 10
                   },
                   {
                     "kind": "wait",
@@ -4667,7 +4690,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 9
                   },
                   {
                     "kind": "wait",
@@ -4675,7 +4699,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 12
                   },
                   {
                     "kind": "wait",
@@ -4683,7 +4708,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 13
                   },
                   {
                     "kind": "wait",
@@ -4691,7 +4717,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 14
                   },
                   {
                     "kind": "wait",
@@ -4699,7 +4726,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 15
                   },
                   {
                     "kind": "wait",
@@ -4718,7 +4746,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 16
                   },
                   {
                     "kind": "clearDialog"
@@ -4828,7 +4857,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 17
                   },
                   {
                     "kind": "clearDialog"
@@ -4875,7 +4905,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 18
                   },
                   {
                     "kind": "clearDialog"
@@ -4893,7 +4924,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 19
                   },
                   {
                     "kind": "wait",
@@ -4915,13 +4947,9 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 101,
-                    "operands": [
-                      0,
-                      2,
-                      0
-                    ]
+                    "kind": "setActorSprite",
+                    "actor": "li-xiaoyao",
+                    "sprite": "li-xiaoyao"
                   },
                   {
                     "kind": "unmigrated",
@@ -5356,7 +5384,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "up"
+                    "facing": "up",
+                    "member": 1
                   },
                   {
                     "kind": "clearDialog"
@@ -13519,7 +13548,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "right"
+                    "facing": "right",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -13576,7 +13606,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "up"
+                    "facing": "up",
+                    "member": 1
                   },
                   {
                     "kind": "clearDialog"
@@ -14045,14 +14076,16 @@
                                   },
                                   {
                                     "kind": "setPartyFacing",
-                                    "facing": "right"
+                                    "facing": "right",
+                                    "member": 1
                                   },
                                   {
                                     "kind": "clearDialog"
                                   },
                                   {
                                     "kind": "setPartyFacing",
-                                    "facing": "down"
+                                    "facing": "down",
+                                    "member": 1
                                   },
                                   {
                                     "kind": "wait",
@@ -14060,14 +14093,16 @@
                                   },
                                   {
                                     "kind": "setPartyFacing",
-                                    "facing": "right"
+                                    "facing": "right",
+                                    "member": 1
                                   },
                                   {
                                     "kind": "clearDialog"
                                   },
                                   {
                                     "kind": "setPartyFacing",
-                                    "facing": "up"
+                                    "facing": "up",
+                                    "member": 1
                                   },
                                   {
                                     "kind": "clearDialog"
@@ -14156,7 +14191,8 @@
                                   },
                                   {
                                     "kind": "setPartyFacing",
-                                    "facing": "down"
+                                    "facing": "down",
+                                    "member": 1
                                   },
                                   {
                                     "kind": "clearDialog"
@@ -14234,14 +14270,16 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "right"
+                    "facing": "right",
+                    "member": 1
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -14249,14 +14287,16 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "right"
+                    "facing": "right",
+                    "member": 1
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "up"
+                    "facing": "up",
+                    "member": 1
                   },
                   {
                     "kind": "clearDialog"
@@ -14345,7 +14385,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "member": 1
                   },
                   {
                     "kind": "clearDialog"
@@ -26461,7 +26502,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "right"
+          "facing": "right",
+          "member": 1
         },
         {
           "kind": "unmigrated",

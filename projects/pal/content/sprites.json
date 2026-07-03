@@ -54,6 +54,15 @@
     }
   },
   {
+    "id": "npc-193",
+    "spriteNum": 193,
+    "label": "原精灵 193(0x65 换装)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  },
+  {
     "id": "npc-55",
     "spriteNum": 55,
     "label": "原精灵 55",
@@ -147,6 +156,15 @@
     }
   },
   {
+    "id": "npc-627",
+    "spriteNum": 627,
+    "label": "原精灵 627(0x65 换装)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  },
+  {
     "id": "npc-58",
     "spriteNum": 58,
     "label": "原精灵 58",
@@ -167,6 +185,15 @@
     "id": "npc-32",
     "spriteNum": 32,
     "label": "原精灵 32",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  },
+  {
+    "id": "npc-232",
+    "spriteNum": 232,
+    "label": "原精灵 232(0x65 换装)",
     "layout": {
       "kind": "directional",
       "framesPerDir": 3
@@ -678,6 +705,15 @@
     }
   },
   {
+    "id": "npc-361",
+    "spriteNum": 361,
+    "label": "原精灵 361(0x65 换装)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  },
+  {
     "id": "npc-338",
     "spriteNum": 338,
     "label": "原精灵 338",
@@ -878,7 +914,7 @@
     }
   },
   {
-    "id": "npc-193",
+    "id": "npc-193-f0",
     "spriteNum": 193,
     "label": "原精灵 193",
     "layout": {
@@ -964,6 +1000,15 @@
     "label": "原精灵 194",
     "layout": {
       "kind": "static"
+    }
+  },
+  {
+    "id": "npc-228",
+    "spriteNum": 228,
+    "label": "原精灵 228(0x65 换装)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
     }
   },
   {
@@ -1492,6 +1537,15 @@
     }
   },
   {
+    "id": "npc-242",
+    "spriteNum": 242,
+    "label": "原精灵 242(0x65 换装)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  },
+  {
     "id": "npc-247",
     "spriteNum": 247,
     "label": "原精灵 247",
@@ -1584,7 +1638,7 @@
   {
     "id": "npc-245",
     "spriteNum": 245,
-    "label": "原精灵 245",
+    "label": "原精灵 245(0x65 换装)",
     "layout": {
       "kind": "directional",
       "framesPerDir": 3
@@ -2099,6 +2153,15 @@
     }
   },
   {
+    "id": "npc-273",
+    "spriteNum": 273,
+    "label": "原精灵 273(0x65 换装)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  },
+  {
     "id": "npc-270",
     "spriteNum": 270,
     "label": "原精灵 270",
@@ -2137,6 +2200,15 @@
     "label": "原精灵 253",
     "layout": {
       "kind": "static"
+    }
+  },
+  {
+    "id": "npc-394",
+    "spriteNum": 394,
+    "label": "原精灵 394(0x65 换装)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
     }
   },
   {
@@ -2299,6 +2371,15 @@
     "label": "原精灵 386",
     "layout": {
       "kind": "static"
+    }
+  },
+  {
+    "id": "npc-385",
+    "spriteNum": 385,
+    "label": "原精灵 385(0x65 换装)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
     }
   },
   {
@@ -2551,6 +2632,15 @@
     "label": "原精灵 368",
     "layout": {
       "kind": "static"
+    }
+  },
+  {
+    "id": "npc-379",
+    "spriteNum": 379,
+    "label": "原精灵 379(0x65 换装)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
     }
   },
   {
@@ -3111,7 +3201,7 @@
     }
   },
   {
-    "id": "npc-232",
+    "id": "npc-232-f0",
     "spriteNum": 232,
     "label": "原精灵 232",
     "layout": {
@@ -3402,6 +3492,33 @@
     }
   },
   {
+    "id": "npc-532",
+    "spriteNum": 532,
+    "label": "原精灵 532(0x65 换装)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  },
+  {
+    "id": "npc-534",
+    "spriteNum": 534,
+    "label": "原精灵 534(0x65 换装)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  },
+  {
+    "id": "npc-533",
+    "spriteNum": 533,
+    "label": "原精灵 533(0x65 换装)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  },
+  {
     "id": "npc-500",
     "spriteNum": 500,
     "label": "原精灵 500",
@@ -3665,6 +3782,15 @@
     }
   },
   {
+    "id": "npc-550",
+    "spriteNum": 550,
+    "label": "原精灵 550(0x65 换装)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  },
+  {
     "id": "npc-516",
     "spriteNum": 516,
     "label": "原精灵 516",
@@ -3687,6 +3813,15 @@
     "layout": {
       "kind": "directional",
       "framesPerDir": 1
+    }
+  },
+  {
+    "id": "npc-538",
+    "spriteNum": 538,
+    "label": "原精灵 538(0x65 换装)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
     }
   },
   {
@@ -3851,6 +3986,24 @@
     }
   },
   {
+    "id": "npc-521",
+    "spriteNum": 521,
+    "label": "原精灵 521(0x65 换装)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  },
+  {
+    "id": "npc-541",
+    "spriteNum": 541,
+    "label": "原精灵 541(0x65 换装)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  },
+  {
     "id": "npc-501",
     "spriteNum": 501,
     "label": "原精灵 501",
@@ -3859,7 +4012,7 @@
     }
   },
   {
-    "id": "npc-242",
+    "id": "npc-242-f0",
     "spriteNum": 242,
     "label": "原精灵 242",
     "layout": {
@@ -3867,7 +4020,7 @@
     }
   },
   {
-    "id": "npc-228",
+    "id": "npc-228-f0",
     "spriteNum": 228,
     "label": "原精灵 228",
     "layout": {
@@ -3875,7 +4028,7 @@
     }
   },
   {
-    "id": "npc-379",
+    "id": "npc-379-f0",
     "spriteNum": 379,
     "label": "原精灵 379",
     "layout": {
@@ -4254,6 +4407,15 @@
     }
   },
   {
+    "id": "npc-563",
+    "spriteNum": 563,
+    "label": "原精灵 563(0x65 换装)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  },
+  {
     "id": "npc-528",
     "spriteNum": 528,
     "label": "原精灵 528",
@@ -4351,6 +4513,24 @@
     "label": "原精灵 583",
     "layout": {
       "kind": "static"
+    }
+  },
+  {
+    "id": "npc-531",
+    "spriteNum": 531,
+    "label": "原精灵 531(0x65 换装)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  },
+  {
+    "id": "npc-576",
+    "spriteNum": 576,
+    "label": "原精灵 576(0x65 换装)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
     }
   },
   {
@@ -4581,7 +4761,7 @@
     }
   },
   {
-    "id": "npc-541",
+    "id": "npc-541-f0",
     "spriteNum": 541,
     "label": "原精灵 541",
     "layout": {
@@ -4655,6 +4835,33 @@
     "label": "原精灵 589",
     "layout": {
       "kind": "static"
+    }
+  },
+  {
+    "id": "npc-630",
+    "spriteNum": 630,
+    "label": "原精灵 630(0x65 换装)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  },
+  {
+    "id": "npc-631",
+    "spriteNum": 631,
+    "label": "原精灵 631(0x65 换装)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  },
+  {
+    "id": "npc-632",
+    "spriteNum": 632,
+    "label": "原精灵 632(0x65 换装)",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
     }
   },
   {

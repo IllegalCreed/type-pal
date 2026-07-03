@@ -1366,13 +1366,9 @@
     {
       "body": [
         {
-          "kind": "unmigrated",
-          "opcode": 101,
-          "operands": [
-            0,
-            385,
-            0
-          ]
+          "kind": "setActorSprite",
+          "actor": "li-xiaoyao",
+          "sprite": "npc-385"
         },
         {
           "kind": "unmigrated",
@@ -1899,7 +1895,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 1
         },
         {
           "kind": "wait",
@@ -1915,7 +1912,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 1
         },
         {
           "kind": "wait",
@@ -2260,7 +2258,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 1
         },
         {
           "kind": "wait",
@@ -2965,13 +2964,9 @@
           "state": 2
         },
         {
-          "kind": "unmigrated",
-          "opcode": 101,
-          "operands": [
-            0,
-            2,
-            65535
-          ]
+          "kind": "setActorSprite",
+          "actor": "li-xiaoyao",
+          "sprite": "li-xiaoyao"
         },
         {
           "kind": "setPartyFacing",

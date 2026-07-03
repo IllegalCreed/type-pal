@@ -80,13 +80,9 @@
                     "state": 1
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 115,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 300
                   },
                   {
                     "kind": "nudgeParty",
@@ -278,13 +274,9 @@
                     "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 115,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 300
                   }
                 ]
               }

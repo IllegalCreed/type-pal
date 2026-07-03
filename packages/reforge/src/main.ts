@@ -9,6 +9,7 @@ import {
   type GridPos,
   gridToPixel,
   lookupText,
+  pixelDeltaToGridDelta,
   pixelToGrid,
   resolveEntitySpriteId,
   type SceneDef,
@@ -322,6 +323,9 @@ async function main(): Promise<void> {
   let fadeBlack = 0 // 0 透明 → 1 全黑(fade out 后保持,fade in 释放)
   let scriptDialogResolve: (() => void) | null = null
   const entityFrameOverride = new Map<string, number>() // setEntityFrame 演出帧覆盖(切场景清)
+  // ── 0x15/0x65 队长演出态(原版 rgParty[].wFrame / rgwSpriteNum;脚本自清,走路时引擎清)──
+  let partyGesture: number | null = null // 脚本姿势帧(渲染 = dir*framesPerDir + gesture)
+  let leaderSpriteOverride: { def: SpriteDef; frames: typeof playerSprite } | null = null // 0x65 换装
   let activeBattle: BattleSession | null = null // M4b:进行中的战斗(主循环转发 tick/render)
   // ── M3b 走位/动画驱动(tick 推进;abort 全兑现)──
   const SPEED_MS: Record<string, number> = { slow: 200, normal: 130, fast: 100, run: 50 }
@@ -376,8 +380,24 @@ async function main(): Promise<void> {
       startAutoRunners()
       await hostFade('in', 260)
     },
-    setPartyFacing: (fc) => {
+    setPartyFacing: (fc, gesture, member) => {
+      // 原版 0x15:wPartyDirection=o[0] + rgParty[o[2]].wFrame=dir*3+o[1] —— 每次都写帧;
+      // gesture 缺省(=0 站立帧)即清脚本姿势。member>0 = 跟随者(渲染落地后生效,先忽略)。
       facing = fc
+      if (!member) partyGesture = gesture ?? null
+    },
+    setActorSprite: async (actorId, spriteId) => {
+      // 原版 0x65:rgwSpriteNum[role]=sprite,持续到下次显式切换(开场练武/疯跑后脚本自切回)。
+      // 现阶段队伍渲染只有队长;非队长角色的换装先记报告(跟随者渲染落地后接)。
+      if (actorId !== leaderActor.id) {
+        host.report(`setActorSprite: 非队长 ${actorId} 暂不渲染`)
+        return
+      }
+      const def = requireSpriteDef(spriteId, `0x65 换装 ${actorId}`)
+      const frames = spriteByNum.get(def.spriteNum) ?? (await loadSprite(project.assetBase, def.spriteNum))
+      spriteByNum.set(def.spriteNum, frames)
+      // 切回本体精灵 = 撤销覆盖(严格等价:override 恒生效,但本体时置 null 让存档/调试态干净)
+      leaderSpriteOverride = def.spriteNum === leaderSpriteDef.spriteNum ? null : { def, frames }
     },
     setEntityState: () => applyWorldToScene(), // runner 已写 world.script,这里只重放视觉
     setEntityFacing: (id, fc) => {
@@ -432,18 +452,21 @@ async function main(): Promise<void> {
       entityAnim.set(id, (entityAnim.get(id) ?? 0) + 1)
     },
     nudgeEntity: (id, dx, dy) => {
+      // 增量制(0x6C/0x7D 像素位移):绝对 pixelToGrid 的 round 会把 ±4,±2px 碎步吞成 0
+      // (开场锅挥动纹丝不动的根因)——格坐标直接累加小数增量。
       const e = scene.entities.find((x) => x.id === id)
       if (!e) return
-      const px = gridToPixel(e.pos)
-      e.pos = { ...pixelToGrid(px.x + dx, px.y + dy), height: e.pos.height }
+      const d = pixelDeltaToGridDelta(dx, dy)
+      e.pos = { ...e.pos, col: e.pos.col + d.dcol, row: e.pos.row + d.drow }
     },
     moveParty: (to, speed) =>
       new Promise((resolve) => {
         partyMove = { to, stepMs: SPEED_MS[speed] ?? 130, acc: SPEED_MS[speed] ?? 130, resolve }
       }),
     nudgeParty: (dx, dy) => {
-      const px = gridToPixel(player.pos)
-      player.pos = { ...pixelToGrid(px.x + dx, px.y + dy), height: player.pos.height }
+      const d = pixelDeltaToGridDelta(dx, dy) // 同 nudgeEntity:增量制保碎步小数
+      player.pos = { ...player.pos, col: player.pos.col + d.dcol, row: player.pos.row + d.drow }
+      partyGesture = null // 原版走位重算 wFrame
       stepFrame = (stepFrame + 1) % 4 // 原版 0x6E 带走姿推进
       updateCamera()
     },
@@ -617,6 +640,7 @@ async function main(): Promise<void> {
         // 同原版象限规则(play.c 队伍走位方向)
         facing = dr < 0 ? (dc < 0 ? 'left' : 'up') : dc < 0 ? 'down' : 'right'
         walking = true
+        partyGesture = null // 原版走位重算 wFrame
         stepFrame = (stepFrame + 1) % 4
         updateCamera()
       }
@@ -628,7 +652,7 @@ async function main(): Promise<void> {
     }
   }
 
-  /** M3b:单实体 auto 巡逻/环境动画循环 runner(主脚本期间暂停;hidden 挂起)。 */
+  /** M3b:单实体 auto 巡逻/环境动画循环 runner(与主脚本并行,同原版;hidden 挂起)。 */
   function startAutoRunner(e: EntityDef): void {
     const auto = e.pages?.[0]?.auto
     if (!auto?.stages.length || autoAborts.has(e.id)) return
@@ -639,8 +663,12 @@ async function main(): Promise<void> {
     r.paceMs = 80 // 原版 auto 一帧一 op 的节拍近似(一阶段同语义)
     void (async () => {
       while (!ac.signal.aborted) {
-        if (runner || e.hidden) {
-          await host.wait(120) // 主脚本演出中 / 实体隐藏:挂起
+        // ⚠ auto 与主脚本**并行**(原版 autoScript 每帧与触发脚本同 tick):开场李大娘
+        // 走出房间 = onEnter 对话进行中、setEntityState 显形后她的 auto 立刻走位 ——
+        // 曾因"主脚本期间挂起"整段不动(2026-07-03 用户实测 + 一阶段 oracle 逐拍实锤)。
+        // 仅 hidden 挂起(显形即活)。
+        if (e.hidden) {
+          await host.wait(120)
           continue
         }
         try {
@@ -715,6 +743,8 @@ async function main(): Promise<void> {
     fadeFx = null
     fadeBlack = 0
     entityFrameOverride.clear()
+    partyGesture = null // 演出态随脚本终止一并清(dev 强停/读档;正常流脚本自清)
+    leaderSpriteOverride = null
     partyMove?.resolve()
     partyMove = null
     walking = false
@@ -889,19 +919,24 @@ async function main(): Promise<void> {
         baseYBias: e.zBias,
       })
     }
-    // 玩家帧:walk/idle 走 sprite-anim(与旧 WALK_FRAMES/STEP_CYCLE 硬编码逐拍等值,见其测试)。
-    const fi = walking
-      ? walkFrameIndex(leaderSpriteDef.layout, facing, stepFrame)
-      : idleFrameIndex(leaderSpriteDef.layout, facing)
-    const pf = playerSprite.frames[fi] ?? playerSprite.frames[0]
+    // 玩家帧:脚本姿势(0x15 gesture,原版 wFrame=dir*3+gesture)优先;否则 walk/idle
+    // 走 sprite-anim。精灵本体可被 0x65 换装覆盖(练武/疯跑)。
+    const ld = leaderSpriteOverride?.def ?? leaderSpriteDef
+    const ls = leaderSpriteOverride?.frames ?? playerSprite
+    const fi = partyGesture != null
+      ? idleFrameIndex(ld.layout, facing) + partyGesture
+      : walking
+        ? walkFrameIndex(ld.layout, facing, stepFrame)
+        : idleFrameIndex(ld.layout, facing)
+    const pf = ls.frames[fi] ?? ls.frames[0]
     if (pf) {
       const pp = gridToPixel(player.pos)
       sprites.push({
         frame: pf,
         worldX: pp.x,
         worldY: spriteScreenY(player.pos), // 含 height 上移(D16);地面=0 同 pp.y
-        anchorX: playerSprite.anchorX,
-        anchorY: playerSprite.anchorY,
+        anchorX: ls.anchorX,
+        anchorY: ls.anchorY,
       })
     }
     // 场景底图:clear + scale + renderScene + restore(抽成 renderSceneFrame,editor 复用同一绘制)。
@@ -1389,6 +1424,7 @@ async function main(): Promise<void> {
             }
             player.pos = next
             walking = true
+            partyGesture = null // 原版走路每步重算 wFrame(脚本姿势自然失效)
             stepFrame = (stepFrame + 1) % 4
             // M3a touch 触发:边沿语义(落步才查),站着不重触发(一阶段 TouchFar 死锁的架构性规避)
             const touched = findTrigger('touch')

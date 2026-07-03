@@ -46,6 +46,17 @@ export function pixelToGrid(x: number, y: number): { col: number; row: number } 
 }
 
 /**
+ * 像素**增量** → 格增量(不取整)。脚本碎步位移(0x6C/0x7D/0x6E 每步 ±4,±2px)专用:
+ * 走 pixelToGrid 的 round 会把小于半格的位移全吞(开场锅挥动纹丝不动的根因),
+ * 增量须保留小数,由实体的分数格坐标累积。
+ */
+export function pixelDeltaToGridDelta(dx: number, dy: number): { dcol: number; drow: number } {
+  const a = dx / HALF_W // Δ(col − row)
+  const b = dy / HALF_H // Δ(col + row)
+  return { dcol: (b + a) / 2, drow: (b - a) / 2 }
+}
+
+/**
  * sprite 的屏幕 y(含 height 上移)。D16 规格:逻辑/碰撞/影子在地面 (col,row),
  * height 只把 sprite 画的位置沿屏幕正上方移 —— 每级 16px(= 对角格 (col−h,row−h)
  * 的屏幕 y)。地面实体 height=0 → 与 gridToPixel().y 相同。

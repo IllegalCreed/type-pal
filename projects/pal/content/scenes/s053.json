@@ -127,7 +127,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "up"
+                    "facing": "up",
+                    "member": 1
                   },
                   {
                     "kind": "clearDialog"
@@ -160,7 +161,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 1
                   },
                   {
                     "kind": "clearDialog"
@@ -493,13 +495,9 @@
                             "dir": "out"
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 101,
-                            "operands": [
-                              0,
-                              232,
-                              0
-                            ]
+                            "kind": "setActorSprite",
+                            "actor": "li-xiaoyao",
+                            "sprite": "npc-232"
                           },
                           {
                             "kind": "unmigrated",

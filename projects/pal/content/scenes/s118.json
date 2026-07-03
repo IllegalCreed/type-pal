@@ -960,7 +960,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "up"
+          "facing": "up",
+          "member": 1
         },
         {
           "kind": "clearDialog"
@@ -1116,7 +1117,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "right"
+          "facing": "right",
+          "member": 1
         },
         {
           "kind": "clearDialog"

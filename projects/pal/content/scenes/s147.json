@@ -163,13 +163,9 @@
                     "soundId": 212
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 115,
-                    "operands": [
-                      2,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 600
                   },
                   {
                     "kind": "dialog",
@@ -326,13 +322,9 @@
                     "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 115,
-                    "operands": [
-                      3,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 900
                   },
                   {
                     "kind": "dialog",
@@ -351,13 +343,9 @@
                     "state": 1
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 115,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 300
                   },
                   {
                     "kind": "wait",
@@ -685,13 +673,9 @@
                     "soundId": 170
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 115,
-                    "operands": [
-                      3,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 900
                   },
                   {
                     "kind": "playMusic",

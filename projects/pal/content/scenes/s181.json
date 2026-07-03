@@ -377,7 +377,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "member": 1
                   },
                   {
                     "kind": "clearDialog"
@@ -414,7 +415,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "right"
+                    "facing": "right",
+                    "member": 1
                   },
                   {
                     "kind": "clearDialog"
@@ -433,7 +435,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "member": 1
                   },
                   {
                     "kind": "setEntityState",

@@ -4636,13 +4636,9 @@
           "musicId": 13
         },
         {
-          "kind": "unmigrated",
-          "opcode": 115,
-          "operands": [
-            5,
-            0,
-            0
-          ]
+          "kind": "fade",
+          "dir": "in",
+          "ms": 1500
         },
         {
           "kind": "unmigrated",
@@ -9478,13 +9474,9 @@
           "state": 1
         },
         {
-          "kind": "unmigrated",
-          "opcode": 115,
-          "operands": [
-            7,
-            54,
-            0
-          ]
+          "kind": "fade",
+          "dir": "in",
+          "ms": 2100
         },
         {
           "kind": "wait",

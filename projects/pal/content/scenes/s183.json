@@ -533,13 +533,9 @@
           "state": 2
         },
         {
-          "kind": "unmigrated",
-          "opcode": 115,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "fade",
+          "dir": "in",
+          "ms": 300
         },
         {
           "kind": "setPartyFacing",
@@ -569,13 +565,9 @@
           "state": 2
         },
         {
-          "kind": "unmigrated",
-          "opcode": 115,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "fade",
+          "dir": "in",
+          "ms": 300
         },
         {
           "kind": "setEntityFacing",
@@ -657,13 +649,9 @@
           "state": 2
         },
         {
-          "kind": "unmigrated",
-          "opcode": 115,
-          "operands": [
-            2,
-            0,
-            0
-          ]
+          "kind": "fade",
+          "dir": "in",
+          "ms": 600
         },
         {
           "kind": "dialog",

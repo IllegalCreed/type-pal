@@ -862,6 +862,8 @@ export interface SceneMigrationResult {
 export function mapScenesStatic(
   srcScenes: readonly SourceScene[],
   eventsByScene: ReadonlyMap<number, readonly SourceCmd[]>,
+  /** 角色本体精灵表(mapSprites 产物)。0x65 换精灵翻译:角色精灵优先复用其 id。 */
+  roleSprites: readonly SpriteDef[] = [],
 ): SceneMigrationResult {
   const report: SceneMigrationResult['report'] = {
     scenes: 0,
@@ -994,8 +996,29 @@ export function mapScenesStatic(
     return defId
   }
 
+  /**
+   * 0x65(换角色精灵)的 spriteNum → 精灵 id:角色本体精灵优先(切回本体 = 角色 id),
+   * 其余复用/补登记 npc-<num>。补登记按玩家精灵定式 directional 3 帧/向
+   * (原版 rgwSpriteNum 全是 3 帧/向大世界精灵;0x15 的 wFrame=dir*3+gesture 同源)。
+   */
+  const spriteIdForNum = (num: number): string => {
+    const role = roleSprites.find((s) => s.spriteNum === num)
+    if (role) return role.id
+    const defId = `npc-${num}`
+    if (!spriteDefs.has(defId)) {
+      primaryLayout.set(num, 3)
+      spriteDefs.set(defId, {
+        id: defId,
+        spriteNum: num,
+        label: `原精灵 ${num}(0x65 换装)`,
+        layout: { kind: 'directional', framesPerDir: 3 },
+      })
+    }
+    return defId
+  }
+
   // ── M3a 脚本翻译上下文(触发链/onEnter → 结构化 stages;文本进 locale)──
-  const tctx = { labelAt, locale: {} as Record<string, string>, report: emptyTranslateReport() }
+  const tctx = { labelAt, locale: {} as Record<string, string>, report: emptyTranslateReport(), spriteIdForNum }
   /** 原版 triggerMode → 触发口:1-3 = 按键交互(range=mode),4-8 = 走近自动(range=mode-4)。 */
   const triggerOf = (eo: SourceEventObject) => {
     const mode = eo.triggerMode ?? 0

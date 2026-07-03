@@ -211,13 +211,9 @@
     {
       "body": [
         {
-          "kind": "unmigrated",
-          "opcode": 101,
-          "operands": [
-            0,
-            521,
-            65535
-          ]
+          "kind": "setActorSprite",
+          "actor": "li-xiaoyao",
+          "sprite": "npc-521"
         },
         {
           "kind": "setPartyFacing",
@@ -236,7 +232,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 1
         },
         {
           "kind": "wait",
@@ -244,7 +241,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 2
         },
         {
           "kind": "wait",
@@ -252,7 +250,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 1
         },
         {
           "kind": "wait",
@@ -260,7 +259,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 2
         },
         {
           "kind": "wait",
@@ -268,7 +268,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 1
         },
         {
           "kind": "wait",
@@ -276,7 +277,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 2
         },
         {
           "kind": "wait",
@@ -284,7 +286,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 1
         },
         {
           "kind": "wait",
@@ -292,7 +295,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 2
         },
         {
           "kind": "wait",
@@ -300,7 +304,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 1
         },
         {
           "kind": "wait",
@@ -308,7 +313,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 2
         },
         {
           "kind": "wait",
@@ -316,7 +322,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 3
         },
         {
           "kind": "wait",
@@ -324,7 +331,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 4
         },
         {
           "kind": "wait",
@@ -332,7 +340,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 5
         },
         {
           "kind": "wait",
@@ -340,7 +349,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 6
         },
         {
           "kind": "wait",
@@ -352,7 +362,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 7
         },
         {
           "kind": "wait",
@@ -360,7 +371,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 6
         },
         {
           "kind": "wait",
@@ -368,7 +380,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 5
         },
         {
           "kind": "wait",
@@ -376,7 +389,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 8
         },
         {
           "kind": "wait",
@@ -384,7 +398,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 9
         },
         {
           "kind": "wait",
@@ -392,7 +407,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 10
         },
         {
           "kind": "wait",
@@ -400,7 +416,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 11
         },
         {
           "kind": "wait",
@@ -408,7 +425,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 12
         },
         {
           "kind": "wait",
@@ -416,7 +434,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 13
         },
         {
           "kind": "wait",
@@ -424,7 +443,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 12
         },
         {
           "kind": "wait",
@@ -432,7 +452,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 13
         },
         {
           "kind": "wait",
@@ -440,7 +461,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 14
         },
         {
           "kind": "wait",
@@ -455,7 +477,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 15
         },
         {
           "kind": "clearDialog"
@@ -469,7 +492,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 16
         },
         {
           "kind": "wait",
@@ -477,7 +501,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 17
         },
         {
           "kind": "wait",
@@ -492,7 +517,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 18
         },
         {
           "kind": "wait",
@@ -500,7 +526,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 17
         },
         {
           "kind": "wait",
@@ -508,7 +535,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 18
         },
         {
           "kind": "wait",
@@ -516,7 +544,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 17
         },
         {
           "kind": "wait",
@@ -524,7 +553,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 18
         },
         {
           "kind": "wait",
@@ -532,7 +562,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 17
         },
         {
           "kind": "wait",
@@ -540,7 +571,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 19
         },
         {
           "kind": "wait",
@@ -548,7 +580,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 20
         },
         {
           "kind": "clearDialog"
@@ -566,7 +599,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 21
         },
         {
           "kind": "wait",
@@ -574,7 +608,8 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 22
         },
         {
           "kind": "wait",
@@ -592,16 +627,13 @@
         },
         {
           "kind": "setPartyFacing",
-          "facing": "down"
+          "facing": "down",
+          "gesture": 23
         },
         {
-          "kind": "unmigrated",
-          "opcode": 115,
-          "operands": [
-            4,
-            0,
-            0
-          ]
+          "kind": "fade",
+          "dir": "in",
+          "ms": 1200
         },
         {
           "kind": "dialog",
@@ -639,13 +671,9 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 101,
-          "operands": [
-            0,
-            2,
-            65535
-          ]
+          "kind": "setActorSprite",
+          "actor": "li-xiaoyao",
+          "sprite": "li-xiaoyao"
         },
         {
           "kind": "setPartyFacing",

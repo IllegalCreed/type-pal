@@ -713,7 +713,7 @@
         "row": 36,
         "height": 0
       },
-      "sprite": "npc-193",
+      "sprite": "npc-193-f0",
       "hidden": true
     },
     {
@@ -1097,13 +1097,9 @@
                     "frame": 12
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 115,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 300
                   },
                   {
                     "kind": "dialog",
@@ -1137,17 +1133,14 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 101,
-                    "operands": [
-                      0,
-                      193,
-                      65535
-                    ]
+                    "kind": "setActorSprite",
+                    "actor": "li-xiaoyao",
+                    "sprite": "npc-193"
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "down"
+                    "facing": "down",
+                    "gesture": 12
                   },
                   {
                     "kind": "clearDialog"
@@ -1545,13 +1538,9 @@
                     "frame": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 115,
-                    "operands": [
-                      2,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 600
                   },
                   {
                     "kind": "dialog",
@@ -1568,13 +1557,9 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 101,
-                    "operands": [
-                      0,
-                      2,
-                      65535
-                    ]
+                    "kind": "setActorSprite",
+                    "actor": "li-xiaoyao",
+                    "sprite": "li-xiaoyao"
                   },
                   {
                     "kind": "setPartyFacing",
@@ -1762,13 +1747,9 @@
                     "state": 1
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 101,
-                    "operands": [
-                      0,
-                      232,
-                      65535
-                    ]
+                    "kind": "setActorSprite",
+                    "actor": "li-xiaoyao",
+                    "sprite": "npc-232"
                   },
                   {
                     "kind": "setPartyFacing",
@@ -2479,13 +2460,9 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 101,
-                    "operands": [
-                      0,
-                      2,
-                      65535
-                    ]
+                    "kind": "setActorSprite",
+                    "actor": "li-xiaoyao",
+                    "sprite": "li-xiaoyao"
                   },
                   {
                     "kind": "setEntityState",
@@ -2526,13 +2503,9 @@
                     "facing": "down"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 115,
-                    "operands": [
-                      3,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 900
                   },
                   {
                     "kind": "wait",
@@ -7049,7 +7022,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "left"
+                    "facing": "left",
+                    "member": 1
                   },
                   {
                     "kind": "wait",
@@ -7064,7 +7038,8 @@
                   },
                   {
                     "kind": "setPartyFacing",
-                    "facing": "up"
+                    "facing": "up",
+                    "member": 1
                   },
                   {
                     "kind": "clearDialog"
