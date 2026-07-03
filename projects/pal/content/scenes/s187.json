@@ -177,7 +177,7 @@
                   },
                   {
                     "kind": "setEntityAuto",
-                    "entity": "e3153",
+                    "entity": "e3152",
                     "stages": [
                       {
                         "body": [
@@ -187,42 +187,42 @@
                           },
                           {
                             "kind": "setEntityFacing",
-                            "entity": "e3153",
+                            "entity": "e3152",
                             "facing": "down"
                           },
                           {
                             "kind": "setEntityFrame",
-                            "entity": "e3153",
+                            "entity": "e3152",
                             "frame": 1
                           },
                           {
                             "kind": "setEntityFacing",
-                            "entity": "e3153",
+                            "entity": "e3152",
                             "facing": "down"
                           },
                           {
                             "kind": "setEntityFrame",
-                            "entity": "e3153",
+                            "entity": "e3152",
                             "frame": 2
                           },
                           {
                             "kind": "setEntityFacing",
-                            "entity": "e3153",
+                            "entity": "e3152",
                             "facing": "down"
                           },
                           {
                             "kind": "setEntityFrame",
-                            "entity": "e3153",
+                            "entity": "e3152",
                             "frame": 3
                           },
                           {
                             "kind": "setEntityFacing",
-                            "entity": "e3153",
+                            "entity": "e3152",
                             "facing": "down"
                           },
                           {
                             "kind": "setEntityFrame",
-                            "entity": "e3153",
+                            "entity": "e3152",
                             "frame": 4
                           }
                         ]
@@ -231,12 +231,12 @@
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e3153",
+                    "entity": "e3152",
                     "state": 1
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e3154",
+                    "entity": "e3153",
                     "state": 0
                   }
                 ]

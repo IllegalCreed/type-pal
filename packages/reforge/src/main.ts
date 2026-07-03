@@ -595,7 +595,8 @@ async function main(): Promise<void> {
         const dc = Math.abs(dcol) >= 0.26 ? Math.sign(dcol) * 0.5 : 0
         const dr = Math.abs(drow) >= 0.26 ? Math.sign(drow) * 0.5 : 0
         e.pos = { ...e.pos, col: e.pos.col + dc, row: e.pos.row + dr }
-        e.facing = Math.abs(dcol) >= Math.abs(drow) ? (dcol < 0 ? 'left' : 'right') : (drow < 0 ? 'up' : 'down')
+        // 朝向 = 原版象限规则(PAL_NPCWalkTo):y 负 → 左/上(按 x 符号),y 非负 → 下/右
+        e.facing = drow < 0 ? (dcol < 0 ? 'left' : 'up') : dcol < 0 ? 'down' : 'right'
         entityAnim.set(id, (entityAnim.get(id) ?? 0) + 1)
       }
       if (Math.abs(mv.to.col - e.pos.col) < 0.26 && Math.abs(mv.to.row - e.pos.row) < 0.26) {
@@ -613,9 +614,8 @@ async function main(): Promise<void> {
         const dr = Math.sign(mv.to.row - player.pos.row)
         if (dc === 0 && dr === 0) break
         player.pos = { ...player.pos, col: player.pos.col + dc, row: player.pos.row + dr }
-        facing = Math.abs(mv.to.col - player.pos.col) >= Math.abs(mv.to.row - player.pos.row)
-          ? (dc < 0 ? 'left' : 'right')
-          : (dr < 0 ? 'up' : 'down')
+        // 同原版象限规则(play.c 队伍走位方向)
+        facing = dr < 0 ? (dc < 0 ? 'left' : 'up') : dc < 0 ? 'down' : 'right'
         walking = true
         stepFrame = (stepFrame + 1) % 4
         updateCamera()
@@ -866,13 +866,16 @@ async function main(): Promise<void> {
       if (e.hidden) continue
       const def = entitySpriteDefs.get(e.id)
       const sp = def ? spriteByNum.get(def.spriteNum) : undefined
-      // 帧下标:移动/动画中 → 走帧(anim 计数);静止 → 站立帧 + 演出帧覆盖(0x14/0x0F)
+      // 帧下标:演出帧覆盖(0x14/0x0F,含 0)优先且恒走 站立+override;
+      // 否则移动/动画中走走路帧(anim 计数);否则站立帧
       const anim = entityAnim.get(e.id)
-      const fo = entityFrameOverride.get(e.id) ?? 0
+      const hasOv = entityFrameOverride.has(e.id)
       const fi = def
-        ? anim !== undefined && (entityMoves.has(e.id) || fo === 0)
-          ? walkFrameIndex(def.layout, e.facing ?? 'down', anim)
-          : idleFrameIndex(def.layout, e.facing ?? 'down') + fo
+        ? hasOv
+          ? idleFrameIndex(def.layout, e.facing ?? 'down') + (entityFrameOverride.get(e.id) ?? 0)
+          : anim !== undefined
+            ? walkFrameIndex(def.layout, e.facing ?? 'down', anim)
+            : idleFrameIndex(def.layout, e.facing ?? 'down')
         : 0
       const f = def ? (sp?.frames[fi] ?? sp?.frames[0]) : undefined
       if (!sp || !f) continue

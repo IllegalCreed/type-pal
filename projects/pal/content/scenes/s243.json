@@ -1277,6 +1277,16 @@
         },
         {
           "kind": "setEntityState",
+          "entity": "e4295",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4306",
+          "state": 1
+        },
+        {
+          "kind": "setEntityState",
           "entity": "e4296",
           "state": 0
         },
@@ -1284,6 +1294,10 @@
           "kind": "setEntityState",
           "entity": "e4307",
           "state": 1
+        },
+        {
+          "kind": "wait",
+          "ms": 200
         },
         {
           "kind": "setEntityState",
@@ -1296,10 +1310,6 @@
           "state": 1
         },
         {
-          "kind": "wait",
-          "ms": 200
-        },
-        {
           "kind": "setEntityState",
           "entity": "e4298",
           "state": 0
@@ -1310,6 +1320,10 @@
           "state": 1
         },
         {
+          "kind": "wait",
+          "ms": 240
+        },
+        {
           "kind": "setEntityState",
           "entity": "e4299",
           "state": 0
@@ -1317,20 +1331,6 @@
         {
           "kind": "setEntityState",
           "entity": "e4310",
-          "state": 1
-        },
-        {
-          "kind": "wait",
-          "ms": 240
-        },
-        {
-          "kind": "setEntityState",
-          "entity": "e4300",
-          "state": 0
-        },
-        {
-          "kind": "setEntityState",
-          "entity": "e4311",
           "state": 1
         },
         {

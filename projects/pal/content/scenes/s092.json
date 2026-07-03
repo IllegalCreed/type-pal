@@ -309,6 +309,11 @@
                   },
                   {
                     "kind": "setEntityState",
+                    "entity": "e1593",
+                    "state": 1
+                  },
+                  {
+                    "kind": "setEntityState",
                     "entity": "e1594",
                     "state": 1
                   },
@@ -330,11 +335,6 @@
                   {
                     "kind": "setEntityState",
                     "entity": "e1598",
-                    "state": 1
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "entity": "e1599",
                     "state": 1
                   },
                   {
@@ -553,7 +553,7 @@
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e1694",
+                    "entity": "e1693",
                     "state": 2
                   },
                   {
@@ -621,6 +621,11 @@
                   },
                   {
                     "kind": "setEntityState",
+                    "entity": "e1693",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
                     "entity": "e1694",
                     "state": 0
                   },
@@ -630,13 +635,8 @@
                     "state": 0
                   },
                   {
-                    "kind": "setEntityState",
-                    "entity": "e1696",
-                    "state": 0
-                  },
-                  {
                     "kind": "setEntityTrigger",
-                    "entity": "e1578",
+                    "entity": "e1577",
                     "stages": [
                       {
                         "body": [

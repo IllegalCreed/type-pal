@@ -236,22 +236,22 @@
         },
         {
           "kind": "setEntityState",
+          "entity": "e1824",
+          "state": 2
+        },
+        {
+          "kind": "setEntityState",
           "entity": "e1825",
           "state": 2
         },
         {
           "kind": "setEntityState",
-          "entity": "e1826",
+          "entity": "e2000",
           "state": 2
         },
         {
           "kind": "setEntityState",
-          "entity": "e2001",
-          "state": 2
-        },
-        {
-          "kind": "setEntityState",
-          "entity": "e2208",
+          "entity": "e2207",
           "state": 0
         }
       ],

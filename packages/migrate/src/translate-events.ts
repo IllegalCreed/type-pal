@@ -323,10 +323,13 @@ function walkBody(
         flush()
         if (cmd) body.push(cmd)
       }
-      // 对象引用:操作数 0xFFFF = 脚本属主"自己"(sdlpal script.c wEventObjectID 解析约定)
-      const entRef = (v: number): string | undefined => (v === 0xffff ? owner : `e${v}`)
-      // pCurrent 式引用:0 也是"自己"(script.c 解释器预amble:op0==0 → pEvtObj)
-      const pcRef = (v: number): string | undefined => (v === 0 || v === 0xffff ? owner : `e${v}`)
+      // 对象引用:操作数 0xFFFF = 脚本属主"自己";其余是 **1-based** 全局对象号
+      // (sdlpal script.c 预amble `pCurrent = &obj[operand-1]`),提取数据 id 是 0-based
+      // → 减 1。⚠ 曾直译 e${v} 全体错位 +1:开场敲锅动画给了 zone、该藏的李大娘没藏
+      // (2026-07-03 用户报 + 一阶段 oracle 对照实锤)。
+      const entRef = (v: number): string | undefined => (v === 0xffff ? owner : `e${v - 1}`)
+      // pCurrent 式引用:0 也是"自己"(script.c:op0==0 → pEvtObj)
+      const pcRef = (v: number): string | undefined => (v === 0 || v === 0xffff ? owner : `e${v - 1}`)
       /** 跳走臂内联:跳转目标链整段翻成 Command[](臂自行终结;环/深度超限 → unmigrated)。 */
       const inlineArm = (addr: number | undefined): Command[] => {
         if (!addr) return []

@@ -1333,7 +1333,7 @@
                 "body": [
                   {
                     "kind": "setEntityState",
-                    "entity": "e1824",
+                    "entity": "e1823",
                     "state": 2
                   },
                   {
@@ -1389,7 +1389,7 @@
                 "body": [
                   {
                     "kind": "setEntityState",
-                    "entity": "e1824",
+                    "entity": "e1823",
                     "state": 2
                   },
                   {
@@ -1715,7 +1715,7 @@
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e1809",
+                    "entity": "e1808",
                     "state": 2
                   },
                   {
@@ -1927,7 +1927,7 @@
                   },
                   {
                     "kind": "setEntityTrigger",
-                    "entity": "e2314",
+                    "entity": "e2313",
                     "stages": [
                       {
                         "body": [
@@ -2916,7 +2916,7 @@
                   },
                   {
                     "kind": "nudgeEntity",
-                    "entity": "e1835",
+                    "entity": "e1834",
                     "dx": 0,
                     "dy": -48
                   },
@@ -2928,22 +2928,22 @@
                   },
                   {
                     "kind": "setEntityState",
+                    "entity": "e1835",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
                     "entity": "e1836",
                     "state": 0
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e1837",
-                    "state": 0
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "entity": "e1815",
+                    "entity": "e1814",
                     "state": 2
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e1816",
+                    "entity": "e1815",
                     "state": 2
                   },
                   {
@@ -2978,7 +2978,7 @@
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e1839",
+                    "entity": "e1838",
                     "state": 2
                   },
                   {
@@ -3003,13 +3003,13 @@
                   },
                   {
                     "kind": "setEntityAuto",
-                    "entity": "e1835",
+                    "entity": "e1834",
                     "stages": [
                       {
                         "body": [
                           {
                             "kind": "moveEntity",
-                            "entity": "e1835",
+                            "entity": "e1834",
                             "to": {
                               "col": 46,
                               "row": 14,
@@ -3019,7 +3019,7 @@
                           },
                           {
                             "kind": "setEntityState",
-                            "entity": "e1835",
+                            "entity": "e1834",
                             "state": 0
                           }
                         ]
@@ -3032,12 +3032,12 @@
                   },
                   {
                     "kind": "setEntityFacing",
-                    "entity": "e1839",
+                    "entity": "e1838",
                     "facing": "down"
                   },
                   {
                     "kind": "setEntityFrame",
-                    "entity": "e1839",
+                    "entity": "e1838",
                     "frame": 0
                   },
                   {
@@ -3046,12 +3046,12 @@
                   },
                   {
                     "kind": "setEntityFacing",
-                    "entity": "e1839",
+                    "entity": "e1838",
                     "facing": "left"
                   },
                   {
                     "kind": "setEntityFrame",
-                    "entity": "e1839",
+                    "entity": "e1838",
                     "frame": 0
                   },
                   {
@@ -3060,12 +3060,12 @@
                   },
                   {
                     "kind": "setEntityFacing",
-                    "entity": "e1839",
+                    "entity": "e1838",
                     "facing": "down"
                   },
                   {
                     "kind": "setEntityFrame",
-                    "entity": "e1839",
+                    "entity": "e1838",
                     "frame": 0
                   },
                   {
@@ -3074,12 +3074,12 @@
                   },
                   {
                     "kind": "setEntityFacing",
-                    "entity": "e1839",
+                    "entity": "e1838",
                     "facing": "right"
                   },
                   {
                     "kind": "setEntityFrame",
-                    "entity": "e1839",
+                    "entity": "e1838",
                     "frame": 0
                   },
                   {
@@ -3122,12 +3122,12 @@
                   },
                   {
                     "kind": "setEntityFacing",
-                    "entity": "e1839",
+                    "entity": "e1838",
                     "facing": "up"
                   },
                   {
                     "kind": "setEntityFrame",
-                    "entity": "e1839",
+                    "entity": "e1838",
                     "frame": 0
                   },
                   {
@@ -3308,12 +3308,12 @@
                   },
                   {
                     "kind": "setEntityFacing",
-                    "entity": "e1839",
+                    "entity": "e1838",
                     "facing": "left"
                   },
                   {
                     "kind": "setEntityFrame",
-                    "entity": "e1839",
+                    "entity": "e1838",
                     "frame": 0
                   },
                   {
@@ -3351,12 +3351,12 @@
                   },
                   {
                     "kind": "setEntityFacing",
-                    "entity": "e1839",
+                    "entity": "e1838",
                     "facing": "up"
                   },
                   {
                     "kind": "setEntityFrame",
-                    "entity": "e1839",
+                    "entity": "e1838",
                     "frame": 0
                   },
                   {

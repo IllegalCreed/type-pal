@@ -277,13 +277,13 @@
                   },
                   {
                     "kind": "setEntityAuto",
-                    "entity": "e467",
+                    "entity": "e466",
                     "stages": [
                       {
                         "body": [
                           {
                             "kind": "moveEntity",
-                            "entity": "e467",
+                            "entity": "e466",
                             "to": {
                               "col": 42,
                               "row": 12,
@@ -293,7 +293,7 @@
                           },
                           {
                             "kind": "moveEntity",
-                            "entity": "e467",
+                            "entity": "e466",
                             "to": {
                               "col": 47,
                               "row": 12,
@@ -303,7 +303,7 @@
                           },
                           {
                             "kind": "moveEntity",
-                            "entity": "e467",
+                            "entity": "e466",
                             "to": {
                               "col": 47,
                               "row": 6,
@@ -313,7 +313,7 @@
                           },
                           {
                             "kind": "moveEntity",
-                            "entity": "e467",
+                            "entity": "e466",
                             "to": {
                               "col": 47,
                               "row": 9,
@@ -323,12 +323,12 @@
                           },
                           {
                             "kind": "setEntityFacing",
-                            "entity": "e467",
+                            "entity": "e466",
                             "facing": "left"
                           },
                           {
                             "kind": "setEntityFrame",
-                            "entity": "e467",
+                            "entity": "e466",
                             "frame": 0
                           },
                           {
@@ -337,7 +337,7 @@
                           },
                           {
                             "kind": "moveEntity",
-                            "entity": "e467",
+                            "entity": "e466",
                             "to": {
                               "col": 47,
                               "row": 6,
@@ -347,7 +347,7 @@
                           },
                           {
                             "kind": "moveEntity",
-                            "entity": "e467",
+                            "entity": "e466",
                             "to": {
                               "col": 42,
                               "row": 6,
@@ -357,7 +357,7 @@
                           },
                           {
                             "kind": "moveEntity",
-                            "entity": "e467",
+                            "entity": "e466",
                             "to": {
                               "col": 42,
                               "row": 16,
@@ -367,7 +367,7 @@
                           },
                           {
                             "kind": "moveEntity",
-                            "entity": "e467",
+                            "entity": "e466",
                             "to": {
                               "col": 41,
                               "row": 16,
@@ -377,7 +377,7 @@
                           },
                           {
                             "kind": "moveEntity",
-                            "entity": "e467",
+                            "entity": "e466",
                             "to": {
                               "col": 41,
                               "row": 19,
@@ -387,7 +387,7 @@
                           },
                           {
                             "kind": "setEntityState",
-                            "entity": "e467",
+                            "entity": "e466",
                             "state": 0
                           }
                         ]

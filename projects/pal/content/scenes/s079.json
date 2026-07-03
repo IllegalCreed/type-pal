@@ -224,22 +224,22 @@
                   },
                   {
                     "kind": "setEntityFacing",
-                    "entity": "e1502",
+                    "entity": "e1501",
                     "facing": "right"
                   },
                   {
                     "kind": "setEntityFrame",
-                    "entity": "e1502",
+                    "entity": "e1501",
                     "frame": 0
                   },
                   {
                     "kind": "setEntityFacing",
-                    "entity": "e1503",
+                    "entity": "e1502",
                     "facing": "left"
                   },
                   {
                     "kind": "setEntityFrame",
-                    "entity": "e1503",
+                    "entity": "e1502",
                     "frame": 0
                   },
                   {
@@ -254,23 +254,23 @@
                   },
                   {
                     "kind": "nudgeEntity",
-                    "entity": "e1502",
+                    "entity": "e1501",
                     "dx": 8,
                     "dy": 4
                   },
                   {
                     "kind": "animEntity",
-                    "entity": "e1502"
+                    "entity": "e1501"
                   },
                   {
                     "kind": "nudgeEntity",
-                    "entity": "e1503",
+                    "entity": "e1502",
                     "dx": -8,
                     "dy": -4
                   },
                   {
                     "kind": "animEntity",
-                    "entity": "e1503"
+                    "entity": "e1502"
                   },
                   {
                     "kind": "wait",
@@ -293,23 +293,23 @@
                   },
                   {
                     "kind": "nudgeEntity",
-                    "entity": "e1502",
+                    "entity": "e1501",
                     "dx": 8,
                     "dy": 4
                   },
                   {
                     "kind": "animEntity",
-                    "entity": "e1502"
+                    "entity": "e1501"
                   },
                   {
                     "kind": "nudgeEntity",
-                    "entity": "e1503",
+                    "entity": "e1502",
                     "dx": -8,
                     "dy": -4
                   },
                   {
                     "kind": "animEntity",
-                    "entity": "e1503"
+                    "entity": "e1502"
                   },
                   {
                     "kind": "wait",

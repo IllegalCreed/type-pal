@@ -308,12 +308,12 @@
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e192",
+                    "entity": "e191",
                     "state": 2
                   },
                   {
                     "kind": "setEntityTrigger",
-                    "entity": "e192",
+                    "entity": "e191",
                     "stages": [
                       {
                         "body": [
@@ -362,12 +362,12 @@
                   },
                   {
                     "kind": "setEntityFacing",
-                    "entity": "e37",
+                    "entity": "e36",
                     "facing": "down"
                   },
                   {
                     "kind": "setEntityFrame",
-                    "entity": "e37",
+                    "entity": "e36",
                     "frame": 0
                   },
                   {
@@ -376,12 +376,12 @@
                   },
                   {
                     "kind": "setEntityFacing",
-                    "entity": "e37",
+                    "entity": "e36",
                     "facing": "left"
                   },
                   {
                     "kind": "setEntityFrame",
-                    "entity": "e37",
+                    "entity": "e36",
                     "frame": 0
                   }
                 ]
@@ -411,7 +411,7 @@
                 "body": [
                   {
                     "kind": "setEntityState",
-                    "entity": "e60",
+                    "entity": "e59",
                     "state": 2
                   },
                   {
@@ -425,7 +425,7 @@
                   },
                   {
                     "kind": "setEntityTrigger",
-                    "entity": "e60",
+                    "entity": "e59",
                     "stages": [
                       {
                         "body": [
@@ -440,19 +440,19 @@
                           },
                           {
                             "kind": "setEntityTrigger",
-                            "entity": "e124",
+                            "entity": "e123",
                             "stages": [
                               {
                                 "body": [
                                   {
                                     "kind": "setEntityTriggerMode",
-                                    "entity": "e117",
+                                    "entity": "e116",
                                     "on": "touch",
                                     "range": 2
                                   },
                                   {
                                     "kind": "setEntityTrigger",
-                                    "entity": "e117",
+                                    "entity": "e116",
                                     "stages": [
                                       {
                                         "body": [
@@ -484,111 +484,111 @@
                                           },
                                           {
                                             "kind": "setEntityAuto",
-                                            "entity": "e118",
+                                            "entity": "e117",
                                             "stages": [
                                               {
                                                 "body": [
                                                   {
                                                     "kind": "nudgeEntity",
-                                                    "entity": "e118",
+                                                    "entity": "e117",
                                                     "dx": 4,
                                                     "dy": -2
                                                   },
                                                   {
                                                     "kind": "animEntity",
-                                                    "entity": "e118"
+                                                    "entity": "e117"
                                                   },
                                                   {
                                                     "kind": "nudgeEntity",
-                                                    "entity": "e118",
+                                                    "entity": "e117",
                                                     "dx": 4,
                                                     "dy": -2
                                                   },
                                                   {
                                                     "kind": "nudgeEntity",
-                                                    "entity": "e118",
+                                                    "entity": "e117",
                                                     "dx": 4,
                                                     "dy": -2
                                                   },
                                                   {
                                                     "kind": "nudgeEntity",
-                                                    "entity": "e118",
+                                                    "entity": "e117",
                                                     "dx": 4,
                                                     "dy": -2
                                                   },
                                                   {
                                                     "kind": "nudgeEntity",
-                                                    "entity": "e118",
+                                                    "entity": "e117",
                                                     "dx": 4,
                                                     "dy": -2
                                                   },
                                                   {
                                                     "kind": "animEntity",
-                                                    "entity": "e118"
+                                                    "entity": "e117"
                                                   },
                                                   {
                                                     "kind": "nudgeEntity",
-                                                    "entity": "e118",
+                                                    "entity": "e117",
                                                     "dx": 4,
                                                     "dy": -2
                                                   },
                                                   {
                                                     "kind": "nudgeEntity",
-                                                    "entity": "e118",
+                                                    "entity": "e117",
                                                     "dx": 4,
                                                     "dy": -2
                                                   },
                                                   {
                                                     "kind": "nudgeEntity",
-                                                    "entity": "e118",
+                                                    "entity": "e117",
                                                     "dx": 4,
                                                     "dy": -2
                                                   },
                                                   {
                                                     "kind": "nudgeEntity",
-                                                    "entity": "e118",
+                                                    "entity": "e117",
                                                     "dx": 4,
                                                     "dy": -2
                                                   },
                                                   {
                                                     "kind": "nudgeEntity",
-                                                    "entity": "e118",
+                                                    "entity": "e117",
                                                     "dx": 4,
                                                     "dy": -2
                                                   },
                                                   {
                                                     "kind": "nudgeEntity",
-                                                    "entity": "e118",
+                                                    "entity": "e117",
                                                     "dx": 4,
                                                     "dy": -2
                                                   },
                                                   {
                                                     "kind": "nudgeEntity",
-                                                    "entity": "e118",
+                                                    "entity": "e117",
                                                     "dx": 4,
                                                     "dy": -2
                                                   },
                                                   {
                                                     "kind": "nudgeEntity",
-                                                    "entity": "e118",
+                                                    "entity": "e117",
                                                     "dx": 4,
                                                     "dy": -2
                                                   },
                                                   {
                                                     "kind": "nudgeEntity",
-                                                    "entity": "e118",
+                                                    "entity": "e117",
                                                     "dx": 4,
                                                     "dy": -2
                                                   },
                                                   {
                                                     "kind": "nudgeEntity",
-                                                    "entity": "e118",
+                                                    "entity": "e117",
                                                     "dx": 4,
                                                     "dy": -2
                                                   },
                                                   {
                                                     "kind": "nudgeEntity",
-                                                    "entity": "e118",
+                                                    "entity": "e117",
                                                     "dx": 4,
                                                     "dy": -2
                                                   }
@@ -669,7 +669,7 @@
                                   },
                                   {
                                     "kind": "stepEntity",
-                                    "entity": "e124",
+                                    "entity": "e123",
                                     "dir": "right"
                                   },
                                   {
@@ -677,7 +677,7 @@
                                   },
                                   {
                                     "kind": "stepEntity",
-                                    "entity": "e124",
+                                    "entity": "e123",
                                     "dir": "right"
                                   },
                                   {
@@ -685,7 +685,7 @@
                                   },
                                   {
                                     "kind": "stepEntity",
-                                    "entity": "e124",
+                                    "entity": "e123",
                                     "dir": "right"
                                   },
                                   {
@@ -693,7 +693,7 @@
                                   },
                                   {
                                     "kind": "stepEntity",
-                                    "entity": "e124",
+                                    "entity": "e123",
                                     "dir": "right"
                                   },
                                   {
@@ -701,7 +701,7 @@
                                   },
                                   {
                                     "kind": "stepEntity",
-                                    "entity": "e124",
+                                    "entity": "e123",
                                     "dir": "down"
                                   },
                                   {
@@ -709,7 +709,7 @@
                                   },
                                   {
                                     "kind": "stepEntity",
-                                    "entity": "e124",
+                                    "entity": "e123",
                                     "dir": "down"
                                   },
                                   {
@@ -717,7 +717,7 @@
                                   },
                                   {
                                     "kind": "stepEntity",
-                                    "entity": "e124",
+                                    "entity": "e123",
                                     "dir": "down"
                                   },
                                   {
@@ -725,7 +725,7 @@
                                   },
                                   {
                                     "kind": "stepEntity",
-                                    "entity": "e124",
+                                    "entity": "e123",
                                     "dir": "down"
                                   },
                                   {
@@ -733,17 +733,17 @@
                                   },
                                   {
                                     "kind": "setEntityState",
-                                    "entity": "e124",
+                                    "entity": "e123",
                                     "state": 0
                                   },
                                   {
                                     "kind": "setEntityState",
-                                    "entity": "e118",
+                                    "entity": "e117",
                                     "state": 2
                                   },
                                   {
                                     "kind": "setEntityAuto",
-                                    "entity": "e118",
+                                    "entity": "e117",
                                     "stages": []
                                   },
                                   {
@@ -771,17 +771,17 @@
                           },
                           {
                             "kind": "setEntityFacing",
-                            "entity": "e124",
+                            "entity": "e123",
                             "facing": "right"
                           },
                           {
                             "kind": "setEntityFrame",
-                            "entity": "e124",
+                            "entity": "e123",
                             "frame": 0
                           },
                           {
                             "kind": "setEntityTrigger",
-                            "entity": "e125",
+                            "entity": "e124",
                             "stages": [
                               {
                                 "body": [
@@ -853,7 +853,7 @@
                           },
                           {
                             "kind": "setEntityTrigger",
-                            "entity": "e25",
+                            "entity": "e24",
                             "stages": [
                               {
                                 "body": [
@@ -870,13 +870,13 @@
                           },
                           {
                             "kind": "setEntityAuto",
-                            "entity": "e60",
+                            "entity": "e59",
                             "stages": [
                               {
                                 "body": [
                                   {
                                     "kind": "moveEntity",
-                                    "entity": "e60",
+                                    "entity": "e59",
                                     "to": {
                                       "col": 137,
                                       "row": 52,
@@ -886,7 +886,7 @@
                                   },
                                   {
                                     "kind": "moveEntity",
-                                    "entity": "e60",
+                                    "entity": "e59",
                                     "to": {
                                       "col": 130,
                                       "row": 52,
@@ -896,13 +896,13 @@
                                   },
                                   {
                                     "kind": "nudgeEntity",
-                                    "entity": "e60",
+                                    "entity": "e59",
                                     "dx": -5,
                                     "dy": -5
                                   },
                                   {
                                     "kind": "animEntity",
-                                    "entity": "e60"
+                                    "entity": "e59"
                                   }
                                 ],
                                 "next": "advance"
@@ -911,13 +911,13 @@
                                 "body": [
                                   {
                                     "kind": "nudgeEntity",
-                                    "entity": "e60",
+                                    "entity": "e59",
                                     "dx": -3,
                                     "dy": -3
                                   },
                                   {
                                     "kind": "animEntity",
-                                    "entity": "e60"
+                                    "entity": "e59"
                                   }
                                 ],
                                 "next": 2
@@ -926,13 +926,13 @@
                                 "body": [
                                   {
                                     "kind": "nudgeEntity",
-                                    "entity": "e60",
+                                    "entity": "e59",
                                     "dx": -5,
                                     "dy": -5
                                   },
                                   {
                                     "kind": "animEntity",
-                                    "entity": "e60"
+                                    "entity": "e59"
                                   }
                                 ],
                                 "next": "advance"
@@ -941,7 +941,7 @@
                           },
                           {
                             "kind": "setEntityTriggerMode",
-                            "entity": "e60",
+                            "entity": "e59",
                             "on": "interact",
                             "range": 2
                           },
@@ -1182,13 +1182,13 @@
                   },
                   {
                     "kind": "setEntityAuto",
-                    "entity": "e60",
+                    "entity": "e59",
                     "stages": [
                       {
                         "body": [
                           {
                             "kind": "moveEntity",
-                            "entity": "e60",
+                            "entity": "e59",
                             "to": {
                               "col": 137,
                               "row": 72,
@@ -1202,13 +1202,13 @@
                   },
                   {
                     "kind": "setEntityTriggerMode",
-                    "entity": "e60",
+                    "entity": "e59",
                     "on": "touch",
                     "range": 2
                   },
                   {
                     "kind": "setEntityTrigger",
-                    "entity": "e84",
+                    "entity": "e83",
                     "stages": [
                       {
                         "body": [
@@ -1430,7 +1430,7 @@
                   },
                   {
                     "kind": "setEntityTrigger",
-                    "entity": "e126",
+                    "entity": "e125",
                     "stages": [
                       {
                         "body": [
@@ -1512,13 +1512,13 @@
                           },
                           {
                             "kind": "setEntityTriggerMode",
-                            "entity": "e127",
+                            "entity": "e126",
                             "on": "touch",
                             "range": 4
                           },
                           {
                             "kind": "setEntityState",
-                            "entity": "e126",
+                            "entity": "e125",
                             "state": 0
                           },
                           {
@@ -1923,13 +1923,13 @@
                   },
                   {
                     "kind": "setEntityAuto",
-                    "entity": "e39",
+                    "entity": "e38",
                     "stages": [
                       {
                         "body": [
                           {
                             "kind": "moveEntity",
-                            "entity": "e39",
+                            "entity": "e38",
                             "to": {
                               "col": 90,
                               "row": 3,
@@ -1939,17 +1939,17 @@
                           },
                           {
                             "kind": "setEntityFacing",
-                            "entity": "e39",
+                            "entity": "e38",
                             "facing": "right"
                           },
                           {
                             "kind": "setEntityFrame",
-                            "entity": "e39",
+                            "entity": "e38",
                             "frame": 0
                           },
                           {
                             "kind": "setEntityState",
-                            "entity": "e41",
+                            "entity": "e40",
                             "state": 0
                           }
                         ],
@@ -1959,12 +1959,12 @@
                         "body": [
                           {
                             "kind": "setEntityFacing",
-                            "entity": "e39",
+                            "entity": "e38",
                             "facing": "up"
                           },
                           {
                             "kind": "setEntityFrame",
-                            "entity": "e39",
+                            "entity": "e38",
                             "frame": 0
                           }
                         ]
@@ -2018,7 +2018,7 @@
                   },
                   {
                     "kind": "setEntityTrigger",
-                    "entity": "e177",
+                    "entity": "e176",
                     "stages": [
                       {
                         "body": [
@@ -2050,7 +2050,7 @@
                   },
                   {
                     "kind": "setEntityTrigger",
-                    "entity": "e85",
+                    "entity": "e84",
                     "stages": [
                       {
                         "body": [
@@ -2071,13 +2071,13 @@
                   },
                   {
                     "kind": "setEntityTrigger",
-                    "entity": "e77",
+                    "entity": "e76",
                     "stages": [
                       {
                         "body": [
                           {
                             "kind": "setEntityTriggerMode",
-                            "entity": "e77",
+                            "entity": "e76",
                             "on": "interact",
                             "range": 2
                           },

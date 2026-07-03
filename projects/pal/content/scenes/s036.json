@@ -238,12 +238,17 @@
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e604",
+                    "entity": "e603",
                     "state": 2
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e591",
+                    "entity": "e590",
+                    "state": 2
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e592",
                     "state": 2
                   },
                   {
@@ -252,13 +257,8 @@
                     "state": 2
                   },
                   {
-                    "kind": "setEntityState",
-                    "entity": "e594",
-                    "state": 2
-                  },
-                  {
                     "kind": "setEntityTrigger",
-                    "entity": "e592",
+                    "entity": "e591",
                     "stages": [
                       {
                         "body": [
@@ -327,6 +327,11 @@
                 "body": [
                   {
                     "kind": "setEntityState",
+                    "entity": "e597",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
                     "entity": "e598",
                     "state": 0
                   },
@@ -337,17 +342,17 @@
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e600",
+                    "entity": "e573",
                     "state": 0
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e574",
+                    "entity": "e575",
                     "state": 0
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e576",
+                    "entity": "e577",
                     "state": 0
                   },
                   {
@@ -357,17 +362,12 @@
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e579",
-                    "state": 0
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "entity": "e582",
+                    "entity": "e581",
                     "state": 0
                   },
                   {
                     "kind": "setEntityTrigger",
-                    "entity": "e590",
+                    "entity": "e589",
                     "stages": [
                       {
                         "body": [

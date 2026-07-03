@@ -177,7 +177,7 @@
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e2041",
+                    "entity": "e2040",
                     "state": 2
                   },
                   {
@@ -194,7 +194,7 @@
                   },
                   {
                     "kind": "setEntityTrigger",
-                    "entity": "e2072",
+                    "entity": "e2071",
                     "stages": [
                       {
                         "body": [
@@ -236,17 +236,17 @@
                           },
                           {
                             "kind": "setEntityState",
+                            "entity": "e2074",
+                            "state": 2
+                          },
+                          {
+                            "kind": "setEntityState",
                             "entity": "e2075",
                             "state": 2
                           },
                           {
                             "kind": "setEntityState",
                             "entity": "e2076",
-                            "state": 2
-                          },
-                          {
-                            "kind": "setEntityState",
-                            "entity": "e2077",
                             "state": 2
                           },
                           {
@@ -541,12 +541,12 @@
                   },
                   {
                     "kind": "setEntityFacing",
-                    "entity": "e2041",
+                    "entity": "e2040",
                     "facing": "right"
                   },
                   {
                     "kind": "setEntityFrame",
-                    "entity": "e2041",
+                    "entity": "e2040",
                     "frame": 0
                   },
                   {
@@ -570,7 +570,7 @@
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e2041",
+                    "entity": "e2040",
                     "state": 0
                   },
                   {

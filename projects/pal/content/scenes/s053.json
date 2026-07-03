@@ -336,23 +336,23 @@
                   },
                   {
                     "kind": "setEntityTrigger",
-                    "entity": "e898",
+                    "entity": "e897",
                     "stages": [
                       {
                         "body": [
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e797",
+                            "state": 2
+                          },
                           {
                             "kind": "setEntityState",
                             "entity": "e798",
                             "state": 2
                           },
                           {
-                            "kind": "setEntityState",
-                            "entity": "e799",
-                            "state": 2
-                          },
-                          {
                             "kind": "setEntityTrigger",
-                            "entity": "e877",
+                            "entity": "e876",
                             "stages": [
                               {
                                 "body": [
@@ -390,7 +390,7 @@
                                   },
                                   {
                                     "kind": "setEntityState",
-                                    "entity": "e878",
+                                    "entity": "e877",
                                     "state": 0
                                   },
                                   {
@@ -645,13 +645,104 @@
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e908",
+                    "entity": "e907",
                     "state": 2
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e814",
+                    "entity": "e813",
                     "state": 0
+                  },
+                  {
+                    "kind": "setEntityTrigger",
+                    "entity": "e934",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3847",
+                              "speaker": "spk.苗人"
+                            }
+                          },
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3849",
+                              "speaker": "spk.赵灵儿",
+                              "portrait": {
+                                "icon": 11,
+                                "side": "right"
+                              }
+                            }
+                          },
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3852",
+                              "speaker": "spk.苗人",
+                              "portrait": {
+                                "icon": 11,
+                                "side": "right"
+                              }
+                            }
+                          },
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3856",
+                              "speaker": "spk.李逍遥",
+                              "portrait": {
+                                "icon": 5,
+                                "side": "right"
+                              }
+                            }
+                          },
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3860",
+                              "speaker": "spk.苗人",
+                              "portrait": {
+                                "icon": 5,
+                                "side": "right"
+                              }
+                            }
+                          },
+                          {
+                            "kind": "setBattleField",
+                            "fieldId": 45
+                          },
+                          {
+                            "kind": "startBattle",
+                            "team": 33
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e934",
+                            "state": 0
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e935",
+                            "state": 0
+                          }
+                        ]
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityTrigger",
@@ -732,103 +823,12 @@
                           },
                           {
                             "kind": "setEntityState",
-                            "entity": "e935",
+                            "entity": "e934",
                             "state": 0
-                          },
-                          {
-                            "kind": "setEntityState",
-                            "entity": "e936",
-                            "state": 0
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "setEntityTrigger",
-                    "entity": "e936",
-                    "stages": [
-                      {
-                        "body": [
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.3847",
-                              "speaker": "spk.苗人"
-                            }
-                          },
-                          {
-                            "kind": "clearDialog"
-                          },
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.3849",
-                              "speaker": "spk.赵灵儿",
-                              "portrait": {
-                                "icon": 11,
-                                "side": "right"
-                              }
-                            }
-                          },
-                          {
-                            "kind": "clearDialog"
-                          },
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.3852",
-                              "speaker": "spk.苗人",
-                              "portrait": {
-                                "icon": 11,
-                                "side": "right"
-                              }
-                            }
-                          },
-                          {
-                            "kind": "clearDialog"
-                          },
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.3856",
-                              "speaker": "spk.李逍遥",
-                              "portrait": {
-                                "icon": 5,
-                                "side": "right"
-                              }
-                            }
-                          },
-                          {
-                            "kind": "clearDialog"
-                          },
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.3860",
-                              "speaker": "spk.苗人",
-                              "portrait": {
-                                "icon": 5,
-                                "side": "right"
-                              }
-                            }
-                          },
-                          {
-                            "kind": "setBattleField",
-                            "fieldId": 45
-                          },
-                          {
-                            "kind": "startBattle",
-                            "team": 33
                           },
                           {
                             "kind": "setEntityState",
                             "entity": "e935",
-                            "state": 0
-                          },
-                          {
-                            "kind": "setEntityState",
-                            "entity": "e936",
                             "state": 0
                           }
                         ]

@@ -152,13 +152,18 @@
                   },
                   {
                     "kind": "setEntityState",
+                    "entity": "e1340",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
                     "entity": "e1341",
                     "state": 0
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e1342",
-                    "state": 0
+                    "entity": "e1343",
+                    "state": 2
                   },
                   {
                     "kind": "setEntityState",
@@ -168,11 +173,6 @@
                   {
                     "kind": "setEntityState",
                     "entity": "e1345",
-                    "state": 2
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "entity": "e1346",
                     "state": 2
                   },
                   {
@@ -266,12 +266,12 @@
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e1347",
+                    "entity": "e1346",
                     "state": 1
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e1348",
+                    "entity": "e1347",
                     "state": 1
                   },
                   {

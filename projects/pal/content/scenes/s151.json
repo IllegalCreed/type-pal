@@ -109,7 +109,7 @@
         },
         {
           "kind": "setEntityState",
-          "entity": "e2468",
+          "entity": "e2467",
           "state": 1
         },
         {
@@ -123,17 +123,17 @@
         },
         {
           "kind": "setEntityState",
+          "entity": "e2468",
+          "state": 1
+        },
+        {
+          "kind": "setEntityState",
           "entity": "e2469",
           "state": 1
         },
         {
           "kind": "setEntityState",
           "entity": "e2470",
-          "state": 1
-        },
-        {
-          "kind": "setEntityState",
-          "entity": "e2471",
           "state": 1
         },
         {
@@ -147,12 +147,12 @@
         },
         {
           "kind": "setEntityFacing",
-          "entity": "e2468",
+          "entity": "e2467",
           "facing": "left"
         },
         {
           "kind": "setEntityFrame",
-          "entity": "e2468",
+          "entity": "e2467",
           "frame": 0
         },
         {
@@ -161,12 +161,12 @@
         },
         {
           "kind": "setEntityFacing",
-          "entity": "e2469",
+          "entity": "e2468",
           "facing": "right"
         },
         {
           "kind": "setEntityFrame",
-          "entity": "e2469",
+          "entity": "e2468",
           "frame": 0
         },
         {
@@ -175,22 +175,22 @@
         },
         {
           "kind": "setEntityFacing",
-          "entity": "e2470",
+          "entity": "e2469",
           "facing": "right"
         },
         {
           "kind": "setEntityFrame",
-          "entity": "e2470",
+          "entity": "e2469",
           "frame": 0
         },
         {
           "kind": "setEntityFacing",
-          "entity": "e2471",
+          "entity": "e2470",
           "facing": "right"
         },
         {
           "kind": "setEntityFrame",
-          "entity": "e2471",
+          "entity": "e2470",
           "frame": 0
         },
         {
@@ -199,12 +199,12 @@
         },
         {
           "kind": "setEntityState",
-          "entity": "e2472",
+          "entity": "e2471",
           "state": 1
         },
         {
           "kind": "setEntityState",
-          "entity": "e2473",
+          "entity": "e2472",
           "state": 1
         },
         {
@@ -218,12 +218,12 @@
         },
         {
           "kind": "setEntityFacing",
-          "entity": "e2468",
+          "entity": "e2467",
           "facing": "right"
         },
         {
           "kind": "setEntityFrame",
-          "entity": "e2468",
+          "entity": "e2467",
           "frame": 0
         },
         {
@@ -243,22 +243,22 @@
         },
         {
           "kind": "setEntityFacing",
-          "entity": "e2472",
+          "entity": "e2471",
           "facing": "left"
         },
         {
           "kind": "setEntityFrame",
-          "entity": "e2472",
+          "entity": "e2471",
           "frame": 0
         },
         {
           "kind": "setEntityFacing",
-          "entity": "e2473",
+          "entity": "e2472",
           "facing": "left"
         },
         {
           "kind": "setEntityFrame",
-          "entity": "e2473",
+          "entity": "e2472",
           "frame": 0
         },
         {
@@ -288,12 +288,12 @@
         },
         {
           "kind": "setEntityFacing",
-          "entity": "e2472",
+          "entity": "e2471",
           "facing": "down"
         },
         {
           "kind": "setEntityFrame",
-          "entity": "e2472",
+          "entity": "e2471",
           "frame": 0
         },
         {
@@ -302,12 +302,12 @@
         },
         {
           "kind": "setEntityFacing",
-          "entity": "e2473",
+          "entity": "e2472",
           "facing": "up"
         },
         {
           "kind": "setEntityFrame",
-          "entity": "e2473",
+          "entity": "e2472",
           "frame": 0
         },
         {
@@ -316,12 +316,12 @@
         },
         {
           "kind": "setEntityFacing",
-          "entity": "e2472",
+          "entity": "e2471",
           "facing": "left"
         },
         {
           "kind": "setEntityFrame",
-          "entity": "e2472",
+          "entity": "e2471",
           "frame": 0
         },
         {
@@ -330,12 +330,12 @@
         },
         {
           "kind": "setEntityFacing",
-          "entity": "e2473",
+          "entity": "e2472",
           "facing": "left"
         },
         {
           "kind": "setEntityFrame",
-          "entity": "e2473",
+          "entity": "e2472",
           "frame": 0
         },
         {
@@ -344,12 +344,12 @@
         },
         {
           "kind": "setEntityFacing",
-          "entity": "e2468",
+          "entity": "e2467",
           "facing": "left"
         },
         {
           "kind": "setEntityFrame",
-          "entity": "e2468",
+          "entity": "e2467",
           "frame": 0
         },
         {
@@ -368,12 +368,12 @@
         },
         {
           "kind": "setEntityFacing",
-          "entity": "e2469",
+          "entity": "e2468",
           "facing": "down"
         },
         {
           "kind": "setEntityFrame",
-          "entity": "e2469",
+          "entity": "e2468",
           "frame": 0
         },
         {
@@ -382,12 +382,12 @@
         },
         {
           "kind": "setEntityFacing",
-          "entity": "e2470",
+          "entity": "e2469",
           "facing": "up"
         },
         {
           "kind": "setEntityFrame",
-          "entity": "e2470",
+          "entity": "e2469",
           "frame": 0
         },
         {
@@ -396,12 +396,12 @@
         },
         {
           "kind": "setEntityFacing",
-          "entity": "e2469",
+          "entity": "e2468",
           "facing": "down"
         },
         {
           "kind": "setEntityFrame",
-          "entity": "e2469",
+          "entity": "e2468",
           "frame": 0
         },
         {
@@ -418,12 +418,12 @@
         },
         {
           "kind": "setEntityFacing",
-          "entity": "e2468",
+          "entity": "e2467",
           "facing": "down"
         },
         {
           "kind": "setEntityFrame",
-          "entity": "e2468",
+          "entity": "e2467",
           "frame": 0
         },
         {

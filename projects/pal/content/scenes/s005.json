@@ -4375,7 +4375,7 @@
                   },
                   {
                     "kind": "setEntityTrigger",
-                    "entity": "e124",
+                    "entity": "e123",
                     "stages": [
                       {
                         "body": [
@@ -4384,7 +4384,7 @@
                           },
                           {
                             "kind": "setEntityTriggerMode",
-                            "entity": "e124",
+                            "entity": "e123",
                             "on": "interact",
                             "range": 3
                           },
@@ -4474,7 +4474,7 @@
                   },
                   {
                     "kind": "setEntityTriggerMode",
-                    "entity": "e124",
+                    "entity": "e123",
                     "on": "touch",
                     "range": 2
                   }

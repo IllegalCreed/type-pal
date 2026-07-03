@@ -953,12 +953,12 @@
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e943",
+                    "entity": "e942",
                     "state": 2
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e944",
+                    "entity": "e943",
                     "state": 2
                   },
                   {
@@ -1226,13 +1226,13 @@
                   },
                   {
                     "kind": "setEntityAuto",
-                    "entity": "e943",
+                    "entity": "e942",
                     "stages": [
                       {
                         "body": [
                           {
                             "kind": "moveEntity",
-                            "entity": "e943",
+                            "entity": "e942",
                             "to": {
                               "col": 95,
                               "row": 11,
@@ -1242,7 +1242,7 @@
                           },
                           {
                             "kind": "moveEntity",
-                            "entity": "e943",
+                            "entity": "e942",
                             "to": {
                               "col": 95,
                               "row": 7,
@@ -1252,12 +1252,12 @@
                           },
                           {
                             "kind": "setEntityFacing",
-                            "entity": "e943",
+                            "entity": "e942",
                             "facing": "right"
                           },
                           {
                             "kind": "setEntityFrame",
-                            "entity": "e943",
+                            "entity": "e942",
                             "frame": 0
                           },
                           {
@@ -1266,7 +1266,7 @@
                           },
                           {
                             "kind": "moveEntity",
-                            "entity": "e943",
+                            "entity": "e942",
                             "to": {
                               "col": 95,
                               "row": 5,
@@ -1276,7 +1276,7 @@
                           },
                           {
                             "kind": "moveEntity",
-                            "entity": "e943",
+                            "entity": "e942",
                             "to": {
                               "col": 68,
                               "row": 5,
@@ -1286,7 +1286,7 @@
                           },
                           {
                             "kind": "setEntityState",
-                            "entity": "e943",
+                            "entity": "e942",
                             "state": 0
                           }
                         ]

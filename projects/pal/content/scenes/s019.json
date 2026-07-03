@@ -225,13 +225,13 @@
                   },
                   {
                     "kind": "setEntityAuto",
-                    "entity": "e271",
+                    "entity": "e270",
                     "stages": [
                       {
                         "body": [
                           {
                             "kind": "moveEntity",
-                            "entity": "e271",
+                            "entity": "e270",
                             "to": {
                               "col": 44,
                               "row": -30,
@@ -41345,7 +41345,7 @@
       "body": [
         {
           "kind": "setEntityState",
-          "entity": "e222",
+          "entity": "e221",
           "state": 0
         }
       ]

@@ -543,6 +543,16 @@
         },
         {
           "kind": "setEntityFacing",
+          "entity": "e4011",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e4011",
+          "frame": 6
+        },
+        {
+          "kind": "setEntityFacing",
           "entity": "e4012",
           "facing": "down"
         },
@@ -579,16 +589,6 @@
         {
           "kind": "setEntityFrame",
           "entity": "e4015",
-          "frame": 6
-        },
-        {
-          "kind": "setEntityFacing",
-          "entity": "e4016",
-          "facing": "down"
-        },
-        {
-          "kind": "setEntityFrame",
-          "entity": "e4016",
           "frame": 6
         },
         {

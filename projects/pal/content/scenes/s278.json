@@ -262,12 +262,12 @@
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e4741",
+                    "entity": "e4740",
                     "state": 0
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e4742",
+                    "entity": "e4741",
                     "state": 1
                   },
                   {
@@ -344,7 +344,7 @@
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e4809",
+                    "entity": "e4808",
                     "state": 0
                   },
                   {
@@ -419,17 +419,17 @@
                   },
                   {
                     "kind": "setEntityState",
+                    "entity": "e4743",
+                    "state": 1
+                  },
+                  {
+                    "kind": "setEntityState",
                     "entity": "e4744",
                     "state": 1
                   },
                   {
                     "kind": "setEntityState",
                     "entity": "e4745",
-                    "state": 1
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "entity": "e4746",
                     "state": 1
                   },
                   {
@@ -456,19 +456,6 @@
                   },
                   {
                     "kind": "setEntityFacing",
-                    "entity": "e4748",
-                    "facing": "down"
-                  },
-                  {
-                    "kind": "setEntityFrame",
-                    "entity": "e4748",
-                    "frame": 0
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "kind": "setEntityFacing",
                     "entity": "e4747",
                     "facing": "down"
                   },
@@ -482,12 +469,25 @@
                   },
                   {
                     "kind": "setEntityFacing",
-                    "entity": "e4749",
+                    "entity": "e4746",
                     "facing": "down"
                   },
                   {
                     "kind": "setEntityFrame",
-                    "entity": "e4749",
+                    "entity": "e4746",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4748",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4748",
                     "frame": 0
                   },
                   {
@@ -659,7 +659,7 @@
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e4742",
+                    "entity": "e4741",
                     "state": 0
                   },
                   {
@@ -908,7 +908,7 @@
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e4744",
+                    "entity": "e4743",
                     "state": 0
                   },
                   {
@@ -987,22 +987,22 @@
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e4750",
+                    "entity": "e4749",
                     "state": 2
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e0",
+                    "entity": "e-1",
                     "state": 0
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e4799",
+                    "entity": "e4798",
                     "state": 1
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e4801",
+                    "entity": "e4800",
                     "state": 1
                   },
                   {

@@ -245,13 +245,13 @@
                 "body": [
                   {
                     "kind": "setEntityAuto",
-                    "entity": "e1623",
+                    "entity": "e1622",
                     "stages": [
                       {
                         "body": [
                           {
                             "kind": "moveEntity",
-                            "entity": "e1623",
+                            "entity": "e1622",
                             "to": {
                               "col": 39,
                               "row": -6,
@@ -261,7 +261,7 @@
                           },
                           {
                             "kind": "moveEntity",
-                            "entity": "e1623",
+                            "entity": "e1622",
                             "to": {
                               "col": 24,
                               "row": -6,
@@ -271,7 +271,7 @@
                           },
                           {
                             "kind": "setEntityTriggerMode",
-                            "entity": "e1623",
+                            "entity": "e1622",
                             "on": "touch",
                             "range": 2
                           }
@@ -294,13 +294,13 @@
                 "body": [
                   {
                     "kind": "setEntityAuto",
-                    "entity": "e1623",
+                    "entity": "e1622",
                     "stages": [
                       {
                         "body": [
                           {
                             "kind": "moveEntity",
-                            "entity": "e1623",
+                            "entity": "e1622",
                             "to": {
                               "col": 58,
                               "row": -6,
@@ -310,7 +310,7 @@
                           },
                           {
                             "kind": "moveEntity",
-                            "entity": "e1623",
+                            "entity": "e1622",
                             "to": {
                               "col": 58,
                               "row": -13,
@@ -324,12 +324,12 @@
                           },
                           {
                             "kind": "setEntityFacing",
-                            "entity": "e1623",
+                            "entity": "e1622",
                             "facing": "down"
                           },
                           {
                             "kind": "setEntityFrame",
-                            "entity": "e1623",
+                            "entity": "e1622",
                             "frame": 16
                           }
                         ]

@@ -63,38 +63,38 @@
                   },
                   {
                     "kind": "setEntityAuto",
-                    "entity": "e3341",
+                    "entity": "e3340",
                     "stages": [
                       {
                         "body": [
                           {
                             "kind": "setEntityFacing",
-                            "entity": "e3341",
+                            "entity": "e3340",
                             "facing": "down"
                           },
                           {
                             "kind": "setEntityFrame",
-                            "entity": "e3341",
+                            "entity": "e3340",
                             "frame": 1
                           },
                           {
                             "kind": "setEntityFacing",
-                            "entity": "e3341",
+                            "entity": "e3340",
                             "facing": "down"
                           },
                           {
                             "kind": "setEntityFrame",
-                            "entity": "e3341",
+                            "entity": "e3340",
                             "frame": 2
                           },
                           {
                             "kind": "setEntityFacing",
-                            "entity": "e3341",
+                            "entity": "e3340",
                             "facing": "down"
                           },
                           {
                             "kind": "setEntityFrame",
-                            "entity": "e3341",
+                            "entity": "e3340",
                             "frame": 3
                           }
                         ]
@@ -240,7 +240,7 @@
         },
         {
           "kind": "setEntityState",
-          "entity": "e3339",
+          "entity": "e3338",
           "state": 1
         },
         {
@@ -269,12 +269,12 @@
         },
         {
           "kind": "setEntityFacing",
-          "entity": "e3338",
+          "entity": "e3337",
           "facing": "up"
         },
         {
           "kind": "setEntityFrame",
-          "entity": "e3338",
+          "entity": "e3337",
           "frame": 0
         },
         {
