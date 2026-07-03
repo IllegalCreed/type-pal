@@ -193,7 +193,7 @@ function CommandRow(props: { cmd: Command; depth: number; path: string; ctx: Row
             <button type="button" title="在此后插入" onClick={() => ctx.onRowAction?.(path, 'insert')}>＋</button>
             <button type="button" title="上移" onClick={() => ctx.onRowAction?.(path, 'up')}>↑</button>
             <button type="button" title="下移" onClick={() => ctx.onRowAction?.(path, 'down')}>↓</button>
-            <button type="button" title="删除" onClick={() => ctx.onRowAction?.(path, 'remove')}>🗑</button>
+            <button type="button" className="del" title="删除" onClick={() => ctx.onRowAction?.(path, 'remove')}>✕</button>
           </span>
         ) : null}
       </div>

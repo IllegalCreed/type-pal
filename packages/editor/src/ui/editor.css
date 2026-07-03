@@ -257,10 +257,6 @@ body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-s
 /* ── 脚本编辑(v1)── */
 .cmd-row { position: relative; cursor: pointer; }
 .cmd-row.sel { background: rgba(148, 226, 175, 0.14); outline: 1px solid rgba(148, 226, 175, 0.5); }
-.cmd-ops { position: absolute; right: 6px; top: 1px; display: none; gap: 2px; }
-.cmd-row:hover .cmd-ops { display: inline-flex; }
-.cmd-ops button { font-size: 11px; padding: 0 5px; background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 3px; cursor: pointer; line-height: 1.6; }
-.cmd-ops button:hover { border-color: var(--acc); }
 .cf-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
 .cf-label { flex: 0 0 64px; color: var(--faint); font-size: 12px; text-align: right; }
 .cf-row .in { flex: 1; min-width: 0; }
@@ -270,3 +266,11 @@ body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-s
 .cf-err { color: var(--err); font-size: 11px; }
 .cf-insert { display: flex; flex-wrap: wrap; gap: 6px; }
 .cf-path { color: var(--faint); font-weight: 400; font-size: 11px; }
+/* 行操作:幽灵按钮组 —— hover 淡入,渐变底防压字;删除 hover 变红 */
+.cmd-ops { position: absolute; right: 0; top: 0; bottom: 0; display: flex; align-items: center; gap: 0; padding: 0 6px 0 22px; opacity: 0; pointer-events: none; background: linear-gradient(90deg, transparent, var(--bg) 22px); transition: opacity 0.12s; }
+.cmd-row:hover .cmd-ops { opacity: 1; pointer-events: auto; }
+.cmd-row.sel .cmd-ops { background: linear-gradient(90deg, transparent, #1d2b22 22px); }
+.cmd-ops button { width: 20px; height: 18px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; background: none; color: var(--faint); border: 0; border-radius: 3px; cursor: pointer; line-height: 1; padding: 0; }
+.cmd-ops button:hover { color: var(--fg); background: rgba(255, 255, 255, 0.08); }
+.cmd-ops button.del { margin-left: 4px; }
+.cmd-ops button.del:hover { color: var(--err); background: rgba(226, 96, 96, 0.12); }
