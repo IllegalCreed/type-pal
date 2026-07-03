@@ -23,8 +23,6 @@ import type { ActorDef, SceneDef, SpriteDef } from '@type-pal/content'
 const TILE_W = 32
 const TILE_H = 16
 const WORLD_SCALE = 4
-const VIEW_W = 320
-const VIEW_H = 200
 
 const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > hi ? hi : v)
 
@@ -76,13 +74,50 @@ export function SceneCanvas(props: {
     onAddAt,
   } = props
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const wrapRef = useRef<HTMLDivElement>(null)
   const loadedRef = useRef<Loaded | null>(null)
   const hitsRef = useRef<HitRect[]>([])
-  const cameraRef = useRef({ x: 0, y: 0 })
   const downRef = useRef<Down | null>(null)
   const [drag, setDrag] = useState<{ id: string; col: number; row: number } | null>(null)
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
   const [err, setErr] = useState('')
+  // 画布视图态:zoom(缩放,worldScale)+ pan(相机左上角对应的世界像素)。整图编辑,非引擎固定摄像机。
+  const [size, setSize] = useState({ w: 800, h: 600 })
+  const [view, setView] = useState({ zoom: WORLD_SCALE, panX: 0, panY: 0 })
+  const viewRef = useRef(view)
+  viewRef.current = view
+  const panDragRef = useRef<{ sx: number; sy: number; panX: number; panY: number } | null>(null)
+
+  // 容器尺寸 → 画布物理尺寸(自适应,非固定 1280×800)。
+  useEffect(() => {
+    const el = wrapRef.current
+    if (!el) return
+    const ro = new ResizeObserver(() => {
+      const r = el.getBoundingClientRect()
+      setSize({ w: Math.max(100, Math.floor(r.width)), h: Math.max(100, Math.floor(r.height)) })
+    })
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+
+  // 地图像素包围盒(菱形投影 AABB;room 缺省 = 整图)。
+  const mapBox = (map: Loaded['map']): { minX: number; minY: number; maxX: number; maxY: number } => {
+    const room = scene.map.room ?? { col: 0, row: 0, cols: map.width, rows: map.height }
+    return {
+      minX: room.col * TILE_W - TILE_W,
+      minY: room.row * TILE_H - 40,
+      maxX: (room.col + room.cols) * TILE_W + TILE_W,
+      maxY: (room.row + room.rows) * TILE_H + 16,
+    }
+  }
+  /** fit 整图到容器:zoom 使整图可见(留 4% 边),pan 居中。 */
+  const fitView = (map: Loaded['map']): void => {
+    const b = mapBox(map)
+    const mw = b.maxX - b.minX
+    const mh = b.maxY - b.minY
+    const zoom = Math.min(size.w / mw, size.h / mh) * 0.96
+    setView({ zoom, panX: b.minX - (size.w / zoom - mw) / 2, panY: b.minY - (size.h / zoom - mh) / 2 })
+  }
 
   const mapNum = scene.map.reuseOriginalMap
   const paletteId = scene.paletteId ?? 0
@@ -139,31 +174,18 @@ export function SceneCanvas(props: {
     if (!loaded || !ctx) return
     const { renderer, map, spritesByNum } = loaded
 
-    // M2a:视窗可选 —— 缺省整张图(迁移场景无 room;demo 保留)
+    // M2a:视窗可选 —— 缺省整张图(迁移场景无 room;demo 保留)。整图编辑:room 决定 tile
+    // 遍历范围,相机(camera)= 用户平移,worldScale = 用户缩放(renderScene 不夹相机)。
     const room = scene.map.room ?? { col: 0, row: 0, cols: map.width, rows: map.height }
-    const roomMinX = room.col * TILE_W - TILE_W
-    const roomMinY = room.row * TILE_H - 40
-    const roomMaxX = (room.col + room.cols) * TILE_W + TILE_W
-    const roomMaxY = (room.row + room.rows) * TILE_H + 16
     const ep = gridToPixel(scene.entry.pos)
-    // 相机对准场景内容(进场点 + 可见实体的包围盒中心),而非只进场点 —— 切场景直接看到
-    // 实体聚集处(迁移场景进场点常在地图边角,只对进场点会看到空地)。
-    const pts = [ep, ...scene.entities.filter((e) => !e.hidden).map((e) => gridToPixel(e.pos))]
-    const xs = pts.map((p) => p.x)
-    const ys = pts.map((p) => p.y)
-    const cx = (Math.min(...xs) + Math.max(...xs)) / 2
-    const cy = (Math.min(...ys) + Math.max(...ys)) / 2
-    const camera = {
-      x: clamp(cx - VIEW_W / 2, roomMinX, Math.max(roomMinX, roomMaxX - VIEW_W)),
-      y: clamp(cy - VIEW_H / 2, roomMinY, Math.max(roomMinY, roomMaxY - VIEW_H)),
-    }
-    cameraRef.current = camera
+    const { zoom, panX, panY } = viewRef.current
+    const camera = { x: panX, y: panY }
 
     const physRect = (wx: number, wy: number, ax: number, ay: number, fw: number, fh: number): Omit<HitRect, 'id'> => ({
-      x: (wx - ax - camera.x) * WORLD_SCALE,
-      y: (wy - ay - camera.y) * WORLD_SCALE,
-      w: fw * WORLD_SCALE,
-      h: fh * WORLD_SCALE,
+      x: (wx - ax - panX) * zoom,
+      y: (wy - ay - panY) * zoom,
+      w: fw * zoom,
+      h: fh * zoom,
     })
 
     const draws: SpriteDraw[] = []
@@ -192,7 +214,7 @@ export function SceneCanvas(props: {
     }
     hitsRef.current = hits
 
-    renderSceneFrame(ctx, renderer, { map, room, camera, sprites: draws, worldScale: WORLD_SCALE })
+    renderSceneFrame(ctx, renderer, { map, room, camera, sprites: draws, worldScale: zoom })
 
     const sel = hits.find((h) => h.id === selectedId)
     if (sel) {
@@ -204,15 +226,16 @@ export function SceneCanvas(props: {
       ctx.restore()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, scene, selectedId, drag, actorsById, leaderSpriteId])
+  }, [status, scene, selectedId, drag, actorsById, leaderSpriteId, view, size])
 
-  // —— 坐标 + 命中 ——
+  // —— 坐标 + 命中 ——（画布像素 = CSS 像素 1:1;world = screen/zoom + pan）
   const screenToCell = (clientX: number, clientY: number): { col: number; row: number } => {
     const canvas = canvasRef.current!
     const r = canvas.getBoundingClientRect()
-    const cx = ((clientX - r.left) / r.width) * canvas.width
-    const cy = ((clientY - r.top) / r.height) * canvas.height
-    return pixelToGrid(cx / WORLD_SCALE + cameraRef.current.x, cy / WORLD_SCALE + cameraRef.current.y)
+    const sx = (clientX - r.left) * (canvas.width / r.width)
+    const sy = (clientY - r.top) * (canvas.height / r.height)
+    const { zoom, panX, panY } = viewRef.current
+    return pixelToGrid(sx / zoom + panX, sy / zoom + panY)
   }
   const entityAt = (clientX: number, clientY: number): string | null => {
     const canvas = canvasRef.current!
@@ -250,10 +273,23 @@ export function SceneCanvas(props: {
         /* 合成/边缘指针可能抛 InvalidPointerId,忽略即可(拖动仍在画布内可用) */
       }
     } else {
+      // 点空白(select 工具)→ 拖动平移画布
       downRef.current = null
+      panDragRef.current = { sx: e.clientX, sy: e.clientY, panX: viewRef.current.panX, panY: viewRef.current.panY }
+      try {
+        e.currentTarget.setPointerCapture(e.pointerId)
+      } catch {
+        /* 忽略边缘指针 */
+      }
     }
   }
   const onPointerMove = (e: React.PointerEvent<HTMLCanvasElement>): void => {
+    const pd = panDragRef.current
+    if (pd) {
+      const { zoom } = viewRef.current
+      setView((v) => ({ ...v, panX: pd.panX - (e.clientX - pd.sx) / zoom, panY: pd.panY - (e.clientY - pd.sy) / zoom }))
+      return
+    }
     const d = downRef.current
     if (!d || !d.entityId) return
     const cell = screenToCell(e.clientX, e.clientY)
@@ -261,6 +297,10 @@ export function SceneCanvas(props: {
     setDrag({ id: d.entityId, col: cell.col + d.grabDcol, row: cell.row + d.grabDrow })
   }
   const onPointerUp = (e: React.PointerEvent<HTMLCanvasElement>): void => {
+    if (panDragRef.current) {
+      panDragRef.current = null
+      return
+    }
     const d = downRef.current
     downRef.current = null
     if (tool === 'add') {
@@ -271,18 +311,45 @@ export function SceneCanvas(props: {
     setDrag(null)
   }
 
+  // 滚轮缩放(以光标为锚点);non-passive 阻止页面滚动。
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const onWheel = (e: WheelEvent): void => {
+      e.preventDefault()
+      const r = canvas.getBoundingClientRect()
+      const mx = (e.clientX - r.left) * (canvas.width / r.width)
+      const my = (e.clientY - r.top) * (canvas.height / r.height)
+      const { zoom, panX, panY } = viewRef.current
+      const wx = mx / zoom + panX
+      const wy = my / zoom + panY
+      const nz = clamp(zoom * (e.deltaY < 0 ? 1.12 : 1 / 1.12), 0.04, 16)
+      setView({ zoom: nz, panX: wx - mx / nz, panY: wy - my / nz })
+    }
+    canvas.addEventListener('wheel', onWheel, { passive: false })
+    return () => canvas.removeEventListener('wheel', onWheel)
+  }, [])
+
+  // fit 整图:首次就绪 / 切场景 / 容器尺寸变 → 重新 fit(用户缩放平移不触发)。
+  useEffect(() => {
+    if (status !== 'ready') return
+    const loaded = loadedRef.current
+    if (loaded) fitView(loaded.map)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status, scene.id, size.w, size.h])
+
   return (
-    <div className="viewport">
-      <div className="canvas-note">场景画布 · 复用 reforge 渲染{status === 'loading' ? ' · 载入中…' : ''}</div>
+    <div className="viewport" ref={wrapRef}>
+      <div className="canvas-note">整图 · 滚轮缩放 · 拖空白平移 · {Math.round(view.zoom * 100)}%{status === 'loading' ? ' · 载入中…' : ''}</div>
       {status === 'error' && <div className="boot"><div className="err">场景渲染失败: {err}</div></div>}
       <canvas
         ref={canvasRef}
-        width={VIEW_W * WORLD_SCALE}
-        height={VIEW_H * WORLD_SCALE}
+        width={size.w}
+        height={size.h}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
-        style={{ cursor: tool === 'add' ? 'crosshair' : 'pointer', touchAction: 'none' }}
+        style={{ width: '100%', height: '100%', display: 'block', cursor: tool === 'add' ? 'crosshair' : 'grab', touchAction: 'none' }}
       />
     </div>
   )
