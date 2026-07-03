@@ -25,8 +25,6 @@ const TILE_H = 16
 const WORLD_SCALE = 4
 const VIEW_W = 320
 const VIEW_H = 200
-const PARTY_OX = 160
-const PARTY_OY = 112
 
 const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > hi ? hi : v)
 
@@ -148,9 +146,16 @@ export function SceneCanvas(props: {
     const roomMaxX = (room.col + room.cols) * TILE_W + TILE_W
     const roomMaxY = (room.row + room.rows) * TILE_H + 16
     const ep = gridToPixel(scene.entry.pos)
+    // 相机对准场景内容(进场点 + 可见实体的包围盒中心),而非只进场点 —— 切场景直接看到
+    // 实体聚集处(迁移场景进场点常在地图边角,只对进场点会看到空地)。
+    const pts = [ep, ...scene.entities.filter((e) => !e.hidden).map((e) => gridToPixel(e.pos))]
+    const xs = pts.map((p) => p.x)
+    const ys = pts.map((p) => p.y)
+    const cx = (Math.min(...xs) + Math.max(...xs)) / 2
+    const cy = (Math.min(...ys) + Math.max(...ys)) / 2
     const camera = {
-      x: clamp(ep.x - PARTY_OX, roomMinX, Math.max(roomMinX, roomMaxX - VIEW_W)),
-      y: clamp(ep.y - PARTY_OY, roomMinY, Math.max(roomMinY, roomMaxY - VIEW_H)),
+      x: clamp(cx - VIEW_W / 2, roomMinX, Math.max(roomMinX, roomMaxX - VIEW_W)),
+      y: clamp(cy - VIEW_H / 2, roomMinY, Math.max(roomMinY, roomMaxY - VIEW_H)),
     }
     cameraRef.current = camera
 

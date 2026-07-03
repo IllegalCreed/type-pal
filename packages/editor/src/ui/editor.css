@@ -154,3 +154,6 @@ body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-s
 .script-empty { color: var(--faint); padding: 12px; font-style: italic; font-size: 12px; }
 .hint { font-size: 12px; color: var(--faint); line-height: 1.6; }
 .warn-inline { color: var(--warn); }
+
+/* 布置模式:场景切换下拉 */
+.scene-switch { margin: 0 8px 8px; width: calc(100% - 16px); font-size: 12px; }

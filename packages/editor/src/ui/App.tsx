@@ -34,10 +34,17 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
   const [selected, setSelected] = useState<string>(SCENE_NODE)
   const [tool, setTool] = useState<Tool>('select')
   const [mode, setMode] = useState<Mode>('place')
+  const [placeSceneId, setPlaceSceneId] = useState<string>(state.manifest.entryScene)
   const dirHandleRef = useRef<FileSystemDirectoryHandle | null>(null)
   const [saveErr, setSaveErr] = useState('')
 
-  const scene = state.scenes.find((s) => s.id === state.manifest.entryScene)
+  // 布置模式当前编辑场景(可切;默认入口)。切场景重置选中 —— 实体属于场景。
+  const scene = state.scenes.find((s) => s.id === placeSceneId) ?? state.scenes.find((s) => s.id === state.manifest.entryScene)
+  const switchPlaceScene = (id: string): void => {
+    setPlaceSceneId(id)
+    setSelected(SCENE_NODE)
+    setTool('select')
+  }
   const issues = useMemo(() => validateReferences(state), [state])
   // C0:实体经 actor⊕sprite 解析;玩家精灵 = party[0] → ActorDef.spriteId(与引擎同路径)
   const actorsById = useMemo(
@@ -126,6 +133,11 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
           <div className="pane-h"><span className="t">场景</span><span className="spacer" />
             <button className="mini" title="在进场点添加实体" onClick={() => addAt({ col: scene.entry.pos.col, row: scene.entry.pos.row })}>＋</button>
           </div>
+          <select className="in scene-switch" value={placeSceneId} onChange={(e) => switchPlaceScene(e.target.value)} title="切换编辑场景">
+            {state.scenes.map((s) => (
+              <option key={s.id} value={s.id}>{s.id}{s.id === state.manifest.entryScene ? '(入口)' : ''} · {s.entities.length} 实体</option>
+            ))}
+          </select>
           <div className="tree">
             <button className={`node${selected === SCENE_NODE ? ' sel' : ''}`} onClick={() => setSelected(SCENE_NODE)}>
               <span className="ico">🗺️</span><span>{scene.id}</span>
