@@ -14,18 +14,103 @@ import { CommandForm } from './CommandForm.js'
 import { PreviewCanvas } from './PreviewCanvas.js'
 import { type RowAction, ScriptTree } from './ScriptTree.js'
 
-/** ➕ 插入菜单的常用命令模板(默认参数即刻可播;参数在右栏表单细调)。 */
-const INSERT_TEMPLATES: { label: string; make: (scene: SceneDef) => Command }[] = [
-  { label: '💬 对话', make: () => ({ kind: 'dialog', line: { text: '(新对话)' } }) },
-  { label: '⏱ 等待', make: () => ({ kind: 'wait', ms: 200 }) },
-  { label: '🚶 队伍走到', make: (s) => ({ kind: 'moveParty', to: { ...s.entry.pos }, speed: 'normal' }) },
-  { label: '🚶 实体走到', make: (s) => ({ kind: 'moveEntity', entity: s.entities[0]?.id ?? 'e0', to: { ...s.entry.pos }, speed: 'normal' }) },
-  { label: '📍 队伍瞬移', make: (s) => ({ kind: 'teleportParty', pos: { ...s.entry.pos } }) },
-  { label: '🧭 队伍转向', make: () => ({ kind: 'setPartyFacing', facing: 'down' }) },
-  { label: '👁 实体显隐', make: (s) => ({ kind: 'setEntityState', entity: s.entities[0]?.id ?? 'e0', state: 1 }) },
-  { label: '🧭 实体转向', make: (s) => ({ kind: 'setEntityFacing', entity: s.entities[0]?.id ?? 'e0', facing: 'down' }) },
-  { label: '🌓 淡入/淡出', make: () => ({ kind: 'fade', dir: 'out', ms: 300 }) },
-  { label: '🎵 音乐', make: () => ({ kind: 'playMusic', musicId: 1 }) },
+/** 插入上下文:当前场景 + 「自身」实体(当前源为实体触发/auto 时 = 该实体,模板自动指自己)。 */
+interface InsertCtx {
+  scene: SceneDef
+  ownerId: string | undefined
+}
+const selfOf = (c: InsertCtx): string => c.ownerId ?? c.scene.entities[0]?.id ?? 'e0'
+
+/** ➕ 插入菜单 —— 单命令 + 事件模板(按 4382 段触发脚本形状统计的 top 模式提炼;
+ *  模板插入即展开为普通命令组,逐条可调,不引入黑盒高层命令)。 */
+const INSERT_GROUPS: { title: string; items: { label: string; make: (c: InsertCtx) => Command[] }[] }[] = [
+  {
+    title: '单命令',
+    items: [
+      { label: '💬 对话', make: () => [{ kind: 'dialog', line: { text: '(新对话)' } }] },
+      { label: '⏱ 等待', make: () => [{ kind: 'wait', ms: 200 }] },
+      { label: '🚶 队伍走到', make: (c) => [{ kind: 'moveParty', to: { ...c.scene.entry.pos }, speed: 'normal' }] },
+      { label: '🚶 实体走到', make: (c) => [{ kind: 'moveEntity', entity: selfOf(c), to: { ...c.scene.entry.pos }, speed: 'normal' }] },
+      { label: '📍 队伍瞬移', make: (c) => [{ kind: 'teleportParty', pos: { ...c.scene.entry.pos } }] },
+      { label: '🧭 队伍转向', make: () => [{ kind: 'setPartyFacing', facing: 'down' }] },
+      { label: '👁 实体显隐', make: (c) => [{ kind: 'setEntityState', entity: selfOf(c), state: 1 }] },
+      { label: '🧭 实体转向', make: (c) => [{ kind: 'setEntityFacing', entity: selfOf(c), facing: 'down' }] },
+      { label: '🌓 淡入/淡出', make: () => [{ kind: 'fade', dir: 'out', ms: 300 }] },
+      { label: '🎵 音乐', make: () => [{ kind: 'playMusic', musicId: 1 }] },
+      { label: '🚪 切场景', make: (c) => [{ kind: 'loadScene', scene: c.scene.id, pos: { ...c.scene.entry.pos } }] },
+      { label: '⚔ 战斗', make: () => [{ kind: 'startBattle', team: 0 }] },
+    ],
+  },
+  {
+    title: '事件模板(展开为命令组)',
+    items: [
+      {
+        // 435 例:宝箱 —— 自身换帧(开盖)→ 音效 → 提示 → 给物
+        label: '📦 宝箱(开盖给物)',
+        make: (c) => [
+          { kind: 'setEntityFacing', entity: selfOf(c), facing: 'down' },
+          { kind: 'setEntityFrame', entity: selfOf(c), frame: 1 },
+          { kind: 'playSound', soundId: 2 },
+          { kind: 'dialog', line: { text: '(得到○○!)' } },
+          { kind: 'giveItem', itemId: '0' },
+        ],
+      },
+      {
+        // 145 例:拾取 —— 音效 → 提示 → 给物 → 自隐(捡走消失)
+        label: '🌿 拾取(捡走消失)',
+        make: (c) => [
+          { kind: 'playSound', soundId: 2 },
+          { kind: 'dialog', line: { text: '(得到○○!)' } },
+          { kind: 'giveItem', itemId: '0' },
+          { kind: 'setEntityState', entity: selfOf(c), state: 0 },
+        ],
+      },
+      {
+        // 19/16 例:给钱变体
+        label: '💰 得钱',
+        make: (c) => [
+          { kind: 'playSound', soundId: 2 },
+          { kind: 'dialog', line: { text: '(得到○○文钱!)' } },
+          { kind: 'giveMoney', delta: 100 },
+          { kind: 'setEntityState', entity: selfOf(c), state: 0 },
+        ],
+      },
+      {
+        // 100 例:跨房间镜头 —— 走近 → 镜头平移过去 → 队伍瞬移 → 镜头回正 → 走出
+        label: '🎥 跨房间镜头',
+        make: (c) => [
+          { kind: 'moveParty', to: { ...c.scene.entry.pos }, speed: 'normal' },
+          { kind: 'cameraPan', dx: 16, dy: 8, frames: 20 },
+          { kind: 'teleportParty', pos: { ...c.scene.entry.pos } },
+          { kind: 'cameraSnap' },
+          { kind: 'moveParty', to: { ...c.scene.entry.pos }, speed: 'normal' },
+        ],
+      },
+      {
+        // 36 例:钻洞 —— 转向 → 碎步×4(带走姿) → 切场景
+        label: '🕳 钻洞爬行',
+        make: (c) => [
+          { kind: 'setPartyFacing', facing: 'up' },
+          { kind: 'nudgeParty', dx: 4, dy: -2 },
+          { kind: 'wait', ms: 120 },
+          { kind: 'nudgeParty', dx: 4, dy: -2 },
+          { kind: 'wait', ms: 120 },
+          { kind: 'nudgeParty', dx: 4, dy: -2 },
+          { kind: 'wait', ms: 120 },
+          { kind: 'nudgeParty', dx: 4, dy: -2 },
+          { kind: 'loadScene', scene: c.scene.id, pos: { ...c.scene.entry.pos } },
+        ],
+      },
+      {
+        // 简单 NPC 对话:转向玩家 → 说话(触发脚本最常见的开场组合)
+        label: '🗣 NPC 搭话',
+        make: (c) => [
+          { kind: 'setEntityFacing', entity: selfOf(c), facing: 'down' },
+          { kind: 'dialog', line: { text: '(新对话)' } },
+        ],
+      },
+    ],
+  },
 ]
 
 interface ScriptSource {
@@ -255,29 +340,47 @@ export function EventMode(props: {
         <div className="insp-head"><div className="what">事件 · 脚本 + 预览</div><div className="who">{active ? `${active.label} · ${active.sub}` : '—'}</div></div>
         {insertFor && active && scene ? (
           <div className="section">
-            <h4>插入命令(到选中行之后)</h4>
-            <div className="cf-insert">
-              {INSERT_TEMPLATES.map((t) => (
-                <button
-                  key={t.label}
-                  type="button"
-                  className="pv-btn"
-                  onClick={() => {
-                    const p = parsePath(insertFor)
-                    const next = insertAfterAt(active.stages, p, t.make(scene))
-                    if (next !== active.stages) {
-                      dispatchStages(next)
-                      const last = p[p.length - 1] as number
-                      setSelPath([...p.slice(0, -1), last + 1].join('/'))
-                    }
-                    setInsertFor(null)
-                  }}
-                >
-                  {t.label}
-                </button>
-              ))}
+            <h4>插入(到选中行之后)</h4>
+            {INSERT_GROUPS.map((g) => (
+              <div key={g.title}>
+                <div className="cf-group">{g.title}</div>
+                <div className="cf-insert">
+                  {g.items.map((t) => (
+                    <button
+                      key={t.label}
+                      type="button"
+                      className="pv-btn"
+                      onClick={() => {
+                        const ref = refOf(active.key)
+                        const ctx: InsertCtx = { scene, ownerId: ref.kind === 'onEnter' ? undefined : ref.entityId }
+                        const cmds = t.make(ctx)
+                        const p = parsePath(insertFor)
+                        // 逐条插入(路径递增),整批一次 dispatch
+                        let stages = active.stages
+                        let at = p
+                        for (const cmd of cmds) {
+                          stages = insertAfterAt(stages, at, cmd)
+                          const last = at[at.length - 1] as number
+                          at = [...at.slice(0, -1), last + 1]
+                        }
+                        if (stages !== active.stages) {
+                          dispatchStages(stages)
+                          const first = p[p.length - 1] as number
+                          setSelPath([...p.slice(0, -1), first + 1].join('/'))
+                        }
+                        setInsertFor(null)
+                      }}
+                    >
+                      {t.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+            <div className="cf-insert" style={{ marginTop: 6 }}>
               <button type="button" className="pv-btn" onClick={() => setInsertFor(null)}>取消</button>
             </div>
+            <p className="hint">模板按全 295 场景触发脚本的 top 形状提炼;「自身」自动指当前触发实体。插入后逐条可调。</p>
           </div>
         ) : null}
         {selCmd && scene && active && selPath ? (

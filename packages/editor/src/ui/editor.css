@@ -274,3 +274,4 @@ body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-s
 .cmd-ops button:hover { color: var(--fg); background: rgba(255, 255, 255, 0.08); }
 .cmd-ops button.del { margin-left: 4px; }
 .cmd-ops button.del:hover { color: var(--err); background: rgba(226, 96, 96, 0.12); }
+.cf-group { font-size: 11px; color: var(--faint); margin: 8px 0 4px; letter-spacing: 0.05em; }
