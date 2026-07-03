@@ -8,8 +8,9 @@ export default defineConfig({
   workers: 1,
   reporter: 'list',
   use: {
-    // e2e 用 5174,跟 dev 默认 5173 分开,user 可 dev 跑着同时 e2e 也跑。
-    baseURL: 'http://localhost:5174',
+    // 端口规划(2026-07-04 用户,见 docs/dev-servers.md):game dev=6000、e2e=6001
+    // (独立实例,dev 跑着也能 e2e);避开 vite 默认 517x 段(容器/其他工程常撞)。
+    baseURL: 'http://localhost:6001',
     trace: 'on-first-retry',
   },
   projects: [
@@ -19,12 +20,10 @@ export default defineConfig({
     },
   ],
   webServer: {
-    // Vite CLI flag `--port 5174` 把 e2e server 推到 5174;dev (`pnpm dev`) 仍走 5173。
-    // 注:用 `pnpm dev --port 5174` 不加 `--` 分隔符 — pnpm 直接转给 vite,
-    // 加 `--` 会变成 `vite -- --port 5174`(vite 不识别 `--`)。
-    // E2E=1 让 vite.config 不挂 basic-ssl → server 保持 http(baseURL/url 都是 http://localhost:5174)。
-    command: 'E2E=1 pnpm dev --port 5174 --strictPort',
-    url: 'http://localhost:5174',
+    // 直调 vite(不走 `pnpm dev`:dev 脚本已烤死 --port 6000,叠 flag 易混)。
+    // E2E=1 让 vite.config 不挂 basic-ssl → server 保持 http。
+    command: 'E2E=1 pnpm exec vite --port 6001 --strictPort',
+    url: 'http://localhost:6001',
     timeout: 60_000,
     reuseExistingServer: !process.env.CI,
   },

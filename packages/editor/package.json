@@ -4,11 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "VITE_PROJECT_ID=pal vite --port 6010 --strictPort",
     "build": "vite build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
-    "check": "pnpm typecheck && pnpm test"
+    "check": "pnpm typecheck && pnpm test",
+    "dev:demo": "vite --port 6011 --strictPort"
   },
   "dependencies": {
     "@type-pal/content": "workspace:*",

@@ -9,11 +9,12 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 6050 --strictPort",
     "build": "vite build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
-    "check": "pnpm typecheck && pnpm test"
+    "check": "pnpm typecheck && pnpm test",
+    "dev:pal": "VITE_PROJECT_ID=pal vite --port 6051 --strictPort"
   },
   "dependencies": {
     "@type-pal/shared": "workspace:*",
