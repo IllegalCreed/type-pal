@@ -50,6 +50,8 @@ export function PreviewCanvas(props: {
   scene: SceneDef
   stages: readonly ScriptStage[]
   sourceKey: string
+  /** 当前源的触发实体(未播时镜头对准它;onEnter 源 undefined = 对准玩家)。 */
+  focusEntityId: string | undefined
   sprites: SpriteDef[]
   actorsById: Record<string, ActorDef>
   leaderSpriteId: string | undefined
@@ -61,6 +63,7 @@ export function PreviewCanvas(props: {
     scene,
     stages,
     sourceKey,
+    focusEntityId,
     sprites,
     actorsById,
     leaderSpriteId,
@@ -164,6 +167,22 @@ export function PreviewCanvas(props: {
     let raf = 0
     let last = performance.now()
     const leadDef = leaderSpriteId ? spriteById.get(leaderSpriteId) : undefined
+    // 相机中心(世界像素):向兴趣点平滑趋近;首帧直达(免开场长飘)
+    let cam: { x: number; y: number } | null = null
+
+    /** 镜头目标:播放中 = Playback.poi(命令即导演);未播 = 选中源的触发实体(看得见主体)。 */
+    const camTarget = (): { x: number; y: number } => {
+      const v = playback.view
+      if (playback.poi) {
+        const g = playback.poiPos()
+        return gridToPixel(g)
+      }
+      if (focusEntityId) {
+        const e = scene.entities.find((x) => x.id === focusEntityId)
+        if (e) return gridToPixel(e.pos)
+      }
+      return gridToPixel(v.player.pos)
+    }
 
     const frame = (now: number): void => {
       const dt = Math.min(100, now - last)
@@ -221,9 +240,15 @@ export function PreviewCanvas(props: {
           })
         }
       }
-      // 相机跟玩家居中
-      const pp = gridToPixel(v.player.pos)
-      const camera = { x: pp.x - size.w / ZOOM / 2, y: pp.y - size.h / ZOOM / 2 }
+      // 相机:向兴趣点平滑趋近(帧率无关 lerp;首帧直达)
+      const tgt = camTarget()
+      if (!cam) cam = { ...tgt }
+      else {
+        const k = 1 - Math.exp(-dt / 160)
+        cam.x += (tgt.x - cam.x) * k
+        cam.y += (tgt.y - cam.y) * k
+      }
+      const camera = { x: cam.x - size.w / ZOOM / 2, y: cam.y - size.h / ZOOM / 2 }
       const room = scene.map.room ?? { col: 0, row: 0, cols: map.width, rows: map.height }
       renderSceneFrame(ctx, renderer, { map, room, camera, sprites: draws, worldScale: ZOOM })
       // 淡幕
@@ -256,7 +281,7 @@ export function PreviewCanvas(props: {
           onClick={() => {
             if (mode === 'running') playback.pause()
             else if (mode === 'paused') playback.resume()
-            else playback.play(sourceKey, stages)
+            else playback.play(sourceKey, stages, { ownerId: focusEntityId })
           }}
         >
           {mode === 'running' ? '⏸ 暂停' : mode === 'paused' ? '▶ 继续' : '▶ 播放'}

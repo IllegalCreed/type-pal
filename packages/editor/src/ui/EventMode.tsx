@@ -329,6 +329,7 @@ export function EventMode(props: {
                 scene={scene}
                 stages={active.stages}
                 sourceKey={active.key}
+                focusEntityId={refOf(active.key).kind === 'onEnter' ? undefined : (refOf(active.key) as { entityId: string }).entityId}
                 sprites={sprites}
                 actorsById={actorsById}
                 leaderSpriteId={leaderSpriteId}

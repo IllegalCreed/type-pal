@@ -61,6 +61,9 @@ function stepToward(
   return { pos: arrived ? { ...to } : next, facing, arrived }
 }
 
+/** 相机兴趣点:预览镜头该看谁。 */
+export type Poi = { kind: 'player' } | { kind: 'entity'; id: string }
+
 export class Playback {
   view: PlaybackView
   mode: Mode = 'idle'
@@ -69,6 +72,12 @@ export class Playback {
   onUi?: () => void
   /** 当前命令路径(如 "0/12/then/3";null = 未在播)。 */
   activePath: string | null = null
+  /**
+   * 相机兴趣点(「命令即导演」):播放时初始 = 触发 owner 实体(onEnter = 玩家),
+   * 之后跟随最后被命令作用的对象 —— 实体走位/转向/显隐 → 该实体;队伍走位/瞬移 →
+   * 玩家;对话/音乐等不动镜头。null = 未播(画布按选中源 focus 定)。
+   */
+  poi: Poi | null = null
 
   private scene: SceneDef
   private abort: AbortController | null = null
@@ -120,17 +129,51 @@ export class Playback {
     this.onUi?.()
   }
 
-  /** 从头播一个脚本源。paused=true 则起手即暂停(纯单步走查)。 */
-  play(key: string, stages: readonly ScriptStage[], opts?: { paused?: boolean }): void {
+  /** cmd → 镜头兴趣点(不涉及位置的命令返回 undefined = 镜头不动)。 */
+  private poiOf(cmd: { kind: string; entity?: string; state?: number }): Poi | undefined {
+    switch (cmd.kind) {
+      case 'moveEntity':
+      case 'stepEntity':
+      case 'nudgeEntity':
+      case 'animEntity':
+      case 'setEntityFacing':
+      case 'setEntityFrame':
+      case 'setEntityState':
+        return cmd.entity ? { kind: 'entity', id: cmd.entity } : undefined
+      case 'moveParty':
+      case 'nudgeParty':
+      case 'teleportParty':
+      case 'setPartyFacing':
+      case 'loadScene':
+        return { kind: 'player' }
+      default:
+        return undefined
+    }
+  }
+
+  /** 兴趣点世界格(entity 含演出 overlay;解析不到回退玩家)。 */
+  poiPos(): GridPos {
+    if (this.poi?.kind === 'entity') {
+      const p = this.entityPos(this.poi.id)
+      if (p) return this.view.entity.get(this.poi.id)?.pos ?? p
+    }
+    return this.view.player.pos
+  }
+
+  /** 从头播一个脚本源。paused=true 起手即暂停;ownerId = 触发实体(初始镜头对准它)。 */
+  play(key: string, stages: readonly ScriptStage[], opts?: { paused?: boolean; ownerId?: string }): void {
     this.stop()
     this.mode = opts?.paused ? 'paused' : 'running'
     this.view = this.freshView()
     this.activePath = null
+    this.poi = opts?.ownerId ? { kind: 'entity', id: opts.ownerId } : { kind: 'player' }
     const ac = new AbortController()
     this.abort = ac
     const runner = new ScriptRunner(this.host, emptyWorldScriptState(), ac.signal)
     runner.onStep = (ev: StepEvent) => {
       this.activePath = ev.path.join('/')
+      const p = this.poiOf(ev.cmd as { kind: string; entity?: string })
+      if (p) this.poi = p
       this.onUi?.()
     }
     runner.gate = () =>
@@ -205,6 +248,7 @@ export class Playback {
     this.view = this.freshView()
     this.mode = 'idle'
     this.activePath = null
+    this.poi = null
     this.onUi?.()
   }
 
