@@ -13,11 +13,12 @@ import type { EditSession } from '../core/edit-session.js'
 import { AddEntityCommand, DeleteEntityCommand, MoveEntityCommand, UpdateEntityCommand, UpdateSceneCommand } from '../core/commands.js'
 import { serializeProject, writeProject } from '../core/project-io.js'
 import { ActorMode } from './ActorMode.js'
+import { DataMode } from './DataMode.js'
 import { EventMode } from './EventMode.js'
 import { SceneCanvas, type Tool } from './SceneCanvas.js'
 
 const SCENE_NODE = '__scene__'
-type Mode = 'place' | 'actor' | 'event'
+type Mode = 'place' | 'actor' | 'event' | 'data'
 
 function newEntityId(existing: EntityDef[]): string {
   const ids = new Set(existing.map((e) => e.id))
@@ -124,11 +125,13 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
           <button className={`mode${mode === 'actor' ? ' active' : ''}`} onClick={() => setMode('actor')}><span className="ico">👥</span><span className="lbl">角色</span></button>
           <div className="mode soon"><span className="ico">🗺️</span><span className="lbl">地图</span></div>
           <button className={`mode${mode === 'event' ? ' active' : ''}`} onClick={() => setMode('event')}><span className="ico">💬</span><span className="lbl">事件</span></button>
-          <div className="mode soon"><span className="ico">📊</span><span className="lbl">数据</span></div>
+          <button className={`mode${mode === 'data' ? ' active' : ''}`} onClick={() => setMode('data')}><span className="ico">📊</span><span className="lbl">数据</span></button>
         </div>
 
         {mode === 'actor' ? (
           <ActorMode actors={state.actors} sprites={state.sprites} items={Object.fromEntries(state.items.map((i) => [i.id, i]))} skills={Object.fromEntries(state.skills.map((sk) => [sk.id, sk]))} locale={state.locale} assetBase={project.assetBase} />
+        ) : mode === 'data' ? (
+          <DataMode sprites={state.sprites} skills={Object.fromEntries(state.skills.map((sk) => [sk.id, sk]))} items={Object.fromEntries(state.items.map((i) => [i.id, i]))} locale={state.locale} assetBase={project.assetBase} />
         ) : mode === 'event' ? (
           <EventMode scenes={state.scenes} locale={state.locale} initialSceneId={scene.id} />
         ) : (

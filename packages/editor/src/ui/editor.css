@@ -207,3 +207,14 @@ body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-s
 .chip2 { background: var(--panel2); border: 1px solid var(--line); border-radius: 4px; padding: 3px 7px; font-size: 11px; color: var(--fg); }
 .chip2 .meta { color: var(--faint); font-family: var(--mono); font-size: 9px; margin-left: 3px; }
 .hint2 { font-weight: 400; color: var(--faint); font-size: 10px; text-transform: none; letter-spacing: 0; }
+
+/* ── 数据模式 ── */
+.data-outliner { display: flex; flex-direction: column; min-height: 0; }
+.data-tabs { display: flex; flex-wrap: wrap; gap: 2px; padding: 6px; border-bottom: 1px solid var(--line); }
+.dtab { flex: 1 1 44%; display: flex; align-items: center; gap: 5px; justify-content: center; background: var(--panel2); border: 1px solid var(--line);
+  color: var(--dim); padding: 6px 4px; border-radius: 4px; cursor: pointer; font-size: 11px; }
+.dtab.sel { background: var(--accent); border-color: var(--accent); color: #06121f; font-weight: 600; }
+.kind-filter { display: flex; gap: 4px; padding: 0 8px 8px; flex-wrap: wrap; }
+.kchip { background: var(--panel2); border: 1px solid var(--line); color: var(--dim); border-radius: 4px; padding: 3px 8px; font-size: 11px; cursor: pointer; }
+.kchip.on { background: #2d3852; color: var(--fg); border-color: var(--accent); }
+.sprite-list { flex: 1; overflow-y: auto; }
