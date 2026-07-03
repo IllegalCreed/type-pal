@@ -119,3 +119,23 @@ body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-s
 /* 加载/错误 */
 .boot { display: grid; place-items: center; height: 100vh; color: var(--dim); }
 .boot .err { color: var(--err); max-width: 60ch; font-family: var(--mono); font-size: 12px; }
+
+/* ── 事件模式 · 脚本查看器(只读验证眼睛) ── */
+.event-center { display: flex; flex-direction: column; min-height: 0; }
+.script-view { flex: 1; overflow: auto; padding: 8px 0; background: var(--bg); }
+.script-tree { font-family: var(--sans); font-size: 12.5px; }
+.stage { margin-bottom: 10px; }
+.stage-head { display: flex; align-items: center; gap: 8px; padding: 4px 12px; margin: 4px 0;
+  color: var(--accent); font-weight: 600; font-size: 11px; background: var(--panel);
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.stage-next { color: var(--faint); font-weight: 400; }
+.cmd-row { display: flex; align-items: baseline; gap: 8px; padding: 3px 12px 3px 8px; line-height: 1.5; }
+.cmd-row:hover { background: var(--panel); }
+.cmd-row.warn { background: rgba(226, 179, 64, 0.10); }
+.cmd-row.warn .cmd-label { color: var(--warn); }
+.cmd-ico { flex: 0 0 auto; width: 18px; text-align: center; opacity: 0.9; }
+.cmd-label { flex: 1 1 auto; color: var(--fg); word-break: break-word; }
+.cmd-detail { flex: 0 0 auto; color: var(--faint); font-family: var(--mono, monospace); font-size: 11px; }
+.cmd-block-title { color: var(--dim); font-size: 11px; font-weight: 600; padding: 3px 12px; opacity: 0.85; }
+.script-empty { color: var(--faint); padding: 12px; font-style: italic; }
+.warn-inline { color: var(--warn); }

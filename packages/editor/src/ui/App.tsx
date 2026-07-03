@@ -12,9 +12,11 @@ import type { ActorDef, EntityDef, GridPos, SceneDef } from '@type-pal/content'
 import type { EditSession } from '../core/edit-session.js'
 import { AddEntityCommand, DeleteEntityCommand, MoveEntityCommand, UpdateEntityCommand, UpdateSceneCommand } from '../core/commands.js'
 import { serializeProject, writeProject } from '../core/project-io.js'
+import { EventMode } from './EventMode.js'
 import { SceneCanvas, type Tool } from './SceneCanvas.js'
 
 const SCENE_NODE = '__scene__'
+type Mode = 'place' | 'event'
 
 function newEntityId(existing: EntityDef[]): string {
   const ids = new Set(existing.map((e) => e.id))
@@ -31,6 +33,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
   const state = session.getState()
   const [selected, setSelected] = useState<string>(SCENE_NODE)
   const [tool, setTool] = useState<Tool>('select')
+  const [mode, setMode] = useState<Mode>('place')
   const dirHandleRef = useRef<FileSystemDirectoryHandle | null>(null)
   const [saveErr, setSaveErr] = useState('')
 
@@ -109,12 +112,16 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
 
       <div className="body">
         <div className="rail">
-          <button className="mode active"><span className="ico">📍</span><span className="lbl">布置</span></button>
+          <button className={`mode${mode === 'place' ? ' active' : ''}`} onClick={() => setMode('place')}><span className="ico">📍</span><span className="lbl">布置</span></button>
           <div className="mode soon"><span className="ico">🗺️</span><span className="lbl">地图</span></div>
-          <div className="mode soon"><span className="ico">💬</span><span className="lbl">事件</span></div>
+          <button className={`mode${mode === 'event' ? ' active' : ''}`} onClick={() => setMode('event')}><span className="ico">💬</span><span className="lbl">事件</span></button>
           <div className="mode soon"><span className="ico">📊</span><span className="lbl">数据</span></div>
         </div>
 
+        {mode === 'event' ? (
+          <EventMode scenes={state.scenes} locale={state.locale} initialSceneId={scene.id} />
+        ) : (
+        <>
         <div className="outliner">
           <div className="pane-h"><span className="t">场景</span><span className="spacer" />
             <button className="mini" title="在进场点添加实体" onClick={() => addAt({ col: scene.entry.pos.col, row: scene.entry.pos.row })}>＋</button>
@@ -169,6 +176,8 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
             ? <EntityInspector entity={selEntity} session={session} sceneId={scene.id} actorsById={actorsById} dialogueIds={scene.dialogues.map((d) => d.id)} onDelete={deleteSelected} />
             : <SceneInspector scene={scene} session={session} />}
         </div>
+        </>
+        )}
       </div>
 
       <div className="valbar">
