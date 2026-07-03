@@ -131,7 +131,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
         {mode === 'actor' ? (
           <ActorMode actors={state.actors} sprites={state.sprites} items={Object.fromEntries(state.items.map((i) => [i.id, i]))} skills={Object.fromEntries(state.skills.map((sk) => [sk.id, sk]))} locale={state.locale} assetBase={project.assetBase} />
         ) : mode === 'data' ? (
-          <DataMode sprites={state.sprites} skills={Object.fromEntries(state.skills.map((sk) => [sk.id, sk]))} items={Object.fromEntries(state.items.map((i) => [i.id, i]))} locale={state.locale} assetBase={project.assetBase} />
+          <DataMode sprites={state.sprites} skills={Object.fromEntries(state.skills.map((sk) => [sk.id, sk]))} items={Object.fromEntries(state.items.map((i) => [i.id, i]))} locale={state.locale} assetBase={project.assetBase} session={session} />
         ) : mode === 'event' ? (
           <EventMode scenes={state.scenes} locale={state.locale} initialSceneId={scene.id} />
         ) : (

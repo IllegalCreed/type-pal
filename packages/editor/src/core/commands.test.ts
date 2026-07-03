@@ -3,11 +3,13 @@ import {
   AddEntityCommand,
   DeleteEntityCommand,
   MoveEntityCommand,
+  UpdateActorCommand,
   UpdateEntityCommand,
   UpdateSceneCommand,
+  UpdateSpriteCommand,
 } from './commands.js'
 import type { EditorState } from './edit-session.js'
-import type { EntityDef } from '@type-pal/content'
+import type { ActorDef, EntityDef, SpriteDef } from '@type-pal/content'
 
 const ent = (id: string): EntityDef => ({
   id,
@@ -33,9 +35,15 @@ function st(): EditorState {
     levelUp: {},
     items: [],
     locale: {},
-    sprites: [],
+    sprites: [{ id: 'li', spriteNum: 2, label: '李逍遥', layout: { kind: 'directional', framesPerDir: 3 } }],
     startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
   } as never
+}
+
+function stActor(): EditorState {
+  const base = st() as EditorState & { actors: ActorDef[] }
+  base.actors = [{ id: 'li', name: 'name.li', spriteId: 'li', portraits: { default: 1 } }]
+  return base
 }
 
 const ids = (s: EditorState): string[] => s.scenes[0]!.entities.map((e) => e.id)
@@ -189,5 +197,37 @@ describe('布置命令集 · 不可变 + invert', () => {
     expect(a1).toBe(s0) // 同引用 = 未改
     const a2 = new UpdateEntityCommand('nope', 'a', { collide: true }).apply(s0)
     expect(a2).toBe(s0)
+  })
+})
+
+describe('C1 命令 · UpdateSprite / UpdateActor(不可变 + invert)', () => {
+  const sp = (s: EditorState): SpriteDef => s.sprites[0]!
+  test('UpdateSprite layout:directional → loop,invert 还原;源不变', () => {
+    const s0 = st()
+    const cmd = new UpdateSpriteCommand('li', { layout: { kind: 'loop', frameCount: 4 } })
+    const s1 = cmd.apply(s0)
+    expect(sp(s1).layout).toEqual({ kind: 'loop', frameCount: 4 })
+    expect(sp(s0).layout).toEqual({ kind: 'directional', framesPerDir: 3 }) // 源不变
+    const s2 = cmd.invert(s1)
+    expect(sp(s2).layout).toEqual({ kind: 'directional', framesPerDir: 3 }) // 还原
+  })
+  test('UpdateSprite poses:加命名姿势,invert 清回 undefined', () => {
+    const s0 = st()
+    const cmd = new UpdateSpriteCommand('li', { poses: { 摔倒: { frames: [12], mode: 'static' } } })
+    const s1 = cmd.apply(s0)
+    expect(sp(s1).poses).toEqual({ 摔倒: { frames: [12], mode: 'static' } })
+    expect(sp(s0).poses).toBeUndefined()
+    expect(sp(cmd.invert(s1)).poses).toBeUndefined()
+  })
+  test('UpdateActor name/portraits:改 + invert 还原', () => {
+    const s0 = stActor()
+    const cmd = new UpdateActorCommand('li', { name: 'name.new', portraits: { default: 1, expressions: { 愤怒: 55 } } })
+    const s1 = cmd.apply(s0)
+    expect(s1.actors[0]!.name).toBe('name.new')
+    expect(s1.actors[0]!.portraits?.expressions).toEqual({ 愤怒: 55 })
+    expect(s0.actors[0]!.name).toBe('name.li') // 源不变
+    const s2 = cmd.invert(s1)
+    expect(s2.actors[0]!.name).toBe('name.li')
+    expect(s2.actors[0]!.portraits).toEqual({ default: 1 }) // 表情还原掉
   })
 })

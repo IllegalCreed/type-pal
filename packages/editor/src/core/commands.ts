@@ -10,7 +10,7 @@
  * 见 docs/phase2/editor/editor-design.md §4。
  */
 import type { EditorState } from './edit-session.js'
-import type { EntityDef, GridPos, SceneDef } from '@type-pal/content'
+import type { ActorDef, EntityDef, GridPos, SceneDef, SpriteDef } from '@type-pal/content'
 
 /**
  * 一次编辑操作。apply/invert 都返回**新** EditorState(不可变 —— 不得 mutate 传入)。
@@ -297,5 +297,111 @@ export class UpdateSceneCommand implements Command {
     const scene = findScene(state, this.sceneId)
     if (!scene) return state
     return withScene(state, this.sceneId, { ...scene, ...this.oldPatch })
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════
+// C1 数据模式/角色模式命令集(改精灵布局·姿势 / 角色属性)
+// ════════════════════════════════════════════════════════════════════
+
+/** 不可变:替换 spriteId 精灵;旁精灵同引用。 */
+function withSprite(state: EditorState, spriteId: string, newSprite: SpriteDef): EditorState {
+  let hit = false
+  const sprites = state.sprites.map((s) => {
+    if (s.id !== spriteId) return s
+    hit = true
+    return newSprite
+  })
+  return hit ? { ...state, sprites } : state
+}
+
+/** UpdateSprite 的 patch 范围(布局 / 命名姿势 / 标签)。 */
+export type SpritePatch = Partial<Pick<SpriteDef, 'layout' | 'poses' | 'label'>>
+
+/**
+ * 改精灵字段(layout/poses/label)。语义同 UpdateEntityCommand:首次 apply 捕获旧值,invert 还原。
+ * layout/poses 是对象 → 深拷贝入参 + 捕获时深拷贝旧值(防回写)。
+ */
+export class UpdateSpriteCommand implements Command {
+  readonly label = '修改精灵'
+  private readonly spriteId: string
+  private readonly patch: SpritePatch
+  private oldPatch: SpritePatch | undefined
+
+  constructor(spriteId: string, patch: SpritePatch) {
+    this.spriteId = spriteId
+    this.patch = structuredClone(patch)
+  }
+
+  apply(state: EditorState): EditorState {
+    const sp = state.sprites.find((s) => s.id === this.spriteId)
+    if (!sp) return state
+    if (!this.oldPatch) this.oldPatch = this.captureOld(sp)
+    return withSprite(state, this.spriteId, { ...sp, ...this.patch })
+  }
+
+  private captureOld(sp: SpriteDef): SpritePatch {
+    const old: SpritePatch = {}
+    if ('layout' in this.patch) old.layout = structuredClone(sp.layout)
+    if ('poses' in this.patch) old.poses = sp.poses ? structuredClone(sp.poses) : undefined
+    if ('label' in this.patch) old.label = sp.label
+    return old
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.oldPatch) return state
+    const sp = state.sprites.find((s) => s.id === this.spriteId)
+    if (!sp) return state
+    return withSprite(state, this.spriteId, { ...sp, ...this.oldPatch })
+  }
+}
+
+/** 不可变:替换 actorId 角色;旁角色同引用。 */
+function withActor(state: EditorState, actorId: string, newActor: ActorDef): EditorState {
+  let hit = false
+  const actors = state.actors.map((a) => {
+    if (a.id !== actorId) return a
+    hit = true
+    return newActor
+  })
+  return hit ? { ...state, actors } : state
+}
+
+/** UpdateActor 的 patch 范围(名字 / 头像组 / 战斗数据 / 精灵引用)。 */
+export type ActorPatch = Partial<Pick<ActorDef, 'name' | 'portraits' | 'battler' | 'spriteId'>>
+
+/** 改角色字段。语义同上:首次 apply 捕获旧值,invert 还原;portraits/battler 深拷贝。 */
+export class UpdateActorCommand implements Command {
+  readonly label = '修改角色'
+  private readonly actorId: string
+  private readonly patch: ActorPatch
+  private oldPatch: ActorPatch | undefined
+
+  constructor(actorId: string, patch: ActorPatch) {
+    this.actorId = actorId
+    this.patch = structuredClone(patch)
+  }
+
+  apply(state: EditorState): EditorState {
+    const a = state.actors.find((x) => x.id === this.actorId)
+    if (!a) return state
+    if (!this.oldPatch) this.oldPatch = this.captureOld(a)
+    return withActor(state, this.actorId, { ...a, ...this.patch })
+  }
+
+  private captureOld(a: ActorDef): ActorPatch {
+    const old: ActorPatch = {}
+    if ('name' in this.patch) old.name = a.name
+    if ('spriteId' in this.patch) old.spriteId = a.spriteId
+    if ('portraits' in this.patch) old.portraits = a.portraits ? structuredClone(a.portraits) : undefined
+    if ('battler' in this.patch) old.battler = a.battler ? structuredClone(a.battler) : undefined
+    return old
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.oldPatch) return state
+    const a = state.actors.find((x) => x.id === this.actorId)
+    if (!a) return state
+    return withActor(state, this.actorId, { ...a, ...this.oldPatch })
   }
 }

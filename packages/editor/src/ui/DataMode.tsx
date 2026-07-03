@@ -4,8 +4,10 @@
  * C1 阶段先落「精灵库」标签(场景 prop 精灵的布局配置);技能/物品/敌人后续。
  */
 import { useMemo, useState } from 'react'
-import type { ItemDataMap, Locale, SkillDataMap, SpriteDef } from '@type-pal/content'
+import type { ItemDataMap, Locale, SkillDataMap, SpriteDef, SpriteLayout } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
+import { UpdateSpriteCommand } from '../core/commands.js'
+import type { EditSession } from '../core/edit-session.js'
 import { SpriteFrames } from './SpriteFrames.js'
 
 type Tab = 'sprite' | 'skill' | 'item' | 'enemy'
@@ -19,14 +21,22 @@ const TABS: { id: Tab; label: string; icon: string }[] = [
 const KIND_LABEL: Record<SpriteDef['layout']['kind'], string> = { directional: '行走', static: '静物', loop: '循环' }
 const KIND_ICON: Record<SpriteDef['layout']['kind'], string> = { directional: '🚶', static: '🪑', loop: '🔥' }
 
+/** 布局类型切换时的默认参数(directional 默认 3 帧/向,loop 默认全帧循环)。 */
+function defaultLayout(kind: SpriteLayout['kind'], prev: SpriteLayout): SpriteLayout {
+  if (kind === 'directional') return { kind, framesPerDir: prev.kind === 'directional' ? prev.framesPerDir : 3 }
+  if (kind === 'loop') return { kind, frameCount: prev.kind === 'loop' ? prev.frameCount : 4 }
+  return { kind: 'static' }
+}
+
 export function DataMode(props: {
   sprites: SpriteDef[]
   skills: SkillDataMap
   items: ItemDataMap
   locale: Locale
   assetBase: AssetBase
+  session: EditSession
 }) {
-  const { sprites, assetBase } = props
+  const { sprites, assetBase, session } = props
   const [tab, setTab] = useState<Tab>('sprite')
   const [filter, setFilter] = useState('')
   const [kindFilter, setKindFilter] = useState<'all' | SpriteDef['layout']['kind']>('all')
@@ -97,14 +107,28 @@ export function DataMode(props: {
               <div className="field"><label>精灵号</label><div className="in mono">#{sprite.spriteNum}</div></div>
             </div>
             <div className="section">
-              <h4>帧布局</h4>
-              <div className="field"><label>类型</label><div className="in pick"><span>{KIND_ICON[sprite.layout.kind]} {KIND_LABEL[sprite.layout.kind]}</span><span className="meta">{sprite.layout.kind}</span></div></div>
+              <h4>帧布局 <span className="hint2">可改 · 火把/流水标循环</span></h4>
+              <div className="field"><label>类型</label>
+                <select className="in" value={sprite.layout.kind}
+                  onChange={(e) => session.dispatch(new UpdateSpriteCommand(sprite.id, { layout: defaultLayout(e.target.value as SpriteLayout['kind'], sprite.layout) }))}>
+                  <option value="directional">🚶 行走(4向)</option>
+                  <option value="static">🪑 静物(单帧)</option>
+                  <option value="loop">🔥 循环(自动画)</option>
+                </select>
+              </div>
               {sprite.layout.kind === 'directional' ? (
-                <div className="field"><label>每向帧数</label><div className="in mono">{sprite.layout.framesPerDir}</div></div>
+                <div className="field"><label>每向帧数</label>
+                  <input className="in mono" type="number" min={1} value={sprite.layout.framesPerDir}
+                    onChange={(e) => Number.isFinite(e.target.valueAsNumber) && e.target.valueAsNumber >= 1 &&
+                      session.dispatch(new UpdateSpriteCommand(sprite.id, { layout: { kind: 'directional', framesPerDir: Math.floor(e.target.valueAsNumber) } }))} />
+                </div>
               ) : sprite.layout.kind === 'loop' ? (
-                <div className="field"><label>循环帧数</label><div className="in mono">{sprite.layout.frameCount}</div></div>
+                <div className="field"><label>循环帧数</label>
+                  <input className="in mono" type="number" min={1} value={sprite.layout.frameCount}
+                    onChange={(e) => Number.isFinite(e.target.valueAsNumber) && e.target.valueAsNumber >= 1 &&
+                      session.dispatch(new UpdateSpriteCommand(sprite.id, { layout: { kind: 'loop', frameCount: Math.floor(e.target.valueAsNumber) } }))} />
+                </div>
               ) : null}
-              <div className="hint">布局/姿势编辑 = C1d（现只读展示）</div>
             </div>
           </>
         ) : <div className="insp-empty">选左侧精灵看它的帧布局。</div>}
