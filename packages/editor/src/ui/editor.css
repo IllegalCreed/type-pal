@@ -179,7 +179,7 @@ body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-s
 .dirgroup .gh .chip { width: 10px; height: 10px; border-radius: 2px; }
 .dirgroup .gh code { font-family: var(--mono); color: var(--faint); font-size: 10px; }
 .cells { display: flex; gap: 8px; }
-.fcell { width: 68px; background: rgba(0,0,0,.35); border: 1px solid var(--line); border-radius: 5px;
+.fcell { background: rgba(0,0,0,.35); border: 1px solid var(--line); border-radius: 5px;
   display: flex; flex-direction: column; align-items: center; padding: 4px; position: relative; }
 .fcell .fidx { position: absolute; top: 3px; left: 5px; font-family: var(--mono); font-size: 10px; color: var(--faint); z-index: 1; }
 .fcell-canvas { image-rendering: pixelated; }
