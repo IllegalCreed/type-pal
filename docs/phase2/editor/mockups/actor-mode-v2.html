@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8" />
+<title>编辑器 · 角色模式 mockup v2</title>
+<style>
+  :root {
+    --bg: #1b1d23; --panel: #232732; --panel2: #2b303c; --panel3: #2f3542; --line: #363c4a;
+    --fg: #d7dce5; --dim: #8b93a3; --faint: #666e7e; --accent: #4c9aff;
+    --warn: #e2b340; --err: #e05b5b; --ok: #58b37a;
+    --down: #4c9aff; --left: #58b37a; --up: #e2b340; --right: #c792ea;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --sans: system-ui, "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 13px;
+         display: grid; grid-template-rows: 40px 1fr 26px; height: 100vh; overflow: hidden; }
+
+  /* 顶栏 / rail / 状态条(同布置模式定稿) */
+  .topbar { display: flex; align-items: center; gap: 10px; padding: 0 12px; background: var(--panel); border-bottom: 1px solid var(--line); }
+  .topbar .proj { font-weight: 600; } .topbar .proj .kind { color: var(--dim); font-weight: 400; font-size: 12px; margin-left: 6px; }
+  .topbar .spacer { flex: 1; }
+  .tbtn { background: transparent; border: 0; color: var(--dim); padding: 5px 8px; border-radius: 5px; cursor: pointer; }
+  .save { background: var(--accent); border: 0; color: #06121f; font-weight: 600; padding: 6px 12px; border-radius: 5px; }
+  .body { display: grid; grid-template-columns: 52px 194px 1fr 300px; min-height: 0; }
+  .rail { background: var(--panel); border-right: 1px solid var(--line); display: flex; flex-direction: column; padding: 6px 0; gap: 2px; }
+  .mode { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 9px 0; color: var(--faint); cursor: pointer; border-left: 2px solid transparent; }
+  .mode .ico { font-size: 18px; } .mode .lbl { font-size: 10px; }
+  .mode.active { color: var(--fg); background: var(--panel2); border-left-color: var(--accent); }
+  .mode.soon { opacity: .5; }
+  .valbar { display: flex; align-items: center; gap: 14px; padding: 0 12px; background: var(--panel); border-top: 1px solid var(--line); font-size: 12px; }
+  .valbar .warn { color: var(--warn); } .valbar .msg { color: var(--dim); font-family: var(--mono); font-size: 11px; }
+  .valbar .spacer { flex: 1; }
+
+  /* 左:角色列表 */
+  .actors { background: var(--panel); border-right: 1px solid var(--line); display: flex; flex-direction: column; }
+  .pane-h { display: flex; align-items: center; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+  .pane-h .t { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--dim); font-weight: 600; }
+  .pane-h .spacer { flex: 1; }
+  .mini { background: var(--panel2); border: 1px solid var(--line); color: var(--dim); width: 22px; height: 22px; border-radius: 4px; cursor: pointer; }
+  .arow { display: flex; align-items: center; gap: 8px; padding: 7px 10px; cursor: pointer; color: var(--dim); }
+  .arow:hover { background: var(--panel2); }
+  .arow.sel { background: #2d3852; color: var(--fg); box-shadow: inset 2px 0 0 var(--accent); }
+  .arow .face { width: 26px; height: 26px; border-radius: 4px; background: linear-gradient(#6b7183,#454b5c); border: 1px solid #7d859c; display: grid; place-items: center; font-size: 14px; }
+  .arow .nm { display: flex; flex-direction: column; }
+  .arow .nm b { font-weight: 600; font-size: 12px; }
+  .arow .nm span { font-family: var(--mono); font-size: 10px; color: var(--faint); }
+  .badge { margin-left: auto; font-size: 9px; padding: 2px 5px; border-radius: 3px; background: #2c4a6f; color: #9cc4ff; }
+  .badge.npc { background: #3a4256; color: var(--dim); }
+
+  /* 中:帧标注 + 走路预览 */
+  .center { display: grid; grid-template-rows: 40px minmax(0, 1fr) 190px; min-width: 0; min-height: 0; overflow: hidden; background:
+      repeating-linear-gradient(45deg, #171920 0 12px, #191b22 12px 24px); }
+  .toolrow { display: flex; align-items: center; gap: 8px; padding: 0 12px; background: var(--panel2); border-bottom: 1px solid var(--line); }
+  .toolrow label { color: var(--dim); font-size: 12px; }
+  .in { background: var(--panel); border: 1px solid var(--line); color: var(--fg); border-radius: 4px; padding: 4px 8px; font-size: 12px; }
+  .stepper { display: flex; align-items: center; gap: 4px; }
+  .stepper .in { width: 40px; text-align: center; font-family: var(--mono); }
+  .stepper button { background: var(--panel); border: 1px solid var(--line); color: var(--dim); width: 22px; height: 24px; border-radius: 4px; cursor: pointer; }
+  .toolrow .spacer { flex: 1; }
+  .hint { color: var(--faint); font-size: 11px; }
+
+  .framegrid { padding: 14px; overflow-y: auto; min-height: 0; }
+  .dirgroup { margin-bottom: 12px; }
+  .dirgroup .gh { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 11px; color: var(--dim); }
+  .dirgroup .gh .chip { width: 10px; height: 10px; border-radius: 2px; }
+  .dirgroup .gh code { font-family: var(--mono); color: var(--faint); font-size: 10px; }
+  .cells { display: flex; gap: 8px; }
+  .cell { width: 74px; height: 96px; background: rgba(0,0,0,.35); border: 1px solid var(--line); border-radius: 5px;
+          display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: 6px; position: relative; }
+  .cell .idx { position: absolute; top: 4px; left: 6px; font-family: var(--mono); font-size: 10px; color: var(--faint); }
+  .cell .sp { width: 30px; height: 52px; border-radius: 4px 4px 2px 2px; background: linear-gradient(#8a92a8,#565d70); border: 1px solid #9aa3ba; }
+  .cell .tag { font-size: 9px; color: var(--dim); margin-top: 5px; }
+  .g-down .cell { border-color: color-mix(in srgb, var(--down) 45%, var(--line)); }
+  .g-left .cell { border-color: color-mix(in srgb, var(--left) 45%, var(--line)); }
+  .g-up .cell { border-color: color-mix(in srgb, var(--up) 45%, var(--line)); }
+  .g-right .cell { border-color: color-mix(in srgb, var(--right) 45%, var(--line)); }
+  .g-down .gh .chip { background: var(--down); } .g-left .gh .chip { background: var(--left); }
+  .g-up .gh .chip { background: var(--up); } .g-right .gh .chip { background: var(--right); }
+  .cell.stand::after { content: "站立"; position: absolute; top: 4px; right: 6px; font-size: 9px; color: var(--ok); }
+
+  /* 特殊动作 · 命名姿势 */
+  .posegroup { margin-top: 4px; padding-top: 12px; border-top: 1px dashed var(--line); }
+  .posehead { display: flex; align-items: baseline; gap: 10px; margin-bottom: 8px; }
+  .posehead .t { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--dim); font-weight: 600; }
+  .posehead .why { font-size: 11px; color: var(--faint); }
+  .poselist { display: flex; flex-wrap: wrap; gap: 8px; }
+  .posecard { background: rgba(0,0,0,.3); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; display: flex; flex-direction: column; gap: 6px; min-width: 108px; }
+  .posecard b { font-size: 12px; }
+  .posecard .pf { display: flex; gap: 3px; }
+  .posecard .sp2 { width: 22px; height: 34px; border-radius: 3px; background: linear-gradient(#8a92a8,#565d70); border: 1px solid #9aa3ba; }
+  .posecard .row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .posecard .mode { font-family: var(--mono); font-size: 10px; color: var(--faint); }
+  .posecard .play { background: var(--panel2); border: 1px solid var(--line); color: var(--dim); border-radius: 4px; padding: 1px 6px; font-size: 10px; cursor: pointer; }
+  .posenew { background: var(--panel2); border: 1px dashed var(--line); color: var(--dim); border-radius: 6px; min-width: 108px; cursor: pointer; font-size: 11px; }
+  .unassigned { margin-top: 10px; font-size: 11px; color: var(--faint); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .uf { display: inline-grid; place-items: center; width: 30px; height: 40px; border-radius: 3px; background: rgba(0,0,0,.3); border: 1px dashed #4a5162; font-family: var(--mono); font-size: 10px; color: var(--dim); cursor: pointer; }
+  .uf:hover { border-color: var(--accent); color: var(--fg); }
+  .portraits { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pcard { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .pcard .pt { width: 54px; height: 54px; border-radius: 5px; background: linear-gradient(#7c8499,#4a5062); border: 1px solid #8d96ad; position: relative; }
+  .pcard.main .pt { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+  .pcard b { font-size: 11px; } .pcard .meta { font-family: var(--mono); font-size: 9px; color: var(--faint); }
+  .pcard .del { position: absolute; top: -5px; right: -5px; width: 15px; height: 15px; border-radius: 50%; background: var(--panel3); border: 1px solid var(--line); color: var(--dim); font-size: 9px; display: grid; place-items: center; cursor: pointer; }
+  .padd { width: 54px; height: 54px; border-radius: 5px; background: var(--panel2); border: 1px dashed var(--line); color: var(--dim); cursor: pointer; font-size: 18px; align-self: flex-start; }
+  .hint2 { font-weight: 400; color: var(--faint); font-size: 10px; text-transform: none; letter-spacing: 0; }
+  .preview { border-top: 1px solid var(--line); background: var(--panel); padding: 10px 14px; display: flex; gap: 16px; }
+  .pv-box { width: 150px; height: 150px; background: rgba(0,0,0,.4); border: 1px solid var(--line); border-radius: 6px; display: grid; place-items: center; position: relative; }
+  .pv-box .sp { width: 42px; height: 72px; border-radius: 5px 5px 3px 3px; background: linear-gradient(#8a92a8,#565d70); border: 1px solid #9aa3ba; }
+  .pv-box .playing { position: absolute; bottom: 6px; font-size: 10px; color: var(--ok); }
+  .pv-ctl { display: flex; flex-direction: column; gap: 8px; }
+  .pv-ctl .t { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--dim); font-weight: 600; }
+  .dirtabs { display: flex; gap: 4px; }
+  .dirtabs button { background: var(--panel2); border: 1px solid var(--line); color: var(--dim); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+  .dirtabs button.on { background: var(--accent); border-color: var(--accent); color: #06121f; font-weight: 600; }
+  .pv-meta { font-family: var(--mono); font-size: 11px; color: var(--faint); line-height: 1.7; }
+
+  /* 右:属性 */
+  .inspector { background: var(--panel); border-left: 1px solid var(--line); overflow-y: auto; }
+  .insp-head { padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  .insp-head .what { color: var(--dim); font-size: 11px; }
+  .insp-head .who { font-weight: 600; margin-top: 2px; }
+  .section { padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  .section h4 { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--dim); margin-bottom: 8px; font-weight: 600; display: flex; gap: 6px; align-items: center; }
+  .field { display: grid; grid-template-columns: 58px 1fr; align-items: center; gap: 8px; margin-bottom: 7px; }
+  .field label { color: var(--dim); font-size: 12px; }
+  .fin { background: var(--panel2); border: 1px solid var(--line); color: var(--fg); border-radius: 4px; padding: 4px 7px; font-size: 12px; width: 100%; }
+  .fin.mono { font-family: var(--mono); }
+  .pick { display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+  .pick .meta { color: var(--faint); font-family: var(--mono); font-size: 10px; }
+  .portrait-row { display: flex; gap: 10px; align-items: center; }
+  .portrait { width: 56px; height: 56px; border-radius: 5px; background: linear-gradient(#7c8499,#4a5062); border: 1px solid #8d96ad; }
+  .statgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 10px; }
+  .stat { display: flex; justify-content: space-between; font-size: 12px; padding: 3px 6px; background: var(--panel2); border-radius: 4px; }
+  .stat b { font-family: var(--mono); font-weight: 500; }
+  .stat span { color: var(--dim); }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip2 { background: var(--panel2); border: 1px solid var(--line); border-radius: 4px; padding: 3px 7px; font-size: 11px; color: var(--fg); }
+  .chip2 .meta { color: var(--faint); font-family: var(--mono); font-size: 9px; margin-left: 3px; }
+  .collapsed { color: var(--faint); font-size: 12px; }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="proj">鬼界·民居(验证 demo)<span class="kind">demo</span></div>
+    <div class="spacer"></div>
+    <button class="tbtn">↶</button><button class="tbtn">↷</button>
+    <button class="save">💾 保存</button>
+  </div>
+
+  <div class="body">
+    <div class="rail">
+      <div class="mode"><span class="ico">📍</span><span class="lbl">布置</span></div>
+      <div class="mode active"><span class="ico">👥</span><span class="lbl">角色</span></div>
+      <div class="mode soon"><span class="ico">🗺️</span><span class="lbl">地图</span></div>
+      <div class="mode soon"><span class="ico">💬</span><span class="lbl">事件</span></div>
+      <div class="mode soon"><span class="ico">📊</span><span class="lbl">数据</span></div>
+    </div>
+
+    <!-- 左:角色列表 -->
+    <div class="actors">
+      <div class="pane-h"><span class="t">角色</span><span class="spacer"></span><button class="mini" title="新建角色">＋</button></div>
+      <div class="arow sel">
+        <div class="face">🧑</div>
+        <div class="nm"><b>李逍遥</b><span>li-xiaoyao</span></div>
+        <span class="badge">可入队</span>
+      </div>
+      <div class="arow">
+        <div class="face">👻</div>
+        <div class="nm"><b>游魂</b><span>youhun</span></div>
+        <span class="badge npc">NPC</span>
+      </div>
+    </div>
+
+    <!-- 中:帧标注 + 走路预览 -->
+    <div class="center">
+      <div class="toolrow">
+        <label>精灵</label>
+        <div class="in pick" style="min-width:190px"><span>李逍遥(大世界)</span><span class="meta">#2 · 换精灵 ▾</span></div>
+        <label>布局</label>
+        <select class="in"><option>行走(4向)</option><option>静物(单帧)</option><option>循环(无方向)</option></select>
+        <label>每向帧数</label>
+        <div class="stepper"><button>−</button><input class="in" value="3" /><button>＋</button></div>
+        <span class="spacer"></span>
+        <span class="hint">12 帧 · 4 向 × 3 | 姿势标注 — B2</span>
+      </div>
+
+      <div class="framegrid">
+        <div class="dirgroup g-down">
+          <div class="gh"><span class="chip"></span>下(down)<code>帧 0–2 · 站立 = 0</code></div>
+          <div class="cells">
+            <div class="cell stand"><span class="idx">0</span><div class="sp"></div><span class="tag">站/迈中</span></div>
+            <div class="cell"><span class="idx">1</span><div class="sp"></div><span class="tag">迈左</span></div>
+            <div class="cell"><span class="idx">2</span><div class="sp"></div><span class="tag">迈右</span></div>
+          </div>
+        </div>
+        <div class="dirgroup g-left">
+          <div class="gh"><span class="chip"></span>左(left)<code>帧 3–5 · 站立 = 3</code></div>
+          <div class="cells">
+            <div class="cell stand"><span class="idx">3</span><div class="sp"></div></div>
+            <div class="cell"><span class="idx">4</span><div class="sp"></div></div>
+            <div class="cell"><span class="idx">5</span><div class="sp"></div></div>
+          </div>
+        </div>
+        <div class="dirgroup g-up">
+          <div class="gh"><span class="chip"></span>上(up)<code>帧 6–8 · 站立 = 6</code></div>
+          <div class="cells">
+            <div class="cell stand"><span class="idx">6</span><div class="sp"></div></div>
+            <div class="cell"><span class="idx">7</span><div class="sp"></div></div>
+            <div class="cell"><span class="idx">8</span><div class="sp"></div></div>
+          </div>
+        </div>
+        <div class="dirgroup g-right">
+          <div class="gh"><span class="chip"></span>右(right)<code>帧 9–11 · 站立 = 9</code></div>
+          <div class="cells">
+            <div class="cell stand"><span class="idx">9</span><div class="sp"></div></div>
+            <div class="cell"><span class="idx">10</span><div class="sp"></div></div>
+            <div class="cell"><span class="idx">11</span><div class="sp"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="preview">
+        <div class="pv-box"><div class="sp"></div><span class="playing">▶ 播放中</span></div>
+        <div class="pv-ctl">
+          <span class="t">走路实况预览(标注对错一眼看穿)</span>
+          <div class="dirtabs">
+            <button class="on">下</button><button>左</button><button>上</button><button>右</button>
+          </div>
+          <div class="pv-meta">
+            步序 [0, 1, 0, 2] · 100ms/步(与引擎同源 sprite-anim)<br />
+            当前帧:1(down · 迈左)<br />
+            布局改动即时生效 —— 分组/预览跟着变
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右:属性 -->
+    <div class="inspector">
+      <div class="insp-head"><div class="what">选中角色</div><div class="who">李逍遥 <code style="color:var(--faint);font-size:11px">li-xiaoyao</code></div></div>
+      <div class="section">
+        <h4>身份</h4>
+        <div class="field"><label>名字</label><input class="fin" value="李逍遥" /></div>
+        <div class="field"><label>文本 id</label><div class="fin mono pick"><span>name.li-xiaoyao</span><span class="meta">locale 双写</span></div></div>
+        <div class="field"><label>头像</label>
+          <div class="portrait-row"><div class="portrait"></div><button class="fin" style="width:auto">选择… <span class="meta">#1</span></button></div>
+        </div>
+      </div>
+      <div class="section">
+        <h4>战斗数据 <span class="badge">可入队</span></h4>
+        <div class="statgrid">
+          <div class="stat"><span>等级</span><b>1</b></div><div class="stat"><span>体力</span><b>150/150</b></div>
+          <div class="stat"><span>真气</span><b>100/100</b></div><div class="stat"><span>武术</span><b>33</b></div>
+          <div class="stat"><span>防御</span><b>32</b></div><div class="stat"><span>灵力</span><b>20</b></div>
+          <div class="stat"><span>身法</span><b>28</b></div><div class="stat"><span>吉运</span><b>32</b></div>
+        </div>
+      </div>
+      <div class="section">
+        <h4>初始装备</h4>
+        <div class="chips">
+          <span class="chip2">木剑<span class="meta">武器</span></span>
+          <span class="chip2">头巾<span class="meta">头</span></span>
+          <span class="chip2">布衣<span class="meta">身</span></span>
+          <span class="chip2">披风<span class="meta">披</span></span>
+          <span class="chip2">草鞋<span class="meta">足</span></span>
+          <span class="chip2">护腕<span class="meta">饰</span></span>
+        </div>
+      </div>
+      <div class="section">
+        <h4>初始仙术</h4>
+        <div class="chips">
+          <span class="chip2">气疗术<span class="meta">296</span></span>
+          <span class="chip2">凝神归元<span class="meta">298</span></span>
+          <span class="chip2">元灵归心术<span class="meta">299</span></span>
+        </div>
+      </div>
+      <div class="section"><div class="collapsed">▸ 升级曲线(expTable — 数据迁入后可编)</div></div>
+      <div class="section" style="border-bottom:0"><div class="collapsed">▸ 状态 / 条件(多状态·巡逻 — B2)</div></div>
+    </div>
+  </div>
+
+  <div class="valbar">
+    <span class="warn">⚠ 8 问题</span>
+    <span class="msg">授技 "336" 不在 skills · 升级习得 "349" 不在 skills</span>
+    <span class="spacer"></span>
+    <span style="color:var(--faint);font-size:11px">角色模式 · C1 mockup</span>
+  </div>
+</body>
+</html>
