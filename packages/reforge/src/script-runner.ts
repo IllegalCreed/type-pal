@@ -116,6 +116,12 @@ function throwIfAborted(signal: AbortSignal): void {
   if (signal.aborted) throw new DOMException('script aborted', 'AbortError')
 }
 
+/** onStep 上报:path = 嵌套下标链(段/命令下标 + 分支臂段名),编辑器预览高亮用。 */
+export interface StepEvent {
+  path: readonly (number | string)[]
+  cmd: Command
+}
+
 export class ScriptRunner {
   /** 当前是否有脚本在跑(main.ts 用于冻结探索输入 + 触发防重入)。 */
   running = false
@@ -124,6 +130,10 @@ export class ScriptRunner {
    * (一阶段 tickAutoScripts 同语义;不设则触发/onEnter 脚本全速直跑,阻塞点自带节奏)。
    */
   paceMs = 0
+  /** 演出预览(编辑器):每条命令执行前上报路径。游戏侧不设,零开销。 */
+  onStep?: (ev: StepEvent) => void
+  /** 演出预览(编辑器):单步门 —— 设置后每条命令执行前 await(实现方自行响应 abort)。 */
+  gate?: () => Promise<void>
 
   constructor(
     private readonly host: ScriptHost,
@@ -132,11 +142,18 @@ export class ScriptRunner {
     private readonly random: () => number = Math.random,
   ) {}
 
-  /** 顺序执行一段命令体。 */
-  async run(body: readonly Command[]): Promise<void> {
-    for (const cmd of body) {
+  /** 顺序执行一段命令体。path = 本段在脚本树中的位置前缀(预览高亮;缺省根)。 */
+  async run(body: readonly Command[], path: readonly (number | string)[] = []): Promise<void> {
+    for (let i = 0; i < body.length; i++) {
+      const cmd = body[i]!
       throwIfAborted(this.signal)
-      await this.exec(cmd)
+      if (this.gate) {
+        await this.gate()
+        throwIfAborted(this.signal)
+      }
+      const cur = [...path, i]
+      this.onStep?.({ path: cur, cmd })
+      await this.exec(cmd, cur)
       if (this.paceMs > 0) await this.host.wait(this.paceMs)
     }
   }
@@ -151,14 +168,14 @@ export class ScriptRunner {
     if (!stage) return
     this.running = true
     try {
-      await this.run(stage.body)
+      await this.run(stage.body, [idx])
       applyStageNext(this.world, key, idx, stage.next)
     } finally {
       this.running = false
     }
   }
 
-  private async exec(cmd: Command): Promise<void> {
+  private async exec(cmd: Command, path: readonly (number | string)[] = []): Promise<void> {
     const h = this.host
     switch (cmd.kind) {
       case 'dialog':
@@ -209,9 +226,9 @@ export class ScriptRunner {
         return h.setBattleField(cmd.fieldId)
       case 'branch':
         return evalCondition(cmd.cond, this.world, h.query, this.random)
-          ? this.run(cmd.then)
+          ? this.run(cmd.then, [...path, 'then'])
           : cmd.else
-            ? this.run(cmd.else)
+            ? this.run(cmd.else, [...path, 'else'])
             : undefined
       case 'moveEntity':
         return h.moveEntity(cmd.entity, cmd.to, cmd.speed)
@@ -227,14 +244,14 @@ export class ScriptRunner {
         return h.nudgeParty(cmd.dx, cmd.dy)
       case 'startBattle': {
         const r = await h.startBattle(cmd.team)
-        if (r === 'lose' && cmd.onLose) return this.run(cmd.onLose)
-        if (r === 'flee' && cmd.onFlee) return this.run(cmd.onFlee)
+        if (r === 'lose' && cmd.onLose) return this.run(cmd.onLose, [...path, 'onLose'])
+        if (r === 'flee' && cmd.onFlee) return this.run(cmd.onFlee, [...path, 'onFlee'])
         return
       }
       case 'openShop':
         return h.openShop(cmd.shop, cmd.mode)
       case 'confirm':
-        return (await h.confirm()) ? undefined : this.run(cmd.onNo)
+        return (await h.confirm()) ? undefined : this.run(cmd.onNo, [...path, 'onNo'])
       case 'cameraPan':
         return h.cameraPan(cmd.dx, cmd.dy, cmd.frames)
       case 'cameraSnap':

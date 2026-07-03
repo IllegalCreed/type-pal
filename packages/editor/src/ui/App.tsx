@@ -133,7 +133,15 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
         ) : mode === 'data' ? (
           <DataMode sprites={state.sprites} skills={Object.fromEntries(state.skills.map((sk) => [sk.id, sk]))} items={Object.fromEntries(state.items.map((i) => [i.id, i]))} locale={state.locale} assetBase={project.assetBase} session={session} />
         ) : mode === 'event' ? (
-          <EventMode scenes={state.scenes} locale={state.locale} initialSceneId={scene.id} />
+          <EventMode
+            scenes={state.scenes}
+            locale={state.locale}
+            initialSceneId={scene.id}
+            sprites={state.sprites}
+            actorsById={actorsById}
+            leaderSpriteId={leaderSpriteId}
+            assetBase={project.assetBase}
+          />
         ) : (
         <>
         <div className="outliner">

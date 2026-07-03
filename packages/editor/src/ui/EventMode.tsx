@@ -1,9 +1,13 @@
 /**
- * 事件模式 —— 脚本查看器（只读）。两段式 outliner:上段选有脚本的场景,下段列该场景的
- * 脚本源(垂直);中间渲染命令树。M3 解锁的验证眼睛;可视化编辑是后续 C-track。
+ * 事件模式 —— 脚本查看 + 演出预览(v0)。两段式 outliner:上段选有脚本的场景,下段列该
+ * 场景的脚本源;中列上「演出预览画布」(播放/单步/重置/倍速)下「命令树」(跟随高亮当前
+ * 命令);右栏演出日志(桩命令)。可视化编辑是后续 C-track。
  */
-import { useMemo, useState } from 'react'
-import type { EntityDef, Locale, SceneDef, ScriptStage } from '@type-pal/content'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import type { ActorDef, EntityDef, Locale, SceneDef, ScriptStage, SpriteDef } from '@type-pal/content'
+import type { AssetBase } from '@type-pal/reforge'
+import { Playback } from '../core/playback.js'
+import { PreviewCanvas } from './PreviewCanvas.js'
 import { ScriptTree } from './ScriptTree.js'
 
 interface ScriptSource {
@@ -42,8 +46,16 @@ function sourceCount(scene: SceneDef): number {
 
 const ICON: Record<ScriptSource['kind'], string> = { onEnter: '🚩', trigger: '🔗', auto: '🔁' }
 
-export function EventMode(props: { scenes: SceneDef[]; locale: Locale; initialSceneId: string }) {
-  const { scenes, locale, initialSceneId } = props
+export function EventMode(props: {
+  scenes: SceneDef[]
+  locale: Locale
+  initialSceneId: string
+  sprites: SpriteDef[]
+  actorsById: Record<string, ActorDef>
+  leaderSpriteId: string | undefined
+  assetBase: AssetBase
+}) {
+  const { scenes, locale, initialSceneId, sprites, actorsById, leaderSpriteId, assetBase } = props
   const [sceneId, setSceneId] = useState(initialSceneId)
   const [filter, setFilter] = useState('')
   const [srcKey, setSrcKey] = useState<string | null>(null)
@@ -60,6 +72,42 @@ export function EventMode(props: { scenes: SceneDef[]; locale: Locale; initialSc
   const scene = scenes.find((s) => s.id === sceneId)
   const sources = useMemo(() => (scene ? collectSources(scene) : []), [scene])
   const active = sources.find((s) => s.key === srcKey) ?? sources[0]
+
+  // 演出预览控制器:随场景重建;切场景/切源/卸载时停播丢弃演出态
+  const playback = useMemo(() => (scene ? new Playback(scene) : null), [scene])
+  const [, setUiTick] = useState(0)
+  const prevRef = useRef<Playback | null>(null)
+  useEffect(() => {
+    prevRef.current?.stop()
+    prevRef.current = playback
+    if (playback) playback.onUi = () => setUiTick((x) => x + 1) // 低频 UI:高亮/对话/日志/mode
+    return () => playback?.stop()
+  }, [playback])
+  // 切脚本源:停播(演出态归当前源)
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 仅在源切换时停播
+  useEffect(() => {
+    playback?.stop()
+  }, [active?.key])
+
+  // 预览/命令树 高度比(拖分隔条调;夹 15%~85%)
+  const [previewFrac, setPreviewFrac] = useState(0.46)
+  const centerRef = useRef<HTMLDivElement>(null)
+  const onSplitDown = (e: React.PointerEvent<HTMLDivElement>): void => {
+    e.preventDefault()
+    const el = centerRef.current
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    const move = (ev: PointerEvent): void => {
+      const frac = (ev.clientY - rect.top - 34) / Math.max(1, rect.height - 34) // 34 ≈ 顶部 toolbar
+      setPreviewFrac(Math.min(0.85, Math.max(0.15, frac)))
+    }
+    const up = (): void => {
+      window.removeEventListener('pointermove', move)
+      window.removeEventListener('pointerup', up)
+    }
+    window.addEventListener('pointermove', move)
+    window.addEventListener('pointerup', up)
+  }
 
   return (
     <>
@@ -89,34 +137,66 @@ export function EventMode(props: { scenes: SceneDef[]; locale: Locale; initialSc
         </div>
       </div>
 
-      {/* 中:命令树 */}
-      <div className="center event-center">
+      {/* 中:上演出预览 + 拖拽分隔 + 下命令树(跟随高亮) */}
+      <div className="center event-center" ref={centerRef}>
         <div className="toolbar">
           <span style={{ fontWeight: 600 }}>{active ? `${ICON[active.kind]} ${active.label}` : sceneId}</span>
           {active ? <span className="src-sub" style={{ marginLeft: 6 }}>{active.sub}</span> : null}
           <span className="spacer" />
-          <span style={{ color: 'var(--faint)', fontSize: 11 }}>只读 · 验证眼睛</span>
+          <span style={{ color: 'var(--faint)', fontSize: 11 }}>树只读 · 预览可播</span>
         </div>
+        {scene && active && playback ? (
+          <>
+            <div style={{ flex: `0 0 ${(previewFrac * 100).toFixed(1)}%`, display: 'flex', minHeight: 120 }}>
+              <PreviewCanvas
+                scene={scene}
+                stages={active.stages}
+                sourceKey={active.key}
+                sprites={sprites}
+                actorsById={actorsById}
+                leaderSpriteId={leaderSpriteId}
+                assetBase={assetBase}
+                locale={locale}
+                playback={playback}
+              />
+            </div>
+            <div className="v-split" onPointerDown={onSplitDown} title="拖动调节预览/命令树高度" />
+          </>
+        ) : null}
         <div className="script-view">
-          {active ? <ScriptTree stages={active.stages} locale={locale} /> : <div className="insp-empty">此场景无脚本源。</div>}
+          {active ? (
+            <ScriptTree stages={active.stages} locale={locale} activePath={playback?.activePath ?? null} />
+          ) : (
+            <div className="insp-empty">此场景无脚本源。</div>
+          )}
         </div>
       </div>
 
-      {/* 右:说明 */}
+      {/* 右:演出日志 + 说明 */}
       <div className="inspector">
-        <div className="insp-head"><div className="what">事件 · 脚本查看</div><div className="who">{active ? `${active.label} · ${active.sub}` : '—'}</div></div>
+        <div className="insp-head"><div className="what">事件 · 脚本 + 预览</div><div className="who">{active ? `${active.label} · ${active.sub}` : '—'}</div></div>
+        {playback && playback.view.logs.length > 0 ? (
+          <div className="section">
+            <h4>演出日志(桩命令)</h4>
+            <div className="pv-logs">
+              {playback.view.logs.slice(-40).map((l, i) => (
+                <div key={i} className="pv-log">{l}</div>
+              ))}
+            </div>
+          </div>
+        ) : null}
         <div className="section">
-          <h4>这是什么</h4>
+          <h4>演出预览</h4>
           <p className="hint">
-            原版 bytecode 经迁移器翻译成的结构化剧情脚本，渲成可读的中文命令树。
-            一眼核对迁移得对不对:对话/传送/给物/走位/分支/立绘。
+            ▶ 从头播当前脚本源;⏭ 单步 = 执行下一条命令(树中高亮);对话点「继续」推进。
+            走位/显隐/朝向/换装/淡幕真演,音乐/战斗/商店等落右侧日志。演出态是临时副本,重置即丢,不改场景数据。
           </p>
           <p className="hint"><span className="warn-inline">⚠ 黄色</span> = 未翻译（逃生口，多为战斗侧 op，归 M4）。</p>
         </div>
         {active && active.stages.length > 1 ? (
           <div className="section">
             <h4>多段触发</h4>
-            <p className="hint">{active.stages.length} 段:原版「再按一次继续下一段」（宝箱/多阶段对话）的结构化版。</p>
+            <p className="hint">{active.stages.length} 段:原版「再按一次继续下一段」的结构化版。v0 预览播第 1 段。</p>
           </div>
         ) : null}
       </div>

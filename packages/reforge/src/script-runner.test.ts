@@ -90,6 +90,40 @@ test('顺序执行 + 世界状态写入(flags/vars/entityState 双写)', async (
   expect(world.entityState.e9).toBe(0)
 })
 
+describe('演出预览钩子(编辑器):onStep 路径上报 + 单步门', () => {
+  test('onStep 逐命令上报嵌套路径(branch then 臂 / confirm onNo 臂)', async () => {
+    const calls: string[] = []
+    const paths: string[] = []
+    const host = fakeHost(calls)
+    host.confirm = async () => false // 走 onNo 臂
+    const r = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal, () => 0)
+    r.onStep = (ev) => paths.push(ev.path.join('/'))
+    await r.runStages('k', [
+      {
+        body: [
+          { kind: 'clearDialog' },
+          { kind: 'branch', cond: { kind: 'chance', percent: 100 }, then: [{ kind: 'playSound', soundId: 1 }] },
+          { kind: 'confirm', onNo: [{ kind: 'giveMoney', delta: 5 }] },
+        ],
+      },
+    ])
+    expect(paths).toEqual(['0/0', '0/1', '0/1/then/0', '0/2', '0/2/onNo/0'])
+  })
+
+  test('单步门:每条命令执行前 await gate(嵌套臂内同样过门)', async () => {
+    const calls: string[] = []
+    let gated = 0
+    const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal, () => 0)
+    r.gate = async () => {
+      gated++
+    }
+    await r.runStages('k', [
+      { body: [{ kind: 'clearDialog' }, { kind: 'branch', cond: { kind: 'chance', percent: 100 }, then: [{ kind: 'playSound', soundId: 1 }] }] },
+    ])
+    expect(gated).toBe(3) // clearDialog + branch + then 臂内 playSound
+  })
+})
+
 test('0x15/0x65 演出命令分发:姿势帧透传 gesture/member,换装走 setActorSprite', async () => {
   const calls: string[] = []
   const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)

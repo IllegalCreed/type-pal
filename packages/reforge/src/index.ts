@@ -46,3 +46,9 @@ export type { RenderSceneFrameArgs }
 // 精灵帧下标计算(C0 布局数据化;editor 画布/角色模式走路预览共用,单一真源)
 import { deriveStepCycle, FACING_TO_DIR, idleFrameIndex, walkFrameIndex } from './sprite-anim.js'
 export { deriveStepCycle, FACING_TO_DIR, idleFrameIndex, walkFrameIndex }
+
+// 脚本解释器(编辑器演出预览:注入画布 host 播演出;onStep/gate = 高亮/单步钩子)
+import { evalCondition, ScriptRunner } from './script-runner.js'
+import type { ScriptHost, StepEvent } from './script-runner.js'
+export { evalCondition, ScriptRunner }
+export type { ScriptHost, StepEvent }

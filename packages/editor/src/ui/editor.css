@@ -229,3 +229,27 @@ body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-s
 .pc-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .pc-del { background: none; border: 0; color: var(--faint); cursor: pointer; font-size: 14px; line-height: 1; }
 .pc-del:hover { color: var(--err); }
+
+/* ── 演出预览(v0:播放/单步/高亮)── */
+.preview-wrap { flex: 1; display: flex; flex-direction: column; min-height: 0; border-bottom: 1px solid var(--line); background: #000; }
+.preview-bar { display: flex; align-items: center; gap: 6px; padding: 5px 10px; background: var(--panel); border-bottom: 1px solid var(--line); font-size: 12px; }
+.preview-bar .t { font-weight: 600; margin-right: 4px; }
+.pv-btn { font-size: 12px; padding: 2px 10px; background: var(--bg); color: var(--fg); border: 1px solid var(--line); border-radius: 4px; cursor: pointer; }
+.pv-btn:hover { border-color: var(--acc); }
+.pv-btn:disabled { opacity: 0.4; cursor: default; }
+.pv-speed { font-size: 12px; background: var(--bg); color: var(--fg); border: 1px solid var(--line); border-radius: 4px; padding: 2px 4px; }
+.pv-mode { color: var(--faint); font-size: 11px; }
+.preview-stage { position: relative; flex: 1; min-height: 0; overflow: hidden; }
+.preview-stage canvas { display: block; width: 100%; height: 100%; image-rendering: pixelated; }
+.preview-tip { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--faint); font-size: 12px; }
+.preview-tip.err { color: var(--err); }
+.preview-dialog { position: absolute; left: 8px; right: 8px; bottom: 8px; display: flex; align-items: baseline; gap: 8px; padding: 8px 12px; background: rgba(16, 18, 22, 0.92); border: 1px solid var(--line); border-radius: 6px; font-size: 13px; }
+.preview-dialog .spk { color: var(--acc); font-weight: 600; flex: none; }
+.preview-dialog .txt { flex: 1; line-height: 1.5; }
+.cmd-row.active { background: rgba(94, 158, 255, 0.18); outline: 1px solid rgba(94, 158, 255, 0.45); }
+.cmd-row.active .cmd-label { color: var(--fg); font-weight: 600; }
+.pv-logs { max-height: 260px; overflow: auto; display: flex; flex-direction: column; gap: 2px; }
+.pv-log { font-size: 11px; color: var(--faint); line-height: 1.5; border-bottom: 1px dotted var(--line); padding: 1px 0; }
+
+.v-split { flex: none; height: 6px; cursor: row-resize; background: var(--panel); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.v-split:hover { background: var(--acc); opacity: 0.6; }

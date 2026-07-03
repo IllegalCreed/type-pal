@@ -4,6 +4,7 @@
  *
  * 只读:不 dispatch、不改数据。可视化编辑(拖拽/表单)是后续 C-track。
  */
+import { useEffect, useRef } from 'react'
 import { lookupText } from '@type-pal/content'
 import type { Command, Locale, ScriptCondition, ScriptStage } from '@type-pal/content'
 
@@ -44,8 +45,8 @@ interface Described {
   label: string
   /** 灰色副文本(坐标/id 等）。 */
   detail?: string
-  /** 嵌套子块（分支臂/战斗臂）。 */
-  blocks?: { title: string; body: readonly Command[] }[]
+  /** 嵌套子块（分支臂/战斗臂）。seg = 运行时路径段名(与 ScriptRunner onStep 对齐,预览高亮)。 */
+  blocks?: { title: string; seg: string; body: readonly Command[] }[]
   /** 未翻译（逃生口）高亮。 */
   warn?: boolean
 }
@@ -122,21 +123,21 @@ function describe(cmd: Command, locale: Locale): Described {
         icon: '⚔',
         label: `战斗 敌队 ${cmd.team}`,
         blocks: [
-          ...(cmd.onLose ? [{ title: '战败', body: cmd.onLose }] : []),
-          ...(cmd.onFlee ? [{ title: '逃跑', body: cmd.onFlee }] : []),
+          ...(cmd.onLose ? [{ title: '战败', seg: 'onLose', body: cmd.onLose }] : []),
+          ...(cmd.onFlee ? [{ title: '逃跑', seg: 'onFlee', body: cmd.onFlee }] : []),
         ],
       }
     case 'openShop':
       return { icon: '🏪', label: `商店 ${cmd.shop}`, detail: cmd.mode === 'buy' ? '买' : '卖' }
     case 'confirm':
-      return { icon: '❓', label: '是/否 询问', blocks: [{ title: '选「否」', body: cmd.onNo }] }
+      return { icon: '❓', label: '是/否 询问', blocks: [{ title: '选「否」', seg: 'onNo', body: cmd.onNo }] }
     case 'branch':
       return {
         icon: '🔀',
         label: `如果 ${describeCondition(cmd.cond, locale)}`,
         blocks: [
-          { title: '则', body: cmd.then },
-          ...(cmd.else ? [{ title: '否则', body: cmd.else }] : []),
+          { title: '则', seg: 'then', body: cmd.then },
+          ...(cmd.else ? [{ title: '否则', seg: 'else', body: cmd.else }] : []),
         ],
       }
     case 'cameraPan':
@@ -154,12 +155,17 @@ function describe(cmd: Command, locale: Locale): Described {
   }
 }
 
-function CommandRow(props: { cmd: Command; locale: Locale; depth: number }) {
-  const { cmd, locale, depth } = props
+function CommandRow(props: { cmd: Command; locale: Locale; depth: number; path: string; activePath: string | null }) {
+  const { cmd, locale, depth, path, activePath } = props
   const d = describe(cmd, locale)
+  const active = activePath === path
+  const rowRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (active) rowRef.current?.scrollIntoView({ block: 'nearest' })
+  }, [active])
   return (
     <>
-      <div className={`cmd-row${d.warn ? ' warn' : ''}`} style={{ paddingLeft: 8 + depth * 16 }}>
+      <div ref={rowRef} className={`cmd-row${d.warn ? ' warn' : ''}${active ? ' active' : ''}`} style={{ paddingLeft: 8 + depth * 16 }}>
         <span className="cmd-ico">{d.icon}</span>
         <span className="cmd-label">{d.label}</span>
         {d.detail ? <span className="cmd-detail">{d.detail}</span> : null}
@@ -168,7 +174,7 @@ function CommandRow(props: { cmd: Command; locale: Locale; depth: number }) {
         <div key={i}>
           <div className="cmd-block-title" style={{ paddingLeft: 8 + (depth + 1) * 16 }}>{b.title}</div>
           {b.body.map((c, j) => (
-            <CommandRow key={j} cmd={c} locale={locale} depth={depth + 2} />
+            <CommandRow key={j} cmd={c} locale={locale} depth={depth + 2} path={`${path}/${b.seg}/${j}`} activePath={activePath} />
           ))}
         </div>
       ))}
@@ -176,9 +182,10 @@ function CommandRow(props: { cmd: Command; locale: Locale; depth: number }) {
   )
 }
 
-/** 渲染一组 stages（触发段/进场段）。多段时显示段号 + next 转移语义。 */
-export function ScriptTree(props: { stages: readonly ScriptStage[]; locale: Locale }) {
-  const { stages, locale } = props
+/** 渲染一组 stages（触发段/进场段）。多段时显示段号 + next 转移语义。
+ *  activePath = 演出预览当前命令(ScriptRunner onStep 路径,如 "0/12/then/3");命中行高亮+滚动跟随。 */
+export function ScriptTree(props: { stages: readonly ScriptStage[]; locale: Locale; activePath?: string | null }) {
+  const { stages, locale, activePath = null } = props
   if (stages.length === 0) return <div className="script-empty">（空脚本）</div>
   return (
     <div className="script-tree">
@@ -195,7 +202,7 @@ export function ScriptTree(props: { stages: readonly ScriptStage[]; locale: Loca
           {st.body.length === 0 ? (
             <div className="script-empty" style={{ paddingLeft: 24 }}>（空段）</div>
           ) : (
-            st.body.map((c, j) => <CommandRow key={j} cmd={c} locale={locale} depth={0} />)
+            st.body.map((c, j) => <CommandRow key={j} cmd={c} locale={locale} depth={0} path={`${i}/${j}`} activePath={activePath} />)
           )}
         </div>
       ))}
