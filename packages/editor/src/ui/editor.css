@@ -218,3 +218,5 @@ body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-s
 .kchip { background: var(--panel2); border: 1px solid var(--line); color: var(--dim); border-radius: 4px; padding: 3px 8px; font-size: 11px; cursor: pointer; }
 .kchip.on { background: #2d3852; color: var(--fg); border-color: var(--accent); }
 .sprite-list { flex: 1; overflow-y: auto; }
+.stat-in { width: 60px; background: var(--panel3); border: 1px solid var(--line); color: var(--fg); border-radius: 3px; padding: 2px 5px; font-size: 12px; text-align: right; }
+.stat-in:focus { border-color: var(--accent); outline: none; }

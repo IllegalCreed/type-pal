@@ -5,8 +5,10 @@
  */
 import { useMemo, useState } from 'react'
 import { lookupText } from '@type-pal/content'
-import type { ActorDef, ItemDataMap, Locale, SkillDataMap, SpriteDef } from '@type-pal/content'
+import type { ActorDef, BattlerSpec, ItemDataMap, Locale, SkillDataMap, SpriteDef } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
+import { UpdateActorCommand } from '../core/commands.js'
+import type { EditSession } from '../core/edit-session.js'
 import { SpriteFrames } from './SpriteFrames.js'
 
 const SLOT_LABEL: Record<string, string> = {
@@ -20,8 +22,9 @@ export function ActorMode(props: {
   skills: SkillDataMap
   locale: Locale
   assetBase: AssetBase
+  session: EditSession
 }) {
-  const { actors, sprites, items, skills, locale, assetBase } = props
+  const { actors, sprites, items, skills, locale, assetBase, session } = props
   const [selId, setSelId] = useState(actors[0]?.id ?? '')
   const spriteById = useMemo(() => new Map(sprites.map((s) => [s.id, s])), [sprites])
   const actor = actors.find((a) => a.id === selId) ?? actors[0]
@@ -30,6 +33,15 @@ export function ActorMode(props: {
   const nm = (id: string): string => {
     const s = lookupText(id, locale)
     return s === id ? id : s
+  }
+
+  /** 改战斗属性:hp/mp 跟 maxHP/maxMP(初始满)。dispatch UpdateActorCommand。 */
+  const setStat = (key: keyof BattlerSpec['baseStats'], val: number): void => {
+    if (!actor?.battler || !Number.isFinite(val)) return
+    const bs = { ...actor.battler.baseStats, [key]: val }
+    if (key === 'maxHP') bs.hp = val
+    if (key === 'maxMP') bs.mp = val
+    session.dispatch(new UpdateActorCommand(actor.id, { battler: { ...actor.battler, baseStats: bs } }))
   }
 
   return (
@@ -85,14 +97,14 @@ export function ActorMode(props: {
                 <div className="section">
                   <h4>战斗数据 <span className="abadge">可入队</span></h4>
                   <div className="statgrid">
-                    <Stat k="等级" v={actor.battler.baseStats.level} />
-                    <Stat k="体力" v={`${actor.battler.baseStats.hp}/${actor.battler.baseStats.maxHP}`} />
-                    <Stat k="真气" v={`${actor.battler.baseStats.mp}/${actor.battler.baseStats.maxMP}`} />
-                    <Stat k="武术" v={actor.battler.baseStats.attack} />
-                    <Stat k="防御" v={actor.battler.baseStats.defense} />
-                    <Stat k="灵力" v={actor.battler.baseStats.magicAttack} />
-                    <Stat k="身法" v={actor.battler.baseStats.speed} />
-                    <Stat k="吉运" v={actor.battler.baseStats.luck} />
+                    <EditStat k="等级" v={actor.battler.baseStats.level} on={(x) => setStat('level', x)} />
+                    <EditStat k="体力" v={actor.battler.baseStats.maxHP} on={(x) => setStat('maxHP', x)} />
+                    <EditStat k="真气" v={actor.battler.baseStats.maxMP} on={(x) => setStat('maxMP', x)} />
+                    <EditStat k="武术" v={actor.battler.baseStats.attack} on={(x) => setStat('attack', x)} />
+                    <EditStat k="防御" v={actor.battler.baseStats.defense} on={(x) => setStat('defense', x)} />
+                    <EditStat k="灵力" v={actor.battler.baseStats.magicAttack} on={(x) => setStat('magicAttack', x)} />
+                    <EditStat k="身法" v={actor.battler.baseStats.speed} on={(x) => setStat('speed', x)} />
+                    <EditStat k="吉运" v={actor.battler.baseStats.luck} on={(x) => setStat('luck', x)} />
                   </div>
                 </div>
                 <div className="section">
@@ -125,6 +137,12 @@ export function ActorMode(props: {
   )
 }
 
-function Stat(props: { k: string; v: string | number }) {
-  return <div className="stat"><span>{props.k}</span><b>{props.v}</b></div>
+function EditStat(props: { k: string; v: number; on: (x: number) => void }) {
+  return (
+    <div className="stat">
+      <span>{props.k}</span>
+      <input className="stat-in mono" type="number" value={props.v}
+        onChange={(e) => e.target.valueAsNumber >= 0 && props.on(Math.floor(e.target.valueAsNumber))} />
+    </div>
+  )
 }
