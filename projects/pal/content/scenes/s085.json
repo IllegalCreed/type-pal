@@ -244,22 +244,44 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      1623,
-                      13447,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e1623",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e1623",
+                            "to": {
+                              "col": 39,
+                              "row": -6,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e1623",
+                            "to": {
+                              "col": 24,
+                              "row": -6,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "setEntityTriggerMode",
+                            "entity": "e1623",
+                            "on": "touch",
+                            "range": 2
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e1622"
                   },
                   {
                     "kind": "playSound",
@@ -271,22 +293,52 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      1623,
-                      13451,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e1623",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e1623",
+                            "to": {
+                              "col": 58,
+                              "row": -6,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e1623",
+                            "to": {
+                              "col": 58,
+                              "row": -13,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 80
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1623",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1623",
+                            "frame": 16
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e1622"
                   },
                   {
                     "kind": "playSound",

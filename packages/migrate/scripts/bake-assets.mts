@@ -4,7 +4,7 @@
  * 输出 packages/reforge/public/(asset-pipeline D-d 权宜,内容工程目录后置)。
  * 跑:pnpm --filter @type-pal/migrate run bake
  */
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { PNG } from 'pngjs'
@@ -54,14 +54,20 @@ function pngSize(src: string): { w: number; h: number } {
   return { w: png.width, h: png.height }
 }
 
-// 1) 头像(收编 bake-portraits):chunk 1/2(鬼话用;后续可扩到全 88)
+// 1) 头像(收编 bake-portraits):全部立绘块(对话样式 op 的 arg0 = RGM 立绘号,遍布全剧情)
 mkdirSync(resolve(PUBLIC, 'portraits'), { recursive: true })
-for (const chunk of [1, 2]) {
-  bakeFile(
-    resolve(EXTRACTED, `images/portraits/${String(chunk).padStart(2, '0')}.png`),
-    resolve(PUBLIC, `portraits/${chunk}.png`),
-  )
-  console.log(`baked portrait ${chunk}`)
+{
+  const manifest = JSON.parse(
+    readFileSync(resolve(EXTRACTED, 'data/portraits.json'), 'utf8'),
+  ) as { count: number }
+  let baked = 0
+  for (let chunk = 1; chunk <= manifest.count; chunk++) {
+    const src = resolve(EXTRACTED, `images/portraits/${String(chunk).padStart(2, '0')}.png`)
+    if (!existsSync(src)) continue // 部分块空(RGM 稀疏),跳过
+    bakeFile(src, resolve(PUBLIC, `portraits/${chunk}.png`))
+    baked++
+  }
+  console.log(`baked ${baked} portraits (全 ${manifest.count} 块)`)
 }
 
 // 2) UI box 黄框九宫格 frame-00..08(menu design §4:gpSpriteUI i*3+j iStyle 0)

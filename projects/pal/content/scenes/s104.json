@@ -2691,13 +2691,21 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36505,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityFacing",
+                    "entity": "e1955",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1955",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
                   },
                   {
                     "kind": "dialog",
@@ -2747,13 +2755,21 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36505,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityFacing",
+                    "entity": "e1956",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1956",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
                   },
                   {
                     "kind": "dialog",
@@ -2804,13 +2820,21 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36505,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityFacing",
+                    "entity": "e1957",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1957",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
                   },
                   {
                     "kind": "dialog",
@@ -2860,13 +2884,21 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36505,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityFacing",
+                    "entity": "e1958",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1958",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
                   },
                   {
                     "kind": "dialog",
@@ -2916,13 +2948,21 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36505,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityFacing",
+                    "entity": "e1959",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1959",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
                   },
                   {
                     "kind": "dialog",
@@ -2972,13 +3012,21 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36505,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityFacing",
+                    "entity": "e1960",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1960",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
                   },
                   {
                     "kind": "dialog",
@@ -3028,13 +3076,21 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36505,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityFacing",
+                    "entity": "e1961",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1961",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
                   },
                   {
                     "kind": "dialog",
@@ -3084,13 +3140,21 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36505,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityFacing",
+                    "entity": "e1962",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1962",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
                   },
                   {
                     "kind": "dialog",
@@ -3141,13 +3205,21 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36505,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityFacing",
+                    "entity": "e1963",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1963",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
                   },
                   {
                     "kind": "dialog",

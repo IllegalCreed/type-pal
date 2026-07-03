@@ -136,8 +136,13 @@ async function main(): Promise<void> {
       return []
     }),
   ])
-  // portraits 已是预烘 RGBA PNG(@type-pal/migrate bake-assets),不再需 palette 着色
-  const portraits = await loadPortraits([1, 2]).catch((err: unknown) => {
+  // portraits 已是预烘 RGBA PNG(@type-pal/migrate bake-assets),不再需 palette 着色。
+  // 全立绘一次载(对话样式 op 的 arg0 遍布全剧情;manifest 报有效块,缺块 loader 自跳)。
+  const portraitChunks = await fetch('/extracted/data/portraits.json')
+    .then((r) => (r.ok ? (r.json() as Promise<{ portraits: { chunkIndex: number }[] }>) : null))
+    .then((m) => m?.portraits.map((p) => p.chunkIndex) ?? [1, 2])
+    .catch(() => [1, 2])
+  const portraits = await loadPortraits(portraitChunks).catch((err: unknown) => {
     console.warn('[reforge] portraits 加载失败,降级无头像:', err)
     return new Map<number, HTMLCanvasElement>()
   })
@@ -216,11 +221,14 @@ async function main(): Promise<void> {
   let stepAcc = 0 // 步进累加器（ms）
 
   const camera = { x: 0, y: 0 }
+  // 脚本相机偏移(0x7F 累积;⚠ 一阶段彩依飞走案:走位期间此偏移必须保持,回正才清零,
+  // 绝不在跟随时抹掉 —— 见 CLAUDE.md「相机」陷阱)。切场景清零。
+  const cameraOffset = { x: 0, y: 0 }
   const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > hi ? hi : v)
   function updateCamera(): void {
     const pp = gridToPixel(player.pos)
-    camera.x = clamp(pp.x - PARTY_OX, viewMinX, Math.max(viewMinX, viewMaxX - VIEW_W))
-    camera.y = clamp(pp.y - PARTY_OY, viewMinY, Math.max(viewMinY, viewMaxY - VIEW_H))
+    camera.x = clamp(pp.x - PARTY_OX + cameraOffset.x, viewMinX, Math.max(viewMinX, viewMaxX - VIEW_W))
+    camera.y = clamp(pp.y - PARTY_OY + cameraOffset.y, viewMinY, Math.max(viewMinY, viewMaxY - VIEW_H))
   }
 
   // 精灵解析(C0):实体 → actor/prop → sprites 注册表;玩家 = party[0] 的 ActorDef.spriteId。
@@ -309,6 +317,7 @@ async function main(): Promise<void> {
   const entityAnim = new Map<string, number>() // 实体走帧计数(移动/0x87 动画共用)
   // auto 巡逻:每实体独立 runner(主脚本期间暂停;切场景全停)
   const autoAborts = new Map<string, AbortController>()
+  let cameraPanFx: { fromX: number; fromY: number; dx: number; dy: number; steps: number; done: number; resolve: () => void } | null = null
 
   /** 世界脚本状态 → 场景实体(entityState:≤0 隐,≥2 挡路;进场/读档/设态后重放)。 */
   function applyWorldToScene(): void {
@@ -425,6 +434,48 @@ async function main(): Promise<void> {
       stepFrame = (stepFrame + 1) % 4 // 原版 0x6E 带走姿推进
       updateCamera()
     },
+    cameraPan: (dx, dy, frames) =>
+      new Promise((resolve) => {
+        // 每帧位移 (dx,dy),共 frames 帧,累积进 cameraOffset(不回正;走位期保留)
+        cameraPanFx = { fromX: cameraOffset.x, fromY: cameraOffset.y, dx, dy, steps: frames, done: 0, resolve }
+      }),
+    cameraSnap: (to) => {
+      if (to) {
+        // 绝对:相机跳到目标格居中,换算成相对玩家的偏移量持有(玩家世界坐标不变)
+        const tp = gridToPixel(to)
+        const pp = gridToPixel(player.pos)
+        cameraOffset.x = tp.x - pp.x
+        cameraOffset.y = tp.y - pp.y
+      } else {
+        cameraOffset.x = 0 // 回正:跟随玩家
+        cameraOffset.y = 0
+      }
+      updateCamera()
+    },
+    setEntityAuto: (id, stages) => {
+      const e = scene.entities.find((x) => x.id === id)
+      if (!e) return
+      e.pages = e.pages?.length ? e.pages : [{}]
+      e.pages[0] = { ...e.pages[0], auto: stages.length ? { stages } : undefined }
+      restartAutoRunner(e) // 停旧起新(空 stages = 仅停)
+    },
+    setEntityTrigger: (id, stages) => {
+      const e = scene.entities.find((x) => x.id === id)
+      if (!e) return
+      e.pages = e.pages?.length ? e.pages : [{}]
+      const on = e.pages[0]?.trigger?.on ?? 'interact'
+      const range = e.pages[0]?.trigger?.range
+      e.pages[0] = { ...e.pages[0], trigger: stages.length ? { on, range, stages } : undefined }
+    },
+    setEntityTriggerMode: (id, on, range) => {
+      const e = scene.entities.find((x) => x.id === id)
+      if (!e?.pages?.[0]?.trigger) return
+      if (!on) {
+        e.pages[0] = { ...e.pages[0], trigger: undefined } // 关触发
+      } else {
+        e.pages[0] = { ...e.pages[0], trigger: { ...e.pages[0].trigger, on, range } }
+      }
+    },
     startBattle: async (team) => {
       showToast(`遇敌 #${team} —— 战斗桩:自动胜(M4)`)
       await host.wait(400)
@@ -456,6 +507,19 @@ async function main(): Promise<void> {
 
   /** M3b:tick 推进走位驱动(实体 + 队伍;到达即兑现)。 */
   function advanceMoves(dt: number): void {
+    // M3c 相机 pan:每步(~16ms)移动 (dx,dy),累积进 cameraOffset;走完兑现
+    if (cameraPanFx) {
+      const fx = cameraPanFx
+      const wantSteps = Math.min(fx.steps, fx.done + Math.max(1, Math.round(dt / 16)))
+      fx.done = wantSteps
+      cameraOffset.x = fx.fromX + fx.dx * fx.done
+      cameraOffset.y = fx.fromY + fx.dy * fx.done
+      updateCamera()
+      if (fx.done >= fx.steps) {
+        cameraPanFx = null
+        fx.resolve()
+      }
+    }
     for (const [id, mv] of entityMoves) {
       const e = scene.entities.find((x) => x.id === id)
       if (!e) {
@@ -506,31 +570,39 @@ async function main(): Promise<void> {
     }
   }
 
-  /** M3b:auto 巡逻/环境动画 —— 每实体独立循环 runner(主脚本期间暂停;hidden 挂起)。 */
-  function startAutoRunners(): void {
-    for (const e of scene.entities) {
-      const auto = e.pages?.[0]?.auto
-      if (!auto?.stages.length || autoAborts.has(e.id)) continue
-      const ac = new AbortController()
-      autoAborts.set(e.id, ac)
-      const r = new ScriptRunner(host, world.script!, ac.signal)
-      r.paceMs = 80 // 原版 auto 一帧一 op 的节拍近似(一阶段同语义)
-      void (async () => {
-        while (!ac.signal.aborted) {
-          if (runner || e.hidden) {
-            await host.wait(120) // 主脚本演出中 / 实体隐藏:挂起
-            continue
-          }
-          try {
-            await r.runStages(`auto:${e.id}`, auto.stages)
-          } catch (err) {
-            if ((err as DOMException)?.name !== 'AbortError') console.error('[auto]', e.id, err)
-            break
-          }
-          await host.wait(40) // 段间让步(防空体紧转;原版 auto 一帧一段)
+  /** M3b:单实体 auto 巡逻/环境动画循环 runner(主脚本期间暂停;hidden 挂起)。 */
+  function startAutoRunner(e: EntityDef): void {
+    const auto = e.pages?.[0]?.auto
+    if (!auto?.stages.length || autoAborts.has(e.id)) return
+    const stages = auto.stages
+    const ac = new AbortController()
+    autoAborts.set(e.id, ac)
+    const r = new ScriptRunner(host, world.script!, ac.signal)
+    r.paceMs = 80 // 原版 auto 一帧一 op 的节拍近似(一阶段同语义)
+    void (async () => {
+      while (!ac.signal.aborted) {
+        if (runner || e.hidden) {
+          await host.wait(120) // 主脚本演出中 / 实体隐藏:挂起
+          continue
         }
-      })()
-    }
+        try {
+          await r.runStages(`auto:${e.id}`, stages)
+        } catch (err) {
+          if ((err as DOMException)?.name !== 'AbortError') console.error('[auto]', e.id, err)
+          break
+        }
+        await host.wait(40) // 段间让步(防空体紧转;原版 auto 一帧一段)
+      }
+    })()
+  }
+  function startAutoRunners(): void {
+    for (const e of scene.entities) startAutoRunner(e)
+  }
+  /** 停单实体 auto(0x24 换 autoScript 用:停旧起新)。 */
+  function restartAutoRunner(e: EntityDef): void {
+    autoAborts.get(e.id)?.abort()
+    autoAborts.delete(e.id)
+    startAutoRunner(e)
   }
   function stopAutoRunners(): void {
     for (const ac of autoAborts.values()) ac.abort()
@@ -538,6 +610,10 @@ async function main(): Promise<void> {
     for (const [, mv] of entityMoves) mv.resolve()
     entityMoves.clear()
     entityAnim.clear()
+    cameraPanFx?.resolve()
+    cameraPanFx = null
+    cameraOffset.x = 0
+    cameraOffset.y = 0
   }
 
   /** 起一段触发/进场脚本(单脚本槽;收尾后接排队的 onEnter)。 */
@@ -584,6 +660,10 @@ async function main(): Promise<void> {
     partyMove?.resolve()
     partyMove = null
     walking = false
+    cameraPanFx?.resolve()
+    cameraPanFx = null
+    cameraOffset.x = 0
+    cameraOffset.y = 0
   }
 
   /** 格距(切比雪夫)。 */

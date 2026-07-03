@@ -60,7 +60,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.10216",
-            "speaker": "spk.林月如"
+            "speaker": "spk.林月如",
+            "portrait": {
+              "icon": 21,
+              "side": "right"
+            }
           }
         },
         {
@@ -69,7 +73,11 @@
         {
           "kind": "dialog",
           "line": {
-            "text": "dlg.10217"
+            "text": "dlg.10217",
+            "portrait": {
+              "icon": 21,
+              "side": "right"
+            }
           }
         },
         {

@@ -143,13 +143,84 @@
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36374,
-                      0,
-                      0
-                    ]
+                    "kind": "setPartyFacing",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 10,
+                    "dy": -10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 6,
+                    "dy": -6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 10,
+                    "dy": -10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 6,
+                    "dy": -6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "setPartyFacing",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 10,
+                    "dy": -10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 6,
+                    "dy": -6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 10,
+                    "dy": -10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 6,
+                    "dy": -6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
                   }
                 ]
               }
@@ -187,13 +258,84 @@
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36402,
-                      0,
-                      0
-                    ]
+                    "kind": "setPartyFacing",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "setPartyFacing",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
                   }
                 ]
               }
@@ -2253,7 +2395,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.10931",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 2,
+                        "side": "right"
+                      }
                     }
                   }
                 ],
@@ -2265,7 +2411,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.10933",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 2,
+                        "side": "right"
+                      }
                     }
                   }
                 ],

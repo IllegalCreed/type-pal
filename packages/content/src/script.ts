@@ -59,6 +59,14 @@ export type Command =
   | { kind: 'startBattle'; team: number; onLose?: Command[]; onFlee?: Command[] }
   | { kind: 'openShop'; shop: number; mode: 'buy' | 'sell' }
   | { kind: 'confirm'; onNo: Command[] } // 0x0A 是/否框:选"否"走 onNo,"是"继续
+  // 相机(M3c;0x7F 三形态。⚠ 一阶段彩依飞走案:走位期间偏移必须保持,不许绝对回正)
+  | { kind: 'cameraPan'; dx: number; dy: number; frames: number } // 相对:每帧位移 ×frames,阻塞
+  | { kind: 'cameraSnap'; to?: GridPos } // 绝对跳到格(to)/回正跟随(缺省)
+  // 页切换(M3c;原版 0x24/25/40 改脚本入口指针。运行时覆盖,暂不持久 —— 原版存档存指针,
+  // clean 版的持久化留给页注册表设计(M4 期);过场局部行为切换不受影响)
+  | { kind: 'setEntityAuto'; entity: string; stages: ScriptStage[] } // 0x24;空 stages = 停用
+  | { kind: 'setEntityTrigger'; entity: string; stages: ScriptStage[] } // 0x25;触发方式沿用当前
+  | { kind: 'setEntityTriggerMode'; entity: string; on?: 'interact' | 'touch'; range?: number } // 0x40;on 缺省=关
   // 控制流(M3b 引擎;schema 先行防返工)
   | { kind: 'branch'; cond: ScriptCondition; then: Command[]; else?: Command[] }
   // 逃生口

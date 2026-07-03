@@ -63,21 +63,123 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e4440"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      65535,
-                      33644,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e4440",
+                    "stages": [
+                      {
+                        "body": [],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "nudgeEntity",
+                            "entity": "e4440",
+                            "dx": 1,
+                            "dy": 0
+                          },
+                          {
+                            "kind": "nudgeEntity",
+                            "entity": "e4440",
+                            "dx": -1,
+                            "dy": 0
+                          },
+                          {
+                            "kind": "nudgeEntity",
+                            "entity": "e4440",
+                            "dx": 1,
+                            "dy": 0
+                          },
+                          {
+                            "kind": "nudgeEntity",
+                            "entity": "e4440",
+                            "dx": -1,
+                            "dy": 0
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "nudgeEntity",
+                            "entity": "e4440",
+                            "dx": 1,
+                            "dy": 0
+                          },
+                          {
+                            "kind": "nudgeEntity",
+                            "entity": "e4440",
+                            "dx": -1,
+                            "dy": 0
+                          },
+                          {
+                            "kind": "nudgeEntity",
+                            "entity": "e4440",
+                            "dx": 1,
+                            "dy": 0
+                          },
+                          {
+                            "kind": "nudgeEntity",
+                            "entity": "e4440",
+                            "dx": -1,
+                            "dy": 0
+                          }
+                        ],
+                        "next": 0
+                      }
                     ]
                   },
                   {
@@ -201,7 +303,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11615",
-                      "speaker": "spk.拜月教主"
+                      "speaker": "spk.拜月教主",
+                      "portrait": {
+                        "icon": 80,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -252,7 +358,11 @@
                     "line": {
                       "text": "dlg.11619",
                       "speaker": "spk.巫后",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 73,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -262,7 +372,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11624",
-                      "speaker": "spk.拜月教主"
+                      "speaker": "spk.拜月教主",
+                      "portrait": {
+                        "icon": 80,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -273,7 +387,11 @@
                     "line": {
                       "text": "dlg.11631",
                       "speaker": "spk.巫后",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 73,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -283,7 +401,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11634",
-                      "speaker": "spk.拜月教主"
+                      "speaker": "spk.拜月教主",
+                      "portrait": {
+                        "icon": 80,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -292,7 +414,11 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.11636"
+                      "text": "dlg.11636",
+                      "portrait": {
+                        "icon": 80,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -385,7 +511,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11638",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 5,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -405,7 +535,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11644",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 10,
+                        "side": "right"
+                      }
                     }
                   }
                 ]
@@ -433,13 +567,21 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36505,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityFacing",
+                    "entity": "e4443",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4443",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
                   },
                   {
                     "kind": "dialog",
@@ -489,13 +631,21 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36505,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityFacing",
+                    "entity": "e4444",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4444",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
                   },
                   {
                     "kind": "dialog",
@@ -545,13 +695,21 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36505,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityFacing",
+                    "entity": "e4445",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4445",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
                   },
                   {
                     "kind": "dialog",
@@ -601,13 +759,21 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36505,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityFacing",
+                    "entity": "e4446",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4446",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
                   },
                   {
                     "kind": "dialog",
@@ -657,13 +823,21 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36505,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityFacing",
+                    "entity": "e4447",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4447",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
                   },
                   {
                     "kind": "dialog",

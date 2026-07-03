@@ -4136,13 +4136,10 @@
           "kind": "clearDialog"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 127,
-          "operands": [
-            4,
-            2,
-            10
-          ]
+          "kind": "cameraPan",
+          "dx": 4,
+          "dy": 2,
+          "frames": 10
         },
         {
           "kind": "setEntityFacing",
@@ -4263,12 +4260,118 @@
           "kind": "clearDialog"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 36,
-          "operands": [
-            2220,
-            19629,
-            0
+          "kind": "setEntityAuto",
+          "entity": "e2220",
+          "stages": [
+            {
+              "body": [
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 3
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 4
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 5
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 6
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 7
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 8
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 9
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 10
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 11
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 12
+                }
+              ]
+            }
           ]
         },
         {
@@ -4443,12 +4546,118 @@
           "ms": 160
         },
         {
-          "kind": "unmigrated",
-          "opcode": 36,
-          "operands": [
-            2220,
-            19629,
-            0
+          "kind": "setEntityAuto",
+          "entity": "e2220",
+          "stages": [
+            {
+              "body": [
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 3
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 4
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 5
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 6
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 7
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 8
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 9
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 10
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 11
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 12
+                }
+              ]
+            }
           ]
         },
         {
@@ -4624,12 +4833,158 @@
           "kind": "clearDialog"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 36,
-          "operands": [
-            2220,
-            19641,
-            0
+          "kind": "setEntityAuto",
+          "entity": "e2220",
+          "stages": [
+            {
+              "body": [
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 23
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 24
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 25
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 26
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 27
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 28
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 29
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 30
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 31
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 32
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 33
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 34
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2220",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2220",
+                  "frame": 35
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "setEntityState",
+                  "entity": "e2220",
+                  "state": 0
+                }
+              ]
+            }
           ]
         },
         {
@@ -4657,12 +5012,33 @@
           "ms": 320
         },
         {
-          "kind": "unmigrated",
-          "opcode": 36,
-          "operands": [
-            2217,
-            19661,
-            0
+          "kind": "setEntityAuto",
+          "entity": "e2217",
+          "stages": [
+            {
+              "body": [
+                {
+                  "kind": "moveEntity",
+                  "entity": "e2217",
+                  "to": {
+                    "col": 63,
+                    "row": 7,
+                    "height": 0
+                  },
+                  "speed": "normal"
+                },
+                {
+                  "kind": "moveEntity",
+                  "entity": "e2217",
+                  "to": {
+                    "col": 63,
+                    "row": 10,
+                    "height": 0
+                  },
+                  "speed": "normal"
+                }
+              ]
+            }
           ]
         },
         {
@@ -4753,12 +5129,38 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 36,
-          "operands": [
-            2217,
-            19664,
-            0
+          "kind": "setEntityAuto",
+          "entity": "e2217",
+          "stages": [
+            {
+              "body": [
+                {
+                  "kind": "moveEntity",
+                  "entity": "e2217",
+                  "to": {
+                    "col": 63,
+                    "row": 18,
+                    "height": 0
+                  },
+                  "speed": "normal"
+                },
+                {
+                  "kind": "moveEntity",
+                  "entity": "e2217",
+                  "to": {
+                    "col": 71,
+                    "row": 18,
+                    "height": 0
+                  },
+                  "speed": "normal"
+                },
+                {
+                  "kind": "setEntityState",
+                  "entity": "e2217",
+                  "state": 0
+                }
+              ]
+            }
           ]
         },
         {
@@ -4766,13 +5168,10 @@
           "ms": 600
         },
         {
-          "kind": "unmigrated",
-          "opcode": 127,
-          "operands": [
-            65534,
-            65535,
-            20
-          ]
+          "kind": "cameraPan",
+          "dx": -2,
+          "dy": -1,
+          "frames": 20
         },
         {
           "kind": "setEntityFacing",
@@ -4793,7 +5192,11 @@
           "line": {
             "text": "dlg.7104",
             "speaker": "spk.林月如",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 23,
+              "side": "left"
+            }
           }
         },
         {
@@ -4813,7 +5216,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.7107",
-            "speaker": "spk.李逍遥"
+            "speaker": "spk.李逍遥",
+            "portrait": {
+              "icon": 1,
+              "side": "right"
+            }
           }
         },
         {

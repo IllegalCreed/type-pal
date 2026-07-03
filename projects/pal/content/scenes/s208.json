@@ -923,12 +923,24 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      3559,
-                      35633,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e3559",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e3559",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e3559",
+                            "frame": 0
+                          }
+                        ],
+                        "next": 0
+                      }
                     ]
                   }
                 ],

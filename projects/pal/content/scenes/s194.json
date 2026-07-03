@@ -94,7 +94,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.10166",
-            "speaker": "spk.林月如"
+            "speaker": "spk.林月如",
+            "portrait": {
+              "icon": 21,
+              "side": "right"
+            }
           }
         },
         {
@@ -105,7 +109,11 @@
           "line": {
             "text": "dlg.10168",
             "speaker": "spk.李逍遥",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 1,
+              "side": "left"
+            }
           }
         },
         {
@@ -128,7 +136,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.10170",
-            "speaker": "spk.林月如"
+            "speaker": "spk.林月如",
+            "portrait": {
+              "icon": 22,
+              "side": "right"
+            }
           }
         },
         {
@@ -139,7 +151,11 @@
           "line": {
             "text": "dlg.10173",
             "speaker": "spk.李逍遥",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 8,
+              "side": "left"
+            }
           }
         },
         {
@@ -164,7 +180,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.10176",
-            "speaker": "spk.林月如"
+            "speaker": "spk.林月如",
+            "portrait": {
+              "icon": 21,
+              "side": "right"
+            }
           }
         },
         {
@@ -175,14 +195,22 @@
           "line": {
             "text": "dlg.10178",
             "speaker": "spk.李逍遥",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 7,
+              "side": "left"
+            }
           }
         },
         {
           "kind": "dialog",
           "line": {
             "text": "dlg.10180",
-            "speaker": "spk.林月如"
+            "speaker": "spk.林月如",
+            "portrait": {
+              "icon": 21,
+              "side": "right"
+            }
           }
         },
         {

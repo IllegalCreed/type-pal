@@ -583,7 +583,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.3009",
-            "speaker": "spk.李逍遥"
+            "speaker": "spk.李逍遥",
+            "portrait": {
+              "icon": 1,
+              "side": "right"
+            }
           }
         }
       ],

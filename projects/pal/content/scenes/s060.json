@@ -29,22 +29,84 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      12515,
-                      0,
-                      0
-                    ]
+                    "kind": "setPartyFacing",
+                    "facing": "up"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36411,
-                      0,
-                      0
-                    ]
+                    "kind": "nudgeParty",
+                    "dx": 10,
+                    "dy": -10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 6,
+                    "dy": -6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 10,
+                    "dy": -10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 6,
+                    "dy": -6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "setPartyFacing",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
                   },
                   {
                     "kind": "loadScene",
@@ -79,13 +141,44 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36411,
-                      0,
-                      0
-                    ]
+                    "kind": "setPartyFacing",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
                   },
                   {
                     "kind": "loadScene",
@@ -120,13 +213,44 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36411,
-                      0,
-                      0
-                    ]
+                    "kind": "setPartyFacing",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
                   },
                   {
                     "kind": "loadScene",
@@ -161,13 +285,44 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36411,
-                      0,
-                      0
-                    ]
+                    "kind": "setPartyFacing",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
                   },
                   {
                     "kind": "loadScene",
@@ -202,13 +357,44 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36411,
-                      0,
-                      0
-                    ]
+                    "kind": "setPartyFacing",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
                   },
                   {
                     "kind": "loadScene",
@@ -243,13 +429,44 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36411,
-                      0,
-                      0
-                    ]
+                    "kind": "setPartyFacing",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
                   },
                   {
                     "kind": "loadScene",
@@ -284,13 +501,44 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36411,
-                      0,
-                      0
-                    ]
+                    "kind": "setPartyFacing",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
                   },
                   {
                     "kind": "loadScene",
@@ -325,13 +573,44 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36411,
-                      0,
-                      0
-                    ]
+                    "kind": "setPartyFacing",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
                   },
                   {
                     "kind": "loadScene",
@@ -366,13 +645,44 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36411,
-                      0,
-                      0
-                    ]
+                    "kind": "setPartyFacing",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
                   },
                   {
                     "kind": "loadScene",
@@ -407,13 +717,44 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36411,
-                      0,
-                      0
-                    ]
+                    "kind": "setPartyFacing",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
                   },
                   {
                     "kind": "loadScene",
@@ -448,13 +789,44 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36411,
-                      0,
-                      0
-                    ]
+                    "kind": "setPartyFacing",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
                   },
                   {
                     "kind": "loadScene",
@@ -489,13 +861,44 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36411,
-                      0,
-                      0
-                    ]
+                    "kind": "setPartyFacing",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
                   },
                   {
                     "kind": "loadScene",
@@ -597,13 +1000,8 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e1141"
                   },
                   {
                     "kind": "setEntityFacing",
@@ -616,12 +1014,57 @@
                     "frame": 1
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      1130,
-                      36518,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e1130",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "playSound",
+                            "soundId": 113
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1130",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1130",
+                            "frame": 1
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1130",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1130",
+                            "frame": 2
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1130",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1130",
+                            "frame": 3
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1130",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1130",
+                            "frame": 4
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -659,13 +1102,8 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e1142"
                   },
                   {
                     "kind": "setEntityFacing",
@@ -678,12 +1116,57 @@
                     "frame": 1
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      1132,
-                      36518,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e1132",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "playSound",
+                            "soundId": 113
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1132",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1132",
+                            "frame": 1
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1132",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1132",
+                            "frame": 2
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1132",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1132",
+                            "frame": 3
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1132",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1132",
+                            "frame": 4
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -721,13 +1204,8 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e1143"
                   },
                   {
                     "kind": "setEntityFacing",
@@ -740,12 +1218,57 @@
                     "frame": 1
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      1134,
-                      36518,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e1134",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "playSound",
+                            "soundId": 113
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1134",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1134",
+                            "frame": 1
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1134",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1134",
+                            "frame": 2
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1134",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1134",
+                            "frame": 3
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1134",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1134",
+                            "frame": 4
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -783,13 +1306,8 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e1144"
                   },
                   {
                     "kind": "setEntityFacing",
@@ -802,12 +1320,57 @@
                     "frame": 1
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      1136,
-                      36518,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e1136",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "playSound",
+                            "soundId": 113
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1136",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1136",
+                            "frame": 1
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1136",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1136",
+                            "frame": 2
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1136",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1136",
+                            "frame": 3
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1136",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1136",
+                            "frame": 4
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -845,13 +1408,8 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e1145"
                   },
                   {
                     "kind": "setEntityFacing",
@@ -864,12 +1422,57 @@
                     "frame": 1
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      1138,
-                      36518,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e1138",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "playSound",
+                            "soundId": 113
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1138",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1138",
+                            "frame": 1
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1138",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1138",
+                            "frame": 2
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1138",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1138",
+                            "frame": 3
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1138",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1138",
+                            "frame": 4
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -907,13 +1510,8 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e1146"
                   },
                   {
                     "kind": "setEntityFacing",
@@ -926,12 +1524,57 @@
                     "frame": 1
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      1140,
-                      36518,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e1140",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "playSound",
+                            "soundId": 113
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1140",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1140",
+                            "frame": 1
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1140",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1140",
+                            "frame": 2
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1140",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1140",
+                            "frame": 3
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1140",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1140",
+                            "frame": 4
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -3004,13 +3647,21 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36505,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityFacing",
+                    "entity": "e1167",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1167",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
                   },
                   {
                     "kind": "dialog",
@@ -3060,13 +3711,21 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36505,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityFacing",
+                    "entity": "e1168",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1168",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
                   },
                   {
                     "kind": "dialog",
@@ -3116,13 +3775,21 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36505,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityFacing",
+                    "entity": "e1169",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1169",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
                   },
                   {
                     "kind": "dialog",
@@ -3172,13 +3839,21 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36505,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityFacing",
+                    "entity": "e1170",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1170",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
                   },
                   {
                     "kind": "dialog",
@@ -3228,13 +3903,21 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36505,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityFacing",
+                    "entity": "e1171",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1171",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
                   },
                   {
                     "kind": "dialog",
@@ -3284,13 +3967,21 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36505,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityFacing",
+                    "entity": "e1172",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1172",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
                   },
                   {
                     "kind": "dialog",
@@ -3340,13 +4031,21 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36505,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityFacing",
+                    "entity": "e1173",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1173",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
                   },
                   {
                     "kind": "dialog",

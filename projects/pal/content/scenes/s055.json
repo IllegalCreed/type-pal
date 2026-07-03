@@ -142,22 +142,16 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      935,
-                      2,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e935",
+                    "on": "interact",
+                    "range": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      936,
-                      2,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e936",
+                    "on": "interact",
+                    "range": 2
                   },
                   {
                     "kind": "setEntityFacing",
@@ -223,22 +217,16 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      935,
-                      2,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e935",
+                    "on": "interact",
+                    "range": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      936,
-                      2,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e936",
+                    "on": "interact",
+                    "range": 2
                   },
                   {
                     "kind": "setEntityFacing",

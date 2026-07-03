@@ -220,12 +220,242 @@
                             },
                             "then": [
                               {
-                                "kind": "unmigrated",
-                                "opcode": 0,
-                                "operands": [
-                                  35745
-                                ],
-                                "note": "分支臂不可内联"
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "branch",
+                                "cond": {
+                                  "kind": "chance",
+                                  "percent": 51
+                                },
+                                "then": []
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e583",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e583",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e583",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e583",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e583",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e583",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e583",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e583",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e583",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e583",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e583",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e583",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e583",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e583",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e583",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e583",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e583",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e583",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e583",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e583",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "setEntityFacing",
+                                "entity": "e583",
+                                "facing": "right"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "entity": "e583",
+                                "frame": 0
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e583"
                               }
                             ]
                           },
@@ -1095,12 +1325,242 @@
                         },
                         "then": [
                           {
-                            "kind": "unmigrated",
-                            "opcode": 0,
-                            "operands": [
-                              35745
-                            ],
-                            "note": "分支臂不可内联"
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 51
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e583",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e583",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e583",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e583",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e583",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e583",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e583",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e583",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e583",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e583",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e583",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e583",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e583",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e583",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e583",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e583",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e583",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e583",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e583",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e583",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e583",
+                            "facing": "right"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e583",
+                            "frame": 0
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e583"
                           }
                         ]
                       },
@@ -2038,12 +2498,174 @@
                             },
                             "then": [
                               {
-                                "kind": "unmigrated",
-                                "opcode": 0,
-                                "operands": [
-                                  35821
-                                ],
-                                "note": "分支臂不可内联"
+                                "kind": "animEntity",
+                                "entity": "e584"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e584"
+                              },
+                              {
+                                "kind": "branch",
+                                "cond": {
+                                  "kind": "chance",
+                                  "percent": 76
+                                },
+                                "then": []
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e584"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e584"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e584"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e584"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e584"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e584"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e584",
+                                "dir": "right"
                               }
                             ]
                           },
@@ -2683,12 +3305,174 @@
                         },
                         "then": [
                           {
-                            "kind": "unmigrated",
-                            "opcode": 0,
-                            "operands": [
-                              35821
-                            ],
-                            "note": "分支臂不可内联"
+                            "kind": "animEntity",
+                            "entity": "e584"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e584"
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 76
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e584"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e584"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e584"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e584"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e584"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e584"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e584",
+                            "dir": "right"
                           }
                         ]
                       },
@@ -3394,12 +4178,174 @@
                             },
                             "then": [
                               {
-                                "kind": "unmigrated",
-                                "opcode": 0,
-                                "operands": [
-                                  35821
-                                ],
-                                "note": "分支臂不可内联"
+                                "kind": "animEntity",
+                                "entity": "e585"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e585"
+                              },
+                              {
+                                "kind": "branch",
+                                "cond": {
+                                  "kind": "chance",
+                                  "percent": 76
+                                },
+                                "then": []
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e585"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e585"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e585"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e585"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e585"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e585"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e585",
+                                "dir": "right"
                               }
                             ]
                           },
@@ -4039,12 +4985,174 @@
                         },
                         "then": [
                           {
-                            "kind": "unmigrated",
-                            "opcode": 0,
-                            "operands": [
-                              35821
-                            ],
-                            "note": "分支臂不可内联"
+                            "kind": "animEntity",
+                            "entity": "e585"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e585"
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 76
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e585"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e585"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e585"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e585"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e585"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e585"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e585",
+                            "dir": "right"
                           }
                         ]
                       },
@@ -4722,7 +5830,11 @@
                     "line": {
                       "text": "dlg.3046",
                       "speaker": "spk.林月如",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 21,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -4732,7 +5844,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.3048",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -4743,7 +5859,11 @@
                     "line": {
                       "text": "dlg.3050",
                       "speaker": "spk.林月如",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 22,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -4753,7 +5873,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.3053",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 8,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -4761,7 +5885,11 @@
                     "line": {
                       "text": "dlg.3056",
                       "speaker": "spk.林月如",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 21,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -4771,7 +5899,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.3058",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 7,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -4782,7 +5914,11 @@
                     "line": {
                       "text": "dlg.3060",
                       "speaker": "spk.林月如",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 21,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -4792,7 +5928,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.3063",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 10,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -4803,7 +5943,11 @@
                     "line": {
                       "text": "dlg.3067",
                       "speaker": "spk.林月如",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 21,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -4813,7 +5957,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.3069",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 2,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -4821,7 +5969,11 @@
                     "line": {
                       "text": "dlg.3073",
                       "speaker": "spk.林月如",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 21,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -4831,7 +5983,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.3078",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 2,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -4842,7 +5998,11 @@
                     "line": {
                       "text": "dlg.3080",
                       "speaker": "spk.林月如",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 25,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -4852,7 +6012,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.3082",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 6,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -4860,7 +6024,11 @@
                     "line": {
                       "text": "dlg.3085",
                       "speaker": "spk.林月如",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 21,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -4870,7 +6038,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.3088",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 7,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -4878,7 +6050,11 @@
                     "line": {
                       "text": "dlg.3091",
                       "speaker": "spk.林月如",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 21,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -4887,22 +6063,453 @@
                     "state": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 37,
-                    "operands": [
-                      574,
-                      8656,
-                      0
+                    "kind": "setEntityTrigger",
+                    "entity": "e574",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityTriggerMode",
+                            "entity": "e574",
+                            "on": "interact",
+                            "range": 2
+                          },
+                          {
+                            "kind": "unmigrated",
+                            "opcode": 109,
+                            "operands": [
+                              37,
+                              36203,
+                              0
+                            ]
+                          },
+                          {
+                            "kind": "unmigrated",
+                            "opcode": 109,
+                            "operands": [
+                              38,
+                              36203,
+                              0
+                            ]
+                          },
+                          {
+                            "kind": "setEntityAuto",
+                            "entity": "e605",
+                            "stages": []
+                          },
+                          {
+                            "kind": "setEntityAuto",
+                            "entity": "e606",
+                            "stages": []
+                          },
+                          {
+                            "kind": "setEntityAuto",
+                            "entity": "e607",
+                            "stages": []
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e605",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e605",
+                            "frame": 0
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e606",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e606",
+                            "frame": 0
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e607",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e607",
+                            "frame": 0
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e602",
+                            "state": 0
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e603",
+                            "state": 2
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e604",
+                            "state": 0
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e591",
+                            "state": 0
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e592",
+                            "state": 0
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e593",
+                            "state": 0
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e594",
+                            "state": 0
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e595",
+                            "state": 0
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e597",
+                            "state": 2
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e598",
+                            "state": 2
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e599",
+                            "state": 2
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e600",
+                            "state": 2
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3108",
+                              "speaker": "spk.林天南",
+                              "slot": "top",
+                              "portrait": {
+                                "icon": 64,
+                                "side": "left"
+                              }
+                            }
+                          },
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3113",
+                              "speaker": "spk.李逍遥",
+                              "portrait": {
+                                "icon": 1,
+                                "side": "right"
+                              }
+                            }
+                          },
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3116",
+                              "speaker": "spk.算命先生"
+                            }
+                          },
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3117"
+                            }
+                          },
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3119"
+                            }
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e574",
+                            "facing": "right"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e574",
+                            "frame": 0
+                          },
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3122",
+                              "speaker": "spk.林天南",
+                              "slot": "top"
+                            }
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e574",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e574",
+                            "frame": 0
+                          },
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3124",
+                              "speaker": "spk.林天南",
+                              "slot": "top"
+                            }
+                          },
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3126",
+                              "speaker": "spk.林忠"
+                            }
+                          },
+                          {
+                            "kind": "fade",
+                            "dir": "out"
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e575",
+                            "state": 0
+                          },
+                          {
+                            "kind": "setPartyFacing",
+                            "facing": "up"
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e574",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e574",
+                            "frame": 0
+                          },
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3128",
+                              "speaker": "spk.林天南",
+                              "slot": "top",
+                              "portrait": {
+                                "icon": 64,
+                                "side": "left"
+                              }
+                            }
+                          },
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3131",
+                              "speaker": "spk.林天南",
+                              "slot": "top",
+                              "portrait": {
+                                "icon": 64,
+                                "side": "left"
+                              }
+                            }
+                          },
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "unmigrated",
+                            "opcode": 119,
+                            "operands": [
+                              0,
+                              0,
+                              0
+                            ]
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e582",
+                            "state": 2
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3135",
+                              "speaker": "spk.丫鬟",
+                              "slot": "top"
+                            }
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 240
+                          },
+                          {
+                            "kind": "setPartyFacing",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 400
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3137",
+                              "speaker": "spk.林天南",
+                              "portrait": {
+                                "icon": 64,
+                                "side": "right"
+                              }
+                            }
+                          },
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3139",
+                              "speaker": "spk.冬梅",
+                              "slot": "top"
+                            }
+                          },
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3142",
+                              "speaker": "spk.林天南",
+                              "portrait": {
+                                "icon": 64,
+                                "side": "right"
+                              }
+                            }
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e576",
+                            "facing": "up"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e576",
+                            "frame": 0
+                          },
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3145",
+                              "speaker": "spk.林忠",
+                              "slot": "top"
+                            }
+                          },
+                          {
+                            "kind": "setEntityAuto",
+                            "entity": "e576",
+                            "stages": [
+                              {
+                                "body": [
+                                  {
+                                    "kind": "moveEntity",
+                                    "entity": "e576",
+                                    "to": {
+                                      "col": 113,
+                                      "row": 50,
+                                      "height": 0
+                                    },
+                                    "speed": "normal"
+                                  },
+                                  {
+                                    "kind": "moveEntity",
+                                    "entity": "e576",
+                                    "to": {
+                                      "col": 93,
+                                      "row": 50,
+                                      "height": 0
+                                    },
+                                    "speed": "normal"
+                                  },
+                                  {
+                                    "kind": "setEntityState",
+                                    "entity": "e576",
+                                    "state": 0
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "playMusic",
+                            "musicId": 34
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3147",
+                              "speaker": "spk.林忠"
+                            }
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      574,
-                      6,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e574",
+                    "on": "touch",
+                    "range": 2
                   },
                   {
                     "kind": "setEntityFacing",
@@ -4973,21 +6580,45 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      578,
-                      35633,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e578",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e578",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e578",
+                            "frame": 0
+                          }
+                        ],
+                        "next": 0
+                      }
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      579,
-                      35633,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e579",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e579",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e579",
+                            "frame": 0
+                          }
+                        ],
+                        "next": 0
+                      }
                     ]
                   }
                 ],
@@ -5679,13 +7310,10 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      2,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e594",
+                    "on": "interact",
+                    "range": 2
                   },
                   {
                     "kind": "dialog",
@@ -5781,19 +7409,20 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      2,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e596",
+                    "on": "interact",
+                    "range": 2
                   },
                   {
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.3151",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 5,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -5804,7 +7433,11 @@
                     "line": {
                       "text": "dlg.3153",
                       "speaker": "spk.林月如",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 23,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -5819,7 +7452,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.3156",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 2,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -5827,7 +7464,11 @@
                     "line": {
                       "text": "dlg.3158",
                       "speaker": "spk.林月如",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 23,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -5966,7 +7607,11 @@
                     "line": {
                       "text": "dlg.3160",
                       "speaker": "spk.林月如",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 24,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -5980,7 +7625,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.3164",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 2,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -5995,7 +7644,11 @@
                     "line": {
                       "text": "dlg.3167",
                       "speaker": "spk.林月如",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 24,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -6099,13 +7752,8 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e597"
                   },
                   {
                     "kind": "dialog",
@@ -6183,13 +7831,8 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e598"
                   },
                   {
                     "kind": "dialog",
@@ -6256,13 +7899,8 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e599"
                   },
                   {
                     "kind": "dialog",

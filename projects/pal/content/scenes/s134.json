@@ -182,7 +182,11 @@
                     "line": {
                       "text": "dlg.6252",
                       "speaker": "spk.莺莺夫人",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 56,
+                        "side": "left"
+                      }
                     }
                   }
                 ],

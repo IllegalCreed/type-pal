@@ -62,12 +62,43 @@
                     "ms": 120
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      3341,
-                      35650,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e3341",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e3341",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e3341",
+                            "frame": 1
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e3341",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e3341",
+                            "frame": 2
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e3341",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e3341",
+                            "frame": 3
+                          }
+                        ]
+                      }
                     ]
                   },
                   {

@@ -226,7 +226,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9778",
-            "speaker": "spk.李逍遥"
+            "speaker": "spk.李逍遥",
+            "portrait": {
+              "icon": 6,
+              "side": "right"
+            }
           }
         },
         {
@@ -247,7 +251,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9784",
-            "speaker": "spk.阿奴"
+            "speaker": "spk.阿奴",
+            "portrait": {
+              "icon": 27,
+              "side": "right"
+            }
           }
         },
         {
@@ -266,12 +274,33 @@
           "facing": "down"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 36,
-          "operands": [
-            2994,
-            27443,
-            0
+          "kind": "setEntityAuto",
+          "entity": "e2994",
+          "stages": [
+            {
+              "body": [
+                {
+                  "kind": "moveEntity",
+                  "entity": "e2994",
+                  "to": {
+                    "col": 113,
+                    "row": 53,
+                    "height": 0
+                  },
+                  "speed": "normal"
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2994",
+                  "facing": "left"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2994",
+                  "frame": 0
+                }
+              ]
+            }
           ]
         },
         {
@@ -279,12 +308,23 @@
           "ms": 720
         },
         {
-          "kind": "unmigrated",
-          "opcode": 36,
-          "operands": [
-            2994,
-            27446,
-            0
+          "kind": "setEntityAuto",
+          "entity": "e2994",
+          "stages": [
+            {
+              "body": [
+                {
+                  "kind": "moveEntity",
+                  "entity": "e2994",
+                  "to": {
+                    "col": 113,
+                    "row": 49,
+                    "height": 0
+                  },
+                  "speed": "normal"
+                }
+              ]
+            }
           ]
         },
         {
@@ -295,7 +335,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9789",
-            "speaker": "spk.阿奴"
+            "speaker": "spk.阿奴",
+            "portrait": {
+              "icon": 28,
+              "side": "right"
+            }
           }
         },
         {
@@ -309,7 +353,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9792",
-            "speaker": "spk.李逍遥"
+            "speaker": "spk.李逍遥",
+            "portrait": {
+              "icon": 1,
+              "side": "right"
+            }
           }
         },
         {
@@ -343,7 +391,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9795",
-            "speaker": "spk.阿奴"
+            "speaker": "spk.阿奴",
+            "portrait": {
+              "icon": 30,
+              "side": "right"
+            }
           }
         },
         {
@@ -384,7 +436,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9809",
-            "speaker": "spk.李逍遥"
+            "speaker": "spk.李逍遥",
+            "portrait": {
+              "icon": 1,
+              "side": "right"
+            }
           }
         },
         {
@@ -415,7 +471,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9814",
-            "speaker": "spk.阿奴"
+            "speaker": "spk.阿奴",
+            "portrait": {
+              "icon": 27,
+              "side": "right"
+            }
           }
         },
         {
@@ -556,7 +616,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9824",
-            "speaker": "spk.李逍遥"
+            "speaker": "spk.李逍遥",
+            "portrait": {
+              "icon": 10,
+              "side": "right"
+            }
           }
         },
         {

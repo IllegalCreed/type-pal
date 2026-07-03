@@ -142,28 +142,40 @@
                     "facing": "left"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      4460,
-                      33415,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e4460",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e4460",
+                            "to": {
+                              "col": 105,
+                              "row": 35,
+                              "height": 0
+                            },
+                            "speed": "slow"
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 127,
-                    "operands": [
-                      65534,
-                      65535,
-                      24
-                    ]
+                    "kind": "cameraPan",
+                    "dx": -2,
+                    "dy": -1,
+                    "frames": 24
                   },
                   {
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11580",
-                      "speaker": "spk.巫后"
+                      "speaker": "spk.巫后",
+                      "portrait": {
+                        "icon": 73,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -174,7 +186,11 @@
                     "line": {
                       "text": "dlg.11582",
                       "speaker": "spk.巫王",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 71,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -184,7 +200,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11584",
-                      "speaker": "spk.巫后"
+                      "speaker": "spk.巫后",
+                      "portrait": {
+                        "icon": 73,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -195,23 +215,52 @@
                     "line": {
                       "text": "dlg.11586",
                       "speaker": "spk.巫王",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 71,
+                        "side": "left"
+                      }
                     }
                   },
                   {
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11589",
-                      "speaker": "spk.巫后"
+                      "speaker": "spk.巫后",
+                      "portrait": {
+                        "icon": 73,
+                        "side": "right"
+                      }
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      4461,
-                      33419,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e4461",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e4461",
+                            "to": {
+                              "col": 106,
+                              "row": 34,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e4461",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e4461",
+                            "frame": 0
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -223,7 +272,11 @@
                     "line": {
                       "text": "dlg.11593",
                       "speaker": "spk.拜月教主",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 80,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -244,7 +297,11 @@
                     "line": {
                       "text": "dlg.11596",
                       "speaker": "spk.拜月教主",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 80,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -255,7 +312,11 @@
                     "line": {
                       "text": "dlg.11599",
                       "speaker": "spk.巫王",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 71,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -295,12 +356,23 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      4460,
-                      33417,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e4460",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e4460",
+                            "to": {
+                              "col": 103,
+                              "row": 35,
+                              "height": 0
+                            },
+                            "speed": "fast"
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -326,30 +398,73 @@
                     "musicId": 26
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      4461,
-                      33422,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e4461",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e4461",
+                            "to": {
+                              "col": 106,
+                              "row": 35,
+                              "height": 0
+                            },
+                            "speed": "slow"
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e4461",
+                            "facing": "right"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e4461",
+                            "frame": 0
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      4462,
-                      33427,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e4462",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e4462",
+                            "to": {
+                              "col": 104,
+                              "row": 34,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      4463,
-                      33431,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e4463",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e4463",
+                            "to": {
+                              "col": 105,
+                              "row": 37,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -384,7 +499,11 @@
                     "line": {
                       "text": "dlg.11605",
                       "speaker": "spk.拜月教主",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 80,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -510,7 +629,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11609",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 5,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -521,7 +644,11 @@
                     "line": {
                       "text": "dlg.11611",
                       "speaker": "spk.拜月教主",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 80,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -559,12 +686,18 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      4465,
-                      33435,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e4465",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "animEntity",
+                            "entity": "e4465"
+                          }
+                        ],
+                        "next": 0
+                      }
                     ]
                   },
                   {
@@ -572,40 +705,70 @@
                     "ms": 160
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      4461,
-                      33425,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e4461",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e4461",
+                            "to": {
+                              "col": 109,
+                              "row": 35,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      4462,
-                      33429,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e4462",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e4462",
+                            "to": {
+                              "col": 111,
+                              "row": 34,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      4463,
-                      33433,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e4463",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e4463",
+                            "to": {
+                              "col": 111,
+                              "row": 37,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 127,
-                    "operands": [
-                      4,
-                      2,
-                      16
-                    ]
+                    "kind": "cameraPan",
+                    "dx": 4,
+                    "dy": 2,
+                    "frames": 16
                   },
                   {
                     "kind": "setEntityState",
@@ -685,7 +848,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.11554",
-            "speaker": "spk.巫后"
+            "speaker": "spk.巫后",
+            "portrait": {
+              "icon": 73,
+              "side": "right"
+            }
           }
         },
         {
@@ -710,7 +877,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.11560",
-            "speaker": "spk.巫后"
+            "speaker": "spk.巫后",
+            "portrait": {
+              "icon": 73,
+              "side": "right"
+            }
           }
         },
         {
@@ -731,7 +902,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.11564",
-            "speaker": "spk.巫后"
+            "speaker": "spk.巫后",
+            "portrait": {
+              "icon": 73,
+              "side": "right"
+            }
           }
         },
         {
@@ -762,7 +937,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.11576",
-            "speaker": "spk.巫后"
+            "speaker": "spk.巫后",
+            "portrait": {
+              "icon": 73,
+              "side": "right"
+            }
           }
         }
       ]

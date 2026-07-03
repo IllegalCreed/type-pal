@@ -118,13 +118,8 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e938"
                   },
                   {
                     "kind": "dialog",
@@ -138,7 +133,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4056",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -210,12 +209,23 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      65535,
-                      11221,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e938",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e938",
+                            "to": {
+                              "col": 103,
+                              "row": 27,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -234,7 +244,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4063",
-                      "speaker": "spk.林月如"
+                      "speaker": "spk.林月如",
+                      "portrait": {
+                        "icon": 25,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -250,14 +264,22 @@
                     "line": {
                       "text": "dlg.4066",
                       "speaker": "spk.李逍遥",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 6,
+                        "side": "left"
+                      }
                     }
                   },
                   {
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4070",
-                      "speaker": "spk.林月如"
+                      "speaker": "spk.林月如",
+                      "portrait": {
+                        "icon": 22,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -289,14 +311,22 @@
                     "line": {
                       "text": "dlg.4072",
                       "speaker": "spk.赵灵儿",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 11,
+                        "side": "left"
+                      }
                     }
                   },
                   {
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4074",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -312,7 +342,11 @@
                     "line": {
                       "text": "dlg.4076",
                       "speaker": "spk.赵灵儿",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 17,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -327,7 +361,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4079",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 2,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -343,16 +381,31 @@
                     "line": {
                       "text": "dlg.4082",
                       "speaker": "spk.赵灵儿",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 17,
+                        "side": "left"
+                      }
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      65535,
-                      11223,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e938",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e938",
+                            "to": {
+                              "col": 103,
+                              "row": 35,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -382,7 +435,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4088",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -407,7 +464,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4093",
-                      "speaker": "spk.林月如"
+                      "speaker": "spk.林月如",
+                      "portrait": {
+                        "icon": 23,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -422,12 +483,38 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      65535,
-                      11225,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e938",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e938",
+                            "facing": "left"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e938",
+                            "frame": 0
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e938",
+                            "to": {
+                              "col": 103,
+                              "row": 27,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e938",
+                            "state": 0
+                          }
+                        ]
+                      }
                     ]
                   }
                 ]
@@ -468,7 +555,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4333",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -478,7 +569,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4335",
-                      "speaker": "spk.和尚"
+                      "speaker": "spk.和尚",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -488,7 +583,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4337",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -498,7 +597,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4339",
-                      "speaker": "spk.和尚"
+                      "speaker": "spk.和尚",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -508,7 +611,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4341",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   }
                 ],
@@ -915,7 +1022,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4107",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 10,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -936,7 +1047,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4112",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -978,7 +1093,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4127",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -1009,7 +1128,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4136",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 10,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -1030,7 +1153,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4143",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 5,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -1040,7 +1167,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4145",
-                      "speaker": "spk.林月如"
+                      "speaker": "spk.林月如",
+                      "portrait": {
+                        "icon": 22,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -1061,7 +1192,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4150",
-                      "speaker": "spk.林月如"
+                      "speaker": "spk.林月如",
+                      "portrait": {
+                        "icon": 24,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -1082,16 +1217,80 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4157",
-                      "speaker": "spk.林月如"
+                      "speaker": "spk.林月如",
+                      "portrait": {
+                        "icon": 21,
+                        "side": "right"
+                      }
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      943,
-                      11379,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e943",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e943",
+                            "to": {
+                              "col": 95,
+                              "row": 11,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e943",
+                            "to": {
+                              "col": 95,
+                              "row": 7,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e943",
+                            "facing": "right"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e943",
+                            "frame": 0
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 80
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e943",
+                            "to": {
+                              "col": 95,
+                              "row": 5,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e943",
+                            "to": {
+                              "col": 68,
+                              "row": 5,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e943",
+                            "state": 0
+                          }
+                        ]
+                      }
                     ]
                   },
                   {

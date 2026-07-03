@@ -8893,13 +8893,9 @@
           "ms": 600
         },
         {
-          "kind": "unmigrated",
-          "opcode": 36,
-          "operands": [
-            2466,
-            0,
-            0
-          ]
+          "kind": "setEntityAuto",
+          "entity": "e2466",
+          "stages": []
         },
         {
           "kind": "wait",
@@ -8922,7 +8918,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9208",
-            "speaker": "spk.剑圣"
+            "speaker": "spk.剑圣",
+            "portrait": {
+              "icon": 63,
+              "side": "right"
+            }
           }
         },
         {
@@ -8946,7 +8946,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9209",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 37,
+              "side": "left"
+            }
           }
         },
         {
@@ -8956,7 +8960,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9212",
-            "speaker": "spk.剑圣"
+            "speaker": "spk.剑圣",
+            "portrait": {
+              "icon": 63,
+              "side": "right"
+            }
           }
         },
         {
@@ -9004,7 +9012,11 @@
         {
           "kind": "dialog",
           "line": {
-            "text": "dlg.9213"
+            "text": "dlg.9213",
+            "portrait": {
+              "icon": 37,
+              "side": "right"
+            }
           }
         },
         {

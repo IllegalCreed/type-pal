@@ -218,20 +218,21 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      2,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e887",
+                    "on": "interact",
+                    "range": 2
                   },
                   {
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.3862",
                       "speaker": "spk.林月如",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 21,
+                        "side": "left"
+                      }
                     }
                   }
                 ],

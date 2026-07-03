@@ -174,7 +174,11 @@
                     "line": {
                       "text": "dlg.3954",
                       "speaker": "spk.骆员外",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 66,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -184,7 +188,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.3956",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -193,7 +201,11 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.3959"
+                      "text": "dlg.3959",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -204,7 +216,11 @@
                     "line": {
                       "text": "dlg.3963",
                       "speaker": "spk.骆员外",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 66,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -214,7 +230,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.3966",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -225,7 +245,11 @@
                     "line": {
                       "text": "dlg.3969",
                       "speaker": "spk.骆员外",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 66,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -245,7 +269,11 @@
                     "line": {
                       "text": "dlg.3977",
                       "speaker": "spk.骆员外",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 66,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -255,7 +283,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.3979",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 66,
+                        "side": "left"
+                      }
                     }
                   },
                   {

@@ -234,7 +234,11 @@
           "line": {
             "text": "dlg.9194",
             "speaker": "spk.天鬼皇",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 43,
+              "side": "left"
+            }
           }
         },
         {
@@ -275,7 +279,11 @@
           "line": {
             "text": "dlg.9198",
             "speaker": "spk.天鬼皇",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 43,
+              "side": "left"
+            }
           }
         },
         {
@@ -351,7 +359,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9201",
-            "speaker": "spk.天鬼皇"
+            "speaker": "spk.天鬼皇",
+            "portrait": {
+              "icon": 43,
+              "side": "right"
+            }
           }
         },
         {
@@ -421,7 +433,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9205",
-            "speaker": "spk.天鬼皇"
+            "speaker": "spk.天鬼皇",
+            "portrait": {
+              "icon": 43,
+              "side": "right"
+            }
           }
         },
         {

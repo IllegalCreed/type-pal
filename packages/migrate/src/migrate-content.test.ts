@@ -382,6 +382,25 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
     expect(text.startsWith('传说～当年观音菩萨')).toBe(true)
     expect(text.length).toBeGreaterThan(20) // 多行拼接成页,不是单行
   })
+  test('M3c 立绘:对话样式 op 的 arg0 → DialogueLine.portrait(top→左 / bottom→右;用户实测漏显回归)', () => {
+    // 全量对话(含 onEnter/触发)扫立绘
+    const allDialogs = out2.scenes.flatMap((s) => [
+      ...(s.onEnter ?? []).flatMap((st) => st.body),
+      ...s.entities.flatMap((e) => e.pages?.flatMap((p) => p.trigger?.stages.flatMap((st) => st.body) ?? []) ?? []),
+    ]).filter((c): c is Extract<typeof c, { kind: 'dialog' }> => c.kind === 'dialog')
+    const withPortrait = allDialogs.filter((d) => d.line.portrait)
+    expect(withPortrait.length).toBeGreaterThan(3) // 客栈开场李大娘/李逍遥多页带立绘
+    // side 约定:top slot → 左,bottom slot(缺省)→ 右;icon 为正整数(RGM 立绘号)
+    for (const d of withPortrait) {
+      const p = d.line.portrait!
+      expect(p.icon).toBeGreaterThan(0)
+      expect(p.side).toBe(d.line.slot === 'top' ? 'left' : 'right')
+    }
+    // 李大娘(icon 55)确在开场
+    expect(withPortrait.some((d) => d.line.portrait!.icon === 55)).toBe(true)
+    // narration/center 无立绘(arg0 是颜色不是脸)
+    expect(allDialogs.every((d) => d.line.slot !== 'narration' || !d.line.portrait)).toBe(true)
+  })
   test('M3a stages:存在 advance 多段触发与 reset 回跳;onEnter 翻译含 playMusic', () => {
     const allStages = out2.scenes.flatMap((s) =>
       s.entities.flatMap((e) => e.pages?.flatMap((p) => p.trigger?.stages ?? []) ?? []),

@@ -3596,12 +3596,17 @@
                     "soundId": 155
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      4810,
-                      35627,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e4810",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "animEntity",
+                            "entity": "e4810"
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -3623,13 +3628,9 @@
                     "frame": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      4810,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityAuto",
+                    "entity": "e4810",
+                    "stages": []
                   },
                   {
                     "kind": "unmigrated",

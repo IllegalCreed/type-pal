@@ -120,12 +120,29 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 37,
-          "operands": [
-            2805,
-            22599,
-            0
+          "kind": "setEntityTrigger",
+          "entity": "e2805",
+          "stages": [
+            {
+              "body": [
+                {
+                  "kind": "loadScene",
+                  "scene": "s153"
+                },
+                {
+                  "kind": "teleportParty",
+                  "pos": {
+                    "col": 87,
+                    "row": 58,
+                    "height": 0
+                  }
+                },
+                {
+                  "kind": "fade",
+                  "dir": "out"
+                }
+              ]
+            }
           ]
         },
         {

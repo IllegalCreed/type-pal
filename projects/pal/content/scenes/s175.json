@@ -292,19 +292,18 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e2896"
                   },
                   {
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9443",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -319,12 +318,59 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      65535,
-                      26787,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e2896",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e2896",
+                            "to": {
+                              "col": 137,
+                              "row": 57,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e2896",
+                            "to": {
+                              "col": 137,
+                              "row": 46,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e2896",
+                            "to": {
+                              "col": 130,
+                              "row": 46,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e2896",
+                            "facing": "right"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e2896",
+                            "frame": 0
+                          },
+                          {
+                            "kind": "setEntityTriggerMode",
+                            "entity": "e2896",
+                            "on": "touch",
+                            "range": 2
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -424,21 +470,32 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e2897"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      2898,
-                      26820,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e2898",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e2898",
+                            "to": {
+                              "col": 129,
+                              "row": 63,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e2898",
+                            "state": 0
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -491,12 +548,28 @@
                     "ms": 200
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      2899,
-                      26823,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e2899",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e2899",
+                            "to": {
+                              "col": 129,
+                              "row": 64,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e2899",
+                            "state": 0
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -521,7 +594,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9453",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   }
                 ]
@@ -550,21 +627,32 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e2898"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      2898,
-                      26820,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e2898",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e2898",
+                            "to": {
+                              "col": 129,
+                              "row": 63,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e2898",
+                            "state": 0
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -617,12 +705,28 @@
                     "ms": 200
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      2899,
-                      26823,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e2899",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e2899",
+                            "to": {
+                              "col": 129,
+                              "row": 64,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e2899",
+                            "state": 0
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -647,7 +751,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9453",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   }
                 ]
@@ -676,21 +784,52 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e2899"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      65535,
-                      26854,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e2899",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e2899",
+                            "to": {
+                              "col": 111,
+                              "row": 79,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e2899",
+                            "to": {
+                              "col": 111,
+                              "row": 75,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e2903",
+                            "state": 2
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e2904",
+                            "state": 2
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e2899",
+                            "state": 0
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -810,13 +949,10 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      2,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e2908",
+                    "on": "interact",
+                    "range": 2
                   },
                   {
                     "kind": "wait",
@@ -826,7 +962,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9457",
-                      "speaker": "spk.阿桃"
+                      "speaker": "spk.阿桃",
+                      "portrait": {
+                        "icon": 46,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -844,7 +984,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9459",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 3,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -855,7 +999,11 @@
                     "line": {
                       "text": "dlg.9461",
                       "speaker": "spk.阿桃",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 46,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -865,7 +1013,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9464",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 6,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -874,7 +1026,11 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.9465"
+                      "text": "dlg.9465",
+                      "portrait": {
+                        "icon": 6,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -885,7 +1041,11 @@
                     "line": {
                       "text": "dlg.9468",
                       "speaker": "spk.阿桃",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 46,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -895,7 +1055,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9470",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 46,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -1038,7 +1202,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9489",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 3,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -1069,7 +1237,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9495",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -1153,7 +1325,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9526",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -1173,7 +1349,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9531",
-                      "speaker": "spk.阿桃"
+                      "speaker": "spk.阿桃",
+                      "portrait": {
+                        "icon": 46,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -1191,7 +1371,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9536",
-                      "speaker": "spk.阿桃"
+                      "speaker": "spk.阿桃",
+                      "portrait": {
+                        "icon": 46,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -1212,7 +1396,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9542",
-                      "speaker": "spk.阿桃"
+                      "speaker": "spk.阿桃",
+                      "portrait": {
+                        "icon": 46,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -1226,7 +1414,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9545",
-                      "speaker": "spk.阿奴"
+                      "speaker": "spk.阿奴",
+                      "portrait": {
+                        "icon": 27,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -1251,7 +1443,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9550",
-                      "speaker": "spk.阿奴"
+                      "speaker": "spk.阿奴",
+                      "portrait": {
+                        "icon": 29,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -1276,7 +1472,11 @@
                     "line": {
                       "text": "dlg.9558",
                       "speaker": "spk.阿桃",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 46,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -1359,7 +1559,11 @@
                     "line": {
                       "text": "dlg.9561",
                       "speaker": "spk.阿桃",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 46,
+                        "side": "left"
+                      }
                     }
                   }
                 ],
@@ -1372,7 +1576,11 @@
                     "line": {
                       "text": "dlg.9565",
                       "speaker": "spk.阿桃",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 46,
+                        "side": "left"
+                      }
                     }
                   }
                 ]

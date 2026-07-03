@@ -284,7 +284,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.2535",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -303,7 +307,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.2539",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -324,7 +332,11 @@
                     "line": {
                       "text": "dlg.2543",
                       "speaker": "spk.赵灵儿",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 12,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -342,12 +354,29 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 37,
-                    "operands": [
-                      493,
-                      6519,
-                      0
+                    "kind": "setEntityTrigger",
+                    "entity": "e493",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "loadScene",
+                            "scene": "s024"
+                          },
+                          {
+                            "kind": "teleportParty",
+                            "pos": {
+                              "col": 88,
+                              "row": 16,
+                              "height": 0
+                            }
+                          },
+                          {
+                            "kind": "fade",
+                            "dir": "out"
+                          }
+                        ]
+                      }
                     ]
                   }
                 ]

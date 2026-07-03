@@ -528,13 +528,7 @@
           "facing": "down"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 127,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "cameraSnap"
         },
         {
           "kind": "wait",
@@ -666,13 +660,7 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 127,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "cameraSnap"
         },
         {
           "kind": "dialog",

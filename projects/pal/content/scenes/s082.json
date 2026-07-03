@@ -17461,22 +17461,264 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      65535,
-                      13487,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e1568",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1568",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1568",
+                            "frame": 4
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1568",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1568",
+                            "frame": 5
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1568",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1568",
+                            "frame": 6
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1568",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1568",
+                            "frame": 7
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1568",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1568",
+                            "frame": 8
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 200
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 71
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1568",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1568",
+                            "frame": 9
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1568",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1568",
+                            "frame": 10
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 360
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 85
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "setEntityTriggerMode",
+                            "entity": "e1568",
+                            "on": "interact",
+                            "range": 2
+                          }
+                        ],
+                        "next": 6
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1568",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1568",
+                            "frame": 0
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1568",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1568",
+                            "frame": 1
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 160
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1568",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1568",
+                            "frame": 0
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 80
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1568",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1568",
+                            "frame": 2
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 80
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1568",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1568",
+                            "frame": 0
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1568",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1568",
+                            "frame": 3
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 200
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1568",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1568",
+                            "frame": 0
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1568",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1568",
+                            "frame": 2
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 120
+                          }
+                        ],
+                        "next": 6
+                      }
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e1568"
                   }
                 ]
               }
@@ -17634,22 +17876,494 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      65535,
-                      13513,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e1569",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1569",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1569",
+                            "frame": 2
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1569",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1569",
+                            "frame": 0
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1569",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1569",
+                            "frame": 3
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1569",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1569",
+                            "frame": 0
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1569",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1569",
+                            "frame": 4
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 440
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1569",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1569",
+                            "frame": 5
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1569",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1569",
+                            "frame": 6
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1569",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1569",
+                            "frame": 7
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 76
+                            },
+                            "then": [
+                              {
+                                "kind": "setEntityFacing",
+                                "entity": "e1569",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "entity": "e1569",
+                                "frame": 7
+                              },
+                              {
+                                "kind": "branch",
+                                "cond": {
+                                  "kind": "chance",
+                                  "percent": 76
+                                },
+                                "then": []
+                              },
+                              {
+                                "kind": "wait",
+                                "ms": 120
+                              },
+                              {
+                                "kind": "setEntityFacing",
+                                "entity": "e1569",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "entity": "e1569",
+                                "frame": 8
+                              },
+                              {
+                                "kind": "wait",
+                                "ms": 80
+                              },
+                              {
+                                "kind": "branch",
+                                "cond": {
+                                  "kind": "chance",
+                                  "percent": 81
+                                },
+                                "then": []
+                              },
+                              {
+                                "kind": "wait",
+                                "ms": 160
+                              },
+                              {
+                                "kind": "setEntityFacing",
+                                "entity": "e1569",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "entity": "e1569",
+                                "frame": 9
+                              },
+                              {
+                                "kind": "wait",
+                                "ms": 400
+                              },
+                              {
+                                "kind": "branch",
+                                "cond": {
+                                  "kind": "chance",
+                                  "percent": 85
+                                },
+                                "then": []
+                              },
+                              {
+                                "kind": "setEntityTriggerMode",
+                                "entity": "e1569",
+                                "on": "interact",
+                                "range": 2
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 120
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1569",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1569",
+                            "frame": 8
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 80
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 81
+                            },
+                            "then": [
+                              {
+                                "kind": "setEntityFacing",
+                                "entity": "e1569",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "entity": "e1569",
+                                "frame": 7
+                              },
+                              {
+                                "kind": "branch",
+                                "cond": {
+                                  "kind": "chance",
+                                  "percent": 76
+                                },
+                                "then": []
+                              },
+                              {
+                                "kind": "wait",
+                                "ms": 120
+                              },
+                              {
+                                "kind": "setEntityFacing",
+                                "entity": "e1569",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "entity": "e1569",
+                                "frame": 8
+                              },
+                              {
+                                "kind": "wait",
+                                "ms": 80
+                              },
+                              {
+                                "kind": "branch",
+                                "cond": {
+                                  "kind": "chance",
+                                  "percent": 81
+                                },
+                                "then": []
+                              },
+                              {
+                                "kind": "wait",
+                                "ms": 160
+                              },
+                              {
+                                "kind": "setEntityFacing",
+                                "entity": "e1569",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "entity": "e1569",
+                                "frame": 9
+                              },
+                              {
+                                "kind": "wait",
+                                "ms": 400
+                              },
+                              {
+                                "kind": "branch",
+                                "cond": {
+                                  "kind": "chance",
+                                  "percent": 85
+                                },
+                                "then": []
+                              },
+                              {
+                                "kind": "setEntityTriggerMode",
+                                "entity": "e1569",
+                                "on": "interact",
+                                "range": 2
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 160
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1569",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1569",
+                            "frame": 9
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 400
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 85
+                            },
+                            "then": [
+                              {
+                                "kind": "setEntityFacing",
+                                "entity": "e1569",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "entity": "e1569",
+                                "frame": 7
+                              },
+                              {
+                                "kind": "branch",
+                                "cond": {
+                                  "kind": "chance",
+                                  "percent": 76
+                                },
+                                "then": []
+                              },
+                              {
+                                "kind": "wait",
+                                "ms": 120
+                              },
+                              {
+                                "kind": "setEntityFacing",
+                                "entity": "e1569",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "entity": "e1569",
+                                "frame": 8
+                              },
+                              {
+                                "kind": "wait",
+                                "ms": 80
+                              },
+                              {
+                                "kind": "branch",
+                                "cond": {
+                                  "kind": "chance",
+                                  "percent": 81
+                                },
+                                "then": []
+                              },
+                              {
+                                "kind": "wait",
+                                "ms": 160
+                              },
+                              {
+                                "kind": "setEntityFacing",
+                                "entity": "e1569",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "entity": "e1569",
+                                "frame": 9
+                              },
+                              {
+                                "kind": "wait",
+                                "ms": 400
+                              },
+                              {
+                                "kind": "branch",
+                                "cond": {
+                                  "kind": "chance",
+                                  "percent": 85
+                                },
+                                "then": []
+                              },
+                              {
+                                "kind": "setEntityTriggerMode",
+                                "entity": "e1569",
+                                "on": "interact",
+                                "range": 2
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "setEntityTriggerMode",
+                            "entity": "e1569",
+                            "on": "interact",
+                            "range": 2
+                          }
+                        ],
+                        "next": 5
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1569",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1569",
+                            "frame": 0
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 61
+                            },
+                            "then": [
+                              {
+                                "kind": "setEntityFacing",
+                                "entity": "e1569",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "entity": "e1569",
+                                "frame": 0
+                              },
+                              {
+                                "kind": "branch",
+                                "cond": {
+                                  "kind": "chance",
+                                  "percent": 61
+                                },
+                                "then": []
+                              },
+                              {
+                                "kind": "wait",
+                                "ms": 480
+                              },
+                              {
+                                "kind": "setEntityFacing",
+                                "entity": "e1569",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "entity": "e1569",
+                                "frame": 1
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 480
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1569",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1569",
+                            "frame": 1
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [],
+                        "next": 5
+                      }
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e1569"
                   }
                 ]
               }

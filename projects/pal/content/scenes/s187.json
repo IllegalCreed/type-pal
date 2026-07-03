@@ -162,13 +162,8 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e3154"
                   },
                   {
                     "kind": "setEntityFacing",
@@ -181,12 +176,57 @@
                     "frame": 1
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      3153,
-                      36518,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e3153",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "playSound",
+                            "soundId": 113
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e3153",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e3153",
+                            "frame": 1
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e3153",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e3153",
+                            "frame": 2
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e3153",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e3153",
+                            "frame": 3
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e3153",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e3153",
+                            "frame": 4
+                          }
+                        ]
+                      }
                     ]
                   },
                   {

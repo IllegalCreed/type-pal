@@ -3584,12 +3584,17 @@
                     "ms": 80
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      4397,
-                      35627,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e4397",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "animEntity",
+                            "entity": "e4397"
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -3615,13 +3620,9 @@
                     "frame": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      4397,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityAuto",
+                    "entity": "e4397",
+                    "stages": []
                   },
                   {
                     "kind": "unmigrated",

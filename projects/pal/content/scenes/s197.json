@@ -76,7 +76,11 @@
           "line": {
             "text": "dlg.10194",
             "speaker": "spk.林月如",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 24,
+              "side": "left"
+            }
           }
         },
         {
@@ -86,7 +90,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.10195",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 24,
+              "side": "left"
+            }
           }
         },
         {

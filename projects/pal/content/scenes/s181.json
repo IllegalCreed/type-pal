@@ -281,7 +281,11 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.9664"
+                      "text": "dlg.9664",
+                      "portrait": {
+                        "icon": 28,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -364,7 +368,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9677",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 6,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -379,7 +387,11 @@
                     "line": {
                       "text": "dlg.9680",
                       "speaker": "spk.阿奴",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 29,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -393,7 +405,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9683",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 7,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -408,7 +424,11 @@
                     "line": {
                       "text": "dlg.9685",
                       "speaker": "spk.阿奴",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 29,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -471,7 +491,11 @@
                     "line": {
                       "text": "dlg.9688",
                       "speaker": "spk.阿桃",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 46,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -500,12 +524,42 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      2983,
-                      27416,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e2983",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e2983",
+                            "to": {
+                              "col": 126,
+                              "row": 82,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e2983",
+                            "to": {
+                              "col": 125,
+                              "row": 82,
+                              "height": 0
+                            },
+                            "speed": "slow"
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -758,12 +812,23 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      2983,
-                      27421,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e2983",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e2983",
+                            "to": {
+                              "col": 123,
+                              "row": 82,
+                              "height": 0
+                            },
+                            "speed": "slow"
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -799,12 +864,109 @@
                     "ms": 160
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      2983,
-                      27423,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e2983",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "nudgeEntity",
+                            "entity": "e2983",
+                            "dx": 4,
+                            "dy": 2
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "nudgeEntity",
+                            "entity": "e2983",
+                            "dx": 4,
+                            "dy": 2
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "nudgeEntity",
+                            "entity": "e2983",
+                            "dx": 4,
+                            "dy": 2
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "nudgeEntity",
+                            "entity": "e2983",
+                            "dx": 4,
+                            "dy": 2
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "nudgeEntity",
+                            "entity": "e2983",
+                            "dx": 4,
+                            "dy": 2
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "nudgeEntity",
+                            "entity": "e2983",
+                            "dx": 4,
+                            "dy": 2
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "nudgeEntity",
+                            "entity": "e2983",
+                            "dx": 4,
+                            "dy": 2
+                          }
+                        ]
+                      }
                     ]
                   },
                   {

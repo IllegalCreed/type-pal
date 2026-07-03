@@ -4112,26 +4112,21 @@
     {
       "body": [
         {
-          "kind": "unmigrated",
-          "opcode": 127,
-          "operands": [
-            15,
-            56,
-            65535
-          ]
+          "kind": "cameraSnap",
+          "to": {
+            "col": 71,
+            "row": 41,
+            "height": 0
+          }
         },
         {
           "kind": "wait",
           "ms": 1200
         },
         {
-          "kind": "unmigrated",
-          "opcode": 36,
-          "operands": [
-            2383,
-            0,
-            0
-          ]
+          "kind": "setEntityAuto",
+          "entity": "e2383",
+          "stages": []
         },
         {
           "kind": "wait",
@@ -4199,12 +4194,53 @@
           "ms": 240
         },
         {
-          "kind": "unmigrated",
-          "opcode": 36,
-          "operands": [
-            2384,
-            22270,
-            0
+          "kind": "setEntityAuto",
+          "entity": "e2384",
+          "stages": [
+            {
+              "body": [
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2384",
+                  "facing": "left"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2384",
+                  "frame": 0
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2384",
+                  "facing": "up"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2384",
+                  "frame": 0
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2384",
+                  "facing": "right"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2384",
+                  "frame": 0
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2384",
+                  "facing": "down"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2384",
+                  "frame": 0
+                }
+              ]
+            }
           ]
         },
         {

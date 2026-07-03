@@ -19711,13 +19711,10 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 127,
-          "operands": [
-            0,
-            2,
-            150
-          ]
+          "kind": "cameraPan",
+          "dx": 0,
+          "dy": 2,
+          "frames": 150
         },
         {
           "kind": "unmigrated",

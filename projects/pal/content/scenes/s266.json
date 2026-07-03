@@ -8180,13 +8180,21 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36505,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityFacing",
+                    "entity": "e4660",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4660",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
                   },
                   {
                     "kind": "dialog",
@@ -8201,7 +8209,11 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.11959"
+                      "text": "dlg.11959",
+                      "portrait": {
+                        "icon": 3,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -8225,7 +8237,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11961",
-                      "speaker": "spk.小孩"
+                      "speaker": "spk.小孩",
+                      "portrait": {
+                        "icon": 85,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -8241,7 +8257,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11962",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 6,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -8251,16 +8271,76 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11965",
-                      "speaker": "spk.小孩"
+                      "speaker": "spk.小孩",
+                      "portrait": {
+                        "icon": 85,
+                        "side": "right"
+                      }
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      4663,
-                      34784,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e4663",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e4663",
+                            "to": {
+                              "col": 137,
+                              "row": 70,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e4663",
+                            "to": {
+                              "col": 137,
+                              "row": 66,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e4663",
+                            "facing": "left"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e4663",
+                            "frame": 0
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e4661",
+                            "state": 0
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e4663",
+                            "to": {
+                              "col": 135,
+                              "row": 66,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -8295,16 +8375,31 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.11967"
+                      "text": "dlg.11967",
+                      "portrait": {
+                        "icon": 3,
+                        "side": "right"
+                      }
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      4663,
-                      34792,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e4663",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e4663",
+                            "to": {
+                              "col": 135,
+                              "row": 67,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -8316,7 +8411,11 @@
                     "line": {
                       "text": "dlg.11971",
                       "speaker": "spk.小孩",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 85,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -8325,7 +8424,11 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.11972"
+                      "text": "dlg.11972",
+                      "portrait": {
+                        "icon": 3,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -8336,7 +8439,11 @@
                     "line": {
                       "text": "dlg.11974",
                       "speaker": "spk.小孩",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 85,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -8345,7 +8452,11 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.11976"
+                      "text": "dlg.11976",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -8356,7 +8467,11 @@
                     "line": {
                       "text": "dlg.11979",
                       "speaker": "spk.小孩",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 85,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -8365,7 +8480,11 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.11982"
+                      "text": "dlg.11982",
+                      "portrait": {
+                        "icon": 9,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -8376,7 +8495,11 @@
                     "line": {
                       "text": "dlg.11985",
                       "speaker": "spk.小孩",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 85,
+                        "side": "left"
+                      }
                     }
                   }
                 ],
@@ -8592,7 +8715,11 @@
                     "line": {
                       "text": "dlg.11999",
                       "speaker": "spk.小孩",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 85,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -8617,7 +8744,11 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.12001"
+                      "text": "dlg.12001",
+                      "portrait": {
+                        "icon": 3,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -8628,7 +8759,11 @@
                     "line": {
                       "text": "dlg.12003",
                       "speaker": "spk.小孩",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 85,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -8817,12 +8952,23 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 36,
-          "operands": [
-            4658,
-            34330,
-            0
+          "kind": "setEntityAuto",
+          "entity": "e4658",
+          "stages": [
+            {
+              "body": [
+                {
+                  "kind": "moveEntity",
+                  "entity": "e4658",
+                  "to": {
+                    "col": 76,
+                    "row": 13,
+                    "height": 0
+                  },
+                  "speed": "normal"
+                }
+              ]
+            }
           ]
         },
         {
@@ -8834,7 +8980,11 @@
           "line": {
             "text": "dlg.11806",
             "speaker": "spk.小孩",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 85,
+              "side": "left"
+            }
           }
         },
         {
@@ -8844,7 +8994,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.11810",
-            "speaker": "spk.李逍遥"
+            "speaker": "spk.李逍遥",
+            "portrait": {
+              "icon": 3,
+              "side": "right"
+            }
           }
         },
         {
@@ -8882,16 +9036,36 @@
           "line": {
             "text": "dlg.11812",
             "speaker": "spk.小孩",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 85,
+              "side": "left"
+            }
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 36,
-          "operands": [
-            4658,
-            34332,
-            0
+          "kind": "setEntityAuto",
+          "entity": "e4658",
+          "stages": [
+            {
+              "body": [
+                {
+                  "kind": "moveEntity",
+                  "entity": "e4658",
+                  "to": {
+                    "col": 76,
+                    "row": 9,
+                    "height": 0
+                  },
+                  "speed": "normal"
+                },
+                {
+                  "kind": "setEntityState",
+                  "entity": "e4658",
+                  "state": 0
+                }
+              ]
+            }
           ]
         },
         {

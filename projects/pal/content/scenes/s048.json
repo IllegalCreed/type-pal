@@ -231,12 +231,89 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      796,
-                      36215,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e796",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e796",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e796",
+                            "frame": 4
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 520
+                          }
+                        ],
+                        "next": 1
+                      },
+                      {
+                        "body": [],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e796",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e796",
+                            "frame": 0
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 80
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e796",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e796",
+                            "frame": 1
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 80
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e796",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e796",
+                            "frame": 2
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 120
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e796",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e796",
+                            "frame": 3
+                          }
+                        ],
+                        "next": 1
+                      }
                     ]
                   },
                   {
@@ -352,21 +429,53 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e796"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      65535,
-                      10377,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e796",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 72,
+                              "row": 38,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 72,
+                              "row": 36,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e796",
+                            "facing": "right"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e796",
+                            "frame": 0
+                          },
+                          {
+                            "kind": "setEntityTriggerMode",
+                            "entity": "e796",
+                            "on": "touch",
+                            "range": 3
+                          }
+                        ]
+                      }
                     ]
                   }
                 ],
@@ -375,21 +484,63 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e796"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      65535,
-                      10382,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e796",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 51,
+                              "row": 35,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 51,
+                              "row": 21,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 61,
+                              "row": 20,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 61,
+                              "row": 2,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "setEntityTriggerMode",
+                            "entity": "e796",
+                            "on": "touch",
+                            "range": 4
+                          }
+                        ]
+                      }
                     ]
                   }
                 ],
@@ -398,21 +549,53 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e796"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      65535,
-                      10388,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e796",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 59,
+                              "row": 2,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 59,
+                              "row": -4,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 72,
+                              "row": -4,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "setEntityTriggerMode",
+                            "entity": "e796",
+                            "on": "touch",
+                            "range": 4
+                          }
+                        ]
+                      }
                     ]
                   }
                 ],
@@ -421,21 +604,83 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e796"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      65535,
-                      10393,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e796",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 72,
+                              "row": -3,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 66,
+                              "row": -3,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 66,
+                              "row": -6,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 62,
+                              "row": -6,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 62,
+                              "row": -9,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 59,
+                              "row": -9,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "setEntityTriggerMode",
+                            "entity": "e796",
+                            "on": "touch",
+                            "range": 4
+                          }
+                        ]
+                      }
                     ]
                   }
                 ],
@@ -444,21 +689,83 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e796"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      65535,
-                      10401,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e796",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 59,
+                              "row": -19,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 65,
+                              "row": -19,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 65,
+                              "row": -22,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 62,
+                              "row": -22,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 62,
+                              "row": -18,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 58,
+                              "row": -18,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "setEntityTriggerMode",
+                            "entity": "e796",
+                            "on": "touch",
+                            "range": 3
+                          }
+                        ]
+                      }
                     ]
                   }
                 ],
@@ -467,21 +774,83 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e796"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      65535,
-                      10409,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e796",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 58,
+                              "row": 9,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 61,
+                              "row": 9,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 61,
+                              "row": 12,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 71,
+                              "row": 12,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 71,
+                              "row": -2,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e796",
+                            "to": {
+                              "col": 72,
+                              "row": -2,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          },
+                          {
+                            "kind": "setEntityTriggerMode",
+                            "entity": "e796",
+                            "on": "touch",
+                            "range": 4
+                          }
+                        ]
+                      }
                     ]
                   }
                 ],
@@ -747,7 +1116,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.3813",
-            "speaker": "spk.李逍遥"
+            "speaker": "spk.李逍遥",
+            "portrait": {
+              "icon": 4,
+              "side": "right"
+            }
           }
         },
         {
@@ -758,14 +1131,22 @@
           "line": {
             "text": "dlg.3815",
             "speaker": "spk.林月如",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 21,
+              "side": "left"
+            }
           }
         },
         {
           "kind": "dialog",
           "line": {
             "text": "dlg.3818",
-            "speaker": "spk.李逍遥"
+            "speaker": "spk.李逍遥",
+            "portrait": {
+              "icon": 4,
+              "side": "right"
+            }
           }
         },
         {

@@ -493,12 +493,58 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 36,
-          "operands": [
-            2317,
-            16042,
-            0
+          "kind": "setEntityAuto",
+          "entity": "e2317",
+          "stages": [
+            {
+              "body": [
+                {
+                  "kind": "moveEntity",
+                  "entity": "e2317",
+                  "to": {
+                    "col": 98,
+                    "row": 34,
+                    "height": 0
+                  },
+                  "speed": "normal"
+                },
+                {
+                  "kind": "moveEntity",
+                  "entity": "e2317",
+                  "to": {
+                    "col": 105,
+                    "row": 34,
+                    "height": 0
+                  },
+                  "speed": "normal"
+                },
+                {
+                  "kind": "moveEntity",
+                  "entity": "e2317",
+                  "to": {
+                    "col": 105,
+                    "row": 35,
+                    "height": 0
+                  },
+                  "speed": "normal"
+                },
+                {
+                  "kind": "moveEntity",
+                  "entity": "e2317",
+                  "to": {
+                    "col": 106,
+                    "row": 35,
+                    "height": 0
+                  },
+                  "speed": "normal"
+                },
+                {
+                  "kind": "setEntityState",
+                  "entity": "e2317",
+                  "state": 0
+                }
+              ]
+            }
           ]
         },
         {

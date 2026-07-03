@@ -44,6 +44,12 @@ export interface ScriptHost {
   nudgeEntity(entity: string, dx: number, dy: number): void
   moveParty(to: GridPos, speed: WalkSpeed): Promise<void>
   nudgeParty(dx: number, dy: number): void
+  // ── M3c 相机 / 页切换 ──
+  cameraPan(dx: number, dy: number, frames: number): Promise<void>
+  cameraSnap(to?: GridPos): void
+  setEntityAuto(entity: string, stages: ScriptStage[]): void
+  setEntityTrigger(entity: string, stages: ScriptStage[]): void
+  setEntityTriggerMode(entity: string, on: 'interact' | 'touch' | undefined, range: number | undefined): void
   // ── M3b 战斗桩 / 商店 / 确认 ──
   startBattle(team: number): Promise<'win' | 'lose' | 'flee'>
   openShop(shop: number, mode: 'buy' | 'sell'): void
@@ -221,6 +227,16 @@ export class ScriptRunner {
         return h.openShop(cmd.shop, cmd.mode)
       case 'confirm':
         return (await h.confirm()) ? undefined : this.run(cmd.onNo)
+      case 'cameraPan':
+        return h.cameraPan(cmd.dx, cmd.dy, cmd.frames)
+      case 'cameraSnap':
+        return h.cameraSnap(cmd.to)
+      case 'setEntityAuto':
+        return h.setEntityAuto(cmd.entity, cmd.stages)
+      case 'setEntityTrigger':
+        return h.setEntityTrigger(cmd.entity, cmd.stages)
+      case 'setEntityTriggerMode':
+        return h.setEntityTriggerMode(cmd.entity, cmd.on, cmd.range)
       case 'unmigrated':
         h.report(`unmigrated op 0x${cmd.opcode.toString(16)} ${cmd.note ?? ''}`)
         return

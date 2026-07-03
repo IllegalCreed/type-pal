@@ -118,7 +118,11 @@
           "line": {
             "text": "dlg.10198",
             "speaker": "spk.李逍遥",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 9,
+              "side": "left"
+            }
           }
         },
         {
@@ -138,7 +142,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.10202",
-            "speaker": "spk.林月如"
+            "speaker": "spk.林月如",
+            "portrait": {
+              "icon": 21,
+              "side": "right"
+            }
           }
         },
         {
@@ -149,7 +157,11 @@
           "line": {
             "text": "dlg.10205",
             "speaker": "spk.李逍遥",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 3,
+              "side": "left"
+            }
           }
         },
         {
@@ -159,7 +171,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.10206",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 3,
+              "side": "left"
+            }
           }
         },
         {
@@ -179,7 +195,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.10210",
-            "speaker": "spk.林月如"
+            "speaker": "spk.林月如",
+            "portrait": {
+              "icon": 21,
+              "side": "right"
+            }
           }
         },
         {

@@ -32635,7 +32635,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.11122",
-            "speaker": "spk.拜月教主"
+            "speaker": "spk.拜月教主",
+            "portrait": {
+              "icon": 81,
+              "side": "right"
+            }
           }
         },
         {

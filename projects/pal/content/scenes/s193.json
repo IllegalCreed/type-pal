@@ -420,7 +420,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.10162",
-            "speaker": "spk.李逍遥"
+            "speaker": "spk.李逍遥",
+            "portrait": {
+              "icon": 10,
+              "side": "right"
+            }
           }
         },
         {
@@ -428,7 +432,11 @@
           "line": {
             "text": "dlg.10164",
             "speaker": "spk.林月如",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 21,
+              "side": "left"
+            }
           }
         },
         {

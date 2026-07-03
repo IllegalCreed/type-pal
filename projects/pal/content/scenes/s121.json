@@ -212,7 +212,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.6481",
-            "speaker": "spk.林月如"
+            "speaker": "spk.林月如",
+            "portrait": {
+              "icon": 21,
+              "side": "right"
+            }
           }
         },
         {
@@ -223,7 +227,11 @@
           "line": {
             "text": "dlg.6485",
             "speaker": "spk.刘夫人",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 67,
+              "side": "left"
+            }
           }
         },
         {

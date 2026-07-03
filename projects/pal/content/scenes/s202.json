@@ -375,13 +375,10 @@
                     },
                     "then": [
                       {
-                        "kind": "unmigrated",
-                        "opcode": 64,
-                        "operands": [
-                          65535,
-                          2,
-                          0
-                        ]
+                        "kind": "setEntityTriggerMode",
+                        "entity": "e3392",
+                        "on": "interact",
+                        "range": 2
                       },
                       {
                         "kind": "setEntityFacing",
@@ -411,7 +408,11 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.10227",
-                          "speaker": "spk.阿奴"
+                          "speaker": "spk.阿奴",
+                          "portrait": {
+                            "icon": 27,
+                            "side": "right"
+                          }
                         }
                       },
                       {
@@ -432,7 +433,11 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.10235",
-                          "speaker": "spk.阿奴"
+                          "speaker": "spk.阿奴",
+                          "portrait": {
+                            "icon": 27,
+                            "side": "right"
+                          }
                         }
                       },
                       {
@@ -450,16 +455,41 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.10240",
-                          "speaker": "spk.阿奴"
+                          "speaker": "spk.阿奴",
+                          "portrait": {
+                            "icon": 29,
+                            "side": "right"
+                          }
                         }
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 36,
-                        "operands": [
-                          65535,
-                          29097,
-                          0
+                        "kind": "setEntityAuto",
+                        "entity": "e3392",
+                        "stages": [
+                          {
+                            "body": [
+                              {
+                                "kind": "moveEntity",
+                                "entity": "e3392",
+                                "to": {
+                                  "col": 72,
+                                  "row": -21,
+                                  "height": 0
+                                },
+                                "speed": "normal"
+                              },
+                              {
+                                "kind": "setEntityFacing",
+                                "entity": "e3392",
+                                "facing": "right"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "entity": "e3392",
+                                "frame": 0
+                              }
+                            ]
+                          }
                         ]
                       }
                     ]
@@ -489,13 +519,10 @@
                     },
                     "then": [
                       {
-                        "kind": "unmigrated",
-                        "opcode": 64,
-                        "operands": [
-                          65535,
-                          2,
-                          0
-                        ]
+                        "kind": "setEntityTriggerMode",
+                        "entity": "e3392",
+                        "on": "interact",
+                        "range": 2
                       },
                       {
                         "kind": "setEntityFacing",
@@ -525,7 +552,11 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.10227",
-                          "speaker": "spk.阿奴"
+                          "speaker": "spk.阿奴",
+                          "portrait": {
+                            "icon": 27,
+                            "side": "right"
+                          }
                         }
                       },
                       {
@@ -546,7 +577,11 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.10235",
-                          "speaker": "spk.阿奴"
+                          "speaker": "spk.阿奴",
+                          "portrait": {
+                            "icon": 27,
+                            "side": "right"
+                          }
                         }
                       },
                       {
@@ -564,16 +599,41 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.10240",
-                          "speaker": "spk.阿奴"
+                          "speaker": "spk.阿奴",
+                          "portrait": {
+                            "icon": 29,
+                            "side": "right"
+                          }
                         }
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 36,
-                        "operands": [
-                          65535,
-                          29097,
-                          0
+                        "kind": "setEntityAuto",
+                        "entity": "e3392",
+                        "stages": [
+                          {
+                            "body": [
+                              {
+                                "kind": "moveEntity",
+                                "entity": "e3392",
+                                "to": {
+                                  "col": 72,
+                                  "row": -21,
+                                  "height": 0
+                                },
+                                "speed": "normal"
+                              },
+                              {
+                                "kind": "setEntityFacing",
+                                "entity": "e3392",
+                                "facing": "right"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "entity": "e3392",
+                                "frame": 0
+                              }
+                            ]
+                          }
                         ]
                       }
                     ]

@@ -54,13 +54,10 @@
                     "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 127,
-                    "operands": [
-                      0,
-                      65532,
-                      16
-                    ]
+                    "kind": "cameraPan",
+                    "dx": 0,
+                    "dy": -4,
+                    "frames": 16
                   },
                   {
                     "kind": "teleportParty",
@@ -71,13 +68,7 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 127,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
+                    "kind": "cameraSnap"
                   },
                   {
                     "kind": "moveParty",
@@ -121,13 +112,10 @@
                     "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 127,
-                    "operands": [
-                      0,
-                      4,
-                      16
-                    ]
+                    "kind": "cameraPan",
+                    "dx": 0,
+                    "dy": 4,
+                    "frames": 16
                   },
                   {
                     "kind": "teleportParty",
@@ -138,13 +126,7 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 127,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
+                    "kind": "cameraSnap"
                   },
                   {
                     "kind": "moveParty",
@@ -188,13 +170,10 @@
                     "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 127,
-                    "operands": [
-                      0,
-                      8,
-                      48
-                    ]
+                    "kind": "cameraPan",
+                    "dx": 0,
+                    "dy": 8,
+                    "frames": 48
                   },
                   {
                     "kind": "teleportParty",
@@ -205,13 +184,7 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 127,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
+                    "kind": "cameraSnap"
                   },
                   {
                     "kind": "moveParty",
@@ -255,13 +228,10 @@
                     "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 127,
-                    "operands": [
-                      0,
-                      65528,
-                      48
-                    ]
+                    "kind": "cameraPan",
+                    "dx": 0,
+                    "dy": -8,
+                    "frames": 48
                   },
                   {
                     "kind": "teleportParty",
@@ -272,13 +242,7 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 127,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
+                    "kind": "cameraSnap"
                   },
                   {
                     "kind": "moveParty",
@@ -578,12 +542,28 @@
                             },
                             "then": [
                               {
-                                "kind": "unmigrated",
-                                "opcode": 0,
-                                "operands": [
-                                  38710
-                                ],
-                                "note": "分支臂不可内联"
+                                "kind": "playSound",
+                                "soundId": 70
+                              },
+                              {
+                                "kind": "wait",
+                                "ms": 320
+                              },
+                              {
+                                "kind": "branch",
+                                "cond": {
+                                  "kind": "chance",
+                                  "percent": 81
+                                },
+                                "then": []
+                              },
+                              {
+                                "kind": "branch",
+                                "cond": {
+                                  "kind": "chance",
+                                  "percent": 26
+                                },
+                                "then": []
                               }
                             ]
                           }
@@ -622,12 +602,28 @@
                         },
                         "then": [
                           {
-                            "kind": "unmigrated",
-                            "opcode": 0,
-                            "operands": [
-                              38710
-                            ],
-                            "note": "分支臂不可内联"
+                            "kind": "playSound",
+                            "soundId": 70
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 320
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 81
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 26
+                            },
+                            "then": []
                           }
                         ]
                       }
@@ -662,66 +658,7 @@
                           "kind": "chance",
                           "percent": 26
                         },
-                        "then": [
-                          {
-                            "kind": "playSound",
-                            "soundId": 68
-                          },
-                          {
-                            "kind": "wait",
-                            "ms": 320
-                          },
-                          {
-                            "kind": "branch",
-                            "cond": {
-                              "kind": "chance",
-                              "percent": 81
-                            },
-                            "then": []
-                          },
-                          {
-                            "kind": "branch",
-                            "cond": {
-                              "kind": "chance",
-                              "percent": 26
-                            },
-                            "then": [
-                              {
-                                "kind": "playSound",
-                                "soundId": 69
-                              },
-                              {
-                                "kind": "wait",
-                                "ms": 240
-                              },
-                              {
-                                "kind": "branch",
-                                "cond": {
-                                  "kind": "chance",
-                                  "percent": 81
-                                },
-                                "then": []
-                              },
-                              {
-                                "kind": "branch",
-                                "cond": {
-                                  "kind": "chance",
-                                  "percent": 26
-                                },
-                                "then": [
-                                  {
-                                    "kind": "unmigrated",
-                                    "opcode": 0,
-                                    "operands": [
-                                      38710
-                                    ],
-                                    "note": "分支臂不可内联"
-                                  }
-                                ]
-                              }
-                            ]
-                          }
-                        ]
+                        "then": []
                       }
                     ]
                   },

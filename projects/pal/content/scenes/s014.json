@@ -85,7 +85,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.1601",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 5,
+                        "side": "right"
+                      }
                     }
                   }
                 ]
@@ -214,7 +218,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.1886",
-            "speaker": "spk.李逍遥"
+            "speaker": "spk.李逍遥",
+            "portrait": {
+              "icon": 1,
+              "side": "right"
+            }
           }
         },
         {
@@ -222,7 +230,11 @@
           "line": {
             "text": "dlg.1888",
             "speaker": "spk.张四哥",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 39,
+              "side": "left"
+            }
           }
         }
       ],

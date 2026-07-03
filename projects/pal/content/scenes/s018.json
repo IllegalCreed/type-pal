@@ -88,7 +88,11 @@
                     "line": {
                       "text": "dlg.1897",
                       "speaker": "spk.李逍遥",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -138,21 +142,29 @@
     {
       "body": [
         {
-          "kind": "unmigrated",
-          "opcode": 37,
-          "operands": [
-            205,
-            4211,
-            0
-          ]
-        },
-        {
-          "kind": "unmigrated",
-          "opcode": 37,
-          "operands": [
-            0,
-            4215,
-            0
+          "kind": "setEntityTrigger",
+          "entity": "e205",
+          "stages": [
+            {
+              "body": [
+                {
+                  "kind": "teleportParty",
+                  "pos": {
+                    "col": 90,
+                    "row": 54,
+                    "height": 0
+                  }
+                },
+                {
+                  "kind": "loadScene",
+                  "scene": "s019"
+                },
+                {
+                  "kind": "fade",
+                  "dir": "out"
+                }
+              ]
+            }
           ]
         },
         {

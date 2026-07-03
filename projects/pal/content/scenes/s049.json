@@ -569,12 +569,58 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      65535,
-                      9817,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e810",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e810",
+                            "to": {
+                              "col": 117,
+                              "row": 63,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e810",
+                            "to": {
+                              "col": 114,
+                              "row": 63,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e810",
+                            "to": {
+                              "col": 114,
+                              "row": 62,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e810",
+                            "to": {
+                              "col": 111,
+                              "row": 62,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e810",
+                            "state": 0
+                          }
+                        ]
+                      }
                     ]
                   }
                 ],
@@ -13819,12 +13865,242 @@
                             },
                             "then": [
                               {
-                                "kind": "unmigrated",
-                                "opcode": 0,
-                                "operands": [
-                                  35745
-                                ],
-                                "note": "分支臂不可内联"
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "branch",
+                                "cond": {
+                                  "kind": "chance",
+                                  "percent": 51
+                                },
+                                "then": []
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e819",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e819",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e819",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e819",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e819",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e819",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e819",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e819",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e819",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e819",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e819",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e819",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e819",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e819",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e819",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e819",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e819",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e819",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e819",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e819",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "setEntityFacing",
+                                "entity": "e819",
+                                "facing": "right"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "entity": "e819",
+                                "frame": 0
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e819"
                               }
                             ]
                           },
@@ -14694,12 +14970,242 @@
                         },
                         "then": [
                           {
-                            "kind": "unmigrated",
-                            "opcode": 0,
-                            "operands": [
-                              35745
-                            ],
-                            "note": "分支臂不可内联"
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 51
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e819",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e819",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e819",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e819",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e819",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e819",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e819",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e819",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e819",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e819",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e819",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e819",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e819",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e819",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e819",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e819",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e819",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e819",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e819",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e819",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e819",
+                            "facing": "right"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e819",
+                            "frame": 0
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e819"
                           }
                         ]
                       },
@@ -15637,12 +16143,174 @@
                             },
                             "then": [
                               {
-                                "kind": "unmigrated",
-                                "opcode": 0,
-                                "operands": [
-                                  35821
-                                ],
-                                "note": "分支臂不可内联"
+                                "kind": "animEntity",
+                                "entity": "e820"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e820"
+                              },
+                              {
+                                "kind": "branch",
+                                "cond": {
+                                  "kind": "chance",
+                                  "percent": 76
+                                },
+                                "then": []
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e820"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e820"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e820"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e820"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e820"
+                              },
+                              {
+                                "kind": "animEntity",
+                                "entity": "e820"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "down"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "left"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "up"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "right"
+                              },
+                              {
+                                "kind": "stepEntity",
+                                "entity": "e820",
+                                "dir": "right"
                               }
                             ]
                           },
@@ -16282,12 +16950,174 @@
                         },
                         "then": [
                           {
-                            "kind": "unmigrated",
-                            "opcode": 0,
-                            "operands": [
-                              35821
-                            ],
-                            "note": "分支臂不可内联"
+                            "kind": "animEntity",
+                            "entity": "e820"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e820"
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 76
+                            },
+                            "then": []
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e820"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e820"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e820"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e820"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e820"
+                          },
+                          {
+                            "kind": "animEntity",
+                            "entity": "e820"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "down"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "left"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "up"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "right"
+                          },
+                          {
+                            "kind": "stepEntity",
+                            "entity": "e820",
+                            "dir": "right"
                           }
                         ]
                       },

@@ -304,31 +304,16 @@
                     "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      1724,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e1724"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      1761,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e1761"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      1763,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e1763"
                   },
                   {
                     "kind": "setEntityState",
@@ -440,12 +425,32 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 37,
-                    "operands": [
-                      1783,
-                      14055,
-                      0
+                    "kind": "setEntityTrigger",
+                    "entity": "e1783",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.4702",
+                              "speaker": "spk.古董商"
+                            }
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.4704"
+                            }
+                          }
+                        ],
+                        "next": 0
+                      }
                     ]
                   },
                   {
@@ -499,7 +504,11 @@
                     "line": {
                       "text": "dlg.4537",
                       "speaker": "spk.李逍遥",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -509,7 +518,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4540",
-                      "speaker": "spk.林月如"
+                      "speaker": "spk.林月如",
+                      "portrait": {
+                        "icon": 25,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -520,7 +533,11 @@
                     "line": {
                       "text": "dlg.4543",
                       "speaker": "spk.李逍遥",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 3,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -592,7 +609,11 @@
                     "line": {
                       "text": "dlg.4546",
                       "speaker": "spk.林月如",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 22,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -606,7 +627,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4548",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -627,16 +652,41 @@
                     "line": {
                       "text": "dlg.4550",
                       "speaker": "spk.林月如",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 25,
+                        "side": "left"
+                      }
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      1788,
-                      13603,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e1788",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e1788",
+                            "to": {
+                              "col": 40,
+                              "row": 10,
+                              "height": 0
+                            },
+                            "speed": "slow"
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1788",
+                            "facing": "up"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1788",
+                            "frame": 0
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -753,7 +803,11 @@
                     "line": {
                       "text": "dlg.4552",
                       "speaker": "spk.林月如",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 24,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -763,7 +817,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4553",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 24,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -783,7 +841,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4555",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 24,
+                        "side": "left"
+                      }
                     }
                   },
                   {
@@ -817,16 +879,41 @@
                     "line": {
                       "text": "dlg.4557",
                       "speaker": "spk.林月如",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 23,
+                        "side": "left"
+                      }
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      1787,
-                      13771,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e1787",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e1787",
+                            "to": {
+                              "col": 44,
+                              "row": 14,
+                              "height": 0
+                            },
+                            "speed": "normal"
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e1787",
+                            "facing": "down"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e1787",
+                            "frame": 0
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -862,12 +949,28 @@
                     "ms": 200
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      1787,
-                      13774,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e1787",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e1787",
+                            "to": {
+                              "col": 44,
+                              "row": 22,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e1787",
+                            "state": 0
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
@@ -886,7 +989,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4559",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 10,
+                        "side": "right"
+                      }
                     }
                   },
                   {

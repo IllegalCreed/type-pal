@@ -104,18 +104,39 @@
           ]
         },
         {
-          "kind": "unmigrated",
-          "opcode": 37,
-          "operands": [
-            927,
-            9700,
-            0
+          "kind": "setEntityTrigger",
+          "entity": "e927",
+          "stages": [
+            {
+              "body": [
+                {
+                  "kind": "loadScene",
+                  "scene": "s058"
+                },
+                {
+                  "kind": "teleportParty",
+                  "pos": {
+                    "col": 160,
+                    "row": 68,
+                    "height": 0
+                  }
+                },
+                {
+                  "kind": "fade",
+                  "dir": "out"
+                }
+              ]
+            }
           ]
         },
         {
           "kind": "dialog",
           "line": {
-            "text": "dlg.4344"
+            "text": "dlg.4344",
+            "portrait": {
+              "icon": 2,
+              "side": "right"
+            }
           }
         },
         {

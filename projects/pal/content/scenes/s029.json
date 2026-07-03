@@ -151,7 +151,11 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.2644",
-                          "speaker": "spk.李逍遥"
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "icon": 1,
+                            "side": "right"
+                          }
                         }
                       }
                     ]
@@ -161,21 +165,65 @@
                     "delta": -50
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 37,
-                    "operands": [
-                      538,
-                      7502,
-                      0
+                    "kind": "setEntityTrigger",
+                    "entity": "e538",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.2654",
+                              "speaker": "spk.居民"
+                            }
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      65535,
-                      7492,
-                      0
+                    "kind": "setEntityAuto",
+                    "entity": "e536",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e536",
+                            "to": {
+                              "col": 64,
+                              "row": 16,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e536",
+                            "to": {
+                              "col": 61,
+                              "row": 16,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "moveEntity",
+                            "entity": "e536",
+                            "to": {
+                              "col": 61,
+                              "row": 20,
+                              "height": 0
+                            },
+                            "speed": "run"
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e536",
+                            "state": 0
+                          }
+                        ]
+                      }
                     ]
                   },
                   {

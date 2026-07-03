@@ -49,6 +49,11 @@ function fakeHost(calls: string[]): ScriptHost {
       calls.push('confirm()')
       return true
     },
+    cameraPan: alog('cameraPan'),
+    cameraSnap: log('cameraSnap'),
+    setEntityAuto: (id: string, st: ScriptStage[]) => calls.push(`setEntityAuto(${id},${st.length})`),
+    setEntityTrigger: (id: string, st: ScriptStage[]) => calls.push(`setEntityTrigger(${id},${st.length})`),
+    setEntityTriggerMode: log('setEntityTriggerMode'),
     query: {
       hasItem: () => false,
       money: () => 50,

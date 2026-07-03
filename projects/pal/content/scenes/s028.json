@@ -191,13 +191,9 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 36,
-                    "operands": [
-                      525,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityAuto",
+                    "entity": "e525",
+                    "stages": []
                   },
                   {
                     "kind": "setEntityFacing",

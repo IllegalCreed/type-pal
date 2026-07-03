@@ -61,13 +61,124 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 4,
-                    "operands": [
-                      36365,
-                      0,
-                      0
-                    ]
+                    "kind": "setPartyFacing",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 10,
+                    "dy": -10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 6,
+                    "dy": -6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 10,
+                    "dy": -10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 6,
+                    "dy": -6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "setPartyFacing",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 10,
+                    "dy": -10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 6,
+                    "dy": -6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 10,
+                    "dy": -10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 6,
+                    "dy": -6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "setPartyFacing",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 10,
+                    "dy": -10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 6,
+                    "dy": -6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 10,
+                    "dy": -10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": 6,
+                    "dy": -6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
                   },
                   {
                     "kind": "loadScene",
@@ -599,7 +710,11 @@
                     "line": {
                       "text": "dlg.6070",
                       "speaker": "spk.刘夫人",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 67,
+                        "side": "left"
+                      }
                     }
                   }
                 ],
@@ -612,7 +727,11 @@
                     "line": {
                       "text": "dlg.6074",
                       "speaker": "spk.刘夫人",
-                      "slot": "top"
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 67,
+                        "side": "left"
+                      }
                     }
                   }
                 ]
@@ -850,7 +969,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.5991",
-            "speaker": "spk.林月如"
+            "speaker": "spk.林月如",
+            "portrait": {
+              "icon": 21,
+              "side": "right"
+            }
           }
         },
         {
@@ -861,14 +984,22 @@
           "line": {
             "text": "dlg.5994",
             "speaker": "spk.刘夫人",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 67,
+              "side": "left"
+            }
           }
         },
         {
           "kind": "dialog",
           "line": {
             "text": "dlg.5998",
-            "speaker": "spk.林月如"
+            "speaker": "spk.林月如",
+            "portrait": {
+              "icon": 21,
+              "side": "right"
+            }
           }
         },
         {
@@ -879,14 +1010,22 @@
           "line": {
             "text": "dlg.6000",
             "speaker": "spk.刘夫人",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 67,
+              "side": "left"
+            }
           }
         },
         {
           "kind": "dialog",
           "line": {
             "text": "dlg.6002",
-            "speaker": "spk.李逍遥"
+            "speaker": "spk.李逍遥",
+            "portrait": {
+              "icon": 1,
+              "side": "right"
+            }
           }
         },
         {
@@ -897,7 +1036,11 @@
           "line": {
             "text": "dlg.6004",
             "speaker": "spk.刘夫人",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 67,
+              "side": "left"
+            }
           }
         },
         {
@@ -907,7 +1050,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.6009",
-            "speaker": "spk.林月如"
+            "speaker": "spk.林月如",
+            "portrait": {
+              "icon": 21,
+              "side": "right"
+            }
           }
         },
         {
@@ -918,7 +1065,11 @@
           "line": {
             "text": "dlg.6012",
             "speaker": "spk.刘夫人",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 67,
+              "side": "left"
+            }
           }
         },
         {
@@ -928,7 +1079,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.6013",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 67,
+              "side": "left"
+            }
           }
         },
         {
@@ -938,7 +1093,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.6016",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 67,
+              "side": "left"
+            }
           }
         },
         {
@@ -948,7 +1107,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.6020",
-            "speaker": "spk.林月如"
+            "speaker": "spk.林月如",
+            "portrait": {
+              "icon": 21,
+              "side": "right"
+            }
           }
         },
         {
@@ -963,7 +1126,11 @@
           "line": {
             "text": "dlg.6024",
             "speaker": "spk.李逍遥",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 10,
+              "side": "left"
+            }
           }
         },
         {
@@ -977,7 +1144,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.6027",
-            "speaker": "spk.林月如"
+            "speaker": "spk.林月如",
+            "portrait": {
+              "icon": 22,
+              "side": "right"
+            }
           }
         },
         {
@@ -988,7 +1159,11 @@
           "line": {
             "text": "dlg.6031",
             "speaker": "spk.李逍遥",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 8,
+              "side": "left"
+            }
           }
         },
         {
@@ -999,7 +1174,11 @@
           "line": {
             "text": "dlg.6034",
             "speaker": "spk.刘夫人",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 67,
+              "side": "left"
+            }
           }
         },
         {
@@ -1014,14 +1193,22 @@
           "line": {
             "text": "dlg.6036",
             "speaker": "spk.刘夫人",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 67,
+              "side": "left"
+            }
           }
         },
         {
           "kind": "dialog",
           "line": {
             "text": "dlg.6040",
-            "speaker": "spk.林月如"
+            "speaker": "spk.林月如",
+            "portrait": {
+              "icon": 21,
+              "side": "right"
+            }
           }
         },
         {
@@ -1032,7 +1219,11 @@
           "line": {
             "text": "dlg.6042",
             "speaker": "spk.刘夫人",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 67,
+              "side": "left"
+            }
           }
         },
         {
@@ -1042,14 +1233,22 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.6044",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 67,
+              "side": "left"
+            }
           }
         },
         {
           "kind": "dialog",
           "line": {
             "text": "dlg.6049",
-            "speaker": "spk.林月如"
+            "speaker": "spk.林月如",
+            "portrait": {
+              "icon": 21,
+              "side": "right"
+            }
           }
         },
         {
@@ -1060,7 +1259,11 @@
           "line": {
             "text": "dlg.6052",
             "speaker": "spk.刘夫人",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 67,
+              "side": "left"
+            }
           }
         },
         {
@@ -1070,7 +1273,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.6055",
-            "speaker": "spk.林月如"
+            "speaker": "spk.林月如",
+            "portrait": {
+              "icon": 21,
+              "side": "right"
+            }
           }
         },
         {
@@ -1081,7 +1288,11 @@
           "line": {
             "text": "dlg.6058",
             "speaker": "spk.刘夫人",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 67,
+              "side": "left"
+            }
           }
         },
         {
@@ -1091,7 +1302,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.6061",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 67,
+              "side": "left"
+            }
           }
         },
         {
@@ -1101,7 +1316,11 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.6064",
-            "speaker": "spk.林月如"
+            "speaker": "spk.林月如",
+            "portrait": {
+              "icon": 21,
+              "side": "right"
+            }
           }
         },
         {
@@ -1109,7 +1328,11 @@
           "line": {
             "text": "dlg.6067",
             "speaker": "spk.刘夫人",
-            "slot": "top"
+            "slot": "top",
+            "portrait": {
+              "icon": 67,
+              "side": "left"
+            }
           }
         }
       ],

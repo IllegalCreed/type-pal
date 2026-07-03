@@ -149,7 +149,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.2630",
-                      "speaker": "spk.赵灵儿"
+                      "speaker": "spk.赵灵儿",
+                      "portrait": {
+                        "icon": 11,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -182,7 +186,11 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.2644",
-                          "speaker": "spk.李逍遥"
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "icon": 1,
+                            "side": "right"
+                          }
                         }
                       }
                     ]
@@ -195,7 +203,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.2632",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "icon": 1,
+                        "side": "right"
+                      }
                     }
                   },
                   {

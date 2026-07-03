@@ -99,27 +99,25 @@
                     "facing": "up"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 127,
-                    "operands": [
-                      4,
-                      65532,
-                      24
-                    ]
+                    "kind": "cameraPan",
+                    "dx": 4,
+                    "dy": -4,
+                    "frames": 24
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 127,
-                    "operands": [
-                      0,
-                      65534,
-                      56
-                    ]
+                    "kind": "cameraPan",
+                    "dx": 0,
+                    "dy": -2,
+                    "frames": 56
                   },
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.8904"
+                      "text": "dlg.8904",
+                      "portrait": {
+                        "icon": 90,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -137,13 +135,7 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 127,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
+                    "kind": "cameraSnap"
                   },
                   {
                     "kind": "nudgeParty",
@@ -194,28 +186,25 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 127,
-                    "operands": [
-                      52,
-                      11,
-                      65535
-                    ]
+                    "kind": "cameraSnap",
+                    "to": {
+                      "col": 63,
+                      "row": -41,
+                      "height": 0
+                    }
                   },
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.8908"
+                      "text": "dlg.8908",
+                      "portrait": {
+                        "icon": 90,
+                        "side": "right"
+                      }
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 127,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
+                    "kind": "cameraSnap"
                   },
                   {
                     "kind": "wait",
@@ -232,7 +221,11 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.8913"
+                      "text": "dlg.8913",
+                      "portrait": {
+                        "icon": 90,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -245,7 +238,11 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.8914"
+                      "text": "dlg.8914",
+                      "portrait": {
+                        "icon": 90,
+                        "side": "right"
+                      }
                     }
                   },
                   {

@@ -28,6 +28,7 @@ interface Cmd extends SourceCmd {
   advance?: boolean
   reset?: boolean
   resetTo?: number
+  arg0?: number // 对话样式 op 的 operand[0]:top/bottom = 立绘号(wNumCharFace)
 }
 
 export interface TranslateReport {
@@ -49,6 +50,8 @@ export interface TranslateCtx {
   labelAt: Map<string, { cmds: readonly SourceCmd[]; idx: number }>
   /** 分支臂记忆化(label|owner → 已译体;同一游戏over/败臂被数百战斗共享,防重复走+堆爆)。 */
   armMemo?: Map<string, Command[]>
+  /** 在译链栈(label|owner):0x24/25 页目标可自引用,防 translateStages 无限递归。 */
+  translating?: Set<string>
   /** 文本累积(dlg.<msgIdx> / spk.<名>);IO 壳并入工程 locale。 */
   locale: Record<string, string>
   report: TranslateReport
@@ -63,7 +66,7 @@ const JUMP_FAMILY = new Set([
 /** 原版速度码 → WalkSpeed。 */
 const SPEED: Record<number, 'slow' | 'normal' | 'fast' | 'run'> = { 2: 'slow', 3: 'normal', 4: 'fast', 8: 'run' }
 /** 分支臂内联深度上限(臂内再遇跳转的嵌套;更深 → unmigrated,M3c 提共享脚本)。 */
-const MAX_ARM_DEPTH = 2
+const MAX_ARM_DEPTH = 3
 /** 单臂命令上限(超限 → unmigrated;防组合爆炸,如层层嵌套的战斗败臂)。 */
 const MAX_ARM_BODY = 200
 /** 每逻辑帧 40ms(一阶段主循环 tick;waitFrames/goto frameDelay 换算)。 */
@@ -97,8 +100,23 @@ export function translateStages(
   ownerEntity: string | undefined,
   ctx: TranslateCtx,
 ): ScriptStage[] | undefined {
-  const start = ctx.labelAt.get(startLabel)
-  if (!start) return undefined
+  const start0 = ctx.labelAt.get(startLabel)
+  if (!start0) return undefined
+  const startAt = start0 // 收窄后常量(闭包内 TS 不保 start0 非空)
+  const tkey = `${startLabel}|${ownerEntity ?? ''}`
+  const inFlight = (ctx.translating ??= new Set())
+  if (inFlight.has(tkey)) {
+    note(ctx, '链自引用截断(0x24/25 环)')
+    return undefined
+  }
+  inFlight.add(tkey)
+  try {
+    return translateStagesInner()
+  } finally {
+    inFlight.delete(tkey)
+  }
+
+  function translateStagesInner(): ScriptStage[] | undefined {
   ctx.report.chains++
 
   const stages: (ScriptStage & { _next?: string })[] = []
@@ -120,7 +138,7 @@ export function translateStages(
   const queue: string[] = []
 
   let cursor: { cmds: readonly SourceCmd[]; idx: number; label?: string } | undefined = {
-    ...start,
+    ...startAt,
     label: startLabel,
   }
   while (cursor) {
@@ -176,6 +194,7 @@ export function translateStages(
     const at = ctx.labelAt.get(label)
     return at ? { ...at, label } : undefined
   }
+  }
 }
 
 function note(ctx: TranslateCtx, key: string): void {
@@ -192,6 +211,8 @@ function walkBody(
 ): { body: Command[]; term: WalkTerm } {
   const body: Command[] = []
   let slot: DialogueLine['slot'] | undefined
+  /** 当前立绘(对话样式 op 的 arg0 = RGM 立绘号;top→左 / bottom→右;0/narration = 无)。 */
+  let portrait: DialogueLine['portrait']
   /** 对话批:待成组的 showDialog 行。 */
   let batch: { msgIdx: number; text: string }[] = []
   const visited = new Set<number>() // goto 环保护(同数组按下标;跨数组由 steps 总上限兜底)
@@ -216,6 +237,7 @@ function walkBody(
         emittedForSpeaker = true
       }
       if (slot) line.slot = slot
+      if (portrait) line.portrait = portrait
       body.push({ kind: 'dialog', line })
       parts = []
     }
@@ -270,8 +292,12 @@ function walkBody(
       continue
     }
     if (op && op in STYLE_SLOT) {
-      flush()
+      flush() // 先出旧批(用旧 slot/portrait),再切样式
       slot = STYLE_SLOT[op]
+      // 立绘:top(0x3C)/bottom(0x3D) 的 arg0 = wNumCharFace(RGM 立绘号);sdlpal script.c:3402/3412。
+      // top→左 / bottom→右(reforge POS 已定位);center/narration 无立绘(arg0 是颜色,清)。
+      const face = op === 'setDialogStyleTop' || op === 'setDialogStyleBottom' ? (c.arg0 ?? 0) : 0
+      portrait = face > 0 ? { icon: face, side: op === 'setDialogStyleTop' ? 'left' : 'right' } : undefined
       at = { cmds: at.cmds, idx: at.idx + 1 }
       continue
     }
@@ -437,6 +463,69 @@ function walkBody(
       } else if (oc === 0x79) {
         flush()
         body.push({ kind: 'branch', cond: { kind: 'inParty', actorId: ROLE_SLUGS[o[0] ?? 0] ?? String(o[0]) }, then: inlineArm(o[1]) })
+      } else if (oc === 0x7f) {
+        flush()
+        const [a = 0, b = 0, cc = 0] = o
+        if (a === 0 && b === 0) body.push({ kind: 'cameraSnap' }) // 回正
+        else if (cc === 0xffff) body.push({ kind: 'cameraSnap', to: partyPosToGrid(a, b, 0) })
+        else body.push({ kind: 'cameraPan', dx: signExtendI16(a), dy: signExtendI16(b), frames: Math.max(1, cc) })
+      } else if (oc === 0x04) {
+        // callScript:目标链整段内联(owner 可被 op1 覆盖;memo 防重展)
+        flush()
+        const callOwner = (o[1] ?? 0) !== 0 ? `e${o[1]}` : owner
+        const memoKey = `call:L_${o[0]}|${callOwner ?? ''}`
+        const memo = (ctx.armMemo ??= new Map())
+        let calleeBody = memo.get(memoKey)
+        if (!calleeBody) {
+          const target = ctx.labelAt.get(`L_${o[0]}`)
+          if (!target || depth >= MAX_ARM_DEPTH) {
+            note(ctx, target ? 'call 深度截断' : 'call 目标缺失')
+            calleeBody = [{ kind: 'unmigrated', opcode: oc, operands: [...o], note: 'call 不可内联' }]
+          } else {
+            memo.set(memoKey, [])
+            const r = walkBody(target.cmds, target.idx, callOwner, ctx, depth + 1)
+            calleeBody = r.body.length > MAX_ARM_BODY
+              ? [{ kind: 'unmigrated', opcode: oc, operands: [...o], note: `call 体超长(${r.body.length})` }]
+              : r.body
+            if (r.body.length > MAX_ARM_BODY) note(ctx, 'call 体超长截断')
+          }
+          memo.set(memoKey, calleeBody)
+        }
+        body.push(...calleeBody)
+      } else if (oc === 0x24 || oc === 0x25) {
+        flush()
+        if ((o[0] ?? 0) === 0) {
+          // 原版:op0==0 整条无效
+        } else {
+          const ent = entRef(o[0]!)
+          if (!ent) note(ctx, '页切换无属主')
+          else if ((o[1] ?? 0) === 0) {
+            body.push(oc === 0x24 ? { kind: 'setEntityAuto', entity: ent, stages: [] } : { kind: 'setEntityTrigger', entity: ent, stages: [] })
+          } else {
+            const sub = translateStages(`L_${o[1]}`, ent, ctx)
+            if (sub?.length) {
+              body.push(oc === 0x24 ? { kind: 'setEntityAuto', entity: ent, stages: sub } : { kind: 'setEntityTrigger', entity: ent, stages: sub })
+            } else {
+              body.push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '页目标不可译' })
+              note(ctx, '页目标不可译')
+            }
+          }
+        }
+      } else if (oc === 0x40) {
+        flush()
+        if ((o[0] ?? 0) !== 0) {
+          const ent = entRef(o[0]!)
+          const mode = o[1] ?? 0
+          if (ent) {
+            body.push(
+              mode >= 1 && mode <= 3
+                ? { kind: 'setEntityTriggerMode', entity: ent, on: 'interact', range: mode }
+                : mode >= 4 && mode <= 8
+                  ? { kind: 'setEntityTriggerMode', entity: ent, on: 'touch', range: mode - 4 }
+                  : { kind: 'setEntityTriggerMode', entity: ent },
+            )
+          }
+        }
       } else if (oc === 0x26 || oc === 0x27) {
         push({ kind: 'openShop', shop: o[0] ?? 0, mode: oc === 0x26 ? 'buy' : 'sell' })
       } else if (JUMP_FAMILY.has(oc)) {

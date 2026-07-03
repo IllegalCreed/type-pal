@@ -813,7 +813,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.2258",
-                      "speaker": "spk.赵灵儿"
+                      "speaker": "spk.赵灵儿",
+                      "portrait": {
+                        "icon": 11,
+                        "side": "right"
+                      }
                     }
                   },
                   {
@@ -834,7 +838,11 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.2266",
-                      "speaker": "spk.赵灵儿"
+                      "speaker": "spk.赵灵儿",
+                      "portrait": {
+                        "icon": 11,
+                        "side": "right"
+                      }
                     }
                   }
                 ],
@@ -1314,14 +1322,22 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.2275",
-                          "speaker": "spk.李逍遥"
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "icon": 6,
+                            "side": "right"
+                          }
                         }
                       },
                       {
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.2277",
-                          "slot": "top"
+                          "slot": "top",
+                          "portrait": {
+                            "icon": 11,
+                            "side": "left"
+                          }
                         }
                       },
                       {
@@ -1331,7 +1347,11 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.2279",
-                          "speaker": "spk.李逍遥"
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "icon": 1,
+                            "side": "right"
+                          }
                         }
                       },
                       {
@@ -1341,7 +1361,11 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.2282",
-                          "speaker": "spk.李逍遥"
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "icon": 1,
+                            "side": "right"
+                          }
                         }
                       },
                       {
@@ -2286,13 +2310,10 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      3,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e460",
+                    "on": "interact",
+                    "range": 3
                   },
                   {
                     "kind": "playSound",
@@ -2389,13 +2410,10 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      7,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e460",
+                    "on": "touch",
+                    "range": 3
                   },
                   {
                     "kind": "setEntityFrame",

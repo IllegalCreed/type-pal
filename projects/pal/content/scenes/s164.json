@@ -48,31 +48,22 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 127,
-          "operands": [
-            0,
-            65520,
-            100
-          ]
+          "kind": "cameraPan",
+          "dx": 0,
+          "dy": -16,
+          "frames": 100
         },
         {
-          "kind": "unmigrated",
-          "opcode": 127,
-          "operands": [
-            0,
-            65528,
-            20
-          ]
+          "kind": "cameraPan",
+          "dx": 0,
+          "dy": -8,
+          "frames": 20
         },
         {
-          "kind": "unmigrated",
-          "opcode": 127,
-          "operands": [
-            0,
-            4,
-            40
-          ]
+          "kind": "cameraPan",
+          "dx": 0,
+          "dy": 4,
+          "frames": 40
         },
         {
           "kind": "teleportParty",
@@ -83,13 +74,7 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 127,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "cameraSnap"
         },
         {
           "kind": "clearDialog"

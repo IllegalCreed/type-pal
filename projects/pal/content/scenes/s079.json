@@ -90,13 +90,10 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 64,
-                    "operands": [
-                      65535,
-                      2,
-                      0
-                    ]
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e1500",
+                    "on": "interact",
+                    "range": 2
                   },
                   {
                     "kind": "dialog",
