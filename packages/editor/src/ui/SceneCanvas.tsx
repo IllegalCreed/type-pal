@@ -196,7 +196,8 @@ export function SceneCanvas(props: {
       ? (ps?.frames[idleFrameIndex(leaderDef.layout, scene.entry.facing)] ?? ps?.frames[0])
       : undefined
     if (ps && pf) {
-      draws.push({ frame: pf, worldX: ep.x, worldY: spriteScreenY(scene.entry.pos), anchorX: ps.anchorX, anchorY: ps.anchorY })
+      // 每帧自锚(sdlpal 按当前帧宽高 blit;引擎侧同款,防变尺寸帧组错位)
+      draws.push({ frame: pf, worldX: ep.x, worldY: spriteScreenY(scene.entry.pos), anchorX: Math.floor(pf.width / 2), anchorY: pf.height })
     }
     // 各实体(站立帧 = layout × facing)+ 记命中盒
     for (const e of scene.entities) {
@@ -209,8 +210,10 @@ export function SceneCanvas(props: {
       const pos = drag && drag.id === e.id ? { col: drag.col, row: drag.row, height: e.pos.height } : e.pos
       const p = gridToPixel(pos)
       const wy = spriteScreenY(pos)
-      draws.push({ frame: f, worldX: p.x, worldY: wy, anchorX: sp.anchorX, anchorY: sp.anchorY, baseYBias: e.zBias })
-      hits.push({ id: e.id, ...physRect(p.x, wy, sp.anchorX, sp.anchorY, f.width, f.height) })
+      const ax = Math.floor(f.width / 2) // 每帧自锚(同引擎;命中盒同款防错位)
+      const ay = f.height
+      draws.push({ frame: f, worldX: p.x, worldY: wy, anchorX: ax, anchorY: ay, baseYBias: e.zBias })
+      hits.push({ id: e.id, ...physRect(p.x, wy, ax, ay, f.width, f.height) })
     }
     hitsRef.current = hits
 

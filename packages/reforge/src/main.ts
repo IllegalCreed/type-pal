@@ -601,6 +601,9 @@ async function main(): Promise<void> {
         fx.resolve()
       }
     }
+    // ⚠ 设计裁决(2026-07-03 用户):NPC 走位**不与对话系统耦合**。原版"对话等按键期
+    // GameUpdate 停 → NPC 冻结"(开场李大娘读对话时停步回头)是旧引擎阻塞怪癖,clean
+    // 引擎不复刻;要演出停顿将来在内容层显式编排(wait/暂停指令),不在引擎层感知对话。
     for (const [id, mv] of entityMoves) {
       const e = scene.entities.find((x) => x.id === id)
       if (!e) {
@@ -618,8 +621,15 @@ async function main(): Promise<void> {
         const dc = Math.abs(dcol) >= 0.26 ? Math.sign(dcol) * 0.5 : 0
         const dr = Math.abs(drow) >= 0.26 ? Math.sign(drow) * 0.5 : 0
         e.pos = { ...e.pos, col: e.pos.col + dc, row: e.pos.row + dr }
-        // 朝向 = 原版象限规则(PAL_NPCWalkTo):y 负 → 左/上(按 x 符号),y 非负 → 下/右
-        e.facing = drow < 0 ? (dcol < 0 ? 'left' : 'up') : dcol < 0 ? 'down' : 'right'
+        // 朝向 = 原版象限规则(PAL_NPCWalkTo/一阶段 npcWalkTo:event-system.ts:5199-5205),
+        // 作用在**像素轴**目标差(dx=16(Δcol−Δrow), dy=8(Δcol+Δrow))。⚠ 曾直接套在
+        // 菱形格轴上:纯 row+ 走位(像素朝下)算成 right(2026-07-03 用户报李大娘朝向错)。
+        const dpx = dcol - drow // 16 倍缩放不影响符号
+        const dpy = dcol + drow
+        e.facing = dpy < 0 ? (dpx < 0 ? 'left' : 'up') : dpx < 0 ? 'down' : 'right'
+        // 走位重算帧 = 覆盖 0x16 的演出定帧(一阶段 npcWalkTo 每步写 scriptedFrame 同语义;
+        // 不清则 override 恒压制走路帧 → 站立滑行)
+        entityFrameOverride.delete(id)
         entityAnim.set(id, (entityAnim.get(id) ?? 0) + 1)
       }
       if (Math.abs(mv.to.col - e.pos.col) < 0.26 && Math.abs(mv.to.row - e.pos.row) < 0.26) {
@@ -637,8 +647,10 @@ async function main(): Promise<void> {
         const dr = Math.sign(mv.to.row - player.pos.row)
         if (dc === 0 && dr === 0) break
         player.pos = { ...player.pos, col: player.pos.col + dc, row: player.pos.row + dr }
-        // 同原版象限规则(play.c 队伍走位方向)
-        facing = dr < 0 ? (dc < 0 ? 'left' : 'up') : dc < 0 ? 'down' : 'right'
+        // 同上:像素轴象限(曾错套格轴)
+        const dpx = dc - dr
+        const dpy = dc + dr
+        facing = dpy < 0 ? (dpx < 0 ? 'left' : 'up') : dpx < 0 ? 'down' : 'right'
         walking = true
         partyGesture = null // 原版走位重算 wFrame
         stepFrame = (stepFrame + 1) % 4
@@ -663,10 +675,9 @@ async function main(): Promise<void> {
     r.paceMs = 80 // 原版 auto 一帧一 op 的节拍近似(一阶段同语义)
     void (async () => {
       while (!ac.signal.aborted) {
-        // ⚠ auto 与主脚本**并行**(原版 autoScript 每帧与触发脚本同 tick):开场李大娘
-        // 走出房间 = onEnter 对话进行中、setEntityState 显形后她的 auto 立刻走位 ——
-        // 曾因"主脚本期间挂起"整段不动(2026-07-03 用户实测 + 一阶段 oracle 逐拍实锤)。
-        // 仅 hidden 挂起(显形即活)。
+        // auto 与主脚本并行(开场李大娘 setEntityState 显形后边对话边走位);仅 hidden
+        // 挂起。设计裁决(2026-07-03 用户):不复刻原版"对话期冻结 NPC"的阻塞怪癖,
+        // NPC 移动不感知对话系统。
         if (e.hidden) {
           await host.wait(120)
           continue
@@ -914,8 +925,10 @@ async function main(): Promise<void> {
         frame: f,
         worldX: p.x,
         worldY: spriteScreenY(e.pos), // 含 height 上移(D16)
-        anchorX: sp.anchorX,
-        anchorY: sp.anchorY,
+        // 每帧自锚(sdlpal scene.c 按**当前帧**宽高 blit;一阶段 draw-sprite.ts:16-24 同坑
+        // 已修):组锚(首帧)配变尺寸帧组(爬行 193 高 31~73)会溢出几十 px = 演出瞬移感。
+        anchorX: Math.floor(f.width / 2),
+        anchorY: f.height,
         baseYBias: e.zBias,
       })
     }
@@ -935,8 +948,8 @@ async function main(): Promise<void> {
         frame: pf,
         worldX: pp.x,
         worldY: spriteScreenY(player.pos), // 含 height 上移(D16);地面=0 同 pp.y
-        anchorX: ls.anchorX,
-        anchorY: ls.anchorY,
+        anchorX: Math.floor(pf.width / 2), // 每帧自锚(同上;0x65 换爬行精灵后帧高差巨大)
+        anchorY: pf.height,
       })
     }
     // 场景底图:clear + scale + renderScene + restore(抽成 renderSceneFrame,editor 复用同一绘制)。

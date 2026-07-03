@@ -152,12 +152,18 @@ export class Canvas2DRenderer implements Renderer {
     }
 
     // 2) 精灵 + cover-tile 入深度表
+    // 资产坐标系约定(sdlpal scene.c:301-316,一阶段 present.ts:540-546 已考证):
+    //   blit y = eo.y − height **+ 7**(sLayer×8 在原式中相消,不进 blit);
+    //   排序 key = eo.y + sLayer×8 + 9。
+    // 精灵资产(尤其密道盖板这类须与地图纹理逐像素咬合的贴片)是按这套坐标画的,+7 是
+    // 资产级约定不是引擎怪癖 —— 漏掉则全体精灵高 7px:人物间看不出,贴片对地板错半格
+    // (2026-07-03 用户报,一阶段同坑已修过)。zBias 存 sLayer 源值,排序按 ×8 换算。
     const entries: DrawEntry[] = []
     for (const s of sprites) {
       const img = this.bake(s.frame)
       const bx = Math.round(s.worldX - s.anchorX + ox)
-      const by = Math.round(s.worldY - s.anchorY + oy)
-      entries.push({ baseY: s.worldY + 10 + (s.baseYBias ?? 0), draw: () => this.ctx.drawImage(img, bx, by) })
+      const by = Math.round(s.worldY - s.anchorY + 7 + oy)
+      entries.push({ baseY: s.worldY + 9 + (s.baseYBias ?? 0) * 8, draw: () => this.ctx.drawImage(img, bx, by) })
       this.addCoverTiles(entries, map, s.worldX, s.worldY, s.frame.width, s.frame.height, ox, oy)
     }
 
