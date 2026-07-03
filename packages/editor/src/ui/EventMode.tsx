@@ -4,11 +4,29 @@
  * 命令);右栏演出日志(桩命令)。可视化编辑是后续 C-track。
  */
 import { useEffect, useMemo, useRef, useState } from 'react'
-import type { ActorDef, EntityDef, Locale, SceneDef, ScriptStage, SpriteDef } from '@type-pal/content'
+import type { ActorDef, Command, EntityDef, Locale, SceneDef, ScriptStage, SpriteDef } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
+import { type ScriptSourceRef, UpdateScriptCommand } from '../core/commands.js'
+import type { EditSession } from '../core/edit-session.js'
 import { Playback } from '../core/playback.js'
+import { getCommandAt, insertAfterAt, moveAt, parsePath, removeAt, updateCommandAt } from '../core/script-edit.js'
+import { CommandForm } from './CommandForm.js'
 import { PreviewCanvas } from './PreviewCanvas.js'
-import { ScriptTree } from './ScriptTree.js'
+import { type RowAction, ScriptTree } from './ScriptTree.js'
+
+/** ➕ 插入菜单的常用命令模板(默认参数即刻可播;参数在右栏表单细调)。 */
+const INSERT_TEMPLATES: { label: string; make: (scene: SceneDef) => Command }[] = [
+  { label: '💬 对话', make: () => ({ kind: 'dialog', line: { text: '(新对话)' } }) },
+  { label: '⏱ 等待', make: () => ({ kind: 'wait', ms: 200 }) },
+  { label: '🚶 队伍走到', make: (s) => ({ kind: 'moveParty', to: { ...s.entry.pos }, speed: 'normal' }) },
+  { label: '🚶 实体走到', make: (s) => ({ kind: 'moveEntity', entity: s.entities[0]?.id ?? 'e0', to: { ...s.entry.pos }, speed: 'normal' }) },
+  { label: '📍 队伍瞬移', make: (s) => ({ kind: 'teleportParty', pos: { ...s.entry.pos } }) },
+  { label: '🧭 队伍转向', make: () => ({ kind: 'setPartyFacing', facing: 'down' }) },
+  { label: '👁 实体显隐', make: (s) => ({ kind: 'setEntityState', entity: s.entities[0]?.id ?? 'e0', state: 1 }) },
+  { label: '🧭 实体转向', make: (s) => ({ kind: 'setEntityFacing', entity: s.entities[0]?.id ?? 'e0', facing: 'down' }) },
+  { label: '🌓 淡入/淡出', make: () => ({ kind: 'fade', dir: 'out', ms: 300 }) },
+  { label: '🎵 音乐', make: () => ({ kind: 'playMusic', musicId: 1 }) },
+]
 
 interface ScriptSource {
   key: string
@@ -54,8 +72,9 @@ export function EventMode(props: {
   actorsById: Record<string, ActorDef>
   leaderSpriteId: string | undefined
   assetBase: AssetBase
+  session: EditSession
 }) {
-  const { scenes, locale, initialSceneId, sprites, actorsById, leaderSpriteId, assetBase } = props
+  const { scenes, locale, initialSceneId, sprites, actorsById, leaderSpriteId, assetBase, session } = props
   const [sceneId, setSceneId] = useState(initialSceneId)
   const [filter, setFilter] = useState('')
   const [srcKey, setSrcKey] = useState<string | null>(null)
@@ -88,6 +107,55 @@ export function EventMode(props: {
   useEffect(() => {
     playback?.stop()
   }, [active?.key])
+
+  // ── 脚本编辑(v1):选中行 → 右栏表单;行按钮 插/移/删;整 stages 经命令落 session ──
+  const [selPath, setSelPath] = useState<string | null>(null)
+  const [insertFor, setInsertFor] = useState<string | null>(null) // ➕ 目标路径(右栏出模板菜单)
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 切场景/切源即清选中
+  useEffect(() => {
+    setSelPath(null)
+    setInsertFor(null)
+  }, [sceneId, active?.key])
+
+  const refOf = (key: string): ScriptSourceRef =>
+    key === '__onEnter__'
+      ? { kind: 'onEnter' }
+      : key.endsWith(':trigger')
+        ? { kind: 'trigger', entityId: key.slice(0, -':trigger'.length) }
+        : { kind: 'auto', entityId: key.slice(0, -':auto'.length) }
+
+  const dispatchStages = (stages: readonly ScriptStage[]): void => {
+    if (!scene || !active) return
+    session.dispatch(new UpdateScriptCommand(scene.id, refOf(active.key), stages))
+  }
+  const selCmd = active && selPath ? getCommandAt(active.stages, parsePath(selPath)) : undefined
+
+  const onRowAction = (path: string, action: RowAction): void => {
+    if (!active) return
+    const p = parsePath(path)
+    if (action === 'insert') {
+      setInsertFor(path)
+      return
+    }
+    if (action === 'remove') {
+      const next = removeAt(active.stages, p)
+      if (next !== active.stages) {
+        dispatchStages(next)
+        if (selPath === path) setSelPath(null)
+      }
+      return
+    }
+    const dir = action === 'up' ? -1 : 1
+    const next = moveAt(active.stages, p, dir)
+    if (next !== active.stages) {
+      dispatchStages(next)
+      // 选中跟随移动后的位置
+      if (selPath === path) {
+        const last = p[p.length - 1] as number
+        setSelPath([...p.slice(0, -1), last + dir].join('/'))
+      }
+    }
+  }
 
   // 预览/命令树 高度比(拖分隔条调;夹 15%~85%)
   const [previewFrac, setPreviewFrac] = useState(0.46)
@@ -165,16 +233,68 @@ export function EventMode(props: {
         ) : null}
         <div className="script-view">
           {active ? (
-            <ScriptTree stages={active.stages} locale={locale} activePath={playback?.activePath ?? null} />
+            <ScriptTree
+              stages={active.stages}
+              locale={locale}
+              activePath={playback?.activePath ?? null}
+              selectedPath={selPath}
+              onSelect={(path) => {
+                setSelPath(path)
+                setInsertFor(null)
+              }}
+              onRowAction={onRowAction}
+            />
           ) : (
             <div className="insp-empty">此场景无脚本源。</div>
           )}
         </div>
       </div>
 
-      {/* 右:演出日志 + 说明 */}
+      {/* 右:命令编辑 / 插入菜单 / 演出日志 */}
       <div className="inspector">
         <div className="insp-head"><div className="what">事件 · 脚本 + 预览</div><div className="who">{active ? `${active.label} · ${active.sub}` : '—'}</div></div>
+        {insertFor && active && scene ? (
+          <div className="section">
+            <h4>插入命令(到选中行之后)</h4>
+            <div className="cf-insert">
+              {INSERT_TEMPLATES.map((t) => (
+                <button
+                  key={t.label}
+                  type="button"
+                  className="pv-btn"
+                  onClick={() => {
+                    const p = parsePath(insertFor)
+                    const next = insertAfterAt(active.stages, p, t.make(scene))
+                    if (next !== active.stages) {
+                      dispatchStages(next)
+                      const last = p[p.length - 1] as number
+                      setSelPath([...p.slice(0, -1), last + 1].join('/'))
+                    }
+                    setInsertFor(null)
+                  }}
+                >
+                  {t.label}
+                </button>
+              ))}
+              <button type="button" className="pv-btn" onClick={() => setInsertFor(null)}>取消</button>
+            </div>
+          </div>
+        ) : null}
+        {selCmd && scene && active && selPath ? (
+          <div className="section">
+            <h4>编辑命令 <span className="cf-path">{selPath}</span></h4>
+            <CommandForm
+              cmd={selCmd}
+              scene={scene}
+              locale={locale}
+              onChange={(next) => {
+                const out = updateCommandAt(active.stages, parsePath(selPath), next)
+                if (out !== active.stages) dispatchStages(out)
+              }}
+            />
+            <p className="hint">改动即入 undo 历史(↶/↷);💾 保存写回工程文件。改完可在预览单步复验。</p>
+          </div>
+        ) : null}
         {playback && playback.view.logs.length > 0 ? (
           <div className="section">
             <h4>演出日志(桩命令)</h4>
@@ -185,14 +305,16 @@ export function EventMode(props: {
             </div>
           </div>
         ) : null}
-        <div className="section">
-          <h4>演出预览</h4>
-          <p className="hint">
-            ▶ 从头播当前脚本源;⏭ 单步 = 执行下一条命令(树中高亮);对话点「继续」推进。
-            走位/显隐/朝向/换装/淡幕真演,音乐/战斗/商店等落右侧日志。演出态是临时副本,重置即丢,不改场景数据。
-          </p>
-          <p className="hint"><span className="warn-inline">⚠ 黄色</span> = 未翻译（逃生口，多为战斗侧 op，归 M4）。</p>
-        </div>
+        {!selCmd && !insertFor ? (
+          <div className="section">
+            <h4>脚本编辑 + 演出预览</h4>
+            <p className="hint">
+              点树中命令行选中 → 此处编辑参数;行悬停 ＋/↑/↓/🗑 插入/移动/删除。
+              ▶ 从头播;⏭ 单步逐条(树中高亮);对话点「继续」。演出态是临时副本,不改数据。
+            </p>
+            <p className="hint"><span className="warn-inline">⚠ 黄色</span> = 未翻译(逃生口,多为战斗侧 op,归 M4);结构类命令用 JSON 编辑。</p>
+          </div>
+        ) : null}
         {active && active.stages.length > 1 ? (
           <div className="section">
             <h4>多段触发</h4>

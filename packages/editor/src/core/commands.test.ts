@@ -6,10 +6,11 @@ import {
   UpdateActorCommand,
   UpdateEntityCommand,
   UpdateSceneCommand,
+  UpdateScriptCommand,
   UpdateSpriteCommand,
 } from './commands.js'
 import type { EditorState } from './edit-session.js'
-import type { ActorDef, EntityDef, SpriteDef } from '@type-pal/content'
+import type { ActorDef, EntityDef, ScriptStage, SpriteDef } from '@type-pal/content'
 
 const ent = (id: string): EntityDef => ({
   id,
@@ -229,5 +230,46 @@ describe('C1 命令 · UpdateSprite / UpdateActor(不可变 + invert)', () => {
     const s2 = cmd.invert(s1)
     expect(s2.actors[0]!.name).toBe('name.li')
     expect(s2.actors[0]!.portraits).toEqual({ default: 1 }) // 表情还原掉
+  })
+})
+
+describe('C-track v1 · UpdateScript(整 stages 替换 + invert)', () => {
+  const stg = (t: string): ScriptStage[] => [{ body: [{ kind: 'dialog', line: { text: t } }] }]
+  function stScript(): EditorState {
+    const base = st()
+    const scene = base.scenes[0]! as { onEnter?: ScriptStage[]; entities: EntityDef[] }
+    scene.onEnter = stg('old')
+    scene.entities[0] = {
+      ...scene.entities[0]!,
+      pages: [{ auto: { stages: stg('auto-old') } }],
+    } as EntityDef
+    return base
+  }
+
+  test('onEnter:替换 → invert 还原;源 state 不变', () => {
+    const s0 = stScript()
+    const cmd = new UpdateScriptCommand('s', { kind: 'onEnter' }, stg('new'))
+    const s1 = cmd.apply(s0)
+    expect((s1.scenes[0] as { onEnter?: ScriptStage[] }).onEnter).toEqual(stg('new'))
+    expect((s0.scenes[0] as { onEnter?: ScriptStage[] }).onEnter).toEqual(stg('old'))
+    const s2 = cmd.invert(s1)
+    expect((s2.scenes[0] as { onEnter?: ScriptStage[] }).onEnter).toEqual(stg('old'))
+  })
+
+  test('实体 auto:替换 stages;旁实体同引用', () => {
+    const s0 = stScript()
+    const cmd = new UpdateScriptCommand('s', { kind: 'auto', entityId: 'a' }, stg('auto-new'))
+    const s1 = cmd.apply(s0)
+    const e0 = s1.scenes[0]!.entities[0]! as EntityDef
+    expect(e0.pages?.[0]?.auto?.stages).toEqual(stg('auto-new'))
+    expect(s1.scenes[0]!.entities[1]).toBe(s0.scenes[0]!.entities[1])
+    const s2 = cmd.invert(s1)
+    expect((s2.scenes[0]!.entities[0] as EntityDef).pages?.[0]?.auto?.stages).toEqual(stg('auto-old'))
+  })
+
+  test('源不存在(实体无 trigger 页)= no-op', () => {
+    const s0 = stScript()
+    const cmd = new UpdateScriptCommand('s', { kind: 'trigger', entityId: 'b' }, stg('x'))
+    expect(cmd.apply(s0)).toBe(s0)
   })
 })

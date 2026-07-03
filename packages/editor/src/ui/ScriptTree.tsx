@@ -155,26 +155,53 @@ function describe(cmd: Command, locale: Locale): Described {
   }
 }
 
-function CommandRow(props: { cmd: Command; locale: Locale; depth: number; path: string; activePath: string | null }) {
-  const { cmd, locale, depth, path, activePath } = props
-  const d = describe(cmd, locale)
-  const active = activePath === path
+/** 行级编辑操作(C-track v1)。 */
+export type RowAction = 'insert' | 'up' | 'down' | 'remove'
+
+interface RowCtx {
+  locale: Locale
+  activePath: string | null
+  selectedPath: string | null
+  onSelect?: (path: string, cmd: Command) => void
+  onRowAction?: (path: string, action: RowAction) => void
+}
+
+function CommandRow(props: { cmd: Command; depth: number; path: string; ctx: RowCtx }) {
+  const { cmd, depth, path, ctx } = props
+  const d = describe(cmd, ctx.locale)
+  const active = ctx.activePath === path
+  const selected = ctx.selectedPath === path
   const rowRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     if (active) rowRef.current?.scrollIntoView({ block: 'nearest' })
   }, [active])
   return (
     <>
-      <div ref={rowRef} className={`cmd-row${d.warn ? ' warn' : ''}${active ? ' active' : ''}`} style={{ paddingLeft: 8 + depth * 16 }}>
+      {/* biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions: 树行点选(v1;键盘导航后续) */}
+      <div
+        ref={rowRef}
+        className={`cmd-row${d.warn ? ' warn' : ''}${active ? ' active' : ''}${selected ? ' sel' : ''}`}
+        style={{ paddingLeft: 8 + depth * 16 }}
+        onClick={ctx.onSelect ? () => ctx.onSelect?.(path, cmd) : undefined}
+      >
         <span className="cmd-ico">{d.icon}</span>
         <span className="cmd-label">{d.label}</span>
         {d.detail ? <span className="cmd-detail">{d.detail}</span> : null}
+        {ctx.onRowAction ? (
+          // biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions: 仅挡冒泡防误选中;真交互是内部 button(可聚焦/键盘)
+          <span className="cmd-ops" onClick={(e) => e.stopPropagation()}>
+            <button type="button" title="在此后插入" onClick={() => ctx.onRowAction?.(path, 'insert')}>＋</button>
+            <button type="button" title="上移" onClick={() => ctx.onRowAction?.(path, 'up')}>↑</button>
+            <button type="button" title="下移" onClick={() => ctx.onRowAction?.(path, 'down')}>↓</button>
+            <button type="button" title="删除" onClick={() => ctx.onRowAction?.(path, 'remove')}>🗑</button>
+          </span>
+        ) : null}
       </div>
       {d.blocks?.map((b, i) => (
         <div key={i}>
           <div className="cmd-block-title" style={{ paddingLeft: 8 + (depth + 1) * 16 }}>{b.title}</div>
           {b.body.map((c, j) => (
-            <CommandRow key={j} cmd={c} locale={locale} depth={depth + 2} path={`${path}/${b.seg}/${j}`} activePath={activePath} />
+            <CommandRow key={j} cmd={c} depth={depth + 2} path={`${path}/${b.seg}/${j}`} ctx={ctx} />
           ))}
         </div>
       ))}
@@ -183,9 +210,17 @@ function CommandRow(props: { cmd: Command; locale: Locale; depth: number; path: 
 }
 
 /** 渲染一组 stages（触发段/进场段）。多段时显示段号 + next 转移语义。
- *  activePath = 演出预览当前命令(ScriptRunner onStep 路径,如 "0/12/then/3");命中行高亮+滚动跟随。 */
-export function ScriptTree(props: { stages: readonly ScriptStage[]; locale: Locale; activePath?: string | null }) {
-  const { stages, locale, activePath = null } = props
+ *  activePath = 演出预览当前命令(高亮+滚动跟随);selectedPath/onSelect/onRowAction = 编辑交互(v1)。 */
+export function ScriptTree(props: {
+  stages: readonly ScriptStage[]
+  locale: Locale
+  activePath?: string | null
+  selectedPath?: string | null
+  onSelect?: (path: string, cmd: Command) => void
+  onRowAction?: (path: string, action: RowAction) => void
+}) {
+  const { stages, locale, activePath = null, selectedPath = null, onSelect, onRowAction } = props
+  const ctx: RowCtx = { locale, activePath, selectedPath, onSelect, onRowAction }
   if (stages.length === 0) return <div className="script-empty">（空脚本）</div>
   return (
     <div className="script-tree">
@@ -202,7 +237,7 @@ export function ScriptTree(props: { stages: readonly ScriptStage[]; locale: Loca
           {st.body.length === 0 ? (
             <div className="script-empty" style={{ paddingLeft: 24 }}>（空段）</div>
           ) : (
-            st.body.map((c, j) => <CommandRow key={j} cmd={c} locale={locale} depth={0} path={`${i}/${j}`} activePath={activePath} />)
+            st.body.map((c, j) => <CommandRow key={j} cmd={c} depth={0} path={`${i}/${j}`} ctx={ctx} />)
           )}
         </div>
       ))}

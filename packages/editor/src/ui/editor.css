@@ -253,3 +253,20 @@ body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-s
 
 .v-split { flex: none; height: 6px; cursor: row-resize; background: var(--panel); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .v-split:hover { background: var(--acc); opacity: 0.6; }
+
+/* ── 脚本编辑(v1)── */
+.cmd-row { position: relative; cursor: pointer; }
+.cmd-row.sel { background: rgba(148, 226, 175, 0.14); outline: 1px solid rgba(148, 226, 175, 0.5); }
+.cmd-ops { position: absolute; right: 6px; top: 1px; display: none; gap: 2px; }
+.cmd-row:hover .cmd-ops { display: inline-flex; }
+.cmd-ops button { font-size: 11px; padding: 0 5px; background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 3px; cursor: pointer; line-height: 1.6; }
+.cmd-ops button:hover { border-color: var(--acc); }
+.cf-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.cf-label { flex: 0 0 64px; color: var(--faint); font-size: 12px; text-align: right; }
+.cf-row .in { flex: 1; min-width: 0; }
+.cf-num { max-width: 110px; }
+.cf-ta { width: 100%; min-height: 72px; font-family: ui-monospace, monospace; font-size: 12px; line-height: 1.5; resize: vertical; }
+.cf-json { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+.cf-err { color: var(--err); font-size: 11px; }
+.cf-insert { display: flex; flex-wrap: wrap; gap: 6px; }
+.cf-path { color: var(--faint); font-weight: 400; font-size: 11px; }

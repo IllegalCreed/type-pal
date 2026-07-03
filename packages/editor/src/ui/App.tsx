@@ -141,6 +141,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
             actorsById={actorsById}
             leaderSpriteId={leaderSpriteId}
             assetBase={project.assetBase}
+            session={session}
           />
         ) : (
         <>

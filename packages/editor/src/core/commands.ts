@@ -10,7 +10,7 @@
  * 见 docs/phase2/editor/editor-design.md §4。
  */
 import type { EditorState } from './edit-session.js'
-import type { ActorDef, EntityDef, GridPos, SceneDef, SpriteDef } from '@type-pal/content'
+import type { ActorDef, EntityDef, GridPos, SceneDef, ScriptStage, SpriteDef } from '@type-pal/content'
 
 /**
  * 一次编辑操作。apply/invert 都返回**新** EditorState(不可变 —— 不得 mutate 传入)。
@@ -353,6 +353,88 @@ export class UpdateSpriteCommand implements Command {
     const sp = state.sprites.find((s) => s.id === this.spriteId)
     if (!sp) return state
     return withSprite(state, this.spriteId, { ...sp, ...this.oldPatch })
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════
+// C-track v1 脚本编辑命令(事件模式:改/插/删/移命令 → 整 stages 替换)
+// ════════════════════════════════════════════════════════════════════
+
+/** 脚本源定位:场景 onEnter,或实体 pages[0] 的 trigger/auto。 */
+export type ScriptSourceRef =
+  | { kind: 'onEnter' }
+  | { kind: 'trigger'; entityId: string }
+  | { kind: 'auto'; entityId: string }
+
+/** 取脚本源当前 stages(不存在 → undefined)。 */
+export function getScriptStages(
+  scene: SceneDef,
+  ref: ScriptSourceRef,
+): readonly ScriptStage[] | undefined {
+  if (ref.kind === 'onEnter') return scene.onEnter
+  const e = scene.entities.find((x) => x.id === ref.entityId)
+  const page = e?.pages?.[0]
+  return ref.kind === 'trigger' ? page?.trigger?.stages : page?.auto?.stages
+}
+
+/** 不可变:把脚本源的 stages 整体替换(源缺失原样返回)。 */
+function withScriptStages(
+  scene: SceneDef,
+  ref: ScriptSourceRef,
+  stages: ScriptStage[],
+): SceneDef {
+  if (ref.kind === 'onEnter') return { ...scene, onEnter: stages }
+  const entities = scene.entities.map((e) => {
+    if (e.id !== ref.entityId) return e
+    const page = e.pages?.[0]
+    if (!page) return e
+    const newPage =
+      ref.kind === 'trigger'
+        ? page.trigger
+          ? { ...page, trigger: { ...page.trigger, stages } }
+          : page
+        : page.auto
+          ? { ...page, auto: { ...page.auto, stages } }
+          : page
+    if (newPage === page) return e
+    return { ...e, pages: [newPage, ...(e.pages?.slice(1) ?? [])] }
+  })
+  return { ...scene, entities }
+}
+
+/**
+ * 修改脚本(粗粒度:整 stages 替换 —— undo 语义简单可靠;细粒度差分交给
+ * script-edit.ts 的纯函数在 UI 层算好再发命令)。首次 apply 捕获旧 stages。
+ */
+export class UpdateScriptCommand implements Command {
+  readonly label = '修改脚本'
+  private readonly sceneId: string
+  private readonly ref: ScriptSourceRef
+  private readonly stages: ScriptStage[]
+  private old: ScriptStage[] | undefined
+
+  constructor(sceneId: string, ref: ScriptSourceRef, stages: readonly ScriptStage[]) {
+    this.sceneId = sceneId
+    this.ref = ref
+    this.stages = structuredClone(stages) as ScriptStage[]
+  }
+
+  apply(state: EditorState): EditorState {
+    const scene = findScene(state, this.sceneId)
+    if (!scene) return state
+    if (!this.old) {
+      const cur = getScriptStages(scene, this.ref)
+      if (!cur) return state // 源不存在:no-op(v1 不新建脚本源)
+      this.old = structuredClone(cur) as ScriptStage[]
+    }
+    return withScene(state, this.sceneId, withScriptStages(scene, this.ref, this.stages))
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.old) return state
+    const scene = findScene(state, this.sceneId)
+    if (!scene) return state
+    return withScene(state, this.sceneId, withScriptStages(scene, this.ref, this.old))
   }
 }
 
