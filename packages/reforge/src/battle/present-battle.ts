@@ -18,8 +18,8 @@ export interface BattleSpriteDraw {
 }
 
 export interface BattleScene {
-  /** FBP 背景(320×200 真彩);缺 = 纯黑底。 */
-  bg?: ImageBitmap
+  /** FBP 背景(320×200,palette 着色后的 canvas);缺 = 纯黑底。 */
+  bg?: CanvasImageSource
   enemies: BattleSpriteDraw[]
   players: BattleSpriteDraw[]
   /** 精灵着色调色板。 */

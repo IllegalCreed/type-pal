@@ -1376,7 +1376,7 @@ async function renderBattlePreview(
   const palette = await loadPalette(project.assetBase, 0)
   // 真实战斗 field(场景 setBattleField 用 24/12/10/7…;field 2 是主菜单背景,勿用)。
   const field = params.get('battle') && Number(params.get('battle')) > 0 ? Number(params.get('battle')) : 24
-  const bg = await loadBattleBg(project.assetBase, field).catch((e: unknown) => {
+  const bg = await loadBattleBg(project.assetBase, field, palette).catch((e: unknown) => {
     console.warn('[battle] bg 加载失败:', e)
     return undefined
   })

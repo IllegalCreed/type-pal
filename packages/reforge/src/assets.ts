@@ -83,14 +83,37 @@ export async function loadBattleSprite(
 }
 
 /**
- * 战斗背景(M4b):{root}/../images/battle/bg/{NNN}.png —— FBP 解码后的真彩 RGBA PNG(320×200)。
- * 提取器已着色(非 indexed),故直接 ImageBitmap 铺底,无需 palette。
+ * 战斗背景(M4b):{root}/../images/battle/bg/{NNN}.png —— FBP 8-bit 索引位图,提取器把索引
+ * 直接写成灰度 PNG(R=G=B=索引,未着色)。故此处读 R 通道当索引,经 palette 着色成真彩 canvas
+ * (同 bakeFrame 精灵着色)。palette = 触发战斗的场景调色板。
  */
-export async function loadBattleBg(base: AssetBase, id: number): Promise<ImageBitmap> {
+export async function loadBattleBg(base: AssetBase, id: number, palette: Palette): Promise<HTMLCanvasElement> {
   const imagesRoot = base.root.replace(/\/data$/, '/images')
   const res = await fetch(`${imagesRoot}/battle/bg/${String(id).padStart(3, '0')}.png`)
   if (!res.ok) throw new Error(`battle bg ${id}: ${res.status}`)
-  return createImageBitmap(await res.blob())
+  const bitmap = await createImageBitmap(await res.blob())
+  const cvs = document.createElement('canvas')
+  cvs.width = bitmap.width
+  cvs.height = bitmap.height
+  const ctx = cvs.getContext('2d')
+  if (!ctx) throw new Error('reforge: 2d context 不可用')
+  ctx.drawImage(bitmap, 0, 0)
+  bitmap.close()
+  const src = ctx.getImageData(0, 0, cvs.width, cvs.height)
+  const out = ctx.createImageData(cvs.width, cvs.height)
+  const colors = palette.colors
+  const n = cvs.width * cvs.height
+  for (let i = 0; i < n; i++) {
+    const idx = src.data[i * 4] ?? 0 // R 通道 = FBP 索引
+    const c = colors[idx] ?? [0, 0, 0]
+    const o = i * 4
+    out.data[o] = c[0] ?? 0
+    out.data[o + 1] = c[1] ?? 0
+    out.data[o + 2] = c[2] ?? 0
+    out.data[o + 3] = 255
+  }
+  ctx.putImageData(out, 0, 0)
+  return cvs
 }
 
 /**
