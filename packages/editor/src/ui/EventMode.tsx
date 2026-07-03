@@ -45,7 +45,8 @@ const INSERT_GROUPS: { title: string; items: { label: string; make: (c: InsertCt
     title: '事件模板(展开为命令组)',
     items: [
       {
-        // 435 例:宝箱 —— 自身换帧(开盖)→ 音效 → 提示 → 给物
+        // 435 例:宝箱 —— 开盖帧**持久**(状态切换);防重复 = 原版全部走多段
+        // (段0 给物 next=1,段1「空箱」提示)。v1 插的是段内命令组,第 2 段请手动补。
         label: '📦 宝箱(开盖给物)',
         make: (c) => [
           { kind: 'setEntityFacing', entity: selfOf(c), facing: 'down' },
@@ -56,13 +57,23 @@ const INSERT_GROUPS: { title: string; items: { label: string; make: (c: InsertCt
         ],
       },
       {
-        // 145 例:拾取 —— 音效 → 提示 → 给物 → 自隐(捡走消失)
-        label: '🌿 拾取(捡走消失)',
+        // 145 例:地上道具(有精灵)—— 给完**末尾自隐**(玩家看着捡走);触发随实体灭
+        label: '🌿 地上道具(捡走消失)',
         make: (c) => [
           { kind: 'playSound', soundId: 2 },
           { kind: 'dialog', line: { text: '(得到○○!)' } },
           { kind: 'giveItem', itemId: '0' },
           { kind: 'setEntityState', entity: selfOf(c), state: 0 },
+        ],
+      },
+      {
+        // 76 例:柜中搜刮(无精灵 zone)—— **首条自灭**防重入(看不见,先关触发再给物)
+        label: '🗄 柜中搜刮(无精灵)',
+        make: (c) => [
+          { kind: 'setEntityState', entity: selfOf(c), state: 0 },
+          { kind: 'playSound', soundId: 2 },
+          { kind: 'dialog', line: { text: '(得到○○!)' } },
+          { kind: 'giveItem', itemId: '0' },
         ],
       },
       {
@@ -87,7 +98,8 @@ const INSERT_GROUPS: { title: string; items: { label: string; make: (c: InsertCt
         ],
       },
       {
-        // 36 例:钻洞 —— 转向 → 碎步×4(带走姿) → 切场景
+        // 33 例(聚集在迷宫:s060 隐龙窟×12 / s065×11 等联排洞口):转向 → 碎步×4 → 切场景。
+        // 另有 ~50 段同前缀是纯爬行走位(不切场景,最长 800 条),不属此模板。
         label: '🕳 钻洞爬行',
         make: (c) => [
           { kind: 'setPartyFacing', facing: 'up' },
