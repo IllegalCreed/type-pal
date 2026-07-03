@@ -1374,7 +1374,8 @@ async function renderBattlePreview(
   canvas.width = 320 * WORLD_SCALE
   canvas.height = 200 * WORLD_SCALE
   const palette = await loadPalette(project.assetBase, 0)
-  const field = Number(params.get('battle')) || 2
+  // 真实战斗 field(场景 setBattleField 用 24/12/10/7…;field 2 是主菜单背景,勿用)。
+  const field = params.get('battle') && Number(params.get('battle')) > 0 ? Number(params.get('battle')) : 24
   const bg = await loadBattleBg(project.assetBase, field).catch((e: unknown) => {
     console.warn('[battle] bg 加载失败:', e)
     return undefined
@@ -1389,7 +1390,7 @@ async function renderBattlePreview(
   const enemies: BattleSpriteDraw[] = []
   for (const [i, id] of enemyIds.entries()) {
     const sprite = await load('enemy', id)
-    const pos = getEnemyBasePos(undefined, i) ?? { x: 160, y: 80 }
+    const pos = getEnemyBasePos(enemyIds.length, i) ?? { x: 160, y: 80 }
     if (sprite) enemies.push({ sprite, x: pos.x, y: pos.y, frame: 0 })
   }
 
