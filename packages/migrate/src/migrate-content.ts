@@ -150,7 +150,8 @@ export function mapActor(role: SourceRole, expTable: readonly number[]): ActorDe
     id: slug,
     name: `name.${slug}`,
     spriteId: slug,
-    portrait: role.avatar,
+    // 头像组(C1):迁移填主头像(role.avatar);命名表情由编辑器人工加(原版无表情组数据)
+    ...(role.avatar ? { portraits: { default: role.avatar } } : {}),
     battler: {
       baseStats: {
         level: role.level,

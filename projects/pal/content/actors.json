@@ -3,7 +3,9 @@
     "id": "li-xiaoyao",
     "name": "name.li-xiaoyao",
     "spriteId": "li-xiaoyao",
-    "portrait": 1,
+    "portraits": {
+      "default": 1
+    },
     "battler": {
       "baseStats": {
         "level": 1,
@@ -139,7 +141,9 @@
     "id": "zhao-linger",
     "name": "name.zhao-linger",
     "spriteId": "zhao-linger",
-    "portrait": 11,
+    "portraits": {
+      "default": 11
+    },
     "battler": {
       "baseStats": {
         "level": 5,
@@ -283,7 +287,9 @@
     "id": "lin-yueru",
     "name": "name.lin-yueru",
     "spriteId": "lin-yueru",
-    "portrait": 21,
+    "portraits": {
+      "default": 21
+    },
     "battler": {
       "baseStats": {
         "level": 3,
@@ -420,7 +426,9 @@
     "id": "wu-hou",
     "name": "name.wu-hou",
     "spriteId": "wu-hou",
-    "portrait": 73,
+    "portraits": {
+      "default": 73
+    },
     "battler": {
       "baseStats": {
         "level": 48,
@@ -565,7 +573,9 @@
     "id": "anu",
     "name": "name.anu",
     "spriteId": "anu",
-    "portrait": 27,
+    "portraits": {
+      "default": 27
+    },
     "battler": {
       "baseStats": {
         "level": 28,
@@ -709,7 +719,9 @@
     "id": "gai-luojiao",
     "name": "name.gai-luojiao",
     "spriteId": "gai-luojiao",
-    "portrait": 44,
+    "portraits": {
+      "default": 44
+    },
     "battler": {
       "baseStats": {
         "level": 40,

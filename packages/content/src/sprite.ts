@@ -18,7 +18,21 @@ export type SpriteLayout =
   | { kind: 'static' }
   | { kind: 'loop'; frameCount: number; ticksPerFrame?: number }
 
-/** 精灵注册表项:语义 id → 原版精灵号 + 人读标签 + 帧布局。 */
+/**
+ * 命名姿势(C1)= 精灵图里一组绝对帧号组成的特殊动作(摔倒/虚弱/坐下/施法…)。
+ * 移动帧有共性(directional 布局公式取帧);特殊动作每精灵不同、无共性,故命名 + 绝对帧号。
+ * ⚠ 绝对帧号(不分方向)—— 用户确认(2026-07-03)原版无分方向的特殊动作;脚本按名字引用,不记裸帧号。
+ */
+export interface PoseDef {
+  /** 帧号序列(绝对下标)。static 取 frames[0];loop 循环全序列。 */
+  frames: number[]
+  /** static=定格单帧;loop=循环播放。 */
+  mode: 'static' | 'loop'
+  /** loop 每帧 tick 数(缺省 1)。 */
+  ticksPerFrame?: number
+}
+
+/** 精灵注册表项:语义 id → 原版精灵号 + 人读标签 + 帧布局 + 命名姿势。 */
 export interface SpriteDef {
   /** 语义 id;实体(prop)与 ActorDef.spriteId 引用它。稳定身份,非裸数字。 */
   id: string
@@ -28,10 +42,6 @@ export interface SpriteDef {
   label: string
   /** 帧布局(编辑器帧标注的产物;引擎据此算帧下标,去 WALK_FRAMES 硬编码)。 */
   layout: SpriteLayout
-  /**
-   * 命名姿势帧(坐/卧/演出… → 帧下标)。
-   * ⚠ provisional(设计 §3 注):原版姿势常是**朝向内偏移**(0x15: wFrame=dir*3+n),
-   * 绝对帧号表达不了"坐·朝左/坐·朝右"。C0 只定义**不消费**;B2 事件+迁移器落地时定稿。
-   */
-  poses?: Record<string, number>
+  /** 命名姿势(C1;名字 → 帧序列 + 播放方式)。脚本按名字引用(不记裸帧号)。 */
+  poses?: Record<string, PoseDef>
 }

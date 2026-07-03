@@ -50,6 +50,8 @@ describe('M1a · 角色(装备槽真序哨兵)', () => {
     // 原版真值:role0 初始只会气疗术(296)。demo 手作的 ['296','298','299'] 是菜单演示播种
     // (startWorld.learnedSkills 才是 demo 的种子源),此处以原版为准,不对齐 demo。
     expect(li.battler!.initialMagic).toEqual(['296'])
+    // C1:头像组(主头像 = role.avatar;命名表情由编辑器人工加)
+    expect(li.portraits).toEqual({ default: 1 })
   })
   test('6 角色齐 + expTable 100 级 + 战斗精灵号', () => {
     expect(out.actors.map((a) => a.id)).toEqual(['li-xiaoyao', 'zhao-linger', 'lin-yueru', 'wu-hou', 'anu', 'gai-luojiao'])
