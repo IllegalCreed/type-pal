@@ -8,9 +8,9 @@
  */
 
 // 渲染器(D10:Canvas2D blitter + Y 深度遮挡)
-import { Canvas2DRenderer } from './render.js'
+import { bakeFrame, Canvas2DRenderer } from './render.js'
 import type { Camera, CellRect, Renderer, SpriteDraw } from './render.js'
-export { Canvas2DRenderer }
+export { bakeFrame, Canvas2DRenderer }
 export type { Camera, CellRect, Renderer, SpriteDraw }
 
 // 资产加载(tilemap/palette/tileset/sprite + gzip 解压)

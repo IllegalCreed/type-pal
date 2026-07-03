@@ -22,7 +22,7 @@ function tileIdLayer1(d: number): number {
   return ((hi & 0xff) | ((hi >> 4) & 0x100)) - 1 // -1 = 无瓦片
 }
 
-function bakeFrame(frame: RleFrame, palette: Palette): HTMLCanvasElement {
+export function bakeFrame(frame: RleFrame, palette: Palette): HTMLCanvasElement {
   const { width, height, pixels, opaque } = frame
   const cvs = document.createElement('canvas')
   cvs.width = width
