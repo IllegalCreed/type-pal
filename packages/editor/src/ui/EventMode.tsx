@@ -3,13 +3,29 @@
  * 场景的脚本源;中列上「演出预览画布」(播放/单步/重置/倍速)下「命令树」(跟随高亮当前
  * 命令);右栏演出日志(桩命令)。可视化编辑是后续 C-track。
  */
-import { useEffect, useMemo, useRef, useState } from 'react'
-import type { ActorDef, Command, EntityDef, Locale, SceneDef, ScriptStage, SpriteDef } from '@type-pal/content'
+
+import type {
+  ActorDef,
+  Command,
+  EntityDef,
+  Locale,
+  SceneDef,
+  ScriptStage,
+  SpriteDef,
+} from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { type ScriptSourceRef, UpdateScriptCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { Playback } from '../core/playback.js'
-import { getCommandAt, insertAfterAt, moveAt, parsePath, removeAt, updateCommandAt } from '../core/script-edit.js'
+import {
+  getCommandAt,
+  insertAfterAt,
+  moveAt,
+  parsePath,
+  removeAt,
+  updateCommandAt,
+} from '../core/script-edit.js'
 import { CommandForm } from './CommandForm.js'
 import { PreviewCanvas } from './PreviewCanvas.js'
 import { type RowAction, ScriptTree } from './ScriptTree.js'
@@ -23,21 +39,44 @@ const selfOf = (c: InsertCtx): string => c.ownerId ?? c.scene.entities[0]?.id ??
 
 /** ➕ 插入菜单 —— 单命令 + 事件模板(按 4382 段触发脚本形状统计的 top 模式提炼;
  *  模板插入即展开为普通命令组,逐条可调,不引入黑盒高层命令)。 */
-const INSERT_GROUPS: { title: string; items: { label: string; make: (c: InsertCtx) => Command[] }[] }[] = [
+const INSERT_GROUPS: {
+  title: string
+  items: { label: string; make: (c: InsertCtx) => Command[] }[]
+}[] = [
   {
     title: '单命令',
     items: [
       { label: '💬 对话', make: () => [{ kind: 'dialog', line: { text: '(新对话)' } }] },
       { label: '⏱ 等待', make: () => [{ kind: 'wait', ms: 200 }] },
-      { label: '🚶 队伍走到', make: (c) => [{ kind: 'moveParty', to: { ...c.scene.entry.pos }, speed: 'normal' }] },
-      { label: '🚶 实体走到', make: (c) => [{ kind: 'moveEntity', entity: selfOf(c), to: { ...c.scene.entry.pos }, speed: 'normal' }] },
-      { label: '📍 队伍瞬移', make: (c) => [{ kind: 'teleportParty', pos: { ...c.scene.entry.pos } }] },
+      {
+        label: '🚶 队伍走到',
+        make: (c) => [{ kind: 'moveParty', to: { ...c.scene.entry.pos }, speed: 'normal' }],
+      },
+      {
+        label: '🚶 实体走到',
+        make: (c) => [
+          { kind: 'moveEntity', entity: selfOf(c), to: { ...c.scene.entry.pos }, speed: 'normal' },
+        ],
+      },
+      {
+        label: '📍 队伍瞬移',
+        make: (c) => [{ kind: 'teleportParty', pos: { ...c.scene.entry.pos } }],
+      },
       { label: '🧭 队伍转向', make: () => [{ kind: 'setPartyFacing', facing: 'down' }] },
-      { label: '👁 实体显隐', make: (c) => [{ kind: 'setEntityState', entity: selfOf(c), state: 1 }] },
-      { label: '🧭 实体转向', make: (c) => [{ kind: 'setEntityFacing', entity: selfOf(c), facing: 'down' }] },
+      {
+        label: '👁 实体显隐',
+        make: (c) => [{ kind: 'setEntityState', entity: selfOf(c), state: 1 }],
+      },
+      {
+        label: '🧭 实体转向',
+        make: (c) => [{ kind: 'setEntityFacing', entity: selfOf(c), facing: 'down' }],
+      },
       { label: '🌓 淡入/淡出', make: () => [{ kind: 'fade', dir: 'out', ms: 300 }] },
       { label: '🎵 音乐', make: () => [{ kind: 'playMusic', musicId: 1 }] },
-      { label: '🚪 切场景', make: (c) => [{ kind: 'loadScene', scene: c.scene.id, pos: { ...c.scene.entry.pos } }] },
+      {
+        label: '🚪 切场景',
+        make: (c) => [{ kind: 'loadScene', scene: c.scene.id, pos: { ...c.scene.entry.pos } }],
+      },
       { label: '⚔ 战斗', make: () => [{ kind: 'startBattle', team: 0 }] },
     ],
   },
@@ -148,14 +187,34 @@ interface ScriptSource {
 /** 收集一个场景的全部脚本源。 */
 function collectSources(scene: SceneDef): ScriptSource[] {
   const out: ScriptSource[] = []
-  if (scene.onEnter?.length) out.push({ key: '__onEnter__', label: '进场脚本', kind: 'onEnter', sub: `${scene.onEnter.length} 段`, stages: scene.onEnter })
+  if (scene.onEnter?.length)
+    out.push({
+      key: '__onEnter__',
+      label: '进场脚本',
+      kind: 'onEnter',
+      sub: `${scene.onEnter.length} 段`,
+      stages: scene.onEnter,
+    })
   for (const e of scene.entities) {
     const page = e.pages?.[0]
     if (page?.trigger) {
       const on = page.trigger.on === 'interact' ? '交互' : '触碰'
-      out.push({ key: `${e.id}:trigger`, label: e.id, kind: 'trigger', sub: `${on}触发`, stages: page.trigger.stages })
+      out.push({
+        key: `${e.id}:trigger`,
+        label: e.id,
+        kind: 'trigger',
+        sub: `${on}触发`,
+        stages: page.trigger.stages,
+      })
     }
-    if (page?.auto) out.push({ key: `${e.id}:auto`, label: e.id, kind: 'auto', sub: '巡逻/动画', stages: page.auto.stages })
+    if (page?.auto)
+      out.push({
+        key: `${e.id}:auto`,
+        label: e.id,
+        kind: 'auto',
+        sub: '巡逻/动画',
+        stages: page.auto.stages,
+      })
   }
   return out
 }
@@ -183,7 +242,16 @@ export function EventMode(props: {
   assetBase: AssetBase
   session: EditSession
 }) {
-  const { scenes, locale, initialSceneId, sprites, actorsById, leaderSpriteId, assetBase, session } = props
+  const {
+    scenes,
+    locale,
+    initialSceneId,
+    sprites,
+    actorsById,
+    leaderSpriteId,
+    assetBase,
+    session,
+  } = props
   const [sceneId, setSceneId] = useState(initialSceneId)
   const [filter, setFilter] = useState('')
   const [srcKey, setSrcKey] = useState<string | null>(null)
@@ -290,20 +358,47 @@ export function EventMode(props: {
     <>
       {/* 左:场景列表(上段)+ 脚本源列表(下段)—— 两段式,源垂直排不挤 */}
       <div className="outliner event-outliner">
-        <div className="pane-h"><span className="t">有脚本的场景</span><span className="spacer" /><span className="k">{scriptedScenes.length}</span></div>
-        <input className="in" placeholder="过滤场景 id…" value={filter} onChange={(e) => setFilter(e.target.value)} style={{ margin: '0 8px 6px' }} />
+        <div className="pane-h">
+          <span className="t">有脚本的场景</span>
+          <span className="spacer" />
+          <span className="k">{scriptedScenes.length}</span>
+        </div>
+        <input
+          className="in"
+          placeholder="过滤场景 id…"
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          style={{ margin: '0 8px 6px' }}
+        />
         <div className="scene-list">
           {shown.map(({ scene: s, n }) => (
-            <button key={s.id} className={`node${s.id === sceneId ? ' sel' : ''}`} onClick={() => { setSceneId(s.id); setSrcKey(null) }}>
-              <span className="ico">🗺️</span><span>{s.id}</span><span className="k">{n}</span>
+            <button
+              key={s.id}
+              className={`node${s.id === sceneId ? ' sel' : ''}`}
+              onClick={() => {
+                setSceneId(s.id)
+                setSrcKey(null)
+              }}
+            >
+              <span className="ico">🗺️</span>
+              <span>{s.id}</span>
+              <span className="k">{n}</span>
             </button>
           ))}
         </div>
         <div className="src-section">
-          <div className="pane-h sub"><span className="t">{sceneId} · 脚本源</span><span className="spacer" /><span className="k">{sources.length}</span></div>
+          <div className="pane-h sub">
+            <span className="t">{sceneId} · 脚本源</span>
+            <span className="spacer" />
+            <span className="k">{sources.length}</span>
+          </div>
           <div className="src-list">
             {sources.map((s) => (
-              <button key={s.key} className={`src-item${active?.key === s.key ? ' sel' : ''}`} onClick={() => setSrcKey(s.key)}>
+              <button
+                key={s.key}
+                className={`src-item${active?.key === s.key ? ' sel' : ''}`}
+                onClick={() => setSrcKey(s.key)}
+              >
                 <span className="src-ico">{ICON[s.kind]}</span>
                 <span className="src-label">{s.label}</span>
                 <span className="src-sub">{s.sub}</span>
@@ -317,19 +412,35 @@ export function EventMode(props: {
       {/* 中:上演出预览 + 拖拽分隔 + 下命令树(跟随高亮) */}
       <div className="center event-center" ref={centerRef}>
         <div className="toolbar">
-          <span style={{ fontWeight: 600 }}>{active ? `${ICON[active.kind]} ${active.label}` : sceneId}</span>
-          {active ? <span className="src-sub" style={{ marginLeft: 6 }}>{active.sub}</span> : null}
+          <span style={{ fontWeight: 600 }}>
+            {active ? `${ICON[active.kind]} ${active.label}` : sceneId}
+          </span>
+          {active ? (
+            <span className="src-sub" style={{ marginLeft: 6 }}>
+              {active.sub}
+            </span>
+          ) : null}
           <span className="spacer" />
           <span style={{ color: 'var(--faint)', fontSize: 11 }}>树只读 · 预览可播</span>
         </div>
         {scene && active && playback ? (
           <>
-            <div style={{ flex: `0 0 ${(previewFrac * 100).toFixed(1)}%`, display: 'flex', minHeight: 120 }}>
+            <div
+              style={{
+                flex: `0 0 ${(previewFrac * 100).toFixed(1)}%`,
+                display: 'flex',
+                minHeight: 120,
+              }}
+            >
               <PreviewCanvas
                 scene={scene}
                 stages={active.stages}
                 sourceKey={active.key}
-                focusEntityId={refOf(active.key).kind === 'onEnter' ? undefined : (refOf(active.key) as { entityId: string }).entityId}
+                focusEntityId={
+                  refOf(active.key).kind === 'onEnter'
+                    ? undefined
+                    : (refOf(active.key) as { entityId: string }).entityId
+                }
                 sprites={sprites}
                 actorsById={actorsById}
                 leaderSpriteId={leaderSpriteId}
@@ -362,7 +473,10 @@ export function EventMode(props: {
 
       {/* 右:命令编辑 / 插入菜单 / 演出日志 */}
       <div className="inspector">
-        <div className="insp-head"><div className="what">事件 · 脚本 + 预览</div><div className="who">{active ? `${active.label} · ${active.sub}` : '—'}</div></div>
+        <div className="insp-head">
+          <div className="what">事件 · 脚本 + 预览</div>
+          <div className="who">{active ? `${active.label} · ${active.sub}` : '—'}</div>
+        </div>
         {insertFor && active && scene ? (
           <div className="section">
             <h4>插入(到选中行之后)</h4>
@@ -377,7 +491,10 @@ export function EventMode(props: {
                       className="pv-btn"
                       onClick={() => {
                         const ref = refOf(active.key)
-                        const ctx: InsertCtx = { scene, ownerId: ref.kind === 'onEnter' ? undefined : ref.entityId }
+                        const ctx: InsertCtx = {
+                          scene,
+                          ownerId: ref.kind === 'onEnter' ? undefined : ref.entityId,
+                        }
                         const cmds = t.make(ctx)
                         const p = parsePath(insertFor)
                         // 逐条插入(路径递增),整批一次 dispatch
@@ -403,14 +520,20 @@ export function EventMode(props: {
               </div>
             ))}
             <div className="cf-insert" style={{ marginTop: 6 }}>
-              <button type="button" className="pv-btn" onClick={() => setInsertFor(null)}>取消</button>
+              <button type="button" className="pv-btn" onClick={() => setInsertFor(null)}>
+                取消
+              </button>
             </div>
-            <p className="hint">模板按全 295 场景触发脚本的 top 形状提炼;「自身」自动指当前触发实体。插入后逐条可调。</p>
+            <p className="hint">
+              模板按全 295 场景触发脚本的 top 形状提炼;「自身」自动指当前触发实体。插入后逐条可调。
+            </p>
           </div>
         ) : null}
         {selCmd && scene && active && selPath ? (
           <div className="section">
-            <h4>编辑命令 <span className="cf-path">{selPath}</span></h4>
+            <h4>
+              编辑命令 <span className="cf-path">{selPath}</span>
+            </h4>
             <CommandForm
               cmd={selCmd}
               scene={scene}
@@ -420,7 +543,9 @@ export function EventMode(props: {
                 if (out !== active.stages) dispatchStages(out)
               }}
             />
-            <p className="hint">改动即入 undo 历史(↶/↷);💾 保存写回工程文件。改完可在预览单步复验。</p>
+            <p className="hint">
+              改动即入 undo 历史(↶/↷);💾 保存写回工程文件。改完可在预览单步复验。
+            </p>
           </div>
         ) : null}
         {playback && playback.view.logs.length > 0 ? (
@@ -428,7 +553,9 @@ export function EventMode(props: {
             <h4>演出日志(桩命令)</h4>
             <div className="pv-logs">
               {playback.view.logs.slice(-40).map((l, i) => (
-                <div key={i} className="pv-log">{l}</div>
+                <div key={i} className="pv-log">
+                  {l}
+                </div>
               ))}
             </div>
           </div>
@@ -437,16 +564,21 @@ export function EventMode(props: {
           <div className="section">
             <h4>脚本编辑 + 演出预览</h4>
             <p className="hint">
-              点树中命令行选中 → 此处编辑参数;行悬停 ＋/↑/↓/🗑 插入/移动/删除。
-              ▶ 从头播;⏭ 单步逐条(树中高亮);对话点「继续」。演出态是临时副本,不改数据。
+              点树中命令行选中 → 此处编辑参数;行悬停 ＋/↑/↓/🗑 插入/移动/删除。 ▶ 从头播;⏭
+              单步逐条(树中高亮);对话点「继续」。演出态是临时副本,不改数据。
             </p>
-            <p className="hint"><span className="warn-inline">⚠ 黄色</span> = 未翻译(逃生口,多为战斗侧 op,归 M4);结构类命令用 JSON 编辑。</p>
+            <p className="hint">
+              <span className="warn-inline">⚠ 黄色</span> = 未翻译(逃生口,多为战斗侧 op,归
+              M4);结构类命令用 JSON 编辑。
+            </p>
           </div>
         ) : null}
         {active && active.stages.length > 1 ? (
           <div className="section">
             <h4>多段触发</h4>
-            <p className="hint">{active.stages.length} 段:原版「再按一次继续下一段」的结构化版。v0 预览播第 1 段。</p>
+            <p className="hint">
+              {active.stages.length} 段:原版「再按一次继续下一段」的结构化版。v0 预览播第 1 段。
+            </p>
           </div>
         ) : null}
       </div>
