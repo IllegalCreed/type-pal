@@ -66,18 +66,61 @@ phase 是显式状态字段（不是 async 栈）——因为 selectAction 要�
 不适合 await（会卡住 rAF）。**动画/脚本子过程内部用 async driver**（有限时长），
 phase 主循环用状态机 tick。二者边界：tick 看 phase 分派，动画/AI 段 await driver。
 
-## 4. 数据迁移范围（待战斗数据普查回填）
+## 4. 数据迁移范围（普查回填，2026-07-03）
 
-> 战斗数据普查 agent 跑完后补：enemies.json / enemy-objects.json / battle-fields.json /
-> battle-sprites.json / battle-effect-index.json 的 schema + count + 迁移映射。
-> 敌人 AI 脚本（scriptOnReady/scriptOnTurnStart/scriptOnWin）经翻译器 → 战斗侧 stages。
+| 源 | 数量 | → content | 说明 |
+|---|---|---|---|
+| `enemies.json` | 154(id0 空) | **EnemyDef.stats**（新） | health/exp/cash/level/magic/magicRate/attackStrength/magicStrength/defense/dexterity/fleeRate/poisonResistance/elemResistance{5}/physicalResistance/dualMove/collectValue + 动画帧数(idle/magic/attack)/音效(attack/action/magic/death/call)/idleAnimSpeed/actWaitFrames/yPosOffset |
+| `enemy-objects.json` | 153 | **EnemyDef**（合并层，类比 ActorDef→battler） | objectIndex/enemyId(→stats 行)/resistanceToSorcery/scriptOnReady/scriptOnTurnStart/scriptOnBattleEnd/_name。AI 指针在此,非 enemies.json |
+| `enemy-pos.json` | 5 阵型 | **formations** | k+1 敌人的落点表(1 敌=中央,5 敌=五点) |
+| `battle-fields.json` | 58 | **BattleFieldDef** | screenWave + magicEffect{5}(战场元素加成,喂 calcMagicDamage.fieldEffect) |
+| `battle-bgs.json` | 78 | 资产引用 | FBP 战斗背景(present 载) |
+| `battle-sprites/*.rle` | 153 敌+19 player | 资产引用 | 战斗精灵位图(帧数从 enemies.json 帧字段,非 JSON) |
+| `battle-effect-index.json` | 20 | **effectIndex** | 玩家物攻命中特效 sprite-frame 基址(按武器类) |
+| `magic.json` | 104 | **扩 SkillData.battleAnim** | 战斗动画字段(见 §5.3);伤害字段 baseDamage/elemental 已在 M1c |
+| `spells.json` | 103 | 已迁(M1c skill) | OBJECT_MAGIC 包装(magicNumber→magic 行 + 脚本 + flags) |
 
-## 5. 战斗命令全集（待普查回填）
+敌人 AI(scriptOnReady/TurnStart/BattleEnd)= 59 个小 bytecode 脚本 → 翻译器扩战斗侧翻译 →
+EnemyDef 的 stages（复用 M3 的 stages 机制）。**99/153 敌人无脚本**,纯 fallback AI。
 
-> 战斗侧 opcode（battle-opcodes.ts 的 case 列表）→ 战斗命令判别联合。已知高频（census M3 侧）：
-> 0x67 enemyUseMagic / 0x4C monsterChase / 0x9E summon / 0x9C division / 0x2E setEnemyStatus /
-> 0x64 hpAboveJump / 0x68 enemyTurnJump / 毒系跳。翻译器扩战斗命令翻译（M3 的 JUMP_FAMILY
-> 里战斗 op 现在截断归 M4 → 这里接手）。
+## 5. 战斗命令集（普查回填）—— 关键决策：效果复用，不重造
+
+普查揭示 44 个战斗 opcode **不是 44 个新命令**。分三类：
+
+### 5.1 效果类（15 个共享 op）→ 复用 M1c/d 的 `SkillEffect` / `ItemUseEffect`
+
+伤害/状态/毒/复活/HP·MP 增减（0x1B/1C/1D/21/22/28/29/2A-2F/61）—— 这些在**事件侧也有**，
+且 M1c/d 已把技能/物品的效果翻译成 `SkillEffect[]` / `ItemUseEffect[]`（damage/healHp/
+applyStatus/revive/removeStatus/applyPoison…）。**战斗施法/用物 = 在战斗上下文执行同一套
+effect[]**。M4 只需一个 `applyEffectInBattle(effect, caster, target, battleState)` 解析器，
+不为战斗重造伤害/状态命令。← 这是 M4 工作量的最大压缩点。
+
+### 5.2 AI 决策类（敌人脚本用，~10 op）→ 新战斗命令 + fallback AI 纯函数
+
+| op | → 命令 / 机制 |
+|---|---|
+| **0x67 enemyUseMagic**（×18,绝对主导） | `enemyCastMagic{magicId, rate}` |
+| 0x91 notFirstJump（×5） | `branch{cond: enemyNotFirstOfKind}` |
+| 0x9E summon（×2,boss） | `enemySummon{enemyId}` |
+| 0x9C division / 0x9F transform | `enemyDivide` / `enemyTransform{enemyId}` |
+| 0x69 escape | `enemyEscape` |
+| 0x68 enemyTurnJump / 0x64 hpAboveJump | `branch{cond: isEnemyTurn / hpAbovePct}` |
+| 0x6B blowAway / 0x6A steal / 0x33 collect | `blowAway` / `stealFromEnemy` / `collectEnemy` |
+
+**fallback AI**（99/153 敌人,无脚本）= 移植 `enemy-ai.ts::decideEnemyAction` 纯函数:
+`magic≠0 && rng(0,9)<magicRate && !silence → 施法,否则物攻;confused→打友方;sleep/paralyzed→跳过`。
+
+### 5.3 magic 战斗动画字段（新增 `SkillData.battleAnim`）
+
+普查确认 magic 字段拆两半:**伤害**(baseDamage/elemental,M1c 已迁)vs **动画**(本节新增):
+`effect`(sprite chunk)/`type`(0 单体/1 attackAll/2 whole/3 field/4 toPlayer/5 party/8 trance/
+9 summon)/`xyOffset`/`special`/`speed`/`keepEffect`/`fireDelay`/`effectTimes`/`shake`/`wave`/`sound`。
+
+### 5.4 关键忠实性决策(用户偏好:跟原版后期修复)
+
+**0x2E 敌人 set status 命中判定用 `rng(0,9) >= resistanceToSorcery`**（≥,不是 sdlpal 的 buggy
+`>`）—— 普查实测一阶段已跟原版后期修复版。M4 照此,源码注释标注 + golden 钉死（对齐
+`faithful-vs-fix-decision-pattern`:原版=pal.exe,sdlpal 只是参考实现）。
 
 ## 6. 分期与验收（接 roadmap §8 M4）
 

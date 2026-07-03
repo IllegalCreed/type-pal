@@ -1,0 +1,7777 @@
+[
+  {
+    "id": "enemy-398",
+    "name": "name.enemy-398",
+    "spriteNum": 1,
+    "stats": {
+      "health": 28,
+      "level": 0,
+      "exp": 1,
+      "cash": 1,
+      "attackStrength": -1,
+      "magicStrength": 0,
+      "defense": -6,
+      "dexterity": 0,
+      "fleeRate": 1,
+      "physicalResistance": 2,
+      "poisonResistance": 0,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 0,
+        "fire": 0,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 2,
+      "idleAnimSpeed": 5,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 351,
+      "action": 0,
+      "magic": 0,
+      "death": 246,
+      "call": 91
+    }
+  },
+  {
+    "id": "enemy-399",
+    "name": "name.enemy-399",
+    "spriteNum": 2,
+    "stats": {
+      "health": 30,
+      "level": 1,
+      "exp": 1,
+      "cash": 3,
+      "attackStrength": 0,
+      "magicStrength": 6,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 1,
+      "physicalResistance": 2,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 2,
+        "thunder": 5,
+        "water": 5,
+        "fire": 0,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 5,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 50,
+      "action": 0,
+      "magic": 0,
+      "death": 32,
+      "call": 352
+    }
+  },
+  {
+    "id": "enemy-400",
+    "name": "name.enemy-400",
+    "spriteNum": 3,
+    "stats": {
+      "health": 42,
+      "level": 2,
+      "exp": 4,
+      "cash": 4,
+      "attackStrength": 2,
+      "magicStrength": 0,
+      "defense": -3,
+      "dexterity": 4,
+      "fleeRate": 1,
+      "physicalResistance": 2,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 4,
+        "water": 5,
+        "fire": 5,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 2,
+      "idleAnimSpeed": 4,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 353,
+      "action": 0,
+      "magic": 71,
+      "death": 186,
+      "call": 92
+    },
+    "steal": {
+      "itemId": "91",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-401",
+    "name": "name.enemy-401",
+    "spriteNum": 4,
+    "stats": {
+      "health": 750,
+      "level": 30,
+      "exp": 140,
+      "cash": 60,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 7,
+      "dexterity": -8,
+      "fleeRate": 1,
+      "physicalResistance": 2,
+      "poisonResistance": 8,
+      "elemResistance": {
+        "wind": 7,
+        "thunder": 5,
+        "water": 9,
+        "fire": 0,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 504,
+      "action": 0,
+      "magic": 0,
+      "death": 246,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "107",
+      "count": 1
+    },
+    "attackEquivItem": {
+      "itemId": "127",
+      "rate": 2
+    }
+  },
+  {
+    "id": "enemy-402",
+    "name": "name.enemy-402",
+    "spriteNum": 5,
+    "stats": {
+      "health": 1750,
+      "level": 28,
+      "exp": 150,
+      "cash": 0,
+      "attackStrength": 7,
+      "magicStrength": 0,
+      "defense": 7,
+      "dexterity": 15,
+      "fleeRate": 1,
+      "physicalResistance": 3,
+      "poisonResistance": 5,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 6,
+        "water": 6,
+        "fire": 6,
+        "earth": 6
+      },
+      "dualMove": false,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 6,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 354,
+      "action": 0,
+      "magic": 219,
+      "death": 186,
+      "call": 91
+    },
+    "steal": {
+      "itemId": "104",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-403",
+    "name": "name.enemy-403",
+    "spriteNum": 6,
+    "stats": {
+      "health": 32,
+      "level": 1,
+      "exp": 2,
+      "cash": 2,
+      "attackStrength": -1,
+      "magicStrength": 0,
+      "defense": -7,
+      "dexterity": 7,
+      "fleeRate": 2,
+      "physicalResistance": 2,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 7,
+        "thunder": 5,
+        "water": 5,
+        "fire": 0,
+        "earth": 6
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 4,
+      "magicFrames": 0,
+      "attackFrames": 0,
+      "idleAnimSpeed": 1,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 355,
+      "action": 0,
+      "magic": 0,
+      "death": 30,
+      "call": 2
+    },
+    "attackEquivItem": {
+      "itemId": "117",
+      "rate": 2
+    }
+  },
+  {
+    "id": "enemy-404",
+    "name": "name.enemy-404",
+    "spriteNum": 7,
+    "stats": {
+      "health": 28,
+      "level": 1,
+      "exp": 2,
+      "cash": 4,
+      "attackStrength": -4,
+      "magicStrength": 0,
+      "defense": 3,
+      "dexterity": -2,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 0,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 5,
+        "fire": 5,
+        "earth": 0
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 6,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 50,
+      "action": 0,
+      "magic": 0,
+      "death": 216,
+      "call": 92
+    },
+    "steal": {
+      "itemId": "148",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-405",
+    "name": "name.enemy-405",
+    "spriteNum": 8,
+    "stats": {
+      "health": 1100,
+      "level": 35,
+      "exp": 70,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 50,
+      "fleeRate": 2,
+      "physicalResistance": 2,
+      "poisonResistance": 1,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 0,
+        "water": 5,
+        "fire": 10,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 2,
+      "idleAnimSpeed": 5,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 356,
+      "action": 0,
+      "magic": 0,
+      "death": 183,
+      "call": 93
+    }
+  },
+  {
+    "id": "enemy-406",
+    "name": "name.enemy-406",
+    "spriteNum": 9,
+    "stats": {
+      "health": 310,
+      "level": 12,
+      "exp": 14,
+      "cash": 9,
+      "attackStrength": 16,
+      "magicStrength": 0,
+      "defense": 10,
+      "dexterity": 0,
+      "fleeRate": 1,
+      "physicalResistance": 2,
+      "poisonResistance": 0,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 5,
+        "fire": 5,
+        "earth": 3
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 6,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 357,
+      "action": 0,
+      "magic": 0,
+      "death": 216,
+      "call": 92
+    },
+    "steal": {
+      "itemId": "147",
+      "count": 1
+    },
+    "attackEquivItem": {
+      "itemId": "117",
+      "rate": 4
+    }
+  },
+  {
+    "id": "enemy-407",
+    "name": "name.enemy-407",
+    "spriteNum": 10,
+    "stats": {
+      "health": 450,
+      "level": 7,
+      "exp": 10,
+      "cash": 10,
+      "attackStrength": 0,
+      "magicStrength": 24,
+      "defense": -20,
+      "dexterity": 18,
+      "fleeRate": 1,
+      "physicalResistance": 2,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 2,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 2,
+      "idleAnimSpeed": 6,
+      "actWaitFrames": 3,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 358,
+      "action": 0,
+      "magic": 0,
+      "death": 185,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "116",
+      "count": 1
+    },
+    "attackEquivItem": {
+      "itemId": "116",
+      "rate": 1
+    }
+  },
+  {
+    "id": "enemy-408",
+    "name": "name.enemy-408",
+    "spriteNum": 11,
+    "stats": {
+      "health": 1250,
+      "level": 10,
+      "exp": 52,
+      "cash": 27,
+      "attackStrength": 18,
+      "magicStrength": 0,
+      "defense": -32,
+      "dexterity": 12,
+      "fleeRate": 1,
+      "physicalResistance": 1,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 8,
+        "thunder": 8,
+        "water": 8,
+        "fire": 8,
+        "earth": 8
+      },
+      "dualMove": false,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 305,
+      "magicRate": 4,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 6,
+      "actWaitFrames": 2,
+      "yPosOffset": 6
+    },
+    "sounds": {
+      "attack": 359,
+      "action": 0,
+      "magic": 0,
+      "death": 246,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "116",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-409",
+    "name": "name.enemy-409",
+    "spriteNum": 12,
+    "stats": {
+      "health": 860,
+      "level": 8,
+      "exp": 36,
+      "cash": 96,
+      "attackStrength": 48,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": -32,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 3,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 0,
+        "water": 4,
+        "fire": 7,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 360,
+      "action": 0,
+      "magic": 0,
+      "death": 182,
+      "call": 94
+    },
+    "steal": {
+      "itemId": "167",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-410",
+    "name": "name.enemy-410",
+    "spriteNum": 13,
+    "stats": {
+      "health": 650,
+      "level": 10,
+      "exp": 28,
+      "cash": 13,
+      "attackStrength": 0,
+      "magicStrength": 14,
+      "defense": 4,
+      "dexterity": -6,
+      "fleeRate": 2,
+      "physicalResistance": 2,
+      "poisonResistance": 2,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 3,
+        "fire": 9,
+        "earth": 3
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 326,
+      "magicRate": 7,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 6,
+      "actWaitFrames": 3,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 361,
+      "action": 0,
+      "magic": 362,
+      "death": 186,
+      "call": 92
+    },
+    "steal": {
+      "itemId": "87",
+      "count": 2
+    }
+  },
+  {
+    "id": "enemy-411",
+    "name": "name.enemy-411",
+    "spriteNum": 14,
+    "stats": {
+      "health": 586,
+      "level": 20,
+      "exp": 42,
+      "cash": 7,
+      "attackStrength": -8,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 8,
+      "fleeRate": 1,
+      "physicalResistance": 2,
+      "poisonResistance": 8,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 4,
+        "water": 5,
+        "fire": 4,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 5,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 364,
+      "action": 0,
+      "magic": 0,
+      "death": 183,
+      "call": 93
+    }
+  },
+  {
+    "id": "enemy-412",
+    "name": "name.enemy-412",
+    "spriteNum": 15,
+    "stats": {
+      "health": 625,
+      "level": 24,
+      "exp": 40,
+      "cash": 13,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 1,
+      "physicalResistance": 2,
+      "poisonResistance": 8,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 4,
+        "water": 5,
+        "fire": 4,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 5,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 365,
+      "action": 0,
+      "magic": 0,
+      "death": 183,
+      "call": 92
+    },
+    "steal": {
+      "itemId": "120",
+      "count": 1
+    },
+    "attackEquivItem": {
+      "itemId": "120",
+      "rate": 1
+    }
+  },
+  {
+    "id": "enemy-413",
+    "name": "name.enemy-413",
+    "spriteNum": 16,
+    "stats": {
+      "health": 936,
+      "level": 33,
+      "exp": 150,
+      "cash": 65,
+      "attackStrength": -10,
+      "magicStrength": 10,
+      "defense": 20,
+      "dexterity": -30,
+      "fleeRate": 0,
+      "physicalResistance": 5,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 10,
+        "thunder": 2,
+        "water": 8,
+        "fire": 9,
+        "earth": 7
+      },
+      "dualMove": false,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 312,
+      "magicRate": 5,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 2,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 366,
+      "action": 0,
+      "magic": 367,
+      "death": 32,
+      "call": 93
+    },
+    "steal": {
+      "itemId": "113",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-414",
+    "name": "name.enemy-414",
+    "spriteNum": 17,
+    "stats": {
+      "health": 710,
+      "level": 24,
+      "exp": 110,
+      "cash": 220,
+      "attackStrength": 36,
+      "magicStrength": -30,
+      "defense": 0,
+      "dexterity": 32,
+      "fleeRate": 1,
+      "physicalResistance": 2,
+      "poisonResistance": 2,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": true,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 339,
+      "magicRate": 5,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 2,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 368,
+      "action": 0,
+      "magic": 369,
+      "death": 247,
+      "call": 94
+    },
+    "steal": {
+      "itemId": "162",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-415",
+    "name": "name.enemy-415",
+    "spriteNum": 18,
+    "stats": {
+      "health": 31,
+      "level": 2,
+      "exp": 5,
+      "cash": 5,
+      "attackStrength": -1,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": -24,
+      "fleeRate": 1,
+      "physicalResistance": 5,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 9,
+        "thunder": 2,
+        "water": 8,
+        "fire": 8,
+        "earth": 1
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 2,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 370,
+      "action": 0,
+      "magic": 0,
+      "death": 32,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "86",
+      "count": 2
+    }
+  },
+  {
+    "id": "enemy-416",
+    "name": "name.enemy-416",
+    "spriteNum": 19,
+    "stats": {
+      "health": 1080,
+      "level": 28,
+      "exp": 128,
+      "cash": 310,
+      "attackStrength": 50,
+      "magicStrength": 30,
+      "defense": 12,
+      "dexterity": 0,
+      "fleeRate": 1,
+      "physicalResistance": 2,
+      "poisonResistance": 0,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 358,
+      "magicRate": 4,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 12
+    },
+    "sounds": {
+      "attack": 371,
+      "action": 0,
+      "magic": 372,
+      "death": 179,
+      "call": 91
+    },
+    "steal": {
+      "itemId": "144",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-417",
+    "name": "name.enemy-417",
+    "spriteNum": 20,
+    "stats": {
+      "health": 750,
+      "level": 22,
+      "exp": 65,
+      "cash": 50,
+      "attackStrength": 25,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 1,
+      "physicalResistance": 3,
+      "poisonResistance": 3,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 10
+    },
+    "sounds": {
+      "attack": 373,
+      "action": 0,
+      "magic": 0,
+      "death": 184,
+      "call": 90
+    }
+  },
+  {
+    "id": "enemy-418",
+    "name": "name.enemy-418",
+    "spriteNum": 21,
+    "stats": {
+      "health": 450,
+      "level": 20,
+      "exp": 50,
+      "cash": 70,
+      "attackStrength": -6,
+      "magicStrength": 26,
+      "defense": 0,
+      "dexterity": 13,
+      "fleeRate": 1,
+      "physicalResistance": 2,
+      "poisonResistance": 2,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 10,
+        "water": 5,
+        "fire": 5,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 316,
+      "magicRate": 8,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 4,
+      "magicFrames": 0,
+      "attackFrames": 2,
+      "idleAnimSpeed": 4,
+      "actWaitFrames": 2,
+      "yPosOffset": 5
+    },
+    "sounds": {
+      "attack": 375,
+      "action": 0,
+      "magic": 374,
+      "death": 182,
+      "call": 91
+    },
+    "steal": {
+      "itemId": "68",
+      "count": 3
+    }
+  },
+  {
+    "id": "enemy-419",
+    "name": "name.enemy-419",
+    "spriteNum": 22,
+    "stats": {
+      "health": 310,
+      "level": 7,
+      "exp": 9,
+      "cash": 7,
+      "attackStrength": 12,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": -16,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 7,
+        "water": 6,
+        "fire": 2,
+        "earth": 7
+      },
+      "dualMove": false,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 376,
+      "action": 0,
+      "magic": 376,
+      "death": 190,
+      "call": 92
+    },
+    "steal": {
+      "itemId": "116",
+      "count": 1
+    },
+    "attackEquivItem": {
+      "itemId": "116",
+      "rate": 4
+    }
+  },
+  {
+    "id": "enemy-420",
+    "name": "name.enemy-420",
+    "spriteNum": 23,
+    "stats": {
+      "health": 780,
+      "level": 26,
+      "exp": 80,
+      "cash": 70,
+      "attackStrength": 2,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 100,
+      "fleeRate": 2,
+      "physicalResistance": 2,
+      "poisonResistance": 0,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 5,
+        "fire": 5,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 5,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 377,
+      "action": 0,
+      "magic": 219,
+      "death": 254,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "112",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-421",
+    "name": "name.enemy-421",
+    "spriteNum": 24,
+    "stats": {
+      "health": 500,
+      "level": 29,
+      "exp": 78,
+      "cash": 50,
+      "attackStrength": 27,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 6,
+      "fleeRate": 2,
+      "physicalResistance": 2,
+      "poisonResistance": 2,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 5,
+        "fire": 5,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 6,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 378,
+      "magic": 0,
+      "death": 30,
+      "call": 0
+    }
+  },
+  {
+    "id": "enemy-422",
+    "name": "name.enemy-422",
+    "spriteNum": 25,
+    "stats": {
+      "health": 440,
+      "level": 18,
+      "exp": 60,
+      "cash": 92,
+      "attackStrength": -7,
+      "magicStrength": 14,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 1,
+      "physicalResistance": 2,
+      "poisonResistance": 2,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 6,
+        "water": 6,
+        "fire": 6,
+        "earth": 6
+      },
+      "dualMove": false,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 305,
+      "magicRate": 10,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 4,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 3,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 0,
+      "magic": 379,
+      "death": 186,
+      "call": 18
+    },
+    "steal": {
+      "itemId": "126",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-423",
+    "name": "name.enemy-423",
+    "spriteNum": 26,
+    "stats": {
+      "health": 640,
+      "level": 30,
+      "exp": 160,
+      "cash": 55,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 6,
+      "dexterity": -8,
+      "fleeRate": 1,
+      "physicalResistance": 3,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 3,
+        "thunder": 6,
+        "water": 10,
+        "fire": 4,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 0,
+      "idleAnimSpeed": 5,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 380,
+      "action": 0,
+      "magic": 0,
+      "death": 30,
+      "call": 382
+    },
+    "steal": {
+      "itemId": "129",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-424",
+    "name": "name.enemy-424",
+    "spriteNum": 27,
+    "stats": {
+      "health": 700,
+      "level": 31,
+      "exp": 170,
+      "cash": 66,
+      "attackStrength": 18,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 6,
+      "fleeRate": 1,
+      "physicalResistance": 2,
+      "poisonResistance": 2,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 10,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 303,
+      "magicRate": 2,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 6,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 381,
+      "action": 0,
+      "magic": 381,
+      "death": 30,
+      "call": 92
+    }
+  },
+  {
+    "id": "enemy-425",
+    "name": "name.enemy-425",
+    "spriteNum": 28,
+    "stats": {
+      "health": 450,
+      "level": 11,
+      "exp": 16,
+      "cash": 30,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 6,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 8,
+        "fire": 0,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 321,
+      "magicRate": 3,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 383,
+      "action": 0,
+      "magic": -384,
+      "death": 190,
+      "call": 0
+    }
+  },
+  {
+    "id": "enemy-426",
+    "name": "name.enemy-426",
+    "spriteNum": 29,
+    "stats": {
+      "health": 210,
+      "level": 6,
+      "exp": 8,
+      "cash": 10,
+      "attackStrength": 10,
+      "magicStrength": 0,
+      "defense": -3,
+      "dexterity": -5,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 5,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 5,
+        "fire": 3,
+        "earth": 3
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 385,
+      "action": 0,
+      "magic": 0,
+      "death": 183,
+      "call": 0
+    }
+  },
+  {
+    "id": "enemy-427",
+    "name": "name.enemy-427",
+    "spriteNum": 30,
+    "stats": {
+      "health": 450,
+      "level": 12,
+      "exp": 16,
+      "cash": 30,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 6,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 0,
+        "fire": 8,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 327,
+      "magicRate": 4,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 4
+    },
+    "sounds": {
+      "attack": 386,
+      "action": 0,
+      "magic": -387,
+      "death": 254,
+      "call": 0
+    }
+  },
+  {
+    "id": "enemy-428",
+    "name": "name.enemy-428",
+    "spriteNum": 31,
+    "stats": {
+      "health": 776,
+      "level": 20,
+      "exp": 64,
+      "cash": 66,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 1,
+      "poisonResistance": 3,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": true,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 6,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 388,
+      "action": 0,
+      "magic": 417,
+      "death": 186,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "80",
+      "count": 3
+    }
+  },
+  {
+    "id": "enemy-429",
+    "name": "name.enemy-429",
+    "spriteNum": 32,
+    "stats": {
+      "health": 1886,
+      "level": 37,
+      "exp": 240,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 7,
+      "poisonResistance": 2,
+      "elemResistance": {
+        "wind": 0,
+        "thunder": 5,
+        "water": 6,
+        "fire": 10,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 2,
+      "idleAnimSpeed": 6,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 389,
+      "magic": 219,
+      "death": 186,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "147",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-430",
+    "name": "name.enemy-430",
+    "spriteNum": 33,
+    "stats": {
+      "health": 1065,
+      "level": 34,
+      "exp": 220,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 1,
+      "poisonResistance": 3,
+      "elemResistance": {
+        "wind": 9,
+        "thunder": 9,
+        "water": 9,
+        "fire": 10,
+        "earth": 9
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 7,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 391,
+      "action": 0,
+      "magic": 0,
+      "death": 186,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "147",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-431",
+    "name": "name.enemy-431",
+    "spriteNum": 34,
+    "stats": {
+      "health": 845,
+      "level": 30,
+      "exp": 170,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 3,
+        "water": 5,
+        "fire": 10,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 4,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 3,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 392,
+      "action": 0,
+      "magic": 0,
+      "death": 30,
+      "call": 92
+    }
+  },
+  {
+    "id": "enemy-432",
+    "name": "name.enemy-432",
+    "spriteNum": 35,
+    "stats": {
+      "health": 1354,
+      "level": 33,
+      "exp": 170,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 5,
+      "poisonResistance": 6,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 4,
+        "water": 6,
+        "fire": 10,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 303,
+      "magicRate": 4,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 2,
+      "idleAnimSpeed": 6,
+      "actWaitFrames": 3,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 393,
+      "action": 0,
+      "magic": 394,
+      "death": 30,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "252",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-433",
+    "name": "name.enemy-433",
+    "spriteNum": 36,
+    "stats": {
+      "health": 360,
+      "level": 7,
+      "exp": 8,
+      "cash": 0,
+      "attackStrength": 7,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 2,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 3,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 4,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 3,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 395,
+      "action": 0,
+      "magic": 202,
+      "death": 183,
+      "call": 91
+    }
+  },
+  {
+    "id": "enemy-434",
+    "name": "name.enemy-434",
+    "spriteNum": 37,
+    "stats": {
+      "health": 440,
+      "level": 18,
+      "exp": 78,
+      "cash": 64,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 3,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": true,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 4,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 3,
+      "actWaitFrames": 2,
+      "yPosOffset": 5
+    },
+    "sounds": {
+      "attack": 396,
+      "action": 0,
+      "magic": 420,
+      "death": 30,
+      "call": 0
+    }
+  },
+  {
+    "id": "enemy-435",
+    "name": "name.enemy-435",
+    "spriteNum": 38,
+    "stats": {
+      "health": 32767,
+      "level": 19,
+      "exp": 0,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 2,
+        "earth": 3
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 6,
+      "actWaitFrames": 2,
+      "yPosOffset": 8
+    },
+    "sounds": {
+      "attack": 397,
+      "action": 0,
+      "magic": 204,
+      "death": 185,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "159",
+      "count": 2
+    },
+    "attackEquivItem": {
+      "itemId": "159",
+      "rate": 3
+    }
+  },
+  {
+    "id": "enemy-436",
+    "name": "name.enemy-436",
+    "spriteNum": 39,
+    "stats": {
+      "health": 340,
+      "level": 10,
+      "exp": 10,
+      "cash": 15,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 5,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 5,
+        "water": 2,
+        "fire": 7,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 3
+    },
+    "ai": {
+      "magic": 312,
+      "magicRate": 8,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 398,
+      "action": 0,
+      "magic": 399,
+      "death": 247,
+      "call": 92
+    },
+    "steal": {
+      "itemId": "67",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-437",
+    "name": "name.enemy-437",
+    "spriteNum": 40,
+    "stats": {
+      "health": 1930,
+      "level": 35,
+      "exp": 450,
+      "cash": 0,
+      "attackStrength": 30,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 5,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 8,
+        "thunder": 4,
+        "water": 4,
+        "fire": 10,
+        "earth": 0
+      },
+      "dualMove": false,
+      "collectValue": 3
+    },
+    "ai": {
+      "magic": 359,
+      "magicRate": 4,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 1,
+      "attackFrames": 2,
+      "idleAnimSpeed": 7,
+      "actWaitFrames": 3,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 400,
+      "action": 0,
+      "magic": -401,
+      "death": 182,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "144",
+      "count": 2
+    }
+  },
+  {
+    "id": "enemy-438",
+    "name": "name.enemy-438",
+    "spriteNum": 41,
+    "stats": {
+      "health": 4000,
+      "level": 44,
+      "exp": 1010,
+      "cash": 660,
+      "attackStrength": 20,
+      "magicStrength": 0,
+      "defense": 30,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 4,
+        "water": 6,
+        "fire": 6,
+        "earth": 6
+      },
+      "dualMove": false,
+      "collectValue": 3
+    },
+    "ai": {
+      "magic": 380,
+      "magicRate": 4,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 2,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 1,
+      "yPosOffset": 14
+    },
+    "sounds": {
+      "attack": 403,
+      "action": 0,
+      "magic": 402,
+      "death": 266,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "174",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-439",
+    "name": "name.enemy-439",
+    "spriteNum": 42,
+    "stats": {
+      "health": 400,
+      "level": 12,
+      "exp": 20,
+      "cash": 30,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 7,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 3,
+        "fire": 4,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 305,
+      "magicRate": 8,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 4,
+      "magicFrames": 0,
+      "attackFrames": 2,
+      "idleAnimSpeed": 4,
+      "actWaitFrames": 3,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 0,
+      "magic": -404,
+      "death": 216,
+      "call": 93
+    },
+    "steal": {
+      "itemId": "143",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-440",
+    "name": "name.enemy-440",
+    "spriteNum": 43,
+    "stats": {
+      "health": 880,
+      "level": 22,
+      "exp": 88,
+      "cash": 125,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 5,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 2,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 5
+    },
+    "ai": {
+      "magic": 379,
+      "magicRate": 4,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 1,
+      "attackFrames": 2,
+      "idleAnimSpeed": 4,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 405,
+      "action": 0,
+      "magic": 406,
+      "death": 190,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "101",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-441",
+    "name": "name.enemy-441",
+    "spriteNum": 44,
+    "stats": {
+      "health": 230,
+      "level": 15,
+      "exp": 38,
+      "cash": 22,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 5,
+        "water": 4,
+        "fire": 2,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 3,
+      "attackFrames": 2,
+      "idleAnimSpeed": 5,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 407,
+      "action": 0,
+      "magic": 0,
+      "death": 186,
+      "call": 0
+    }
+  },
+  {
+    "id": "enemy-442",
+    "name": "name.enemy-442",
+    "spriteNum": 45,
+    "stats": {
+      "health": 330,
+      "level": 7,
+      "exp": 30,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 408,
+      "action": 0,
+      "magic": 0,
+      "death": 190,
+      "call": 94
+    }
+  },
+  {
+    "id": "enemy-443",
+    "name": "name.enemy-443",
+    "spriteNum": 46,
+    "stats": {
+      "health": 420,
+      "level": 4,
+      "exp": 20,
+      "cash": 46,
+      "attackStrength": 5,
+      "magicStrength": 0,
+      "defense": 3,
+      "dexterity": 15,
+      "fleeRate": 3,
+      "physicalResistance": 3,
+      "poisonResistance": 2,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": true,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 2,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 409,
+      "magic": 418,
+      "death": 266,
+      "call": 0
+    }
+  },
+  {
+    "id": "enemy-444",
+    "name": "name.enemy-444",
+    "spriteNum": 47,
+    "stats": {
+      "health": 540,
+      "level": 24,
+      "exp": 63,
+      "cash": 100,
+      "attackStrength": 22,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 6,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 6,
+        "fire": 3,
+        "earth": 6
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 6,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 410,
+      "action": 0,
+      "magic": 265,
+      "death": 190,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "86",
+      "count": 3
+    }
+  },
+  {
+    "id": "enemy-445",
+    "name": "name.enemy-445",
+    "spriteNum": 48,
+    "stats": {
+      "health": 1200,
+      "level": 10,
+      "exp": 33,
+      "cash": 30,
+      "attackStrength": 9,
+      "magicStrength": 100,
+      "defense": -20,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 1,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 10,
+        "thunder": 10,
+        "water": 10,
+        "fire": 10,
+        "earth": 10
+      },
+      "dualMove": true,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 4,
+      "actWaitFrames": 2,
+      "yPosOffset": 4
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 411,
+      "magic": 419,
+      "death": 266,
+      "call": 0
+    }
+  },
+  {
+    "id": "enemy-446",
+    "name": "name.enemy-446",
+    "spriteNum": 49,
+    "stats": {
+      "health": 550,
+      "level": 22,
+      "exp": 66,
+      "cash": 90,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 4,
+        "water": 3,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 312,
+      "magicRate": 4,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 7,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 412,
+      "action": 0,
+      "magic": 265,
+      "death": 190,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "160",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-447",
+    "name": "name.enemy-447",
+    "spriteNum": 50,
+    "stats": {
+      "health": 900,
+      "level": 23,
+      "exp": 72,
+      "cash": 135,
+      "attackStrength": 35,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 2,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 3,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 413,
+      "action": 0,
+      "magic": 0,
+      "death": 266,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "63",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-448",
+    "name": "name.enemy-448",
+    "spriteNum": 51,
+    "stats": {
+      "health": 600,
+      "level": 20,
+      "exp": 61,
+      "cash": 105,
+      "attackStrength": 15,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 2,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 3,
+      "yPosOffset": 8
+    },
+    "sounds": {
+      "attack": 414,
+      "action": 0,
+      "magic": 0,
+      "death": 190,
+      "call": 0
+    }
+  },
+  {
+    "id": "enemy-449",
+    "name": "name.enemy-449",
+    "spriteNum": 52,
+    "stats": {
+      "health": 650,
+      "level": 25,
+      "exp": 70,
+      "cash": 130,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 20,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 4,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 3,
+        "thunder": 4,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 4
+    },
+    "sounds": {
+      "attack": 415,
+      "action": 0,
+      "magic": 0,
+      "death": 266,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "105",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-450",
+    "name": "name.enemy-450",
+    "spriteNum": 53,
+    "stats": {
+      "health": 450,
+      "level": 12,
+      "exp": 26,
+      "cash": 14,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 3,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": true,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 424,
+      "action": 0,
+      "magic": 0,
+      "death": 190,
+      "call": 0
+    }
+  },
+  {
+    "id": "enemy-451",
+    "name": "name.enemy-451",
+    "spriteNum": 54,
+    "stats": {
+      "health": 800,
+      "level": 7,
+      "exp": 50,
+      "cash": 50,
+      "attackStrength": 5,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 3,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 425,
+      "action": 0,
+      "magic": 0,
+      "death": 190,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "254",
+      "count": 2
+    }
+  },
+  {
+    "id": "enemy-452",
+    "name": "name.enemy-452",
+    "spriteNum": 55,
+    "stats": {
+      "health": 300,
+      "level": 8,
+      "exp": 13,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 1,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 3,
+        "thunder": 3,
+        "water": 3,
+        "fire": 3,
+        "earth": 3
+      },
+      "dualMove": false,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 304,
+      "magicRate": 4,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 4
+    },
+    "sounds": {
+      "attack": 426,
+      "action": 0,
+      "magic": -427,
+      "death": 254,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "158",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-453",
+    "name": "name.enemy-453",
+    "spriteNum": 56,
+    "stats": {
+      "health": 800,
+      "level": 7,
+      "exp": 50,
+      "cash": 50,
+      "attackStrength": 5,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 3,
+      "yPosOffset": 6
+    },
+    "sounds": {
+      "attack": 428,
+      "action": 0,
+      "magic": 0,
+      "death": 266,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "72",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-454",
+    "name": "name.enemy-454",
+    "spriteNum": 57,
+    "stats": {
+      "health": 420,
+      "level": 4,
+      "exp": 25,
+      "cash": 49,
+      "attackStrength": 10,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 3,
+      "physicalResistance": 2,
+      "poisonResistance": 3,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 3,
+        "water": 6,
+        "fire": 6,
+        "earth": 6
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 388,
+      "magicRate": 4,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 2,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 238,
+      "action": 0,
+      "magic": 248,
+      "death": 243,
+      "call": 0
+    }
+  },
+  {
+    "id": "enemy-455",
+    "name": "name.enemy-455",
+    "spriteNum": 58,
+    "stats": {
+      "health": 900,
+      "level": 21,
+      "exp": 60,
+      "cash": 75,
+      "attackStrength": 40,
+      "magicStrength": 0,
+      "defense": 3,
+      "dexterity": 0,
+      "fleeRate": 1,
+      "physicalResistance": 3,
+      "poisonResistance": 1,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 2,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 431,
+      "action": 0,
+      "magic": 0,
+      "death": 185,
+      "call": 0
+    }
+  },
+  {
+    "id": "enemy-456",
+    "name": "name.enemy-456",
+    "spriteNum": 59,
+    "stats": {
+      "health": 800,
+      "level": 27,
+      "exp": 98,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 33,
+      "defense": 30,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 3,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 3,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 332,
+      "magicRate": 3,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 5,
+      "actWaitFrames": 3,
+      "yPosOffset": 8
+    },
+    "sounds": {
+      "attack": 432,
+      "action": 0,
+      "magic": -433,
+      "death": 233,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "92",
+      "count": 2
+    }
+  },
+  {
+    "id": "enemy-457",
+    "name": "name.enemy-457",
+    "spriteNum": 60,
+    "stats": {
+      "health": 2760,
+      "level": 40,
+      "exp": 450,
+      "cash": 220,
+      "attackStrength": 20,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 2,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 379,
+      "magicRate": 4,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 2,
+      "actWaitFrames": 2,
+      "yPosOffset": 12
+    },
+    "sounds": {
+      "attack": 434,
+      "action": 0,
+      "magic": -435,
+      "death": 266,
+      "call": 0
+    }
+  },
+  {
+    "id": "enemy-458",
+    "name": "name.enemy-458",
+    "spriteNum": 61,
+    "stats": {
+      "health": 1600,
+      "level": 42,
+      "exp": 250,
+      "cash": 90,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 3,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 2,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 436,
+      "action": 0,
+      "magic": 0,
+      "death": 26,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "179",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-459",
+    "name": "name.enemy-459",
+    "spriteNum": 62,
+    "stats": {
+      "health": 2460,
+      "level": 46,
+      "exp": 330,
+      "cash": 210,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 6,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 376,
+      "magicRate": 7,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 265,
+      "action": 0,
+      "magic": 0,
+      "death": 190,
+      "call": 90
+    },
+    "steal": {
+      "itemId": "148",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-460",
+    "name": "name.enemy-460",
+    "spriteNum": 63,
+    "stats": {
+      "health": 1650,
+      "level": 40,
+      "exp": 270,
+      "cash": 97,
+      "attackStrength": 30,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": true,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 360,
+      "magicRate": 10,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 2,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 0,
+      "magic": -438,
+      "death": 26,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "163",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-461",
+    "name": "name.enemy-461",
+    "spriteNum": 64,
+    "stats": {
+      "health": 2250,
+      "level": 44,
+      "exp": 600,
+      "cash": 300,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 4,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 9,
+        "thunder": 3,
+        "water": 9,
+        "fire": 6,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 3
+    },
+    "ai": {
+      "magic": 359,
+      "magicRate": 5,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 22
+    },
+    "sounds": {
+      "attack": 439,
+      "action": 0,
+      "magic": 439,
+      "death": 192,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "106",
+      "count": 2
+    }
+  },
+  {
+    "id": "enemy-462",
+    "name": "name.enemy-462",
+    "spriteNum": 65,
+    "stats": {
+      "health": 11180,
+      "level": 52,
+      "exp": 24000,
+      "cash": 0,
+      "attackStrength": 50,
+      "magicStrength": -50,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 6,
+        "fire": 0,
+        "earth": 5
+      },
+      "dualMove": true,
+      "collectValue": 33
+    },
+    "ai": {
+      "magic": 373,
+      "magicRate": 3,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 20
+    },
+    "sounds": {
+      "attack": 441,
+      "action": 0,
+      "magic": -442,
+      "death": 233,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "150",
+      "count": 3
+    }
+  },
+  {
+    "id": "enemy-463",
+    "name": "name.enemy-463",
+    "spriteNum": 66,
+    "stats": {
+      "health": 4400,
+      "level": 37,
+      "exp": 7000,
+      "cash": 1600,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 3,
+        "fire": 10,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 328,
+      "magicRate": 10,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 0,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 20
+    },
+    "sounds": {
+      "attack": 443,
+      "action": 0,
+      "magic": 443,
+      "death": 179,
+      "call": 91
+    },
+    "steal": {
+      "itemId": "149",
+      "count": 3
+    }
+  },
+  {
+    "id": "enemy-464",
+    "name": "name.enemy-464",
+    "spriteNum": 67,
+    "stats": {
+      "health": 3000,
+      "level": 33,
+      "exp": 5290,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 9,
+        "thunder": 4,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 359,
+      "magicRate": 5,
+      "resistanceToSorcery": 4
+    },
+    "anim": {
+      "idleFrames": 4,
+      "magicFrames": 0,
+      "attackFrames": 3,
+      "idleAnimSpeed": 3,
+      "actWaitFrames": 2,
+      "yPosOffset": 16
+    },
+    "sounds": {
+      "attack": 447,
+      "action": 0,
+      "magic": -449,
+      "death": 183,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "206",
+      "count": 3
+    }
+  },
+  {
+    "id": "enemy-465",
+    "name": "name.enemy-465",
+    "spriteNum": 68,
+    "stats": {
+      "health": 3800,
+      "level": 14,
+      "exp": 720,
+      "cash": 0,
+      "attackStrength": 30,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 5,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 4
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 2,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 3,
+      "yPosOffset": 14
+    },
+    "sounds": {
+      "attack": 450,
+      "action": 0,
+      "magic": 0,
+      "death": 181,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "119",
+      "count": 10
+    },
+    "attackEquivItem": {
+      "itemId": "119",
+      "rate": 4
+    }
+  },
+  {
+    "id": "enemy-466",
+    "name": "name.enemy-466",
+    "spriteNum": 69,
+    "stats": {
+      "health": 4670,
+      "level": 45,
+      "exp": 920,
+      "cash": 0,
+      "attackStrength": 30,
+      "magicStrength": 30,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 4,
+      "poisonResistance": 1,
+      "elemResistance": {
+        "wind": 8,
+        "thunder": 8,
+        "water": 8,
+        "fire": 3,
+        "earth": 10
+      },
+      "dualMove": false,
+      "collectValue": 5
+    },
+    "ai": {
+      "magic": 379,
+      "magicRate": 6,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 3,
+      "yPosOffset": 24
+    },
+    "sounds": {
+      "attack": 451,
+      "action": 0,
+      "magic": -452,
+      "death": 266,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "145",
+      "count": 2
+    }
+  },
+  {
+    "id": "enemy-467",
+    "name": "name.enemy-467",
+    "spriteNum": 70,
+    "stats": {
+      "health": 5280,
+      "level": 43,
+      "exp": 1005,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 3,
+        "thunder": 4,
+        "water": 4,
+        "fire": 0,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 5
+    },
+    "ai": {
+      "magic": 373,
+      "magicRate": 6,
+      "resistanceToSorcery": 4
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 1,
+      "actWaitFrames": 2,
+      "yPosOffset": 28
+    },
+    "sounds": {
+      "attack": 453,
+      "action": 0,
+      "magic": -455,
+      "death": 233,
+      "call": 93
+    },
+    "steal": {
+      "itemId": "122",
+      "count": 2
+    },
+    "attackEquivItem": {
+      "itemId": "159",
+      "rate": 5
+    }
+  },
+  {
+    "id": "enemy-468",
+    "name": "name.enemy-468",
+    "spriteNum": 71,
+    "stats": {
+      "health": 2090,
+      "level": 16,
+      "exp": 5000,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 10,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 4,
+        "water": 4,
+        "fire": 3,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 355,
+      "magicRate": 8,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 0,
+      "idleAnimSpeed": 4,
+      "actWaitFrames": 1,
+      "yPosOffset": 31
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 0,
+      "magic": -457,
+      "death": 26,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "109",
+      "count": 3
+    }
+  },
+  {
+    "id": "enemy-469",
+    "name": "name.enemy-469",
+    "spriteNum": 72,
+    "stats": {
+      "health": 1500,
+      "level": 5,
+      "exp": 180,
+      "cash": 350,
+      "attackStrength": 10,
+      "magicStrength": -40,
+      "defense": 0,
+      "dexterity": 20,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 0,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 7,
+        "water": 5,
+        "fire": 5,
+        "earth": 5
+      },
+      "dualMove": true,
+      "collectValue": 3
+    },
+    "ai": {
+      "magic": 316,
+      "magicRate": 4,
+      "resistanceToSorcery": 4
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 0,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 14
+    },
+    "sounds": {
+      "attack": 458,
+      "action": 0,
+      "magic": 459,
+      "death": 269,
+      "call": 92
+    },
+    "steal": {
+      "itemId": "127",
+      "count": 2
+    }
+  },
+  {
+    "id": "enemy-470",
+    "name": "name.enemy-470",
+    "spriteNum": 73,
+    "stats": {
+      "health": 1800,
+      "level": 30,
+      "exp": 250,
+      "cash": 500,
+      "attackStrength": 0,
+      "magicStrength": -20,
+      "defense": -30,
+      "dexterity": -20,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 2,
+      "elemResistance": {
+        "wind": 9,
+        "thunder": 6,
+        "water": 9,
+        "fire": 2,
+        "earth": 2
+      },
+      "dualMove": false,
+      "collectValue": 3
+    },
+    "ai": {
+      "magic": 359,
+      "magicRate": 7,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 0,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 24
+    },
+    "sounds": {
+      "attack": 462,
+      "action": 0,
+      "magic": -463,
+      "death": 26,
+      "call": 92
+    },
+    "steal": {
+      "itemId": "109",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-471",
+    "name": "name.enemy-471",
+    "spriteNum": 74,
+    "stats": {
+      "health": 6000,
+      "level": 46,
+      "exp": 1160,
+      "cash": 640,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 2,
+        "water": 9,
+        "fire": 4,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 5
+    },
+    "ai": {
+      "magic": 324,
+      "magicRate": 6,
+      "resistanceToSorcery": 4
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 20
+    },
+    "sounds": {
+      "attack": 464,
+      "action": 0,
+      "magic": -465,
+      "death": 269,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "124",
+      "count": 2
+    },
+    "attackEquivItem": {
+      "itemId": "159",
+      "rate": 5
+    }
+  },
+  {
+    "id": "enemy-472",
+    "name": "name.enemy-472",
+    "spriteNum": 75,
+    "stats": {
+      "health": 5000,
+      "level": 11,
+      "exp": 660,
+      "cash": 1253,
+      "attackStrength": 35,
+      "magicStrength": -30,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 4,
+        "water": 5,
+        "fire": 3,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 357,
+      "magicRate": 7,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 8,
+      "actWaitFrames": 4,
+      "yPosOffset": 32
+    },
+    "sounds": {
+      "attack": 466,
+      "action": 0,
+      "magic": 469,
+      "death": 183,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "213",
+      "count": 1
+    },
+    "attackEquivItem": {
+      "itemId": "116",
+      "rate": 4
+    }
+  },
+  {
+    "id": "enemy-473",
+    "name": "name.enemy-473",
+    "spriteNum": 76,
+    "stats": {
+      "health": 5500,
+      "level": 11,
+      "exp": 950,
+      "cash": 1750,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 8,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 6,
+        "water": 3,
+        "fire": 7,
+        "earth": 10
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 358,
+      "magicRate": 6,
+      "resistanceToSorcery": 5
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 22
+    },
+    "sounds": {
+      "attack": 470,
+      "action": 0,
+      "magic": 470,
+      "death": 266,
+      "call": 91
+    },
+    "steal": {
+      "itemId": "162",
+      "count": 2
+    }
+  },
+  {
+    "id": "enemy-474",
+    "name": "name.enemy-474",
+    "spriteNum": 77,
+    "stats": {
+      "health": 6600,
+      "level": 35,
+      "exp": 6400,
+      "cash": 5210,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 4,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 10,
+        "thunder": 5,
+        "water": 10,
+        "fire": 0,
+        "earth": 6
+      },
+      "dualMove": false,
+      "collectValue": 99
+    },
+    "ai": {
+      "magic": 375,
+      "magicRate": 10,
+      "resistanceToSorcery": 5
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 2,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 3,
+      "yPosOffset": 16
+    },
+    "sounds": {
+      "attack": 265,
+      "action": 0,
+      "magic": 0,
+      "death": 190,
+      "call": 18
+    },
+    "steal": {
+      "itemId": "62",
+      "count": 3
+    },
+    "attackEquivItem": {
+      "itemId": "85",
+      "rate": 3
+    }
+  },
+  {
+    "id": "enemy-475",
+    "name": "name.enemy-475",
+    "spriteNum": 78,
+    "stats": {
+      "health": 500,
+      "level": 3,
+      "exp": 20,
+      "cash": 48,
+      "attackStrength": 10,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 5,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 1,
+      "yPosOffset": 24
+    },
+    "sounds": {
+      "attack": 475,
+      "action": 0,
+      "magic": 0,
+      "death": 190,
+      "call": 95
+    }
+  },
+  {
+    "id": "enemy-476",
+    "name": "name.enemy-476",
+    "spriteNum": 79,
+    "stats": {
+      "health": 540,
+      "level": 3,
+      "exp": 20,
+      "cash": 42,
+      "attackStrength": 10,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 2,
+      "idleAnimSpeed": 2,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 240,
+      "action": 0,
+      "magic": 0,
+      "death": 187,
+      "call": 93
+    },
+    "steal": {
+      "itemId": "250",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-477",
+    "name": "name.enemy-477",
+    "spriteNum": 80,
+    "stats": {
+      "health": 500,
+      "level": 3,
+      "exp": 20,
+      "cash": 41,
+      "attackStrength": 10,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 4,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 476,
+      "action": 0,
+      "magic": 0,
+      "death": 189,
+      "call": 1
+    },
+    "steal": {
+      "itemId": "154",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-478",
+    "name": "name.enemy-478",
+    "spriteNum": 81,
+    "stats": {
+      "health": 1250,
+      "level": 15,
+      "exp": 1100,
+      "cash": 3350,
+      "attackStrength": 0,
+      "magicStrength": 32,
+      "defense": 0,
+      "dexterity": 164,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 1,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 5,
+        "fire": 5,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 343,
+      "magicRate": 10,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 4,
+      "magicFrames": 0,
+      "attackFrames": 5,
+      "idleAnimSpeed": 2,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 0,
+      "magic": 477,
+      "death": 264,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "212",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-479",
+    "name": "name.enemy-479",
+    "spriteNum": 81,
+    "stats": {
+      "health": 1250,
+      "level": 15,
+      "exp": 1100,
+      "cash": 3350,
+      "attackStrength": 0,
+      "magicStrength": 32,
+      "defense": 0,
+      "dexterity": 164,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 1,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 5,
+        "fire": 5,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 343,
+      "magicRate": 10,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 4,
+      "magicFrames": 0,
+      "attackFrames": 5,
+      "idleAnimSpeed": 2,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 0,
+      "magic": 477,
+      "death": 264,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "212",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-480",
+    "name": "name.enemy-480",
+    "spriteNum": 82,
+    "stats": {
+      "health": 600,
+      "level": 5,
+      "exp": 200,
+      "cash": 500,
+      "attackStrength": 7,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 28,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 1,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 5,
+        "fire": 5,
+        "earth": 5
+      },
+      "dualMove": true,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 360,
+      "magicRate": 10,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 4,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 1,
+      "yPosOffset": 28
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 39,
+      "magic": 11,
+      "death": 25,
+      "call": 0
+    }
+  },
+  {
+    "id": "enemy-481",
+    "name": "name.enemy-481",
+    "spriteNum": 83,
+    "stats": {
+      "health": 500,
+      "level": 3,
+      "exp": 22,
+      "cash": 30,
+      "attackStrength": 4,
+      "magicStrength": 10,
+      "defense": 4,
+      "dexterity": 4,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 1,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 5,
+        "fire": 5,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 343,
+      "magicRate": 10,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 4,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 0,
+      "magic": -478,
+      "death": 242,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "153",
+      "count": 2
+    }
+  },
+  {
+    "id": "enemy-482",
+    "name": "name.enemy-482",
+    "spriteNum": 84,
+    "stats": {
+      "health": 1100,
+      "level": 7,
+      "exp": 250,
+      "cash": 573,
+      "attackStrength": 10,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 28,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 3,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 5,
+        "fire": 5,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 6,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 265,
+      "action": 0,
+      "magic": 0,
+      "death": 190,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "74",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-483",
+    "name": "name.enemy-483",
+    "spriteNum": 85,
+    "stats": {
+      "health": 450,
+      "level": 5,
+      "exp": 200,
+      "cash": 0,
+      "attackStrength": 2,
+      "magicStrength": -9,
+      "defense": -5,
+      "dexterity": 20,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 1,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 5,
+        "fire": 5,
+        "earth": 5
+      },
+      "dualMove": true,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 356,
+      "magicRate": 2,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 4,
+      "magicFrames": 2,
+      "attackFrames": 4,
+      "idleAnimSpeed": 2,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 39,
+      "magic": 11,
+      "death": 25,
+      "call": 2
+    }
+  },
+  {
+    "id": "enemy-484",
+    "name": "name.enemy-484",
+    "spriteNum": 86,
+    "stats": {
+      "health": 2200,
+      "level": 40,
+      "exp": 380,
+      "cash": 100,
+      "attackStrength": 28,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 55,
+      "fleeRate": 1,
+      "physicalResistance": 2,
+      "poisonResistance": 3,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 5,
+        "fire": 5,
+        "earth": 5
+      },
+      "dualMove": true,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 1,
+      "attackFrames": 2,
+      "idleAnimSpeed": 3,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 3,
+      "magic": 0,
+      "death": 184,
+      "call": 94
+    },
+    "steal": {
+      "itemId": "148",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-485",
+    "name": "name.enemy-485",
+    "spriteNum": 87,
+    "stats": {
+      "health": 800,
+      "level": 4,
+      "exp": 110,
+      "cash": 240,
+      "attackStrength": 8,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 5,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 5,
+        "fire": 5,
+        "earth": 5
+      },
+      "dualMove": true,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 338,
+      "magicRate": 4,
+      "resistanceToSorcery": 3
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 1,
+      "attackFrames": 2,
+      "idleAnimSpeed": 5,
+      "actWaitFrames": 1,
+      "yPosOffset": 16
+    },
+    "sounds": {
+      "attack": 482,
+      "action": 0,
+      "magic": -483,
+      "death": 266,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "101",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-486",
+    "name": "name.enemy-486",
+    "spriteNum": 88,
+    "stats": {
+      "health": 1800,
+      "level": 5,
+      "exp": 250,
+      "cash": 1100,
+      "attackStrength": 25,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 6,
+        "water": 10,
+        "fire": 6,
+        "earth": 6
+      },
+      "dualMove": true,
+      "collectValue": 3
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 4
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 5,
+      "actWaitFrames": 1,
+      "yPosOffset": 10
+    },
+    "sounds": {
+      "attack": 484,
+      "action": 0,
+      "magic": -485,
+      "death": 190,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "96",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-487",
+    "name": "name.enemy-487",
+    "spriteNum": 89,
+    "stats": {
+      "health": 80,
+      "level": 3,
+      "exp": 6,
+      "cash": 6,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 1,
+      "physicalResistance": 2,
+      "poisonResistance": 8,
+      "elemResistance": {
+        "wind": 3,
+        "thunder": 3,
+        "water": 3,
+        "fire": 3,
+        "earth": 3
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 4,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 486,
+      "action": 0,
+      "magic": 0,
+      "death": 183,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "117",
+      "count": 2
+    },
+    "attackEquivItem": {
+      "itemId": "130",
+      "rate": 5
+    }
+  },
+  {
+    "id": "enemy-488",
+    "name": "name.enemy-488",
+    "spriteNum": 90,
+    "stats": {
+      "health": 100,
+      "level": 3,
+      "exp": 6,
+      "cash": 5,
+      "attackStrength": 9,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 2,
+      "physicalResistance": 2,
+      "poisonResistance": 8,
+      "elemResistance": {
+        "wind": 3,
+        "thunder": 3,
+        "water": 3,
+        "fire": 3,
+        "earth": 3
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 4,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 487,
+      "action": 0,
+      "magic": 0,
+      "death": 184,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "117",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-489",
+    "name": "name.enemy-489",
+    "spriteNum": 91,
+    "stats": {
+      "health": 900,
+      "level": 7,
+      "exp": 30,
+      "cash": 0,
+      "attackStrength": 20,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 1,
+      "physicalResistance": 3,
+      "poisonResistance": 2,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 5,
+        "fire": 5,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 5,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 488,
+      "action": 0,
+      "magic": 0,
+      "death": 192,
+      "call": 0
+    }
+  },
+  {
+    "id": "enemy-490",
+    "name": "name.enemy-490",
+    "spriteNum": 92,
+    "stats": {
+      "health": 2700,
+      "level": 39,
+      "exp": 510,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 4,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 1,
+        "fire": 8,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 3
+    },
+    "ai": {
+      "magic": 371,
+      "magicRate": 3,
+      "resistanceToSorcery": 2
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 3,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 489,
+      "action": 0,
+      "magic": -490,
+      "death": 183,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "133",
+      "count": 1
+    },
+    "attackEquivItem": {
+      "itemId": "130",
+      "rate": 5
+    }
+  },
+  {
+    "id": "enemy-491",
+    "name": "name.enemy-491",
+    "spriteNum": 93,
+    "stats": {
+      "health": 650,
+      "level": 4,
+      "exp": 55,
+      "cash": 52,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 7,
+        "thunder": 4,
+        "water": 9,
+        "fire": 5,
+        "earth": 6
+      },
+      "dualMove": false,
+      "collectValue": 3
+    },
+    "ai": {
+      "magic": 371,
+      "magicRate": 4,
+      "resistanceToSorcery": 2
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 5,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 491,
+      "action": 0,
+      "magic": -492,
+      "death": 183,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "130",
+      "count": 1
+    },
+    "attackEquivItem": {
+      "itemId": "130",
+      "rate": 7
+    }
+  },
+  {
+    "id": "enemy-492",
+    "name": "name.enemy-492",
+    "spriteNum": 94,
+    "stats": {
+      "health": 2850,
+      "level": 40,
+      "exp": 520,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 7,
+        "thunder": 7,
+        "water": 7,
+        "fire": 2,
+        "earth": 7
+      },
+      "dualMove": false,
+      "collectValue": 3
+    },
+    "ai": {
+      "magic": 371,
+      "magicRate": 5,
+      "resistanceToSorcery": 2
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 4,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 493,
+      "action": 0,
+      "magic": -494,
+      "death": 183,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "157",
+      "count": 1
+    },
+    "attackEquivItem": {
+      "itemId": "159",
+      "rate": 5
+    }
+  },
+  {
+    "id": "enemy-493",
+    "name": "name.enemy-493",
+    "spriteNum": 95,
+    "stats": {
+      "health": 1900,
+      "level": 44,
+      "exp": 480,
+      "cash": 170,
+      "attackStrength": 10,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 1,
+      "physicalResistance": 2,
+      "poisonResistance": 3,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 0,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 378,
+      "magicRate": 4,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 4,
+      "actWaitFrames": 1,
+      "yPosOffset": 2
+    },
+    "sounds": {
+      "attack": 495,
+      "action": 0,
+      "magic": -496,
+      "death": 266,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "148",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-494",
+    "name": "name.enemy-494",
+    "spriteNum": 96,
+    "stats": {
+      "health": 2100,
+      "level": 28,
+      "exp": 2500,
+      "cash": 2000,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 6,
+        "water": 6,
+        "fire": 6,
+        "earth": 6
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 361,
+      "magicRate": 10,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 3,
+      "magicFrames": 2,
+      "attackFrames": 1,
+      "idleAnimSpeed": 3,
+      "actWaitFrames": 1,
+      "yPosOffset": 6
+    },
+    "sounds": {
+      "attack": 265,
+      "action": 0,
+      "magic": 265,
+      "death": 190,
+      "call": 94
+    },
+    "steal": {
+      "itemId": "66",
+      "count": 9
+    }
+  },
+  {
+    "id": "enemy-495",
+    "name": "name.enemy-495",
+    "spriteNum": 97,
+    "stats": {
+      "health": 350,
+      "level": 2,
+      "exp": 26,
+      "cash": 48,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 3,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 499,
+      "action": 0,
+      "magic": 265,
+      "death": 259,
+      "call": 0
+    }
+  },
+  {
+    "id": "enemy-496",
+    "name": "name.enemy-496",
+    "spriteNum": 119,
+    "stats": {
+      "health": 32767,
+      "level": 36,
+      "exp": 0,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 8,
+      "poisonResistance": 8,
+      "elemResistance": {
+        "wind": 8,
+        "thunder": 8,
+        "water": 8,
+        "fire": 8,
+        "earth": 8
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 385,
+      "magicRate": 10,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 6,
+      "attackFrames": 2,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 10
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 0,
+      "magic": -501,
+      "death": 190,
+      "call": 90
+    },
+    "steal": {
+      "itemId": "123",
+      "count": 3
+    }
+  },
+  {
+    "id": "enemy-497",
+    "name": "name.enemy-497",
+    "spriteNum": 148,
+    "stats": {
+      "health": 3000,
+      "level": 38,
+      "exp": 0,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 4,
+      "poisonResistance": 6,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 6,
+        "water": 6,
+        "fire": 6,
+        "earth": 6
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 378,
+      "magicRate": 10,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 6,
+      "attackFrames": 2,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 10
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 0,
+      "magic": -500,
+      "death": 0,
+      "call": 92
+    }
+  },
+  {
+    "id": "enemy-498",
+    "name": "name.enemy-498",
+    "spriteNum": 99,
+    "stats": {
+      "health": 2450,
+      "level": 15,
+      "exp": 420,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 20,
+      "defense": 20,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 4,
+      "poisonResistance": 6,
+      "elemResistance": {
+        "wind": 1,
+        "thunder": 10,
+        "water": 8,
+        "fire": 6,
+        "earth": 8
+      },
+      "dualMove": false,
+      "collectValue": 3
+    },
+    "ai": {
+      "magic": 317,
+      "magicRate": 4,
+      "resistanceToSorcery": 2
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 5,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 502,
+      "action": 0,
+      "magic": -503,
+      "death": 246,
+      "call": 0
+    },
+    "steal": {
+      "itemId": "159",
+      "count": 3
+    },
+    "attackEquivItem": {
+      "itemId": "159",
+      "rate": 4
+    }
+  },
+  {
+    "id": "enemy-499",
+    "name": "name.enemy-499",
+    "spriteNum": 100,
+    "stats": {
+      "health": 40,
+      "level": 0,
+      "exp": 1,
+      "cash": 0,
+      "attackStrength": -2,
+      "magicStrength": 0,
+      "defense": -6,
+      "dexterity": 0,
+      "fleeRate": 1,
+      "physicalResistance": 2,
+      "poisonResistance": 0,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 9,
+        "fire": 0,
+        "earth": 9
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 7,
+      "attackFrames": 2,
+      "idleAnimSpeed": 5,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 219,
+      "action": 0,
+      "magic": 219,
+      "death": 186,
+      "call": 91
+    }
+  },
+  {
+    "id": "enemy-500",
+    "name": "name.enemy-500",
+    "spriteNum": 101,
+    "stats": {
+      "health": 2000,
+      "level": 14,
+      "exp": 760,
+      "cash": 3400,
+      "attackStrength": -40,
+      "magicStrength": -50,
+      "defense": 0,
+      "dexterity": 24,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 5,
+      "elemResistance": {
+        "wind": 7,
+        "thunder": 7,
+        "water": 7,
+        "fire": 7,
+        "earth": 7
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 305,
+      "magicRate": 4,
+      "resistanceToSorcery": 4
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 3,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 270,
+      "action": 0,
+      "magic": 270,
+      "death": 269,
+      "call": 94
+    },
+    "steal": {
+      "itemId": "125",
+      "count": 9
+    }
+  },
+  {
+    "id": "enemy-501",
+    "name": "name.enemy-501",
+    "spriteNum": 102,
+    "stats": {
+      "health": 7000,
+      "level": 40,
+      "exp": 4500,
+      "cash": 4500,
+      "attackStrength": 11,
+      "magicStrength": 22,
+      "defense": -30,
+      "dexterity": 50,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 5,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 5,
+        "fire": 5,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 376,
+      "magicRate": 7,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 3,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 11,
+      "action": 0,
+      "magic": 11,
+      "death": 25,
+      "call": 94
+    },
+    "steal": {
+      "itemId": "122",
+      "count": 5
+    }
+  },
+  {
+    "id": "enemy-502",
+    "name": "name.enemy-502",
+    "spriteNum": 103,
+    "stats": {
+      "health": 32767,
+      "level": 0,
+      "exp": 0,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 99,
+      "dexterity": 99,
+      "fleeRate": 99,
+      "physicalResistance": 99,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 10,
+        "thunder": 10,
+        "water": 10,
+        "fire": 10,
+        "earth": 10
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 10,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 0,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 0,
+      "magic": 0,
+      "death": 0,
+      "call": 0
+    }
+  },
+  {
+    "id": "enemy-503",
+    "name": "name.enemy-503",
+    "spriteNum": 104,
+    "stats": {
+      "health": 590,
+      "level": 29,
+      "exp": 121,
+      "cash": 97,
+      "attackStrength": 18,
+      "magicStrength": 50,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 1,
+      "physicalResistance": 3,
+      "poisonResistance": 3,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 3,
+        "water": 3,
+        "fire": 3,
+        "earth": 3
+      },
+      "dualMove": false,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 316,
+      "magicRate": 6,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 4,
+      "magicFrames": 0,
+      "attackFrames": 2,
+      "idleAnimSpeed": 3,
+      "actWaitFrames": 2,
+      "yPosOffset": 24
+    },
+    "sounds": {
+      "attack": 71,
+      "action": 4,
+      "magic": 71,
+      "death": 191,
+      "call": 93
+    },
+    "steal": {
+      "itemId": "151",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-504",
+    "name": "name.enemy-504",
+    "spriteNum": 105,
+    "stats": {
+      "health": 330,
+      "level": 8,
+      "exp": 10,
+      "cash": 8,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": -1,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 9,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 5,
+        "water": 5,
+        "fire": 1,
+        "earth": 3
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 2,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 3,
+      "magic": 0,
+      "death": 184,
+      "call": 2
+    },
+    "steal": {
+      "itemId": "100",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-505",
+    "name": "name.enemy-505",
+    "spriteNum": 106,
+    "stats": {
+      "health": 400,
+      "level": 8,
+      "exp": 12,
+      "cash": 6,
+      "attackStrength": 5,
+      "magicStrength": 0,
+      "defense": 1,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 9,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 4,
+        "water": 6,
+        "fire": 2,
+        "earth": 3
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 2,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 1,
+      "magic": 0,
+      "death": 183,
+      "call": 94
+    },
+    "steal": {
+      "itemId": "100",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-506",
+    "name": "name.enemy-506",
+    "spriteNum": 107,
+    "stats": {
+      "health": 340,
+      "level": 8,
+      "exp": 10,
+      "cash": 7,
+      "attackStrength": 10,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": -5,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 9,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 2,
+        "water": 6,
+        "fire": 5,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 2,
+      "attackFrames": 4,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 4,
+      "magic": 0,
+      "death": 185,
+      "call": 93
+    },
+    "steal": {
+      "itemId": "116",
+      "count": 2
+    }
+  },
+  {
+    "id": "enemy-507",
+    "name": "name.enemy-507",
+    "spriteNum": 108,
+    "stats": {
+      "health": 800,
+      "level": 32,
+      "exp": 135,
+      "cash": 60,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 0,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 5,
+        "fire": 2,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 303,
+      "magicRate": 3,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 265,
+      "action": 0,
+      "magic": 0,
+      "death": 185,
+      "call": 92
+    },
+    "steal": {
+      "itemId": "148",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-508",
+    "name": "name.enemy-508",
+    "spriteNum": 109,
+    "stats": {
+      "health": 700,
+      "level": 26,
+      "exp": 50,
+      "cash": 38,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 5,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 4,
+        "water": 7,
+        "fire": 0,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 0,
+      "magic": 0,
+      "death": 186,
+      "call": 92
+    },
+    "steal": {
+      "itemId": "129",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-509",
+    "name": "name.enemy-509",
+    "spriteNum": 110,
+    "stats": {
+      "health": 900,
+      "level": 33,
+      "exp": 125,
+      "cash": 52,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 5,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 4,
+        "water": 7,
+        "fire": 0,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 2,
+      "idleAnimSpeed": 5,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 51,
+      "magic": 0,
+      "death": 184,
+      "call": 91
+    },
+    "steal": {
+      "itemId": "129",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-510",
+    "name": "name.enemy-510",
+    "spriteNum": 111,
+    "stats": {
+      "health": 2480,
+      "level": 40,
+      "exp": 800,
+      "cash": 200,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 0,
+      "elemResistance": {
+        "wind": 0,
+        "thunder": 4,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 3
+    },
+    "ai": {
+      "magic": 334,
+      "magicRate": 10,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 16
+    },
+    "sounds": {
+      "attack": 265,
+      "action": 0,
+      "magic": 265,
+      "death": 266,
+      "call": 91
+    },
+    "steal": {
+      "itemId": "148",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-511",
+    "name": "name.enemy-511",
+    "spriteNum": 112,
+    "stats": {
+      "health": 3100,
+      "level": 42,
+      "exp": 820,
+      "cash": 220,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 0,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 0,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 379,
+      "magicRate": 3,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 265,
+      "action": 4,
+      "magic": 265,
+      "death": 190,
+      "call": 91
+    },
+    "steal": {
+      "itemId": "148",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-512",
+    "name": "name.enemy-512",
+    "spriteNum": 113,
+    "stats": {
+      "health": 1400,
+      "level": 30,
+      "exp": 350,
+      "cash": 250,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 0,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 5,
+        "fire": 5,
+        "earth": 0
+      },
+      "dualMove": false,
+      "collectValue": 3
+    },
+    "ai": {
+      "magic": 313,
+      "magicRate": 7,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 8,
+      "attackFrames": 1,
+      "idleAnimSpeed": 88,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 241,
+      "action": 0,
+      "magic": 241,
+      "death": 191,
+      "call": 90
+    },
+    "steal": {
+      "itemId": "67",
+      "count": 1
+    },
+    "attackEquivItem": {
+      "itemId": "85",
+      "rate": 3
+    }
+  },
+  {
+    "id": "enemy-513",
+    "name": "name.enemy-513",
+    "spriteNum": 114,
+    "stats": {
+      "health": 752,
+      "level": 30,
+      "exp": 92,
+      "cash": 33,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 0,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 3,
+        "water": 4,
+        "fire": 3,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 3,
+      "idleAnimSpeed": 4,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 397,
+      "action": 0,
+      "magic": 397,
+      "death": 233,
+      "call": 94
+    },
+    "steal": {
+      "itemId": "92",
+      "count": 2
+    }
+  },
+  {
+    "id": "enemy-514",
+    "name": "name.enemy-514",
+    "spriteNum": 115,
+    "stats": {
+      "health": 500,
+      "level": 14,
+      "exp": 45,
+      "cash": 23,
+      "attackStrength": 6,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": -60,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 6,
+      "elemResistance": {
+        "wind": 3,
+        "thunder": 3,
+        "water": 3,
+        "fire": 2,
+        "earth": 3
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 9,
+      "attackFrames": 5,
+      "idleAnimSpeed": 4,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 0,
+      "magic": 0,
+      "death": 183,
+      "call": 92
+    },
+    "steal": {
+      "itemId": "159",
+      "count": 1
+    },
+    "attackEquivItem": {
+      "itemId": "127",
+      "rate": 3
+    }
+  },
+  {
+    "id": "enemy-515",
+    "name": "name.enemy-515",
+    "spriteNum": 116,
+    "stats": {
+      "health": 610,
+      "level": 28,
+      "exp": 95,
+      "cash": 45,
+      "attackStrength": 2,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 2,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 5,
+        "fire": 3,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 4,
+      "magicFrames": 0,
+      "attackFrames": 0,
+      "idleAnimSpeed": 3,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 71,
+      "action": 0,
+      "magic": 71,
+      "death": 183,
+      "call": 92
+    },
+    "steal": {
+      "itemId": "148",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-516",
+    "name": "name.enemy-516",
+    "spriteNum": 117,
+    "stats": {
+      "health": 280,
+      "level": 11,
+      "exp": 28,
+      "cash": 18,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 5,
+      "elemResistance": {
+        "wind": 3,
+        "thunder": 3,
+        "water": 3,
+        "fire": 6,
+        "earth": 3
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 5,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 0,
+      "magic": 0,
+      "death": 184,
+      "call": 92
+    },
+    "steal": {
+      "itemId": "118",
+      "count": 1
+    },
+    "attackEquivItem": {
+      "itemId": "130",
+      "rate": 6
+    }
+  },
+  {
+    "id": "enemy-517",
+    "name": "name.enemy-517",
+    "spriteNum": 118,
+    "stats": {
+      "health": 280,
+      "level": 11,
+      "exp": 27,
+      "cash": 20,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 6,
+      "elemResistance": {
+        "wind": 3,
+        "thunder": 3,
+        "water": 6,
+        "fire": 3,
+        "earth": 3
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 371,
+      "magicRate": 3,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 2,
+      "attackFrames": 1,
+      "idleAnimSpeed": 6,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 246,
+      "action": 0,
+      "magic": 246,
+      "death": 183,
+      "call": 91
+    },
+    "steal": {
+      "itemId": "121",
+      "count": 1
+    },
+    "attackEquivItem": {
+      "itemId": "130",
+      "rate": 6
+    }
+  },
+  {
+    "id": "enemy-518",
+    "name": "name.enemy-518",
+    "spriteNum": 120,
+    "stats": {
+      "health": 290,
+      "level": 12,
+      "exp": 60,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": -18,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 1,
+      "physicalResistance": 3,
+      "poisonResistance": 3,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 0,
+        "water": 5,
+        "fire": 10,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 3
+    },
+    "ai": {
+      "magic": 328,
+      "magicRate": 10,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 5,
+      "magicFrames": 3,
+      "attackFrames": 1,
+      "idleAnimSpeed": 4,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 75,
+      "action": 0,
+      "magic": 75,
+      "death": 182,
+      "call": 90
+    },
+    "steal": {
+      "itemId": "143",
+      "count": 1
+    },
+    "attackEquivItem": {
+      "itemId": "119",
+      "rate": 3
+    }
+  },
+  {
+    "id": "enemy-519",
+    "name": "name.enemy-519",
+    "spriteNum": 121,
+    "stats": {
+      "health": 12000,
+      "level": 28,
+      "exp": 4985,
+      "cash": 3000,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 6,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 5,
+        "fire": 5,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 319,
+      "magicRate": 10,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 2,
+      "attackFrames": 1,
+      "idleAnimSpeed": 10,
+      "actWaitFrames": 2,
+      "yPosOffset": 14
+    },
+    "sounds": {
+      "attack": 265,
+      "action": 0,
+      "magic": 265,
+      "death": 266,
+      "call": 90
+    },
+    "steal": {
+      "itemId": "73",
+      "count": 9
+    }
+  },
+  {
+    "id": "enemy-520",
+    "name": "name.enemy-520",
+    "spriteNum": 122,
+    "stats": {
+      "health": 500,
+      "level": 5,
+      "exp": 110,
+      "cash": 55,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 5,
+      "elemResistance": {
+        "wind": 7,
+        "thunder": 8,
+        "water": 2,
+        "fire": 10,
+        "earth": 7
+      },
+      "dualMove": false,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 328,
+      "magicRate": 5,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 0,
+      "idleAnimSpeed": 4,
+      "actWaitFrames": 2,
+      "yPosOffset": 4
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 0,
+      "magic": 0,
+      "death": 182,
+      "call": 93
+    },
+    "steal": {
+      "itemId": "143",
+      "count": 2
+    },
+    "attackEquivItem": {
+      "itemId": "130",
+      "rate": 8
+    }
+  },
+  {
+    "id": "enemy-521",
+    "name": "name.enemy-521",
+    "spriteNum": 123,
+    "stats": {
+      "health": 1100,
+      "level": 33,
+      "exp": 580,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 1,
+      "physicalResistance": 4,
+      "poisonResistance": 3,
+      "elemResistance": {
+        "wind": 7,
+        "thunder": 7,
+        "water": 7,
+        "fire": 2,
+        "earth": 9
+      },
+      "dualMove": false,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 334,
+      "magicRate": 6,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 0,
+      "idleAnimSpeed": 5,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 236,
+      "action": 0,
+      "magic": 236,
+      "death": 192,
+      "call": 90
+    },
+    "steal": {
+      "itemId": "148",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-522",
+    "name": "name.enemy-522",
+    "spriteNum": 124,
+    "stats": {
+      "health": 2400,
+      "level": 46,
+      "exp": 680,
+      "cash": 350,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 1,
+      "physicalResistance": 2,
+      "poisonResistance": 5,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 6,
+        "water": 6,
+        "fire": 6,
+        "earth": 6
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 304,
+      "magicRate": 5,
+      "resistanceToSorcery": 2
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 6,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 244,
+      "action": 0,
+      "magic": 244,
+      "death": 185,
+      "call": 91
+    },
+    "steal": {
+      "itemId": "123",
+      "count": 2
+    },
+    "attackEquivItem": {
+      "itemId": "85",
+      "rate": 5
+    }
+  },
+  {
+    "id": "enemy-523",
+    "name": "name.enemy-523",
+    "spriteNum": 125,
+    "stats": {
+      "health": 4500,
+      "level": 50,
+      "exp": 910,
+      "cash": 500,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 5,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 6,
+        "water": 6,
+        "fire": 6,
+        "earth": 6
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 319,
+      "magicRate": 5,
+      "resistanceToSorcery": 2
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 2,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 8
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 0,
+      "magic": 0,
+      "death": 266,
+      "call": 91
+    },
+    "steal": {
+      "itemId": "148",
+      "count": 3
+    }
+  },
+  {
+    "id": "enemy-524",
+    "name": "name.enemy-524",
+    "spriteNum": 126,
+    "stats": {
+      "health": 1050,
+      "level": 6,
+      "exp": 180,
+      "cash": 4789,
+      "attackStrength": 0,
+      "magicStrength": -30,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 6,
+        "water": 6,
+        "fire": 6,
+        "earth": 6
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 383,
+      "magicRate": 10,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 8,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 244,
+      "action": 0,
+      "magic": 244,
+      "death": 190,
+      "call": 91
+    },
+    "steal": {
+      "itemId": "72",
+      "count": 9
+    }
+  },
+  {
+    "id": "enemy-525",
+    "name": "name.enemy-525",
+    "spriteNum": 127,
+    "stats": {
+      "health": 10000,
+      "level": 18,
+      "exp": 2500,
+      "cash": 2500,
+      "attackStrength": 0,
+      "magicStrength": -10,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 5,
+        "fire": 5,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 356,
+      "magicRate": 10,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 3,
+      "attackFrames": 2,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 1,
+      "yPosOffset": 16
+    },
+    "sounds": {
+      "attack": 265,
+      "action": 0,
+      "magic": 265,
+      "death": 0,
+      "call": 94
+    },
+    "steal": {
+      "itemId": "184",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-526",
+    "name": "name.enemy-526",
+    "spriteNum": 128,
+    "stats": {
+      "health": 290,
+      "level": 12,
+      "exp": 50,
+      "cash": 99,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 1,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 5,
+        "fire": 5,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 343,
+      "magicRate": 10,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 252,
+      "action": 251,
+      "magic": 252,
+      "death": 26,
+      "call": 90
+    },
+    "steal": {
+      "itemId": "154",
+      "count": 2
+    }
+  },
+  {
+    "id": "enemy-527",
+    "name": "name.enemy-527",
+    "spriteNum": 129,
+    "stats": {
+      "health": 1800,
+      "level": 12,
+      "exp": 51,
+      "cash": 51,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 2,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 3,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": true,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 265,
+      "action": 0,
+      "magic": 265,
+      "death": 190,
+      "call": 94
+    }
+  },
+  {
+    "id": "enemy-528",
+    "name": "name.enemy-528",
+    "spriteNum": 130,
+    "stats": {
+      "health": 4450,
+      "level": 50,
+      "exp": 1210,
+      "cash": 800,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 20,
+      "dexterity": 33,
+      "fleeRate": 1,
+      "physicalResistance": 2,
+      "poisonResistance": 5,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 6,
+        "water": 6,
+        "fire": 6,
+        "earth": 6
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 378,
+      "magicRate": 5,
+      "resistanceToSorcery": 2
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 6,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 1,
+      "yPosOffset": 20
+    },
+    "sounds": {
+      "attack": 239,
+      "action": 0,
+      "magic": 265,
+      "death": 266,
+      "call": 91
+    },
+    "steal": {
+      "itemId": "146",
+      "count": 1
+    },
+    "attackEquivItem": {
+      "itemId": "85",
+      "rate": 3
+    }
+  },
+  {
+    "id": "enemy-529",
+    "name": "name.enemy-529",
+    "spriteNum": 131,
+    "stats": {
+      "health": 5000,
+      "level": 19,
+      "exp": 5050,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 4,
+      "poisonResistance": 5,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 6,
+        "water": 6,
+        "fire": 6,
+        "earth": 6
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 330,
+      "magicRate": 5,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 2,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 22
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 0,
+      "magic": 0,
+      "death": 266,
+      "call": 92
+    },
+    "steal": {
+      "itemId": "98",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-530",
+    "name": "name.enemy-530",
+    "spriteNum": 132,
+    "stats": {
+      "health": 40,
+      "level": 0,
+      "exp": 3,
+      "cash": 0,
+      "attackStrength": 5,
+      "magicStrength": -99,
+      "defense": -6,
+      "dexterity": -3,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 0,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 9,
+        "fire": 0,
+        "earth": 9
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 312,
+      "magicRate": 4,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 12,
+      "attackFrames": 2,
+      "idleAnimSpeed": 5,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 258,
+      "action": 0,
+      "magic": 258,
+      "death": 186,
+      "call": 92
+    }
+  },
+  {
+    "id": "enemy-531",
+    "name": "name.enemy-531",
+    "spriteNum": 133,
+    "stats": {
+      "health": 1750,
+      "level": 36,
+      "exp": 600,
+      "cash": 600,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 2,
+        "fire": 10,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 328,
+      "magicRate": 5,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 22
+    },
+    "sounds": {
+      "attack": 179,
+      "action": 59,
+      "magic": 179,
+      "death": 192,
+      "call": 91
+    },
+    "steal": {
+      "itemId": "143",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-532",
+    "name": "name.enemy-532",
+    "spriteNum": 134,
+    "stats": {
+      "health": 1250,
+      "level": 21,
+      "exp": 525,
+      "cash": 525,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 4,
+        "earth": 10
+      },
+      "dualMove": false,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 334,
+      "magicRate": 5,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 22
+    },
+    "sounds": {
+      "attack": 179,
+      "action": 59,
+      "magic": 179,
+      "death": 192,
+      "call": 91
+    },
+    "steal": {
+      "itemId": "114",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-533",
+    "name": "name.enemy-533",
+    "spriteNum": 135,
+    "stats": {
+      "health": 1400,
+      "level": 33,
+      "exp": 130,
+      "cash": 230,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 9,
+        "thunder": 4,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 4,
+      "magicFrames": 0,
+      "attackFrames": 0,
+      "idleAnimSpeed": 3,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 71,
+      "action": 0,
+      "magic": 71,
+      "death": 182,
+      "call": 91
+    },
+    "steal": {
+      "itemId": "123",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-534",
+    "name": "name.enemy-534",
+    "spriteNum": 136,
+    "stats": {
+      "health": 110,
+      "level": 3,
+      "exp": 5,
+      "cash": 5,
+      "attackStrength": 10,
+      "magicStrength": 0,
+      "defense": -6,
+      "dexterity": 0,
+      "fleeRate": 1,
+      "physicalResistance": 1,
+      "poisonResistance": 5,
+      "elemResistance": {
+        "wind": 8,
+        "thunder": 8,
+        "water": 8,
+        "fire": 8,
+        "earth": 8
+      },
+      "dualMove": true,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 2,
+      "idleAnimSpeed": 5,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 50,
+      "action": 0,
+      "magic": 0,
+      "death": 186,
+      "call": 92
+    }
+  },
+  {
+    "id": "enemy-535",
+    "name": "name.enemy-535",
+    "spriteNum": 137,
+    "stats": {
+      "health": 850,
+      "level": 29,
+      "exp": 85,
+      "cash": 88,
+      "attackStrength": 20,
+      "magicStrength": -45,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 1,
+      "physicalResistance": 2,
+      "poisonResistance": 3,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 2
+    },
+    "ai": {
+      "magic": 387,
+      "magicRate": 2,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 4,
+      "actWaitFrames": 1,
+      "yPosOffset": 2
+    },
+    "sounds": {
+      "attack": 265,
+      "action": 0,
+      "magic": 265,
+      "death": 185,
+      "call": 92
+    },
+    "steal": {
+      "itemId": "148",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-536",
+    "name": "name.enemy-536",
+    "spriteNum": 138,
+    "stats": {
+      "health": 3050,
+      "level": 40,
+      "exp": 550,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 22,
+      "defense": 20,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 6,
+      "elemResistance": {
+        "wind": 7,
+        "thunder": 6,
+        "water": 8,
+        "fire": 2,
+        "earth": 8
+      },
+      "dualMove": false,
+      "collectValue": 3
+    },
+    "ai": {
+      "magic": 357,
+      "magicRate": 5,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 0,
+      "idleAnimSpeed": 5,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 246,
+      "action": 0,
+      "magic": 0,
+      "death": 233,
+      "call": 92
+    },
+    "steal": {
+      "itemId": "120",
+      "count": 1
+    },
+    "attackEquivItem": {
+      "itemId": "159",
+      "rate": 4
+    }
+  },
+  {
+    "id": "enemy-537",
+    "name": "name.enemy-537",
+    "spriteNum": 139,
+    "stats": {
+      "health": 400,
+      "level": 13,
+      "exp": 45,
+      "cash": 10,
+      "attackStrength": 11,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 0,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 6,
+        "fire": 2,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 5,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 4,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 75,
+      "action": 0,
+      "magic": 75,
+      "death": 186,
+      "call": 91
+    },
+    "steal": {
+      "itemId": "119",
+      "count": 2
+    }
+  },
+  {
+    "id": "enemy-538",
+    "name": "name.enemy-538",
+    "spriteNum": 140,
+    "stats": {
+      "health": 320,
+      "level": 13,
+      "exp": 50,
+      "cash": 10,
+      "attackStrength": 0,
+      "magicStrength": -20,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 1,
+      "physicalResistance": 3,
+      "poisonResistance": 0,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 6,
+        "water": 9,
+        "fire": 2,
+        "earth": 4
+      },
+      "dualMove": false,
+      "collectValue": 1
+    },
+    "ai": {
+      "magic": 322,
+      "magicRate": 10,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 5,
+      "magicFrames": 3,
+      "attackFrames": 1,
+      "idleAnimSpeed": 4,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 75,
+      "action": 0,
+      "magic": 75,
+      "death": 186,
+      "call": 90
+    },
+    "steal": {
+      "itemId": "142",
+      "count": 1
+    }
+  },
+  {
+    "id": "enemy-539",
+    "name": "name.enemy-539",
+    "spriteNum": 141,
+    "stats": {
+      "health": 6350,
+      "level": 29,
+      "exp": 3108,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 6,
+        "water": 6,
+        "fire": 6,
+        "earth": 6
+      },
+      "dualMove": false,
+      "collectValue": 9
+    },
+    "ai": {
+      "magic": 372,
+      "magicRate": 4,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 0,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 8
+    },
+    "sounds": {
+      "attack": 236,
+      "action": 0,
+      "magic": 230,
+      "death": 179,
+      "call": 91
+    },
+    "steal": {
+      "itemId": "278",
+      "count": 13
+    }
+  },
+  {
+    "id": "enemy-540",
+    "name": "name.enemy-540",
+    "spriteNum": 142,
+    "stats": {
+      "health": 9000,
+      "level": 34,
+      "exp": 3100,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 10,
+      "poisonResistance": 10,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 5,
+        "fire": 5,
+        "earth": 5
+      },
+      "dualMove": false,
+      "collectValue": 9
+    },
+    "ai": {
+      "magic": 379,
+      "magicRate": 4,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 0,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 8
+    },
+    "sounds": {
+      "attack": 230,
+      "action": 0,
+      "magic": 230,
+      "death": 179,
+      "call": 92
+    },
+    "steal": {
+      "itemId": "63",
+      "count": 3
+    }
+  },
+  {
+    "id": "enemy-541",
+    "name": "name.enemy-541",
+    "spriteNum": 143,
+    "stats": {
+      "health": 7550,
+      "level": 32,
+      "exp": 2896,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 6,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 5,
+        "water": 6,
+        "fire": 0,
+        "earth": 10
+      },
+      "dualMove": false,
+      "collectValue": 9
+    },
+    "ai": {
+      "magic": 357,
+      "magicRate": 5,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 0,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 8
+    },
+    "sounds": {
+      "attack": 230,
+      "action": 0,
+      "magic": 230,
+      "death": 179,
+      "call": 90
+    },
+    "steal": {
+      "itemId": "71",
+      "count": 3
+    }
+  },
+  {
+    "id": "enemy-542",
+    "name": "name.enemy-542",
+    "spriteNum": 144,
+    "stats": {
+      "health": 8350,
+      "level": 30,
+      "exp": 3020,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 6,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 7,
+        "water": 0,
+        "fire": 10,
+        "earth": 6
+      },
+      "dualMove": false,
+      "collectValue": 9
+    },
+    "ai": {
+      "magic": 328,
+      "magicRate": 5,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 0,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 8
+    },
+    "sounds": {
+      "attack": 236,
+      "action": 0,
+      "magic": 230,
+      "death": 179,
+      "call": 91
+    },
+    "steal": {
+      "itemId": "70",
+      "count": 3
+    }
+  },
+  {
+    "id": "enemy-543",
+    "name": "name.enemy-543",
+    "spriteNum": 145,
+    "stats": {
+      "health": 7250,
+      "level": 30,
+      "exp": 2950,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 6,
+      "elemResistance": {
+        "wind": 7,
+        "thunder": 0,
+        "water": 10,
+        "fire": 4,
+        "earth": 6
+      },
+      "dualMove": false,
+      "collectValue": 9
+    },
+    "ai": {
+      "magic": 324,
+      "magicRate": 5,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 0,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 12
+    },
+    "sounds": {
+      "attack": 59,
+      "action": 0,
+      "magic": 230,
+      "death": 179,
+      "call": 91
+    },
+    "steal": {
+      "itemId": "69",
+      "count": 3
+    }
+  },
+  {
+    "id": "enemy-544",
+    "name": "name.enemy-544",
+    "spriteNum": 146,
+    "stats": {
+      "health": 6950,
+      "level": 30,
+      "exp": 2680,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 6,
+      "elemResistance": {
+        "wind": 10,
+        "thunder": 6,
+        "water": 6,
+        "fire": 6,
+        "earth": 0
+      },
+      "dualMove": false,
+      "collectValue": 9
+    },
+    "ai": {
+      "magic": 359,
+      "magicRate": 5,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 0,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 12
+    },
+    "sounds": {
+      "attack": 230,
+      "action": 0,
+      "magic": 230,
+      "death": 179,
+      "call": 91
+    },
+    "steal": {
+      "itemId": "67",
+      "count": 3
+    }
+  },
+  {
+    "id": "enemy-545",
+    "name": "name.enemy-545",
+    "spriteNum": 147,
+    "stats": {
+      "health": 7250,
+      "level": 33,
+      "exp": 2764,
+      "cash": 0,
+      "attackStrength": 0,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 6,
+      "elemResistance": {
+        "wind": 0,
+        "thunder": 10,
+        "water": 6,
+        "fire": 6,
+        "earth": 6
+      },
+      "dualMove": false,
+      "collectValue": 9
+    },
+    "ai": {
+      "magic": 318,
+      "magicRate": 5,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 0,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 12
+    },
+    "sounds": {
+      "attack": 59,
+      "action": 0,
+      "magic": 230,
+      "death": 179,
+      "call": 90
+    },
+    "steal": {
+      "itemId": "68",
+      "count": 3
+    }
+  },
+  {
+    "id": "enemy-546",
+    "name": "name.enemy-546",
+    "spriteNum": 149,
+    "stats": {
+      "health": 22220,
+      "level": 50,
+      "exp": 30000,
+      "cash": 12800,
+      "attackStrength": 35,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 4,
+      "poisonResistance": 5,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 6,
+        "water": 6,
+        "fire": 6,
+        "earth": 6
+      },
+      "dualMove": true,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 382,
+      "magicRate": 5,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 5,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 10
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 0,
+      "magic": 0,
+      "death": 190,
+      "call": 91
+    },
+    "steal": {
+      "itemId": "123",
+      "count": 30
+    },
+    "attackEquivItem": {
+      "itemId": "85",
+      "rate": 3
+    }
+  },
+  {
+    "id": "enemy-547",
+    "name": "name.enemy-547",
+    "spriteNum": 150,
+    "stats": {
+      "health": 7800,
+      "level": 40,
+      "exp": 3050,
+      "cash": 0,
+      "attackStrength": 20,
+      "magicStrength": -20,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 3,
+      "poisonResistance": 6,
+      "elemResistance": {
+        "wind": 6,
+        "thunder": 4,
+        "water": 10,
+        "fire": 5,
+        "earth": 6
+      },
+      "dualMove": false,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 373,
+      "magicRate": 5,
+      "resistanceToSorcery": 10
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 0,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 16
+    },
+    "sounds": {
+      "attack": 236,
+      "action": 0,
+      "magic": 236,
+      "death": 192,
+      "call": 91
+    },
+    "steal": {
+      "itemId": "278",
+      "count": 3
+    },
+    "attackEquivItem": {
+      "itemId": "130",
+      "rate": 5
+    }
+  },
+  {
+    "id": "enemy-548",
+    "name": "name.enemy-548",
+    "spriteNum": 151,
+    "stats": {
+      "health": 1360,
+      "level": 37,
+      "exp": 488,
+      "cash": 70,
+      "attackStrength": 16,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 4,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 4,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": true,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 1,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 238,
+      "action": 0,
+      "magic": 248,
+      "death": 259,
+      "call": 91
+    }
+  },
+  {
+    "id": "enemy-549",
+    "name": "name.enemy-549",
+    "spriteNum": 152,
+    "stats": {
+      "health": 1800,
+      "level": 40,
+      "exp": 525,
+      "cash": 102,
+      "attackStrength": 15,
+      "magicStrength": 0,
+      "defense": 0,
+      "dexterity": 0,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 2,
+      "elemResistance": {
+        "wind": 4,
+        "thunder": 3,
+        "water": 4,
+        "fire": 4,
+        "earth": 4
+      },
+      "dualMove": true,
+      "collectValue": 0
+    },
+    "ai": {
+      "magic": 0,
+      "magicRate": 0,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 1,
+      "magicFrames": 1,
+      "attackFrames": 1,
+      "idleAnimSpeed": 99,
+      "actWaitFrames": 2,
+      "yPosOffset": 0
+    },
+    "sounds": {
+      "attack": 265,
+      "action": 0,
+      "magic": 265,
+      "death": 247,
+      "call": 94
+    }
+  },
+  {
+    "id": "enemy-550",
+    "name": "name.enemy-550",
+    "spriteNum": 153,
+    "stats": {
+      "health": 3600,
+      "level": 38,
+      "exp": 700,
+      "cash": 0,
+      "attackStrength": -20,
+      "magicStrength": 0,
+      "defense": 8,
+      "dexterity": -20,
+      "fleeRate": 0,
+      "physicalResistance": 2,
+      "poisonResistance": 3,
+      "elemResistance": {
+        "wind": 5,
+        "thunder": 5,
+        "water": 5,
+        "fire": 5,
+        "earth": 0
+      },
+      "dualMove": false,
+      "collectValue": 3
+    },
+    "ai": {
+      "magic": 324,
+      "magicRate": 4,
+      "resistanceToSorcery": 0
+    },
+    "anim": {
+      "idleFrames": 2,
+      "magicFrames": 0,
+      "attackFrames": 0,
+      "idleAnimSpeed": 4,
+      "actWaitFrames": 2,
+      "yPosOffset": 4
+    },
+    "sounds": {
+      "attack": 0,
+      "action": 0,
+      "magic": 0,
+      "death": 182,
+      "call": 93
+    },
+    "steal": {
+      "itemId": "142",
+      "count": 2
+    },
+    "attackEquivItem": {
+      "itemId": "130",
+      "rate": 8
+    }
+  }
+]

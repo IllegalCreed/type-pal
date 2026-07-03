@@ -37,6 +37,8 @@ const src: MigrateSources = {
   magic: readJson('data/extracted/data/magic.json'),
   items: readJson('data/extracted/data/items.json'),
   commands: allJson.segments.flatMap((s) => s.commands),
+  enemies: readJson('data/extracted/data/enemies.json'),
+  enemyObjects: readJson('data/extracted/data/enemy-objects.json'),
 }
 const out = migrateAll(src)
 
@@ -95,6 +97,7 @@ writeJson('projects/pal/content/actors.json', actors)
 writeJson('projects/pal/content/sprites.json', sprites)
 writeJson('projects/pal/content/items.json', out.items)
 writeJson('projects/pal/content/skills.json', out.skills)
+writeJson('projects/pal/content/enemies.json', out.enemies)
 writeJson('projects/pal/content/locale.json', locale)
 // M2b per-scene:demo 底座场景 + 295 原版静态场景
 const allSceneIds = [...demoScenes.map((s) => s.id), ...scenesOut.scenes.map((s) => s.id)]
@@ -117,4 +120,5 @@ console.log(`  装备效果(M1b):${out.items.filter((i) => i.equip).length} 件�
 console.log(`  技能 pending ${out.report.pendingSkills.length}(summon ${out.report.pendingSkills.filter((p) => p.reason.includes('summon')).length} / 动态公式 ${out.report.pendingSkills.filter((p) => p.reason.includes('scriptOnUse')).length});有损注 ${out.report.lossySkills.length}`)
 console.log(`  场景(M2b):${scenesOut.report.scenes} 静态迁(实体 ${scenesOut.report.entities}/触发区跳 ${scenesOut.report.triggerZonesSkipped}/隐藏 ${scenesOut.report.hidden});入口对 ${scenesOut.report.entriesFound}(start ${scenesOut.report.scenesWithStart}/兜底 ${scenesOut.report.entryFallback.length});音乐 ${scenesOut.report.scenesWithMusic};精灵登记 ${scenesOut.sprites.length}(布局冲突 ${scenesOut.report.layoutConflicts.length}/自循环候选 ${scenesOut.report.autoLoopCandidates})`)
 console.log(`  使用效果(M1d):${out.items.filter((i) => i.use).length} 件已翻;pending ${out.report.pendingUse.length}(灵珠剧情/毒杀/遇敌香/蛊系→对应系统);有损注 ${out.report.lossyUse.length}`)
+console.log(`  敌人(M4a):${out.enemies.length} 迁(有 AI 脚本 ${out.enemyReport?.withScript ?? 0} → M4c;越界 enemyId ${out.enemyReport?.danglingEnemyId.length ?? 0})`)
 if (out.report.blockedDescs.length) console.log(`  ⚠ desc 护栏命中 ${out.report.blockedDescs.length}(待手修):`, out.report.blockedDescs.slice(0, 5))
