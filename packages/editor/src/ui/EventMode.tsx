@@ -98,18 +98,30 @@ const INSERT_GROUPS: { title: string; items: { label: string; make: (c: InsertCt
         ],
       },
       {
-        // 33 例(聚集在迷宫:s060 隐龙窟×12 / s065×11 等联排洞口):转向 → 碎步×4 → 切场景。
-        // 另有 ~50 段同前缀是纯爬行走位(不切场景,最长 800 条),不属此模板。
-        label: '🕳 钻洞爬行',
+        // 33 例(迷宫楼梯口,s060×12/s065×11 等;map 连号邻层):原版单层渲染的跨层
+        // 楼梯演出 —— 登阶(朝上碎步)→ 转身带走姿原路走下(= 新层视角走出楼梯口,
+        // 净位移 0)→ 切层落位。参数取 s060:e1117 真值。⚠ 曾误名「钻洞爬行」:无换
+        // 爬行精灵、有走姿帧,非爬行;真爬行(0x65 换 193)只在剧情演出里。
+        label: '⛰ 跨层楼梯(登阶切层)',
         make: (c) => [
           { kind: 'setPartyFacing', facing: 'up' },
-          { kind: 'nudgeParty', dx: 4, dy: -2 },
-          { kind: 'wait', ms: 120 },
-          { kind: 'nudgeParty', dx: 4, dy: -2 },
-          { kind: 'wait', ms: 120 },
-          { kind: 'nudgeParty', dx: 4, dy: -2 },
-          { kind: 'wait', ms: 120 },
-          { kind: 'nudgeParty', dx: 4, dy: -2 },
+          { kind: 'nudgeParty', dx: 10, dy: -10 },
+          { kind: 'wait', ms: 40 },
+          { kind: 'nudgeParty', dx: 6, dy: -6 },
+          { kind: 'wait', ms: 40 },
+          { kind: 'nudgeParty', dx: 10, dy: -10 },
+          { kind: 'wait', ms: 40 },
+          { kind: 'nudgeParty', dx: 6, dy: -6 },
+          { kind: 'wait', ms: 40 },
+          { kind: 'setPartyFacing', facing: 'down', gesture: 1 },
+          { kind: 'nudgeParty', dx: -10, dy: 10 },
+          { kind: 'wait', ms: 40 },
+          { kind: 'nudgeParty', dx: -6, dy: 6 },
+          { kind: 'wait', ms: 40 },
+          { kind: 'nudgeParty', dx: -10, dy: 10 },
+          { kind: 'wait', ms: 40 },
+          { kind: 'nudgeParty', dx: -6, dy: 6 },
+          { kind: 'wait', ms: 40 },
           { kind: 'loadScene', scene: c.scene.id, pos: { ...c.scene.entry.pos } },
         ],
       },
