@@ -1423,3 +1423,54 @@ body {
   font-size: 12px;
   color: var(--fg-dim);
 }
+
+/* ── 物品编辑页(ItemTab)紧凑表单 ── */
+.it-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  align-items: flex-end;
+  max-width: 720px;
+}
+.it-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 12px;
+  color: var(--dim);
+}
+.it-field > .in {
+  width: auto;
+}
+.it-field.name > .in {
+  width: 220px;
+}
+.it-field.num > .in {
+  width: 84px;
+}
+.it-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--dim);
+  padding-bottom: 6px;
+}
+.it-icon-cell {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+.it-icon-frame {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--bg) 60%, #000);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.it-ta {
+  max-width: 720px;
+}

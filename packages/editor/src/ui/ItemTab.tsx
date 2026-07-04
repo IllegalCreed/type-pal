@@ -96,30 +96,34 @@ export function ItemTab(props: {
           <div className="et-scroll">
             <div className="section">
               <h4>基础</h4>
-              <div className="et-base">
-                <div className="field">
-                  <label>名字</label>
+              <div className="it-form">
+                <div className="it-icon-cell">
+                  <span className="it-icon-frame">
+                    <ItemIcon base={iconBase} icon={item.icon} size={40} />
+                  </span>
+                  <label className="it-field num">
+                    <span>图标#</span>
+                    <input
+                      className="in mono"
+                      type="number"
+                      value={item.icon}
+                      onWheel={(e) => e.currentTarget.blur()}
+                      onChange={(e) =>
+                        patch({ icon: Math.max(0, Math.floor(e.target.valueAsNumber || 0)) })
+                      }
+                    />
+                  </label>
+                </div>
+                <label className="it-field name">
+                  <span>名字</span>
                   <input
                     className="in"
                     value={item.name}
                     onChange={(e) => patch({ name: e.target.value })}
                   />
-                </div>
-                <div className="field">
-                  <label>图标#</label>
-                  <input
-                    className="in mono"
-                    type="number"
-                    value={item.icon}
-                    onWheel={(e) => e.currentTarget.blur()}
-                    onChange={(e) =>
-                      patch({ icon: Math.max(0, Math.floor(e.target.valueAsNumber || 0)) })
-                    }
-                  />
-                </div>
-                <ItemIcon base={iconBase} icon={item.icon} size={48} />
-                <div className="field">
-                  <label>买价</label>
+                </label>
+                <label className="it-field num">
+                  <span>买价</span>
                   <input
                     className="in mono"
                     type="number"
@@ -129,9 +133,9 @@ export function ItemTab(props: {
                       patch({ buyPrice: Math.max(0, Math.floor(e.target.valueAsNumber || 0)) })
                     }
                   />
-                </div>
-                <div className="field">
-                  <label>卖价</label>
+                </label>
+                <label className="it-field num">
+                  <span>卖价</span>
                   <input
                     className="in mono"
                     type="number"
@@ -141,15 +145,15 @@ export function ItemTab(props: {
                       patch({ sellPrice: Math.max(0, Math.floor(e.target.valueAsNumber || 0)) })
                     }
                   />
-                </div>
-                <div className="field">
-                  <label>可卖</label>
+                </label>
+                <label className="it-check">
                   <input
                     type="checkbox"
                     checked={item.sellable}
                     onChange={(e) => patch({ sellable: e.target.checked })}
                   />
-                </div>
+                  可卖
+                </label>
               </div>
             </div>
             <div className="section">
@@ -157,7 +161,7 @@ export function ItemTab(props: {
                 说明 <span className="hint2">一行一条(菜单详情框逐行渲染)</span>
               </h4>
               <textarea
-                className="in cf-ta"
+                className="in cf-ta it-ta"
                 key={`${item.id}-desc`}
                 defaultValue={item.desc.join('\n')}
                 onBlur={(e) =>
@@ -172,7 +176,7 @@ export function ItemTab(props: {
                 <span className="hint2">删除键值 = 取消该用途;结构见 content/item.ts</span>
               </h4>
               <textarea
-                className="in cf-ta"
+                className="in cf-ta it-ta"
                 key={`${item.id}-spec`}
                 defaultValue={JSON.stringify(
                   { equip: item.equip, use: item.use, throw: item.throw },
