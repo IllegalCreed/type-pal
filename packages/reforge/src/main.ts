@@ -561,8 +561,8 @@ async function main(): Promise<void> {
           return c ? lookupText(`name.${c.template}`, project.locale) : roleId
         },
         Math.random,
-        // M4c:敌施法查技能表;难度预设(难度分级立项前恒 normal)
-        { skills: project.skills, difficulty: 'normal' },
+        // M4c:技能/敌人表 + 演出文本;难度预设(难度分级立项前恒 normal)
+        { skills: project.skills, enemiesById: project.enemiesById, difficulty: 'normal', locale: project.locale },
       )
       activeBattle = session
       const result = await session.done

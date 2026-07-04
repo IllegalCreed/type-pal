@@ -5,7 +5,8 @@
  * main.ts 的 host.startBattle 创建它,主循环转发 tick/render,await done 拿结果续脚本。
  * M4b-2 指令集:攻击/防御/逃跑(仙术/物品 = M4b-3 与动画一起);渲染 = 静态帧 + 飘字。
  */
-import type { EnemyDef, SkillData } from '@type-pal/content'
+import type { Command, EnemyDef, SkillData } from '@type-pal/content'
+import { evalAiCond, lookupText } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import type { GlyphTable, LoadedSprite } from '../assets.js'
 import { renderSpans } from '../text/text-render.js'
@@ -13,6 +14,7 @@ import {
   type BattleAction,
   type BattlePlayerState,
   type BattleState,
+  buildAiView,
   createBattleState,
   stepBattle,
 } from './battle-core.js'
@@ -58,6 +60,12 @@ export class BattleSession {
   private overTimer = 0
   private floats: FloatNum[] = []
   private nowMs = 0
+  // ── M4c-2 演出(choreography):轮起手钩,dialog 逐条横幅播,空格推进 ──
+  private choreoQueue: Command[] = []
+  private choreoBanner: { name: string; text: string } | null = null
+  private choreoName = ''
+  private choreoFired = new Map<number, Set<number>>() // 敌槽 → 已播钩子下标
+  private choreoTurn = 0 // 已收集过演出的轮次
 
   constructor(
     players: Omit<BattlePlayerState, 'status' | 'defending'>[],
@@ -65,10 +73,21 @@ export class BattleSession {
     private readonly assets: BattleSessionAssets,
     private readonly nameOf: (roleId: string) => string,
     private readonly rng: () => number = Math.random,
-    /** M4c:技能表(敌施法查 SkillData)+ 难度预设 id。 */
-    opts: { skills?: Record<string, SkillData>; difficulty?: string } = {},
+    /** M4c:技能表(敌施法)+ 敌人表(变身/召唤)+ 难度预设 + locale(演出文本)。 */
+    private readonly opts: {
+      skills?: Record<string, SkillData>
+      enemiesById?: Record<string, EnemyDef>
+      difficulty?: string
+      locale?: Record<string, string>
+    } = {},
   ) {
-    this.state = createBattleState({ players, enemies: enemyDefs, skills: opts.skills, difficulty: opts.difficulty })
+    this.state = createBattleState({
+      players,
+      enemies: enemyDefs,
+      skills: opts.skills,
+      enemiesById: opts.enemiesById,
+      difficulty: opts.difficulty,
+    })
     this.done = new Promise((res) => {
       this.resolveDone = res
     })
@@ -88,6 +107,61 @@ export class BattleSession {
     return this.state.enemies.map((e, i) => (e.hp > 0 ? i : -1)).filter((i) => i >= 0)
   }
 
+  /** 收集当轮该播的演出钩(once/when 求值;文本 locale 化 + 说话人 = 敌名)。 */
+  private collectChoreo(): void {
+    const s = this.state
+    const rng = this.rng
+    s.enemies.forEach((e, idx) => {
+      if (e.hp <= 0) return
+      const list = e.def.choreography ?? []
+      const fired = this.choreoFired.get(idx) ?? new Set<number>()
+      this.choreoFired.set(idx, fired)
+      list.forEach((c, ci) => {
+        if (c.at !== 'turnStart' && !(c.at === 'battleStart' && s.turn === 1)) return
+        if (c.once && fired.has(ci)) return
+        if (c.when && !evalAiCond(c.when, buildAiView(s, e), rng)) return
+        fired.add(ci)
+        this.choreoName = lookupText(e.def.name, this.opts.locale ?? {})
+        this.choreoQueue.push(...c.body)
+      })
+    })
+  }
+
+  /** 逐条消费演出命令(dialog 横幅等按键;音效记 log;fleeBattle 终止战斗)。 */
+  private pumpChoreo(pressed: ReadonlySet<string>): void {
+    if (this.choreoBanner) {
+      if (pressed.has(' ') || pressed.has('Enter')) this.choreoBanner = null
+      return
+    }
+    const c = this.choreoQueue.shift()
+    if (!c) return
+    switch (c.kind) {
+      case 'dialog':
+        this.choreoBanner = { name: this.choreoName, text: lookupText(c.line.text, this.opts.locale ?? {}) }
+        return
+      case 'playSound':
+        this.state.log.push(`♪ 音效 ${c.soundId}`)
+        return
+      case 'fleeBattle': {
+        this.state.enemyFled = true
+        for (const x of this.state.enemies) x.hp = 0
+        this.state.log.push('敌人逃走了')
+        this.state.phase = 'won'
+        this.choreoQueue.length = 0
+        return
+      }
+      case 'wait':
+        return // 演出节拍由横幅按键控制,wait 忽略
+      default:
+        this.state.log.push(`演出命令 ${c.kind} 未接(记日志)`)
+    }
+  }
+
+  /** 敌逃离(无奖励语义;main 决定是否跑 onDefeated/给奖励)。 */
+  enemyFled(): boolean {
+    return this.state.enemyFled
+  }
+
   tick(dtMs: number, pressed: ReadonlySet<string>): void {
     this.nowMs += dtMs
     this.floats = this.floats.filter((f) => this.nowMs - f.bornAt < 900)
@@ -103,6 +177,15 @@ export class BattleSession {
     }
 
     if (s.phase === 'selectAction') {
+      // M4c-2:轮起手演出(battleStart 并入第 1 轮)—— 进指令菜单前逐条播
+      if (this.choreoTurn < s.turn) {
+        this.choreoTurn = s.turn
+        this.collectChoreo()
+      }
+      if (this.choreoBanner || this.choreoQueue.length) {
+        this.pumpChoreo(pressed)
+        return
+      }
       const sel = this.nextSelecting()
       if (sel === undefined) {
         stepBattle(s, this.rng) // 全填 → build queue → performAction
@@ -219,6 +302,12 @@ export class BattleSession {
       renderSpans(ctx, [{ text: `${p.hp}/${p.maxHp}` }], x, 184, { glyphs: g, shadow: true, forceRgba: hpColor })
     })
 
+    // M4c-2 演出横幅(顶部;空格推进)
+    if (this.choreoBanner) {
+      renderSpans(ctx, [{ text: `${this.choreoBanner.name}:` }], 10, 8, { glyphs: g, shadow: true, forceRgba: [226, 179, 64] })
+      renderSpans(ctx, [{ text: this.choreoBanner.text }], 10, 26, { glyphs: g, shadow: true })
+      renderSpans(ctx, [{ text: '▼' }], VIEW_W - 16, 26, { glyphs: g, shadow: true, forceRgba: [226, 179, 64] })
+    }
     // 指令菜单(左上;为 nextSelecting 队员选)
     const sel = s.phase === 'selectAction' ? this.nextSelecting() : undefined
     if (sel !== undefined && this.ui === 'menu') {

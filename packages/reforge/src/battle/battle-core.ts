@@ -64,8 +64,12 @@ export interface BattleState {
   log: string[]
   /** 技能表(敌施法;M4c)。 */
   skills: Record<string, SkillData>
+  /** 敌人表(transform/summon;M4c-2)。 */
+  enemiesById: Record<string, EnemyDef>
   /** 难度预设 id(M4c 留口)。 */
   difficulty: string
+  /** 敌人整场逃离(0x69 剧情逃跑:战斗终止无奖励;fled 敌不计胜利奖励)。 */
+  enemyFled: boolean
 }
 
 export type BattleAction =
@@ -78,6 +82,8 @@ export interface CreateBattleInput {
   enemies: EnemyDef[]
   /** 技能表(敌施法查 SkillData;缺省空 = cast 落普攻并 log)。 */
   skills?: Record<string, SkillData>
+  /** 敌人表(transform/summon 查 EnemyDef;缺省空 = 动作落普攻并 log)。 */
+  enemiesById?: Record<string, EnemyDef>
   /** 难度预设 id(AI difficulty 条件;缺省 'normal')。 */
   difficulty?: string
 }
@@ -98,7 +104,9 @@ export function createBattleState(input: CreateBattleInput): BattleState {
     actionQueue: [],
     log: [],
     skills: input.skills ?? {},
+    enemiesById: input.enemiesById ?? {},
     difficulty: input.difficulty ?? 'normal',
+    enemyFled: false,
   }
 }
 
@@ -115,8 +123,8 @@ export function resolveAttack(atk: number, def: number, physRes: number, defendi
   return Math.max(0, applyDefense(calcPhysicalAttackDamage(atk, def, physRes), defending))
 }
 
-/** 组装 AI 求值视图(纯数据;设计 enemy-ai-design.md §2)。 */
-function buildAiView(s: BattleState, self: BattleEnemyState): AiBattleView {
+/** 组装 AI 求值视图(纯数据;设计 enemy-ai-design.md §2)。session 演出钩 when 求值共用。 */
+export function buildAiView(s: BattleState, self: BattleEnemyState): AiBattleView {
   const firstIdx = s.enemies.findIndex((x) => x.hp > 0 && x.def.id === self.def.id)
   return {
     turn: s.turn,
@@ -143,12 +151,16 @@ function buildAiView(s: BattleState, self: BattleEnemyState): AiBattleView {
 export type EnemyDecision =
   | { kind: 'attack'; targetPlayerIdx: number }
   | { kind: 'cast'; skill: SkillData; targetPlayerIdx: number }
+  | { kind: 'transform'; def: EnemyDef }
+  | { kind: 'divide'; copies: number }
+  | { kind: 'summon'; def: EnemyDef; count: number }
+  | { kind: 'fleeAll' }
   | { kind: 'pass' }
 
 /**
  * 敌人决策(M4c):规则求值器(content/enemy-ai)取首条命中;无规则/无命中 = 普攻随机
  * 活队员(原版兜底)。sleep/paralyzed → pass;沉默由求值器跳 cast 规则。
- * summon/transform/divide/flee 动作 M4c-2 落地,此处 log 后按普攻兜底(手配数据可见提示)。
+ * transform/summon 查敌人表,缺数据落普攻并 log(手配数据可见提示)。
  */
 export function decideEnemyAction(s: BattleState, e: BattleEnemyState, rng: () => number): EnemyDecision {
   const targets = alivePlayers(s)
@@ -176,11 +188,31 @@ export function decideEnemyAction(s: BattleState, e: BattleEnemyState, rng: () =
       }
       return { kind: 'cast', skill, targetPlayerIdx: pickAiTarget(d.action.target, view.players, rng) }
     }
-    default:
-      s.log.push(`${e.def.id} 动作 ${d.action.kind}(M4c-2),暂普攻`)
-      return fallbackAttack()
+    case 'transform': {
+      const def = s.enemiesById[d.action.enemyId]
+      if (!def) {
+        s.log.push(`${e.def.id} 变身 ${d.action.enemyId} 缺敌人数据,落普攻`)
+        return fallbackAttack()
+      }
+      return { kind: 'transform', def }
+    }
+    case 'divide':
+      return { kind: 'divide', copies: d.action.copies }
+    case 'summon': {
+      const def = s.enemiesById[d.action.enemyId ?? e.def.id] ?? (d.action.enemyId ? undefined : e.def)
+      if (!def) {
+        s.log.push(`${e.def.id} 召唤 ${d.action.enemyId} 缺敌人数据,落普攻`)
+        return fallbackAttack()
+      }
+      return { kind: 'summon', def, count: d.action.count }
+    }
+    case 'flee':
+      return { kind: 'fleeAll' }
   }
 }
+
+/** 战场敌槽上限(原版 formation 最多 5)。 */
+const MAX_ENEMIES = 5
 
 /**
  * 推进战斗一步（headless 驱动 = 反复调至 phase 终态）。
@@ -331,6 +363,53 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
   }
   if (decision.kind === 'cast') {
     applyEnemySkill(s, e, decision.skill, decision.targetPlayerIdx, rng)
+    return
+  }
+  if (decision.kind === 'transform') {
+    // 原版 0x9F(DM1):换 stats/精灵,**保当前 HP**;规则表随新形态,once 记账清零
+    e.def = decision.def
+    e.firedRules = new Set()
+    s.log.push(`${e.def.id} 现出真身!`)
+    return
+  }
+  if (decision.kind === 'divide') {
+    // 原版 0x9C 引擎内建门:**仅剩自己一只活敌**且 hp>1 才分裂(一阶段 battle-opcodes DL9)
+    if (aliveEnemies(s).length !== 1) {
+      s.log.push(`${e.def.id} 分裂失败(场上不止一只)`)
+      return
+    }
+    const slots = MAX_ENEMIES - aliveEnemies(s).length
+    const n = Math.min(decision.copies, slots)
+    if (n <= 0 || e.hp <= 1) {
+      s.log.push(`${e.def.id} 分裂失败(无空位/血量不足)`)
+      return
+    }
+    const share = Math.max(1, Math.trunc(e.hp / (n + 1)))
+    e.hp = share
+    for (let k = 0; k < n; k++) {
+      s.enemies.push({ def: e.def, hp: share, status: emptyBattleStatus(), defending: false, firedRules: new Set() })
+    }
+    s.log.push(`${e.def.id} 分裂出 ${n} 个分身`)
+    return
+  }
+  if (decision.kind === 'summon') {
+    const slots = MAX_ENEMIES - aliveEnemies(s).length
+    const n = Math.min(decision.count, slots)
+    if (n <= 0) {
+      s.log.push(`${e.def.id} 召唤失败(无空位)`)
+      return
+    }
+    for (let k = 0; k < n; k++) {
+      s.enemies.push({ def: decision.def, hp: decision.def.stats.health, status: emptyBattleStatus(), defending: false, firedRules: new Set() })
+    }
+    s.log.push(`${e.def.id} 召唤了 ${n} 个 ${decision.def.id}`)
+    return
+  }
+  if (decision.kind === 'fleeAll') {
+    // 原版 0x69:整场敌逃离,战斗终止无奖励(enemyFled 标记;奖励系统接入时读)
+    s.enemyFled = true
+    for (const x of s.enemies) x.hp = 0
+    s.log.push(`${e.def.id} 逃走了`)
     return
   }
   const p = s.players[decision.targetPlayerIdx]!

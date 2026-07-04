@@ -172,3 +172,61 @@ describe('M4c 敌人 AI(规则决策 + cast 结算)', () => {
     expect(s.log.some((l) => l.includes('攻击'))).toBe(true)
   })
 })
+
+describe('M4c-2 动作:变身/分裂/召唤/整场逃离', () => {
+  const runOneTurn = (s: ReturnType<typeof createBattleState>, rng = rng0) => {
+    stepBattle(s, rng)
+    for (const i of s.players.keys()) if (s.players[i]!.hp > 0) s.pendingActions.set(i, { kind: 'defend' })
+    let guard = 0
+    while ((s.phase as string) !== 'selectAction' || s.turn === 1) {
+      if ((s.phase as string) === 'won' || (s.phase as string) === 'lost') break
+      stepBattle(s, rng)
+      if (++guard > 60) break
+    }
+  }
+
+  test('transform:保当前 HP 换 def,once 记账清零', () => {
+    const boss = mkEnemy('boss', { health: 300 })
+    const truth = mkEnemy('truth', { health: 999, attackStrength: 50 })
+    boss.ai = { resistanceToSorcery: 5, rules: [{ at: 'act', do: { kind: 'transform', enemyId: 'truth' }, once: true }] }
+    const s = createBattleState({ players: [player('li', { hp: 500, maxHp: 500 })], enemies: [boss], enemiesById: { truth } })
+    s.enemies[0]!.hp = 123 // 打残再变身
+    runOneTurn(s)
+    expect(s.enemies[0]!.def.id).toBe('truth')
+    expect(s.enemies[0]!.hp).toBe(123) // 保血
+    expect(s.enemies[0]!.firedRules.size).toBe(0) // 新形态记账清零
+    expect(s.log.some((l) => l.includes('现出真身'))).toBe(true)
+  })
+
+  test('divide:仅剩一只才分裂(原版内建门);血量均分', () => {
+    const blob = mkEnemy('blob', { health: 90, attackStrength: 1 })
+    blob.ai = { resistanceToSorcery: 5, rules: [{ at: 'act', do: { kind: 'divide', copies: 1 }, once: true }] }
+    // 两只在场:分裂失败(门拦下)
+    const s0 = createBattleState({ players: [player('li', { hp: 500, maxHp: 500 })], enemies: [blob, mkEnemy('other', { attackStrength: 1 })] })
+    runOneTurn(s0)
+    expect(s0.log.some((l) => l.includes('分裂失败'))).toBe(true)
+    expect(s0.enemies.length).toBe(2)
+    // 单only:成功均分
+    const s = createBattleState({ players: [player('li', { hp: 500, maxHp: 500 })], enemies: [blob] })
+    runOneTurn(s)
+    expect(s.enemies.length).toBe(2)
+    expect(s.enemies[0]!.hp).toBe(45)
+    expect(s.enemies[1]!.hp).toBe(45)
+
+    const caller = mkEnemy('caller', { health: 200, attackStrength: 1 })
+    caller.ai = { resistanceToSorcery: 5, rules: [{ at: 'act', do: { kind: 'summon', count: 9 }, once: true }] }
+    const s2 = createBattleState({ players: [player('li', { hp: 500, maxHp: 500 })], enemies: [caller] })
+    runOneTurn(s2)
+    expect(s2.enemies.length).toBe(5) // 1 + min(9, 4) = 5 槽满
+  })
+
+  test('fleeAll:整场敌逃离 → won + enemyFled 标记(无奖励语义留钩)', () => {
+    const snake = mkEnemy('snake', { health: 500 })
+    snake.ai = { resistanceToSorcery: 5, rules: [{ at: 'act', do: { kind: 'flee' } }] }
+    const s = createBattleState({ players: [player('li')], enemies: [snake] })
+    runOneTurn(s)
+    expect(s.enemyFled).toBe(true)
+    expect(s.phase).toBe('won')
+    expect(s.log.some((l) => l.includes('逃走了'))).toBe(true)
+  })
+})
