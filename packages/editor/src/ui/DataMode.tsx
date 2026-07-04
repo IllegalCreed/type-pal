@@ -18,6 +18,7 @@ import { useMemo, useState } from 'react'
 import { UpdateSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { EnemyTab } from './EnemyTab.js'
+import { ItemTab } from './ItemTab.js'
 import { SpriteFrames } from './SpriteFrames.js'
 
 type Tab = 'sprite' | 'skill' | 'item' | 'enemy'
@@ -51,13 +52,15 @@ export function DataMode(props: {
   sprites: SpriteDef[]
   skills: SkillDataMap
   items: ItemDataMap
+  /** 物品数组(ItemTab 编辑;= session state.items)。 */
+  itemList: import('@type-pal/content').ItemData[]
   locale: Locale
   assetBase: AssetBase
   session: EditSession
   enemies: EnemyDef[]
   enemyTeams: EnemyTeamDef[]
 }) {
-  const { sprites, assetBase, session, enemies, enemyTeams, skills, locale } = props
+  const { sprites, assetBase, session, enemies, enemyTeams, skills, locale, itemList } = props
   const [tab, setTab] = useState<Tab>('sprite')
   const [filter, setFilter] = useState('')
   const [kindFilter, setKindFilter] = useState<'all' | SpriteDef['layout']['kind']>('all')
@@ -105,6 +108,10 @@ export function DataMode(props: {
         tabBar={tabBar}
       />
     )
+  }
+
+  if (tab === 'item') {
+    return <ItemTab items={itemList} assetBase={assetBase} session={session} tabBar={tabBar} />
   }
 
   return (

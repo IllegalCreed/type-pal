@@ -9,8 +9,19 @@
  *
  * 见 docs/phase2/editor/editor-design.md §4。
  */
+
+import type {
+  ActorDef,
+  EnemyDef,
+  EnemyTeamDef,
+  EntityDef,
+  GridPos,
+  ItemData,
+  SceneDef,
+  ScriptStage,
+  SpriteDef,
+} from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
-import type { ActorDef, EnemyDef, EnemyTeamDef, EntityDef, GridPos, SceneDef, ScriptStage, SpriteDef } from '@type-pal/content'
 
 /**
  * 一次编辑操作。apply/invert 都返回**新** EditorState(不可变 —— 不得 mutate 传入)。
@@ -27,11 +38,7 @@ export interface Command {
 // 旁场景/旁实体保持同引用(只展开命中路径,最小拷贝)。
 
 /** 不可变:把 sceneId 场景整体替换成 newScene;旁场景同引用。scene 不存在返回原 state。 */
-function withScene(
-  state: EditorState,
-  sceneId: string,
-  newScene: SceneDef,
-): EditorState {
+function withScene(state: EditorState, sceneId: string, newScene: SceneDef): EditorState {
   let hit = false
   const scenes = state.scenes.map((s) => {
     if (s.id !== sceneId) return s
@@ -42,11 +49,7 @@ function withScene(
 }
 
 /** 不可变:把 sceneId 场景的 entities 替换成 newEntities。scene 不存在返回原 state。 */
-function withEntities(
-  state: EditorState,
-  sceneId: string,
-  newEntities: EntityDef[],
-): EditorState {
+function withEntities(state: EditorState, sceneId: string, newEntities: EntityDef[]): EditorState {
   let hit = false
   const scenes = state.scenes.map((s) => {
     if (s.id !== sceneId) return s
@@ -378,11 +381,7 @@ export function getScriptStages(
 }
 
 /** 不可变:把脚本源的 stages 整体替换(源缺失原样返回)。 */
-function withScriptStages(
-  scene: SceneDef,
-  ref: ScriptSourceRef,
-  stages: ScriptStage[],
-): SceneDef {
+function withScriptStages(scene: SceneDef, ref: ScriptSourceRef, stages: ScriptStage[]): SceneDef {
   if (ref.kind === 'onEnter') return { ...scene, onEnter: stages }
   const entities = scene.entities.map((e) => {
     if (e.id !== ref.entityId) return e
@@ -475,7 +474,8 @@ export class UpdateActorCommand implements Command {
     const old: ActorPatch = {}
     if ('name' in this.patch) old.name = a.name
     if ('spriteId' in this.patch) old.spriteId = a.spriteId
-    if ('portraits' in this.patch) old.portraits = a.portraits ? structuredClone(a.portraits) : undefined
+    if ('portraits' in this.patch)
+      old.portraits = a.portraits ? structuredClone(a.portraits) : undefined
     if ('battler' in this.patch) old.battler = a.battler ? structuredClone(a.battler) : undefined
     return old
   }
@@ -493,6 +493,55 @@ export class UpdateActorCommand implements Command {
 // ════════════════════════════════════════════════════════════════════
 
 /** 不可变:替换 enemyId 敌人;旁敌同引用。 */
+/** 物品补丁(浅字段;equip/use/throw 整体替换)。 */
+type ItemPatch = Partial<Omit<ItemData, 'id'>>
+
+function withItem(state: EditorState, itemId: string, next: ItemData): EditorState {
+  let hit = false
+  const items = state.items.map((i) => {
+    if (i.id !== itemId) return i
+    hit = true
+    return next
+  })
+  return hit ? { ...state, items } : state
+}
+
+/** 修改物品字段(undo 恢复旧值;undefined 值 = 删键,如清空 use)。 */
+export class UpdateItemCommand implements Command {
+  readonly label = '修改物品'
+  private readonly itemId: string
+  private readonly patch: ItemPatch
+  private oldPatch: ItemPatch | undefined
+
+  constructor(itemId: string, patch: ItemPatch) {
+    this.itemId = itemId
+    this.patch = structuredClone(patch)
+  }
+
+  apply(state: EditorState): EditorState {
+    const it = state.items.find((x) => x.id === this.itemId)
+    if (!it) return state
+    if (!this.oldPatch) {
+      const old: Record<string, unknown> = {}
+      for (const k of Object.keys(this.patch))
+        old[k] = structuredClone((it as unknown as Record<string, unknown>)[k])
+      this.oldPatch = old as ItemPatch
+    }
+    const next = { ...it, ...this.patch } as Record<string, unknown>
+    for (const [k, v] of Object.entries(this.patch)) if (v === undefined) delete next[k]
+    return withItem(state, this.itemId, next as unknown as ItemData)
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.oldPatch) return state
+    const it = state.items.find((x) => x.id === this.itemId)
+    if (!it) return state
+    const restored = { ...it, ...this.oldPatch } as Record<string, unknown>
+    for (const [k, v] of Object.entries(this.oldPatch)) if (v === undefined) delete restored[k]
+    return withItem(state, this.itemId, restored as unknown as ItemData)
+  }
+}
+
 function withEnemy(state: EditorState, enemyId: string, next: EnemyDef): EditorState {
   const list = state.enemies ?? []
   let hit = false
@@ -505,7 +554,20 @@ function withEnemy(state: EditorState, enemyId: string, next: EnemyDef): EditorS
 }
 
 /** UpdateEnemy 的 patch 范围(name 是 locale 键,名字文本走 locale 命令另做)。 */
-export type EnemyPatch = Partial<Pick<EnemyDef, 'spriteNum' | 'stats' | 'ai' | 'anim' | 'sounds' | 'steal' | 'attackEquivItem' | 'choreography' | 'onDefeated'>>
+export type EnemyPatch = Partial<
+  Pick<
+    EnemyDef,
+    | 'spriteNum'
+    | 'stats'
+    | 'ai'
+    | 'anim'
+    | 'sounds'
+    | 'steal'
+    | 'attackEquivItem'
+    | 'choreography'
+    | 'onDefeated'
+  >
+>
 
 /** 改敌人字段。语义同 UpdateActorCommand:首次 apply 捕获旧值,invert 还原;对象深拷贝。 */
 export class UpdateEnemyCommand implements Command {
@@ -524,7 +586,8 @@ export class UpdateEnemyCommand implements Command {
     if (!e) return state
     if (!this.oldPatch) {
       const old: Record<string, unknown> = {}
-      for (const k of Object.keys(this.patch)) old[k] = structuredClone((e as unknown as Record<string, unknown>)[k])
+      for (const k of Object.keys(this.patch))
+        old[k] = structuredClone((e as unknown as Record<string, unknown>)[k])
       this.oldPatch = old as EnemyPatch
     }
     return withEnemy(state, this.enemyId, { ...e, ...this.patch })

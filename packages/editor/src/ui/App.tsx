@@ -218,6 +218,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
           />
         ) : mode === 'data' ? (
           <DataMode
+            itemList={state.items}
             sprites={state.sprites}
             skills={Object.fromEntries(state.skills.map((sk) => [sk.id, sk]))}
             items={Object.fromEntries(state.items.map((i) => [i.id, i]))}
