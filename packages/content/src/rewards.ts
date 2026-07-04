@@ -14,9 +14,40 @@ import type { LevelUpSkill } from './skill.js'
 const MAX_LEVEL = 99
 const STAT_CAP = 999
 
+/** 抓属性快照(升级屏 old/cur;体力/真气原版显 cur/max)。 */
+function snapshotStats(c: CharacterInstance): StatSnapshot {
+  return {
+    level: c.level,
+    hp: c.hp,
+    maxHP: c.maxHP,
+    mp: c.mp,
+    maxMP: c.maxMP,
+    attack: c.attack,
+    magicAttack: c.magicAttack,
+    defense: c.defense,
+    speed: c.speed,
+    luck: c.luck,
+  }
+}
+
 export interface RewardInput {
   exp: number
   cash: number
+}
+
+/** 升级屏 8 属性快照(顺序 = 原版 battle.c:1141-1148:修行/体力/真气/武术/灵力/防御/身法/吉运)。
+ *  体力/真气原版显 cur/max(192/326 → 339/339),故带当前 hp/mp。 */
+export interface StatSnapshot {
+  level: number
+  hp: number
+  maxHP: number
+  mp: number
+  maxMP: number
+  attack: number
+  magicAttack: number
+  defense: number
+  speed: number
+  luck: number
 }
 
 export interface LevelUpReport {
@@ -25,6 +56,9 @@ export interface LevelUpReport {
   to: number
   /** 本次升级习得的技能 id(已并入 learnedSkills)。 */
   learned: string[]
+  /** 升级屏 old→cur(8 属性;原版 Phase B box)。 */
+  before: StatSnapshot
+  after: StatSnapshot
 }
 
 export interface RewardReport {
@@ -55,6 +89,7 @@ export function grantBattleRewards(
       continue
     }
     const from = c.level
+    const before = snapshotStats(c)
     let exp = c.exp + input.exp
     const learned: string[] = []
     while (true) {
@@ -85,7 +120,15 @@ export function grantBattleRewards(
       }
     }
     c.exp = exp
-    if (c.level > from) levelUps.push({ characterId: c.id, from, to: c.level, learned })
+    if (c.level > from)
+      levelUps.push({
+        characterId: c.id,
+        from,
+        to: c.level,
+        learned,
+        before,
+        after: snapshotStats(c),
+      })
   }
   // Phase F:战后半恢复(battle.c:1342-1372 PAL_CLASSIC;全员,升级回满者无变化)
   for (const c of party) {

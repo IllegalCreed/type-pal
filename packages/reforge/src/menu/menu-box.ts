@@ -336,6 +336,8 @@ export interface MenuAssets {
   cursorUp: ImageBitmap | undefined
   /** 战斗当前行动者红手指(cursor/down,frame 68;与 cursorGrid 69 交替闪)。 */
   cursorDown: ImageBitmap | undefined
+  /** 结算升级屏 old→cur 箭头(frame 47)。 */
+  settleArrow: ImageBitmap | undefined
   /** 物品/装备列表:选中物详情框 itembox 九宫格 9 块(frame 70 重切;64×64 处与原图一致,可扩尺寸)。 */
   itembox: BoxTiles
 }
@@ -413,13 +415,15 @@ export async function loadMenuAssets(items: ItemDataMap, dirs: MenuAssetDirs): P
     itemIcons[ch] = iconArr[i]
   })
   // 仙术菜单专用 sprite(角色框 / 头像 / 网格光标)
-  const [magicPlayerBox, magicFace, cursorGrid, cursorUp, cursorDown] = await Promise.all([
-    ui('magic/playerbox.png'),
-    loadPng(`${dirs.faces}/li-xiaoyao.png`), // TODO 多人:按当前查看角色的 actorId 取
-    ui('cursor/grid.png'),
-    ui('cursor/up.png'),
-    ui('cursor/down.png'),
-  ])
+  const [magicPlayerBox, magicFace, cursorGrid, cursorUp, cursorDown, settleArrow] =
+    await Promise.all([
+      ui('magic/playerbox.png'),
+      loadPng(`${dirs.faces}/li-xiaoyao.png`), // TODO 多人:按当前查看角色的 actorId 取
+      ui('cursor/grid.png'),
+      ui('cursor/up.png'),
+      ui('cursor/down.png'),
+      ui('cursor/settle-arrow.png'),
+    ])
   return {
     box: { tiles },
     statusBg,
@@ -437,6 +441,7 @@ export async function loadMenuAssets(items: ItemDataMap, dirs: MenuAssetDirs): P
     cursorGrid,
     cursorUp,
     cursorDown,
+    settleArrow,
     itembox: { tiles: itemboxTiles },
   }
 }

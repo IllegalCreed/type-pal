@@ -36,6 +36,7 @@ import { SfxPlayer } from './audio/sfx.js'
 import { getEnemyBasePos, getPlayerBasePos } from './battle/battle-positions.js'
 import { BattleSession } from './battle/battle-session.js'
 import { type BattleSpriteDraw, renderBattleScene } from './battle/present-battle.js'
+import { buildSettlementScreens } from './battle/settlement.js'
 import { isBlockedAt, sameGrid } from './collision.js'
 import { loadCursorFrames, loadPortraits } from './dialog/dialog-assets.js'
 import { DialogBox } from './dialog/dialog-box.js'
@@ -761,35 +762,40 @@ async function main(): Promise<void> {
           locale: project.locale,
           playerEffectBase,
           playerCastBase,
+          // B7b 胜利结算(会话 over 阶段调一次):HP 写回 + 入账 + 升级 = 单次授予点,
+          //   返回结算屏序列(经验金钱→升级→练成)。原版 Phase A/B/D/F 顺序。
+          buildSettlement: () => {
+            sessionRef.writeBackHp(world.party) // 先写回战斗末 HP(原版 exp 前)
+            const r = sessionRef.rewards()
+            world.money += r.cash
+            const rep = grantBattleRewards(
+              world.party,
+              world.learnedSkills,
+              project.actorsById,
+              project.levelUp,
+              r,
+              Math.random,
+            )
+            return buildSettlementScreens(
+              rep.exp,
+              rep.cash,
+              rep.levelUps,
+              (cid) => {
+                const tpl = world.party.find((c) => c.id === cid)?.template ?? ''
+                return lookupText(`name.${tpl}`, project.locale)
+              },
+              (sid) => project.skills[sid]?.name ?? sid,
+            )
+          },
         },
       )
+      const sessionRef = session
       activeBattle = session
       const result = await session.done
       activeBattle = null
-      // 写回战斗结果的 HP/MP(战斗内伤害持久;原版同)
-      session.writeBackHp(world.party)
+      // 胜利结算路径已在 buildSettlement 里写回 HP + 入账;其余路径(败/逃/敌逃)此处写回 HP。
+      if (result !== 'win' || session.enemyFled()) session.writeBackHp(world.party)
       session.writeBackInventory(world.inventory)
-      // B7a 战果入账(胜利且非敌逃):exp/cash + 升级成长/学技能 + 战后半恢复(原版 Phase A/B/D/F)
-      if (result === 'win' && !session.enemyFled()) {
-        const r = session.rewards()
-        world.money += r.cash
-        const rep = grantBattleRewards(
-          world.party,
-          world.learnedSkills,
-          project.actorsById,
-          project.levelUp,
-          r,
-          Math.random,
-        )
-        for (const lu of rep.levelUps) {
-          const tpl = world.party.find((c) => c.id === lu.characterId)?.template ?? ''
-          const nm = lookupText(`name.${tpl}`, project.locale)
-          const learned = lu.learned.length
-            ? `,习得 ${lu.learned.map((id) => project.skills[id]?.name ?? id).join('、')}`
-            : ''
-          showToast(`${nm} 修行提升到 ${lu.to}${learned}`)
-        }
-      }
       return result
     },
     openShop: (shop, mode) => {

@@ -174,6 +174,11 @@ mkdirSync(resolve(PUBLIC, 'ui/cursor'), { recursive: true })
 bakeFile(resolve(EXTRACTED, 'images/ui/frame-67.png'), resolve(PUBLIC, 'ui/cursor/up.png'))
 bakeFile(resolve(EXTRACTED, 'images/ui/frame-68.png'), resolve(PUBLIC, 'ui/cursor/down.png'))
 bakeFile(resolve(EXTRACTED, 'images/ui/frame-69.png'), resolve(PUBLIC, 'ui/cursor/grid.png'))
+// 结算升级屏 old→cur 箭头(SPRITENUM_ARROW=47;battle.c:1163)
+bakeFile(
+  resolve(EXTRACTED, 'images/ui/frame-47.png'),
+  resolve(PUBLIC, 'ui/cursor/settle-arrow.png'),
+)
 console.log('baked magic-menu sprites (red box / playerbox / face / cursor)')
 
 // 8a) 战斗主菜单 4 图标(gpSpriteUI frame 40-43 = 攻击/法术/合击/杂项,uibattle.h SPRITENUM_BATTLEICON_*)

@@ -14,7 +14,7 @@ import type { DialogBox } from '../dialog/dialog-box.js'
 import { startDialogue } from '../dialogue.js'
 import { drawNumber, type MenuAssets } from '../menu/menu-box.js'
 import { bakeFrame } from '../render.js'
-import { measureSpans, renderSpans } from '../text/text-render.js'
+import { renderSpans } from '../text/text-render.js'
 import {
   type AnimFrame,
   AnimPlayer,
@@ -47,6 +47,7 @@ import {
   MAGIC_GRID,
 } from './battle-ui.js'
 import { type BattleScene, type BattleSpriteDraw, renderBattleScene } from './present-battle.js'
+import { drawSettlementScreen, type SettlementScreen } from './settlement.js'
 
 const VIEW_W = 320
 /** 杂项盒(一阶段 WORD.DAT 56-60):围攻/状态未实现,渲染灰显、确认无响应。 */
@@ -147,6 +148,9 @@ export class BattleSession {
   private choreoName = ''
   private choreoFired = new Map<number, Set<number>>() // 敌槽 → 已播钩子下标
   private choreoTurn = 0 // 已收集过演出的轮次
+  // ── B7b 胜利结算屏(经验金钱 → 升级 → 练成;逐屏空格推进)──
+  private settlement: SettlementScreen[] | null = null // null = 未构建;[] = 无屏
+  private settleIdx = 0
 
   constructor(
     players: Omit<BattlePlayerState, 'status' | 'defending'>[],
@@ -168,6 +172,12 @@ export class BattleSession {
       playerCastBase?: number[]
       /** 自动战斗(0x8A;玩家侧 AI 代打,不出指令菜单 —— 石长老过场战)。 */
       auto?: boolean
+      /**
+       * 胜利结算(B7b;win 且非敌逃时调一次)。回调内做 HP 写回 + 入账 + 升级(单次授予点),
+       * 返回结算屏序列(经验金钱 / 升级 / 练成),会话在 over 阶段逐屏空格推进。
+       * 缺 → 无结算屏(直接收尾;单测)。
+       */
+      buildSettlement?: () => SettlementScreen[]
     } = {},
   ) {
     this.state = createBattleState({
@@ -345,9 +355,25 @@ export class BattleSession {
         return
       }
       this.ui = 'over'
+      // B7b 胜利结算屏:win 且非敌逃 → 构建一次(回调内写回 HP + 入账 + 升级)→ 逐屏空格推进
+      if (s.phase === 'won' && !this.state.enemyFled && this.settlement === null) {
+        this.settlement = this.opts.buildSettlement?.() ?? []
+      }
+      if (this.settlement && this.settlement.length) {
+        // 逐屏:空格进下一屏;放完 → 收尾。至少停 300ms 防手滑连按跳屏。
+        this.overTimer += dtMs
+        if ((pressed.has(' ') || pressed.has('Enter')) && this.overTimer >= 300) {
+          this.settleIdx++
+          this.overTimer = 0
+          if (this.settleIdx >= this.settlement.length) {
+            this.resolveDone('win')
+          }
+        }
+        return
+      }
+      // 无结算屏(败/逃/敌逃):短暂停留自动收尾
       this.overTimer += dtMs
-      const overMs = s.phase === 'won' && s.expGained > 0 ? 2600 : OVER_MS // 战果两行多留读秒
-      if (this.overTimer >= overMs) {
+      if (this.overTimer >= OVER_MS) {
         this.resolveDone(s.phase === 'won' ? 'win' : s.phase === 'lost' ? 'lose' : 'flee')
       }
       return
@@ -957,28 +983,11 @@ export class BattleSession {
       }
     }
 
-    // 胜负字 + 战果(B7a:一阶段 Phase A 文案「获得经验值 N/打败敌人得 N 文钱」)
-    if (this.ui === 'over') {
-      const msg = s.phase === 'won' ? '战斗胜利!' : s.phase === 'lost' ? '全军覆没…' : '逃跑成功'
-      renderSpans(ctx, [{ text: msg }], VIEW_W / 2 - msg.length * 8, 80, {
-        glyphs: g,
-        shadow: true,
-        forceRgba: [255, 255, 255],
-      })
-      if (s.phase === 'won' && s.expGained > 0) {
-        const l1 = `获得经验值 ${s.expGained}`
-        const l2 = `打败敌人得 ${s.cashGained} 文钱`
-        renderSpans(ctx, [{ text: l1 }], VIEW_W / 2 - measureSpans([{ text: l1 }], g) / 2, 102, {
-          glyphs: g,
-          shadow: true,
-          forceRgba: [255, 203, 113],
-        })
-        renderSpans(ctx, [{ text: l2 }], VIEW_W / 2 - measureSpans([{ text: l2 }], g) / 2, 122, {
-          glyphs: g,
-          shadow: true,
-          forceRgba: [255, 203, 113],
-        })
-      }
+    // 胜利结算屏(B7b:一阶段 PAL_BattleWon box 序列,原版无「战斗胜利!」字样)。
+    //   有 UI 资产 → 画当前屏;缺(单测)→ 跳过。败/逃无结算屏(一阶段 PAL_BattleLost 直接黑屏读档)。
+    if (this.ui === 'over' && this.settlement?.length && ui) {
+      const screen = this.settlement[this.settleIdx]
+      if (screen) drawSettlementScreen(ctx, screen, ui, g)
     }
     ctx.restore()
   }
