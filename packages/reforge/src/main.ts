@@ -23,12 +23,14 @@ import {
   type LoadedSprite,
   loadBattleBg,
   loadBattleSprite,
+  loadEffectSprite,
   loadGlyphs,
   loadPalette,
   loadSprite,
   loadTilemap,
   loadTileset,
 } from './assets.js'
+import { SfxPlayer } from './audio/sfx.js'
 import { getEnemyBasePos, getPlayerBasePos } from './battle/battle-positions.js'
 import { BattleSession } from './battle/battle-session.js'
 import { type BattleSpriteDraw, renderBattleScene } from './battle/present-battle.js'
@@ -58,7 +60,6 @@ import {
 } from './magic-menu-state.js'
 import { drawEquipMenu } from './menu/equip-box.js'
 import { drawMagicMenu } from './menu/magic-box.js'
-import { SfxPlayer } from './audio/sfx.js'
 import { loadMenuAssets, loadPng, MenuBox } from './menu/menu-box.js'
 import { drawSaveBrowser } from './menu/save-browser-box.js'
 import { drawSystemMenu } from './menu/system-box.js'
@@ -137,6 +138,19 @@ async function main(): Promise<void> {
   document.title = `${project.manifest.name} · reforge` // 标题随工程(index.html 只是加载占位)
   const params = new URLSearchParams(location.search)
   const sfx = new SfxPlayer(project.assetBase.sounds) // 应用级单例(解码缓存跨战斗复用)
+  // M4d-2:命中特效精灵 + 特效帧基表(跨战斗不变,懒载一次;demo 无此资产 → undefined 跳过 overlay)
+  let effectSpriteP: Promise<import('./assets.js').LoadedSprite | undefined> | null = null
+  const loadEffectOnce = () => {
+    effectSpriteP ??= loadEffectSprite(project.assetBase).catch(() => undefined)
+    return effectSpriteP
+  }
+  let effectIndexP: Promise<number[] | null> | null = null
+  const loadEffectIndexOnce = () => {
+    effectIndexP ??= fetch(`${project.assetBase.root}/battle-effect-index.json`)
+      .then((r) => (r.ok ? (r.json() as Promise<number[]>) : null))
+      .catch(() => null)
+    return effectIndexP
+  }
 
   // ── 引擎 chrome(跨场景不变)──
   const [glyphs, cursorFrames] = await Promise.all([
@@ -579,27 +593,36 @@ async function main(): Promise<void> {
       }))
       // 资产:战场背景(sys:battleField 记账 → 当前场景 palette 着色)+ 敌我战斗精灵 + 队员小头像
       const fieldId = world.script?.vars['sys:battleField'] ?? 24
-      const [bg, enemySprites, playerSprites, faceList, battleIcons] = await Promise.all([
-        loadBattleBg(project.assetBase, fieldId, palette).catch(() => undefined),
-        Promise.all(
-          enemyDefs.map((e) =>
-            loadBattleSprite(project.assetBase, 'enemy', e.spriteNum).catch(() => undefined),
+      const [bg, enemySprites, playerSprites, faceList, battleIcons, effectSprite, effectIndex] =
+        await Promise.all([
+          loadBattleBg(project.assetBase, fieldId, palette).catch(() => undefined),
+          Promise.all(
+            enemyDefs.map((e) =>
+              loadBattleSprite(project.assetBase, 'enemy', e.spriteNum).catch(() => undefined),
+            ),
           ),
-        ),
-        Promise.all(
-          world.party.map((c) =>
-            loadBattleSprite(
-              project.assetBase,
-              'player',
-              project.actorsById[c.template]?.battler?.battleSpriteNum ?? 0,
-            ).catch(() => undefined),
+          Promise.all(
+            world.party.map((c) =>
+              loadBattleSprite(
+                project.assetBase,
+                'player',
+                project.actorsById[c.template]?.battler?.battleSpriteNum ?? 0,
+              ).catch(() => undefined),
+            ),
           ),
-        ),
-        Promise.all(world.party.map((c) => loadPng(`/ui/face/${c.template}.png`))),
-        Promise.all(
-          ['attack', 'magic', 'coop', 'misc'].map((n) => loadPng(`/ui/battle/icon-${n}.png`)),
-        ),
-      ])
+          Promise.all(world.party.map((c) => loadPng(`/ui/face/${c.template}.png`))),
+          Promise.all(
+            ['attack', 'magic', 'coop', 'misc'].map((n) => loadPng(`/ui/battle/icon-${n}.png`)),
+          ),
+          loadEffectOnce(),
+          loadEffectIndexOnce(),
+        ])
+      // 各队员命中特效帧基 = battle-effect-index[spriteNum*2+1]*3(fight.c:2055;表缺 → −1 无特效)
+      const playerEffectBase = world.party.map((c) => {
+        const sn = project.actorsById[c.template]?.battler?.battleSpriteNum ?? 0
+        const v = effectIndex?.[sn * 2 + 1]
+        return v === undefined ? -1 : v * 3
+      })
       const faces: Record<string, ImageBitmap | undefined> = {}
       world.party.forEach((c, i) => {
         faces[c.id] = faceList[i]
@@ -607,7 +630,18 @@ async function main(): Promise<void> {
       const session = new BattleSession(
         players,
         enemyDefs,
-        { bg, palette, glyphs, enemySprites, playerSprites, ui: menuAssets, faces, battleIcons, sfx },
+        {
+          bg,
+          palette,
+          glyphs,
+          enemySprites,
+          playerSprites,
+          ui: menuAssets,
+          faces,
+          battleIcons,
+          sfx,
+          effectSprite,
+        },
         (roleId) => {
           const c = world.party.find((x) => x.id === roleId)
           return c ? lookupText(`name.${c.template}`, project.locale) : roleId
@@ -621,6 +655,7 @@ async function main(): Promise<void> {
           inventory: world.inventory.map((x) => ({ ...x })), // 副本:战斗内扣,战后写回
           difficulty: 'normal',
           locale: project.locale,
+          playerEffectBase,
         },
       )
       activeBattle = session

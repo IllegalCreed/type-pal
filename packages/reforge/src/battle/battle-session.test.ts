@@ -44,7 +44,7 @@ function mkEnemy(
       actWaitFrames: 1,
       yPosOffset: 0,
     },
-    sounds: { attack: 355, action: 0, magic: 0, death: 30, call: 2 },
+    sounds: { attack: 355, action: 300, magic: 0, death: 30, call: 2 },
     ...extra,
   }
 }
@@ -95,15 +95,16 @@ function driveOneRound(session: BattleSession, ticks = 12): void {
   for (let i = 0; i < ticks; i++) session.tick(500, new Set())
 }
 
-describe('M4d-3 战斗音效接线', () => {
-  test('敌人物攻 → 播 sounds.attack', () => {
+describe('M4d-3/M4d-2 战斗音效接线(时间线帧挂载)', () => {
+  test('敌人物攻 → 时间线播 action(接近)+ call(命中)音', () => {
     // 玩家打不死敌(高防高血),敌必反击
     const { session, plays } = makeSession(
       mkEnemy('tank', { health: 999, defense: 999, attackStrength: 10 }),
       { attackStrength: 1 },
     )
     driveOneRound(session)
-    expect(plays).toContain(355)
+    expect(plays).toContain(300) // action(fixture)
+    expect(plays).toContain(2) // call
   })
 
   test('击杀敌人 → 播 sounds.death', () => {

@@ -15,8 +15,10 @@ export interface BattleSpriteDraw {
   y: number
   /** 当前帧下标(idle=0;M4b-3 动画驱动改)。 */
   frame: number
-  /** 选敌高亮(选中目标提亮,闪烁节拍由调用方给;一阶段 ColorShift 的 RGBA 等价)。 */
+  /** 选敌高亮/受击染色(提亮;一阶段 ColorShift 的 RGBA 等价)。 */
   highlight?: boolean
+  /** 不透明度(死亡淡出;缺省 1)。 */
+  alpha?: number
 }
 
 export interface BattleScene {
@@ -57,9 +59,11 @@ export function renderBattleScene(
     const img = bakeFrame(f, scene.palette)
     const dx = Math.round(d.x - f.width / 2)
     const dy = Math.round(d.y - f.height)
-    if (d.highlight) {
+    const alpha = d.alpha ?? 1
+    if (d.highlight || alpha < 1) {
       ctx.save()
-      ctx.filter = 'brightness(1.8)'
+      if (d.highlight) ctx.filter = 'brightness(1.8)'
+      if (alpha < 1) ctx.globalAlpha = Math.max(0, alpha)
       ctx.drawImage(img, dx, dy)
       ctx.restore()
     } else {

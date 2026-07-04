@@ -10,8 +10,10 @@ import { evalAiCond, lookupText } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import type { GlyphTable, LoadedSprite } from '../assets.js'
 import type { SfxPlayer } from '../audio/sfx.js'
-import type { MenuAssets } from '../menu/menu-box.js'
+import { drawNumber, type MenuAssets } from '../menu/menu-box.js'
+import { bakeFrame } from '../render.js'
 import { renderSpans } from '../text/text-render.js'
+import { type AnimFrame, AnimPlayer, buildEnemyPhysical, buildPlayerAttack } from './battle-anim.js'
 import {
   type BattleAction,
   type BattlePlayerState,
@@ -41,14 +43,18 @@ const MISC_LABELS = ['围攻', '道具', '防御', '逃跑', '状态'] as const
 /** 文字兜底菜单(无 UI 资产时;单测)。 */
 const FALLBACK_MENU = ['攻击', '仙术', '物品', '防御', '逃跑'] as const
 /** 每个 action 结算间隔(节奏;一帧全算看不清)。 */
-const ACT_MS = 480
+const ACT_MS = 240
 /** 胜负停留展示时长。 */
 const OVER_MS = 1200
+/** 敌人死亡淡出时长(一阶段 PAL_BattleFadeScene 12×6 步 ≈ 900ms;RGBA 用 alpha 渐隐等价)。 */
+const DEATH_FADE_MS = 900
 
 interface FloatNum {
   x: number
   y: number
   text: string
+  /** 有值 = 数字飘字(蓝数字 sprite,一阶段 damageNum blue);无 = 文本飘字。 */
+  num?: number
   color: readonly [number, number, number]
   bornAt: number
 }
@@ -71,6 +77,18 @@ export interface BattleSessionAssets {
   battleIcons?: (ImageBitmap | undefined)[]
   /** 音效播放器(M4d-3;敌攻/敌法/敌死/演出 playSound)。缺 = 静音。 */
   sfx?: SfxPlayer
+  /** 物理命中特效精灵(chunk 10 = /extracted/data/magic/effect.rle;M4d-2)。缺 = 无特效。 */
+  effectSprite?: LoadedSprite
+}
+
+/** 表现层单位状态(动画期间被时间线 delta 驱动;非动画期 = 基准值)。 */
+interface VisualFighter {
+  x: number
+  y: number
+  frame: number
+  colorShift: number
+  /** 信息框显示血量(伤害数字帧才同步,避免结算即时扣血提前剧透)。 */
+  displayHp: number
 }
 
 export class BattleSession {
@@ -92,6 +110,17 @@ export class BattleSession {
   private overTimer = 0
   private floats: FloatNum[] = []
   private nowMs = 0
+  // ── M4d-2 表现层:动画回放 + 死亡淡出 ──
+  private visual: { players: VisualFighter[]; enemies: VisualFighter[] } = {
+    players: [],
+    enemies: [],
+  }
+  private anim: AnimPlayer | null = null
+  private overlay: { frameIdx: number; x: number; y: number } | null = null
+  /** 敌槽 → 淡出开始时刻(动画收尾后登记;渲染 alpha 渐隐)。 */
+  private deathFades = new Map<number, number>()
+  /** 本步结算中死掉的敌槽(动画播完后统一开淡出 + death 音)。 */
+  private pendingDeaths: number[] = []
   // ── M4c-2 演出(choreography):轮起手钩,dialog 逐条横幅播,空格推进 ──
   private choreoQueue: Command[] = []
   private choreoBanner: { name: string; text: string } | null = null
@@ -113,6 +142,8 @@ export class BattleSession {
       inventory?: { itemId: string; count: number }[]
       difficulty?: string
       locale?: Record<string, string>
+      /** 各队员命中特效帧基(battle-effect-index[spriteNum*2+1]*3;与 players 同序;缺 = 无特效)。 */
+      playerEffectBase?: number[]
     } = {},
   ) {
     this.state = createBattleState({
@@ -128,6 +159,32 @@ export class BattleSession {
       this.resolveDone = res
     })
     stepBattle(this.state, this.rng) // preBattle → selectAction
+    this.resetVisual()
+  }
+
+  /** 表现层复位:全员回站位/站立帧/无染色(一阶段 resetFightersAfterAction 语义;死亡帧除外)。 */
+  private resetVisual(): void {
+    const s = this.state
+    this.visual.players = s.players.map((p, i) => {
+      const pos = getPlayerBasePos(s.players.length, i) ?? { x: 0, y: 0 }
+      const prev = this.visual.players[i]
+      return {
+        x: pos.x,
+        y: pos.y,
+        frame: p.hp <= 0 ? 2 : 0,
+        colorShift: 0,
+        displayHp: prev?.displayHp ?? p.hp,
+      }
+    })
+    this.visual.enemies = s.enemies.map((e, i) => {
+      const pos = getEnemyBasePos(s.enemies.length, i, this.enemyDefs[i]?.anim.yPosOffset ?? 0) ?? {
+        x: 0,
+        y: 0,
+      }
+      const prev = this.visual.enemies[i]
+      return { x: pos.x, y: pos.y, frame: 0, colorShift: 0, displayHp: prev?.displayHp ?? e.hp }
+    })
+    this.overlay = null
   }
 
   /** 当前待选指令的活队员下标;全填 → undefined。 */
@@ -226,6 +283,13 @@ export class BattleSession {
     const s = this.state
 
     if (s.phase === 'won' || s.phase === 'lost' || s.phase === 'fled') {
+      // 终态但收尾动画未播完(最后一击)→ 先播完(死亡淡出/死音在 finishStepVisuals)
+      if (this.anim) {
+        if (!this.anim.tick(dtMs)) return
+        this.anim = null
+        this.finishStepVisuals()
+        return
+      }
       this.ui = 'over'
       this.overTimer += dtMs
       if (this.overTimer >= OVER_MS) {
@@ -358,35 +422,161 @@ export class BattleSession {
 
     if (s.phase === 'performAction') {
       this.ui = 'acting'
+      // M4d-2:动画回放中 → 只推进;播完收尾(复位/死亡淡出/死音)
+      if (this.anim) {
+        if (!this.anim.tick(dtMs)) return
+        this.anim = null
+        this.finishStepVisuals()
+        return
+      }
       this.actTimer += dtMs
       if (this.actTimer < ACT_MS) return
       this.actTimer = 0
-      // hp 快照 → 走一步 → diff 飘字 + 音效
+      // hp 快照 → 走一步 → 物攻建时间线回放;其余动作即时反馈(cast/物品时间线后续刀)
       const pHp = s.players.map((p) => p.hp)
       const eHp = s.enemies.map((e) => e.hp)
       stepBattle(s, this.rng)
-      // 行动音(M4d-3 过渡:结算瞬间播;M4d-2 动画落地后挂到动画帧上,一阶段真值时机
-      //   = 敌接近播 actionSound / 命中播 callSound,fight.c:5005/5084)
       const la = s.lastAction
-      s.lastAction = null // 消费即清(回合末空步不重播上一动作音)
+      s.lastAction = null // 消费即清(回合末空步不重播)
+      // 本步死亡敌(动画收尾统一开淡出 + death 音;一阶段 diedFromAttack 语义)
+      this.pendingDeaths = s.enemies
+        .map((e, i) => (i < eHp.length && eHp[i]! > 0 && e.hp <= 0 && !s.enemyFled ? i : -1))
+        .filter((i) => i >= 0)
+      const timeline = this.buildStepTimeline(la, pHp, eHp)
+      if (timeline) {
+        this.anim = new AnimPlayer(timeline, {
+          onFighter: (d) => this.applyDelta(d),
+          onOverlay: (o) => {
+            this.overlay = o
+          },
+          onSound: (id) => this.assets.sfx?.play(id),
+          onDamage: (t, v) => this.applyDamageFx(t, v),
+        })
+        this.anim.tick(0) // 进首帧
+        return
+      }
+      // fallback(非物攻动作):即时飘字 + 敌施法音
       if (la?.side === 'enemy') {
         const snd = s.enemies[la.idx]?.def.sounds
-        if (snd) {
-          if (la.kind === 'attack') this.assets.sfx?.play(snd.attack)
-          else if (la.kind === 'cast') this.assets.sfx?.play(snd.magic)
-        }
+        if (snd && la.kind === 'cast') this.assets.sfx?.play(snd.magic)
       }
       s.players.forEach((p, i) => {
         const d = pHp[i]! - p.hp
-        if (d > 0) this.spawnFloat('player', i, `-${d}`, [255, 80, 80])
+        if (d > 0) this.applyDamageFx({ side: 'player', idx: i }, d)
+        const v = this.visual.players[i]
+        if (v) v.displayHp = p.hp
       })
       s.enemies.forEach((e, i) => {
-        const d = eHp[i]! - e.hp
-        if (d > 0) this.spawnFloat('enemy', i, `-${d}`, [255, 255, 255])
-        // 死亡音(一阶段 battle-system:diedFromAttack 播 deathSound)
-        if (eHp[i]! > 0 && e.hp <= 0 && !s.enemyFled) this.assets.sfx?.play(e.def.sounds.death)
+        const d = (eHp[i] ?? e.hp) - e.hp
+        if (d > 0) this.applyDamageFx({ side: 'enemy', idx: i }, d)
+      })
+      this.finishStepVisuals()
+    }
+  }
+
+  /** 物攻动作 → 一阶段真值时间线;其余 null(fallback 即时反馈)。 */
+  private buildStepTimeline(
+    la: { side: 'player' | 'enemy'; idx: number; kind: string; target?: number } | null,
+    pHp: number[],
+    eHp: number[],
+  ): AnimFrame[] | null {
+    const s = this.state
+    if (!la || la.kind !== 'attack' || la.target === undefined) return null
+    if (la.side === 'player') {
+      const t = la.target
+      if ((eHp[t] ?? 0) <= 0) return null // 目标已死 = core 空过,无动画
+      const attackerPos = getPlayerBasePos(s.players.length, la.idx)
+      const targetPos = getEnemyBasePos(
+        s.enemies.length,
+        t,
+        this.enemyDefs[t]?.anim.yPosOffset ?? 0,
+      )
+      if (!attackerPos || !targetPos) return null
+      return buildPlayerAttack({
+        attackerIdx: la.idx,
+        attackerPos,
+        targetIdx: t,
+        targetPos,
+        targetHeight: this.assets.enemySprites[t]?.frames[0]?.height ?? 40,
+        effectFrameBase: this.assets.effectSprite
+          ? (this.opts.playerEffectBase?.[la.idx] ?? -1)
+          : -1,
+        damage: (eHp[t] ?? 0) - (s.enemies[t]?.hp ?? 0),
+        windup: true,
       })
     }
+    // 敌物攻
+    const t = la.target
+    const enemyPos = getEnemyBasePos(
+      s.enemies.length,
+      la.idx,
+      this.enemyDefs[la.idx]?.anim.yPosOffset ?? 0,
+    )
+    const targetPos = getPlayerBasePos(s.players.length, t)
+    const def = s.enemies[la.idx]?.def
+    if (!enemyPos || !targetPos || !def) return null
+    return buildEnemyPhysical({
+      enemyIdx: la.idx,
+      enemyPos,
+      targetIdx: t,
+      targetPos,
+      anim: def.anim,
+      sounds: { action: def.sounds.action, call: def.sounds.call },
+      damage: (pHp[t] ?? 0) - (s.players[t]?.hp ?? 0),
+      targetDied: (s.players[t]?.hp ?? 0) <= 0,
+    })
+  }
+
+  /** 时间线 delta → 表现层。 */
+  private applyDelta(d: {
+    side: 'player' | 'enemy'
+    idx: number
+    frame?: number
+    pos?: { x: number; y: number }
+    colorShift?: number
+  }): void {
+    const v = d.side === 'player' ? this.visual.players[d.idx] : this.visual.enemies[d.idx]
+    if (!v) return
+    if (d.frame !== undefined) v.frame = d.frame
+    if (d.pos) {
+      v.x = d.pos.x
+      v.y = d.pos.y
+    }
+    if (d.colorShift !== undefined) v.colorShift = d.colorShift
+  }
+
+  /** 伤害表现:蓝数字飘字(一阶段 damageNum blue)+ displayHp 同步到结算值。 */
+  private applyDamageFx(t: { side: 'player' | 'enemy'; idx: number }, value: number): void {
+    const v = t.side === 'player' ? this.visual.players[t.idx] : this.visual.enemies[t.idx]
+    if (!v) return
+    const sprite =
+      t.side === 'player' ? this.assets.playerSprites[t.idx] : this.assets.enemySprites[t.idx]
+    const h = sprite?.frames[0]?.height ?? 40
+    this.floats.push({
+      x: v.x,
+      y: v.y - h - 6,
+      text: '',
+      num: value,
+      color: [0, 0, 0],
+      bornAt: this.nowMs,
+    })
+    const cur = t.side === 'player' ? this.state.players[t.idx]?.hp : this.state.enemies[t.idx]?.hp
+    if (cur !== undefined) v.displayHp = cur
+  }
+
+  /** 每步收尾:表现层复位 + 死亡淡出登记(death 音)+ displayHp 兜底同步。 */
+  private finishStepVisuals(): void {
+    this.resetVisual()
+    for (const i of this.pendingDeaths) {
+      this.deathFades.set(i, this.nowMs)
+      const e = this.state.enemies[i]
+      if (e) this.assets.sfx?.play(e.def.sounds.death)
+    }
+    this.pendingDeaths = []
+    this.state.players.forEach((p, i) => {
+      const v = this.visual.players[i]
+      if (v) v.displayHp = p.hp
+    })
   }
 
   /** dev:战斗日志只读视图(M4c 验证)。 */
@@ -440,19 +630,43 @@ export class BattleSession {
       sel !== undefined && this.ui === 'target' && alive.length && Math.floor(now / 160) % 2 === 0
         ? alive[this.targetIdx % alive.length]
         : undefined
-    // 场景(死亡不画;M4b-3 换死亡淡出)
+    // 场景(M4d-2:visual 层驱动 —— 动画位移/帧/受击染色;死亡淡出 alpha 渐隐)
     const enemies: BattleSpriteDraw[] = []
     s.enemies.forEach((e, i) => {
       const sprite = this.assets.enemySprites[i]
-      const pos = getEnemyBasePos(s.enemies.length, i, this.enemyDefs[i]?.anim.yPosOffset ?? 0)
-      if (e.hp > 0 && sprite && pos)
-        enemies.push({ sprite, x: pos.x, y: pos.y, frame: 0, highlight: i === highlightEnemy })
+      const v = this.visual.enemies[i]
+      if (!sprite || !v) return
+      const fade = this.deathFades.get(i)
+      let alpha = 1
+      if (e.hp <= 0) {
+        if (fade === undefined) return // 死且无淡出登记(逃跑清场等)= 不画
+        alpha = 1 - (now - fade) / DEATH_FADE_MS
+        if (alpha <= 0) {
+          this.deathFades.delete(i)
+          return
+        }
+      }
+      // idle 呼吸帧:visual.frame===0(站立默认)时循环 idleFrames;时间线设过的特殊帧原样
+      const anim = this.enemyDefs[i]?.anim
+      const frame =
+        v.frame === 0 && anim && anim.idleFrames > 1 && e.hp > 0
+          ? Math.floor(now / (Math.max(1, anim.idleAnimSpeed) * 40)) % anim.idleFrames
+          : v.frame
+      enemies.push({
+        sprite,
+        x: v.x,
+        y: v.y,
+        frame,
+        highlight: i === highlightEnemy || v.colorShift > 0,
+        alpha,
+      })
     })
     const players: BattleSpriteDraw[] = []
     s.players.forEach((_p, i) => {
       const sprite = this.assets.playerSprites[i]
-      const pos = getPlayerBasePos(s.players.length, i)
-      if (sprite && pos) players.push({ sprite, x: pos.x, y: pos.y, frame: 0 })
+      const v = this.visual.players[i]
+      if (sprite && v)
+        players.push({ sprite, x: v.x, y: v.y, frame: v.frame, highlight: v.colorShift > 0 })
     })
     const scene: BattleScene = {
       bg: this.assets.bg,
@@ -462,6 +676,18 @@ export class BattleSession {
     }
     renderBattleScene(ctx, scene, worldScale)
 
+    // 命中特效 overlay(chunk 10;坐标按一阶段 fight.c 真值算好,左上角 blit)
+    if (this.overlay && this.assets.effectSprite) {
+      const f = this.assets.effectSprite.frames[this.overlay.frameIdx]
+      if (f) {
+        ctx.save()
+        ctx.imageSmoothingEnabled = false
+        ctx.scale(worldScale, worldScale)
+        ctx.drawImage(bakeFrame(f, this.assets.palette), this.overlay.x, this.overlay.y)
+        ctx.restore()
+      }
+    }
+
     // UI 层(320 逻辑坐标 ×scale)
     ctx.save()
     ctx.scale(worldScale, worldScale)
@@ -469,16 +695,18 @@ export class BattleSession {
     const g = this.assets.glyphs
     const ui = this.assets.ui
 
-    // 底部队员信息框(playerbox+头像+黄青数字;无 UI 资产 → 文字兜底)
+    // 底部队员信息框(playerbox+头像+黄青数字;无 UI 资产 → 文字兜底)。
+    // HP 显示用 displayHp(伤害数字帧才同步,动画命中前不剧透)。
     s.players.forEach((p, i) => {
+      const shownHp = this.visual.players[i]?.displayHp ?? p.hp
       if (ui?.magicPlayerBox) {
-        drawPlayerInfoBox(ctx, ui, this.assets.faces?.[p.roleId], p, i)
+        drawPlayerInfoBox(ctx, ui, this.assets.faces?.[p.roleId], { ...p, hp: shownHp }, i)
       } else {
         const x = 8 + i * 106
         const hpColor: readonly [number, number, number] =
-          p.hp <= 0 ? [224, 91, 91] : p.hp < p.maxHp / 5 ? [226, 179, 64] : [215, 220, 229]
+          shownHp <= 0 ? [224, 91, 91] : shownHp < p.maxHp / 5 ? [226, 179, 64] : [215, 220, 229]
         renderSpans(ctx, [{ text: this.nameOf(p.roleId) }], x, 170, { glyphs: g, shadow: true })
-        renderSpans(ctx, [{ text: `${p.hp}/${p.maxHp}` }], x, 184, {
+        renderSpans(ctx, [{ text: `${shownHp}/${p.maxHp}` }], x, 184, {
           glyphs: g,
           shadow: true,
           forceRgba: hpColor,
@@ -564,14 +792,19 @@ export class BattleSession {
       })
     }
 
-    // 伤害飘字(升起 + 淡出交给时长;先升 12px)
+    // 伤害飘字(升起;数字飘字用蓝数字 sprite = 一阶段 damageNum blue,无资产退化文本)
     for (const f of this.floats) {
       const t = (this.nowMs - f.bornAt) / 900
-      renderSpans(ctx, [{ text: f.text }], f.x, f.y - t * 12, {
-        glyphs: g,
-        shadow: true,
-        forceRgba: f.color,
-      })
+      const fy = f.y - t * 12
+      if (f.num !== undefined && ui) {
+        drawNumber(ctx, f.num, f.x + 12, fy, ui.numsBlue)
+      } else {
+        renderSpans(ctx, [{ text: f.num !== undefined ? `-${f.num}` : f.text }], f.x, fy, {
+          glyphs: g,
+          shadow: true,
+          forceRgba: f.color,
+        })
+      }
     }
 
     // 胜负字

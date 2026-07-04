@@ -78,7 +78,7 @@ export interface BattleState {
   /** 敌人整场逃离(0x69 剧情逃跑:战斗终止无奖励;fled 敌不计胜利奖励)。 */
   enemyFled: boolean
   /** 最近一步已结算的行动(表现层读:音效/动画时机;每次 perform*Action 覆写)。 */
-  lastAction: { side: 'player' | 'enemy'; idx: number; kind: string } | null
+  lastAction: { side: 'player' | 'enemy'; idx: number; kind: string; target?: number } | null
 }
 
 export type BattleAction =
@@ -374,7 +374,14 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
   }
   const act = s.pendingActions.get(idx)
   if (!act) return
-  s.lastAction = { side: 'player', idx, kind: act.kind }
+  s.lastAction = {
+    side: 'player',
+    idx,
+    kind: act.kind,
+    ...('targetEnemyIdx' in act && act.targetEnemyIdx !== undefined
+      ? { target: act.targetEnemyIdx }
+      : {}),
+  }
   if (act.kind === 'defend') {
     // defending 已在 build queue 时就位(原版语义,防御贯穿整个 performAction);此处只记日志。
     s.log.push(`${p.roleId} 防御`)
@@ -495,7 +502,12 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
   const e = s.enemies[idx]
   if (!e || e.hp <= 0) return
   const decision = decideEnemyAction(s, e, rng)
-  s.lastAction = { side: 'enemy', idx, kind: decision.kind }
+  s.lastAction = {
+    side: 'enemy',
+    idx,
+    kind: decision.kind,
+    ...('targetPlayerIdx' in decision ? { target: decision.targetPlayerIdx } : {}),
+  }
   if (decision.kind === 'pass') {
     s.log.push(`${e.def.id} 无法行动`)
     return

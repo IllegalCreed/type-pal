@@ -84,12 +84,24 @@ export async function loadBattleSprite(
   }
 }
 
+/** 物理命中特效精灵(chunk 10 = {root}/magic/effect.rle,gzip RLE;M4d-2)。 */
+export async function loadEffectSprite(base: AssetBase): Promise<LoadedSprite> {
+  const res = await fetch(`${base.root}/magic/effect.rle`)
+  if (!res.ok) throw new Error(`effect sprite: ${res.status}`)
+  const frames = parseSpriteChunk(await decompressGzip(await res.blob()))
+  return { frames, anchorX: 0, anchorY: 0 }
+}
+
 /**
  * 战斗背景(M4b):{root}/../images/battle/bg/{NNN}.png —— FBP 8-bit 索引位图,提取器把索引
  * 直接写成灰度 PNG(R=G=B=索引,未着色)。故此处读 R 通道当索引,经 palette 着色成真彩 canvas
  * (同 bakeFrame 精灵着色)。palette = 触发战斗的场景调色板。
  */
-export async function loadBattleBg(base: AssetBase, id: number, palette: Palette): Promise<HTMLCanvasElement> {
+export async function loadBattleBg(
+  base: AssetBase,
+  id: number,
+  palette: Palette,
+): Promise<HTMLCanvasElement> {
   const imagesRoot = base.root.replace(/\/data$/, '/images')
   const res = await fetch(`${imagesRoot}/battle/bg/${String(id).padStart(3, '0')}.png`)
   if (!res.ok) throw new Error(`battle bg ${id}: ${res.status}`)
