@@ -359,6 +359,7 @@ async function main(): Promise<void> {
   const timers: { deadline: number; resolve: () => void }[] = []
   let fadeFx: { dir: 'in' | 'out'; start: number; ms: number; resolve: () => void } | null = null
   let fadeBlack = 0 // 0 透明 → 1 全黑(fade out 后保持,fade in 释放)
+  let fadeCurtain: 'black' | 'red' = 'black' // 幕布色(gameOver 渐红;fade-in 结束回黑)
   let scriptDialogResolve: (() => void) | null = null
   const entityFrameOverride = new Map<string, number>() // setEntityFrame 演出帧覆盖(切场景清)
   // ── 0x15/0x65 队长演出态(原版 rgParty[].wFrame / rgwSpriteNum;脚本自清,走路时引擎清)──
@@ -395,7 +396,12 @@ async function main(): Promise<void> {
     }
   }
 
-  function hostFade(dir: 'in' | 'out', ms: number): Promise<void> {
+  function hostFade(
+    dir: 'in' | 'out',
+    ms: number,
+    color: 'black' | 'red' = 'black',
+  ): Promise<void> {
+    fadeCurtain = color
     return new Promise((resolve) => {
       fadeFx = { dir, start: nowMs, ms, resolve }
     })
@@ -408,7 +414,59 @@ async function main(): Promise<void> {
         scriptDialogResolve = resolve // tick 检测 dialogBox 关闭时兑现
       }),
     clearDialog: () => dialogBox.close(),
-    fade: (dir, ms) => hostFade(dir, ms),
+    fade: (dir, ms, color) => hostFade(dir, ms, color),
+    // ── B8 野外遇敌 ──
+    chaseStep: async (entityId, range, speed, floating) => {
+      const e = scene.entities.find((x) => x.id === entityId)
+      if (!e || e.hidden) {
+        await host.wait(200)
+        return
+      }
+      const dc = player.pos.col - e.pos.col
+      const dr = player.pos.row - e.pos.row
+      const dist = Math.max(Math.abs(dc), Math.abs(dr))
+      if (dist > range) {
+        await host.wait(240) // 出程:待机
+        return
+      }
+      if (dist <= 1) {
+        fireTrigger(e) // 撞上玩家 → touch 触发(通常 = 开战);演出/对话中 startScript 防重入自然挡
+        await host.wait(320)
+        return
+      }
+      // 逐步逼近:长轴优先一格;floating 无视碰撞(原版 0x4C op2)
+      const stepCol = Math.abs(dc) >= Math.abs(dr) ? Math.sign(dc) : 0
+      const stepRow = stepCol === 0 ? Math.sign(dr) : 0
+      const next = { col: e.pos.col + stepCol, row: e.pos.row + stepRow, height: e.pos.height }
+      if (floating || !isBlockedAt(map, next)) {
+        e.pos = next
+        e.facing = stepCol !== 0 ? (dc > 0 ? 'right' : 'left') : dr > 0 ? 'down' : 'up'
+        entityAnim.set(e.id, (entityAnim.get(e.id) ?? 0) + 1) // 走帧
+      }
+      await host.wait(Math.max(80, 480 / Math.max(1, speed))) // speed 4≈120ms/步,8≈80ms
+    },
+    vanishEntity: (entityId, seconds) => {
+      const e = scene.entities.find((x) => x.id === entityId)
+      if (!e) return
+      e.hidden = true
+      const atScene = scene
+      void (async () => {
+        await host.wait(Math.max(200, seconds * 1000))
+        if (scene === atScene) e.hidden = false // 重生(临时态;换场景后由场景重载自然恢复)
+      })()
+    },
+    loadLastSave: async () => {
+      const metas = await saveStore.listMeta()
+      const latest = [...metas].sort((a, b) => b.savedAt - a.savedAt)[0]
+      if (!latest || !(await doLoad(latest.slotId))) location.reload() // 无档:重开
+    },
+    gameOver: async () => {
+      // 原版 GameOver 枢纽(L_41075)一等化:渐红 + 经典文案 + 读最近档
+      await hostFade('out', 900, 'red')
+      await host.dialog({ slot: 'narration', text: 'gameover.1' })
+      await host.dialog({ slot: 'narration', text: 'gameover.2' })
+      await host.loadLastSave()
+    },
     wait: (ms) =>
       new Promise((resolve) => {
         timers.push({ deadline: nowMs + ms, resolve })
@@ -849,6 +907,7 @@ async function main(): Promise<void> {
     const ac = new AbortController()
     autoAborts.set(e.id, ac)
     const r = new ScriptRunner(host, world.script!, ac.signal)
+    r.selfId = e.id // chasePlayer/vanishEntity 的 self
     r.paceMs = 80 // 原版 auto 一帧一 op 的节拍近似(一阶段同语义)
     void (async () => {
       while (!ac.signal.aborted) {
@@ -891,10 +950,11 @@ async function main(): Promise<void> {
   }
 
   /** 起一段触发/进场脚本(单脚本槽;收尾后接排队的 onEnter)。 */
-  function startScript(key: string, stages: readonly ScriptStage[]): void {
+  function startScript(key: string, stages: readonly ScriptStage[], selfId?: string): void {
     if (runner) return
     scriptAbort = new AbortController()
     const r = new ScriptRunner(host, world.script!, scriptAbort.signal)
+    r.selfId = selfId
     runner = r
     void r
       .runStages(key, stages)
@@ -977,7 +1037,7 @@ async function main(): Promise<void> {
 
   function fireTrigger(e: EntityDef): void {
     const t = e.pages?.[0]?.trigger
-    if (t) startScript(e.id, t.stages)
+    if (t) startScript(e.id, t.stages, e.id)
   }
 
   const menuAssets = await loadMenuAssets(project.items, project.assetBase)
@@ -1153,7 +1213,7 @@ async function main(): Promise<void> {
     // M3a fade 遮罩(脚本淡入淡出;盖世界层,对话/菜单在其上)
     if (fadeBlack > 0.001) {
       ctx.save()
-      ctx.fillStyle = `rgba(0,0,0,${fadeBlack.toFixed(3)})`
+      ctx.fillStyle = `rgba(${fadeCurtain === 'red' ? '150,12,12' : '0,0,0'},${fadeBlack.toFixed(3)})`
       ctx.fillRect(0, 0, canvas.width, canvas.height)
       ctx.restore()
     }

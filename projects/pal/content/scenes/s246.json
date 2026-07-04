@@ -4814,13 +4814,10 @@
                         "musicId": 1
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 79,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "out",
+                        "ms": 900,
+                        "color": "red"
                       },
                       {
                         "kind": "dialog",
@@ -4830,13 +4827,7 @@
                         }
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 78,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "loadLastSave"
                       }
                     ]
                   },
@@ -5203,13 +5194,10 @@
                         "musicId": 1
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 79,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "out",
+                        "ms": 900,
+                        "color": "red"
                       },
                       {
                         "kind": "dialog",
@@ -5219,13 +5207,7 @@
                         }
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 78,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "loadLastSave"
                       }
                     ]
                   },

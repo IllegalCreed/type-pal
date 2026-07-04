@@ -5,8 +5,9 @@
  * M3b 占位(branch/Condition 只定形,引擎后续实现)。翻不动的原版 op 走 `unmigrated`
  * 逃生口 —— 结构上保留、语义标未译,dev 日志 + 编辑器人工修,**不是**兼容执行器。
  */
-import type { DialogueLine, Facing } from './index.js'
+
 import type { GridPos } from './grid.js'
+import type { DialogueLine, Facing } from './index.js'
 
 // ── 条件(M3b 引擎实现;M3a 只定形供 branch 占位)──
 export type ScriptCondition =
@@ -26,7 +27,16 @@ export type Command =
   // 演出 / 对话
   | { kind: 'dialog'; line: DialogueLine }
   | { kind: 'clearDialog' } // 原版 0x05 redrawScreen 的语义核(清对话箱)
-  | { kind: 'fade'; dir: 'in' | 'out'; ms?: number }
+  | { kind: 'fade'; dir: 'in' | 'out'; ms?: number; color?: 'black' | 'red' }
+  // ── B8 野外遇敌(原版 0x4C/0x4B/0x4E + GameOver 枢纽的干净表达)──
+  /** 向玩家追一步(auto 脚本里即持续追逐——auto runner 天然循环)。range 格内才追(切比雪夫);floating 无视碰撞。 */
+  | { kind: 'chasePlayer'; range?: number; speed?: number; floating?: boolean }
+  /** 实体消失 seconds 秒后重现(野怪被打败的重生窗;临时态不进存档)。缺 entity = 触发者自身。 */
+  | { kind: 'vanishEntity'; entity?: string; seconds?: number }
+  /** 读最近存档(auto/quick/manual 时间最新;无档 = 重开)。原版 0x4E。 */
+  | { kind: 'loadLastSave' }
+  /** 战败流程:渐红 + 「胜败乃兵家常事也」文案 + 读最近档(原版 GameOver 枢纽段一等化)。 */
+  | { kind: 'gameOver' }
   | { kind: 'wait'; ms: number }
   // 队伍 / 场景
   | { kind: 'teleportParty'; pos: GridPos; facing?: Facing } // 场景内瞬移(0x46)
@@ -133,7 +143,12 @@ export function stageIndexFor(world: WorldScriptState, key: string, stages: Scri
 }
 
 /** 段跑完的阶段转移(纯函数;runner 调)。 */
-export function applyStageNext(world: WorldScriptState, key: string, current: number, next: ScriptStage['next']): void {
+export function applyStageNext(
+  world: WorldScriptState,
+  key: string,
+  current: number,
+  next: ScriptStage['next'],
+): void {
   if (next === undefined) return
   world.entityStage[key] = next === 'advance' ? current + 1 : next
 }
@@ -156,7 +171,8 @@ function checkCommands(cmds: unknown, path: string): void {
 }
 
 export function checkStages(stages: unknown, path: string): void {
-  if (!Array.isArray(stages) || stages.length === 0) throw new Error(`${path}: 期望非空 ScriptStage[]`)
+  if (!Array.isArray(stages) || stages.length === 0)
+    throw new Error(`${path}: 期望非空 ScriptStage[]`)
   stages.forEach((st, i) => {
     checkCommands((st as { body?: unknown })?.body, `${path}[${i}].body`)
     const nx = (st as { next?: unknown }).next
@@ -170,7 +186,8 @@ export function checkEntityPages(pages: unknown, path: string): void {
   pages.forEach((p, i) => {
     const t = (p as { trigger?: { on?: unknown; stages?: unknown } })?.trigger
     if (t) {
-      if (t.on !== 'interact' && t.on !== 'touch') throw new Error(`${path}[${i}].trigger.on: 期望 interact|touch`)
+      if (t.on !== 'interact' && t.on !== 'touch')
+        throw new Error(`${path}[${i}].trigger.on: 期望 interact|touch`)
       checkStages(t.stages, `${path}[${i}].trigger.stages`)
     }
   })

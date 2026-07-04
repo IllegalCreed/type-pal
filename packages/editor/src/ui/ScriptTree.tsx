@@ -54,6 +54,17 @@ interface Described {
 
 function describe(cmd: Command, locale: Locale): Described {
   switch (cmd.kind) {
+    case 'chasePlayer':
+      return {
+        icon: '👣',
+        label: `追逐玩家(范围 ${cmd.range ?? 8} 格 · 速度 ${cmd.speed ?? 4}${cmd.floating ? ' · 穿障' : ''})`,
+      }
+    case 'vanishEntity':
+      return { icon: '⊘', label: `${cmd.entity ?? '自身'} 消失 ${cmd.seconds ?? 2}s(重生)` }
+    case 'loadLastSave':
+      return { icon: '📂', label: '读最近存档' }
+    case 'gameOver':
+      return { icon: '💀', label: '战败流程(渐红 + 文案 + 读档)' }
     case 'dialog': {
       const who = cmd.line.speaker ? `${txt(cmd.line.speaker, locale)}: ` : ''
       const slot = cmd.line.slot === 'top' ? '上' : cmd.line.slot === 'narration' ? '旁白' : '下'

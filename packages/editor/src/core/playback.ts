@@ -161,7 +161,11 @@ export class Playback {
   }
 
   /** 从头播一个脚本源。paused=true 起手即暂停;ownerId = 触发实体(初始镜头对准它)。 */
-  play(key: string, stages: readonly ScriptStage[], opts?: { paused?: boolean; ownerId?: string }): void {
+  play(
+    key: string,
+    stages: readonly ScriptStage[],
+    opts?: { paused?: boolean; ownerId?: string },
+  ): void {
     this.stop()
     this.mode = opts?.paused ? 'paused' : 'running'
     this.view = this.freshView()
@@ -437,5 +441,16 @@ export class Playback {
       inParty: () => false,
     },
     report: (msg) => this.log(`⚠ ${msg}`),
+    // B8 遇敌(预览语义:追逐记日志;消失走 overlay;读档/战败不真执行)
+    chaseStep: async (entityId) => {
+      this.log(`👣 ${entityId} 追逐玩家一步`)
+      await this.host.wait(160)
+    },
+    vanishEntity: (entityId, seconds) => {
+      this.ov(entityId).hidden = true
+      this.log(`⊘ ${entityId} 消失 ${seconds}s(重生)`)
+    },
+    loadLastSave: async () => this.log('📂 读最近存档(预览不执行)'),
+    gameOver: async () => this.log('💀 战败流程:渐红 + 文案 + 读档(预览不执行)'),
   }
 }

@@ -53,8 +53,10 @@ function fakeHost(calls: string[]): ScriptHost {
     },
     cameraPan: alog('cameraPan'),
     cameraSnap: log('cameraSnap'),
-    setEntityAuto: (id: string, st: ScriptStage[]) => calls.push(`setEntityAuto(${id},${st.length})`),
-    setEntityTrigger: (id: string, st: ScriptStage[]) => calls.push(`setEntityTrigger(${id},${st.length})`),
+    setEntityAuto: (id: string, st: ScriptStage[]) =>
+      calls.push(`setEntityAuto(${id},${st.length})`),
+    setEntityTrigger: (id: string, st: ScriptStage[]) =>
+      calls.push(`setEntityTrigger(${id},${st.length})`),
     setEntityTriggerMode: log('setEntityTriggerMode'),
     query: {
       hasItem: () => false,
@@ -62,6 +64,10 @@ function fakeHost(calls: string[]): ScriptHost {
       inParty: (id: string) => id === 'li-xiaoyao',
     },
     report: log('report'),
+    chaseStep: alog('chaseStep'),
+    vanishEntity: log('vanishEntity'),
+    loadLastSave: alog('loadLastSave'),
+    gameOver: alog('gameOver'),
   }
 }
 
@@ -84,7 +90,6 @@ test('顺序执行 + 世界状态写入(flags/vars/entityState 双写)', async (
     'setEntityState("e9",0)',
     'giveItem("166",1)',
     'loadScene("s001",{"col":1,"row":2,"height":0},)', // JSON.stringify(undefined) → 空段
-
   ])
   expect(world.flags.met).toBe(true)
   expect(world.vars.n).toBe(5)
@@ -103,7 +108,11 @@ describe('演出预览钩子(编辑器):onStep 路径上报 + 单步门', () => 
       {
         body: [
           { kind: 'clearDialog' },
-          { kind: 'branch', cond: { kind: 'chance', percent: 100 }, then: [{ kind: 'playSound', soundId: 1 }] },
+          {
+            kind: 'branch',
+            cond: { kind: 'chance', percent: 100 },
+            then: [{ kind: 'playSound', soundId: 1 }],
+          },
           { kind: 'confirm', onNo: [{ kind: 'giveMoney', delta: 5 }] },
         ],
       },
@@ -114,12 +123,26 @@ describe('演出预览钩子(编辑器):onStep 路径上报 + 单步门', () => 
   test('单步门:每条命令执行前 await gate(嵌套臂内同样过门)', async () => {
     const calls: string[] = []
     let gated = 0
-    const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal, () => 0)
+    const r = new ScriptRunner(
+      fakeHost(calls),
+      emptyWorldScriptState(),
+      new AbortController().signal,
+      () => 0,
+    )
     r.gate = async () => {
       gated++
     }
     await r.runStages('k', [
-      { body: [{ kind: 'clearDialog' }, { kind: 'branch', cond: { kind: 'chance', percent: 100 }, then: [{ kind: 'playSound', soundId: 1 }] }] },
+      {
+        body: [
+          { kind: 'clearDialog' },
+          {
+            kind: 'branch',
+            cond: { kind: 'chance', percent: 100 },
+            then: [{ kind: 'playSound', soundId: 1 }],
+          },
+        ],
+      },
     ])
     expect(gated).toBe(3) // clearDialog + branch + then 臂内 playSound
   })
@@ -196,7 +219,8 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
   test('branch:chance 注入 random 定率;then/else 二选一', async () => {
     const calls: string[] = []
     const world = emptyWorldScriptState()
-    const mk = (rnd: number) => new ScriptRunner(fakeHost(calls), world, new AbortController().signal, () => rnd)
+    const mk = (rnd: number) =>
+      new ScriptRunner(fakeHost(calls), world, new AbortController().signal, () => rnd)
     const body: Command[] = [
       {
         kind: 'branch',
@@ -215,11 +239,31 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
     world.entityState.e7 = 2
     const r = new ScriptRunner(fakeHost(calls), world, new AbortController().signal)
     await r.run([
-      { kind: 'branch', cond: { kind: 'hasMoney', atLeast: 40 }, then: [{ kind: 'playSound', soundId: 1 }] }, // 50≥40 ✓
-      { kind: 'branch', cond: { kind: 'not', cond: { kind: 'hasMoney', atLeast: 60 } }, then: [{ kind: 'playSound', soundId: 2 }] },
-      { kind: 'branch', cond: { kind: 'inParty', actorId: 'li-xiaoyao' }, then: [{ kind: 'playSound', soundId: 3 }] },
-      { kind: 'branch', cond: { kind: 'entityState', entity: 'e7', is: 2 }, then: [{ kind: 'playSound', soundId: 4 }] },
-      { kind: 'branch', cond: { kind: 'hasItem', itemId: '1' }, then: [{ kind: 'playSound', soundId: 9 }] }, // false
+      {
+        kind: 'branch',
+        cond: { kind: 'hasMoney', atLeast: 40 },
+        then: [{ kind: 'playSound', soundId: 1 }],
+      }, // 50≥40 ✓
+      {
+        kind: 'branch',
+        cond: { kind: 'not', cond: { kind: 'hasMoney', atLeast: 60 } },
+        then: [{ kind: 'playSound', soundId: 2 }],
+      },
+      {
+        kind: 'branch',
+        cond: { kind: 'inParty', actorId: 'li-xiaoyao' },
+        then: [{ kind: 'playSound', soundId: 3 }],
+      },
+      {
+        kind: 'branch',
+        cond: { kind: 'entityState', entity: 'e7', is: 2 },
+        then: [{ kind: 'playSound', soundId: 4 }],
+      },
+      {
+        kind: 'branch',
+        cond: { kind: 'hasItem', itemId: '1' },
+        then: [{ kind: 'playSound', soundId: 9 }],
+      }, // false
     ])
     expect(calls).toEqual(['playSound(1)', 'playSound(2)', 'playSound(3)', 'playSound(4)'])
   })

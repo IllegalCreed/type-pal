@@ -22,7 +22,15 @@ import { applyStageNext, stageIndexFor } from '@type-pal/content'
 export interface ScriptHost {
   dialog(line: DialogueLine): Promise<void>
   clearDialog(): void
-  fade(dir: 'in' | 'out', ms: number): Promise<void>
+  fade(dir: 'in' | 'out', ms: number, color?: 'black' | 'red'): Promise<void>
+  /** B8:实体向玩家追一步(auto 循环内 = 持续追逐;撞上玩家由 host 触发 touch)。 */
+  chaseStep(entityId: string, range: number, speed: number, floating: boolean): Promise<void>
+  /** B8:实体消失 seconds 秒后重现(临时态)。 */
+  vanishEntity(entityId: string, seconds: number): void
+  /** B8:读最近存档(无档 = 重开)。 */
+  loadLastSave(): Promise<void>
+  /** B8:战败流程(渐红 + 文案 + 读最近档)。 */
+  gameOver(): Promise<void>
   wait(ms: number): Promise<void>
   teleportParty(pos: GridPos, facing?: Facing): void
   loadScene(scene: string, pos?: GridPos, facing?: Facing): Promise<void>
@@ -57,7 +65,11 @@ export interface ScriptHost {
   cameraSnap(to?: GridPos): void
   setEntityAuto(entity: string, stages: ScriptStage[]): void
   setEntityTrigger(entity: string, stages: ScriptStage[]): void
-  setEntityTriggerMode(entity: string, on: 'interact' | 'touch' | undefined, range: number | undefined): void
+  setEntityTriggerMode(
+    entity: string,
+    on: 'interact' | 'touch' | undefined,
+    range: number | undefined,
+  ): void
   // ── M3b 战斗桩 / 商店 / 确认 ──
   startBattle(team: number): Promise<'win' | 'lose' | 'flee'>
   openShop(shop: number, mode: 'buy' | 'sell'): void
@@ -85,12 +97,18 @@ export function evalCondition(
     case 'var': {
       const v = world.vars[cond.var] ?? 0
       switch (cond.op) {
-        case '==': return v === cond.value
-        case '!=': return v !== cond.value
-        case '>=': return v >= cond.value
-        case '<=': return v <= cond.value
-        case '>': return v > cond.value
-        case '<': return v < cond.value
+        case '==':
+          return v === cond.value
+        case '!=':
+          return v !== cond.value
+        case '>=':
+          return v >= cond.value
+        case '<=':
+          return v <= cond.value
+        case '>':
+          return v > cond.value
+        case '<':
+          return v < cond.value
       }
       return false
     }
@@ -132,6 +150,8 @@ export class ScriptRunner {
    * (一阶段 tickAutoScripts 同语义;不设则触发/onEnter 脚本全速直跑,阻塞点自带节奏)。
    */
   paceMs = 0
+  /** 触发者/auto 宿主实体 id(chasePlayer/vanishEntity 的 self 语义;onEnter 等无宿主 = undefined)。 */
+  selfId?: string
   /** 演出预览(编辑器):每条命令执行前上报路径。游戏侧不设,零开销。 */
   onStep?: (ev: StepEvent) => void
   /** 演出预览(编辑器):单步门 —— 设置后每条命令执行前 await(实现方自行响应 abort)。 */
@@ -185,7 +205,15 @@ export class ScriptRunner {
       case 'clearDialog':
         return h.clearDialog()
       case 'fade':
-        return h.fade(cmd.dir, cmd.ms ?? 300)
+        return h.fade(cmd.dir, cmd.ms ?? 300, cmd.color)
+      case 'chasePlayer':
+        return h.chaseStep(this.selfId ?? '', cmd.range ?? 8, cmd.speed ?? 4, cmd.floating ?? false)
+      case 'vanishEntity':
+        return h.vanishEntity(cmd.entity ?? this.selfId ?? '', cmd.seconds ?? 2)
+      case 'loadLastSave':
+        return h.loadLastSave()
+      case 'gameOver':
+        return h.gameOver()
       case 'wait':
         return h.wait(cmd.ms)
       case 'teleportParty':

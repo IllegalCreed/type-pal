@@ -192,13 +192,10 @@
                         "musicId": 1
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 79,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "out",
+                        "ms": 900,
+                        "color": "red"
                       },
                       {
                         "kind": "dialog",
@@ -208,13 +205,7 @@
                         }
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 78,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "loadLastSave"
                       }
                     ]
                   },
@@ -341,8 +332,19 @@
                         "frame": 0
                       }
                     ]
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4027",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4027",
+                    "frame": 0
                   }
-                ]
+                ],
+                "next": "advance"
               }
             ]
           }
@@ -375,13 +377,10 @@
                         "musicId": 1
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 79,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "out",
+                        "ms": 900,
+                        "color": "red"
                       },
                       {
                         "kind": "dialog",
@@ -391,13 +390,7 @@
                         }
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 78,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "loadLastSave"
                       }
                     ]
                   },
@@ -524,8 +517,19 @@
                         "frame": 0
                       }
                     ]
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4028",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4028",
+                    "frame": 0
                   }
-                ]
+                ],
+                "next": "advance"
               }
             ]
           }
@@ -558,13 +562,10 @@
                         "musicId": 1
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 79,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "out",
+                        "ms": 900,
+                        "color": "red"
                       },
                       {
                         "kind": "dialog",
@@ -574,13 +575,7 @@
                         }
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 78,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "loadLastSave"
                       }
                     ]
                   },
@@ -707,8 +702,19 @@
                         "frame": 0
                       }
                     ]
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4029",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4029",
+                    "frame": 0
                   }
-                ]
+                ],
+                "next": "advance"
               }
             ]
           }
@@ -741,13 +747,10 @@
                         "musicId": 1
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 79,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "out",
+                        "ms": 900,
+                        "color": "red"
                       },
                       {
                         "kind": "dialog",
@@ -757,13 +760,7 @@
                         }
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 78,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "loadLastSave"
                       }
                     ]
                   },
@@ -890,8 +887,19 @@
                         "frame": 0
                       }
                     ]
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4030",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4030",
+                    "frame": 0
                   }
-                ]
+                ],
+                "next": "advance"
               }
             ]
           }
@@ -1132,8 +1140,19 @@
                         "frame": 0
                       }
                     ]
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4032",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4032",
+                    "frame": 0
                   }
-                ]
+                ],
+                "next": "advance"
               }
             ]
           }
@@ -1166,13 +1185,10 @@
                         "musicId": 1
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 79,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "out",
+                        "ms": 900,
+                        "color": "red"
                       },
                       {
                         "kind": "dialog",
@@ -1182,13 +1198,7 @@
                         }
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 78,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "loadLastSave"
                       }
                     ]
                   },
@@ -1351,13 +1361,10 @@
                         "musicId": 1
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 79,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "out",
+                        "ms": 900,
+                        "color": "red"
                       },
                       {
                         "kind": "dialog",
@@ -1367,13 +1374,7 @@
                         }
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 78,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "loadLastSave"
                       }
                     ]
                   },
@@ -1536,13 +1537,10 @@
                         "musicId": 1
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 79,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "out",
+                        "ms": 900,
+                        "color": "red"
                       },
                       {
                         "kind": "dialog",
@@ -1552,13 +1550,7 @@
                         }
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 78,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "loadLastSave"
                       }
                     ]
                   },
@@ -1685,8 +1677,19 @@
                         "frame": 0
                       }
                     ]
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4035",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4035",
+                    "frame": 0
                   }
-                ]
+                ],
+                "next": "advance"
               }
             ]
           }
@@ -1719,13 +1722,10 @@
                         "musicId": 1
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 79,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "out",
+                        "ms": 900,
+                        "color": "red"
                       },
                       {
                         "kind": "dialog",
@@ -1735,13 +1735,7 @@
                         }
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 78,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "loadLastSave"
                       }
                     ]
                   },
@@ -2356,8 +2350,19 @@
                         "frame": 0
                       }
                     ]
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e4040",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e4040",
+                    "frame": 0
                   }
-                ]
+                ],
+                "next": "advance"
               }
             ]
           }
@@ -2390,13 +2395,10 @@
                         "musicId": 1
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 79,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "out",
+                        "ms": 900,
+                        "color": "red"
                       },
                       {
                         "kind": "dialog",
@@ -2406,13 +2408,7 @@
                         }
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 78,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "loadLastSave"
                       }
                     ]
                   },
@@ -2575,13 +2571,10 @@
                         "musicId": 1
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 79,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "out",
+                        "ms": 900,
+                        "color": "red"
                       },
                       {
                         "kind": "dialog",
@@ -2591,13 +2584,7 @@
                         }
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 78,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "loadLastSave"
                       }
                     ]
                   },
@@ -2760,13 +2747,10 @@
                         "musicId": 1
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 79,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "out",
+                        "ms": 900,
+                        "color": "red"
                       },
                       {
                         "kind": "dialog",
@@ -2776,13 +2760,7 @@
                         }
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 78,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "loadLastSave"
                       }
                     ]
                   },
@@ -2945,13 +2923,10 @@
                         "musicId": 1
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 79,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "out",
+                        "ms": 900,
+                        "color": "red"
                       },
                       {
                         "kind": "dialog",
@@ -2961,13 +2936,7 @@
                         }
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 78,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "loadLastSave"
                       }
                     ]
                   },
@@ -3501,13 +3470,10 @@
                         "musicId": 1
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 79,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "out",
+                        "ms": 900,
+                        "color": "red"
                       },
                       {
                         "kind": "dialog",
@@ -3517,26 +3483,23 @@
                         }
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 78,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "loadLastSave"
                       }
                     ],
                     "onFlee": [
                       {
-                        "kind": "unmigrated",
-                        "opcode": 75,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "vanishEntity",
+                        "seconds": 2
                       }
                     ]
+                  },
+                  {
+                    "kind": "vanishEntity",
+                    "seconds": 80
+                  },
+                  {
+                    "kind": "fade",
+                    "dir": "out"
                   }
                 ]
               }
@@ -3547,13 +3510,9 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 76,
-                    "operands": [
-                      12,
-                      0,
-                      0
-                    ]
+                    "kind": "chasePlayer",
+                    "range": 12,
+                    "speed": 4
                   }
                 ]
               }
@@ -3588,13 +3547,10 @@
                         "musicId": 1
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 79,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "fade",
+                        "dir": "out",
+                        "ms": 900,
+                        "color": "red"
                       },
                       {
                         "kind": "dialog",
@@ -3604,26 +3560,23 @@
                         }
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 78,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "loadLastSave"
                       }
                     ],
                     "onFlee": [
                       {
-                        "kind": "unmigrated",
-                        "opcode": 75,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "vanishEntity",
+                        "seconds": 2
                       }
                     ]
+                  },
+                  {
+                    "kind": "vanishEntity",
+                    "seconds": 80
+                  },
+                  {
+                    "kind": "fade",
+                    "dir": "out"
                   }
                 ]
               }
@@ -3634,13 +3587,9 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 76,
-                    "operands": [
-                      12,
-                      0,
-                      0
-                    ]
+                    "kind": "chasePlayer",
+                    "range": 12,
+                    "speed": 4
                   }
                 ]
               }

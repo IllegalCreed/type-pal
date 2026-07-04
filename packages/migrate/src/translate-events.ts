@@ -284,14 +284,10 @@ function walkBody(
     if (op === 'goto') {
       flush()
       if ((c.frameDelay ?? 0) > 0) body.push({ kind: 'wait', ms: c.frameDelay! * FRAME_MS })
-      // 跨库目标(带 "shared#" 限定前缀)= 战斗侧怪物追逐/遇敌配置枢纽(0x4C 海)→
-      // 显式截断归 B8 野外遇敌格,不内联(2026-07-03 实测:内联会展开 49.8 万条 0x4C)
-      const toName = c.to ?? ''
-      if (toName.includes('#')) {
-        note(ctx, 'goto 跨库(遇敌脚本跳战斗侧枢纽,归 B8 野外遇敌)')
-        ctx.report.flowCuts++
-        return { body, term: { kind: 'cut' } }
-      }
+      // 跨库目标(带 "shared#" 前缀)以前显式截断(0x4C 海内联会展开 49.8 万条);
+      // B8 后 0x4C 段翻成单条 chasePlayer 即终止,海已排干 → 放开正常内联(环/超长截断兜底)。
+      // 提取器把跨场景共享目标改写为 "shared#L_X"(slice.ts rewriteJumps);索引用裸名 → 剥前缀查
+      const toName = (c.to ?? '').split('#').pop() ?? ''
       const target = ctx.labelAt.get(toName)
       if (!target || (target.cmds === at.cmds && visited.has(target.idx))) {
         note(ctx, target ? 'goto 环截断' : `goto 目标缺失`)
@@ -507,6 +503,28 @@ function walkBody(
       } else if (oc === 0x87) {
         if (owner) push({ kind: 'animEntity', entity: owner })
         else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: 'animate 无属主' })
+      } else if (oc === 0x4c) {
+        // B8 追逐:0x4C [maxDist, speed, floating](缺省 8/4;script.c:1733-1751)。原版靠
+        // goto-self/0x06 概率环逐帧重复 —— 新引擎 auto runner 天然循环,单条声明即持续追逐,
+        // 段后骨架整体吞掉(概率停顿细节属演出损耗,可接受)。
+        flush()
+        body.push({
+          kind: 'chasePlayer',
+          range: (o[0] ?? 0) || 8,
+          speed: (o[1] ?? 0) || 4,
+          ...((o[2] ?? 0) !== 0 ? { floating: true } : {}),
+        })
+        return { body, term: { kind: 'end' } }
+      } else if (oc === 0x4b) {
+        // B8:实体短暂消失(原版 sVanishTime=-15 ≈ 1.5s;野怪战胜后的重生窗)
+        push({ kind: 'vanishEntity', seconds: 2 })
+      } else if (oc === 0x52) {
+        // B8:self 长消失(script.c:1794-1800 sVanishTime=op0||800 帧,10fps ≈ 80s;野怪重生主机制)
+        push({ kind: 'vanishEntity', seconds: Math.round(((o[0] ?? 0) || 800) / 10) })
+      } else if (oc === 0x4e) {
+        push({ kind: 'loadLastSave' })
+      } else if (oc === 0x4f) {
+        push({ kind: 'fade', dir: 'out', ms: 900, color: 'red' })
       } else if (oc === 0x07) {
         flush()
         const onLose = (o[1] ?? 0) !== 0 ? inlineArm(o[1]) : undefined
