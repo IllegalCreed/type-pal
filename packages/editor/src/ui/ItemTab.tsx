@@ -176,7 +176,7 @@ export function ItemTab(props: {
                 <span className="hint2">删除键值 = 取消该用途;结构见 content/item.ts</span>
               </h4>
               <textarea
-                className="in cf-ta it-ta"
+                className="in cf-ta it-ta it-ta-tall"
                 key={`${item.id}-spec`}
                 defaultValue={JSON.stringify(
                   { equip: item.equip, use: item.use, throw: item.throw },

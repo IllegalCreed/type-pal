@@ -1473,4 +1473,9 @@ body {
 }
 .it-ta {
   max-width: 720px;
+  min-height: 96px;
+}
+/* JSON 效果块内容多,默认展开够读(仍可拖动 resize) */
+.it-ta-tall {
+  min-height: 240px;
 }
