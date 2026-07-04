@@ -235,6 +235,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
             locale={state.locale}
             assetBase={project.assetBase}
             session={session}
+            levelUp={state.levelUp}
           />
         ) : mode === 'data' ? (
           <DataMode

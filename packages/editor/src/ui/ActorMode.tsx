@@ -8,6 +8,7 @@ import type {
   ActorDef,
   BattlerSpec,
   ItemDataMap,
+  LevelUpSkill,
   Locale,
   SkillDataMap,
   SpriteDef,
@@ -17,6 +18,7 @@ import type { AssetBase } from '@type-pal/reforge'
 import { useMemo, useState } from 'react'
 import { UpdateActorCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import { LevelingEditor } from './LevelingEditor.js'
 import { PortraitEditor } from './PortraitEditor.js'
 import { SpriteFrames } from './SpriteFrames.js'
 
@@ -37,8 +39,10 @@ export function ActorMode(props: {
   locale: Locale
   assetBase: AssetBase
   session: EditSession
+  /** 升级学技能表(skills.json levelUp 键;C6 编辑)。 */
+  levelUp: Record<string, LevelUpSkill[]>
 }) {
-  const { actors, sprites, items, skills, locale, assetBase, session } = props
+  const { actors, sprites, items, skills, locale, assetBase, session, levelUp } = props
   const [selId, setSelId] = useState(actors[0]?.id ?? '')
   const spriteById = useMemo(() => new Map(sprites.map((s) => [s.id, s])), [sprites])
   const actor = actors.find((a) => a.id === selId) ?? actors[0]
@@ -210,14 +214,12 @@ export function ActorMode(props: {
                     ) : null}
                   </div>
                 </div>
-                <div className="section">
-                  <div className="collapsed">
-                    ▸ 升级曲线{' '}
-                    {actor.battler.leveling?.expTable.length
-                      ? `(expTable ${actor.battler.leveling.expTable.length} 级)`
-                      : '(未迁)'}
-                  </div>
-                </div>
+                <LevelingEditor
+                  actor={actor as ActorDef & { battler: NonNullable<ActorDef['battler']> }}
+                  levelUpRows={levelUp[actor.id] ?? []}
+                  skills={skills}
+                  session={session}
+                />
               </>
             ) : (
               <div className="section">

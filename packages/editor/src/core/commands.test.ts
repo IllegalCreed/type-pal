@@ -7,6 +7,7 @@ import {
   MoveEntityCommand,
   UpdateActorCommand,
   UpdateEntityCommand,
+  UpdateLevelUpCommand,
   UpdateMusicNameCommand,
   UpdateSceneCommand,
   UpdateEnemyCommand,
@@ -410,4 +411,39 @@ test('W4 UpdateScene entries:增改删 + invert 深还原;空表传 undefined �
   const s2 = c2.apply(s1)
   expect(s2.scenes[0]!.entries).toBeUndefined()
   expect(c2.invert(s2).scenes[0]!.entries).toEqual(es)
+})
+
+describe('C6 升级学技能命令(levelUp 表)', () => {
+  function stLv(): EditorState {
+    const base = st()
+    ;(base as { levelUp: Record<string, { level: number; skillId: string }[]> }).levelUp = {
+      li: [{ level: 7, skillId: 's1' }],
+    }
+    return base
+  }
+  test('整列表替换 + invert 还原;源不变', () => {
+    const s0 = stLv()
+    const c = new UpdateLevelUpCommand('li', [
+      { level: 7, skillId: 's1' },
+      { level: 10, skillId: 's2' },
+    ])
+    const s1 = c.apply(s0)
+    expect(s1.levelUp['li']).toHaveLength(2)
+    expect(s0.levelUp['li']).toHaveLength(1) // 源不变
+    expect(c.invert(s1).levelUp['li']).toEqual([{ level: 7, skillId: 's1' }])
+  })
+  test('空行 = 删角色键;invert 还原键', () => {
+    const s0 = stLv()
+    const c = new UpdateLevelUpCommand('li', [])
+    const s1 = c.apply(s0)
+    expect('li' in s1.levelUp).toBe(false)
+    expect(c.invert(s1).levelUp['li']).toEqual([{ level: 7, skillId: 's1' }])
+  })
+  test('新角色键从无到有;invert 删回', () => {
+    const s0 = stLv()
+    const c = new UpdateLevelUpCommand('zhao', [{ level: 3, skillId: 's9' }])
+    const s1 = c.apply(s0)
+    expect(s1.levelUp['zhao']).toHaveLength(1)
+    expect('zhao' in c.invert(s1).levelUp).toBe(false)
+  })
 })

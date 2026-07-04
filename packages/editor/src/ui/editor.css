@@ -1660,3 +1660,19 @@ body {
   gap: 4px;
   font-size: 12px;
 }
+
+/* ── C6 升级编辑 ── */
+.exp-ta {
+  min-height: 96px;
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+}
+.collapsed.as-btn {
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+}
