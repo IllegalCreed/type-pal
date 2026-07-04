@@ -5,6 +5,20 @@
 > 端口已烤死进各包 `dev` 脚本(`--strictPort`:被占直接报错,不静默漂移到别的端口)。
 > 所有命令在**仓库根目录**执行,复制即用。
 
+## 新人前置(clone 后必做)
+
+`data/extracted/`(提取产物)与 `data/baked/`(RGBA 烤图)**不进 git、可再生**。缺它们时
+引擎/编辑器会报「资产缺失/返回 HTML/DataView 越界」。首次跑通:
+
+```bash
+# 1. 原版仙剑游戏文件(MKF 全家 + PAL.EXE)放入 data/raw/(找同事拷,版权资产不进 git)
+pnpm install
+pnpm extract                                    # data/raw → data/extracted(几分钟)
+pnpm --filter @type-pal/migrate run bake        # 烤 RGBA:UI 皮 + 立绘/头像/图标 → data/baked
+```
+
+没有原版资产时可先跑 demo 工程(自包含,不依赖上述产物):editor `dev:demo`(6011)/ reforge `dev`(6050)。
+
 ## 一阶段 · 仙剑本体(game)
 
 | 端口 | 用途 |

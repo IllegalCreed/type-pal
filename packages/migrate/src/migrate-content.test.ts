@@ -2,28 +2,39 @@
 // 读真实 data/extracted(同 demo-project.test 惯例;migrate 有 node fs)。
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { buildWorld, pixelToGrid, validateActors, validateItems, validateLocale, validateSkills, validateSprites } from '@type-pal/content'
 import type { ActorDef, SpriteDef } from '@type-pal/content'
+import {
+  buildWorld,
+  pixelToGrid,
+  validateActors,
+  validateItems,
+  validateLocale,
+  validateSkills,
+  validateSprites,
+} from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
   buildLabelIndex,
+  type MigrateSources,
   mapScenesStatic,
   mergeExtras,
   migrateAll,
-  sceneSlug,
-  walkDesc,
-  type MigrateSources,
   type SourceCmd,
   type SourceScene,
+  sceneSlug,
+  walkDesc,
 } from './migrate-content.js'
 
 const root = fileURLToPath(new URL('../../../', import.meta.url))
 const readJson = <T>(rel: string): T => JSON.parse(readFileSync(root + rel, 'utf8')) as T
 
 // ── 源(真实 extracted)──
-const allJson = readJson<{ segments: { commands: SourceCmd[] }[] }>('data/extracted/events/all.json')
+const allJson = readJson<{ segments: { commands: SourceCmd[] }[] }>(
+  'data/extracted/events/all.json',
+)
 const src: MigrateSources = {
-  roles: readJson<{ roles: MigrateSources['roles'] }>('data/extracted/data/player-roles.json').roles,
+  roles: readJson<{ roles: MigrateSources['roles'] }>('data/extracted/data/player-roles.json')
+    .roles,
   levelUpExp: readJson('data/extracted/data/level-up-exp.json'),
   levelUpMagic: readJson('data/extracted/data/level-up-magic.json'),
   spells: readJson('data/extracted/data/spells.json'),
@@ -36,9 +47,17 @@ const out = migrateAll(src)
 // ── oracle(demo 手作,一手核验)──
 const demoActors = readJson<ActorDef[]>('projects/demo/content/actors.json')
 const demoLi = demoActors.find((a) => a.id === 'li-xiaoyao')!
-const demoItems = readJson<{ id: string; name: string; icon: number; buyPrice: number; sellPrice: number; sellable: boolean; desc: string[] }[]>(
-  'projects/demo/content/items.json',
-)
+const demoItems = readJson<
+  {
+    id: string
+    name: string
+    icon: number
+    buyPrice: number
+    sellPrice: number
+    sellable: boolean
+    desc: string[]
+  }[]
+>('projects/demo/content/items.json')
 
 describe('M1a · 角色(装备槽真序哨兵)', () => {
   test('mapActor(role0) 与 demo 手作 li-xiaoyao 深等(baseStats/initialEquipment/initialMagic/spriteId)', () => {
@@ -54,7 +73,14 @@ describe('M1a · 角色(装备槽真序哨兵)', () => {
     expect(li.portraits).toEqual({ default: 1 })
   })
   test('6 角色齐 + expTable 100 级 + 战斗精灵号', () => {
-    expect(out.actors.map((a) => a.id)).toEqual(['li-xiaoyao', 'zhao-linger', 'lin-yueru', 'wu-hou', 'anu', 'gai-luojiao'])
+    expect(out.actors.map((a) => a.id)).toEqual([
+      'li-xiaoyao',
+      'zhao-linger',
+      'lin-yueru',
+      'wu-hou',
+      'anu',
+      'gai-luojiao',
+    ])
     for (const a of out.actors) {
       expect(a.battler!.leveling!.expTable).toHaveLength(100)
       expect(typeof a.battler!.battleSpriteNum).toBe('number')
@@ -88,7 +114,10 @@ describe('M1a · 精灵表', () => {
 describe('M1a · desc 提取', () => {
   const labelIndex = buildLabelIndex(src.commands)
   test('观音符(61)desc = 已核两行;气疗术(296 scriptDesc)= 已核一行', () => {
-    expect(walkDesc(src.commands, labelIndex, 40661).lines).toEqual(['以观音圣水书写的灵符。', 'HP+150'])
+    expect(walkDesc(src.commands, labelIndex, 40661).lines).toEqual([
+      '以观音圣水书写的灵符。',
+      'HP+150',
+    ])
     expect(walkDesc(src.commands, labelIndex, 43275).lines).toEqual(['我方单人HP+75'])
   })
   test('全量护栏零命中(337 条链全干净,2026-07-02 实测钉住)', () => {
@@ -117,7 +146,8 @@ describe('M1b · 装备效果(scriptOnEquip → EquipSpec)', () => {
   const byId = new Map(out.items.map((i) => [i.id, i]))
   test('demo 7 件手作装备的 slot + effects 逐件深等(equipableBy 以原版多人为真,仅断言含 li-xiaoyao)', () => {
     for (const d of demoItems) {
-      const de = (d as { equip?: { slot: string; equipableBy: string[]; effects: unknown[] } }).equip
+      const de = (d as { equip?: { slot: string; equipableBy: string[]; effects: unknown[] } })
+        .equip
       if (!de) continue
       const m = byId.get(d.id)!
       expect(m.equip, d.id).toBeDefined()
@@ -130,7 +160,9 @@ describe('M1b · 装备效果(scriptOnEquip → EquipSpec)', () => {
     const equipped = out.items.filter((i) => i.equip)
     expect(equipped).toHaveLength(106)
     const effs = equipped.flatMap((i) => i.equip!.effects)
-    expect(effs.filter((e) => e.kind === 'grantStatus' && e.status === 'dualAttack')).toHaveLength(5)
+    expect(effs.filter((e) => e.kind === 'grantStatus' && e.status === 'dualAttack')).toHaveLength(
+      5,
+    )
     expect(effs.filter((e) => e.kind === 'attackAll')).toHaveLength(4)
     expect(effs.filter((e) => e.kind === 'grantSkill')).toHaveLength(7)
   })
@@ -149,7 +181,9 @@ describe('M1b · 装备效果(scriptOnEquip → EquipSpec)', () => {
   test('端到端:迁移物品 × buildWorld × effectiveStat = 防御 41 / 武术 35(状态板真值)', async () => {
     const { effectiveStat } = await import('@type-pal/content')
     const actorsById = Object.fromEntries(out.actors.map((a) => [a.id, a]))
-    const demoManifest = readJson<{ startWorld: Parameters<typeof buildWorld>[0] }>('projects/demo/manifest.json')
+    const demoManifest = readJson<{ startWorld: Parameters<typeof buildWorld>[0] }>(
+      'projects/demo/manifest.json',
+    )
     const li = buildWorld(demoManifest.startWorld, actorsById).party[0]!
     const itemsById = Object.fromEntries(out.items.map((i) => [i.id, i]))
     expect(effectiveStat(li, 'defense', itemsById)).toBe(41) // 32 + 六件装备Σ9(全来自翻译的 scriptOnEquip)
@@ -164,7 +198,9 @@ describe('M1a+M1c · 技能(纯表 57 + 线性脚本 18 + 门类 5)', () => {
     expect(out.skills.skills.filter((s) => s.effects[0]?.kind === 'damage')).toHaveLength(57)
     expect(out.report.pendingSkills).toHaveLength(23)
     expect(out.report.pendingSkills.filter((p) => p.reason.includes('summon'))).toHaveLength(9) // 7 纯表 + 风神等带脚本的 summon 型
-    expect(out.report.pendingSkills.filter((p) => p.reason.includes('scriptOnUse'))).toHaveLength(14)
+    expect(out.report.pendingSkills.filter((p) => p.reason.includes('scriptOnUse'))).toHaveLength(
+      14,
+    )
   })
   test('M1c-2 门类 5 技:门语义与原版脚本同构(概率/HP阈值/抗性掷,顺序截断)', () => {
     expect(byId.get('303')?.effects).toEqual([
@@ -222,7 +258,9 @@ describe('M1a+M1c · 技能(纯表 57 + 线性脚本 18 + 门类 5)', () => {
     expect(byId.get('295')?.target).toBe('self')
   })
   test('有损点登记:0x68 敌方分支(回梦/夺魂/鬼降)+ 飞龙 0x47 音效;三尸三连双脚本 → 正确 pending', () => {
-    expect(out.report.lossySkills.map((l) => l.id).sort((a, b) => a - b)).toEqual([303, 304, 305, 377])
+    expect(out.report.lossySkills.map((l) => l.id).sort((a, b) => a - b)).toEqual([
+      303, 304, 305, 377,
+    ])
     const dual = out.report.pendingSkills.filter((p) => [352, 372, 373].includes(p.id))
     expect(dual).toHaveLength(3)
     for (const d of dual) expect(d.reason).toContain('scriptOnUse') // onUse 带毒伤动态公式,非线性可译
@@ -232,14 +270,19 @@ describe('M1a+M1c · 技能(纯表 57 + 线性脚本 18 + 门类 5)', () => {
 describe('M1a · 输出过 content 契约 + 可 buildWorld', () => {
   test('validate* 全过;merge demo extras 后 buildWorld(demo startWorld)不 throw', () => {
     const actors = mergeExtras(out.actors, demoActors)
-    const sprites = mergeExtras(out.sprites, readJson<SpriteDef[]>('projects/demo/content/sprites.json'))
+    const sprites = mergeExtras(
+      out.sprites,
+      readJson<SpriteDef[]>('projects/demo/content/sprites.json'),
+    )
     expect(() => validateActors(actors)).not.toThrow()
     expect(() => validateSprites(sprites)).not.toThrow()
     expect(() => validateItems(out.items)).not.toThrow()
     expect(() => validateSkills(out.skills)).not.toThrow()
     expect(() => validateLocale({ ...out.localeNames })).not.toThrow()
     const actorsById = Object.fromEntries(actors.map((a) => [a.id, a]))
-    const demoManifest = readJson<{ startWorld: Parameters<typeof buildWorld>[0] }>('projects/demo/manifest.json')
+    const demoManifest = readJson<{ startWorld: Parameters<typeof buildWorld>[0] }>(
+      'projects/demo/manifest.json',
+    )
     const w = buildWorld(demoManifest.startWorld, actorsById)
     expect(w.party[0]?.hp).toBe(100) // seedStats 仍生效(pal 工程沿用 demo startWorld)
   })
@@ -265,7 +308,9 @@ describe('M1d · 使用效果(scriptOnUse → UseSpec)', () => {
     expect(out.report.pendingUse.some((p) => p.itemId === 267)).toBe(true)
   })
   test('新 kind spot:舍利子 maxMP+3 / 雪蛤蟆三永久成长 / 盐巴概率门 / 尸腐肉下毒 / 还魂香复活10%', () => {
-    expect(byId.get('72')!.use!.effects).toEqual([{ kind: 'permanentStatBoost', stat: 'maxMP', delta: 3 }])
+    expect(byId.get('72')!.use!.effects).toEqual([
+      { kind: 'permanentStatBoost', stat: 'maxMP', delta: 3 },
+    ])
     expect(byId.get('132')!.use!.effects).toEqual([
       { kind: 'permanentStatBoost', stat: 'attack', delta: 2 },
       { kind: 'permanentStatBoost', stat: 'defense', delta: 2 },
@@ -294,11 +339,13 @@ describe('M1d · 使用效果(scriptOnUse → UseSpec)', () => {
 describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切片 golden)', () => {
   const readScene = (n: number) => readJson<SourceScene>(`data/extracted/data/scene/${n}.json`)
   const readEvents = (n: number) =>
-    readJson<{ segments: { commands: SourceCmd[] }[] }>(`data/extracted/events/scene-${String(n).padStart(3, '0')}.json`)
-      .segments.flatMap((s) => s.commands)
+    readJson<{ segments: { commands: SourceCmd[] }[] }>(
+      `data/extracted/events/scene-${String(n).padStart(3, '0')}.json`,
+    ).segments.flatMap((s) => s.commands)
   const readShared = () =>
-    readJson<{ segments: { commands: SourceCmd[] }[] }>('data/extracted/events/shared.json')
-      .segments.flatMap((s) => s.commands)
+    readJson<{ segments: { commands: SourceCmd[] }[] }>(
+      'data/extracted/events/shared.json',
+    ).segments.flatMap((s) => s.commands)
   const out2 = mapScenesStatic(
     [readScene(1), readScene(4), readScene(5)],
     new Map([
@@ -338,7 +385,8 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
       expect(e.hidden ?? false, `e${eo.id} hidden`).toBe((eo.sState ?? 1) === 0)
       expect(e.collide ?? false, `e${eo.id} collide`).toBe((eo.sState ?? 0) >= 2)
       // 朝向:无 autoScript 时 = direction 表(有 autoScript 时链首可覆盖,另测)
-      if (eo.direction && !eo.autoLabel) expect(e.facing).toBe(['down', 'left', 'up', 'right'][eo.direction])
+      if (eo.direction && !eo.autoLabel)
+        expect(e.facing).toBe(['down', 'left', 'up', 'right'][eo.direction])
       if (eo.sLayer) expect(e.zBias).toBe(eo.sLayer)
     }
   })
@@ -359,24 +407,30 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
     expect(out2.report.facingFromAuto).toBeGreaterThanOrEqual(4)
   })
   test('M3a 门模式折叠:门触发 = 单条 loadScene{scene,pos}(setPartyPos/fadeOut 被吸收)', () => {
-    const doors = out2.scenes.flatMap((s) =>
-      s.entities.flatMap((e) => e.pages?.flatMap((p) => p.trigger?.stages ?? []) ?? []),
-    ).filter((st) => st.body.some((c) => c.kind === 'loadScene'))
+    const doors = out2.scenes
+      .flatMap((s) =>
+        s.entities.flatMap((e) => e.pages?.flatMap((p) => p.trigger?.stages ?? []) ?? []),
+      )
+      .filter((st) => st.body.some((c) => c.kind === 'loadScene'))
     expect(doors.length).toBeGreaterThan(5)
     const folded = doors.filter((st) => {
       const i = st.body.findIndex((c) => c.kind === 'loadScene')
       const ls = st.body[i]! as { kind: 'loadScene'; pos?: unknown }
       const rest = st.body.slice(i + 1)
-      return ls.pos !== undefined && !rest.some((c) => c.kind === 'teleportParty' || c.kind === 'fade')
+      return (
+        ls.pos !== undefined && !rest.some((c) => c.kind === 'teleportParty' || c.kind === 'fade')
+      )
     })
     // 主流门链(loadScene setPartyPos fadeOut end)全部折叠成单命令
     expect(folded.length).toBeGreaterThan(doors.length * 0.6)
   })
   test('M3a 对话成组:渔翁(s005)= speaker 行折 speaker 字段,正文行拼一页进 locale', () => {
     const s5 = byId.get('s005')!
-    const dialogs = s5.entities.flatMap((e) =>
-      e.pages?.flatMap((p) => p.trigger?.stages.flatMap((st) => st.body) ?? []) ?? [],
-    ).filter((c): c is Extract<typeof c, { kind: 'dialog' }> => c.kind === 'dialog')
+    const dialogs = s5.entities
+      .flatMap(
+        (e) => e.pages?.flatMap((p) => p.trigger?.stages.flatMap((st) => st.body) ?? []) ?? [],
+      )
+      .filter((c): c is Extract<typeof c, { kind: 'dialog' }> => c.kind === 'dialog')
     const yuwong = dialogs.find((d) => d.line.speaker === 'spk.渔翁')
     expect(yuwong).toBeDefined()
     expect(out2.scriptLocale['spk.渔翁']).toBe('渔翁')
@@ -386,10 +440,14 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
   })
   test('M3c 立绘:对话样式 op 的 arg0 → DialogueLine.portrait(top→左 / bottom→右;用户实测漏显回归)', () => {
     // 全量对话(含 onEnter/触发)扫立绘
-    const allDialogs = out2.scenes.flatMap((s) => [
-      ...(s.onEnter ?? []).flatMap((st) => st.body),
-      ...s.entities.flatMap((e) => e.pages?.flatMap((p) => p.trigger?.stages.flatMap((st) => st.body) ?? []) ?? []),
-    ]).filter((c): c is Extract<typeof c, { kind: 'dialog' }> => c.kind === 'dialog')
+    const allDialogs = out2.scenes
+      .flatMap((s) => [
+        ...(s.onEnter ?? []).flatMap((st) => st.body),
+        ...s.entities.flatMap(
+          (e) => e.pages?.flatMap((p) => p.trigger?.stages.flatMap((st) => st.body) ?? []) ?? [],
+        ),
+      ])
+      .filter((c): c is Extract<typeof c, { kind: 'dialog' }> => c.kind === 'dialog')
     const withPortrait = allDialogs.filter((d) => d.line.portrait)
     expect(withPortrait.length).toBeGreaterThan(3) // 客栈开场李大娘/李逍遥多页带立绘
     // side 约定:top slot → 左,bottom slot(缺省)→ 右;icon 为正整数(RGM 立绘号)
@@ -418,21 +476,31 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
   })
   test('M3a 0xFFFF 自指:setEntityState(0xFFFF) → 属主实体(拾取消失例)', () => {
     // 全场景搜:某实体的触发脚本里 setEntityState 指向自己(原版拾取 = 0x49[0xFFFF,0] 自灭)
-    const selfVanish = out2.scenes.flatMap((s) => s.entities).some((e) =>
-      e.pages?.[0]?.trigger?.stages.some((st) =>
-        st.body.some((c) => c.kind === 'setEntityState' && c.entity === e.id && c.state <= 0)))
+    const selfVanish = out2.scenes
+      .flatMap((s) => s.entities)
+      .some((e) =>
+        e.pages?.[0]?.trigger?.stages.some((st) =>
+          st.body.some((c) => c.kind === 'setEntityState' && c.entity === e.id && c.state <= 0),
+        ),
+      )
     expect(selfVanish).toBe(true)
     // 字面 e65535 不应存在
-    const literal = out2.scenes.flatMap((s) => s.entities).some((e) =>
-      e.pages?.[0]?.trigger?.stages.some((st) =>
-        st.body.some((c) => 'entity' in c && c.entity === 'e65535')))
+    const literal = out2.scenes
+      .flatMap((s) => s.entities)
+      .some((e) =>
+        e.pages?.[0]?.trigger?.stages.some((st) =>
+          st.body.some((c) => 'entity' in c && c.entity === 'e65535'),
+        ),
+      )
     expect(literal).toBe(false)
   })
   test('精灵批量登记:npc-<num>,布局 directional×n(n>0)/ static(n=0)', () => {
     const src1 = readScene(1)
     const visible = src1.eventObjects.filter((o) => o.spriteNum > 0)
     for (const eo of visible) {
-      const def = out2.sprites.find((d) => d.spriteNum === eo.spriteNum && d.id.startsWith(`npc-${eo.spriteNum}`))!
+      const def = out2.sprites.find(
+        (d) => d.spriteNum === eo.spriteNum && d.id.startsWith(`npc-${eo.spriteNum}`),
+      )!
       expect(def, `npc-${eo.spriteNum}`).toBeDefined()
       if ((eo.nSpriteFrames ?? 0) > 0)
         expect(def.layout.kind === 'directional' || def.id.includes('-f'), def.id).toBe(true)

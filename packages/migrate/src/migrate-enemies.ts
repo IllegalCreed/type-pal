@@ -130,7 +130,11 @@ export function mapEnemies(
               },
               { magic: stats.magic, rate: stats.magicRate },
             )
-          : translateEnemyScripts({ labelAt: new Map(), locale: localeNames, report: emptyTranslateReport() }, {}, { magic: stats.magic, rate: stats.magicRate })
+          : translateEnemyScripts(
+              { labelAt: new Map(), locale: localeNames, report: emptyTranslateReport() },
+              {},
+              { magic: stats.magic, rate: stats.magicRate },
+            )
         if (t.pending.length) pendingScripts.push({ id, name, notes: t.pending })
         return {
           ai: {
@@ -160,12 +164,21 @@ export function mapEnemies(
         ? { steal: { itemId: String(stats.stealItem), count: Math.max(1, stats.stealItemCount) } }
         : {}),
       ...(stats.attackEquivItem
-        ? { attackEquivItem: { itemId: String(stats.attackEquivItem), rate: stats.attackEquivItemRate } }
+        ? {
+            attackEquivItem: {
+              itemId: String(stats.attackEquivItem),
+              rate: stats.attackEquivItemRate,
+            },
+          }
         : {}),
     })
   }
 
-  return { enemies: out, localeNames, report: { total: out.length, withScript, danglingEnemyId, pendingScripts } }
+  return {
+    enemies: out,
+    localeNames,
+    report: { total: out.length, withScript, danglingEnemyId, pendingScripts },
+  }
 }
 
 // ════════════════════════════════════════════════════════════════════

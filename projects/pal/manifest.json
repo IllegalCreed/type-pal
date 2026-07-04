@@ -19,7 +19,10 @@
     "tilesets": "tileset",
     "sprites": "sprite",
     "palettes": "palette",
-    "sounds": "/extracted/sounds"
+    "sounds": "/extracted/sounds",
+    "portraits": "/baked/portraits",
+    "faces": "/baked/ui/face",
+    "itemIcons": "/baked/ui/items"
   },
   "startWorld": {
     "party": [

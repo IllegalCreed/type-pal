@@ -13,7 +13,9 @@ import { bakeIndexedRgba } from '../src/bake-indexed-rgba.js'
 // scripts/ → migrate/ → packages/ → repo 根
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 const EXTRACTED = resolve(ROOT, 'data/extracted')
-const PUBLIC = resolve(ROOT, 'packages/reforge/public')
+const PUBLIC = resolve(ROOT, 'packages/reforge/public') // 引擎默认 UI 皮(chrome:框/数字/光标/图标)
+// 内容资产库层(立绘/战斗头像/物品图标 —— 角色与物品绑定的美术,随库/工程走;gitignored 可再生)
+const BAKED = resolve(ROOT, 'data/baked')
 
 // palette 0 = 资产标准 palette(asset-pipeline D-a:UI/头像在 pal0 正确,pal1/2 乱色)
 const palette = (
@@ -55,7 +57,7 @@ function pngSize(src: string): { w: number; h: number } {
 }
 
 // 1) 头像(收编 bake-portraits):全部立绘块(对话样式 op 的 arg0 = RGM 立绘号,遍布全剧情)
-mkdirSync(resolve(PUBLIC, 'portraits'), { recursive: true })
+mkdirSync(resolve(BAKED, 'portraits'), { recursive: true })
 {
   const manifest = JSON.parse(readFileSync(resolve(EXTRACTED, 'data/portraits.json'), 'utf8')) as {
     count: number
@@ -64,7 +66,7 @@ mkdirSync(resolve(PUBLIC, 'portraits'), { recursive: true })
   for (let chunk = 1; chunk <= manifest.count; chunk++) {
     const src = resolve(EXTRACTED, `images/portraits/${String(chunk).padStart(2, '0')}.png`)
     if (!existsSync(src)) continue // 部分块空(RGM 稀疏),跳过
-    bakeFile(src, resolve(PUBLIC, `portraits/${chunk}.png`))
+    bakeFile(src, resolve(BAKED, `portraits/${chunk}.png`))
     baked++
   }
   console.log(`baked ${baked} portraits (全 ${manifest.count} 块)`)
@@ -142,12 +144,12 @@ bakeFile(resolve(EXTRACTED, 'images/ui/frame-39.png'), resolve(PUBLIC, 'ui/num/s
 console.log('baked slash')
 
 // 7) 物品图标(按 bitmap chunk → ui/items/{bitmap}.png;状态板/装备菜单按 item.icon 数据驱动渲染)
-mkdirSync(resolve(PUBLIC, 'ui/items'), { recursive: true })
+mkdirSync(resolve(BAKED, 'ui/items'), { recursive: true })
 const itemIconChunks = [56, 176, 78, 95, 97, 224, 6, 197, 30] // 木剑/头巾/布袍/披风/草鞋/护腕/土灵珠/观音符/茶叶蛋 的 bitmap(DEMO_ITEMS.icon)
 for (const chunk of itemIconChunks) {
   bakeFile(
     resolve(EXTRACTED, `images/items/${String(chunk).padStart(3, '0')}.png`),
-    resolve(PUBLIC, `ui/items/${chunk}.png`),
+    resolve(BAKED, `ui/items/${chunk}.png`),
   )
 }
 console.log('baked item icons')
@@ -162,7 +164,6 @@ for (let i = 0; i <= 8; i++) {
 }
 mkdirSync(resolve(PUBLIC, 'ui/magic'), { recursive: true })
 bakeFile(resolve(EXTRACTED, 'images/ui/frame-18.png'), resolve(PUBLIC, 'ui/magic/playerbox.png'))
-bakeFile(resolve(EXTRACTED, 'images/ui/frame-48.png'), resolve(PUBLIC, 'ui/magic/face-0.png')) // 李逍遥 roleId 0
 mkdirSync(resolve(PUBLIC, 'ui/cursor'), { recursive: true })
 bakeFile(resolve(EXTRACTED, 'images/ui/frame-67.png'), resolve(PUBLIC, 'ui/cursor/up.png'))
 bakeFile(resolve(EXTRACTED, 'images/ui/frame-68.png'), resolve(PUBLIC, 'ui/cursor/down.png'))
@@ -183,11 +184,11 @@ console.log('baked battle icons (frame 40-43 → ui/battle/icon-*)')
 // 8b) 战斗队员信息框小头像(gpSpriteUI frame 48+roleId)→ ui/face/<actorId>.png(稳定 id 命名,杜绝下标)。
 //     roleId 序 = 原版 PlayerRoles 列序:0李逍遥 1赵灵儿 2林月如 3巫后 4阿奴 5盖罗娇。
 const FACE_ACTORS = ['li-xiaoyao', 'zhao-linger', 'lin-yueru', 'wu-hou', 'anu', 'gai-luojiao']
-mkdirSync(resolve(PUBLIC, 'ui/face'), { recursive: true })
+mkdirSync(resolve(BAKED, 'ui/face'), { recursive: true })
 FACE_ACTORS.forEach((actorId, roleId) => {
   bakeFile(
     resolve(EXTRACTED, `images/ui/frame-${String(48 + roleId).padStart(2, '0')}.png`),
-    resolve(PUBLIC, `ui/face/${actorId}.png`),
+    resolve(BAKED, `ui/face/${actorId}.png`),
   )
 })
 console.log('baked battle faces (frame 48-53 → ui/face/<actorId>)')

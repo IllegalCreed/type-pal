@@ -351,55 +351,74 @@ export async function loadPng(url: string): Promise<ImageBitmap | undefined> {
   }
 }
 
+/** 菜单资产目录(AssetBase 的子集;loader 已解析成完整前缀)。 */
+export interface MenuAssetDirs {
+  /** 立绘目录(状态面板/对话头像)。 */
+  portraits: string
+  /** 物品图标目录。 */
+  itemIcons: string
+  /** 战斗小头像目录(仙术菜单角色头像)。 */
+  faces: string
+  /** UI chrome 覆盖目录(工程皮肤;缺省 = 引擎默认皮 /ui)。 */
+  uiOverride?: string
+}
+
 /**
  * 加载菜单资产:黄框九宫格 + 状态背景 + 装备格 + 金钱卷轴 + 数字。
  * 全部 = 预烘 RGBA(@type-pal/migrate bake-assets,palette 0),drawImage 直接用、零运行时烤。
+ * chrome(框/数字/光标)= 引擎默认皮,工程可经 dirs.uiOverride 覆盖(有则优先,404 退默认);
+ * 内容资产(立绘/物品图标/头像)按 dirs 目录取(随库/工程)。
  */
-export async function loadMenuAssets(items: ItemDataMap): Promise<MenuAssets> {
+export async function loadMenuAssets(items: ItemDataMap, dirs: MenuAssetDirs): Promise<MenuAssets> {
+  // chrome 取图:工程覆盖优先,退引擎默认皮
+  const ui = async (rel: string): Promise<ImageBitmap | undefined> =>
+    dirs.uiOverride
+      ? ((await loadPng(`${dirs.uiOverride}/${rel}`)) ?? loadPng(`/ui/${rel}`))
+      : loadPng(`/ui/${rel}`)
   // 黄框 9 块预烘 RGBA(frame-00..08 = i*3+j),drawImage 直接用、零运行时烤
   const tiles: (ImageBitmap | undefined)[] = []
   for (let i = 0; i <= 8; i++) {
     const name = `frame-${String(i).padStart(2, '0')}.png`
-    tiles.push(await loadPng(`/ui/box/${name}`))
+    tiles.push(await ui(`box/${name}`))
   }
   // 仙术菜单红框 9 块(ui/box-red,iStyle1)
   const redTiles: (ImageBitmap | undefined)[] = []
   for (let i = 0; i <= 8; i++) {
-    redTiles.push(await loadPng(`/ui/box-red/frame-${String(i).padStart(2, '0')}.png`))
+    redTiles.push(await ui(`box-red/frame-${String(i).padStart(2, '0')}.png`))
   }
   // 卷轴 scroll 9 块(原单行卷轴重切;金钱/否是/存档槽通用,撑任意高宽)
   const scrollTiles: (ImageBitmap | undefined)[] = []
   for (let i = 0; i <= 8; i++) {
-    scrollTiles.push(await loadPng(`/ui/scroll/frame-${String(i).padStart(2, '0')}.png`))
+    scrollTiles.push(await ui(`scroll/frame-${String(i).padStart(2, '0')}.png`))
   }
   // 物品详情框 itembox 9 块(frame 70 重切)
   const itemboxTiles: (ImageBitmap | undefined)[] = []
   for (let i = 0; i <= 8; i++) {
-    itemboxTiles.push(await loadPng(`/ui/itembox/frame-${String(i).padStart(2, '0')}.png`))
+    itemboxTiles.push(await ui(`itembox/frame-${String(i).padStart(2, '0')}.png`))
   }
   const [statusBg, equipSlot, nums, avatar, numsBlue, numsCyan, slash] = await Promise.all([
-    loadPng('/ui/status/bg.png'),
-    loadPng('/ui/status/slot.png'),
-    Promise.all(Array.from({ length: 10 }, (_, d) => loadPng(`/ui/num/${d}.png`))),
-    loadPng('/portraits/1.png'), // 李逍遥状态立绘(RGM avatar chunk 1,复用对话头像)
-    Promise.all(Array.from({ length: 10 }, (_, d) => loadPng(`/ui/num-blue/${d}.png`))),
-    Promise.all(Array.from({ length: 10 }, (_, d) => loadPng(`/ui/num-cyan/${d}.png`))),
-    loadPng('/ui/num/slash.png'),
+    ui('status/bg.png'),
+    ui('status/slot.png'),
+    Promise.all(Array.from({ length: 10 }, (_, d) => ui(`num/${d}.png`))),
+    loadPng(`${dirs.portraits}/1.png`), // 李逍遥状态立绘(RGM avatar chunk 1,复用对话头像)
+    Promise.all(Array.from({ length: 10 }, (_, d) => ui(`num-blue/${d}.png`))),
+    Promise.all(Array.from({ length: 10 }, (_, d) => ui(`num-cyan/${d}.png`))),
+    ui('num/slash.png'),
   ])
   // 物品图标(按 item.icon = bitmap chunk;状态板/装备菜单数据驱动渲染)
   const iconChunks = [...new Set(Object.values(items).map((it) => it.icon))]
-  const iconArr = await Promise.all(iconChunks.map((ch) => loadPng(`/ui/items/${ch}.png`)))
+  const iconArr = await Promise.all(iconChunks.map((ch) => loadPng(`${dirs.itemIcons}/${ch}.png`)))
   const itemIcons: Record<number, ImageBitmap | undefined> = {}
   iconChunks.forEach((ch, i) => {
     itemIcons[ch] = iconArr[i]
   })
   // 仙术菜单专用 sprite(角色框 / 头像 / 网格光标)
   const [magicPlayerBox, magicFace, cursorGrid, cursorUp, cursorDown] = await Promise.all([
-    loadPng('/ui/magic/playerbox.png'),
-    loadPng('/ui/magic/face-0.png'),
-    loadPng('/ui/cursor/grid.png'),
-    loadPng('/ui/cursor/up.png'),
-    loadPng('/ui/cursor/down.png'),
+    ui('magic/playerbox.png'),
+    loadPng(`${dirs.faces}/li-xiaoyao.png`), // TODO 多人:按当前查看角色的 actorId 取
+    ui('cursor/grid.png'),
+    ui('cursor/up.png'),
+    ui('cursor/down.png'),
   ])
   return {
     box: { tiles },

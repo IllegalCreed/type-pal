@@ -5,8 +5,8 @@
 import type { Command } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { SourceCmd } from './source-facts.js'
-import { emptyTranslateReport, translateStages } from './translate-events.js'
 import type { TranslateCtx } from './translate-events.js'
+import { emptyTranslateReport, translateStages } from './translate-events.js'
 
 /** 手搓链 → labelAt(单段,L_1 起步,end 收尾;raw 命令补 op:'raw' 判别)。 */
 function ctxOf(cmds: SourceCmd[], spriteIdForNum?: (num: number) => string): TranslateCtx {
@@ -16,7 +16,12 @@ function ctxOf(cmds: SourceCmd[], spriteIdForNum?: (num: number) => string): Tra
   chain.forEach((c, i) => {
     if (c.label) labelAt.set(c.label, { cmds: chain, idx: i })
   })
-  return { labelAt, locale: {}, report: emptyTranslateReport(), ...(spriteIdForNum ? { spriteIdForNum } : {}) }
+  return {
+    labelAt,
+    locale: {},
+    report: emptyTranslateReport(),
+    ...(spriteIdForNum ? { spriteIdForNum } : {}),
+  }
 }
 
 function bodyOf(ctx: TranslateCtx): Command[] {
@@ -43,12 +48,16 @@ describe('0x15 队员方向+姿势(script.c: wFrame = dir*3 + gesture)', () => {
 describe('0x65 换角色大世界精灵(script.c: rgwSpriteNum[role]=sprite)', () => {
   test('role 0 + 精灵 627 → setActorSprite(li-xiaoyao, 由注册回调定 id)', () => {
     const ids: Record<number, string> = { 627: 'npc-627', 2: 'li-xiaoyao' }
-    const body = bodyOf(ctxOf([{ opcode: 0x65, operands: [0, 627, 0xffff] }], (n) => ids[n] ?? `npc-${n}`))
+    const body = bodyOf(
+      ctxOf([{ opcode: 0x65, operands: [0, 627, 0xffff] }], (n) => ids[n] ?? `npc-${n}`),
+    )
     expect(body).toEqual([{ kind: 'setActorSprite', actor: 'li-xiaoyao', sprite: 'npc-627' }])
   })
   test('切回本体精灵 2 → 映射到 actor 自己的精灵 id', () => {
     const ids: Record<number, string> = { 2: 'li-xiaoyao' }
-    const body = bodyOf(ctxOf([{ opcode: 0x65, operands: [0, 2, 0xffff] }], (n) => ids[n] ?? `npc-${n}`))
+    const body = bodyOf(
+      ctxOf([{ opcode: 0x65, operands: [0, 2, 0xffff] }], (n) => ids[n] ?? `npc-${n}`),
+    )
     expect(body).toEqual([{ kind: 'setActorSprite', actor: 'li-xiaoyao', sprite: 'li-xiaoyao' }])
   })
   test('无注册回调 → unmigrated(不猜 id)', () => {

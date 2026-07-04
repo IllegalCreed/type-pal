@@ -122,16 +122,20 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
       // root 以 "/" 开头 = 应用绝对路径(如 "/extracted/data",pal 共享提取源,免拷 221 张图进仓);
       // 否则 = 工程自包含相对路径(demo)。
       const root = a.root.startsWith('/') ? a.root : `projects/${manifest.id}/${a.root}`
-      // sounds 同规则;缺省 = root/sounds(demo 无音效目录 → 404 由 SfxPlayer 静默容错)。
-      const s = a.sounds
-      const sounds = s ? (s.startsWith('/') ? s : `projects/${manifest.id}/${s}`) : `${root}/sounds`
+      // 可选目录同规则解析;缺省 = root 下惯例子目录(工程没带 → fetch 404 由加载端容错)。
+      const dir = (v: string | undefined, fallback: string): string =>
+        v ? (v.startsWith('/') ? v : `projects/${manifest.id}/${v}`) : fallback
       return {
         root,
         maps: a.maps,
         tilesets: a.tilesets,
         sprites: a.sprites,
         palettes: a.palettes,
-        sounds,
+        sounds: dir(a.sounds, `${root}/sounds`),
+        portraits: dir(a.portraits, `${root}/portraits`),
+        faces: dir(a.faces, `${root}/faces`),
+        itemIcons: dir(a.itemIcons, `${root}/item-icons`),
+        ...(a.ui ? { uiOverride: dir(a.ui, '') } : {}),
       }
     })(),
   }

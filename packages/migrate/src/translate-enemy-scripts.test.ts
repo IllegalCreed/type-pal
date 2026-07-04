@@ -1,12 +1,13 @@
 /** 敌人战斗脚本翻译(M4c-2)—— 形状取自 2026-07-04 全 54 敌普查实锚。 */
 import { describe, expect, test } from 'vitest'
 import type { SourceCmd } from './source-facts.js'
-import { emptyTranslateReport, type TranslateCtx } from './translate-events.js'
 import { translateEnemyScripts } from './translate-enemy-scripts.js'
+import { emptyTranslateReport, type TranslateCtx } from './translate-events.js'
 
 const raw = (opcode: number, ...operands: number[]): SourceCmd => ({ op: 'raw', opcode, operands })
 const end = (): SourceCmd => ({ op: 'end' })
-const dlg = (text: string, messageIndex: number): SourceCmd => ({ op: 'showDialog', text, messageIndex } as SourceCmd)
+const dlg = (text: string, messageIndex: number): SourceCmd =>
+  ({ op: 'showDialog', text, messageIndex }) as SourceCmd
 
 /** 手搓链集 → ctx(多入口:{ip: cmds},各链独立数组)。 */
 function ctxOf(chains: Record<number, SourceCmd[]>): TranslateCtx {
@@ -25,7 +26,15 @@ describe('advance 游标状态机 → 规则', () => {
   test('凤梨小妖形:ready = end | 0x06[60]+0x9F[470]+0x67[FFFF] | 0x67[359] …', () => {
     const t = translateEnemyScripts(
       ctxOf({
-        100: [end(), raw(0x06, 60, 0), raw(0x9f, 470), raw(0x67, 0xffff), end(), raw(0x67, 359), end()],
+        100: [
+          end(),
+          raw(0x06, 60, 0),
+          raw(0x9f, 470),
+          raw(0x67, 0xffff),
+          end(),
+          raw(0x67, 359),
+          end(),
+        ],
       }),
       { ready: 100 },
     )
@@ -33,7 +42,13 @@ describe('advance 游标状态机 → 规则', () => {
     // 段2:60% 变身
     expect(t.rules).toContainEqual({
       at: 'act',
-      when: { kind: 'all', of: [{ kind: 'turn', op: '>=', value: 2 }, { kind: 'chance', percent: 60 }] },
+      when: {
+        kind: 'all',
+        of: [
+          { kind: 'turn', op: '>=', value: 2 },
+          { kind: 'chance', percent: 60 },
+        ],
+      },
       do: { kind: 'transform', enemyId: 'enemy-470' },
     })
     // 时间线:k2 哨兵 pass(rate 缺省10→100%)至 k3;k3 起 cast 359
@@ -51,21 +66,38 @@ describe('advance 游标状态机 → 规则', () => {
     })
     expect(t.rules).toContainEqual({
       at: 'act',
-      when: { kind: 'all', of: [{ kind: 'turn', op: '>=', value: 3 }, { kind: 'chance', percent: 100 }] },
+      when: {
+        kind: 'all',
+        of: [
+          { kind: 'turn', op: '>=', value: 3 },
+          { kind: 'chance', percent: 100 },
+        ],
+      },
       do: { kind: 'cast', skillId: '359' },
     })
   })
 
   test('血云雾形:turnStart = end | 0x06[50]+0x9C —— 第2轮起 50% 分裂;红史莱姆裸 0x9C', () => {
-    const t = translateEnemyScripts(ctxOf({ 200: [end(), raw(0x06, 50, 0), raw(0x9c, 0), end()] }), { turnStart: 200 })
+    const t = translateEnemyScripts(
+      ctxOf({ 200: [end(), raw(0x06, 50, 0), raw(0x9c, 0), end()] }),
+      { turnStart: 200 },
+    )
     expect(t.rules).toEqual([
       {
         at: 'act',
-        when: { kind: 'all', of: [{ kind: 'turn', op: '>=', value: 2 }, { kind: 'chance', percent: 50 }] },
+        when: {
+          kind: 'all',
+          of: [
+            { kind: 'turn', op: '>=', value: 2 },
+            { kind: 'chance', percent: 50 },
+          ],
+        },
         do: { kind: 'divide', copies: 1 },
       },
     ])
-    const t2 = translateEnemyScripts(ctxOf({ 210: [end(), raw(0x9c, 0), end()] }), { turnStart: 210 })
+    const t2 = translateEnemyScripts(ctxOf({ 210: [end(), raw(0x9c, 0), end()] }), {
+      turnStart: 210,
+    })
     expect(t2.rules[0]!.do).toEqual({ kind: 'divide', copies: 1 })
   })
 
@@ -81,7 +113,10 @@ describe('advance 游标状态机 → 规则', () => {
         at: 'act',
         when: {
           kind: 'all',
-          of: [{ kind: 'not', cond: { kind: 'turn', op: '>=', value: 2 } }, { kind: 'chance', percent: 100 }],
+          of: [
+            { kind: 'not', cond: { kind: 'turn', op: '>=', value: 2 } },
+            { kind: 'chance', percent: 100 },
+          ],
         },
         do: { kind: 'cast', skillId: '312' },
       },
@@ -114,7 +149,13 @@ describe('advance 游标状态机 → 规则', () => {
     )
     expect(t.rules).toContainEqual({
       at: 'act',
-      when: { kind: 'all', of: [{ kind: 'turn', op: '>=', value: 2 }, { kind: 'chance', percent: 60 }] },
+      when: {
+        kind: 'all',
+        of: [
+          { kind: 'turn', op: '>=', value: 2 },
+          { kind: 'chance', percent: 60 },
+        ],
+      },
       do: { kind: 'summon', enemyId: 'enemy-441', count: 2 },
     })
     const t2 = translateEnemyScripts(
@@ -129,7 +170,13 @@ describe('advance 游标状态机 → 规则', () => {
 
   test('battleEnd 复用事件翻译 → onDefeated(给物+对白)', () => {
     const t = translateEnemyScripts(
-      ctxOf({ 600: [{ op: 'giveItem', itemId: 42, count: 1 } as unknown as SourceCmd, dlg('得到宝贝!', 5003), end()] }),
+      ctxOf({
+        600: [
+          { op: 'giveItem', itemId: 42, count: 1 } as unknown as SourceCmd,
+          dlg('得到宝贝!', 5003),
+          end(),
+        ],
+      }),
       { battleEnd: 600 },
     )
     expect(t.onDefeated?.some((c) => c.kind === 'giveItem')).toBe(true)
@@ -137,7 +184,9 @@ describe('advance 游标状态机 → 规则', () => {
   })
 
   test('翻不净:0x79(队伍条件)落 pending 不崩', () => {
-    const t = translateEnemyScripts(ctxOf({ 700: [raw(0x79, 3, 0), dlg('x', 1), end()] }), { turnStart: 700 })
+    const t = translateEnemyScripts(ctxOf({ 700: [raw(0x79, 3, 0), dlg('x', 1), end()] }), {
+      turnStart: 700,
+    })
     expect(t.pending.some((p) => p.includes('0x79'))).toBe(true)
   })
 })

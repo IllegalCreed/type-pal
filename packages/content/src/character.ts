@@ -40,6 +40,14 @@ export interface LoadedManifest {
     palettes: string
     /** 音效目录(wav);'/' 开头 = 应用绝对路径,否则相对工程根。缺省 = root/sounds。 */
     sounds?: string
+    /** 对话/状态立绘目录(<chunk>.png);同路径规则。缺省 = root/portraits。 */
+    portraits?: string
+    /** 战斗小头像目录(<actorId>.png)。缺省 = root/faces。 */
+    faces?: string
+    /** 物品图标目录(<icon>.png)。缺省 = root/item-icons。 */
+    itemIcons?: string
+    /** UI chrome 覆盖目录(工程自带皮肤;缺省用引擎默认皮)。 */
+    ui?: string
   }
   startWorld: StartWorld
 }

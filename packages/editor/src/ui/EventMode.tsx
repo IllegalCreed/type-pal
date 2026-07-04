@@ -568,8 +568,8 @@ export function EventMode(props: {
               单步逐条(树中高亮);对话点「继续」。演出态是临时副本,不改数据。
             </p>
             <p className="hint">
-              <span className="warn-inline">⚠ 黄色</span> = 未翻译(逃生口,多为战斗侧 op,归
-              M4);结构类命令用 JSON 编辑。
+              <span className="warn-inline">⚠ 黄色</span> = 未翻译(逃生口;大头是野外遇敌 系统
+              op,归能力地图 B8 格);结构类命令用 JSON 编辑。
             </p>
           </div>
         ) : null}

@@ -168,10 +168,12 @@ async function main(): Promise<void> {
     .then((r) => (r.ok ? (r.json() as Promise<{ portraits: { chunkIndex: number }[] }>) : null))
     .then((m) => m?.portraits.map((p) => p.chunkIndex) ?? [1, 2])
     .catch(() => [1, 2])
-  const portraits = await loadPortraits(portraitChunks).catch((err: unknown) => {
-    console.warn('[reforge] portraits 加载失败,降级无头像:', err)
-    return new Map<number, HTMLCanvasElement>()
-  })
+  const portraits = await loadPortraits(portraitChunks, project.assetBase.portraits).catch(
+    (err: unknown) => {
+      console.warn('[reforge] portraits 加载失败,降级无头像:', err)
+      return new Map<number, HTMLCanvasElement>()
+    },
+  )
 
   // ── 场景资产缓存(M2c,设计 §3):map/tileset 按 mapNum LRU(cap16 + protect 当前,
   // 修一阶段按 sceneId 双取坑);palette/sceneDef 小缓存;精灵跨场景累积。──
@@ -618,7 +620,9 @@ async function main(): Promise<void> {
               ).catch(() => undefined),
             ),
           ),
-          Promise.all(world.party.map((c) => loadPng(`/ui/face/${c.template}.png`))),
+          Promise.all(
+            world.party.map((c) => loadPng(`${project.assetBase.faces}/${c.template}.png`)),
+          ),
           Promise.all(
             ['attack', 'magic', 'coop', 'misc'].map((n) => loadPng(`/ui/battle/icon-${n}.png`)),
           ),
@@ -976,7 +980,7 @@ async function main(): Promise<void> {
     if (t) startScript(e.id, t.stages)
   }
 
-  const menuAssets = await loadMenuAssets(project.items)
+  const menuAssets = await loadMenuAssets(project.items, project.assetBase)
   const menuBox = new MenuBox(glyphs, project.locale, menuAssets, project.items)
   let menu: MenuState = CLOSED
   let magicMenu: MagicMenuState = closeMagicMenu()

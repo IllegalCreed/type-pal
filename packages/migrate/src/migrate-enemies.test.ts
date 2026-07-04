@@ -1,7 +1,12 @@
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, test } from 'vitest'
-import { enemySlug, mapEnemies, type SourceEnemy, type SourceEnemyObject } from './migrate-enemies.js'
+import {
+  enemySlug,
+  mapEnemies,
+  type SourceEnemy,
+  type SourceEnemyObject,
+} from './migrate-enemies.js'
 
 const root = fileURLToPath(new URL('../../../', import.meta.url))
 const readJson = <T>(rel: string): T => JSON.parse(readFileSync(root + rel, 'utf8')) as T

@@ -49,5 +49,6 @@ export default {
     react(),
     serveDir('/projects', resolve(repoRoot, 'projects')),
     serveDir('/extracted', resolve(repoRoot, 'data/extracted')),
+    serveDir('/baked', resolve(repoRoot, 'data/baked')), // bake 产物库层(立绘/战斗头像/物品图标)
   ],
 }

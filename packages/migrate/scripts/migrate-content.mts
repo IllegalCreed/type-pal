@@ -4,23 +4,22 @@
  * 纯逻辑在 ../src/migrate-content.ts(vitest golden 钉真值);本脚本只做读盘/合并/写盘/复制资产。
  * 可重复跑(全量重写 projects/pal 的 content;assets 覆盖复制)。
  */
-import { cpSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import type { ActorDef, SpriteDef } from '@type-pal/content'
 import {
+  type MigrateSources,
   mapScenesStatic,
   mergeExtras,
   migrateAll,
-  sceneSlug,
-  type MigrateSources,
   type SourceCmd,
   type SourceScene,
+  sceneSlug,
 } from '../src/migrate-content.js'
-import { existsSync } from 'node:fs'
-import type { ActorDef, SpriteDef } from '@type-pal/content'
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
-const readJson = <T>(rel: string): T => JSON.parse(readFileSync(resolve(repo, rel), 'utf8')) as T
+const readJson = <T,>(rel: string): T => JSON.parse(readFileSync(resolve(repo, rel), 'utf8')) as T
 const writeJson = (rel: string, v: unknown): void => {
   const p = resolve(repo, rel)
   mkdirSync(dirname(p), { recursive: true })
@@ -28,9 +27,12 @@ const writeJson = (rel: string, v: unknown): void => {
 }
 
 // ── 源 ──
-const allJson = readJson<{ segments: { commands: SourceCmd[] }[] }>('data/extracted/events/all.json')
+const allJson = readJson<{ segments: { commands: SourceCmd[] }[] }>(
+  'data/extracted/events/all.json',
+)
 const src: MigrateSources = {
-  roles: readJson<{ roles: MigrateSources['roles'] }>('data/extracted/data/player-roles.json').roles,
+  roles: readJson<{ roles: MigrateSources['roles'] }>('data/extracted/data/player-roles.json')
+    .roles,
   levelUpExp: readJson('data/extracted/data/level-up-exp.json'),
   levelUpMagic: readJson('data/extracted/data/level-up-magic.json'),
   spells: readJson('data/extracted/data/spells.json'),
@@ -51,16 +53,27 @@ for (let n = 0; existsSync(resolve(repo, `data/extracted/data/scene/${n}.json`))
   const evPath = `data/extracted/events/scene-${String(n).padStart(3, '0')}.json`
   if (existsSync(resolve(repo, evPath))) {
     const ev = readJson<{ segments: { commands: SourceCmd[] }[] }>(evPath)
-    eventsByScene.set(n, ev.segments.flatMap((sg) => sg.commands))
+    eventsByScene.set(
+      n,
+      ev.segments.flatMap((sg) => sg.commands),
+    )
   }
 }
 // 共享段(跨场景 label,如 autoScript 公共巡逻/朝向链)以 key -1 挂入 label 全局索引
 if (existsSync(resolve(repo, 'data/extracted/events/shared.json'))) {
-  const ev = readJson<{ segments: { commands: SourceCmd[] }[] }>('data/extracted/events/shared.json')
-  eventsByScene.set(-1, ev.segments.flatMap((sg) => sg.commands))
+  const ev = readJson<{ segments: { commands: SourceCmd[] }[] }>(
+    'data/extracted/events/shared.json',
+  )
+  eventsByScene.set(
+    -1,
+    ev.segments.flatMap((sg) => sg.commands),
+  )
 }
 // 全流兜底(key -2,label 索引后置:场景/共享文件优先):跳进战斗侧等未分区段的目标
-eventsByScene.set(-2, allJson.segments.flatMap((sg) => sg.commands))
+eventsByScene.set(
+  -2,
+  allJson.segments.flatMap((sg) => sg.commands),
+)
 const DEBUG_SCENES = process.env.MIG_DEBUG === '1'
 if (DEBUG_SCENES) {
   // 逐场景跑,找翻译爆点
@@ -79,7 +92,9 @@ const demoActors = readJson<ActorDef[]>('projects/demo/content/actors.json')
 const demoSprites = readJson<SpriteDef[]>('projects/demo/content/sprites.json')
 const demoLocale = readJson<Record<string, string>>('projects/demo/content/locale.json')
 const demoSceneIds = readJson<string[]>('projects/demo/content/scenes/index.json')
-const demoScenes = demoSceneIds.map((id) => readJson<{ id: string }>(`projects/demo/content/scenes/${id}.json`))
+const demoScenes = demoSceneIds.map((id) =>
+  readJson<{ id: string }>(`projects/demo/content/scenes/${id}.json`),
+)
 const demoManifest = readJson<Record<string, unknown>>('projects/demo/manifest.json')
 
 const actors = mergeExtras(out.actors, demoActors)
@@ -98,7 +113,18 @@ writeJson('projects/pal/manifest.json', {
   },
   // pal 资源指向共享提取源(可再生;免拷 221 张图进仓)。demo 保持自包含范例。
   // sounds 在提取源与 data 平级(/extracted/sounds/<id>.wav,RIFF PCM 直解)。
-  assets: { root: '/extracted/data', maps: 'tilemap', tilesets: 'tileset', sprites: 'sprite', palettes: 'palette', sounds: '/extracted/sounds' },
+  // 内容资产走库层:提取源 /extracted + bake 产物 /baked(立绘/战斗头像/物品图标,pnpm bake 再生)
+  assets: {
+    root: '/extracted/data',
+    maps: 'tilemap',
+    tilesets: 'tileset',
+    sprites: 'sprite',
+    palettes: 'palette',
+    sounds: '/extracted/sounds',
+    portraits: '/baked/portraits',
+    faces: '/baked/ui/face',
+    itemIcons: '/baked/ui/items',
+  },
 })
 writeJson('projects/pal/content/actors.json', actors)
 writeJson('projects/pal/content/sprites.json', sprites)
@@ -112,29 +138,66 @@ const allSceneIds = [...demoScenes.map((s) => s.id), ...scenesOut.scenes.map((s)
 writeJson('projects/pal/content/scenes/index.json', allSceneIds)
 for (const sc of demoScenes) writeJson(`projects/pal/content/scenes/${sc.id}.json`, sc)
 for (const sc of scenesOut.scenes) writeJson(`projects/pal/content/scenes/${sc.id}.json`, sc)
-cpSync(resolve(repo, 'projects/demo/assets'), resolve(repo, 'projects/pal/assets'), { recursive: true })
+cpSync(resolve(repo, 'projects/demo/assets'), resolve(repo, 'projects/pal/assets'), {
+  recursive: true,
+})
 
 // ── 报告 ──
 console.log(`[migrate:content] projects/pal 已生成:`)
-console.log(`  actors ${actors.length}(迁移 ${out.actors.length} + demo 独有 ${actors.length - out.actors.length})`)
-console.log(`  sprites ${sprites.length} · items ${out.items.length} · skills ${out.skills.skills.length}(纯伤害 57 + 线性脚本 18 + 门类 5)`)
-console.log(`  levelUp 角色数 ${Object.keys(out.skills.levelUp).length} · locale 键 ${Object.keys(locale).length}`)
+console.log(
+  `  actors ${actors.length}(迁移 ${out.actors.length} + demo 独有 ${actors.length - out.actors.length})`,
+)
+console.log(
+  `  sprites ${sprites.length} · items ${out.items.length} · skills ${out.skills.skills.length}(纯伤害 57 + 线性脚本 18 + 门类 5)`,
+)
+console.log(
+  `  levelUp 角色数 ${Object.keys(out.skills.levelUp).length} · locale 键 ${Object.keys(locale).length}`,
+)
 const sr = scenesOut.scriptReport
 const unmigTotal = Object.values(sr.unmigrated).reduce((a, b) => a + b, 0)
-console.log(`  脚本翻译(M3a):链 ${sr.chains} · 段 ${sr.stages} · 命令 ${sr.commands} · unmigrated ${unmigTotal}(流截断 ${sr.flowCuts})`)
-const top = Object.entries(sr.unmigrated).sort((a, b) => b[1] - a[1]).slice(0, 10)
+console.log(
+  `  脚本翻译(M3a):链 ${sr.chains} · 段 ${sr.stages} · 命令 ${sr.commands} · unmigrated ${unmigTotal}(流截断 ${sr.flowCuts})`,
+)
+const top = Object.entries(sr.unmigrated)
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 10)
 console.log(`    缺口 Top:${top.map(([k, v]) => `${k}×${v}`).join(' / ')}`)
-console.log(`  装备效果(M1b):${out.items.filter((i) => i.equip).length} 件已翻;pending op ${out.report.pendingEquip.flatMap((p) => p.ops).length}(战斗精灵切换/毒疗)`)
-console.log(`  技能 pending ${out.report.pendingSkills.length}(summon ${out.report.pendingSkills.filter((p) => p.reason.includes('summon')).length} / 动态公式 ${out.report.pendingSkills.filter((p) => p.reason.includes('scriptOnUse')).length});有损注 ${out.report.lossySkills.length}`)
-console.log(`  场景(M2b):${scenesOut.report.scenes} 静态迁(实体 ${scenesOut.report.entities}/触发区跳 ${scenesOut.report.triggerZonesSkipped}/隐藏 ${scenesOut.report.hidden});入口对 ${scenesOut.report.entriesFound}(start ${scenesOut.report.scenesWithStart}/兜底 ${scenesOut.report.entryFallback.length});音乐 ${scenesOut.report.scenesWithMusic};精灵登记 ${scenesOut.sprites.length}(布局冲突 ${scenesOut.report.layoutConflicts.length}/自循环候选 ${scenesOut.report.autoLoopCandidates})`)
-console.log(`  使用效果(M1d):${out.items.filter((i) => i.use).length} 件已翻;pending ${out.report.pendingUse.length}(灵珠剧情/毒杀/遇敌香/蛊系→对应系统);有损注 ${out.report.lossyUse.length}`)
-console.log(`  敌人(M4a):${out.enemies.length} 迁(有 AI 脚本 ${out.enemyReport?.withScript ?? 0};越界 enemyId ${out.enemyReport?.danglingEnemyId.length ?? 0})`)
+console.log(
+  `  装备效果(M1b):${out.items.filter((i) => i.equip).length} 件已翻;pending op ${out.report.pendingEquip.flatMap((p) => p.ops).length}(战斗精灵切换/毒疗)`,
+)
+console.log(
+  `  技能 pending ${out.report.pendingSkills.length}(summon ${out.report.pendingSkills.filter((p) => p.reason.includes('summon')).length} / 动态公式 ${out.report.pendingSkills.filter((p) => p.reason.includes('scriptOnUse')).length});有损注 ${out.report.lossySkills.length}`,
+)
+console.log(
+  `  场景(M2b):${scenesOut.report.scenes} 静态迁(实体 ${scenesOut.report.entities}/触发区跳 ${scenesOut.report.triggerZonesSkipped}/隐藏 ${scenesOut.report.hidden});入口对 ${scenesOut.report.entriesFound}(start ${scenesOut.report.scenesWithStart}/兜底 ${scenesOut.report.entryFallback.length});音乐 ${scenesOut.report.scenesWithMusic};精灵登记 ${scenesOut.sprites.length}(布局冲突 ${scenesOut.report.layoutConflicts.length}/自循环候选 ${scenesOut.report.autoLoopCandidates})`,
+)
+console.log(
+  `  使用效果(M1d):${out.items.filter((i) => i.use).length} 件已翻;pending ${out.report.pendingUse.length}(灵珠剧情/毒杀/遇敌香/蛊系→对应系统);有损注 ${out.report.lossyUse.length}`,
+)
+console.log(
+  `  敌人(M4a):${out.enemies.length} 迁(有 AI 脚本 ${out.enemyReport?.withScript ?? 0};越界 enemyId ${out.enemyReport?.danglingEnemyId.length ?? 0})`,
+)
 {
   const ps = out.enemyReport?.pendingScripts ?? []
   const ai = out.enemies.filter((e) => e.ai.rules?.length).length
   const ch = out.enemies.filter((e) => e.choreography?.length).length
   const od = out.enemies.filter((e) => e.onDefeated?.length).length
-  console.log(`  敌 AI(M4c):规则敌 ${ai} · 演出 ${ch} · 战后 ${od};脚本翻不净 ${ps.length}${ps.length ? ` → ${ps.slice(0, 6).map((p) => p.name).join('/')}${ps.length > 6 ? '…' : ''}` : ''}`)
+  console.log(
+    `  敌 AI(M4c):规则敌 ${ai} · 演出 ${ch} · 战后 ${od};脚本翻不净 ${ps.length}${
+      ps.length
+        ? ` → ${ps
+            .slice(0, 6)
+            .map((p) => p.name)
+            .join('/')}${ps.length > 6 ? '…' : ''}`
+        : ''
+    }`,
+  )
 }
-console.log(`  敌队(M4b):${out.enemyTeams.length} 队(空成员引用 ${out.enemyTeamReport?.danglingMember.length ?? 0})`)
-if (out.report.blockedDescs.length) console.log(`  ⚠ desc 护栏命中 ${out.report.blockedDescs.length}(待手修):`, out.report.blockedDescs.slice(0, 5))
+console.log(
+  `  敌队(M4b):${out.enemyTeams.length} 队(空成员引用 ${out.enemyTeamReport?.danglingMember.length ?? 0})`,
+)
+if (out.report.blockedDescs.length)
+  console.log(
+    `  ⚠ desc 护栏命中 ${out.report.blockedDescs.length}(待手修):`,
+    out.report.blockedDescs.slice(0, 5),
+  )

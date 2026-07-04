@@ -89,10 +89,15 @@ function segment(ctx: TranslateCtx, ip: number): Seg[] | undefined {
 }
 
 /** turn 区间条件:[k, until) 与可选 chance/firstOfKind 组合。 */
-function turnCond(k: number, until: number | undefined, extra: (AiRule['when'] | undefined)[]): AiRule['when'] {
+function turnCond(
+  k: number,
+  until: number | undefined,
+  extra: (AiRule['when'] | undefined)[],
+): AiRule['when'] {
   const parts: NonNullable<AiRule['when']>[] = []
   if (k > 1) parts.push({ kind: 'turn', op: '>=', value: k })
-  if (until !== undefined) parts.push({ kind: 'not', cond: { kind: 'turn', op: '>=', value: until } })
+  if (until !== undefined)
+    parts.push({ kind: 'not', cond: { kind: 'turn', op: '>=', value: until } })
   for (const e of extra) if (e) parts.push(e)
   if (parts.length === 0) return undefined
   if (parts.length === 1) return parts[0]
@@ -144,9 +149,28 @@ function translateHook(
             { kind: 'chance', percent: rate },
             firstOnly ? { kind: 'firstOfKind' } : undefined,
           ])
-          if (noc === 0x9f) out.rules.push({ at: 'act', ...(when ? { when } : {}), do: { kind: 'transform', enemyId: `enemy-${nops[0]}` } })
-          if (noc === 0x9c) out.rules.push({ at: 'act', ...(when ? { when } : {}), do: { kind: 'divide', copies: 1 } })
-          if (noc === 0x9e) out.rules.push({ at: 'act', ...(when ? { when } : {}), do: { kind: 'summon', ...(nops[0] ? { enemyId: `enemy-${nops[0]}` } : {}), count: Math.max(1, nops[1] ?? 1) } })
+          if (noc === 0x9f)
+            out.rules.push({
+              at: 'act',
+              ...(when ? { when } : {}),
+              do: { kind: 'transform', enemyId: `enemy-${nops[0]}` },
+            })
+          if (noc === 0x9c)
+            out.rules.push({
+              at: 'act',
+              ...(when ? { when } : {}),
+              do: { kind: 'divide', copies: 1 },
+            })
+          if (noc === 0x9e)
+            out.rules.push({
+              at: 'act',
+              ...(when ? { when } : {}),
+              do: {
+                kind: 'summon',
+                ...(nops[0] ? { enemyId: `enemy-${nops[0]}` } : {}),
+                count: Math.max(1, nops[1] ?? 1),
+              },
+            })
           i += 2
           // 动作后常跟 0x67 收尾(设哨兵/关闭)——按时间线正常收
           continue
@@ -159,9 +183,28 @@ function translateHook(
         // 无概率门的裸动作(红史莱姆 0x9c)
         const nops = c.operands ?? []
         const when = turnCond(seg.k, undefined, [firstOnly ? { kind: 'firstOfKind' } : undefined])
-        if (oc === 0x9f) out.rules.push({ at: 'act', ...(when ? { when } : {}), do: { kind: 'transform', enemyId: `enemy-${nops[0]}` } })
-        if (oc === 0x9c) out.rules.push({ at: 'act', ...(when ? { when } : {}), do: { kind: 'divide', copies: 1 } })
-        if (oc === 0x9e) out.rules.push({ at: 'act', ...(when ? { when } : {}), do: { kind: 'summon', ...(nops[0] ? { enemyId: `enemy-${nops[0]}` } : {}), count: Math.max(1, nops[1] ?? 1) } })
+        if (oc === 0x9f)
+          out.rules.push({
+            at: 'act',
+            ...(when ? { when } : {}),
+            do: { kind: 'transform', enemyId: `enemy-${nops[0]}` },
+          })
+        if (oc === 0x9c)
+          out.rules.push({
+            at: 'act',
+            ...(when ? { when } : {}),
+            do: { kind: 'divide', copies: 1 },
+          })
+        if (oc === 0x9e)
+          out.rules.push({
+            at: 'act',
+            ...(when ? { when } : {}),
+            do: {
+              kind: 'summon',
+              ...(nops[0] ? { enemyId: `enemy-${nops[0]}` } : {}),
+              count: Math.max(1, nops[1] ?? 1),
+            },
+          })
         i++
         continue
       }
@@ -192,7 +235,9 @@ function translateHook(
         i++
         continue
       }
-      out.pending.push(`${hookName} 段${seg.k}: ${c.op === 'raw' ? `op 0x${c.opcode?.toString(16)}` : c.op} 未翻`)
+      out.pending.push(
+        `${hookName} 段${seg.k}: ${c.op === 'raw' ? `op 0x${c.opcode?.toString(16)}` : c.op} 未翻`,
+      )
       i++
     }
     if (dlg.length) {

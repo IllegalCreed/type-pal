@@ -15,6 +15,28 @@ export interface AssetBase {
   palettes: string
   /** 音效目录完整前缀(<id>.wav;loader 已按绝对/相对规则解析)。 */
   sounds: string
+  /** 对话/状态立绘目录(<chunk>.png;内容资产,随库/工程)。 */
+  portraits: string
+  /** 战斗小头像目录(<actorId>.png)。 */
+  faces: string
+  /** 物品图标目录(<icon>.png)。 */
+  itemIcons: string
+  /** UI chrome 覆盖目录(可选:工程自带皮肤;缺省 = 引擎默认皮 /ui)。 */
+  uiOverride?: string
+}
+
+/** 资产缺失指路(新 clone 最常见坑:data/extracted 与 data/baked 是可再生产物,不进 git)。 */
+const ASSET_HINT =
+  '资产缺失?新 clone 需先放入 data/raw 并跑:pnpm extract && pnpm --filter @type-pal/migrate run bake(见 docs/dev-servers.md「新人前置」)'
+
+/** fetch 二进制资产:404 或返回 HTML(SPA fallback)都按缺失报,附指路。 */
+async function fetchAsset(url: string, label: string): Promise<Response> {
+  const res = await fetch(url)
+  if (!res.ok) throw new Error(`${label}: ${res.status} ${url} —— ${ASSET_HINT}`)
+  const ct = res.headers.get('content-type') ?? ''
+  if (ct.includes('text/html'))
+    throw new Error(`${label}: ${url} 返回 HTML(路径落空)—— ${ASSET_HINT}`)
+  return res
 }
 
 async function fetchJson<T>(url: string): Promise<T> {
@@ -33,8 +55,7 @@ export function loadPalette(base: AssetBase, palId: number): Promise<Palette> {
 
 /** 原版 .rle tileset blob:gzip 解压 → parseSpriteChunk → 按 tile 下标索引的帧。 */
 export async function loadTileset(base: AssetBase, mapNum: number): Promise<Map<number, RleFrame>> {
-  const res = await fetch(`${base.root}/${base.tilesets}/${mapNum}.rle`)
-  if (!res.ok) throw new Error(`tileset ${mapNum}: ${res.status}`)
+  const res = await fetchAsset(`${base.root}/${base.tilesets}/${mapNum}.rle`, `tileset ${mapNum}`)
   const bytes = await decompressGzip(await res.blob())
   const frames = parseSpriteChunk(bytes)
   const map = new Map<number, RleFrame>()
@@ -53,8 +74,10 @@ export interface LoadedSprite {
 
 /** 原版大世界精灵:{root}/{sprites}/{spriteNum}.rle(gzip RLE 帧组)。 */
 export async function loadSprite(base: AssetBase, spriteNum: number): Promise<LoadedSprite> {
-  const res = await fetch(`${base.root}/${base.sprites}/${spriteNum}.rle`)
-  if (!res.ok) throw new Error(`sprite ${spriteNum}: ${res.status}`)
+  const res = await fetchAsset(
+    `${base.root}/${base.sprites}/${spriteNum}.rle`,
+    `sprite ${spriteNum}`,
+  )
   const frames = parseSpriteChunk(await decompressGzip(await res.blob()))
   const first = frames[0]
   return {
@@ -73,8 +96,10 @@ export async function loadBattleSprite(
   kind: 'enemy' | 'player',
   id: number,
 ): Promise<LoadedSprite> {
-  const res = await fetch(`${base.root}/battle-sprite/${kind}/${id}.rle`)
-  if (!res.ok) throw new Error(`battle sprite ${kind}/${id}: ${res.status}`)
+  const res = await fetchAsset(
+    `${base.root}/battle-sprite/${kind}/${id}.rle`,
+    `battle sprite ${kind}/${id}`,
+  )
   const frames = parseSpriteChunk(await decompressGzip(await res.blob()))
   const first = frames[0]
   return {
@@ -86,16 +111,17 @@ export async function loadBattleSprite(
 
 /** 物理命中特效精灵(chunk 10 = {root}/magic/effect.rle,gzip RLE;M4d-2)。 */
 export async function loadEffectSprite(base: AssetBase): Promise<LoadedSprite> {
-  const res = await fetch(`${base.root}/magic/effect.rle`)
-  if (!res.ok) throw new Error(`effect sprite: ${res.status}`)
+  const res = await fetchAsset(`${base.root}/magic/effect.rle`, 'effect sprite')
   const frames = parseSpriteChunk(await decompressGzip(await res.blob()))
   return { frames, anchorX: 0, anchorY: 0 }
 }
 
 /** 法术特效精灵(FIRE.MKF chunk = {root}/magic/fire-NN.rle;M4d-2b)。 */
 export async function loadFireSprite(base: AssetBase, chunk: number): Promise<LoadedSprite> {
-  const res = await fetch(`${base.root}/magic/fire-${String(chunk).padStart(2, '0')}.rle`)
-  if (!res.ok) throw new Error(`fire sprite ${chunk}: ${res.status}`)
+  const res = await fetchAsset(
+    `${base.root}/magic/fire-${String(chunk).padStart(2, '0')}.rle`,
+    `fire sprite ${chunk}`,
+  )
   const frames = parseSpriteChunk(await decompressGzip(await res.blob()))
   return { frames, anchorX: 0, anchorY: 0 }
 }
