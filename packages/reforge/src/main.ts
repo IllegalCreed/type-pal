@@ -59,7 +59,7 @@ import {
 } from './magic-menu-state.js'
 import { drawEquipMenu } from './menu/equip-box.js'
 import { drawMagicMenu } from './menu/magic-box.js'
-import { loadMenuAssets, MenuBox } from './menu/menu-box.js'
+import { loadMenuAssets, loadPng, MenuBox } from './menu/menu-box.js'
 import { drawSaveBrowser } from './menu/save-browser-box.js'
 import { drawSystemMenu } from './menu/system-box.js'
 import { drawUseMenu } from './menu/use-box.js'
@@ -544,9 +544,9 @@ async function main(): Promise<void> {
         skills: world.learnedSkills[c.id] ?? [], // M4b-3:仙术指令数据源
         fleeRate: effectiveStat(c, 'luck', itemsById), // 逃跑判定 str
       }))
-      // 资产:战场背景(sys:battleField 记账 → 当前场景 palette 着色)+ 敌我战斗精灵
+      // 资产:战场背景(sys:battleField 记账 → 当前场景 palette 着色)+ 敌我战斗精灵 + 队员小头像
       const fieldId = world.script?.vars['sys:battleField'] ?? 24
-      const [bg, enemySprites, playerSprites] = await Promise.all([
+      const [bg, enemySprites, playerSprites, faceList] = await Promise.all([
         loadBattleBg(project.assetBase, fieldId, palette).catch(() => undefined),
         Promise.all(enemyDefs.map((e) => loadBattleSprite(project.assetBase, 'enemy', e.spriteNum).catch(() => undefined))),
         Promise.all(
@@ -554,11 +554,16 @@ async function main(): Promise<void> {
             loadBattleSprite(project.assetBase, 'player', project.actorsById[c.template]?.battler?.battleSpriteNum ?? 0).catch(() => undefined),
           ),
         ),
+        Promise.all(world.party.map((c) => loadPng(`/ui/face/${c.template}.png`))),
       ])
+      const faces: Record<string, ImageBitmap | undefined> = {}
+      world.party.forEach((c, i) => {
+        faces[c.id] = faceList[i]
+      })
       const session = new BattleSession(
         players,
         enemyDefs,
-        { bg, palette, glyphs, enemySprites, playerSprites },
+        { bg, palette, glyphs, enemySprites, playerSprites, ui: menuAssets, faces },
         (roleId) => {
           const c = world.party.find((x) => x.id === roleId)
           return c ? lookupText(`name.${c.template}`, project.locale) : roleId

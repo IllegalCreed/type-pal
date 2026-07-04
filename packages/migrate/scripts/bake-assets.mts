@@ -57,9 +57,9 @@ function pngSize(src: string): { w: number; h: number } {
 // 1) 头像(收编 bake-portraits):全部立绘块(对话样式 op 的 arg0 = RGM 立绘号,遍布全剧情)
 mkdirSync(resolve(PUBLIC, 'portraits'), { recursive: true })
 {
-  const manifest = JSON.parse(
-    readFileSync(resolve(EXTRACTED, 'data/portraits.json'), 'utf8'),
-  ) as { count: number }
+  const manifest = JSON.parse(readFileSync(resolve(EXTRACTED, 'data/portraits.json'), 'utf8')) as {
+    count: number
+  }
   let baked = 0
   for (let chunk = 1; chunk <= manifest.count; chunk++) {
     const src = resolve(EXTRACTED, `images/portraits/${String(chunk).padStart(2, '0')}.png`)
@@ -168,6 +168,18 @@ bakeFile(resolve(EXTRACTED, 'images/ui/frame-67.png'), resolve(PUBLIC, 'ui/curso
 bakeFile(resolve(EXTRACTED, 'images/ui/frame-68.png'), resolve(PUBLIC, 'ui/cursor/down.png'))
 bakeFile(resolve(EXTRACTED, 'images/ui/frame-69.png'), resolve(PUBLIC, 'ui/cursor/grid.png'))
 console.log('baked magic-menu sprites (red box / playerbox / face / cursor)')
+
+// 8b) 战斗队员信息框小头像(gpSpriteUI frame 48+roleId)→ ui/face/<actorId>.png(稳定 id 命名,杜绝下标)。
+//     roleId 序 = 原版 PlayerRoles 列序:0李逍遥 1赵灵儿 2林月如 3巫后 4阿奴 5盖罗娇。
+const FACE_ACTORS = ['li-xiaoyao', 'zhao-linger', 'lin-yueru', 'wu-hou', 'anu', 'gai-luojiao']
+mkdirSync(resolve(PUBLIC, 'ui/face'), { recursive: true })
+FACE_ACTORS.forEach((actorId, roleId) => {
+  bakeFile(
+    resolve(EXTRACTED, `images/ui/frame-${String(48 + roleId).padStart(2, '0')}.png`),
+    resolve(PUBLIC, `ui/face/${actorId}.png`),
+  )
+})
+console.log('baked battle faces (frame 48-53 → ui/face/<actorId>)')
 
 // 9) 物品详情框 itembox(SPRITENUM_ITEMBOX 70)。重切九宫格 frame-00..08(角 8px)→ drawSlicedBox 任意尺寸;
 //    64×64 处各区恰好 1 tile、无平铺 → 与原图逐像素一致;将来可扩宽高。

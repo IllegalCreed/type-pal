@@ -15,6 +15,8 @@ export interface BattleSpriteDraw {
   y: number
   /** 当前帧下标(idle=0;M4b-3 动画驱动改)。 */
   frame: number
+  /** 选敌高亮(选中目标提亮,闪烁节拍由调用方给;一阶段 ColorShift 的 RGBA 等价)。 */
+  highlight?: boolean
 }
 
 export interface BattleScene {
@@ -33,7 +35,11 @@ const VIEW_H = 200
  * 画一帧战斗场景到 ctx(逻辑 320×200 × worldScale)。
  * 顺序:背景 → 敌人(靠上先画)→ 队员(靠下后画),底锚对齐 = x 水平居中、y 脚底。
  */
-export function renderBattleScene(ctx: CanvasRenderingContext2D, scene: BattleScene, worldScale: number): void {
+export function renderBattleScene(
+  ctx: CanvasRenderingContext2D,
+  scene: BattleScene,
+  worldScale: number,
+): void {
   ctx.save()
   ctx.imageSmoothingEnabled = false
   ctx.scale(worldScale, worldScale)
@@ -49,7 +55,16 @@ export function renderBattleScene(ctx: CanvasRenderingContext2D, scene: BattleSc
     const f = d.sprite.frames[d.frame] ?? d.sprite.frames[0]
     if (!f) continue
     const img = bakeFrame(f, scene.palette)
-    ctx.drawImage(img, Math.round(d.x - f.width / 2), Math.round(d.y - f.height))
+    const dx = Math.round(d.x - f.width / 2)
+    const dy = Math.round(d.y - f.height)
+    if (d.highlight) {
+      ctx.save()
+      ctx.filter = 'brightness(1.8)'
+      ctx.drawImage(img, dx, dy)
+      ctx.restore()
+    } else {
+      ctx.drawImage(img, dx, dy)
+    }
   }
   ctx.restore()
 }

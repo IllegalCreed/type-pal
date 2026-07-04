@@ -9,6 +9,7 @@ import type { Command, EnemyDef, SkillData } from '@type-pal/content'
 import { evalAiCond, lookupText } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import type { GlyphTable, LoadedSprite } from '../assets.js'
+import type { MenuAssets } from '../menu/menu-box.js'
 import { renderSpans } from '../text/text-render.js'
 import {
   type BattleAction,
@@ -19,6 +20,12 @@ import {
   stepBattle,
 } from './battle-core.js'
 import { getEnemyBasePos, getPlayerBasePos } from './battle-positions.js'
+import {
+  type BattleMenuRow,
+  drawBattleMenuBox,
+  drawCurrentFinger,
+  drawPlayerInfoBox,
+} from './battle-ui.js'
 import { type BattleScene, type BattleSpriteDraw, renderBattleScene } from './present-battle.js'
 
 const VIEW_W = 320
@@ -46,6 +53,10 @@ export interface BattleSessionAssets {
   enemySprites: (LoadedSprite | undefined)[]
   /** 队员战斗精灵(与 players 同序)。 */
   playerSprites: (LoadedSprite | undefined)[]
+  /** 菜单基建资产(九宫格框/数字/手指;M4d-1)。缺 → 文字兜底渲染(单测)。 */
+  ui?: MenuAssets
+  /** 队员战斗小头像,键 = roleId(与 players 的 roleId 同源)。 */
+  faces?: Record<string, ImageBitmap | undefined>
 }
 
 export class BattleSession {
@@ -150,7 +161,10 @@ export class BattleSession {
     if (!c) return
     switch (c.kind) {
       case 'dialog':
-        this.choreoBanner = { name: this.choreoName, text: lookupText(c.line.text, this.opts.locale ?? {}) }
+        this.choreoBanner = {
+          name: this.choreoName,
+          text: lookupText(c.line.text, this.opts.locale ?? {}),
+        }
         return
       case 'playSound':
         this.state.log.push(`♪ 音效 ${c.soundId}`)
@@ -208,7 +222,8 @@ export class BattleSession {
       }
       if (this.ui === 'acting') this.ui = 'menu' // 新回合回菜单
       if (this.ui === 'menu') {
-        if (pressed.has('ArrowUp')) this.menuIdx = (this.menuIdx + MENU_ITEMS.length - 1) % MENU_ITEMS.length
+        if (pressed.has('ArrowUp'))
+          this.menuIdx = (this.menuIdx + MENU_ITEMS.length - 1) % MENU_ITEMS.length
         if (pressed.has('ArrowDown')) this.menuIdx = (this.menuIdx + 1) % MENU_ITEMS.length
         if (pressed.has(' ') || pressed.has('Enter')) {
           const item = MENU_ITEMS[this.menuIdx]
@@ -267,7 +282,8 @@ export class BattleSession {
       } else if (this.ui === 'target') {
         const alive = this.aliveEnemyIdxs()
         if (alive.length === 0) return
-        if (pressed.has('ArrowLeft')) this.targetIdx = (this.targetIdx + alive.length - 1) % alive.length
+        if (pressed.has('ArrowLeft'))
+          this.targetIdx = (this.targetIdx + alive.length - 1) % alive.length
         if (pressed.has('ArrowRight')) this.targetIdx = (this.targetIdx + 1) % alive.length
         if (pressed.has('Escape')) this.ui = 'menu'
         if (pressed.has(' ') || pressed.has('Enter')) {
@@ -328,33 +344,53 @@ export class BattleSession {
     }
   }
 
-  private spawnFloat(side: 'player' | 'enemy', idx: number, text: string, color: readonly [number, number, number]): void {
+  private spawnFloat(
+    side: 'player' | 'enemy',
+    idx: number,
+    text: string,
+    color: readonly [number, number, number],
+  ): void {
     const pos =
       side === 'player'
         ? getPlayerBasePos(this.state.players.length, idx)
         : getEnemyBasePos(this.state.enemies.length, idx, this.enemyDefs[idx]?.anim.yPosOffset ?? 0)
     if (!pos) return
-    const sprite = side === 'player' ? this.assets.playerSprites[idx] : this.assets.enemySprites[idx]
+    const sprite =
+      side === 'player' ? this.assets.playerSprites[idx] : this.assets.enemySprites[idx]
     const h = sprite?.frames[0]?.height ?? 40
     this.floats.push({ x: pos.x, y: pos.y - h - 6, text, color, bornAt: this.nowMs })
   }
 
   render(ctx: CanvasRenderingContext2D, worldScale: number): void {
     const s = this.state
+    const now = this.nowMs
+    const sel = s.phase === 'selectAction' ? this.nextSelecting() : undefined
+    // 选敌高亮目标(target 态,闪烁节拍)
+    const alive = this.aliveEnemyIdxs()
+    const highlightEnemy =
+      sel !== undefined && this.ui === 'target' && alive.length && Math.floor(now / 160) % 2 === 0
+        ? alive[this.targetIdx % alive.length]
+        : undefined
     // 场景(死亡不画;M4b-3 换死亡淡出)
     const enemies: BattleSpriteDraw[] = []
     s.enemies.forEach((e, i) => {
       const sprite = this.assets.enemySprites[i]
       const pos = getEnemyBasePos(s.enemies.length, i, this.enemyDefs[i]?.anim.yPosOffset ?? 0)
-      if (e.hp > 0 && sprite && pos) enemies.push({ sprite, x: pos.x, y: pos.y, frame: 0 })
+      if (e.hp > 0 && sprite && pos)
+        enemies.push({ sprite, x: pos.x, y: pos.y, frame: 0, highlight: i === highlightEnemy })
     })
     const players: BattleSpriteDraw[] = []
-    s.players.forEach((p, i) => {
+    s.players.forEach((_p, i) => {
       const sprite = this.assets.playerSprites[i]
       const pos = getPlayerBasePos(s.players.length, i)
       if (sprite && pos) players.push({ sprite, x: pos.x, y: pos.y, frame: 0 })
     })
-    const scene: BattleScene = { bg: this.assets.bg, enemies, players, palette: this.assets.palette }
+    const scene: BattleScene = {
+      bg: this.assets.bg,
+      enemies,
+      players,
+      palette: this.assets.palette,
+    }
     renderBattleScene(ctx, scene, worldScale)
 
     // UI 层(320 逻辑坐标 ×scale)
@@ -362,25 +398,78 @@ export class BattleSession {
     ctx.scale(worldScale, worldScale)
     ctx.imageSmoothingEnabled = false
     const g = this.assets.glyphs
+    const ui = this.assets.ui
 
-    // 底部队员 HP/MP 条
+    // 底部队员信息框(playerbox+头像+黄青数字;无 UI 资产 → 文字兜底)
     s.players.forEach((p, i) => {
-      const x = 8 + i * 106
-      const hpColor: readonly [number, number, number] = p.hp <= 0 ? [224, 91, 91] : p.hp < p.maxHp / 5 ? [226, 179, 64] : [215, 220, 229]
-      renderSpans(ctx, [{ text: this.nameOf(p.roleId) }], x, 170, { glyphs: g, shadow: true })
-      renderSpans(ctx, [{ text: `${p.hp}/${p.maxHp}` }], x, 184, { glyphs: g, shadow: true, forceRgba: hpColor })
+      if (ui?.magicPlayerBox) {
+        drawPlayerInfoBox(ctx, ui, this.assets.faces?.[p.roleId], p, i)
+      } else {
+        const x = 8 + i * 106
+        const hpColor: readonly [number, number, number] =
+          p.hp <= 0 ? [224, 91, 91] : p.hp < p.maxHp / 5 ? [226, 179, 64] : [215, 220, 229]
+        renderSpans(ctx, [{ text: this.nameOf(p.roleId) }], x, 170, { glyphs: g, shadow: true })
+        renderSpans(ctx, [{ text: `${p.hp}/${p.maxHp}` }], x, 184, {
+          glyphs: g,
+          shadow: true,
+          forceRgba: hpColor,
+        })
+      }
     })
 
-    // M4c-2 演出横幅(顶部;空格推进)
-    if (this.choreoBanner) {
-      renderSpans(ctx, [{ text: `${this.choreoBanner.name}:` }], 10, 8, { glyphs: g, shadow: true, forceRgba: [226, 179, 64] })
-      renderSpans(ctx, [{ text: this.choreoBanner.text }], 10, 26, { glyphs: g, shadow: true })
-      renderSpans(ctx, [{ text: '▼' }], VIEW_W - 16, 26, { glyphs: g, shadow: true, forceRgba: [226, 179, 64] })
+    // 当前行动队员头顶手指(选指令/选目标期间;一阶段 68/69 闪)
+    if (sel !== undefined && ui) {
+      const pos = getPlayerBasePos(s.players.length, sel)
+      const spriteH = this.assets.playerSprites[sel]?.frames[0]?.height ?? 60
+      if (pos) drawCurrentFinger(ctx, ui, pos.x, pos.y - spriteH, now)
     }
-    // 指令菜单(左上;为 nextSelecting 队员选)
-    const sel = s.phase === 'selectAction' ? this.nextSelecting() : undefined
-    if (sel !== undefined && this.ui === 'menu') {
-      renderSpans(ctx, [{ text: `▼ ${this.nameOf(s.players[sel]!.roleId)}` }], 10, 8, { glyphs: g, shadow: true, forceRgba: [156, 196, 255] })
+
+    // M4c-2 演出横幅(顶部;空格推进)—— 半透明底条 + 名字/文本
+    if (this.choreoBanner) {
+      ctx.save()
+      ctx.fillStyle = 'rgba(0,0,0,0.55)'
+      ctx.fillRect(0, 0, VIEW_W, 46)
+      ctx.restore()
+      renderSpans(ctx, [{ text: `${this.choreoBanner.name}:` }], 10, 6, {
+        glyphs: g,
+        shadow: true,
+        forceRgba: [226, 179, 64],
+      })
+      renderSpans(ctx, [{ text: this.choreoBanner.text }], 10, 24, { glyphs: g, shadow: true })
+      renderSpans(ctx, [{ text: '▼' }], VIEW_W - 16, 24, {
+        glyphs: g,
+        shadow: true,
+        forceRgba: [226, 179, 64],
+      })
+    }
+
+    // 指令菜单(左侧框式竖排;为 nextSelecting 队员选)。选敌态不画(注意力在目标,一阶段同)。
+    if (sel !== undefined && ui && this.ui !== 'target' && this.ui !== 'acting') {
+      const p = s.players[sel]!
+      const mainRows: BattleMenuRow[] = MENU_ITEMS.map((label) => ({
+        label,
+        disabled:
+          (label === '仙术' && p.skills.length === 0) ||
+          (label === '物品' && this.usableItems().length === 0),
+      }))
+      const mainW = drawBattleMenuBox(ctx, ui, g, mainRows, this.menuIdx, now, 3, 20)
+      // 级联子菜单(红框;偏移对齐 D17 级联节奏)
+      if (this.ui === 'skill') {
+        const rows: BattleMenuRow[] = p.skills.map((sid) => {
+          const sk = this.opts.skills?.[sid]
+          const mp = sk?.cost.mp ?? 0
+          return { label: sk?.name ?? sid, right: mp, disabled: !sk || p.mp < mp }
+        })
+        drawBattleMenuBox(ctx, ui, g, rows, this.skillIdx, now, 3 + mainW - 10, 43, 'red')
+      } else if (this.ui === 'item') {
+        const rows: BattleMenuRow[] = this.usableItems().map((it) => ({
+          label: this.state.items[it.itemId]?.name ?? it.itemId,
+          right: it.count,
+        }))
+        drawBattleMenuBox(ctx, ui, g, rows, this.itemIdx, now, 3 + mainW - 10, 43, 'red')
+      }
+    } else if (sel !== undefined && !ui) {
+      // 文字兜底(单测/资产缺失)
       MENU_ITEMS.forEach((item, i) => {
         const selMark = i === this.menuIdx ? '▶ ' : '   '
         renderSpans(ctx, [{ text: `${selMark}${item}` }], 10, 26 + i * 17, {
@@ -390,59 +479,25 @@ export class BattleSession {
         })
       })
     }
-    // 仙术列表
-    if (sel !== undefined && this.ui === 'skill') {
-      const p = s.players[sel]!
-      renderSpans(ctx, [{ text: `✨ ${this.nameOf(p.roleId)} 仙术(Esc 返回)` }], 10, 8, { glyphs: g, shadow: true, forceRgba: [156, 196, 255] })
-      p.skills.forEach((sid, i) => {
-        const sk = this.opts.skills?.[sid]
-        const name = sk?.name ?? sid
-        const mp = sk?.cost.mp ?? 0
-        const affordable = p.mp >= mp && !!sk
-        const mark = i === this.skillIdx ? '▶ ' : '   '
-        renderSpans(ctx, [{ text: `${mark}${name}  MP${mp}` }], 10, 26 + i * 17, {
-          glyphs: g,
-          shadow: true,
-          forceRgba: !affordable ? [110, 116, 130] : i === this.skillIdx ? [255, 255, 255] : [139, 147, 163],
-        })
-      })
-    }
-    // 物品列表
-    if (sel !== undefined && this.ui === 'item') {
-      renderSpans(ctx, [{ text: `🎒 物品(Esc 返回)` }], 10, 8, { glyphs: g, shadow: true, forceRgba: [156, 196, 255] })
-      this.usableItems().forEach((it, i) => {
-        const item = this.state.items[it.itemId]
-        const mark = i === this.itemIdx ? '▶ ' : '   '
-        renderSpans(ctx, [{ text: `${mark}${item?.name ?? it.itemId} ×${it.count}` }], 10, 26 + i * 17, {
-          glyphs: g,
-          shadow: true,
-          forceRgba: i === this.itemIdx ? [255, 255, 255] : [139, 147, 163],
-        })
-      })
-    }
-    // 目标箭头(选敌)
-    if (sel !== undefined && this.ui === 'target') {
-      renderSpans(ctx, [{ text: '选目标:← → 切换,空格确认' }], 10, 8, { glyphs: g, shadow: true, forceRgba: [156, 196, 255] })
-      const alive = this.aliveEnemyIdxs()
-      const t = alive[this.targetIdx % alive.length]
-      if (t !== undefined) {
-        const pos = getEnemyBasePos(s.enemies.length, t, this.enemyDefs[t]?.anim.yPosOffset ?? 0)
-        const sprite = this.assets.enemySprites[t]
-        const h = sprite?.frames[0]?.height ?? 40
-        if (pos) renderSpans(ctx, [{ text: '▼' }], pos.x - 4, pos.y - h - 14, { glyphs: g, shadow: true, forceRgba: [226, 179, 64] })
-      }
-    }
 
     // 伤害飘字(升起 + 淡出交给时长;先升 12px)
     for (const f of this.floats) {
       const t = (this.nowMs - f.bornAt) / 900
-      renderSpans(ctx, [{ text: f.text }], f.x, f.y - t * 12, { glyphs: g, shadow: true, forceRgba: f.color })
+      renderSpans(ctx, [{ text: f.text }], f.x, f.y - t * 12, {
+        glyphs: g,
+        shadow: true,
+        forceRgba: f.color,
+      })
     }
 
     // 胜负字
     if (this.ui === 'over') {
       const msg = s.phase === 'won' ? '战斗胜利!' : s.phase === 'lost' ? '全军覆没…' : '逃跑成功'
-      renderSpans(ctx, [{ text: msg }], VIEW_W / 2 - msg.length * 8, 92, { glyphs: g, shadow: true, forceRgba: [255, 255, 255] })
+      renderSpans(ctx, [{ text: msg }], VIEW_W / 2 - msg.length * 8, 92, {
+        glyphs: g,
+        shadow: true,
+        forceRgba: [255, 255, 255],
+      })
     }
     ctx.restore()
   }

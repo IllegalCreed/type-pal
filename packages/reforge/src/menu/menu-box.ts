@@ -334,12 +334,14 @@ export interface MenuAssets {
   cursorGrid: ImageBitmap | undefined
   /** 仙术菜单:选人红箭头(cursor/up,frame 67)。 */
   cursorUp: ImageBitmap | undefined
+  /** 战斗当前行动者红手指(cursor/down,frame 68;与 cursorGrid 69 交替闪)。 */
+  cursorDown: ImageBitmap | undefined
   /** 物品/装备列表:选中物详情框 itembox 九宫格 9 块(frame 70 重切;64×64 处与原图一致,可扩尺寸)。 */
   itembox: BoxTiles
 }
 
 /** 加载 PNG → ImageBitmap;失败返回 undefined(不阻断,渲染容错)。 */
-async function loadPng(url: string): Promise<ImageBitmap | undefined> {
+export async function loadPng(url: string): Promise<ImageBitmap | undefined> {
   try {
     const res = await fetch(url)
     if (!res.ok) return undefined
@@ -392,11 +394,12 @@ export async function loadMenuAssets(items: ItemDataMap): Promise<MenuAssets> {
     itemIcons[ch] = iconArr[i]
   })
   // 仙术菜单专用 sprite(角色框 / 头像 / 网格光标)
-  const [magicPlayerBox, magicFace, cursorGrid, cursorUp] = await Promise.all([
+  const [magicPlayerBox, magicFace, cursorGrid, cursorUp, cursorDown] = await Promise.all([
     loadPng('/ui/magic/playerbox.png'),
     loadPng('/ui/magic/face-0.png'),
     loadPng('/ui/cursor/grid.png'),
     loadPng('/ui/cursor/up.png'),
+    loadPng('/ui/cursor/down.png'),
   ])
   return {
     box: { tiles },
@@ -414,6 +417,7 @@ export async function loadMenuAssets(items: ItemDataMap): Promise<MenuAssets> {
     magicFace,
     cursorGrid,
     cursorUp,
+    cursorDown,
     itembox: { tiles: itemboxTiles },
   }
 }
