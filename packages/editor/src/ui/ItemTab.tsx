@@ -8,6 +8,8 @@ import type { AssetBase } from '@type-pal/reforge'
 import { useMemo, useState } from 'react'
 import { UpdateItemCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import type { RefEntry } from '../core/ref-index.js'
+import { RefList } from './VarsTab.js'
 
 /** 图标(预烘 RGBA PNG;assetBase.itemIcons 目录)。 */
 function ItemIcon(props: { base: string; icon: number; size?: number }) {
@@ -31,8 +33,11 @@ export function ItemTab(props: {
   assetBase?: AssetBase
   session: EditSession
   tabBar?: React.ReactNode
+  /** N5:物品 → 引用它的事件(give/lose/hasItem);剧情道具的编辑入口。 */
+  itemRefs?: Map<string, RefEntry[]>
+  onJumpToEvent?: (sceneId: string, srcKey: string) => void
 }) {
-  const { items, assetBase, session, tabBar } = props
+  const { items, assetBase, session, tabBar, itemRefs, onJumpToEvent } = props
   const [filter, setFilter] = useState('')
   const [selId, setSelId] = useState(items[0]?.id ?? '')
 
@@ -205,7 +210,7 @@ export function ItemTab(props: {
         )}
       </div>
 
-      {/* 右:提示 */}
+      {/* 右:提示 + 被引用(N5) */}
       <div className="inspector">
         <div className="pane-h">
           <span className="t">物品 · 编辑</span>
@@ -214,6 +219,19 @@ export function ItemTab(props: {
           名字/价格/图标即改即生效(撤销可回);装备加成(equip.effects)与使用效果
           (use.effects)结构化编辑后续补,现走 JSON——改完 💾 保存,菜单/战斗立即消费。
         </div>
+        {item && itemRefs && onJumpToEvent && (
+          <div className="section">
+            <h4>
+              被事件引用
+              <span className="hint2">{itemRefs.get(item.id)?.length ?? 0} 处 · 点击跳事件</span>
+            </h4>
+            {itemRefs.get(item.id)?.length ? (
+              <RefList refs={itemRefs.get(item.id)!} onJump={onJumpToEvent} />
+            ) : (
+              <div className="insp-empty">没有事件给出/收走/检查此物品。</div>
+            )}
+          </div>
+        )}
       </div>
     </>
   )

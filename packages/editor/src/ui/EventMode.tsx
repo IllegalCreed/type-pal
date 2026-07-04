@@ -237,6 +237,8 @@ export function EventMode(props: {
   scenes: SceneDef[]
   locale: Locale
   initialSceneId: string
+  /** 初始定位脚本源(N5 引用跳转:__onEnter__ / <eid>:trigger / <eid>:auto);缺省首源。 */
+  initialSrcKey?: string
   sprites: SpriteDef[]
   actorsById: Record<string, ActorDef>
   leaderSpriteId: string | undefined
@@ -249,6 +251,7 @@ export function EventMode(props: {
     scenes,
     locale,
     initialSceneId,
+    initialSrcKey,
     sprites,
     actorsById,
     leaderSpriteId,
@@ -258,7 +261,7 @@ export function EventMode(props: {
   } = props
   const [sceneId, setSceneId] = useState(initialSceneId)
   const [filter, setFilter] = useState('')
-  const [srcKey, setSrcKey] = useState<string | null>(null)
+  const [srcKey, setSrcKey] = useState<string | null>(initialSrcKey ?? null)
 
   // 只列有脚本的场景(验证眼睛:空场景无意义)
   const scriptedScenes = useMemo(

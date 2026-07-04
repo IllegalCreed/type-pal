@@ -65,6 +65,17 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
     setSelected(SCENE_NODE)
     setTool('select')
   }
+  // N5 引用跳转:变量页/物品页点引用 → 事件模式定位到 场景+脚本源。
+  // 手动切模式(rail 按钮)清跳转意图,避免旧目标反复劫持事件模式初始定位。
+  const [eventJump, setEventJump] = useState<{ scene: string; src: string } | null>(null)
+  const switchMode = (m: Mode): void => {
+    setEventJump(null)
+    setMode(m)
+  }
+  const jumpToEvent = (sceneId: string, srcKey: string): void => {
+    setEventJump({ scene: sceneId, src: srcKey })
+    setMode('event')
+  }
   const issues = useMemo(() => validateReferences(state), [state])
   // C0:实体经 actor⊕sprite 解析;玩家精灵 = party[0] → ActorDef.spriteId(与引擎同路径)
   const actorsById = useMemo(
@@ -183,14 +194,14 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
         <div className="rail">
           <button
             className={`mode${mode === 'place' ? ' active' : ''}`}
-            onClick={() => setMode('place')}
+            onClick={() => switchMode('place')}
           >
             <span className="ico">📍</span>
             <span className="lbl">布置</span>
           </button>
           <button
             className={`mode${mode === 'actor' ? ' active' : ''}`}
-            onClick={() => setMode('actor')}
+            onClick={() => switchMode('actor')}
           >
             <span className="ico">👥</span>
             <span className="lbl">角色</span>
@@ -201,14 +212,14 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
           </div>
           <button
             className={`mode${mode === 'event' ? ' active' : ''}`}
-            onClick={() => setMode('event')}
+            onClick={() => switchMode('event')}
           >
             <span className="ico">💬</span>
             <span className="lbl">事件</span>
           </button>
           <button
             className={`mode${mode === 'data' ? ' active' : ''}`}
-            onClick={() => setMode('data')}
+            onClick={() => switchMode('data')}
           >
             <span className="ico">📊</span>
             <span className="lbl">数据</span>
@@ -237,12 +248,15 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
             enemies={state.enemies ?? []}
             enemyTeams={state.enemyTeams ?? []}
             music={state.music ?? []}
+            scenes={state.scenes}
+            onJumpToEvent={jumpToEvent}
           />
         ) : mode === 'event' ? (
           <EventMode
             scenes={state.scenes}
             locale={state.locale}
-            initialSceneId={scene.id}
+            initialSceneId={eventJump?.scene ?? scene.id}
+            initialSrcKey={eventJump?.src}
             sprites={state.sprites}
             actorsById={actorsById}
             leaderSpriteId={leaderSpriteId}

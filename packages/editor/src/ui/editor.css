@@ -1520,3 +1520,88 @@ body {
   font-family: ui-monospace, monospace;
   opacity: 0.8;
 }
+
+/* ── N5 变量总览 + 引用反向索引 ── */
+.var-group {
+  margin: 10px 12px;
+  max-width: 620px;
+}
+.var-group h4 {
+  margin: 8px 0 6px;
+  font-size: 13px;
+}
+.var-row {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.var-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 4px 6px;
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+.var-head:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.var-head .caret {
+  opacity: 0.5;
+  width: 12px;
+}
+.var-head .nm {
+  flex: 1;
+}
+.var-head .k {
+  font-size: 12px;
+  opacity: 0.55;
+}
+.ref-list {
+  display: flex;
+  flex-direction: column;
+  padding: 2px 0 6px 24px;
+}
+.ref-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 6px;
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  font-size: 12px;
+  border-radius: 4px;
+}
+.ref-row:hover:not(:disabled) {
+  background: rgba(127, 212, 255, 0.1);
+}
+.ref-row:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+.ref-row .rw {
+  flex: none;
+  padding: 0 5px;
+  border-radius: 3px;
+  font-size: 11px;
+}
+.ref-row .rw.write {
+  background: rgba(255, 170, 90, 0.18);
+  color: #ffb570;
+}
+.ref-row .rw.read {
+  background: rgba(120, 200, 255, 0.15);
+  color: #7fd4ff;
+}
+.ref-row .src {
+  opacity: 0.75;
+}
+.ref-row .det {
+  opacity: 0.55;
+  margin-left: auto;
+}

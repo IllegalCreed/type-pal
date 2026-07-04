@@ -10,6 +10,7 @@ import type {
   ItemDataMap,
   Locale,
   MusicDef,
+  SceneDef,
   SkillDataMap,
   SpriteDef,
   SpriteLayout,
@@ -18,18 +19,21 @@ import type { AssetBase } from '@type-pal/reforge'
 import { useMemo, useState } from 'react'
 import { UpdateSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import { buildRefIndex } from '../core/ref-index.js'
 import { EnemyTab } from './EnemyTab.js'
 import { ItemTab } from './ItemTab.js'
 import { MusicTab } from './MusicTab.js'
 import { SpriteFrames } from './SpriteFrames.js'
+import { VarsTab } from './VarsTab.js'
 
-type Tab = 'sprite' | 'skill' | 'item' | 'enemy' | 'music'
+type Tab = 'sprite' | 'skill' | 'item' | 'enemy' | 'music' | 'vars'
 const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: 'sprite', label: '精灵库', icon: '🖼' },
   { id: 'skill', label: '技能', icon: '✨' },
   { id: 'item', label: '物品', icon: '🎒' },
   { id: 'enemy', label: '敌人', icon: '👹' },
   { id: 'music', label: '音乐', icon: '🎵' },
+  { id: 'vars', label: '变量', icon: '🚩' },
 ]
 
 const KIND_LABEL: Record<SpriteDef['layout']['kind'], string> = {
@@ -64,9 +68,26 @@ export function DataMode(props: {
   enemyTeams: EnemyTeamDef[]
   /** 音乐库(音乐页;工程没带 = 空)。 */
   music: MusicDef[]
+  /** 全场景(N5 引用反向索引数据源)。 */
+  scenes: SceneDef[]
+  /** 引用跳转:变量页/物品页点引用 → 事件模式定位。 */
+  onJumpToEvent: (sceneId: string, srcKey: string) => void
 }) {
-  const { sprites, assetBase, session, enemies, enemyTeams, skills, locale, itemList, music } =
-    props
+  const {
+    sprites,
+    assetBase,
+    session,
+    enemies,
+    enemyTeams,
+    skills,
+    locale,
+    itemList,
+    music,
+    scenes,
+    onJumpToEvent,
+  } = props
+  // N5:引用反向索引(flag/var/item ← 事件脚本);scenes 变才重算(全量扫描毫秒级)
+  const refIndex = useMemo(() => buildRefIndex(scenes), [scenes])
   const [tab, setTab] = useState<Tab>('sprite')
   const [filter, setFilter] = useState('')
   const [kindFilter, setKindFilter] = useState<'all' | SpriteDef['layout']['kind']>('all')
@@ -117,13 +138,26 @@ export function DataMode(props: {
   }
 
   if (tab === 'item') {
-    return <ItemTab items={itemList} assetBase={assetBase} session={session} tabBar={tabBar} />
+    return (
+      <ItemTab
+        items={itemList}
+        assetBase={assetBase}
+        session={session}
+        tabBar={tabBar}
+        itemRefs={refIndex.items}
+        onJumpToEvent={onJumpToEvent}
+      />
+    )
   }
 
   if (tab === 'music') {
     return (
       <MusicTab music={music} musicBase={assetBase.music} session={session} tabBar={tabBar} />
     )
+  }
+
+  if (tab === 'vars') {
+    return <VarsTab refIndex={refIndex} onJumpToEvent={onJumpToEvent} tabBar={tabBar} />
   }
 
   return (
