@@ -16,6 +16,17 @@ export type Facing = 'up' | 'down' | 'left' | 'right'
 /** 稳定文本 id;运行时按当前 locale 查表(D9)。 */
 export type TextId = string
 
+/**
+ * 音乐库条目(编辑器数据:BGM 下拉/试听/起别名)。
+ * 引擎播放只按编号(scene.musicId / playMusic op),不读此表;缺 music.json 的工程照常运行。
+ */
+export interface MusicDef {
+  /** 音乐号(assetBase.music 下 <NNN>.mid,3 位零填充)。 */
+  id: number
+  /** 创作者起的别名(选择器/音乐库显示;缺省显示编号)。 */
+  name?: string
+}
+
 /** 对话颜色语义名;palette 映射在渲染层,内容层不出现魔法数。 */
 export type DialogColor = 'default' | 'cyan' | 'red' | 'redAlt' | 'yellow'
 

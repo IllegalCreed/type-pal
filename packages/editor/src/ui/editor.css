@@ -1479,3 +1479,44 @@ body {
 .it-ta-tall {
   min-height: 240px;
 }
+
+/* ── W5 音乐:BGM 选择器 + 音乐库页 ── */
+.music-picker {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  min-width: 0;
+}
+.music-picker select {
+  flex: 1;
+  min-width: 0;
+}
+.btn.mp-play {
+  padding: 2px 8px;
+  line-height: 1.4;
+}
+.btn.mp-play.on {
+  color: #7fd4ff;
+  border-color: #7fd4ff;
+}
+.music-table {
+  width: 100%;
+  max-width: 560px;
+  border-collapse: collapse;
+  margin: 10px;
+}
+.music-table th,
+.music-table td {
+  text-align: left;
+  padding: 3px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+.music-table th {
+  font-size: 12px;
+  opacity: 0.6;
+  font-weight: 500;
+}
+.music-table td.mono {
+  font-family: ui-monospace, monospace;
+  opacity: 0.8;
+}

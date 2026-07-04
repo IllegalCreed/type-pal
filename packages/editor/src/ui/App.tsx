@@ -6,7 +6,7 @@
  * 一切编辑走 dispatch(Command) → 自动 undo/redo + 置脏 + 重渲染。
  */
 
-import type { ActorDef, EntityDef, GridPos, SceneDef } from '@type-pal/content'
+import type { ActorDef, EntityDef, GridPos, MusicDef, SceneDef } from '@type-pal/content'
 import { isActorEntity, resolveEntitySpriteId, validateReferences } from '@type-pal/content'
 import type { LoadedProject } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
@@ -22,6 +22,7 @@ import { serializeProject, writeProject } from '../core/project-io.js'
 import { ActorMode } from './ActorMode.js'
 import { DataMode } from './DataMode.js'
 import { EventMode } from './EventMode.js'
+import { MusicPicker } from './MusicPicker.js'
 import { SceneCanvas, type Tool } from './SceneCanvas.js'
 
 const SCENE_NODE = '__scene__'
@@ -227,6 +228,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
             session={session}
             enemies={state.enemies ?? []}
             enemyTeams={state.enemyTeams ?? []}
+            music={state.music ?? []}
           />
         ) : mode === 'event' ? (
           <EventMode
@@ -238,6 +240,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
             leaderSpriteId={leaderSpriteId}
             assetBase={project.assetBase}
             session={session}
+            music={state.music ?? []}
           />
         ) : (
           <>
@@ -369,7 +372,12 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                   onDelete={deleteSelected}
                 />
               ) : (
-                <SceneInspector scene={scene} session={session} />
+                <SceneInspector
+                  scene={scene}
+                  session={session}
+                  music={state.music ?? []}
+                  musicBase={project.assetBase.music}
+                />
               )}
             </div>
           </>
@@ -547,8 +555,14 @@ function EntityInspector(props: {
   )
 }
 
-function SceneInspector(props: { scene: SceneDef; session: EditSession }) {
-  const { scene, session } = props
+function SceneInspector(props: {
+  scene: SceneDef
+  session: EditSession
+  /** 音乐库 + 试听前缀(场景 BGM 选择器)。 */
+  music: MusicDef[]
+  musicBase: string
+}) {
+  const { scene, session, music, musicBase } = props
   const facings: SceneDef['entry']['facing'][] = ['down', 'up', 'left', 'right']
   return (
     <>
@@ -578,6 +592,16 @@ function SceneInspector(props: { scene: SceneDef; session: EditSession }) {
                 new UpdateSceneCommand(scene.id, { paletteId: e.target.valueAsNumber }),
               )
             }
+          />
+        </div>
+        <div className="field">
+          <label>音乐</label>
+          <MusicPicker
+            value={scene.musicId}
+            onChange={(v) => session.dispatch(new UpdateSceneCommand(scene.id, { musicId: v }))}
+            music={music}
+            baseUrl={musicBase}
+            allowUnset
           />
         </div>
         <div className="field">

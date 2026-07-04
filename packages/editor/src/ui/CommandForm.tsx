@@ -8,9 +8,10 @@
  * 对话文本:line.text 是 TextId(locale 键);编辑即改写为**字面量**(lookupText
  * 未命中回显原文,引擎/预览同语义)——新写的行直接放中文,旧行一改即脱离 locale 键。
  */
-import type { Command, Facing, Locale, SceneDef, WalkSpeed } from '@type-pal/content'
+import type { Command, Facing, Locale, MusicDef, SceneDef, WalkSpeed } from '@type-pal/content'
 import { lookupText } from '@type-pal/content'
 import { useEffect, useState } from 'react'
+import { MusicPicker } from './MusicPicker.js'
 
 const FACINGS: Facing[] = ['down', 'left', 'up', 'right']
 const SPEEDS: WalkSpeed[] = ['slow', 'normal', 'fast', 'run']
@@ -133,9 +134,12 @@ export function CommandForm(props: {
   cmd: Command
   scene: SceneDef
   locale: Locale
+  /** 音乐库 + 试听资产前缀(BGM 选择器;库空退化数字输入)。 */
+  music: MusicDef[]
+  musicBase: string
   onChange: (next: Command) => void
 }) {
-  const { cmd, scene, locale, onChange } = props
+  const { cmd, scene, locale, music, musicBase, onChange } = props
   const set = (patch: object): void => onChange({ ...cmd, ...patch } as Command)
 
   switch (cmd.kind) {
@@ -353,14 +357,24 @@ export function CommandForm(props: {
       )
     case 'playMusic':
       return (
-        <Row label="音乐 id">
-          <Num value={cmd.musicId} onChange={(n) => set({ musicId: n })} />
+        <Row label="音乐">
+          <MusicPicker
+            value={cmd.musicId}
+            onChange={(v) => set({ musicId: v ?? 0 })}
+            music={music}
+            baseUrl={musicBase}
+          />
         </Row>
       )
     case 'setBattleMusic':
       return (
         <Row label="战斗音乐">
-          <Num value={cmd.musicId} onChange={(n) => set({ musicId: n })} />
+          <MusicPicker
+            value={cmd.musicId}
+            onChange={(v) => set({ musicId: v ?? 0 })}
+            music={music}
+            baseUrl={musicBase}
+          />
         </Row>
       )
     case 'setBattleField':

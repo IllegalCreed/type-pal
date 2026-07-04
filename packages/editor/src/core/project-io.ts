@@ -13,17 +13,22 @@
  * 见 docs/phase2/editor/editor-b1-logic-plan.md(契约 + L3)。
  */
 import type { LoadedProject } from '@type-pal/reforge'
-import type { SceneDef } from '@type-pal/content'
+import type { MusicDef, SceneDef } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
 
 /**
  * 只读工程 → 可变工作副本。by-id Record 翻成数组(Object.values,保原数组序);
  * 数组/Record 直传;运行期派生物(entryScene/assetBase)丢弃。
  */
-export function toEditorState(project: LoadedProject, scenes: SceneDef[]): EditorState {
+export function toEditorState(
+  project: LoadedProject,
+  scenes: SceneDef[],
+  music: MusicDef[] = [], // W5:音乐库(manifest.content.music 声明才有;缺省空)
+): EditorState {
   return {
     // M2a-2:场景懒加载后 LoadedProject 不再带全量 → 编辑器 loadAllScenes 拉齐后传入
     scenes,
+    music,
     // by-id Record → 数组(Object.values 保序:indexById 按原数组序插入)
     actors: Object.values(project.actorsById),
     skills: Object.values(project.skills),
@@ -43,7 +48,15 @@ export function toEditorState(project: LoadedProject, scenes: SceneDef[]): Edito
 }
 
 /** manifest.content 的键 → 序列化时该文件存什么值。 */
-type ContentKey = 'actors' | 'skills' | 'items' | 'locale' | 'sprites' | 'enemies' | 'enemyTeams'
+type ContentKey =
+  | 'actors'
+  | 'skills'
+  | 'items'
+  | 'locale'
+  | 'sprites'
+  | 'enemies'
+  | 'enemyTeams'
+  | 'music'
 
 /**
  * 工作副本 → {相对路径: JSON 值} 文件集。按 manifest.content 的路径键映射;
@@ -66,6 +79,7 @@ export function serializeProject(state: EditorState): Record<string, unknown> {
     sprites: state.sprites,
     enemies: state.enemies ?? [],
     enemyTeams: state.enemyTeams ?? [],
+    music: state.music ?? [],
   }
 
   // 只产出 manifest.content 里**声明了路径**的文件(sprites 缺则不产出 sprites.json)。

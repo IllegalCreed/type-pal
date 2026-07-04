@@ -256,12 +256,13 @@ export class UpdateEntityCommand implements Command {
   }
 }
 
-/** UpdateScene 的 patch 范围(paletteId / entry)。 */
-export type ScenePatch = Partial<Pick<SceneDef, 'paletteId' | 'entry'>>
+/** UpdateScene 的 patch 范围(paletteId / entry / musicId)。 */
+export type ScenePatch = Partial<Pick<SceneDef, 'paletteId' | 'entry' | 'musicId'>>
 
 /**
- * 改场景字段(paletteId/entry)。apply 记下旧值,invert 还原。语义同 UpdateEntityCommand。
+ * 改场景字段(paletteId/entry/musicId)。apply 记下旧值,invert 还原。语义同 UpdateEntityCommand。
  * entry 是对象,patch 传整个新 entry(整体替换,非深合并)。
+ * musicId 传 undefined = 清成「延续上一曲」(JSON 落盘时 undefined 键自然消失)。
  */
 export class UpdateSceneCommand implements Command {
   readonly label = '修改场景'
@@ -272,10 +273,10 @@ export class UpdateSceneCommand implements Command {
   constructor(sceneId: string, patch: ScenePatch) {
     this.sceneId = sceneId
     // entry 若有,深拷贝(独立于外部入参,防回写)。
-    this.patch = {
-      ...patch,
-      entry: patch.entry ? structuredClone(patch.entry) : patch.entry,
-    }
+    // ⚠ 不能无条件写 entry 键:patch 只有 paletteId/musicId 时,旧写法把 entry:undefined
+    //   显式塞进 patch → spread 把必填 scene.entry 覆成 undefined → 渲染 entry.facing 崩。
+    this.patch = { ...patch }
+    if (this.patch.entry) this.patch.entry = structuredClone(this.patch.entry)
   }
 
   apply(state: EditorState): EditorState {
@@ -289,6 +290,7 @@ export class UpdateSceneCommand implements Command {
   private captureOld(scene: SceneDef): ScenePatch {
     const old: ScenePatch = {}
     if ('paletteId' in this.patch) old.paletteId = scene.paletteId
+    if ('musicId' in this.patch) old.musicId = scene.musicId // undefined=「延续」也是合法旧值
     if ('entry' in this.patch && this.patch.entry) {
       old.entry = scene.entry ? structuredClone(scene.entry) : undefined
     }
@@ -687,5 +689,45 @@ export class UpdateLocaleCommand implements Command {
     if (this.had) locale[this.key] = this.old!
     else delete locale[this.key]
     return { ...state, locale }
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════
+// W5 音乐库命令(音乐页起别名)
+// ════════════════════════════════════════════════════════════════════
+
+/** 改音乐库条目别名(空串/undefined = 清名,回显编号)。 */
+export class UpdateMusicNameCommand implements Command {
+  readonly label = '改音乐名'
+  private readonly musicId: number
+  private readonly name: string | undefined
+  private old: string | undefined
+  private captured = false
+
+  constructor(musicId: number, name: string | undefined) {
+    this.musicId = musicId
+    this.name = name || undefined // 空串规整成 undefined(JSON 落盘键消失)
+  }
+
+  apply(state: EditorState): EditorState {
+    const list = state.music ?? []
+    const i = list.findIndex((m) => m.id === this.musicId)
+    if (i < 0) return state
+    if (!this.captured) {
+      this.captured = true
+      this.old = list[i]!.name
+    }
+    const next = [...list]
+    next[i] = this.name ? { ...next[i]!, name: this.name } : { id: next[i]!.id }
+    return { ...state, music: next }
+  }
+
+  invert(state: EditorState): EditorState {
+    const list = state.music ?? []
+    const i = list.findIndex((m) => m.id === this.musicId)
+    if (i < 0) return state
+    const next = [...list]
+    next[i] = this.old ? { ...next[i]!, name: this.old } : { id: next[i]!.id }
+    return { ...state, music: next }
   }
 }

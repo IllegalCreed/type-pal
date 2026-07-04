@@ -9,6 +9,7 @@ import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { loadAllScenes, loadProject } from '@type-pal/reforge'
 import type { LoadedProject } from '@type-pal/reforge'
+import type { MusicDef } from '@type-pal/content'
 import { EditSession } from './core/edit-session.js'
 import { toEditorState } from './core/project-io.js'
 import { App } from './ui/App.js'
@@ -25,8 +26,15 @@ function Root() {
     loadProject(PROJECT_ID)
       .then(async (project) => {
         const scenes = await loadAllScenes(project) // 编辑器全量路径(引擎懒加载,M2a-2)
+        // W5:音乐库(manifest.content.music 声明才拉;引擎不消费,纯编辑器数据)
+        const musicRel = project.manifest.content['music']
+        const music: MusicDef[] = musicRel
+          ? await fetch(`projects/${PROJECT_ID}/${musicRel}`)
+              .then((r) => (r.ok ? (r.json() as Promise<MusicDef[]>) : []))
+              .catch(() => [])
+          : []
         if (!alive) return
-        setBoot({ session: new EditSession(toEditorState(project, scenes)), project })
+        setBoot({ session: new EditSession(toEditorState(project, scenes, music)), project })
       })
       .catch((e: unknown) => {
         if (alive) setBoot({ error: e instanceof Error ? e.message : String(e) })

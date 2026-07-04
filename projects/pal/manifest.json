@@ -11,7 +11,8 @@
     "locale": "content/locale.json",
     "sprites": "content/sprites.json",
     "enemies": "content/enemies.json",
-    "enemyTeams": "content/enemy-teams.json"
+    "enemyTeams": "content/enemy-teams.json",
+    "music": "content/music.json"
   },
   "assets": {
     "root": "/extracted/data",

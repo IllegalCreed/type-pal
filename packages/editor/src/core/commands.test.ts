@@ -7,6 +7,7 @@ import {
   MoveEntityCommand,
   UpdateActorCommand,
   UpdateEntityCommand,
+  UpdateMusicNameCommand,
   UpdateSceneCommand,
   UpdateEnemyCommand,
   UpdateEnemyTeamsCommand,
@@ -316,4 +317,59 @@ describe('M4c-3 敌人命令(不可变 + invert)', () => {
     expect(s3.enemyTeams![0]!.members).toEqual(['enemy-2'])
     expect(t.invert(s3).enemyTeams![0]!.members).toEqual(['enemy-1'])
   })
+})
+
+describe('W5 音乐(musicId patch + 音乐库别名)', () => {
+  function stMusic(): EditorState {
+    const base = st() as EditorState & { music: { id: number; name?: string }[] }
+    base.music = [{ id: 1 }, { id: 31, name: '客栈' }]
+    return base
+  }
+
+  test('UpdateScene musicId:设值/清 undefined,invert 还原「延续」语义', () => {
+    const s0 = st()
+    const c = new UpdateSceneCommand('s', { musicId: 31 })
+    const s1 = c.apply(s0)
+    expect(s1.scenes[0]!.musicId).toBe(31)
+    expect(s0.scenes[0]!.musicId).toBeUndefined() // 源不变
+    const back = c.invert(s1)
+    expect(back.scenes[0]!.musicId).toBeUndefined() // 还原成「延续」
+    // 清空:31 → undefined
+    const c2 = new UpdateSceneCommand('s', { musicId: undefined })
+    const s2 = c2.apply(s1)
+    expect(s2.scenes[0]!.musicId).toBeUndefined()
+    expect(c2.invert(s2).scenes[0]!.musicId).toBe(31)
+  })
+
+  test('UpdateMusicName:起名/invert 还原;源不变', () => {
+    const s0 = stMusic()
+    const c = new UpdateMusicNameCommand(1, '蝶恋')
+    const s1 = c.apply(s0)
+    expect((s1 as typeof s0).music![0]).toEqual({ id: 1, name: '蝶恋' })
+    expect((s0 as typeof s0).music![0]).toEqual({ id: 1 }) // 源不变
+    expect((c.invert(s1) as typeof s0).music![0]).toEqual({ id: 1 })
+  })
+
+  test('UpdateMusicName:空串 = 清名(键消失);invert 还原旧名', () => {
+    const s0 = stMusic()
+    const c = new UpdateMusicNameCommand(31, '')
+    const s1 = c.apply(s0)
+    expect((s1 as typeof s0).music![1]).toEqual({ id: 31 }) // name 键消失
+    expect((c.invert(s1) as typeof s0).music![1]).toEqual({ id: 31, name: '客栈' })
+  })
+
+  test('UpdateMusicName:id 不存在 = no-op', () => {
+    const s0 = stMusic()
+    const c = new UpdateMusicNameCommand(99, 'x')
+    expect(c.apply(s0)).toBe(s0)
+  })
+})
+
+test('UpdateScene 回归:仅 paletteId/musicId patch 不得把必填 entry 覆成 undefined', () => {
+  const s0 = st()
+  ;(s0.scenes[0] as { entry: unknown }).entry = { pos: { col: 1, row: 1, height: 0 }, facing: 'down' }
+  const s1 = new UpdateSceneCommand('s', { paletteId: 5 }).apply(s0)
+  expect(s1.scenes[0]!.entry).toEqual({ pos: { col: 1, row: 1, height: 0 }, facing: 'down' })
+  const s2 = new UpdateSceneCommand('s', { musicId: 31 }).apply(s1)
+  expect(s2.scenes[0]!.entry.facing).toBe('down')
 })

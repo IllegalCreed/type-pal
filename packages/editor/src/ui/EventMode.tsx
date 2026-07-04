@@ -9,6 +9,7 @@ import type {
   Command,
   EntityDef,
   Locale,
+  MusicDef,
   SceneDef,
   ScriptStage,
   SpriteDef,
@@ -241,6 +242,8 @@ export function EventMode(props: {
   leaderSpriteId: string | undefined
   assetBase: AssetBase
   session: EditSession
+  /** 音乐库(BGM 选择器数据;工程没带 = 空,选择器退化数字输入)。 */
+  music: MusicDef[]
 }) {
   const {
     scenes,
@@ -251,6 +254,7 @@ export function EventMode(props: {
     leaderSpriteId,
     assetBase,
     session,
+    music,
   } = props
   const [sceneId, setSceneId] = useState(initialSceneId)
   const [filter, setFilter] = useState('')
@@ -538,6 +542,8 @@ export function EventMode(props: {
               cmd={selCmd}
               scene={scene}
               locale={locale}
+              music={music}
+              musicBase={assetBase.music}
               onChange={(next) => {
                 const out = updateCommandAt(active.stages, parsePath(selPath), next)
                 if (out !== active.stages) dispatchStages(out)

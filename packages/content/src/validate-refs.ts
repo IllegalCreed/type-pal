@@ -19,6 +19,7 @@ import type {
   LevelUpSkill,
   LoadedManifest,
   Locale,
+  MusicDef,
   SceneDef,
   SkillData,
   SpriteDef,
@@ -46,6 +47,8 @@ export interface ContentBundle {
   /** 敌人/敌队(M4c-3 编辑器工作台;旧调用方可缺省 = 空)。 */
   enemies?: EnemyDef[]
   enemyTeams?: EnemyTeamDef[]
+  /** 音乐库(W5 编辑器:BGM 别名/试听;可缺省 = 空,引擎不消费)。 */
+  music?: MusicDef[]
 }
 
 /** 编辑器被编辑的内容工作副本 = ContentBundle + manifest(EditSession 用)。 */

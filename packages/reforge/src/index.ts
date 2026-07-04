@@ -52,3 +52,9 @@ import { evalCondition, ScriptRunner } from './script-runner.js'
 import type { ScriptHost, StepEvent } from './script-runner.js'
 export { evalCondition, ScriptRunner }
 export type { ScriptHost, StepEvent }
+
+// BGM 播放器(W5:编辑器试听复用;引擎 main.ts 自用同款)
+import { createBgmPlayer } from './audio/bgm.js'
+import type { BgmPlayer } from './audio/bgm.js'
+export { createBgmPlayer }
+export type { BgmPlayer }

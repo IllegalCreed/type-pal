@@ -9,6 +9,7 @@ import type {
   EnemyTeamDef,
   ItemDataMap,
   Locale,
+  MusicDef,
   SkillDataMap,
   SpriteDef,
   SpriteLayout,
@@ -19,14 +20,16 @@ import { UpdateSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { EnemyTab } from './EnemyTab.js'
 import { ItemTab } from './ItemTab.js'
+import { MusicTab } from './MusicTab.js'
 import { SpriteFrames } from './SpriteFrames.js'
 
-type Tab = 'sprite' | 'skill' | 'item' | 'enemy'
+type Tab = 'sprite' | 'skill' | 'item' | 'enemy' | 'music'
 const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: 'sprite', label: '精灵库', icon: '🖼' },
   { id: 'skill', label: '技能', icon: '✨' },
   { id: 'item', label: '物品', icon: '🎒' },
   { id: 'enemy', label: '敌人', icon: '👹' },
+  { id: 'music', label: '音乐', icon: '🎵' },
 ]
 
 const KIND_LABEL: Record<SpriteDef['layout']['kind'], string> = {
@@ -59,8 +62,11 @@ export function DataMode(props: {
   session: EditSession
   enemies: EnemyDef[]
   enemyTeams: EnemyTeamDef[]
+  /** 音乐库(音乐页;工程没带 = 空)。 */
+  music: MusicDef[]
 }) {
-  const { sprites, assetBase, session, enemies, enemyTeams, skills, locale, itemList } = props
+  const { sprites, assetBase, session, enemies, enemyTeams, skills, locale, itemList, music } =
+    props
   const [tab, setTab] = useState<Tab>('sprite')
   const [filter, setFilter] = useState('')
   const [kindFilter, setKindFilter] = useState<'all' | SpriteDef['layout']['kind']>('all')
@@ -112,6 +118,12 @@ export function DataMode(props: {
 
   if (tab === 'item') {
     return <ItemTab items={itemList} assetBase={assetBase} session={session} tabBar={tabBar} />
+  }
+
+  if (tab === 'music') {
+    return (
+      <MusicTab music={music} musicBase={assetBase.music} session={session} tabBar={tabBar} />
+    )
   }
 
   return (

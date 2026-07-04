@@ -167,3 +167,21 @@ test('serializeProject:返回值为纯 JSON 值(可 JSON.stringify,无 undefined
     ['content/actors.json', 'content/items.json', 'content/locale.json', 'content/scenes/index.json', 'content/scenes/guijie-minju.json', 'content/skills.json', 'content/sprites.json', 'manifest.json'].sort(),
   )
 })
+
+test('W5 音乐库:manifest 声明 music → 注入/序列化 round-trip;未声明不产出', () => {
+  const withMusic = {
+    ...manifest,
+    content: { ...manifest.content, music: 'content/music.json' },
+  }
+  const project = assembleProject(withMusic, JSONS)
+  const lib = [{ id: 1, name: '蝶恋' }, { id: 31 }]
+  const state = toEditorState(project, SCENES, lib)
+  expect(state.music).toBe(lib)
+  const out = serializeProject(state)
+  expect(out['content/music.json']).toEqual(lib)
+
+  // 未声明(原 manifest):不产出 music 文件;toEditorState 缺省空数组
+  const plain = toEditorState(assembleProject(manifest, JSONS), SCENES)
+  expect(plain.music).toEqual([])
+  expect(serializeProject(plain)['content/music.json']).toBeUndefined()
+})
