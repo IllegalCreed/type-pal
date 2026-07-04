@@ -340,11 +340,26 @@ async function main(): Promise<void> {
     updateCamera()
   }
 
-  // 初始场景:?scene=<id> dev 直达(须在 index),否则 manifest 入口
+  // 初始场景:?scene=<id> dev 直达(须在 index),否则 manifest 入口。
+  // ?pos=col,row(&facing=)覆盖落点 —— X5 跳转预览:编辑器「引擎试玩」跳到事件现场。
   const sceneParam = params.get('scene')
   const initialSceneId =
     sceneParam && project.sceneIds.includes(sceneParam) ? sceneParam : project.entryScene.id
-  await switchScene(initialSceneId)
+  const posParam = params.get('pos')?.split(',').map(Number)
+  const spawnPos =
+    posParam?.length === 2 && posParam.every(Number.isFinite)
+      ? { col: posParam[0]!, row: posParam[1]!, height: 0 }
+      : undefined
+  const facingParam = params.get('facing')
+  await switchScene(initialSceneId, {
+    ...(spawnPos ? { pos: spawnPos } : {}),
+    ...(facingParam === 'up' ||
+    facingParam === 'down' ||
+    facingParam === 'left' ||
+    facingParam === 'right'
+      ? { facing: facingParam }
+      : {}),
+  })
   const playerSprite = spriteByNum.get(leaderSpriteDef.spriteNum)!
   const dialogBox = new DialogBox(ctx, glyphs, cursorFrames, portraits, project.locale)
   let world = buildWorld(project.manifest.startWorld, project.actorsById)
@@ -1797,6 +1812,10 @@ async function main(): Promise<void> {
   const battleParam = battleRaw === null ? Number.NaN : Number(battleRaw)
   if (Number.isFinite(battleParam) && battleParam >= 0) {
     void host.startBattle(battleParam).then((r) => showToast(`试打结束:${r}`))
+  } else if (spawnPos) {
+    // X5 跳转预览(?pos 落点):dev 跳转意图 = 落地即自由,跳过 onEnter 剧情垫
+    //   (同一阶段 dev 跳场景语义;onEnter 的队伍瞬移会劫持落点)。要看进场演出 → 不带 pos。
+    showToast(`已跳至 ${scene.id} (${spawnPos.col},${spawnPos.row}) — onEnter 已跳过`)
   } else if (scene.onEnter) startScript(`s:${scene.id}`, scene.onEnter)
   requestAnimationFrame(tick)
 

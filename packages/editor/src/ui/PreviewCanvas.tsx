@@ -406,6 +406,20 @@ export function PreviewCanvas(props: {
           <option value="2">2×</option>
           <option value="4">4×</option>
         </select>
+        <button
+          type="button"
+          className="pv-btn"
+          title="真引擎里跳到事件现场试玩(X5;读磁盘工程,改动须先 💾 保存;需 reforge dev:pal 在跑)"
+          onClick={() => {
+            // 落点:触发实体邻格(下方一格 —— touch range≥1 走近即触发,interact 面对面按空格);
+            // onEnter 源无实体 → 不带 pos,走场景入口。
+            const e = focusEntityId ? scene.entities.find((x) => x.id === focusEntityId) : undefined
+            const pos = e ? `&pos=${e.pos.col},${e.pos.row + 1}&facing=up` : ''
+            window.open(`http://${location.hostname}:6051/?scene=${scene.id}${pos}`, '_blank')
+          }}
+        >
+          🎮 引擎试玩
+        </button>
         <span className="spacer" />
         <span className="pv-mode">
           {mode === 'running'
