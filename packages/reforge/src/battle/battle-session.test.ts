@@ -51,7 +51,7 @@ function mkEnemy(
 const player = (
   roleId: string,
   o: Partial<BattlePlayerState> = {},
-): Omit<BattlePlayerState, 'status' | 'defending'> => ({
+): Omit<BattlePlayerState, 'status' | 'defending' | 'hiddenCounts'> => ({
   roleId,
   hp: 100,
   maxHp: 100,

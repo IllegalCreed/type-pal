@@ -153,7 +153,7 @@ export class BattleSession {
   private settleIdx = 0
 
   constructor(
-    players: Omit<BattlePlayerState, 'status' | 'defending'>[],
+    players: Omit<BattlePlayerState, 'status' | 'defending' | 'hiddenCounts'>[],
     private readonly enemyDefs: EnemyDef[],
     private readonly assets: BattleSessionAssets,
     private readonly nameOf: (roleId: string) => string,
@@ -339,6 +339,13 @@ export class BattleSession {
   /** 战果(B7a;敌死累计,main 战后入账)。 */
   rewards(): { exp: number; cash: number } {
     return { exp: this.state.expGained, cash: this.state.cashGained }
+  }
+
+  /** B7c 隐藏经验行为计数(roleId → 池计数;main 传 grantBattleRewards 分配)。 */
+  hiddenCounts(): Record<string, Partial<Record<string, number>>> {
+    const out: Record<string, Partial<Record<string, number>>> = {}
+    for (const p of this.state.players) out[p.roleId] = p.hiddenCounts
+    return out
   }
 
   tick(dtMs: number, pressed: ReadonlySet<string>): void {

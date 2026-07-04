@@ -8,7 +8,7 @@
  * - Phase F:战后全员 HP += (max−HP)/2、MP 同(死者由调用方先回 1 血再半恢复,同原版观感)
  */
 import type { ActorDef } from './actor.js'
-import type { CharacterInstance } from './character.js'
+import { type CharacterInstance, HIDDEN_STAT_KEYS, type HiddenStatKey } from './character.js'
 import type { LevelUpSkill } from './skill.js'
 
 const MAX_LEVEL = 99
@@ -33,6 +33,8 @@ function snapshotStats(c: CharacterInstance): StatSnapshot {
 export interface RewardInput {
   exp: number
   cash: number
+  /** B7c 战斗内隐藏经验行为计数(characterId → 池计数;缺 = 无隐藏成长)。 */
+  hiddenCounts?: Record<string, HiddenCounts>
 }
 
 /** 升级屏 8 属性快照(顺序 = 原版 battle.c:1141-1148:修行/体力/真气/武术/灵力/防御/身法/吉运)。
@@ -65,6 +67,60 @@ export interface RewardReport {
   exp: number
   cash: number
   levelUps: LevelUpReport[]
+  /** B7c 隐藏经验属性提升(过阈值的单项 +N;结算屏逐条一屏)。 */
+  hiddenUps: HiddenUpReport[]
+}
+
+/** 隐藏经验一条提升(结算屏「{name}{属性}提升 {delta}」)。 */
+export interface HiddenUpReport {
+  characterId: string
+  stat: HiddenStatKey
+  delta: number
+}
+
+/** 战斗内行为计数(per 角色;attack+1/血+R(2,3)、防+2、法+R(2,3)/灵+1 —— fight.c 考证)。 */
+export type HiddenCounts = Partial<Record<HiddenStatKey, number>>
+
+/**
+ * B7c 隐藏经验分配 —— 原版 CHECK_HIDDEN_EXP(battle.c:1226-1293),per 角色在主升级后跑:
+ *   total = 7 池 count 之和;<=0 跳过(零行为零成长)
+ *   每池:exp = trunc(expGained * count / total) * 2 + 池.exp
+ *   while exp >= levelUpExp[池.level]:扣阈值;**属性 += R(1,2)**;level<99 → ++
+ *   余数回存池.exp。**无属性 cap**(原版与主升级不同,不封顶)。
+ * 阈值表复用主升级 expTable。原地改 c(属性 + hiddenExp 池);返回提升清单。
+ */
+export function applyHiddenExp(
+  c: CharacterInstance,
+  counts: HiddenCounts,
+  expGained: number,
+  expTable: readonly number[],
+  rng: () => number = Math.random,
+): HiddenUpReport[] {
+  const r = (a: number, b: number): number => a + Math.floor(rng() * (b - a + 1))
+  let total = 0
+  for (const k of HIDDEN_STAT_KEYS) total += counts[k] ?? 0
+  if (total <= 0) return []
+  const ups: HiddenUpReport[] = []
+  const pools = (c.hiddenExp ??= {})
+  for (const k of HIDDEN_STAT_KEYS) {
+    const count = counts[k] ?? 0
+    const pool = (pools[k] ??= { exp: 0, level: c.level })
+    if (pool.level > 99) pool.level = 99
+    let exp = Math.trunc((expGained * count) / total) * 2 + pool.exp
+    let delta = 0
+    while (true) {
+      const threshold = expTable[pool.level]
+      if (threshold === undefined || threshold <= 0 || exp < threshold) break
+      exp -= threshold
+      const inc = r(1, 2)
+      c[k] += inc
+      delta += inc
+      if (pool.level < 99) pool.level++
+    }
+    pool.exp = exp & 0xffff // WORD 截断(原版同)
+    if (delta > 0) ups.push({ characterId: c.id, stat: k, delta })
+  }
+  return ups
 }
 
 /**
@@ -81,6 +137,7 @@ export function grantBattleRewards(
 ): RewardReport {
   const r = (a: number, b: number): number => a + Math.floor(rng() * (b - a + 1))
   const levelUps: LevelUpReport[] = []
+  const hiddenUps: HiddenUpReport[] = []
   for (const c of party) {
     if (c.hp <= 0) continue // 死者不获经验(原版 alive gate)
     const expTable = actorsById[c.template]?.battler?.leveling?.expTable
@@ -129,11 +186,14 @@ export function grantBattleRewards(
         before,
         after: snapshotStats(c),
       })
+    // B7c 隐藏经验分配(原版 CHECK_HIDDEN_EXP:主升级之后、per 角色)
+    const counts = input.hiddenCounts?.[c.id]
+    if (counts) hiddenUps.push(...applyHiddenExp(c, counts, input.exp, expTable, rng))
   }
   // Phase F:战后半恢复(battle.c:1342-1372 PAL_CLASSIC;全员,升级回满者无变化)
   for (const c of party) {
     c.hp += Math.floor((c.maxHP - c.hp) / 2)
     c.mp += Math.floor((c.maxMP - c.mp) / 2)
   }
-  return { exp: input.exp, cash: input.cash, levelUps }
+  return { exp: input.exp, cash: input.cash, levelUps, hiddenUps }
 }

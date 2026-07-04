@@ -7,7 +7,7 @@
  * 渲染复用 D17 menu-box 基建(drawScroll 单行框 / drawSlicedBox 红框 / drawNumber);
  * 320 逻辑坐标,调用方已 ctx.scale。
  */
-import type { LevelUpReport } from '@type-pal/content'
+import type { HiddenStatKey, HiddenUpReport, LevelUpReport } from '@type-pal/content'
 import { drawNumberLeft, drawScroll, drawSlicedBox, type MenuAssets } from '../menu/menu-box.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { measureSpans, renderSpans } from '../text/text-render.js'
@@ -19,24 +19,54 @@ const COLOR_MAGIC = [140, 180, 235] as const // 0x1B 练成技能名
 /** 8 升级标签(顺序 = battle.c:1141-1148)。 */
 const LEVELUP_LABELS = ['修行', '体力', '真气', '武术', '灵力', '防御', '身法', '吉运'] as const
 
+/** 隐藏经验池 → 显示标签(B7c;与 LEVELUP_LABELS 同词表)。 */
+const HIDDEN_STAT_LABEL: Record<HiddenStatKey, string> = {
+  maxHP: '体力',
+  maxMP: '真气',
+  attack: '武术',
+  magicAttack: '灵力',
+  defense: '防御',
+  speed: '身法',
+  luck: '吉运',
+}
+
 /** 结算一屏(判别联合)。 */
 export type SettlementScreen =
   | { kind: 'exp-cash'; exp: number; cash: number }
   | { kind: 'level-up'; name: string; report: LevelUpReport }
+  | { kind: 'hidden-up'; name: string; statLabel: string; delta: number }
   | { kind: 'learn-magic'; name: string; magicName: string }
 
-/** RewardReport + 名字/技能名解析 → 屏序列(经验金钱 → 各升级 → 各练成)。 */
+/**
+ * RewardReport + 名字/技能名解析 → 屏序列。原版序(battle.c per-role):
+ *   经验金钱 → 每角色 [升级 box → 隐藏提升(逐属性一屏)→ 练成];未升级角色的
+ *   隐藏提升排最后(CHECK_HIDDEN_EXP 对所有活役跑,不依赖升级)。
+ */
 export function buildSettlementScreens(
   exp: number,
   cash: number,
   levelUps: LevelUpReport[],
+  hiddenUps: HiddenUpReport[],
   nameOf: (characterId: string) => string,
   skillNameOf: (skillId: string) => string,
 ): SettlementScreen[] {
   const screens: SettlementScreen[] = []
   if (exp > 0) screens.push({ kind: 'exp-cash', exp, cash })
+  const hiddenScreen = (h: HiddenUpReport): SettlementScreen => ({
+    kind: 'hidden-up',
+    name: nameOf(h.characterId),
+    statLabel: HIDDEN_STAT_LABEL[h.stat],
+    delta: h.delta,
+  })
+  const emitted = new Set<HiddenUpReport>()
   for (const lu of levelUps) {
     screens.push({ kind: 'level-up', name: nameOf(lu.characterId), report: lu })
+    for (const h of hiddenUps) {
+      if (h.characterId === lu.characterId) {
+        screens.push(hiddenScreen(h))
+        emitted.add(h)
+      }
+    }
     for (const sid of lu.learned) {
       screens.push({
         kind: 'learn-magic',
@@ -45,6 +75,7 @@ export function buildSettlementScreens(
       })
     }
   }
+  for (const h of hiddenUps) if (!emitted.has(h)) screens.push(hiddenScreen(h))
   return screens
 }
 
@@ -61,6 +92,9 @@ export function drawSettlementScreen(
       break
     case 'level-up':
       drawLevelUp(ctx, screen.name, screen.report, menu, glyphs)
+      break
+    case 'hidden-up':
+      drawHiddenUp(ctx, screen.name, screen.statLabel, screen.delta, menu, glyphs)
       break
     case 'learn-magic':
       drawLearnMagic(ctx, screen.name, screen.magicName, menu, glyphs)
@@ -254,6 +288,19 @@ function drawLevelUp(
     if (menu.settleArrow) ctx.drawImage(menu.settleArrow, ARROW_X, ly + 4)
     drawStatValue(ctx, CUR_CUR_RIGHT, ny, menu, r.cur, r.curMax)
   })
+}
+
+// ── Phase E:{name}{属性}提升 {N}(CHECK_HIDDEN_EXP 弹窗,battle.c:1264-1273;卷轴居中)──
+function drawHiddenUp(
+  ctx: CanvasRenderingContext2D,
+  name: string,
+  statLabel: string,
+  delta: number,
+  menu: MenuAssets,
+  glyphs: GlyphTable,
+): void {
+  const y = Math.round((200 - scrollBoxH(menu)) / 2)
+  drawScrollLine(ctx, menu, glyphs, y, [{ text: `${name}${statLabel}提升` }, { num: delta }])
 }
 
 // ── Phase D:{name} 练成 {magicName}(battle.c:1312-1321;卷轴居中)──

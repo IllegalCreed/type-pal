@@ -26,7 +26,7 @@ function mkEnemy(id: string, o: Partial<EnemyDef['stats']> = {}): EnemyDef {
     sounds: { attack: 0, action: 0, magic: 0, death: 0, call: 0 },
   }
 }
-const player = (roleId: string, o: Partial<BattlePlayerState> = {}): Omit<BattlePlayerState, 'status' | 'defending'> => ({
+const player = (roleId: string, o: Partial<BattlePlayerState> = {}): Omit<BattlePlayerState, 'status' | 'defending' | 'hiddenCounts'> => ({
   roleId, hp: 100, maxHp: 100, mp: 30, maxMp: 30, attackStrength: 40, defense: 30, magicStrength: 20, baseDexterity: 50, skills: [], fleeRate: 20, ...o,
 })
 const rng0 = () => 0 // 定值:AI 恒选第一个目标

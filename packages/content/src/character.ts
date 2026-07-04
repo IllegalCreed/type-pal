@@ -70,7 +70,25 @@ export interface CharacterInstance {
   luck: number // 吉运(原版 fleeRate)
   equipment: Record<string, string> // slotId → itemId(可扩展槽)
   tags: string[] // 留口:种族/门派(phase3),现空
+  /**
+   * 隐藏经验池(B7c;原版 CHECK_HIDDEN_EXP):战斗行为按属性积累,胜利后过阈值单项 +N。
+   * 键 = 属性名(maxHP/maxMP/attack/magicAttack/defense/speed/luck);exp/level 跨战斗持久
+   * (随存档),战斗内行为计数(count)在 BattleState 里、不落此处。缺省 = 全 0。
+   */
+  hiddenExp?: Partial<Record<HiddenStatKey, { exp: number; level: number }>>
 }
+
+/** 隐藏经验池键(= 可被隐藏成长的属性;顺序 = 原版 CHECK_HIDDEN_EXP 分配序)。 */
+export const HIDDEN_STAT_KEYS = [
+  'maxHP',
+  'maxMP',
+  'attack',
+  'magicAttack',
+  'defense',
+  'speed',
+  'luck',
+] as const
+export type HiddenStatKey = (typeof HIDDEN_STAT_KEYS)[number]
 
 // (C0)CharacterTemplate 已被统一 ActorDef 取代(actor.ts;battler 块包住 baseStats/装备/技能)。
 

@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import type { ActorDef } from './actor.js'
 import type { CharacterInstance } from './character.js'
-import { grantBattleRewards } from './rewards.js'
+import { applyHiddenExp, grantBattleRewards } from './rewards.js'
 
 function mkChar(o: Partial<CharacterInstance> = {}): CharacterInstance {
   return {
@@ -97,5 +97,47 @@ describe('B7a 战后结算', () => {
     grantBattleRewards([dead], {}, {}, {}, { exp: 100, cash: 0 }, rng0)
     expect(dead.exp).toBe(0) // 死者无经验
     expect(dead.hp).toBe(50) // 但半恢复(0 + (100-0)/2)
+  })
+})
+
+describe('B7c 隐藏经验(CHECK_HIDDEN_EXP)', () => {
+  test('比例分配 ×2 + 过阈值 +R(1,2) + 余数回存;零行为跳过', () => {
+    const c = mkChar({ attack: 30 })
+    // 阈值表:level1 起阈值 10(全等级同阈,便于算)
+    const table = Array.from({ length: 100 }, () => 10)
+    // 行为:attack 计 3、maxHP 计 1 → total 4;expGained 20
+    //   attack 池:trunc(20*3/4)*2 = 30 → 过 3 次阈值(30/10),attack += 3×R(1,2)=3(rng0)
+    //   maxHP 池:trunc(20*1/4)*2 = 10 → 过 1 次,maxHP += 1
+    const ups = applyHiddenExp(c, { attack: 3, maxHP: 1 }, 20, table, () => 0)
+    expect(c.attack).toBe(33)
+    expect(c.maxHP).toBe(101)
+    expect(ups).toEqual([
+      { characterId: 'li-xiaoyao', stat: 'maxHP', delta: 1 },
+      { characterId: 'li-xiaoyao', stat: 'attack', delta: 3 },
+    ])
+    // 池 level 前进 + 余数回存
+    expect(c.hiddenExp?.attack?.level).toBe(4) // 1 + 3 次
+    expect(c.hiddenExp?.attack?.exp).toBe(0)
+    // 零行为:无计数 → 不动
+    const c2 = mkChar()
+    expect(applyHiddenExp(c2, {}, 100, table, () => 0)).toEqual([])
+    expect(c2.attack).toBe(30)
+  })
+
+  test('grantBattleRewards 集成:hiddenCounts 走通 → hiddenUps 报告', () => {
+    const c = mkChar()
+    // exp 5 < 阈值 10:主升级不触发,隔离隐藏路径
+    const rep = grantBattleRewards(
+      [c],
+      {},
+      { 'li-xiaoyao': actor(Array.from({ length: 100 }, () => 10)) },
+      {},
+      { exp: 5, cash: 0, hiddenCounts: { 'li-xiaoyao': { defense: 2 } } },
+      rng0,
+    )
+    expect(c.level).toBe(1) // 主升级未触发
+    // defense 池独占:trunc(5*2/2)*2 = 10 → 过 1 次阈值,defense += R(1,2)=1(rng0)
+    expect(c.defense).toBe(21)
+    expect(rep.hiddenUps).toEqual([{ characterId: 'li-xiaoyao', stat: 'defense', delta: 1 }])
   })
 })

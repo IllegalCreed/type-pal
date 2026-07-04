@@ -43,6 +43,11 @@ export interface BattlePlayerState {
   fleeRate: number
   status: BattleStatus
   defending: boolean
+  /**
+   * B7c 隐藏经验行为计数(fight.c 考证:物攻→attack+1/maxHP+R(2,3);防御→defense+2;
+   * 施法→maxMP+R(2,3)/magicAttack+1)。战后 grantBattleRewards 按比例分配成长。
+   */
+  hiddenCounts: Partial<Record<string, number>>
 }
 
 /** 敌人战斗态（引 EnemyDef + 当前 HP/status）。 */
@@ -101,7 +106,7 @@ export type BattleAction =
   | { kind: 'flee' }
 
 export interface CreateBattleInput {
-  players: Omit<BattlePlayerState, 'status' | 'defending'>[]
+  players: Omit<BattlePlayerState, 'status' | 'defending' | 'hiddenCounts'>[]
   enemies: EnemyDef[]
   /** 技能表(敌施法查 SkillData;缺省空 = cast 落普攻并 log)。 */
   skills?: Record<string, SkillData>
@@ -118,7 +123,12 @@ export function createBattleState(input: CreateBattleInput): BattleState {
   return {
     phase: 'preBattle',
     turn: 0,
-    players: input.players.map((p) => ({ ...p, status: emptyBattleStatus(), defending: false })),
+    players: input.players.map((p) => ({
+      ...p,
+      status: emptyBattleStatus(),
+      defending: false,
+      hiddenCounts: {},
+    })),
     enemies: input.enemies.map((def) => ({
       def,
       hp: def.stats.health,
@@ -351,6 +361,9 @@ function applyPlayerSkill(
     return
   }
   p.mp -= mpCost
+  // B7c:施法成功 → maxMP 池 +R(2,3)、magicAttack 池 +1(fight.c:4328-4329,序固定)
+  p.hiddenCounts.maxMP = (p.hiddenCounts.maxMP ?? 0) + 2 + Math.floor(rng() * 2)
+  p.hiddenCounts.magicAttack = (p.hiddenCounts.magicAttack ?? 0) + 1
   const onEnemies = skill.target === 'oneEnemy' || skill.target === 'allEnemies'
   const enemyTargets =
     skill.target === 'allEnemies'
@@ -431,8 +444,12 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
       : {}),
     ...('skillId' in act ? { skillId: act.skillId } : {}),
   }
+  const addHidden = (k: string, n: number): void => {
+    p.hiddenCounts[k] = (p.hiddenCounts[k] ?? 0) + n
+  }
   if (act.kind === 'defend') {
     // defending 已在 build queue 时就位(原版语义,防御贯穿整个 performAction);此处只记日志。
+    addHidden('defense', 2) // B7c:防御 → defense 池 +2(fight.c:4116,无 RNG)
     s.log.push(`${p.roleId} 防御`)
     return
   }
@@ -489,6 +506,9 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
   if (act.kind === 'attack') {
     const e = s.enemies[act.targetEnemyIdx]
     if (!e || e.hp <= 0) return // 目标已死,空过（M4a;M4b 自动改目标）
+    // B7c:物攻 → attack 池 +1、maxHP 池 +R(2,3)(fight.c:3756-3757,序固定)
+    addHidden('attack', 1)
+    addHidden('maxHP', 2 + Math.floor(_rng() * 2))
     const dmg = resolveAttack(
       p.attackStrength,
       e.def.stats.defense,

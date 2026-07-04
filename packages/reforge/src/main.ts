@@ -762,8 +762,8 @@ async function main(): Promise<void> {
           locale: project.locale,
           playerEffectBase,
           playerCastBase,
-          // B7b 胜利结算(会话 over 阶段调一次):HP 写回 + 入账 + 升级 = 单次授予点,
-          //   返回结算屏序列(经验金钱→升级→练成)。原版 Phase A/B/D/F 顺序。
+          // B7b/B7c 胜利结算(会话 over 阶段调一次):HP 写回 + 入账 + 升级 + 隐藏经验 =
+          //   单次授予点,返回结算屏序列(经验金钱→升级→隐藏提升→练成)。原版 Phase A/B/E/D/F。
           buildSettlement: () => {
             sessionRef.writeBackHp(world.party) // 先写回战斗末 HP(原版 exp 前)
             const r = sessionRef.rewards()
@@ -773,13 +773,14 @@ async function main(): Promise<void> {
               world.learnedSkills,
               project.actorsById,
               project.levelUp,
-              r,
+              { ...r, hiddenCounts: sessionRef.hiddenCounts() },
               Math.random,
             )
             return buildSettlementScreens(
               rep.exp,
               rep.cash,
               rep.levelUps,
+              rep.hiddenUps,
               (cid) => {
                 const tpl = world.party.find((c) => c.id === cid)?.template ?? ''
                 return lookupText(`name.${tpl}`, project.locale)
