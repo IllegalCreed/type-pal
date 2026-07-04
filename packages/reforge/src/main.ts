@@ -542,6 +542,7 @@ async function main(): Promise<void> {
         magicStrength: effectiveStat(c, 'magicAttack', itemsById),
         baseDexterity: effectiveStat(c, 'speed', itemsById),
         skills: world.learnedSkills[c.id] ?? [], // M4b-3:仙术指令数据源
+        fleeRate: effectiveStat(c, 'luck', itemsById), // 逃跑判定 str
       }))
       // 资产:战场背景(sys:battleField 记账 → 当前场景 palette 着色)+ 敌我战斗精灵
       const fieldId = world.script?.vars['sys:battleField'] ?? 24
@@ -564,13 +565,21 @@ async function main(): Promise<void> {
         },
         Math.random,
         // M4c:技能/敌人表 + 演出文本;难度预设(难度分级立项前恒 normal)
-        { skills: project.skills, enemiesById: project.enemiesById, difficulty: 'normal', locale: project.locale },
+        {
+          skills: project.skills,
+          enemiesById: project.enemiesById,
+          items: project.items,
+          inventory: world.inventory.map((x) => ({ ...x })), // 副本:战斗内扣,战后写回
+          difficulty: 'normal',
+          locale: project.locale,
+        },
       )
       activeBattle = session
       const result = await session.done
       activeBattle = null
       // 写回战斗结果的 HP/MP(战斗内伤害持久;原版同)
       session.writeBackHp(world.party)
+      session.writeBackInventory(world.inventory)
       return result
     },
     openShop: (shop, mode) => {

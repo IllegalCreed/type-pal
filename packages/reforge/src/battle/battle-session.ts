@@ -22,7 +22,7 @@ import { getEnemyBasePos, getPlayerBasePos } from './battle-positions.js'
 import { type BattleScene, type BattleSpriteDraw, renderBattleScene } from './present-battle.js'
 
 const VIEW_W = 320
-const MENU_ITEMS = ['攻击', '仙术', '防御', '逃跑'] as const
+const MENU_ITEMS = ['攻击', '仙术', '物品', '防御', '逃跑'] as const
 /** 每个 action 结算间隔(节奏;一帧全算看不清)。 */
 const ACT_MS = 480
 /** 胜负停留展示时长。 */
@@ -36,7 +36,7 @@ interface FloatNum {
   bornAt: number
 }
 
-type UiPhase = 'menu' | 'skill' | 'target' | 'acting' | 'over'
+type UiPhase = 'menu' | 'skill' | 'item' | 'target' | 'acting' | 'over'
 
 export interface BattleSessionAssets {
   bg?: CanvasImageSource
@@ -55,6 +55,7 @@ export class BattleSession {
   private ui: UiPhase = 'menu'
   private menuIdx = 0
   private skillIdx = 0
+  private itemIdx = 0
   /** 仙术选目标中(target 态确认时:有值 → cast,无值 → attack)。 */
   private pendingSkillId: string | null = null
   private targetIdx = 0
@@ -80,6 +81,8 @@ export class BattleSession {
     private readonly opts: {
       skills?: Record<string, SkillData>
       enemiesById?: Record<string, EnemyDef>
+      items?: Record<string, import('@type-pal/content').ItemData>
+      inventory?: { itemId: string; count: number }[]
       difficulty?: string
       locale?: Record<string, string>
     } = {},
@@ -89,6 +92,8 @@ export class BattleSession {
       enemies: enemyDefs,
       skills: opts.skills,
       enemiesById: opts.enemiesById,
+      items: opts.items,
+      inventory: opts.inventory,
       difficulty: opts.difficulty,
     })
     this.done = new Promise((res) => {
@@ -108,6 +113,11 @@ export class BattleSession {
 
   private aliveEnemyIdxs(): number[] {
     return this.state.enemies.map((e, i) => (e.hp > 0 ? i : -1)).filter((i) => i >= 0)
+  }
+
+  /** 战斗可用物品(背包中有货且 items 表带 use)。 */
+  private usableItems(): { itemId: string; count: number }[] {
+    return this.state.inventory.filter((x) => x.count > 0 && this.state.items[x.itemId]?.use)
   }
 
   /** 收集当轮该播的演出钩(once/when 求值;文本 locale 化 + 说话人 = 敌名)。 */
@@ -211,6 +221,11 @@ export class BattleSession {
               this.ui = 'skill'
               this.skillIdx = 0
             }
+          } else if (item === '物品') {
+            if (this.usableItems().length) {
+              this.ui = 'item'
+              this.itemIdx = 0
+            }
           } else if (item === '防御') {
             s.pendingActions.set(sel, { kind: 'defend' })
           } else {
@@ -237,6 +252,17 @@ export class BattleSession {
               this.menuIdx = 0
             }
           } // MP 不足/缺数据:留在列表(渲染层灰显提示)
+        }
+      } else if (this.ui === 'item') {
+        const list = this.usableItems()
+        if (pressed.has('ArrowUp')) this.itemIdx = (this.itemIdx + list.length - 1) % list.length
+        if (pressed.has('ArrowDown')) this.itemIdx = (this.itemIdx + 1) % list.length
+        if (pressed.has('Escape')) this.ui = 'menu'
+        if ((pressed.has(' ') || pressed.has('Enter')) && list.length) {
+          const it = list[this.itemIdx % list.length]!
+          s.pendingActions.set(sel, { kind: 'item', itemId: it.itemId })
+          this.ui = 'menu'
+          this.menuIdx = 0
         }
       } else if (this.ui === 'target') {
         const alive = this.aliveEnemyIdxs()
@@ -281,6 +307,15 @@ export class BattleSession {
   /** dev:战斗日志只读视图(M4c 验证)。 */
   debugLog(): readonly string[] {
     return this.state.log
+  }
+
+  /** 战后把背包写回 world.inventory(消耗持久;count 0 清项)。 */
+  writeBackInventory(inv: { itemId: string; count: number }[]): void {
+    for (const s of this.state.inventory) {
+      const w = inv.find((x) => x.itemId === s.itemId)
+      if (w) w.count = s.count
+    }
+    for (let i = inv.length - 1; i >= 0; i--) if (inv[i]!.count <= 0) inv.splice(i, 1)
   }
 
   /** 战后把队员 HP/MP 写回 world.party(战斗内伤害/耗蓝持久;原版同,逃跑也保留伤害)。 */
@@ -369,6 +404,19 @@ export class BattleSession {
           glyphs: g,
           shadow: true,
           forceRgba: !affordable ? [110, 116, 130] : i === this.skillIdx ? [255, 255, 255] : [139, 147, 163],
+        })
+      })
+    }
+    // 物品列表
+    if (sel !== undefined && this.ui === 'item') {
+      renderSpans(ctx, [{ text: `🎒 物品(Esc 返回)` }], 10, 8, { glyphs: g, shadow: true, forceRgba: [156, 196, 255] })
+      this.usableItems().forEach((it, i) => {
+        const item = this.state.items[it.itemId]
+        const mark = i === this.itemIdx ? '▶ ' : '   '
+        renderSpans(ctx, [{ text: `${mark}${item?.name ?? it.itemId} ×${it.count}` }], 10, 26 + i * 17, {
+          glyphs: g,
+          shadow: true,
+          forceRgba: i === this.itemIdx ? [255, 255, 255] : [139, 147, 163],
         })
       })
     }

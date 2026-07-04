@@ -9,7 +9,7 @@
  * summon/transform/divide/flee 动作与 choreography 演出 = M4c-2。
  * 公式全走 content/battle-formulas（= sdlpal fight.c）。RNG 可注入（测试定值,运行时真随机）。
  */
-import type { AiBattleView, BattleStatus, EnemyDef, SkillData } from '@type-pal/content'
+import type { AiBattleView, BattleStatus, EnemyDef, ItemData, SkillData } from '@type-pal/content'
 import {
   buildActionQueue,
   calcMagicDamage,
@@ -39,6 +39,8 @@ export interface BattlePlayerState {
   baseDexterity: number
   /** 会的技能 id(M4b-3;main 从 world.learnedSkills 组装)。 */
   skills: string[]
+  /** 吉运(逃跑判定 str;含装备加成,派生时算好)。 */
+  fleeRate: number
   status: BattleStatus
   defending: boolean
 }
@@ -68,6 +70,9 @@ export interface BattleState {
   skills: Record<string, SkillData>
   /** 敌人表(transform/summon;M4c-2)。 */
   enemiesById: Record<string, EnemyDef>
+  /** 物品表 + 背包(战斗内扣,writeBack 回世界)。 */
+  items: Record<string, ItemData>
+  inventory: { itemId: string; count: number }[]
   /** 难度预设 id(M4c 留口)。 */
   difficulty: string
   /** 敌人整场逃离(0x69 剧情逃跑:战斗终止无奖励;fled 敌不计胜利奖励)。 */
@@ -77,6 +82,7 @@ export interface BattleState {
 export type BattleAction =
   | { kind: 'attack'; targetEnemyIdx: number }
   | { kind: 'cast'; skillId: string; targetEnemyIdx?: number } // 对敌单体带目标;施于己方/全体不带
+  | { kind: 'item'; itemId: string } // 战斗用品(v1 施于自己;consuming 扣库存)
   | { kind: 'defend' }
   | { kind: 'flee' }
 
@@ -87,6 +93,9 @@ export interface CreateBattleInput {
   skills?: Record<string, SkillData>
   /** 敌人表(transform/summon 查 EnemyDef;缺省空 = 动作落普攻并 log)。 */
   enemiesById?: Record<string, EnemyDef>
+  /** 物品表 + 背包副本(战斗用品;count 战斗内扣,main 战后写回)。 */
+  items?: Record<string, ItemData>
+  inventory?: { itemId: string; count: number }[]
   /** 难度预设 id(AI difficulty 条件;缺省 'normal')。 */
   difficulty?: string
 }
@@ -108,6 +117,8 @@ export function createBattleState(input: CreateBattleInput): BattleState {
     log: [],
     skills: input.skills ?? {},
     enemiesById: input.enemiesById ?? {},
+    items: input.items ?? {},
+    inventory: input.inventory ?? [],
     difficulty: input.difficulty ?? 'normal',
     enemyFled: false,
   }
@@ -231,12 +242,7 @@ export function stepBattle(s: BattleState, rng: () => number): void {
       // 所有活队员都选了 → build queue,进 performAction。（headless:调用方先填 pendingActions。）
       const alive = alivePlayers(s)
       if (alive.some((i) => !s.pendingActions.has(i))) return // 等填齐
-      // 逃跑:任一队员选逃 → 本轮全队逃（M4a 简化,恒成功;fleeRate 判定 M4b）
-      if (alive.some((i) => s.pendingActions.get(i)?.kind === 'flee')) {
-        s.phase = 'fled'
-        s.log.push('全队逃跑')
-        return
-      }
+      // 逃跑改为行动(轮到该队员时掷骰;fight.c:4143 语义)——不再选了即逃
       const players = alive.map((i) => ({
         idx: i,
         dex: getPlayerActualDexterity(s.players[i]!.baseDexterity, s.players[i]!.status.haste > 0),
@@ -368,6 +374,52 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
   if (act.kind === 'defend') {
     // defending 已在 build queue 时就位(原版语义,防御贯穿整个 performAction);此处只记日志。
     s.log.push(`${p.roleId} 防御`)
+    return
+  }
+  if (act.kind === 'flee') {
+    // fight.c:4143(一阶段 flee.ts 修复版):str = 玩家吉运;def = Σ活敌(吉运+(level+6)*4);
+    // roll ∈ [0,def] 闭区间,str >= roll 成功全队逃。失败 = 本次行动作废(原版失败动画 M4d)。
+    let def = 0
+    for (const e of s.enemies) {
+      if (e.hp <= 0) continue
+      def += e.def.stats.fleeRate + (e.def.stats.level + 6) * 4
+    }
+    if (def < 0) def = 0
+    const roll = Math.floor(_rng() * (def + 1))
+    if (p.fleeRate >= roll) {
+      s.phase = 'fled'
+      s.log.push('全队逃跑')
+    } else {
+      s.log.push(`${p.roleId} 逃跑失败`)
+    }
+    return
+  }
+  if (act.kind === 'item') {
+    const item = s.items[act.itemId]
+    const slot = s.inventory.find((x) => x.itemId === act.itemId)
+    if (!item?.use || !slot || slot.count <= 0) {
+      s.log.push(`${p.roleId} 使用 ${act.itemId} 失败(缺数据/无库存)`)
+      return
+    }
+    if (item.use.consuming) slot.count -= 1
+    for (const eff of item.use.effects) {
+      switch (eff.kind) {
+        case 'healHp':
+          p.hp = Math.min(p.maxHp, p.hp + eff.amount)
+          s.log.push(`${p.roleId} 使用 ${item.name} 回复 ${eff.amount}`)
+          break
+        case 'healMp':
+          p.mp = Math.min(p.maxMp, p.mp + eff.amount)
+          s.log.push(`${p.roleId} 使用 ${item.name} 回蓝 ${eff.amount}`)
+          break
+        case 'revive':
+          p.hp = Math.max(p.hp, Math.trunc((p.maxHp * eff.hpPercent) / 100))
+          s.log.push(`${p.roleId} 使用 ${item.name}`)
+          break
+        default:
+          s.log.push(`物品效果 ${eff.kind} 未接(战斗期陆续)`)
+      }
+    }
     return
   }
   if (act.kind === 'cast') {

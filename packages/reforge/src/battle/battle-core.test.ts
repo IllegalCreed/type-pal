@@ -27,7 +27,7 @@ function mkEnemy(id: string, o: Partial<EnemyDef['stats']> = {}): EnemyDef {
   }
 }
 const player = (roleId: string, o: Partial<BattlePlayerState> = {}): Omit<BattlePlayerState, 'status' | 'defending'> => ({
-  roleId, hp: 100, maxHp: 100, mp: 30, maxMp: 30, attackStrength: 40, defense: 30, magicStrength: 20, baseDexterity: 50, skills: [], ...o,
+  roleId, hp: 100, maxHp: 100, mp: 30, maxMp: 30, attackStrength: 40, defense: 30, magicStrength: 20, baseDexterity: 50, skills: [], fleeRate: 20, ...o,
 })
 const rng0 = () => 0 // 定值:AI 恒选第一个目标
 
@@ -266,5 +266,40 @@ describe('M4b-3 玩家仙术', () => {
     guard = 0
     while (s.phase !== 'selectAction' || s.turn === 3) { stepBattle(s, rng0); if (++guard > 50) break }
     expect(s.log.some((l) => l.includes('MP 不足'))).toBe(true)
+  })
+})
+
+describe('M4b-3b 物品 / 逃跑真判定', () => {
+  test('物品:回血 + consuming 扣库存;逃跑:str vs Σ敌(吉运+(lv+6)*4) 掷骰', () => {
+    const potion: import('@type-pal/content').ItemData = {
+      id: '61', name: '金创药', desc: '', price: 50, bitmap: 0,
+      use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'healHp', amount: 50 }] },
+    } as never
+    const s = createBattleState({
+      players: [player('li', { hp: 10, maxHp: 100 })],
+      enemies: [mkEnemy('e', { attackStrength: 1, health: 500 })],
+      items: { '61': potion },
+      inventory: [{ itemId: '61', count: 2 }],
+    })
+    stepBattle(s, rng0)
+    s.pendingActions.set(0, { kind: 'item', itemId: '61' })
+    let guard = 0
+    while (s.phase !== 'selectAction' || s.turn === 1) { stepBattle(s, rng0); if (++guard > 50) break }
+    expect(s.players[0]!.hp).toBe(60)
+    expect(s.inventory[0]!.count).toBe(1)
+
+    // 逃跑失败:str 低 + rng 高 → roll 大
+    const s2 = createBattleState({ players: [player('li', { fleeRate: 0 })], enemies: [mkEnemy('e', { level: 10, fleeRate: 50, health: 500, attackStrength: 1 })] })
+    const r9 = () => 0.99
+    stepBattle(s2, r9)
+    s2.pendingActions.set(0, { kind: 'flee' })
+    guard = 0
+    while (s2.phase !== 'selectAction' || s2.turn === 1) {
+      if ((s2.phase as string) === 'fled') break
+      stepBattle(s2, r9)
+      if (++guard > 50) break
+    }
+    expect(s2.log.some((l) => l.includes('逃跑失败'))).toBe(true)
+    expect(s2.phase).not.toBe('fled')
   })
 })
