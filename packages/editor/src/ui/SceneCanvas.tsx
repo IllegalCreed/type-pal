@@ -6,19 +6,20 @@
  * SpriteDraw[]、定相机、命中/拖动、画高亮。实体精灵经 resolveEntitySpriteId(actor⊕sprite),
  * 帧 = idleFrameIndex(SpriteDef.layout, facing)——与引擎同一套数据与公式,零漂移。
  */
-import { useEffect, useRef, useState } from 'react'
+
+import type { ActorDef, SceneDef, SpriteDef } from '@type-pal/content'
+import { gridToPixel, pixelToGrid, resolveEntitySpriteId, spriteScreenY } from '@type-pal/content'
+import type { AssetBase, LoadedSprite, SpriteDraw } from '@type-pal/reforge'
 import {
   Canvas2DRenderer,
   idleFrameIndex,
   loadPalette,
   loadSprite,
-  loadTileset,
   loadTilemap,
+  loadTileset,
   renderSceneFrame,
 } from '@type-pal/reforge'
-import type { AssetBase, LoadedSprite, SpriteDraw } from '@type-pal/reforge'
-import { gridToPixel, pixelToGrid, resolveEntitySpriteId, spriteScreenY } from '@type-pal/content'
-import type { ActorDef, SceneDef, SpriteDef } from '@type-pal/content'
+import { useEffect, useRef, useState } from 'react'
 
 const TILE_W = 32
 const TILE_H = 16
@@ -101,7 +102,9 @@ export function SceneCanvas(props: {
   }, [])
 
   // 地图像素包围盒(菱形投影 AABB;room 缺省 = 整图)。
-  const mapBox = (map: Loaded['map']): { minX: number; minY: number; maxX: number; maxY: number } => {
+  const mapBox = (
+    map: Loaded['map'],
+  ): { minX: number; minY: number; maxX: number; maxY: number } => {
     const room = scene.map.room ?? { col: 0, row: 0, cols: map.width, rows: map.height }
     return {
       minX: room.col * TILE_W - TILE_W,
@@ -116,7 +119,11 @@ export function SceneCanvas(props: {
     const mw = b.maxX - b.minX
     const mh = b.maxY - b.minY
     const zoom = Math.min(size.w / mw, size.h / mh) * 0.96
-    setView({ zoom, panX: b.minX - (size.w / zoom - mw) / 2, panY: b.minY - (size.h / zoom - mh) / 2 })
+    setView({
+      zoom,
+      panX: b.minX - (size.w / zoom - mw) / 2,
+      panY: b.minY - (size.h / zoom - mh) / 2,
+    })
   }
 
   const mapNum = scene.map.reuseOriginalMap
@@ -150,9 +157,15 @@ export function SceneCanvas(props: {
           loadTileset(assetBase, mapNum),
           loadPalette(assetBase, paletteId),
         ])
-        const entries = await Promise.all(spriteNums.map(async (n) => [n, await loadSprite(assetBase, n)] as const))
+        const entries = await Promise.all(
+          spriteNums.map(async (n) => [n, await loadSprite(assetBase, n)] as const),
+        )
         if (!alive) return
-        loadedRef.current = { renderer: new Canvas2DRenderer(ctx, palette, tiles), map, spritesByNum: new Map(entries) }
+        loadedRef.current = {
+          renderer: new Canvas2DRenderer(ctx, palette, tiles),
+          map,
+          spritesByNum: new Map(entries),
+        }
         setStatus('ready')
       } catch (e) {
         if (alive) {
@@ -181,7 +194,14 @@ export function SceneCanvas(props: {
     const { zoom, panX, panY } = viewRef.current
     const camera = { x: panX, y: panY }
 
-    const physRect = (wx: number, wy: number, ax: number, ay: number, fw: number, fh: number): Omit<HitRect, 'id'> => ({
+    const physRect = (
+      wx: number,
+      wy: number,
+      ax: number,
+      ay: number,
+      fw: number,
+      fh: number,
+    ): Omit<HitRect, 'id'> => ({
       x: (wx - ax - panX) * zoom,
       y: (wy - ay - panY) * zoom,
       w: fw * zoom,
@@ -197,22 +217,38 @@ export function SceneCanvas(props: {
       : undefined
     if (ps && pf) {
       // 每帧自锚(sdlpal 按当前帧宽高 blit;引擎侧同款,防变尺寸帧组错位)
-      draws.push({ frame: pf, worldX: ep.x, worldY: spriteScreenY(scene.entry.pos), anchorX: Math.floor(pf.width / 2), anchorY: pf.height })
+      draws.push({
+        frame: pf,
+        worldX: ep.x,
+        worldY: spriteScreenY(scene.entry.pos),
+        anchorX: Math.floor(pf.width / 2),
+        anchorY: pf.height,
+      })
     }
     // 各实体(站立帧 = layout × facing)+ 记命中盒
     for (const e of scene.entities) {
       if (e.hidden) continue // 初始隐藏(M2a):编辑器画布同引擎不渲染(后续可加"显隐透视"开关)
       const def = entitySpriteDef(e)
       const sp = def ? spritesByNum.get(def.spriteNum) : undefined
-      const f = def ? (sp?.frames[idleFrameIndex(def.layout, e.facing ?? 'down')] ?? sp?.frames[0]) : undefined
+      const f = def
+        ? (sp?.frames[idleFrameIndex(def.layout, e.facing ?? 'down')] ?? sp?.frames[0])
+        : undefined
       if (!sp || !f) continue
       // 拖动中的实体用预览格
-      const pos = drag && drag.id === e.id ? { col: drag.col, row: drag.row, height: e.pos.height } : e.pos
+      const pos =
+        drag && drag.id === e.id ? { col: drag.col, row: drag.row, height: e.pos.height } : e.pos
       const p = gridToPixel(pos)
       const wy = spriteScreenY(pos)
       const ax = Math.floor(f.width / 2) // 每帧自锚(同引擎;命中盒同款防错位)
       const ay = f.height
-      draws.push({ frame: f, worldX: p.x, worldY: wy, anchorX: ax, anchorY: ay, baseYBias: e.zBias })
+      draws.push({
+        frame: f,
+        worldX: p.x,
+        worldY: wy,
+        anchorX: ax,
+        anchorY: ay,
+        baseYBias: e.zBias,
+      })
       hits.push({ id: e.id, ...physRect(p.x, wy, ax, ay, f.width, f.height) })
     }
     hitsRef.current = hits
@@ -278,7 +314,12 @@ export function SceneCanvas(props: {
     } else {
       // 点空白(select 工具)→ 拖动平移画布
       downRef.current = null
-      panDragRef.current = { sx: e.clientX, sy: e.clientY, panX: viewRef.current.panX, panY: viewRef.current.panY }
+      panDragRef.current = {
+        sx: e.clientX,
+        sy: e.clientY,
+        panX: viewRef.current.panX,
+        panY: viewRef.current.panY,
+      }
       try {
         e.currentTarget.setPointerCapture(e.pointerId)
       } catch {
@@ -290,7 +331,11 @@ export function SceneCanvas(props: {
     const pd = panDragRef.current
     if (pd) {
       const { zoom } = viewRef.current
-      setView((v) => ({ ...v, panX: pd.panX - (e.clientX - pd.sx) / zoom, panY: pd.panY - (e.clientY - pd.sy) / zoom }))
+      setView((v) => ({
+        ...v,
+        panX: pd.panX - (e.clientX - pd.sx) / zoom,
+        panY: pd.panY - (e.clientY - pd.sy) / zoom,
+      }))
       return
     }
     const d = downRef.current
@@ -343,8 +388,15 @@ export function SceneCanvas(props: {
 
   return (
     <div className="viewport" ref={wrapRef}>
-      <div className="canvas-note">整图 · 滚轮缩放 · 拖空白平移 · {Math.round(view.zoom * 100)}%{status === 'loading' ? ' · 载入中…' : ''}</div>
-      {status === 'error' && <div className="boot"><div className="err">场景渲染失败: {err}</div></div>}
+      <div className="canvas-note">
+        整图 · 滚轮缩放 · 拖空白平移 · {Math.round(view.zoom * 100)}%
+        {status === 'loading' ? ' · 载入中…' : ''}
+      </div>
+      {status === 'error' && (
+        <div className="boot">
+          <div className="err">场景渲染失败: {err}</div>
+        </div>
+      )}
       <canvas
         ref={canvasRef}
         width={size.w}
@@ -352,7 +404,13 @@ export function SceneCanvas(props: {
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
-        style={{ width: '100%', height: '100%', display: 'block', cursor: tool === 'add' ? 'crosshair' : 'grab', touchAction: 'none' }}
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'block',
+          cursor: tool === 'add' ? 'crosshair' : 'grab',
+          touchAction: 'none',
+        }}
       />
     </div>
   )

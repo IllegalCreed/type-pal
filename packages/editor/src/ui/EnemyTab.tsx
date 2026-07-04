@@ -26,8 +26,10 @@ import {
   UpdateLocaleCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import { EnemyAnimPreview } from './EnemyAnimPreview.js'
 
-const REFORGE_URL = 'http://localhost:6051' // dev-servers.md:reforge pal
+/** reforge(pal)地址:主机跟随编辑器访问地址(局域网/同事机不再错跳 localhost),端口按 dev-servers.md。 */
+const reforgeUrl = (): string => `http://${location.hostname}:6051`
 
 /** 新敌人模板(史莱姆级;id 用 c 前缀避开迁移 objectIndex 空间)。 */
 function newEnemy(id: string): EnemyDef {
@@ -333,10 +335,12 @@ export function EnemyTab(props: {
   skills: SkillData[]
   locale: Locale
   session: EditSession
+  /** 资产根(外观预览加载战斗精灵;缺省不渲预览)。 */
+  assetBase?: import('@type-pal/reforge').AssetBase
   /** DataMode 的标签栏(渲染在左栏顶部,保持标签切换)。 */
   tabBar?: React.ReactNode
 }) {
-  const { enemies, enemyTeams, skills, locale, session, tabBar } = props
+  const { enemies, enemyTeams, skills, locale, session, tabBar, assetBase } = props
   const [filter, setFilter] = useState('')
   const [selId, setSelId] = useState(enemies[0]?.id ?? '')
   const [selTeam, setSelTeam] = useState<string | null>(null)
@@ -481,6 +485,11 @@ export function EnemyTab(props: {
                 />
               </div>
             </div>
+            {assetBase ? (
+              <div className="section">
+                <EnemyAnimPreview enemy={enemy} assetBase={assetBase} session={session} />
+              </div>
+            ) : null}
             <div className="section">
               <h4>数值</h4>
               <div className="et-stats">
@@ -613,7 +622,7 @@ export function EnemyTab(props: {
                 className="pv-btn"
                 title="读磁盘工程:改动须先 💾 保存"
                 onClick={() =>
-                  window.open(`${REFORGE_URL}/?battle=${t.id.replace('team-', '')}`, '_blank')
+                  window.open(`${reforgeUrl()}/?battle=${t.id.replace('team-', '')}`, '_blank')
                 }
               >
                 ⚔ 试打

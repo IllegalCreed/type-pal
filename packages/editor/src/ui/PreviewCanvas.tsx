@@ -5,7 +5,15 @@
  * 相机跟随玩家(贴游戏观感;编辑自由视角归布置模式)。
  */
 
-import type { ActorDef, Command, Locale, SceneDef, ScriptStage, SpriteDef } from '@type-pal/content'
+import type {
+  ActorDef,
+  Command,
+  EntityDef,
+  Locale,
+  SceneDef,
+  ScriptStage,
+  SpriteDef,
+} from '@type-pal/content'
 import { gridToPixel, lookupText, resolveEntitySpriteId, spriteScreenY } from '@type-pal/content'
 import type { AssetBase, LoadedSprite, SpriteDraw } from '@type-pal/reforge'
 import {
@@ -22,6 +30,77 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Playback } from '../core/playback.js'
 
 const ZOOM = 3
+
+/** 菱形格顶点(D16:格中心 ±16 横 / ±8 纵;世界像素 → 画布 = (w − camera) × ZOOM)。 */
+function diamondPath(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  cy: number,
+  camera: { x: number; y: number },
+): void {
+  const sx = (wx: number): number => (wx - camera.x) * ZOOM
+  const sy = (wy: number): number => (wy - camera.y) * ZOOM
+  ctx.beginPath()
+  ctx.moveTo(sx(cx), sy(cy - 8))
+  ctx.lineTo(sx(cx + 16), sy(cy))
+  ctx.lineTo(sx(cx), sy(cy + 8))
+  ctx.lineTo(sx(cx - 16), sy(cy))
+  ctx.closePath()
+}
+
+/**
+ * 选中事件的触发点/面高亮:owner 格金色描边(呼吸)+ 触发范围淡金面
+ * (range = max(trigger.range, interact?1:0),切比雪夫盒 —— 与引擎 findTrigger 同源)。
+ * zone/隐藏实体无精灵,此标记是它们在预览里唯一的可见形态;ghost = 隐藏实体淡显。
+ */
+function drawTriggerHighlight(
+  ctx: CanvasRenderingContext2D,
+  e: EntityDef,
+  camera: { x: number; y: number },
+  now: number,
+  ghost = false,
+): void {
+  const t = e.pages?.[0]?.trigger
+  const range = t ? Math.max(t.range ?? 0, t.on === 'interact' ? 1 : 0) : 0
+  const breath = 0.55 + 0.35 * Math.sin(now / 280)
+  const alpha = ghost ? 0.35 : 1
+  ctx.save()
+  // 范围面(不含中心格,淡金填充)
+  if (range > 0) {
+    ctx.fillStyle = `rgba(255, 203, 113, ${0.2 * alpha})`
+    ctx.strokeStyle = `rgba(255, 214, 90, ${0.35 * alpha})`
+    ctx.lineWidth = 1
+    for (let dc = -range; dc <= range; dc++) {
+      for (let dr = -range; dr <= range; dr++) {
+        if (dc === 0 && dr === 0) continue
+        const p = gridToPixel({ col: e.pos.col + dc, row: e.pos.row + dr, height: 0 })
+        diamondPath(ctx, p.x, p.y, camera)
+        ctx.fill()
+        ctx.stroke()
+      }
+    }
+  }
+  // 中心格:填充 + 呼吸描边
+  const c = gridToPixel({ col: e.pos.col, row: e.pos.row, height: 0 })
+  diamondPath(ctx, c.x, c.y, camera)
+  ctx.fillStyle = `rgba(255, 203, 113, ${0.28 * alpha})`
+  ctx.fill()
+  ctx.lineWidth = 2
+  ctx.strokeStyle = `rgba(255, 214, 90, ${breath * alpha})`
+  ctx.stroke()
+  // 中心十字销(zone/隐藏实体无精灵时的锚点视觉)
+  const sx = (c.x - camera.x) * ZOOM
+  const sy = (c.y - camera.y) * ZOOM
+  ctx.strokeStyle = `rgba(255, 235, 170, ${0.9 * alpha})`
+  ctx.lineWidth = 1.5
+  ctx.beginPath()
+  ctx.moveTo(sx - 5, sy)
+  ctx.lineTo(sx + 5, sy)
+  ctx.moveTo(sx, sy - 5)
+  ctx.lineTo(sx, sy + 5)
+  ctx.stroke()
+  ctx.restore()
+}
 
 /** 收集脚本树里 setActorSprite 引用的精灵 id(预载,防换装闪帧)。 */
 function collectActorSprites(stages: readonly ScriptStage[]): string[] {
@@ -251,6 +330,16 @@ export function PreviewCanvas(props: {
       const camera = { x: cam.x - size.w / ZOOM / 2, y: cam.y - size.h / ZOOM / 2 }
       const room = scene.map.room ?? { col: 0, row: 0, cols: map.width, rows: map.height }
       renderSceneFrame(ctx, renderer, { map, room, camera, sprites: draws, worldScale: ZOOM })
+      // 触发点/面高亮:选中事件的 owner 格描边 + 触发范围面(range 切比雪夫盒,引擎 findTrigger 同源)。
+      // zone 实体无精灵,这是它在预览里唯一的可见形态。
+      if (focusEntityId) {
+        const e = scene.entities.find((x) => x.id === focusEntityId)
+        if (e && !(v.entity.get(e.id)?.hidden ?? e.hidden)) {
+          drawTriggerHighlight(ctx, e, camera, now)
+        } else if (e) {
+          drawTriggerHighlight(ctx, e, camera, now, /* ghost= */ true) // 隐藏实体:淡显位置仍可寻
+        }
+      }
       // 淡幕
       if (v.fadeBlack > 0) {
         ctx.save()
@@ -263,7 +352,7 @@ export function PreviewCanvas(props: {
     }
     raf = requestAnimationFrame(frame)
     return () => cancelAnimationFrame(raf)
-  }, [status, scene, size.w, size.h, playback, spriteById, leaderSpriteId])
+  }, [status, scene, size.w, size.h, playback, spriteById, leaderSpriteId, focusEntityId])
 
   const v = playback.view
   const mode = playback.mode

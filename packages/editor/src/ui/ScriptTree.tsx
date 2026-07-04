@@ -4,9 +4,10 @@
  *
  * 只读:不 dispatch、不改数据。可视化编辑(拖拽/表单)是后续 C-track。
  */
-import { useEffect, useRef } from 'react'
-import { lookupText } from '@type-pal/content'
+
 import type { Command, Locale, ScriptCondition, ScriptStage } from '@type-pal/content'
+import { lookupText } from '@type-pal/content'
+import { useEffect, useRef } from 'react'
 
 /** locale 查文本;缺失回落显 id(不崩)。 */
 function txt(id: string | undefined, locale: Locale): string {
@@ -71,11 +72,17 @@ function describe(cmd: Command, locale: Locale): Described {
     case 'teleportParty':
       return { icon: '📍', label: '队伍瞬移', detail: `(${cmd.pos.col},${cmd.pos.row})` }
     case 'loadScene':
-      return { icon: '🚪', label: `切到场景 ${cmd.scene}`, detail: cmd.pos ? `落点 (${cmd.pos.col},${cmd.pos.row})` : undefined }
+      return {
+        icon: '🚪',
+        label: `切到场景 ${cmd.scene}`,
+        detail: cmd.pos ? `落点 (${cmd.pos.col},${cmd.pos.row})` : undefined,
+      }
     case 'setPartyFacing':
       return {
         icon: '🧭',
-        label: cmd.gesture ? `队伍姿势帧 ${cmd.gesture}(向 ${cmd.facing})` : `队伍转向 ${cmd.facing}`,
+        label: cmd.gesture
+          ? `队伍姿势帧 ${cmd.gesture}(向 ${cmd.facing})`
+          : `队伍转向 ${cmd.facing}`,
         detail: cmd.member ? `队员 ${cmd.member}` : undefined,
       }
     case 'setActorSprite':
@@ -83,15 +90,25 @@ function describe(cmd: Command, locale: Locale): Described {
     case 'fleeBattle':
       return { icon: '🏃', label: '敌人逃离战场' }
     case 'setEntityState':
-      return { icon: '👁', label: `${cmd.entity} 状态 → ${cmd.state}`, detail: cmd.state <= 0 ? '隐藏' : cmd.state >= 2 ? '现身+挡路' : '现身' }
+      return {
+        icon: '👁',
+        label: `${cmd.entity} 状态 → ${cmd.state}`,
+        detail: cmd.state <= 0 ? '隐藏' : cmd.state >= 2 ? '现身+挡路' : '现身',
+      }
     case 'setEntityFacing':
       return { icon: '🧭', label: `${cmd.entity} 转向 ${cmd.facing}` }
     case 'setEntityFrame':
       return { icon: '🎞', label: `${cmd.entity} 定帧 ${cmd.frame}` }
     case 'giveItem':
-      return { icon: '🎁', label: `获得物品 ${cmd.itemId}${cmd.count && cmd.count > 1 ? ` ×${cmd.count}` : ''}` }
+      return {
+        icon: '🎁',
+        label: `获得物品 ${cmd.itemId}${cmd.count && cmd.count > 1 ? ` ×${cmd.count}` : ''}`,
+      }
     case 'loseItem':
-      return { icon: '📤', label: `失去物品 ${cmd.itemId}${cmd.count && cmd.count > 1 ? ` ×${cmd.count}` : ''}` }
+      return {
+        icon: '📤',
+        label: `失去物品 ${cmd.itemId}${cmd.count && cmd.count > 1 ? ` ×${cmd.count}` : ''}`,
+      }
     case 'giveMoney':
       return { icon: '💰', label: `${cmd.delta >= 0 ? '获得' : '扣除'} ${Math.abs(cmd.delta)} 钱` }
     case 'setFlag':
@@ -109,7 +126,11 @@ function describe(cmd: Command, locale: Locale): Described {
     case 'setBattleField':
       return { icon: '🗺', label: `战场 ${cmd.fieldId}` }
     case 'moveEntity':
-      return { icon: '🚶', label: `${cmd.entity} 走到`, detail: `(${cmd.to.col},${cmd.to.row}) ${cmd.speed}` }
+      return {
+        icon: '🚶',
+        label: `${cmd.entity} 走到`,
+        detail: `(${cmd.to.col},${cmd.to.row}) ${cmd.speed}`,
+      }
     case 'stepEntity':
       return { icon: '👣', label: `${cmd.entity} 走一步 ${cmd.dir}` }
     case 'animEntity':
@@ -132,7 +153,11 @@ function describe(cmd: Command, locale: Locale): Described {
     case 'openShop':
       return { icon: '🏪', label: `商店 ${cmd.shop}`, detail: cmd.mode === 'buy' ? '买' : '卖' }
     case 'confirm':
-      return { icon: '❓', label: '是/否 询问', blocks: [{ title: '选「否」', seg: 'onNo', body: cmd.onNo }] }
+      return {
+        icon: '❓',
+        label: '是/否 询问',
+        blocks: [{ title: '选「否」', seg: 'onNo', body: cmd.onNo }],
+      }
     case 'branch':
       return {
         icon: '🔀',
@@ -147,13 +172,30 @@ function describe(cmd: Command, locale: Locale): Described {
     case 'cameraSnap':
       return { icon: '🎥', label: cmd.to ? `镜头定位 (${cmd.to.col},${cmd.to.row})` : '镜头回正' }
     case 'setEntityAuto':
-      return { icon: '🔁', label: `${cmd.entity} 换巡逻脚本`, detail: cmd.stages.length ? `${cmd.stages.length} 段` : '停用' }
+      return {
+        icon: '🔁',
+        label: `${cmd.entity} 换巡逻脚本`,
+        detail: cmd.stages.length ? `${cmd.stages.length} 段` : '停用',
+      }
     case 'setEntityTrigger':
-      return { icon: '🔗', label: `${cmd.entity} 换触发脚本`, detail: cmd.stages.length ? `${cmd.stages.length} 段` : '停用' }
+      return {
+        icon: '🔗',
+        label: `${cmd.entity} 换触发脚本`,
+        detail: cmd.stages.length ? `${cmd.stages.length} 段` : '停用',
+      }
     case 'setEntityTriggerMode':
-      return { icon: '🔗', label: `${cmd.entity} 触发方式`, detail: cmd.on ? `${cmd.on}${cmd.range ?? ''}` : '关闭' }
+      return {
+        icon: '🔗',
+        label: `${cmd.entity} 触发方式`,
+        detail: cmd.on ? `${cmd.on}${cmd.range ?? ''}` : '关闭',
+      }
     case 'unmigrated':
-      return { icon: '⚠', label: `未翻译 op 0x${cmd.opcode.toString(16)}`, detail: cmd.note, warn: true }
+      return {
+        icon: '⚠',
+        label: `未翻译 op 0x${cmd.opcode.toString(16)}`,
+        detail: cmd.note,
+        warn: true,
+      }
   }
 }
 
@@ -192,18 +234,43 @@ function CommandRow(props: { cmd: Command; depth: number; path: string; ctx: Row
         {ctx.onRowAction ? (
           // biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions: 仅挡冒泡防误选中;真交互是内部 button(可聚焦/键盘)
           <span className="cmd-ops" onClick={(e) => e.stopPropagation()}>
-            <button type="button" title="在此后插入" onClick={() => ctx.onRowAction?.(path, 'insert')}>＋</button>
-            <button type="button" title="上移" onClick={() => ctx.onRowAction?.(path, 'up')}>↑</button>
-            <button type="button" title="下移" onClick={() => ctx.onRowAction?.(path, 'down')}>↓</button>
-            <button type="button" className="del" title="删除" onClick={() => ctx.onRowAction?.(path, 'remove')}>✕</button>
+            <button
+              type="button"
+              title="在此后插入"
+              onClick={() => ctx.onRowAction?.(path, 'insert')}
+            >
+              ＋
+            </button>
+            <button type="button" title="上移" onClick={() => ctx.onRowAction?.(path, 'up')}>
+              ↑
+            </button>
+            <button type="button" title="下移" onClick={() => ctx.onRowAction?.(path, 'down')}>
+              ↓
+            </button>
+            <button
+              type="button"
+              className="del"
+              title="删除"
+              onClick={() => ctx.onRowAction?.(path, 'remove')}
+            >
+              ✕
+            </button>
           </span>
         ) : null}
       </div>
       {d.blocks?.map((b, i) => (
         <div key={i}>
-          <div className="cmd-block-title" style={{ paddingLeft: 8 + (depth + 1) * 16 }}>{b.title}</div>
+          <div className="cmd-block-title" style={{ paddingLeft: 8 + (depth + 1) * 16 }}>
+            {b.title}
+          </div>
           {b.body.map((c, j) => (
-            <CommandRow key={j} cmd={c} depth={depth + 2} path={`${path}/${b.seg}/${j}`} ctx={ctx} />
+            <CommandRow
+              key={j}
+              cmd={c}
+              depth={depth + 2}
+              path={`${path}/${b.seg}/${j}`}
+              ctx={ctx}
+            />
           ))}
         </div>
       ))}
@@ -232,14 +299,22 @@ export function ScriptTree(props: {
             <div className="stage-head">
               第 {i + 1} 段
               <span className="stage-next">
-                {st.next === 'advance' ? '→ 跑完推进下一段' : typeof st.next === 'number' ? `→ 跑完回第 ${st.next + 1} 段` : '→ 跑完停在本段'}
+                {st.next === 'advance'
+                  ? '→ 跑完推进下一段'
+                  : typeof st.next === 'number'
+                    ? `→ 跑完回第 ${st.next + 1} 段`
+                    : '→ 跑完停在本段'}
               </span>
             </div>
           ) : null}
           {st.body.length === 0 ? (
-            <div className="script-empty" style={{ paddingLeft: 24 }}>（空段）</div>
+            <div className="script-empty" style={{ paddingLeft: 24 }}>
+              （空段）
+            </div>
           ) : (
-            st.body.map((c, j) => <CommandRow key={j} cmd={c} depth={0} path={`${i}/${j}`} ctx={ctx} />)
+            st.body.map((c, j) => (
+              <CommandRow key={j} cmd={c} depth={0} path={`${i}/${j}`} ctx={ctx} />
+            ))
           )}
         </div>
       ))}

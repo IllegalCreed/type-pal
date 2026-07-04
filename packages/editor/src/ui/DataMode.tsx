@@ -96,6 +96,7 @@ export function DataMode(props: {
   if (tab === 'enemy') {
     return (
       <EnemyTab
+        assetBase={assetBase}
         enemies={enemies}
         enemyTeams={enemyTeams}
         skills={Object.values(skills)}

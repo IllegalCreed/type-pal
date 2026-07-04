@@ -2,22 +2,33 @@
  * 精灵帧标注(C1c)—— 把角色精灵的全部帧渲成网格,按布局分组标注。
  * C1c:四向帧网格(真实精灵)+ 命名姿势展示 + 走路预览。编辑交互(框选/命名)= C1d。
  */
-import { useEffect, useRef, useState } from 'react'
-import { bakeFrame, deriveStepCycle, loadPalette, loadSprite } from '@type-pal/reforge'
-import type { AssetBase, LoadedSprite } from '@type-pal/reforge'
+
 import type { PoseDef, SpriteDef } from '@type-pal/content'
+import type { AssetBase, LoadedSprite } from '@type-pal/reforge'
+import { bakeFrame, deriveStepCycle, loadPalette, loadSprite } from '@type-pal/reforge'
+import { useEffect, useRef, useState } from 'react'
 import { UpdateSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 
 const DIRS = ['down', 'left', 'up', 'right'] as const
 const DIR_LABEL: Record<string, string> = { down: '下', left: '左', up: '上', right: '右' }
-const DIR_COLOR: Record<string, string> = { down: '#4c9aff', left: '#58b37a', up: '#e2b340', right: '#c792ea' }
+const DIR_COLOR: Record<string, string> = {
+  down: '#4c9aff',
+  left: '#58b37a',
+  up: '#e2b340',
+  right: '#c792ea',
+}
 
 /**
  * 把 baked 精灵帧画进统一尺寸的 <canvas>:cell = 精灵最大帧包围盒 × scale(所有帧同尺寸 → 网格整齐),
  * 每帧在 cell 内**底对齐居中**(帧大小不一也完整不裁,脚底对齐地面视觉自然)。pixelated。
  */
-function FrameCell(props: { canvas: HTMLCanvasElement | undefined; maxW: number; maxH: number; scale: number }) {
+function FrameCell(props: {
+  canvas: HTMLCanvasElement | undefined
+  maxW: number
+  maxH: number
+  scale: number
+}) {
   const ref = useRef<HTMLCanvasElement>(null)
   const { canvas, maxW, maxH, scale } = props
   const cw = Math.max(1, Math.round(maxW * scale))
@@ -38,7 +49,11 @@ function FrameCell(props: { canvas: HTMLCanvasElement | undefined; maxW: number;
   return <canvas ref={ref} className="fcell-canvas" />
 }
 
-export function SpriteFrames(props: { sprite: SpriteDef; assetBase: AssetBase; session: EditSession }) {
+export function SpriteFrames(props: {
+  sprite: SpriteDef
+  assetBase: AssetBase
+  session: EditSession
+}) {
   const { sprite, assetBase, session } = props
   const [loaded, setLoaded] = useState<LoadedSprite | null>(null)
   const [baked, setBaked] = useState<HTMLCanvasElement[]>([])
@@ -60,14 +75,20 @@ export function SpriteFrames(props: { sprite: SpriteDef; assetBase: AssetBase; s
     const name = poseName.trim()
     if (!name || selFrames.size === 0) return
     const frames = [...selFrames].sort((a, b) => a - b)
-    session.dispatch(new UpdateSpriteCommand(sprite.id, { poses: { ...sprite.poses, [name]: { frames, mode: poseMode } } }))
+    session.dispatch(
+      new UpdateSpriteCommand(sprite.id, {
+        poses: { ...sprite.poses, [name]: { frames, mode: poseMode } },
+      }),
+    )
     setSelFrames(new Set())
     setPoseName('')
   }
   const deletePose = (name: string): void => {
     const rest = { ...sprite.poses }
     delete rest[name]
-    session.dispatch(new UpdateSpriteCommand(sprite.id, { poses: Object.keys(rest).length ? rest : undefined }))
+    session.dispatch(
+      new UpdateSpriteCommand(sprite.id, { poses: Object.keys(rest).length ? rest : undefined }),
+    )
   }
 
   useEffect(() => {
@@ -77,7 +98,10 @@ export function SpriteFrames(props: { sprite: SpriteDef; assetBase: AssetBase; s
     setErr('')
     void (async () => {
       try {
-        const [sp, pal] = await Promise.all([loadSprite(assetBase, sprite.spriteNum), loadPalette(assetBase, 0)])
+        const [sp, pal] = await Promise.all([
+          loadSprite(assetBase, sprite.spriteNum),
+          loadPalette(assetBase, 0),
+        ])
         if (!alive) return
         setLoaded(sp)
         setBaked(sp.frames.map((f) => bakeFrame(f, pal)))
@@ -90,8 +114,18 @@ export function SpriteFrames(props: { sprite: SpriteDef; assetBase: AssetBase; s
     }
   }, [assetBase, sprite.spriteNum])
 
-  if (err) return <div className="insp-empty" style={{ padding: 40, color: 'var(--err)' }}>精灵加载失败: {err}</div>
-  if (!loaded) return <div className="insp-empty" style={{ padding: 40 }}>载入精灵 #{sprite.spriteNum}…</div>
+  if (err)
+    return (
+      <div className="insp-empty" style={{ padding: 40, color: 'var(--err)' }}>
+        精灵加载失败: {err}
+      </div>
+    )
+  if (!loaded)
+    return (
+      <div className="insp-empty" style={{ padding: 40 }}>
+        载入精灵 #{sprite.spriteNum}…
+      </div>
+    )
 
   const total = loaded.frames.length
   // 精灵所有帧的最大包围盒 → 统一 cell 尺寸(帧大小不一也整齐;每帧底对齐居中不裁)
@@ -111,20 +145,33 @@ export function SpriteFrames(props: { sprite: SpriteDef; assetBase: AssetBase; s
     <div className="sprite-frames">
       <div className="toolbar">
         <span style={{ fontWeight: 600 }}>{sprite.label}</span>
-        <span className="hint" style={{ marginLeft: 8 }}>#{sprite.spriteNum} · {total} 帧 · {layoutDesc(layout)}</span>
+        <span className="hint" style={{ marginLeft: 8 }}>
+          #{sprite.spriteNum} · {total} 帧 · {layoutDesc(layout)}
+        </span>
       </div>
       <div className="frames-scroll">
         {layout.kind === 'directional' ? (
           <>
             {DIRS.map((dir, di) => (
               <div key={dir} className="dirgroup">
-                <div className="gh"><span className="chip" style={{ background: DIR_COLOR[dir] }} />{DIR_LABEL[dir]}({dir})
-                  <code>帧 {di * fpd}–{di * fpd + fpd - 1} · 站立 = {di * fpd}</code></div>
+                <div className="gh">
+                  <span className="chip" style={{ background: DIR_COLOR[dir] }} />
+                  {DIR_LABEL[dir]}({dir})
+                  <code>
+                    帧 {di * fpd}–{di * fpd + fpd - 1} · 站立 = {di * fpd}
+                  </code>
+                </div>
                 <div className="cells">
                   {Array.from({ length: fpd }, (_, fi) => {
                     const idx = di * fpd + fi
                     return (
-                      <div key={idx} className={`fcell${fi === 0 ? ' stand' : ''}`} style={{ borderColor: `color-mix(in srgb, ${DIR_COLOR[dir]} 45%, var(--line))` }}>
+                      <div
+                        key={idx}
+                        className={`fcell${fi === 0 ? ' stand' : ''}`}
+                        style={{
+                          borderColor: `color-mix(in srgb, ${DIR_COLOR[dir]} 45%, var(--line))`,
+                        }}
+                      >
                         <span className="fidx">{idx}</span>
                         <FrameCell canvas={baked[idx]} maxW={maxW} maxH={maxH} scale={2} />
                         <span className="ftag">{fi === 0 ? '站立' : `迈${fi}`}</span>
@@ -135,13 +182,17 @@ export function SpriteFrames(props: { sprite: SpriteDef; assetBase: AssetBase; s
               </div>
             ))}
             <div className="walk-preview">
-              步序预览 {DIR_LABEL.down}: [{deriveStepCycle(fpd).join(', ')}] · 与引擎同源 sprite-anim
+              步序预览 {DIR_LABEL.down}: [{deriveStepCycle(fpd).join(', ')}] · 与引擎同源
+              sprite-anim
             </div>
           </>
         ) : (
           <div className="cells" style={{ flexWrap: 'wrap' }}>
             {loaded.frames.map((_, idx) => (
-              <div key={idx} className="fcell"><span className="fidx">{idx}</span><FrameCell canvas={baked[idx]} maxW={maxW} maxH={maxH} scale={2} /></div>
+              <div key={idx} className="fcell">
+                <span className="fidx">{idx}</span>
+                <FrameCell canvas={baked[idx]} maxW={maxW} maxH={maxH} scale={2} />
+              </div>
             ))}
           </div>
         )}
@@ -155,32 +206,71 @@ export function SpriteFrames(props: { sprite: SpriteDef; assetBase: AssetBase; s
           <div className="poselist">
             {Object.entries(sprite.poses ?? {}).map(([name, pose]) => (
               <div key={name} className="posecard">
-                <div className="pc-head"><b>{name}</b><button className="pc-del" title="删除姿势" onClick={() => deletePose(name)}>×</button></div>
-                <div className="pf">{pose.frames.map((fi) => <FrameCell key={fi} canvas={baked[fi]} maxW={maxW} maxH={maxH} scale={1.3} />)}</div>
-                <span className="pmode">{pose.mode === 'loop' ? '循环' : '静态'} · 帧 {pose.frames.join(',')}</span>
+                <div className="pc-head">
+                  <b>{name}</b>
+                  <button className="pc-del" title="删除姿势" onClick={() => deletePose(name)}>
+                    ×
+                  </button>
+                </div>
+                <div className="pf">
+                  {pose.frames.map((fi) => (
+                    <FrameCell key={fi} canvas={baked[fi]} maxW={maxW} maxH={maxH} scale={1.3} />
+                  ))}
+                </div>
+                <span className="pmode">
+                  {pose.mode === 'loop' ? '循环' : '静态'} · 帧 {pose.frames.join(',')}
+                </span>
               </div>
             ))}
-            {Object.keys(sprite.poses ?? {}).length === 0 ? <span className="hint">（暂无命名姿势;点下方帧框选 + 命名新建）</span> : null}
+            {Object.keys(sprite.poses ?? {}).length === 0 ? (
+              <span className="hint">（暂无命名姿势;点下方帧框选 + 命名新建）</span>
+            ) : null}
           </div>
           {unassigned.length > 0 ? (
             <div className="unassigned">
               <span>未分配帧(点选):</span>
               {unassigned.map((i) => (
-                <button key={i} className={`uf${selFrames.has(i) ? ' sel' : ''}`} onClick={() => toggleFrame(i)}>{i}</button>
+                <button
+                  key={i}
+                  className={`uf${selFrames.has(i) ? ' sel' : ''}`}
+                  onClick={() => toggleFrame(i)}
+                >
+                  {i}
+                </button>
               ))}
             </div>
           ) : null}
           {selFrames.size > 0 ? (
             <div className="pose-form">
-              <span className="pf">{[...selFrames].sort((a, b) => a - b).map((fi) => <FrameCell key={fi} canvas={baked[fi]} maxW={maxW} maxH={maxH} scale={1.1} />)}</span>
-              <input className="in" placeholder="姿势名(摔倒/坐下/施法…)" value={poseName}
-                onChange={(e) => setPoseName(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && createPose()} autoFocus />
-              <select className="in" value={poseMode} onChange={(e) => setPoseMode(e.target.value as PoseDef['mode'])}>
+              <span className="pf">
+                {[...selFrames]
+                  .sort((a, b) => a - b)
+                  .map((fi) => (
+                    <FrameCell key={fi} canvas={baked[fi]} maxW={maxW} maxH={maxH} scale={1.1} />
+                  ))}
+              </span>
+              <input
+                className="in"
+                placeholder="姿势名(摔倒/坐下/施法…)"
+                value={poseName}
+                onChange={(e) => setPoseName(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && createPose()}
+                autoFocus
+              />
+              <select
+                className="in"
+                value={poseMode}
+                onChange={(e) => setPoseMode(e.target.value as PoseDef['mode'])}
+              >
                 <option value="static">静态</option>
                 <option value="loop">循环</option>
               </select>
-              <button className="tool active" onClick={createPose} disabled={!poseName.trim()}>建姿势 · 帧 {[...selFrames].sort((a, b) => a - b).join(',')}</button>
-              <button className="tool" onClick={() => setSelFrames(new Set())}>取消</button>
+              <button className="tool active" onClick={createPose} disabled={!poseName.trim()}>
+                建姿势 · 帧 {[...selFrames].sort((a, b) => a - b).join(',')}
+              </button>
+              <button className="tool" onClick={() => setSelFrames(new Set())}>
+                取消
+              </button>
             </div>
           ) : null}
         </div>
