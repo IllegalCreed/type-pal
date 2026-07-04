@@ -169,23 +169,23 @@ interface StatRow {
   curMax?: number
 }
 
-/** 画属性值:cur(黄,左对齐起 x)[+ 斜杠 + max(蓝,略低)]。 */
+/** 画属性值:cur(黄)**右对齐到 curRightX**(原版绿线);max(蓝)挂 cur 右侧 + 斜杠、略低。 */
 function drawStatValue(
   ctx: CanvasRenderingContext2D,
-  x: number,
+  curRightX: number,
   y: number,
   menu: MenuAssets,
   cur: number,
   max: number | undefined,
 ): void {
-  drawNumberLeft(ctx, cur, x, y, menu.nums)
+  drawNumberLeft(ctx, cur, curRightX - numWidth(cur, menu.nums), y, menu.nums) // cur 右对齐
   if (max === undefined) return
-  let px = x + numWidth(cur, menu.nums) + 1
+  let px = curRightX + 1
   if (menu.slash) {
     ctx.drawImage(menu.slash, px, y)
     px += menu.slash.width + 1
   }
-  drawNumberLeft(ctx, max, px, y + 3, menu.numsBlue) // max 蓝、略低(原版分数样式)
+  drawNumberLeft(ctx, max, px, y + 3, menu.numsBlue) // max 蓝、挂右侧略低(原版分数样式)
 }
 
 // ── Phase B:升级屏。标题卷轴 **与主红框等宽 + 同 x + 垂直堆叠不重叠**(作者拍板)。
@@ -240,19 +240,19 @@ function drawLevelUp(
     { lab: LEVELUP_LABELS[6]!, old: b.speed, cur: a.speed },
     { lab: LEVELUP_LABELS[7]!, old: b.luck, cur: a.luck },
   ]
-  // 列(相对框,原版比例):标签左对齐 / 旧值**左对齐紧跟标签** / 箭头固定列 / 新值**左对齐紧跟箭头**。
-  //   原版数字紧凑左对齐(體力192 几乎贴标签),非右对齐远端列。
+  // 列(相对框,原版标注真值):标签 + **间距**(黄区)+ 旧 cur **右对齐到绿线** + max 右挂;
+  //   箭头固定列;新 cur 右对齐到第二绿线 + max 右挂。cur 右对齐 → 各行 cur 右缘成列。
   const LABEL_X = BOX_X + 16
-  const OLD_LEFT = BOX_X + 50 // 紧跟 2 字标签(+32)后 ~2px
-  const ARROW_X = BOX_X + 94
-  const CUR_LEFT = BOX_X + 116
+  const OLD_CUR_RIGHT = BOX_X + 78 // 旧 cur 右缘(绿线 1;与标签间留黄区间距)
+  const ARROW_X = BOX_X + 108
+  const CUR_CUR_RIGHT = BOX_X + 142 // 新 cur 右缘(绿线 2)
   rows.forEach((r, j) => {
     const ly = BOX_Y + 8 + ROW_H * j
     const ny = ly + 2
     label(ctx, r.lab, LABEL_X, ly, glyphs, COLOR_LEVELUP_LABEL)
-    drawStatValue(ctx, OLD_LEFT, ny, menu, r.old, r.oldMax)
+    drawStatValue(ctx, OLD_CUR_RIGHT, ny, menu, r.old, r.oldMax)
     if (menu.settleArrow) ctx.drawImage(menu.settleArrow, ARROW_X, ly + 4)
-    drawStatValue(ctx, CUR_LEFT, ny, menu, r.cur, r.curMax)
+    drawStatValue(ctx, CUR_CUR_RIGHT, ny, menu, r.cur, r.curMax)
   })
 }
 
