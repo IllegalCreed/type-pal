@@ -9,6 +9,7 @@ import type { Command, EnemyDef, SkillData } from '@type-pal/content'
 import { evalAiCond, lookupText } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import type { GlyphTable, LoadedSprite } from '../assets.js'
+import type { SfxPlayer } from '../audio/sfx.js'
 import type { MenuAssets } from '../menu/menu-box.js'
 import { renderSpans } from '../text/text-render.js'
 import {
@@ -68,6 +69,8 @@ export interface BattleSessionAssets {
   faces?: Record<string, ImageBitmap | undefined>
   /** 主菜单 4 图标(0攻击 1法术 2合击 3杂项;一阶段 SPRITEUI 40-43)。 */
   battleIcons?: (ImageBitmap | undefined)[]
+  /** 音效播放器(M4d-3;敌攻/敌法/敌死/演出 playSound)。缺 = 静音。 */
+  sfx?: SfxPlayer
 }
 
 export class BattleSession {
@@ -194,6 +197,7 @@ export class BattleSession {
         }
         return
       case 'playSound':
+        this.assets.sfx?.play(c.soundId)
         this.state.log.push(`♪ 音效 ${c.soundId}`)
         return
       case 'fleeBattle': {
@@ -357,10 +361,21 @@ export class BattleSession {
       this.actTimer += dtMs
       if (this.actTimer < ACT_MS) return
       this.actTimer = 0
-      // hp 快照 → 走一步 → diff 飘字
+      // hp 快照 → 走一步 → diff 飘字 + 音效
       const pHp = s.players.map((p) => p.hp)
       const eHp = s.enemies.map((e) => e.hp)
       stepBattle(s, this.rng)
+      // 行动音(M4d-3 过渡:结算瞬间播;M4d-2 动画落地后挂到动画帧上,一阶段真值时机
+      //   = 敌接近播 actionSound / 命中播 callSound,fight.c:5005/5084)
+      const la = s.lastAction
+      s.lastAction = null // 消费即清(回合末空步不重播上一动作音)
+      if (la?.side === 'enemy') {
+        const snd = s.enemies[la.idx]?.def.sounds
+        if (snd) {
+          if (la.kind === 'attack') this.assets.sfx?.play(snd.attack)
+          else if (la.kind === 'cast') this.assets.sfx?.play(snd.magic)
+        }
+      }
       s.players.forEach((p, i) => {
         const d = pHp[i]! - p.hp
         if (d > 0) this.spawnFloat('player', i, `-${d}`, [255, 80, 80])
@@ -368,6 +383,8 @@ export class BattleSession {
       s.enemies.forEach((e, i) => {
         const d = eHp[i]! - e.hp
         if (d > 0) this.spawnFloat('enemy', i, `-${d}`, [255, 255, 255])
+        // 死亡音(一阶段 battle-system:diedFromAttack 播 deathSound)
+        if (eHp[i]! > 0 && e.hp <= 0 && !s.enemyFled) this.assets.sfx?.play(e.def.sounds.death)
       })
     }
   }

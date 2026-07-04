@@ -13,6 +13,8 @@ export interface AssetBase {
   tilesets: string
   sprites: string
   palettes: string
+  /** 音效目录完整前缀(<id>.wav;loader 已按绝对/相对规则解析)。 */
+  sounds: string
 }
 
 async function fetchJson<T>(url: string): Promise<T> {

@@ -32,7 +32,15 @@ export interface LoadedManifest {
   contentVersion: number // 工程内容数据版本(与存档 SAVE_VERSION 是两个轴)
   entryScene: string // 入口场景 id(= scenes.json 里的 scene.id)
   content: Record<string, string> // content 文件清单(kind → 相对路径)
-  assets: { root: string; maps: string; tilesets: string; sprites: string; palettes: string }
+  assets: {
+    root: string
+    maps: string
+    tilesets: string
+    sprites: string
+    palettes: string
+    /** 音效目录(wav);'/' 开头 = 应用绝对路径,否则相对工程根。缺省 = root/sounds。 */
+    sounds?: string
+  }
   startWorld: StartWorld
 }
 

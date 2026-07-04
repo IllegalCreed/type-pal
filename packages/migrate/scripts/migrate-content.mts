@@ -97,7 +97,8 @@ writeJson('projects/pal/manifest.json', {
     enemyTeams: 'content/enemy-teams.json',
   },
   // pal 资源指向共享提取源(可再生;免拷 221 张图进仓)。demo 保持自包含范例。
-  assets: { root: '/extracted/data', maps: 'tilemap', tilesets: 'tileset', sprites: 'sprite', palettes: 'palette' },
+  // sounds 在提取源与 data 平级(/extracted/sounds/<id>.wav,RIFF PCM 直解)。
+  assets: { root: '/extracted/data', maps: 'tilemap', tilesets: 'tileset', sprites: 'sprite', palettes: 'palette', sounds: '/extracted/sounds' },
 })
 writeJson('projects/pal/content/actors.json', actors)
 writeJson('projects/pal/content/sprites.json', sprites)

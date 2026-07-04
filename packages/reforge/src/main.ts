@@ -58,6 +58,7 @@ import {
 } from './magic-menu-state.js'
 import { drawEquipMenu } from './menu/equip-box.js'
 import { drawMagicMenu } from './menu/magic-box.js'
+import { SfxPlayer } from './audio/sfx.js'
 import { loadMenuAssets, loadPng, MenuBox } from './menu/menu-box.js'
 import { drawSaveBrowser } from './menu/save-browser-box.js'
 import { drawSystemMenu } from './menu/system-box.js'
@@ -135,6 +136,7 @@ async function main(): Promise<void> {
   const project: LoadedProject = await loadProject(PROJECT_ID)
   document.title = `${project.manifest.name} · reforge` // 标题随工程(index.html 只是加载占位)
   const params = new URLSearchParams(location.search)
+  const sfx = new SfxPlayer(project.assetBase.sounds) // 应用级单例(解码缓存跨战斗复用)
 
   // ── 引擎 chrome(跨场景不变)──
   const [glyphs, cursorFrames] = await Promise.all([
@@ -605,7 +607,7 @@ async function main(): Promise<void> {
       const session = new BattleSession(
         players,
         enemyDefs,
-        { bg, palette, glyphs, enemySprites, playerSprites, ui: menuAssets, faces, battleIcons },
+        { bg, palette, glyphs, enemySprites, playerSprites, ui: menuAssets, faces, battleIcons, sfx },
         (roleId) => {
           const c = world.party.find((x) => x.id === roleId)
           return c ? lookupText(`name.${c.template}`, project.locale) : roleId

@@ -18,7 +18,8 @@
     "maps": "tilemap",
     "tilesets": "tileset",
     "sprites": "sprite",
-    "palettes": "palette"
+    "palettes": "palette",
+    "sounds": "/extracted/sounds"
   },
   "startWorld": {
     "party": [

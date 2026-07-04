@@ -100,7 +100,9 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
       `工程 "${manifest.id}": 入口场景不符(期望 "${manifest.entryScene}",得 "${entryScene?.id ?? '(空)'}")`,
     )
   if (!sceneIds.includes(manifest.entryScene))
-    throw new Error(`工程 "${manifest.id}": 入口场景 "${manifest.entryScene}" 不在 scenes/index.json`)
+    throw new Error(
+      `工程 "${manifest.id}": 入口场景 "${manifest.entryScene}" 不在 scenes/index.json`,
+    )
 
   const a = manifest.assets
   return {
@@ -116,15 +118,22 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
     spritesById: indexById(sprites),
     enemiesById: indexById(enemies),
     enemyTeamsById: indexById(enemyTeams),
-    assetBase: {
+    assetBase: (() => {
       // root 以 "/" 开头 = 应用绝对路径(如 "/extracted/data",pal 共享提取源,免拷 221 张图进仓);
       // 否则 = 工程自包含相对路径(demo)。
-      root: a.root.startsWith('/') ? a.root : `projects/${manifest.id}/${a.root}`,
-      maps: a.maps,
-      tilesets: a.tilesets,
-      sprites: a.sprites,
-      palettes: a.palettes,
-    },
+      const root = a.root.startsWith('/') ? a.root : `projects/${manifest.id}/${a.root}`
+      // sounds 同规则;缺省 = root/sounds(demo 无音效目录 → 404 由 SfxPlayer 静默容错)。
+      const s = a.sounds
+      const sounds = s ? (s.startsWith('/') ? s : `projects/${manifest.id}/${s}`) : `${root}/sounds`
+      return {
+        root,
+        maps: a.maps,
+        tilesets: a.tilesets,
+        sprites: a.sprites,
+        palettes: a.palettes,
+        sounds,
+      }
+    })(),
   }
 }
 
@@ -140,23 +149,36 @@ export async function loadProject(projectId: string): Promise<LoadedProject> {
   const manifest = (await fetchJson(`${root}/manifest.json`)) as LoadedManifest
   const content = manifest.content
   const dir = scenesDir(manifest)
-  const [actors, sceneIds, entryScene, skills, items, locale, sprites, enemies, enemyTeams] = await Promise.all([
-    fetchJson(`${root}/${content.actors}`),
-    fetchJson(`${root}/${dir}index.json`),
-    fetchJson(`${root}/${dir}${manifest.entryScene}.json`),
-    fetchJson(`${root}/${content.skills}`),
-    fetchJson(`${root}/${content.items}`),
-    fetchJson(`${root}/${content.locale}`),
-    content.sprites ? fetchJson(`${root}/${content.sprites}`) : Promise.resolve(undefined),
-    content.enemies ? fetchJson(`${root}/${content.enemies}`) : Promise.resolve(undefined),
-    content.enemyTeams ? fetchJson(`${root}/${content.enemyTeams}`) : Promise.resolve(undefined),
-  ])
-  return assembleProject(manifest, { actors, sceneIds, entryScene, skills, items, locale, sprites, enemies, enemyTeams })
+  const [actors, sceneIds, entryScene, skills, items, locale, sprites, enemies, enemyTeams] =
+    await Promise.all([
+      fetchJson(`${root}/${content.actors}`),
+      fetchJson(`${root}/${dir}index.json`),
+      fetchJson(`${root}/${dir}${manifest.entryScene}.json`),
+      fetchJson(`${root}/${content.skills}`),
+      fetchJson(`${root}/${content.items}`),
+      fetchJson(`${root}/${content.locale}`),
+      content.sprites ? fetchJson(`${root}/${content.sprites}`) : Promise.resolve(undefined),
+      content.enemies ? fetchJson(`${root}/${content.enemies}`) : Promise.resolve(undefined),
+      content.enemyTeams ? fetchJson(`${root}/${content.enemyTeams}`) : Promise.resolve(undefined),
+    ])
+  return assembleProject(manifest, {
+    actors,
+    sceneIds,
+    entryScene,
+    skills,
+    items,
+    locale,
+    sprites,
+    enemies,
+    enemyTeams,
+  })
 }
 
 /** 按需载单场景(引擎 switchScene / 编辑器切场景用)。 */
 export async function loadSceneDef(project: LoadedProject, sceneId: string): Promise<SceneDef> {
-  const json = await fetchJson(`${project.projectRoot}/${scenesDir(project.manifest)}${sceneId}.json`)
+  const json = await fetchJson(
+    `${project.projectRoot}/${scenesDir(project.manifest)}${sceneId}.json`,
+  )
   const [scene] = validateScenes([json])
   if (!scene || scene.id !== sceneId)
     throw new Error(`loadSceneDef: 场景文件 id 不符(期望 "${sceneId}",得 "${scene?.id ?? '(空)'}")`)
