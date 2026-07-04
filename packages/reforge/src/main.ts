@@ -210,11 +210,14 @@ async function main(): Promise<void> {
   const sceneDefCache = new Map<string, SceneDef>()
   sceneDefCache.set(project.entryScene.id, project.entryScene)
   async function getSceneDef(id: string): Promise<SceneDef> {
+    // 缓存存 pristine,取用深拷贝 —— 运行时直接 mutate scene.entities(演出走位/隐藏/改触发),
+    // 返回活对象会把污染带进场景重入与同场景读档(X1 核出的真 bug)。跨场景持久一律走
+    // world.script(entityState/vars),场景重入 = def 初态 + applyWorldToScene 重放。
     const hit = sceneDefCache.get(id)
-    if (hit) return hit
+    if (hit) return structuredClone(hit)
     const def = await loadSceneDef(project, id)
     sceneDefCache.set(id, def)
-    return def
+    return structuredClone(def)
   }
   const spriteByNum = new Map<number, LoadedSprite>()
 
@@ -346,6 +349,8 @@ async function main(): Promise<void> {
 
   // ══ M3a 脚本运行时(设计 §4:driver Promise + AbortSignal;tick 驱动计时/淡入淡出)══
   let runner: ScriptRunner | null = null
+  /** X1 自动存档:本次演出链切过场景 → 整链(含排队 onEnter)收尾后静默写 auto 槽。 */
+  let sceneChangedByScript = false
   let scriptAbort: AbortController | null = null
   let pendingOnEnter: string | null = null // loadScene 后待跑的新场景 onEnter(当前脚本收尾后)
   let nowMs = 0 // tick 注入的时间源(driver 计时用)
@@ -419,6 +424,7 @@ async function main(): Promise<void> {
       applyWorldToScene()
       entityFrameOverride.clear()
       pendingOnEnter = sceneId // 新场景 onEnter 排队(当前脚本收尾后跑,不嵌套)
+      sceneChangedByScript = true // X1:演出链全部收尾后写 auto 档
       startAutoRunners()
       await hostFade('in', 260)
     },
@@ -901,7 +907,17 @@ async function main(): Promise<void> {
         if (pendingOnEnter) {
           const sid = pendingOnEnter
           pendingOnEnter = null
-          if (scene.id === sid && scene.onEnter) startScript(`s:${sid}`, scene.onEnter)
+          if (scene.id === sid && scene.onEnter) {
+            startScript(`s:${sid}`, scene.onEnter)
+            return // onEnter 续链;auto 档等整链收尾(下一次 finally)
+          }
+        }
+        if (sceneChangedByScript) {
+          // X1 自动存档:演出链(含 onEnter)全部收尾、玩家落地 → 静默写 auto 槽
+          sceneChangedByScript = false
+          void captureThumbnail(canvas)
+            .then((b) => doSave('auto', b))
+            .catch(() => undefined)
         }
       })
   }
@@ -1027,15 +1043,15 @@ async function main(): Promise<void> {
       )
       return false
     }
+    // 内容版本温和提示(不拒绝:内容工程迭代是常态,存档格式版本才做硬迁移)
+    if (p.contentVersion !== project.manifest.contentVersion) {
+      showToast('存档来自旧版内容,如有异常请重开新档')
+    }
     world = p.world
     world.script ??= emptyWorldScriptState() // 旧档缺省 → 空态
-    if (p.position.sceneId !== scene.id) {
-      // M2c:跨场景读档 = 真 switchScene(带存档坐标落位)
-      await switchScene(p.position.sceneId, { pos: p.position.pos, facing: p.position.facing })
-    } else {
-      player.pos = p.position.pos
-      facing = p.position.facing
-    }
+    // 同场景也走 switchScene:场景实体运行时已被演出污染(位置/触发),读档必须回
+    // def 初态再由 applyWorldToScene 重放世界态(X1;getSceneDef 已返回 pristine 拷贝)。
+    await switchScene(p.position.sceneId, { pos: p.position.pos, facing: p.position.facing })
     applyWorldToScene() // 实体隐现/挡路按存档世界态重放(读档不重跑 onEnter,对齐原版)
     startAutoRunners()
     return true
