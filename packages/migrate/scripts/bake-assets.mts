@@ -143,16 +143,22 @@ console.log('baked num-cyan 0-9')
 bakeFile(resolve(EXTRACTED, 'images/ui/frame-39.png'), resolve(PUBLIC, 'ui/num/slash.png'))
 console.log('baked slash')
 
-// 7) 物品图标(按 bitmap chunk → ui/items/{bitmap}.png;状态板/装备菜单按 item.icon 数据驱动渲染)
+// 7) 物品图标:**全量**按 items.json 的 bitmap 去重烤(此前只烤 demo 期硬编码 9 件 —— 2026-07-04 补全)
 mkdirSync(resolve(BAKED, 'ui/items'), { recursive: true })
-const itemIconChunks = [56, 176, 78, 95, 97, 224, 6, 197, 30] // 木剑/头巾/布袍/披风/草鞋/护腕/土灵珠/观音符/茶叶蛋 的 bitmap(DEMO_ITEMS.icon)
-for (const chunk of itemIconChunks) {
-  bakeFile(
-    resolve(EXTRACTED, `images/items/${String(chunk).padStart(3, '0')}.png`),
-    resolve(BAKED, `ui/items/${chunk}.png`),
-  )
+{
+  const items = JSON.parse(readFileSync(resolve(EXTRACTED, 'data/items.json'), 'utf8')) as {
+    bitmap: number
+  }[]
+  const chunks = [...new Set(items.map((i) => i.bitmap).filter((b) => b > 0))]
+  let ok = 0
+  for (const chunk of chunks) {
+    const src = resolve(EXTRACTED, `images/items/${String(chunk).padStart(3, '0')}.png`)
+    if (!existsSync(src)) continue
+    bakeFile(src, resolve(BAKED, `ui/items/${chunk}.png`))
+    ok++
+  }
+  console.log(`baked item icons ${ok}/${chunks.length}(全量,原 demo 9 件硬编码已废)`)
 }
-console.log('baked item icons')
 
 // 8) 仙术菜单 sprite:红框九宫格(gpSpriteUI 9-17 = iStyle1)+ PlayerInfoBox(18)+ face(48+roleId)+ cursor(67上/68下/69网格)
 mkdirSync(resolve(PUBLIC, 'ui/box-red'), { recursive: true })
