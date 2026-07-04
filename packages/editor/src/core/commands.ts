@@ -261,8 +261,8 @@ export class UpdateEntityCommand implements Command {
   }
 }
 
-/** UpdateScene 的 patch 范围(paletteId / entry / musicId)。 */
-export type ScenePatch = Partial<Pick<SceneDef, 'paletteId' | 'entry' | 'musicId'>>
+/** UpdateScene 的 patch 范围(paletteId / entry / musicId / entries)。 */
+export type ScenePatch = Partial<Pick<SceneDef, 'paletteId' | 'entry' | 'musicId' | 'entries'>>
 
 /**
  * 改场景字段(paletteId/entry/musicId)。apply 记下旧值,invert 还原。语义同 UpdateEntityCommand。
@@ -282,6 +282,7 @@ export class UpdateSceneCommand implements Command {
     //   显式塞进 patch → spread 把必填 scene.entry 覆成 undefined → 渲染 entry.facing 崩。
     this.patch = { ...patch }
     if (this.patch.entry) this.patch.entry = structuredClone(this.patch.entry)
+    if (this.patch.entries) this.patch.entries = structuredClone(this.patch.entries)
   }
 
   apply(state: EditorState): EditorState {
@@ -299,6 +300,8 @@ export class UpdateSceneCommand implements Command {
     if ('entry' in this.patch && this.patch.entry) {
       old.entry = scene.entry ? structuredClone(scene.entry) : undefined
     }
+    if ('entries' in this.patch)
+      old.entries = scene.entries ? structuredClone(scene.entries) : undefined
     return old
   }
 

@@ -547,6 +547,7 @@ export function EventMode(props: {
               locale={locale}
               music={music}
               musicBase={assetBase.music}
+              scenes={scenes}
               onChange={(next) => {
                 const out = updateCommandAt(active.stages, parsePath(selPath), next)
                 if (out !== active.stages) dispatchStages(out)

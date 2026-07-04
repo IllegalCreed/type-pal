@@ -395,3 +395,19 @@ describe('B9 敌对行为 patch(hostile 整对象替换)', () => {
     expect(ent0(cmd.invert(s1)).hostile).toEqual({ team: 1, chase: { range: 4, speed: 1 } })
   })
 })
+
+test('W4 UpdateScene entries:增改删 + invert 深还原;空表传 undefined 清键', () => {
+  const s0 = st()
+  const es = { 'from-s2': { pos: { col: 3, row: 4, height: 0 }, facing: 'up' as const } }
+  const c1 = new UpdateSceneCommand('s', { entries: es })
+  const s1 = c1.apply(s0)
+  expect(s1.scenes[0]!.entries).toEqual(es)
+  expect(s1.scenes[0]!.entries).not.toBe(es) // 深拷贝
+  expect(s0.scenes[0]!.entries).toBeUndefined() // 源不变
+  expect(c1.invert(s1).scenes[0]!.entries).toBeUndefined()
+  // 清空:undefined
+  const c2 = new UpdateSceneCommand('s', { entries: undefined })
+  const s2 = c2.apply(s1)
+  expect(s2.scenes[0]!.entries).toBeUndefined()
+  expect(c2.invert(s2).scenes[0]!.entries).toEqual(es)
+})

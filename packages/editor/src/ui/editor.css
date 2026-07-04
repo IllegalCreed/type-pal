@@ -1634,3 +1634,29 @@ body {
   width: 64px;
   flex: none;
 }
+
+/* ── W4 命名入口编辑 ── */
+.entry-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 0;
+}
+.entry-name {
+  flex: 1;
+  min-width: 0;
+}
+.entry-n {
+  width: 52px;
+  flex: none;
+}
+.entry-f {
+  width: 72px;
+  flex: none;
+}
+.cf-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+}

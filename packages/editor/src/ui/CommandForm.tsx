@@ -137,9 +137,11 @@ export function CommandForm(props: {
   /** 音乐库 + 试听资产前缀(BGM 选择器;库空退化数字输入)。 */
   music: MusicDef[]
   musicBase: string
+  /** 全场景(loadScene 目标下拉;W4)。缺省 = 只有当前场景。 */
+  scenes?: SceneDef[]
   onChange: (next: Command) => void
 }) {
-  const { cmd, scene, locale, music, musicBase, onChange } = props
+  const { cmd, scene, locale, music, musicBase, scenes, onChange } = props
   const set = (patch: object): void => onChange({ ...cmd, ...patch } as Command)
 
   switch (cmd.kind) {
@@ -349,6 +351,76 @@ export function CommandForm(props: {
           </Row>
         </>
       )
+    case 'loadScene': {
+      // W4 传送编辑:目标场景下拉 + 落点(缺省 = 目标场景进场点)+ 朝向。
+      const target = (scenes ?? [scene]).find((s) => s.id === cmd.scene)
+      return (
+        <>
+          <Row label="目标场景">
+            <select
+              className="in"
+              value={cmd.scene}
+              onChange={(e) => set({ scene: e.target.value })}
+            >
+              {!(scenes ?? [scene]).some((s) => s.id === cmd.scene) && (
+                <option value={cmd.scene}>{cmd.scene} (不在索引)</option>
+              )}
+              {(scenes ?? [scene]).map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.id}
+                </option>
+              ))}
+            </select>
+          </Row>
+          <Row label="落点">
+            <label className="cf-inline">
+              <input
+                type="checkbox"
+                checked={cmd.pos !== undefined}
+                onChange={(e) =>
+                  e.target.checked
+                    ? set({ pos: { ...(target?.entry.pos ?? { col: 0, row: 0, height: 0 }) } })
+                    : onChange({ kind: 'loadScene', scene: cmd.scene, ...(cmd.facing ? { facing: cmd.facing } : {}) })
+                }
+              />{' '}
+              自定(不勾 = 目标场景进场点)
+            </label>
+          </Row>
+          {cmd.pos && (
+            <Row label="col / row">
+              <Num
+                value={cmd.pos.col}
+                onChange={(n) => set({ pos: { ...cmd.pos!, col: n } })}
+              />
+              <Num
+                value={cmd.pos.row}
+                onChange={(n) => set({ pos: { ...cmd.pos!, row: n } })}
+              />
+            </Row>
+          )}
+          <Row label="朝向">
+            <select
+              className="in"
+              value={cmd.facing ?? ''}
+              onChange={(e) => {
+                const f = e.target.value as Facing | ''
+                const next: Command = { kind: 'loadScene', scene: cmd.scene }
+                if (cmd.pos) (next as { pos?: unknown }).pos = cmd.pos
+                if (f) (next as { facing?: Facing }).facing = f
+                onChange(next)
+              }}
+            >
+              <option value="">(保持)</option>
+              {FACINGS.map((f) => (
+                <option key={f} value={f}>
+                  {f}
+                </option>
+              ))}
+            </select>
+          </Row>
+        </>
+      )
+    }
     case 'playSound':
       return (
         <Row label="音效 id">

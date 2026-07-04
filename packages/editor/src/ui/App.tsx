@@ -822,9 +822,118 @@ function SceneInspector(props: {
           </select>
         </div>
       </div>
+      <div className="section">
+        <h4>
+          命名入口 <span className="hint2">传送落点(loadScene/X5 引用)</span>
+        </h4>
+        {Object.entries(scene.entries ?? {}).map(([name, ent]) => (
+          <EntryRow
+            key={name}
+            name={name}
+            entry={ent}
+            onChange={(nextName, nextEntry) => {
+              const es = { ...(scene.entries ?? {}) }
+              if (nextName !== name) {
+                if (nextName in es) return // 重名不覆盖
+                delete es[name]
+              }
+              es[nextName] = nextEntry
+              session.dispatch(new UpdateSceneCommand(scene.id, { entries: es }))
+            }}
+            onRemove={() => {
+              const es = { ...(scene.entries ?? {}) }
+              delete es[name]
+              session.dispatch(
+                new UpdateSceneCommand(scene.id, {
+                  entries: Object.keys(es).length ? es : undefined, // 空表收敛,落盘干净
+                }),
+              )
+            }}
+          />
+        ))}
+        <button
+          type="button"
+          className="tool"
+          onClick={() => {
+            const es = { ...(scene.entries ?? {}) }
+            let i = 1
+            while (`entry-${i}` in es) i++
+            es[`entry-${i}`] = { pos: { ...scene.entry.pos }, facing: scene.entry.facing }
+            session.dispatch(new UpdateSceneCommand(scene.id, { entries: es }))
+          }}
+        >
+          ＋ 添加入口(初始 = 进场点)
+        </button>
+      </div>
       <div className="insp-empty">
         点左侧实体 / 画布上的实体,看编它的属性。工具栏「+ 添加实体」→ 点画布放。
       </div>
     </>
+  )
+}
+
+/** 命名入口行:名字(失焦改名)+ col/row + 朝向 + 删。 */
+function EntryRow(props: {
+  name: string
+  entry: { pos: GridPos; facing?: SceneDef['entry']['facing'] }
+  onChange: (name: string, entry: { pos: GridPos; facing?: SceneDef['entry']['facing'] }) => void
+  onRemove: () => void
+}) {
+  const { name, entry, onChange, onRemove } = props
+  const [draft, setDraft] = useState<string | null>(null)
+  const facings: SceneDef['entry']['facing'][] = ['down', 'up', 'left', 'right']
+  return (
+    <div className="entry-row">
+      <input
+        className="in entry-name mono"
+        value={draft ?? name}
+        onChange={(e) => setDraft(e.target.value)}
+        onBlur={() => {
+          if (draft && draft !== name) onChange(draft, entry)
+          setDraft(null)
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') (e.target as HTMLInputElement).blur()
+        }}
+      />
+      <input
+        className="in mono entry-n"
+        type="number"
+        title="col"
+        value={entry.pos.col}
+        onChange={(e) =>
+          Number.isFinite(e.target.valueAsNumber) &&
+          onChange(name, { ...entry, pos: { ...entry.pos, col: e.target.valueAsNumber } })
+        }
+        onWheel={(e) => e.currentTarget.blur()}
+      />
+      <input
+        className="in mono entry-n"
+        type="number"
+        title="row"
+        value={entry.pos.row}
+        onChange={(e) =>
+          Number.isFinite(e.target.valueAsNumber) &&
+          onChange(name, { ...entry, pos: { ...entry.pos, row: e.target.valueAsNumber } })
+        }
+        onWheel={(e) => e.currentTarget.blur()}
+      />
+      <select
+        className="in entry-f"
+        value={entry.facing ?? 'down'}
+        onChange={(e) =>
+          onChange(name, { ...entry, facing: e.target.value as SceneDef['entry']['facing'] })
+        }
+      >
+        {facings.map((f) => (
+          <option key={f} value={f}>
+            {f}
+          </option>
+        ))}
+      </select>
+      <button type="button" className="mini" title="删除此入口" onClick={onRemove}>
+        ✕
+      </button>
+    </div>
   )
 }
