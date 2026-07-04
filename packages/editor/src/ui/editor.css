@@ -1605,3 +1605,32 @@ body {
   opacity: 0.55;
   margin-left: auto;
 }
+
+/* ── C4 立绘编辑 ── */
+.pt-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 0;
+}
+.portrait-thumb {
+  width: 40px;
+  height: 44px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+  flex: none;
+}
+.pt-name {
+  flex: 1;
+  min-width: 0;
+}
+.pt-name.pt-main {
+  font-size: 12px;
+  opacity: 0.75;
+}
+.pt-num {
+  width: 64px;
+  flex: none;
+}

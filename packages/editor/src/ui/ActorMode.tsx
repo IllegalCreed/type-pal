@@ -17,6 +17,7 @@ import type { AssetBase } from '@type-pal/reforge'
 import { useMemo, useState } from 'react'
 import { UpdateActorCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import { PortraitEditor } from './PortraitEditor.js'
 import { SpriteFrames } from './SpriteFrames.js'
 
 const SLOT_LABEL: Record<string, string> = {
@@ -127,26 +128,11 @@ export function ActorMode(props: {
                 </div>
               </div>
             </div>
-            <div className="section">
-              <h4>
-                头像立绘 <span className="hint2">主 + 命名表情</span>
-              </h4>
-              {actor.portraits ? (
-                <div className="chips">
-                  <span className="chip2">
-                    主<span className="meta">#{actor.portraits.default}</span>
-                  </span>
-                  {Object.entries(actor.portraits.expressions ?? {}).map(([name, n]) => (
-                    <span key={name} className="chip2">
-                      {name}
-                      <span className="meta">#{n}</span>
-                    </span>
-                  ))}
-                </div>
-              ) : (
-                <div className="hint">（无头像）</div>
-              )}
-            </div>
+            <PortraitEditor
+              actor={actor}
+              session={session}
+              portraitBase={assetBase.portraits}
+            />
             {actor.battler ? (
               <>
                 <div className="section">
