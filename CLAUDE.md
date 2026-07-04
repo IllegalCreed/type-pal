@@ -41,7 +41,7 @@ pnpm --filter @type-pal/game run e2e          # Playwright e2e
 pnpm --filter @type-pal/game run typecheck    # tsc --noEmit for one package
 ```
 
-**Dev server 端口规划**(game 6000 / e2e 6001 / editor 6010 / reforge 6050 起;避开 vite 默认 517x,已烤进各包 `dev` 脚本 + strictPort):启动命令速查 **[docs/dev-servers.md](docs/dev-servers.md)**。Claude 起验证实例直接复用这些脚本/端口(先探测,活着就复用)。
+**Dev server 端口规划**(game 6005 / e2e 6001 / editor 6010 / reforge 6050 起;避开 vite 默认 517x 与 Chrome unsafe ports(6000=X11 会被 `ERR_UNSAFE_PORT` 拒开),已烤进各包 `dev` 脚本 + strictPort):启动命令速查 **[docs/dev-servers.md](docs/dev-servers.md)**。Claude 起验证实例直接复用这些脚本/端口(先探测,活着就复用)。
 
 Each package's `check` is `typecheck && test`. Run a single test file or case with vitest:
 

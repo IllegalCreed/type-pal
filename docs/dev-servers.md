@@ -1,7 +1,7 @@
 # 本地开发服务器 · 端口与启动命令
 
 > 端口规划(2026-07-04 拍板):**避开 vite 默认 517x 段**(容器/其他工程常撞)。
-> game 从 **6000**、编辑器从 **6010**、reforge 从 **6050** 起。
+> game 用 **6005**(⚠ 原定 6000 是 Chrome unsafe port(X11 保留),`ERR_UNSAFE_PORT` 拒开,2026-07-04 挪走)、编辑器从 **6010**、reforge 从 **6050** 起。
 > 端口已烤死进各包 `dev` 脚本(`--strictPort`:被占直接报错,不静默漂移到别的端口)。
 > 所有命令在**仓库根目录**执行,复制即用。
 
@@ -9,14 +9,14 @@
 
 | 端口 | 用途 |
 |---|---|
-| **6000** | 日常 dev |
+| **6005** | 日常 dev(6000 被 Chrome 拉黑,勿用) |
 | **6001** | e2e 专用实例(playwright 自起自管,无需手动) |
 
 ```bash
 pnpm --filter @type-pal/game run dev
 ```
 
-- 打开 <http://localhost:6000/>(basic-ssl 下实际是 `https://`,证书自签点信任即可)。
+- 打开 <http://localhost:6005/>(basic-ssl 下实际是 `https://`,证书自签点信任即可)。
 - 要测**真 Service Worker** 时用 `E2E=1`(不挂 ssl 走 http):
 
 ```bash
