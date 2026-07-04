@@ -133,6 +133,7 @@ async function main(): Promise<void> {
   // 工程化:运行期加载工程(vite define 注入 VITE_PROJECT_ID;缺省 demo)。
   const PROJECT_ID = import.meta.env.VITE_PROJECT_ID ?? 'demo'
   const project: LoadedProject = await loadProject(PROJECT_ID)
+  document.title = `${project.manifest.name} · reforge` // 标题随工程(index.html 只是加载占位)
   const params = new URLSearchParams(location.search)
 
   // ── 引擎 chrome(跨场景不变)──
