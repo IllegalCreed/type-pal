@@ -1,11 +1,15 @@
 import { describe, expect, test } from 'vitest'
 import {
+  AddEnemyCommand,
   AddEntityCommand,
+  DeleteEnemyCommand,
   DeleteEntityCommand,
   MoveEntityCommand,
   UpdateActorCommand,
   UpdateEntityCommand,
   UpdateSceneCommand,
+  UpdateEnemyCommand,
+  UpdateEnemyTeamsCommand,
   UpdateScriptCommand,
   UpdateSpriteCommand,
 } from './commands.js'
@@ -271,5 +275,45 @@ describe('C-track v1 · UpdateScript(整 stages 替换 + invert)', () => {
     const s0 = stScript()
     const cmd = new UpdateScriptCommand('s', { kind: 'trigger', entityId: 'b' }, stg('x'))
     expect(cmd.apply(s0)).toBe(s0)
+  })
+})
+
+describe('M4c-3 敌人命令(不可变 + invert)', () => {
+  const mkE = (id: string): import('@type-pal/content').EnemyDef => ({
+    id, name: `name.${id}`, spriteNum: 1,
+    stats: { health: 10, level: 1, exp: 1, cash: 1, attackStrength: 5, magicStrength: 0, defense: 0, dexterity: 5, fleeRate: 0, physicalResistance: 0, poisonResistance: 0, elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 }, dualMove: false, collectValue: 0 },
+    ai: { resistanceToSorcery: 5 },
+    anim: { idleFrames: 1, magicFrames: 0, attackFrames: 1, idleAnimSpeed: 5, actWaitFrames: 0, yPosOffset: 0 },
+    sounds: { attack: 0, action: 0, magic: 0, death: 0, call: 0 },
+  })
+  function stE(): EditorState {
+    const base = st() as EditorState & { enemies: import('@type-pal/content').EnemyDef[]; enemyTeams: import('@type-pal/content').EnemyTeamDef[] }
+    base.enemies = [mkE('enemy-1'), mkE('enemy-2')]
+    base.enemyTeams = [{ id: 'team-1', members: ['enemy-1'] }]
+    return base
+  }
+  test('UpdateEnemy:patch ai.rules,invert 还原;源不变', () => {
+    const s0 = stE()
+    const rules = [{ at: 'act' as const, do: { kind: 'divide' as const, copies: 1 } }]
+    const cmd = new UpdateEnemyCommand('enemy-1', { ai: { resistanceToSorcery: 5, rules } })
+    const s1 = cmd.apply(s0)
+    expect(s1.enemies![0]!.ai.rules).toEqual(rules)
+    expect(s0.enemies![0]!.ai.rules).toBeUndefined()
+    expect(cmd.invert(s1).enemies![0]!.ai.rules).toBeUndefined()
+  })
+  test('Add/Delete:末尾增,原位删还原;Teams 整表替换可逆', () => {
+    const s0 = stE()
+    const add = new AddEnemyCommand(mkE('enemy-9'))
+    const s1 = add.apply(s0)
+    expect(s1.enemies!.map((e) => e.id)).toEqual(['enemy-1', 'enemy-2', 'enemy-9'])
+    expect(add.invert(s1).enemies!.length).toBe(2)
+    const del = new DeleteEnemyCommand('enemy-1')
+    const s2 = del.apply(s0)
+    expect(s2.enemies![0]!.id).toBe('enemy-2')
+    expect(del.invert(s2).enemies![0]!.id).toBe('enemy-1')
+    const t = new UpdateEnemyTeamsCommand([{ id: 'team-1', members: ['enemy-2'] }])
+    const s3 = t.apply(s0)
+    expect(s3.enemyTeams![0]!.members).toEqual(['enemy-2'])
+    expect(t.invert(s3).enemyTeams![0]!.members).toEqual(['enemy-1'])
   })
 })

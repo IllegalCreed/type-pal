@@ -772,12 +772,20 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
     Object.assign(localeNames, enemyRes.localeNames)
     Object.assign(localeNames, enemyTctx.locale) // 战斗脚本对白(dlg.<idx>)
   }
-  // M4c:敌用法术兜底补翻 —— fallback 施法敌引用、但 mapSkills 因 scriptOnUse≠0(玩家
-  // 使用门/动态公式)延后的对象。敌施法无使用门,伤害走战斗期 calcMagicDamage 常规路径:
-  // scriptOnSuccess 可翻则翻,否则 damage(baseDamage, elemental) fallback。
-  if (src.enemies) {
+  // M4c:敌用法术兜底补翻 —— 收集**翻译后规则里全部 cast id**(fallback magic + 0x67
+  // 时间线设置的,如僵尸王 352;曾只收 fallback 漏 0x67 → 编辑器校验器抓出 23 处悬空)。
+  // 这些对象在 mapSkills 被 scriptOnUse≠0(玩家使用门/动态公式)延后;敌施法无使用门,
+  // 伤害走战斗期 calcMagicDamage:scriptOnSuccess 可翻则翻,否则 damage fallback。
+  if (enemyRes) {
     const have = new Set(skillsRes.skills.map((s) => s.id))
-    const used = [...new Set(src.enemies.map((e) => e.magic).filter((m) => m !== 0 && m !== 0xffff))]
+    const used = [
+      ...new Set(
+        enemyRes.enemies.flatMap((e) =>
+          (e.ai.rules ?? []).flatMap((r) => (r.do.kind === 'cast' ? [Number(r.do.skillId)] : [])),
+        ),
+      ),
+    ]
+  // (占位:敌用法术补翻移至 mapEnemies 之后 —— 见下方,须覆盖 0x67 时间线设置的法术)
     const spellById = new Map(src.spells.map((s) => [s.id, s]))
     for (const oid of used.sort((a, b) => a - b)) {
       if (have.has(String(oid))) continue

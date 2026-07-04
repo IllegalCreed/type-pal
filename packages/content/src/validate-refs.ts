@@ -13,6 +13,8 @@
 import { isActorEntity } from './actor.js'
 import type {
   ActorDef,
+  EnemyDef,
+  EnemyTeamDef,
   ItemData,
   LevelUpSkill,
   LoadedManifest,
@@ -41,6 +43,9 @@ export interface ContentBundle {
   locale: Locale
   sprites: SpriteDef[]
   startWorld: StartWorld
+  /** 敌人/敌队(M4c-3 编辑器工作台;旧调用方可缺省 = 空)。 */
+  enemies?: EnemyDef[]
+  enemyTeams?: EnemyTeamDef[]
 }
 
 /** 编辑器被编辑的内容工作副本 = ContentBundle + manifest(EditSession 用)。 */
@@ -85,6 +90,30 @@ export function validateReferences(b: ContentBundle): Issue[] {
           issues.push({ severity: 'warn', where: `${lw}.speaker`, message: `说话人 id "${line.speaker}" 不在 locale` })
       })
     })
+  })
+
+  // ── enemies / enemyTeams(M4c-3)────────────────────────
+  const enemyIds = new Set((b.enemies ?? []).map((e) => e.id))
+  ;(b.enemies ?? []).forEach((e, ei) => {
+    const where = `enemies[${ei}](${e.id})`
+    for (const [ri, r] of (e.ai.rules ?? []).entries()) {
+      if (r.do.kind === 'cast' && !skillIds.has(r.do.skillId))
+        issues.push({ severity: 'error', where: `${where}.ai.rules[${ri}]`, message: `施法技能 "${r.do.skillId}" 不在 skills` })
+      if (r.do.kind === 'transform' && !enemyIds.has(r.do.enemyId))
+        issues.push({ severity: 'error', where: `${where}.ai.rules[${ri}]`, message: `变身目标 "${r.do.enemyId}" 不在 enemies` })
+      if (r.do.kind === 'summon' && r.do.enemyId && !enemyIds.has(r.do.enemyId))
+        issues.push({ severity: 'error', where: `${where}.ai.rules[${ri}]`, message: `召唤目标 "${r.do.enemyId}" 不在 enemies` })
+    }
+    if (e.steal && !itemIds.has(e.steal.itemId))
+      issues.push({ severity: 'warn', where: `${where}.steal`, message: `可偷物品 "${e.steal.itemId}" 不在 items` })
+  })
+  ;(b.enemyTeams ?? []).forEach((t, ti) => {
+    t.members.forEach((m, mi) => {
+      if (!enemyIds.has(m))
+        issues.push({ severity: 'error', where: `enemyTeams[${ti}](${t.id}).members[${mi}]`, message: `敌人 "${m}" 不在 enemies` })
+    })
+    if (t.members.length > 5)
+      issues.push({ severity: 'error', where: `enemyTeams[${ti}](${t.id})`, message: `敌队成员 ${t.members.length} 超上限 5` })
   })
 
   // ── actors ──────────────────────────────────────────────

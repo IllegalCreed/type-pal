@@ -1480,7 +1480,12 @@ async function main(): Promise<void> {
   // M3a boot:应用世界脚本态 + 跑入口场景 onEnter(演出/音乐/战场配置)+ auto 巡逻
   applyWorldToScene()
   startAutoRunners()
-  if (scene.onEnter) startScript(`s:${scene.id}`, scene.onEnter)
+  // ?battle=<team 号>:直开一场战斗(编辑器「⚔ 试打」入口;跳过 onEnter 演出。team 号 0-based)
+  const battleRaw = params.get('battle')
+  const battleParam = battleRaw === null ? Number.NaN : Number(battleRaw)
+  if (Number.isFinite(battleParam) && battleParam >= 0) {
+    void host.startBattle(battleParam).then((r) => showToast(`试打结束:${r}`))
+  } else if (scene.onEnter) startScript(`s:${scene.id}`, scene.onEnter)
   requestAnimationFrame(tick)
 
   console.log(

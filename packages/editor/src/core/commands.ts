@@ -10,7 +10,7 @@
  * 见 docs/phase2/editor/editor-design.md §4。
  */
 import type { EditorState } from './edit-session.js'
-import type { ActorDef, EntityDef, GridPos, SceneDef, ScriptStage, SpriteDef } from '@type-pal/content'
+import type { ActorDef, EnemyDef, EnemyTeamDef, EntityDef, GridPos, SceneDef, ScriptStage, SpriteDef } from '@type-pal/content'
 
 /**
  * 一次编辑操作。apply/invert 都返回**新** EditorState(不可变 —— 不得 mutate 传入)。
@@ -485,5 +485,144 @@ export class UpdateActorCommand implements Command {
     const a = state.actors.find((x) => x.id === this.actorId)
     if (!a) return state
     return withActor(state, this.actorId, { ...a, ...this.oldPatch })
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════
+// M4c-3 敌人工作台命令(敌人库 增/删/改 + 敌队整表)
+// ════════════════════════════════════════════════════════════════════
+
+/** 不可变:替换 enemyId 敌人;旁敌同引用。 */
+function withEnemy(state: EditorState, enemyId: string, next: EnemyDef): EditorState {
+  const list = state.enemies ?? []
+  let hit = false
+  const enemies = list.map((e) => {
+    if (e.id !== enemyId) return e
+    hit = true
+    return next
+  })
+  return hit ? { ...state, enemies } : state
+}
+
+/** UpdateEnemy 的 patch 范围(name 是 locale 键,名字文本走 locale 命令另做)。 */
+export type EnemyPatch = Partial<Pick<EnemyDef, 'spriteNum' | 'stats' | 'ai' | 'anim' | 'sounds' | 'steal' | 'attackEquivItem' | 'choreography' | 'onDefeated'>>
+
+/** 改敌人字段。语义同 UpdateActorCommand:首次 apply 捕获旧值,invert 还原;对象深拷贝。 */
+export class UpdateEnemyCommand implements Command {
+  readonly label = '修改敌人'
+  private readonly enemyId: string
+  private readonly patch: EnemyPatch
+  private oldPatch: EnemyPatch | undefined
+
+  constructor(enemyId: string, patch: EnemyPatch) {
+    this.enemyId = enemyId
+    this.patch = structuredClone(patch)
+  }
+
+  apply(state: EditorState): EditorState {
+    const e = (state.enemies ?? []).find((x) => x.id === this.enemyId)
+    if (!e) return state
+    if (!this.oldPatch) {
+      const old: Record<string, unknown> = {}
+      for (const k of Object.keys(this.patch)) old[k] = structuredClone((e as unknown as Record<string, unknown>)[k])
+      this.oldPatch = old as EnemyPatch
+    }
+    return withEnemy(state, this.enemyId, { ...e, ...this.patch })
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.oldPatch) return state
+    const e = (state.enemies ?? []).find((x) => x.id === this.enemyId)
+    if (!e) return state
+    const restored = { ...e, ...this.oldPatch } as Record<string, unknown>
+    for (const [k, v] of Object.entries(this.oldPatch)) if (v === undefined) delete restored[k]
+    return withEnemy(state, this.enemyId, restored as unknown as EnemyDef)
+  }
+}
+
+/** 新增敌人(末尾)。invert 移除。 */
+export class AddEnemyCommand implements Command {
+  readonly label = '新增敌人'
+  private readonly enemy: EnemyDef
+  constructor(enemy: EnemyDef) {
+    this.enemy = structuredClone(enemy)
+  }
+  apply(state: EditorState): EditorState {
+    return { ...state, enemies: [...(state.enemies ?? []), this.enemy] }
+  }
+  invert(state: EditorState): EditorState {
+    return { ...state, enemies: (state.enemies ?? []).filter((e) => e.id !== this.enemy.id) }
+  }
+}
+
+/** 删除敌人。apply 记原索引,invert 插回原位。 */
+export class DeleteEnemyCommand implements Command {
+  readonly label = '删除敌人'
+  private readonly enemyId: string
+  private removed: { enemy: EnemyDef; index: number } | undefined
+  constructor(enemyId: string) {
+    this.enemyId = enemyId
+  }
+  apply(state: EditorState): EditorState {
+    const list = state.enemies ?? []
+    const index = list.findIndex((e) => e.id === this.enemyId)
+    if (index === -1) return state
+    if (!this.removed) this.removed = { enemy: structuredClone(list[index]!), index }
+    return { ...state, enemies: list.filter((_, i) => i !== index) }
+  }
+  invert(state: EditorState): EditorState {
+    if (!this.removed) return state
+    const next = [...(state.enemies ?? [])]
+    next.splice(this.removed.index, 0, this.removed.enemy)
+    return { ...state, enemies: next }
+  }
+}
+
+/** 敌队整表替换(380 队,粗粒度 undo 足够;成员/增删队都经它)。 */
+export class UpdateEnemyTeamsCommand implements Command {
+  readonly label = '修改敌队'
+  private readonly teams: EnemyTeamDef[]
+  private old: EnemyTeamDef[] | undefined
+  constructor(teams: readonly EnemyTeamDef[]) {
+    this.teams = structuredClone(teams) as EnemyTeamDef[]
+  }
+  apply(state: EditorState): EditorState {
+    if (!this.old) this.old = structuredClone(state.enemyTeams ?? []) as EnemyTeamDef[]
+    return { ...state, enemyTeams: this.teams }
+  }
+  invert(state: EditorState): EditorState {
+    if (!this.old) return state
+    return { ...state, enemyTeams: this.old }
+  }
+}
+
+/** 改 locale 单键文本(敌人/角色名等;invert 还原,新键还原 = 删除)。 */
+export class UpdateLocaleCommand implements Command {
+  readonly label = '修改文本'
+  private readonly key: string
+  private readonly text: string
+  private old: string | undefined
+  private had = false
+  private captured = false
+
+  constructor(key: string, text: string) {
+    this.key = key
+    this.text = text
+  }
+
+  apply(state: EditorState): EditorState {
+    if (!this.captured) {
+      this.captured = true
+      this.had = this.key in state.locale
+      this.old = state.locale[this.key]
+    }
+    return { ...state, locale: { ...state.locale, [this.key]: this.text } }
+  }
+
+  invert(state: EditorState): EditorState {
+    const locale = { ...state.locale }
+    if (this.had) locale[this.key] = this.old!
+    else delete locale[this.key]
+    return { ...state, locale }
   }
 }

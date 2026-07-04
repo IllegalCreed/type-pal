@@ -1682,6 +1682,45 @@
       }
     },
     {
+      "id": "342",
+      "name": "斩龙诀",
+      "desc": "以雄浑气劲横扫群魔，\n攻击敌方全体。",
+      "cost": {
+        "mp": 46
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 280,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 11
+      }
+    },
+    {
+      "id": "352",
+      "name": "三尸咒",
+      "desc": "下蛊攻击敌方单人，\n有蛊时才能使用。",
+      "cost": {
+        "mp": 22
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "555"
+        }
+      ],
+      "animation": {
+        "effectSprite": 25
+      }
+    },
+    {
       "id": "357",
       "name": "炼狱爪",
       "desc": "",
