@@ -169,6 +169,17 @@ bakeFile(resolve(EXTRACTED, 'images/ui/frame-68.png'), resolve(PUBLIC, 'ui/curso
 bakeFile(resolve(EXTRACTED, 'images/ui/frame-69.png'), resolve(PUBLIC, 'ui/cursor/grid.png'))
 console.log('baked magic-menu sprites (red box / playerbox / face / cursor)')
 
+// 8a) 战斗主菜单 4 图标(gpSpriteUI frame 40-43 = 攻击/法术/合击/杂项,uibattle.h SPRITENUM_BATTLEICON_*)
+const BATTLE_ICONS = ['attack', 'magic', 'coop', 'misc']
+mkdirSync(resolve(PUBLIC, 'ui/battle'), { recursive: true })
+BATTLE_ICONS.forEach((name, i) => {
+  bakeFile(
+    resolve(EXTRACTED, `images/ui/frame-${String(40 + i).padStart(2, '0')}.png`),
+    resolve(PUBLIC, `ui/battle/icon-${name}.png`),
+  )
+})
+console.log('baked battle icons (frame 40-43 → ui/battle/icon-*)')
+
 // 8b) 战斗队员信息框小头像(gpSpriteUI frame 48+roleId)→ ui/face/<actorId>.png(稳定 id 命名,杜绝下标)。
 //     roleId 序 = 原版 PlayerRoles 列序:0李逍遥 1赵灵儿 2林月如 3巫后 4阿奴 5盖罗娇。
 const FACE_ACTORS = ['li-xiaoyao', 'zhao-linger', 'lin-yueru', 'wu-hou', 'anu', 'gai-luojiao']

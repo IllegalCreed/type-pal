@@ -22,14 +22,23 @@ import {
 import { getEnemyBasePos, getPlayerBasePos } from './battle-positions.js'
 import {
   type BattleMenuRow,
+  drawBattleGrid,
   drawBattleMenuBox,
   drawCurrentFinger,
+  drawItemDetailBox,
+  drawMainIcons,
+  drawMpBox,
   drawPlayerInfoBox,
+  ITEM_GRID,
+  MAGIC_GRID,
 } from './battle-ui.js'
 import { type BattleScene, type BattleSpriteDraw, renderBattleScene } from './present-battle.js'
 
 const VIEW_W = 320
-const MENU_ITEMS = ['攻击', '仙术', '物品', '防御', '逃跑'] as const
+/** 杂项盒(一阶段 WORD.DAT 56-60):围攻/状态未实现,渲染灰显、确认无响应。 */
+const MISC_LABELS = ['围攻', '道具', '防御', '逃跑', '状态'] as const
+/** 文字兜底菜单(无 UI 资产时;单测)。 */
+const FALLBACK_MENU = ['攻击', '仙术', '物品', '防御', '逃跑'] as const
 /** 每个 action 结算间隔(节奏;一帧全算看不清)。 */
 const ACT_MS = 480
 /** 胜负停留展示时长。 */
@@ -43,7 +52,7 @@ interface FloatNum {
   bornAt: number
 }
 
-type UiPhase = 'menu' | 'skill' | 'item' | 'target' | 'acting' | 'over'
+type UiPhase = 'menu' | 'misc' | 'miscSub' | 'skill' | 'item' | 'target' | 'acting' | 'over'
 
 export interface BattleSessionAssets {
   bg?: CanvasImageSource
@@ -57,6 +66,8 @@ export interface BattleSessionAssets {
   ui?: MenuAssets
   /** 队员战斗小头像,键 = roleId(与 players 的 roleId 同源)。 */
   faces?: Record<string, ImageBitmap | undefined>
+  /** 主菜单 4 图标(0攻击 1法术 2合击 3杂项;一阶段 SPRITEUI 40-43)。 */
+  battleIcons?: (ImageBitmap | undefined)[]
 }
 
 export class BattleSession {
@@ -64,7 +75,10 @@ export class BattleSession {
   private resolveDone!: (r: 'win' | 'lose' | 'flee') => void
   private readonly state: BattleState
   private ui: UiPhase = 'menu'
+  /** 主菜单 4 图标选中(0攻击 1法术 2合击 3杂项;一阶段 selectedAction)。 */
   private menuIdx = 0
+  private miscIdx = 0
+  private miscSubIdx = 0
   private skillIdx = 0
   private itemIdx = 0
   /** 仙术选目标中(target 态确认时:有值 → cast,无值 → attack)。 */
@@ -129,6 +143,19 @@ export class BattleSession {
   /** 战斗可用物品(背包中有货且 items 表带 use)。 */
   private usableItems(): { itemId: string; count: number }[] {
     return this.state.inventory.filter((x) => x.count > 0 && this.state.items[x.itemId]?.use)
+  }
+
+  /** 主菜单 4 项可用性(0攻击/3杂项恒可;1法术=有技能且未封;2合击未实现)。 */
+  private mainActionValid(sel: number): [boolean, boolean, boolean, boolean] {
+    const p = this.state.players[sel]
+    const magicOk = !!p && p.skills.length > 0 && (p.status?.silence ?? 0) === 0
+    return [true, magicOk, false, true]
+  }
+
+  /** 提交指令后回主菜单(一阶段 commit 后 selectedAction 重置)。 */
+  private backToMain(): void {
+    this.ui = 'menu'
+    this.menuIdx = 0
   }
 
   /** 收集当轮该播的演出钩(once/when 求值;文本 locale 化 + 说话人 = 敌名)。 */
@@ -221,39 +248,65 @@ export class BattleSession {
         return
       }
       if (this.ui === 'acting') this.ui = 'menu' // 新回合回菜单
+      const confirm = pressed.has(' ') || pressed.has('Enter')
       if (this.ui === 'menu') {
-        if (pressed.has('ArrowUp'))
-          this.menuIdx = (this.menuIdx + MENU_ITEMS.length - 1) % MENU_ITEMS.length
-        if (pressed.has('ArrowDown')) this.menuIdx = (this.menuIdx + 1) % MENU_ITEMS.length
-        if (pressed.has(' ') || pressed.has('Enter')) {
-          const item = MENU_ITEMS[this.menuIdx]
-          if (item === '攻击') {
+        // 一阶段主菜单方向语义:Up→攻击 Down→杂项 Left→法术(valid) Right→合击(valid);invalid 回 0
+        const valid = this.mainActionValid(sel)
+        if (pressed.has('ArrowUp')) this.menuIdx = 0
+        else if (pressed.has('ArrowDown')) this.menuIdx = 3
+        else if (pressed.has('ArrowLeft') && valid[1]) this.menuIdx = 1
+        else if (pressed.has('ArrowRight') && valid[2]) this.menuIdx = 2
+        if (!valid[this.menuIdx]) this.menuIdx = 0
+        if (confirm) {
+          if (this.menuIdx === 0) {
             this.ui = 'target'
             this.pendingSkillId = null
             this.targetIdx = 0
-          } else if (item === '仙术') {
-            if (s.players[sel]!.skills.length) {
-              this.ui = 'skill'
-              this.skillIdx = 0
-            }
-          } else if (item === '物品') {
-            if (this.usableItems().length) {
-              this.ui = 'item'
-              this.itemIdx = 0
-            }
-          } else if (item === '防御') {
+          } else if (this.menuIdx === 1) {
+            this.ui = 'skill'
+            this.skillIdx = 0
+          } else if (this.menuIdx === 3) {
+            this.ui = 'misc'
+            this.miscIdx = 0
+          } // 2 合击:valid 恒 false,到不了
+        }
+      } else if (this.ui === 'misc') {
+        // 杂项盒(一阶段):围攻/道具/防御/逃跑/状态,上下循环;围攻与状态未实现(灰)
+        const n = MISC_LABELS.length
+        if (pressed.has('ArrowUp')) this.miscIdx = (this.miscIdx + n - 1) % n
+        if (pressed.has('ArrowDown')) this.miscIdx = (this.miscIdx + 1) % n
+        if (pressed.has('Escape')) this.ui = 'menu'
+        if (confirm) {
+          if (this.miscIdx === 1) {
+            if (this.usableItems().length) this.ui = 'miscSub'
+            this.miscSubIdx = 0
+          } else if (this.miscIdx === 2) {
             s.pendingActions.set(sel, { kind: 'defend' })
-          } else {
+            this.backToMain()
+          } else if (this.miscIdx === 3) {
             s.pendingActions.set(sel, { kind: 'flee' })
-          }
+            this.backToMain()
+          } // 0 围攻 / 4 状态:未实现,无响应(灰显)
+        }
+      } else if (this.ui === 'miscSub') {
+        // 物品二级(一阶段):使用/投掷;Up|Left→使用 Down|Right→投掷;投掷未实现(灰)
+        if (pressed.has('ArrowUp') || pressed.has('ArrowLeft')) this.miscSubIdx = 0
+        if (pressed.has('ArrowDown') || pressed.has('ArrowRight')) this.miscSubIdx = 1
+        if (pressed.has('Escape')) this.ui = 'misc'
+        if (confirm && this.miscSubIdx === 0) {
+          this.ui = 'item'
+          this.itemIdx = 0
         }
       } else if (this.ui === 'skill') {
         const p = s.players[sel]!
         const list = p.skills
-        if (pressed.has('ArrowUp')) this.skillIdx = (this.skillIdx + list.length - 1) % list.length
-        if (pressed.has('ArrowDown')) this.skillIdx = (this.skillIdx + 1) % list.length
+        // 3 列网格导航:左右 ±1,上下 ±3(clamp)
+        if (pressed.has('ArrowLeft')) this.skillIdx = Math.max(0, this.skillIdx - 1)
+        if (pressed.has('ArrowRight')) this.skillIdx = Math.min(list.length - 1, this.skillIdx + 1)
+        if (pressed.has('ArrowUp')) this.skillIdx = Math.max(0, this.skillIdx - 3)
+        if (pressed.has('ArrowDown')) this.skillIdx = Math.min(list.length - 1, this.skillIdx + 3)
         if (pressed.has('Escape')) this.ui = 'menu'
-        if (pressed.has(' ') || pressed.has('Enter')) {
+        if (confirm) {
           const skillId = list[this.skillIdx % list.length]!
           const skill = this.opts.skills?.[skillId]
           if (skill && p.mp >= (skill.cost.mp ?? 0)) {
@@ -263,21 +316,21 @@ export class BattleSession {
               this.targetIdx = 0
             } else {
               s.pendingActions.set(sel, { kind: 'cast', skillId })
-              this.ui = 'menu'
-              this.menuIdx = 0
+              this.backToMain()
             }
-          } // MP 不足/缺数据:留在列表(渲染层灰显提示)
+          } // MP 不足/缺数据:留在网格(灰显)
         }
       } else if (this.ui === 'item') {
         const list = this.usableItems()
-        if (pressed.has('ArrowUp')) this.itemIdx = (this.itemIdx + list.length - 1) % list.length
-        if (pressed.has('ArrowDown')) this.itemIdx = (this.itemIdx + 1) % list.length
-        if (pressed.has('Escape')) this.ui = 'menu'
-        if ((pressed.has(' ') || pressed.has('Enter')) && list.length) {
+        if (pressed.has('ArrowLeft')) this.itemIdx = Math.max(0, this.itemIdx - 1)
+        if (pressed.has('ArrowRight')) this.itemIdx = Math.min(list.length - 1, this.itemIdx + 1)
+        if (pressed.has('ArrowUp')) this.itemIdx = Math.max(0, this.itemIdx - 3)
+        if (pressed.has('ArrowDown')) this.itemIdx = Math.min(list.length - 1, this.itemIdx + 3)
+        if (pressed.has('Escape')) this.ui = 'miscSub'
+        if (confirm && list.length) {
           const it = list[this.itemIdx % list.length]!
           s.pendingActions.set(sel, { kind: 'item', itemId: it.itemId })
-          this.ui = 'menu'
-          this.menuIdx = 0
+          this.backToMain()
         }
       } else if (this.ui === 'target') {
         const alive = this.aliveEnemyIdxs()
@@ -286,15 +339,14 @@ export class BattleSession {
           this.targetIdx = (this.targetIdx + alive.length - 1) % alive.length
         if (pressed.has('ArrowRight')) this.targetIdx = (this.targetIdx + 1) % alive.length
         if (pressed.has('Escape')) this.ui = 'menu'
-        if (pressed.has(' ') || pressed.has('Enter')) {
+        if (confirm) {
           const t = alive[this.targetIdx % alive.length]!
           const action: BattleAction = this.pendingSkillId
             ? { kind: 'cast', skillId: this.pendingSkillId, targetEnemyIdx: t }
             : { kind: 'attack', targetEnemyIdx: t }
           this.pendingSkillId = null
           s.pendingActions.set(sel, action)
-          this.ui = 'menu'
-          this.menuIdx = 0
+          this.backToMain()
         }
       }
       return
@@ -443,34 +495,49 @@ export class BattleSession {
       })
     }
 
-    // 指令菜单(左侧框式竖排;为 nextSelecting 队员选)。选敌态不画(注意力在目标,一阶段同)。
+    // 指令菜单(一阶段原版形态:4 图标 + 杂项盒 + 3 列网格)。选敌态不画(一阶段 DL30)。
     if (sel !== undefined && ui && this.ui !== 'target' && this.ui !== 'acting') {
       const p = s.players[sel]!
-      const mainRows: BattleMenuRow[] = MENU_ITEMS.map((label) => ({
-        label,
-        disabled:
-          (label === '仙术' && p.skills.length === 0) ||
-          (label === '物品' && this.usableItems().length === 0),
-      }))
-      const mainW = drawBattleMenuBox(ctx, ui, g, mainRows, this.menuIdx, now, 3, 20)
-      // 级联子菜单(红框;偏移对齐 D17 级联节奏)
-      if (this.ui === 'skill') {
+      // 主菜单 4 图标(法术/物品/杂项态仍画,一阶段 selectMove 全程画)
+      if (this.assets.battleIcons) {
+        drawMainIcons(ctx, this.assets.battleIcons, this.menuIdx, this.mainActionValid(sel), true)
+      }
+      if (this.ui === 'misc' || this.ui === 'miscSub') {
+        // 杂项盒 box(2,20);进二级后父项(道具)固定金黄
+        const rows: BattleMenuRow[] = MISC_LABELS.map((label, i) => ({
+          label,
+          disabled: i === 0 || i === 4 || (i === 1 && this.usableItems().length === 0),
+        }))
+        drawBattleMenuBox(ctx, ui, g, rows, this.miscIdx, now, 2, 20, this.ui === 'miscSub')
+        if (this.ui === 'miscSub') {
+          // 使用/投掷二级 box(30,50);投掷未实现灰显
+          const sub: BattleMenuRow[] = [{ label: '使用' }, { label: '投掷', disabled: true }]
+          drawBattleMenuBox(ctx, ui, g, sub, this.miscSubIdx, now, 30, 50)
+        }
+      } else if (this.ui === 'skill') {
+        // 法术网格(红框 3 列)+ 左上 MP 框
         const rows: BattleMenuRow[] = p.skills.map((sid) => {
           const sk = this.opts.skills?.[sid]
           const mp = sk?.cost.mp ?? 0
-          return { label: sk?.name ?? sid, right: mp, disabled: !sk || p.mp < mp }
+          return { label: sk?.name ?? sid, disabled: !sk || p.mp < mp }
         })
-        drawBattleMenuBox(ctx, ui, g, rows, this.skillIdx, now, 3 + mainW - 10, 43, 'red')
+        drawBattleGrid(ctx, ui, g, rows, this.skillIdx, now, MAGIC_GRID)
+        const selSkill = this.opts.skills?.[p.skills[this.skillIdx % p.skills.length] ?? '']
+        drawMpBox(ctx, ui, selSkill?.cost.mp ?? 0, p.mp)
       } else if (this.ui === 'item') {
-        const rows: BattleMenuRow[] = this.usableItems().map((it) => ({
+        // 物品网格(红框 3 列,数量 cyan)+ 左下选中物详情框
+        const list = this.usableItems()
+        const rows: BattleMenuRow[] = list.map((it) => ({
           label: this.state.items[it.itemId]?.name ?? it.itemId,
           right: it.count,
         }))
-        drawBattleMenuBox(ctx, ui, g, rows, this.itemIdx, now, 3 + mainW - 10, 43, 'red')
+        drawBattleGrid(ctx, ui, g, rows, this.itemIdx, now, ITEM_GRID)
+        const selItem = this.state.items[list[this.itemIdx % list.length]?.itemId ?? '']
+        drawItemDetailBox(ctx, ui, ui.itemIcons[selItem?.icon ?? -1])
       }
     } else if (sel !== undefined && !ui) {
       // 文字兜底(单测/资产缺失)
-      MENU_ITEMS.forEach((item, i) => {
+      FALLBACK_MENU.forEach((item, i) => {
         const selMark = i === this.menuIdx ? '▶ ' : '   '
         renderSpans(ctx, [{ text: `${selMark}${item}` }], 10, 26 + i * 17, {
           glyphs: g,

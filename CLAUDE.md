@@ -11,6 +11,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 >
 > 拿不准当前是哪一阶段，先问用户。**别把第一阶段的「真值锚 / 双引擎对照 / 必须和原版一致」带进第二阶段。**
 
+## 协作规范（两阶段通用）
+
+- **展示效果没有特殊说明 = 照原版**：第一阶段本来就忠实；第二阶段 UI/演出观感以一阶段实现为 UX 真值（[READ-FIRST 铁律 8](docs/phase2/READ-FIRST.md)），形态级选择（图标 vs 文字、网格 vs 列表、布局结构）不许自作主张，想换先问。
+- **改完自己真实测过再说 done**（dev / preview 真 SW / 生产烟测），别拿作者当测试员。
+- **修 bug 默认只修根因**，不为被污染的旧存档做迁移/复原（新档干净即可），除非作者要求。
+- **给定范围的批量任务一路做完**，别每步停下问「继续吗」。
+- **报告/审查结论**：复核后的收窄与纠正要合并进正文，别让正文留着未修正的初版结论。
+
 ## What this is
 
 A browser reimplementation of **仙剑奇侠传 (PAL — the 1995 DOS/Win95 RPG)** in TypeScript. It is a faithful port of **sdlpal** (the open-source C reimplementation), whose source lives under `reference/sdlpal/` and is the authoritative reference for game behavior, formulas, and rendering math. The runtime plays from assets extracted out of the original game's binary MKF archives.

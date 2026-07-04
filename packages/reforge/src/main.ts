@@ -1,10 +1,10 @@
 import {
   buildWorld,
   type Dialogue,
-  effectiveStat,
   type DialogueLine,
-  emptyWorldScriptState,
   type EntityDef,
+  effectiveStat,
+  emptyWorldScriptState,
   type Facing,
   type GridPos,
   gridToPixel,
@@ -46,7 +46,6 @@ import {
   openEquipMenu,
 } from './equip-menu-state.js'
 import { Keyboard } from './input.js'
-import { ScriptRunner, type ScriptHost } from './script-runner.js'
 import { type LoadedProject, loadProject, loadSceneDef } from './loader.js'
 import {
   closeMagicMenu,
@@ -67,7 +66,6 @@ import { back, CLOSED, confirm, type MenuState, moveCursor, openMenu } from './m
 import { resolveMove } from './movement.js'
 import { Canvas2DRenderer, type CellRect, type SpriteDraw } from './render.js'
 import { renderSceneFrame } from './render-scene.js'
-import { idleFrameIndex, walkFrameIndex } from './sprite-anim.js'
 import {
   browserConfirm,
   browserConfirmOverwriteNo,
@@ -80,6 +78,8 @@ import {
 import { buildMeta, buildPayload, captureThumbnail } from './save/ops.js'
 import { IndexedDbSaveStore, MemorySaveStore, type SaveStore } from './save/store.js'
 import type { SaveMeta, SlotId } from './save/types.js'
+import { type ScriptHost, ScriptRunner } from './script-runner.js'
+import { idleFrameIndex, walkFrameIndex } from './sprite-anim.js'
 import {
   closeSystemMenu,
   openSystemMenu,
@@ -159,7 +159,9 @@ async function main(): Promise<void> {
   // 修一阶段按 sceneId 双取坑);palette/sceneDef 小缓存;精灵跨场景累积。──
   const MAP_CACHE_CAP = 16
   const mapCache = new Map<number, { map: Tilemap; tiles: Map<number, RleFrame> }>()
-  async function getMapAssets(mapNum: number): Promise<{ map: Tilemap; tiles: Map<number, RleFrame> }> {
+  async function getMapAssets(
+    mapNum: number,
+  ): Promise<{ map: Tilemap; tiles: Map<number, RleFrame> }> {
     const hit = mapCache.get(mapNum)
     if (hit) {
       mapCache.delete(mapNum) // LRU touch(Map 插入序 = LRU 序)
@@ -242,14 +244,23 @@ async function main(): Promise<void> {
   const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > hi ? hi : v)
   function updateCamera(): void {
     const pp = gridToPixel(player.pos)
-    camera.x = clamp(pp.x - PARTY_OX + cameraOffset.x, viewMinX, Math.max(viewMinX, viewMaxX - VIEW_W))
-    camera.y = clamp(pp.y - PARTY_OY + cameraOffset.y, viewMinY, Math.max(viewMinY, viewMaxY - VIEW_H))
+    camera.x = clamp(
+      pp.x - PARTY_OX + cameraOffset.x,
+      viewMinX,
+      Math.max(viewMinX, viewMaxX - VIEW_W),
+    )
+    camera.y = clamp(
+      pp.y - PARTY_OY + cameraOffset.y,
+      viewMinY,
+      Math.max(viewMinY, viewMaxY - VIEW_H),
+    )
   }
 
   // 精灵解析(C0):实体 → actor/prop → sprites 注册表;玩家 = party[0] 的 ActorDef.spriteId。
   const requireSpriteDef = (spriteId: string | undefined, what: string): SpriteDef => {
     const def = spriteId ? project.spritesById[spriteId] : undefined
-    if (!def) throw new Error(`reforge: ${what} 的精灵 "${spriteId ?? '(未解析)'}" 不在 sprites 注册表`)
+    if (!def)
+      throw new Error(`reforge: ${what} 的精灵 "${spriteId ?? '(未解析)'}" 不在 sprites 注册表`)
     return def
   }
   const leaderId = project.manifest.startWorld.party[0]
@@ -331,12 +342,23 @@ async function main(): Promise<void> {
   let activeBattle: BattleSession | null = null // M4b:进行中的战斗(主循环转发 tick/render)
   // ── M3b 走位/动画驱动(tick 推进;abort 全兑现)──
   const SPEED_MS: Record<string, number> = { slow: 200, normal: 130, fast: 100, run: 50 }
-  const entityMoves = new Map<string, { to: GridPos; stepMs: number; acc: number; resolve: () => void }>()
+  const entityMoves = new Map<
+    string,
+    { to: GridPos; stepMs: number; acc: number; resolve: () => void }
+  >()
   let partyMove: { to: GridPos; stepMs: number; acc: number; resolve: () => void } | null = null
   const entityAnim = new Map<string, number>() // 实体走帧计数(移动/0x87 动画共用)
   // auto 巡逻:每实体独立 runner(主脚本期间暂停;切场景全停)
   const autoAborts = new Map<string, AbortController>()
-  let cameraPanFx: { fromX: number; fromY: number; dx: number; dy: number; steps: number; done: number; resolve: () => void } | null = null
+  let cameraPanFx: {
+    fromX: number
+    fromY: number
+    dx: number
+    dy: number
+    steps: number
+    done: number
+    resolve: () => void
+  } | null = null
 
   /** 世界脚本状态 → 场景实体(entityState:≤0 隐,≥2 挡路;进场/读档/设态后重放)。 */
   function applyWorldToScene(): void {
@@ -396,7 +418,8 @@ async function main(): Promise<void> {
         return
       }
       const def = requireSpriteDef(spriteId, `0x65 换装 ${actorId}`)
-      const frames = spriteByNum.get(def.spriteNum) ?? (await loadSprite(project.assetBase, def.spriteNum))
+      const frames =
+        spriteByNum.get(def.spriteNum) ?? (await loadSprite(project.assetBase, def.spriteNum))
       spriteByNum.set(def.spriteNum, frames)
       // 切回本体精灵 = 撤销覆盖(严格等价:override 恒生效,但本体时置 null 让存档/调试态干净)
       leaderSpriteOverride = def.spriteNum === leaderSpriteDef.spriteNum ? null : { def, frames }
@@ -480,7 +503,15 @@ async function main(): Promise<void> {
     cameraPan: (dx, dy, frames) =>
       new Promise((resolve) => {
         // 每帧位移 (dx,dy),共 frames 帧,累积进 cameraOffset(不回正;走位期保留)
-        cameraPanFx = { fromX: cameraOffset.x, fromY: cameraOffset.y, dx, dy, steps: frames, done: 0, resolve }
+        cameraPanFx = {
+          fromX: cameraOffset.x,
+          fromY: cameraOffset.y,
+          dx,
+          dy,
+          steps: frames,
+          done: 0,
+          resolve,
+        }
       }),
     cameraSnap: (to) => {
       if (to) {
@@ -546,15 +577,26 @@ async function main(): Promise<void> {
       }))
       // 资产:战场背景(sys:battleField 记账 → 当前场景 palette 着色)+ 敌我战斗精灵 + 队员小头像
       const fieldId = world.script?.vars['sys:battleField'] ?? 24
-      const [bg, enemySprites, playerSprites, faceList] = await Promise.all([
+      const [bg, enemySprites, playerSprites, faceList, battleIcons] = await Promise.all([
         loadBattleBg(project.assetBase, fieldId, palette).catch(() => undefined),
-        Promise.all(enemyDefs.map((e) => loadBattleSprite(project.assetBase, 'enemy', e.spriteNum).catch(() => undefined))),
+        Promise.all(
+          enemyDefs.map((e) =>
+            loadBattleSprite(project.assetBase, 'enemy', e.spriteNum).catch(() => undefined),
+          ),
+        ),
         Promise.all(
           world.party.map((c) =>
-            loadBattleSprite(project.assetBase, 'player', project.actorsById[c.template]?.battler?.battleSpriteNum ?? 0).catch(() => undefined),
+            loadBattleSprite(
+              project.assetBase,
+              'player',
+              project.actorsById[c.template]?.battler?.battleSpriteNum ?? 0,
+            ).catch(() => undefined),
           ),
         ),
         Promise.all(world.party.map((c) => loadPng(`/ui/face/${c.template}.png`))),
+        Promise.all(
+          ['attack', 'magic', 'coop', 'misc'].map((n) => loadPng(`/ui/battle/icon-${n}.png`)),
+        ),
       ])
       const faces: Record<string, ImageBitmap | undefined> = {}
       world.party.forEach((c, i) => {
@@ -563,7 +605,7 @@ async function main(): Promise<void> {
       const session = new BattleSession(
         players,
         enemyDefs,
-        { bg, palette, glyphs, enemySprites, playerSprites, ui: menuAssets, faces },
+        { bg, palette, glyphs, enemySprites, playerSprites, ui: menuAssets, faces, battleIcons },
         (roleId) => {
           const c = world.party.find((x) => x.id === roleId)
           return c ? lookupText(`name.${c.template}`, project.locale) : roleId
@@ -599,8 +641,7 @@ async function main(): Promise<void> {
       hasItem: (itemId, atLeast) =>
         (world.inventory.find((x) => x.itemId === itemId)?.count ?? 0) >= atLeast,
       money: () => world.money,
-      inParty: (actorId) =>
-        world.party.some((c) => c.id === actorId || c.template === actorId),
+      inParty: (actorId) => world.party.some((c) => c.id === actorId || c.template === actorId),
     },
     report: (msg) => {
       if (!import.meta.env.DEV) return
@@ -684,7 +725,10 @@ async function main(): Promise<void> {
         stepFrame = (stepFrame + 1) % 4
         updateCamera()
       }
-      if (Math.abs(mv.to.col - player.pos.col) < 0.26 && Math.abs(mv.to.row - player.pos.row) < 0.26) {
+      if (
+        Math.abs(mv.to.col - player.pos.col) < 0.26 &&
+        Math.abs(mv.to.row - player.pos.row) < 0.26
+      ) {
         player.pos = { ...mv.to }
         partyMove = null
         walking = false
@@ -966,11 +1010,12 @@ async function main(): Promise<void> {
     // 走 sprite-anim。精灵本体可被 0x65 换装覆盖(练武/疯跑)。
     const ld = leaderSpriteOverride?.def ?? leaderSpriteDef
     const ls = leaderSpriteOverride?.frames ?? playerSprite
-    const fi = partyGesture != null
-      ? idleFrameIndex(ld.layout, facing) + partyGesture
-      : walking
-        ? walkFrameIndex(ld.layout, facing, stepFrame)
-        : idleFrameIndex(ld.layout, facing)
+    const fi =
+      partyGesture != null
+        ? idleFrameIndex(ld.layout, facing) + partyGesture
+        : walking
+          ? walkFrameIndex(ld.layout, facing, stepFrame)
+          : idleFrameIndex(ld.layout, facing)
     const pf = ls.frames[fi] ?? ls.frames[0]
     if (pf) {
       const pp = gridToPixel(player.pos)
@@ -1125,7 +1170,8 @@ async function main(): Promise<void> {
   // 静态实体碰撞:collide 实体占其 pos 所在格,玩家目标落该格 → 挡。
   // 闭包读 entities 当前 pos(将来移动 NPC 也自然生效;静态阶段 pos 不变)。
   const isBlocked = (pos: GridPos): boolean =>
-    isBlockedAt(map, pos) || scene.entities.some((e) => !e.hidden && e.collide === true && sameGrid(pos, e.pos))
+    isBlockedAt(map, pos) ||
+    scene.entities.some((e) => !e.hidden && e.collide === true && sameGrid(pos, e.pos))
   const keyboard = new Keyboard()
   const INTERACT_RANGE = 48 // 像素：靠近实体即可交互
 
@@ -1513,16 +1559,16 @@ async function main(): Promise<void> {
  * M4b-1 战斗场景预览:?battle-preview=<field>&enemies=1,2,3 → 加载背景 + 敌队 + 队员战斗精灵,
  * 摆位渲染一帧。验证 loader + battle-positions + renderBattleScene(不进主循环/回合)。
  */
-async function renderBattlePreview(
-  project: LoadedProject,
-  params: URLSearchParams,
-): Promise<void> {
+async function renderBattlePreview(project: LoadedProject, params: URLSearchParams): Promise<void> {
   const WORLD_SCALE = 4
   canvas.width = 320 * WORLD_SCALE
   canvas.height = 200 * WORLD_SCALE
   const palette = await loadPalette(project.assetBase, 0)
   // 真实战斗 field(场景 setBattleField 用 24/12/10/7…;field 2 是主菜单背景,勿用)。
-  const field = params.get('battle-preview') && Number(params.get('battle-preview')) > 0 ? Number(params.get('battle-preview')) : 24
+  const field =
+    params.get('battle-preview') && Number(params.get('battle-preview')) > 0
+      ? Number(params.get('battle-preview'))
+      : 24
   const bg = await loadBattleBg(project.assetBase, field, palette).catch((e: unknown) => {
     console.warn('[battle] bg 加载失败:', e)
     return undefined
@@ -1533,7 +1579,10 @@ async function renderBattlePreview(
       return undefined
     })
 
-  const enemyIds = (params.get('enemies') ?? '1,2,3').split(',').map(Number).filter((n) => n >= 0)
+  const enemyIds = (params.get('enemies') ?? '1,2,3')
+    .split(',')
+    .map(Number)
+    .filter((n) => n >= 0)
   const enemies: BattleSpriteDraw[] = []
   for (const [i, id] of enemyIds.entries()) {
     const sprite = await load('enemy', id)
@@ -1551,7 +1600,9 @@ async function renderBattlePreview(
   }
 
   renderBattleScene(ctx, { bg, enemies, players, palette }, WORLD_SCALE)
-  console.log(`[reforge] battle preview: field ${field}, ${enemies.length} 敌 / ${players.length} 队员`)
+  console.log(
+    `[reforge] battle preview: field ${field}, ${enemies.length} 敌 / ${players.length} 队员`,
+  )
 }
 
 /** 调试速查：把 spriteNum 0..47 的第 0 帧排成网格 + 标号，肉眼分辨人 / 物。 */
