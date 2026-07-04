@@ -1,19 +1,25 @@
 /**
- * M4a · headless 回合战核 —— 无渲染、无动画的纯逻辑状态机（单测验收）。
- * 设计:battle-model-m4-design.md §3。回合流程 preBattle→selectAction⇄performAction→won/lost/fled。
+ * M4a/M4c · headless 回合战核 —— 无渲染、无动画的纯逻辑状态机（单测验收）。
+ * 设计:battle-model-m4-design.md §3 + enemy-ai-design.md(M4c)。
+ * 回合流程 preBattle→selectAction⇄performAction→won/lost/fled。
  *
- * M4a 范围:攻击/防御 + fallback 敌人 AI（物攻）+ 胜负判定。
- * 仙术/物品/动画/状态施加 = M4b;敌人 AI 脚本/召唤 = M4c。
+ * M4c-1:敌人决策走规则求值器(content/enemy-ai)——迁移器把 fallback(magic+magicRate)
+ * 翻成 [chance] cast 规则,无规则/无命中 = 普攻(原版兜底);cast 走 SkillEffect 结算
+ * (v1 覆盖 damage/healHp/applyStatus,其余效果 log 跳过)。
+ * summon/transform/divide/flee 动作与 choreography 演出 = M4c-2。
  * 公式全走 content/battle-formulas（= sdlpal fight.c）。RNG 可注入（测试定值,运行时真随机）。
  */
-import type { BattleStatus, EnemyDef } from '@type-pal/content'
+import type { AiBattleView, BattleStatus, EnemyDef, SkillData } from '@type-pal/content'
 import {
   buildActionQueue,
+  calcMagicDamage,
   calcPhysicalAttackDamage,
   canAct,
+  decideByRules,
   emptyBattleStatus,
   getEnemyDexterity,
   getPlayerActualDexterity,
+  pickAiTarget,
   tickBattleStatus,
 } from '@type-pal/content'
 
@@ -41,6 +47,8 @@ export interface BattleEnemyState {
   hp: number
   status: BattleStatus
   defending: boolean
+  /** once 规则已触发下标(M4c;transform 时清零)。 */
+  firedRules: Set<number>
 }
 
 export interface BattleState {
@@ -54,6 +62,10 @@ export interface BattleState {
   actionQueue: ReturnType<typeof buildActionQueue>
   /** 战斗日志（headless 测断言用;present 期改事件）。 */
   log: string[]
+  /** 技能表(敌施法;M4c)。 */
+  skills: Record<string, SkillData>
+  /** 难度预设 id(M4c 留口)。 */
+  difficulty: string
 }
 
 export type BattleAction =
@@ -64,6 +76,10 @@ export type BattleAction =
 export interface CreateBattleInput {
   players: Omit<BattlePlayerState, 'status' | 'defending'>[]
   enemies: EnemyDef[]
+  /** 技能表(敌施法查 SkillData;缺省空 = cast 落普攻并 log)。 */
+  skills?: Record<string, SkillData>
+  /** 难度预设 id(AI difficulty 条件;缺省 'normal')。 */
+  difficulty?: string
 }
 
 export function createBattleState(input: CreateBattleInput): BattleState {
@@ -71,10 +87,18 @@ export function createBattleState(input: CreateBattleInput): BattleState {
     phase: 'preBattle',
     turn: 0,
     players: input.players.map((p) => ({ ...p, status: emptyBattleStatus(), defending: false })),
-    enemies: input.enemies.map((def) => ({ def, hp: def.stats.health, status: emptyBattleStatus(), defending: false })),
+    enemies: input.enemies.map((def) => ({
+      def,
+      hp: def.stats.health,
+      status: emptyBattleStatus(),
+      defending: false,
+      firedRules: new Set<number>(),
+    })),
     pendingActions: new Map(),
     actionQueue: [],
     log: [],
+    skills: input.skills ?? {},
+    difficulty: input.difficulty ?? 'normal',
   }
 }
 
@@ -91,19 +115,71 @@ export function resolveAttack(atk: number, def: number, physRes: number, defendi
   return Math.max(0, applyDefense(calcPhysicalAttackDamage(atk, def, physRes), defending))
 }
 
+/** 组装 AI 求值视图(纯数据;设计 enemy-ai-design.md §2)。 */
+function buildAiView(s: BattleState, self: BattleEnemyState): AiBattleView {
+  const firstIdx = s.enemies.findIndex((x) => x.hp > 0 && x.def.id === self.def.id)
+  return {
+    turn: s.turn,
+    difficulty: s.difficulty,
+    self: {
+      hpPercent: (self.hp / Math.max(1, self.def.stats.health)) * 100,
+      firstOfKind: s.enemies[firstIdx] === self,
+      silenced: self.status.silence > 0,
+    },
+    allyCount: aliveEnemies(s).length,
+    players: alivePlayers(s).map((i) => {
+      const p = s.players[i]!
+      return {
+        index: i,
+        hpPercent: (p.hp / Math.max(1, p.maxHp)) * 100,
+        hp: p.hp,
+        mp: p.mp,
+        attack: p.attackStrength,
+      }
+    }),
+  }
+}
+
+export type EnemyDecision =
+  | { kind: 'attack'; targetPlayerIdx: number }
+  | { kind: 'cast'; skill: SkillData; targetPlayerIdx: number }
+  | { kind: 'pass' }
+
 /**
- * fallback 敌人 AI（无脚本,99/153 敌人）—— 移植一阶段 enemy-ai.ts::decideEnemyAction。
- * M4a 简化:magic≠0 && rng<magicRate → 施法(M4b 落地,现降级物攻);否则物攻随机活队员。
- * confused → 打友方(M4c);sleep/paralyzed → canAct=false 跳过。
+ * 敌人决策(M4c):规则求值器(content/enemy-ai)取首条命中;无规则/无命中 = 普攻随机
+ * 活队员(原版兜底)。sleep/paralyzed → pass;沉默由求值器跳 cast 规则。
+ * summon/transform/divide/flee 动作 M4c-2 落地,此处 log 后按普攻兜底(手配数据可见提示)。
  */
-export function decideEnemyAction(
-  e: BattleEnemyState,
-  targets: number[],
-  rng: () => number,
-): { kind: 'attack'; targetPlayerIdx: number } | { kind: 'pass' } {
+export function decideEnemyAction(s: BattleState, e: BattleEnemyState, rng: () => number): EnemyDecision {
+  const targets = alivePlayers(s)
   if (!canAct(e.status) || targets.length === 0) return { kind: 'pass' }
-  const idx = targets[Math.floor(rng() * targets.length)]!
-  return { kind: 'attack', targetPlayerIdx: idx }
+  const view = buildAiView(s, e)
+  const fallbackAttack = (): EnemyDecision => ({
+    kind: 'attack',
+    targetPlayerIdx: pickAiTarget('random', view.players, rng),
+  })
+  const rules = e.def.ai.rules
+  if (!rules?.length) return fallbackAttack()
+  const d = decideByRules(rules, view, rng, e.firedRules)
+  if (!d) return fallbackAttack()
+  if (rules[d.ruleIdx]?.once) e.firedRules.add(d.ruleIdx)
+  switch (d.action.kind) {
+    case 'pass':
+      return { kind: 'pass' } // 0xFFFF 哨兵:掷中也不动(原版)
+    case 'attack':
+      return { kind: 'attack', targetPlayerIdx: pickAiTarget(d.action.target, view.players, rng) }
+    case 'cast': {
+      const skill = s.skills[d.action.skillId]
+      if (!skill) {
+        s.log.push(`${e.def.id} 施法 ${d.action.skillId} 缺技能数据,落普攻`)
+        return fallbackAttack()
+      }
+      return { kind: 'cast', skill, targetPlayerIdx: pickAiTarget(d.action.target, view.players, rng) }
+    }
+    default:
+      s.log.push(`${e.def.id} 动作 ${d.action.kind}(M4c-2),暂普攻`)
+      return fallbackAttack()
+  }
 }
 
 /**
@@ -193,12 +269,68 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
   }
 }
 
+/** 敌施法单目标结算(damage 走 calcMagicDamage;heal/status 直接应用;其余 log 跳过)。 */
+function applyEnemySkill(s: BattleState, e: BattleEnemyState, skill: SkillData, targetIdx: number, rng: () => number): void {
+  const ZERO = { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 }
+  // 敌施法目标反转:oneEnemy/allEnemies(玩家使用视角)= 打队员;应用系(ally)= 用在自己/敌方
+  const onParty = skill.target === 'oneEnemy' || skill.target === 'allEnemies'
+  const targets = skill.target === 'allEnemies' ? alivePlayers(s) : onParty ? [targetIdx] : []
+  for (const eff of skill.effects) {
+    switch (eff.kind) {
+      case 'damage': {
+        for (const ti of targets) {
+          const p = s.players[ti]!
+          const dmg = Math.max(
+            1,
+            applyDefense(
+              calcMagicDamage({
+                magStr: e.def.stats.magicStrength,
+                def: p.defense,
+                rngFactor: 1 + rng() * 0.1, // fight.c RandomFloat(1, 1.1)
+                magicData: { baseDamage: eff.power, elemental: eff.elemental },
+                // 玩家元素/毒抗:装备派生 M4b-3 落地,先按 0(TODO 同玩家施法一起接)
+                elemRes: ZERO,
+                poisonRes: 0,
+                resistMult: 10,
+                fieldEffect: ZERO,
+              }),
+              p.defending,
+            ),
+          )
+          p.hp = Math.max(0, p.hp - dmg)
+          s.log.push(`${e.def.id} 施展 ${skill.name} 对 ${p.roleId} 造成 ${dmg}`)
+        }
+        break
+      }
+      case 'healHp': {
+        e.hp = Math.min(e.def.stats.health, e.hp + eff.amount)
+        s.log.push(`${e.def.id} 施展 ${skill.name} 回复 ${eff.amount}`)
+        break
+      }
+      case 'applyStatus': {
+        for (const ti of targets) {
+          const p = s.players[ti]!
+          p.status[eff.status] = Math.max(p.status[eff.status], eff.turns)
+          s.log.push(`${e.def.id} 对 ${p.roleId} 施加 ${eff.status} ${eff.turns} 回合`)
+        }
+        break
+      }
+      default:
+        s.log.push(`${e.def.id} 技能效果 ${eff.kind} 未接(M4c-2)`)
+    }
+  }
+}
+
 function performEnemyAction(s: BattleState, idx: number, rng: () => number): void {
   const e = s.enemies[idx]
   if (!e || e.hp <= 0) return
-  const decision = decideEnemyAction(e, alivePlayers(s), rng)
+  const decision = decideEnemyAction(s, e, rng)
   if (decision.kind === 'pass') {
     s.log.push(`${e.def.id} 无法行动`)
+    return
+  }
+  if (decision.kind === 'cast') {
+    applyEnemySkill(s, e, decision.skill, decision.targetPlayerIdx, rng)
     return
   }
   const p = s.players[decision.targetPlayerIdx]!

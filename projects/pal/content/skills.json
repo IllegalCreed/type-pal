@@ -1640,6 +1640,164 @@
       "animation": {
         "effectSprite": 65535
       }
+    },
+    {
+      "id": "330",
+      "name": "炼狱真火",
+      "desc": "火系高级法术，\n攻击敌方全体。",
+      "cost": {
+        "mp": 49
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 320,
+          "elemental": 4
+        }
+      ],
+      "animation": {
+        "effectSprite": 12
+      }
+    },
+    {
+      "id": "334",
+      "name": "地裂天崩",
+      "desc": "土系中级法术，\n攻击敌方全体。",
+      "cost": {
+        "mp": 26
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 190,
+          "elemental": 5
+        }
+      ],
+      "animation": {
+        "effectSprite": 20
+      }
+    },
+    {
+      "id": "357",
+      "name": "炼狱爪",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 130,
+          "elemental": 5
+        }
+      ],
+      "animation": {
+        "effectSprite": 22
+      }
+    },
+    {
+      "id": "372",
+      "name": "万蛊蚀天",
+      "desc": "放蛊攻击敌方全体，\n有蛊时才能使用。",
+      "cost": {
+        "mp": 34
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "555"
+        }
+      ],
+      "animation": {
+        "effectSprite": 25
+      }
+    },
+    {
+      "id": "373",
+      "name": "毒吞天下",
+      "desc": "",
+      "cost": {
+        "mp": 48
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "560"
+        }
+      ],
+      "animation": {
+        "effectSprite": 25
+      }
+    },
+    {
+      "id": "378",
+      "name": "火龙掌",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 205,
+          "elemental": 4
+        }
+      ],
+      "animation": {
+        "effectSprite": 45
+      }
+    },
+    {
+      "id": "380",
+      "name": "横扫千军",
+      "desc": "",
+      "cost": {
+        "mp": 46
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 280,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 11
+      }
+    },
+    {
+      "id": "385",
+      "name": "气魔焰",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 255,
+          "elemental": 4
+        }
+      ],
+      "animation": {
+        "effectSprite": 45
+      }
     }
   ],
   "levelUp": {

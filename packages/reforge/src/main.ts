@@ -557,6 +557,9 @@ async function main(): Promise<void> {
           const c = world.party.find((x) => x.id === roleId)
           return c ? lookupText(`name.${c.template}`, project.locale) : roleId
         },
+        Math.random,
+        // M4c:敌施法查技能表;难度预设(难度分级立项前恒 normal)
+        { skills: project.skills, difficulty: 'normal' },
       )
       activeBattle = session
       const result = await session.done
@@ -1125,6 +1128,11 @@ async function main(): Promise<void> {
     },
     get script() {
       return { running: !!runner, world: world.script }
+    },
+    /** dev:直开一场战斗(M4c 验证/编辑器试打入口)。 */
+    startBattle: (team: number) => host.startBattle(team),
+    get battleLog() {
+      return activeBattle?.debugLog() ?? []
     },
   }
 

@@ -109,10 +109,25 @@ export function mapEnemies(
         dualMove: stats.dualMove !== 0,
         collectValue: stats.collectValue,
       },
+      // M4c:fallback(magic+magicRate)翻成规则列表 —— [chance rate×10] cast + 缺省普攻。
+      // magic=0xFFFF 是原版"掷中也不动"哨兵 → [chance] pass。行为概率分布对齐一阶段
+      // enemy-ai.ts 魔法门(rng(0,10) < magicRate)。脚本策略/演出翻译 = M4c-2。
       ai: {
-        magic: stats.magic,
-        magicRate: stats.magicRate,
         resistanceToSorcery: eo.resistanceToSorcery,
+        ...(stats.magic !== 0 && stats.magicRate > 0
+          ? {
+              rules: [
+                {
+                  at: 'act' as const,
+                  when: { kind: 'chance' as const, percent: stats.magicRate * 10 },
+                  do:
+                    stats.magic === 0xffff
+                      ? { kind: 'pass' as const }
+                      : { kind: 'cast' as const, skillId: String(stats.magic) },
+                },
+              ],
+            }
+          : {}),
       },
       anim: {
         idleFrames: stats.idleFrames,

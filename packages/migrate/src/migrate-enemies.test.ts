@@ -33,14 +33,22 @@ describe('M4a 敌人迁移(enemies + enemy-objects 合并)', () => {
     expect(slime.anim.attackFrames).toBe(src.attackFrames)
     expect(slime.sounds.death).toBe(src.deathSound)
   })
-  test('AI:magic/magicRate 来自 enemies,resistanceToSorcery 来自 enemy-objects', () => {
+  test('AI(M4c):fallback 施法翻成规则([chance rate×10] cast/pass + 缺省普攻);抗异常在 object 侧', () => {
     for (const eo of enemyObjects) {
       const def = byId.get(enemySlug(eo.objectIndex))
       if (!def) continue
       const src = enemies.find((e) => e.id === eo.enemyId)!
-      expect(def.ai.magic).toBe(src.magic)
-      expect(def.ai.magicRate).toBe(src.magicRate)
-      expect(def.ai.resistanceToSorcery).toBe(eo.resistanceToSorcery) // 抗异常在 object 侧
+      expect(def.ai.resistanceToSorcery).toBe(eo.resistanceToSorcery)
+      if (src.magic !== 0 && src.magicRate > 0) {
+        const r = def.ai.rules?.[0]
+        expect(r?.at).toBe('act')
+        expect(r?.when).toEqual({ kind: 'chance', percent: src.magicRate * 10 })
+        expect(r?.do).toEqual(
+          src.magic === 0xffff ? { kind: 'pass' } : { kind: 'cast', skillId: String(src.magic) },
+        )
+      } else {
+        expect(def.ai.rules).toBeUndefined() // 纯物攻:无规则 = 引擎兜底普攻
+      }
     }
   })
   test('dualMove 敌人存在(回合两动);collectValue>0 敌人存在(可收妖)', () => {

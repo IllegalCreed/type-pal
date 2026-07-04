@@ -26,8 +26,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -73,8 +71,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 10
     },
     "anim": {
@@ -120,8 +116,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -171,8 +165,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -226,8 +218,6 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -277,8 +267,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -328,8 +316,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -379,8 +365,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -426,8 +410,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -481,8 +463,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -536,9 +516,20 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 305,
-      "magicRate": 4,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 40
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "305"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -587,8 +578,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -638,9 +627,20 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 326,
-      "magicRate": 7,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 70
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "326"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -689,8 +689,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -736,8 +734,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -791,9 +787,20 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 312,
-      "magicRate": 5,
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 50
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "312"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -842,9 +849,20 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 339,
-      "magicRate": 5,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 50
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "339"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -893,8 +911,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 10
     },
     "anim": {
@@ -944,9 +960,20 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 358,
-      "magicRate": 4,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 40
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "358"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -995,8 +1022,6 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -1042,9 +1067,20 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 316,
-      "magicRate": 8,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 80
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "316"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 4,
@@ -1093,8 +1129,6 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -1148,8 +1182,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -1199,8 +1231,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -1246,9 +1276,20 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 305,
-      "magicRate": 10,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 100
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "305"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -1297,8 +1338,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -1348,9 +1387,20 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 303,
-      "magicRate": 2,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 20
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "303"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -1395,9 +1445,20 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 321,
-      "magicRate": 3,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 30
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "321"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -1442,8 +1503,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -1489,9 +1548,20 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 327,
-      "magicRate": 4,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 40
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "327"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -1536,8 +1606,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -1587,8 +1655,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -1638,8 +1704,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -1689,8 +1753,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -1736,9 +1798,20 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 303,
-      "magicRate": 4,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 40
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "303"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -1787,8 +1860,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -1834,8 +1905,6 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -1881,8 +1950,6 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 10
     },
     "anim": {
@@ -1936,9 +2003,20 @@
       "collectValue": 3
     },
     "ai": {
-      "magic": 312,
-      "magicRate": 8,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 80
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "312"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -1987,9 +2065,20 @@
       "collectValue": 3
     },
     "ai": {
-      "magic": 359,
-      "magicRate": 4,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 40
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "359"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -2038,9 +2127,20 @@
       "collectValue": 3
     },
     "ai": {
-      "magic": 380,
-      "magicRate": 4,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 40
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "380"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -2089,9 +2189,20 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 305,
-      "magicRate": 8,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 80
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "305"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 4,
@@ -2140,9 +2251,20 @@
       "collectValue": 5
     },
     "ai": {
-      "magic": 379,
-      "magicRate": 4,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 40
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "379"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -2191,8 +2313,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 10
     },
     "anim": {
@@ -2238,8 +2358,6 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -2285,8 +2403,6 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -2332,8 +2448,6 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -2383,8 +2497,6 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -2430,9 +2542,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 312,
-      "magicRate": 4,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 40
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "312"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -2481,8 +2604,6 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -2532,8 +2653,6 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -2579,8 +2698,6 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -2630,8 +2747,6 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -2677,8 +2792,6 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -2728,9 +2841,20 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 304,
-      "magicRate": 4,
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 40
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "304"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -2779,8 +2903,6 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -2830,9 +2952,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 388,
-      "magicRate": 4,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 40
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "388"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -2877,8 +3010,6 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -2924,9 +3055,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 332,
-      "magicRate": 3,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 30
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "332"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -2975,9 +3117,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 379,
-      "magicRate": 4,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 40
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "379"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -3022,8 +3175,6 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -3073,9 +3224,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 376,
-      "magicRate": 7,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 70
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "376"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -3124,9 +3286,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 360,
-      "magicRate": 10,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 100
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "360"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -3175,9 +3348,20 @@
       "collectValue": 3
     },
     "ai": {
-      "magic": 359,
-      "magicRate": 5,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 50
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "359"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -3226,9 +3410,20 @@
       "collectValue": 33
     },
     "ai": {
-      "magic": 373,
-      "magicRate": 3,
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 30
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "373"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -3277,9 +3472,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 328,
-      "magicRate": 10,
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 100
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "328"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -3328,9 +3534,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 359,
-      "magicRate": 5,
-      "resistanceToSorcery": 4
+      "resistanceToSorcery": 4,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 50
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "359"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 4,
@@ -3379,8 +3596,6 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 4
     },
     "anim": {
@@ -3434,9 +3649,20 @@
       "collectValue": 5
     },
     "ai": {
-      "magic": 379,
-      "magicRate": 6,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 60
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "379"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -3485,9 +3711,20 @@
       "collectValue": 5
     },
     "ai": {
-      "magic": 373,
-      "magicRate": 6,
-      "resistanceToSorcery": 4
+      "resistanceToSorcery": 4,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 60
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "373"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -3540,9 +3777,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 355,
-      "magicRate": 8,
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 80
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "355"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -3591,9 +3839,20 @@
       "collectValue": 3
     },
     "ai": {
-      "magic": 316,
-      "magicRate": 4,
-      "resistanceToSorcery": 4
+      "resistanceToSorcery": 4,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 40
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "316"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -3642,9 +3901,20 @@
       "collectValue": 3
     },
     "ai": {
-      "magic": 359,
-      "magicRate": 7,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 70
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "359"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -3693,9 +3963,20 @@
       "collectValue": 5
     },
     "ai": {
-      "magic": 324,
-      "magicRate": 6,
-      "resistanceToSorcery": 4
+      "resistanceToSorcery": 4,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 60
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "324"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -3748,9 +4029,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 357,
-      "magicRate": 7,
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 70
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "357"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -3803,9 +4095,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 358,
-      "magicRate": 6,
-      "resistanceToSorcery": 5
+      "resistanceToSorcery": 5,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 60
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "358"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -3854,9 +4157,20 @@
       "collectValue": 99
     },
     "ai": {
-      "magic": 375,
-      "magicRate": 10,
-      "resistanceToSorcery": 5
+      "resistanceToSorcery": 5,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 100
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "375"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -3909,8 +4223,6 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -3956,8 +4268,6 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -4007,8 +4317,6 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -4058,9 +4366,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 343,
-      "magicRate": 10,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 100
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "343"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 4,
@@ -4109,9 +4428,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 343,
-      "magicRate": 10,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 100
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "343"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 4,
@@ -4160,9 +4490,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 360,
-      "magicRate": 10,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 100
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "360"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -4207,9 +4548,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 343,
-      "magicRate": 10,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 100
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "343"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -4258,8 +4610,6 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -4309,9 +4659,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 356,
-      "magicRate": 2,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 20
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "356"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 4,
@@ -4356,8 +4717,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -4407,9 +4766,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 338,
-      "magicRate": 4,
-      "resistanceToSorcery": 3
+      "resistanceToSorcery": 3,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 40
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "338"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -4458,8 +4828,6 @@
       "collectValue": 3
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 4
     },
     "anim": {
@@ -4509,8 +4877,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -4564,8 +4930,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -4615,8 +4979,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -4662,9 +5024,20 @@
       "collectValue": 3
     },
     "ai": {
-      "magic": 371,
-      "magicRate": 3,
-      "resistanceToSorcery": 2
+      "resistanceToSorcery": 2,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 30
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "371"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -4717,9 +5090,20 @@
       "collectValue": 3
     },
     "ai": {
-      "magic": 371,
-      "magicRate": 4,
-      "resistanceToSorcery": 2
+      "resistanceToSorcery": 2,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 40
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "371"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -4772,9 +5156,20 @@
       "collectValue": 3
     },
     "ai": {
-      "magic": 371,
-      "magicRate": 5,
-      "resistanceToSorcery": 2
+      "resistanceToSorcery": 2,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 50
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "371"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -4827,9 +5222,20 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 378,
-      "magicRate": 4,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 40
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "378"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -4878,9 +5284,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 361,
-      "magicRate": 10,
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 100
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "361"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 3,
@@ -4929,8 +5346,6 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -4976,9 +5391,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 385,
-      "magicRate": 10,
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 100
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "385"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -5027,9 +5453,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 378,
-      "magicRate": 10,
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 100
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "378"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -5074,9 +5511,20 @@
       "collectValue": 3
     },
     "ai": {
-      "magic": 317,
-      "magicRate": 4,
-      "resistanceToSorcery": 2
+      "resistanceToSorcery": 2,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 40
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "317"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -5129,8 +5577,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -5176,9 +5622,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 305,
-      "magicRate": 4,
-      "resistanceToSorcery": 4
+      "resistanceToSorcery": 4,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 40
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "305"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -5227,9 +5684,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 376,
-      "magicRate": 7,
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 70
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "376"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -5278,8 +5746,6 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 10,
       "resistanceToSorcery": 10
     },
     "anim": {
@@ -5325,9 +5791,20 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 316,
-      "magicRate": 6,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 60
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "316"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 4,
@@ -5376,8 +5853,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -5427,8 +5902,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -5478,8 +5951,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -5529,9 +6000,20 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 303,
-      "magicRate": 3,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 30
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "303"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -5580,8 +6062,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 10
     },
     "anim": {
@@ -5631,8 +6111,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 10
     },
     "anim": {
@@ -5682,9 +6160,20 @@
       "collectValue": 3
     },
     "ai": {
-      "magic": 334,
-      "magicRate": 10,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 100
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "334"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -5733,9 +6222,20 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 379,
-      "magicRate": 3,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 30
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "379"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -5784,9 +6284,20 @@
       "collectValue": 3
     },
     "ai": {
-      "magic": 313,
-      "magicRate": 7,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 70
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "313"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -5839,8 +6350,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -5890,8 +6399,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -5945,8 +6452,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -5996,8 +6501,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -6051,9 +6554,20 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 371,
-      "magicRate": 3,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 30
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "371"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -6106,9 +6620,20 @@
       "collectValue": 3
     },
     "ai": {
-      "magic": 328,
-      "magicRate": 10,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 100
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "328"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 5,
@@ -6161,9 +6686,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 319,
-      "magicRate": 10,
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 100
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "319"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -6212,9 +6748,20 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 328,
-      "magicRate": 5,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 50
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "328"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -6267,9 +6814,20 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 334,
-      "magicRate": 6,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 60
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "334"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -6318,9 +6876,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 304,
-      "magicRate": 5,
-      "resistanceToSorcery": 2
+      "resistanceToSorcery": 2,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 50
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "304"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -6373,9 +6942,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 319,
-      "magicRate": 5,
-      "resistanceToSorcery": 2
+      "resistanceToSorcery": 2,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 50
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "319"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -6424,9 +7004,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 383,
-      "magicRate": 10,
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 100
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "383"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -6475,9 +7066,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 356,
-      "magicRate": 10,
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 100
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "356"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -6526,9 +7128,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 343,
-      "magicRate": 10,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 100
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "343"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -6577,8 +7190,6 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -6624,9 +7235,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 378,
-      "magicRate": 5,
-      "resistanceToSorcery": 2
+      "resistanceToSorcery": 2,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 50
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "378"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -6679,9 +7301,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 330,
-      "magicRate": 5,
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 50
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "330"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -6730,9 +7363,20 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 312,
-      "magicRate": 4,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 40
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "312"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -6777,9 +7421,20 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 328,
-      "magicRate": 5,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 50
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "328"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -6828,9 +7483,20 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 334,
-      "magicRate": 5,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 50
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "334"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -6879,8 +7545,6 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -6930,8 +7594,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -6977,9 +7639,20 @@
       "collectValue": 2
     },
     "ai": {
-      "magic": 387,
-      "magicRate": 2,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 20
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "387"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -7028,9 +7701,20 @@
       "collectValue": 3
     },
     "ai": {
-      "magic": 357,
-      "magicRate": 5,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 50
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "357"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -7083,8 +7767,6 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -7134,9 +7816,20 @@
       "collectValue": 1
     },
     "ai": {
-      "magic": 322,
-      "magicRate": 10,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 100
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "322"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 5,
@@ -7185,9 +7878,20 @@
       "collectValue": 9
     },
     "ai": {
-      "magic": 372,
-      "magicRate": 4,
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 40
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "372"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -7236,9 +7940,20 @@
       "collectValue": 9
     },
     "ai": {
-      "magic": 379,
-      "magicRate": 4,
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 40
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "379"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -7287,9 +8002,20 @@
       "collectValue": 9
     },
     "ai": {
-      "magic": 357,
-      "magicRate": 5,
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 50
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "357"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -7338,9 +8064,20 @@
       "collectValue": 9
     },
     "ai": {
-      "magic": 328,
-      "magicRate": 5,
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 50
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "328"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -7389,9 +8126,20 @@
       "collectValue": 9
     },
     "ai": {
-      "magic": 324,
-      "magicRate": 5,
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 50
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "324"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -7440,9 +8188,20 @@
       "collectValue": 9
     },
     "ai": {
-      "magic": 359,
-      "magicRate": 5,
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 50
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "359"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -7491,9 +8250,20 @@
       "collectValue": 9
     },
     "ai": {
-      "magic": 318,
-      "magicRate": 5,
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 50
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "318"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -7542,9 +8312,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 382,
-      "magicRate": 5,
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 50
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "382"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -7597,9 +8378,20 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 373,
-      "magicRate": 5,
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 50
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "373"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 1,
@@ -7652,8 +8444,6 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -7699,8 +8489,6 @@
       "collectValue": 0
     },
     "ai": {
-      "magic": 0,
-      "magicRate": 0,
       "resistanceToSorcery": 0
     },
     "anim": {
@@ -7746,9 +8534,20 @@
       "collectValue": 3
     },
     "ai": {
-      "magic": 324,
-      "magicRate": 4,
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 40
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "324"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,

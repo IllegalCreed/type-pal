@@ -5,7 +5,7 @@
  * main.ts 的 host.startBattle 创建它,主循环转发 tick/render,await done 拿结果续脚本。
  * M4b-2 指令集:攻击/防御/逃跑(仙术/物品 = M4b-3 与动画一起);渲染 = 静态帧 + 飘字。
  */
-import type { EnemyDef } from '@type-pal/content'
+import type { EnemyDef, SkillData } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import type { GlyphTable, LoadedSprite } from '../assets.js'
 import { renderSpans } from '../text/text-render.js'
@@ -65,8 +65,10 @@ export class BattleSession {
     private readonly assets: BattleSessionAssets,
     private readonly nameOf: (roleId: string) => string,
     private readonly rng: () => number = Math.random,
+    /** M4c:技能表(敌施法查 SkillData)+ 难度预设 id。 */
+    opts: { skills?: Record<string, SkillData>; difficulty?: string } = {},
   ) {
-    this.state = createBattleState({ players, enemies: enemyDefs })
+    this.state = createBattleState({ players, enemies: enemyDefs, skills: opts.skills, difficulty: opts.difficulty })
     this.done = new Promise((res) => {
       this.resolveDone = res
     })
@@ -157,6 +159,11 @@ export class BattleSession {
         if (d > 0) this.spawnFloat('enemy', i, `-${d}`, [255, 255, 255])
       })
     }
+  }
+
+  /** dev:战斗日志只读视图(M4c 验证)。 */
+  debugLog(): readonly string[] {
+    return this.state.log
   }
 
   /** 战后把队员 HP/MP 写回 world.party(战斗内伤害/耗蓝持久;原版同,逃跑也保留伤害)。 */

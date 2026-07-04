@@ -1071,7 +1071,39 @@
       },
       "sprite": "npc-21",
       "facing": "left",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "moveEntity",
+                    "entity": "e10",
+                    "to": {
+                      "col": 60,
+                      "row": -12,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e3",
+                    "state": 1
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e10",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e11",
@@ -22852,16 +22884,6 @@
           "state": 2
         },
         {
-          "kind": "moveEntity",
-          "entity": "e10",
-          "to": {
-            "col": 60,
-            "row": -17,
-            "height": 0
-          },
-          "speed": "normal"
-        },
-        {
           "kind": "wait",
           "ms": 320
         },
@@ -22921,26 +22943,6 @@
         {
           "kind": "wait",
           "ms": 480
-        },
-        {
-          "kind": "moveEntity",
-          "entity": "e10",
-          "to": {
-            "col": 60,
-            "row": -12,
-            "height": 0
-          },
-          "speed": "normal"
-        },
-        {
-          "kind": "setEntityState",
-          "entity": "e3",
-          "state": 1
-        },
-        {
-          "kind": "setEntityState",
-          "entity": "e10",
-          "state": 0
         },
         {
           "kind": "moveParty",

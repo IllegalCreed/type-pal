@@ -1,13 +1,16 @@
 /**
- * 敌人定义（M4a）—— enemies.json(154 stats) + enemy-objects.json(153 AI 指针) 合并层。
+ * 敌人定义（M4a/M4c）—— enemies.json(154 stats) + enemy-objects.json(153 AI 指针) 合并层。
  * 类比 ActorDef→battler:一个 EnemyDef 是一种可战斗的敌人（stats + 动画 + 音效 + AI）。
  *
- * 设计:battle-model-m4-design.md §4。战斗效果（伤害/状态/毒）复用 SkillEffect（§5.1），
- * 故 EnemyDef 不含效果定义,只含 stats + fallback-AI 参数。敌人 AI 脚本（scriptOnReady 等）
- * 是 M4c 的活,届时加 `aiScript?` 字段（战斗命令 stages）。
+ * 设计:battle-model-m4-design.md §4 + enemy-ai-design.md(M4c)。战斗效果复用 SkillEffect,
+ * 故 EnemyDef 不含效果定义。M4c 分层(2026-07-04 用户定调):
+ * - ai.rules = **战斗策略**(条件规则列表,enemy-ai.ts 求值;默认 = 原版行为)
+ * - choreography = **剧情演出借战斗舞台**(嘲讽/剧情逃跑,事件 Command 词汇,M4c-2 执行)
  */
 import type { ElementVec } from './battle-formulas.js'
+import type { AiCond, AiRule } from './enemy-ai.js'
 import type { TextId } from './index.js'
+import type { Command } from './script.js'
 
 /** 敌人属性（enemies.json 的战斗数值 + 奖励）。 */
 export interface EnemyStats {
@@ -36,14 +39,25 @@ export interface EnemyStats {
   collectValue: number
 }
 
-/** fallback AI 参数（无脚本敌人的默认行为;enemies.json + enemy-objects.json）。 */
+/** 敌人 AI(M4c:条件规则列表,enemy-ai.ts 求值)。 */
 export interface EnemyAI {
-  /** 默认法术 id（0 = 只物攻）。 */
-  magic: number
-  /** 施法概率 0-10（rng(0,9) < magicRate 时施法）。 */
-  magicRate: number
   /** 异常状态抗性 0-9（0x2E:rng(0,9) >= 此 → 命中;≥ 跟原版后期修复,非 sdlpal buggy >）。 */
   resistanceToSorcery: number
+  /**
+   * 战斗策略规则(act:首条命中即本回合行动;无命中/缺省 = 普攻)。
+   * 原版 fallback(magic+magicRate)由迁移器翻成 [chance] cast + 兜底 attack。
+   */
+  rules?: AiRule[]
+}
+
+/** 战斗演出钩子(剧情借战斗舞台,**不是 AI**;M4c-2 执行)。 */
+export interface BattleChoreography {
+  at: 'battleStart' | 'turnStart'
+  /** 整场一次(boss 嘲讽只说一遍;原版 advance 返回值语义)。 */
+  once?: boolean
+  when?: AiCond
+  /** 事件 Command 词汇(dialog/wait/…;战斗对话条播放,少量战斗专用命令后续增)。 */
+  body: Command[]
 }
 
 /** 战斗动画帧数 + 播放参数（enemies.json;帧位图从 RLE 解,非此）。 */
@@ -83,6 +97,10 @@ export interface EnemyDef {
   steal?: { itemId: string; count: number }
   /** 物攻附带物品效果 + 概率（如喷毒;可选）。 */
   attackEquivItem?: { itemId: string; rate: number }
+  /** 剧情演出钩子(M4c-2 执行;蛇女嘲讽逃跑等)。 */
+  choreography?: BattleChoreography[]
+  /** 战后剧情(scriptOnBattleEnd 翻译:胜利结算时逐敌跑;事件 Command 词汇)。 */
+  onDefeated?: Command[]
 }
 
 /** 敌队（一场战斗的敌人组合;原版 enemy team 表,M4 迁移）。 */

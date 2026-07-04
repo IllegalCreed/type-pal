@@ -764,6 +764,39 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
   // M4a:敌人(有源才迁;name.<enemy> 并入 locale)
   const enemyRes = src.enemies && src.enemyObjects ? mapEnemies(src.enemies, src.enemyObjects) : undefined
   if (enemyRes) Object.assign(localeNames, enemyRes.localeNames)
+  // M4c:敌用法术兜底补翻 —— fallback 施法敌引用、但 mapSkills 因 scriptOnUse≠0(玩家
+  // 使用门/动态公式)延后的对象。敌施法无使用门,伤害走战斗期 calcMagicDamage 常规路径:
+  // scriptOnSuccess 可翻则翻,否则 damage(baseDamage, elemental) fallback。
+  if (src.enemies) {
+    const have = new Set(skillsRes.skills.map((s) => s.id))
+    const used = [...new Set(src.enemies.map((e) => e.magic).filter((m) => m !== 0 && m !== 0xffff))]
+    const spellById = new Map(src.spells.map((s) => [s.id, s]))
+    for (const oid of used.sort((a, b) => a - b)) {
+      if (have.has(String(oid))) continue
+      const s = spellById.get(oid)
+      const m = s ? magicById.get(s.magicNumber) : undefined
+      if (!s || !m) {
+        skillsRes.pending.push({ id: oid, name: s?._name ?? `敌法术 ${oid}`, reason: '敌用法术不在 spells/magic 提取' })
+        continue
+      }
+      let effects: SkillData['effects'] = [{ kind: 'damage', power: m.baseDamage, elemental: m.elemental }]
+      if (s.scriptOnSuccess !== 0) {
+        const t = translateSkillScript(src.commands, labelIndex, s.scriptOnSuccess)
+        if (!t.pendingReason && t.effects.length) effects = t.effects
+        else skillsRes.lossy.push({ id: s.id, name: s._name, notes: [`敌用:scriptOnSuccess 不可翻(${t.pendingReason ?? '空链'}),落 damage fallback`] })
+      }
+      skillsRes.skills.push({
+        id: String(s.id),
+        name: s._name,
+        desc: descOf('spell')(s.scriptDesc).join('\n'),
+        cost: { mp: m.costMP },
+        usableOutsideBattle: false,
+        target: (m.type === 'trance' ? 'self' : TYPE_TARGET[m.type]) ?? 'oneEnemy',
+        effects,
+        animation: { effectSprite: m.effect },
+      })
+    }
+  }
   const teamRes = enemyRes && src.enemyTeams
     ? mapEnemyTeams(src.enemyTeams, new Set(enemyRes.enemies.map((e) => e.id)))
     : undefined

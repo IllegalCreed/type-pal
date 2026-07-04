@@ -21,7 +21,7 @@ function mkEnemy(id: string, o: Partial<EnemyDef['stats']> = {}): EnemyDef {
       elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 }, dualMove: false, collectValue: 0,
       ...o,
     },
-    ai: { magic: 0, magicRate: 0, resistanceToSorcery: 5 },
+    ai: { resistanceToSorcery: 5 },
     anim: { idleFrames: 2, magicFrames: 0, attackFrames: 2, idleAnimSpeed: 5, actWaitFrames: 1, yPosOffset: 0 },
     sounds: { attack: 0, action: 0, magic: 0, death: 0, call: 0 },
   }
@@ -85,5 +85,90 @@ describe('M4a headless 战斗核', () => {
     }
     // 玩家防御后被打:掉血 = 减半伤害(而非全额)
     expect(100 - s.players[0]!.hp).toBe(Math.trunc(rawDmg / 2))
+  })
+})
+
+describe('M4c 敌人 AI(规则决策 + cast 结算)', () => {
+  const bolt: import('@type-pal/content').SkillData = {
+    id: '339', name: '雷咒', desc: '', cost: { mp: 10 }, usableOutsideBattle: false,
+    target: 'oneEnemy', effects: [{ kind: 'damage', power: 50, elemental: 0 }],
+    animation: { effectSprite: 1 },
+  }
+  const caster = (): EnemyDef => ({
+    ...mkEnemy('mage', { magicStrength: 60, attackStrength: 5, health: 500, defense: 0 }),
+    ai: {
+      resistanceToSorcery: 5,
+      rules: [{ at: 'act', when: { kind: 'chance', percent: 50 }, do: { kind: 'cast', skillId: '339' } }],
+    },
+  })
+
+  test('概率中 → 施法(calcMagicDamage 路径,日志记名);概率不中 → 兜底普攻', () => {
+    // rng 序列:构造可控 —— 第一次 rng 用于 chance(0 → 中),后续用于目标/rngFactor
+    const s = createBattleState({ players: [player('li', { hp: 400, maxHp: 400, defense: 0 })], enemies: [caster()], skills: { '339': bolt } })
+    stepBattle(s, rng0)
+    s.pendingActions.set(0, { kind: 'defend' })
+    let guard = 0
+    while (s.phase !== 'selectAction' || s.turn === 1) {
+      stepBattle(s, rng0)
+      if (++guard > 50) break
+    }
+    expect(s.log.some((l) => l.includes('施展 雷咒'))).toBe(true)
+
+    const s2 = createBattleState({ players: [player('li')], enemies: [caster()], skills: { '339': bolt } })
+    const r9 = () => 0.99 // chance 不中 → 普攻
+    stepBattle(s2, r9)
+    s2.pendingActions.set(0, { kind: 'defend' })
+    guard = 0
+    while (s2.phase !== 'selectAction' || s2.turn === 1) {
+      stepBattle(s2, r9)
+      if (++guard > 50) break
+    }
+    expect(s2.log.some((l) => l.includes('攻击'))).toBe(true)
+    expect(s2.log.some((l) => l.includes('施展'))).toBe(false)
+  })
+
+  test('once 规则只触发一次;沉默跳过 cast 落普攻', () => {
+    const e: EnemyDef = {
+      ...mkEnemy('boss', { health: 800, attackStrength: 5 }),
+      ai: { resistanceToSorcery: 5, rules: [{ at: 'act', do: { kind: 'cast', skillId: '339' }, once: true }] },
+    }
+    const s = createBattleState({ players: [player('li', { hp: 900, maxHp: 900 })], enemies: [e], skills: { '339': bolt } })
+    // 回合1:施法(once);回合2:规则已耗尽 → 普攻
+    let casts = 0
+    let attacks = 0
+    runBattleToEnd(s, (st) => {
+      for (const i of st.players.keys()) if (st.players[i]!.hp > 0) st.pendingActions.set(i, { kind: 'defend' })
+      if (st.turn >= 3) st.pendingActions.set(0, { kind: 'flee' })
+    }, rng0)
+    casts = s.log.filter((l) => l.includes('施展')).length
+    attacks = s.log.filter((l) => l.includes('攻击')).length
+    expect(casts).toBe(1)
+    expect(attacks).toBeGreaterThanOrEqual(1)
+
+    // 沉默:cast 规则被跳过 → 普攻
+    const s3 = createBattleState({ players: [player('li')], enemies: [caster()], skills: { '339': bolt } })
+    stepBattle(s3, rng0)
+    s3.enemies[0]!.status.silence = 3
+    s3.pendingActions.set(0, { kind: 'defend' })
+    let guard = 0
+    while (s3.phase !== 'selectAction' || s3.turn === 1) {
+      stepBattle(s3, rng0)
+      if (++guard > 50) break
+    }
+    expect(s3.log.some((l) => l.includes('施展'))).toBe(false)
+    expect(s3.log.some((l) => l.includes('攻击'))).toBe(true)
+  })
+
+  test('缺技能数据:cast 落普攻并 log 提示(不崩)', () => {
+    const s = createBattleState({ players: [player('li')], enemies: [caster()] }) // 无 skills
+    stepBattle(s, rng0)
+    s.pendingActions.set(0, { kind: 'defend' })
+    let guard = 0
+    while (s.phase !== 'selectAction' || s.turn === 1) {
+      stepBattle(s, rng0)
+      if (++guard > 50) break
+    }
+    expect(s.log.some((l) => l.includes('缺技能数据'))).toBe(true)
+    expect(s.log.some((l) => l.includes('攻击'))).toBe(true)
   })
 })
