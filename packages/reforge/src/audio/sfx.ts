@@ -8,13 +8,19 @@
 export class SfxPlayer {
   private ctx: AudioContext | null = null
   private readonly cache = new Map<number, Promise<AudioBuffer | null>>()
+  private enabled = true // 音效开关(系统菜单)
 
   /** @param baseUrl 音效目录前缀(assetBase.sounds,如 `/extracted/sounds`)。 */
   constructor(private readonly baseUrl: string) {}
 
+  /** 音效开关:关 → play no-op(一阶段 AudioManager.setSfxEnabled 语义)。 */
+  setEnabled(on: boolean): void {
+    this.enabled = on
+  }
+
   /** 播一发(fire-and-forget)。 */
   play(id: number): void {
-    if (id <= 0) return
+    if (id <= 0 || !this.enabled) return
     const ctx = this.ensureCtx()
     if (!ctx) return
     if (ctx.state === 'suspended') void ctx.resume()

@@ -93,6 +93,7 @@ import {
   systemConfirm,
   systemConfirmYes,
   systemMoveCursor,
+  systemSwitchCommit,
   systemToggleConfirm,
 } from './system-menu-state.js'
 import { renderSpans } from './text/text-render.js'
@@ -147,6 +148,20 @@ async function main(): Promise<void> {
   // (sfx 不用:它惰性建 ctx,首次 play 必在按键手势内。)
   for (const ev of ['pointerdown', 'keydown'] as const)
     window.addEventListener(ev, () => bgm.resume(), { once: true, capture: true })
+  // 音乐/音效开关持久(应用级配置 localStorage,不随存档 —— 原版 sdlpal.cfg 同性质)
+  const audioPrefs = { music: true, sound: true }
+  try {
+    const raw = localStorage.getItem('reforge:audio')
+    if (raw) {
+      const p = JSON.parse(raw) as { music?: boolean; sound?: boolean }
+      audioPrefs.music = p.music !== false
+      audioPrefs.sound = p.sound !== false
+    }
+  } catch {
+    /* 坏数据 → 默认全开 */
+  }
+  bgm.setEnabled(audioPrefs.music)
+  sfx.setEnabled(audioPrefs.sound)
   // M4d-2:命中特效精灵 + 特效帧基表(跨战斗不变,懒载一次;demo 无此资产 → undefined 跳过 overlay)
   let effectSpriteP: Promise<import('./assets.js').LoadedSprite | undefined> | null = null
   const loadEffectOnce = () => {
@@ -1671,7 +1686,37 @@ async function main(): Promise<void> {
       } else if (menu.openPanel === 'system') {
         // 系统菜单:menu 阶段网格选 / confirm 阶段确认框;quit-否/Esc → back(menu) 回主菜单 hub
         // (不复刻原版「弹回大世界」;详见 system-menu-plan.md Task C)
-        if (systemMenu.phase === 'confirm') {
+        if (systemMenu.phase === 'switch') {
+          // 音乐/音效开关子选单:四方向 toggle 关/开;Enter 落定(应用+持久)→ 回 hub;
+          // Esc 取消保持当前态 → 回 hub(原版切换/取消后 PAL_SystemMenu 关整菜单,reforge 映射同 quit-否)
+          if (
+            pressed.has('ArrowUp') ||
+            pressed.has('ArrowDown') ||
+            pressed.has('ArrowLeft') ||
+            pressed.has('ArrowRight')
+          ) {
+            systemMenu = systemToggleConfirm(systemMenu)
+          } else if (interact || esc) {
+            lastSystemCursor = systemMenu.cursor
+            if (interact) {
+              const r = systemSwitchCommit(systemMenu)
+              if (r.action?.kind === 'set-music') {
+                audioPrefs.music = r.action.on
+                bgm.setEnabled(r.action.on)
+              } else if (r.action?.kind === 'set-sound') {
+                audioPrefs.sound = r.action.on
+                sfx.setEnabled(r.action.on)
+              }
+              try {
+                localStorage.setItem('reforge:audio', JSON.stringify(audioPrefs))
+              } catch {
+                /* 私隐模式等写失败 → 本次会话内仍生效 */
+              }
+            }
+            systemMenu = closeSystemMenu()
+            menu = back(menu)
+          }
+        } else if (systemMenu.phase === 'confirm') {
           // 确认框:四方向 toggle 是/否;Enter 确认;Esc = 否(回 hub)
           if (
             pressed.has('ArrowUp') ||
@@ -1705,11 +1750,12 @@ async function main(): Promise<void> {
             systemPlaceholder = undefined
           }
           if (interact) {
-            const r = systemConfirm(systemMenu)
+            const r = systemConfirm(systemMenu, {
+              musicOn: audioPrefs.music,
+              soundOn: audioPrefs.sound,
+            })
             systemMenu = r.state
-            if (r.action?.kind === 'placeholder')
-              systemPlaceholder = 'menu.not-implemented' // 占位项 → 提示
-            else if (r.action?.kind === 'open-save') {
+            if (r.action?.kind === 'open-save') {
               saveBrowser = openSaveBrowser('save', saveMetas) // 开浏览界面·存模式
               overwriteYes = false
             } else if (r.action?.kind === 'open-load') {

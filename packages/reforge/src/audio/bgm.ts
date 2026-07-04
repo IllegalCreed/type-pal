@@ -22,6 +22,11 @@ export interface BgmPlayer {
   stop(): void
   /** 用户手势里调:解 autoplay 锁并补播当前曲。 */
   resume(): void
+  /**
+   * 音乐开关(系统菜单;一阶段 AudioManager.setMusicEnabled 语义):
+   * 关 → 停播但保留当前曲记账(play 调用照记);开 → 重播记账曲。幂等。
+   */
+  setEnabled(on: boolean): void
 }
 
 export function createBgmPlayer(baseUrl = '/extracted/music'): BgmPlayer {
@@ -33,7 +38,7 @@ export function createBgmPlayer(baseUrl = '/extracted/music'): BgmPlayer {
         })
       : undefined
   const AudioCtor = w?.AudioContext ?? w?.webkitAudioContext
-  if (!AudioCtor) return { play() {}, stop() {}, resume() {} } // 单测/无 Web Audio → no-op
+  if (!AudioCtor) return { play() {}, stop() {}, resume() {}, setEnabled() {} } // 单测/无 Web Audio → no-op
 
   const ctx = new AudioCtor()
   let seq: Sequencer | undefined
@@ -41,6 +46,7 @@ export function createBgmPlayer(baseUrl = '/extracted/music'): BgmPlayer {
   let last: { track: number; loop: boolean } | undefined
   let playing: number | undefined // 当前在播 track(同曲不重启)
   let resuming = false
+  let enabled = true // 音乐开关(系统菜单);关时 play 只记账不出声
 
   function stopPlayback(): void {
     seq?.pause()
@@ -49,7 +55,7 @@ export function createBgmPlayer(baseUrl = '/extracted/music'): BgmPlayer {
   }
 
   async function doPlay(track: number, loop: boolean): Promise<void> {
-    if (!seq) return
+    if (!seq || !enabled) return
     if (ctx.state === 'suspended') await ctx.resume().catch(() => {})
     const url = `${baseUrl}/${track.toString().padStart(3, '0')}.mid`
     const res = await fetch(url)
@@ -117,11 +123,23 @@ export function createBgmPlayer(baseUrl = '/extracted/music'): BgmPlayer {
         return // 同曲不重启(场景间共曲不打断)
       }
       last = { track, loop }
+      if (!enabled) return // 关着:只记账(开时重播记账曲),连 init 都不拉
       if (ready) void doPlay(track, loop)
       else void ensureInit() // 懒初始化;init 尾部按 last 补播
     },
     stop() {
       stopPlayback()
+    },
+    setEnabled(on) {
+      if (on === enabled) return // 幂等:无变化不重启/不重停(一阶段同款守卫)
+      enabled = on
+      if (!on) {
+        seq?.pause()
+        playing = undefined // 停播;last 保留 → 重开续当前记账曲
+      } else if (last) {
+        if (ready) void doPlay(last.track, last.loop)
+        else void ensureInit()
+      }
     },
     resume() {
       if (resuming || ctx.state !== 'suspended') return

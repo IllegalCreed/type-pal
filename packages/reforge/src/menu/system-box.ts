@@ -68,7 +68,23 @@ export function drawSystemMenu(
     )
   }
 
-  // ③ 占位提示(选了占位项时;main.ts 持 placeholder 态传入)
+  // ③ switch 阶段:音乐/音效 关/开 子选单 —— 复用确认框布局(一阶段 draw-confirm.ts:28
+  //   PAL_SwitchMenu 真值:labels 换「关/开」,rightSelected = 开高亮)。
+  if (state.phase === 'switch') {
+    drawConfirmBox(
+      ctx,
+      assets.scroll,
+      {
+        leftText: lookupText('menu.system.off', locale),
+        rightText: lookupText('menu.system.on', locale),
+        rightSelected: state.confirmYes,
+      },
+      glyphs,
+      now,
+    )
+  }
+
+  // ④ 占位提示(quit 未实现等;main.ts 持 placeholder 态传入)
   if (placeholder) {
     renderSpans(ctx, [{ text: lookupText(placeholder, locale) }], 130, 84, {
       glyphs,
