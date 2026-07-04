@@ -37,6 +37,8 @@ export interface BattlePlayerState {
   magicStrength: number
   /** 基础敏捷（含 level+装备,派生时算好）。 */
   baseDexterity: number
+  /** 会的技能 id(M4b-3;main 从 world.learnedSkills 组装)。 */
+  skills: string[]
   status: BattleStatus
   defending: boolean
 }
@@ -74,6 +76,7 @@ export interface BattleState {
 
 export type BattleAction =
   | { kind: 'attack'; targetEnemyIdx: number }
+  | { kind: 'cast'; skillId: string; targetEnemyIdx?: number } // 对敌单体带目标;施于己方/全体不带
   | { kind: 'defend' }
   | { kind: 'flee' }
 
@@ -278,6 +281,81 @@ export function stepBattle(s: BattleState, rng: () => number): void {
   }
 }
 
+/** 玩家施法结算(M4b-3):对敌用敌方真实抗性(元素/毒/物抗);奶/状态用于自己(单人队;
+ *  多人队友选择后补)。MP 不足空过(UI 已滤,core 兜底)。 */
+function applyPlayerSkill(s: BattleState, idx: number, skillId: string, targetEnemyIdx: number | undefined, rng: () => number): void {
+  const p = s.players[idx]!
+  const skill = s.skills[skillId]
+  if (!skill) {
+    s.log.push(`${p.roleId} 施法 ${skillId} 缺技能数据`)
+    return
+  }
+  const mpCost = skill.cost.mp ?? 0
+  if (p.mp < mpCost) {
+    s.log.push(`${p.roleId} MP 不足,${skill.name} 施放失败`)
+    return
+  }
+  p.mp -= mpCost
+  const onEnemies = skill.target === 'oneEnemy' || skill.target === 'allEnemies'
+  const enemyTargets =
+    skill.target === 'allEnemies'
+      ? aliveEnemies(s)
+      : onEnemies
+        ? [targetEnemyIdx ?? aliveEnemies(s)[0] ?? -1].filter((i) => i >= 0 && (s.enemies[i]?.hp ?? 0) > 0)
+        : []
+  for (const eff of skill.effects) {
+    switch (eff.kind) {
+      case 'damage': {
+        for (const ti of enemyTargets) {
+          const e = s.enemies[ti]!
+          const dmg = Math.max(
+            1,
+            applyDefense(
+              calcMagicDamage({
+                magStr: p.magicStrength,
+                def: e.def.stats.defense,
+                rngFactor: 1 + rng() * 0.1,
+                magicData: { baseDamage: eff.power, elemental: eff.elemental },
+                elemRes: e.def.stats.elemResistance,
+                poisonRes: e.def.stats.poisonResistance,
+                resistMult: 1, // 敌侧抗性 0-10 直用(一阶段敌向量语义)
+                fieldEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+              }),
+              e.defending,
+            ),
+          )
+          e.hp = Math.max(0, e.hp - dmg)
+          s.log.push(`${p.roleId} 施展 ${skill.name} 对 ${e.def.id} 造成 ${dmg}`)
+        }
+        break
+      }
+      case 'healHp': {
+        p.hp = Math.min(p.maxHp, p.hp + eff.amount)
+        s.log.push(`${p.roleId} 施展 ${skill.name} 回复 ${eff.amount}`)
+        break
+      }
+      case 'healMp': {
+        p.mp = Math.min(p.maxMp, p.mp + eff.amount)
+        s.log.push(`${p.roleId} 施展 ${skill.name} 回蓝 ${eff.amount}`)
+        break
+      }
+      case 'applyStatus': {
+        for (const ti of enemyTargets) {
+          const e = s.enemies[ti]!
+          // 命中判定:rng(0,9) >= resistanceToSorcery(原版后期修复语义,enemy.ts 注)
+          if (Math.floor(rng() * 10) >= e.def.ai.resistanceToSorcery) {
+            e.status[eff.status] = Math.max(e.status[eff.status], eff.turns)
+            s.log.push(`${e.def.id} 陷入 ${eff.status}`)
+          } else s.log.push(`${e.def.id} 抵抗了 ${eff.status}`)
+        }
+        break
+      }
+      default:
+        s.log.push(`技能效果 ${eff.kind} 未接(战斗期陆续)`)
+    }
+  }
+}
+
 function performPlayerAction(s: BattleState, idx: number, _rng: () => number): void {
   const p = s.players[idx]
   if (!p || p.hp <= 0) return
@@ -290,6 +368,10 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
   if (act.kind === 'defend') {
     // defending 已在 build queue 时就位(原版语义,防御贯穿整个 performAction);此处只记日志。
     s.log.push(`${p.roleId} 防御`)
+    return
+  }
+  if (act.kind === 'cast') {
+    applyPlayerSkill(s, idx, act.skillId, act.targetEnemyIdx, _rng)
     return
   }
   if (act.kind === 'attack') {

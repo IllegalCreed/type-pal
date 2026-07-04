@@ -204,8 +204,9 @@ async function main(): Promise<void> {
     return
   }
 
-  // M4b-1：?battle=<field>&enemies=1,2,3 战斗场景预览（不进主循环,验证 loader+摆位+渲染）。
-  if (params.has('battle')) {
+  // M4b-1:?battle-preview=<field>&enemies=1,2,3 战斗**静态摆位**预览(不进主循环)。
+  // ⚠ 原参数名 ?battle 已让位给「真战斗直开」(编辑器 ⚔ 试打,main 内处理)。
+  if (params.has('battle-preview')) {
     await renderBattlePreview(project, params)
     return
   }
@@ -540,6 +541,7 @@ async function main(): Promise<void> {
         defense: effectiveStat(c, 'defense', itemsById),
         magicStrength: effectiveStat(c, 'magicAttack', itemsById),
         baseDexterity: effectiveStat(c, 'speed', itemsById),
+        skills: world.learnedSkills[c.id] ?? [], // M4b-3:仙术指令数据源
       }))
       // 资产:战场背景(sys:battleField 记账 → 当前场景 palette 着色)+ 敌我战斗精灵
       const fieldId = world.script?.vars['sys:battleField'] ?? 24
@@ -1494,7 +1496,7 @@ async function main(): Promise<void> {
 }
 
 /**
- * M4b-1 战斗场景预览：?battle=<field>&enemies=1,2,3 → 加载背景 + 敌队 + 队员战斗精灵,
+ * M4b-1 战斗场景预览:?battle-preview=<field>&enemies=1,2,3 → 加载背景 + 敌队 + 队员战斗精灵,
  * 摆位渲染一帧。验证 loader + battle-positions + renderBattleScene(不进主循环/回合)。
  */
 async function renderBattlePreview(
@@ -1506,7 +1508,7 @@ async function renderBattlePreview(
   canvas.height = 200 * WORLD_SCALE
   const palette = await loadPalette(project.assetBase, 0)
   // 真实战斗 field(场景 setBattleField 用 24/12/10/7…;field 2 是主菜单背景,勿用)。
-  const field = params.get('battle') && Number(params.get('battle')) > 0 ? Number(params.get('battle')) : 24
+  const field = params.get('battle-preview') && Number(params.get('battle-preview')) > 0 ? Number(params.get('battle-preview')) : 24
   const bg = await loadBattleBg(project.assetBase, field, palette).catch((e: unknown) => {
     console.warn('[battle] bg 加载失败:', e)
     return undefined

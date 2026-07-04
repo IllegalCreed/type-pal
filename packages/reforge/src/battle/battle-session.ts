@@ -22,7 +22,7 @@ import { getEnemyBasePos, getPlayerBasePos } from './battle-positions.js'
 import { type BattleScene, type BattleSpriteDraw, renderBattleScene } from './present-battle.js'
 
 const VIEW_W = 320
-const MENU_ITEMS = ['攻击', '防御', '逃跑'] as const
+const MENU_ITEMS = ['攻击', '仙术', '防御', '逃跑'] as const
 /** 每个 action 结算间隔(节奏;一帧全算看不清)。 */
 const ACT_MS = 480
 /** 胜负停留展示时长。 */
@@ -36,7 +36,7 @@ interface FloatNum {
   bornAt: number
 }
 
-type UiPhase = 'menu' | 'target' | 'acting' | 'over'
+type UiPhase = 'menu' | 'skill' | 'target' | 'acting' | 'over'
 
 export interface BattleSessionAssets {
   bg?: CanvasImageSource
@@ -54,6 +54,9 @@ export class BattleSession {
   private readonly state: BattleState
   private ui: UiPhase = 'menu'
   private menuIdx = 0
+  private skillIdx = 0
+  /** 仙术选目标中(target 态确认时:有值 → cast,无值 → attack)。 */
+  private pendingSkillId: string | null = null
   private targetIdx = 0
   /** 正在选指令的队员下标(pendingActions 未填的第一个活队员)。 */
   private actTimer = 0
@@ -201,12 +204,39 @@ export class BattleSession {
           const item = MENU_ITEMS[this.menuIdx]
           if (item === '攻击') {
             this.ui = 'target'
+            this.pendingSkillId = null
             this.targetIdx = 0
+          } else if (item === '仙术') {
+            if (s.players[sel]!.skills.length) {
+              this.ui = 'skill'
+              this.skillIdx = 0
+            }
           } else if (item === '防御') {
             s.pendingActions.set(sel, { kind: 'defend' })
           } else {
             s.pendingActions.set(sel, { kind: 'flee' })
           }
+        }
+      } else if (this.ui === 'skill') {
+        const p = s.players[sel]!
+        const list = p.skills
+        if (pressed.has('ArrowUp')) this.skillIdx = (this.skillIdx + list.length - 1) % list.length
+        if (pressed.has('ArrowDown')) this.skillIdx = (this.skillIdx + 1) % list.length
+        if (pressed.has('Escape')) this.ui = 'menu'
+        if (pressed.has(' ') || pressed.has('Enter')) {
+          const skillId = list[this.skillIdx % list.length]!
+          const skill = this.opts.skills?.[skillId]
+          if (skill && p.mp >= (skill.cost.mp ?? 0)) {
+            if (skill.target === 'oneEnemy') {
+              this.pendingSkillId = skillId
+              this.ui = 'target'
+              this.targetIdx = 0
+            } else {
+              s.pendingActions.set(sel, { kind: 'cast', skillId })
+              this.ui = 'menu'
+              this.menuIdx = 0
+            }
+          } // MP 不足/缺数据:留在列表(渲染层灰显提示)
         }
       } else if (this.ui === 'target') {
         const alive = this.aliveEnemyIdxs()
@@ -215,7 +245,11 @@ export class BattleSession {
         if (pressed.has('ArrowRight')) this.targetIdx = (this.targetIdx + 1) % alive.length
         if (pressed.has('Escape')) this.ui = 'menu'
         if (pressed.has(' ') || pressed.has('Enter')) {
-          const action: BattleAction = { kind: 'attack', targetEnemyIdx: alive[this.targetIdx % alive.length]! }
+          const t = alive[this.targetIdx % alive.length]!
+          const action: BattleAction = this.pendingSkillId
+            ? { kind: 'cast', skillId: this.pendingSkillId, targetEnemyIdx: t }
+            : { kind: 'attack', targetEnemyIdx: t }
+          this.pendingSkillId = null
           s.pendingActions.set(sel, action)
           this.ui = 'menu'
           this.menuIdx = 0
@@ -318,6 +352,23 @@ export class BattleSession {
           glyphs: g,
           shadow: true,
           forceRgba: i === this.menuIdx ? [255, 255, 255] : [139, 147, 163],
+        })
+      })
+    }
+    // 仙术列表
+    if (sel !== undefined && this.ui === 'skill') {
+      const p = s.players[sel]!
+      renderSpans(ctx, [{ text: `✨ ${this.nameOf(p.roleId)} 仙术(Esc 返回)` }], 10, 8, { glyphs: g, shadow: true, forceRgba: [156, 196, 255] })
+      p.skills.forEach((sid, i) => {
+        const sk = this.opts.skills?.[sid]
+        const name = sk?.name ?? sid
+        const mp = sk?.cost.mp ?? 0
+        const affordable = p.mp >= mp && !!sk
+        const mark = i === this.skillIdx ? '▶ ' : '   '
+        renderSpans(ctx, [{ text: `${mark}${name}  MP${mp}` }], 10, 26 + i * 17, {
+          glyphs: g,
+          shadow: true,
+          forceRgba: !affordable ? [110, 116, 130] : i === this.skillIdx ? [255, 255, 255] : [139, 147, 163],
         })
       })
     }

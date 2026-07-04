@@ -27,7 +27,7 @@ function mkEnemy(id: string, o: Partial<EnemyDef['stats']> = {}): EnemyDef {
   }
 }
 const player = (roleId: string, o: Partial<BattlePlayerState> = {}): Omit<BattlePlayerState, 'status' | 'defending'> => ({
-  roleId, hp: 100, maxHp: 100, mp: 30, maxMp: 30, attackStrength: 40, defense: 30, magicStrength: 20, baseDexterity: 50, ...o,
+  roleId, hp: 100, maxHp: 100, mp: 30, maxMp: 30, attackStrength: 40, defense: 30, magicStrength: 20, baseDexterity: 50, skills: [], ...o,
 })
 const rng0 = () => 0 // 定值:AI 恒选第一个目标
 
@@ -228,5 +228,43 @@ describe('M4c-2 动作:变身/分裂/召唤/整场逃离', () => {
     expect(s.enemyFled).toBe(true)
     expect(s.phase).toBe('won')
     expect(s.log.some((l) => l.includes('逃走了'))).toBe(true)
+  })
+})
+
+describe('M4b-3 玩家仙术', () => {
+  const bolt2: import('@type-pal/content').SkillData = {
+    id: '300', name: '御剑术', desc: '', cost: { mp: 5 }, usableOutsideBattle: false,
+    target: 'oneEnemy', effects: [{ kind: 'damage', power: 30, elemental: 0 }], animation: { effectSprite: 1 },
+  }
+  const heal: import('@type-pal/content').SkillData = {
+    id: '296', name: '气疗术', desc: '', cost: { mp: 6 }, usableOutsideBattle: true,
+    target: 'oneAlly', effects: [{ kind: 'healHp', amount: 75 }], animation: { effectSprite: 27 },
+  }
+  test('对敌施法:扣 MP + calcMagicDamage 用敌方真实元素抗;奶自己回血;MP 不足空过', () => {
+    const s = createBattleState({
+      players: [player('li', { hp: 20, maxHp: 200, mp: 30, magicStrength: 50, skills: ['300', '296'] })],
+      enemies: [mkEnemy('e', { health: 500, defense: 0, attackStrength: 1 })],
+      skills: { '300': bolt2, '296': heal },
+    })
+    stepBattle(s, rng0)
+    s.pendingActions.set(0, { kind: 'cast', skillId: '300', targetEnemyIdx: 0 })
+    let guard = 0
+    while (s.phase !== 'selectAction' || s.turn === 1) { stepBattle(s, rng0); if (++guard > 50) break }
+    expect(s.players[0]!.mp).toBe(25) // 30-5
+    expect(s.log.some((l) => l.includes('施展 御剑术'))).toBe(true)
+    expect(s.enemies[0]!.hp).toBeLessThan(500)
+
+    s.pendingActions.set(0, { kind: 'cast', skillId: '296' }) // 奶自己(oneAlly 无敌目标)
+    guard = 0
+    while (s.phase !== 'selectAction' || s.turn === 2) { stepBattle(s, rng0); if (++guard > 50) break }
+    expect(s.players[0]!.mp).toBe(19)
+    expect(s.players[0]!.hp).toBeGreaterThan(20)
+
+    // MP 耗尽:空过不崩
+    s.players[0]!.mp = 2
+    s.pendingActions.set(0, { kind: 'cast', skillId: '300', targetEnemyIdx: 0 })
+    guard = 0
+    while (s.phase !== 'selectAction' || s.turn === 3) { stepBattle(s, rng0); if (++guard > 50) break }
+    expect(s.log.some((l) => l.includes('MP 不足'))).toBe(true)
   })
 })
