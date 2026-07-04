@@ -53,6 +53,8 @@ export interface BattleEnemyState {
   defending: boolean
   /** once 规则已触发下标(M4c;transform 时清零)。 */
   firedRules: Set<number>
+  /** 战果已计入 expGained/cashGained(死亡只记一次;B7a)。 */
+  rewardCounted?: boolean
 }
 
 export interface BattleState {
@@ -77,6 +79,9 @@ export interface BattleState {
   difficulty: string
   /** 敌人整场逃离(0x69 剧情逃跑:战斗终止无奖励;fled 敌不计胜利奖励)。 */
   enemyFled: boolean
+  /** 战果累计(敌死时 += def.stats.exp/cash;敌逃(enemyFled)不计;B7a 战后入账)。 */
+  expGained: number
+  cashGained: number
   /** 最近一步已结算的行动(表现层读:音效/动画时机;每次 perform*Action 覆写)。 */
   lastAction: {
     side: 'player' | 'enemy'
@@ -130,12 +135,16 @@ export function createBattleState(input: CreateBattleInput): BattleState {
     inventory: input.inventory ?? [],
     difficulty: input.difficulty ?? 'normal',
     enemyFled: false,
+    expGained: 0,
+    cashGained: 0,
     lastAction: null,
   }
 }
 
-const alivePlayers = (s: BattleState): number[] => s.players.map((p, i) => (p.hp > 0 ? i : -1)).filter((i) => i >= 0)
-const aliveEnemies = (s: BattleState): number[] => s.enemies.map((e, i) => (e.hp > 0 ? i : -1)).filter((i) => i >= 0)
+const alivePlayers = (s: BattleState): number[] =>
+  s.players.map((p, i) => (p.hp > 0 ? i : -1)).filter((i) => i >= 0)
+const aliveEnemies = (s: BattleState): number[] =>
+  s.enemies.map((e, i) => (e.hp > 0 ? i : -1)).filter((i) => i >= 0)
 
 /** 防御减半（原版 defending 时受击伤害 /2;fight.c PAL_BattleUpdateFighters 后处理近似）。 */
 function applyDefense(damage: number, defending: boolean): number {
@@ -143,7 +152,12 @@ function applyDefense(damage: number, defending: boolean): number {
 }
 
 /** 物理攻击结算（攻方 atk vs 受方 def+物抗）。返回实际伤害。 */
-export function resolveAttack(atk: number, def: number, physRes: number, defending: boolean): number {
+export function resolveAttack(
+  atk: number,
+  def: number,
+  physRes: number,
+  defending: boolean,
+): number {
   return Math.max(0, applyDefense(calcPhysicalAttackDamage(atk, def, physRes), defending))
 }
 
@@ -186,7 +200,11 @@ export type EnemyDecision =
  * 活队员(原版兜底)。sleep/paralyzed → pass;沉默由求值器跳 cast 规则。
  * transform/summon 查敌人表,缺数据落普攻并 log(手配数据可见提示)。
  */
-export function decideEnemyAction(s: BattleState, e: BattleEnemyState, rng: () => number): EnemyDecision {
+export function decideEnemyAction(
+  s: BattleState,
+  e: BattleEnemyState,
+  rng: () => number,
+): EnemyDecision {
   const targets = alivePlayers(s)
   if (!canAct(e.status) || targets.length === 0) return { kind: 'pass' }
   const view = buildAiView(s, e)
@@ -210,7 +228,11 @@ export function decideEnemyAction(s: BattleState, e: BattleEnemyState, rng: () =
         s.log.push(`${e.def.id} 施法 ${d.action.skillId} 缺技能数据,落普攻`)
         return fallbackAttack()
       }
-      return { kind: 'cast', skill, targetPlayerIdx: pickAiTarget(d.action.target, view.players, rng) }
+      return {
+        kind: 'cast',
+        skill,
+        targetPlayerIdx: pickAiTarget(d.action.target, view.players, rng),
+      }
     }
     case 'transform': {
       const def = s.enemiesById[d.action.enemyId]
@@ -223,7 +245,8 @@ export function decideEnemyAction(s: BattleState, e: BattleEnemyState, rng: () =
     case 'divide':
       return { kind: 'divide', copies: d.action.copies }
     case 'summon': {
-      const def = s.enemiesById[d.action.enemyId ?? e.def.id] ?? (d.action.enemyId ? undefined : e.def)
+      const def =
+        s.enemiesById[d.action.enemyId ?? e.def.id] ?? (d.action.enemyId ? undefined : e.def)
       if (!def) {
         s.log.push(`${e.def.id} 召唤 ${d.action.enemyId} 缺敌人数据,落普攻`)
         return fallbackAttack()
@@ -282,6 +305,16 @@ export function stepBattle(s: BattleState, rng: () => number): void {
       }
       if (item.isEnemy) performEnemyAction(s, item.idx, rng)
       else performPlayerAction(s, item.idx, rng)
+      // B7a 战果累计:本步新死敌 += exp/cash(只记一次;敌逃(enemyFled)清场不计)
+      for (const e of s.enemies) {
+        if (e.hp <= 0 && !e.rewardCounted) {
+          e.rewardCounted = true
+          if (!s.enemyFled) {
+            s.expGained += e.def.stats.exp
+            s.cashGained += e.def.stats.cash
+          }
+        }
+      }
       // 每 action 后判胜负（提前终结）
       if (aliveEnemies(s).length === 0) {
         s.phase = 'won'
@@ -299,7 +332,13 @@ export function stepBattle(s: BattleState, rng: () => number): void {
 
 /** 玩家施法结算(M4b-3):对敌用敌方真实抗性(元素/毒/物抗);奶/状态用于自己(单人队;
  *  多人队友选择后补)。MP 不足空过(UI 已滤,core 兜底)。 */
-function applyPlayerSkill(s: BattleState, idx: number, skillId: string, targetEnemyIdx: number | undefined, rng: () => number): void {
+function applyPlayerSkill(
+  s: BattleState,
+  idx: number,
+  skillId: string,
+  targetEnemyIdx: number | undefined,
+  rng: () => number,
+): void {
   const p = s.players[idx]!
   const skill = s.skills[skillId]
   if (!skill) {
@@ -317,7 +356,9 @@ function applyPlayerSkill(s: BattleState, idx: number, skillId: string, targetEn
     skill.target === 'allEnemies'
       ? aliveEnemies(s)
       : onEnemies
-        ? [targetEnemyIdx ?? aliveEnemies(s)[0] ?? -1].filter((i) => i >= 0 && (s.enemies[i]?.hp ?? 0) > 0)
+        ? [targetEnemyIdx ?? aliveEnemies(s)[0] ?? -1].filter(
+            (i) => i >= 0 && (s.enemies[i]?.hp ?? 0) > 0,
+          )
         : []
   for (const eff of skill.effects) {
     switch (eff.kind) {
@@ -448,14 +489,25 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
   if (act.kind === 'attack') {
     const e = s.enemies[act.targetEnemyIdx]
     if (!e || e.hp <= 0) return // 目标已死,空过（M4a;M4b 自动改目标）
-    const dmg = resolveAttack(p.attackStrength, e.def.stats.defense, e.def.stats.physicalResistance, e.defending)
+    const dmg = resolveAttack(
+      p.attackStrength,
+      e.def.stats.defense,
+      e.def.stats.physicalResistance,
+      e.defending,
+    )
     e.hp = Math.max(0, e.hp - dmg)
     s.log.push(`${p.roleId} 攻击 ${e.def.id} 造成 ${dmg}`)
   }
 }
 
 /** 敌施法单目标结算(damage 走 calcMagicDamage;heal/status 直接应用;其余 log 跳过)。 */
-function applyEnemySkill(s: BattleState, e: BattleEnemyState, skill: SkillData, targetIdx: number, rng: () => number): void {
+function applyEnemySkill(
+  s: BattleState,
+  e: BattleEnemyState,
+  skill: SkillData,
+  targetIdx: number,
+  rng: () => number,
+): void {
   const ZERO = { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 }
   // 敌施法目标反转:oneEnemy/allEnemies(玩家使用视角)= 打队员;应用系(ally)= 用在自己/敌方
   const onParty = skill.target === 'oneEnemy' || skill.target === 'allEnemies'
@@ -547,7 +599,13 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
     const share = Math.max(1, Math.trunc(e.hp / (n + 1)))
     e.hp = share
     for (let k = 0; k < n; k++) {
-      s.enemies.push({ def: e.def, hp: share, status: emptyBattleStatus(), defending: false, firedRules: new Set() })
+      s.enemies.push({
+        def: e.def,
+        hp: share,
+        status: emptyBattleStatus(),
+        defending: false,
+        firedRules: new Set(),
+      })
     }
     s.log.push(`${e.def.id} 分裂出 ${n} 个分身`)
     return
@@ -560,7 +618,13 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
       return
     }
     for (let k = 0; k < n; k++) {
-      s.enemies.push({ def: decision.def, hp: decision.def.stats.health, status: emptyBattleStatus(), defending: false, firedRules: new Set() })
+      s.enemies.push({
+        def: decision.def,
+        hp: decision.def.stats.health,
+        status: emptyBattleStatus(),
+        defending: false,
+        firedRules: new Set(),
+      })
     }
     s.log.push(`${e.def.id} 召唤了 ${n} 个 ${decision.def.id}`)
     return

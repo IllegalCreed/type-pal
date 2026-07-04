@@ -12,7 +12,7 @@ import type { GlyphTable, LoadedSprite } from '../assets.js'
 import type { SfxPlayer } from '../audio/sfx.js'
 import { drawNumber, type MenuAssets } from '../menu/menu-box.js'
 import { bakeFrame } from '../render.js'
-import { renderSpans } from '../text/text-render.js'
+import { measureSpans, renderSpans } from '../text/text-render.js'
 import {
   type AnimFrame,
   AnimPlayer,
@@ -293,6 +293,11 @@ export class BattleSession {
     return this.state.enemyFled
   }
 
+  /** 战果(B7a;敌死累计,main 战后入账)。 */
+  rewards(): { exp: number; cash: number } {
+    return { exp: this.state.expGained, cash: this.state.cashGained }
+  }
+
   tick(dtMs: number, pressed: ReadonlySet<string>): void {
     this.nowMs += dtMs
     this.floats = this.floats.filter((f) => this.nowMs - f.bornAt < 900)
@@ -308,7 +313,8 @@ export class BattleSession {
       }
       this.ui = 'over'
       this.overTimer += dtMs
-      if (this.overTimer >= OVER_MS) {
+      const overMs = s.phase === 'won' && s.expGained > 0 ? 2600 : OVER_MS // 战果两行多留读秒
+      if (this.overTimer >= overMs) {
         this.resolveDone(s.phase === 'won' ? 'win' : s.phase === 'lost' ? 'lose' : 'flee')
       }
       return
@@ -910,14 +916,28 @@ export class BattleSession {
       }
     }
 
-    // 胜负字
+    // 胜负字 + 战果(B7a:一阶段 Phase A 文案「获得经验值 N/打败敌人得 N 文钱」)
     if (this.ui === 'over') {
       const msg = s.phase === 'won' ? '战斗胜利!' : s.phase === 'lost' ? '全军覆没…' : '逃跑成功'
-      renderSpans(ctx, [{ text: msg }], VIEW_W / 2 - msg.length * 8, 92, {
+      renderSpans(ctx, [{ text: msg }], VIEW_W / 2 - msg.length * 8, 80, {
         glyphs: g,
         shadow: true,
         forceRgba: [255, 255, 255],
       })
+      if (s.phase === 'won' && s.expGained > 0) {
+        const l1 = `获得经验值 ${s.expGained}`
+        const l2 = `打败敌人得 ${s.cashGained} 文钱`
+        renderSpans(ctx, [{ text: l1 }], VIEW_W / 2 - measureSpans([{ text: l1 }], g) / 2, 102, {
+          glyphs: g,
+          shadow: true,
+          forceRgba: [255, 203, 113],
+        })
+        renderSpans(ctx, [{ text: l2 }], VIEW_W / 2 - measureSpans([{ text: l2 }], g) / 2, 122, {
+          glyphs: g,
+          shadow: true,
+          forceRgba: [255, 203, 113],
+        })
+      }
     }
     ctx.restore()
   }

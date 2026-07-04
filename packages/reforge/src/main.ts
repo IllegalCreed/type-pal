@@ -7,6 +7,7 @@ import {
   emptyWorldScriptState,
   type Facing,
   type GridPos,
+  grantBattleRewards,
   gridToPixel,
   lookupText,
   pixelDeltaToGridDelta,
@@ -698,6 +699,27 @@ async function main(): Promise<void> {
       // 写回战斗结果的 HP/MP(战斗内伤害持久;原版同)
       session.writeBackHp(world.party)
       session.writeBackInventory(world.inventory)
+      // B7a 战果入账(胜利且非敌逃):exp/cash + 升级成长/学技能 + 战后半恢复(原版 Phase A/B/D/F)
+      if (result === 'win' && !session.enemyFled()) {
+        const r = session.rewards()
+        world.money += r.cash
+        const rep = grantBattleRewards(
+          world.party,
+          world.learnedSkills,
+          project.actorsById,
+          project.levelUp,
+          r,
+          Math.random,
+        )
+        for (const lu of rep.levelUps) {
+          const tpl = world.party.find((c) => c.id === lu.characterId)?.template ?? ''
+          const nm = lookupText(`name.${tpl}`, project.locale)
+          const learned = lu.learned.length
+            ? `,习得 ${lu.learned.map((id) => project.skills[id]?.name ?? id).join('、')}`
+            : ''
+          showToast(`${nm} 修行提升到 ${lu.to}${learned}`)
+        }
+      }
       return result
     },
     openShop: (shop, mode) => {
@@ -1269,6 +1291,10 @@ async function main(): Promise<void> {
     startBattle: (team: number) => host.startBattle(team),
     get battleLog() {
       return activeBattle?.debugLog() ?? []
+    },
+    /** dev:世界态只读观测(B7a 入账验证:money / party exp/level)。 */
+    get world() {
+      return world
     },
   }
 
