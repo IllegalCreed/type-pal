@@ -348,6 +348,9 @@ export class Playback {
       this.view.player.facing = fc
       if (!member) this.view.player.gesture = gesture ?? null
     },
+    fleeBattle: () => {
+      this.log('🏃 敌人逃离战场(战斗演出命令,预览记日志)')
+    },
     setActorSprite: async (actorId, spriteId) => {
       this.view.player.spriteId = spriteId
       this.log(`🎭 ${actorId} 换精灵 ${spriteId}`)

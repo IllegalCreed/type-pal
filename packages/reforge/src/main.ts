@@ -400,6 +400,9 @@ async function main(): Promise<void> {
       // 切回本体精灵 = 撤销覆盖(严格等价:override 恒生效,但本体时置 null 让存档/调试态干净)
       leaderSpriteOverride = def.spriteNum === leaderSpriteDef.spriteNum ? null : { def, frames }
     },
+    fleeBattle: () => {
+      host.report('fleeBattle: 战斗演出专用命令,大世界上下文忽略')
+    },
     setEntityState: () => applyWorldToScene(), // runner 已写 world.script,这里只重放视觉
     setEntityFacing: (id, fc) => {
       const e = scene.entities.find((x) => x.id === id)

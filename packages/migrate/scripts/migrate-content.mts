@@ -127,6 +127,13 @@ console.log(`  装备效果(M1b):${out.items.filter((i) => i.equip).length} 件�
 console.log(`  技能 pending ${out.report.pendingSkills.length}(summon ${out.report.pendingSkills.filter((p) => p.reason.includes('summon')).length} / 动态公式 ${out.report.pendingSkills.filter((p) => p.reason.includes('scriptOnUse')).length});有损注 ${out.report.lossySkills.length}`)
 console.log(`  场景(M2b):${scenesOut.report.scenes} 静态迁(实体 ${scenesOut.report.entities}/触发区跳 ${scenesOut.report.triggerZonesSkipped}/隐藏 ${scenesOut.report.hidden});入口对 ${scenesOut.report.entriesFound}(start ${scenesOut.report.scenesWithStart}/兜底 ${scenesOut.report.entryFallback.length});音乐 ${scenesOut.report.scenesWithMusic};精灵登记 ${scenesOut.sprites.length}(布局冲突 ${scenesOut.report.layoutConflicts.length}/自循环候选 ${scenesOut.report.autoLoopCandidates})`)
 console.log(`  使用效果(M1d):${out.items.filter((i) => i.use).length} 件已翻;pending ${out.report.pendingUse.length}(灵珠剧情/毒杀/遇敌香/蛊系→对应系统);有损注 ${out.report.lossyUse.length}`)
-console.log(`  敌人(M4a):${out.enemies.length} 迁(有 AI 脚本 ${out.enemyReport?.withScript ?? 0} → M4c;越界 enemyId ${out.enemyReport?.danglingEnemyId.length ?? 0})`)
+console.log(`  敌人(M4a):${out.enemies.length} 迁(有 AI 脚本 ${out.enemyReport?.withScript ?? 0};越界 enemyId ${out.enemyReport?.danglingEnemyId.length ?? 0})`)
+{
+  const ps = out.enemyReport?.pendingScripts ?? []
+  const ai = out.enemies.filter((e) => e.ai.rules?.length).length
+  const ch = out.enemies.filter((e) => e.choreography?.length).length
+  const od = out.enemies.filter((e) => e.onDefeated?.length).length
+  console.log(`  敌 AI(M4c):规则敌 ${ai} · 演出 ${ch} · 战后 ${od};脚本翻不净 ${ps.length}${ps.length ? ` → ${ps.slice(0, 6).map((p) => p.name).join('/')}${ps.length > 6 ? '…' : ''}` : ''}`)
+}
 console.log(`  敌队(M4b):${out.enemyTeams.length} 队(空成员引用 ${out.enemyTeamReport?.danglingMember.length ?? 0})`)
 if (out.report.blockedDescs.length) console.log(`  ⚠ desc 护栏命中 ${out.report.blockedDescs.length}(待手修):`, out.report.blockedDescs.slice(0, 5))

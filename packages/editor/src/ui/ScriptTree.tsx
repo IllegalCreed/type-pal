@@ -80,6 +80,8 @@ function describe(cmd: Command, locale: Locale): Described {
       }
     case 'setActorSprite':
       return { icon: '🎭', label: `${cmd.actor} 换精灵`, detail: cmd.sprite }
+    case 'fleeBattle':
+      return { icon: '🏃', label: '敌人逃离战场' }
     case 'setEntityState':
       return { icon: '👁', label: `${cmd.entity} 状态 → ${cmd.state}`, detail: cmd.state <= 0 ? '隐藏' : cmd.state >= 2 ? '现身+挡路' : '现身' }
     case 'setEntityFacing':

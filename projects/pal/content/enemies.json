@@ -118,6 +118,27 @@
     "ai": {
       "resistanceToSorcery": 0
     },
+    "onDefeated": [
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 79
+        },
+        "then": []
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "99"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13117",
+          "slot": "narration"
+        }
+      }
+    ],
     "anim": {
       "idleFrames": 2,
       "magicFrames": 0,
@@ -167,6 +188,27 @@
     "ai": {
       "resistanceToSorcery": 0
     },
+    "onDefeated": [
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 81
+        },
+        "then": []
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "87"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13116",
+          "slot": "narration"
+        }
+      }
+    ],
     "anim": {
       "idleFrames": 1,
       "magicFrames": 0,
@@ -218,8 +260,122 @@
       "collectValue": 2
     },
     "ai": {
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "kind": "chance",
+                "percent": 60
+              }
+            ]
+          },
+          "do": {
+            "kind": "transform",
+            "enemyId": "enemy-470"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 3
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 3
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 4
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "359"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 5
+              },
+              {
+                "kind": "chance",
+                "percent": 70
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "359"
+          }
+        }
+      ]
     },
+    "onDefeated": [
+      {
+        "kind": "giveItem",
+        "itemId": "104"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13115",
+          "slot": "narration"
+        }
+      }
+    ],
     "anim": {
       "idleFrames": 2,
       "magicFrames": 0,
@@ -269,6 +425,27 @@
     "ai": {
       "resistanceToSorcery": 0
     },
+    "onDefeated": [
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 89
+        },
+        "then": []
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "115"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13119",
+          "slot": "narration"
+        }
+      }
+    ],
     "anim": {
       "idleFrames": 4,
       "magicFrames": 0,
@@ -318,6 +495,27 @@
     "ai": {
       "resistanceToSorcery": 0
     },
+    "onDefeated": [
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 85
+        },
+        "then": []
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "131"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13118",
+          "slot": "narration"
+        }
+      }
+    ],
     "anim": {
       "idleFrames": 2,
       "magicFrames": 0,
@@ -578,8 +776,205 @@
       "collectValue": 1
     },
     "ai": {
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "kind": "chance",
+                "percent": 60
+              }
+            ]
+          },
+          "do": {
+            "kind": "summon",
+            "enemyId": "enemy-433",
+            "count": 1
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "turn",
+            "op": ">=",
+            "value": 4
+          },
+          "do": {
+            "kind": "summon",
+            "enemyId": "enemy-433",
+            "count": 1
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "turn",
+            "op": ">=",
+            "value": 5
+          },
+          "do": {
+            "kind": "summon",
+            "enemyId": "enemy-407",
+            "count": 2
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 3
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 4
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 5
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 5
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 6
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        }
+      ]
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "firstOfKind"
+        },
+        "body": [
+          {
+            "kind": "playSound",
+            "soundId": 205
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13111"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13112"
+            }
+          }
+        ]
+      },
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 2
+        },
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13113"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13114"
+            }
+          }
+        ]
+      }
+    ],
+    "onDefeated": [
+      {
+        "kind": "giveItem",
+        "itemId": "97"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13120",
+          "slot": "narration"
+        }
+      }
+    ],
     "anim": {
       "idleFrames": 1,
       "magicFrames": 1,
@@ -632,8 +1027,140 @@
         {
           "at": "act",
           "when": {
-            "kind": "chance",
-            "percent": 70
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "kind": "chance",
+                "percent": 60
+              }
+            ]
+          },
+          "do": {
+            "kind": "transform",
+            "enemyId": "enemy-434"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 4
+              },
+              {
+                "kind": "chance",
+                "percent": 60
+              }
+            ]
+          },
+          "do": {
+            "kind": "transform",
+            "enemyId": "enemy-410"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 2
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 70
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "326"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 3
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 4
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 5
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 5
+              },
+              {
+                "kind": "chance",
+                "percent": 70
+              }
+            ]
           },
           "do": {
             "kind": "cast",
@@ -1182,8 +1709,74 @@
       "collectValue": 1
     },
     "ai": {
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "kind": "chance",
+                "percent": 66
+              }
+            ]
+          },
+          "do": {
+            "kind": "summon",
+            "count": 1
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 3
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        }
+      ]
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "firstOfKind"
+        },
+        "body": [
+          {
+            "kind": "playSound",
+            "soundId": 258
+          }
+        ]
+      }
+    ],
     "anim": {
       "idleFrames": 2,
       "magicFrames": 0,
@@ -1231,7 +1824,85 @@
       "collectValue": 1
     },
     "ai": {
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 60
+          },
+          "do": {
+            "kind": "summon",
+            "enemyId": "enemy-441",
+            "count": 2
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "turn",
+            "op": ">=",
+            "value": 3
+          },
+          "do": {
+            "kind": "summon",
+            "enemyId": "enemy-441",
+            "count": 2
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 2
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 3
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 4
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -1291,6 +1962,21 @@
         }
       ]
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "firstOfKind"
+        },
+        "body": [
+          {
+            "kind": "playSound",
+            "soundId": 258
+          }
+        ]
+      }
+    ],
     "anim": {
       "idleFrames": 1,
       "magicFrames": 0,
@@ -1655,7 +2341,79 @@
       "collectValue": 1
     },
     "ai": {
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 3
+              },
+              {
+                "kind": "chance",
+                "percent": 35
+              }
+            ]
+          },
+          "do": {
+            "kind": "transform",
+            "enemyId": "enemy-461"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 3
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 4
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 4
+              },
+              {
+                "kind": "chance",
+                "percent": 50
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "317"
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -1950,8 +2708,188 @@
       "collectValue": 0
     },
     "ai": {
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 3
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 5
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "317"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 5
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 7
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "318"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 7
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "319"
+          }
+        }
+      ]
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "body": [
+          {
+            "kind": "playSound",
+            "soundId": 245
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13259"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13260"
+            }
+          }
+        ]
+      },
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 3
+        },
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13261"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13262"
+            }
+          }
+        ]
+      },
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 5
+        },
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13263"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13264"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13265"
+            }
+          }
+        ]
+      },
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 7
+        },
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13266"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13267"
+            }
+          }
+        ]
+      }
+    ],
     "anim": {
       "idleFrames": 2,
       "magicFrames": 0,
@@ -2018,6 +2956,21 @@
         }
       ]
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "firstOfKind"
+        },
+        "body": [
+          {
+            "kind": "playSound",
+            "soundId": 245
+          }
+        ]
+      }
+    ],
     "anim": {
       "idleFrames": 1,
       "magicFrames": 0,
@@ -2497,7 +3450,30 @@
       "collectValue": 2
     },
     "ai": {
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "kind": "chance",
+                "percent": 50
+              }
+            ]
+          },
+          "do": {
+            "kind": "divide",
+            "copies": 1
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -2606,6 +3582,18 @@
     "ai": {
       "resistanceToSorcery": 0
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "body": [
+          {
+            "kind": "playSound",
+            "soundId": 267
+          }
+        ]
+      }
+    ],
     "anim": {
       "idleFrames": 1,
       "magicFrames": 1,
@@ -2700,6 +3688,18 @@
     "ai": {
       "resistanceToSorcery": 0
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "body": [
+          {
+            "kind": "playSound",
+            "soundId": 267
+          }
+        ]
+      }
+    ],
     "anim": {
       "idleFrames": 1,
       "magicFrames": 0,
@@ -2967,6 +3967,53 @@
         }
       ]
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "firstOfKind"
+        },
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13139"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13140"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13141"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13142"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13143"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13144"
+            }
+          }
+        ]
+      }
+    ],
     "anim": {
       "idleFrames": 1,
       "magicFrames": 0,
@@ -3481,8 +4528,7 @@
             "percent": 100
           },
           "do": {
-            "kind": "cast",
-            "skillId": "328"
+            "kind": "pass"
           }
         }
       ]
@@ -3598,6 +4644,19 @@
     "ai": {
       "resistanceToSorcery": 4
     },
+    "onDefeated": [
+      {
+        "kind": "giveItem",
+        "itemId": "152"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13349",
+          "slot": "narration"
+        }
+      }
+    ],
     "anim": {
       "idleFrames": 1,
       "magicFrames": 0,
@@ -3782,8 +4841,41 @@
         {
           "at": "act",
           "when": {
-            "kind": "chance",
-            "percent": 80
+            "kind": "all",
+            "of": [
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 3
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 3
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
           },
           "do": {
             "kind": "cast",
@@ -3792,6 +4884,104 @@
         }
       ]
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13121"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13122"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13123"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13124"
+            }
+          }
+        ]
+      },
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 2
+        },
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13125"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13126"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13127"
+            }
+          }
+        ]
+      },
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 3
+        },
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13128"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13129"
+            }
+          }
+        ]
+      },
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 7
+        },
+        "body": [
+          {
+            "kind": "fleeBattle"
+          }
+        ]
+      }
+    ],
     "anim": {
       "idleFrames": 2,
       "magicFrames": 0,
@@ -3844,12 +5034,223 @@
         {
           "at": "act",
           "when": {
-            "kind": "chance",
-            "percent": 40
+            "kind": "turn",
+            "op": ">=",
+            "value": 3
+          },
+          "do": {
+            "kind": "summon",
+            "enemyId": "enemy-403",
+            "count": 4
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "turn",
+            "op": ">=",
+            "value": 10
+          },
+          "do": {
+            "kind": "summon",
+            "enemyId": "enemy-403",
+            "count": 4
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 2
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 40
+              }
+            ]
           },
           "do": {
             "kind": "cast",
             "skillId": "316"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 3
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "303"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 3
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 4
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 4
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 6
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "316"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 8
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 9
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "303"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 10
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 11
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 11
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 12
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "317"
           }
         }
       ]
@@ -4034,12 +5435,332 @@
         {
           "at": "act",
           "when": {
-            "kind": "chance",
-            "percent": 70
+            "kind": "all",
+            "of": [
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 2
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 3
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
           },
           "do": {
             "kind": "cast",
             "skillId": "357"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 4
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 5
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "371"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 5
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 6
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "305"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 6
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 7
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 7
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 9
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "357"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 9
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 10
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 10
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 12
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "371"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 12
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 13
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "305"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 15
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 16
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "371"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 16
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 17
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "357"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 17
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
           }
         }
       ]
@@ -4100,16 +5821,212 @@
         {
           "at": "act",
           "when": {
-            "kind": "chance",
-            "percent": 60
+            "kind": "turn",
+            "op": ">=",
+            "value": 3
+          },
+          "do": {
+            "kind": "summon",
+            "enemyId": "enemy-419",
+            "count": 2
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "turn",
+            "op": ">=",
+            "value": 8
+          },
+          "do": {
+            "kind": "summon",
+            "enemyId": "enemy-433",
+            "count": 2
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 3
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 4
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 4
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 5
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
           },
           "do": {
             "kind": "cast",
             "skillId": "358"
           }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 5
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 6
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "327"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 6
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 7
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "333"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 7
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 8
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "304"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 8
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
         }
       ]
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 4
+        },
+        "body": [
+          {
+            "kind": "playSound",
+            "soundId": 267
+          }
+        ]
+      }
+    ],
     "anim": {
       "idleFrames": 1,
       "magicFrames": 1,
@@ -4162,16 +6079,714 @@
         {
           "at": "act",
           "when": {
-            "kind": "chance",
-            "percent": 100
+            "kind": "turn",
+            "op": ">=",
+            "value": 3
+          },
+          "do": {
+            "kind": "summon",
+            "enemyId": "enemy-512",
+            "count": 1
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "turn",
+            "op": ">=",
+            "value": 4
+          },
+          "do": {
+            "kind": "summon",
+            "enemyId": "enemy-512",
+            "count": 1
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "turn",
+            "op": ">=",
+            "value": 11
+          },
+          "do": {
+            "kind": "summon",
+            "enemyId": "enemy-512",
+            "count": 1
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "turn",
+            "op": ">=",
+            "value": 12
+          },
+          "do": {
+            "kind": "summon",
+            "enemyId": "enemy-512",
+            "count": 1
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "turn",
+            "op": ">=",
+            "value": 25
+          },
+          "do": {
+            "kind": "summon",
+            "enemyId": "enemy-512",
+            "count": 1
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 3
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "349"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 3
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 4
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 4
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 6
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 6
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 7
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
           },
           "do": {
             "kind": "cast",
             "skillId": "375"
           }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 7
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 8
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 8
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 9
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "375"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 9
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 10
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "317"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 10
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 11
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "303"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 11
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 12
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 12
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 13
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 13
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 14
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "318"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 14
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 15
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "324"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 15
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 16
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 17
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 18
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "375"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 18
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 19
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "375"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 19
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 20
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "375"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 20
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 21
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 21
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 23
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "349"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 23
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 24
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "324"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 25
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
         }
       ]
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 6
+        },
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13345"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13346"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13347"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13348"
+            }
+          }
+        ]
+      },
+      {
+        "at": "turnStart",
+        "once": true,
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13338"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13339"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13340"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13341"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13342"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13343"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13344"
+            }
+          }
+        ]
+      }
+    ],
     "anim": {
       "idleFrames": 1,
       "magicFrames": 0,
@@ -4381,6 +6996,38 @@
         }
       ]
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 2
+        },
+        "body": [
+          {
+            "kind": "playSound",
+            "soundId": 193
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13214"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13215"
+            }
+          },
+          {
+            "kind": "fleeBattle"
+          }
+        ]
+      }
+    ],
     "anim": {
       "idleFrames": 4,
       "magicFrames": 0,
@@ -4505,6 +7152,68 @@
         }
       ]
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13193"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13194"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13195"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13196"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13197"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13198"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13199"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13200"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13201"
+            }
+          }
+        ]
+      }
+    ],
     "anim": {
       "idleFrames": 1,
       "magicFrames": 0,
@@ -4674,6 +7383,90 @@
         }
       ]
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13202"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13203"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13204"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13205"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13206"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13207"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13208"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13209"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13210"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13211"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13212"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13213"
+            }
+          },
+          {
+            "kind": "playSound",
+            "soundId": 213
+          }
+        ]
+      }
+    ],
     "anim": {
       "idleFrames": 4,
       "magicFrames": 2,
@@ -4828,8 +7621,92 @@
       "collectValue": 3
     },
     "ai": {
-      "resistanceToSorcery": 4
+      "resistanceToSorcery": 4,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 7
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 10
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "338"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 10
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 11
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        }
+      ]
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 7
+        },
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13336"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13337"
+            }
+          }
+        ]
+      }
+    ],
     "anim": {
       "idleFrames": 2,
       "magicFrames": 1,
@@ -5039,6 +7916,19 @@
         }
       ]
     },
+    "onDefeated": [
+      {
+        "kind": "giveItem",
+        "itemId": "152"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13349",
+          "slot": "narration"
+        }
+      }
+    ],
     "anim": {
       "idleFrames": 2,
       "magicFrames": 1,
@@ -5171,6 +8061,19 @@
         }
       ]
     },
+    "onDefeated": [
+      {
+        "kind": "giveItem",
+        "itemId": "152"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13349",
+          "slot": "narration"
+        }
+      }
+    ],
     "anim": {
       "idleFrames": 2,
       "magicFrames": 1,
@@ -5289,8 +8192,331 @@
         {
           "at": "act",
           "when": {
-            "kind": "chance",
-            "percent": 100
+            "kind": "all",
+            "of": [
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 3
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "349"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 3
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 4
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "361"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 4
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 5
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 5
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 6
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "349"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 6
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 7
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "337"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 7
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 8
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "361"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 8
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 9
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "349"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 9
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 10
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "337"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 10
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 11
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "361"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 11
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 12
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "388"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 12
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 13
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "349"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 13
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
           },
           "do": {
             "kind": "cast",
@@ -5299,6 +8525,19 @@
         }
       ]
     },
+    "onDefeated": [
+      {
+        "kind": "giveItem",
+        "itemId": "216"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13334",
+          "slot": "narration"
+        }
+      }
+    ],
     "anim": {
       "idleFrames": 3,
       "magicFrames": 2,
@@ -5406,6 +8645,152 @@
         }
       ]
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13218"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13219"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13220"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13221"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13222"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13223"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13224"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13225"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13226"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13227"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13228"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13229"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13230"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13231"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13232"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13233"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13234"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13235"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13236"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13237"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13238"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13239"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13240"
+            }
+          }
+        ]
+      }
+    ],
     "anim": {
       "idleFrames": 1,
       "magicFrames": 6,
@@ -5526,6 +8911,19 @@
         }
       ]
     },
+    "onDefeated": [
+      {
+        "kind": "giveItem",
+        "itemId": "152"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13349",
+          "slot": "narration"
+        }
+      }
+    ],
     "anim": {
       "idleFrames": 2,
       "magicFrames": 0,
@@ -5627,8 +9025,337 @@
         {
           "at": "act",
           "when": {
-            "kind": "chance",
-            "percent": 40
+            "kind": "all",
+            "of": [
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 2
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 3
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "376"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 3
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 4
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "376"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 4
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 6
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "305"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 6
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 7
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 7
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 8
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "352"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 8
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 9
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "376"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 10
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 12
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "305"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 12
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 13
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 14
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 15
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "371"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 15
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 17
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "371"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 17
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 18
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
           },
           "do": {
             "kind": "cast",
@@ -5699,6 +9426,68 @@
         }
       ]
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13350"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13351"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13352"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13353"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13354"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13355"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13356"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13357"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13358"
+            }
+          }
+        ]
+      }
+    ],
     "anim": {
       "idleFrames": 1,
       "magicFrames": 3,
@@ -5746,8 +9535,61 @@
       "collectValue": 0
     },
     "ai": {
-      "resistanceToSorcery": 10
+      "resistanceToSorcery": 10,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "chance",
+            "percent": 100
+          },
+          "do": {
+            "kind": "pass"
+          }
+        }
+      ]
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13130"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13131"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13132"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13133"
+            }
+          },
+          {
+            "kind": "fleeBattle"
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13134"
+            }
+          }
+        ]
+      }
+    ],
     "anim": {
       "idleFrames": 1,
       "magicFrames": 0,
@@ -6352,6 +10194,21 @@
     "ai": {
       "resistanceToSorcery": 0
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "firstOfKind"
+        },
+        "body": [
+          {
+            "kind": "playSound",
+            "soundId": 206
+          }
+        ]
+      }
+    ],
     "anim": {
       "idleFrames": 2,
       "magicFrames": 0,
@@ -6625,8 +10482,100 @@
         {
           "at": "act",
           "when": {
-            "kind": "chance",
-            "percent": 100
+            "kind": "all",
+            "of": [
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 2
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "328"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 3
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "326"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 3
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 4
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "327"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 4
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
           },
           "do": {
             "kind": "cast",
@@ -6691,16 +10640,453 @@
         {
           "at": "act",
           "when": {
-            "kind": "chance",
-            "percent": 100
+            "kind": "all",
+            "of": [
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 2
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
           },
           "do": {
             "kind": "cast",
             "skillId": "319"
           }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "382"
+          }
         }
       ]
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13328"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13329"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13330"
+            }
+          }
+        ]
+      },
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 2
+        },
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13331"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13332"
+            }
+          }
+        ]
+      },
+      {
+        "at": "turnStart",
+        "once": true,
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13274"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13275"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13276"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13277"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13278"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13279"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13280"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13281"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13282"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13283"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13284"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13285"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13286"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13287"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13288"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13289"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13290"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13291"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13292"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13293"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13294"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13295"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13296"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13297"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13298"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13299"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13300"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13301"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13302"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13303"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13304"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13305"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13306"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13307"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13308"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13309"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13310"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13311"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13312"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13313"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13314"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13315"
+            }
+          }
+        ]
+      },
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 2
+        },
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13316"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13317"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13318"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13319"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13320"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13321"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13322"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13323"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13324"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13325"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13326"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13327"
+            }
+          }
+        ]
+      }
+    ],
+    "onDefeated": [
+      {
+        "kind": "giveItem",
+        "itemId": "230"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13335",
+          "slot": "narration"
+        }
+      }
+    ],
     "anim": {
       "idleFrames": 2,
       "magicFrames": 2,
@@ -6881,8 +11267,134 @@
         {
           "at": "act",
           "when": {
-            "kind": "chance",
-            "percent": 50
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 3
+              },
+              {
+                "kind": "chance",
+                "percent": 30
+              }
+            ]
+          },
+          "do": {
+            "kind": "summon",
+            "enemyId": "enemy-490",
+            "count": 1
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "turn",
+            "op": ">=",
+            "value": 3
+          },
+          "do": {
+            "kind": "summon",
+            "enemyId": "enemy-490",
+            "count": 1
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 2
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "303"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 3
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "305"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 3
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 4
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 4
+              },
+              {
+                "kind": "chance",
+                "percent": 50
+              }
+            ]
           },
           "do": {
             "kind": "cast",
@@ -6947,8 +11459,134 @@
         {
           "at": "act",
           "when": {
-            "kind": "chance",
-            "percent": 50
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 3
+              },
+              {
+                "kind": "chance",
+                "percent": 40
+              }
+            ]
+          },
+          "do": {
+            "kind": "summon",
+            "enemyId": "enemy-492",
+            "count": 1
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "turn",
+            "op": ">=",
+            "value": 3
+          },
+          "do": {
+            "kind": "summon",
+            "enemyId": "enemy-492",
+            "count": 1
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 2
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "379"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 3
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "318"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 3
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 4
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 4
+              },
+              {
+                "kind": "chance",
+                "percent": 50
+              }
+            ]
           },
           "do": {
             "kind": "cast",
@@ -6957,6 +11595,18 @@
         }
       ]
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "body": [
+          {
+            "kind": "playSound",
+            "soundId": 267
+          }
+        ]
+      }
+    ],
     "anim": {
       "idleFrames": 1,
       "magicFrames": 1,
@@ -7008,9 +11658,361 @@
       "rules": [
         {
           "at": "act",
+          "do": {
+            "kind": "summon",
+            "enemyId": "enemy-442",
+            "count": 2
+          }
+        },
+        {
+          "at": "act",
           "when": {
-            "kind": "chance",
-            "percent": 100
+            "kind": "turn",
+            "op": ">=",
+            "value": 9
+          },
+          "do": {
+            "kind": "summon",
+            "enemyId": "enemy-453",
+            "count": 1
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "turn",
+            "op": ">=",
+            "value": 9
+          },
+          "do": {
+            "kind": "summon",
+            "enemyId": "enemy-453",
+            "count": 1
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 2
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 3
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "383"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 3
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 4
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 4
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 6
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "383"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 6
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 7
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 7
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 9
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "383"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 9
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 10
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 10
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 13
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "383"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 13
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 14
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 14
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 15
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "383"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 15
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 16
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 16
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
           },
           "do": {
             "kind": "cast",
@@ -7019,6 +12021,19 @@
         }
       ]
     },
+    "onDefeated": [
+      {
+        "kind": "giveItem",
+        "itemId": "214"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13333",
+          "slot": "narration"
+        }
+      }
+    ],
     "anim": {
       "idleFrames": 1,
       "magicFrames": 0,
@@ -7071,16 +12086,272 @@
         {
           "at": "act",
           "when": {
-            "kind": "chance",
-            "percent": 100
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 3
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
           },
           "do": {
             "kind": "cast",
-            "skillId": "356"
+            "skillId": "337"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 3
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 4
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "339"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 4
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 5
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "388"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 5
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 6
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "380"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 6
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 7
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "379"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 7
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "342"
           }
         }
       ]
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 2
+        },
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13255"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13256"
+            }
+          }
+        ]
+      },
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 7
+        },
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13257"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13258"
+            }
+          }
+        ]
+      },
+      {
+        "at": "turnStart",
+        "once": true,
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13249"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13250"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13251"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13252"
+            }
+          }
+        ]
+      },
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 5
+        },
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13253"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13254"
+            }
+          }
+        ]
+      }
+    ],
     "anim": {
       "idleFrames": 1,
       "magicFrames": 3,
@@ -7306,8 +12577,134 @@
         {
           "at": "act",
           "when": {
-            "kind": "chance",
-            "percent": 50
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 3
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "334"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 4
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 6
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "318"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 7
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 8
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "382"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 8
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 9
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "334"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 9
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
           },
           "do": {
             "kind": "cast",
@@ -7316,6 +12713,61 @@
         }
       ]
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13268"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13269"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13270"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13271"
+            }
+          }
+        ]
+      },
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 10
+        },
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13272"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13273"
+            }
+          }
+        ]
+      }
+    ],
     "anim": {
       "idleFrames": 1,
       "magicFrames": 2,
@@ -7368,8 +12820,21 @@
         {
           "at": "act",
           "when": {
-            "kind": "chance",
-            "percent": 40
+            "kind": "all",
+            "of": [
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 2
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
           },
           "do": {
             "kind": "cast",
@@ -7594,7 +13059,21 @@
       "collectValue": 1
     },
     "ai": {
-      "resistanceToSorcery": 0
+      "resistanceToSorcery": 0,
+      "rules": [
+        {
+          "at": "act",
+          "when": {
+            "kind": "turn",
+            "op": ">=",
+            "value": 2
+          },
+          "do": {
+            "kind": "divide",
+            "copies": 1
+          }
+        }
+      ]
     },
     "anim": {
       "idleFrames": 2,
@@ -7716,6 +13195,19 @@
         }
       ]
     },
+    "onDefeated": [
+      {
+        "kind": "giveItem",
+        "itemId": "152"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13349",
+          "slot": "narration"
+        }
+      }
+    ],
     "anim": {
       "idleFrames": 2,
       "magicFrames": 0,
@@ -7821,8 +13313,71 @@
         {
           "at": "act",
           "when": {
-            "kind": "chance",
-            "percent": 100
+            "kind": "all",
+            "of": [
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 2
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "322"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 4
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "321"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 4
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
           },
           "do": {
             "kind": "cast",
@@ -7883,8 +13438,70 @@
         {
           "at": "act",
           "when": {
-            "kind": "chance",
-            "percent": 40
+            "kind": "all",
+            "of": [
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 3
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 40
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "372"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 3
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 4
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "pass"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 4
+              },
+              {
+                "kind": "chance",
+                "percent": 40
+              }
+            ]
           },
           "do": {
             "kind": "cast",
@@ -8317,16 +13934,84 @@
         {
           "at": "act",
           "when": {
-            "kind": "chance",
-            "percent": 50
+            "kind": "all",
+            "of": [
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 2
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
           },
           "do": {
             "kind": "cast",
-            "skillId": "382"
+            "skillId": "396"
+          }
+        },
+        {
+          "at": "act",
+          "when": {
+            "kind": "all",
+            "of": [
+              {
+                "kind": "turn",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "kind": "not",
+                "cond": {
+                  "kind": "turn",
+                  "op": ">=",
+                  "value": 3
+                }
+              },
+              {
+                "kind": "chance",
+                "percent": 100
+              }
+            ]
+          },
+          "do": {
+            "kind": "cast",
+            "skillId": "397"
           }
         }
       ]
     },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13359"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13360"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13361"
+            }
+          }
+        ]
+      }
+    ],
     "anim": {
       "idleFrames": 1,
       "magicFrames": 5,
@@ -8549,6 +14234,19 @@
         }
       ]
     },
+    "onDefeated": [
+      {
+        "kind": "giveItem",
+        "itemId": "152"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13349",
+          "slot": "narration"
+        }
+      }
+    ],
     "anim": {
       "idleFrames": 2,
       "magicFrames": 0,

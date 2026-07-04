@@ -761,9 +761,17 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
     const slug = ROLE_SLUGS[r.id]
     if (slug) localeNames[`name.${slug}`] = r._name
   })
-  // M4a:敌人(有源才迁;name.<enemy> 并入 locale)
-  const enemyRes = src.enemies && src.enemyObjects ? mapEnemies(src.enemies, src.enemyObjects) : undefined
-  if (enemyRes) Object.assign(localeNames, enemyRes.localeNames)
+  // M4a/M4c:敌人(有源才迁;name.<enemy> + 战斗对白并入 locale;脚本翻译走 all.json labelAt)
+  const enemyTctx = {
+    labelAt: new Map([...labelIndex].map(([l, i]) => [l, { cmds: src.commands, idx: i }] as const)),
+    locale: {} as Record<string, string>,
+    report: emptyTranslateReport(),
+  }
+  const enemyRes = src.enemies && src.enemyObjects ? mapEnemies(src.enemies, src.enemyObjects, enemyTctx) : undefined
+  if (enemyRes) {
+    Object.assign(localeNames, enemyRes.localeNames)
+    Object.assign(localeNames, enemyTctx.locale) // 战斗脚本对白(dlg.<idx>)
+  }
   // M4c:敌用法术兜底补翻 —— fallback 施法敌引用、但 mapSkills 因 scriptOnUse≠0(玩家
   // 使用门/动态公式)延后的对象。敌施法无使用门,伤害走战斗期 calcMagicDamage 常规路径:
   // scriptOnSuccess 可翻则翻,否则 damage(baseDamage, elemental) fallback。

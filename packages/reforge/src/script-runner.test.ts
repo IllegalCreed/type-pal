@@ -25,6 +25,7 @@ function fakeHost(calls: string[]): ScriptHost {
     loadScene: alog('loadScene'),
     setPartyFacing: log('setPartyFacing'),
     setActorSprite: alog('setActorSprite'),
+    fleeBattle: log('fleeBattle'),
     setEntityState: log('setEntityState'),
     setEntityFacing: log('setEntityFacing'),
     setEntityFrame: log('setEntityFrame'),

@@ -1,8 +1,10 @@
 /**
- * M4a · 敌人数据迁移:enemies.json(154 stats) + enemy-objects.json(153 AI 指针) → EnemyDef[]。
- * 纯函数,golden 钉真值。AI 脚本(scriptOnReady 等)= M4c 翻译,此处只搬 fallback-AI 参数 + 记指针。
+ * M4a/M4c · 敌人数据迁移:enemies.json(154 stats) + enemy-objects.json(153 AI 指针) → EnemyDef[]。
+ * 纯函数,golden 钉真值。AI/演出/战后 = translate-enemy-scripts 翻译(M4c-2)。
  */
 import type { EnemyDef, EnemyTeamDef } from '@type-pal/content'
+import { translateEnemyScripts } from './translate-enemy-scripts.js'
+import { emptyTranslateReport, type TranslateCtx } from './translate-events.js'
 
 export interface SourceEnemy {
   id: number
@@ -52,7 +54,7 @@ export interface SourceEnemyObject {
 
 export interface EnemyMigrationResult {
   enemies: EnemyDef[]
-  /** name.<enemyId> → 显示名(并入工程 locale)。 */
+  /** name.<enemyId> → 显示名 + 战斗脚本对白(并入工程 locale)。 */
   localeNames: Record<string, string>
   report: {
     total: number
@@ -60,6 +62,8 @@ export interface EnemyMigrationResult {
     withScript: number
     /** 引用了越界 enemyId 的对象(数据异常)。 */
     danglingEnemyId: string[]
+    /** M4c-2:脚本翻译翻不净明细(敌 id → 原因;编辑器手修清单)。 */
+    pendingScripts: { id: string; name: string; notes: string[] }[]
   }
 }
 
@@ -71,10 +75,13 @@ export function enemySlug(objectIndex: number): string {
 export function mapEnemies(
   enemies: readonly SourceEnemy[],
   enemyObjects: readonly SourceEnemyObject[],
+  /** M4c-2:战斗脚本翻译上下文(all.json labelAt;缺省 = 只翻 fallback)。 */
+  tctx?: TranslateCtx,
 ): EnemyMigrationResult {
   const byId = new Map(enemies.map((e) => [e.id, e]))
   const localeNames: Record<string, string> = {}
   const danglingEnemyId: string[] = []
+  const pendingScripts: EnemyMigrationResult['report']['pendingScripts'] = []
   let withScript = 0
 
   const out: EnemyDef[] = []
@@ -109,26 +116,31 @@ export function mapEnemies(
         dualMove: stats.dualMove !== 0,
         collectValue: stats.collectValue,
       },
-      // M4c:fallback(magic+magicRate)翻成规则列表 —— [chance rate×10] cast + 缺省普攻。
-      // magic=0xFFFF 是原版"掷中也不动"哨兵 → [chance] pass。行为概率分布对齐一阶段
-      // enemy-ai.ts 魔法门(rng(0,10) < magicRate)。脚本策略/演出翻译 = M4c-2。
-      ai: {
-        resistanceToSorcery: eo.resistanceToSorcery,
-        ...(stats.magic !== 0 && stats.magicRate > 0
-          ? {
-              rules: [
-                {
-                  at: 'act' as const,
-                  when: { kind: 'chance' as const, percent: stats.magicRate * 10 },
-                  do:
-                    stats.magic === 0xffff
-                      ? { kind: 'pass' as const }
-                      : { kind: 'cast' as const, skillId: String(stats.magic) },
-                },
-              ],
-            }
-          : {}),
-      },
+      // M4c:AI 全走翻译器 —— fallback(magic+magicRate)并入 0x67 时间线生成区间规则,
+      // 钩子链(advance 游标状态机)翻成 [turn/chance] transform/divide/summon/cast 规则
+      // + 演出 choreography + 战后 onDefeated(考证:translate-enemy-scripts.ts 头注)。
+      ...(() => {
+        const t = tctx
+          ? translateEnemyScripts(
+              tctx,
+              {
+                turnStart: eo.scriptOnTurnStart || undefined,
+                ready: eo.scriptOnReady || undefined,
+                battleEnd: eo.scriptOnBattleEnd || undefined,
+              },
+              { magic: stats.magic, rate: stats.magicRate },
+            )
+          : translateEnemyScripts({ labelAt: new Map(), locale: localeNames, report: emptyTranslateReport() }, {}, { magic: stats.magic, rate: stats.magicRate })
+        if (t.pending.length) pendingScripts.push({ id, name, notes: t.pending })
+        return {
+          ai: {
+            resistanceToSorcery: eo.resistanceToSorcery,
+            ...(t.rules.length ? { rules: t.rules } : {}),
+          },
+          ...(t.choreography.length ? { choreography: t.choreography } : {}),
+          ...(t.onDefeated?.length ? { onDefeated: t.onDefeated } : {}),
+        }
+      })(),
       anim: {
         idleFrames: stats.idleFrames,
         magicFrames: stats.magicFrames,
@@ -153,7 +165,7 @@ export function mapEnemies(
     })
   }
 
-  return { enemies: out, localeNames, report: { total: out.length, withScript, danglingEnemyId } }
+  return { enemies: out, localeNames, report: { total: out.length, withScript, danglingEnemyId, pendingScripts } }
 }
 
 // ════════════════════════════════════════════════════════════════════

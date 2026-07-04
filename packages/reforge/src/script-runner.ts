@@ -33,6 +33,8 @@ export interface ScriptHost {
   setPartyFacing(facing: Facing, gesture?: number, member?: number): void
   /** 0x65:换角色大世界精灵(异步:精灵可能需加载)。持续到下一次显式切换。 */
   setActorSprite(actor: string, sprite: string): Promise<void>
+  /** 战斗演出:敌逃离战场(choreography 专用;大世界 host 打日志跳过)。 */
+  fleeBattle(): void
   setEntityState(entity: string, state: number): void
   setEntityFacing(entity: string, facing: Facing): void
   setEntityFrame(entity: string, frame: number): void
@@ -194,6 +196,8 @@ export class ScriptRunner {
         return h.setPartyFacing(cmd.facing, cmd.gesture, cmd.member)
       case 'setActorSprite':
         return h.setActorSprite(cmd.actor, cmd.sprite)
+      case 'fleeBattle':
+        return h.fleeBattle()
       case 'setEntityState':
         this.world.entityState[cmd.entity] = cmd.state
         return h.setEntityState(cmd.entity, cmd.state)

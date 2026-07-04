@@ -42,6 +42,8 @@ export type Command =
   // 0x65:换角色大世界精灵(id 引用,非下标)。原版写 PlayerRoles.rgwSpriteNum[role],
   // 持续到下一次显式切换(开场练武 627/疯跑 193 后脚本自行切回)。
   | { kind: 'setActorSprite'; actor: string; sprite: string }
+  // 0x69:敌人逃离战场(战斗演出 choreography 专用;终止战斗无奖励)。大世界 host 打日志跳过。
+  | { kind: 'fleeBattle' }
   // 世界状态
   | { kind: 'giveItem'; itemId: string; count?: number }
   | { kind: 'loseItem'; itemId: string; count?: number }
