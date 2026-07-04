@@ -16,7 +16,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 27
+        "effectSprite": 27,
+        "placement": "normal",
+        "xOffset": -10,
+        "yOffset": -6,
+        "speed": -1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 138
       }
     },
     {
@@ -35,7 +43,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 28
+        "effectSprite": 28,
+        "placement": "normal",
+        "xOffset": -6,
+        "yOffset": -18,
+        "speed": -1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 141
       }
     },
     {
@@ -54,7 +70,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 29
+        "effectSprite": 29,
+        "placement": "normal",
+        "xOffset": -8,
+        "yOffset": 4,
+        "speed": -1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 139
       }
     },
     {
@@ -73,7 +97,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 29
+        "effectSprite": 29,
+        "placement": "normal",
+        "xOffset": -8,
+        "yOffset": 4,
+        "speed": -1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 139
       }
     },
     {
@@ -92,7 +124,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 28
+        "effectSprite": 28,
+        "placement": "normal",
+        "xOffset": -6,
+        "yOffset": -18,
+        "speed": -1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 316
       }
     },
     {
@@ -111,7 +151,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 28
+        "effectSprite": 28,
+        "placement": "normal",
+        "xOffset": -6,
+        "yOffset": -18,
+        "speed": -1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 141
       }
     },
     {
@@ -130,7 +178,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 30
+        "effectSprite": 30,
+        "placement": "normal",
+        "xOffset": -10,
+        "yOffset": 0,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 170
       }
     },
     {
@@ -154,7 +210,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 40
+        "effectSprite": 40,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 4,
+        "speed": 2,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 169
       }
     },
     {
@@ -180,7 +244,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 39
+        "effectSprite": 39,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 170
       }
     },
     {
@@ -204,7 +276,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 41
+        "effectSprite": 41,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 2,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 271
       }
     },
     {
@@ -231,7 +311,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 28
+        "effectSprite": 28,
+        "placement": "normal",
+        "xOffset": -6,
+        "yOffset": -18,
+        "speed": -1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 141
       }
     },
     {
@@ -254,7 +342,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 28
+        "effectSprite": 28,
+        "placement": "normal",
+        "xOffset": -6,
+        "yOffset": -18,
+        "speed": -1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 141
       }
     },
     {
@@ -281,7 +377,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 28
+        "effectSprite": 28,
+        "placement": "normal",
+        "xOffset": -6,
+        "yOffset": -18,
+        "speed": -1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 141
       }
     },
     {
@@ -301,7 +405,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 28
+        "effectSprite": 28,
+        "placement": "normal",
+        "xOffset": -6,
+        "yOffset": -18,
+        "speed": -1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 141
       }
     },
     {
@@ -321,7 +433,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 29
+        "effectSprite": 29,
+        "placement": "normal",
+        "xOffset": -8,
+        "yOffset": 4,
+        "speed": -1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 149
       }
     },
     {
@@ -341,7 +461,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 29
+        "effectSprite": 29,
+        "placement": "normal",
+        "xOffset": -8,
+        "yOffset": 4,
+        "speed": -1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 149
       }
     },
     {
@@ -361,7 +489,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 0
+        "effectSprite": 0,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 4,
+        "speed": 2,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 101
       }
     },
     {
@@ -381,7 +517,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 36
+        "effectSprite": 36,
+        "placement": "attackAll",
+        "xOffset": 0,
+        "yOffset": 30,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 1,
+        "shake": 0,
+        "sound": 102
       }
     },
     {
@@ -401,7 +545,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 1
+        "effectSprite": 1,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 2,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 106
       }
     },
     {
@@ -421,7 +573,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 1
+        "effectSprite": 1,
+        "placement": "attackAll",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 2,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 325
       }
     },
     {
@@ -441,7 +601,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 35
+        "effectSprite": 35,
+        "placement": "normal",
+        "xOffset": 12,
+        "yOffset": 20,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 323
       }
     },
     {
@@ -461,7 +629,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 46
+        "effectSprite": 46,
+        "placement": "attackWhole",
+        "xOffset": 0,
+        "yOffset": 40,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 107
       }
     },
     {
@@ -481,7 +657,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 2
+        "effectSprite": 2,
+        "placement": "normal",
+        "xOffset": -10,
+        "yOffset": 12,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 1,
+        "shake": 0,
+        "sound": 109
       }
     },
     {
@@ -501,7 +685,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 2
+        "effectSprite": 2,
+        "placement": "attackAll",
+        "xOffset": -10,
+        "yOffset": 12,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 1,
+        "shake": 0,
+        "sound": 110
       }
     },
     {
@@ -521,7 +713,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 15
+        "effectSprite": 15,
+        "placement": "attackField",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": -1,
+        "fireDelay": 8,
+        "effectTimes": 4,
+        "shake": 0,
+        "sound": 338
       }
     },
     {
@@ -541,7 +741,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 53
+        "effectSprite": 53,
+        "placement": "attackField",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": -1,
+        "fireDelay": 8,
+        "effectTimes": 4,
+        "shake": 0,
+        "sound": 339
       }
     },
     {
@@ -561,7 +769,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 3
+        "effectSprite": 3,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 2,
+        "speed": 3,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 113
       }
     },
     {
@@ -581,7 +797,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 7
+        "effectSprite": 7,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 115
       }
     },
     {
@@ -601,7 +825,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 7
+        "effectSprite": 7,
+        "placement": "attackAll",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 312
       }
     },
     {
@@ -621,7 +853,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 9
+        "effectSprite": 9,
+        "placement": "normal",
+        "xOffset": 64,
+        "yOffset": 16,
+        "speed": 1,
+        "fireDelay": 0,
+        "effectTimes": 2,
+        "shake": 0,
+        "sound": 116
       }
     },
     {
@@ -641,7 +881,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 0
+        "effectSprite": 0,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 4,
+        "speed": 2,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 101
       }
     },
     {
@@ -661,7 +909,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 4
+        "effectSprite": 4,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 2,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 9,
+        "sound": 118
       }
     },
     {
@@ -681,7 +937,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 4
+        "effectSprite": 4,
+        "placement": "attackAll",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 2,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 9,
+        "sound": 119
       }
     },
     {
@@ -701,7 +965,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 17
+        "effectSprite": 17,
+        "placement": "attackWhole",
+        "xOffset": -10,
+        "yOffset": 42,
+        "speed": 2,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 16,
+        "sound": 121
       }
     },
     {
@@ -721,7 +993,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 6
+        "effectSprite": 6,
+        "placement": "attackAll",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 129
       }
     },
     {
@@ -741,7 +1021,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 10
+        "effectSprite": 10,
+        "placement": "attackWhole",
+        "xOffset": -44,
+        "yOffset": 20,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 126
       }
     },
     {
@@ -761,7 +1049,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 10
+        "effectSprite": 10,
+        "placement": "normal",
+        "xOffset": -12,
+        "yOffset": 20,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 126
       }
     },
     {
@@ -781,7 +1077,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 8
+        "effectSprite": 8,
+        "placement": "normal",
+        "xOffset": 48,
+        "yOffset": 32,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 130
       }
     },
     {
@@ -801,7 +1105,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 8
+        "effectSprite": 8,
+        "placement": "attackAll",
+        "xOffset": 48,
+        "yOffset": 32,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 131
       }
     },
     {
@@ -821,7 +1133,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 24
+        "effectSprite": 24,
+        "placement": "normal",
+        "xOffset": -12,
+        "yOffset": 0,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 158
       }
     },
     {
@@ -841,7 +1161,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 5
+        "effectSprite": 5,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 0,
+        "fireDelay": 10,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 123
       }
     },
     {
@@ -861,7 +1189,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 21
+        "effectSprite": 21,
+        "placement": "attackField",
+        "xOffset": 0,
+        "yOffset": -32,
+        "speed": 0,
+        "fireDelay": 16,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 124
       }
     },
     {
@@ -881,7 +1217,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 14
+        "effectSprite": 14,
+        "placement": "attackWhole",
+        "xOffset": 27,
+        "yOffset": 60,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 0
       }
     },
     {
@@ -901,7 +1245,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 32
+        "effectSprite": 32,
+        "placement": "normal",
+        "xOffset": -10,
+        "yOffset": 15,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 159
       }
     },
     {
@@ -921,7 +1273,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 13
+        "effectSprite": 13,
+        "placement": "attackWhole",
+        "xOffset": 0,
+        "yOffset": 46,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 0
       }
     },
     {
@@ -941,7 +1301,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 16
+        "effectSprite": 16,
+        "placement": "attackField",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 4,
+        "shake": 0,
+        "sound": 133
       }
     },
     {
@@ -961,7 +1329,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 43
+        "effectSprite": 43,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 32,
+        "speed": 5,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 82
       }
     },
     {
@@ -981,7 +1357,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 18
+        "effectSprite": 18,
+        "placement": "attackField",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 3,
+        "shake": 0,
+        "sound": 274
       }
     },
     {
@@ -1001,7 +1385,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 6
+        "effectSprite": 6,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 129
       }
     },
     {
@@ -1021,7 +1413,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 23
+        "effectSprite": 23,
+        "placement": "attackWhole",
+        "xOffset": -24,
+        "yOffset": 32,
+        "speed": 1,
+        "fireDelay": 14,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 153
       }
     },
     {
@@ -1041,7 +1441,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 26
+        "effectSprite": 26,
+        "placement": "attackField",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 156
       }
     },
     {
@@ -1061,7 +1469,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 19
+        "effectSprite": 19,
+        "placement": "normal",
+        "xOffset": -10,
+        "yOffset": -16,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 3
       }
     },
     {
@@ -1081,7 +1497,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 33
+        "effectSprite": 33,
+        "placement": "attackWhole",
+        "xOffset": -32,
+        "yOffset": 32,
+        "speed": 0,
+        "fireDelay": 24,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 123
       }
     },
     {
@@ -1101,7 +1525,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 52
+        "effectSprite": 52,
+        "placement": "attackField",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 3,
+        "fireDelay": 0,
+        "effectTimes": 2,
+        "shake": 0,
+        "sound": 123
       }
     },
     {
@@ -1121,7 +1553,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 0
+        "effectSprite": 0,
+        "placement": "attackAll",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 2,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 103
       }
     },
     {
@@ -1141,7 +1581,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 1
+        "effectSprite": 1,
+        "placement": "attackAll",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 2,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 323
       }
     },
     {
@@ -1161,7 +1609,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 15
+        "effectSprite": 15,
+        "placement": "attackField",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 0,
+        "fireDelay": 8,
+        "effectTimes": 3,
+        "shake": 0,
+        "sound": 338
       }
     },
     {
@@ -1181,7 +1637,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 7
+        "effectSprite": 7,
+        "placement": "attackAll",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 312
       }
     },
     {
@@ -1201,7 +1665,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 17
+        "effectSprite": 17,
+        "placement": "attackWhole",
+        "xOffset": -10,
+        "yOffset": 42,
+        "speed": 2,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 15,
+        "sound": 121
       }
     },
     {
@@ -1221,7 +1693,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 34
+        "effectSprite": 34,
+        "placement": "attackField",
+        "xOffset": 0,
+        "yOffset": 16,
+        "speed": 2,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 176
       }
     },
     {
@@ -1241,7 +1721,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 25
+        "effectSprite": 25,
+        "placement": "normal",
+        "xOffset": -4,
+        "yOffset": -20,
+        "speed": 1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 313
       }
     },
     {
@@ -1261,7 +1749,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 37
+        "effectSprite": 37,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": -4,
+        "speed": 1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 168
       }
     },
     {
@@ -1281,7 +1777,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 38
+        "effectSprite": 38,
+        "placement": "attackWhole",
+        "xOffset": 0,
+        "yOffset": 20,
+        "speed": 2,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 18,
+        "sound": 172
       }
     },
     {
@@ -1300,7 +1804,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 42
+        "effectSprite": 42,
+        "placement": "normal",
+        "xOffset": -102,
+        "yOffset": -32,
+        "speed": 0,
+        "fireDelay": 23,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 173
       }
     },
     {
@@ -1319,7 +1831,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 65535
+        "effectSprite": 65535,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 0
       }
     },
     {
@@ -1339,7 +1859,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 47
+        "effectSprite": 47,
+        "placement": "normal",
+        "xOffset": -10,
+        "yOffset": 24,
+        "speed": 1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 151
       }
     },
     {
@@ -1359,7 +1887,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 12
+        "effectSprite": 12,
+        "placement": "normal",
+        "xOffset": -2,
+        "yOffset": -10,
+        "speed": 1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 117
       }
     },
     {
@@ -1379,7 +1915,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 48
+        "effectSprite": 48,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 24,
+        "speed": 2,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 175
       }
     },
     {
@@ -1399,7 +1943,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 49
+        "effectSprite": 49,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 2,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 17,
+        "sound": 121
       }
     },
     {
@@ -1428,7 +1980,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 39
+        "effectSprite": 39,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 170
       }
     },
     {
@@ -1448,7 +2008,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 50
+        "effectSprite": 50,
+        "placement": "normal",
+        "xOffset": 32,
+        "yOffset": 20,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 129
       }
     },
     {
@@ -1468,7 +2036,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 51
+        "effectSprite": 51,
+        "placement": "normal",
+        "xOffset": -10,
+        "yOffset": 24,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 129
       }
     },
     {
@@ -1488,7 +2064,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 47
+        "effectSprite": 47,
+        "placement": "normal",
+        "xOffset": -6,
+        "yOffset": 27,
+        "speed": 1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 151
       }
     },
     {
@@ -1508,7 +2092,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 28
+        "effectSprite": 28,
+        "placement": "normal",
+        "xOffset": -6,
+        "yOffset": -18,
+        "speed": -1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 141
       }
     },
     {
@@ -1528,7 +2120,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 0
+        "effectSprite": 0,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 4,
+        "speed": 2,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 101
       }
     },
     {
@@ -1548,7 +2148,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 29
+        "effectSprite": 29,
+        "placement": "normal",
+        "xOffset": -8,
+        "yOffset": 4,
+        "speed": -1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 139
       }
     },
     {
@@ -1567,7 +2175,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 42
+        "effectSprite": 42,
+        "placement": "attackAll",
+        "xOffset": -102,
+        "yOffset": -32,
+        "speed": 0,
+        "fireDelay": 23,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 173
       }
     },
     {
@@ -1587,7 +2203,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 54
+        "effectSprite": 54,
+        "placement": "attackField",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": -1,
+        "fireDelay": 0,
+        "effectTimes": 2,
+        "shake": 0,
+        "sound": 111
       }
     },
     {
@@ -1607,7 +2231,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 48
+        "effectSprite": 48,
+        "placement": "attackAll",
+        "xOffset": 0,
+        "yOffset": 24,
+        "speed": 2,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 175
       }
     },
     {
@@ -1638,7 +2270,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 65535
+        "effectSprite": 65535,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 4,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 335
       }
     },
     {
@@ -1658,7 +2298,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 12
+        "effectSprite": 12,
+        "placement": "attackAll",
+        "xOffset": -2,
+        "yOffset": -10,
+        "speed": 1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 117
       }
     },
     {
@@ -1678,7 +2326,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 20
+        "effectSprite": 20,
+        "placement": "attackWhole",
+        "xOffset": -16,
+        "yOffset": 40,
+        "speed": 6,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 120
       }
     },
     {
@@ -1698,7 +2354,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 11
+        "effectSprite": 11,
+        "placement": "attackWhole",
+        "xOffset": 0,
+        "yOffset": 44,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 132
       }
     },
     {
@@ -1717,7 +2381,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 25
+        "effectSprite": 25,
+        "placement": "normal",
+        "xOffset": -4,
+        "yOffset": -20,
+        "speed": 1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 313
       }
     },
     {
@@ -1737,7 +2409,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 22
+        "effectSprite": 22,
+        "placement": "attackWhole",
+        "xOffset": 0,
+        "yOffset": 30,
+        "speed": 2,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 152
       }
     },
     {
@@ -1756,7 +2436,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 25
+        "effectSprite": 25,
+        "placement": "attackAll",
+        "xOffset": -4,
+        "yOffset": -20,
+        "speed": 1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 313
       }
     },
     {
@@ -1775,7 +2463,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 25
+        "effectSprite": 25,
+        "placement": "attackAll",
+        "xOffset": -4,
+        "yOffset": -20,
+        "speed": 1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 313
       }
     },
     {
@@ -1795,7 +2491,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 45
+        "effectSprite": 45,
+        "placement": "normal",
+        "xOffset": -10,
+        "yOffset": 24,
+        "speed": 4,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 175
       }
     },
     {
@@ -1815,7 +2519,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 11
+        "effectSprite": 11,
+        "placement": "attackWhole",
+        "xOffset": 0,
+        "yOffset": 44,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 132
       }
     },
     {
@@ -1835,7 +2547,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 45
+        "effectSprite": 45,
+        "placement": "attackAll",
+        "xOffset": -10,
+        "yOffset": 24,
+        "speed": 4,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 175
       }
     }
   ],

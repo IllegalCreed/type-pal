@@ -24,6 +24,7 @@ import {
   loadBattleBg,
   loadBattleSprite,
   loadEffectSprite,
+  loadFireSprite,
   loadGlyphs,
   loadPalette,
   loadSprite,
@@ -617,12 +618,43 @@ async function main(): Promise<void> {
           loadEffectOnce(),
           loadEffectIndexOnce(),
         ])
-      // 各队员命中特效帧基 = battle-effect-index[spriteNum*2+1]*3(fight.c:2055;表缺 → −1 无特效)
+      // 各队员命中/施法前摇特效帧基(fight.c:2055 攻击 [1]*3;2387 施法 [0]*10+15;表缺 → −1)
       const playerEffectBase = world.party.map((c) => {
         const sn = project.actorsById[c.template]?.battler?.battleSpriteNum ?? 0
         const v = effectIndex?.[sn * 2 + 1]
         return v === undefined ? -1 : v * 3
       })
+      const playerCastBase = world.party.map((c) => {
+        const sn = project.actorsById[c.template]?.battler?.battleSpriteNum ?? 0
+        const v = effectIndex?.[sn * 2]
+        return v === undefined ? -1 : v * 10 + 15
+      })
+      // 本场可能施放的法术 → 预载 fire 特效精灵(玩家已学 + 敌 AI cast 规则;M4d-2b)
+      const fireChunks = new Set<number>()
+      for (const c of world.party) {
+        for (const sid of world.learnedSkills[c.id] ?? []) {
+          const sp = project.skills[sid]?.animation.effectSprite
+          if (sp !== undefined && sp >= 0) fireChunks.add(sp)
+        }
+      }
+      for (const e of enemyDefs) {
+        for (const r of e.ai.rules ?? []) {
+          if (r.do.kind === 'cast') {
+            const sp = project.skills[r.do.skillId]?.animation.effectSprite
+            if (sp !== undefined && sp >= 0) fireChunks.add(sp)
+          }
+        }
+      }
+      const fireSprites: Record<number, import('./assets.js').LoadedSprite> = {}
+      await Promise.all(
+        [...fireChunks].map((ch) =>
+          loadFireSprite(project.assetBase, ch)
+            .then((sp) => {
+              fireSprites[ch] = sp
+            })
+            .catch(() => undefined),
+        ),
+      )
       const faces: Record<string, ImageBitmap | undefined> = {}
       world.party.forEach((c, i) => {
         faces[c.id] = faceList[i]
@@ -641,6 +673,7 @@ async function main(): Promise<void> {
           battleIcons,
           sfx,
           effectSprite,
+          fireSprites,
         },
         (roleId) => {
           const c = world.party.find((x) => x.id === roleId)
@@ -656,6 +689,7 @@ async function main(): Promise<void> {
           difficulty: 'normal',
           locale: project.locale,
           playerEffectBase,
+          playerCastBase,
         },
       )
       activeBattle = session

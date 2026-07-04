@@ -13,7 +13,16 @@ import type { SfxPlayer } from '../audio/sfx.js'
 import { drawNumber, type MenuAssets } from '../menu/menu-box.js'
 import { bakeFrame } from '../render.js'
 import { renderSpans } from '../text/text-render.js'
-import { type AnimFrame, AnimPlayer, buildEnemyPhysical, buildPlayerAttack } from './battle-anim.js'
+import {
+  type AnimFrame,
+  AnimPlayer,
+  buildEnemyCast,
+  buildEnemyPhysical,
+  buildPlayerAttack,
+  buildPlayerCast,
+  type CastFxParams,
+  type OverlayDraw,
+} from './battle-anim.js'
 import {
   type BattleAction,
   type BattlePlayerState,
@@ -79,6 +88,8 @@ export interface BattleSessionAssets {
   sfx?: SfxPlayer
   /** 物理命中特效精灵(chunk 10 = /extracted/data/magic/effect.rle;M4d-2)。缺 = 无特效。 */
   effectSprite?: LoadedSprite
+  /** 法术特效精灵表(fire chunk → sprite;main 预载本场可能用到的;M4d-2b)。 */
+  fireSprites?: Record<number, LoadedSprite>
 }
 
 /** 表现层单位状态(动画期间被时间线 delta 驱动;非动画期 = 基准值)。 */
@@ -116,7 +127,9 @@ export class BattleSession {
     enemies: [],
   }
   private anim: AnimPlayer | null = null
-  private overlay: { frameIdx: number; x: number; y: number } | null = null
+  private overlays: OverlayDraw[] | null = null
+  /** 本次施法动画的 fire sprite(overlays sheet='magic' 的图源)。 */
+  private currentFire: LoadedSprite | null = null
   /** 敌槽 → 淡出开始时刻(动画收尾后登记;渲染 alpha 渐隐)。 */
   private deathFades = new Map<number, number>()
   /** 本步结算中死掉的敌槽(动画播完后统一开淡出 + death 音)。 */
@@ -144,6 +157,8 @@ export class BattleSession {
       locale?: Record<string, string>
       /** 各队员命中特效帧基(battle-effect-index[spriteNum*2+1]*3;与 players 同序;缺 = 无特效)。 */
       playerEffectBase?: number[]
+      /** 各队员施法前摇特效帧基(battle-effect-index[spriteNum*2]*10+15;缺 = 跳过前摇特效)。 */
+      playerCastBase?: number[]
     } = {},
   ) {
     this.state = createBattleState({
@@ -184,7 +199,8 @@ export class BattleSession {
       const prev = this.visual.enemies[i]
       return { x: pos.x, y: pos.y, frame: 0, colorShift: 0, displayHp: prev?.displayHp ?? e.hp }
     })
-    this.overlay = null
+    this.overlays = null
+    this.currentFire = null
   }
 
   /** 当前待选指令的活队员下标;全填 → undefined。 */
@@ -447,7 +463,7 @@ export class BattleSession {
         this.anim = new AnimPlayer(timeline, {
           onFighter: (d) => this.applyDelta(d),
           onOverlay: (o) => {
-            this.overlay = o
+            this.overlays = o
           },
           onSound: (id) => this.assets.sfx?.play(id),
           onDamage: (t, v) => this.applyDamageFx(t, v),
@@ -474,14 +490,100 @@ export class BattleSession {
     }
   }
 
-  /** 物攻动作 → 一阶段真值时间线;其余 null(fallback 即时反馈)。 */
-  private buildStepTimeline(
-    la: { side: 'player' | 'enemy'; idx: number; kind: string; target?: number } | null,
+  /** 结算 diff → 掉血数字列表(法术可群体;heal 不弹,恢复数字后续)。 */
+  private diffDamageNums(
+    pHp: number[],
+    eHp: number[],
+  ): Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }> {
+    const s = this.state
+    const out: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }> = []
+    s.players.forEach((p, i) => {
+      const d = (pHp[i] ?? p.hp) - p.hp
+      if (d > 0) out.push({ target: { side: 'player', idx: i }, value: d })
+    })
+    s.enemies.forEach((e, i) => {
+      const d = (eHp[i] ?? e.hp) - e.hp
+      if (d > 0) out.push({ target: { side: 'enemy', idx: i }, value: d })
+    })
+    return out
+  }
+
+  /** 施法动作 → 时间线(玩家/敌;fire sprite 由预载表取,设 currentFire)。 */
+  private buildCastTimeline(
+    la: { side: 'player' | 'enemy'; idx: number; target?: number; skillId?: string },
     pHp: number[],
     eHp: number[],
   ): AnimFrame[] | null {
     const s = this.state
-    if (!la || la.kind !== 'attack' || la.target === undefined) return null
+    const skill = la.skillId ? this.opts.skills?.[la.skillId] : undefined
+    if (!skill) return null
+    const a = skill.animation
+    const fire = this.assets.fireSprites?.[a.effectSprite]
+    this.currentFire = fire ?? null
+    const fx: CastFxParams = {
+      placement: a.placement ?? 'normal',
+      xOffset: a.xOffset ?? 0,
+      yOffset: a.yOffset ?? 0,
+      speed: a.speed ?? 0,
+      fireDelay: a.fireDelay ?? 0,
+      effectTimes: a.effectTimes ?? 0,
+      shake: a.shake ?? 0,
+      sound: a.sound ?? 0,
+    }
+    const damageNums = this.diffDamageNums(pHp, eHp)
+    if (la.side === 'player') {
+      const casterPos = getPlayerBasePos(s.players.length, la.idx)
+      if (!casterPos) return null
+      // normal 落点:敌目标(攻击系)或施法者自身(heal/self)
+      const targetPos =
+        la.target !== undefined
+          ? (getEnemyBasePos(
+              s.enemies.length,
+              la.target,
+              this.enemyDefs[la.target]?.anim.yPosOffset ?? 0,
+            ) ?? casterPos)
+          : casterPos
+      return buildPlayerCast({
+        casterIdx: la.idx,
+        casterPos,
+        castEffectBase: this.assets.effectSprite ? (this.opts.playerCastBase?.[la.idx] ?? -1) : -1,
+        fireFrames: fire?.frames.length ?? 0,
+        fx,
+        targetPos,
+        damageNums,
+      })
+    }
+    const def = s.enemies[la.idx]?.def
+    if (!def) return null
+    const targetPos =
+      la.target !== undefined ? getPlayerBasePos(s.players.length, la.target) : undefined
+    return buildEnemyCast({
+      enemyIdx: la.idx,
+      anim: { idleFrames: def.anim.idleFrames, magicFrames: def.anim.magicFrames },
+      magicSound: def.sounds.magic,
+      fireFrames: fire?.frames.length ?? 0,
+      fx,
+      targetPos: targetPos ?? undefined,
+      damageNums,
+    })
+  }
+
+  /** 物攻/施法动作 → 一阶段真值时间线;其余 null(fallback 即时反馈)。 */
+  private buildStepTimeline(
+    la: {
+      side: 'player' | 'enemy'
+      idx: number
+      kind: string
+      target?: number
+      skillId?: string
+    } | null,
+    pHp: number[],
+    eHp: number[],
+  ): AnimFrame[] | null {
+    const s = this.state
+    if (!la) return null
+    if (la.kind === 'cast') return this.buildCastTimeline(la, pHp, eHp)
+    if (la.kind !== 'attack' || la.target === undefined) return null
     if (la.side === 'player') {
       const t = la.target
       if ((eHp[t] ?? 0) <= 0) return null // 目标已死 = core 空过,无动画
@@ -677,15 +779,16 @@ export class BattleSession {
     renderBattleScene(ctx, scene, worldScale)
 
     // 命中特效 overlay(chunk 10;坐标按一阶段 fight.c 真值算好,左上角 blit)
-    if (this.overlay && this.assets.effectSprite) {
-      const f = this.assets.effectSprite.frames[this.overlay.frameIdx]
-      if (f) {
-        ctx.save()
-        ctx.imageSmoothingEnabled = false
-        ctx.scale(worldScale, worldScale)
-        ctx.drawImage(bakeFrame(f, this.assets.palette), this.overlay.x, this.overlay.y)
-        ctx.restore()
+    if (this.overlays?.length) {
+      ctx.save()
+      ctx.imageSmoothingEnabled = false
+      ctx.scale(worldScale, worldScale)
+      for (const o of this.overlays) {
+        const sheet = o.sheet === 'magic' ? this.currentFire : this.assets.effectSprite
+        const f = sheet?.frames[o.frameIdx]
+        if (f) ctx.drawImage(bakeFrame(f, this.assets.palette), o.x, o.y)
       }
+      ctx.restore()
     }
 
     // UI 层(320 逻辑坐标 ×scale)

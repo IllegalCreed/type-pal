@@ -55,9 +55,24 @@ export type SkillEffect =
   | { kind: 'summon'; godId: number } // type=summon 召唤
   | { kind: 'trance'; sprite: number } // type=trance 変身:换战斗精灵(梦蛇);属性提升另走 buffStat
 
-/** 招式动画(presentation,与 gameplay 解耦)。 */
+/** 招式动画(presentation,与 gameplay 解耦)。播放参数 = 原版 MAGIC 表考证(M4d-2b)。 */
 export interface SkillAnimation {
   effectSprite: number // 原 magic.effect(FIRE.MKF 招式精灵)
+  /** 特效落点模式(原 magic.type 的 presentation 面;heal/trance 等非攻击型 = normal 落目标)。 */
+  placement?: 'normal' | 'attackAll' | 'attackWhole' | 'attackField'
+  /** 落点偏移(原 wXOffset/wYOffset)。 */
+  xOffset?: number
+  yOffset?: number
+  /** 帧时长 = (speed+5)×10ms(原 wSpeed)。 */
+  speed?: number
+  /** 帧循环起点(原 wFireDelay)。 */
+  fireDelay?: number
+  /** 循环次数(原 wEffectTimes;总帧 = (n−fireDelay)×effectTimes + n + shake)。 */
+  effectTimes?: number
+  /** 末尾震屏帧数(原 wShake)。 */
+  shake?: number
+  /** 法术效果音(原 wSound;(i−fireDelay)%n==0 帧循环播)。 */
+  sound?: number
 }
 
 /** 技能定义。自包含:存值,不存原版 magicNumber 子表下标。 */

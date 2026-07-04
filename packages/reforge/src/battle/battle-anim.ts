@@ -24,12 +24,21 @@ export interface FighterDelta {
   colorShift?: number
 }
 
+export interface OverlayDraw {
+  /** 用哪套特效精灵:'effect' = chunk10 命中/施法通用;'magic' = 本次法术 fire sprite。 */
+  sheet: 'effect' | 'magic'
+  frameIdx: number
+  x: number
+  y: number
+}
+
 export interface AnimFrame {
   durationMs: number
   fighters?: FighterDelta[]
-  /** 命中特效 overlay(effect.rle 帧;坐标 = 特效图左上落点参考,画法见 session)。 */
-  overlay?: { frameIdx: number; x: number; y: number }
+  /** 特效 overlay(可多落点:attackAll 三点同帧)。坐标 = 一阶段 fight.c 落点真值。 */
+  overlays?: OverlayDraw[]
   damageNum?: { target: { side: 'player' | 'enemy'; idx: number }; value: number }
+  damageNums?: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
   sound?: number
 }
 
@@ -88,7 +97,16 @@ export function buildPlayerAttack(input: BuildPlayerAttackInput): AnimFrame[] {
       durationMs: delayMs(1),
       fighters,
       ...(effectFrameBase >= 0
-        ? { overlay: { frameIdx: effectFrameBase + i, x: fxX - 16 * i, y: fxY + 16 * i } }
+        ? {
+            overlays: [
+              {
+                sheet: 'effect' as const,
+                frameIdx: effectFrameBase + i,
+                x: fxX - 16 * i,
+                y: fxY + 16 * i,
+              },
+            ],
+          }
         : {}),
       ...(i === 0
         ? { damageNum: { target: { side: 'enemy', idx: targetIdx }, value: damage } }
@@ -217,11 +235,180 @@ export function buildEnemyPhysical(input: BuildEnemyPhysicalInput): AnimFrame[] 
   return frames
 }
 
+/** 法术播放参数(SkillAnimation 的消费面;缺省按原版 0 语义)。 */
+export interface CastFxParams {
+  placement: 'normal' | 'attackAll' | 'attackWhole' | 'attackField'
+  xOffset: number
+  yOffset: number
+  speed: number
+  fireDelay: number
+  effectTimes: number
+  shake: number
+  sound: number
+}
+
+export interface BuildPlayerCastInput {
+  casterIdx: number
+  casterPos: { x: number; y: number }
+  /** 施法前摇特效帧基 = battle-effect-index[spriteNum*2]*10+15;<0 = 跳过前摇特效。 */
+  castEffectBase: number
+  /** 本法术 fire sprite 帧数;<=0 = 无特效资产(只播姿势)。 */
+  fireFrames: number
+  fx: CastFxParams
+  /** normal 落点(目标底锚;全体型忽略)。 */
+  targetPos?: { x: number; y: number }
+  /** 结算数字(特效播完后一帧弹;掉血者列表)。 */
+  damageNums: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
+}
+
+/** attackAll 三落点(fight.c:2766-2776 真值)。 */
+const ATTACK_ALL_POS = [
+  { x: 70, y: 140 },
+  { x: 100, y: 110 },
+  { x: 160, y: 100 },
+] as const
+
+/**
+ * 玩家施法时间线(fight.c:2363-2444 PreMagic + 2608-2844 OffMagic 主干):
+ * 上移 4 帧(x−=4−i,y−=⌊(4−i)/2⌋) → Delay2 → frame5 施法手势 → 前摇特效 10 帧(chunk10)
+ * → OffMagic:l=(n−fd)×times+n+shake 帧、每帧 (speed+5)×10ms、frame6@i==fd、
+ *   法术音 (i−fd)%n==0 循环播、落点按 placement → 结算数字 → 回位。
+ */
+export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
+  const { casterIdx, casterPos, castEffectBase, fireFrames, fx, targetPos, damageNums } = input
+  const frames: AnimFrame[] = []
+  // —— PreMagic:上移 4 帧 ——
+  let cx = casterPos.x
+  let cy = casterPos.y
+  for (let i = 0; i < 4; i++) {
+    cx -= 4 - i
+    cy -= Math.trunc((4 - i) / 2)
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [{ side: 'player', idx: casterIdx, pos: { x: cx, y: cy } }],
+    })
+  }
+  frames.push({ durationMs: delayMs(2) })
+  frames.push({
+    durationMs: delayMs(1),
+    fighters: [{ side: 'player', idx: casterIdx, frame: 5 }],
+  })
+  if (castEffectBase >= 0) {
+    for (let j = 0; j < 10; j++) {
+      frames.push({
+        durationMs: delayMs(1),
+        overlays: [{ sheet: 'effect', frameIdx: castEffectBase + j, x: cx, y: cy }],
+      })
+    }
+  }
+  frames.push({ durationMs: delayMs(1) })
+
+  // —— OffMagic:fire sprite 帧循环 ——
+  if (fireFrames > 0) {
+    const n = fireFrames
+    const fd = Math.min(fx.fireDelay, n - 1)
+    const l = (n - fd) * fx.effectTimes + n + fx.shake
+    const frameDur = (fx.speed + 5) * 10
+    const drop = (k: number): OverlayDraw[] => {
+      if (fx.placement === 'attackAll') {
+        return ATTACK_ALL_POS.map((p) => ({
+          sheet: 'magic' as const,
+          frameIdx: k,
+          x: p.x + fx.xOffset,
+          y: p.y + fx.yOffset,
+        }))
+      }
+      const base =
+        fx.placement === 'attackWhole'
+          ? { x: 120, y: 100 }
+          : fx.placement === 'attackField'
+            ? { x: 160, y: 200 }
+            : (targetPos ?? { x: 160, y: 100 })
+      return [{ sheet: 'magic', frameIdx: k, x: base.x + fx.xOffset, y: base.y + fx.yOffset }]
+    }
+    for (let i = 0; i < l; i++) {
+      const inShake = l - i <= fx.shake
+      const k = inShake ? (l - fx.shake - 1) % n : i < n ? i : ((i - fd) % (n - fd)) + fd
+      frames.push({
+        durationMs: frameDur,
+        overlays: drop(k),
+        ...(i === fd ? { fighters: [{ side: 'player' as const, idx: casterIdx, frame: 6 }] } : {}),
+        ...(fx.sound > 0 && i >= fd && (i - fd) % n === 0 ? { sound: fx.sound } : {}),
+      })
+    }
+  }
+
+  // —— 结算数字 + 回位 ——
+  frames.push({
+    durationMs: delayMs(2),
+    ...(damageNums.length ? { damageNums } : {}),
+    fighters: [{ side: 'player', idx: casterIdx, frame: 0, pos: { ...casterPos } }],
+  })
+  return frames
+}
+
+export interface BuildEnemyCastInput {
+  enemyIdx: number
+  anim: { idleFrames: number; magicFrames: number }
+  /** 敌施法起手音(sounds.magic)。 */
+  magicSound: number
+  fireFrames: number
+  fx: CastFxParams
+  /** normal 落点(目标队员底锚)。 */
+  targetPos?: { x: number; y: number }
+  damageNums: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
+}
+
+/**
+ * 敌施法时间线:magic 起手帧(idleFrames+i,each Delay2,同物攻起手)+ magic 音
+ * → fire 特效帧循环(落点=目标队员/全场) → 结算数字 + 敌回 idle。
+ */
+export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
+  const { enemyIdx, anim, magicSound, fireFrames, fx, targetPos, damageNums } = input
+  const frames: AnimFrame[] = []
+  for (let i = 0; i < Math.max(1, anim.magicFrames); i++) {
+    frames.push({
+      durationMs: delayMs(2),
+      fighters: [
+        { side: 'enemy', idx: enemyIdx, frame: anim.magicFrames > 0 ? anim.idleFrames + i : 0 },
+      ],
+      ...(i === 0 && magicSound > 0 ? { sound: magicSound } : {}),
+    })
+  }
+  if (fireFrames > 0) {
+    const n = fireFrames
+    const fd = Math.min(fx.fireDelay, n - 1)
+    const l = (n - fd) * fx.effectTimes + n + fx.shake
+    const frameDur = (fx.speed + 5) * 10
+    for (let i = 0; i < l; i++) {
+      const inShake = l - i <= fx.shake
+      const k = inShake ? (l - fx.shake - 1) % n : i < n ? i : ((i - fd) % (n - fd)) + fd
+      const base =
+        fx.placement === 'attackWhole' ||
+        fx.placement === 'attackField' ||
+        fx.placement === 'attackAll'
+          ? { x: 160, y: 100 } // 敌方全体术打全队:屏中(简化;原版逐队员落点后续)
+          : (targetPos ?? { x: 160, y: 130 })
+      frames.push({
+        durationMs: frameDur,
+        overlays: [{ sheet: 'magic', frameIdx: k, x: base.x + fx.xOffset, y: base.y + fx.yOffset }],
+        ...(fx.sound > 0 && i >= fd && (i - fd) % n === 0 ? { sound: fx.sound } : {}),
+      })
+    }
+  }
+  frames.push({
+    durationMs: delayMs(2),
+    ...(damageNums.length ? { damageNums } : {}),
+    fighters: [{ side: 'enemy', idx: enemyIdx, frame: 0 }],
+  })
+  return frames
+}
+
 export interface AnimSideEffects {
   onSound?(id: number): void
   onDamage?(target: { side: 'player' | 'enemy'; idx: number }, value: number): void
   onFighter?(d: FighterDelta): void
-  onOverlay?(o: { frameIdx: number; x: number; y: number } | null): void
+  onOverlay?(o: OverlayDraw[] | null): void
 }
 
 /** 逐帧推进器:进入新帧时应用 deltas + 派发副作用(每帧恰一次;wall-clock dt 驱动)。 */
@@ -255,8 +442,9 @@ export class AnimPlayer {
 
   private enter(f: AnimFrame): void {
     if (f.fighters) for (const d of f.fighters) this.fx.onFighter?.(d)
-    this.fx.onOverlay?.(f.overlay ?? null)
+    this.fx.onOverlay?.(f.overlays ?? null)
     if (f.sound !== undefined && f.sound > 0) this.fx.onSound?.(f.sound)
     if (f.damageNum) this.fx.onDamage?.(f.damageNum.target, f.damageNum.value)
+    if (f.damageNums) for (const d of f.damageNums) this.fx.onDamage?.(d.target, d.value)
   }
 }

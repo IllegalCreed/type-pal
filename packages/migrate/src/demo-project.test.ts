@@ -63,7 +63,7 @@ describe('demo 工程:真实 JSON 迁移保真 + buildWorld 端到端', () => {
     expect(li?.attack).toBe(33) // 模板 base(未叠装备)
     expect(li?.exp).toBe(0)
     expect(w.money).toBe(0)
-    expect(w.learnedSkills['li-xiaoyao']).toEqual(['296', '298', '299'])
+    expect(w.learnedSkills['li-xiaoyao']).toEqual(['296', '298', '299', '345'])
     expect(w.inventory).toEqual([
       { itemId: '267', count: 1 },
       { itemId: '61', count: 2 },
@@ -85,6 +85,6 @@ describe('demo 工程:真实 JSON 迁移保真 + buildWorld 端到端', () => {
     w.inventory.push({ itemId: 'x', count: 9 })
     w.learnedSkills['li-xiaoyao']?.push('zzz')
     expect(manifest.startWorld.inventory).toHaveLength(3) // 源不受污染
-    expect(manifest.startWorld.learnedSkills['li-xiaoyao']).toEqual(['296', '298', '299'])
+    expect(manifest.startWorld.learnedSkills['li-xiaoyao']).toEqual(['296', '298', '299', '345'])
   })
 })

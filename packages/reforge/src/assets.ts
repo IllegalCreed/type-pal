@@ -92,6 +92,14 @@ export async function loadEffectSprite(base: AssetBase): Promise<LoadedSprite> {
   return { frames, anchorX: 0, anchorY: 0 }
 }
 
+/** 法术特效精灵(FIRE.MKF chunk = {root}/magic/fire-NN.rle;M4d-2b)。 */
+export async function loadFireSprite(base: AssetBase, chunk: number): Promise<LoadedSprite> {
+  const res = await fetch(`${base.root}/magic/fire-${String(chunk).padStart(2, '0')}.rle`)
+  if (!res.ok) throw new Error(`fire sprite ${chunk}: ${res.status}`)
+  const frames = parseSpriteChunk(await decompressGzip(await res.blob()))
+  return { frames, anchorX: 0, anchorY: 0 }
+}
+
 /**
  * 战斗背景(M4b):{root}/../images/battle/bg/{NNN}.png —— FBP 8-bit 索引位图,提取器把索引
  * 直接写成灰度 PNG(R=G=B=索引,未着色)。故此处读 R 通道当索引,经 palette 着色成真彩 canvas

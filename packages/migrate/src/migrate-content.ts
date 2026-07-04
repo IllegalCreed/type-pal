@@ -8,13 +8,7 @@
  * M1a 范围:表格域——6 角色 / 6 精灵表 / 234 物品表字段(equip/use 留 M1b/M1d)/
  * 57 纯伤害技能(scriptOnSuccess=0 且 scriptOnUse=0 且非 summon 型)+ curated 已核技能 / 全量 desc。
  */
-import type {
-  ActorDef,
-  ItemData,
-  LevelUpSkill,
-  SkillData,
-  SpriteDef,
-} from '@type-pal/content'
+import type { ActorDef, ItemData, LevelUpSkill, SkillData, SpriteDef } from '@type-pal/content'
 
 // ── 源数据形状(结构最小化;字段名 2026-07-02 对 data/extracted 实测钉死)──
 export interface SourceRole {
@@ -44,7 +38,12 @@ export interface SourceSpell {
   scriptOnUse: number
   scriptDesc: number
   _name: string
-  flags: { usableOutsideBattle: boolean; usableInBattle: boolean; usableToEnemy: boolean; applyToAll: boolean }
+  flags: {
+    usableOutsideBattle: boolean
+    usableInBattle: boolean
+    usableToEnemy: boolean
+    applyToAll: boolean
+  }
 }
 export interface SourceMagic {
   id: number
@@ -53,6 +52,38 @@ export interface SourceMagic {
   baseDamage: number
   elemental: number
   effect: number
+  // M4d-2b:动画播放参数(老 fixture 兼容全可选,缺省 0)
+  xOffset?: number
+  yOffset?: number
+  speed?: number
+  fireDelay?: number
+  effectTimes?: number
+  shake?: number
+  sound?: number
+}
+
+/** MAGIC 表 → SkillAnimation(播放参数全带;attack 系落点同名,其余落目标处;M4d-2b)。 */
+function mapAnimation(m: SourceMagic): SkillData['animation'] {
+  const placement =
+    m.type === 'attackAll' || m.type === 'attackWhole' || m.type === 'attackField'
+      ? m.type
+      : ('normal' as const)
+  // 提取器部分 SHORT 字段存原始 WORD(如 xOffset 65530 = −6)→ 统一符号归一
+  const i16 = (v: number | undefined): number => {
+    const n = v ?? 0
+    return n > 0x7fff ? n - 0x10000 : n
+  }
+  return {
+    effectSprite: m.effect,
+    placement,
+    xOffset: i16(m.xOffset),
+    yOffset: i16(m.yOffset),
+    speed: i16(m.speed),
+    fireDelay: m.fireDelay ?? 0,
+    effectTimes: m.effectTimes ?? 0,
+    shake: m.shake ?? 0,
+    sound: m.sound ?? 0,
+  }
 }
 export interface SourceItem {
   id: number
@@ -63,17 +94,43 @@ export interface SourceItem {
   scriptOnEquip: number
   scriptOnThrow: number
   scriptDesc: number
-  flags: { usable: boolean; equipable: boolean; throwable: boolean; consuming: boolean; applyToAll: boolean; sellable: boolean; equipableBy: boolean[] }
+  flags: {
+    usable: boolean
+    equipable: boolean
+    throwable: boolean
+    consuming: boolean
+    applyToAll: boolean
+    sellable: boolean
+    equipableBy: boolean[]
+  }
 }
-/** all.json 命令(disasm 只具名 end/goto/showDialog/giveItem,其余 raw)。 */
-export { FACING_BY_DIR, partyPosToGrid, ROLE_SLUGS, sceneSlug, signExtendI16 } from './source-facts.js'
 export type { SourceCmd } from './source-facts.js'
+/** all.json 命令(disasm 只具名 end/goto/showDialog/giveItem,其余 raw)。 */
+export {
+  FACING_BY_DIR,
+  partyPosToGrid,
+  ROLE_SLUGS,
+  sceneSlug,
+  signExtendI16,
+} from './source-facts.js'
+
+import type {
+  EnemyMigrationResult,
+  SourceEnemy,
+  SourceEnemyObject,
+  SourceEnemyTeam,
+} from './migrate-enemies.js'
+import { mapEnemies, mapEnemyTeams } from './migrate-enemies.js'
 import type { SourceCmd } from './source-facts.js'
-import { FACING_BY_DIR, partyPosToGrid, ROLE_SLUGS, sceneSlug, signExtendI16 } from './source-facts.js'
+import {
+  FACING_BY_DIR,
+  partyPosToGrid,
+  ROLE_SLUGS,
+  sceneSlug,
+  signExtendI16,
+} from './source-facts.js'
 import type { TranslateReport } from './translate-events.js'
 import { emptyTranslateReport, foldStages, translateStages } from './translate-events.js'
-import type { EnemyMigrationResult, SourceEnemy, SourceEnemyObject, SourceEnemyTeam } from './migrate-enemies.js'
-import { mapEnemies, mapEnemyTeams } from './migrate-enemies.js'
 export interface LevelUpMagicCell {
   level: number
   magic: number
@@ -188,7 +245,9 @@ export function mapSprites(roles: readonly SourceRole[]): SpriteDef[] {
 }
 
 /** level-up-magic:20 行 × 5 列,**列 = roleId**(列主序;行内取列,勿按行)。空槽 level/magic=0 滤掉。 */
-export function mapLevelUp(rows: readonly (readonly LevelUpMagicCell[])[]): Record<string, LevelUpSkill[]> {
+export function mapLevelUp(
+  rows: readonly (readonly LevelUpMagicCell[])[],
+): Record<string, LevelUpSkill[]> {
   const out: Record<string, LevelUpSkill[]> = {}
   const cols = rows[0]?.length ?? 0
   for (let col = 0; col < cols; col++) {
@@ -197,7 +256,8 @@ export function mapLevelUp(rows: readonly (readonly LevelUpMagicCell[])[]): Reco
     const list: LevelUpSkill[] = []
     for (const row of rows) {
       const cell = row[col]
-      if (cell && cell.level > 0 && cell.magic > 0) list.push({ level: cell.level, skillId: String(cell.magic) })
+      if (cell && cell.level > 0 && cell.magic > 0)
+        list.push({ level: cell.level, skillId: String(cell.magic) })
     }
     if (list.length) out[slug] = list
   }
@@ -220,8 +280,15 @@ const TYPE_TARGET: Record<string, SkillData['target']> = {
  * 恰为 content StatusId 联合的声明顺序(skill.ts:16-25)。
  */
 const STATUS_BY_NUM = [
-  'confused', 'paralyzed', 'sleep', 'silence', 'puppet',
-  'bravery', 'protect', 'haste', 'dualAttack',
+  'confused',
+  'paralyzed',
+  'sleep',
+  'silence',
+  'puppet',
+  'bravery',
+  'protect',
+  'haste',
+  'dualAttack',
 ] as const
 
 /** 0x30 buffStat 的 row → stat(PLAYERROLES_ROW 17/18/19/20)。 */
@@ -356,7 +423,10 @@ export function translateSkillScript(
       case 167:
         break // 块头标记
       default:
-        return { ...out, pendingReason: `op 0x${(c.opcode ?? 0).toString(16)} 超出线性集(概率门/阈值门/战斗公式 → M1c-2/战斗期)` }
+        return {
+          ...out,
+          pendingReason: `op 0x${(c.opcode ?? 0).toString(16)} 超出线性集(概率门/阈值门/战斗公式 → M1c-2/战斗期)`,
+        }
     }
   }
   return out
@@ -387,7 +457,11 @@ export function mapSkills(
   for (const s of spells) {
     const m = magicById.get(s.magicNumber)
     if (!m) {
-      pending.push({ id: s.id, name: s._name, reason: `magicNumber ${s.magicNumber} 不在 magic.json` })
+      pending.push({
+        id: s.id,
+        name: s._name,
+        reason: `magicNumber ${s.magicNumber} 不在 magic.json`,
+      })
       continue
     }
     if (m.type === 'summon') {
@@ -395,7 +469,11 @@ export function mapSkills(
       continue
     }
     if (s.scriptOnUse !== 0) {
-      pending.push({ id: s.id, name: s._name, reason: `scriptOnUse=${s.scriptOnUse}(动态公式 0x35/0x88 系)→ 战斗期` })
+      pending.push({
+        id: s.id,
+        name: s._name,
+        reason: `scriptOnUse=${s.scriptOnUse}(动态公式 0x35/0x88 系)→ 战斗期`,
+      })
       continue
     }
     const target = m.type === 'trance' ? ('self' as const) : TYPE_TARGET[m.type]
@@ -427,7 +505,7 @@ export function mapSkills(
       usableOutsideBattle: s.flags.usableOutsideBattle,
       target,
       effects,
-      animation: { effectSprite: m.effect },
+      animation: mapAnimation(m),
     })
   }
   return { skills, pending, lossy }
@@ -495,16 +573,24 @@ export function translateEquipScript(
         const elem = ELEMENT_BY_ROW[b]
         const pool = MAXPOOL_BY_ROW[b]
         if (stat) out.effects.push({ kind: 'statBonus', stat, delta: signExtendI16(cc) })
-        else if (elem) out.effects.push({ kind: 'resistance', element: elem, percent: signExtendI16(cc) })
+        else if (elem)
+          out.effects.push({ kind: 'resistance', element: elem, percent: signExtendI16(cc) })
         else if (pool) out.effects.push({ kind: 'maxPool', pool, delta: signExtendI16(cc) })
         else out.pending.push({ opcode: 0x17, operands: [a, b, cc], reason: `未知 row ${b}` })
         break
       }
       case 0x1a: {
         // set player stat:row=a, value=SHORT(b)
-        if (a === 65) out.effects.push({ kind: 'grantSkill', skillId: String(b) }) // COOPERATIVE_MAGIC → 授合击/召唤(土灵珠 336)
-        else if (a === 4) out.effects.push({ kind: 'attackAll' }) // ATTACK_ALL(长鞭系)
-        else if (a === 1) out.pending.push({ opcode: 0x1a, operands: [a, b, cc], reason: '战斗精灵切换(battleSpriteNum 覆盖)—— 战斗系统期' })
+        if (a === 65)
+          out.effects.push({ kind: 'grantSkill', skillId: String(b) }) // COOPERATIVE_MAGIC → 授合击/召唤(土灵珠 336)
+        else if (a === 4)
+          out.effects.push({ kind: 'attackAll' }) // ATTACK_ALL(长鞭系)
+        else if (a === 1)
+          out.pending.push({
+            opcode: 0x1a,
+            operands: [a, b, cc],
+            reason: '战斗精灵切换(battleSpriteNum 覆盖)—— 战斗系统期',
+          })
         else out.pending.push({ opcode: 0x1a, operands: [a, b, cc], reason: `未知 row ${a}` })
         break
       }
@@ -521,7 +607,11 @@ export function translateEquipScript(
       case 167: // 块头标记(同 desc)
         break
       default:
-        out.pending.push({ opcode: c.opcode ?? -1, operands: [a, b, cc], reason: '封闭集外 opcode' })
+        out.pending.push({
+          opcode: c.opcode ?? -1,
+          operands: [a, b, cc],
+          reason: '封闭集外 opcode',
+        })
     }
   }
   return out
@@ -536,7 +626,10 @@ export function mapEquipableBy(flags: readonly boolean[]): string[] {
 // 2026-07-02 全量扫 100 条链分桶:~60 件纯数据 op 可自动;灵珠/剧情/蛊毒/遇敌香等系统未落地 → pending。
 
 /** 0x19 永久成长的 row → stat(7/8 池上限 + 17-21 战斗属性)。 */
-const PERM_STAT_BY_ROW: Record<number, 'maxHP' | 'maxMP' | 'attack' | 'magicAttack' | 'defense' | 'speed' | 'luck'> = {
+const PERM_STAT_BY_ROW: Record<
+  number,
+  'maxHP' | 'maxMP' | 'attack' | 'magicAttack' | 'defense' | 'speed' | 'luck'
+> = {
   7: 'maxHP',
   8: 'maxMP',
   17: 'attack',
@@ -643,14 +736,20 @@ export function translateUseScript(
       case 167:
         break
       default:
-        return { ...out, pendingReason: `op 0x${(c.opcode ?? 0).toString(16)}(灵珠剧情/毒杀/遇敌香/蛊系等)→ 对应系统落地后` }
+        return {
+          ...out,
+          pendingReason: `op 0x${(c.opcode ?? 0).toString(16)}(灵珠剧情/毒杀/遇敌香/蛊系等)→ 对应系统落地后`,
+        }
     }
   }
   return out
 }
 
 // ── 物品(M1a:表字段;M1b:equip;use/throw 留 M1d)──────────
-export function mapItemsTable(items: readonly SourceItem[], descOf: (ip: number) => string[]): ItemData[] {
+export function mapItemsTable(
+  items: readonly SourceItem[],
+  descOf: (ip: number) => string[],
+): ItemData[] {
   return items.map((it) => ({
     id: String(it.id),
     name: it._name,
@@ -705,11 +804,13 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
   const labelIndex = buildLabelIndex(src.commands)
   const blockedDescs: MigrateOutput['report']['blockedDescs'] = []
   /** 按域包一层护栏记录(id = scriptDesc 的 ip,足以定位手修)。 */
-  const descOf = (kind: string) => (ip: number): string[] => {
-    const r = walkDesc(src.commands, labelIndex, ip)
-    if (r.blockedAt) blockedDescs.push({ kind, id: ip, at: r.blockedAt })
-    return r.lines
-  }
+  const descOf =
+    (kind: string) =>
+    (ip: number): string[] => {
+      const r = walkDesc(src.commands, labelIndex, ip)
+      if (r.blockedAt) blockedDescs.push({ kind, id: ip, at: r.blockedAt })
+      return r.lines
+    }
   const magicById = new Map(src.magic.map((m) => [m.id, m]))
   const actors = src.roles.map((r) => mapActor(r, src.levelUpExp))
   const sprites = mapSprites(src.roles)
@@ -724,7 +825,8 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
     let out: ItemData = base
     if (srcItem.flags.equipable) {
       const t = translateEquipScript(src.commands, labelIndex, srcItem.scriptOnEquip)
-      if (t.pending.length) pendingEquip.push({ itemId: srcItem.id, name: srcItem._name, ops: t.pending })
+      if (t.pending.length)
+        pendingEquip.push({ itemId: srcItem.id, name: srcItem._name, ops: t.pending })
       if (t.slot) {
         out = {
           ...out,
@@ -741,7 +843,8 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
       if (u.pendingReason) {
         pendingUse.push({ itemId: srcItem.id, name: srcItem._name, reason: u.pendingReason })
       } else if (u.effects.length) {
-        if (u.lossyNotes.length) lossyUse.push({ itemId: srcItem.id, name: srcItem._name, notes: u.lossyNotes })
+        if (u.lossyNotes.length)
+          lossyUse.push({ itemId: srcItem.id, name: srcItem._name, notes: u.lossyNotes })
         out = {
           ...out,
           use: {
@@ -767,7 +870,10 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
     locale: {} as Record<string, string>,
     report: emptyTranslateReport(),
   }
-  const enemyRes = src.enemies && src.enemyObjects ? mapEnemies(src.enemies, src.enemyObjects, enemyTctx) : undefined
+  const enemyRes =
+    src.enemies && src.enemyObjects
+      ? mapEnemies(src.enemies, src.enemyObjects, enemyTctx)
+      : undefined
   if (enemyRes) {
     Object.assign(localeNames, enemyRes.localeNames)
     Object.assign(localeNames, enemyTctx.locale) // 战斗脚本对白(dlg.<idx>)
@@ -785,21 +891,32 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
         ),
       ),
     ]
-  // (占位:敌用法术补翻移至 mapEnemies 之后 —— 见下方,须覆盖 0x67 时间线设置的法术)
+    // (占位:敌用法术补翻移至 mapEnemies 之后 —— 见下方,须覆盖 0x67 时间线设置的法术)
     const spellById = new Map(src.spells.map((s) => [s.id, s]))
     for (const oid of used.sort((a, b) => a - b)) {
       if (have.has(String(oid))) continue
       const s = spellById.get(oid)
       const m = s ? magicById.get(s.magicNumber) : undefined
       if (!s || !m) {
-        skillsRes.pending.push({ id: oid, name: s?._name ?? `敌法术 ${oid}`, reason: '敌用法术不在 spells/magic 提取' })
+        skillsRes.pending.push({
+          id: oid,
+          name: s?._name ?? `敌法术 ${oid}`,
+          reason: '敌用法术不在 spells/magic 提取',
+        })
         continue
       }
-      let effects: SkillData['effects'] = [{ kind: 'damage', power: m.baseDamage, elemental: m.elemental }]
+      let effects: SkillData['effects'] = [
+        { kind: 'damage', power: m.baseDamage, elemental: m.elemental },
+      ]
       if (s.scriptOnSuccess !== 0) {
         const t = translateSkillScript(src.commands, labelIndex, s.scriptOnSuccess)
         if (!t.pendingReason && t.effects.length) effects = t.effects
-        else skillsRes.lossy.push({ id: s.id, name: s._name, notes: [`敌用:scriptOnSuccess 不可翻(${t.pendingReason ?? '空链'}),落 damage fallback`] })
+        else
+          skillsRes.lossy.push({
+            id: s.id,
+            name: s._name,
+            notes: [`敌用:scriptOnSuccess 不可翻(${t.pendingReason ?? '空链'}),落 damage fallback`],
+          })
       }
       skillsRes.skills.push({
         id: String(s.id),
@@ -809,13 +926,14 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
         usableOutsideBattle: false,
         target: (m.type === 'trance' ? 'self' : TYPE_TARGET[m.type]) ?? 'oneEnemy',
         effects,
-        animation: { effectSprite: m.effect },
+        animation: mapAnimation(m),
       })
     }
   }
-  const teamRes = enemyRes && src.enemyTeams
-    ? mapEnemyTeams(src.enemyTeams, new Set(enemyRes.enemies.map((e) => e.id)))
-    : undefined
+  const teamRes =
+    enemyRes && src.enemyTeams
+      ? mapEnemyTeams(src.enemyTeams, new Set(enemyRes.enemies.map((e) => e.id)))
+      : undefined
   return {
     actors,
     sprites,
@@ -826,7 +944,14 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
     enemyTeams: teamRes?.teams ?? [],
     enemyReport: enemyRes?.report,
     enemyTeamReport: teamRes?.report,
-    report: { pendingSkills: skillsRes.pending, lossySkills: skillsRes.lossy, blockedDescs, pendingEquip, pendingUse, lossyUse },
+    report: {
+      pendingSkills: skillsRes.pending,
+      lossySkills: skillsRes.lossy,
+      blockedDescs,
+      pendingEquip,
+      pendingUse,
+      lossyUse,
+    },
   }
 }
 
@@ -842,9 +967,8 @@ export function mergeExtras<T extends { id: string }>(migrated: T[], extras: T[]
 // 事实锚(2026-07-02 实测):实体 id 全局唯一;direction 0-3 = 下/左/上/右;
 // loadScene 是具名 op 且 sceneId 已解析为 0-based;setPartyPos=raw 70;playMusic=raw 67。
 // ════════════════════════════════════════════════════════════════════
-import type { EnemyDef, EnemyTeamDef } from '@type-pal/content'
+import type { EnemyDef, EnemyTeamDef, SceneDef } from '@type-pal/content'
 import { pixelToGrid } from '@type-pal/content'
-import type { SceneDef } from '@type-pal/content'
 
 export interface SourceEventObject {
   id: number
@@ -867,9 +991,6 @@ export interface SourceScene {
   onTeleportLabel?: string
   eventObjects: SourceEventObject[]
 }
-
-
-
 
 export interface SceneMigrationResult {
   scenes: SceneDef[]
@@ -943,9 +1064,10 @@ export function mapScenesStatic(
         last = { pos: partyPosToGrid(a, b, h), at: i }
         return
       }
-      const target = (c as { op?: string; sceneId?: number }).op === 'loadScene'
-        ? (c as { sceneId?: number }).sceneId
-        : undefined
+      const target =
+        (c as { op?: string; sceneId?: number }).op === 'loadScene'
+          ? (c as { sceneId?: number }).sceneId
+          : undefined
       if (typeof target === 'number') {
         if (last && i - last.at <= 4) {
           const list = arrivals.get(target) ?? []
@@ -1067,7 +1189,12 @@ export function mapScenesStatic(
   }
 
   // ── M3a 脚本翻译上下文(触发链/onEnter → 结构化 stages;文本进 locale)──
-  const tctx = { labelAt, locale: {} as Record<string, string>, report: emptyTranslateReport(), spriteIdForNum }
+  const tctx = {
+    labelAt,
+    locale: {} as Record<string, string>,
+    report: emptyTranslateReport(),
+    spriteIdForNum,
+  }
   /** 原版 triggerMode → 触发口:1-3 = 按键交互(range=mode),4-8 = 走近自动(range=mode-4)。 */
   const triggerOf = (eo: SourceEventObject) => {
     const mode = eo.triggerMode ?? 0
@@ -1158,5 +1285,11 @@ export function mapScenesStatic(
     }
   })
 
-  return { scenes, sprites: [...spriteDefs.values()], scriptLocale: tctx.locale, scriptReport: tctx.report, report }
+  return {
+    scenes,
+    sprites: [...spriteDefs.values()],
+    scriptLocale: tctx.locale,
+    scriptReport: tctx.report,
+    report,
+  }
 }
