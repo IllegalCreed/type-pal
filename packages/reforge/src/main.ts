@@ -32,6 +32,7 @@ import {
   loadTilemap,
   loadTileset,
 } from './assets.js'
+import { createBgmPlayer } from './audio/bgm.js'
 import { SfxPlayer } from './audio/sfx.js'
 import { getEnemyBasePos, getPlayerBasePos } from './battle/battle-positions.js'
 import { BattleSession } from './battle/battle-session.js'
@@ -141,6 +142,11 @@ async function main(): Promise<void> {
   document.title = `${project.manifest.name} · reforge` // 标题随工程(index.html 只是加载占位)
   const params = new URLSearchParams(location.search)
   const sfx = new SfxPlayer(project.assetBase.sounds) // 应用级单例(解码缓存跨战斗复用)
+  const bgm = createBgmPlayer(project.assetBase.music) // W5/X2:场景 BGM(懒初始化,首曲才拉 soundfont)
+  // autoplay 解锁:BGM 随 boot 场景起播,彼时多半无手势 → ctx suspended;首个手势补播。
+  // (sfx 不用:它惰性建 ctx,首次 play 必在按键手势内。)
+  for (const ev of ['pointerdown', 'keydown'] as const)
+    window.addEventListener(ev, () => bgm.resume(), { once: true, capture: true })
   // M4d-2:命中特效精灵 + 特效帧基表(跨战斗不变,懒载一次;demo 无此资产 → undefined 跳过 overlay)
   let effectSpriteP: Promise<import('./assets.js').LoadedSprite | undefined> | null = null
   const loadEffectOnce = () => {
@@ -338,6 +344,8 @@ async function main(): Promise<void> {
     stepFrame = 0
     stepAcc = 0
     updateCamera()
+    // W5 场景 BGM 槽:缺省 = 延续上一曲(忠实原版);0 = 停曲。同曲不重启由播放器保证。
+    if (def.musicId != null) bgm.play(def.musicId)
   }
 
   // 初始场景:?scene=<id> dev 直达(须在 index),否则 manifest 入口。
@@ -549,7 +557,8 @@ async function main(): Promise<void> {
     },
     playSound: () => {}, // 音频系统未落地(音频期);静默
     playMusic: (id) => {
-      world.script!.vars['sys:music'] = id // 槽位记账;播放归音频期
+      world.script!.vars['sys:music'] = id // 记账(存档恢复用)
+      bgm.play(id) // 0 = 停曲(原版语义)
     },
     setBattleMusic: (id) => {
       world.script!.vars['sys:battleMusic'] = id
@@ -660,6 +669,11 @@ async function main(): Promise<void> {
         await host.wait(400)
         return 'win'
       }
+      // 战斗 BGM(sys:battleMusic 记账,setBattleMusic op 烤自原版脚本):有值即切(0=停,忠实);
+      // 未记账(迁移期脚本未跑到)不切 —— 场景曲延续,不突兀。
+      const battleTrack = world.script?.vars['sys:battleMusic']
+      if (typeof battleTrack === 'number') bgm.play(battleTrack)
+      let playedVictory = false
       // 队员战斗态:CharacterInstance + 装备加成(effectiveStat)
       const itemsById = project.items
       const players = world.party.map((c) => ({
@@ -782,6 +796,10 @@ async function main(): Promise<void> {
           buildSettlement: () => {
             sessionRef.writeBackHp(world.party) // 先写回战斗末 HP(原版 exp 前)
             const r = sessionRef.rewards()
+            if (r.exp > 0) {
+              bgm.play(3, false) // 胜利小调,不循环(一阶段 battleVictoryTrack;boss 曲 2 待 boss 立项)
+              playedVictory = true
+            }
             world.money += r.cash
             const rep = grantBattleRewards(
               world.party,
@@ -812,6 +830,11 @@ async function main(): Promise<void> {
       // 胜利结算路径已在 buildSettlement 里写回 HP + 入账;其余路径(败/逃/敌逃)此处写回 HP。
       if (result !== 'win' || session.enemyFled()) session.writeBackHp(world.party)
       session.writeBackInventory(world.inventory)
+      // 战斗内切过曲(战斗 BGM/胜利小调)→ 回场景曲;lose 进 gameOver 流程不回。
+      if (result !== 'lose' && (typeof battleTrack === 'number' || playedVictory)) {
+        const m = world.script?.vars['sys:music']
+        bgm.play(typeof m === 'number' ? m : (scene.musicId ?? 0))
+      }
       return result
     },
     openShop: (shop, mode) => {
@@ -1204,6 +1227,9 @@ async function main(): Promise<void> {
     // def 初态再由 applyWorldToScene 重放世界态(X1;getSceneDef 已返回 pristine 拷贝)。
     await switchScene(p.position.sceneId, { pos: p.position.pos, facing: p.position.facing })
     applyWorldToScene() // 实体隐现/挡路按存档世界态重放(读档不重跑 onEnter,对齐原版)
+    // 存档时脚本曲(sys:music 记账)覆盖场景槽曲;同曲不重启,无记账则保持场景曲。
+    const savedMusic = world.script.vars['sys:music']
+    if (typeof savedMusic === 'number') bgm.play(savedMusic)
     startAutoRunners()
     return true
   }

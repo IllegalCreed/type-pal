@@ -15,6 +15,8 @@ export interface AssetBase {
   palettes: string
   /** 音效目录完整前缀(<id>.wav;loader 已按绝对/相对规则解析)。 */
   sounds: string
+  /** BGM 目录完整前缀(<NNN>.mid,3 位零填充;同上规则)。 */
+  music: string
   /** 对话/状态立绘目录(<chunk>.png;内容资产,随库/工程)。 */
   portraits: string
   /** 战斗小头像目录(<actorId>.png)。 */

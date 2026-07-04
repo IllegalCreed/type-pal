@@ -149,6 +149,9 @@ importers:
       '@type-pal/shared':
         specifier: workspace:*
         version: link:../shared
+      spessasynth_lib:
+        specifier: ^4.3.6
+        version: 4.3.6
     devDependencies:
       vite:
         specifier: ^8.0.14

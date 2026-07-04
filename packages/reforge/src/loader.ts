@@ -132,6 +132,7 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
         sprites: a.sprites,
         palettes: a.palettes,
         sounds: dir(a.sounds, `${root}/sounds`),
+        music: dir(a.music, `${root}/music`),
         portraits: dir(a.portraits, `${root}/portraits`),
         faces: dir(a.faces, `${root}/faces`),
         itemIcons: dir(a.itemIcons, `${root}/item-icons`),

@@ -40,6 +40,8 @@ export interface LoadedManifest {
     palettes: string
     /** 音效目录(wav);'/' 开头 = 应用绝对路径,否则相对工程根。缺省 = root/sounds。 */
     sounds?: string
+    /** BGM 目录(<NNN>.mid,3 位零填充);同路径规则。缺省 = root/music。 */
+    music?: string
     /** 对话/状态立绘目录(<chunk>.png);同路径规则。缺省 = root/portraits。 */
     portraits?: string
     /** 战斗小头像目录(<actorId>.png)。缺省 = root/faces。 */

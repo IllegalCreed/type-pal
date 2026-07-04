@@ -1,0 +1,28 @@
+TimGM6mb — SoundFont License
+============================
+
+soundfont.sf3 in this directory is "TimGM6mb" (SF2 format despite the file
+extension; the runtime synth detects format by RIFF content, the URL is just
+kept stable), used as the General MIDI synthesis bank for runtime BGM playback
+(SpessaSynth).
+
+Chosen over the previous GeneralUser GS 2.0.3 (32 MB) for its small size
+(~6 MB): the production server bandwidth (~440 KB/s) made the 32 MB bank
+dominate cold-start loading time (2026-06-12). To switch back, restore
+the file from git history and revert this notice.
+
+Copyright: 2004 Tim Brechbill <https://www.timbrechbill.com>
+           2010 David Bolton <davidkbolton@gmail.com>
+License: GPL-2 (GNU General Public License version 2)
+Source: Debian package timgm6mb-soundfont 1.3
+        https://deb.debian.org/debian/pool/main/t/timgm6mb-soundfont/
+        (upstream: MuseScore project, originally MuseScore 1.x default bank)
+
+Upstream author statement (via MuseScore forum, Dec 2009): "I created some of
+the samples myself and all others are either public domain or fall under the
+terms of the GNU General Public License."
+
+This soundfont is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License version 2 for
+details: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
