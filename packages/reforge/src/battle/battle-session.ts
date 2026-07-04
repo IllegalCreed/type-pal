@@ -10,6 +10,8 @@ import { evalAiCond, lookupText } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import type { GlyphTable, LoadedSprite } from '../assets.js'
 import type { SfxPlayer } from '../audio/sfx.js'
+import type { DialogBox } from '../dialog/dialog-box.js'
+import { startDialogue } from '../dialogue.js'
 import { drawNumber, type MenuAssets } from '../menu/menu-box.js'
 import { bakeFrame } from '../render.js'
 import { measureSpans, renderSpans } from '../text/text-render.js'
@@ -90,6 +92,11 @@ export interface BattleSessionAssets {
   effectSprite?: LoadedSprite
   /** 法术特效精灵表(fire chunk → sprite;main 预载本场可能用到的;M4d-2b)。 */
   fireSprites?: Record<number, LoadedSprite>
+  /**
+   * 战斗内对话框(= 大世界同款 DialogBox,叠在战斗场景上;一阶段真值:战斗对话复用
+   * gs.dialogBox 渲染,text.c:1687 box 不擦底)。缺 → 文字兜底(单测)。
+   */
+  dialogBox?: DialogBox
 }
 
 /** 表现层单位状态(动画期间被时间线 delta 驱动;非动画期 = 基准值)。 */
@@ -256,8 +263,14 @@ export class BattleSession {
     })
   }
 
-  /** 逐条消费演出命令(dialog 横幅等按键;音效记 log;fleeBattle 终止战斗)。 */
+  /** 逐条消费演出命令(dialog 走真 DialogBox 等按键;音效记 log;fleeBattle 终止战斗)。 */
   private pumpChoreo(pressed: ReadonlySet<string>): void {
+    const box = this.assets.dialogBox
+    // 对话框活跃期:空格推进(翻页/下一段/关闭),关掉才继续消费队列(一阶段战斗对话同)。
+    if (box?.active) {
+      if (pressed.has(' ') || pressed.has('Enter')) box.advance(this.nowMs)
+      return
+    }
     if (this.choreoBanner) {
       if (pressed.has(' ') || pressed.has('Enter')) this.choreoBanner = null
       return
@@ -266,9 +279,18 @@ export class BattleSession {
     if (!c) return
     switch (c.kind) {
       case 'dialog':
-        this.choreoBanner = {
-          name: this.choreoName,
-          text: lookupText(c.line.text, this.opts.locale ?? {}),
+        if (box) {
+          // 战斗对话 = 大世界同款对话框叠战斗场景上(一阶段真值)。敌方台词默认顶框(林天南
+          //   setDialogStyleTop);已带 slot 的沿用。
+          box.open(
+            startDialogue({ id: '__battle', lines: [{ slot: 'top', ...c.line }] }),
+            this.nowMs,
+          )
+        } else {
+          this.choreoBanner = {
+            name: this.choreoName,
+            text: lookupText(c.line.text, this.opts.locale ?? {}),
+          }
         }
         return
       case 'playSound':
@@ -337,7 +359,7 @@ export class BattleSession {
         this.choreoTurn = s.turn
         this.collectChoreo()
       }
-      if (this.choreoBanner || this.choreoQueue.length) {
+      if (this.assets.dialogBox?.active || this.choreoBanner || this.choreoQueue.length) {
         this.pumpChoreo(pressed)
         return
       }
@@ -824,53 +846,52 @@ export class BattleSession {
     const g = this.assets.glyphs
     const ui = this.assets.ui
 
+    // 对话框活跃期:一阶段真值「整个战斗 UI 都不画」(信息框 + 菜单全隐,只留场景 + 对话框)。
+    const dialogActive = this.assets.dialogBox?.active ?? false
+
     // 底部队员信息框(playerbox+头像+黄青数字;无 UI 资产 → 文字兜底)。
     // HP 显示用 displayHp(伤害数字帧才同步,动画命中前不剧透)。
-    s.players.forEach((p, i) => {
-      const shownHp = this.visual.players[i]?.displayHp ?? p.hp
-      if (ui?.magicPlayerBox) {
-        drawPlayerInfoBox(ctx, ui, this.assets.faces?.[p.roleId], { ...p, hp: shownHp }, i)
-      } else {
-        const x = 8 + i * 106
-        const hpColor: readonly [number, number, number] =
-          shownHp <= 0 ? [224, 91, 91] : shownHp < p.maxHp / 5 ? [226, 179, 64] : [215, 220, 229]
-        renderSpans(ctx, [{ text: this.nameOf(p.roleId) }], x, 170, { glyphs: g, shadow: true })
-        renderSpans(ctx, [{ text: `${shownHp}/${p.maxHp}` }], x, 184, {
-          glyphs: g,
-          shadow: true,
-          forceRgba: hpColor,
-        })
-      }
-    })
+    if (!dialogActive)
+      s.players.forEach((p, i) => {
+        const shownHp = this.visual.players[i]?.displayHp ?? p.hp
+        if (ui?.magicPlayerBox) {
+          drawPlayerInfoBox(ctx, ui, this.assets.faces?.[p.roleId], { ...p, hp: shownHp }, i)
+        } else {
+          const x = 8 + i * 106
+          const hpColor: readonly [number, number, number] =
+            shownHp <= 0 ? [224, 91, 91] : shownHp < p.maxHp / 5 ? [226, 179, 64] : [215, 220, 229]
+          renderSpans(ctx, [{ text: this.nameOf(p.roleId) }], x, 170, { glyphs: g, shadow: true })
+          renderSpans(ctx, [{ text: `${shownHp}/${p.maxHp}` }], x, 184, {
+            glyphs: g,
+            shadow: true,
+            forceRgba: hpColor,
+          })
+        }
+      })
 
     // 当前行动队员头顶手指(选指令/选目标期间;一阶段 68/69 闪)
-    if (sel !== undefined && ui) {
+    if (!dialogActive && sel !== undefined && ui) {
       const pos = getPlayerBasePos(s.players.length, sel)
       const spriteH = this.assets.playerSprites[sel]?.frames[0]?.height ?? 60
       if (pos) drawCurrentFinger(ctx, ui, pos.x, pos.y - spriteH, now)
     }
 
-    // M4c-2 演出横幅(顶部;空格推进)—— 半透明底条 + 名字/文本
-    if (this.choreoBanner) {
-      ctx.save()
-      ctx.fillStyle = 'rgba(0,0,0,0.55)'
-      ctx.fillRect(0, 0, VIEW_W, 46)
-      ctx.restore()
+    // 战斗内对话框 = 大世界同款 DialogBox 叠战斗场景上(一阶段真值;text.c:1687 不擦底)。
+    // 已在 320 逻辑坐标 ×scale 上下文里,DialogBox.render 内部也走 320 坐标 → 直接调。
+    if (this.assets.dialogBox?.active) {
+      this.assets.dialogBox.render(now)
+    } else if (this.choreoBanner) {
+      // 无 DialogBox(单测/资产缺)时的文字兜底横幅
       renderSpans(ctx, [{ text: `${this.choreoBanner.name}:` }], 10, 6, {
         glyphs: g,
         shadow: true,
         forceRgba: [226, 179, 64],
       })
       renderSpans(ctx, [{ text: this.choreoBanner.text }], 10, 24, { glyphs: g, shadow: true })
-      renderSpans(ctx, [{ text: '▼' }], VIEW_W - 16, 24, {
-        glyphs: g,
-        shadow: true,
-        forceRgba: [226, 179, 64],
-      })
     }
 
-    // 指令菜单(一阶段原版形态:4 图标 + 杂项盒 + 3 列网格)。选敌态不画(一阶段 DL30)。
-    if (sel !== undefined && ui && this.ui !== 'target' && this.ui !== 'acting') {
+    // 指令菜单(一阶段原版形态:4 图标 + 杂项盒 + 3 列网格)。选敌态不画(一阶段 DL30);对话期全隐。
+    if (!dialogActive && sel !== undefined && ui && this.ui !== 'target' && this.ui !== 'acting') {
       const p = s.players[sel]!
       // 主菜单 4 图标(法术/物品/杂项态仍画,一阶段 selectMove 全程画)
       if (this.assets.battleIcons) {

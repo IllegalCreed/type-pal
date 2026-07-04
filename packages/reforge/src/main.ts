@@ -743,6 +743,7 @@ async function main(): Promise<void> {
           sfx,
           effectSprite,
           fireSprites,
+          dialogBox, // 战斗内对话 = 大世界同款对话框叠战斗上(一阶段真值)
         },
         (roleId) => {
           const c = world.party.find((x) => x.id === roleId)
