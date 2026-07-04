@@ -101,73 +101,14 @@
       },
       "sprite": "npc-472",
       "collide": true,
-      "pages": [
-        {
-          "trigger": {
-            "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "startBattle",
-                    "team": 302,
-                    "onLose": [
-                      {
-                        "kind": "playMusic",
-                        "musicId": 1
-                      },
-                      {
-                        "kind": "fade",
-                        "dir": "out",
-                        "ms": 900,
-                        "color": "red"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.13135",
-                          "slot": "narration"
-                        }
-                      },
-                      {
-                        "kind": "loadLastSave"
-                      }
-                    ],
-                    "onFlee": [
-                      {
-                        "kind": "vanishEntity",
-                        "seconds": 2
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "vanishEntity",
-                    "seconds": 80
-                  },
-                  {
-                    "kind": "fade",
-                    "dir": "out"
-                  }
-                ]
-              }
-            ]
-          },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "chasePlayer",
-                    "range": 8,
-                    "speed": 4
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      ]
+      "hostile": {
+        "team": 302,
+        "chase": {
+          "range": 8,
+          "speed": 4
+        },
+        "respawnSeconds": 80
+      }
     },
     {
       "id": "e1508",
@@ -178,73 +119,14 @@
       },
       "sprite": "npc-472",
       "collide": true,
-      "pages": [
-        {
-          "trigger": {
-            "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "startBattle",
-                    "team": 53,
-                    "onLose": [
-                      {
-                        "kind": "playMusic",
-                        "musicId": 1
-                      },
-                      {
-                        "kind": "fade",
-                        "dir": "out",
-                        "ms": 900,
-                        "color": "red"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.13135",
-                          "slot": "narration"
-                        }
-                      },
-                      {
-                        "kind": "loadLastSave"
-                      }
-                    ],
-                    "onFlee": [
-                      {
-                        "kind": "vanishEntity",
-                        "seconds": 2
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "vanishEntity",
-                    "seconds": 80
-                  },
-                  {
-                    "kind": "fade",
-                    "dir": "out"
-                  }
-                ]
-              }
-            ]
-          },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "chasePlayer",
-                    "range": 8,
-                    "speed": 4
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      ]
+      "hostile": {
+        "team": 53,
+        "chase": {
+          "range": 8,
+          "speed": 4
+        },
+        "respawnSeconds": 80
+      }
     },
     {
       "id": "e1509",
@@ -255,73 +137,14 @@
       },
       "sprite": "npc-472",
       "collide": true,
-      "pages": [
-        {
-          "trigger": {
-            "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "startBattle",
-                    "team": 56,
-                    "onLose": [
-                      {
-                        "kind": "playMusic",
-                        "musicId": 1
-                      },
-                      {
-                        "kind": "fade",
-                        "dir": "out",
-                        "ms": 900,
-                        "color": "red"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.13135",
-                          "slot": "narration"
-                        }
-                      },
-                      {
-                        "kind": "loadLastSave"
-                      }
-                    ],
-                    "onFlee": [
-                      {
-                        "kind": "vanishEntity",
-                        "seconds": 2
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "vanishEntity",
-                    "seconds": 80
-                  },
-                  {
-                    "kind": "fade",
-                    "dir": "out"
-                  }
-                ]
-              }
-            ]
-          },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "chasePlayer",
-                    "range": 8,
-                    "speed": 4
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      ]
+      "hostile": {
+        "team": 56,
+        "chase": {
+          "range": 8,
+          "speed": 4
+        },
+        "respawnSeconds": 80
+      }
     },
     {
       "id": "e1510",
@@ -332,73 +155,14 @@
       },
       "sprite": "npc-472",
       "collide": true,
-      "pages": [
-        {
-          "trigger": {
-            "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "startBattle",
-                    "team": 54,
-                    "onLose": [
-                      {
-                        "kind": "playMusic",
-                        "musicId": 1
-                      },
-                      {
-                        "kind": "fade",
-                        "dir": "out",
-                        "ms": 900,
-                        "color": "red"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.13135",
-                          "slot": "narration"
-                        }
-                      },
-                      {
-                        "kind": "loadLastSave"
-                      }
-                    ],
-                    "onFlee": [
-                      {
-                        "kind": "vanishEntity",
-                        "seconds": 2
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "vanishEntity",
-                    "seconds": 80
-                  },
-                  {
-                    "kind": "fade",
-                    "dir": "out"
-                  }
-                ]
-              }
-            ]
-          },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "chasePlayer",
-                    "range": 8,
-                    "speed": 4
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      ]
+      "hostile": {
+        "team": 54,
+        "chase": {
+          "range": 8,
+          "speed": 4
+        },
+        "respawnSeconds": 80
+      }
     },
     {
       "id": "e1511",
@@ -409,73 +173,14 @@
       },
       "sprite": "npc-472",
       "collide": true,
-      "pages": [
-        {
-          "trigger": {
-            "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "startBattle",
-                    "team": 118,
-                    "onLose": [
-                      {
-                        "kind": "playMusic",
-                        "musicId": 1
-                      },
-                      {
-                        "kind": "fade",
-                        "dir": "out",
-                        "ms": 900,
-                        "color": "red"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.13135",
-                          "slot": "narration"
-                        }
-                      },
-                      {
-                        "kind": "loadLastSave"
-                      }
-                    ],
-                    "onFlee": [
-                      {
-                        "kind": "vanishEntity",
-                        "seconds": 2
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "vanishEntity",
-                    "seconds": 80
-                  },
-                  {
-                    "kind": "fade",
-                    "dir": "out"
-                  }
-                ]
-              }
-            ]
-          },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "chasePlayer",
-                    "range": 8,
-                    "speed": 4
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      ]
+      "hostile": {
+        "team": 118,
+        "chase": {
+          "range": 8,
+          "speed": 4
+        },
+        "respawnSeconds": 80
+      }
     },
     {
       "id": "e1512",
@@ -486,73 +191,14 @@
       },
       "sprite": "npc-59",
       "collide": true,
-      "pages": [
-        {
-          "trigger": {
-            "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "startBattle",
-                    "team": 96,
-                    "onLose": [
-                      {
-                        "kind": "playMusic",
-                        "musicId": 1
-                      },
-                      {
-                        "kind": "fade",
-                        "dir": "out",
-                        "ms": 900,
-                        "color": "red"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.13135",
-                          "slot": "narration"
-                        }
-                      },
-                      {
-                        "kind": "loadLastSave"
-                      }
-                    ],
-                    "onFlee": [
-                      {
-                        "kind": "vanishEntity",
-                        "seconds": 2
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "vanishEntity",
-                    "seconds": 80
-                  },
-                  {
-                    "kind": "fade",
-                    "dir": "out"
-                  }
-                ]
-              }
-            ]
-          },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "chasePlayer",
-                    "range": 8,
-                    "speed": 4
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      ]
+      "hostile": {
+        "team": 96,
+        "chase": {
+          "range": 8,
+          "speed": 4
+        },
+        "respawnSeconds": 80
+      }
     },
     {
       "id": "e1513",
@@ -563,73 +209,14 @@
       },
       "sprite": "npc-472",
       "collide": true,
-      "pages": [
-        {
-          "trigger": {
-            "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "startBattle",
-                    "team": 116,
-                    "onLose": [
-                      {
-                        "kind": "playMusic",
-                        "musicId": 1
-                      },
-                      {
-                        "kind": "fade",
-                        "dir": "out",
-                        "ms": 900,
-                        "color": "red"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.13135",
-                          "slot": "narration"
-                        }
-                      },
-                      {
-                        "kind": "loadLastSave"
-                      }
-                    ],
-                    "onFlee": [
-                      {
-                        "kind": "vanishEntity",
-                        "seconds": 2
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "vanishEntity",
-                    "seconds": 80
-                  },
-                  {
-                    "kind": "fade",
-                    "dir": "out"
-                  }
-                ]
-              }
-            ]
-          },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "chasePlayer",
-                    "range": 8,
-                    "speed": 4
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      ]
+      "hostile": {
+        "team": 116,
+        "chase": {
+          "range": 8,
+          "speed": 4
+        },
+        "respawnSeconds": 80
+      }
     },
     {
       "id": "e1514",
@@ -640,73 +227,14 @@
       },
       "sprite": "npc-472",
       "collide": true,
-      "pages": [
-        {
-          "trigger": {
-            "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "startBattle",
-                    "team": 99,
-                    "onLose": [
-                      {
-                        "kind": "playMusic",
-                        "musicId": 1
-                      },
-                      {
-                        "kind": "fade",
-                        "dir": "out",
-                        "ms": 900,
-                        "color": "red"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.13135",
-                          "slot": "narration"
-                        }
-                      },
-                      {
-                        "kind": "loadLastSave"
-                      }
-                    ],
-                    "onFlee": [
-                      {
-                        "kind": "vanishEntity",
-                        "seconds": 2
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "vanishEntity",
-                    "seconds": 80
-                  },
-                  {
-                    "kind": "fade",
-                    "dir": "out"
-                  }
-                ]
-              }
-            ]
-          },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "chasePlayer",
-                    "range": 8,
-                    "speed": 4
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      ]
+      "hostile": {
+        "team": 99,
+        "chase": {
+          "range": 8,
+          "speed": 4
+        },
+        "respawnSeconds": 80
+      }
     },
     {
       "id": "e1515",

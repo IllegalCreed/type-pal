@@ -159,6 +159,8 @@ export class BattleSession {
       playerEffectBase?: number[]
       /** 各队员施法前摇特效帧基(battle-effect-index[spriteNum*2]*10+15;缺 = 跳过前摇特效)。 */
       playerCastBase?: number[]
+      /** 自动战斗(0x8A;玩家侧 AI 代打,不出指令菜单 —— 石长老过场战)。 */
+      auto?: boolean
     } = {},
   ) {
     this.state = createBattleState({
@@ -281,6 +283,15 @@ export class BattleSession {
         this.choreoQueue.length = 0
         return
       }
+      case 'endBattle': {
+        // 0x89:脚本终止战斗(林天南撑 7 回合 → terminate;无奖励干净退)。
+        // terminate/won 都走 won 分支(main 按 enemyFled 决定是否给奖励);terminate 标 enemyFled 免奖励。
+        if (c.result === 'terminate') this.state.enemyFled = true
+        this.state.phase = c.result === 'lost' ? 'lost' : 'won'
+        this.state.log.push(`战斗结束(${c.result})`)
+        this.choreoQueue.length = 0
+        return
+      }
       case 'wait':
         return // 演出节拍由横幅按键控制,wait 忽略
       default:
@@ -335,6 +346,15 @@ export class BattleSession {
         stepBattle(s, this.rng) // 全填 → build queue → performAction
         this.ui = 'acting'
         this.actTimer = 0
+        return
+      }
+      // 自动战斗(0x8A):玩家侧不出菜单,逐个活队员派 AI 攻击最近活敌(石长老过场战)
+      if (this.opts.auto) {
+        const alive = this.aliveEnemyIdxs()
+        s.pendingActions.set(
+          sel,
+          alive.length ? { kind: 'attack', targetEnemyIdx: alive[0]! } : { kind: 'defend' },
+        )
         return
       }
       if (this.ui === 'acting') this.ui = 'menu' // 新回合回菜单

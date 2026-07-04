@@ -218,6 +218,13 @@ function translateHook(
         i++
         continue
       }
+      if (oc === 0x89) {
+        // B9:脚本终止战斗(BattleResult=op0;0 终止无奖励 = 林天南撑 7 回合 / 3 胜 / 1 负)
+        const r = ops[0] ?? 0
+        dlg.push({ kind: 'endBattle', result: r === 3 ? 'won' : r === 1 ? 'lost' : 'terminate' })
+        i++
+        continue
+      }
       if (oc === 0x05 || oc === 0x8e) {
         i++ // 清框/恢复画面:演出播放器自管,忽略
         continue

@@ -58,6 +58,8 @@ export interface TranslateCtx {
   armMemo?: Map<string, Command[]>
   /** 在译链栈(label|owner):0x24/25 页目标可自引用,防 translateStages 无限递归。 */
   translating?: Set<string>
+  /** B9:0x8A 置位、下一个 0x07 消费 → startBattle.auto(fAutoBattle 语义)。 */
+  pendingAuto?: boolean
   /** 文本累积(dlg.<msgIdx> / spk.<名>);IO 壳并入工程 locale。 */
   locale: Record<string, string>
   report: TranslateReport
@@ -525,6 +527,10 @@ function walkBody(
         push({ kind: 'loadLastSave' })
       } else if (oc === 0x4f) {
         push({ kind: 'fade', dir: 'out', ms: 900, color: 'red' })
+      } else if (oc === 0x8a) {
+        // B9:标记下一场战斗自动(fAutoBattle);合进紧邻的 startBattle.auto(下方消费 pendingAuto)
+        flush()
+        ctx.pendingAuto = true
       } else if (oc === 0x07) {
         flush()
         const onLose = (o[1] ?? 0) !== 0 ? inlineArm(o[1]) : undefined
@@ -534,7 +540,9 @@ function walkBody(
           team: o[0] ?? 0,
           ...(onLose?.length ? { onLose } : {}),
           ...(onFlee?.length ? { onFlee } : {}),
+          ...(ctx.pendingAuto ? { auto: true } : {}),
         })
+        ctx.pendingAuto = false
       } else if (oc === 0x06) {
         flush()
         // jumpByRate:random(1,100) ≥ op0 → 跳。跳走臂结构:branch{chance,then:臂},不中直走

@@ -68,7 +68,11 @@ const player = (
 
 const stubGlyphs = { has: () => false, get: () => undefined } as unknown as GlyphTable
 
-function makeSession(enemy: EnemyDef, playerOverrides: Partial<BattlePlayerState> = {}) {
+function makeSession(
+  enemy: EnemyDef,
+  playerOverrides: Partial<BattlePlayerState> = {},
+  extraOpts: { auto?: boolean } = {},
+) {
   const plays: number[] = []
   const sfx = { play: (id: number) => plays.push(id) } as unknown as SfxPlayer
   const assets: BattleSessionAssets = {
@@ -84,6 +88,7 @@ function makeSession(enemy: EnemyDef, playerOverrides: Partial<BattlePlayerState
     assets,
     (id) => id,
     () => 0,
+    extraOpts,
   )
   return { session, plays }
 }
@@ -126,5 +131,59 @@ describe('M4d-3/M4d-2 战斗音效接线(时间线帧挂载)', () => {
     const { session, plays } = makeSession(enemy, { attackStrength: 1 })
     session.tick(16, new Set()) // battleStart 演出:collect + pump(playSound 无横幅,直接消费)
     expect(plays).toContain(77)
+  })
+})
+
+describe('B9 特殊战斗形态', () => {
+  test('endBattle terminate:choreography 撑到 turn → 战斗终止无奖励(林天南 7 回合)', async () => {
+    // 打不死的敌 + turn≥2 触发 endBattle terminate;不主动攻击也会终止
+    const enemy = mkEnemy(
+      'lin',
+      { health: 99999, defense: 99999, attackStrength: 0 },
+      {
+        choreography: [
+          {
+            at: 'turnStart',
+            once: true,
+            when: { kind: 'turn', op: '>=', value: 2 },
+            body: [{ kind: 'endBattle', result: 'terminate' }],
+          },
+        ],
+      },
+    )
+    const { session } = makeSession(enemy, { attackStrength: 0, defense: 9999 })
+    // 回合 1:防御推进(攻 0 杀不死);回合 2 起手 → endBattle
+    let guard = 0
+    const result = await Promise.race([
+      session.done,
+      new Promise<string>((res) => {
+        const pump = () => {
+          if (guard++ > 400) return res('timeout')
+          session.tick(50, new Set([' '])) // 空格推进横幅/确认默认攻击(攻 0 无害)
+          setTimeout(pump, 0)
+        }
+        pump()
+      }),
+    ])
+    expect(result).toBe('win') // terminate → done('win');enemyFled 标记免奖励
+    expect(session.enemyFled()).toBe(true) // terminate = 无奖励语义
+  })
+
+  test('auto 战斗:无按键输入自动推进到出结果(石长老过场战)', async () => {
+    const enemy = mkEnemy('weakling', { health: 20, defense: 0 })
+    const { session } = makeSession(enemy, { attackStrength: 100 }, { auto: true })
+    let guard = 0
+    const result = await Promise.race([
+      session.done,
+      new Promise<string>((res) => {
+        const pump = () => {
+          if (guard++ > 400) return res('timeout')
+          session.tick(50, new Set()) // 关键:空输入集,auto 自动派攻击
+          setTimeout(pump, 0)
+        }
+        pump()
+      }),
+    ])
+    expect(result).toBe('win') // 玩家不出菜单,AI 代打秒杀
   })
 })

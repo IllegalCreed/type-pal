@@ -634,7 +634,7 @@ async function main(): Promise<void> {
         e.pages[0] = { ...e.pages[0], trigger: { ...e.pages[0].trigger, on, range } }
       }
     },
-    startBattle: async (team) => {
+    startBattle: async (team, battleOpts) => {
       const teamDef = project.enemyTeamsById[`team-${team}`]
       const enemyDefs = (teamDef?.members ?? [])
         .map((id) => project.enemiesById[id])
@@ -756,6 +756,7 @@ async function main(): Promise<void> {
           items: project.items,
           inventory: world.inventory.map((x) => ({ ...x })), // 副本:战斗内扣,战后写回
           difficulty: 'normal',
+          auto: battleOpts?.auto,
           locale: project.locale,
           playerEffectBase,
           playerCastBase,
@@ -930,6 +931,69 @@ async function main(): Promise<void> {
   }
   function startAutoRunners(): void {
     for (const e of scene.entities) startAutoRunner(e)
+  }
+
+  // ── B9 敌对行为引擎驱动器(数据化遇敌:零脚本;hostile 字段 = 野怪)──
+  //   每 hostile 实体一个游标状态机,tick 里推进:追逐→贴脸开战→胜利消失/重生、战败走 onLose。
+  //   原版靠 event object 挂脚本区分野怪,新引擎用数据区分(作者拍板:遇敌是引擎能力)。
+  const hostileCd = new Map<string, number>() // 实体 → 追逐节流累计 ms
+  let hostileBusy = false // 遇敌处理中(开战/演出),暂停所有 hostile 追逐
+  function tickHostiles(dt: number): void {
+    if (hostileBusy || runner || dialogBox.active || menu !== CLOSED || activeBattle) return
+    for (const e of scene.entities) {
+      const h = e.hostile
+      if (!h || e.hidden) continue
+      const dc = player.pos.col - e.pos.col
+      const dr = player.pos.row - e.pos.row
+      const dist = Math.max(Math.abs(dc), Math.abs(dr))
+      // 贴脸(≤1)→ 开战
+      if (dist <= 1) {
+        void runHostileEncounter(e, h)
+        return
+      }
+      const chase = h.chase
+      if (!chase || dist > chase.range) continue // 原地怪 / 出程:不动
+      const cd = (hostileCd.get(e.id) ?? 0) + dt
+      const stepMs = Math.max(80, 480 / Math.max(1, chase.speed))
+      if (cd < stepMs) {
+        hostileCd.set(e.id, cd)
+        continue
+      }
+      hostileCd.set(e.id, 0)
+      const stepCol = Math.abs(dc) >= Math.abs(dr) ? Math.sign(dc) : 0
+      const stepRow = stepCol === 0 ? Math.sign(dr) : 0
+      const next = { col: e.pos.col + stepCol, row: e.pos.row + stepRow, height: e.pos.height }
+      if (chase.floating || !isBlockedAt(map, next)) {
+        e.pos = next
+        e.facing = stepCol !== 0 ? (dc > 0 ? 'right' : 'left') : dr > 0 ? 'down' : 'up'
+        entityAnim.set(e.id, (entityAnim.get(e.id) ?? 0) + 1)
+      }
+    }
+  }
+  /** 一场野怪遭遇:开战 → 胜利(消失+重生窗)/ 战败(onLose,默认 gameOver)/ 逃跑(回场景)。 */
+  async function runHostileEncounter(
+    e: EntityDef,
+    h: NonNullable<EntityDef['hostile']>,
+  ): Promise<void> {
+    hostileBusy = true
+    try {
+      const result = await host.startBattle(h.team)
+      if (result === 'win') {
+        e.hidden = true // 消失
+        if (h.respawnSeconds && h.respawnSeconds > 0) {
+          const atScene = scene
+          void (async () => {
+            await host.wait(h.respawnSeconds! * 1000)
+            if (scene === atScene) e.hidden = false // 重生
+          })()
+        }
+      } else if (result === 'lose') {
+        if (h.onLose === 'gameOver' || h.onLose === undefined) await host.gameOver()
+        else startScript(`hostile:${e.id}`, [{ body: h.onLose }], e.id)
+      } // flee:回场景,怪留原地
+    } finally {
+      hostileBusy = false
+    }
   }
   /** 停单实体 auto(0x24 换 autoScript 用:停旧起新)。 */
   function restartAutoRunner(e: EntityDef): void {
@@ -1430,6 +1494,7 @@ async function main(): Promise<void> {
       r()
     }
     advanceMoves(dt) // M3b 走位驱动(实体巡逻/剧情走位;与输入无关,菜单/对话期照走)
+    tickHostiles(dt) // B9 野怪遇敌驱动(数据化;追逐→开战→胜负)
     const pressed = keyboard.consumePressed()
     // M4b:战斗接管(大世界暂停;渲染/输入全走 BattleSession)
     if (activeBattle) {

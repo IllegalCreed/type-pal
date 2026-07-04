@@ -8,7 +8,14 @@
  * M1a 范围:表格域——6 角色 / 6 精灵表 / 234 物品表字段(equip/use 留 M1b/M1d)/
  * 57 纯伤害技能(scriptOnSuccess=0 且 scriptOnUse=0 且非 summon 型)+ curated 已核技能 / 全量 desc。
  */
-import type { ActorDef, ItemData, LevelUpSkill, SkillData, SpriteDef } from '@type-pal/content'
+import type {
+  ActorDef,
+  HostileBehavior,
+  ItemData,
+  LevelUpSkill,
+  SkillData,
+  SpriteDef,
+} from '@type-pal/content'
 
 // ── 源数据形状(结构最小化;字段名 2026-07-02 对 data/extracted 实测钉死)──
 export interface SourceRole {
@@ -1019,6 +1026,7 @@ export interface SceneMigrationResult {
     facingFromAuto: number
     /** spriteNum=0 且有触发脚本 → 迁成 zone 实体的数量(M3a)。 */
     zonesMigrated: number
+    hostilesFolded?: number
   }
 }
 
@@ -1048,6 +1056,7 @@ export function mapScenesStatic(
     autoLoopCandidates: 0,
     facingFromAuto: 0,
     zonesMigrated: 0,
+    hostilesFolded: 0,
   }
 
   // ── 入口扫描:setPartyPos(raw70)在 loadScene 前 ≤4 步内。
@@ -1212,6 +1221,51 @@ export function mapScenesStatic(
     return stages?.length ? { stages: foldStages(stages) } : undefined
   }
 
+  /**
+   * B9:识别「标准野怪遇敌模板」→ 折叠成 hostile 数据(引擎内置遇敌,不留脚本)。
+   * 模板 = auto 首命令是 chasePlayer(或无 auto = 原地怪)+ trigger 首命令是 startBattle。
+   * 命中 → 提取 team/chase/respawn/onLose 为数据,auto/trigger 页整体删除(消膨胀:
+   * 数百份重复遇敌脚本 → 一个数据字段)。非标准(剧情怪)不折叠,保留脚本。
+   */
+  const hostileFold = (
+    trigger: ReturnType<typeof triggerOf>,
+    auto: ReturnType<typeof autoOf>,
+  ): { hostile: HostileBehavior } | undefined => {
+    const tstages = trigger?.stages
+    const first = tstages?.[0]?.body?.[0]
+    if (!first || first.kind !== 'startBattle') return undefined // trigger 非「开战起手」→ 剧情战,不折叠
+    // trigger 全体必须只有遇敌套路命令(startBattle / vanishEntity / fade),含别的 = 特殊编排
+    const encounterKinds = new Set(['startBattle', 'vanishEntity', 'fade'])
+    const flat = (tstages ?? []).flatMap((s) => s.body)
+    if (!flat.every((c) => encounterKinds.has(c.kind))) return undefined
+    // auto:允许「纯 chasePlayer」或空;含别的巡逻演出 = 不折叠
+    const achase = auto?.stages?.flatMap((s) => s.body) ?? []
+    if (achase.length && !achase.every((c) => c.kind === 'chasePlayer')) return undefined
+    const chaseCmd = achase.find((c) => c.kind === 'chasePlayer') as
+      | { range?: number; speed?: number; floating?: boolean }
+      | undefined
+    const vanish = flat.find((c) => c.kind === 'vanishEntity') as { seconds?: number } | undefined
+    const onLose = first.onLose // startBattle.onLose(GameOver 链 or 剧情)
+    // onLose 是 gameOver 序列(渐红+读档)→ 归 'gameOver' 语义;否则保留命令
+    const isGameOver = onLose?.some((c) => c.kind === 'loadLastSave')
+    return {
+      hostile: {
+        team: first.team,
+        ...(chaseCmd
+          ? {
+              chase: {
+                range: chaseCmd.range ?? 8,
+                speed: chaseCmd.speed ?? 4,
+                ...(chaseCmd.floating ? { floating: true } : {}),
+              },
+            }
+          : {}),
+        ...(vanish?.seconds ? { respawnSeconds: vanish.seconds } : {}),
+        ...(onLose && !isGameOver ? { onLose } : {}),
+      },
+    }
+  }
+
   const scenes: SceneDef[] = srcScenes.map((sc) => {
     const slug = sceneSlug(sc.sceneId)
     const entities = []
@@ -1242,6 +1296,9 @@ export function mapScenesStatic(
       const dir = autoDir ?? eo.direction ?? 0
       const trigger = triggerOf(eo)
       const auto = autoOf(eo)
+      // B9:标准遇敌模板折叠成 hostile 数据(命中则删 auto/trigger 页,消重复脚本膨胀)
+      const folded = hostileFold(trigger, auto)
+      if (folded) report.hostilesFolded = (report.hostilesFolded ?? 0) + 1
       entities.push({
         id: `e${eo.id}`,
         pos: { ...pixelToGrid(eo.x, eo.y), height: 0 },
@@ -1250,9 +1307,10 @@ export function mapScenesStatic(
         ...(hidden ? { hidden: true } : {}),
         ...((eo.sState ?? 0) >= 2 ? { collide: true } : {}),
         ...(eo.sLayer ? { zBias: eo.sLayer } : {}),
-        ...(trigger || auto
-          ? { pages: [{ ...(trigger ? { trigger } : {}), ...(auto ? { auto } : {}) }] }
-          : {}),
+        ...(folded ??
+          (trigger || auto
+            ? { pages: [{ ...(trigger ? { trigger } : {}), ...(auto ? { auto } : {}) }] }
+            : {})),
       })
     }
     const { start, musicId } = headScan(sc.sceneId, sc.onEnterLabel)

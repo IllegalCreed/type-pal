@@ -54,6 +54,9 @@ export type Command =
   | { kind: 'setActorSprite'; actor: string; sprite: string }
   // 0x69:敌人逃离战场(战斗演出 choreography 专用;终止战斗无奖励)。大世界 host 打日志跳过。
   | { kind: 'fleeBattle' }
+  // 0x89:脚本终止战斗(choreography 专用)。result:terminate 无奖励干净退(林天南撑 7 回合)/
+  //   won 判胜 / lost 判负。原版 BattleResult=op0(0 终止 /3 胜 /1 负)。
+  | { kind: 'endBattle'; result: 'terminate' | 'won' | 'lost' }
   // 世界状态
   | { kind: 'giveItem'; itemId: string; count?: number }
   | { kind: 'loseItem'; itemId: string; count?: number }
@@ -74,7 +77,8 @@ export type Command =
   | { kind: 'moveParty'; to: GridPos; speed: WalkSpeed } // 阻塞:队伍走到
   | { kind: 'nudgeParty'; dx: number; dy: number } // 0x6E:队伍相对单步(带走姿)
   // 战斗 / 商店 / 确认(M3b 翻译;战斗引擎 M4,先桩)
-  | { kind: 'startBattle'; team: number; onLose?: Command[]; onFlee?: Command[] }
+  // auto(0x8A):整场自动战斗(玩家侧 AI 代打、不出指令菜单 —— 石长老 vs 盖罗娇过场战)。
+  | { kind: 'startBattle'; team: number; onLose?: Command[]; onFlee?: Command[]; auto?: boolean }
   | { kind: 'openShop'; shop: number; mode: 'buy' | 'sell' }
   | { kind: 'confirm'; onNo: Command[] } // 0x0A 是/否框:选"否"走 onNo,"是"继续
   // 相机(M3c;0x7F 三形态。⚠ 一阶段彩依飞走案:走位期间偏移必须保持,不许绝对回正)

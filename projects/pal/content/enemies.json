@@ -2888,6 +2888,21 @@
             }
           }
         ]
+      },
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 8
+        },
+        "body": [
+          {
+            "kind": "endBattle",
+            "result": "terminate"
+          }
+        ]
       }
     ],
     "anim": {
@@ -12350,6 +12365,21 @@
             }
           }
         ]
+      },
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 8
+        },
+        "body": [
+          {
+            "kind": "endBattle",
+            "result": "terminate"
+          }
+        ]
       }
     ],
     "anim": {
@@ -12764,6 +12794,10 @@
             "line": {
               "text": "dlg.13273"
             }
+          },
+          {
+            "kind": "endBattle",
+            "result": "terminate"
           }
         ]
       }

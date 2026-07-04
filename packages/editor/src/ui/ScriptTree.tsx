@@ -100,6 +100,11 @@ function describe(cmd: Command, locale: Locale): Described {
       return { icon: '🎭', label: `${cmd.actor} 换精灵`, detail: cmd.sprite }
     case 'fleeBattle':
       return { icon: '🏃', label: '敌人逃离战场' }
+    case 'endBattle':
+      return {
+        icon: '🏁',
+        label: `战斗结束(${cmd.result === 'won' ? '判胜' : cmd.result === 'lost' ? '判负' : '终止无奖励'})`,
+      }
     case 'setEntityState':
       return {
         icon: '👁',
@@ -155,7 +160,7 @@ function describe(cmd: Command, locale: Locale): Described {
     case 'startBattle':
       return {
         icon: '⚔',
-        label: `战斗 敌队 ${cmd.team}`,
+        label: `战斗 敌队 ${cmd.team}${cmd.auto ? ' · 自动' : ''}`,
         blocks: [
           ...(cmd.onLose ? [{ title: '战败', seg: 'onLose', body: cmd.onLose }] : []),
           ...(cmd.onFlee ? [{ title: '逃跑', seg: 'onFlee', body: cmd.onFlee }] : []),

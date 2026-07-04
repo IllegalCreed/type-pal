@@ -77,6 +77,25 @@ export interface EntityBase {
   zBias?: number
   /** 行为页(M3:触发脚本/自动脚本;扁平字段是默认外观,页只加行为)。见 script.ts。 */
   pages?: EntityPage[]
+  /**
+   * 敌对行为(B9;引擎内置遇敌,零脚本)。有此字段 = 野怪:引擎自动追逐→贴脸开战→
+   * 胜利消失/重生、战败走 onLose。原版靠 event object 挂脚本区分野怪,新引擎用**数据**区分
+   * (作者拍板:野怪追逐/胜负是引擎能力,不是脚本);迁移器识别标准遇敌模板折叠进此字段,
+   * 特殊编排(剧情怪)仍走 pages 脚本。
+   */
+  hostile?: HostileBehavior
+}
+
+/** 敌对行为数据(B9)。缺 chase = 原地怪;缺 respawn = 永杀(硬核难度杠杆)。 */
+export interface HostileBehavior {
+  /** 遇敌敌队(startBattle team)。 */
+  team: number
+  /** 追逐参数(缺省 = 原地不追)。range = 切比雪夫格内才追;speed 越大越快;floating 穿障。 */
+  chase?: { range: number; speed: number; floating?: boolean }
+  /** 战败后重生秒数(缺省 = 死了不复活)。 */
+  respawnSeconds?: number
+  /** 战败处理:'gameOver'(默认渐红读档)或自定义命令(剧情战输了也继续)。 */
+  onLose?: 'gameOver' | import('./script.js').Command[]
 }
 
 /** 场景实体 = 公共字段 & (actor ⊕ sprite)。判别用 isActorEntity / resolveEntitySpriteId(actor.ts)。 */
