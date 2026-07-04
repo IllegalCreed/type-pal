@@ -198,12 +198,13 @@ export class DeleteEntityCommand implements Command {
   }
 }
 
-/** UpdateEntity 的 patch 范围(collide / interact / facing)。
- *  C0:'sprite' 移出——实体引用(actor⊕sprite)切换是 C1 的专门命令/UI,patch 不表达联合切换。 */
-export type EntityPatch = Partial<Pick<EntityDef, 'collide' | 'interact' | 'facing'>>
+/** UpdateEntity 的 patch 范围(collide / interact / facing / hostile)。
+ *  C0:'sprite' 移出——实体引用(actor⊕sprite)切换是 C1 的专门命令/UI,patch 不表达联合切换。
+ *  B9:hostile 整对象替换(非深合并);传 undefined = 撤销敌对。 */
+export type EntityPatch = Partial<Pick<EntityDef, 'collide' | 'interact' | 'facing' | 'hostile'>>
 
 /**
- * 改实体字段(collide/interact/facing)。apply 记下**被 patch 覆盖的旧值**,
+ * 改实体字段(collide/interact/facing/hostile)。apply 记下**被 patch 覆盖的旧值**,
  * invert 把那些字段还原成旧值(patch 里没出现的字段不动)。
  * 旧值在首次 apply 时捕获(整条 patch 的旧值快照一次记全)。
  */
@@ -218,6 +219,8 @@ export class UpdateEntityCommand implements Command {
     this.sceneId = sceneId
     this.entityId = entityId
     this.patch = { ...patch }
+    // hostile 是嵌套对象,深拷贝防外部入参回写(同 UpdateSceneCommand entry)
+    if (this.patch.hostile) this.patch.hostile = structuredClone(this.patch.hostile)
   }
 
   apply(state: EditorState): EditorState {
@@ -240,6 +243,8 @@ export class UpdateEntityCommand implements Command {
     if ('collide' in this.patch) old.collide = entity.collide
     if ('interact' in this.patch) old.interact = entity.interact
     if ('facing' in this.patch) old.facing = entity.facing
+    if ('hostile' in this.patch)
+      old.hostile = entity.hostile ? structuredClone(entity.hostile) : undefined
     return old
   }
 

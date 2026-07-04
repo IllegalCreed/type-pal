@@ -373,3 +373,25 @@ test('UpdateScene 回归:仅 paletteId/musicId patch 不得把必填 entry 覆�
   const s2 = new UpdateSceneCommand('s', { musicId: 31 }).apply(s1)
   expect(s2.scenes[0]!.entry.facing).toBe('down')
 })
+
+describe('B9 敌对行为 patch(hostile 整对象替换)', () => {
+  test('UpdateEntity hostile:开敌对/invert 还原 undefined;源不变', () => {
+    const s0 = st()
+    const h = { team: 3, chase: { range: 6, speed: 2 }, respawnSeconds: 80 }
+    const cmd = new UpdateEntityCommand('s', 'a', { hostile: h })
+    const s1 = cmd.apply(s0)
+    expect(ent0(s1).hostile).toEqual(h)
+    expect(ent0(s1).hostile).not.toBe(h) // 深拷贝,非同引用
+    expect(ent0(s0).hostile).toBeUndefined() // 源不变
+    expect(ent0(cmd.invert(s1)).hostile).toBeUndefined()
+  })
+
+  test('UpdateEntity hostile:撤销敌对(undefined),invert 还原旧配置(深拷贝)', () => {
+    const s0 = st()
+    ent0(s0).hostile = { team: 1, chase: { range: 4, speed: 1 } }
+    const cmd = new UpdateEntityCommand('s', 'a', { hostile: undefined })
+    const s1 = cmd.apply(s0)
+    expect(ent0(s1).hostile).toBeUndefined()
+    expect(ent0(cmd.invert(s1)).hostile).toEqual({ team: 1, chase: { range: 4, speed: 1 } })
+  })
+})

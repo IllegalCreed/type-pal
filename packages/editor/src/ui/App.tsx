@@ -6,7 +6,15 @@
  * 一切编辑走 dispatch(Command) → 自动 undo/redo + 置脏 + 重渲染。
  */
 
-import type { ActorDef, EntityDef, GridPos, MusicDef, SceneDef } from '@type-pal/content'
+import type {
+  ActorDef,
+  EnemyTeamDef,
+  EntityDef,
+  GridPos,
+  HostileBehavior,
+  MusicDef,
+  SceneDef,
+} from '@type-pal/content'
 import { isActorEntity, resolveEntitySpriteId, validateReferences } from '@type-pal/content'
 import type { LoadedProject } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
@@ -369,6 +377,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                   sceneId={scene.id}
                   actorsById={actorsById}
                   dialogueIds={scene.dialogues.map((d) => d.id)}
+                  enemyTeams={state.enemyTeams ?? []}
                   onDelete={deleteSelected}
                 />
               ) : (
@@ -409,19 +418,39 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
   )
 }
 
+/** 敌队 id 约定 `team-<N>` → N(引擎 enemyTeamsById[`team-${team}`] 查询键);不合约定返回 undefined。 */
+function parseTeamNum(id: string | undefined): number | undefined {
+  const m = id?.match(/^team-(\d+)$/)
+  return m ? Number(m[1]) : undefined
+}
+
 function EntityInspector(props: {
   entity: EntityDef
   session: EditSession
   sceneId: string
   actorsById: Record<string, ActorDef>
   dialogueIds: string[]
+  /** 敌队清单(B9 敌对行为 team 下拉;id 约定 team-<N>,引擎按 N 查)。 */
+  enemyTeams: EnemyTeamDef[]
   onDelete: () => void
 }) {
-  const { entity, session, sceneId, actorsById, dialogueIds, onDelete } = props
+  const { entity, session, sceneId, actorsById, dialogueIds, enemyTeams, onDelete } = props
   const setPos = (patch: Partial<GridPos>): void => {
     session.dispatch(new MoveEntityCommand(sceneId, entity.id, { ...entity.pos, ...patch }))
   }
   const spriteId = resolveEntitySpriteId(entity, actorsById)
+  const dispatchHostile = (h: HostileBehavior | undefined): void => {
+    session.dispatch(new UpdateEntityCommand(sceneId, entity.id, { hostile: h }))
+  }
+  /** hostile 子字段更新(整对象替换;undefined 值的键显式删,保 JSON 落盘干净)。 */
+  const setHostile = (patch: Partial<HostileBehavior>): void => {
+    if (!entity.hostile) return
+    const next: HostileBehavior = { ...entity.hostile, ...patch }
+    if (patch.chase === undefined && 'chase' in patch) delete next.chase
+    if (patch.respawnSeconds === undefined && 'respawnSeconds' in patch) delete next.respawnSeconds
+    if (patch.onLose === undefined && 'onLose' in patch) delete next.onLose
+    dispatchHostile(next)
+  }
   return (
     <>
       <div className="insp-head">
@@ -540,6 +569,160 @@ function EntityInspector(props: {
             />
           </div>
         </div>
+      </div>
+      <div className="section">
+        <h4>
+          敌对行为<span className="b2"> · B9 数据驱动</span>
+        </h4>
+        <div className="field">
+          <label>敌对</label>
+          <div>
+            <input
+              type="checkbox"
+              checked={!!entity.hostile}
+              onChange={(e) =>
+                dispatchHostile(
+                  e.target.checked
+                    ? { team: parseTeamNum(enemyTeams[0]?.id) ?? 1 }
+                    : undefined,
+                )
+              }
+            />{' '}
+            遇敌开战(触碰即 startBattle)
+          </div>
+        </div>
+        {entity.hostile && (
+          <>
+            <div className="field">
+              <label>敌队</label>
+              <select
+                className="in"
+                value={String(entity.hostile.team)}
+                onChange={(e) => setHostile({ team: Number(e.target.value) })}
+              >
+                {/* 约定 id=team-<N>,引擎按 N 查 enemyTeamsById[`team-${N}`];当前值兜底防悬空 */}
+                {!enemyTeams.some((t) => parseTeamNum(t.id) === entity.hostile!.team) && (
+                  <option value={String(entity.hostile.team)}>
+                    team-{entity.hostile.team} (缺数据)
+                  </option>
+                )}
+                {enemyTeams
+                  .map((t) => ({ t, n: parseTeamNum(t.id) }))
+                  .filter((x): x is { t: EnemyTeamDef; n: number } => x.n !== undefined)
+                  .map(({ t, n }) => (
+                    <option key={t.id} value={String(n)}>
+                      {t.id}({t.members.length} 敌)
+                    </option>
+                  ))}
+              </select>
+            </div>
+            <div className="field">
+              <label>追逐</label>
+              <div>
+                <input
+                  type="checkbox"
+                  checked={!!entity.hostile.chase}
+                  onChange={(e) =>
+                    setHostile({
+                      chase: e.target.checked ? { range: 6, speed: 2 } : undefined,
+                    })
+                  }
+                />{' '}
+                见人就追(不勾 = 原地怪)
+              </div>
+            </div>
+            {entity.hostile.chase && (
+              <div className="posrow">
+                <div className="cell">
+                  <span>range 格</span>
+                  <input
+                    className="in mono"
+                    type="number"
+                    value={entity.hostile.chase.range}
+                    onChange={(e) =>
+                      Number.isFinite(e.target.valueAsNumber) &&
+                      setHostile({
+                        chase: { ...entity.hostile!.chase!, range: e.target.valueAsNumber },
+                      })
+                    }
+                  />
+                </div>
+                <div className="cell">
+                  <span>speed</span>
+                  <input
+                    className="in mono"
+                    type="number"
+                    value={entity.hostile.chase.speed}
+                    onChange={(e) =>
+                      Number.isFinite(e.target.valueAsNumber) &&
+                      setHostile({
+                        chase: { ...entity.hostile!.chase!, speed: e.target.valueAsNumber },
+                      })
+                    }
+                  />
+                </div>
+                <div className="cell">
+                  <span>穿障</span>
+                  <input
+                    type="checkbox"
+                    checked={entity.hostile.chase.floating === true}
+                    onChange={(e) => {
+                      const chase = { ...entity.hostile!.chase!, floating: true }
+                      if (!e.target.checked) delete (chase as { floating?: boolean }).floating
+                      setHostile({ chase })
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+            <div className="field">
+              <label>重生秒</label>
+              <input
+                className="in mono"
+                type="number"
+                placeholder="(空=不复活)"
+                value={entity.hostile.respawnSeconds ?? ''}
+                onChange={(e) =>
+                  setHostile({
+                    respawnSeconds: Number.isFinite(e.target.valueAsNumber)
+                      ? e.target.valueAsNumber
+                      : undefined,
+                  })
+                }
+              />
+            </div>
+            <div className="field">
+              <label>战败</label>
+              <select
+                className="in"
+                value={Array.isArray(entity.hostile.onLose) ? 'custom' : ''}
+                onChange={(e) =>
+                  setHostile({ onLose: e.target.value === 'custom' ? [] : undefined })
+                }
+              >
+                <option value="">游戏结束(渐红读档,默认)</option>
+                <option value="custom">自定义命令(剧情战输了也继续)</option>
+              </select>
+            </div>
+            {Array.isArray(entity.hostile.onLose) && (
+              <textarea
+                className="in cf-ta"
+                key={`${entity.id}-onlose`}
+                defaultValue={JSON.stringify(entity.hostile.onLose, null, 2)}
+                placeholder='[{ "kind": "dialog", ... }] — Command[] JSON'
+                onBlur={(e) => {
+                  try {
+                    const v = JSON.parse(e.target.value) as HostileBehavior['onLose']
+                    if (Array.isArray(v)) setHostile({ onLose: v })
+                  } catch {
+                    /* 解析失败不落盘;失焦保持原文供修 */
+                  }
+                }}
+                spellCheck={false}
+              />
+            )}
+          </>
+        )}
       </div>
       <div className="section">
         <div className="collapsed">
