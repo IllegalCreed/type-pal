@@ -10,7 +10,7 @@
 
 | 位置 | 放什么 |
 |---|---|
-| **顶层** | README（本文）+ 方针：`READ-FIRST` / `roadmap` / `decisions` / `design-backlog` |
+| **顶层** | README（本文）+ 方针：`READ-FIRST` / `roadmap` / `capability-map`（进度真值表）/ `decisions` / `design-backlog` |
 | **`foundation/`** | 跨切片地基（内容 schema、美术管线、引擎债审查），长期参照 |
 | **`<主题>/`** | 某子系统 / 切片的工作文档（如 `slice1-indoor/`、`dialogue/`） |
 
@@ -26,8 +26,9 @@
 | 文件 | 内容 | 状态 |
 |---|---|---|
 | [READ-FIRST](READ-FIRST.md) | 六条铁律 + 串台自查（**开工前必读**） | 定稿 |
-| [roadmap](roadmap.md) | 总纲：愿景 / 架构判断 / 子项目分解 / 切入策略 | 草案 |
-| [decisions](decisions.md) | 已拍板决策 **D1–D18**（滚动累积） | 滚动 |
+| [roadmap](roadmap.md) | 总纲：愿景 / 北极星与原版定位(§8) / 能力地图引用(§9) / 架构判断 / 子项目分解 | 草案 |
+| [capability-map](capability-map.md) | **进度真值表**：7 领域 40 格 + 阶梯依赖 + 下一步选择器 + 回归沙盒（活文档，每次开工先读） | 活文档 |
+| [decisions](decisions.md) | 已拍板决策 **D1–D20**（滚动累积） | 滚动 |
 | [design-backlog](design-backlog.md) | 设计议题池（痛点 + 方向 + 归属 + 状态） | 滚动 |
 
 ### foundation/ · 跨切片地基（长期参照）
@@ -76,6 +77,7 @@
 
 ## 怎么用（阅读路径）
 - **整体方向** → [roadmap](roadmap.md)
+- **做到哪了 / 下一步做啥** → [capability-map](capability-map.md)（**每次开工先读 §5 选择器**）
 - **开工铁律** → [READ-FIRST](READ-FIRST.md)
 - **已拍 / 在议** → [decisions](decisions.md) / [design-backlog](design-backlog.md)
 - **内容格式怎么定** → [foundation/content-schema](foundation/content-schema.md)
