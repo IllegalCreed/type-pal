@@ -15,8 +15,9 @@ export interface BattleSpriteDraw {
   y: number
   /** 当前帧下标(idle=0;M4b-3 动画驱动改)。 */
   frame: number
-  /** 选敌高亮/受击染色(提亮;一阶段 ColorShift 的 RGBA 等价)。 */
-  highlight?: boolean
+  /** 受击/演出染色等级(一阶段 iColorShift 的 RGBA 等价:brightness(1+0.13·n);
+   *  受击闪白=6≈1.8,召唤变亮 1..10 渐升)。0/缺省 = 无。 */
+  colorShift?: number
   /** 不透明度(缺省 1;死亡改走 dissolve)。 */
   alpha?: number
   /** 死亡颗粒溶解进度 0..1(原版 PAL_BattleFadeScene 72 步 dither 的形态等效;
@@ -63,8 +64,8 @@ function getDissolvePatterns(ctx: CanvasRenderingContext2D): CanvasPattern[] | n
   return pats
 }
 
-/** 按溶解进度画精灵:已落波相位像素消失,进行中波按余量半透明。 */
-function drawDissolved(
+/** 按溶解进度画精灵:已落波相位像素消失,进行中波按余量半透明。(死亡/召唤 crossfade 共用) */
+export function drawDissolved(
   ctx: CanvasRenderingContext2D,
   img: HTMLCanvasElement,
   dx: number,
@@ -137,9 +138,11 @@ export function renderBattleScene(
       continue
     }
     const alpha = d.alpha ?? 1
-    if (d.highlight || alpha < 1) {
+    const shift = d.colorShift ?? 0
+    if (shift > 0 || alpha < 1) {
       ctx.save()
-      if (d.highlight) ctx.filter = 'brightness(1.8)'
+      // iColorShift 数值化:6(受击闪白)≈1.8 与旧固定值一致;召唤变亮 1..10 渐升
+      if (shift > 0) ctx.filter = `brightness(${1 + 0.13 * Math.min(shift, 10)})`
       if (alpha < 1) ctx.globalAlpha = Math.max(0, alpha)
       ctx.drawImage(img, dx, dy)
       ctx.restore()

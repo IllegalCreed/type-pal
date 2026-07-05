@@ -45,11 +45,18 @@ export class WavedBgCache {
   private cvs: HTMLCanvasElement | null = null
   private key = ''
 
-  /** 返回可直接铺底的背景(无波 = 原 src;有波 = 卷动后的缓存 canvas)。 */
-  render(src: CanvasImageSource, amp: number, nowMs: number, w = 320, h = 200): CanvasImageSource {
+  /** 返回可直接铺底的背景(无波 = 原 src;有波 = 卷动后的缓存 canvas)。srcTag = 源标识(源可换,如召唤染色合成帧)。 */
+  render(
+    src: CanvasImageSource,
+    amp: number,
+    nowMs: number,
+    w = 320,
+    h = 200,
+    srcTag = '',
+  ): CanvasImageSource {
     if (amp <= 0 || amp >= 256) return src
     const phase = wavePhase(nowMs)
-    const key = `${amp}:${phase}`
+    const key = `${srcTag}:${amp}:${phase}`
     if (this.cvs && key === this.key) return this.cvs
     if (!this.cvs) {
       this.cvs = document.createElement('canvas')

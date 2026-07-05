@@ -8,7 +8,7 @@
 import type { Command, EnemyDef, SkillData } from '@type-pal/content'
 import { evalAiCond, lookupText } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
-import type { GlyphTable, LoadedSprite } from '../assets.js'
+import { bakeBgImageData, type GlyphTable, type LoadedSprite } from '../assets.js'
 import type { SfxPlayer } from '../audio/sfx.js'
 import type { DialogBox } from '../dialog/dialog-box.js'
 import { startDialogue } from '../dialogue.js'
@@ -47,7 +47,12 @@ import {
   ITEM_GRID,
   MAGIC_GRID,
 } from './battle-ui.js'
-import { type BattleScene, type BattleSpriteDraw, renderBattleScene } from './present-battle.js'
+import {
+  type BattleScene,
+  type BattleSpriteDraw,
+  drawDissolved,
+  renderBattleScene,
+} from './present-battle.js'
 import { drawSettlementScreen, type SettlementScreen } from './settlement.js'
 
 const VIEW_W = 320
@@ -80,6 +85,8 @@ type UiPhase = 'menu' | 'misc' | 'miscSub' | 'skill' | 'item' | 'target' | 'acti
 
 export interface BattleSessionAssets {
   bg?: CanvasImageSource
+  /** 背景 FBP 索引源(召唤背景染色的调色板级 nibble 重烤;缺 = 跳过染色)。 */
+  bgIndexed?: { indices: Uint8Array; w: number; h: number }
   palette: Palette
   glyphs: GlyphTable
   /** 敌人战斗精灵(与 enemies 数组同序)。 */
@@ -158,6 +165,14 @@ export class BattleSession {
   private frameWaveAdd = 0
   /** 震屏(法术末 wShake 帧累计;time-based 派生,过期自清)。 */
   private screenShake: ScreenShake | null = null
+  // ── 召唤演出相(P1 召唤束):in 队员溶出/神将溶入;hold 队员隐;out 反向 ──
+  private summonVis: { phase: 'in' | 'hold' | 'out'; start: number } | null = null
+  /** 召唤背景染色量(= 技能 effectTimes,fight.c:3145;建时间线时记)。 */
+  private summonTintShift = 0
+  /** 染色背景缓存(shift 键;bgIndexed 调色板级 nibble 重烤)。 */
+  private tintedBg: { shift: number; canvas: HTMLCanvasElement } | null = null
+  /** 召唤 bg 合成便签(base + tinted 溶入)。 */
+  private bgComposeScratch: HTMLCanvasElement | null = null
   // ── M4c-2 演出(choreography):轮起手钩,dialog 逐条横幅播,空格推进 ──
   private choreoQueue: Command[] = []
   private choreoBanner: { name: string; text: string } | null = null
@@ -219,15 +234,48 @@ export class BattleSession {
     this.resetVisual()
   }
 
-  /** 表现层复位:全员回站位/站立帧/无染色(一阶段 resetFightersAfterAction 语义;死亡帧除外)。 */
-  private resetVisual(): void {
+  /** 召唤染色背景(bgIndexed 调色板级 nibble 重烤;shift 键缓存)。缺索引/零染色 = null。 */
+  private getTintedBg(): HTMLCanvasElement | null {
+    const shift = this.summonTintShift
+    const bi = this.assets.bgIndexed
+    if (!bi || shift === 0) return null
+    if (this.tintedBg?.shift === shift) return this.tintedBg.canvas
+    const cvs = document.createElement('canvas')
+    cvs.width = bi.w
+    cvs.height = bi.h
+    const c = cvs.getContext('2d')
+    if (!c) return null
+    c.putImageData(bakeBgImageData(c, bi.indices, bi.w, bi.h, this.assets.palette, shift), 0, 0)
+    this.tintedBg = { shift, canvas: cvs }
+    return cvs
+  }
+
+  /** base 上溶入染色层(show=1 全染;crossfade 期背景随神将同步换色)。 */
+  private composeSummonBg(
+    base: CanvasImageSource,
+    tinted: HTMLCanvasElement,
+    show: number,
+  ): CanvasImageSource {
+    if (show >= 1) return tinted
+    if (!this.bgComposeScratch) {
+      this.bgComposeScratch = document.createElement('canvas')
+      this.bgComposeScratch.width = 320
+      this.bgComposeScratch.height = 200
+    }
+    const c = this.bgComposeScratch.getContext('2d')
+    if (!c) return base
+    c.clearRect(0, 0, 320, 200)
+    c.drawImage(base, 0, 0, 320, 200)
+    drawDissolved(c, tinted, 0, 0, 1 - show)
+    return this.bgComposeScratch
+  }
+
+  /** 队员表现层复位(召唤 out 相起点单独用:溶回目标必须是复位后的队员)。 */
+  private resetPlayersVisual(): void {
     const s = this.state
     this.visual.players = s.players.map((p, i) => {
       const pos = getPlayerBasePos(s.players.length, i) ?? { x: 0, y: 0 }
       const prev = this.visual.players[i]
-      // 复位姿势 = playerRestFrame 语义(一阶段 battle-anim-driver.ts:220-234,一夜三刀簇):
-      // 死→傀儡0/死2;睡/濒死(hp<min(100,maxHP/5))→1;防御→3;否则站 0。曾一律 frame0
-      // = 丢死/濒死/防御姿(演出审计 §2-8)。
       return {
         x: pos.x,
         y: pos.y,
@@ -245,6 +293,14 @@ export class BattleSession {
         displayHp: prev?.displayHp ?? p.hp,
       }
     })
+  }
+
+  /** 表现层复位:全员回站位/复位姿势/无染色(一阶段 resetFightersAfterAction 语义)。
+   *  队员姿势 = playerRestFrame(死→傀儡0/死2;睡/濒死→1;防→3;站0 —— 一夜三刀簇,
+   *  曾一律 frame0 丢死/濒死/防御姿,演出审计 §2-8)。 */
+  private resetVisual(): void {
+    const s = this.state
+    this.resetPlayersVisual()
     this.visual.enemies = s.enemies.map((e, i) => {
       const pos = getEnemyBasePos(s.enemies.length, i, this.enemyDefs[i]?.anim.yPosOffset ?? 0) ?? {
         x: 0,
@@ -614,6 +670,18 @@ export class BattleSession {
           onWaveAdd: (w) => {
             this.frameWaveAdd = w
           },
+          // 召唤相驱动(in/hold/out;进 out 相先复位队员姿势 —— fight.c:901 UpdateFighters
+          // 先于淡出,一阶段 7e49327b 血泪:否则溶回目标是施法帧+高亮残留)
+          onSummonPhase: (phase) => {
+            if (phase === null) {
+              this.summonVis = null
+              return
+            }
+            if (this.summonVis?.phase !== phase) {
+              if (phase === 'out') this.resetPlayersVisual()
+              this.summonVis = { phase, start: this.nowMs }
+            }
+          },
         })
         this.anim.tick(0) // 进首帧
         return
@@ -708,6 +776,8 @@ export class BattleSession {
               this.enemyDefs[d.target.idx]?.anim.yPosOffset ?? 0,
             ) ?? { x: 160, y: 100 },
         }))
+      // 召唤背景染色量 = effectTimes 复用(fight.c:3145);crossfade 期 render 取用
+      this.summonTintShift = summonSprite ? (a.effectTimes ?? 0) : 0
       return buildPlayerCast({
         casterIdx: la.idx,
         casterPos,
@@ -715,7 +785,12 @@ export class BattleSession {
         ...(this.opts.playerSounds?.[la.idx]?.magic
           ? { magicSound: this.opts.playerSounds[la.idx]!.magic }
           : {}),
-        castEffectBase: this.assets.effectSprite ? (this.opts.playerCastBase?.[la.idx] ?? -1) : -1,
+        // fSummon 语义(fight.c:2380):召唤跳过施法者自身前摇特效
+        castEffectBase:
+          !summonSprite && this.assets.effectSprite
+            ? (this.opts.playerCastBase?.[la.idx] ?? -1)
+            : -1,
+        partyIdxs: s.players.map((_, i) => i),
         fireFrames: fire?.frames.length ?? 0,
         fx,
         targetPos,
@@ -885,6 +960,7 @@ export class BattleSession {
     // per-action 瞬态复位(审计红线 #7;fight.c:2835 wave 还原语义)
     this.frameWaveAdd = 0
     this.screenShake = null
+    this.summonVis = null
     // 涨益飘字(回血黄/回 MP 青;特效播完后弹 = DisplayStatChange 时序)
     for (const g of this.pendingGains) this.applyDamageFx(g.target, g.value, g.tone)
     this.pendingGains = []
@@ -965,6 +1041,11 @@ export class BattleSession {
   private renderInner(ctx: CanvasRenderingContext2D, worldScale: number): void {
     const s = this.state
     const now = this.nowMs
+    // 召唤可见度 summonShow(0 = 队员全显/神全隐 … 1 = 队员全隐/神全显);相内 time-based
+    const sv = this.summonVis
+    const svT =
+      sv === null ? 0 : sv.phase === 'hold' ? 1 : Math.min(1, Math.max(0, (now - sv.start) / (72 * 16)))
+    const summonShow = sv === null ? 0 : sv.phase === 'out' ? 1 - svT : svT
     const sel = s.phase === 'selectAction' ? this.nextSelecting() : undefined
     // 选敌高亮目标(target 态,闪烁节拍)
     const alive = this.aliveEnemyIdxs()
@@ -1005,7 +1086,7 @@ export class BattleSession {
         x: v.x,
         y: v.y,
         frame,
-        highlight: i === highlightEnemy || v.colorShift > 0,
+        colorShift: i === highlightEnemy ? 6 : v.colorShift,
         ...(dissolve !== undefined ? { dissolve } : {}),
       })
     })
@@ -1013,14 +1094,34 @@ export class BattleSession {
     s.players.forEach((_p, i) => {
       const sprite = this.assets.playerSprites[i]
       const v = this.visual.players[i]
-      if (sprite && v)
-        players.push({ sprite, x: v.x, y: v.y, frame: v.frame, highlight: v.colorShift > 0 })
+      if (!sprite || !v) return
+      // 召唤期队员隐显(crossfade 溶出/溶回;hold 全隐 —— fight.c:3160-3181 隐队员只画神将)
+      if (summonShow >= 1) return
+      players.push({
+        sprite,
+        x: v.x,
+        y: v.y,
+        frame: v.frame,
+        colorShift: v.colorShift,
+        ...(summonShow > 0 ? { dissolve: summonShow } : {}),
+      })
     })
     // 屏波:战场常驻 + 法术叠加(fight.c:2666);只卷背景层,精灵画在卷完的背景上自身笔直
     // (层序铁律,一阶段 2deb52bd:放精灵后 = boss 边缘撕裂)。缓存仅相位变化时重卷。
+    // 召唤期背景染色(sBackgroundColorShift=effectTimes,battle.c:62-80 调色板级)随
+    // crossfade 溶入/溶出。
     const waveAmp = (this.opts.fieldWave ?? 0) + this.frameWaveAdd
+    let bgSrc = this.assets.bg
+    let bgTag = 'base'
+    if (bgSrc && summonShow > 0) {
+      const tinted = this.getTintedBg()
+      if (tinted) {
+        bgSrc = this.composeSummonBg(bgSrc, tinted, summonShow)
+        bgTag = `sm${Math.round(summonShow * 72)}`
+      }
+    }
     const scene: BattleScene = {
-      ...(this.assets.bg ? { bg: this.wavedBg.render(this.assets.bg, waveAmp, now) } : {}),
+      ...(bgSrc ? { bg: this.wavedBg.render(bgSrc, waveAmp, now, 320, 200, bgTag) } : {}),
       enemies,
       players,
       palette: this.assets.palette,
@@ -1041,12 +1142,16 @@ export class BattleSession {
               ? this.currentSummon
               : this.assets.effectSprite
         const f = sheet?.frames[o.frameIdx]
-        if (f)
-          ctx.drawImage(
-            bakeFrame(f, this.assets.palette),
-            o.x - Math.floor(f.width / 2),
-            o.y - f.height,
-          )
+        if (!f) continue
+        const img = bakeFrame(f, this.assets.palette)
+        const dx = o.x - Math.floor(f.width / 2)
+        const dy = o.y - f.height
+        // 神将随 crossfade 溶入/溶出(与队员反相;hold 全显)
+        if (o.sheet === 'summon' && summonShow < 1) {
+          if (summonShow > 0) drawDissolved(ctx, img, dx, dy, 1 - summonShow)
+          continue
+        }
+        ctx.drawImage(img, dx, dy)
       }
       ctx.restore()
     }

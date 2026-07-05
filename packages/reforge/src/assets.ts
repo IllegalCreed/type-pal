@@ -143,11 +143,20 @@ export async function loadBattleFields(
  * 直接写成灰度 PNG(R=G=B=索引,未着色)。故此处读 R 通道当索引,经 palette 着色成真彩 canvas
  * (同 bakeFrame 精灵着色)。palette = 触发战斗的场景调色板。
  */
-export async function loadBattleBg(
+export interface BattleBgAsset {
+  canvas: HTMLCanvasElement
+  /** FBP 原始索引(R 通道;召唤背景染色的调色板级 nibble 运算用,battle.c:62-80)。 */
+  indices: Uint8Array
+  w: number
+  h: number
+}
+
+/** 战斗背景全量(canvas + 索引源)。染色/重着色场景用。 */
+export async function loadBattleBgFull(
   base: AssetBase,
   id: number,
   palette: Palette,
-): Promise<HTMLCanvasElement> {
+): Promise<BattleBgAsset> {
   const imagesRoot = base.root.replace(/\/data$/, '/images')
   const res = await fetch(`${imagesRoot}/battle/bg/${String(id).padStart(3, '0')}.png`)
   if (!res.ok) throw new Error(`battle bg ${id}: ${res.status}`)
@@ -160,11 +169,37 @@ export async function loadBattleBg(
   ctx.drawImage(bitmap, 0, 0)
   bitmap.close()
   const src = ctx.getImageData(0, 0, cvs.width, cvs.height)
-  const out = ctx.createImageData(cvs.width, cvs.height)
-  const colors = palette.colors
   const n = cvs.width * cvs.height
+  const indices = new Uint8Array(n)
+  for (let i = 0; i < n; i++) indices[i] = src.data[i * 4] ?? 0 // R 通道 = FBP 索引
+  ctx.putImageData(bakeBgImageData(ctx, indices, cvs.width, cvs.height, palette, 0), 0, 0)
+  return { canvas: cvs, indices, w: cvs.width, h: cvs.height }
+}
+
+/**
+ * 索引 → 着色 ImageData,可带背景染色量(原版 PAL_BattleDrawBackground,battle.c:62-80:
+ * 低 nibble + shift,下溢(0x80)→0、上溢(0x70)→0x0F,高 nibble 不动 —— 调色板级精确,
+ * 召唤 sBackgroundColorShift = wEffectTimes,fight.c:3145)。
+ */
+export function bakeBgImageData(
+  ctx: CanvasRenderingContext2D,
+  indices: Uint8Array,
+  w: number,
+  h: number,
+  palette: Palette,
+  shift: number,
+): ImageData {
+  const out = ctx.createImageData(w, h)
+  const colors = palette.colors
+  const n = w * h
   for (let i = 0; i < n; i++) {
-    const idx = src.data[i * 4] ?? 0 // R 通道 = FBP 索引
+    let idx = indices[i] ?? 0
+    if (shift !== 0) {
+      let b = (idx & 0x0f) + shift
+      if (b & 0x80) b = 0
+      else if (b & 0x70) b = 0x0f
+      idx = (idx & 0xf0) | b
+    }
     const c = colors[idx] ?? [0, 0, 0]
     const o = i * 4
     out.data[o] = c[0] ?? 0
@@ -172,8 +207,16 @@ export async function loadBattleBg(
     out.data[o + 2] = c[2] ?? 0
     out.data[o + 3] = 255
   }
-  ctx.putImageData(out, 0, 0)
-  return cvs
+  return out
+}
+
+/** 战斗背景(兼容薄壳:只要 canvas)。 */
+export async function loadBattleBg(
+  base: AssetBase,
+  id: number,
+  palette: Palette,
+): Promise<HTMLCanvasElement> {
+  return (await loadBattleBgFull(base, id, palette)).canvas
 }
 
 /**

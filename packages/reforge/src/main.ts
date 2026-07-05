@@ -24,6 +24,7 @@ import {
   type AssetBase,
   type LoadedSprite,
   loadBattleBg,
+  loadBattleBgFull,
   loadBattleFields,
   loadBattleSprite,
   loadEffectSprite,
@@ -765,9 +766,9 @@ async function main(): Promise<void> {
         () => new Map<number, { screenWave: number }>(),
       ))
       const fieldWave = fields.get(Number(fieldId))?.screenWave ?? 0
-      const [bg, summonSprites, enemySprites, playerSprites, faceList, battleIcons, effectSprite, effectIndex] =
+      const [bgFull, summonSprites, enemySprites, playerSprites, faceList, battleIcons, effectSprite, effectIndex] =
         await Promise.all([
-          loadBattleBg(project.assetBase, fieldId, palette).catch(() => undefined),
+          loadBattleBgFull(project.assetBase, Number(fieldId), palette).catch(() => undefined),
           Promise.all(
             [...summonGodIds].map(async (g) =>
               [g, await loadBattleSprite(project.assetBase, 'player', g + 10).catch(() => undefined)] as const,
@@ -843,7 +844,11 @@ async function main(): Promise<void> {
         players,
         enemyDefs,
         {
-          bg,
+          bg: bgFull?.canvas,
+          // 召唤背景染色的索引源(调色板级 nibble 重烤,battle.c:62-80)
+          bgIndexed: bgFull
+            ? { indices: bgFull.indices, w: bgFull.w, h: bgFull.h }
+            : undefined,
           palette,
           glyphs,
           enemySprites,

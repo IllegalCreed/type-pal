@@ -44,6 +44,9 @@ export interface AnimFrame {
   screenShake?: boolean
   /** 屏幕波幅叠加设值(OffMagic 首帧设 = fx.wave;演出期叠在战场常驻波上,动作收尾归 0)。 */
   waveAdd?: number
+  /** 召唤演出相(fight.c:3130-3187 + 889-912):in = 队员溶出/神将溶入/背景染色溶入(72×16ms);
+   *  hold = 队员隐、神在场;out = 反向溶回。无字段 = 非召唤态(session 清相)。 */
+  summonPhase?: 'in' | 'hold' | 'out'
 }
 
 export interface BuildPlayerAttackInput {
@@ -273,9 +276,12 @@ export interface BuildPlayerCastInput {
   targetPos?: { x: number; y: number }
   /** 结算数字(特效播完后一帧弹;掉血者列表)。 */
   damageNums: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
-  /** 召唤神段(B5:effects 首个 summon 时传;fight.c:3072-3187 的 clean 简化 —— 神将
-   *  loop 帧 0..n-2 各 frameTimeMs → 定格末帧贯穿二次法术;72 步 crossfade/背景染色 = 精调项)。 */
+  /** 召唤神段(B5/P1 召唤束,fight.c:3072-3187):全员变亮 1..10 → crossfade in(队员溶出/
+   *  神将溶入/背景染色,72×16ms)→ 神将 loop 0..n-2 → 定格末帧贯穿二次法术 → PostMagic
+   *  (神在场)→ crossfade out。 */
   summon?: { frames: number; frameTimeMs: number; x: number; y: number }
+  /** 全队下标(召唤变亮/隐显用;缺省只有施法者)。 */
+  partyIdxs?: number[]
   /** PostMagic 受击目标(fight.c:3190:掉血敌三轮交替位移抖动+第 2 轮闪白;idx+底锚)。 */
   postTargets?: Array<{ idx: number; pos: { x: number; y: number } }>
 }
@@ -324,13 +330,30 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
   }
   frames.push({ durationMs: delayMs(1) })
 
-  // —— 召唤神段(summon):神将 loop 帧,随后定格末帧贯穿 OffMagic ——
+  // —— 召唤神段(P1 召唤束,fight.c:3110-3187)——
   const summonHold: OverlayDraw[] = []
-  if (input.summon && input.summon.frames > 0) {
+  const inSummon = !!(input.summon && input.summon.frames > 0)
+  if (input.summon && inSummon) {
     const sm = input.summon
+    const party = input.partyIdxs ?? [casterIdx]
+    // ① 全员变亮 iColorShift 1..10(fight.c:3120-3128;每级 Delay1)
+    for (let i = 1; i <= 10; i++) {
+      frames.push({
+        durationMs: delayMs(1),
+        fighters: party.map((idx) => ({ side: 'player' as const, idx, colorShift: i })),
+      })
+    }
+    // ② crossfade in(72×16ms):队员溶出、神将 frame0 溶入、背景染色溶入(session 按相驱动)
+    frames.push({
+      durationMs: 72 * 16,
+      summonPhase: 'in',
+      overlays: [{ sheet: 'summon', frameIdx: 0, x: sm.x, y: sm.y }],
+    })
+    // ③ 神将现身 loop 0..n-2(队员已隐)
     for (let i = 0; i < Math.max(1, sm.frames - 1); i++) {
       frames.push({
         durationMs: sm.frameTimeMs,
+        summonPhase: 'hold',
         overlays: [{ sheet: 'summon', frameIdx: i, x: sm.x, y: sm.y }],
       })
     }
@@ -366,7 +389,11 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
       frames.push({
         durationMs: frameDur,
         overlays: [...drop(k), ...summonHold],
-        ...(i === fd ? { fighters: [{ side: 'player' as const, idx: casterIdx, frame: 6 }] } : {}),
+        // 召唤期二次法术:队员保持隐(神将定格在场,fight.c:3186 fSummon 语义)
+        ...(inSummon ? { summonPhase: 'hold' as const } : {}),
+        ...(!inSummon && i === fd
+          ? { fighters: [{ side: 'player' as const, idx: casterIdx, frame: 6 }] }
+          : {}),
         ...(fx.sound > 0 && i >= fd && (i - fd) % n === 0 ? { sound: fx.sound } : {}),
         // 屏波:OffMagic 首帧设叠加值(fight.c:2666 wScreenWave += wWave;收尾还原在 session)
         ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
@@ -377,12 +404,14 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
   }
 
   // —— PostMagic(fight.c:3190-3240):掉血敌三轮位移抖动 x−8→−4→−6(dist 8 交替减半累积),
-  //    第 2 轮 colorShift=6 闪白;末帧复位。缺 = 无目标掉血(治疗系)。——
+  //    第 2 轮 colorShift=6 闪白;末帧复位。缺 = 无目标掉血(治疗系)。召唤期神将在场时抖
+  //    (fight.c:4323 先 PostMagic、889 后才淡出 —— 一阶段 49fe8a63 血泪序)。——
   if (input.postTargets?.length) {
     const SHAKE_X = [-8, -4, -6]
     for (let r = 0; r < 3; r++) {
       frames.push({
         durationMs: delayMs(1),
+        ...(inSummon ? { summonPhase: 'hold' as const, overlays: [...summonHold] } : {}),
         fighters: input.postTargets.map((t) => ({
           side: 'enemy' as const,
           idx: t.idx,
@@ -393,6 +422,7 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
     }
     frames.push({
       durationMs: delayMs(1),
+      ...(inSummon ? { summonPhase: 'hold' as const, overlays: [...summonHold] } : {}),
       fighters: input.postTargets.map((t) => ({
         side: 'enemy' as const,
         idx: t.idx,
@@ -400,6 +430,12 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
         colorShift: 0,
       })),
     })
+  }
+
+  // —— 召唤 crossfade out(fight.c:897-912:复位队员先于淡出 —— 一阶段 7e49327b 血泪:
+  //    否则溶回目标是施法帧+高亮残留;复位由 session 在 'out' 相起点执行)——
+  if (inSummon) {
+    frames.push({ durationMs: 72 * 16, summonPhase: 'out', overlays: [...summonHold] })
   }
 
   // —— 结算数字 + 回位 ——
@@ -502,6 +538,8 @@ export interface AnimSideEffects {
   onScreenShake?(durationMs: number): void
   /** 屏幕波幅叠加设值(OffMagic 首帧;收尾还原由 session 管,fight.c:2666/2835)。 */
   onWaveAdd?(wave: number): void
+  /** 召唤相切换(每帧派发当前相;null = 本帧无相 → session 清态)。 */
+  onSummonPhase?(phase: 'in' | 'hold' | 'out' | null): void
 }
 
 /** 逐帧推进器:进入新帧时应用 deltas + 派发副作用(每帧恰一次;wall-clock dt 驱动)。 */
@@ -541,5 +579,6 @@ export class AnimPlayer {
     if (f.damageNums) for (const d of f.damageNums) this.fx.onDamage?.(d.target, d.value)
     if (f.screenShake) this.fx.onScreenShake?.(f.durationMs)
     if (f.waveAdd !== undefined) this.fx.onWaveAdd?.(f.waveAdd)
+    this.fx.onSummonPhase?.(f.summonPhase ?? null)
   }
 }
