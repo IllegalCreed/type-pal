@@ -413,7 +413,8 @@ async function main(): Promise<void> {
   >()
   let partyMove: { to: GridPos; stepMs: number; acc: number; resolve: () => void } | null = null
   const entityAnim = new Map<string, number>() // 实体走帧计数(移动/0x87 动画共用)
-  // auto 巡逻:每实体独立 runner(主脚本期间暂停;切场景全停)
+  // auto 巡逻:每实体独立 runner,与主脚本**并行**(2026-07-03 拍板:不复刻对话冻结 NPC);
+  // E6a:仅被主脚本接管(authority)的实体其位移暂停,release 恢复。切场景全停。
   const autoAborts = new Map<string, AbortController>()
   let cameraPanFx: {
     fromX: number
@@ -444,6 +445,15 @@ async function main(): Promise<void> {
     return new Promise((resolve) => {
       fadeFx = { dir, start: nowMs, ms, resolve }
     })
+  }
+
+  // ══ E6a 实体定位权威(设计:docs/phase2/foundation/e6-position-authority-design.md)══
+  // 缺省不在表 = world(输入/auto/hostile 可写);'script' = 主脚本演出接管。
+  // 拍板(2026-07-05):①仅被接管的实体暂停 auto;②位移指令才隐式接管。
+  // 不进存档 —— 权威是演出期瞬时态,读档/切场景随脚本收尾清空。mount 形态 E7 落。
+  const authority = new Map<string, { kind: 'script' }>()
+  const takeByScript = (id: string): void => {
+    authority.set(id, { kind: 'script' })
   }
 
   const host: ScriptHost = {
@@ -591,6 +601,7 @@ async function main(): Promise<void> {
         }
         // acc 从 0 起:曾预充满 stepMs → 首步零延迟,1-2 步的短距走位在相邻帧内瞬完
         // = 瞬移(开场李逍遥两条 partyWalk 到密道口,2026-07-03 用户报;实体同防)
+        entityMoves.get(id)?.resolve() // E6a 顺手修:同实体新走位覆盖旧 entry 时兑现旧 Promise(防悬挂卡死调用方)
         entityMoves.set(id, { to, stepMs: SPEED_MS[speed] ?? 130, acc: 0, resolve })
       }),
     stepEntity: (id, dir) => {
@@ -875,6 +886,52 @@ async function main(): Promise<void> {
   }
   const reportedOnce = new Set<string>()
 
+  // ── E6a 权威视图:同一 host 原语,两个调用界面 ──
+  // 主脚本视图:位移指令隐式接管目标(决策②:转向/定帧不接管);脚本链收尾统一归还。
+  const scriptHost: ScriptHost = {
+    ...host,
+    moveEntity: (id, to, speed) => {
+      takeByScript(id)
+      return host.moveEntity(id, to, speed)
+    },
+    stepEntity: (id, dir) => {
+      takeByScript(id)
+      host.stepEntity(id, dir)
+    },
+    nudgeEntity: (id, dx, dy) => {
+      takeByScript(id)
+      host.nudgeEntity(id, dx, dy)
+    },
+    chaseStep: (id, range, speed, floating) => {
+      takeByScript(id)
+      return host.chaseStep(id, range, speed, floating)
+    },
+  }
+  // auto 巡逻视图:目标实体被主脚本接管 → 该指令暂停/跳过(决策①:仅被接管者暂停,
+  // 其余 NPC 照常并行 —— 2026-07-03「不复刻对话冻结 NPC」拍板的精确化)。
+  const autoHost: ScriptHost = {
+    ...host,
+    moveEntity: async (id, to, speed) => {
+      while (authority.has(id)) await host.wait(150) // 等 release 再走(演出期整段驻留)
+      return host.moveEntity(id, to, speed)
+    },
+    stepEntity: (id, dir) => {
+      if (authority.has(id)) return // 半格步:被接管期丢步无感
+      host.stepEntity(id, dir)
+    },
+    nudgeEntity: (id, dx, dy) => {
+      if (authority.has(id)) return
+      host.nudgeEntity(id, dx, dy)
+    },
+    chaseStep: async (id, range, speed, floating) => {
+      if (authority.has(id)) {
+        await host.wait(200)
+        return
+      }
+      return host.chaseStep(id, range, speed, floating)
+    },
+  }
+
   /** M3b:tick 推进走位驱动(实体 + 队伍;到达即兑现)。 */
   function advanceMoves(dt: number): void {
     // M3c 相机 pan:每步(~16ms)移动 (dx,dy),累积进 cameraOffset;走完兑现
@@ -968,7 +1025,7 @@ async function main(): Promise<void> {
     const stages = auto.stages
     const ac = new AbortController()
     autoAborts.set(e.id, ac)
-    const r = new ScriptRunner(host, world.script!, ac.signal)
+    const r = new ScriptRunner(autoHost, world.script!, ac.signal) // E6a:auto 视图(被接管实体暂停)
     r.selfId = e.id // chasePlayer/vanishEntity 的 self
     r.paceMs = 80 // 原版 auto 一帧一 op 的节拍近似(一阶段同语义)
     void (async () => {
@@ -1078,7 +1135,7 @@ async function main(): Promise<void> {
   function startScript(key: string, stages: readonly ScriptStage[], selfId?: string): void {
     if (runner) return
     scriptAbort = new AbortController()
-    const r = new ScriptRunner(host, world.script!, scriptAbort.signal)
+    const r = new ScriptRunner(scriptHost, world.script!, scriptAbort.signal) // E6a:主脚本视图(位移隐式接管)
     r.selfId = selfId
     runner = r
     void r
@@ -1093,6 +1150,7 @@ async function main(): Promise<void> {
         if (runner !== r) return
         runner = null
         scriptAbort = null
+        authority.clear() // E6a:脚本链收尾统一归还(兜底收尾人;续链新段自行重新接管)
         if (pendingOnEnter) {
           const sid = pendingOnEnter
           pendingOnEnter = null
@@ -1121,6 +1179,7 @@ async function main(): Promise<void> {
     const r = scriptDialogResolve
     scriptDialogResolve = null
     r?.()
+    authority.clear() // E6a:强停演出同样归还全部实体
     for (const t of timers.splice(0)) t.resolve()
     fadeFx?.resolve()
     fadeFx = null
