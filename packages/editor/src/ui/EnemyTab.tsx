@@ -450,39 +450,41 @@ export function EnemyTab(props: {
           <div className="et-form">
             <div className="section">
               <h4>基础</h4>
-              <div className="field">
-                <label>名字</label>
-                <input
-                  className="in"
-                  value={nameOf(enemy)}
-                  onChange={(e) =>
-                    session.dispatch(new UpdateLocaleCommand(enemy.name, e.target.value))
-                  }
-                />
-              </div>
-              <div className="field">
-                <label>战斗精灵#</label>
-                <input
-                  className="in mono"
-                  type="number"
-                  value={enemy.spriteNum}
-                  onWheel={(e) => e.currentTarget.blur()}
-                  onChange={(e) =>
-                    session.dispatch(
-                      new UpdateEnemyCommand(enemy.id, {
-                        spriteNum: Math.max(0, Math.floor(e.target.valueAsNumber || 0)),
-                      }),
-                    )
-                  }
-                />
-              </div>
-              <div className="field">
-                <label>二动</label>
-                <input
-                  type="checkbox"
-                  checked={enemy.stats.dualMove}
-                  onChange={(e) => patchStats('dualMove', e.target.checked)}
-                />
+              <div className="form-grid">
+                <label>
+                  <span className="lb">名字</span>
+                  <input
+                    className="in"
+                    value={nameOf(enemy)}
+                    onChange={(e) =>
+                      session.dispatch(new UpdateLocaleCommand(enemy.name, e.target.value))
+                    }
+                  />
+                </label>
+                <label>
+                  <span className="lb">战斗精灵#</span>
+                  <input
+                    className="in mono"
+                    type="number"
+                    value={enemy.spriteNum}
+                    onWheel={(e) => e.currentTarget.blur()}
+                    onChange={(e) =>
+                      session.dispatch(
+                        new UpdateEnemyCommand(enemy.id, {
+                          spriteNum: Math.max(0, Math.floor(e.target.valueAsNumber || 0)),
+                        }),
+                      )
+                    }
+                  />
+                </label>
+                <label className="cf-inline">
+                  <input
+                    type="checkbox"
+                    checked={enemy.stats.dualMove}
+                    onChange={(e) => patchStats('dualMove', e.target.checked)}
+                  />
+                  二动(一回合两次)
+                </label>
               </div>
             </div>
             {assetBase ? (

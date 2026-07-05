@@ -1322,8 +1322,8 @@ body {
 }
 .et-stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 6px 10px;
+  grid-template-columns: repeat(4, 160px);
+  gap: 8px 16px;
 }
 .et-stat {
   display: flex;
@@ -1432,15 +1432,23 @@ body {
 }
 .ea-fields {
   display: grid;
-  grid-template-columns: repeat(3, auto);
-  gap: 6px 14px;
+  grid-template-columns: repeat(3, 110px);
+  gap: 8px 16px;
+  align-content: start;
 }
 .ea-field {
   display: flex;
-  align-items: center;
-  gap: 6px;
+  flex-direction: column; /* 垂直字段体系(2026-07-05 定稿):label 上置,与全页统一 */
+  gap: 4px;
   font-size: 12px;
   color: var(--fg-dim);
+}
+.ea-field > span:first-child {
+  font-size: 11px;
+  color: var(--faint);
+}
+.ea-field .in {
+  width: 100%;
 }
 
 /* ── 物品编辑页(ItemTab)紧凑表单 ── */
@@ -1454,9 +1462,13 @@ body {
 .it-field {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
   font-size: 12px;
   color: var(--dim);
+}
+.it-field > span {
+  font-size: 11px;
+  color: var(--faint);
 }
 .it-field > .in {
   width: auto;
@@ -1832,7 +1844,40 @@ body {
 }
 
 
-/* ── 技能编辑(垂直字段体系:label 上置 —— 行内 label 在中文变长下天生参差,作者否决) ── */
+/* ── 垂直字段体系(2026-07-05 定稿规范:label 小字上置,控件恒宽格;宽表单区通用;
+   窄检查器(194/290px 栏)保留 .field 左置紧凑规格 —— 两种场景两种规格,各自统一) ── */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 200px);
+  gap: 10px 24px;
+  align-items: end;
+}
+.form-grid label {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--dim);
+  min-width: 0;
+  white-space: nowrap;
+}
+.form-grid label > span.lb {
+  font-size: 11px;
+  color: var(--faint);
+}
+.form-grid label .in {
+  width: 100%;
+  flex: none;
+}
+.form-grid label.cf-inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 6px;
+}
+
+/* ── 技能编辑(结构化表单 + 特效预览;沿用 .form-grid 规格) ── */
 .skill-form {
   max-width: 860px;
 }
