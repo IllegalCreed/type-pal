@@ -60,6 +60,39 @@ describe('M4a headless 战斗核', () => {
     expect(result).toBe('fled')
   })
 
+  test('暴击(fight.c:3639-3647):rng 1/6 → ×3 + 会心日志;高 rng 无暴击;狂暴必暴击', () => {
+    const base = calcPhysicalAttackDamage(40, 10, 0)
+    // 单回合推进:进 selectAction → 填动作 → 消费 performAction 至回合结束
+    const oneTurn = (s: ReturnType<typeof createBattleState>, rng: () => number): void => {
+      stepBattle(s, rng) // preBattle → selectAction
+      s.pendingActions.set(0, { kind: 'attack', targetEnemyIdx: 0 })
+      let guard = 0
+      do {
+        stepBattle(s, rng)
+      } while (s.phase === 'performAction' && guard++ < 30)
+    }
+    const mk = () =>
+      createBattleState({
+        players: [player('li', { attackStrength: 40 })],
+        enemies: [mkEnemy('slime', { health: 999, defense: 10, attackStrength: 0 })],
+      })
+    // rng0:floor(0×6)=0 → 暴击 ×3
+    const s1 = mk()
+    oneTurn(s1, rng0)
+    expect(999 - s1.enemies[0]!.hp).toBe(base * 3)
+    expect(s1.log.some((l) => l.includes('会心一击'))).toBe(true)
+    // rng 0.9:floor(5.4)=5 → 无暴击
+    const rHigh = () => 0.9
+    const s2 = mk()
+    oneTurn(s2, rHigh)
+    expect(999 - s2.enemies[0]!.hp).toBe(base)
+    // 狂暴:高 rng 也必暴击(fight.c:3641 ‖ Bravery)
+    const s3 = mk()
+    s3.players[0]!.status.bravery = 3
+    oneTurn(s3, rHigh)
+    expect(999 - s3.enemies[0]!.hp).toBe(base * 3)
+  })
+
   test('首领战不可逃(fight.c:4143 && !fIsBoss):同 rng 下 boss 场逃跑恒失败', () => {
     const s = createBattleState({
       players: [player('li', { attackStrength: 100 })],

@@ -847,6 +847,7 @@ export class BattleSession {
       kind: string
       target?: number
       skillId?: string
+      crit?: boolean
     } | null,
     pHp: number[],
     eHp: number[],
@@ -876,11 +877,13 @@ export class BattleSession {
           : -1,
         damage: (eHp[t] ?? 0) - (s.enemies[t]?.hp ?? 0),
         windup: true,
-        // 出招/兵器音(rgwAttackSound/rgwWeaponSound;暴击音 critical 等暴击落地)
+        // 出招/兵器音;暴击换暴击喝声(rgwCriticalSound 替代 attackSound,fight.c:2065-2069)
         ...(this.opts.playerSounds?.[la.idx]
           ? {
               sounds: {
-                attack: this.opts.playerSounds[la.idx]!.attack,
+                attack: la.crit
+                  ? this.opts.playerSounds[la.idx]!.critical
+                  : this.opts.playerSounds[la.idx]!.attack,
                 weapon: this.opts.playerSounds[la.idx]!.weapon,
               },
             }

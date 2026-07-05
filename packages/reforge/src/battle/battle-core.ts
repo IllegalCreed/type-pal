@@ -99,6 +99,8 @@ export interface BattleState {
     target?: number
     /** cast 动作的技能 id(表现层查 animation 播特效)。 */
     skillId?: string
+    /** 物攻暴击(1/6 或狂暴;表现层取暴击音,fight.c:2065-2069)。 */
+    crit?: boolean
   } | null
 }
 
@@ -520,14 +522,19 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
     // B7c:物攻 → attack 池 +1、maxHP 池 +R(2,3)(fight.c:3756-3757,序固定)
     addHidden('attack', 1)
     addHidden('maxHP', 2 + Math.floor(_rng() * 2))
-    const dmg = resolveAttack(
+    // 暴击(fight.c:3639-3647):RandomLong(0,5)==0(1/6)或狂暴 Bravery → 伤害 ×3。
+    // 表现层经 lastAction.crit 取暴击音(rgwCriticalSound 替代 attackSound,fight.c:2065-2069)
+    const crit = Math.floor(_rng() * 6) === 0 || p.status.bravery > 0
+    let dmg = resolveAttack(
       p.attackStrength,
       e.def.stats.defense,
       e.def.stats.physicalResistance,
       e.defending,
     )
+    if (crit) dmg *= 3
+    if (s.lastAction) s.lastAction.crit = crit
     e.hp = Math.max(0, e.hp - dmg)
-    s.log.push(`${p.roleId} 攻击 ${e.def.id} 造成 ${dmg}`)
+    s.log.push(`${p.roleId} ${crit ? '会心一击 ' : ''}攻击 ${e.def.id} 造成 ${dmg}`)
   }
 }
 
