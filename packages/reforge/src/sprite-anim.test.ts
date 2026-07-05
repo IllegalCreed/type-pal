@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { deriveStepCycle, idleFrameIndex, walkFrameIndex } from './sprite-anim.js'
+import { deriveStepCycle, idleFrameIndex, loopFrameIndex, walkFrameIndex } from './sprite-anim.js'
 import type { SpriteLayout } from '@type-pal/content'
 
 const d3: SpriteLayout = { kind: 'directional', framesPerDir: 3 }
@@ -31,5 +31,19 @@ describe('sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+
   test('walkFrameIndex:4 帧原始步序;非 directional 同站立', () => {
     expect(walkFrameIndex(d4, 'down', 3)).toBe(3)
     expect(walkFrameIndex({ kind: 'static' }, 'down', 3)).toBe(0)
+  })
+})
+
+describe('loopFrameIndex(E5 环境动画自循环)', () => {
+  const loop4: import('@type-pal/content').SpriteLayout = { kind: 'loop', frameCount: 4 }
+  test('按壁钟 250ms/帧循环 0..n-1', () => {
+    expect(loopFrameIndex(loop4, 0)).toBe(0)
+    expect(loopFrameIndex(loop4, 260)).toBe(1)
+    expect(loopFrameIndex(loop4, 750)).toBe(3)
+    expect(loopFrameIndex(loop4, 1000)).toBe(0) // 回卷
+  })
+  test('非 loop 布局恒 0;frameCount 0 防除零', () => {
+    expect(loopFrameIndex({ kind: 'static' }, 5000)).toBe(0)
+    expect(loopFrameIndex({ kind: 'loop', frameCount: 0 }, 5000)).toBe(0)
   })
 })

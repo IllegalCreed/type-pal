@@ -8,7 +8,7 @@
  * - 3 帧行走步序 = [0,1,0,2](scene.c:663 iStepFrameLeader:站/迈左/站/迈右);
  *   4 帧 = [0,1,2,3](sdlpal walkFrames==4 分支,原版数据未用但为真实引擎路径);
  *   其余 n 退化为顺序循环 [0..n-1]。
- * - static/loop 布局无方向:C0 恒画 frame 0(loop 的自循环播放留后续小片)。
+ * - static 布局无方向恒画 frame 0;loop 布局按壁钟自循环(E5,火把/流水环境动画)。
  */
 import type { Facing, SpriteLayout } from '@type-pal/content'
 
@@ -25,6 +25,16 @@ export function deriveStepCycle(framesPerDir: number): number[] {
 export function idleFrameIndex(layout: SpriteLayout, facing: Facing): number {
   if (layout.kind !== 'directional') return 0
   return FACING_TO_DIR[facing] * layout.framesPerDir
+}
+
+/**
+ * loop 布局自循环帧(E5:火把/流水)。壁钟驱动(渲染每帧调,无状态);
+ * 帧率暂不进数据(同 deriveStepCycle 哲学:要自定义时再加字段),250ms/帧。
+ */
+export function loopFrameIndex(layout: SpriteLayout, nowMs: number, msPerFrame = 250): number {
+  if (layout.kind !== 'loop') return 0
+  const n = Math.max(1, layout.frameCount)
+  return Math.floor(nowMs / msPerFrame) % n
 }
 
 /** 行走帧下标:directional → dir*framesPerDir + stepCycle[step];非 directional 同站立。 */

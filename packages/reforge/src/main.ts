@@ -85,7 +85,7 @@ import { buildMeta, buildPayload, captureThumbnail } from './save/ops.js'
 import { IndexedDbSaveStore, MemorySaveStore, type SaveStore } from './save/store.js'
 import type { SaveMeta, SlotId } from './save/types.js'
 import { type ScriptHost, ScriptRunner } from './script-runner.js'
-import { idleFrameIndex, walkFrameIndex } from './sprite-anim.js'
+import { idleFrameIndex, loopFrameIndex, walkFrameIndex } from './sprite-anim.js'
 import {
   closeSystemMenu,
   openSystemMenu,
@@ -1289,9 +1289,11 @@ async function main(): Promise<void> {
       const fi = def
         ? hasOv
           ? idleFrameIndex(def.layout, e.facing ?? 'down') + (entityFrameOverride.get(e.id) ?? 0)
-          : anim !== undefined
-            ? walkFrameIndex(def.layout, e.facing ?? 'down', anim)
-            : idleFrameIndex(def.layout, e.facing ?? 'down')
+          : def.layout.kind === 'loop'
+            ? loopFrameIndex(def.layout, performance.now()) // E5:火把/流水自循环
+            : anim !== undefined
+              ? walkFrameIndex(def.layout, e.facing ?? 'down', anim)
+              : idleFrameIndex(def.layout, e.facing ?? 'down')
         : 0
       const f = def ? (sp?.frames[fi] ?? sp?.frames[0]) : undefined
       if (!sp || !f) continue
