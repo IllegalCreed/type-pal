@@ -454,6 +454,33 @@ export function CommandForm(props: {
           </select>
         </Row>
       )
+    case 'mountParty':
+      return (
+        <>
+          <Row label="载具实体">
+            <EntitySel value={cmd.entity} scene={scene} onChange={(id) => set({ entity: id })} />
+          </Row>
+          <Row label="偏移 dx/dy">
+            <Num value={cmd.dx ?? 0} onChange={(n) => set({ dx: n || undefined })} />
+            <Num value={cmd.dy ?? 0} onChange={(n) => set({ dy: n || undefined })} />
+          </Row>
+        </>
+      )
+    case 'ride':
+      return (
+        <>
+          <Row label="载具实体">
+            <EntitySel value={cmd.entity} scene={scene} onChange={(id) => set({ entity: id })} />
+          </Row>
+          <Row label="col / row">
+            <Num value={cmd.to.col} onChange={(n) => set({ to: { ...cmd.to, col: n } })} />
+            <Num value={cmd.to.row} onChange={(n) => set({ to: { ...cmd.to, row: n } })} />
+          </Row>
+          <Row label="速度">
+            <Sel value={cmd.speed} options={SPEEDS} onChange={(v) => set({ speed: v })} />
+          </Row>
+        </>
+      )
     case 'playSound':
       return (
         <Row label="音效 id">

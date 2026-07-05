@@ -451,9 +451,10 @@ async function main(): Promise<void> {
   // 缺省不在表 = world(输入/auto/hostile 可写);'script' = 主脚本演出接管。
   // 拍板(2026-07-05):①仅被接管的实体暂停 auto;②位移指令才隐式接管。
   // 不进存档 —— 权威是演出期瞬时态,读档/切场景随脚本收尾清空。mount 形态 E7 落。
-  const authority = new Map<string, { kind: 'script' }>()
+  type Authority = { kind: 'script' } | { kind: 'mount'; parent: string; dx: number; dy: number }
+  const authority = new Map<string, Authority>()
   const takeByScript = (id: string): void => {
-    authority.set(id, { kind: 'script' })
+    authority.set(id, { kind: 'script' }) // 覆盖 mount = 隐式 unmount(契约:mount 态脚本写须先卸)
   }
 
   const host: ScriptHost = {
@@ -598,6 +599,22 @@ async function main(): Promise<void> {
     releaseEntity: (id) => {
       if (id === undefined) authority.clear()
       else authority.delete(id)
+    },
+    // E7 载具(D20 父动子随;原版 0xA1 聚拢 + 0x3F/44/97 骑乘的 clean 表达)
+    mountParty: (entityId, dx, dy) => {
+      authority.set('party', { kind: 'mount', parent: entityId, dx, dy })
+    },
+    unmountParty: () => {
+      const a = authority.get('party')
+      if (a?.kind === 'mount') authority.delete('party') // 位置留当下(派生的最后值)
+    },
+    ride: async (entityId, to, speed) => {
+      // 骑行 = 确保挂载 + 驱动载具走位(party 每 tick 派生跟随,相机随 render 帧更新)
+      const a = authority.get('party')
+      if (!(a?.kind === 'mount' && a.parent === entityId))
+        authority.set('party', { kind: 'mount', parent: entityId, dx: 0, dy: 0 })
+      takeByScript(entityId) // 载具本身按位移指令语义接管(其 auto 暂停)
+      await host.moveEntity(entityId, to, speed)
     },
     moveEntity: (id, to, speed) =>
       new Promise((resolve) => {
@@ -944,6 +961,32 @@ async function main(): Promise<void> {
     releaseEntity: () => {
       host.report('auto 脚本不可归还权威;releaseEntity 仅主脚本可用')
     },
+    mountParty: () => {
+      host.report('auto 脚本不可挂载队伍;mountParty 仅主脚本可用')
+    },
+    unmountParty: () => {
+      host.report('auto 脚本不可卸载队伍;unmountParty 仅主脚本可用')
+    },
+    ride: async () => {
+      host.report('auto 脚本不可骑乘;ride 仅主脚本可用')
+    },
+  }
+
+  /** E7:mount 派生 —— 挂载者位置 = 父实体位置 + 偏移(每 tick,最后跑 = 最高权威)。 */
+  function deriveMounts(): void {
+    for (const [id, a] of authority) {
+      if (a.kind !== 'mount') continue
+      const parent = scene.entities.find((e) => e.id === a.parent)
+      if (!parent) continue
+      const pos = { col: parent.pos.col + a.dx, row: parent.pos.row + a.dy, height: parent.pos.height }
+      if (id === 'party') {
+        player.pos = pos
+        walking = false // 骑乘不迈步(原版 wFrame 冻结)
+      } else {
+        const e = scene.entities.find((x) => x.id === id)
+        if (e) e.pos = pos
+      }
+    }
   }
 
   /** M3b:tick 推进走位驱动(实体 + 队伍;到达即兑现)。 */
@@ -1633,6 +1676,7 @@ async function main(): Promise<void> {
       r()
     }
     advanceMoves(dt) // M3b 走位驱动(实体巡逻/剧情走位;与输入无关,菜单/对话期照走)
+    deriveMounts() // E7:挂载派生最后跑(位置=父+偏移,覆写一切 = 契约最高权威)
     tickHostiles(dt) // B9 野怪遇敌驱动(数据化;追逐→开战→胜负)
     const pressed = keyboard.consumePressed()
     // M4b:战斗接管(大世界暂停;渲染/输入全走 BattleSession)

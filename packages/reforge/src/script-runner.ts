@@ -56,6 +56,10 @@ export interface ScriptHost {
   /** E6b 显式定位权威:接管/归还(缺省全部)。 */
   takeEntity(entityId: string): void
   releaseEntity(entityId?: string): void
+  /** E7 载具:party 挂上/下载具;ride = 骑行走位(阻塞)。 */
+  mountParty(entityId: string, dx: number, dy: number): void
+  unmountParty(): void
+  ride(entityId: string, to: GridPos, speed: WalkSpeed): Promise<void>
   // ── M3b 走位 / 演出(阻塞项返回 Promise,须响应 signal)──
   moveEntity(entity: string, to: GridPos, speed: WalkSpeed): Promise<void>
   stepEntity(entity: string, dir: Facing): void
@@ -263,6 +267,12 @@ export class ScriptRunner {
         return h.takeEntity(cmd.entity)
       case 'releaseEntity':
         return h.releaseEntity(cmd.entity)
+      case 'mountParty':
+        return h.mountParty(cmd.entity, cmd.dx ?? 0, cmd.dy ?? 0)
+      case 'unmountParty':
+        return h.unmountParty()
+      case 'ride':
+        return h.ride(cmd.entity, cmd.to, cmd.speed)
       case 'branch':
         return evalCondition(cmd.cond, this.world, h.query, this.random)
           ? this.run(cmd.then, [...path, 'then'])

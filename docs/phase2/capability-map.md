@@ -67,7 +67,7 @@
 | E4 | 触发交互 | ✅ | ✅ | 对话/事件 | done;事件模式 |
 | E5 | 实体动画(loop) | ✅ | ✅ | 火把/流水 | 引擎(2026-07-05):loop 布局壁钟自循环 250ms/帧(loopFrameIndex,演出帧覆盖仍优先);编辑器:精灵库布局可编(C1d)。⚠ 两工程暂无 loop 精灵数据 —— 精灵库切 loop 布局即生效 |
 | E6 | **实体定位权威** | ⚠️ | ❌ | 隐龙窟门口/试炼窟芦苇 | E6a 落地(2026-07-05,[设计](foundation/e6-position-authority-design.md)已评审):authority 表+主脚本/auto 双视图(位移指令隐式接管·仅被接管实体暂停 auto·脚本收尾统一归还);顺手修同实体 moveEntity 覆盖悬挂。已含 E6b 显式指令(takeEntity/releaseEntity,2026-07-05:schema+runner+双视图语义+表单+手册);待:E7 mount、N7 验收 |
-| E7 | 载具/挂载 | ❌ | ❌ | 试炼窟芦苇漂(共乘)/坐船/骑驴 | 父动子随的变换继承([D20](decisions.md) 契约);依赖 E6 |
+| E7 | 载具/挂载 | ⚠️ | ✅ | 试炼窟芦苇漂(共乘)/坐船/骑驴 | 引擎(2026-07-05):mount 权威形态+每 tick 派生(位置=父+偏移,最高权威)+ mountParty/unmountParty/ride 指令(原版 0xA1+0x3F/44/97 的 clean 表达;demo 骑鬼演出垫实测:挂载/骑行相机跟随/连发/下载具全通)。编辑器:表单+手册已就绪。待:迁移器翻译原版骑乘链(芦苇漂考题跑通才 ✅) |
 
 ### 角色(Character)— 7 格
 

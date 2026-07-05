@@ -92,6 +92,11 @@ export type Command =
   // 定位权威(E6b:显式接管/归还 —— 隐式接管见位移指令;手工演出精细控制用)
   | { kind: 'takeEntity'; entity: string }
   | { kind: 'releaseEntity'; entity?: string } // 缺省 = 归还全部
+  // 载具/挂载(E7,D20「父动子随」契约。原版 0xA1 聚拢+0x3F/0x44/0x97 骑乘的 clean 表达:
+  // mountParty 挂上(dx/dy 缺省 0=重叠) → ride 骑行走位(可连发) → unmountParty 下(位置留当下))
+  | { kind: 'mountParty'; entity: string; dx?: number; dy?: number }
+  | { kind: 'unmountParty' }
+  | { kind: 'ride'; entity: string; to: GridPos; speed: WalkSpeed }
   // 控制流(M3b 引擎;schema 先行防返工)
   | { kind: 'branch'; cond: ScriptCondition; then: Command[]; else?: Command[] }
   // 逃生口

@@ -67,6 +67,10 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
   // 定位权威(E6b)
   { kind: 'takeEntity', icon: '🔒', name: '接管实体', group: '控制流', params: [['entity', '实体 id']], desc: '显式接管实体定位权威:其 auto 巡逻暂停,位置归本脚本控制(位移指令会隐式接管,此指令用于「先锁再演」的精细控制)。', origin: 'E6 新增' },
   { kind: 'releaseEntity', icon: '🔓', name: '归还实体', group: '控制流', params: [['entity', '实体 id(缺省=全部)']], desc: '演出中途归还实体(恢复 auto 巡逻);脚本结束会自动归还全部,不写也不泄漏。', origin: 'E6 新增' },
+  // 载具/挂载(E7)
+  { kind: 'mountParty', icon: '🛶', name: '挂载队伍', group: '走位/相机', params: [['entity', '载具实体 id'], ['dx/dy', '偏移(缺省 0=重叠)']], desc: '队伍挂上载具(位置=载具+偏移,每帧跟随);骑乘不迈步。', origin: '0xA1 聚拢语义' },
+  { kind: 'unmountParty', icon: '🚶', name: '下载具', group: '走位/相机', params: [], desc: '解除挂载,位置留当下。' },
+  { kind: 'ride', icon: '⛵', name: '骑行走位', group: '走位/相机', params: [['entity', '载具实体 id'], ['to', '目标格'], ['speed', '速度']], desc: '驱动载具走位,队伍跟随(未挂载自动挂重叠);可连发拼路线。芦苇漂/坐船/骑驴同此契约。', origin: '0x3F/0x44/0x97' },
   // 控制流
   { kind: 'branch', icon: '🔀', name: '条件分支', group: '控制流', params: [['cond', 'flag/var/hasItem/chance/all/any/not…'], ['then', '成立指令'], ['else', '不成立指令']], desc: '结构化条件;可嵌套。', origin: 'jump-on-X 系折叠' },
   { kind: 'setEntityAuto', icon: '🔁', name: '换自动脚本', group: '控制流', params: [['entity', '实体 id'], ['stages', '新段(空=停)']], desc: '运行时切实体巡逻行为。', origin: '0x24' },

@@ -135,6 +135,12 @@ function describe(cmd: Command, locale: Locale): Described {
       return { icon: '🔢', label: `变量 ${cmd.var} ${cmd.delta >= 0 ? '+' : ''}${cmd.delta}` }
     case 'playSound':
       return { icon: '🔊', label: `音效 ${cmd.soundId}` }
+    case 'mountParty':
+      return { icon: '🛶', label: `挂载 → ${cmd.entity}` }
+    case 'unmountParty':
+      return { icon: '🚶', label: '下载具' }
+    case 'ride':
+      return { icon: '⛵', label: `骑行 ${cmd.entity}`, detail: `→(${cmd.to.col},${cmd.to.row})` }
     case 'takeEntity':
       return { icon: '🔒', label: `接管 ${cmd.entity}` }
     case 'releaseEntity':

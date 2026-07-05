@@ -29,7 +29,58 @@
       "actor": "youhun",
       "facing": "down",
       "collide": true,
-      "interact": "ghost-hearsay"
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "(骑上幽魂!E7 验证垫)"
+                    }
+                  },
+                  {
+                    "kind": "mountParty",
+                    "entity": "wandering-ghost"
+                  },
+                  {
+                    "kind": "ride",
+                    "entity": "wandering-ghost",
+                    "to": {
+                      "col": 96,
+                      "row": 16,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  },
+                  {
+                    "kind": "ride",
+                    "entity": "wandering-ghost",
+                    "to": {
+                      "col": 90,
+                      "row": 18,
+                      "height": 0
+                    },
+                    "speed": "fast"
+                  },
+                  {
+                    "kind": "unmountParty"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "(到站,下鬼。)"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "dialogues": [

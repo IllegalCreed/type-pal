@@ -377,6 +377,9 @@ export class Playback {
     setBattleMusic: (id) => this.log(`🎵 战斗音乐 ${id}`),
     setBattleField: (id) => this.log(`🗺 战场 ${id}`),
     takeEntity: (id) => this.log(`🔒 接管 ${id}`),
+    mountParty: (id) => this.log(`🛶 挂载队伍 → ${id}`),
+    unmountParty: () => this.log('🚶 下载具'),
+    ride: async (id, to) => this.log(`🛶 骑行 ${id} → (${to.col},${to.row})`),
     releaseEntity: (id) => this.log(`🔓 归还 ${id ?? '(全部)'}`),
     moveEntity: (id, to, speed) =>
       new Promise<void>((resolve) => {
