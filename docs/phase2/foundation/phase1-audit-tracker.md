@@ -31,19 +31,19 @@
 
 | 审计单元 | sdlpal C | 一阶段 | reforge | 状态 |
 |---|---|---|---|---|
-| 对话框渲染 | text.c | present/dialog-box.ts | dialog/dialog-box.ts | ⬜ 待审 |
-| 对话解析(控制符) | text.c | present/dialog-box.ts(parseDialogText) | content/rich-text.ts | ⬜ 待审 |
-| 文本数据(WORD/M.MSG) | res.c, text.c | pal-extract/utils/gbk.ts | (复用 shared) | ⬜ 待审 |
+| 对话框渲染 | text.c | present/dialog-box.ts | dialog/dialog-box.ts | ✅ 已审([n-dialog-text-audit](n-dialog-text-audit.md)) |
+| 对话解析(控制符) | text.c | present/dialog-box.ts(parseDialogText) | content/rich-text.ts | ✅ 已审([n-dialog-text-audit](n-dialog-text-audit.md)) |
+| 文本数据(WORD/M.MSG) | res.c, text.c | pal-extract/utils/gbk.ts | (复用 shared) | ✅ 已审([n-dialog-text-audit](n-dialog-text-audit.md)) |
 
 ### 第三批 · 事件/脚本系统（N 领域）
 
 | 审计单元 | sdlpal C | 一阶段 | reforge | 状态 |
 |---|---|---|---|---|
-| 事件解释器 | script.c | core/event-system.ts(5583行) | script-runner.ts | ⬜ 待审 |
-| autoScript/巡逻 | script.c(RunAutoScript) | core/event-system.ts(tickAutoScripts) | script-runner.ts(startAutoRunners) | ⬜ 待审 |
-| 触发器系统 | play.c, script.c | core/event-system.ts | main.ts(fireTrigger) | ⬜ 待审 |
-| 走位/骑乘 op | script.c | core/event-system.ts | main.ts(moveEntity/cameraPan) | ⬜ 待审 |
-| 页切换/状态机 | script.c | core/event-system.ts | content/script.ts(entityStage) | ⬜ 待审 |
+| 事件解释器 | script.c | core/event-system.ts(5583行) | script-runner.ts | ✅ 已审([n-event-script-audit](n-event-script-audit.md)) |
+| autoScript/巡逻 | script.c(RunAutoScript) | core/event-system.ts(tickAutoScripts) | script-runner.ts(startAutoRunners) | ✅ 已审([n-event-script-audit](n-event-script-audit.md)) |
+| 触发器系统 | play.c, script.c | core/event-system.ts | main.ts(fireTrigger) | ✅ 已审([n-event-script-audit](n-event-script-audit.md)) |
+| 走位/骑乘 op | script.c | core/event-system.ts | main.ts(moveEntity/cameraPan) | ✅ 已审([n-event-script-audit](n-event-script-audit.md)) |
+| 页切换/状态机 | script.c | core/event-system.ts | content/script.ts(entityStage) | ✅ 已审([n-event-script-audit](n-event-script-audit.md)) |
 
 ### 第四批 · 战斗系统（B 领域）— 已有部分审计
 
