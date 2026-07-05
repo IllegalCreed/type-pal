@@ -741,10 +741,24 @@ async function main(): Promise<void> {
         fleeRate: effectiveStat(c, 'luck', itemsById), // 逃跑判定 str
       }))
       // 资产:战场背景(sys:battleField 记账 → 当前场景 palette 着色)+ 敌我战斗精灵 + 队员小头像
+      // B5 召唤:扫队伍已学技能的 summon godId,预载神将精灵(F.MKF player 通道 chunk godId+10)
+      const summonGodIds = new Set<number>()
+      for (const c of world.party)
+        for (const sid of world.learnedSkills[c.id] ?? []) {
+          for (const eff of project.skills[sid]?.effects ?? [])
+            if (eff.kind === 'summon') summonGodIds.add(eff.godId)
+        }
       const fieldId = world.script?.vars['sys:battleField'] ?? 24
-      const [bg, enemySprites, playerSprites, faceList, battleIcons, effectSprite, effectIndex] =
+      const [bg, summonSprites, enemySprites, playerSprites, faceList, battleIcons, effectSprite, effectIndex] =
         await Promise.all([
           loadBattleBg(project.assetBase, fieldId, palette).catch(() => undefined),
+          Promise.all(
+            [...summonGodIds].map(async (g) =>
+              [g, await loadBattleSprite(project.assetBase, 'player', g + 10).catch(() => undefined)] as const,
+            ),
+          ).then((entries) =>
+            Object.fromEntries(entries.filter((e): e is [number, LoadedSprite] => !!e[1])),
+          ),
           Promise.all(
             enemyDefs.map((e) =>
               loadBattleSprite(project.assetBase, 'enemy', e.spriteNum).catch(() => undefined),
@@ -824,6 +838,7 @@ async function main(): Promise<void> {
           sfx,
           effectSprite,
           fireSprites,
+          summonSprites,
           dialogBox, // 战斗内对话 = 大世界同款对话框叠战斗上(一阶段真值)
         },
         (roleId) => {

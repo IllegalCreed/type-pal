@@ -26,7 +26,7 @@ export interface FighterDelta {
 
 export interface OverlayDraw {
   /** 用哪套特效精灵:'effect' = chunk10 命中/施法通用;'magic' = 本次法术 fire sprite。 */
-  sheet: 'effect' | 'magic'
+  sheet: 'effect' | 'magic' | 'summon'
   frameIdx: number
   x: number
   y: number
@@ -259,6 +259,9 @@ export interface BuildPlayerCastInput {
   targetPos?: { x: number; y: number }
   /** 结算数字(特效播完后一帧弹;掉血者列表)。 */
   damageNums: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
+  /** 召唤神段(B5:effects 首个 summon 时传;fight.c:3072-3187 的 clean 简化 —— 神将
+   *  loop 帧 0..n-2 各 frameTimeMs → 定格末帧贯穿二次法术;72 步 crossfade/背景染色 = 精调项)。 */
+  summon?: { frames: number; frameTimeMs: number; x: number; y: number }
 }
 
 /** attackAll 三落点(fight.c:2766-2776 真值)。 */
@@ -303,6 +306,19 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
   }
   frames.push({ durationMs: delayMs(1) })
 
+  // —— 召唤神段(summon):神将 loop 帧,随后定格末帧贯穿 OffMagic ——
+  const summonHold: OverlayDraw[] = []
+  if (input.summon && input.summon.frames > 0) {
+    const sm = input.summon
+    for (let i = 0; i < Math.max(1, sm.frames - 1); i++) {
+      frames.push({
+        durationMs: sm.frameTimeMs,
+        overlays: [{ sheet: 'summon', frameIdx: i, x: sm.x, y: sm.y }],
+      })
+    }
+    summonHold.push({ sheet: 'summon', frameIdx: Math.max(0, sm.frames - 1), x: sm.x, y: sm.y })
+  }
+
   // —— OffMagic:fire sprite 帧循环 ——
   if (fireFrames > 0) {
     const n = fireFrames
@@ -331,7 +347,7 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
       const k = inShake ? (l - fx.shake - 1) % n : i < n ? i : ((i - fd) % (n - fd)) + fd
       frames.push({
         durationMs: frameDur,
-        overlays: drop(k),
+        overlays: [...drop(k), ...summonHold],
         ...(i === fd ? { fighters: [{ side: 'player' as const, idx: casterIdx, frame: 6 }] } : {}),
         ...(fx.sound > 0 && i >= fd && (i - fd) % n === 0 ? { sound: fx.sound } : {}),
       })

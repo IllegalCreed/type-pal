@@ -93,6 +93,8 @@ export interface BattleSessionAssets {
   effectSprite?: LoadedSprite
   /** 法术特效精灵表(fire chunk → sprite;main 预载本场可能用到的;M4d-2b)。 */
   fireSprites?: Record<number, LoadedSprite>
+  /** 召唤神精灵表(godId → F.MKF player 通道 chunk godId+10;main 按队伍召唤技预载;B5)。 */
+  summonSprites?: Record<number, LoadedSprite>
   /**
    * 战斗内对话框(= 大世界同款 DialogBox,叠在战斗场景上;一阶段真值:战斗对话复用
    * gs.dialogBox 渲染,text.c:1687 box 不擦底)。缺 → 文字兜底(单测)。
@@ -136,6 +138,8 @@ export class BattleSession {
   }
   private anim: AnimPlayer | null = null
   private overlays: OverlayDraw[] | null = null
+  /** 本次施法的召唤神精灵(overlays sheet='summon' 图源;非召唤 = null)。 */
+  private currentSummon: LoadedSprite | null = null
   /** 本次施法动画的 fire sprite(overlays sheet='magic' 的图源)。 */
   private currentFire: LoadedSprite | null = null
   /** 敌槽 → 淡出开始时刻(动画收尾后登记;渲染 alpha 渐隐)。 */
@@ -601,6 +605,11 @@ export class BattleSession {
     const a = skill.animation
     const fire = this.assets.fireSprites?.[a.effectSprite]
     this.currentFire = fire ?? null
+    // B5 召唤:effects 首个 summon → 神将精灵 + 时间线召唤段
+    const summonEff = skill.effects.find((e) => e.kind === 'summon')
+    const summonSprite =
+      summonEff?.kind === 'summon' ? (this.assets.summonSprites?.[summonEff.godId] ?? null) : null
+    this.currentSummon = summonSprite
     const fx: CastFxParams = {
       placement: a.placement ?? 'normal',
       xOffset: a.xOffset ?? 0,
@@ -632,6 +641,17 @@ export class BattleSession {
         fx,
         targetPos,
         damageNums,
+        ...(summonSprite
+          ? {
+              summon: {
+                frames: summonSprite.frames.length,
+                frameTimeMs: (fx.speed + 5) * 10,
+                // 一阶段真值 posSummon = (240+xOffset, 165+yOffset) 为底锚;overlay 左上 blit → 减帧宽高
+                x: 240 + fx.xOffset - Math.floor((summonSprite.frames[0]?.width ?? 0) / 2),
+                y: 165 + fx.yOffset - (summonSprite.frames[0]?.height ?? 0),
+              },
+            }
+          : {}),
       })
     }
     const def = s.enemies[la.idx]?.def
@@ -865,7 +885,12 @@ export class BattleSession {
       ctx.imageSmoothingEnabled = false
       ctx.scale(worldScale, worldScale)
       for (const o of this.overlays) {
-        const sheet = o.sheet === 'magic' ? this.currentFire : this.assets.effectSprite
+        const sheet =
+          o.sheet === 'magic'
+            ? this.currentFire
+            : o.sheet === 'summon'
+              ? this.currentSummon
+              : this.assets.effectSprite
         const f = sheet?.frames[o.frameIdx]
         if (f) ctx.drawImage(bakeFrame(f, this.assets.palette), o.x, o.y)
       }

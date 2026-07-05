@@ -375,6 +375,8 @@ function applyPlayerSkill(
         : []
   for (const eff of skill.effects) {
     switch (eff.kind) {
+      case 'summon': // 纯演出效果(神将现身动画,battle-session 时间线):gameplay 由链上 damage 结算
+        break
       case 'damage': {
         for (const ti of enemyTargets) {
           const e = s.enemies[ti]!
