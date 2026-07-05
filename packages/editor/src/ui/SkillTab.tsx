@@ -379,7 +379,8 @@ export function SkillTab(props: {
                   <label><span className="lb">Y 偏移</span> <N v={skill.animation.yOffset} on={(n) => setAnim({ yOffset: n })} ph="0" /></label>
                   <label><span className="lb">速度</span> <N v={skill.animation.speed} on={(n) => setAnim({ speed: n })} ph="0" /></label>
                   <label><span className="lb">循环起点</span> <N v={skill.animation.fireDelay} on={(n) => setAnim({ fireDelay: n })} ph="0" /></label>
-                  <label><span className="lb">循环次数</span> <N v={skill.animation.effectTimes} on={(n) => setAnim({ effectTimes: n })} ph="1" /></label>
+                  {/* 召唤类:原版把 wEffectTimes 复用为背景染色量(fight.c:3145),不是循环次数 —— 表单按语义分支标注 */}
+                  <label><span className="lb" title={skill.effects.some((e) => e.kind === 'summon') ? '召唤类技能此字段 = 背景染色量(原版 wEffectTimes→sBackgroundColorShift,fight.c:3145);染色演出接线后生效' : '特效命中段循环次数'}>{skill.effects.some((e) => e.kind === 'summon') ? '背景染色' : '循环次数'}</span> <N v={skill.animation.effectTimes} on={(n) => setAnim({ effectTimes: n })} ph="1" /></label>
                   <label><span className="lb">震屏帧</span> <N v={skill.animation.shake} on={(n) => setAnim({ shake: n })} ph="0" /></label>
                   <label><span className="lb">音效号</span> <N v={skill.animation.sound} on={(n) => setAnim({ sound: n })} ph="(无)" /></label>
                 </div>

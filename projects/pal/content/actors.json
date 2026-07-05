@@ -134,7 +134,16 @@
           32000
         ]
       },
-      "battleSpriteNum": 0
+      "battleSpriteNum": 0,
+      "sounds": {
+        "attack": 37,
+        "critical": 5,
+        "weapon": 1,
+        "magic": 9,
+        "cover": 15,
+        "dying": 19,
+        "death": 23
+      }
     }
   },
   {
@@ -280,7 +289,16 @@
           32000
         ]
       },
-      "battleSpriteNum": 1
+      "battleSpriteNum": 1,
+      "sounds": {
+        "attack": 38,
+        "critical": 6,
+        "weapon": 2,
+        "magic": 10,
+        "cover": 16,
+        "dying": 20,
+        "death": 24
+      }
     }
   },
   {
@@ -419,7 +437,16 @@
           32000
         ]
       },
-      "battleSpriteNum": 2
+      "battleSpriteNum": 2,
+      "sounds": {
+        "attack": 39,
+        "critical": 7,
+        "weapon": 3,
+        "magic": 11,
+        "cover": 17,
+        "dying": 21,
+        "death": 25
+      }
     }
   },
   {
@@ -566,7 +593,16 @@
           32000
         ]
       },
-      "battleSpriteNum": 3
+      "battleSpriteNum": 3,
+      "sounds": {
+        "attack": 38,
+        "critical": 6,
+        "weapon": 2,
+        "magic": 10,
+        "cover": 16,
+        "dying": 20,
+        "death": 24
+      }
     }
   },
   {
@@ -712,7 +748,16 @@
           32000
         ]
       },
-      "battleSpriteNum": 4
+      "battleSpriteNum": 4,
+      "sounds": {
+        "attack": 40,
+        "critical": 8,
+        "weapon": 4,
+        "magic": 12,
+        "cover": 18,
+        "dying": 22,
+        "death": 26
+      }
     }
   },
   {
@@ -856,7 +901,16 @@
           32000
         ]
       },
-      "battleSpriteNum": 8
+      "battleSpriteNum": 8,
+      "sounds": {
+        "attack": 39,
+        "critical": 7,
+        "weapon": 3,
+        "magic": 11,
+        "cover": 17,
+        "dying": 21,
+        "death": 25
+      }
     }
   },
   {

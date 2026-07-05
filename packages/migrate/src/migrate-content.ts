@@ -37,6 +37,13 @@ export interface SourceRole {
   fleeRate: number
   equipment: number[]
   magic: number[]
+  attackSound: number
+  weaponSound: number
+  criticalSound: number
+  magicSound: number
+  coverSound: number
+  dyingSound: number
+  deathSound: number
 }
 export interface SourceSpell {
   id: number
@@ -235,6 +242,16 @@ export function mapActor(role: SourceRole, expTable: readonly number[]): ActorDe
       initialMagic: role.magic.filter((m) => m > 0).map(String),
       leveling: { expTable: [...expTable] },
       battleSpriteNum: role.spriteNumInBattle,
+      // 战斗音效七件套(rgw*Sound 全量;演出层经 session opts 消费)
+      sounds: {
+        attack: role.attackSound,
+        critical: role.criticalSound,
+        weapon: role.weaponSound,
+        magic: role.magicSound,
+        cover: role.coverSound,
+        dying: role.dyingSound,
+        death: role.deathSound,
+      },
     },
   }
 }

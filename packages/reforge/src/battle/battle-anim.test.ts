@@ -1,5 +1,11 @@
 import { describe, expect, test } from 'vitest'
-import { type AnimFrame, AnimPlayer, buildEnemyPhysical, buildPlayerAttack } from './battle-anim.js'
+import {
+  type AnimFrame,
+  AnimPlayer,
+  buildEnemyPhysical,
+  buildPlayerAttack,
+  buildPlayerCast,
+} from './battle-anim.js'
 
 function record(frames: AnimFrame[]) {
   const events: string[] = []
@@ -25,6 +31,7 @@ describe('M4d-2 战斗动画时间线', () => {
       effectFrameBase: 3,
       damage: 42,
       windup: true,
+      sounds: { attack: 37, weapon: 1 },
     })
     const { events, player } = record(frames)
     let guard = 0
@@ -37,6 +44,40 @@ describe('M4d-2 战斗动画时间线', () => {
     expect(events).toContain('dmg:enemy1:42')
     // 抖动首帧 x=ex−8 且染色复位
     expect(events).toContain('f:enemy1@92,96c0')
+    // 音效挂帧:出招音在冲刺帧(fight.c:2061)、兵器音在挥击帧(fight.c:2124)且序为 37→1
+    expect(events).toContain('snd:37')
+    expect(events).toContain('snd:1')
+    expect(events.indexOf('snd:37')).toBeLessThan(events.indexOf('snd:1'))
+    expect(events.indexOf('snd:1')).toBe(events.indexOf('f:player0#9') + 2) // 与挥击同帧(f→f→snd 派发序)
+  })
+
+  test('玩家施法:吟唱音挂 frame5 姿势帧(rgwMagicSound,非起手即播)', () => {
+    const frames = buildPlayerCast({
+      casterIdx: 0,
+      casterPos: { x: 240, y: 170 },
+      magicSound: 9,
+      castEffectBase: -1,
+      fireFrames: 0,
+      fx: {
+        placement: 'normal',
+        xOffset: 0,
+        yOffset: 0,
+        speed: 0,
+        fireDelay: 0,
+        effectTimes: 1,
+        shake: 0,
+        sound: 0,
+      },
+      damageNums: [],
+    })
+    const { events, player } = record(frames)
+    let guard = 0
+    while (!player.tick(50) && guard++ < 200) {}
+    const snd = events.indexOf('snd:9')
+    const gesture = events.indexOf('f:player0#5')
+    expect(snd).toBeGreaterThan(-1)
+    expect(gesture).toBeGreaterThan(-1)
+    expect(snd).toBe(gesture + 1) // 与 frame5 同帧派发(fighter 先于 sound)
   })
 
   test('敌人物攻:action 音→冲至(−44,−16)→命中 frame4+call 音+数字→击退→双方复位', () => {

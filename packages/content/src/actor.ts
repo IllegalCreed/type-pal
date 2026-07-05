@@ -10,6 +10,28 @@
  */
 import type { EntityDef, TextId } from './index.js'
 
+/**
+ * 战斗音效七件套(原版 PlayerRoles rgw*Sound 全量;敌侧对应 EnemySounds)。
+ * schema 一次定全(数据地基);演出侧按落地进度消费:attack/weapon/magic 已接
+ * (出招/挥击/吟唱帧),critical 等暴击落地、cover/dying/death 等对应演出落地。
+ */
+export interface BattlerSounds {
+  /** 普攻出招(rgwAttackSound,冲锋帧)。 */
+  attack: number
+  /** 暴击出招(rgwCriticalSound,替换 attack;暴击未实现,先存数据)。 */
+  critical: number
+  /** 兵器命中(rgwWeaponSound,挥击帧 frame9)。 */
+  weapon: number
+  /** 施法吟唱(rgwMagicSound,PreMagic 姿势帧 frame5)。 */
+  magic: number
+  /** 替挡/格挡(rgwCoverSound)。 */
+  cover: number
+  /** 濒死(rgwDyingSound)。 */
+  dying: number
+  /** 阵亡(rgwDeathSound)。 */
+  death: number
+}
+
 /** 可战斗数据(可入队/可参战的角色带;普通 NPC 不带)。 */
 export interface BattlerSpec {
   baseStats: {
@@ -30,6 +52,8 @@ export interface BattlerSpec {
   leveling?: { expTable: number[] }
   /** 战斗精灵号(F.MKF 系);战斗系统落地时启用。C0 不消费。 */
   battleSpriteNum?: number
+  /** 战斗音效(七件套;演出层经 session opts 消费,不进战斗逻辑核)。 */
+  sounds?: BattlerSounds
 }
 
 /**

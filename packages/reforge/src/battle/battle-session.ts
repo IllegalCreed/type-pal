@@ -174,6 +174,8 @@ export class BattleSession {
       playerEffectBase?: number[]
       /** 各队员施法前摇特效帧基(battle-effect-index[spriteNum*2]*10+15;缺 = 跳过前摇特效)。 */
       playerCastBase?: number[]
+      /** 各队员战斗音效(BattlerSpec.sounds;与 players 同序。演出数据走 opts 通道,不进逻辑核)。 */
+      playerSounds?: Array<import('@type-pal/content').BattlerSounds | undefined>
       /** 自动战斗(0x8A;玩家侧 AI 代打,不出指令菜单 —— 石长老过场战)。 */
       auto?: boolean
       /**
@@ -648,6 +650,10 @@ export class BattleSession {
       return buildPlayerCast({
         casterIdx: la.idx,
         casterPos,
+        // 施法吟唱音(rgwMagicSound;挂 PreMagic frame5 姿势帧,一阶段真值)
+        ...(this.opts.playerSounds?.[la.idx]?.magic
+          ? { magicSound: this.opts.playerSounds[la.idx]!.magic }
+          : {}),
         castEffectBase: this.assets.effectSprite ? (this.opts.playerCastBase?.[la.idx] ?? -1) : -1,
         fireFrames: fire?.frames.length ?? 0,
         fx,
@@ -723,6 +729,15 @@ export class BattleSession {
           : -1,
         damage: (eHp[t] ?? 0) - (s.enemies[t]?.hp ?? 0),
         windup: true,
+        // 出招/兵器音(rgwAttackSound/rgwWeaponSound;暴击音 critical 等暴击落地)
+        ...(this.opts.playerSounds?.[la.idx]
+          ? {
+              sounds: {
+                attack: this.opts.playerSounds[la.idx]!.attack,
+                weapon: this.opts.playerSounds[la.idx]!.weapon,
+              },
+            }
+          : {}),
       })
     }
     // 敌物攻

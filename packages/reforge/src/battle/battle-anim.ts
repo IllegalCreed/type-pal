@@ -53,6 +53,8 @@ export interface BuildPlayerAttackInput {
   damage: number
   /** 首击前摇(一阶段 L12:仅回合首击 frame7 + Delay4)。 */
   windup?: boolean
+  /** 出招/兵器音(rgwAttackSound 冲锋帧 fight.c:2061;rgwWeaponSound 挥击帧 fight.c:2124)。 */
+  sounds?: { attack: number; weapon: number }
 }
 
 /**
@@ -77,6 +79,8 @@ export function buildPlayerAttack(input: BuildPlayerAttackInput): AnimFrame[] {
   frames.push({
     durationMs: delayMs(2),
     fighters: [{ side: 'player', idx: attackerIdx, frame: 8, pos: { x: rushX, y: rushY } }],
+    // 出招音挂冲锋首帧(fight.c:2061-2071 在预备后、frame8 冲刺时播 rgwAttackSound)
+    ...(input.sounds?.attack ? { sound: input.sounds.attack } : {}),
   })
   frames.push({
     durationMs: delayMs(1),
@@ -111,6 +115,8 @@ export function buildPlayerAttack(input: BuildPlayerAttackInput): AnimFrame[] {
       ...(i === 0
         ? { damageNum: { target: { side: 'enemy', idx: targetIdx }, value: damage } }
         : {}),
+      // 兵器命中音挂挥击帧(fight.c:2124 frame9 时播 rgwWeaponSound)
+      ...(i === 0 && input.sounds?.weapon ? { sound: input.sounds.weapon } : {}),
     })
   }
   // 敌抖动 3 帧(dist 8→−4→2;x 序列 ex−8/ex−4/ex−6,y 微调)+ 染色复位
@@ -250,6 +256,8 @@ export interface CastFxParams {
 export interface BuildPlayerCastInput {
   casterIdx: number
   casterPos: { x: number; y: number }
+  /** 施法吟唱音(rgwMagicSound;挂 PreMagic frame5 姿势帧 —— 一阶段真值,曾误在起手即播早 ~6 帧)。 */
+  magicSound?: number
   /** 施法前摇特效帧基 = battle-effect-index[spriteNum*2]*10+15;<0 = 跳过前摇特效。 */
   castEffectBase: number
   /** 本法术 fire sprite 帧数;<=0 = 无特效资产(只播姿势)。 */
@@ -297,6 +305,8 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
   frames.push({
     durationMs: delayMs(1),
     fighters: [{ side: 'player', idx: casterIdx, frame: 5 }],
+    // 吟唱音挂 frame5 姿势帧(rgwMagicSound;一阶段真值,起手即播会早 ~6 帧)
+    ...(input.magicSound ? { sound: input.magicSound } : {}),
   })
   if (castEffectBase >= 0) {
     for (let j = 0; j < 10; j++) {
