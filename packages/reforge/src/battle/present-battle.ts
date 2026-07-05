@@ -17,8 +17,11 @@ export interface BattleSpriteDraw {
   frame: number
   /** 选敌高亮/受击染色(提亮;一阶段 ColorShift 的 RGBA 等价)。 */
   highlight?: boolean
-  /** 不透明度(死亡淡出;缺省 1)。 */
+  /** 不透明度(缺省 1;死亡改走 dissolve)。 */
   alpha?: number
+  /** 死亡颗粒溶解进度 0..1(原版 PAL_BattleFadeScene 72 步 dither 的形态等效;
+   *  曾 alpha 渐隐,作者报观感怪 → 逐波像素消融)。 */
+  dissolve?: number
 }
 
 export interface BattleScene {
@@ -32,6 +35,76 @@ export interface BattleScene {
 
 const VIEW_W = 320
 const VIEW_H = 200
+
+// ── 死亡颗粒溶解(原版 PAL_BattleFadeScene 72 步 dither 的 RGBA 形态等效)──
+// 像素 6 相位分类((x+2y)%6,周期 6×3),按原版批次序 rgIndex={0,3,1,5,2,4} 逐波
+// 消融;波内线性过渡防 6 级跳变。punch 用 destination-out + 相位 pattern。
+const DISSOLVE_ORDER = [0, 3, 1, 5, 2, 4] as const
+let dissolvePatterns: CanvasPattern[] | null = null
+let dissolveScratch: HTMLCanvasElement | null = null
+
+function getDissolvePatterns(ctx: CanvasRenderingContext2D): CanvasPattern[] | null {
+  if (dissolvePatterns) return dissolvePatterns
+  const pats: CanvasPattern[] = []
+  for (let c = 0; c < 6; c++) {
+    const tile = document.createElement('canvas')
+    tile.width = 6
+    tile.height = 3
+    const tctx = tile.getContext('2d')
+    if (!tctx) return null
+    for (let y = 0; y < 3; y++)
+      for (let x = 0; x < 6; x++)
+        if ((x + 2 * y) % 6 === c) tctx.fillRect(x, y, 1, 1)
+    const p = ctx.createPattern(tile, 'repeat')
+    if (!p) return null
+    pats.push(p)
+  }
+  dissolvePatterns = pats
+  return pats
+}
+
+/** 按溶解进度画精灵:已落波相位像素消失,进行中波按余量半透明。 */
+function drawDissolved(
+  ctx: CanvasRenderingContext2D,
+  img: HTMLCanvasElement,
+  dx: number,
+  dy: number,
+  progress: number,
+): void {
+  const p = Math.min(1, Math.max(0, progress))
+  const pats = getDissolvePatterns(ctx)
+  if (!pats) {
+    // pattern 不可用(极端环境):退化 alpha
+    ctx.save()
+    ctx.globalAlpha = 1 - p
+    ctx.drawImage(img, dx, dy)
+    ctx.restore()
+    return
+  }
+  if (!dissolveScratch) dissolveScratch = document.createElement('canvas')
+  const off = dissolveScratch
+  if (off.width < img.width) off.width = img.width
+  if (off.height < img.height) off.height = img.height
+  const octx = off.getContext('2d')
+  if (!octx) return
+  octx.save()
+  octx.clearRect(0, 0, off.width, off.height)
+  octx.drawImage(img, 0, 0)
+  octx.globalCompositeOperation = 'destination-out'
+  const waves = p * 6
+  const full = Math.floor(waves)
+  for (let j = 0; j < full && j < 6; j++) {
+    octx.fillStyle = pats[DISSOLVE_ORDER[j]!]!
+    octx.fillRect(0, 0, img.width, img.height)
+  }
+  if (full < 6) {
+    octx.globalAlpha = waves - full // 波内线性余量
+    octx.fillStyle = pats[DISSOLVE_ORDER[full]!]!
+    octx.fillRect(0, 0, img.width, img.height)
+  }
+  octx.restore()
+  ctx.drawImage(off, 0, 0, img.width, img.height, dx, dy, img.width, img.height)
+}
 
 /**
  * 画一帧战斗场景到 ctx(逻辑 320×200 × worldScale)。
@@ -59,6 +132,10 @@ export function renderBattleScene(
     const img = bakeFrame(f, scene.palette)
     const dx = Math.round(d.x - f.width / 2)
     const dy = Math.round(d.y - f.height)
+    if (d.dissolve !== undefined) {
+      drawDissolved(ctx, img, dx, dy, d.dissolve) // 死亡颗粒溶解(原版 dither 形态)
+      continue
+    }
     const alpha = d.alpha ?? 1
     if (d.highlight || alpha < 1) {
       ctx.save()

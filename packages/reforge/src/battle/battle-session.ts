@@ -60,7 +60,9 @@ const ACT_MS = 240
 /** 胜负停留展示时长。 */
 const OVER_MS = 1200
 /** 敌人死亡淡出时长(一阶段 PAL_BattleFadeScene 12×6 步 ≈ 900ms;RGBA 用 alpha 渐隐等价)。 */
-const DEATH_FADE_MS = 900
+// 死亡溶解时长 = 原版 72 步 × 16ms(PAL_BattleFadeScene,battle.c:608-682;曾 900ms alpha
+// 渐隐,作者报「死亡动画有些怪」→ 改颗粒溶解形态,见 present-battle drawDissolved)
+const DEATH_FADE_MS = 72 * 16
 
 interface FloatNum {
   x: number
@@ -395,6 +397,11 @@ export class BattleSession {
         return
       }
       this.ui = 'over'
+      // 死亡溶解 hold:最后一敌的溶解播完 + 短拍(240ms)才起胜利乐/结算屏 —— 原版
+      // PostActionCheck 的 FadeScene 是阻塞式(fight.c:889-894),溶解期间什么都不发生
+      // (作者报「结算画面这么快?」= 此 hold 缺失)。render 清过期项,空表 = 直接过。
+      for (const t of this.deathFades.values())
+        if (this.nowMs < t + DEATH_FADE_MS + 240) return
       // B7b 胜利结算屏:win 且非敌逃 → 构建一次(回调内写回 HP + 入账 + 升级)→ 逐屏空格推进
       if (s.phase === 'won' && !this.state.enemyFled && this.settlement === null) {
         this.settlement = this.opts.buildSettlement?.() ?? []
@@ -965,23 +972,24 @@ export class BattleSession {
       sel !== undefined && this.ui === 'target' && alive.length && Math.floor(now / 160) % 2 === 0
         ? alive[this.targetIdx % alive.length]
         : undefined
-    // 场景(M4d-2:visual 层驱动 —— 动画位移/帧/受击染色;死亡淡出 alpha 渐隐)
+    // 场景(M4d-2:visual 层驱动 —— 动画位移/帧/受击染色;死亡 = 颗粒溶解)
     const enemies: BattleSpriteDraw[] = []
     s.enemies.forEach((e, i) => {
       const sprite = this.assets.enemySprites[i]
       const v = this.visual.enemies[i]
       if (!sprite || !v) return
       const fade = this.deathFades.get(i)
-      let alpha = 1
       // 死亡可见性(2026-07-05 作者报「施法时怪物消失」):真 hp 在时间线**播放前**已结算,
       // 不能凭它判死否则强力术一出手怪就没、整段演出打空气。用 pendingDeaths(本步正被这次
       // 演出击杀的敌)区分两类:① 正被击杀 → 演出全程照画,收尾(finishStepVisuals)才登记
       // 淡出;② 早已死亡(逃跑清场)→ 不在 pendingDeaths 且 hp≤0 → 不画。原版语义:命中数字后才淡出。
       const dyingNow = this.pendingDeaths.includes(i)
+      let dissolve: number | undefined
       if (e.hp <= 0 && !dyingNow) {
         if (fade === undefined) return // 早死无淡出登记(逃跑清场等)= 不画
-        alpha = 1 - (now - fade) / DEATH_FADE_MS
-        if (alpha <= 0) {
+        // 颗粒溶解进度(原版 dither 形态;曾 alpha 渐隐,作者报观感怪)
+        dissolve = (now - fade) / DEATH_FADE_MS
+        if (dissolve >= 1) {
           this.deathFades.delete(i)
           return
         }
@@ -998,7 +1006,7 @@ export class BattleSession {
         y: v.y,
         frame,
         highlight: i === highlightEnemy || v.colorShift > 0,
-        alpha,
+        ...(dissolve !== undefined ? { dissolve } : {}),
       })
     })
     const players: BattleSpriteDraw[] = []
