@@ -2576,7 +2576,8 @@
           "kind": "summon",
           "godId": 4,
           "speed": 0,
-          "tint": -1
+          "tint": -1,
+          "sound": 349
         },
         {
           "kind": "damage",
@@ -2609,7 +2610,8 @@
         {
           "kind": "summon",
           "godId": 6,
-          "speed": 1
+          "speed": 1,
+          "sound": 322
         },
         {
           "kind": "damage",
@@ -2643,7 +2645,8 @@
           "kind": "summon",
           "godId": 2,
           "speed": 0,
-          "tint": 5
+          "tint": 5,
+          "sound": 336
         },
         {
           "kind": "damage",
@@ -2676,7 +2679,8 @@
         {
           "kind": "summon",
           "godId": 3,
-          "speed": 0
+          "speed": 0,
+          "sound": 329
         },
         {
           "kind": "damage",
@@ -2709,7 +2713,8 @@
         {
           "kind": "summon",
           "godId": 1,
-          "speed": 0
+          "speed": 0,
+          "sound": 304
         },
         {
           "kind": "damage",
@@ -2743,7 +2748,8 @@
           "kind": "summon",
           "godId": 0,
           "speed": 2,
-          "tint": -2
+          "tint": -2,
+          "sound": 303
         },
         {
           "kind": "damage",
@@ -2776,7 +2782,8 @@
         {
           "kind": "summon",
           "godId": 7,
-          "speed": 4
+          "speed": 4,
+          "sound": 343
         },
         {
           "kind": "damage",
@@ -2809,7 +2816,8 @@
         {
           "kind": "summon",
           "godId": 5,
-          "speed": 1
+          "speed": 1,
+          "sound": 301
         },
         {
           "kind": "damage",
@@ -2843,7 +2851,8 @@
           "kind": "summon",
           "godId": 8,
           "speed": 0,
-          "tint": 5
+          "tint": 5,
+          "sound": 302
         },
         {
           "kind": "damage",

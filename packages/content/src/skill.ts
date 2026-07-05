@@ -56,7 +56,10 @@ export type SkillEffect =
   // (召唤 magic **自己的** wEffectTimes SHORT,fight.c:3145 → sBackgroundColorShift;负=调暗
   // (风神-1/武神-2),正=调亮(雪妖/火神+5)。animation 整段 = 二次法术的动画参数,其
   // effectTimes 是二次特效循环数,与染色无关 —— 两字段曾混淆)。
-  | { kind: 'summon'; godId: number; speed?: number; tint?: number }
+  // sound=召唤自身音(召唤 magic 自己的 wSound,301-349 段神将威严音;变亮首帧播一次,
+  // WIN95 语义 fight.c:3112 + 一阶段 9ab63b6d;二级法术段 fSummon 不重复播音 —— 曾漏迁
+  // 致武神/天剑全程静默、剑神只闻二级刀剑声)。
+  | { kind: 'summon'; godId: number; speed?: number; tint?: number; sound?: number }
   | { kind: 'trance'; sprite: number } // type=trance 変身:换战斗精灵(梦蛇);属性提升另走 buffStat
 
 /** 招式动画(presentation,与 gameplay 解耦)。播放参数 = 原版 MAGIC 表考证(M4d-2b)。 */

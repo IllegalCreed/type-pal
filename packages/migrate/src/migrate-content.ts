@@ -516,6 +516,8 @@ export function mapSkills(
             godId: m.special ?? 0,
             speed: m.speed,
             ...(signedI16(m.effectTimes ?? 0) !== 0 ? { tint: signedI16(m.effectTimes ?? 0) } : {}),
+            // 召唤自身音(m.sound;变亮首帧播,fight.c:3112;animation.sound 是二级的)
+            ...((m.sound ?? 0) > 0 ? { sound: m.sound } : {}),
           },
           { kind: 'damage', power: m.baseDamage, elemental: m.elemental },
         ],

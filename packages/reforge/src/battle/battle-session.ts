@@ -800,6 +800,10 @@ export class BattleSession {
           ? {
               summon: {
                 frames: summonSprite.frames.length,
+                // 召唤自身音(变亮首帧;二级段 fSummon 静默)
+                ...(summonEff?.kind === 'summon' && summonEff.sound
+                  ? { sound: summonEff.sound }
+                  : {}),
                 // 神将段帧速 = 召唤 magic 自己的 wSpeed(effects.summon.speed);fx.speed 是二次法术的
                 frameTimeMs: (((summonEff?.kind === 'summon' ? summonEff.speed : undefined) ?? 0) + 5) * 10,
                 // 一阶段真值 posSummon = (240+xOffset, 165+yOffset),底中锚语义;render 已对全部

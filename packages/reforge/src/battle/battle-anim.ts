@@ -278,8 +278,9 @@ export interface BuildPlayerCastInput {
   damageNums: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
   /** 召唤神段(B5/P1 召唤束,fight.c:3072-3187):全员变亮 1..10 → crossfade in(队员溶出/
    *  神将溶入/背景染色,72×16ms)→ 神将 loop 0..n-2 → 定格末帧贯穿二次法术 → PostMagic
-   *  (神在场)→ crossfade out。 */
-  summon?: { frames: number; frameTimeMs: number; x: number; y: number }
+   *  (神在场)→ crossfade out。sound = 召唤自身音(变亮首帧一次,fight.c:3112;
+   *  二次法术段 fSummon 不重复播音 fight.c:2669 —— 作者报剑神二次段错响御剑声)。 */
+  summon?: { frames: number; frameTimeMs: number; x: number; y: number; sound?: number }
   /** 全队下标(召唤变亮/隐显用;缺省只有施法者)。 */
   partyIdxs?: number[]
   /** PostMagic 受击目标(fight.c:3190:掉血敌三轮交替位移抖动+第 2 轮闪白;idx+底锚)。 */
@@ -336,11 +337,13 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
   if (input.summon && inSummon) {
     const sm = input.summon
     const party = input.partyIdxs ?? [casterIdx]
-    // ① 全员变亮 iColorShift 1..10(fight.c:3120-3128;每级 Delay1)
+    // ① 全员变亮 iColorShift 1..10(fight.c:3120-3128;每级 Delay1)。
+    //    召唤自身音挂变亮首帧(WIN95 fight.c:3112;一阶段 9ab63b6d「Sound before magic begins」)
     for (let i = 1; i <= 10; i++) {
       frames.push({
         durationMs: delayMs(1),
         fighters: party.map((idx) => ({ side: 'player' as const, idx, colorShift: i })),
+        ...(i === 1 && sm.sound ? { sound: sm.sound } : {}),
       })
     }
     // ② crossfade in(72×16ms):队员溶出、神将 frame0 溶入、背景染色溶入(session 按相驱动)
@@ -394,7 +397,10 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
         ...(!inSummon && i === fd
           ? { fighters: [{ side: 'player' as const, idx: casterIdx, frame: 6 }] }
           : {}),
-        ...(fx.sound > 0 && i >= fd && (i - fd) % n === 0 ? { sound: fx.sound } : {}),
+        // 二次法术段不播二级自身音(fSummon 门,fight.c:2669 WIN95;作者报剑神段错响御剑声)
+        ...(!inSummon && fx.sound > 0 && i >= fd && (i - fd) % n === 0
+          ? { sound: fx.sound }
+          : {}),
         // 屏波:OffMagic 首帧设叠加值(fight.c:2666 wScreenWave += wWave;收尾还原在 session)
         ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
         // 震屏:末 wShake 帧逐帧触发(fight.c:2718 VIDEO_ShakeScreen(i,3))
