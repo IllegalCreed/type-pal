@@ -393,6 +393,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                   actorsById={actorsById}
                   dialogueIds={scene.dialogues.map((d) => d.id)}
                   enemyTeams={state.enemyTeams ?? []}
+                  onJumpToEvent={jumpToEvent}
                   onDelete={deleteSelected}
                 />
               ) : (
@@ -447,9 +448,12 @@ function EntityInspector(props: {
   dialogueIds: string[]
   /** 敌队清单(B9 敌对行为 team 下拉;id 约定 team-<N>,引擎按 N 查)。 */
   enemyTeams: EnemyTeamDef[]
+  /** 跳事件模式定位此实体的触发/巡逻脚本(E2)。 */
+  onJumpToEvent: (sceneId: string, srcKey: string) => void
   onDelete: () => void
 }) {
-  const { entity, session, sceneId, actorsById, dialogueIds, enemyTeams, onDelete } = props
+  const { entity, session, sceneId, actorsById, dialogueIds, enemyTeams, onJumpToEvent, onDelete } =
+    props
   const setPos = (patch: Partial<GridPos>): void => {
     session.dispatch(new MoveEntityCommand(sceneId, entity.id, { ...entity.pos, ...patch }))
   }
@@ -740,9 +744,31 @@ function EntityInspector(props: {
         )}
       </div>
       <div className="section">
-        <div className="collapsed">
-          ▸ 状态 / 条件 <span style={{ color: 'var(--faint)' }}>(多状态·巡逻 — B2)</span>
-        </div>
+        <h4>
+          行为脚本 <span className="hint2">编辑在事件模式(E2/E4)</span>
+        </h4>
+        {entity.pages?.[0]?.trigger ? (
+          <button
+            type="button"
+            className="tool"
+            onClick={() => onJumpToEvent(sceneId, `${entity.id}:trigger`)}
+          >
+            🔗 触发脚本({entity.pages[0].trigger.on === 'interact' ? '交互' : '触碰'} ·{' '}
+            {entity.pages[0].trigger.stages.length} 段)→ 去编辑
+          </button>
+        ) : null}
+        {entity.pages?.[0]?.auto ? (
+          <button
+            type="button"
+            className="tool"
+            onClick={() => onJumpToEvent(sceneId, `${entity.id}:auto`)}
+          >
+            🔁 巡逻/自动脚本({entity.pages[0].auto.stages.length} 段)→ 去编辑
+          </button>
+        ) : null}
+        {!entity.pages?.[0]?.trigger && !entity.pages?.[0]?.auto && (
+          <div className="hint">（无 — 在事件模式给此实体插入触发/巡逻脚本）</div>
+        )}
       </div>
       <div className="section" style={{ borderBottom: 0 }}>
         <button className="tool" style={{ color: 'var(--err)' }} onClick={onDelete}>

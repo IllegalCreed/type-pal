@@ -10,7 +10,9 @@
  */
 import type { Command, Facing, Locale, MusicDef, SceneDef, WalkSpeed } from '@type-pal/content'
 import { lookupText } from '@type-pal/content'
+import type { AssetBase } from '@type-pal/reforge'
 import { useEffect, useState } from 'react'
+import { BattleFieldPicker } from './BattleFieldPicker.js'
 import { MusicPicker } from './MusicPicker.js'
 
 const FACINGS: Facing[] = ['down', 'left', 'up', 'right']
@@ -139,9 +141,11 @@ export function CommandForm(props: {
   musicBase: string
   /** 全场景(loadScene 目标下拉;W4)。缺省 = 只有当前场景。 */
   scenes?: SceneDef[]
+  /** 资产 base(战场选择器预览;B2)。缺省退化数字输入。 */
+  assetBase?: AssetBase
   onChange: (next: Command) => void
 }) {
-  const { cmd, scene, locale, music, musicBase, scenes, onChange } = props
+  const { cmd, scene, locale, music, musicBase, scenes, assetBase, onChange } = props
   const set = (patch: object): void => onChange({ ...cmd, ...patch } as Command)
 
   switch (cmd.kind) {
@@ -451,8 +455,16 @@ export function CommandForm(props: {
       )
     case 'setBattleField':
       return (
-        <Row label="战场 id">
-          <Num value={cmd.fieldId} onChange={(n) => set({ fieldId: n })} />
+        <Row label="战场">
+          {assetBase ? (
+            <BattleFieldPicker
+              value={cmd.fieldId}
+              onChange={(n) => set({ fieldId: n })}
+              assetBase={assetBase}
+            />
+          ) : (
+            <Num value={cmd.fieldId} onChange={(n) => set({ fieldId: n })} />
+          )}
         </Row>
       )
     case 'giveMoney':

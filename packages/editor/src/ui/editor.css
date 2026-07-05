@@ -1676,3 +1676,19 @@ body {
   text-align: left;
   width: 100%;
 }
+
+/* ── B2 战场选择器 ── */
+.bf-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+}
+.bf-preview {
+  width: 160px;
+  height: 100px;
+  image-rendering: pixelated;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+}
