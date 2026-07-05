@@ -7,7 +7,7 @@
 import type { AssetBase } from '@type-pal/reforge'
 import type { SkillAnimation, SkillData, SkillEffect, StatusId } from '@type-pal/content'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { UpdateSkillCommand } from '../core/commands.js'
+import { AddSkillCommand, UpdateSkillCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { FireEffectPreview } from './FireEffectPreview.js'
 import { SummonPreview } from './SummonPreview.js'
@@ -257,6 +257,21 @@ export function SkillTab(props: {
             </button>
           ))}
         </div>
+        <button
+          type="button"
+          className="tool"
+          style={{ margin: '6px 10px 8px', justifyContent: 'center' }}
+          onClick={() => {
+            const name = window.prompt('新技能名字:', '')?.trim()
+            if (!name) return
+            let n = 1000
+            while (skills.some((s) => s.id === String(n))) n++
+            session.dispatch(new AddSkillCommand(String(n), name))
+            setSelId(String(n))
+          }}
+        >
+          ＋ 新建技能
+        </button>
       </div>
       <div className="canvas-wrap data-body">
         {skill ? (

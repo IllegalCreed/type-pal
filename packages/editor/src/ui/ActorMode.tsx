@@ -16,7 +16,7 @@ import type {
 import { lookupText } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { useMemo, useState } from 'react'
-import { UpdateActorCommand } from '../core/commands.js'
+import { UpdateActorCommand, UpdateStartSkillsCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { LevelingEditor } from './LevelingEditor.js'
 import { PortraitEditor } from './PortraitEditor.js'
@@ -41,8 +41,10 @@ export function ActorMode(props: {
   session: EditSession
   /** 升级学技能表(skills.json levelUp 键;C6 编辑)。 */
   levelUp: Record<string, LevelUpSkill[]>
+  /** 新档初始技能(manifest.startWorld.learnedSkills —— 战斗技能真实来源;可编辑)。 */
+  startSkills: Record<string, string[]>
 }) {
-  const { actors, sprites, items, skills, locale, assetBase, session, levelUp } = props
+  const { actors, sprites, items, skills, locale, assetBase, session, levelUp, startSkills } = props
   const [selId, setSelId] = useState(actors[0]?.id ?? '')
   const spriteById = useMemo(() => new Map(sprites.map((s) => [s.id, s])), [sprites])
   const actor = actors.find((a) => a.id === selId) ?? actors[0]
@@ -213,6 +215,54 @@ export function ActorMode(props: {
                       <span className="hint">（无）</span>
                     ) : null}
                   </div>
+                </div>
+                <div className="section">
+                  <h4>
+                    初始技能<span className="hint2"> · 新档入队即会(startWorld;战斗技能来源)</span>
+                  </h4>
+                  <div className="chips">
+                    {(startSkills[actor.id] ?? []).map((sid) => (
+                      <span key={sid} className="chip2">
+                        {skills[sid]?.name ?? sid}
+                        <button
+                          type="button"
+                          className="mini"
+                          style={{ width: 16, height: 16, fontSize: 10, marginLeft: 4 }}
+                          title="移除"
+                          onClick={() =>
+                            session.dispatch(
+                              new UpdateStartSkillsCommand(
+                                actor.id,
+                                (startSkills[actor.id] ?? []).filter((x) => x !== sid),
+                              ),
+                            )
+                          }
+                        >
+                          ✕
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                  <select
+                    className="in"
+                    value=""
+                    onChange={(e) => {
+                      const sid = e.target.value
+                      if (!sid) return
+                      const cur = startSkills[actor.id] ?? []
+                      if (!cur.includes(sid))
+                        session.dispatch(new UpdateStartSkillsCommand(actor.id, [...cur, sid]))
+                    }}
+                  >
+                    <option value="">＋ 添加技能…</option>
+                    {Object.values(skills)
+                      .filter((sk) => !(startSkills[actor.id] ?? []).includes(sk.id))
+                      .map((sk) => (
+                        <option key={sk.id} value={sk.id}>
+                          {sk.name} ({sk.id})
+                        </option>
+                      ))}
+                  </select>
                 </div>
                 <LevelingEditor
                   actor={actor as ActorDef & { battler: NonNullable<ActorDef['battler']> }}

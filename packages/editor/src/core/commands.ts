@@ -983,3 +983,77 @@ export class AddSceneCommand implements Command {
     return { ...state, scenes: state.scenes.filter((s) => s.id !== this.scene.id) }
   }
 }
+
+/**
+ * 新建技能(SkillTab「＋」;缺省单 damage 效果 + 空动画)。invert 删回。
+ */
+export class AddSkillCommand implements Command {
+  readonly label = '新建技能'
+  private readonly skill: SkillData
+  private added = false
+
+  constructor(id: string, name: string) {
+    this.skill = {
+      id,
+      name,
+      desc: '',
+      cost: { mp: 10 },
+      usableOutsideBattle: false,
+      target: 'oneEnemy',
+      effects: [{ kind: 'damage', power: 20, elemental: 0 }],
+      animation: { effectSprite: 0, placement: 'normal', xOffset: 0, yOffset: 0, speed: 0, fireDelay: 0, effectTimes: 0, shake: 0, sound: 0 },
+    }
+  }
+
+  apply(state: EditorState): EditorState {
+    if (state.skills.some((s) => s.id === this.skill.id)) return state
+    this.added = true
+    return { ...state, skills: [...state.skills, structuredClone(this.skill)] }
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.added) return state
+    return { ...state, skills: state.skills.filter((s) => s.id !== this.skill.id) }
+  }
+}
+
+/**
+ * 改 startWorld.learnedSkills[actorId](新档初始技能 —— 战斗技能的真实来源;
+ * buildWorld 直取,actor.battler.initialMagic 是原版数据存留不参与战斗)。
+ * manifest.startWorld 同引用整替换,序列化随 manifest.json 落盘。
+ */
+export class UpdateStartSkillsCommand implements Command {
+  readonly label = '改初始技能'
+  private readonly actorId: string
+  private readonly ids: string[]
+  private old: string[] | undefined
+  private had = false
+  private captured = false
+
+  constructor(actorId: string, ids: string[]) {
+    this.actorId = actorId
+    this.ids = [...ids]
+  }
+
+  private withSkills(state: EditorState, ids: string[] | undefined): EditorState {
+    const learned = { ...state.manifest.startWorld.learnedSkills }
+    if (ids) learned[this.actorId] = [...ids]
+    else delete learned[this.actorId]
+    const startWorld = { ...state.manifest.startWorld, learnedSkills: learned }
+    const manifest = { ...state.manifest, startWorld }
+    return { ...state, manifest, startWorld }
+  }
+
+  apply(state: EditorState): EditorState {
+    if (!this.captured) {
+      this.captured = true
+      this.had = this.actorId in state.manifest.startWorld.learnedSkills
+      this.old = state.manifest.startWorld.learnedSkills[this.actorId]?.slice()
+    }
+    return this.withSkills(state, this.ids)
+  }
+
+  invert(state: EditorState): EditorState {
+    return this.withSkills(state, this.had ? this.old : undefined)
+  }
+}

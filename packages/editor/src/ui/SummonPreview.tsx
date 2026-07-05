@@ -56,8 +56,11 @@ export function SummonPreview(props: { assetBase: AssetBase; godId: number; spee
     if (!ctx) return
     const n = frames.length
     const stepMs = (((speed ?? 0) + 5) * 10) / rate
+    // 真实编排(fight.c:3160-3181):帧 0→n-2 单向推进(各 (speed+5)×10ms)→ 定格 n-1
+    // 贯穿二次法术 —— 非匀速循环。预览:定格停 1.2s 后重播,便于反复观察。
     let idx = 0
-    const tick = (): void => {
+    let holdUntil = 0
+    const draw = (): void => {
       const img = frames[idx]!
       ctx.clearRect(0, 0, W, H)
       ctx.imageSmoothingEnabled = false
@@ -65,7 +68,17 @@ export function SummonPreview(props: { assetBase: AssetBase; godId: number; spee
       const w = img.width * scale
       const h = img.height * scale
       ctx.drawImage(img, (W - w) / 2, H - 4 - h, w, h) // 底对齐(战场站位观感)
-      idx = (idx + 1) % n
+    }
+    const tick = (): void => {
+      draw()
+      if (idx < n - 1) {
+        idx++
+      } else if (holdUntil === 0) {
+        holdUntil = Date.now() + 1200 / rate // 定格段
+      } else if (Date.now() >= holdUntil) {
+        idx = 0
+        holdUntil = 0 // 重播
+      }
     }
     tick()
     const timer = window.setInterval(tick, stepMs)
@@ -90,7 +103,7 @@ export function SummonPreview(props: { assetBase: AssetBase; godId: number; spee
             </select>
           </div>
           <div className="hint2">
-            神将 #{godId}(chunk {godId + 10}) · {frames.length} 帧 · 现身段 → 右侧二次法术
+            神将 #{godId}(chunk {godId + 10}) · {frames.length} 帧 · 0→{frames.length - 2} 推进 + 定格末帧(fight.c 真值编排)
           </div>
         </>
       )}

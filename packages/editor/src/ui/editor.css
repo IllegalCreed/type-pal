@@ -100,6 +100,9 @@ body {
 .body {
   display: grid;
   grid-template-columns: 52px 194px 1fr 290px;
+  /* 行高钉死容器高:缺省 auto 行会被最高列撑爆(窄屏右栏换行变高 → 四列连坐溢出
+     valbar 底,2026-07-05 作者三报遮挡的真根因;minmax(0,1fr) 防内容撑破) */
+  grid-template-rows: minmax(0, 1fr);
   min-height: 0;
 }
 
@@ -224,7 +227,7 @@ body {
 }
 .layers {
   border-top: 1px solid var(--line);
-  padding: 8px 10px;
+  padding: 8px 10px 10px;
 }
 .layers .t {
   font-size: 11px;
@@ -499,9 +502,17 @@ body {
   min-height: 0;
 }
 .outliner > button.tool {
-  margin: 2px 8px 6px;
+  margin: 6px 10px 8px;
   justify-content: center;
-  border: 1px dashed var(--line);
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--dim);
+  border-radius: 5px;
+  padding: 5px 0;
+}
+.outliner > button.tool:hover {
+  color: var(--fg);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .scene-list {
@@ -657,8 +668,8 @@ body {
 
 /* 布置模式:场景切换下拉 */
 .scene-switch {
-  margin: 0 8px 8px;
-  width: calc(100% - 16px);
+  margin: 8px 10px 0;
+  width: calc(100% - 20px);
   font-size: 12px;
 }
 
@@ -1771,6 +1782,11 @@ body {
   font-size: 11px;
   opacity: 0.5;
   font-family: ui-monospace, monospace;
+}
+
+.outliner > input.in {
+  margin: 0 10px 8px;
+  width: calc(100% - 20px);
 }
 
 /* ── 数据页垂直列(RPGM 数据库左栏范式,2026-07-05 三改定稿) ── */

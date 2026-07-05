@@ -262,6 +262,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
             assetBase={project.assetBase}
             session={session}
             levelUp={state.levelUp}
+            startSkills={state.manifest.startWorld.learnedSkills}
           />
         ) : mode === 'data' ? (
           <DataMode
