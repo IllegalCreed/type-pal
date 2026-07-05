@@ -49,22 +49,22 @@
 
 | 审计单元 | sdlpal C | 一阶段 | reforge | 状态 |
 |---|---|---|---|---|
-| 战斗公式 | fight.c | core/battle/formulas.ts | content/battle-formulas.ts | 🟡 公式已核(测试对齐),逐函数待审 |
-| 战斗状态机 | battle.c | core/battle/battle-system.ts(3507行) | battle/battle-core.ts, battle-session.ts | ⬜ 待审 |
-| 回合队列 | battle.c, fight.c | core/battle/turn-queue.ts | content/battle-formulas.ts(buildActionQueue) | 🟡 测试对齐,逐函数待审 |
+| 战斗公式 | fight.c | core/battle/formulas.ts | content/battle-formulas.ts | ✅ 已审([b-core-audit](b-core-audit.md)) |
+| 战斗状态机 | battle.c | core/battle/battle-system.ts(3507行) | battle/battle-core.ts, battle-session.ts | ✅ 已审([b-core-audit](b-core-audit.md)) |
+| 回合队列 | battle.c, fight.c | core/battle/turn-queue.ts | content/battle-formulas.ts(buildActionQueue) | ✅ 已审([b-core-audit](b-core-audit.md) — 高危:dex 装配不全) |
 | 战斗动画时间线 | fight.c | core/battle/anim-timeline.ts, battle-anim-driver.ts | battle/(present-battle) | ✅ 有审计(battle-audit §1-2) |
-| 物理/法术攻击 | fight.c | core/battle/attack.ts, magic.ts | content/battle-formulas.ts | 🟡 公式已核,时序待审 |
-| 状态系统 | fight.c, global.c | core/battle/status.ts | content/battle-formulas.ts(tickBattleStatus) | 🟡 测试刚补,逐函数待审 |
-| 敌人 AI | fight.c, script.c | core/battle/enemy-ai.ts | content/enemy-ai.ts | 🟡 测试部分对齐 |
+| 物理/法术攻击 | fight.c | core/battle/attack.ts, magic.ts | battle/battle-core.ts | ✅ 已审([b-attack-magic-audit](b-attack-magic-audit.md) — 高危:暴击/闪避/cover/降级链全缺) |
+| 状态系统 | fight.c, global.c | core/battle/status.ts | content/battle-formulas.ts(tickBattleStatus) | ✅ 已审([b-subsystem-audit](b-subsystem-audit.md) — 高危:haste↔slow 互斥缺) |
+| 敌人 AI | fight.c, script.c | core/battle/enemy-ai.ts | content/enemy-ai.ts | ✅ 已审([b-subsystem-audit](b-subsystem-audit.md)) |
 | 合击法术 | fight.c | core/battle/coop-magic.ts | (未实现) | ✅ oracle 已存(harvest C8) |
-| 投掷物品 | fight.c | core/battle/throw-item.ts | (未实现,phase3) | ⬜ 待审(存 oracle) |
+| 投掷物品 | fight.c | core/battle/throw-item.ts | (未实现,phase3) | ⬜ 待审(存 oracle,reforge 未实现) |
 | 物品(战斗) | fight.c, itemmenu.c | core/battle/item.ts | content/item.ts | ⬜ 待审 |
-| 防御/逃跑 | fight.c | core/battle/defend.ts, flee.ts | battle/battle-core.ts | ⬜ 待审 |
-| 战斗结算 | battle.c | core/battle/battle-settlement.ts | content/rewards.ts | 🟡 已 port,逐函数待审 |
-| 战斗 opcodes | script.c(战斗侧) | core/battle/battle-opcodes.ts | (无,数据驱动) | ⬜ 待审 |
-| 战斗位置 | battle.c | core/battle/battle-positions.ts | battle/battle-positions.ts | ⬜ 待审 |
-| 攻击队友(混乱) | fight.c | core/battle/attack-mate.ts | (未实现?) | ⬜ 待审 |
-| 法术对象(召唤) | fight.c | core/battle/magic-object.ts | battle/(召唤相关) | ⬜ 待审 |
+| 防御/逃跑 | fight.c | core/battle/defend.ts, flee.ts | battle/battle-core.ts | ✅ 已审([b-subsystem-audit](b-subsystem-audit.md) — 高危:逃跑漏 isBoss gate) |
+| 战斗结算 | battle.c | core/battle/battle-settlement.ts | content/rewards.ts | ✅ 已审([b-core-audit](b-core-audit.md) — 缺 Phase E) |
+| 战斗 opcodes | script.c(战斗侧) | core/battle/battle-opcodes.ts | (无,数据驱动) | ✅ 已审([b-subsystem-audit](b-subsystem-audit.md) — 免疫双解释器) |
+| 战斗位置 | battle.c | core/battle/battle-positions.ts | battle/battle-positions.ts | ✅ 已审([b-subsystem-audit](b-subsystem-audit.md) — 完全对齐) |
+| 攻击队友(混乱) | fight.c | core/battle/attack-mate.ts | (未实现) | ✅ 已审([b-attack-magic-audit](b-attack-magic-audit.md) — reforge 缺) |
+| 法术对象(召唤) | fight.c | core/battle/magic-object.ts | battle/(召唤相关) | ✅ 已审([b-attack-magic-audit](b-attack-magic-audit.md)) |
 | 战斗 UI | uibattle.c | present/battle/ | battle/(UI 相关) | ✅ 有审计(battle-audit) |
 
 ### 第五批 · 菜单系统（C/X 领域）
