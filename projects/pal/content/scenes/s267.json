@@ -477,6 +477,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4670",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -675,6 +678,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4671",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },

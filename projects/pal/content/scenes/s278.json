@@ -580,6 +580,9 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "boss": true
@@ -943,6 +946,9 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "boss": true

@@ -992,7 +992,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1010,7 +1014,11 @@
                       "kind": "chance",
                       "percent": 71
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "wait",
@@ -1039,7 +1047,11 @@
                           "kind": "chance",
                           "percent": 61
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "setEntityFacing",
@@ -1057,7 +1069,11 @@
                           "kind": "chance",
                           "percent": 71
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "wait",
@@ -1079,7 +1095,11 @@
                           "kind": "chance",
                           "percent": 71
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "setEntityFacing",
@@ -1097,7 +1117,11 @@
                           "kind": "chance",
                           "percent": 51
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "wait",
@@ -1119,7 +1143,11 @@
                           "kind": "chance",
                           "percent": 61
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "branch",
@@ -1144,7 +1172,11 @@
                               "kind": "chance",
                               "percent": 51
                             },
-                            "then": []
+                            "then": [
+                              {
+                                "kind": "stopScript"
+                              }
+                            ]
                           },
                           {
                             "kind": "wait",
@@ -1166,7 +1198,11 @@
                               "kind": "chance",
                               "percent": 61
                             },
-                            "then": []
+                            "then": [
+                              {
+                                "kind": "stopScript"
+                              }
+                            ]
                           },
                           {
                             "kind": "branch",
@@ -1174,7 +1210,11 @@
                               "kind": "chance",
                               "percent": 71
                             },
-                            "then": []
+                            "then": [
+                              {
+                                "kind": "stopScript"
+                              }
+                            ]
                           },
                           {
                             "kind": "setEntityFacing",
@@ -1185,6 +1225,9 @@
                             "kind": "setEntityFrame",
                             "entity": "e2109",
                             "frame": 3
+                          },
+                          {
+                            "kind": "stopScript"
                           }
                         ]
                       },
@@ -1197,6 +1240,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e2109",
                         "frame": 3
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1216,7 +1262,11 @@
                       "kind": "chance",
                       "percent": 51
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "wait",
@@ -1238,7 +1288,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "branch",
@@ -1263,7 +1317,11 @@
                           "kind": "chance",
                           "percent": 51
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "wait",
@@ -1285,7 +1343,11 @@
                           "kind": "chance",
                           "percent": 61
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "branch",
@@ -1293,7 +1355,11 @@
                           "kind": "chance",
                           "percent": 71
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "setEntityFacing",
@@ -1304,6 +1370,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e2109",
                         "frame": 3
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1328,7 +1397,11 @@
                       "kind": "chance",
                       "percent": 71
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1351,7 +1424,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "branch",
@@ -1369,6 +1446,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e2109",
                         "frame": 3
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   }

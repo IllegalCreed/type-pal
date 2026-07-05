@@ -195,12 +195,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -271,12 +277,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -382,12 +394,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -458,12 +476,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -534,12 +558,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -610,12 +640,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -686,12 +722,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },

@@ -241,7 +241,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "nudgeEntity",
@@ -265,7 +269,11 @@
                       "kind": "chance",
                       "percent": 51
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "wait",
@@ -300,7 +308,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "nudgeEntity",
@@ -324,7 +336,11 @@
                       "kind": "chance",
                       "percent": 51
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "wait",
@@ -359,7 +375,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "nudgeEntity",
@@ -383,7 +403,11 @@
                       "kind": "chance",
                       "percent": 51
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "wait",
@@ -418,7 +442,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "nudgeEntity",
@@ -442,7 +470,11 @@
                       "kind": "chance",
                       "percent": 51
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "wait",
@@ -477,7 +509,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "nudgeEntity",
@@ -501,7 +537,11 @@
                       "kind": "chance",
                       "percent": 51
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "wait",
@@ -536,7 +576,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "nudgeEntity",
@@ -560,7 +604,11 @@
                       "kind": "chance",
                       "percent": 51
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "wait",
@@ -595,7 +643,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "nudgeEntity",
@@ -619,7 +671,11 @@
                       "kind": "chance",
                       "percent": 51
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "wait",
@@ -654,7 +710,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "nudgeEntity",
@@ -678,7 +738,11 @@
                       "kind": "chance",
                       "percent": 51
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "wait",
@@ -713,7 +777,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "nudgeEntity",
@@ -737,7 +805,11 @@
                       "kind": "chance",
                       "percent": 51
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "wait",
@@ -772,7 +844,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "nudgeEntity",
@@ -796,7 +872,11 @@
                       "kind": "chance",
                       "percent": 51
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "wait",
@@ -831,7 +911,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "nudgeEntity",
@@ -855,7 +939,11 @@
                       "kind": "chance",
                       "percent": 51
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "wait",
@@ -890,7 +978,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "nudgeEntity",
@@ -914,7 +1006,11 @@
                       "kind": "chance",
                       "percent": 51
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "wait",
@@ -1890,7 +1986,11 @@
                       "kind": "chance",
                       "percent": 91
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1908,7 +2008,11 @@
                       "kind": "chance",
                       "percent": 93
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1936,7 +2040,11 @@
                       "kind": "chance",
                       "percent": 91
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "moveEntity",

@@ -1207,6 +1207,9 @@
                           19829
                         ],
                         "note": "分支臂不可内联"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1595,6 +1598,9 @@
                           17500
                         ],
                         "note": "分支臂不可内联"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1660,6 +1666,9 @@
                           17718
                         ],
                         "note": "分支臂不可内联"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1707,6 +1716,9 @@
                           17718
                         ],
                         "note": "分支臂不可内联"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1840,7 +1852,11 @@
                   },
                   {
                     "kind": "confirm",
-                    "onNo": []
+                    "onNo": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "clearDialog"
@@ -1861,7 +1877,11 @@
                         "atLeast": 100
                       }
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "giveMoney",
@@ -2391,7 +2411,11 @@
                           "kind": "chance",
                           "percent": 96
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "moveEntity",
@@ -2474,6 +2498,9 @@
                           "height": 0
                         },
                         "speed": "slow"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -2893,6 +2920,9 @@
                           20355
                         ],
                         "note": "分支臂不可内联"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },

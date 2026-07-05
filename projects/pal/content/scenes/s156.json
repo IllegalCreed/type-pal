@@ -844,7 +844,11 @@
                       "kind": "chance",
                       "percent": 98
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1082,7 +1086,11 @@
                       "kind": "chance",
                       "percent": 98
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1320,7 +1328,11 @@
                       "kind": "chance",
                       "percent": 98
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1558,7 +1570,11 @@
                       "kind": "chance",
                       "percent": 98
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1796,7 +1812,11 @@
                       "kind": "chance",
                       "percent": 98
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -2034,7 +2054,11 @@
                       "kind": "chance",
                       "percent": 98
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -2272,7 +2296,11 @@
                       "kind": "chance",
                       "percent": 98
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -2510,7 +2538,11 @@
                       "kind": "chance",
                       "percent": 98
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -2748,7 +2780,11 @@
                       "kind": "chance",
                       "percent": 98
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -2986,7 +3022,11 @@
                       "kind": "chance",
                       "percent": 98
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -3224,7 +3264,11 @@
                       "kind": "chance",
                       "percent": 98
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -3462,7 +3506,11 @@
                       "kind": "chance",
                       "percent": 98
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -3782,12 +3830,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -7266,12 +7320,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -10576,12 +10636,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },

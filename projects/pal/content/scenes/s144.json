@@ -52,12 +52,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -99,6 +105,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -135,6 +144,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -171,6 +183,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -207,6 +222,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -243,6 +261,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -279,6 +300,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -315,6 +339,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -507,12 +534,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -554,6 +587,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -590,6 +626,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -626,6 +665,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -662,6 +704,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -698,6 +743,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -734,6 +782,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -770,6 +821,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -962,12 +1016,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1009,6 +1069,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1045,6 +1108,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1081,6 +1147,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1117,6 +1186,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1153,6 +1225,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1189,6 +1264,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1225,6 +1303,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1417,12 +1498,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1464,6 +1551,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1500,6 +1590,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1536,6 +1629,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1572,6 +1668,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1608,6 +1707,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1644,6 +1746,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1680,6 +1785,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1872,12 +1980,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1919,6 +2033,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1955,6 +2072,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1991,6 +2111,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -2027,6 +2150,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -2063,6 +2189,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -2099,6 +2228,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -2135,6 +2267,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -2327,12 +2462,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -2374,6 +2515,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -2410,6 +2554,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -2446,6 +2593,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -2482,6 +2632,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -2518,6 +2671,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -2554,6 +2710,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -2590,6 +2749,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -2782,12 +2944,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -2829,6 +2997,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -2865,6 +3036,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -2901,6 +3075,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -2937,6 +3114,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -2973,6 +3153,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -3009,6 +3192,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -3045,6 +3231,9 @@
                         "kind": "fade",
                         "dir": "in",
                         "ms": 600
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },

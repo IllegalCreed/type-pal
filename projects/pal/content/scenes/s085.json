@@ -383,7 +383,11 @@
                       "kind": "chance",
                       "percent": 93
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "branch",
@@ -406,7 +410,11 @@
                           "kind": "chance",
                           "percent": 95
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "playSound",
@@ -418,7 +426,14 @@
                           "kind": "chance",
                           "percent": 98
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -447,7 +462,14 @@
                           "kind": "chance",
                           "percent": 98
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -457,7 +479,11 @@
                       "kind": "chance",
                       "percent": 97
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "playSound",
@@ -473,7 +499,11 @@
                       "kind": "chance",
                       "percent": 93
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "playSound",
@@ -489,7 +519,11 @@
                       "kind": "chance",
                       "percent": 95
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "playSound",
@@ -501,7 +535,11 @@
                       "kind": "chance",
                       "percent": 98
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   }
                 ],
                 "next": 0

@@ -153,6 +153,9 @@
                           23511
                         ],
                         "note": "分支臂不可内联"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -851,12 +854,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -4195,12 +4204,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -4308,12 +4323,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -7670,12 +7691,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },

@@ -184,7 +184,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -255,7 +259,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -335,6 +343,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4133",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -384,6 +395,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4133",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -435,7 +449,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -506,7 +524,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -586,6 +608,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4135",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -635,6 +660,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4135",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -686,7 +714,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -757,7 +789,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -837,6 +873,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4137",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -886,6 +925,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4137",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -932,7 +974,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "branch",
@@ -950,6 +996,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4138",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -969,6 +1018,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4138",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -988,6 +1040,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4138",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1035,7 +1090,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "branch",
@@ -1053,6 +1112,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4139",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1072,6 +1134,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4139",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1091,6 +1156,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4139",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1137,7 +1205,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "branch",
@@ -1155,6 +1227,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4140",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1174,6 +1249,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4140",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1193,6 +1271,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4140",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1240,7 +1321,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "branch",
@@ -1258,6 +1343,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4141",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1277,6 +1365,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4141",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1296,6 +1387,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4141",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1343,7 +1437,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "branch",
@@ -1361,6 +1459,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4142",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1380,6 +1481,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4142",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1399,6 +1503,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4142",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1446,7 +1553,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "branch",
@@ -1464,6 +1575,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4143",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1483,6 +1597,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4143",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1502,6 +1619,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4143",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },

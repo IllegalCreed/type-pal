@@ -1398,7 +1398,11 @@
                           "kind": "chance",
                           "percent": 96
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "branch",
@@ -1462,6 +1466,9 @@
                           {
                             "kind": "wait",
                             "ms": 160
+                          },
+                          {
+                            "kind": "stopScript"
                           }
                         ]
                       },
@@ -1478,6 +1485,9 @@
                       {
                         "kind": "wait",
                         "ms": 360
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1543,6 +1553,9 @@
                       {
                         "kind": "wait",
                         "ms": 160
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -7201,6 +7214,9 @@
                             "side": "left"
                           }
                         }
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "boss": true

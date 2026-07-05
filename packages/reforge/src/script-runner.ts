@@ -143,6 +143,13 @@ function throwIfAborted(signal: AbortSignal): void {
   if (signal.aborted) throw new DOMException('script aborted', 'AbortError')
 }
 
+/** stopScript 哨兵:跳转臂终止整个脚本本次运行(从任意嵌套臂穿透到 runStages 收口)。 */
+class ScriptStopped extends Error {
+  constructor() {
+    super('script stopped by stopScript')
+  }
+}
+
 /** onStep 上报:path = 嵌套下标链(段/命令下标 + 分支臂段名),编辑器预览高亮用。 */
 export interface StepEvent {
   path: readonly (number | string)[]
@@ -199,6 +206,10 @@ export class ScriptRunner {
     try {
       await this.run(stage.body, [idx])
       applyStageNext(this.world, key, idx, stage.next)
+    } catch (err) {
+      // 跳转臂终止(stopScript):本次运行干净结束,**阶段不转移**(原版命中跳 0 号 END 退出,
+      // 下次触发重掷;auto 循环下拍重跑 = 原版 auto 侧"原地不动")。其余异常原样上抛。
+      if (!(err instanceof ScriptStopped)) throw err
     } finally {
       this.running = false
     }
@@ -273,6 +284,8 @@ export class ScriptRunner {
         return h.unmountParty()
       case 'ride':
         return h.ride(cmd.entity, cmd.to, cmd.speed)
+      case 'stopScript':
+        throw new ScriptStopped() // 跳转臂终止(见类注;runStages 收口)
       case 'branch':
         return evalCondition(cmd.cond, this.world, h.query, this.random)
           ? this.run(cmd.then, [...path, 'then'])

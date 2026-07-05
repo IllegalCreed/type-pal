@@ -358,9 +358,12 @@ function walkBody(
       // pCurrent 式引用:0 也是"自己"(script.c:op0==0 → pEvtObj)
       const pcRef = (v: number): string | undefined =>
         v === 0 || v === 0xffff ? owner : `e${v - 1}`
-      /** 跳走臂内联:跳转目标链整段翻成 Command[](臂自行终结;环/深度超限 → unmigrated)。 */
+      /** 跳走臂内联:跳转目标链整段翻成 Command[](环/深度超限 → unmigrated)。
+       *  臂尾一律补 stopScript:原版跳转命中后链一路跑到 END 即整个脚本结束,臂跑完
+       *  绝不落穿回父体(曾漏 → 概率门/确认门全废:then=[] 空臂照跑后续 = 21% 掉落变
+       *  100%、选"否"照办事)。addr 0/缺 = 原版跳全局 0 号 END = 当场退,臂就是一条 stop。 */
       const inlineArm = (addr: number | undefined): Command[] => {
-        if (!addr) return []
+        if (!addr) return [{ kind: 'stopScript' }]
         const memoKey = `L_${addr}|${owner ?? ''}`
         const memo = (ctx.armMemo ??= new Map())
         const hit = memo.get(memoKey)
@@ -368,7 +371,10 @@ function walkBody(
         const target = ctx.labelAt.get(`L_${addr}`)
         if (!target || depth >= MAX_ARM_DEPTH) {
           note(ctx, target ? '分支臂深度截断' : '分支臂目标缺失')
-          return [{ kind: 'unmigrated', opcode: 0, operands: [addr], note: '分支臂不可内联' }]
+          return [
+            { kind: 'unmigrated', opcode: 0, operands: [addr], note: '分支臂不可内联' },
+            { kind: 'stopScript' },
+          ]
         }
         memo.set(memoKey, []) // 先占位:环(臂内再跳回自己)拿到空臂而非无限递归
         const r = walkBody(target.cmds, target.idx, owner, ctx, depth + 1)
@@ -379,6 +385,7 @@ function walkBody(
           note(ctx, '分支臂超长截断')
           arm = [{ kind: 'unmigrated', opcode: 0, operands: [addr], note: `臂超长(${arm.length})` }]
         }
+        arm = [...arm, { kind: 'stopScript' }]
         memo.set(memoKey, arm)
         return arm
       }

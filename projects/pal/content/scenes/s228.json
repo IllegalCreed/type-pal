@@ -206,6 +206,9 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "boss": true
@@ -282,6 +285,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4027",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -331,6 +337,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4027",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -392,6 +401,9 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "boss": true
@@ -468,6 +480,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4028",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -517,6 +532,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4028",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -578,6 +596,9 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "boss": true
@@ -654,6 +675,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4029",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -703,6 +727,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4029",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -764,6 +791,9 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "boss": true
@@ -840,6 +870,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4030",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -889,6 +922,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4030",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -941,7 +977,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1012,7 +1052,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1093,6 +1137,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4032",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1142,6 +1189,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4032",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1203,6 +1253,9 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "boss": true
@@ -1249,7 +1302,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1320,7 +1377,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1380,6 +1441,9 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "boss": true
@@ -1426,7 +1490,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1497,7 +1565,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1557,6 +1629,9 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "boss": true
@@ -1633,6 +1708,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4035",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1682,6 +1760,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4035",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1743,6 +1824,9 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "boss": true
@@ -1789,7 +1873,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1860,7 +1948,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1911,7 +2003,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1982,7 +2078,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -2033,7 +2133,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -2104,7 +2208,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -2155,7 +2263,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -2226,7 +2338,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -2307,6 +2423,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4040",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -2356,6 +2475,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4040",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -2417,6 +2539,9 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "boss": true
@@ -2463,7 +2588,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -2534,7 +2663,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -2594,6 +2727,9 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "boss": true
@@ -2640,7 +2776,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -2711,7 +2851,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -2771,6 +2915,9 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "boss": true
@@ -2817,7 +2964,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -2888,7 +3039,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -2948,6 +3103,9 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "boss": true
@@ -2994,7 +3152,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -3065,7 +3227,11 @@
                       "kind": "chance",
                       "percent": 46
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -3512,7 +3678,11 @@
                       "kind": "chance",
                       "percent": 68
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "branch",
@@ -3524,6 +3694,9 @@
                       {
                         "kind": "playSound",
                         "soundId": 18
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -3537,6 +3710,9 @@
                       {
                         "kind": "playSound",
                         "soundId": 17
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -3550,6 +3726,9 @@
                       {
                         "kind": "playSound",
                         "soundId": 16
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -3563,6 +3742,9 @@
                       {
                         "kind": "playSound",
                         "soundId": 15
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   }

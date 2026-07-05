@@ -383,7 +383,11 @@
                   },
                   {
                     "kind": "confirm",
-                    "onNo": []
+                    "onNo": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "clearDialog"
@@ -397,7 +401,11 @@
                         "atLeast": 100
                       }
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "giveMoney",
@@ -704,6 +712,9 @@
                           "speaker": "spk.算命仙",
                           "slot": "top"
                         }
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },

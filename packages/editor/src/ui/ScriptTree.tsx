@@ -105,6 +105,8 @@ function describe(cmd: Command, locale: Locale): Described {
         icon: '🏁',
         label: `战斗结束(${cmd.result === 'won' ? '判胜' : cmd.result === 'lost' ? '判负' : '终止无奖励'})`,
       }
+    case 'stopScript':
+      return { icon: '⛔', label: '终止脚本(跳转臂尾;阶段不转移)' }
     case 'setEntityState':
       return {
         icon: '👁',

@@ -382,7 +382,14 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   }

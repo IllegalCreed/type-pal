@@ -158,7 +158,11 @@
                       "kind": "chance",
                       "percent": 93
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "playSound",
@@ -181,7 +185,11 @@
                           "kind": "chance",
                           "percent": 93
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "playSound",
@@ -197,7 +205,11 @@
                           "kind": "chance",
                           "percent": 61
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "branch",
@@ -205,7 +217,11 @@
                           "kind": "chance",
                           "percent": 96
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "playSound",
@@ -214,6 +230,9 @@
                       {
                         "kind": "wait",
                         "ms": 320
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -223,7 +242,11 @@
                       "kind": "chance",
                       "percent": 96
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "playSound",
@@ -335,12 +358,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -544,12 +573,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -721,12 +756,18 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "onFlee": [
                       {
                         "kind": "vanishEntity",
                         "seconds": 2
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },

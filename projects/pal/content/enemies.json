@@ -125,7 +125,11 @@
           "kind": "chance",
           "percent": 79
         },
-        "then": []
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
       },
       {
         "kind": "giveItem",
@@ -195,7 +199,11 @@
           "kind": "chance",
           "percent": 81
         },
-        "then": []
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
       },
       {
         "kind": "giveItem",
@@ -432,7 +440,11 @@
           "kind": "chance",
           "percent": 89
         },
-        "then": []
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
       },
       {
         "kind": "giveItem",
@@ -502,7 +514,11 @@
           "kind": "chance",
           "percent": 85
         },
-        "then": []
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
       },
       {
         "kind": "giveItem",

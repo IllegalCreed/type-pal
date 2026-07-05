@@ -362,7 +362,11 @@
                       "kind": "chance",
                       "percent": 76
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "branch",
@@ -385,7 +389,11 @@
                           "kind": "chance",
                           "percent": 81
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "branch",
@@ -408,7 +416,11 @@
                               "kind": "chance",
                               "percent": 81
                             },
-                            "then": []
+                            "then": [
+                              {
+                                "kind": "stopScript"
+                              }
+                            ]
                           },
                           {
                             "kind": "branch",
@@ -416,9 +428,19 @@
                               "kind": "chance",
                               "percent": 56
                             },
-                            "then": []
+                            "then": [
+                              {
+                                "kind": "stopScript"
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "stopScript"
                           }
                         ]
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -443,7 +465,11 @@
                           "kind": "chance",
                           "percent": 81
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "branch",
@@ -451,7 +477,14 @@
                           "kind": "chance",
                           "percent": 56
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -476,7 +509,11 @@
                           "kind": "chance",
                           "percent": 81
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "branch",
@@ -484,7 +521,14 @@
                           "kind": "chance",
                           "percent": 31
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -509,7 +553,11 @@
                           "kind": "chance",
                           "percent": 81
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "branch",
@@ -532,7 +580,11 @@
                               "kind": "chance",
                               "percent": 81
                             },
-                            "then": []
+                            "then": [
+                              {
+                                "kind": "stopScript"
+                              }
+                            ]
                           },
                           {
                             "kind": "branch",
@@ -555,7 +607,11 @@
                                   "kind": "chance",
                                   "percent": 81
                                 },
-                                "then": []
+                                "then": [
+                                  {
+                                    "kind": "stopScript"
+                                  }
+                                ]
                               },
                               {
                                 "kind": "branch",
@@ -563,11 +619,24 @@
                                   "kind": "chance",
                                   "percent": 26
                                 },
-                                "then": []
+                                "then": [
+                                  {
+                                    "kind": "stopScript"
+                                  }
+                                ]
+                              },
+                              {
+                                "kind": "stopScript"
                               }
                             ]
+                          },
+                          {
+                            "kind": "stopScript"
                           }
                         ]
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -592,7 +661,11 @@
                           "kind": "chance",
                           "percent": 81
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "branch",
@@ -615,7 +688,11 @@
                               "kind": "chance",
                               "percent": 81
                             },
-                            "then": []
+                            "then": [
+                              {
+                                "kind": "stopScript"
+                              }
+                            ]
                           },
                           {
                             "kind": "branch",
@@ -623,9 +700,19 @@
                               "kind": "chance",
                               "percent": 26
                             },
-                            "then": []
+                            "then": [
+                              {
+                                "kind": "stopScript"
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "stopScript"
                           }
                         ]
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -650,7 +737,11 @@
                           "kind": "chance",
                           "percent": 81
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "branch",
@@ -658,7 +749,14 @@
                           "kind": "chance",
                           "percent": 26
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -683,7 +781,11 @@
                           "kind": "chance",
                           "percent": 61
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "branch",
@@ -699,8 +801,14 @@
                           {
                             "kind": "wait",
                             "ms": 320
+                          },
+                          {
+                            "kind": "stopScript"
                           }
                         ]
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -718,6 +826,9 @@
                       {
                         "kind": "wait",
                         "ms": 320
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -727,7 +838,11 @@
                       "kind": "chance",
                       "percent": 96
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   }
                 ],
                 "next": 0

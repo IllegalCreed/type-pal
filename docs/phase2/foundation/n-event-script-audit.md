@@ -136,6 +136,15 @@ cursor.ip = subIp - 1   // caller ip++ → subIp
 - `evalCondition` chance(script-runner.ts:124-125):`random()*100 < percent` → then 臂。
 - ✅ **概率公式对齐**:sdlpal `RandomLong(1,100) >= op0`(op0=20 → 81/100 概率跳);`percent=101-20=81`,`rand*100<81` → 81%。✓
 - ✅ **无 label fall back 免疫**:AST `branch` 的 then 臂是内联命令数组,**不存在「查不到 label」问题**(迁移期 `inlineArm` 解析,解析失败 → `unmigrated` 占位,运行期恒有内容)。
+- **❗重大补充(2026-07-05 复核发现 + 已修):跳走臂曾无终止语义 → 命中后落穿回父体**。
+  runner 的 branch 跑完 then 会继续父体后续命令,而跳走臂本义 = 原版改 wScriptEntry 后一路
+  跑到 END 即整个脚本结束;op1==0 更是跳全局 0 号 END = 当场退,曾被译成空臂 no-op。
+  伤面(全量扫描):2983 个 branch 中 **775 个空臂(概率门全废,21% 掉落变 100%、选"否"照办)
+  + 2158 个有臂有尾(命中后臂+尾双跑)**。一阶段同族前科:`5d256f8f`(0x06 不跳 → 法术不走
+  失败分支)。**修法**:新增 `stopScript` 终止命令(runner 哨兵穿透嵌套臂到 runStages 收口,
+  阶段不转移 —— auto 循环下拍重跑恰好 = 原版 auto 侧 op1==0「原地不动」,G2.2 一并闭环);
+  inlineArm 臂尾一律发射(op1==0 → 臂=[stop]);存量数据结构化补丁 110 文件(769 空臂 + 2486
+  尾追加,手作 guijie-minju/demo 零 branch 不涉)。单测钉双向 + 开场链/战斗烟测回归。
 
 #### callScript(0x04)— **✨ AST 嵌套免疫**
 - 迁移:0x04 → **整段内联**(`body.push(...calleeBody)`,translate-events.ts:644)。callee 体 memo 化(617)+ 深度护栏(`MAX_ARM_DEPTH`)+ 长度护栏(`MAX_ARM_BODY`,超 → `unmigrated`)。
@@ -149,7 +158,7 @@ cursor.ip = subIp - 1   // caller ip++ → subIp
 | 编号 | 缺口 | 等级 | 行动 |
 |---|---|---|---|
 | G1.1 | 一阶段 0x8A 双 handler(event-system.ts:4036 + battle-opcodes.ts:774)需人工同步,reforge 已免疫 | 低(仅一阶段债) | reforge 无需动作;若回填一阶段保持双侧 |
-| G1.2 | reforge `branch` 无 goto「同帧续跑」概念 —— `for` 循环每条命令是独立 `await`,概率环靠 auto runner `while` 循环(1104)而非单条 0x06 自旋。**节奏差异**:sdlpal 0x06 命中且 op1≠0 时同帧跑到目标;reforge 命中后跑 then 臀(内联),臂内命令逐条 await | 低(语义等价,节奏由 paceMs 80 近似) | 接受;auto 0x06 的「原地重掷」是更大问题(G2.2) |
+| G1.2 | reforge `branch` 无 goto「同帧续跑」概念 —— `for` 循环每条命令是独立 `await`,概率环靠 auto runner `while` 循环(1104)而非单条 0x06 自旋。**节奏差异**:sdlpal 0x06 命中且 op1≠0 时同帧跑到目标;reforge 命中后跑 then 臂(内联),臂内命令逐条 await。~~低(语义等价)~~ **复核纠正(2026-07-05):节奏结论成立,但"语义等价"漏了臂后落穿 —— 跳走臂无终止 = 概率门/确认门全废(775 空臂 + 2158 双跑),已以 stopScript 修复(见上 ❗ 补充)** | ~~低~~ 高(已修) | stopScript 三件套已落地;auto 0x06「原地重掷」= stop 后下拍重跑,G2.2 一并闭环 |
 | G1.3 | reforge 0x04 内联有 `MAX_ARM_DEPTH` / `MAX_ARM_BODY` 截断 → 超限 call 变 `unmigrated`。需统计实际截断率 | 中 | 跑 migrate 全量,统计 `unmigrated` 中 opcode=0x04 的数量;若 >0 评估能否提高上限或改运行期 callStack |
 | G1.4 | 一阶段 `OP_JUMP_BY_RATE` trigger 侧 goto 不消耗帧的「同帧续跑」未忠实(每 tick 一条 op,差一帧) | 低 | reforge 已免疫(无 tick 模型);一阶段可接受 |
 

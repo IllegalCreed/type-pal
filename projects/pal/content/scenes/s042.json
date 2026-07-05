@@ -456,7 +456,11 @@
                           "kind": "chance",
                           "percent": 61
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "wait",
@@ -469,6 +473,9 @@
                       {
                         "kind": "wait",
                         "ms": 640
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },

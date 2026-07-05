@@ -147,7 +147,11 @@
                           "kind": "chance",
                           "percent": 31
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "setEntityAuto",
@@ -319,6 +323,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e547",
                         "frame": 10
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -521,7 +528,11 @@
                           "kind": "chance",
                           "percent": 31
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "setEntityAuto",
@@ -693,6 +704,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e547",
                         "frame": 10
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -765,6 +779,9 @@
                             ]
                           }
                         ]
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -6332,6 +6349,9 @@
                       },
                       {
                         "kind": "loadLastSave"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ],
                     "boss": true

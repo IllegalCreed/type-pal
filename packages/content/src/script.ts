@@ -57,6 +57,11 @@ export type Command =
   // 0x89:脚本终止战斗(choreography 专用)。result:terminate 无奖励干净退(林天南撑 7 回合)/
   //   won 判胜 / lost 判负。原版 BattleResult=op0(0 终止 /3 胜 /1 负)。
   | { kind: 'endBattle'; result: 'terminate' | 'won' | 'lost' }
+  // 跳转臂终止:原版跳转族(0x06/0x0A/0x1E/0x20/0x79…)命中即改 wScriptEntry,链一路跑到
+  // END(op 目标 0 = 全局 0 号 END,当场退)。翻译把跳转内联成臂后,臂跑完必须终止本次脚本
+  // 运行(否则落穿回父体 = 概率门/确认门全废)——翻译器在每个跳走臂尾发射本命令;
+  // runner 收到即结束 runStages 本次运行且**阶段不转移**(auto 下拍重跑 = 原版"原地不动")。
+  | { kind: 'stopScript' }
   // 世界状态
   | { kind: 'giveItem'; itemId: string; count?: number }
   | { kind: 'loseItem'; itemId: string; count?: number }

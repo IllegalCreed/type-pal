@@ -77,6 +77,39 @@ describe('0x73 淡入场景(script.c: PAL_MakeScene + VIDEO_FadeScreen)', () => 
   })
 })
 
+describe('0x06 概率跳转:跳走臂尾必带 stopScript(命中不落穿;script.c:3299 跳0=END 退)', () => {
+  test('op1=0(跳 0 号 END) → then 臂 = [stopScript](曾译空臂 → 概率门全废)', () => {
+    const body = bodyOf(ctxOf([{ opcode: 0x06, operands: [22, 0, 0] }]))
+    expect(body[0]).toEqual({
+      kind: 'branch',
+      cond: { kind: 'chance', percent: 79 },
+      then: [{ kind: 'stopScript' }],
+    })
+  })
+  test('op1=真目标 → 臂 = 内联命令 + 尾 stopScript', () => {
+    // 链:L_1 = 0x06 跳 L_9;直走 giveItem;L_9 = showDialog + end
+    const raws: SourceCmd[] = [
+      { op: 'raw', opcode: 0x06, operands: [22, 9, 0], label: 'L_1' } as unknown as SourceCmd,
+      { op: 'giveItem', itemId: 5, count: 0 } as unknown as SourceCmd,
+      { op: 'end' } as unknown as SourceCmd,
+      { op: 'showDialog', messageIndex: 42, text: '臂内对白', label: 'L_9' } as unknown as SourceCmd,
+      { op: 'end' } as unknown as SourceCmd,
+    ]
+    const labelAt = new Map<string, { cmds: readonly SourceCmd[]; idx: number }>()
+    raws.forEach((c, i) => {
+      if ((c as { label?: string }).label) labelAt.set((c as { label: string }).label, { cmds: raws, idx: i })
+    })
+    const ctx: TranslateCtx = { labelAt, locale: {}, report: emptyTranslateReport() }
+    const stages = translateStages('L_1', 'e0', ctx)
+    const body = stages![0]!.body
+    const br = body[0] as Extract<Command, { kind: 'branch' }>
+    expect(br.kind).toBe('branch')
+    expect(br.then.at(-1)).toEqual({ kind: 'stopScript' }) // 臂尾终止
+    expect(br.then.some((c) => c.kind === 'dialog')).toBe(true) // 臂体内联了目标对白
+    expect(body.some((c) => c.kind === 'giveItem')).toBe(true) // 直走路径仍在父体
+  })
+})
+
 describe('giveItem-0 数据 bug 烘焙(扬州宝物屋;键=前句 MSG 下标,一阶段 patchGiveItemZeroBugs 同表)', () => {
   test('「获得紫青玉蓉膏」(msg 12347) 后 giveItem 0 → 翻译期补真 id 103', () => {
     const body = bodyOf(

@@ -17546,7 +17546,11 @@
                               "kind": "chance",
                               "percent": 71
                             },
-                            "then": []
+                            "then": [
+                              {
+                                "kind": "stopScript"
+                              }
+                            ]
                           },
                           {
                             "kind": "setEntityFacing",
@@ -17583,7 +17587,11 @@
                               "kind": "chance",
                               "percent": 85
                             },
-                            "then": []
+                            "then": [
+                              {
+                                "kind": "stopScript"
+                              }
+                            ]
                           },
                           {
                             "kind": "setEntityTriggerMode",
@@ -18008,7 +18016,11 @@
                                   "kind": "chance",
                                   "percent": 76
                                 },
-                                "then": []
+                                "then": [
+                                  {
+                                    "kind": "stopScript"
+                                  }
+                                ]
                               },
                               {
                                 "kind": "wait",
@@ -18034,7 +18046,11 @@
                                   "kind": "chance",
                                   "percent": 81
                                 },
-                                "then": []
+                                "then": [
+                                  {
+                                    "kind": "stopScript"
+                                  }
+                                ]
                               },
                               {
                                 "kind": "wait",
@@ -18060,13 +18076,20 @@
                                   "kind": "chance",
                                   "percent": 85
                                 },
-                                "then": []
+                                "then": [
+                                  {
+                                    "kind": "stopScript"
+                                  }
+                                ]
                               },
                               {
                                 "kind": "setEntityTriggerMode",
                                 "entity": "e1569",
                                 "on": "interact",
                                 "range": 2
+                              },
+                              {
+                                "kind": "stopScript"
                               }
                             ]
                           },
@@ -18111,7 +18134,11 @@
                                   "kind": "chance",
                                   "percent": 76
                                 },
-                                "then": []
+                                "then": [
+                                  {
+                                    "kind": "stopScript"
+                                  }
+                                ]
                               },
                               {
                                 "kind": "wait",
@@ -18137,7 +18164,11 @@
                                   "kind": "chance",
                                   "percent": 81
                                 },
-                                "then": []
+                                "then": [
+                                  {
+                                    "kind": "stopScript"
+                                  }
+                                ]
                               },
                               {
                                 "kind": "wait",
@@ -18163,13 +18194,20 @@
                                   "kind": "chance",
                                   "percent": 85
                                 },
-                                "then": []
+                                "then": [
+                                  {
+                                    "kind": "stopScript"
+                                  }
+                                ]
                               },
                               {
                                 "kind": "setEntityTriggerMode",
                                 "entity": "e1569",
                                 "on": "interact",
                                 "range": 2
+                              },
+                              {
+                                "kind": "stopScript"
                               }
                             ]
                           },
@@ -18214,7 +18252,11 @@
                                   "kind": "chance",
                                   "percent": 76
                                 },
-                                "then": []
+                                "then": [
+                                  {
+                                    "kind": "stopScript"
+                                  }
+                                ]
                               },
                               {
                                 "kind": "wait",
@@ -18240,7 +18282,11 @@
                                   "kind": "chance",
                                   "percent": 81
                                 },
-                                "then": []
+                                "then": [
+                                  {
+                                    "kind": "stopScript"
+                                  }
+                                ]
                               },
                               {
                                 "kind": "wait",
@@ -18266,13 +18312,20 @@
                                   "kind": "chance",
                                   "percent": 85
                                 },
-                                "then": []
+                                "then": [
+                                  {
+                                    "kind": "stopScript"
+                                  }
+                                ]
                               },
                               {
                                 "kind": "setEntityTriggerMode",
                                 "entity": "e1569",
                                 "on": "interact",
                                 "range": 2
+                              },
+                              {
+                                "kind": "stopScript"
                               }
                             ]
                           },
@@ -18320,7 +18373,11 @@
                                   "kind": "chance",
                                   "percent": 61
                                 },
-                                "then": []
+                                "then": [
+                                  {
+                                    "kind": "stopScript"
+                                  }
+                                ]
                               },
                               {
                                 "kind": "wait",
@@ -18335,6 +18392,9 @@
                                 "kind": "setEntityFrame",
                                 "entity": "e1569",
                                 "frame": 1
+                              },
+                              {
+                                "kind": "stopScript"
                               }
                             ]
                           },
@@ -18406,7 +18466,11 @@
                           "kind": "chance",
                           "percent": 61
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "wait",
@@ -18421,6 +18485,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e1569",
                         "frame": 1
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },

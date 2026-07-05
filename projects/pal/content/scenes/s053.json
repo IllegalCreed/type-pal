@@ -1044,7 +1044,11 @@
                           "kind": "chance",
                           "percent": 95
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "setEntityFacing",
@@ -1131,6 +1135,9 @@
                           "height": 0
                         },
                         "speed": "slow"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },

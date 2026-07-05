@@ -166,6 +166,9 @@
                           7469
                         ],
                         "note": "分支臂不可内联"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -192,6 +195,9 @@
                             "side": "right"
                           }
                         }
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },

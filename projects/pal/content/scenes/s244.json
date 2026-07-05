@@ -8425,7 +8425,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "branch",
@@ -8443,6 +8447,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4315",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -8462,6 +8469,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4315",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -8481,6 +8491,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4315",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -8527,7 +8540,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "branch",
@@ -8545,6 +8562,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4316",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -8564,6 +8584,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4316",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -8583,6 +8606,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4316",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -8629,7 +8655,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "branch",
@@ -8647,6 +8677,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4317",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -8666,6 +8699,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4317",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -8685,6 +8721,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4317",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -8730,7 +8769,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "branch",
@@ -8748,6 +8791,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4318",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -8767,6 +8813,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4318",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -8786,6 +8835,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4318",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -8832,7 +8884,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "branch",
@@ -8850,6 +8906,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4319",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -8869,6 +8928,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4319",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -8888,6 +8950,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4319",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -8953,7 +9018,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "branch",
@@ -8971,6 +9040,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4322",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -8990,6 +9062,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4322",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -9009,6 +9084,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4322",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -9055,7 +9133,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "branch",
@@ -9073,6 +9155,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4323",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -9092,6 +9177,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4323",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -9111,6 +9199,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4323",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -9156,7 +9247,11 @@
                       "kind": "chance",
                       "percent": 61
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "branch",
@@ -9174,6 +9269,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4324",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -9193,6 +9291,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4324",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -9212,6 +9313,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e4324",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -9269,7 +9373,11 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "stepEntity",
@@ -9419,7 +9527,11 @@
                               "kind": "chance",
                               "percent": 91
                             },
-                            "then": []
+                            "then": [
+                              {
+                                "kind": "stopScript"
+                              }
+                            ]
                           },
                           {
                             "kind": "stepEntity",
@@ -9661,6 +9773,9 @@
                             "kind": "stepEntity",
                             "entity": "e4325",
                             "dir": "down"
+                          },
+                          {
+                            "kind": "stopScript"
                           }
                         ]
                       },
@@ -9904,6 +10019,9 @@
                         "kind": "stepEntity",
                         "entity": "e4325",
                         "dir": "down"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -10055,7 +10173,11 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "stepEntity",
@@ -10297,6 +10419,9 @@
                         "kind": "stepEntity",
                         "entity": "e4325",
                         "dir": "down"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -10585,7 +10710,11 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "stepEntity",
@@ -10824,7 +10953,11 @@
                               "kind": "chance",
                               "percent": 91
                             },
-                            "then": []
+                            "then": [
+                              {
+                                "kind": "stopScript"
+                              }
+                            ]
                           },
                           {
                             "kind": "stepEntity",
@@ -11165,6 +11298,9 @@
                             "kind": "stepEntity",
                             "entity": "e4326",
                             "dir": "right"
+                          },
+                          {
+                            "kind": "stopScript"
                           }
                         ]
                       },
@@ -11507,6 +11643,9 @@
                         "kind": "stepEntity",
                         "entity": "e4326",
                         "dir": "right"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -11747,7 +11886,11 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "stepEntity",
@@ -12088,6 +12231,9 @@
                         "kind": "stepEntity",
                         "entity": "e4326",
                         "dir": "right"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -12475,7 +12621,11 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "stepEntity",
@@ -12625,7 +12775,11 @@
                               "kind": "chance",
                               "percent": 91
                             },
-                            "then": []
+                            "then": [
+                              {
+                                "kind": "stopScript"
+                              }
+                            ]
                           },
                           {
                             "kind": "stepEntity",
@@ -12867,6 +13021,9 @@
                             "kind": "stepEntity",
                             "entity": "e4327",
                             "dir": "down"
+                          },
+                          {
+                            "kind": "stopScript"
                           }
                         ]
                       },
@@ -13110,6 +13267,9 @@
                         "kind": "stepEntity",
                         "entity": "e4327",
                         "dir": "down"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -13261,7 +13421,11 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "stepEntity",
@@ -13503,6 +13667,9 @@
                         "kind": "stepEntity",
                         "entity": "e4327",
                         "dir": "down"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -13791,7 +13958,11 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "stepEntity",
@@ -14030,7 +14201,11 @@
                               "kind": "chance",
                               "percent": 91
                             },
-                            "then": []
+                            "then": [
+                              {
+                                "kind": "stopScript"
+                              }
+                            ]
                           },
                           {
                             "kind": "stepEntity",
@@ -14371,6 +14546,9 @@
                             "kind": "stepEntity",
                             "entity": "e4328",
                             "dir": "right"
+                          },
+                          {
+                            "kind": "stopScript"
                           }
                         ]
                       },
@@ -14713,6 +14891,9 @@
                         "kind": "stepEntity",
                         "entity": "e4328",
                         "dir": "right"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -14953,7 +15134,11 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "stepEntity",
@@ -15294,6 +15479,9 @@
                         "kind": "stepEntity",
                         "entity": "e4328",
                         "dir": "right"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },

@@ -8735,7 +8735,11 @@
                         "atLeast": 1
                       }
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "loseItem",

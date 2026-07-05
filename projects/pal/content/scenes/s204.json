@@ -803,7 +803,11 @@
                           "kind": "chance",
                           "percent": 41
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "wait",
@@ -832,6 +836,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e3438",
                         "frame": 1
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },

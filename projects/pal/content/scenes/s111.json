@@ -661,6 +661,9 @@
                           17178
                         ],
                         "note": "分支臂不可内联"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -683,6 +686,9 @@
                           "text": "dlg.5989",
                           "speaker": "spk.小贩"
                         }
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },

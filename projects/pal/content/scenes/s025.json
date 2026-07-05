@@ -383,7 +383,11 @@
                       "kind": "chance",
                       "percent": 91
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "moveEntity",
@@ -850,7 +854,11 @@
                       "kind": "chance",
                       "percent": 97
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "wait",
@@ -1607,7 +1615,11 @@
                           "kind": "chance",
                           "percent": 96
                         },
-                        "then": []
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
                       },
                       {
                         "kind": "branch",
@@ -1671,6 +1683,9 @@
                           {
                             "kind": "wait",
                             "ms": 160
+                          },
+                          {
+                            "kind": "stopScript"
                           }
                         ]
                       },
@@ -1687,6 +1702,9 @@
                       {
                         "kind": "wait",
                         "ms": 360
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1752,6 +1770,9 @@
                       {
                         "kind": "wait",
                         "ms": 160
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },

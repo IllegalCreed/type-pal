@@ -263,6 +263,9 @@
                         "kind": "stepEntity",
                         "entity": "e425",
                         "dir": "up"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   }
@@ -277,7 +280,11 @@
                       "kind": "chance",
                       "percent": 99
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "stepEntity",
@@ -570,6 +577,9 @@
                           "text": "dlg.2313",
                           "speaker": "spk.小豆子"
                         }
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -616,6 +626,9 @@
                           "text": "dlg.2313",
                           "speaker": "spk.小豆子"
                         }
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -659,6 +672,9 @@
                           "text": "dlg.2313",
                           "speaker": "spk.小豆子"
                         }
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -710,7 +726,11 @@
                       "kind": "chance",
                       "percent": 96
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -733,7 +753,11 @@
                       "kind": "chance",
                       "percent": 93
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -946,7 +970,11 @@
                       "kind": "chance",
                       "percent": 97
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "moveEntity",
@@ -979,7 +1007,11 @@
                       "kind": "chance",
                       "percent": 97
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "moveEntity",
@@ -1301,6 +1333,9 @@
                             "kind": "openShop",
                             "shop": 7,
                             "mode": "buy"
+                          },
+                          {
+                            "kind": "stopScript"
                           }
                         ]
                       },
@@ -1392,6 +1427,9 @@
                       {
                         "kind": "giveItem",
                         "itemId": "199"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1494,7 +1532,11 @@
                       "kind": "chance",
                       "percent": 96
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1517,7 +1559,11 @@
                       "kind": "chance",
                       "percent": 93
                     },
-                    "then": []
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1680,6 +1726,9 @@
                           "text": "dlg.2681",
                           "speaker": "spk.小贩"
                         }
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -1697,6 +1746,9 @@
                           7566
                         ],
                         "note": "分支臂不可内联"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -2358,6 +2410,9 @@
                         "kind": "setEntityFrame",
                         "entity": "e460",
                         "frame": 0
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },
@@ -2406,6 +2461,9 @@
                       {
                         "kind": "animEntity",
                         "entity": "e460"
+                      },
+                      {
+                        "kind": "stopScript"
                       }
                     ]
                   },

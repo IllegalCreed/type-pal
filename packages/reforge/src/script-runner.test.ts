@@ -195,6 +195,49 @@ describe('stages 阶段机', () => {
   })
 })
 
+describe('stopScript 跳转臂终止(原版跳转命中链到 END 不落穿)', () => {
+  test('嵌套臂内 stop 穿透终止全脚本:臂后命令不跑、阶段不转移', async () => {
+    const calls: string[] = []
+    const world = emptyWorldScriptState()
+    const r = new ScriptRunner(fakeHost(calls), world, new AbortController().signal, () => 0)
+    await r.runStages('e1', [
+      {
+        body: [
+          {
+            kind: 'branch',
+            cond: { kind: 'chance', percent: 79 }, // rnd 0 → 命中
+            then: [{ kind: 'playSound', soundId: 7 }, { kind: 'stopScript' }],
+          },
+          { kind: 'giveItem', itemId: '99' }, // 命中臂后必须不落穿(曾 21% 掉落变 100%)
+        ],
+        next: 'advance',
+      },
+    ])
+    expect(calls).toEqual(['playSound(7)'])
+    expect(world.entityStage.e1 ?? 0).toBe(0) // stop → 阶段不转移(下次触发重掷)
+  })
+  test('不命中走落穿路径,自然收尾照常转移阶段', async () => {
+    const calls: string[] = []
+    const world = emptyWorldScriptState()
+    const r = new ScriptRunner(fakeHost(calls), world, new AbortController().signal, () => 0.99)
+    await r.runStages('e1', [
+      {
+        body: [
+          {
+            kind: 'branch',
+            cond: { kind: 'chance', percent: 79 }, // rnd 0.99 → 不中
+            then: [{ kind: 'stopScript' }],
+          },
+          { kind: 'giveItem', itemId: '99' },
+        ],
+        next: 'advance',
+      },
+    ])
+    expect(calls).toEqual(['giveItem("99",1)'])
+    expect(world.entityStage.e1).toBe(1) // 自然结束 → advance
+  })
+})
+
 test('abort:await 间隙取消,后续命令不再执行', async () => {
   const calls: string[] = []
   const ac = new AbortController()
