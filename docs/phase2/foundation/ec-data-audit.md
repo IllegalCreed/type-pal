@@ -274,7 +274,7 @@ USHORT nSpriteFramesAuto; WORD wScriptIdleFrameCountAuto;
 | 6 累加 getter(global.c:1736-1935) | effectiveStat(只 statBonus) | ⚠️ 只 1/6(attack/magicAtk/defense/speed/luck 共用一 fn,但无 poisonResistance 累加) |
 | 3 override getter(attackAll/sprite/coopMagic) | EquipEffect 定义但运行时未消费 | ❌(C4 部分偏离,phase3) |
 | PAL_RemoveEquipmentEffect(Hand→status / Wear→poison99) | equipItem 只换槽位不清状态 | ❌(C5 缺口) |
-| PAL_UpdateEquipments | (无;equipItem 单次) | ⚠️(无 bootstrap 重算,需启动时遍历装备跑 effects) |
+| PAL_UpdateEquipments(物化重建) | (不需要;查询时现算) | ✨ 架构免疫(EquipEffect 是声明式数据,非可执行脚本,无需物化。详见 4.4 ★ 设计判断) |
 | 0x17/0x18/0x19/0x1A/0x2D/0x29 sync runner | EquipEffect 数据化(无脚本链) | ✨ 干净(scriptOnEquip → EquipEffect[],迁移期翻译) |
 | grantStatus(仙女剑 DualAttack) | EquipEffect.grantStatus 定义 | ⚠️ 定义有,运行时未消费 |
 | grantSkill(土灵珠→山神) | EquipEffect.grantSkill 定义 | ⚠️ 定义有,运行时未消费 |
@@ -282,9 +282,35 @@ USHORT nSpriteFramesAuto; WORD wScriptIdleFrameCountAuto;
 
 ### 4.4 缺口 + 行动
 
-- **G4-1 卸装清状态/毒缺口(高危)**:`equipItem` 当前只换槽位,不清 grantStatus(仙女剑 DualAttack)/ Wear 槽 level-99 毒(寿葫芦)。**行动**:equipItem 卸旧件前,若旧件 effects 含 `grantStatus` → 清该 status;若旧件在 Wear/accessory 槽且授 level-99 毒 → 清该毒。**风险**:高(迁移仙女剑/寿葫芦必撞)。
-- **G4-2 attackAll/grantSkill/maxPool 运行时未消费**:EquipEffect 联合定义了,但 effectiveStat 只算 statBonus。**行动**:phase3 落地装备效果运行时计算时,补 attackAll(任一槽 → TRUE)/ grantSkill(末非 0 override)/ maxPool(累加 maxHP/maxMP)。**风险**:中(长鞭/圣灵珠/土灵珠目前无效)。
-- **G4-3 启动时无重算装备 effect**:无 bootstrap `updateAllEquipments` 等价。**行动**:buildWorld 后遍历 party 装备,跑 effects 重算(防存档装备 effects 丢失)。**风险**:中。
+#### ★ 设计判断(2026-07-05 作者问"战斗前算 vs 实时算"定调)
+
+> **reforge 装备效果 = 查询时实时算(声明式纯函数),不做"物化重建"。**
+
+为什么原版要做 `PAL_UpdateEquipments`(global.c:1333,清零 rgEquipmentEffect + 重跑全员 scriptOnEquip)？因为原版的**装备效果是可执行脚本**(scriptOnEquip),脚本有任意副作用(改 stat/授状态/授毒/改合击/改战斗精灵),且副作用写到全局 `rgEquipmentEffect` 数组。脚本**没法在每次属性查询时实时跑**(太慢 + RNG 副作用),所以必须在"装备变动 / 开战 / 读档"三个时机把脚本副作用**物化**成数组,查询时读数组。
+
+**reforge 不需要物化,因为 `EquipEffect` 是声明式数据联合**(statBonus/resistance/grantStatus/grantSkill/attackAll/maxPool),不是可执行脚本。声明式数据的计算成本极低(几个加法 + override 判断)、无副作用、无 RNG —— **每次属性查询时遍历当前装备的 effects 现算即可,不需要预先物化成数组**。
+
+这是 reforge 比 sdlpal 干净一层的架构红利(4.3 表已标 ✨"scriptOnEquip → EquipEffect[],迁移期翻译")。**不要因为原版有 `PAL_UpdateEquipments` 就在 reforge 复刻一个"重建装备效果"的步骤** —— 那是把旧架构债重新引进来。原版那么做是被迫的(脚本不能实时算),reforge 的声明式数据没这个约束。
+
+由此推出下面 G4-2/G4-3 的正确修法方向:**补全查询点的 effect 消费**(让 effectiveStat / 攻击判定 / maxHP 查询 各自遍历 EquipEffect),**不是补"重建时机"**。
+
+#### G4-1 卸装清状态/毒缺口(高危)
+`equipItem` 当前只换槽位,不清 grantStatus(仙女剑 DualAttack)/ Wear 槽 level-99 毒(寿葫芦)。**行动**:equipItem 卸旧件前,若旧件 effects 含 `grantStatus` → 清该 status;若旧件在 Wear/accessory 槽且授 level-99 毒 → 清该毒。**风险**:高(迁移仙女剑/寿葫芦必撞)。
+
+> 注:这条是"卸装时的副作用清除",**不是**"装备效果物化"——它是 equipItem 这个**写操作**的伴随清理,跟"查询时实时算"不冲突(授状态/授毒是持久态变更,需要显式撤销)。
+
+#### G4-2 attackAll/grantSkill/maxPool 运行时未消费
+EquipEffect 联合定义了,但 `effectiveStat` 只算 statBonus。**行动**:**补全各查询点的 effect 消费**(查询时现算,不物化):
+- `attackAll`:攻击判定处查"任一装备槽含 attackAll effect → 群攻"(override 语义,末非 0)。
+- `grantSkill`:`learnedSkills` 查询处合并"装备授予的 skillId"(圣灵珠→合击/土灵珠→山神)。
+- `maxPool`:`maxHP`/`maxMP` 查询处累加 maxPool effect(累加语义)。
+- `grantStatus`:状态查询处查"装备授予的持久状态"(仙女剑 DualAttack)。
+- `resistance`:抗性查询处累加。
+
+**风险**:中(长鞭/圣灵珠/土灵珠/仙女剑目前无效)。
+
+#### G4-3 查询点未覆盖(原"启动时无重算装备 effect",重新定性)
+原表述"无 bootstrap updateAllEquipments 等价"会被误解成"该补物化重建"。**按上面的设计判断,重新定性**:reforge 不需要 updateAllEquipments —— 需要的是**确保所有属性查询点都走 effectiveStat/effectiveMaxPool/effectiveResistance 等纯函数**,而不是直读 `instance.hp`/`instance.maxHP` 基线值。**行动**:grep reforge 所有读 maxHP/maxMP/attack/defense/speed/luck/resistance/status/skills 的点,确认它们走"基线 + Σ装备 effect"的纯函数,而非裸读基线字段。**风险**:中(漏一个查询点 = 该属性装备失效,如灵儿进明王战丢武器双攻这类 bug 的 reforge 版本)。
 
 ---
 
@@ -566,8 +592,8 @@ USHORT nSpriteFramesAuto; WORD wScriptIdleFrameCountAuto;
 
 ### P1 中危(部分功能缺失)
 
-4. **G4-2 attackAll/grantSkill/maxPool 运行时未消费**:phase3 落地装备效果运行时计算时补。
-5. **G4-3 启动时无重算装备 effect**:buildWorld 后遍历 party 装备跑 effects(防存档丢失)。
+4. **G4-2 attackAll/grantSkill/maxPool/grantStatus/resistance 运行时未消费**:补全各查询点的 effect 消费(查询时现算,非物化重建——见 §4.4 ★ 设计判断)。
+5. **G4-3 查询点未覆盖**:grep reforge 所有读 maxHP/属性/抗性/状态/skills 的点,确认走 effectiveXxx 纯函数而非裸读基线(漏一处 = 装备该属性失效)。
 6. **G1-1 autoLoop 候选不自动**:C1 编辑器帧标注工具消费候选清单 → 产 loop 布局。
 7. **G8-2 attackEquivItem 运行时未消费**:战斗侧普攻附效(喷毒)。
 
