@@ -1815,13 +1815,6 @@ body {
   opacity: 1;
 }
 
-/* ── 事件库表 ── */
-.evlib-table .evlib-row {
-  cursor: pointer;
-}
-.evlib-table .evlib-row:hover td {
-  background: rgba(76, 154, 255, 0.08);
-}
 
 /* ── 技能编辑(结构化表单 + 特效预览) ── */
 .skill-form .sk-grid {

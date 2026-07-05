@@ -171,7 +171,7 @@ export function DataMode(props: {
   }
 
   if (tab === 'events') {
-    return <EventLibTab scenes={scenes} onJumpToEvent={onJumpToEvent} tabBar={tabBar} />
+    return <EventLibTab tabBar={tabBar} />
   }
 
   if (tab === 'vars') {
