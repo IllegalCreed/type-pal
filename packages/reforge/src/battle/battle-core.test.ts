@@ -525,5 +525,6 @@ describe('M4b-3b 物品 / 逃跑真判定', () => {
     }
     expect(s2.log.some((l) => l.includes('逃跑失败'))).toBe(true)
     expect(s2.phase).not.toBe('fled')
+    expect(s2.players[0]!.hiddenCounts.luck).toBe(2) // 失败 → 吉运池 +2(fight.c:4170)
   })
 })

@@ -139,15 +139,15 @@
 
 | 检查点 | sdlpal | 一阶段 | reforge | 裁决 |
 |---|---|---|---|---|
-| 防御物理 `def*=2` | ✅ | ✅（enemy→player 物理结算） | ⚠️ **`/2` 后置**（`applyDefense`） | ⚠️ **数值偏差**：`trunc(dmg/2)` vs `calcBaseDamage(atk,def*2)` —— 因 calcBaseDamage 是分段函数（atk>def / atk>def*0.6 / 0），**翻倍 def 可能跨档**（atk>def 但 atk<def*2 → 从 2x 档掉到 0.6 档），后置/2 不跨档。reforge 物理 reduced 量偏大 |
+| 防御物理 `def*=2` | ✅ | ✅（enemy→player 物理结算） | ✅ 已修 | ✅ **已修(2026-07-05 敌物攻装配全链)**：enemy→player 走 `def = p.defense × (defending?2:1)` 前置(fight.c:4926 语义,分段跨档保留)；player→enemy 的 applyDefense 后置 /2 留存但敌人无防御动作 = 不可达死支 |
 | 防御法术除因子（加性 `(defending?2:1)*(protect?2:1)+(autoDefend?1:0)`） | ✅ | ✅ `magic-damage.ts:259` | ❌ **只 `applyDefense(/2)`** | ❌ **reforge 缺失** protect/autoDefend 项；任务核实点"防御物理/2 + 法术除数×2"——reforge 物理用/2（非 def*2），法术用/2（非乘性除因子），**两路径都简化了** |
-| 逃跑 str=fleeRate+装备 | ✅ | ✅ `getPlayerFleeRate` | ⚠️ `p.fleeRate`（字段语义需核实是否含装备派生） | ⚠️ 待核（reforge 装备加成是否进 `BattlePlayerState.fleeRate`） |
+| 逃跑 str=fleeRate+装备 | ✅ | ✅ `getPlayerFleeRate` | ✅ 含装备派生 | ✅ **已核(2026-07-05)**：链路 = migrate `luck: role.fleeRate`(base) + 装备 0x17 行 21→statBonus 'luck' → main.ts `fleeRate: effectiveStat(c,'luck')` 活派生，同 PAL_GetPlayerFleeRate 语义 |
 | 逃跑 def 用 fleeRate(修复) | bug 用 dexterity | ✅ 修复用 fleeRate | ✅ fleeRate | 🟰（一阶段+reforge 都用修复版；还原原版改回 dexterity） |
-| `!fIsBoss` gate | ✅（boss 必失败） | ✅ `flee.ts:57` | ❌ **无 isBoss gate** | ❌ **reforge 缺失**：boss 战可逃跑成功（`battle-core.ts` 全文无 isBoss/fIsBoss）。任务核心提问"逃跑 fleeRate 判定"——reforge 有判定但漏 boss 锁 |
+| `!fIsBoss` gate | ✅（boss 必失败） | ✅ `flee.ts:57` | ✅ 已修 | ✅ **已修(2026-07-05)**：BattleState.boss(0x07 fIsBoss=!op2，69 处场景 boss 标烘焙) + 掷骰先消费再 `!s.boss` 拦(fight.c:4143 rng 流序)；单测钉 boss 场恒逃不掉 |
 | 失败演出（3步挪+LABEL_ESCAPEFAIL） | ✅ | ✅ `buildFleeFailTimeline` | ❌ 仅 log（演出归 M4d） | ⚠️ 演出未接（M4d 范畴） |
-| `rgFleeExp+=2`（失败） | ✅ | ✅ `flee.ts:73` | ❌ 无（reforge 无 Exp 池概念？hiddenCounts.defense 有，flee 无） | ⚠️ reforge 缺 flee Exp 累积 |
+| `rgFleeExp+=2`（失败） | ✅ | ✅ `flee.ts:73` | ✅ 已修 | ✅ **已修(2026-07-05)**：失败分支 `addHidden('luck', 2)`(fight.c:4170，仅逃者本人)；HIDDEN_STAT_KEYS 七池含 luck，结算 applyHiddenExp 原样分配 |
 
-**结论**：reforge 防御/逃跑是**功能骨架**，三处精度问题：(a) 物理防御 `/2` 后置 vs sdlpal `def*=2` 前置（calcBaseDamage 分段跨档 → 数值偏差）；(b) 法术防御丢 protect/autoDefend 加性除因子；(c) **逃跑漏 `!isBoss` gate**（boss 可逃 = 严重，任务核心提问核实：reforge 确实漏）。一阶段在 `magic-damage.ts` 忠实复刻了法术加性除因子，reforge 未承接。
+**结论(2026-07-05 更新)**：原三处精度问题 (a) 物理防御前置 def×2、(c) boss 逃跑锁 **已修**（敌物攻装配全链 + boss 标烘焙）；fleeRate 装备派生、失败 +2 吉运池已核/已修。**余 (b)：法术防御除因子** —— 原版加性 `(defending?2:1)×(protect?2:1)+(autoDefend?1:0)`，reforge 现仅 `/2` 后置且缺 protect/autoDefend 项（一阶段 magic-damage.ts:259 有忠实版可抄）——归 P2 护体/状态簇一并接。
 
 ---
 

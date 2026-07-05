@@ -591,6 +591,7 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
       s.phase = 'fled'
       s.log.push('全队逃跑')
     } else {
+      addHidden('luck', 2) // B7c:逃跑失败 → 吉运池 +2(fight.c:4170 rgFleeExp,仅逃者本人)
       s.log.push(`${p.roleId} 逃跑失败${s.boss ? '(首领战不可逃)' : ''}`)
     }
     return
