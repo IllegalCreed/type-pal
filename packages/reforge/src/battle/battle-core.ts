@@ -101,6 +101,8 @@ export interface BattleState {
     skillId?: string
     /** 物攻暴击(1/6 或狂暴;表现层取暴击音,fight.c:2065-2069)。 */
     crit?: boolean
+    /** 敌物攻被格挡(7/17 被动「闪避」:免伤,演出格挡姿+coverSound+仍击退)。 */
+    blocked?: boolean
   } | null
 }
 
@@ -522,19 +524,24 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
     // B7c:物攻 → attack 池 +1、maxHP 池 +R(2,3)(fight.c:3756-3757,序固定)
     addHidden('attack', 1)
     addHidden('maxHP', 2 + Math.floor(_rng() * 2))
-    // 暴击(fight.c:3639-3647):RandomLong(0,5)==0(1/6)或狂暴 Bravery → 伤害 ×3。
-    // 表现层经 lastAction.crit 取暴击音(rgwCriticalSound 替代 attackSound,fight.c:2065-2069)
+    // 玩家物攻伤害装配(fight.c:3629-3663 全链;曾漏 def 等级项与噪声/浮动 → 伤害虚高):
+    // def = 敌防 + (敌级+6)×4 → 基础伤 → +R(1,2) → 暴击(1/6 或狂暴)×3 →
+    // 李逍遥专属 1/12 再 ×2(fight.c:3648 主角彩蛋;按 roleId 数据键) → ×[1,1.125) → 保底 1
+    const def = e.def.stats.defense + (e.def.stats.level + 6) * 4
     const crit = Math.floor(_rng() * 6) === 0 || p.status.bravery > 0
-    let dmg = resolveAttack(
-      p.attackStrength,
-      e.def.stats.defense,
-      e.def.stats.physicalResistance,
-      e.defending,
-    )
+    let dmg = resolveAttack(p.attackStrength, def, e.def.stats.physicalResistance, e.defending)
+    dmg += 1 + Math.floor(_rng() * 2)
     if (crit) dmg *= 3
-    if (s.lastAction) s.lastAction.crit = crit
+    let bonus = false
+    if (p.roleId === 'li-xiaoyao' && Math.floor(_rng() * 12) === 0) {
+      dmg *= 2 // 主角彩蛋暴击(数据化归属待议;原版按 roleId==0)
+      bonus = true
+    }
+    dmg = Math.trunc(dmg * (1 + _rng() * 0.125))
+    if (dmg <= 0) dmg = 1
+    if (s.lastAction) s.lastAction.crit = crit || bonus
     e.hp = Math.max(0, e.hp - dmg)
-    s.log.push(`${p.roleId} ${crit ? '会心一击 ' : ''}攻击 ${e.def.id} 造成 ${dmg}`)
+    s.log.push(`${p.roleId} ${crit || bonus ? '会心一击 ' : ''}攻击 ${e.def.id} 造成 ${dmg}`)
   }
 }
 
@@ -681,7 +688,28 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
     return
   }
   const p = s.players[decision.targetPlayerIdx]!
-  const dmg = resolveAttack(e.def.stats.attackStrength, p.defense, 0, p.defending)
+  // 敌物攻打玩家(fight.c:4917-5076 全链):
+  // str = 敌攻 + (敌级+6)×6(钳≥0);def = 玩家防 ×(防御 2)(原版 def 前置翻倍,非伤害减半)
+  let str = e.def.stats.attackStrength + (e.def.stats.level + 6) * 6
+  if (str < 0) str = 0
+  // 被动格挡「闪避」(fight.c:4938 RandomLong(0,16)>=10 = 7/17;乱/眠/定无援护不闪
+  // fight.c:4976-4985。格挡 = 完全免伤,演出仍击退,格挡音 = 玩家 coverSound)
+  const blocked =
+    Math.floor(rng() * 17) >= 10 &&
+    p.status.confused <= 0 &&
+    p.status.sleep <= 0 &&
+    p.status.paralyzed <= 0
+  if (s.lastAction) s.lastAction.blocked = blocked
+  if (blocked) {
+    s.log.push(`${p.roleId} 格挡了 ${e.def.id} 的攻击`)
+    return
+  }
+  const def = p.defense * (p.defending ? 2 : 1)
+  // 伤害 = calc(str+R(0,2), def, 物抗恒 2) + R(0,1) → 护体/2 → 钳现有 HP → 保底 1
+  let dmg = calcPhysicalAttackDamage(str + Math.floor(rng() * 3), def, 2) + Math.floor(rng() * 2)
+  if (p.status.protect > 0) dmg = Math.trunc(dmg / 2) // 护体(fight.c:5059)
+  if (dmg > p.hp) dmg = p.hp
+  if (dmg <= 0) dmg = 1
   p.hp = Math.max(0, p.hp - dmg)
   s.log.push(`${e.def.id} 攻击 ${p.roleId} 造成 ${dmg}`)
 }

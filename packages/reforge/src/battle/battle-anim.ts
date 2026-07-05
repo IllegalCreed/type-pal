@@ -158,16 +158,21 @@ export interface BuildEnemyPhysicalInput {
   sounds: { action: number; call: number }
   damage: number
   targetDied: boolean
+  /** 被动格挡(7/17「闪避」):frame3 免伤免数字,音换 coverSound,仍击退(fight.c:5052-5105)。 */
+  blocked?: boolean
+  /** 目标玩家的格挡音(rgwCoverSound;blocked 时替代 call)。 */
+  coverSound?: number
 }
 
 /**
- * 敌人物攻时间线(fight.c:4910-5149 主干,无格挡/替挡):
+ * 敌人物攻时间线(fight.c:4910-5149 主干,含被动格挡;替挡 cover 待多队员):
  * magic 起手帧(each 2) → 前移 3−magicFrames 步(each 1) → action 音(1) → 冲至队员前(−44,−16)
  * attack 帧循环 → 命中:队员 frame4+染色+数字+call 音(1) → 击退(+8,+4)(1) → 后坐(+2,+1)(3)
  * → 敌回位 frame0(1) → 队员恢复(死2/站0)(1+4)。
  */
 export function buildEnemyPhysical(input: BuildEnemyPhysicalInput): AnimFrame[] {
   const { enemyIdx, enemyPos, targetIdx, targetPos, anim, sounds, damage, targetDied } = input
+  const blocked = input.blocked ?? false
   const { idleFrames, magicFrames, attackFrames, actWaitFrames } = anim
   const frames: AnimFrame[] = []
   let ex = enemyPos.x
@@ -216,14 +221,27 @@ export function buildEnemyPhysical(input: BuildEnemyPhysicalInput): AnimFrame[] 
       })
     }
   }
-  // 命中
+  // 命中 / 格挡(fight.c:5052-5085:格挡 = frame3 免伤免闪白免数字,音换玩家 coverSound;
+  // 击退在 gate 外 —— 格挡也被推)
   frames.push({
     durationMs: delayMs(1),
-    fighters: [{ side: 'player', idx: targetIdx, frame: 4, colorShift: 6 }],
-    damageNum: { target: { side: 'player', idx: targetIdx }, value: damage },
-    ...(sounds.call > 0 ? { sound: sounds.call } : {}),
+    fighters: [
+      blocked
+        ? { side: 'player', idx: targetIdx, frame: 3 }
+        : { side: 'player', idx: targetIdx, frame: 4, colorShift: 6 },
+    ],
+    ...(blocked
+      ? {}
+      : { damageNum: { target: { side: 'player', idx: targetIdx }, value: damage } }),
+    ...(blocked
+      ? (input.coverSound ?? 0) > 0
+        ? { sound: input.coverSound }
+        : {}
+      : sounds.call > 0
+        ? { sound: sounds.call }
+        : {}),
   })
-  // 击退 + 后坐
+  // 击退 + 后坐(格挡也被推,fight.c:5100-5105 在免伤 gate 外)
   const knockX = targetPos.x + 8
   const knockY = targetPos.y + 4
   frames.push({

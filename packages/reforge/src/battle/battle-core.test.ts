@@ -61,7 +61,8 @@ describe('M4a headless 战斗核', () => {
   })
 
   test('暴击(fight.c:3639-3647):rng 1/6 → ×3 + 会心日志;高 rng 无暴击;狂暴必暴击', () => {
-    const base = calcPhysicalAttackDamage(40, 10, 0)
+    // 伤害装配(fight.c:3629-3663):def 含 (敌级+6)×4;+R(1,2);×[1,1.125)
+    const base = calcPhysicalAttackDamage(40, 10 + (1 + 6) * 4, 0)
     // 单回合推进:进 selectAction → 填动作 → 消费 performAction 至回合结束
     const oneTurn = (s: ReturnType<typeof createBattleState>, rng: () => number): void => {
       stepBattle(s, rng) // preBattle → selectAction
@@ -76,21 +77,21 @@ describe('M4a headless 战斗核', () => {
         players: [player('li', { attackStrength: 40 })],
         enemies: [mkEnemy('slime', { health: 999, defense: 10, attackStrength: 0 })],
       })
-    // rng0:floor(0×6)=0 → 暴击 ×3
+    // rng0:+R(1,2)=+1,floor(0×6)=0 → 暴击 ×3,浮动 ×1
     const s1 = mk()
     oneTurn(s1, rng0)
-    expect(999 - s1.enemies[0]!.hp).toBe(base * 3)
+    expect(999 - s1.enemies[0]!.hp).toBe((base + 1) * 3)
     expect(s1.log.some((l) => l.includes('会心一击'))).toBe(true)
-    // rng 0.9:floor(5.4)=5 → 无暴击
+    // rng 0.9:+R=+2,floor(5.4)=5 无暴击,浮动 ×1.1125
     const rHigh = () => 0.9
     const s2 = mk()
     oneTurn(s2, rHigh)
-    expect(999 - s2.enemies[0]!.hp).toBe(base)
+    expect(999 - s2.enemies[0]!.hp).toBe(Math.trunc((base + 2) * 1.1125))
     // 狂暴:高 rng 也必暴击(fight.c:3641 ‖ Bravery)
     const s3 = mk()
     s3.players[0]!.status.bravery = 3
     oneTurn(s3, rHigh)
-    expect(999 - s3.enemies[0]!.hp).toBe(base * 3)
+    expect(999 - s3.enemies[0]!.hp).toBe(Math.trunc((base + 2) * 3 * 1.1125))
   })
 
   test('首领战不可逃(fight.c:4143 && !fIsBoss):同 rng 下 boss 场逃跑恒失败', () => {
@@ -123,21 +124,24 @@ describe('M4a headless 战斗核', () => {
     expect(s.actionQueue[0]!.isEnemy).toBe(false) // 队首 = 玩家(dex 高)
   })
 
-  test('防御:选 defend → 该队员受击减半', () => {
-    const s = createBattleState({ players: [player('li', { hp: 100, defense: 0 })], enemies: [mkEnemy('e', { attackStrength: 40, dexterity: 999, level: 20 })] })
-    // 敌 dex 高先手;玩家防御 → 受击减半
-    const rawDmg = calcPhysicalAttackDamage(40, 0, 0)
+  test('防御:选 defend → 受击 def×2 前置(fight.c:4926-4929,非伤害减半)', () => {
+    const s = createBattleState({
+      players: [player('li', { hp: 400, maxHp: 400, defense: 60 })],
+      enemies: [mkEnemy('e', { attackStrength: 40, dexterity: 999, level: 20 })],
+    })
+    // 敌 dex 高先手;str = 40+(20+6)×6 = 196;防御 → def 60×2 = 120;物抗恒 2;rng0 噪声 0
+    const expected = Math.max(1, calcPhysicalAttackDamage(196, 120, 2))
     stepBattle(s, rng0)
     s.pendingActions.set(0, { kind: 'defend' })
-    // 跑一整回合
     let guard = 0
     while (s.phase !== 'selectAction' || s.turn === 1) {
       if (s.turn > 1) break
       stepBattle(s, rng0)
       if (++guard > 50) break
     }
-    // 玩家防御后被打:掉血 = 减半伤害(而非全额)
-    expect(100 - s.players[0]!.hp).toBe(Math.trunc(rawDmg / 2))
+    expect(400 - s.players[0]!.hp).toBe(expected)
+    // 不防御对照:def 60 全额伤更高
+    expect(expected).toBeLessThan(calcPhysicalAttackDamage(196, 60, 2))
   })
 })
 
@@ -330,7 +334,7 @@ describe('M4b-3b 物品 / 逃跑真判定', () => {
     } as never
     const s = createBattleState({
       players: [player('li', { hp: 10, maxHp: 100 })],
-      enemies: [mkEnemy('e', { attackStrength: 1, health: 500 })],
+      enemies: [mkEnemy('e', { attackStrength: -999, health: 500 })],
       items: { '61': potion },
       inventory: [{ itemId: '61', count: 2 }],
     })
@@ -338,7 +342,8 @@ describe('M4b-3b 物品 / 逃跑真判定', () => {
     s.pendingActions.set(0, { kind: 'item', itemId: '61' })
     let guard = 0
     while (s.phase !== 'selectAction' || s.turn === 1) { stepBattle(s, rng0); if (++guard > 50) break }
-    expect(s.players[0]!.hp).toBe(60)
+    // 回 50 → 60;敌 str 钳 0 后伤害走保底 1(fight.c:5070-5073)→ 59
+    expect(s.players[0]!.hp).toBe(59)
     expect(s.inventory[0]!.count).toBe(1)
 
     // 逃跑失败:str 低 + rng 高 → roll 大

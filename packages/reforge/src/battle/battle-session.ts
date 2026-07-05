@@ -848,6 +848,7 @@ export class BattleSession {
       target?: number
       skillId?: string
       crit?: boolean
+      blocked?: boolean
     } | null,
     pHp: number[],
     eHp: number[],
@@ -907,6 +908,11 @@ export class BattleSession {
       targetPos,
       anim: def.anim,
       sounds: { action: def.sounds.action, call: def.sounds.call },
+      // 被动格挡演出(免伤免数字+格挡姿;音 = 目标玩家自己的 coverSound)
+      ...(la.blocked ? { blocked: true } : {}),
+      ...(la.blocked && this.opts.playerSounds?.[t]?.cover
+        ? { coverSound: this.opts.playerSounds[t]!.cover }
+        : {}),
       damage: (pHp[t] ?? 0) - (s.players[t]?.hp ?? 0),
       targetDied: (s.players[t]?.hp ?? 0) <= 0,
     })
