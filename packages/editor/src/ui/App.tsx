@@ -20,6 +20,7 @@ import type { LoadedProject } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import {
   AddEntityCommand,
+  CreateScriptSourceCommand,
   DeleteEntityCommand,
   MoveEntityCommand,
   UpdateEntityCommand,
@@ -804,8 +805,33 @@ function EntityInspector(props: {
             🔁 巡逻/自动脚本({entity.pages[0].auto.stages.length} 段)→ 去编辑
           </button>
         ) : null}
-        {!entity.pages?.[0]?.trigger && !entity.pages?.[0]?.auto && (
-          <div className="hint">（无 — 在事件模式给此实体插入触发/巡逻脚本）</div>
+        {!entity.pages?.[0]?.trigger && (
+          <button
+            type="button"
+            className="tool"
+            onClick={() => {
+              session.dispatch(
+                new CreateScriptSourceCommand(sceneId, { kind: 'trigger', entityId: entity.id }),
+              )
+              onJumpToEvent(sceneId, `${entity.id}:trigger`)
+            }}
+          >
+            ＋ 创建触发脚本(交互)→ 去编辑
+          </button>
+        )}
+        {!entity.pages?.[0]?.auto && (
+          <button
+            type="button"
+            className="tool"
+            onClick={() => {
+              session.dispatch(
+                new CreateScriptSourceCommand(sceneId, { kind: 'auto', entityId: entity.id }),
+              )
+              onJumpToEvent(sceneId, `${entity.id}:auto`)
+            }}
+          >
+            ＋ 创建巡逻/自动脚本 → 去编辑
+          </button>
         )}
       </div>
       <div className="section" style={{ borderBottom: 0 }}>

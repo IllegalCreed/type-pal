@@ -780,3 +780,78 @@ export class UpdateLevelUpCommand implements Command {
     return { ...state, levelUp }
   }
 }
+
+// ════════════════════════════════════════════════════════════════════
+// 创建脚本源(2026-07-05 审计断点 #5:事件空态死路 —— 解除「v1 不新建」限制)
+// ════════════════════════════════════════════════════════════════════
+
+/**
+ * 创建脚本源(空 stages 起步,后续编辑走 UpdateScriptCommand):
+ * onEnter / 实体 trigger(interact 缺省,可指定 touch) / 实体 auto。
+ * 已存在同源 = no-op(不覆盖);实体无 pages 时创建 pages[0]。invert 删回。
+ */
+export class CreateScriptSourceCommand implements Command {
+  readonly label = '创建脚本源'
+  private readonly sceneId: string
+  private readonly ref: ScriptSourceRef
+  private readonly triggerOn: 'interact' | 'touch'
+  private created = false
+
+  constructor(sceneId: string, ref: ScriptSourceRef, triggerOn: 'interact' | 'touch' = 'interact') {
+    this.sceneId = sceneId
+    this.ref = ref
+    this.triggerOn = triggerOn
+  }
+
+  apply(state: EditorState): EditorState {
+    const scene = findScene(state, this.sceneId)
+    if (!scene) return state
+    if (getScriptStages(scene, this.ref)) return state // 已存在 → no-op
+    this.created = true
+    const empty: ScriptStage[] = [{ body: [] }]
+    if (this.ref.kind === 'onEnter') return withScene(state, this.sceneId, { ...scene, onEnter: empty })
+    const entityId = this.ref.entityId
+    const kind = this.ref.kind
+    const entities = scene.entities.map((e) => {
+      if (e.id !== entityId) return e
+      const page = e.pages?.[0] ?? {}
+      const newPage =
+        kind === 'trigger'
+          ? { ...page, trigger: { on: this.triggerOn, stages: empty } }
+          : { ...page, auto: { stages: empty } }
+      return { ...e, pages: [newPage, ...(e.pages?.slice(1) ?? [])] }
+    })
+    return withScene(state, this.sceneId, { ...scene, entities })
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.created) return state
+    const scene = findScene(state, this.sceneId)
+    if (!scene) return state
+    if (this.ref.kind === 'onEnter') {
+      const next = { ...scene }
+      delete (next as { onEnter?: unknown }).onEnter
+      return withScene(state, this.sceneId, next)
+    }
+    const entityId = this.ref.entityId
+    const kind = this.ref.kind
+    const entities = scene.entities.map((e) => {
+      if (e.id !== entityId) return e
+      const page = e.pages?.[0]
+      if (!page) return e
+      const newPage = { ...page }
+      if (kind === 'trigger') delete (newPage as { trigger?: unknown }).trigger
+      else delete (newPage as { auto?: unknown }).auto
+      // 页空了(无 trigger/auto/state)→ 整个 pages 键删回(落盘干净)
+      const pageEmpty = !newPage.trigger && !newPage.auto && newPage.state === undefined
+      const rest = e.pages?.slice(1) ?? []
+      if (pageEmpty && rest.length === 0) {
+        const ne = { ...e }
+        delete (ne as { pages?: unknown }).pages
+        return ne
+      }
+      return { ...e, pages: [newPage, ...rest] }
+    })
+    return withScene(state, this.sceneId, { ...scene, entities })
+  }
+}

@@ -16,7 +16,7 @@ import type {
 } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { type ScriptSourceRef, UpdateScriptCommand } from '../core/commands.js'
+import { CreateScriptSourceCommand, type ScriptSourceRef, UpdateScriptCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { Playback } from '../core/playback.js'
 import {
@@ -262,10 +262,14 @@ export function EventMode(props: {
   const [sceneId, setSceneId] = useState(initialSceneId)
   const [filter, setFilter] = useState('')
   const [srcKey, setSrcKey] = useState<string | null>(initialSrcKey ?? null)
+  const [createEntityId, setCreateEntityId] = useState('')
 
-  // 只列有脚本的场景(验证眼睛:空场景无意义)
+  // 全部场景(2026-07-05 审计断点 #5:0 源场景也可进 —— 创建器给它加第一段脚本);有源在前
   const scriptedScenes = useMemo(
-    () => scenes.map((s) => ({ scene: s, n: sourceCount(s) })).filter((x) => x.n > 0),
+    () =>
+      scenes
+        .map((s) => ({ scene: s, n: sourceCount(s) }))
+        .sort((a, b) => (a.n > 0 === b.n > 0 ? 0 : a.n > 0 ? -1 : 1)),
     [scenes],
   )
   const shown = useMemo(
@@ -412,6 +416,78 @@ export function EventMode(props: {
               </button>
             ))}
             {sources.length === 0 ? <div className="script-empty">此场景无脚本源。</div> : null}
+            {/* 创建器(断点 #5):进场脚本(无则可建)+ 实体 触发/巡逻(选实体建) */}
+            {scene && (
+            <div className="src-create">
+              {!scene.onEnter?.length && (
+                <button
+                  type="button"
+                  className="tool"
+                  onClick={() => {
+                    session.dispatch(new CreateScriptSourceCommand(sceneId, { kind: 'onEnter' }))
+                    setSrcKey('__onEnter__')
+                  }}
+                >
+                  ＋ 进场脚本(onEnter)
+                </button>
+              )}
+              {scene.entities.length > 0 && (
+                <div className="src-create-row">
+                  <select
+                    className="in"
+                    value={createEntityId}
+                    onChange={(e) => setCreateEntityId(e.target.value)}
+                  >
+                    {scene.entities.map((e) => (
+                      <option key={e.id} value={e.id}>
+                        {e.id}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    className="mini"
+                    title="给该实体创建交互触发脚本"
+                    disabled={
+                      !createEntityId ||
+                      !!scene.entities.find((e) => e.id === createEntityId)?.pages?.[0]?.trigger
+                    }
+                    onClick={() => {
+                      session.dispatch(
+                        new CreateScriptSourceCommand(sceneId, {
+                          kind: 'trigger',
+                          entityId: createEntityId,
+                        }),
+                      )
+                      setSrcKey(`${createEntityId}:trigger`)
+                    }}
+                  >
+                    ＋触发
+                  </button>
+                  <button
+                    type="button"
+                    className="mini"
+                    title="给该实体创建巡逻/自动脚本"
+                    disabled={
+                      !createEntityId ||
+                      !!scene.entities.find((e) => e.id === createEntityId)?.pages?.[0]?.auto
+                    }
+                    onClick={() => {
+                      session.dispatch(
+                        new CreateScriptSourceCommand(sceneId, {
+                          kind: 'auto',
+                          entityId: createEntityId,
+                        }),
+                      )
+                      setSrcKey(`${createEntityId}:auto`)
+                    }}
+                  >
+                    ＋巡逻
+                  </button>
+                </div>
+              )}
+            </div>
+            )}
           </div>
         </div>
       </div>

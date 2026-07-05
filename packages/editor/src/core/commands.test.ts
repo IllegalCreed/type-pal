@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import {
   AddEnemyCommand,
+  CreateScriptSourceCommand,
   AddEntityCommand,
   DeleteEnemyCommand,
   DeleteEntityCommand,
@@ -445,5 +446,38 @@ describe('C6 升级学技能命令(levelUp 表)', () => {
     const s1 = c.apply(s0)
     expect(s1.levelUp['zhao']).toHaveLength(1)
     expect('zhao' in c.invert(s1).levelUp).toBe(false)
+  })
+})
+
+describe('CreateScriptSourceCommand(断点 #5:空态创建)', () => {
+  test('onEnter:创建空段;invert 删键;已存在 no-op', () => {
+    const s0 = st()
+    const c = new CreateScriptSourceCommand('s', { kind: 'onEnter' })
+    const s1 = c.apply(s0)
+    expect(s1.scenes[0]!.onEnter).toEqual([{ body: [] }])
+    expect(s0.scenes[0]!.onEnter).toBeUndefined() // 源不变
+    expect('onEnter' in c.invert(s1).scenes[0]!).toBe(false)
+    // 已存在 → no-op
+    const c2 = new CreateScriptSourceCommand('s', { kind: 'onEnter' })
+    expect(c2.apply(s1)).toBe(s1)
+  })
+  test('trigger:无 pages 实体创建 pages[0].trigger(interact);invert 整 pages 删回', () => {
+    const s0 = st()
+    const c = new CreateScriptSourceCommand('s', { kind: 'trigger', entityId: 'a' })
+    const s1 = c.apply(s0)
+    expect(ent0(s1).pages?.[0]?.trigger).toEqual({ on: 'interact', stages: [{ body: [] }] })
+    expect(ent0(s0).pages).toBeUndefined()
+    expect(ent0(c.invert(s1)).pages).toBeUndefined() // 页空 → pages 键删回
+  })
+  test('auto:已有 trigger 的页上加 auto;invert 只删 auto 留 trigger', () => {
+    const s0 = st()
+    const s1 = new CreateScriptSourceCommand('s', { kind: 'trigger', entityId: 'a' }).apply(s0)
+    const c = new CreateScriptSourceCommand('s', { kind: 'auto', entityId: 'a' })
+    const s2 = c.apply(s1)
+    expect(ent0(s2).pages?.[0]?.auto).toEqual({ stages: [{ body: [] }] })
+    expect(ent0(s2).pages?.[0]?.trigger).toBeTruthy()
+    const back = c.invert(s2)
+    expect(ent0(back).pages?.[0]?.auto).toBeUndefined()
+    expect(ent0(back).pages?.[0]?.trigger).toBeTruthy()
   })
 })

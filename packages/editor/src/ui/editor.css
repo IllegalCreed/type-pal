@@ -1692,3 +1692,22 @@ body {
   background: rgba(255, 255, 255, 0.04);
   border-radius: 4px;
 }
+
+/* ── 脚本源创建器(断点 #5) ── */
+.src-create {
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: 6px;
+}
+.src-create-row {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.src-create-row select {
+  flex: 1;
+  min-width: 0;
+}
