@@ -5,6 +5,7 @@
  */
 import type { Command, SceneDef, ScriptStage } from '@type-pal/content'
 import { useMemo, useState } from 'react'
+import { COMMAND_CATALOG } from '../core/command-catalog.js'
 
 interface EventRow {
   sceneId: string
@@ -59,12 +60,63 @@ function collectRows(scenes: readonly SceneDef[]): EventRow[] {
   return rows
 }
 
+/** 指令手册视图:43 种可用命令的目录(kind/参数/语义/原版 op 对照)。 */
+function CatalogView(props: { filter: string }) {
+  const { filter } = props
+  const groups = useMemo(() => {
+    const g = new Map<string, typeof COMMAND_CATALOG>()
+    for (const c of COMMAND_CATALOG) {
+      if (
+        filter &&
+        !c.name.includes(filter) &&
+        !c.kind.toLowerCase().includes(filter.toLowerCase()) &&
+        !(c.origin ?? '').toLowerCase().includes(filter.toLowerCase())
+      )
+        continue
+      const list = g.get(c.group) ?? []
+      list.push(c)
+      g.set(c.group, list)
+    }
+    return g
+  }, [filter])
+  return (
+    <div className="et-scroll catalog">
+      {[...groups.entries()].map(([group, items]) => (
+        <div key={group} className="section">
+          <h4>{group}</h4>
+          {items.map((c) => (
+            <div key={c.kind} className="cat-row">
+              <div className="cat-head">
+                <span className="ico">{c.icon}</span>
+                <b>{c.name}</b>
+                <code className="mono">{c.kind}</code>
+                {c.origin && <span className="cat-origin">原版 {c.origin}</span>}
+              </div>
+              <div className="cat-desc">{c.desc}</div>
+              {c.params.length > 0 && (
+                <div className="cat-params">
+                  {c.params.map(([nm, d]) => (
+                    <span key={nm}>
+                      <code>{nm}</code> {d}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  )
+}
+
 export function EventLibTab(props: {
   scenes: SceneDef[]
   onJumpToEvent: (sceneId: string, srcKey: string) => void
   tabBar?: React.ReactNode
 }) {
   const { scenes, onJumpToEvent, tabBar } = props
+  const [view, setView] = useState<'catalog' | 'overview'>('catalog')
   const [filter, setFilter] = useState('')
   const rows = useMemo(() => collectRows(scenes), [scenes])
   const shown = useMemo(
@@ -82,50 +134,71 @@ export function EventLibTab(props: {
           <span className="t">事件库</span>
           <span className="spacer" />
           <span className="k">
-            {shown.length}/{rows.length}
+            {view === 'catalog' ? `${COMMAND_CATALOG.length} 指令` : `${shown.length}/${rows.length}`}
           </span>
+        </div>
+        <div className="kind-filter">
+          <button
+            type="button"
+            className={`kchip${view === 'catalog' ? ' on' : ''}`}
+            onClick={() => setView('catalog')}
+          >
+            📖 指令手册
+          </button>
+          <button
+            type="button"
+            className={`kchip${view === 'overview' ? ' on' : ''}`}
+            onClick={() => setView('overview')}
+          >
+            🗂 事件总览
+          </button>
         </div>
         <input
           className="in"
-          placeholder="过滤 场景/实体…"
+          placeholder={view === 'catalog' ? '搜指令 名/kind/原版op…' : '过滤 场景/实体…'}
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         />
         <div className="insp-empty" style={{ marginTop: 8 }}>
-          全工程事件源一览(进场/触发/巡逻),点行跳事件模式编辑。变量与物品的被引用
-          检索在「变量」「物品」页。
+          {view === 'catalog'
+            ? '全部可用脚本指令的参考手册(参数/语义/原版 opcode 对照);在事件模式「插入」使用它们。'
+            : '全工程已编事件源一览(进场/触发/巡逻),点行跳事件模式编辑。'}
         </div>
       </div>
       <div className="canvas-wrap data-body">
-        <div className="et-scroll">
-          <table className="music-table evlib-table">
-            <thead>
-              <tr>
-                <th style={{ width: 72 }}>场景</th>
-                <th>源</th>
-                <th style={{ width: 48 }}>段</th>
-                <th style={{ width: 56 }}>命令</th>
-              </tr>
-            </thead>
-            <tbody>
-              {shown.map((r) => (
-                <tr
-                  key={`${r.sceneId}-${r.srcKey}`}
-                  className="evlib-row"
-                  onClick={() => onJumpToEvent(r.sceneId, r.srcKey)}
-                  title="跳事件模式编辑"
-                >
-                  <td className="mono">{r.sceneId}</td>
-                  <td>
-                    {r.kindIcon} {r.kindLabel}
-                  </td>
-                  <td className="mono">{r.stages}</td>
-                  <td className="mono">{r.commands}</td>
+        {view === 'catalog' ? (
+          <CatalogView filter={filter} />
+        ) : (
+          <div className="et-scroll">
+            <table className="music-table evlib-table">
+              <thead>
+                <tr>
+                  <th style={{ width: 72 }}>场景</th>
+                  <th>源</th>
+                  <th style={{ width: 48 }}>段</th>
+                  <th style={{ width: 56 }}>命令</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {shown.map((r) => (
+                  <tr
+                    key={`${r.sceneId}-${r.srcKey}`}
+                    className="evlib-row"
+                    onClick={() => onJumpToEvent(r.sceneId, r.srcKey)}
+                    title="跳事件模式编辑"
+                  >
+                    <td className="mono">{r.sceneId}</td>
+                    <td>
+                      {r.kindIcon} {r.kindLabel}
+                    </td>
+                    <td className="mono">{r.stages}</td>
+                    <td className="mono">{r.commands}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </>
   )

@@ -1900,3 +1900,63 @@ body {
   border-radius: 6px;
   image-rendering: pixelated;
 }
+
+/* ── 特效预览控件 ── */
+.fp-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+.fp-rate {
+  width: 64px;
+  padding: 2px 4px;
+}
+.fp-vol {
+  width: 72px;
+  accent-color: var(--accent, #4c9aff);
+}
+
+/* ── 指令手册(opcode 库) ── */
+.catalog {
+  padding: 4px 14px;
+  max-width: 720px;
+}
+.cat-row {
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.cat-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+.cat-head code {
+  font-size: 11px;
+  opacity: 0.55;
+}
+.cat-origin {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--dim);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1px 7px;
+  border-radius: 8px;
+}
+.cat-desc {
+  font-size: 12px;
+  color: var(--dim);
+  margin: 3px 0 0 23px;
+}
+.cat-params {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 14px;
+  margin: 3px 0 0 23px;
+  font-size: 11px;
+  color: var(--faint);
+}
+.cat-params code {
+  color: var(--dim);
+}
