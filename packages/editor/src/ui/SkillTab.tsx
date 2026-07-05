@@ -202,7 +202,13 @@ function EffectFields(props: { e: SkillEffect; on: (next: SkillEffect) => void }
     case 'steal':
       return <label><span>成功率</span><N v={e.rate} on={(n) => on({ ...e, rate: n ?? 0 })} /></label>
     case 'summon':
-      return <label><span>神将号</span><N v={e.godId} on={(n) => on({ ...e, godId: n ?? 0 })} /></label>
+      return (
+        <>
+          <label><span>神将号</span><N v={e.godId} on={(n) => on({ ...e, godId: n ?? 0 })} /></label>
+          <label><span>现身帧速</span><N v={e.speed} on={(n) => on({ ...e, speed: n ?? undefined })} ph="0" /></label>
+          <label title="背景染色量(原版召唤自身 wEffectTimes,fight.c:3145):负=调暗(武神-2/风神-1),正=调亮(雪妖/火神+5),0=不染"><span>背景染色</span><N v={e.tint} on={(n) => on({ ...e, tint: n ?? undefined })} ph="0" /></label>
+        </>
+      )
     case 'trance':
       return <label><span>变身精灵</span><N v={e.sprite} on={(n) => on({ ...e, sprite: n ?? 0 })} /></label>
     default:
@@ -379,8 +385,9 @@ export function SkillTab(props: {
                   <label><span className="lb">Y 偏移</span> <N v={skill.animation.yOffset} on={(n) => setAnim({ yOffset: n })} ph="0" /></label>
                   <label><span className="lb">速度</span> <N v={skill.animation.speed} on={(n) => setAnim({ speed: n })} ph="0" /></label>
                   <label><span className="lb">循环起点</span> <N v={skill.animation.fireDelay} on={(n) => setAnim({ fireDelay: n })} ph="0" /></label>
-                  {/* 召唤类:原版把 wEffectTimes 复用为背景染色量(fight.c:3145),不是循环次数 —— 表单按语义分支标注 */}
-                  <label><span className="lb" title={skill.effects.some((e) => e.kind === 'summon') ? '召唤类技能此字段 = 背景染色量(原版 wEffectTimes→sBackgroundColorShift,fight.c:3145);染色演出接线后生效' : '特效命中段循环次数'}>{skill.effects.some((e) => e.kind === 'summon') ? '背景染色' : '循环次数'}</span> <N v={skill.animation.effectTimes} on={(n) => setAnim({ effectTimes: n })} ph="1" /></label>
+                  {/* 召唤技能的 animation 整段来自二次法术 → 此处 effectTimes 恒为循环次数;
+                      召唤背景染色是 summon 效果行自己的 tint 字段(曾混淆,复核纠正) */}
+                  <label><span className="lb" title="特效命中段循环次数">循环次数</span> <N v={skill.animation.effectTimes} on={(n) => setAnim({ effectTimes: n })} ph="1" /></label>
                   <label><span className="lb">震屏帧</span> <N v={skill.animation.shake} on={(n) => setAnim({ shake: n })} ph="0" /></label>
                   <label><span className="lb" title="屏幕波幅叠加(演出期叠在战场常驻波上;原版仅炎咒/三昧真火/火灵符法=1、鬼降=8)">屏波</span> <N v={skill.animation.wave} on={(n) => setAnim({ wave: n })} ph="0" /></label>
                   <label><span className="lb">音效号</span> <N v={skill.animation.sound} on={(n) => setAnim({ sound: n })} ph="(无)" /></label>

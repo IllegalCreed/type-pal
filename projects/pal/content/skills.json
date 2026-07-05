@@ -2575,7 +2575,8 @@
         {
           "kind": "summon",
           "godId": 4,
-          "speed": 0
+          "speed": 0,
+          "tint": -1
         },
         {
           "kind": "damage",
@@ -2641,7 +2642,8 @@
         {
           "kind": "summon",
           "godId": 2,
-          "speed": 0
+          "speed": 0,
+          "tint": 5
         },
         {
           "kind": "damage",
@@ -2740,7 +2742,8 @@
         {
           "kind": "summon",
           "godId": 0,
-          "speed": 2
+          "speed": 2,
+          "tint": -2
         },
         {
           "kind": "damage",
@@ -2839,7 +2842,8 @@
         {
           "kind": "summon",
           "godId": 8,
-          "speed": 0
+          "speed": 0,
+          "tint": 5
         },
         {
           "kind": "damage",

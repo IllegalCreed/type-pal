@@ -79,6 +79,9 @@ export interface SourceMagic {
   sound?: number
 }
 
+/** WORD → SHORT(负值补码;xOffset/召唤染色 wEffectTimes 等)。 */
+const signedI16 = (v: number): number => (v > 0x7fff ? v - 0x10000 : v)
+
 /** MAGIC 表 → SkillAnimation(播放参数全带;attack 系落点同名,其余落目标处;M4d-2b)。 */
 function mapAnimation(m: SourceMagic): SkillData['animation'] {
   const placement =
@@ -506,8 +509,14 @@ export function mapSkills(
         usableOutsideBattle: false,
         target: 'allEnemies',
         effects: [
-          // speed = 神将现身段帧速(召唤自己的 wSpeed;fight.c:3170)
-          { kind: 'summon', godId: m.special ?? 0, speed: m.speed },
+          // speed = 神将现身段帧速(召唤自己的 wSpeed;fight.c:3170);
+          // tint = 背景染色量(召唤**自己的** wEffectTimes SHORT,fight.c:3145;负=暗/正=亮)
+          {
+            kind: 'summon',
+            godId: m.special ?? 0,
+            speed: m.speed,
+            ...(signedI16(m.effectTimes ?? 0) !== 0 ? { tint: signedI16(m.effectTimes ?? 0) } : {}),
+          },
           { kind: 'damage', power: m.baseDamage, elemental: m.elemental },
         ],
         // ⚠ 召唤的 wEffect ≠ FIRE chunk:是**二次法术的 magic 表号**(fight.c:3098-3101 查

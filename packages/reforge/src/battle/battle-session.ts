@@ -47,12 +47,7 @@ import {
   ITEM_GRID,
   MAGIC_GRID,
 } from './battle-ui.js'
-import {
-  type BattleScene,
-  type BattleSpriteDraw,
-  drawDissolved,
-  renderBattleScene,
-} from './present-battle.js'
+import { type BattleScene, type BattleSpriteDraw, renderBattleScene } from './present-battle.js'
 import { drawSettlementScreen, type SettlementScreen } from './settlement.js'
 
 const VIEW_W = 320
@@ -266,7 +261,10 @@ export class BattleSession {
     if (!c) return base
     c.clearRect(0, 0, 320, 200)
     c.drawImage(base, 0, 0, 320, 200)
-    drawDissolved(c, tinted, 0, 0, 1 - show)
+    c.save()
+    c.globalAlpha = show // 染色层随相渐入/渐出(alpha 形态)
+    c.drawImage(tinted, 0, 0)
+    c.restore()
     return this.bgComposeScratch
   }
 
@@ -776,8 +774,10 @@ export class BattleSession {
               this.enemyDefs[d.target.idx]?.anim.yPosOffset ?? 0,
             ) ?? { x: 160, y: 100 },
         }))
-      // 召唤背景染色量 = effectTimes 复用(fight.c:3145);crossfade 期 render 取用
-      this.summonTintShift = summonSprite ? (a.effectTimes ?? 0) : 0
+      // 召唤背景染色量 = summon 效果自己的 tint(原召唤 magic 的 wEffectTimes SHORT,
+      // fight.c:3145;⚠ animation.effectTimes 是二次法术循环数,与染色无关 —— 曾混淆)
+      this.summonTintShift =
+        summonEff?.kind === 'summon' ? (summonEff.tint ?? 0) : 0
       return buildPlayerCast({
         casterIdx: la.idx,
         casterPos,
@@ -1065,12 +1065,12 @@ export class BattleSession {
       // 演出击杀的敌)区分两类:① 正被击杀 → 演出全程照画,收尾(finishStepVisuals)才登记
       // 淡出;② 早已死亡(逃跑清场)→ 不在 pendingDeaths 且 hp≤0 → 不画。原版语义:命中数字后才淡出。
       const dyingNow = this.pendingDeaths.includes(i)
-      let dissolve: number | undefined
+      let alpha = 1
       if (e.hp <= 0 && !dyingNow) {
         if (fade === undefined) return // 早死无淡出登记(逃跑清场等)= 不画
-        // 颗粒溶解进度(原版 dither 形态;曾 alpha 渐隐,作者报观感怪)
-        dissolve = (now - fade) / DEATH_FADE_MS
-        if (dissolve >= 1) {
+        // 渐隐(形态两轮裁决 2026-07-05:溶解试后作者选回正常渐隐;时长保持原版 72×16ms)
+        alpha = 1 - (now - fade) / DEATH_FADE_MS
+        if (alpha <= 0) {
           this.deathFades.delete(i)
           return
         }
@@ -1087,7 +1087,7 @@ export class BattleSession {
         y: v.y,
         frame,
         colorShift: i === highlightEnemy ? 6 : v.colorShift,
-        ...(dissolve !== undefined ? { dissolve } : {}),
+        ...(alpha < 1 ? { alpha } : {}),
       })
     })
     const players: BattleSpriteDraw[] = []
@@ -1095,7 +1095,8 @@ export class BattleSession {
       const sprite = this.assets.playerSprites[i]
       const v = this.visual.players[i]
       if (!sprite || !v) return
-      // 召唤期队员隐显(crossfade 溶出/溶回;hold 全隐 —— fight.c:3160-3181 隐队员只画神将)
+      // 召唤期队员隐显(渐隐/渐显;hold 全隐 —— fight.c:3160-3181 隐队员只画神将。
+      // 形态:作者裁决用正常 alpha 渐变,不用溶解)
       if (summonShow >= 1) return
       players.push({
         sprite,
@@ -1103,7 +1104,7 @@ export class BattleSession {
         y: v.y,
         frame: v.frame,
         colorShift: v.colorShift,
-        ...(summonShow > 0 ? { dissolve: summonShow } : {}),
+        ...(summonShow > 0 ? { alpha: 1 - summonShow } : {}),
       })
     })
     // 屏波:战场常驻 + 法术叠加(fight.c:2666);只卷背景层,精灵画在卷完的背景上自身笔直
@@ -1146,9 +1147,14 @@ export class BattleSession {
         const img = bakeFrame(f, this.assets.palette)
         const dx = o.x - Math.floor(f.width / 2)
         const dy = o.y - f.height
-        // 神将随 crossfade 溶入/溶出(与队员反相;hold 全显)
+        // 神将随相渐显/渐隐(与队员反相;hold 全显。alpha 形态,作者裁决)
         if (o.sheet === 'summon' && summonShow < 1) {
-          if (summonShow > 0) drawDissolved(ctx, img, dx, dy, 1 - summonShow)
+          if (summonShow > 0) {
+            ctx.save()
+            ctx.globalAlpha = summonShow
+            ctx.drawImage(img, dx, dy)
+            ctx.restore()
+          }
           continue
         }
         ctx.drawImage(img, dx, dy)
