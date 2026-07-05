@@ -22,6 +22,7 @@ import {
   getEnemyDexterity,
   getPlayerActualDexterity,
   isPlayerDying,
+  magicDefenseDivisor,
   pickAiTarget,
   tickBattleStatus,
 } from '@type-pal/content'
@@ -104,6 +105,8 @@ export interface BattleState {
     crit?: boolean
     /** 敌物攻被格挡(7/17 被动「闪避」:免伤,演出格挡姿+coverSound+仍击退)。 */
     blocked?: boolean
+    /** 敌施法被动格挡的队员 idx(1/3 掷,除因子 +1 —— 减伤不免伤;演出摆防御姿 frame3)。 */
+    autoDefend?: number[]
   } | null
 }
 
@@ -667,29 +670,42 @@ function applyEnemySkill(
   // 敌施法目标反转:oneEnemy/allEnemies(玩家使用视角)= 打队员;应用系(ally)= 用在自己/敌方
   const onParty = skill.target === 'oneEnemy' || skill.target === 'allEnemies'
   const targets = skill.target === 'allEnemies' ? alivePlayers(s) : onParty ? [targetIdx] : []
+  // 被动格挡预掷(fight.c:4723-4757,在效果处理**前**——效果先施眠/定不剥夺本次资格):
+  // 资格 = 活着 + 无眠/定/乱,1/3 命中;进除因子 +1(减伤不免伤,异于物攻 7/17 全免闪避)
+  const autoDefend = new Set<number>()
+  for (const ti of targets) {
+    const p = s.players[ti]
+    if (!p || p.hp <= 0) continue
+    const eligible = p.status.sleep <= 0 && p.status.paralyzed <= 0 && p.status.confused <= 0
+    if (eligible && Math.floor(rng() * 3) === 0) autoDefend.add(ti)
+  }
+  if (autoDefend.size && s.lastAction) s.lastAction.autoDefend = [...autoDefend]
+  // str = 魔强 + (级+6)×6,钳 ≥0(fight.c:4673-4678;物攻侧同构已带,此处曾漏级数项)
+  let magStr = e.def.stats.magicStrength + (e.def.stats.level + 6) * 6
+  if (magStr < 0) magStr = 0
   for (const eff of skill.effects) {
     switch (eff.kind) {
       case 'damage': {
         for (const ti of targets) {
           const p = s.players[ti]!
-          const dmg = Math.max(
-            1,
-            applyDefense(
-              calcMagicDamage({
-                magStr: e.def.stats.magicStrength,
-                def: p.defense,
-                rngFactor: 1 + rng() * 0.1, // fight.c RandomFloat(1, 1.1)
-                magicData: { baseDamage: eff.power, elemental: eff.elemental },
-                // 玩家元素/毒抗:装备派生 M4b-3 落地,先按 0(TODO 同玩家施法一起接)
-                elemRes: ZERO,
-                poisonRes: 0,
-                resistMult: 10,
-                fieldEffect: ZERO,
-              }),
-              p.defending,
-            ),
+          if (p.hp <= 0) continue // 已死跳过(fight.c:4782;AoE 前效果可能致死)
+          // 除因子(fight.c:4801-4803/4836-4838):(防御2)×(护体2)+(格挡1)
+          let dmg = Math.trunc(
+            calcMagicDamage({
+              magStr,
+              def: p.defense,
+              rngFactor: 1 + rng() * 0.1, // fight.c RandomFloat(1, 1.1)
+              magicData: { baseDamage: eff.power, elemental: eff.elemental },
+              // 玩家元素/毒抗:装备派生 M4b-3 落地,先按 0(TODO 同玩家施法一起接)
+              elemRes: ZERO,
+              poisonRes: 0,
+              resistMult: 20, // 玩家侧抗性除数 20(fight.c:4798/4833;敌侧是 1)
+              fieldEffect: ZERO,
+            }) / magicDefenseDivisor(p.defending, p.status.protect > 0, autoDefend.has(ti)),
           )
-          p.hp = Math.max(0, p.hp - dmg)
+          // 钳到余血、**无最小 1**(fight.c:4805/4840;玩家打敌才 inline 钳 1)
+          if (dmg > p.hp) dmg = p.hp
+          p.hp -= dmg
           s.log.push(`${e.def.id} 施展 ${skill.name} 对 ${p.roleId} 造成 ${dmg}`)
         }
         break

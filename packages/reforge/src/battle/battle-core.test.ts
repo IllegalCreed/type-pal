@@ -1,5 +1,5 @@
 import type { EnemyDef } from '@type-pal/content'
-import { calcPhysicalAttackDamage } from '@type-pal/content'
+import { calcMagicDamage, calcPhysicalAttackDamage } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
   type BattlePlayerState,
@@ -526,5 +526,82 @@ describe('M4b-3b 物品 / 逃跑真判定', () => {
     expect(s2.log.some((l) => l.includes('逃跑失败'))).toBe(true)
     expect(s2.phase).not.toBe('fled')
     expect(s2.players[0]!.hiddenCounts.luck).toBe(2) // 失败 → 吉运池 +2(fight.c:4170)
+  })
+})
+
+describe('敌法术:防御除因子 + 被动格挡(fight.c:4673-4853)', () => {
+  const ZERO = { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 }
+  const bolt: import('@type-pal/content').SkillData = {
+    id: '339', name: '雷咒', desc: '', cost: { mp: 10 }, usableOutsideBattle: false,
+    target: 'oneEnemy', effects: [{ kind: 'damage', power: 50, elemental: 0 }],
+    animation: { effectSprite: 1 },
+  }
+  const mage = (o: Partial<EnemyDef['stats']> = {}): EnemyDef => ({
+    ...mkEnemy('mage', { magicStrength: 60, attackStrength: 5, health: 500, defense: 0, ...o }),
+    ai: { resistanceToSorcery: 5, rules: [{ at: 'act', do: { kind: 'cast', skillId: '339' } }] },
+  })
+  // 期望原始伤害走真公式(magStr 含级数项 (级+6)×6 —— fight.c:4673,曾漏):
+  const raw = (rngFactor: number, def: number, magicStrength = 60, level = 1, power = 50) =>
+    calcMagicDamage({
+      magStr: Math.max(0, magicStrength + (level + 6) * 6), def, rngFactor,
+      magicData: { baseDamage: power, elemental: 0 },
+      elemRes: ZERO, poisonRes: 0, resistMult: 20, fieldEffect: ZERO,
+    })
+  const castDmg = (s: ReturnType<typeof createBattleState>): number =>
+    Number(/造成 (\d+)/.exec(s.log.find((l) => l.includes('施展 雷咒')) ?? '')?.[1] ?? -1)
+  const runTurn1 = (s: ReturnType<typeof createBattleState>, rng: () => number, act: () => void): void => {
+    stepBattle(s, rng)
+    act()
+    let guard = 0
+    while (s.phase !== 'selectAction' || s.turn === 1) {
+      stepBattle(s, rng)
+      if (++guard > 50) break
+    }
+  }
+
+  test('防御+格挡:除因子 3;lastAction 记录格挡队员(演出摆 frame3 用)', () => {
+    // rng0:chance 中 → 施法;格挡掷 floor(0*3)=0 → 中;rngFactor=1;玩家防御(×5 先手)
+    const s = createBattleState({ players: [player('li')], enemies: [mage()], skills: { '339': bolt } })
+    runTurn1(s, rng0, () => s.pendingActions.set(0, { kind: 'defend' }))
+    expect(castDmg(s)).toBe(Math.trunc(raw(1, 30) / 3)) // (防2)×(护1)+(挡1)=3
+    expect(s.lastAction?.kind).toBe('cast')
+    expect(s.lastAction?.autoDefend).toEqual([0])
+  })
+
+  test('防御+护体+格挡全叠:除因子 5(最深)', () => {
+    const s = createBattleState({ players: [player('li')], enemies: [mage()], skills: { '339': bolt } })
+    s.players[0]!.status.protect = 3
+    runTurn1(s, rng0, () => s.pendingActions.set(0, { kind: 'defend' }))
+    expect(castDmg(s)).toBe(Math.trunc(raw(1, 30) / 5))
+  })
+
+  test('眠者无格挡资格:rng0 本该必中,除因子回 1 全额', () => {
+    const s = createBattleState({ players: [player('li')], enemies: [mage()], skills: { '339': bolt } })
+    stepBattle(s, rng0)
+    s.players[0]!.status.sleep = 3 // selectAction 后施加:昏睡者强制普攻不防御
+    let guard = 0
+    while (s.phase !== 'selectAction' || s.turn === 1) {
+      if (s.phase === 'lost') break
+      stepBattle(s, rng0)
+      if (++guard > 50) break
+    }
+    expect(castDmg(s)).toBe(raw(1, 30)) // 无防御无格挡 → /1
+  })
+
+  test('伤害钳到余血(fight.c:4805);魔强钳 0 + power 0 → 造成 0(无最小 1 钳)', () => {
+    // 钳余血:hp 5 防御,trunc(89/3)=29 > 5 → 显示/结算都是 5
+    const s = createBattleState({ players: [player('li', { hp: 5 })], enemies: [mage()], skills: { '339': bolt } })
+    runTurn1(s, rng0, () => s.pendingActions.set(0, { kind: 'defend' }))
+    expect(castDmg(s)).toBe(5)
+    expect(s.players[0]!.hp).toBe(0)
+
+    // 无最小 1:magStr = -99+42 = -57 → 钳 0;power 0 → calcBaseDamage(0,30)=0 → 造成 0
+    const bolt0 = { ...bolt, effects: [{ kind: 'damage' as const, power: 0, elemental: 0 }] }
+    const s2 = createBattleState({
+      players: [player('li')], enemies: [mage({ magicStrength: -99 })], skills: { '339': bolt0 },
+    })
+    runTurn1(s2, rng0, () => s2.pendingActions.set(0, { kind: 'defend' }))
+    expect(castDmg(s2)).toBe(0)
+    expect(s2.players[0]!.hp).toBe(100)
   })
 })

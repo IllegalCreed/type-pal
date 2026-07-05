@@ -11,6 +11,7 @@ import {
   emptyBattleStatus,
   getEnemyDexterity,
   getPlayerActualDexterity,
+  magicDefenseDivisor,
   tickBattleStatus,
 } from './battle-formulas.js'
 
@@ -74,6 +75,18 @@ describe('calcMagicDamage (fight.c:174-249)', () => {
   test('rngFactor=0.5 法术强度折半(对齐 fight.c:182)', () => {
     // magStr=100×0.5=50;calcBaseDamage(50,50)=20(中间段 50-30+.5);20/4=5;5+50=55
     expect(calcMagicDamage({ ...base, rngFactor: 0.5, elemRes: ZERO, magicData: { baseDamage: 50, elemental: 0 } })).toBe(55)
+  })
+})
+
+describe('magicDefenseDivisor (fight.c:4801-4803/4836-4838)', () => {
+  test('乘加结构:(防御2)×(护体2)+(格挡1)', () => {
+    expect(magicDefenseDivisor(false, false, false)).toBe(1)
+    expect(magicDefenseDivisor(true, false, false)).toBe(2)
+    expect(magicDefenseDivisor(false, true, false)).toBe(2)
+    expect(magicDefenseDivisor(false, false, true)).toBe(2)
+    expect(magicDefenseDivisor(true, true, false)).toBe(4)
+    expect(magicDefenseDivisor(true, false, true)).toBe(3)
+    expect(magicDefenseDivisor(true, true, true)).toBe(5) // 全叠最深 /5
   })
 })
 

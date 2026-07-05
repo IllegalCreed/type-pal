@@ -492,6 +492,8 @@ export interface BuildEnemyCastInput {
   hurtPlayers?: Array<{ idx: number; pos: { x: number; y: number } }>
   /** 特效末帧烙背景(fight.c:2983 敌施法同款)。 */
   keepEffect?: boolean
+  /** 被动格挡队员(1/3 掷中,伤害除因子 +1):摆防御姿 frame3(fight.c:4737-4738/4755-4756)。 */
+  autoDefendPlayers?: number[]
 }
 
 /**
@@ -509,6 +511,15 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
       ],
       ...(i === 0 && magicSound > 0 ? { sound: magicSound } : {}),
     })
+  }
+  // 被动格挡摆防御姿 frame3:注入起手**末帧**、特效前(fight.c:4737-4738/4755-4756;一阶段
+  // DL10b 修过「早数帧」的坑)。姿势由 session 收尾 resetVisual 归位。
+  if (input.autoDefendPlayers?.length) {
+    const tail = frames[frames.length - 1]!
+    tail.fighters = [
+      ...(tail.fighters ?? []),
+      ...input.autoDefendPlayers.map((idx) => ({ side: 'player' as const, idx, frame: 3 })),
+    ]
   }
   if (fireFrames > 0) {
     const n = fireFrames

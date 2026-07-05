@@ -140,14 +140,14 @@
 | 检查点 | sdlpal | 一阶段 | reforge | 裁决 |
 |---|---|---|---|---|
 | 防御物理 `def*=2` | ✅ | ✅（enemy→player 物理结算） | ✅ 已修 | ✅ **已修(2026-07-05 敌物攻装配全链)**：enemy→player 走 `def = p.defense × (defending?2:1)` 前置(fight.c:4926 语义,分段跨档保留)；player→enemy 的 applyDefense 后置 /2 留存但敌人无防御动作 = 不可达死支 |
-| 防御法术除因子（加性 `(defending?2:1)*(protect?2:1)+(autoDefend?1:0)`） | ✅ | ✅ `magic-damage.ts:259` | ❌ **只 `applyDefense(/2)`** | ❌ **reforge 缺失** protect/autoDefend 项；任务核实点"防御物理/2 + 法术除数×2"——reforge 物理用/2（非 def*2），法术用/2（非乘性除因子），**两路径都简化了** |
+| 防御法术除因子（加性 `(defending?2:1)*(protect?2:1)+(autoDefend?1:0)`） | ✅ | ✅ `magic-damage.ts:259` | ✅ 已修 | ✅ **已修(2026-07-06)**：`magicDefenseDivisor`(battle-formulas) + applyEnemySkill 全链——1/3 资格预掷(活+无眠/定/乱,效果前)、trunc(/divisor)、钳余血无最小1(fight.c:4805)；顺带补 **magStr 级数项 `+(级+6)×6`(fight.c:4673,GLM 漏网)** 与 resistMult 20(fight.c:4798)；演出摆防御姿 frame3 注起手末帧(battle-anim)。单测+真机(team-156/176:结算/钳余血/零伤害状态施法格挡)验证 |
 | 逃跑 str=fleeRate+装备 | ✅ | ✅ `getPlayerFleeRate` | ✅ 含装备派生 | ✅ **已核(2026-07-05)**：链路 = migrate `luck: role.fleeRate`(base) + 装备 0x17 行 21→statBonus 'luck' → main.ts `fleeRate: effectiveStat(c,'luck')` 活派生，同 PAL_GetPlayerFleeRate 语义 |
 | 逃跑 def 用 fleeRate(修复) | bug 用 dexterity | ✅ 修复用 fleeRate | ✅ fleeRate | 🟰（一阶段+reforge 都用修复版；还原原版改回 dexterity） |
 | `!fIsBoss` gate | ✅（boss 必失败） | ✅ `flee.ts:57` | ✅ 已修 | ✅ **已修(2026-07-05)**：BattleState.boss(0x07 fIsBoss=!op2，69 处场景 boss 标烘焙) + 掷骰先消费再 `!s.boss` 拦(fight.c:4143 rng 流序)；单测钉 boss 场恒逃不掉 |
 | 失败演出（3步挪+LABEL_ESCAPEFAIL） | ✅ | ✅ `buildFleeFailTimeline` | ❌ 仅 log（演出归 M4d） | ⚠️ 演出未接（M4d 范畴） |
 | `rgFleeExp+=2`（失败） | ✅ | ✅ `flee.ts:73` | ✅ 已修 | ✅ **已修(2026-07-05)**：失败分支 `addHidden('luck', 2)`(fight.c:4170，仅逃者本人)；HIDDEN_STAT_KEYS 七池含 luck，结算 applyHiddenExp 原样分配 |
 
-**结论(2026-07-05 更新)**：原三处精度问题 (a) 物理防御前置 def×2、(c) boss 逃跑锁 **已修**（敌物攻装配全链 + boss 标烘焙）；fleeRate 装备派生、失败 +2 吉运池已核/已修。**余 (b)：法术防御除因子** —— 原版加性 `(defending?2:1)×(protect?2:1)+(autoDefend?1:0)`，reforge 现仅 `/2` 后置且缺 protect/autoDefend 项（一阶段 magic-damage.ts:259 有忠实版可抄）——归 P2 护体/状态簇一并接。
+**结论(2026-07-06 更新)**：三处精度问题**全清** —— (a) 物理防御前置 def×2、(c) boss 逃跑锁已修（敌物攻装配全链 + boss 标烘焙）；(b) 法术防御除因子已修（2026-07-06：`magicDefenseDivisor` 加性公式 + autoDefend 1/3 预掷 + 钳余血 + magStr 级数项/resistMult 20 两处 GLM 漏网一并补，演出 frame3 注起手末帧）。fleeRate 装备派生、失败 +2 吉运池已核/已修。
 
 ---
 
@@ -249,15 +249,15 @@ reforge **无 opcode 解释器**（数据驱动）：脚本字节码 → migrato
 |---|---|---|---|---|
 | 1 状态 | 非对称设置 + 全递减 + >999 | ✅ | ⚠️ 衰减✅，**设置语义丢 3 条**（坏状态不刷新/haste↔slow互斥/puppet仅死者） | reforge `applyStatus` 只 max |
 | 2 敌 AI | 脚本 store-back + fallback | ✅（RNG 1:1） | 🟰 规则+choreography 等价；缺 confused/onReady | 林天南分段✅覆盖 |
-| 3 防御/逃跑 | 物理def*2 / 法术加性除因子 / !isBoss | ✅ | ⚠️ 物理/2后置、法术只/2、**漏 isBoss gate** | reforge 防御简化+boss可逃 |
+| 3 防御/逃跑 | 物理def*2 / 法术加性除因子 / !isBoss | ✅ | ✅ 三项已修(07-05 物理+boss、07-06 法术除因子全链) | 已清 |
 | 4 位置 | 玩家硬码 / 敌 DATA chunk13 | ✅ | ✅ | 无（任务表述敌/我位错位） |
 | 5 opcodes | 双解释器 | ⚠️ 0x8A曾漏(已补) | 🟰 单解释器免疫 | 无 |
 
-**最高优先级修复建议**（按影响）：
-1. **reforge 逃跑漏 `!isBoss` gate**（单元3）—— boss 可逃 = 机制性 bug。
-2. **reforge 状态设置丢 haste↔slow 互斥**（单元1）—— 影响出手序计算。
-3. **reforge 法术防御丢 protect/autoDefend 除因子**（单元3）—— 数值偏差。
-4. **reforge 物理防御 `/2` 后置 vs `def*=2` 前置**（单元3）—— calcBaseDamage 跨档偏差。
-5. reforge confused 敌行为 + onReady 钩（单元2）—— 功能补全。
+**最高优先级修复建议**（按影响；带 ✅ 的已落）：
+1. ✅(已修) **reforge 逃跑漏 `!isBoss` gate**（单元3）—— boss 可逃 = 机制性 bug。
+2. ✅(已修) **reforge 状态设置丢 haste↔slow 互斥**（单元1）—— 影响出手序计算。
+3. ✅(已修 2026-07-06) **reforge 法术防御丢 protect/autoDefend 除因子**（单元3）—— 数值偏差。
+4. ✅(已修) **reforge 物理防御 `/2` 后置 vs `def*=2` 前置**（单元3）—— calcBaseDamage 跨档偏差。
+5. reforge confused 敌行为 + onReady 钩（单元2）—— 功能补全（P2 状态簇在途）。
 
 > 注：单元4、5 reforge 已结构性对齐/免疫，无需动作。单元2 林天南分段核实通过（choreography `when:{turn:8}` + `endBattle.terminate`）。

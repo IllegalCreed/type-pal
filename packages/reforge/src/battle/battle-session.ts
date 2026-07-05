@@ -761,7 +761,14 @@ export class BattleSession {
 
   /** 施法动作 → 时间线(玩家/敌;fire sprite 由预载表取,设 currentFire)。 */
   private buildCastTimeline(
-    la: { side: 'player' | 'enemy'; idx: number; target?: number; skillId?: string },
+    la: {
+      side: 'player' | 'enemy'
+      idx: number
+      target?: number
+      skillId?: string
+      /** 敌施法被动格挡的队员(摆防御姿 frame3)。 */
+      autoDefend?: number[]
+    },
     pHp: number[],
     eHp: number[],
   ): AnimFrame[] | null {
@@ -869,6 +876,8 @@ export class BattleSession {
       targetPos: targetPos ?? undefined,
       damageNums,
       ...(a.keepEffect ? { keepEffect: true } : {}),
+      // 被动格挡队员摆防御姿 frame3(除因子 +1 减伤;fight.c:4737/4755)
+      ...(la.autoDefend?.length ? { autoDefendPlayers: la.autoDefend } : {}),
       // 受伤队员受击反应(frame4+红闪+递减击退;一阶段 19f8d6a9 曾整段漏)
       hurtPlayers: damageNums
         .filter((d) => d.target.side === 'player')
@@ -889,6 +898,7 @@ export class BattleSession {
       skillId?: string
       crit?: boolean
       blocked?: boolean
+      autoDefend?: number[]
     } | null,
     pHp: number[],
     eHp: number[],

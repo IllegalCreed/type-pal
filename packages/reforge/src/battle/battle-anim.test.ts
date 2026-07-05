@@ -101,6 +101,33 @@ describe('M4d-2 战斗动画时间线', () => {
     expect(events).toContain('dmg:player0:9') // 数字在反应之后
   })
 
+  test('敌施法:被动格挡队员在起手末帧摆防御姿 frame3,特效帧不覆写(fight.c:4737/4755)', () => {
+    const mk = (autoDefendPlayers?: number[]) =>
+      buildEnemyCast({
+        enemyIdx: 0,
+        anim: { idleFrames: 4, magicFrames: 2 },
+        magicSound: 0,
+        fireFrames: 3,
+        fx: { placement: 'normal', xOffset: 0, yOffset: 0, speed: 0, fireDelay: 0, effectTimes: 1, shake: 0, wave: 0, sound: 0 },
+        damageNums: [],
+        ...(autoDefendPlayers ? { autoDefendPlayers } : {}),
+      })
+    const frames = mk([0, 2])
+    // 起手 2 帧:姿势注入**末帧**(一阶段 DL10b:早数帧是修过的坑);首帧无 player delta
+    expect(frames[0]!.fighters?.some((f) => f.side === 'player')).toBe(false)
+    expect(frames[1]!.fighters).toEqual(
+      expect.arrayContaining([
+        { side: 'player', idx: 0, frame: 3 },
+        { side: 'player', idx: 2, frame: 3 },
+      ]),
+    )
+    // 后续特效/结算帧不覆写 player(delta 持续 → 姿势贯穿特效,收尾 resetVisual 归位)
+    for (const f of frames.slice(2))
+      expect(f.fighters?.some((x) => x.side === 'player') ?? false).toBe(false)
+    // 未格挡:全时间线无 player delta
+    for (const f of mk()) expect(f.fighters?.some((x) => x.side === 'player') ?? false).toBe(false)
+  })
+
   test('敌人物攻:action 音→冲至(−44,−16)→命中 frame4+call 音+数字→击退→双方复位', () => {
     const frames = buildEnemyPhysical({
       enemyIdx: 0,

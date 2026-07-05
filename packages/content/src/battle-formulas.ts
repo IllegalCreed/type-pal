@@ -104,6 +104,22 @@ export function calcMagicDamage(input: MagicDamageInput): number {
   return damage
 }
 
+/**
+ * 敌法术打队员的防御除因子（fight.c:4801-4803 AoE / 4836-4838 单体）：
+ *   ((防御中?2:1) × (护体?2:1)) + (被动格挡?1:0)
+ * 乘加结构：防御×护体叠成 /4，格挡再 +1（最深 /5）；伤害 = trunc(原伤 / 除因子)。
+ * 被动格挡（autoDefend）资格掷骰在调用方：目标活着 + 无眠/定/乱，1/3 命中
+ * （fight.c:4727-4757，于效果结算**前**预掷——效果先施眠/定不剥夺本次资格）。
+ * 与敌**物攻**的 7/17 全免「闪避」是两套机制：那个免伤，这个只减伤。
+ */
+export function magicDefenseDivisor(
+  defending: boolean,
+  protect: boolean,
+  autoDefend: boolean,
+): number {
+  return (defending ? 2 : 1) * (protect ? 2 : 1) + (autoDefend ? 1 : 0)
+}
+
 // ════════════════════════════════════════════════════════════════════
 // 敏捷 / 出手顺序（fight.c:289-389）
 // ════════════════════════════════════════════════════════════════════
