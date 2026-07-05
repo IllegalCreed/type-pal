@@ -21,20 +21,22 @@ import { UpdateSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { buildRefIndex } from '../core/ref-index.js'
 import { EnemyTab } from './EnemyTab.js'
+import { EventLibTab } from './EventLibTab.js'
 import { ItemTab } from './ItemTab.js'
 import { MusicTab } from './MusicTab.js'
 import { SkillTab } from './SkillTab.js'
 import { SpriteFrames } from './SpriteFrames.js'
 import { VarsTab } from './VarsTab.js'
 
-type Tab = 'sprite' | 'skill' | 'item' | 'enemy' | 'music' | 'vars'
-const TABS: { id: Tab; label: string; icon: string }[] = [
+export type DataTab = 'sprite' | 'skill' | 'item' | 'enemy' | 'music' | 'vars' | 'events'
+export const DATA_TABS: { id: DataTab; label: string; icon: string }[] = [
   { id: 'sprite', label: '精灵库', icon: '🖼' },
   { id: 'skill', label: '技能', icon: '✨' },
   { id: 'item', label: '物品', icon: '🎒' },
   { id: 'enemy', label: '敌人', icon: '👹' },
   { id: 'music', label: '音乐', icon: '🎵' },
   { id: 'vars', label: '变量', icon: '🚩' },
+  { id: 'events', label: '事件库', icon: '💬' },
 ]
 
 const KIND_LABEL: Record<SpriteDef['layout']['kind'], string> = {
@@ -75,6 +77,9 @@ export function DataMode(props: {
   scenes: SceneDef[]
   /** 引用跳转:变量页/物品页点引用 → 事件模式定位。 */
   onJumpToEvent: (sceneId: string, srcKey: string) => void
+  /** 当前数据页 + 切换(左栏垂直页列驱动 —— RPGM 数据库范式,2026-07-05 二改)。 */
+  tab: DataTab
+  onTab: (t: DataTab) => void
 }) {
   const {
     sprites,
@@ -89,10 +94,27 @@ export function DataMode(props: {
     scenes,
     skillList,
     onJumpToEvent,
+    tab,
+    onTab,
   } = props
   // N5:引用反向索引(flag/var/item ← 事件脚本);scenes 变才重算(全量扫描毫秒级)
   const refIndex = useMemo(() => buildRefIndex(scenes), [scenes])
-  const [tab, setTab] = useState<Tab>('sprite')
+  // 垂直页列(RPGM 数据库左栏范式;塞 outliner 顶部,每子页统一)
+  const tabBar = (
+    <div className="data-pages">
+      {DATA_TABS.map((t) => (
+        <button
+          type="button"
+          key={t.id}
+          className={`dpage${tab === t.id ? ' sel' : ''}`}
+          onClick={() => onTab(t.id)}
+        >
+          <span className="ico">{t.icon}</span>
+          <span>{t.label}</span>
+        </button>
+      ))}
+    </div>
+  )
   const [filter, setFilter] = useState('')
   const [kindFilter, setKindFilter] = useState<'all' | SpriteDef['layout']['kind']>('all')
   const [selId, setSelId] = useState(sprites[0]?.id ?? '')
@@ -110,22 +132,6 @@ export function DataMode(props: {
     [sprites, filter, kindFilter],
   )
   const sprite = sprites.find((s) => s.id === selId) ?? shown[0]
-
-  const tabBar = (
-    <div className="data-tabs">
-      {TABS.map((t) => (
-        <button
-          type="button"
-          key={t.id}
-          className={`dtab${tab === t.id ? ' sel' : ''}`}
-          onClick={() => setTab(t.id)}
-        >
-          <span>{t.icon}</span>
-          {t.label}
-        </button>
-      ))}
-    </div>
-  )
 
   if (tab === 'enemy') {
     return (
@@ -147,21 +153,25 @@ export function DataMode(props: {
         items={itemList}
         assetBase={assetBase}
         session={session}
-        tabBar={tabBar}
         itemRefs={refIndex.items}
         onJumpToEvent={onJumpToEvent}
+        tabBar={tabBar}
       />
     )
   }
 
   if (tab === 'skill') {
-    return <SkillTab skills={skillList} session={session} tabBar={tabBar} />
+    return <SkillTab skills={skillList} session={session} assetBase={assetBase} tabBar={tabBar} />
   }
 
   if (tab === 'music') {
     return (
       <MusicTab music={music} musicBase={assetBase.music} session={session} tabBar={tabBar} />
     )
+  }
+
+  if (tab === 'events') {
+    return <EventLibTab scenes={scenes} onJumpToEvent={onJumpToEvent} tabBar={tabBar} />
   }
 
   if (tab === 'vars') {
@@ -221,7 +231,7 @@ export function DataMode(props: {
           </>
         ) : (
           <div className="insp-empty" style={{ padding: 20 }}>
-            {TABS.find((t) => t.id === tab)?.label} 编辑器 —— 待做（数据模式后续标签）
+            {DATA_TABS.find((t) => t.id === tab)?.label} 编辑器 —— 待做（数据模式后续标签）
           </div>
         )}
       </div>

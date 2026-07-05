@@ -1758,3 +1758,145 @@ body {
   opacity: 0.5;
   font-family: ui-monospace, monospace;
 }
+
+/* ── 精灵缩略图 ── */
+.sprite-thumb {
+  flex: none;
+  image-rendering: pixelated;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+}
+.palette-row .nm .sub {
+  display: block;
+  font-size: 11px;
+  opacity: 0.5;
+  font-family: ui-monospace, monospace;
+}
+
+/* ── 数据页垂直列(RPGM 数据库左栏范式,2026-07-05 三改定稿) ── */
+.data-pages {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  padding: 6px;
+  border-bottom: 1px solid var(--line);
+}
+.dpage {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  background: none;
+  border: 0;
+  border-radius: 5px;
+  color: var(--dim);
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  text-align: left;
+}
+.dpage .ico {
+  font-size: 13px;
+  width: 15px;
+  text-align: center;
+  filter: saturate(0.45);
+  opacity: 0.75;
+}
+.dpage:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--fg);
+}
+.dpage.sel {
+  background: rgba(76, 154, 255, 0.16);
+  color: var(--fg);
+}
+.dpage.sel .ico {
+  filter: none;
+  opacity: 1;
+}
+
+/* ── 事件库表 ── */
+.evlib-table .evlib-row {
+  cursor: pointer;
+}
+.evlib-table .evlib-row:hover td {
+  background: rgba(76, 154, 255, 0.08);
+}
+
+/* ── 技能编辑(结构化表单 + 特效预览) ── */
+.skill-form .sk-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(120px, 1fr));
+  gap: 6px 12px;
+}
+.skill-form .sk-grid label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--dim);
+  min-width: 0;
+}
+.skill-form .sk-grid label .in {
+  flex: 1;
+  min-width: 0;
+}
+.ef-num {
+  width: 76px;
+}
+.ef-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 5px 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.ef-kind {
+  width: 92px;
+  flex: none;
+}
+.ef-fields {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  align-items: center;
+  min-width: 0;
+}
+.ef-fields label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--dim);
+}
+.ef-status-set {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+}
+.ef-ops {
+  display: flex;
+  gap: 2px;
+  flex: none;
+}
+.sk-anim {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.sk-anim .sk-grid {
+  flex: 1;
+}
+.fire-preview {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.fire-preview canvas {
+  background: #000;
+  border-radius: 6px;
+  image-rendering: pixelated;
+}

@@ -18,13 +18,14 @@ import {
   decompressGzip,
   loadBattleBg,
   loadBattleSprite,
+  loadFireSprite,
   loadPalette,
   loadSprite,
   loadTilemap,
   loadTileset,
 } from './assets.js'
 import type { AssetBase, LoadedSprite } from './assets.js'
-export { decompressGzip, loadBattleBg, loadBattleSprite, loadPalette, loadSprite, loadTilemap, loadTileset }
+export { decompressGzip, loadBattleBg, loadBattleSprite, loadFireSprite, loadPalette, loadSprite, loadTilemap, loadTileset }
 export type { AssetBase, LoadedSprite }
 
 // 工程 loader(manifest + content JSON → LoadedProject)

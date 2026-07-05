@@ -36,7 +36,7 @@ export function MusicTab(props: {
   /** 试听资产前缀(assetBase.music)。 */
   musicBase: string
   session: EditSession
-  tabBar: React.ReactNode
+  tabBar?: React.ReactNode
 }) {
   const { music, musicBase, session, tabBar } = props
   const [filter, setFilter] = useState('')

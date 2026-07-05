@@ -80,7 +80,7 @@ function VarGroup(props: {
 export function VarsTab(props: {
   refIndex: RefIndex
   onJumpToEvent: (sceneId: string, srcKey: string) => void
-  tabBar: React.ReactNode
+  tabBar?: React.ReactNode
 }) {
   const { refIndex, onJumpToEvent, tabBar } = props
   const [filter, setFilter] = useState('')

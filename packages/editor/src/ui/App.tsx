@@ -17,7 +17,7 @@ import type {
   SpriteDef,
 } from '@type-pal/content'
 import { isActorEntity, resolveEntitySpriteId, validateReferences } from '@type-pal/content'
-import type { LoadedProject } from '@type-pal/reforge'
+import type { AssetBase, LoadedProject } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import {
   AddEntityCommand,
@@ -32,10 +32,11 @@ import {
 import type { EditSession } from '../core/edit-session.js'
 import { serializeProject, writeProject } from '../core/project-io.js'
 import { ActorMode } from './ActorMode.js'
-import { DataMode } from './DataMode.js'
+import { DataMode, type DataTab } from './DataMode.js'
 import { EventMode } from './EventMode.js'
 import { MusicPicker } from './MusicPicker.js'
 import { SceneCanvas, type Tool } from './SceneCanvas.js'
+import { SpriteThumb } from './SpriteThumb.js'
 
 const SCENE_NODE = '__scene__'
 type Mode = 'place' | 'actor' | 'event' | 'data'
@@ -56,6 +57,8 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
   const [selected, setSelected] = useState<string>(SCENE_NODE)
   const [tool, setTool] = useState<Tool>('select')
   const [mode, setMode] = useState<Mode>('place')
+  // 数据页(rail 二级展开驱动,2026-07-05 作者拍板)
+  const [dataTab, setDataTab] = useState<DataTab>('sprite')
   // 画布图层显隐(布置模式:左栏 地板/高物/实体 + 工具栏 网格/禁入格)
   const [canvasLayers, setCanvasLayers] = useState({
     base: true,
@@ -219,7 +222,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
             onClick={() => switchMode('place')}
           >
             <span className="ico">📍</span>
-            <span className="lbl">布置</span>
+            <span className="lbl">场景</span>
           </button>
           <button
             className={`mode${mode === 'actor' ? ' active' : ''}`}
@@ -246,6 +249,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
             <span className="ico">📊</span>
             <span className="lbl">数据</span>
           </button>
+
         </div>
 
         {mode === 'actor' ? (
@@ -274,6 +278,8 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
             scenes={state.scenes}
             skillList={state.skills}
             onJumpToEvent={jumpToEvent}
+            tab={dataTab}
+            onTab={setDataTab}
           />
         ) : mode === 'event' ? (
           <EventMode
@@ -461,6 +467,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                 <PlacePalette
                   sprites={state.sprites}
                   selectedId={placeSpriteId}
+                  assetBase={project.assetBase}
                   onPick={setPlaceSpriteId}
                 />
               ) : selEntity ? (
@@ -525,9 +532,10 @@ const KIND_ICON: Record<string, string> = { directional: '🚶', static: '🪑',
 function PlacePalette(props: {
   sprites: SpriteDef[]
   selectedId: string
+  assetBase: AssetBase
   onPick: (id: string) => void
 }) {
-  const { sprites, selectedId, onPick } = props
+  const { sprites, selectedId, assetBase, onPick } = props
   const [filter, setFilter] = useState('')
   const shown = sprites.filter(
     (s) =>
@@ -557,9 +565,13 @@ function PlacePalette(props: {
               className={`palette-row${s.id === selectedId ? ' sel' : ''}`}
               onClick={() => onPick(s.id)}
             >
-              <span className="ico">{KIND_ICON[s.layout.kind] ?? '❔'}</span>
-              <span className="nm">{s.label || s.id}</span>
-              <span className="k">#{s.spriteNum}</span>
+              <SpriteThumb assetBase={assetBase} spriteNum={s.spriteNum} />
+              <span className="nm">
+                {s.label || s.id}
+                <span className="sub">
+                  {KIND_ICON[s.layout.kind] ?? ''} #{s.spriteNum}
+                </span>
+              </span>
             </button>
           ))}
           {shown.length === 0 && <div className="insp-empty">(无匹配)</div>}
