@@ -47,6 +47,9 @@ export interface AnimFrame {
   /** 召唤演出相(fight.c:3130-3187 + 889-912):in = 队员溶出/神将溶入/背景染色溶入(72×16ms);
    *  hold = 队员隐、神在场;out = 反向溶回。无字段 = 非召唤态(session 清相)。 */
   summonPhase?: 'in' | 'hold' | 'out'
+  /** keepEffect 烙背景(fight.c:2757 末帧 blit lpBackground):把这些特效帧永久画进
+   *  战斗背景(整场留存,随屏波卷动;万剑诀插剑入地)。session 侧屏波 ≥9 时丢弃(原版门)。 */
+  burnBg?: OverlayDraw[]
 }
 
 export interface BuildPlayerAttackInput {
@@ -303,6 +306,8 @@ export interface BuildPlayerCastInput {
   partyIdxs?: number[]
   /** PostMagic 受击目标(fight.c:3190:掉血敌三轮交替位移抖动+第 2 轮闪白;idx+底锚)。 */
   postTargets?: Array<{ idx: number; pos: { x: number; y: number } }>
+  /** 特效末帧烙背景(SkillAnimation.keepEffect;fight.c:2757)。 */
+  keepEffect?: boolean
 }
 
 /** attackAll 三落点(fight.c:2766-2776 真值)。 */
@@ -423,6 +428,8 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
         ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
         // 震屏:末 wShake 帧逐帧触发(fight.c:2718 VIDEO_ShakeScreen(i,3))
         ...(inShake ? { screenShake: true } : {}),
+        // keepEffect:末帧烙进背景(fight.c:2757 i==l−1;屏波门在 session 按活值判)
+        ...(i === l - 1 && input.keepEffect ? { burnBg: drop(k) } : {}),
       })
     }
   }
@@ -483,6 +490,8 @@ export interface BuildEnemyCastInput {
   damageNums: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
   /** 受伤队员(idx+底锚;受击反应帧用 —— 一阶段 19f8d6a9 曾整段漏「我方受击纹丝不动」)。 */
   hurtPlayers?: Array<{ idx: number; pos: { x: number; y: number } }>
+  /** 特效末帧烙背景(fight.c:2983 敌施法同款)。 */
+  keepEffect?: boolean
 }
 
 /**
@@ -515,13 +524,18 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
         fx.placement === 'attackAll'
           ? { x: 160, y: 100 } // 敌方全体术打全队:屏中(简化;原版逐队员落点后续)
           : (targetPos ?? { x: 160, y: 130 })
+      const ov: OverlayDraw[] = [
+        { sheet: 'magic', frameIdx: k, x: base.x + fx.xOffset, y: base.y + fx.yOffset },
+      ]
       frames.push({
         durationMs: frameDur,
-        overlays: [{ sheet: 'magic', frameIdx: k, x: base.x + fx.xOffset, y: base.y + fx.yOffset }],
+        overlays: ov,
         ...(fx.sound > 0 && i >= fd && (i - fd) % n === 0 ? { sound: fx.sound } : {}),
         // 屏波/震屏同玩家侧(fight.c:2942 敌施法同款孪生)
         ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
         ...(inShake ? { screenShake: true } : {}),
+        // keepEffect:末帧烙背景(fight.c:2983 敌施法同款)
+        ...(i === l - 1 && input.keepEffect ? { burnBg: ov } : {}),
       })
     }
   }
@@ -564,6 +578,8 @@ export interface AnimSideEffects {
   onWaveAdd?(wave: number): void
   /** 召唤相切换(每帧派发当前相;null = 本帧无相 → session 清态)。 */
   onSummonPhase?(phase: 'in' | 'hold' | 'out' | null): void
+  /** keepEffect 烙背景(末帧一次;session 屏波 ≥9 时丢弃,fight.c:2757 wScreenWave<9 门)。 */
+  onBurnBg?(marks: OverlayDraw[]): void
 }
 
 /** 逐帧推进器:进入新帧时应用 deltas + 派发副作用(每帧恰一次;wall-clock dt 驱动)。 */
@@ -603,6 +619,7 @@ export class AnimPlayer {
     if (f.damageNums) for (const d of f.damageNums) this.fx.onDamage?.(d.target, d.value)
     if (f.screenShake) this.fx.onScreenShake?.(f.durationMs)
     if (f.waveAdd !== undefined) this.fx.onWaveAdd?.(f.waveAdd)
+    if (f.burnBg?.length) this.fx.onBurnBg?.(f.burnBg)
     this.fx.onSummonPhase?.(f.summonPhase ?? null)
   }
 }

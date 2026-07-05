@@ -82,6 +82,9 @@ export interface SkillAnimation {
   wave?: number
   /** 法术效果音(原 wSound;(i−fireDelay)%n==0 帧循环播)。 */
   sound?: number
+  /** 特效末帧烙进战斗背景整场留存(原 wKeepEffect==0xFFFF;fight.c:2757 末帧 blit
+   *  lpBackground,屏波≥9 时不烙 —— 万剑诀插剑入地等 12 招)。 */
+  keepEffect?: boolean
 }
 
 /** 技能定义。自包含:存值,不存原版 magicNumber 子表下标。 */

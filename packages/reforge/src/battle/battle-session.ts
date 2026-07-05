@@ -169,6 +169,10 @@ export class BattleSession {
   private tintedBg: { shift: number; canvas: HTMLCanvasElement } | null = null
   /** 召唤 bg 合成便签(base + tinted 溶入)。 */
   private bgComposeScratch: HTMLCanvasElement | null = null
+  /** keepEffect 烙印工作画布(首烙时懒复制 assets.bg;整场留存,随屏波卷,fight.c:2757)。 */
+  private bgWorking: HTMLCanvasElement | null = null
+  /** 烙印次数(进 wavedBg 缓存 tag,防烙后撞净底旧缓存)。 */
+  private burnCount = 0
   // ── M4c-2 演出(choreography):轮起手钩,dialog 逐条横幅播,空格推进 ──
   private choreoQueue: Command[] = []
   private choreoBanner: { name: string; text: string } | null = null
@@ -419,6 +423,31 @@ export class BattleSession {
         return // 演出节拍由横幅按键控制,wait 忽略
       default:
         this.state.log.push(`演出命令 ${c.kind} 未接(记日志)`)
+    }
+  }
+
+  /** keepEffect 末帧烙进背景(fight.c:2757 blit lpBackground;底中锚同 overlay 例程)。
+   *  原版门:烙时屏波 ≥9 不烙(wScreenWave<9;波荡背景烙了也糊)。 */
+  private burnToBg(marks: OverlayDraw[]): void {
+    if ((this.opts.fieldWave ?? 0) + this.frameWaveAdd >= 9) return
+    const base = this.bgWorking ?? this.assets.bg
+    if (!base) return
+    if (!this.bgWorking) {
+      const c = document.createElement('canvas')
+      c.width = 320 // 战斗背景恒 320×200(FBP;bg 类型是 CanvasImageSource,不带 w/h)
+      c.height = 200
+      const g0 = c.getContext('2d')
+      if (!g0) return
+      g0.drawImage(base, 0, 0)
+      this.bgWorking = c
+    }
+    const g = this.bgWorking.getContext('2d')
+    if (!g) return
+    for (const m of marks) {
+      const f = this.currentFire?.frames[m.frameIdx]
+      if (!f) continue
+      g.drawImage(bakeFrame(f, this.assets.palette), m.x - Math.floor(f.width / 2), m.y - f.height)
+      this.burnCount++
     }
   }
 
@@ -675,6 +704,8 @@ export class BattleSession {
           onWaveAdd: (w) => {
             this.frameWaveAdd = w
           },
+          // keepEffect 烙背景(末帧一次;屏波门在 burnToBg 内)
+          onBurnBg: (marks) => this.burnToBg(marks),
           // 召唤相驱动(in/hold/out;进 out 相先复位队员姿势 —— fight.c:901 UpdateFighters
           // 先于淡出,一阶段 7e49327b 血泪:否则溶回目标是施法帧+高亮残留)
           onSummonPhase: (phase) => {
@@ -803,6 +834,7 @@ export class BattleSession {
         targetPos,
         damageNums,
         postTargets,
+        ...(a.keepEffect ? { keepEffect: true } : {}),
         ...(summonSprite
           ? {
               summon: {
@@ -836,6 +868,7 @@ export class BattleSession {
       fx,
       targetPos: targetPos ?? undefined,
       damageNums,
+      ...(a.keepEffect ? { keepEffect: true } : {}),
       // 受伤队员受击反应(frame4+红闪+递减击退;一阶段 19f8d6a9 曾整段漏)
       hurtPlayers: damageNums
         .filter((d) => d.target.side === 'player')
@@ -1132,8 +1165,11 @@ export class BattleSession {
     // 召唤期背景染色(sBackgroundColorShift=effectTimes,battle.c:62-80 调色板级)随
     // crossfade 溶入/溶出。
     const waveAmp = (this.opts.fieldWave ?? 0) + this.frameWaveAdd
-    let bgSrc = this.assets.bg
-    let bgTag = 'base'
+    // keepEffect 烙印:有烙印用工作画布(烙印在背景内 → 随屏波卷动,原版 blit lpBackground 同义);
+    // burnCount 进 tag 防 wavedBg 撞旧缓存。召唤染色仍以净底烤(tint 走 bgIndexed,烙印
+    // 是 RGBA 后画 —— 染色期烙印暂不可见,溶回即恢复;调色板级烙印染色留待需要时)。
+    let bgSrc = this.bgWorking ?? this.assets.bg
+    let bgTag = this.burnCount > 0 ? `base+b${this.burnCount}` : 'base'
     if (bgSrc && summonShow > 0) {
       const tinted = this.getTintedBg()
       if (tinted) {

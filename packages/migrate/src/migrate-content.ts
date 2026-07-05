@@ -77,6 +77,8 @@ export interface SourceMagic {
   shake?: number
   wave?: number
   sound?: number
+  /** wKeepEffect(0xFFFF = 特效末帧烙进战斗背景)。 */
+  keepEffect?: number
 }
 
 /** WORD → SHORT(负值补码;xOffset/召唤染色 wEffectTimes 等)。 */
@@ -104,6 +106,8 @@ function mapAnimation(m: SourceMagic): SkillData['animation'] {
     shake: m.shake ?? 0,
     wave: m.wave ?? 0,
     sound: m.sound ?? 0,
+    // 原 wKeepEffect==0xFFFF:特效末帧烙进战斗背景(万剑诀插剑入地等 12 招)
+    ...(m.keepEffect === 0xffff ? { keepEffect: true } : {}),
   }
 }
 export interface SourceItem {
