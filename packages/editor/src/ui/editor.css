@@ -1878,12 +1878,16 @@ body {
 }
 .ef-row {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 6px 8px;
+  align-items: flex-end; /* 基线 = 输入框底:kind 下拉/字段/操作按钮同线(作者指出错位) */
+  gap: 12px;
+  padding: 8px;
   max-width: 720px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 4px;
+}
+.ef-row .ef-kind,
+.ef-row .ef-ops {
+  margin-bottom: 1px; /* 与 .in 边框底缘光学对齐 */
 }
 .ef-row:hover {
   background: rgba(255, 255, 255, 0.02);
@@ -1897,7 +1901,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 4px 14px;
-  align-items: center;
+  align-items: flex-end;
   min-width: 0;
 }
 .ef-fields label {
