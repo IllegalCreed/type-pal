@@ -6333,7 +6333,8 @@
                       {
                         "kind": "loadLastSave"
                       }
-                    ]
+                    ],
+                    "boss": true
                   },
                   {
                     "kind": "playMusic",

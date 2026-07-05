@@ -221,3 +221,48 @@ export function canAct(status: BattleStatus): boolean {
 export function canCastMagic(status: BattleStatus): boolean {
   return (status.silence ?? 0) <= 0
 }
+
+/** 坏状态(已有不刷新;global.c:2231-2237)。slow 属坏(非 CLASSIC 语义,schema 超集故含)。 */
+const BAD_STATUS: ReadonlySet<keyof BattleStatus> = new Set([
+  'confused',
+  'paralyzed',
+  'sleep',
+  'silence',
+  'slow',
+] as const)
+
+/**
+ * 队员状态设置语义(global.c:2221-2276 PAL_SetPlayerStatus 精确移植):
+ * - 坏状态(乱/定/眠/封/迟缓):**已有不刷新**(==0 才设);
+ * - 好状态(狂/护/加速/连击):仅活人,取较长回合;
+ * - 傀儡:仅死者,取较长;
+ * - 加速↔迟缓互斥(非 CLASSIC 语义;引擎 schema 含 slow 故一并实现,PAL 数据不触发)。
+ * 返回是否生效(调用方 log/演出用)。⚠ 曾一律 Math.max 覆盖 = 坏状态可被刷新(偏离原版)。
+ */
+export function applyPlayerStatus(
+  st: BattleStatus,
+  key: keyof BattleStatus,
+  turns: number,
+  alive: boolean,
+): boolean {
+  if (key === 'puppet') {
+    if (alive) return false // 傀儡仅死者可设(global.c:2240-2255)
+    st.puppet = Math.max(st.puppet, turns)
+    return true
+  }
+  if (BAD_STATUS.has(key)) {
+    if (st[key] > 0) return false // 坏状态已有不刷新(global.c:2234)
+    st[key] = turns
+    if (key === 'slow') st.haste = 0 // 互斥
+    return true
+  }
+  if (!alive) return false // 好状态仅活人(global.c:2239+)
+  if (key === 'haste') st.slow = 0 // 互斥
+  st[key] = Math.max(st[key], turns)
+  return true
+}
+
+/** 敌方状态设置 = **直接赋值**(script.c:1391 rgwStatus[op0]=op1;命中判定在调用方)。 */
+export function applyEnemyStatus(st: BattleStatus, key: keyof BattleStatus, turns: number): void {
+  st[key] = turns
+}

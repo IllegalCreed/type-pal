@@ -11,6 +11,8 @@
  */
 import type { AiBattleView, BattleStatus, EnemyDef, ItemData, SkillData } from '@type-pal/content'
 import {
+  applyEnemyStatus,
+  applyPlayerStatus,
   buildActionQueue,
   calcMagicDamage,
   calcPhysicalAttackDamage,
@@ -82,6 +84,8 @@ export interface BattleState {
   inventory: { itemId: string; count: number }[]
   /** 难度预设 id(M4c 留口)。 */
   difficulty: string
+  /** 首领战(原版 0x07 fIsBoss=!op2):不可逃(fight.c:4143 && !fIsBoss);胜利曲/结算时长由壳层用。 */
+  boss: boolean
   /** 敌人整场逃离(0x69 剧情逃跑:战斗终止无奖励;fled 敌不计胜利奖励)。 */
   enemyFled: boolean
   /** 战果累计(敌死时 += def.stats.exp/cash;敌逃(enemyFled)不计;B7a 战后入账)。 */
@@ -117,6 +121,8 @@ export interface CreateBattleInput {
   inventory?: { itemId: string; count: number }[]
   /** 难度预设 id(AI difficulty 条件;缺省 'normal')。 */
   difficulty?: string
+  /** 首领战(不可逃;缺省 false)。 */
+  boss?: boolean
 }
 
 export function createBattleState(input: CreateBattleInput): BattleState {
@@ -144,6 +150,7 @@ export function createBattleState(input: CreateBattleInput): BattleState {
     items: input.items ?? {},
     inventory: input.inventory ?? [],
     difficulty: input.difficulty ?? 'normal',
+    boss: input.boss ?? false,
     enemyFled: false,
     expGained: 0,
     cashGained: 0,
@@ -416,7 +423,8 @@ function applyPlayerSkill(
           const e = s.enemies[ti]!
           // 命中判定:rng(0,9) >= resistanceToSorcery(原版后期修复语义,enemy.ts 注)
           if (Math.floor(rng() * 10) >= e.def.ai.resistanceToSorcery) {
-            e.status[eff.status] = Math.max(e.status[eff.status], eff.turns)
+            // 直接赋值(script.c:1391;曾 Math.max = 短回合无法覆写长回合,偏离原版)
+            applyEnemyStatus(e.status, eff.status, eff.turns)
             s.log.push(`${e.def.id} 陷入 ${eff.status}`)
           } else s.log.push(`${e.def.id} 抵抗了 ${eff.status}`)
         }
@@ -464,12 +472,13 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
       def += e.def.stats.fleeRate + (e.def.stats.level + 6) * 4
     }
     if (def < 0) def = 0
+    // roll 先消费(rng 流序稳定),boss 再拦(fight.c:4143 `str >= roll && !fIsBoss`)
     const roll = Math.floor(_rng() * (def + 1))
-    if (p.fleeRate >= roll) {
+    if (!s.boss && p.fleeRate >= roll) {
       s.phase = 'fled'
       s.log.push('全队逃跑')
     } else {
-      s.log.push(`${p.roleId} 逃跑失败`)
+      s.log.push(`${p.roleId} 逃跑失败${s.boss ? '(首领战不可逃)' : ''}`)
     }
     return
   }
@@ -569,8 +578,14 @@ function applyEnemySkill(
       case 'applyStatus': {
         for (const ti of targets) {
           const p = s.players[ti]!
-          p.status[eff.status] = Math.max(p.status[eff.status], eff.turns)
-          s.log.push(`${e.def.id} 对 ${p.roleId} 施加 ${eff.status} ${eff.turns} 回合`)
+          // PAL_SetPlayerStatus 语义(global.c:2221-2276):坏状态已有不刷新/好状态活人取长/
+          // 傀儡仅死者(曾一律 Math.max 覆盖,偏离原版)
+          const ok = applyPlayerStatus(p.status, eff.status, eff.turns, p.hp > 0)
+          s.log.push(
+            ok
+              ? `${e.def.id} 对 ${p.roleId} 施加 ${eff.status} ${eff.turns} 回合`
+              : `${p.roleId} 的 ${eff.status} 未生效(已有/条件不符)`,
+          )
         }
         break
       }

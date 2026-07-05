@@ -229,7 +229,8 @@
                   },
                   {
                     "kind": "startBattle",
-                    "team": 34
+                    "team": 34,
+                    "boss": true
                   },
                   {
                     "kind": "playMusic",

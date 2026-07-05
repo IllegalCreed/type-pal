@@ -210,7 +210,8 @@
                       {
                         "kind": "loadLastSave"
                       }
-                    ]
+                    ],
+                    "boss": true
                   },
                   {
                     "kind": "setBattleMusic",
@@ -447,7 +448,8 @@
                       {
                         "kind": "loadLastSave"
                       }
-                    ]
+                    ],
+                    "boss": true
                   },
                   {
                     "kind": "setBattleMusic",

@@ -57,6 +57,8 @@
 
 **结论**：reforge 的 `applyStatus` 只实现了"取较长 + 命中判定"，**丢失了三条 sdlpal 关键语义**：(a) 坏状态已有不刷新；(b) haste↔slow 互斥（ClearHaste/ClearSlow）；(c) puppet 仅死者。复刻精度上 (b) 影响最大（可同时被加速+迟缓，出手顺序 `getPlayerActualDexterity` 只看 haste 会算错）。建议在 `battle-core.ts` 两处 `applyStatus` case 加 `setStatus()` 中心函数，复刻 `PAL_SetPlayerStatus` 的 switch。
 
+**2026-07-05 已修**：`applyPlayerStatus`（battle-formulas，纯函数+单测）实现三条语义 + 互斥；敌方侧另修一条本审计未点破的——0x2E 是**直接赋值**（script.c:1391，短回合可覆写长回合）非取较长 → `applyEnemyStatus`。附注：dex 只看 haste 是 **CLASSIC 忠实**（slow/dying 修正整段包在 `#ifndef PAL_CLASSIC`，fight.c:365-380；敌侧同 fight.c:314-331），互斥修复是防 schema 超集数据（手工内容用 slow）自相矛盾，PAL 数据不触发。
+
 ---
 
 ## 单元 2 — 敌人 AI

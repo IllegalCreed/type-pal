@@ -78,7 +78,7 @@ export interface ScriptHost {
     range: number | undefined,
   ): void
   // ── M3b 战斗桩 / 商店 / 确认 ──
-  startBattle(team: number, opts?: { auto?: boolean }): Promise<'win' | 'lose' | 'flee'>
+  startBattle(team: number, opts?: { auto?: boolean; boss?: boolean }): Promise<'win' | 'lose' | 'flee'>
   openShop(shop: number, mode: 'buy' | 'sell'): void
   confirm(): Promise<boolean>
   // ── 条件查询(hasItem/hasMoney/inParty 的数据源)──
@@ -292,7 +292,7 @@ export class ScriptRunner {
       case 'nudgeParty':
         return h.nudgeParty(cmd.dx, cmd.dy)
       case 'startBattle': {
-        const r = await h.startBattle(cmd.team, { auto: cmd.auto })
+        const r = await h.startBattle(cmd.team, { auto: cmd.auto, boss: cmd.boss })
         if (r === 'lose' && cmd.onLose) return this.run(cmd.onLose, [...path, 'onLose'])
         if (r === 'flee' && cmd.onFlee) return this.run(cmd.onFlee, [...path, 'onFlee'])
         return

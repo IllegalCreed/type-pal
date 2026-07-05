@@ -233,7 +233,8 @@
                   },
                   {
                     "kind": "startBattle",
-                    "team": 293
+                    "team": 293,
+                    "boss": true
                   },
                   {
                     "kind": "unmigrated",

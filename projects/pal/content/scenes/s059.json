@@ -2873,7 +2873,8 @@
                       {
                         "kind": "loadLastSave"
                       }
-                    ]
+                    ],
+                    "boss": true
                   },
                   {
                     "kind": "giveItem",

@@ -426,7 +426,8 @@
                       {
                         "kind": "loadLastSave"
                       }
-                    ]
+                    ],
+                    "boss": true
                   },
                   {
                     "kind": "setBattleMusic",

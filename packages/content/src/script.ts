@@ -78,7 +78,15 @@ export type Command =
   | { kind: 'nudgeParty'; dx: number; dy: number } // 0x6E:队伍相对单步(带走姿)
   // 战斗 / 商店 / 确认(M3b 翻译;战斗引擎 M4,先桩)
   // auto(0x8A):整场自动战斗(玩家侧 AI 代打、不出指令菜单 —— 石长老 vs 盖罗娇过场战)。
-  | { kind: 'startBattle'; team: number; onLose?: Command[]; onFlee?: Command[]; auto?: boolean }
+  // boss:原版 0x07 fIsBoss = !op2(script.c:3318,无逃跑臂 = 首领战:不可逃 + 胜利曲 2)。
+  | {
+      kind: 'startBattle'
+      team: number
+      onLose?: Command[]
+      onFlee?: Command[]
+      auto?: boolean
+      boss?: boolean
+    }
   | { kind: 'openShop'; shop: number; mode: 'buy' | 'sell' }
   | { kind: 'confirm'; onNo: Command[] } // 0x0A 是/否框:选"否"走 onNo,"是"继续
   // 相机(M3c;0x7F 三形态。⚠ 一阶段彩依飞走案:走位期间偏移必须保持,不许绝对回正)

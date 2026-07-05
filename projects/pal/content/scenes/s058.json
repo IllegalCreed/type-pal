@@ -32869,7 +32869,8 @@
                       {
                         "kind": "loadLastSave"
                       }
-                    ]
+                    ],
+                    "boss": true
                   },
                   {
                     "kind": "setEntityState",
@@ -33047,7 +33048,8 @@
                       {
                         "kind": "loadLastSave"
                       }
-                    ]
+                    ],
+                    "boss": true
                   },
                   {
                     "kind": "unmigrated",

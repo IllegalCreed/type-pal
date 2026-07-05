@@ -1,5 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import {
+  applyEnemyStatus,
+  applyPlayerStatus,
   buildActionQueue,
   calcBaseDamage,
   calcMagicDamage,
@@ -151,5 +153,45 @@ describe('status (fight.c:1632-1661)', () => {
     expect(canAct({ ...emptyBattleStatus(), paralyzed: 1 })).toBe(false)
     expect(canCastMagic(emptyBattleStatus())).toBe(true)
     expect(canCastMagic({ ...emptyBattleStatus(), silence: 1 })).toBe(false)
+  })
+})
+
+describe('applyPlayerStatus (global.c:2221-2276 PAL_SetPlayerStatus)', () => {
+  test('坏状态已有不刷新(global.c:2234)', () => {
+    const st = emptyBattleStatus()
+    expect(applyPlayerStatus(st, 'sleep', 3, true)).toBe(true)
+    expect(st.sleep).toBe(3)
+    expect(applyPlayerStatus(st, 'sleep', 9, true)).toBe(false) // 已有 → 不刷新
+    expect(st.sleep).toBe(3)
+  })
+  test('好状态取较长且仅活人', () => {
+    const st = emptyBattleStatus()
+    expect(applyPlayerStatus(st, 'bravery', 5, true)).toBe(true)
+    expect(applyPlayerStatus(st, 'bravery', 3, true)).toBe(true) // 取长:5 保持
+    expect(st.bravery).toBe(5)
+    expect(applyPlayerStatus(st, 'protect', 4, false)).toBe(false) // 死人不受 buff
+    expect(st.protect).toBe(0)
+  })
+  test('傀儡仅死者可设(global.c:2240-2255)', () => {
+    const st = emptyBattleStatus()
+    expect(applyPlayerStatus(st, 'puppet', 999, true)).toBe(false)
+    expect(applyPlayerStatus(st, 'puppet', 999, false)).toBe(true)
+    expect(st.puppet).toBe(999)
+  })
+  test('加速↔迟缓互斥(非 CLASSIC 语义;引擎超集)', () => {
+    const st = emptyBattleStatus()
+    applyPlayerStatus(st, 'haste', 5, true)
+    applyPlayerStatus(st, 'slow', 4, true)
+    expect(st.haste).toBe(0)
+    expect(st.slow).toBe(4)
+    applyPlayerStatus(st, 'haste', 2, true)
+    expect(st.slow).toBe(0)
+    expect(st.haste).toBe(2)
+  })
+  test('敌方状态 = 直接赋值(script.c:1391;短回合可覆写长回合)', () => {
+    const st = emptyBattleStatus()
+    applyEnemyStatus(st, 'sleep', 9)
+    applyEnemyStatus(st, 'sleep', 2)
+    expect(st.sleep).toBe(2)
   })
 })

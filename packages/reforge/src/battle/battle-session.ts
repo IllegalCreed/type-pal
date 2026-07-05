@@ -178,6 +178,8 @@ export class BattleSession {
       playerSounds?: Array<import('@type-pal/content').BattlerSounds | undefined>
       /** 自动战斗(0x8A;玩家侧 AI 代打,不出指令菜单 —— 石长老过场战)。 */
       auto?: boolean
+      /** 首领战(原版 0x07 fIsBoss=!op2):不可逃;壳层另用于胜利曲 2/结算时长。 */
+      boss?: boolean
       /**
        * 胜利结算(B7b;win 且非敌逃时调一次)。回调内做 HP 写回 + 入账 + 升级(单次授予点),
        * 返回结算屏序列(经验金钱 / 升级 / 练成),会话在 over 阶段逐屏空格推进。
@@ -194,6 +196,7 @@ export class BattleSession {
       items: opts.items,
       inventory: opts.inventory,
       difficulty: opts.difficulty,
+      boss: opts.boss,
     })
     this.done = new Promise((res) => {
       this.resolveDone = res

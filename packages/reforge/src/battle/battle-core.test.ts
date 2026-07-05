@@ -60,6 +60,26 @@ describe('M4a headless 战斗核', () => {
     expect(result).toBe('fled')
   })
 
+  test('首领战不可逃(fight.c:4143 && !fIsBoss):同 rng 下 boss 场逃跑恒失败', () => {
+    const s = createBattleState({
+      players: [player('li', { attackStrength: 100 })],
+      enemies: [mkEnemy('shilaoshi', { health: 40, defense: 0 })],
+      boss: true,
+    })
+    // 先逃(必失败),第二轮起攻击打完 —— 结果只能是 won,绝到不了 fled
+    const result = runBattleToEnd(
+      s,
+      (st) =>
+        st.pendingActions.set(
+          0,
+          st.turn <= 1 ? { kind: 'flee' } : { kind: 'attack', targetEnemyIdx: 0 },
+        ),
+      rng0,
+    )
+    expect(result).toBe('won')
+    expect(s.log.some((l) => l.includes('首领战不可逃'))).toBe(true)
+  })
+
   test('出手顺序:高 dex 先动（玩家 dex 50 > 敌 dex,玩家先削敌）', () => {
     // 玩家 baseDex 50(haste 无 → 50);敌 level1 dex10 → (1+6)*3+10=31。玩家先。
     const s = createBattleState({ players: [player('li', { attackStrength: 100 })], enemies: [mkEnemy('slime', { health: 40, defense: 0, dexterity: 10, level: 1 })] })

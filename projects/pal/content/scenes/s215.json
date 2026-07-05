@@ -196,7 +196,8 @@
                   },
                   {
                     "kind": "startBattle",
-                    "team": 223
+                    "team": 223,
+                    "boss": true
                   },
                   {
                     "kind": "setBattleMusic",

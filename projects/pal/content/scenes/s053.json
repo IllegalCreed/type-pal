@@ -726,7 +726,8 @@
                           },
                           {
                             "kind": "startBattle",
-                            "team": 33
+                            "team": 33,
+                            "boss": true
                           },
                           {
                             "kind": "setEntityState",
@@ -817,7 +818,8 @@
                           },
                           {
                             "kind": "startBattle",
-                            "team": 33
+                            "team": 33,
+                            "boss": true
                           },
                           {
                             "kind": "setEntityState",

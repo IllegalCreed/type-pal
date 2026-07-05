@@ -863,6 +863,7 @@ async function main(): Promise<void> {
           inventory: world.inventory.map((x) => ({ ...x })), // 副本:战斗内扣,战后写回
           difficulty: 'normal',
           auto: battleOpts?.auto,
+          boss: battleOpts?.boss,
           locale: project.locale,
           playerEffectBase,
           playerCastBase,
@@ -874,7 +875,8 @@ async function main(): Promise<void> {
             sessionRef.writeBackHp(world.party) // 先写回战斗末 HP(原版 exp 前)
             const r = sessionRef.rewards()
             if (r.exp > 0) {
-              bgm.play(3, false) // 胜利小调,不循环(一阶段 battleVictoryTrack;boss 曲 2 待 boss 立项)
+              // 胜利曲:首领战 2 / 普通 3,不循环(battle.c:1032)
+              bgm.play(battleOpts?.boss ? 2 : 3, false)
               playedVictory = true
             }
             world.money += r.cash

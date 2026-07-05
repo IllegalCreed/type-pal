@@ -541,6 +541,8 @@ function walkBody(
           ...(onLose?.length ? { onLose } : {}),
           ...(onFlee?.length ? { onFlee } : {}),
           ...(ctx.pendingAuto ? { auto: true } : {}),
+          // 原版 fIsBoss = !op2(script.c:3318):无逃跑臂 = 首领战(不可逃+胜利曲 2)
+          ...((o[2] ?? 0) === 0 ? { boss: true } : {}),
         })
         ctx.pendingAuto = false
       } else if (oc === 0x06) {

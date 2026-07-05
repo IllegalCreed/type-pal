@@ -9,6 +9,8 @@ export class SfxPlayer {
   private ctx: AudioContext | null = null
   private readonly cache = new Map<number, Promise<AudioBuffer | null>>()
   private enabled = true // 音效开关(系统菜单)
+  /** 同 id 最近触发时刻(同拍折叠;一阶段 bus drain 同 tick 去重语义)。 */
+  private readonly lastStart = new Map<number, number>()
 
   /** @param baseUrl 音效目录前缀(assetBase.sounds,如 `/extracted/sounds`)。 */
   constructor(private readonly baseUrl: string) {}
@@ -21,6 +23,12 @@ export class SfxPlayer {
   /** 播一发(fire-and-forget)。 */
   play(id: number): void {
     if (id <= 0 || !this.enabled) return
+    // 同拍(16ms 内)同 id 折叠成一响:同 tick 同音叠播 = 音量翻倍破音(一阶段坑;
+    // 双击/群攻的两声各自挂不同动画帧,不靠叠播)
+    const now = performance.now()
+    const last = this.lastStart.get(id)
+    if (last !== undefined && now - last < 16) return
+    this.lastStart.set(id, now)
     const ctx = this.ensureCtx()
     if (!ctx) return
     if (ctx.state === 'suspended') void ctx.resume()

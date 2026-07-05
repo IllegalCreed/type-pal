@@ -6788,7 +6788,8 @@
                   },
                   {
                     "kind": "startBattle",
-                    "team": 39
+                    "team": 39,
+                    "boss": true
                   },
                   {
                     "kind": "unmigrated",

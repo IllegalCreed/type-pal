@@ -3265,7 +3265,8 @@
                               {
                                 "kind": "loadLastSave"
                               }
-                            ]
+                            ],
+                            "boss": true
                           },
                           {
                             "kind": "playMusic",
@@ -4292,7 +4293,8 @@
                               {
                                 "kind": "loadLastSave"
                               }
-                            ]
+                            ],
+                            "boss": true
                           },
                           {
                             "kind": "playMusic",
@@ -5319,7 +5321,8 @@
                               {
                                 "kind": "loadLastSave"
                               }
-                            ]
+                            ],
+                            "boss": true
                           },
                           {
                             "kind": "playMusic",
