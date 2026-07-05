@@ -262,6 +262,8 @@ export interface BuildPlayerCastInput {
   /** 召唤神段(B5:effects 首个 summon 时传;fight.c:3072-3187 的 clean 简化 —— 神将
    *  loop 帧 0..n-2 各 frameTimeMs → 定格末帧贯穿二次法术;72 步 crossfade/背景染色 = 精调项)。 */
   summon?: { frames: number; frameTimeMs: number; x: number; y: number }
+  /** PostMagic 受击目标(fight.c:3190:掉血敌三轮交替位移抖动+第 2 轮闪白;idx+底锚)。 */
+  postTargets?: Array<{ idx: number; pos: { x: number; y: number } }>
 }
 
 /** attackAll 三落点(fight.c:2766-2776 真值)。 */
@@ -352,6 +354,32 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
         ...(fx.sound > 0 && i >= fd && (i - fd) % n === 0 ? { sound: fx.sound } : {}),
       })
     }
+  }
+
+  // —— PostMagic(fight.c:3190-3240):掉血敌三轮位移抖动 x−8→−4→−6(dist 8 交替减半累积),
+  //    第 2 轮 colorShift=6 闪白;末帧复位。缺 = 无目标掉血(治疗系)。——
+  if (input.postTargets?.length) {
+    const SHAKE_X = [-8, -4, -6]
+    for (let r = 0; r < 3; r++) {
+      frames.push({
+        durationMs: delayMs(1),
+        fighters: input.postTargets.map((t) => ({
+          side: 'enemy' as const,
+          idx: t.idx,
+          pos: { x: t.pos.x + SHAKE_X[r]!, y: t.pos.y },
+          colorShift: r === 1 ? 6 : 0,
+        })),
+      })
+    }
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: input.postTargets.map((t) => ({
+        side: 'enemy' as const,
+        idx: t.idx,
+        pos: { x: t.pos.x, y: t.pos.y },
+        colorShift: 0,
+      })),
+    })
   }
 
   // —— 结算数字 + 回位 ——

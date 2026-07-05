@@ -2015,6 +2015,17 @@ async function main(): Promise<void> {
   startAutoRunners()
   // ?battle=<team 号>:直开一场战斗(编辑器「⚔ 试打」入口;跳过 onEnter 演出。team 号 0-based)
   const battleRaw = params.get('battle')
+  // ?skill=<id>:dev 试放(编辑器「⚔ 战斗中试放」)—— 临时授队长该技 + MP 拉满(内存态,不落档)
+  const skillParam = params.get('skill')
+  if (skillParam && project.skills[skillParam]) {
+    const leader = world.party[0]
+    if (leader) {
+      const cur = world.learnedSkills[leader.id] ?? []
+      if (!cur.includes(skillParam)) world.learnedSkills[leader.id] = [...cur, skillParam]
+      leader.maxMP = Math.max(leader.maxMP, 999)
+      leader.mp = leader.maxMP
+    }
+  }
   const battleParam = battleRaw === null ? Number.NaN : Number(battleRaw)
   if (Number.isFinite(battleParam) && battleParam >= 0) {
     void host.startBattle(battleParam).then((r) => showToast(`试打结束:${r}`))

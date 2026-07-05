@@ -2094,3 +2094,28 @@ body {
   font-size: 11px;
   color: var(--faint);
 }
+
+/* ── 效果行内嵌预览(summon/trance 归位到对应行下,2026-07-05 作者定位) ── */
+.ef-preview-row {
+  padding: 4px 8px 10px 104px; /* 缩进对齐 kind 下拉右侧字段区 */
+  max-width: 720px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.ef-inline-preview canvas {
+  width: 160px;
+  height: 140px;
+}
+
+/* ── 数据模式中栏滚动容器(2026-07-05 作者:指令手册下面看不到 —— 这三个类此前从未定义,
+   内容溢出即裁;grid 行高已 minmax(0,1fr) 约束,列内补滚动) ── */
+.canvas-wrap.data-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+.et-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}

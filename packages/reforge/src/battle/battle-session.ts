@@ -633,6 +633,18 @@ export class BattleSession {
               this.enemyDefs[la.target]?.anim.yPosOffset ?? 0,
             ) ?? casterPos)
           : casterPos
+      // PostMagic 受击目标:掉血的敌人(fight.c wPrevHP≠wHealth 语义 → damageNums 敌方项)
+      const postTargets = damageNums
+        .filter((d) => d.target.side === 'enemy')
+        .map((d) => ({
+          idx: d.target.idx,
+          pos:
+            getEnemyBasePos(
+              s.enemies.length,
+              d.target.idx,
+              this.enemyDefs[d.target.idx]?.anim.yPosOffset ?? 0,
+            ) ?? { x: 160, y: 100 },
+        }))
       return buildPlayerCast({
         casterIdx: la.idx,
         casterPos,
@@ -641,6 +653,7 @@ export class BattleSession {
         fx,
         targetPos,
         damageNums,
+        postTargets,
         ...(summonSprite
           ? {
               summon: {
@@ -880,7 +893,8 @@ export class BattleSession {
     }
     renderBattleScene(ctx, scene, worldScale)
 
-    // 命中特效 overlay(chunk 10;坐标按一阶段 fight.c 真值算好,左上角 blit)
+    // 特效 overlay:**底中锚** blit(fight.c:2436/2183 真值 PAL_XY(x−w/2, y−h) ——
+    // 此前左上角 blit 致全体法术特效偏右下半宽全高,2026-07-05 作者战斗实测打回)
     if (this.overlays?.length) {
       ctx.save()
       ctx.imageSmoothingEnabled = false
@@ -893,7 +907,12 @@ export class BattleSession {
               ? this.currentSummon
               : this.assets.effectSprite
         const f = sheet?.frames[o.frameIdx]
-        if (f) ctx.drawImage(bakeFrame(f, this.assets.palette), o.x, o.y)
+        if (f)
+          ctx.drawImage(
+            bakeFrame(f, this.assets.palette),
+            o.x - Math.floor(f.width / 2),
+            o.y - f.height,
+          )
       }
       ctx.restore()
     }

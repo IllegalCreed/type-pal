@@ -11,6 +11,7 @@ import { AddSkillCommand, UpdateSkillCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { FireEffectPreview } from './FireEffectPreview.js'
 import { SummonPreview } from './SummonPreview.js'
+import { TrancePreview } from './TrancePreview.js'
 
 const TARGETS: { v: SkillData['target']; label: string }[] = [
   { v: 'oneEnemy', label: '单敌' },
@@ -277,7 +278,20 @@ export function SkillTab(props: {
         {skill ? (
           <div className="et-scroll skill-form">
             <div className="section">
-              <h4>基础</h4>
+              <h4>
+                基础
+                <button
+                  type="button"
+                  className="mini"
+                  style={{ width: 'auto', padding: '0 10px', marginLeft: 12 }}
+                  title="开真实战斗临时授此技试放(完整语境预览;不改存档/工程数据)"
+                  onClick={() =>
+                    window.open(`http://localhost:6051/?scene=s001&battle=0&skill=${skill.id}`, '_blank')
+                  }
+                >
+                  ⚔ 战斗中试放
+                </button>
+              </h4>
               <div className="sk-grid">
                 <label><span className="lb">名字</span> <input className="in" value={skill.name} onChange={(e) => patch({ name: e.target.value })} /></label>
                 <label>
@@ -309,7 +323,8 @@ export function SkillTab(props: {
             <div className="section">
               <h4>效果链 <span className="hint2">有序;「条件门」失败截断其后(原版 jump-on-fail 同构)</span></h4>
               {skill.effects.map((e, i) => (
-                <div className="ef-row" key={`${skill.id}-${i}`}>
+                <div key={`${skill.id}-${i}`}>
+                <div className="ef-row">
                   <select
                     className="in ef-kind"
                     value={e.kind}
@@ -328,6 +343,17 @@ export function SkillTab(props: {
                     <button type="button" className="mini" title="删除"
                       onClick={() => patch({ effects: skill.effects.filter((_, j) => j !== i) })}>✕</button>
                   </span>
+                </div>
+                {e.kind === 'summon' && (
+                  <div className="ef-preview-row">
+                    <SummonPreview assetBase={assetBase} godId={e.godId} speed={e.speed} />
+                  </div>
+                )}
+                {e.kind === 'trance' && (
+                  <div className="ef-preview-row">
+                    <TrancePreview assetBase={assetBase} sprite={e.sprite} />
+                  </div>
+                )}
                 </div>
               ))}
               <button type="button" className="tool" onClick={() => patch({ effects: [...skill.effects, defaultEffect('damage')] })}>
@@ -357,19 +383,7 @@ export function SkillTab(props: {
                   <label><span className="lb">震屏帧</span> <N v={skill.animation.shake} on={(n) => setAnim({ shake: n })} ph="0" /></label>
                   <label><span className="lb">音效号</span> <N v={skill.animation.sound} on={(n) => setAnim({ sound: n })} ph="(无)" /></label>
                 </div>
-                <div className="sk-previews">
-                  {(() => {
-                    const sm = skill.effects.find((e) => e.kind === 'summon')
-                    return sm?.kind === 'summon' ? (
-                      <SummonPreview
-                        assetBase={assetBase}
-                        godId={sm.godId}
-                        speed={sm.speed}
-                      />
-                    ) : null
-                  })()}
-                  <FireEffectPreview assetBase={assetBase} anim={skill.animation} />
-                </div>
+                <FireEffectPreview assetBase={assetBase} anim={skill.animation} />
               </div>
             </div>
           </div>
