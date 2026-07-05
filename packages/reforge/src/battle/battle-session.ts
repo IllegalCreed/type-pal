@@ -66,8 +66,10 @@ interface FloatNum {
   x: number
   y: number
   text: string
-  /** 有值 = 数字飘字(蓝数字 sprite,一阶段 damageNum blue);无 = 文本飘字。 */
+  /** 有值 = 数字飘字;无 = 文本飘字。 */
   num?: number
+  /** 数字色(fight.c:648-708:掉血=蓝/回血=黄/回 MP=青;缺省蓝)。 */
+  tone?: 'blue' | 'yellow' | 'cyan'
   color: readonly [number, number, number]
   bornAt: number
 }
@@ -548,8 +550,9 @@ export class BattleSession {
       this.actTimer += dtMs
       if (this.actTimer < ACT_MS) return
       this.actTimer = 0
-      // hp 快照 → 走一步 → 物攻建时间线回放;其余动作即时反馈(cast/物品时间线后续刀)
+      // hp/mp 快照 → 走一步 → 物攻建时间线回放;其余动作即时反馈(cast/物品时间线后续刀)
       const pHp = s.players.map((p) => p.hp)
+      const pMp = s.players.map((p) => p.mp)
       const eHp = s.enemies.map((e) => e.hp)
       stepBattle(s, this.rng)
       const la = s.lastAction
@@ -558,6 +561,22 @@ export class BattleSession {
       this.pendingDeaths = s.enemies
         .map((e, i) => (i < eHp.length && eHp[i]! > 0 && e.hp <= 0 && !s.enemyFled ? i : -1))
         .filter((i) => i >= 0)
+      // 本步涨益(回血黄字/回 MP 青字,fight.c:648-708;只显增加 :105-109。演出收尾统一弹
+      // = 原版 DisplayStatChange 在特效之后的时序)
+      this.pendingGains = []
+      s.players.forEach((p, i) => {
+        const dh = p.hp - (pHp[i] ?? p.hp)
+        if (dh > 0)
+          this.pendingGains.push({ target: { side: 'player', idx: i }, value: dh, tone: 'yellow' })
+        const dm = p.mp - (pMp[i] ?? p.mp)
+        if (dm > 0)
+          this.pendingGains.push({ target: { side: 'player', idx: i }, value: dm, tone: 'cyan' })
+      })
+      s.enemies.forEach((e, i) => {
+        const dh = e.hp - (eHp[i] ?? e.hp)
+        if (dh > 0)
+          this.pendingGains.push({ target: { side: 'enemy', idx: i }, value: dh, tone: 'yellow' })
+      })
       const timeline = this.buildStepTimeline(la, pHp, eHp)
       if (timeline) {
         this.anim = new AnimPlayer(timeline, {
@@ -804,7 +823,11 @@ export class BattleSession {
   }
 
   /** 伤害表现:蓝数字飘字(一阶段 damageNum blue)+ displayHp 同步到结算值。 */
-  private applyDamageFx(t: { side: 'player' | 'enemy'; idx: number }, value: number): void {
+  private applyDamageFx(
+    t: { side: 'player' | 'enemy'; idx: number },
+    value: number,
+    tone: 'blue' | 'yellow' | 'cyan' = 'blue',
+  ): void {
     const v = t.side === 'player' ? this.visual.players[t.idx] : this.visual.enemies[t.idx]
     if (!v) return
     const sprite =
@@ -815,6 +838,7 @@ export class BattleSession {
       y: v.y - h - 6,
       text: '',
       num: value,
+      tone,
       color: [0, 0, 0],
       bornAt: this.nowMs,
     })
@@ -822,12 +846,22 @@ export class BattleSession {
     if (cur !== undefined) v.displayHp = cur
   }
 
+  /** 本步涨益(回血/回 MP)飘字缓冲(演出收尾统一弹 = 原版特效后时序)。 */
+  private pendingGains: Array<{
+    target: { side: 'player' | 'enemy'; idx: number }
+    value: number
+    tone: 'yellow' | 'cyan'
+  }> = []
+
   /** 每步收尾:表现层复位 + 死亡淡出登记(death 音)+ displayHp 兜底同步。 */
   private finishStepVisuals(): void {
     this.resetVisual()
     // per-action 瞬态复位(审计红线 #7;fight.c:2835 wave 还原语义)
     this.frameWaveAdd = 0
     this.screenShake = null
+    // 涨益飘字(回血黄/回 MP 青;特效播完后弹 = DisplayStatChange 时序)
+    for (const g of this.pendingGains) this.applyDamageFx(g.target, g.value, g.tone)
+    this.pendingGains = []
     for (const i of this.pendingDeaths) {
       this.deathFades.set(i, this.nowMs)
       const e = this.state.enemies[i]
@@ -1093,12 +1127,14 @@ export class BattleSession {
       })
     }
 
-    // 伤害飘字(升起;数字飘字用蓝数字 sprite = 一阶段 damageNum blue,无资产退化文本)
+    // 伤害/涨益飘字(升起;掉血蓝/回血黄/回 MP 青 = fight.c:648-708,无资产退化文本)
     for (const f of this.floats) {
       const t = (this.nowMs - f.bornAt) / 900
       const fy = f.y - t * 12
       if (f.num !== undefined && ui) {
-        drawNumber(ctx, f.num, f.x + 12, fy, ui.numsBlue)
+        const nums =
+          f.tone === 'yellow' ? ui.nums : f.tone === 'cyan' ? ui.numsCyan : ui.numsBlue
+        drawNumber(ctx, f.num, f.x + 12, fy, nums)
       } else {
         renderSpans(ctx, [{ text: f.num !== undefined ? `-${f.num}` : f.text }], f.x, fy, {
           glyphs: g,
