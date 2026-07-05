@@ -27,6 +27,31 @@ export function buildPayload(
   return { version: SAVE_VERSION, projectId, contentVersion, world, position }
 }
 
+/**
+ * 读档运行时归一化(GLM x-shell G10.1:曾直用 payload,引擎加字段后旧档缺字段运行时崩):
+ * · version 闸:新于引擎 → 抛(宁拒不猜);旧于当前 → 逐版本升级挂点(现仅 v1,占位)。
+ * · 结构补默认:引擎演进新增的**容器**字段旧档缺失 → 补空值(?? 语义,不动既有值)。
+ *   只补结构不钳数值 —— 数值修复 = "旧档复原",按方针不做(新档干净即可)。
+ * 原地修补并返回同一对象(payload 是读档专属拷贝)。
+ */
+export function normalizePayload(p: SavePayload): SavePayload {
+  if (p.version > SAVE_VERSION)
+    throw new Error(`存档格式 v${p.version} 新于引擎支持的 v${SAVE_VERSION}`)
+  // v(n)→v(n+1) 升级链挂点:bump SAVE_VERSION 时在此逐版本迁移
+  const w = p.world
+  w.party ??= []
+  w.money ??= 0
+  w.learnedSkills ??= {}
+  w.inventory ??= []
+  for (const c of w.party) {
+    c.equipment ??= {}
+    c.tags ??= []
+    c.hiddenExp ??= {}
+    c.luck ??= 0 // 后加字段(fleeRate 装备派生刀):旧档缺 → 0(装备加成仍活派生)
+  }
+  return p
+}
+
 /** 截当前画面 → 缩到 w×h → PNG Blob(浏览器;离屏 canvas)。source 应为干净游戏帧(无 UI 层)。 */
 export function captureThumbnail(source: HTMLCanvasElement, w = 64, h = 40): Promise<Blob> {
   const off = document.createElement('canvas')

@@ -354,7 +354,7 @@ player->lastSFX = iSoundNum;
 | 缺口 | 等级 | 分类 | 详情 |
 |---|---|---|---|
 | **G8.1 mapCache 无 onEvict 联动** | **高** | B+C | `main.ts:222` 只删 mapCache，不动 spriteByNum。当前 spriteByNum 设计为跨场景累积（无 evict），但若将来加 sprite LRU，onEvict 联动是必备模式（一阶段 `bootstrap.ts:624-625` 教训：联动不一致 → 黑屏）。行动：sprite 加 LRU 时必须 onEvict 同步清 mapCache 的 tile 引用，反之亦然。**接多场景前照搬三件套**。 |
-| **G8.2 spriteByNum 无界** | 中 | B | `main.ts:246` 永不淘汰。harvest W5 警告：baked RGBA canvas 比 index tile 大 4×，223 场景 × N 精灵 → 内存爆。行动：加 sprite LRU（cap N + protect 当前场景精灵 + onEvict 联动 mapCache）。 |
+| **G8.2 spriteByNum 无界** | ~~中~~ ✅ 已修(2026-07-06) | B | switchScene 切场景时 recency touch 本场景所需 → 超 cap 96 淘汰非 needed 精灵(protect 本场景+队长,宁超 cap)。唯一活查询是实体渲染(needed 全覆盖);playerSprite/leaderSpriteOverride 自持引用不受淘汰影响。无需 onEvict 联动:mapCache 与 spriteByNum 无查询交叉(一阶段黑屏坑是 SceneAssets↔tileImages 同键互推,此处结构不同);若未来出现同键复合缓存,联动三件套照搬(G8.1 红线保留)。 |
 | G8.3 paletteCache 无 LRU | 低 | B | `main.ts:226` 无界。调色板数有限（≤256），实际可接受。低优。 |
 | **G8.4 PAL_MakeScene 不清屏（W1 漏黑）** | **高** | A | sdlpal `scene.c:471-481` 不清屏，靠上一帧残留填缝。reforge `render.ts`（Canvas2D drawImage）每帧 clear → 接缝漏黑（harvest W1 已标 ❌ 未免疫）。行动：见 harvest W1（离屏整图 alpha 合成 / 接缝预填充到 baked tile）。**本审计单元 8 范围内确认此坑仍在**。 |
 | G8.5 setPalette async（W7） | 高 | A | `main.ts:227 getPalette` async。同 tick `FadeOut→setPalette→SetRNG→PlayRNG` 会读旧 palette（harvest W7）。行动：bootstrap 预载 PAT 全块成同步 Map。 |
@@ -419,7 +419,7 @@ player->lastSFX = iSoundNum;
 
 | 缺口 | 等级 | 分类 | 详情 |
 |---|---|---|---|
-| **G10.1 读档无运行时归一化** | **中** | B | `SAVE_VERSION` 设计有（`types.ts:8`），但 `ops.ts`/`store.ts` 无 `migrate(payload)` 函数。后果：① bump SAVE_VERSION 后旧档读出字段缺失 → 运行时 undefined 崩；② CharacterInstance 加新字段（如 luck），旧档 party 无该字段 → effectiveStat 崩。行动：加 `migratePayload(payload): SavePayload`——按 version 分支补默认值 + 字段填充（`?? defaultValue`）；`getPayload` 后调归一化。**这是任务点名核对的「运行时归一化」缺口，确认存在**。 |
+| **G10.1 读档无运行时归一化** | ~~中~~ ✅ 已修(2026-07-06) | B | `normalizePayload`(ops.ts):版本闸(新于引擎 → 抛,doLoad toast 拒读)+ 逐版本升级挂点(现 v1 占位)+ 结构补默认(容器字段/后加 luck 补空,不动既有值 —— 数值修复=旧档复原,按方针不做)。doLoad 入口接线;单测钉三例(补默认/不动既有/新版拒)。 |
 | G10.2 projectId 校验未在 store 层 | 低 | B | `SavePayload.projectId`（`types.ts:36`）注释「读档校验：防把 A 工程存档读进 B 工程」，但 `store.ts getPayload` 不校验——调用方（main.ts browserLoad）需自查。建议 store 层或 ops 层加 `assertProjectMatch`。 |
 | G10.3 contentVersion 无迁移挂钩 | 低 | B | `contentVersion`（`types.ts:38`）与 SAVE_VERSION 分轴（格式 vs 内容），但无 content-level migrate 挂钩。工程内容大改时需补。 |
 | G10.4 savedTimes 跨 slot counter 缺 | 低 | A | sdlpal `wSavedTimes = max(GetSavedTimes(1..5))+1`（uigame.c:589-597）显示「已存 N 次」。reforge SaveMeta 无此字段。低优（仅显示）。 |
@@ -438,7 +438,7 @@ player->lastSFX = iSoundNum;
 6. **G8.5 setPalette async（W7）**（高）——bootstrap 预载 PAT 同步 Map。
 7. **G4.2 战斗 BGM 揭场静默**（中）——startBattle 加 battleIntroActive 门。
 8. **G1.2 音频解锁 `once:true`**（中）——切 tab 回来 BGM 哑。
-9. **G10.1 读档无归一化**（中）——bump SAVE_VERSION 必崩。
+9. ~~G10.1 读档无归一化~~ ✅ 已修(2026-07-06,normalizePayload)。
 10. **G6.2 RNG in-flight Promise 缓存**（中，过场立项时）——O(N²) 黑屏。
 11. **G5.1 AVI 全缺**（中，过场立项时）——trademark/结局。
 12. **G7.1 FBP/结局全缺**（低，项目末期）。

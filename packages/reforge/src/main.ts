@@ -84,9 +84,9 @@ import {
   openSaveBrowser,
   type SaveBrowserState,
 } from './save/browser-state.js'
-import { buildMeta, buildPayload, captureThumbnail } from './save/ops.js'
+import { buildMeta, buildPayload, captureThumbnail, normalizePayload } from './save/ops.js'
 import { IndexedDbSaveStore, MemorySaveStore, type SaveStore } from './save/store.js'
-import type { SaveMeta, SlotId } from './save/types.js'
+import type { SaveMeta, SavePayload, SlotId } from './save/types.js'
 import { type ScriptHost, ScriptRunner } from './script-runner.js'
 import { animFrameIndex, idleFrameIndex, loopFrameIndex, walkFrameIndex } from './sprite-anim.js'
 import {
@@ -246,6 +246,8 @@ async function main(): Promise<void> {
     sceneDefCache.set(id, def)
     return structuredClone(def)
   }
+  /** 精灵缓存 cap(RLE 索引帧组,非烤 RGBA;切场景时 protect 本场景所需后淘汰最旧)。 */
+  const SPRITE_CACHE_CAP = 96
   const spriteByNum = new Map<number, LoadedSprite>()
 
   // 调试：?gallery 渲染精灵速查图（确认哪个 spriteNum 是人/物），不进场景。
@@ -338,14 +340,32 @@ async function main(): Promise<void> {
       if (!sid) continue
       defs.set(e.id, requireSpriteDef(sid, `实体 ${e.id}`))
     }
-    const missing = [
-      ...new Set([leaderSpriteDef.spriteNum, ...[...defs.values()].map((d) => d.spriteNum)]),
-    ].filter((n) => !spriteByNum.has(n))
+    const needed = new Set([
+      leaderSpriteDef.spriteNum,
+      ...[...defs.values()].map((d) => d.spriteNum),
+    ])
+    const missing = [...needed].filter((n) => !spriteByNum.has(n))
     await Promise.all(
       missing.map(async (n) => {
         spriteByNum.set(n, await loadSprite(project.assetBase, n))
       }),
     )
+    // 精灵 LRU(GLM x-shell G8.2:曾无界累积):recency touch 本场景所需 → 超 cap 淘汰
+    // 非本场景精灵(protect needed,宁超 cap;唯一活查询是实体渲染,needed 全覆盖——
+    // playerSprite/leaderSpriteOverride 均自持引用,淘汰只删表项不影响已捕获者)。
+    for (const n of needed) {
+      const s = spriteByNum.get(n)
+      if (s) {
+        spriteByNum.delete(n)
+        spriteByNum.set(n, s) // Map 插入序 = LRU 序
+      }
+    }
+    if (spriteByNum.size > SPRITE_CACHE_CAP) {
+      for (const k of [...spriteByNum.keys()]) {
+        if (spriteByNum.size <= SPRITE_CACHE_CAP) break
+        if (!needed.has(k)) spriteByNum.delete(k)
+      }
+    }
     // 原子提交
     scene = def
     map = assets.map
@@ -1410,8 +1430,16 @@ async function main(): Promise<void> {
   }
 
   async function doLoad(slotId: SlotId): Promise<boolean> {
-    const p = await saveStore.getPayload(slotId)
-    if (!p) return false
+    const raw = await saveStore.getPayload(slotId)
+    if (!raw) return false
+    let p: SavePayload
+    try {
+      p = normalizePayload(raw) // 运行时归一化:版本闸 + 结构补默认(G10.1)
+    } catch (err) {
+      console.warn(`[save] 槽 ${slotId} 归一化拒绝:`, err)
+      showToast('存档格式过新,无法读取')
+      return false
+    }
     abortScript() // 演出中读档:全树取消 + 清演出态
     stopAutoRunners()
     // 存档绑工程:projectId 不匹配(把 A 工程存档读进 B 工程)→ 拒绝,防世界态错乱。

@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { makeTestWorld } from '../test-fixtures.js'
-import { buildMeta, buildPayload } from './ops.js'
+import { buildMeta, buildPayload, normalizePayload } from './ops.js'
 import { SAVE_VERSION } from './types.js'
 
 describe('save ops（纯）', () => {
@@ -24,5 +24,26 @@ describe('save ops（纯）', () => {
     expect(p.contentVersion).toBe(1)
     expect(p.world).toBe(w)
     expect(p.position).toEqual({ sceneId: 's', pos, facing: 'down' })
+  })
+  test('normalizePayload:结构补默认(旧档缺容器字段/新增 luck)不动既有值', () => {
+    const w = makeTestWorld()
+    const p = buildPayload(w, { sceneId: 's', pos: { col: 1, row: 2, height: 0 }, facing: 'down' }, 'demo', 1)
+    // 模拟"引擎加字段前的旧档":抹掉后加字段(结构演进,非数值污染)
+    const c = p.world.party[0]! as unknown as Record<string, unknown>
+    delete c.hiddenExp
+    delete c.tags
+    delete c.luck
+    const beforeHp = p.world.party[0]!.hp
+    const n = normalizePayload(p)
+    expect(n.world.party[0]!.hiddenExp).toEqual({})
+    expect(n.world.party[0]!.tags).toEqual([])
+    expect(n.world.party[0]!.luck).toBe(0)
+    expect(n.world.party[0]!.hp).toBe(beforeHp) // 既有值不动(不做旧档数值复原)
+  })
+  test('normalizePayload:格式新于引擎 → 抛(宁拒不猜)', () => {
+    const w = makeTestWorld()
+    const p = buildPayload(w, { sceneId: 's', pos: { col: 1, row: 2, height: 0 }, facing: 'down' }, 'demo', 1)
+    p.version = SAVE_VERSION + 1
+    expect(() => normalizePayload(p)).toThrow(/新于引擎/)
   })
 })
