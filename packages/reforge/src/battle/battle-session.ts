@@ -223,10 +223,22 @@ export class BattleSession {
     this.visual.players = s.players.map((p, i) => {
       const pos = getPlayerBasePos(s.players.length, i) ?? { x: 0, y: 0 }
       const prev = this.visual.players[i]
+      // 复位姿势 = playerRestFrame 语义(一阶段 battle-anim-driver.ts:220-234,一夜三刀簇):
+      // 死→傀儡0/死2;睡/濒死(hp<min(100,maxHP/5))→1;防御→3;否则站 0。曾一律 frame0
+      // = 丢死/濒死/防御姿(演出审计 §2-8)。
       return {
         x: pos.x,
         y: pos.y,
-        frame: p.hp <= 0 ? 2 : 0,
+        frame:
+          p.hp <= 0
+            ? p.status.puppet > 0
+              ? 0
+              : 2
+            : p.status.sleep > 0 || p.hp < Math.min(100, Math.floor(p.maxHp / 5))
+              ? 1
+              : p.defending
+                ? 3
+                : 0,
         colorShift: 0,
         displayHp: prev?.displayHp ?? p.hp,
       }
@@ -731,6 +743,13 @@ export class BattleSession {
       fx,
       targetPos: targetPos ?? undefined,
       damageNums,
+      // 受伤队员受击反应(frame4+红闪+递减击退;一阶段 19f8d6a9 曾整段漏)
+      hurtPlayers: damageNums
+        .filter((d) => d.target.side === 'player')
+        .map((d) => ({
+          idx: d.target.idx,
+          pos: getPlayerBasePos(s.players.length, d.target.idx) ?? { x: 240, y: 170 },
+        })),
     })
   }
 

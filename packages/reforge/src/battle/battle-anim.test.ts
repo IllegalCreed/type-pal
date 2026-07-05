@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest'
 import {
   type AnimFrame,
   AnimPlayer,
+  buildEnemyCast,
   buildEnemyPhysical,
   buildPlayerAttack,
   buildPlayerCast,
@@ -79,6 +80,25 @@ describe('M4d-2 战斗动画时间线', () => {
     expect(snd).toBeGreaterThan(-1)
     expect(gesture).toBeGreaterThan(-1)
     expect(snd).toBe(gesture + 1) // 与 frame5 同帧派发(fighter 先于 sound)
+  })
+
+  test('敌施法:受伤队员受击反应(frame4+前3帧红闪+递减击退 8>>i,4>>i)', () => {
+    const frames = buildEnemyCast({
+      enemyIdx: 0,
+      anim: { idleFrames: 4, magicFrames: 2 },
+      magicSound: 0,
+      fireFrames: 0, // 无特效资产也要有受击反应
+      fx: { placement: 'normal', xOffset: 0, yOffset: 0, speed: 0, fireDelay: 0, effectTimes: 1, shake: 0, wave: 0, sound: 0 },
+      damageNums: [{ target: { side: 'player', idx: 0 }, value: 9 }],
+      hurtPlayers: [{ idx: 0, pos: { x: 240, y: 170 } }],
+    })
+    const { events, player } = record(frames)
+    let guard = 0
+    while (!player.tick(50) && guard++ < 200) {}
+    expect(events).toContain('f:player0#4@248,174c6') // i=0:+8,+4 红闪
+    expect(events).toContain('f:player0#4@252,176c6') // i=1:+4,+2
+    expect(events).toContain('f:player0#4@255,177c0') // i=3:红闪结束(+1,+0 累积 255,177)
+    expect(events).toContain('dmg:player0:9') // 数字在反应之后
   })
 
   test('敌人物攻:action 音→冲至(−44,−16)→命中 frame4+call 音+数字→击退→双方复位', () => {

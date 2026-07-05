@@ -421,6 +421,8 @@ export interface BuildEnemyCastInput {
   /** normal 落点(目标队员底锚)。 */
   targetPos?: { x: number; y: number }
   damageNums: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
+  /** 受伤队员(idx+底锚;受击反应帧用 —— 一阶段 19f8d6a9 曾整段漏「我方受击纹丝不动」)。 */
+  hurtPlayers?: Array<{ idx: number; pos: { x: number; y: number } }>
 }
 
 /**
@@ -460,6 +462,26 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
         // 屏波/震屏同玩家侧(fight.c:2942 敌施法同款孪生)
         ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
         ...(inShake ? { screenShake: true } : {}),
+      })
+    }
+  }
+  // 受伤队员受击反应(一阶段 buildPlayerMagicHitReaction;fight.c:4802+ 命中循环):
+  // 5 帧 frame4 受击姿 + 前 3 帧红闪(colorShift 6)+ 递减击退 pos += (8>>i, 4>>i)。
+  // 位置由收尾 resetVisual 归位(原版 UpdateFighters 语义)。
+  if (input.hurtPlayers?.length) {
+    const off = { x: 0, y: 0 }
+    for (let i = 0; i < 5; i++) {
+      off.x += 8 >> i
+      off.y += 4 >> i
+      frames.push({
+        durationMs: delayMs(1),
+        fighters: input.hurtPlayers.map((hp) => ({
+          side: 'player' as const,
+          idx: hp.idx,
+          frame: 4,
+          pos: { x: hp.pos.x + off.x, y: hp.pos.y + off.y },
+          colorShift: i < 3 ? 6 : 0,
+        })),
       })
     }
   }
