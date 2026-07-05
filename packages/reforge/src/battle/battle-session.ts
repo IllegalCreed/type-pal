@@ -855,8 +855,13 @@ export class BattleSession {
       if (!sprite || !v) return
       const fade = this.deathFades.get(i)
       let alpha = 1
-      if (e.hp <= 0) {
-        if (fade === undefined) return // 死且无淡出登记(逃跑清场等)= 不画
+      // 死亡可见性(2026-07-05 作者报「施法时怪物消失」):真 hp 在时间线**播放前**已结算,
+      // 不能凭它判死否则强力术一出手怪就没、整段演出打空气。用 pendingDeaths(本步正被这次
+      // 演出击杀的敌)区分两类:① 正被击杀 → 演出全程照画,收尾(finishStepVisuals)才登记
+      // 淡出;② 早已死亡(逃跑清场)→ 不在 pendingDeaths 且 hp≤0 → 不画。原版语义:命中数字后才淡出。
+      const dyingNow = this.pendingDeaths.includes(i)
+      if (e.hp <= 0 && !dyingNow) {
+        if (fade === undefined) return // 早死无淡出登记(逃跑清场等)= 不画
         alpha = 1 - (now - fade) / DEATH_FADE_MS
         if (alpha <= 0) {
           this.deathFades.delete(i)
