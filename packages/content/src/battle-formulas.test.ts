@@ -37,7 +37,8 @@ describe('calcPhysicalAttackDamage (fight.c:253-285)', () => {
 })
 
 describe('calcMagicDamage (fight.c:174-249)', () => {
-  const base = { magStr: 100, def: 50, poisonRes: 0, resistMult: 10, fieldEffect: ZERO, rngFactor: 1.0 }
+  // elemRes 补进 base(毒系用例不覆写它;GLM oracle 首版漏 → content 包 typecheck 挂)
+  const base = { magStr: 100, def: 50, poisonRes: 0, resistMult: 10, fieldEffect: ZERO, elemRes: ZERO, rngFactor: 1.0 }
   test('非元素 base/4+magicBase', () => {
     expect(calcMagicDamage({ ...base, elemRes: ZERO, magicData: { baseDamage: 50, elemental: 0 } })).toBe(80)
   })
