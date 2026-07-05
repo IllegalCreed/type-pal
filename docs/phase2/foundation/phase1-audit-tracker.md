@@ -20,12 +20,12 @@
 
 | 审计单元 | sdlpal C | 一阶段 | reforge | 状态 |
 |---|---|---|---|---|
-| 瓦片渲染 | map.c | present/draw-tilemap.ts | render.ts | ⬜ 待审 |
-| 精灵渲染 | scene.c(部分) | present/draw-sprite.ts | render.ts | ⬜ 待审 |
-| 场景合成(MakeScene) | scene.c | present/present.ts | render.ts | ⬜ 待审 |
-| 字体渲染 | font.c, text.c(字模) | present/font.ts | text/glyph.ts, text-render.ts | ⬜ 待审 |
-| 调色板 | palette.c | present/(palette 相关) | text/palette-color.ts | ⬜ 待审 |
-| 屏幕波纹/震屏 | (scene.c/screen) | present/screen-wave.ts, screen-shake.ts | (缺?) | ⬜ 待审 |
+| 瓦片渲染 | map.c | present/draw-tilemap.ts | render.ts | ✅ 已审([w-render-audit](w-render-audit.md)) |
+| 精灵渲染 | scene.c(部分) | present/draw-sprite.ts | render.ts | ✅ 已审([w-render-audit](w-render-audit.md)) |
+| 场景合成(MakeScene) | scene.c | present/present.ts | render.ts | ✅ 已审([w-render-audit](w-render-audit.md)) |
+| 字体渲染 | font.c, text.c(字模) | present/font.ts | text/glyph.ts, text-render.ts | ✅ 已审([w-font-palette-audit](w-font-palette-audit.md)) |
+| 调色板 | palette.c | present/(palette 相关) | text/palette-color.ts | ✅ 已审([w-font-palette-audit](w-font-palette-audit.md)) |
+| 屏幕波纹/震屏 | (scene.c/screen) | present/screen-wave.ts, screen-shake.ts | (缺?) | ✅ 已审([w-font-palette-audit](w-font-palette-audit.md)) |
 
 ### 第二批 · 对话/文本（N 领域）
 
