@@ -135,6 +135,10 @@ function describe(cmd: Command, locale: Locale): Described {
       return { icon: '🔢', label: `变量 ${cmd.var} ${cmd.delta >= 0 ? '+' : ''}${cmd.delta}` }
     case 'playSound':
       return { icon: '🔊', label: `音效 ${cmd.soundId}` }
+    case 'takeEntity':
+      return { icon: '🔒', label: `接管 ${cmd.entity}` }
+    case 'releaseEntity':
+      return { icon: '🔓', label: `归还 ${cmd.entity ?? '(全部)'}` }
     case 'playMusic':
       return { icon: '🎵', label: `音乐 ${cmd.musicId}` }
     case 'setBattleMusic':

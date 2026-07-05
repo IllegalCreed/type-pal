@@ -89,6 +89,9 @@ export type Command =
   | { kind: 'setEntityAuto'; entity: string; stages: ScriptStage[] } // 0x24;空 stages = 停用
   | { kind: 'setEntityTrigger'; entity: string; stages: ScriptStage[] } // 0x25;触发方式沿用当前
   | { kind: 'setEntityTriggerMode'; entity: string; on?: 'interact' | 'touch'; range?: number } // 0x40;on 缺省=关
+  // 定位权威(E6b:显式接管/归还 —— 隐式接管见位移指令;手工演出精细控制用)
+  | { kind: 'takeEntity'; entity: string }
+  | { kind: 'releaseEntity'; entity?: string } // 缺省 = 归还全部
   // 控制流(M3b 引擎;schema 先行防返工)
   | { kind: 'branch'; cond: ScriptCondition; then: Command[]; else?: Command[] }
   // 逃生口

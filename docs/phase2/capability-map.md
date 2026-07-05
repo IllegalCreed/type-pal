@@ -66,7 +66,7 @@
 | E3 | 可拾取物 | ✅ | ✅ | 宝箱/拾取 | done;拾取模板 |
 | E4 | 触发交互 | ✅ | ✅ | 对话/事件 | done;事件模式 |
 | E5 | 实体动画(loop) | ✅ | ✅ | 火把/流水 | 引擎(2026-07-05):loop 布局壁钟自循环 250ms/帧(loopFrameIndex,演出帧覆盖仍优先);编辑器:精灵库布局可编(C1d)。⚠ 两工程暂无 loop 精灵数据 —— 精灵库切 loop 布局即生效 |
-| E6 | **实体定位权威** | ⚠️ | ❌ | 隐龙窟门口/试炼窟芦苇 | E6a 落地(2026-07-05,[设计](foundation/e6-position-authority-design.md)已评审):authority 表+主脚本/auto 双视图(位移指令隐式接管·仅被接管实体暂停 auto·脚本收尾统一归还);顺手修同实体 moveEntity 覆盖悬挂。待:E6b 显式 take/release 指令、E7 mount、N7 验收 |
+| E6 | **实体定位权威** | ⚠️ | ❌ | 隐龙窟门口/试炼窟芦苇 | E6a 落地(2026-07-05,[设计](foundation/e6-position-authority-design.md)已评审):authority 表+主脚本/auto 双视图(位移指令隐式接管·仅被接管实体暂停 auto·脚本收尾统一归还);顺手修同实体 moveEntity 覆盖悬挂。已含 E6b 显式指令(takeEntity/releaseEntity,2026-07-05:schema+runner+双视图语义+表单+手册);待:E7 mount、N7 验收 |
 | E7 | 载具/挂载 | ❌ | ❌ | 试炼窟芦苇漂(共乘)/坐船/骑驴 | 父动子随的变换继承([D20](decisions.md) 契约);依赖 E6 |
 
 ### 角色(Character)— 7 格

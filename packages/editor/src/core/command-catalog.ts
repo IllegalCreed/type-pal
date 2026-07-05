@@ -64,6 +64,9 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
   { kind: 'endBattle', icon: '🛑', name: '终止战斗', group: '战斗/商店', params: [['result', 'terminate/won/lost']], desc: '脚本裁决战斗结果(林天南撑 7 回合)。', origin: '0x89' },
   { kind: 'openShop', icon: '🏪', name: '商店', group: '战斗/商店', params: [['shop', '商店号'], ['mode', 'buy/sell']], desc: '开买/卖界面。', origin: '0x32 系' },
   { kind: 'confirm', icon: '❓', name: '是/否框', group: '战斗/商店', params: [['onNo', '选「否」的指令']], desc: '二择;「是」继续往下。', origin: '0x0A' },
+  // 定位权威(E6b)
+  { kind: 'takeEntity', icon: '🔒', name: '接管实体', group: '控制流', params: [['entity', '实体 id']], desc: '显式接管实体定位权威:其 auto 巡逻暂停,位置归本脚本控制(位移指令会隐式接管,此指令用于「先锁再演」的精细控制)。', origin: 'E6 新增' },
+  { kind: 'releaseEntity', icon: '🔓', name: '归还实体', group: '控制流', params: [['entity', '实体 id(缺省=全部)']], desc: '演出中途归还实体(恢复 auto 巡逻);脚本结束会自动归还全部,不写也不泄漏。', origin: 'E6 新增' },
   // 控制流
   { kind: 'branch', icon: '🔀', name: '条件分支', group: '控制流', params: [['cond', 'flag/var/hasItem/chance/all/any/not…'], ['then', '成立指令'], ['else', '不成立指令']], desc: '结构化条件;可嵌套。', origin: 'jump-on-X 系折叠' },
   { kind: 'setEntityAuto', icon: '🔁', name: '换自动脚本', group: '控制流', params: [['entity', '实体 id'], ['stages', '新段(空=停)']], desc: '运行时切实体巡逻行为。', origin: '0x24' },

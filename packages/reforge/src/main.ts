@@ -591,6 +591,14 @@ async function main(): Promise<void> {
     setBattleField: (id) => {
       world.script!.vars['sys:battleField'] = id
     },
+    // E6b 显式定位权威(手工演出精细控制;隐式接管见 scriptHost 位移视图)
+    takeEntity: (id) => {
+      takeByScript(id)
+    },
+    releaseEntity: (id) => {
+      if (id === undefined) authority.clear()
+      else authority.delete(id)
+    },
     moveEntity: (id, to, speed) =>
       new Promise((resolve) => {
         const e = scene.entities.find((x) => x.id === id)
@@ -929,6 +937,12 @@ async function main(): Promise<void> {
         return
       }
       return host.chaseStep(id, range, speed, floating)
+    },
+    takeEntity: (id) => {
+      host.report(`auto 脚本不可接管实体(${id});takeEntity 仅主脚本可用`)
+    },
+    releaseEntity: () => {
+      host.report('auto 脚本不可归还权威;releaseEntity 仅主脚本可用')
     },
   }
 

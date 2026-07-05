@@ -376,6 +376,8 @@ export class Playback {
     playMusic: (id) => this.log(`🎵 音乐 ${id}`),
     setBattleMusic: (id) => this.log(`🎵 战斗音乐 ${id}`),
     setBattleField: (id) => this.log(`🗺 战场 ${id}`),
+    takeEntity: (id) => this.log(`🔒 接管 ${id}`),
+    releaseEntity: (id) => this.log(`🔓 归还 ${id ?? '(全部)'}`),
     moveEntity: (id, to, speed) =>
       new Promise<void>((resolve) => {
         this.moves.push({ who: id, to, stepMs: SPEED_MS[speed] ?? 130, acc: 0, resolve })

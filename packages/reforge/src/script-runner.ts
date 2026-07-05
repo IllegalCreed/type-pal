@@ -53,6 +53,9 @@ export interface ScriptHost {
   playMusic(musicId: number): void
   setBattleMusic(musicId: number): void
   setBattleField(fieldId: number): void
+  /** E6b 显式定位权威:接管/归还(缺省全部)。 */
+  takeEntity(entityId: string): void
+  releaseEntity(entityId?: string): void
   // ── M3b 走位 / 演出(阻塞项返回 Promise,须响应 signal)──
   moveEntity(entity: string, to: GridPos, speed: WalkSpeed): Promise<void>
   stepEntity(entity: string, dir: Facing): void
@@ -256,6 +259,10 @@ export class ScriptRunner {
         return h.setBattleMusic(cmd.musicId)
       case 'setBattleField':
         return h.setBattleField(cmd.fieldId)
+      case 'takeEntity':
+        return h.takeEntity(cmd.entity)
+      case 'releaseEntity':
+        return h.releaseEntity(cmd.entity)
       case 'branch':
         return evalCondition(cmd.cond, this.world, h.query, this.random)
           ? this.run(cmd.then, [...path, 'then'])

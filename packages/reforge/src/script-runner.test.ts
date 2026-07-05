@@ -36,6 +36,8 @@ function fakeHost(calls: string[]): ScriptHost {
     playMusic: log('playMusic'),
     setBattleMusic: log('setBattleMusic'),
     setBattleField: log('setBattleField'),
+    takeEntity: log('takeEntity'),
+    releaseEntity: log('releaseEntity'),
     moveEntity: alog('moveEntity'),
     stepEntity: log('stepEntity'),
     animEntity: log('animEntity'),
@@ -301,4 +303,21 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
     await r.run(body)
     expect(calls).toEqual(['playSound(1)'])
   })
+})
+
+test('E6b takeEntity/releaseEntity 派发到 host', async () => {
+  const calls: string[] = []
+  const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
+  await r.runStages('t', [
+    {
+      body: [
+        { kind: 'takeEntity', entity: 'e1' },
+        { kind: 'releaseEntity', entity: 'e1' },
+        { kind: 'releaseEntity' },
+      ],
+    },
+  ])
+  expect(calls).toContain('takeEntity("e1")')
+  expect(calls).toContain('releaseEntity("e1")')
+  expect(calls).toContain('releaseEntity()')
 })

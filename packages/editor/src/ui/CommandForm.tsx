@@ -425,6 +425,35 @@ export function CommandForm(props: {
         </>
       )
     }
+    case 'takeEntity':
+      return (
+        <Row label="接管实体">
+          <EntitySel value={cmd.entity} scene={scene} onChange={(id) => set({ entity: id })} />
+        </Row>
+      )
+    case 'releaseEntity':
+      return (
+        <Row label="归还">
+          <select
+            className="in"
+            value={cmd.entity ?? ''}
+            onChange={(e) =>
+              onChange(
+                e.target.value
+                  ? { kind: 'releaseEntity', entity: e.target.value }
+                  : { kind: 'releaseEntity' },
+              )
+            }
+          >
+            <option value="">(全部)</option>
+            {scene.entities.map((en) => (
+              <option key={en.id} value={en.id}>
+                {en.id}
+              </option>
+            ))}
+          </select>
+        </Row>
+      )
     case 'playSound':
       return (
         <Row label="音效 id">
