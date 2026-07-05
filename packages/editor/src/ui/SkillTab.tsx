@@ -10,6 +10,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { UpdateSkillCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { FireEffectPreview } from './FireEffectPreview.js'
+import { SummonPreview } from './SummonPreview.js'
 
 const TARGETS: { v: SkillData['target']; label: string }[] = [
   { v: 'oneEnemy', label: '单敌' },
@@ -341,7 +342,19 @@ export function SkillTab(props: {
                   <label>震屏帧 <N v={skill.animation.shake} on={(n) => setAnim({ shake: n })} ph="0" /></label>
                   <label>音效号 <N v={skill.animation.sound} on={(n) => setAnim({ sound: n })} ph="(无)" /></label>
                 </div>
-                <FireEffectPreview assetBase={assetBase} anim={skill.animation} />
+                <div className="sk-previews">
+                  {(() => {
+                    const sm = skill.effects.find((e) => e.kind === 'summon')
+                    return sm?.kind === 'summon' ? (
+                      <SummonPreview
+                        assetBase={assetBase}
+                        godId={sm.godId}
+                        speed={sm.speed}
+                      />
+                    ) : null
+                  })()}
+                  <FireEffectPreview assetBase={assetBase} anim={skill.animation} />
+                </div>
               </div>
             </div>
           </div>

@@ -52,7 +52,7 @@ export type SkillEffect =
   | { kind: 'instantKill' } // 0x60 即死(灵葫咒)
   | { kind: 'steal'; rate: number } // 0x6A 偷金钱/道具(飞龙探云手)
   | { kind: 'collectTreasure' } // 0x33 收集敌方宝物(灵葫咒二次)
-  | { kind: 'summon'; godId: number } // type=summon 召唤
+  | { kind: 'summon'; godId: number; speed?: number } // type=summon 召唤;speed=神将现身段帧速(召唤 magic 自己的 wSpeed;animation 整段 = 二次法术的动画参数,sdlpal fight.c:3098 wEffect 指向二次法术 magic 号)
   | { kind: 'trance'; sprite: number } // type=trance 変身:换战斗精灵(梦蛇);属性提升另走 buffStat
 
 /** 招式动画(presentation,与 gameplay 解耦)。播放参数 = 原版 MAGIC 表考证(M4d-2b)。 */

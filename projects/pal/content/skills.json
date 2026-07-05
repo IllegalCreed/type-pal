@@ -2570,7 +2570,8 @@
       "effects": [
         {
           "kind": "summon",
-          "godId": 4
+          "godId": 4,
+          "speed": 0
         },
         {
           "kind": "damage",
@@ -2579,15 +2580,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 72,
-        "placement": "normal",
-        "xOffset": -16,
-        "yOffset": 16,
+        "effectSprite": 44,
+        "placement": "attackField",
+        "xOffset": 0,
+        "yOffset": 0,
         "speed": 0,
-        "fireDelay": 2,
-        "effectTimes": 65535,
+        "fireDelay": 0,
+        "effectTimes": 2,
         "shake": 0,
-        "sound": 349
+        "sound": 103
       }
     },
     {
@@ -2602,7 +2603,8 @@
       "effects": [
         {
           "kind": "summon",
-          "godId": 6
+          "godId": 6,
+          "speed": 1
         },
         {
           "kind": "damage",
@@ -2611,15 +2613,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 77,
-        "placement": "normal",
+        "effectSprite": 46,
+        "placement": "attackWhole",
         "xOffset": 0,
-        "yOffset": 10,
-        "speed": 1,
-        "fireDelay": 1,
+        "yOffset": 40,
+        "speed": 0,
+        "fireDelay": 0,
         "effectTimes": 0,
         "shake": 0,
-        "sound": 322
+        "sound": 107
       }
     },
     {
@@ -2634,7 +2636,8 @@
       "effects": [
         {
           "kind": "summon",
-          "godId": 2
+          "godId": 2,
+          "speed": 0
         },
         {
           "kind": "damage",
@@ -2643,15 +2646,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 23,
-        "placement": "normal",
+        "effectSprite": 15,
+        "placement": "attackField",
         "xOffset": 0,
-        "yOffset": 32,
-        "speed": 0,
-        "fireDelay": 2,
-        "effectTimes": 5,
+        "yOffset": 0,
+        "speed": -1,
+        "fireDelay": 8,
+        "effectTimes": 4,
         "shake": 0,
-        "sound": 336
+        "sound": 338
       }
     },
     {
@@ -2666,7 +2669,8 @@
       "effects": [
         {
           "kind": "summon",
-          "godId": 3
+          "godId": 3,
+          "speed": 0
         },
         {
           "kind": "damage",
@@ -2675,15 +2679,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 26,
-        "placement": "normal",
-        "xOffset": -28,
-        "yOffset": 13,
-        "speed": 0,
-        "fireDelay": 4,
+        "effectSprite": 17,
+        "placement": "attackWhole",
+        "xOffset": -10,
+        "yOffset": 42,
+        "speed": 2,
+        "fireDelay": 0,
         "effectTimes": 0,
-        "shake": 0,
-        "sound": 329
+        "shake": 16,
+        "sound": 121
       }
     },
     {
@@ -2698,7 +2702,8 @@
       "effects": [
         {
           "kind": "summon",
-          "godId": 1
+          "godId": 1,
+          "speed": 0
         },
         {
           "kind": "damage",
@@ -2707,15 +2712,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 20,
-        "placement": "normal",
-        "xOffset": 8,
-        "yOffset": -5,
+        "effectSprite": 14,
+        "placement": "attackWhole",
+        "xOffset": 27,
+        "yOffset": 60,
         "speed": 0,
-        "fireDelay": 13,
+        "fireDelay": 0,
         "effectTimes": 0,
         "shake": 0,
-        "sound": 304
+        "sound": 0
       }
     },
     {
@@ -2730,7 +2735,8 @@
       "effects": [
         {
           "kind": "summon",
-          "godId": 0
+          "godId": 0,
+          "speed": 2
         },
         {
           "kind": "damage",
@@ -2739,15 +2745,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 18,
-        "placement": "normal",
-        "xOffset": -8,
-        "yOffset": 22,
-        "speed": 2,
-        "fireDelay": 1,
-        "effectTimes": 65534,
+        "effectSprite": 13,
+        "placement": "attackWhole",
+        "xOffset": 0,
+        "yOffset": 46,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
         "shake": 0,
-        "sound": 303
+        "sound": 0
       }
     },
     {
@@ -2762,7 +2768,8 @@
       "effects": [
         {
           "kind": "summon",
-          "godId": 7
+          "godId": 7,
+          "speed": 4
         },
         {
           "kind": "damage",
@@ -2771,15 +2778,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 89,
-        "placement": "normal",
+        "effectSprite": 52,
+        "placement": "attackField",
         "xOffset": 0,
         "yOffset": 0,
-        "speed": 4,
-        "fireDelay": 1,
-        "effectTimes": 0,
+        "speed": 3,
+        "fireDelay": 0,
+        "effectTimes": 2,
         "shake": 0,
-        "sound": 343
+        "sound": 123
       }
     },
     {
@@ -2794,7 +2801,8 @@
       "effects": [
         {
           "kind": "summon",
-          "godId": 5
+          "godId": 5,
+          "speed": 1
         },
         {
           "kind": "damage",
@@ -2803,15 +2811,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 61,
-        "placement": "normal",
+        "effectSprite": 34,
+        "placement": "attackField",
         "xOffset": 0,
-        "yOffset": 18,
-        "speed": 1,
-        "fireDelay": 2,
+        "yOffset": 16,
+        "speed": 2,
+        "fireDelay": 0,
         "effectTimes": 0,
         "shake": 0,
-        "sound": 301
+        "sound": 176
       }
     },
     {
@@ -2826,7 +2834,8 @@
       "effects": [
         {
           "kind": "summon",
-          "godId": 8
+          "godId": 8,
+          "speed": 0
         },
         {
           "kind": "damage",
@@ -2835,15 +2844,15 @@
         }
       ],
       "animation": {
-        "effectSprite": 17,
-        "placement": "normal",
-        "xOffset": 0,
-        "yOffset": 0,
-        "speed": 0,
-        "fireDelay": 1,
-        "effectTimes": 5,
+        "effectSprite": 12,
+        "placement": "attackAll",
+        "xOffset": -2,
+        "yOffset": -10,
+        "speed": 1,
+        "fireDelay": 0,
+        "effectTimes": 0,
         "shake": 0,
-        "sound": 302
+        "sound": 117
       }
     }
   ],

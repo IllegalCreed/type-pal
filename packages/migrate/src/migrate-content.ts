@@ -487,10 +487,13 @@ export function mapSkills(
         usableOutsideBattle: false,
         target: 'allEnemies',
         effects: [
-          { kind: 'summon', godId: m.special ?? 0 },
+          // speed = 神将现身段帧速(召唤自己的 wSpeed;fight.c:3170)
+          { kind: 'summon', godId: m.special ?? 0, speed: m.speed },
           { kind: 'damage', power: m.baseDamage, elemental: m.elemental },
         ],
-        animation: mapAnimation(m),
+        // ⚠ 召唤的 wEffect ≠ FIRE chunk:是**二次法术的 magic 表号**(fight.c:3098-3101 查
+        // OBJECT.magic.wMagicNumber === wEffect → 播那条法术完整动画)。animation 整段取二次法术。
+        animation: mapAnimation(magicById.get(m.effect) ?? m),
       })
       continue
     }

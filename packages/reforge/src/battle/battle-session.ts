@@ -645,7 +645,8 @@ export class BattleSession {
           ? {
               summon: {
                 frames: summonSprite.frames.length,
-                frameTimeMs: (fx.speed + 5) * 10,
+                // 神将段帧速 = 召唤 magic 自己的 wSpeed(effects.summon.speed);fx.speed 是二次法术的
+                frameTimeMs: (((summonEff?.kind === 'summon' ? summonEff.speed : undefined) ?? 0) + 5) * 10,
                 // 一阶段真值 posSummon = (240+xOffset, 165+yOffset) 为底锚;overlay 左上 blit → 减帧宽高
                 x: 240 + fx.xOffset - Math.floor((summonSprite.frames[0]?.width ?? 0) / 2),
                 y: 165 + fx.yOffset - (summonSprite.frames[0]?.height ?? 0),

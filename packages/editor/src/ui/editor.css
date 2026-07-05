@@ -1953,3 +1953,11 @@ body {
 .cat-params code {
   color: var(--dim);
 }
+
+/* ── 召唤双预览并排 ── */
+.sk-previews {
+  display: flex;
+  gap: 10px;
+  flex: none;
+  align-items: flex-start;
+}
