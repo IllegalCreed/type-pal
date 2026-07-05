@@ -24,11 +24,11 @@
 | 5 | AVI 播放 | ❌ 未实现 | — | N/A（过场未接） |
 | 6 | RNG 播放 | ❌ 未实现 | — | N/A（过场未接） |
 | 7 | FBP/结局 | ❌ 未实现 | — | N/A（结局未接） |
-| 8 | 场景加载 | ⚠️ 部分 | 高 | spriteCache/paletteCache 无界 + 无 onEvict 联动（高） |
+| 8 | 场景加载 | ⚠️ 部分 | 中 | ~~sprite 无界~~ G8.2 已修(LRU96+protect,2026-07-06)；余 G8.4 接缝（高，dense 外景才触发）、G8.5 改方针看护 |
 | 9 | 游戏状态 | ✅ 架构免疫 | 低 | —（per-role 已解耦） |
-| 10 | 存档 | ⚠️ 部分 | 中 | 读档无运行时归一化（中） |
+| 10 | 存档 | ✅ 主体已修 | 低 | G10.1 已修(normalizePayload：版本门+结构默认,2026-07-06) |
 
-**一句话**：reforge 输入/游戏状态/音频守卫做得扎实；但 **主循环无 accumulator、SFX 去重缺、场景缓存不完整、过场三件套（AVI/RNG/FBP）全无**——一旦接剧情/多场景/战斗全系列，必撞一阶段修过的坑。
+**一句话**：reforge 输入/游戏状态/音频守卫做得扎实；但 **主循环无 accumulator、SFX 去重缺、~~场景缓存不完整~~（G8.2/G10.1 已修 2026-07-06）、过场三件套（AVI/RNG/FBP）全无**——一旦接剧情/多场景/战斗全系列，必撞一阶段修过的坑。
 
 ---
 
@@ -290,7 +290,7 @@ player->lastSFX = iSoundNum;
 
 | 缺口 | 等级 | 分类 | 详情 |
 |---|---|---|---|
-| **G6.1 RNG 全缺** | **中** | A | trademark（rngplay 6）、坠落视频、酒剑仙过场全无。行动：移植一阶段 `rng-player.ts`（in-flight Promise 缓存 + 震屏推进 + 跳过结清）。**必带 in-flight Promise 缓存**（O(N²) 黑屏陷阱）和**震屏计数推进**（漏接 0x35 震屏泄漏进下一场景）。 |
+| **G6.1 RNG 全缺** | **中** | A | trademark（rngplay 6）、坠落视频、酒剑仙过场全无。~~行动：移植一阶段 `rng-player.ts`~~ **方针改向（2026-07-06 作者定调）**：不移植「索引帧+活调色板」形态——迁移期按各段静态解析的调色板**烘焙成真彩序列帧资产**（12 chunk / 1464 帧；编码「全帧 vs 脏矩形补丁」由 meta.json 抽象、立项时实测体量再定），升格为引擎第一类资产（编辑器可编辑），脚本以 `playAnim(animId, from?, to?, speedMs?)` 指令引用；AVI→mp4 同理单指令 `playVideo(videoId)`。一阶段两教训对烘焙版播放器依旧适用：**in-flight Promise 缓存**（O(N²) 黑屏陷阱）+ **震屏计数推进**（漏接 0x35 震屏泄漏进下一场景）。D22：pal 烘焙属新增**增量**迁移步骤（不碰已补 content JSON），落地须作者点头单跑该步骤；schema/播放器/编辑器页可先在 demo 项目手工样例走通。 |
 | G6.2 in-flight Promise 缓存（待移植） | 高 | B | 见上。 |
 | G6.3 震屏计数推进（待移植） | 中 | A+B | 见上。 |
 
@@ -356,8 +356,8 @@ player->lastSFX = iSoundNum;
 | **G8.1 mapCache 无 onEvict 联动** | **高** | B+C | `main.ts:222` 只删 mapCache，不动 spriteByNum。当前 spriteByNum 设计为跨场景累积（无 evict），但若将来加 sprite LRU，onEvict 联动是必备模式（一阶段 `bootstrap.ts:624-625` 教训：联动不一致 → 黑屏）。行动：sprite 加 LRU 时必须 onEvict 同步清 mapCache 的 tile 引用，反之亦然。**接多场景前照搬三件套**。 |
 | **G8.2 spriteByNum 无界** | ~~中~~ ✅ 已修(2026-07-06) | B | switchScene 切场景时 recency touch 本场景所需 → 超 cap 96 淘汰非 needed 精灵(protect 本场景+队长,宁超 cap)。唯一活查询是实体渲染(needed 全覆盖);playerSprite/leaderSpriteOverride 自持引用不受淘汰影响。无需 onEvict 联动:mapCache 与 spriteByNum 无查询交叉(一阶段黑屏坑是 SceneAssets↔tileImages 同键互推,此处结构不同);若未来出现同键复合缓存,联动三件套照搬(G8.1 红线保留)。 |
 | G8.3 paletteCache 无 LRU | 低 | B | `main.ts:226` 无界。调色板数有限（≤256），实际可接受。低优。 |
-| **G8.4 PAL_MakeScene 不清屏（W1 漏黑）** | **高** | A | sdlpal `scene.c:471-481` 不清屏，靠上一帧残留填缝。reforge `render.ts`（Canvas2D drawImage）每帧 clear → 接缝漏黑（harvest W1 已标 ❌ 未免疫）。行动：见 harvest W1（离屏整图 alpha 合成 / 接缝预填充到 baked tile）。**本审计单元 8 范围内确认此坑仍在**。 |
-| G8.5 setPalette async（W7） | 高 | A | `main.ts:227 getPalette` async。同 tick `FadeOut→setPalette→SetRNG→PlayRNG` 会读旧 palette（harvest W7）。行动：bootstrap 预载 PAT 全块成同步 Map。 |
+| **G8.4 PAL_MakeScene 不清屏（W1 漏黑）** | **高**（dense 外景才触发） | A | sdlpal `scene.c:471-481` 不清屏，靠上一帧残留填缝。reforge `render.ts`（Canvas2D drawImage）每帧 clear → 接缝漏黑（harvest W1 已标 ❌ 未免疫）。**触发面实测（2026-07-06）**：入口室内场景截图无可见缝——坑仍在但今日不显形，归多场景/外景里程碑。**方向定调**：地图装载期把基底两层（render.ts:158-173）离屏整图合成一次 + 一次性「未覆盖像素邻填」修缝（一阶段 repairTilemapSeams 的装载期版；Canvas2D 无 coverage 概念，runtime 版不可照搬），帧循环只 blit 合成图（白得屏外剔除+性能）；cover-tile/精灵 baseY 交织（render.ts:182-194）保持逐瓦片。整图 RGBA ≈16MB/大图，composite 须随 mapCache 淘汰且 cap 收窄。 |
+| G8.5 setPalette async（W7） | ~~高~~ 方针看护（2026-07-06 复核收窄） | A | `main.ts:230 getPalette` async。原判：同 tick `FadeOut→setPalette→SetRNG→PlayRNG` 读旧 palette（harvest W7）。**复核：今日零触发面**——pal 项目唯一调色板 `palettes/0.json`、脚本命令集无 setPalette 类命令、fade=合成幕布（main.ts:1565 rgba），「运行时调色板切换」这个前提在 reforge 不存在。处置改方针：RNG/过场走真彩烘焙（见 G6.1 改向），运行时**永不引入同帧调色板切换**；夜调色板若将来落地走场景装载 await 路径，天然无竞态。~~行动：bootstrap 预载 PAT 同步 Map~~（作废——那是一阶段「索引帧+活调色板」形态的修法）。 |
 
 ---
 
