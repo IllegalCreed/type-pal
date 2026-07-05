@@ -18,6 +18,8 @@ export interface RenderSceneFrameArgs {
   sprites: readonly SpriteDraw[]
   /** 物理 canvas / 逻辑视口 倍率(整数倍 + pixelated 保点阵锐利)。 */
   worldScale: number
+  /** 渲染层开关(编辑器;缺省全画)。 */
+  layers?: import('./render.js').RenderLayerOpts
 }
 
 /**
@@ -29,11 +31,11 @@ export function renderSceneFrame(
   renderer: Renderer,
   args: RenderSceneFrameArgs,
 ): void {
-  const { map, room, camera, sprites, worldScale } = args
+  const { map, room, camera, sprites, worldScale, layers } = args
   renderer.clear()
   ctx.save()
   ctx.scale(worldScale, worldScale)
   ctx.imageSmoothingEnabled = false // 最近邻,点阵/瓦片整数倍放大不糊
-  renderer.renderScene(map, room, camera, sprites)
+  renderer.renderScene(map, room, camera, sprites, layers)
   ctx.restore()
 }

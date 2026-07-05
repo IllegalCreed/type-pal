@@ -9,9 +9,9 @@
 
 // 渲染器(D10:Canvas2D blitter + Y 深度遮挡)
 import { bakeFrame, Canvas2DRenderer } from './render.js'
-import type { Camera, CellRect, Renderer, SpriteDraw } from './render.js'
+import type { Camera, CellRect, Renderer, RenderLayerOpts, SpriteDraw } from './render.js'
 export { bakeFrame, Canvas2DRenderer }
-export type { Camera, CellRect, Renderer, SpriteDraw }
+export type { Camera, CellRect, Renderer, RenderLayerOpts, SpriteDraw }
 
 // 资产加载(tilemap/palette/tileset/sprite + gzip 解压)
 import {
@@ -34,8 +34,8 @@ export { assembleProject, loadAllScenes, loadProject, loadSceneDef }
 export type { ContentJsons, LoadedProject }
 
 // 碰撞判定(编辑器画禁入格复用,与游戏同一套 → 不漂移)
-import { isBlockedAt } from './collision.js'
-export { isBlockedAt }
+import { buildIsBlocked, isBlockedAt } from './collision.js'
+export { buildIsBlocked, isBlockedAt }
 
 // 「画一帧场景」(editor 复用同一绘制函数画底图)
 import { renderSceneFrame } from './render-scene.js'

@@ -11,6 +11,7 @@ import type { ActorDef, SceneDef, SpriteDef } from '@type-pal/content'
 import { gridToPixel, pixelToGrid, resolveEntitySpriteId, spriteScreenY } from '@type-pal/content'
 import type { AssetBase, LoadedSprite, SpriteDraw } from '@type-pal/reforge'
 import {
+  buildIsBlocked,
   Canvas2DRenderer,
   idleFrameIndex,
   loadPalette,
@@ -58,6 +59,8 @@ export function SceneCanvas(props: {
   assetBase: AssetBase
   selectedId: string | null
   tool: Tool
+  /** 图层显隐(布置模式左栏开关):base 地板 / cover 高物 / entities 实体 / grid 网格 / blocked 禁入格。 */
+  layers: { base: boolean; cover: boolean; entities: boolean; grid: boolean; blocked: boolean }
   onSelect: (id: string | null) => void
   onMoveEntity: (id: string, cell: { col: number; row: number }) => void
   onAddAt: (cell: { col: number; row: number }) => void
@@ -70,6 +73,7 @@ export function SceneCanvas(props: {
     assetBase,
     selectedId,
     tool,
+    layers,
     onSelect,
     onMoveEntity,
     onAddAt,
@@ -225,8 +229,8 @@ export function SceneCanvas(props: {
         anchorY: pf.height,
       })
     }
-    // 各实体(站立帧 = layout × facing)+ 记命中盒
-    for (const e of scene.entities) {
+    // 各实体(站立帧 = layout × facing)+ 记命中盒;实体图层关 → 不画不可点
+    for (const e of layers.entities ? scene.entities : []) {
       if (e.hidden) continue // 初始隐藏(M2a):编辑器画布同引擎不渲染(后续可加"显隐透视"开关)
       const def = entitySpriteDef(e)
       const sp = def ? spritesByNum.get(def.spriteNum) : undefined
@@ -253,7 +257,56 @@ export function SceneCanvas(props: {
     }
     hitsRef.current = hits
 
-    renderSceneFrame(ctx, renderer, { map, room, camera, sprites: draws, worldScale: zoom })
+    renderSceneFrame(ctx, renderer, {
+      map,
+      room,
+      camera,
+      sprites: draws,
+      worldScale: zoom,
+      layers: { skipBase: !layers.base, skipCover: !layers.cover },
+    })
+
+    // 叠加层:禁入格(碰撞数据,与引擎同一套 buildIsBlocked)+ 菱形网格。世界坐标系画(scale+平移)。
+    if (layers.blocked || layers.grid) {
+      ctx.save()
+      ctx.scale(zoom, zoom)
+      ctx.translate(-panX, -panY)
+      const diamond = (path: Path2D, cx: number, cy: number): void => {
+        path.moveTo(cx - 16, cy)
+        path.lineTo(cx, cy - 8)
+        path.lineTo(cx + 16, cy)
+        path.lineTo(cx, cy + 8)
+        path.closePath()
+      }
+      // ⚠ room 是矩形 cell 坐标;站立格是菱形轴(gridToPixel 参数化)。两者参数化不同 —— 在
+      // **像素域**遍历:菱形格中心 = (16a, 8b) 且 a+b 为偶(pixelToGrid 精确往返的格点)。
+      const px0 = room.col * TILE_W - TILE_W
+      const px1 = (room.col + room.cols) * TILE_W + TILE_W
+      const py0 = room.row * TILE_H
+      const py1 = (room.row + room.rows) * TILE_H + TILE_H
+      const isBlocked = layers.blocked ? buildIsBlocked(map) : null
+      const blockedPath = new Path2D()
+      const gridPath = new Path2D()
+      for (let b = Math.ceil(py0 / 8); b * 8 <= py1; b++) {
+        for (let a = Math.ceil(px0 / 16); a * 16 <= px1; a++) {
+          if (((a + b) & 1) !== 0) continue // 非格中心
+          const cx = a * 16
+          const cy = b * 8
+          if (layers.grid) diamond(gridPath, cx, cy)
+          if (isBlocked?.(cx, cy)) diamond(blockedPath, cx, cy)
+        }
+      }
+      if (layers.blocked) {
+        ctx.fillStyle = 'rgba(255, 70, 70, 0.3)'
+        ctx.fill(blockedPath)
+      }
+      if (layers.grid) {
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)'
+        ctx.lineWidth = 1 / zoom // 屏幕恒 1px
+        ctx.stroke(gridPath)
+      }
+      ctx.restore()
+    }
 
     const sel = hits.find((h) => h.id === selectedId)
     if (sel) {
@@ -265,7 +318,7 @@ export function SceneCanvas(props: {
       ctx.restore()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, scene, selectedId, drag, actorsById, leaderSpriteId, view, size])
+  }, [status, scene, selectedId, drag, actorsById, leaderSpriteId, view, size, layers])
 
   // —— 坐标 + 命中 ——（画布像素 = CSS 像素 1:1;world = screen/zoom + pan）
   const screenToCell = (clientX: number, clientY: number): { col: number; row: number } => {

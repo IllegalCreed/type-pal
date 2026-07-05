@@ -23,6 +23,6 @@ test('renderSceneFrame:clear → save → scale(worldScale) → renderScene(args
   const sprites: never[] = []
   renderSceneFrame(ctx, renderer, { map, room, camera, sprites, worldScale: 4 })
   expect(calls).toEqual(['clear', 'save', 'scale:4,4', 'renderScene', 'restore'])
-  expect(renderScene).toHaveBeenCalledWith(map, room, camera, sprites)
+  expect(renderScene).toHaveBeenCalledWith(map, room, camera, sprites, undefined) // layers 缺省透传
   expect(smoothing).toBe(false)
 })

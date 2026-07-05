@@ -52,6 +52,14 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
   const [selected, setSelected] = useState<string>(SCENE_NODE)
   const [tool, setTool] = useState<Tool>('select')
   const [mode, setMode] = useState<Mode>('place')
+  // 画布图层显隐(布置模式:左栏 地板/高物/实体 + 工具栏 网格/禁入格)
+  const [canvasLayers, setCanvasLayers] = useState({
+    base: true,
+    cover: true,
+    entities: true,
+    grid: false,
+    blocked: false,
+  })
   const [placeSceneId, setPlaceSceneId] = useState<string>(state.manifest.entryScene)
   const dirHandleRef = useRef<FileSystemDirectoryHandle | null>(null)
   const [saveErr, setSaveErr] = useState('')
@@ -323,13 +331,30 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
               <div className="layers">
                 <div className="t">图层 / 显隐</div>
                 <label className="lrow">
-                  <input type="checkbox" defaultChecked /> 地板
+                  <input
+                    type="checkbox"
+                    checked={canvasLayers.base}
+                    onChange={(e) => setCanvasLayers({ ...canvasLayers, base: e.target.checked })}
+                  />{' '}
+                  地板
                 </label>
                 <label className="lrow">
-                  <input type="checkbox" defaultChecked /> 高物(墙·家具)
+                  <input
+                    type="checkbox"
+                    checked={canvasLayers.cover}
+                    onChange={(e) => setCanvasLayers({ ...canvasLayers, cover: e.target.checked })}
+                  />{' '}
+                  高物(墙·家具)
                 </label>
                 <label className="lrow">
-                  <input type="checkbox" defaultChecked /> 实体
+                  <input
+                    type="checkbox"
+                    checked={canvasLayers.entities}
+                    onChange={(e) =>
+                      setCanvasLayers({ ...canvasLayers, entities: e.target.checked })
+                    }
+                  />{' '}
+                  实体
                 </label>
               </div>
             </div>
@@ -360,10 +385,22 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                 </button>
                 <span className="sep" />
                 <label className="vtog on">
-                  <input type="checkbox" defaultChecked /> 网格
+                  <input
+                    type="checkbox"
+                    checked={canvasLayers.grid}
+                    onChange={(e) => setCanvasLayers({ ...canvasLayers, grid: e.target.checked })}
+                  />{' '}
+                  网格
                 </label>
                 <label className="vtog">
-                  <input type="checkbox" /> 禁入
+                  <input
+                    type="checkbox"
+                    checked={canvasLayers.blocked}
+                    onChange={(e) =>
+                      setCanvasLayers({ ...canvasLayers, blocked: e.target.checked })
+                    }
+                  />{' '}
+                  禁入
                 </label>
                 <span className="spacer" />
                 <span style={{ color: 'var(--faint)', fontSize: 11 }}>
@@ -378,6 +415,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                 assetBase={project.assetBase}
                 selectedId={selEntity ? selected : null}
                 tool={tool}
+                layers={canvasLayers}
                 onSelect={(id) => setSelected(id ?? SCENE_NODE)}
                 onMoveEntity={moveEntity}
                 onAddAt={addAt}

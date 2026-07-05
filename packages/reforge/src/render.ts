@@ -72,10 +72,24 @@ interface DrawEntry {
   draw: () => void
 }
 
+/** 渲染层开关(编辑器图层显隐;引擎不传 = 全画)。 */
+export interface RenderLayerOpts {
+  /** 跳过基底 tile(地板)。 */
+  skipBase?: boolean
+  /** 跳过 cover-tiles(高物:墙/家具遮挡片;精灵仍画)。 */
+  skipCover?: boolean
+}
+
 export interface Renderer {
   clear(): void
   /** 一帧场景：基底两层 + 精灵/cover-tile 按 baseY 深度排序（遮挡）。 */
-  renderScene(map: Tilemap, view: CellRect, camera: Camera, sprites: readonly SpriteDraw[]): void
+  renderScene(
+    map: Tilemap,
+    view: CellRect,
+    camera: Camera,
+    sprites: readonly SpriteDraw[],
+    opts?: RenderLayerOpts,
+  ): void
   drawSprite(
     frame: RleFrame,
     worldX: number,
@@ -126,7 +140,13 @@ export class Canvas2DRenderer implements Renderer {
     this.ctx.fillRect(0, 0, canvas.width, canvas.height)
   }
 
-  renderScene(map: Tilemap, view: CellRect, camera: Camera, sprites: readonly SpriteDraw[]): void {
+  renderScene(
+    map: Tilemap,
+    view: CellRect,
+    camera: Camera,
+    sprites: readonly SpriteDraw[],
+    opts?: RenderLayerOpts,
+  ): void {
     const ox = -camera.x
     const oy = -camera.y
     const r0 = Math.max(0, view.row)
@@ -134,7 +154,8 @@ export class Canvas2DRenderer implements Renderer {
     const c0 = Math.max(0, view.col)
     const c1 = Math.min(map.width, view.col + view.cols)
 
-    // 1) 基底：layer0 全画，再 layer1 全画（present.ts:282-285）
+    // 1) 基底：layer0 全画，再 layer1 全画（present.ts:282-285）;编辑器图层开关可跳过
+    if (!opts?.skipBase)
     for (let layer = 0; layer <= 1; layer++) {
       const id = layer === 0 ? tileIdLayer0 : tileIdLayer1
       for (let r = r0; r < r1; r++) {
@@ -164,7 +185,8 @@ export class Canvas2DRenderer implements Renderer {
       const bx = Math.round(s.worldX - s.anchorX + ox)
       const by = Math.round(s.worldY - s.anchorY + 7 + oy)
       entries.push({ baseY: s.worldY + 9 + (s.baseYBias ?? 0) * 8, draw: () => this.ctx.drawImage(img, bx, by) })
-      this.addCoverTiles(entries, map, s.worldX, s.worldY, s.frame.width, s.frame.height, ox, oy)
+      if (!opts?.skipCover)
+        this.addCoverTiles(entries, map, s.worldX, s.worldY, s.frame.width, s.frame.height, ox, oy)
     }
 
     // 3) 按 baseY 升序画（同 baseY 稳定）
