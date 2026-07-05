@@ -85,7 +85,7 @@ import { buildMeta, buildPayload, captureThumbnail } from './save/ops.js'
 import { IndexedDbSaveStore, MemorySaveStore, type SaveStore } from './save/store.js'
 import type { SaveMeta, SlotId } from './save/types.js'
 import { type ScriptHost, ScriptRunner } from './script-runner.js'
-import { idleFrameIndex, loopFrameIndex, walkFrameIndex } from './sprite-anim.js'
+import { animFrameIndex, idleFrameIndex, loopFrameIndex, walkFrameIndex } from './sprite-anim.js'
 import {
   closeSystemMenu,
   openSystemMenu,
@@ -1423,7 +1423,9 @@ async function main(): Promise<void> {
           : def.layout.kind === 'loop'
             ? loopFrameIndex(def.layout, performance.now()) // E5:火把/流水自循环
             : anim !== undefined
-              ? walkFrameIndex(def.layout, e.facing ?? 'down', anim)
+              ? // 0x87/走位共用计数:directional 走步序,static 平推整条帧带(原版语义;
+                // 曾只走 walkFrameIndex → static 恒 0,原地动画 NPC 全冻结,作者报)
+                animFrameIndex(def.layout, e.facing ?? 'down', anim, sp?.frames.length ?? 1)
               : idleFrameIndex(def.layout, e.facing ?? 'down')
         : 0
       const f = def ? (sp?.frames[fi] ?? sp?.frames[0]) : undefined
