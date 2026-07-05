@@ -150,7 +150,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  overflow: hidden; /* 防内容溢出穿透 valbar(2026-07-05 作者报遮挡) */
+  overflow-y: auto; /* 极矮窗口整栏滚动兜底 —— 裁剪会吞图层区(2026-07-05 作者报遮挡) */
 }
 .pane-h {
   display: flex;
