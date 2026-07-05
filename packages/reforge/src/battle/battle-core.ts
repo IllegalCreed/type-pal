@@ -21,6 +21,7 @@ import {
   emptyBattleStatus,
   getEnemyDexterity,
   getPlayerActualDexterity,
+  isPlayerDying,
   pickAiTarget,
   tickBattleStatus,
 } from '@type-pal/content'
@@ -293,31 +294,50 @@ export function stepBattle(s: BattleState, rng: () => number): void {
       s.turn = 1
       return
     case 'selectAction': {
-      // 所有活队员都选了 → build queue,进 performAction。（headless:调用方先填 pendingActions。）
+      // 需要手选的队员都选了 → build queue,进 performAction。（headless:调用方先填 pendingActions。）
+      // 眠/定/疯/死者不出菜单(needsManualSelect false),下面统一强制普攻入队。
       const alive = alivePlayers(s)
-      if (alive.some((i) => !s.pendingActions.has(i))) return // 等填齐
+      if (alive.some((i) => needsManualSelect(s.players[i]!) && !s.pendingActions.has(i))) return
+      // 不能选招的队员强制普攻(fight.c:1504-1527):眠/定/死排 dex 0,同轮恢复/复活才真出手
+      // (perform 守卫跳未恢复者);疯魔保本体 dex(P2 落地后 perform 侧改派敌/友)。目标出手时环扫。
+      for (let i = 0; i < s.players.length; i++)
+        if (!s.pendingActions.has(i)) s.pendingActions.set(i, { kind: 'attack', targetEnemyIdx: -1 })
       // 逃跑改为行动(轮到该队员时掷骰;fight.c:4143 语义)——不再选了即逃
-      const players = alive.map((i) => ({
-        idx: i,
-        dex: getPlayerActualDexterity(s.players[i]!.baseDexterity, s.players[i]!.status.haste > 0),
-      }))
-      const enemies = aliveEnemies(s).map((i) => ({
-        idx: i,
-        dex: getEnemyDexterity(s.enemies[i]!.def.stats.level, s.enemies[i]!.def.stats.dexterity),
-        dualMove: s.enemies[i]!.def.stats.dualMove,
-      }))
+      // 队列 dex 装配(fight.c:1497-1565 classic 队列口;stat 级的 slow/dying 修正是非 classic,
+      // 不在此):动作系数 防御×5/辅助法×3/物品×3/逃÷2(合体×10 待 P3) → 濒死÷2 → ×[0.9,1.1)。
+      // 防御×5 与"fDefending 出手时才置位"成对:防御者靠排序提前,原版才显得"防得住"。
+      const players = s.players.map((p, i) => {
+        if (p.hp <= 0 || !canAct(p.status)) return { idx: i, dex: 0 }
+        let dex = getPlayerActualDexterity(p.baseDexterity, p.status.haste > 0)
+        dex = Math.trunc(dex * actionDexMult(s.pendingActions.get(i), s.skills))
+        if (isPlayerDying(p.hp, p.maxHp)) dex = Math.trunc(dex / 2)
+        return { idx: i, dex: Math.trunc(dex * (0.9 + rng() * 0.2)) }
+      })
+      const enemies = aliveEnemies(s).map((i) => {
+        const st = s.enemies[i]!.def.stats
+        const base = getEnemyDexterity(st.level, st.dexterity)
+        return {
+          idx: i,
+          dex: Math.trunc(base * (0.9 + rng() * 0.2)),
+          dualMove: st.dualMove,
+          // dualMove 第二行动独立二抽(fight.c:1485-1489)
+          ...(st.dualMove ? { dex2: Math.trunc(base * (0.9 + rng() * 0.2)) } : {}),
+        }
+      })
       s.actionQueue = buildActionQueue(players, enemies)
-      // 防御在选定行动后即时就位、贯穿整个 performAction(原版语义:防御者本回合受击减半,
-      // 不论敌人是否先手)。故此处按 pendingActions 预设,不等该队员的队列项。
-      for (const i of alive) s.players[i]!.defending = s.pendingActions.get(i)?.kind === 'defend'
+      // defending 不在此预置:原版出手时才置位(fight.c:4115,见 performPlayerAction defend 分支),
+      // 先手敌打到"选了防御但还没轮到"的队员时不减半。曾建队列预置并误标"原版语义"。
       s.phase = 'performAction'
       return
     }
     case 'performAction': {
       const item = s.actionQueue.shift()
       if (!item) {
-        // 回合末:status 衰减 + turn++,回 selectAction
-        for (const p of s.players) tickBattleStatus(p.status)
+        // 回合末:defending 全清(fight.c:1604 队列耗尽处) + status 衰减 + turn++,回 selectAction
+        for (const p of s.players) {
+          p.defending = false
+          tickBattleStatus(p.status)
+        }
         for (const e of s.enemies) if (e.hp > 0) tickBattleStatus(e.status)
         s.pendingActions.clear()
         s.turn++
@@ -352,7 +372,7 @@ export function stepBattle(s: BattleState, rng: () => number): void {
 }
 
 /** 玩家施法结算(M4b-3):对敌用敌方真实抗性(元素/毒/物抗);奶/状态用于自己(单人队;
- *  多人队友选择后补)。MP 不足空过(UI 已滤,core 兜底)。 */
+ *  多人队友选择后补)。MP 不足到不了这里(validatePlayerAction 已降级),守卫纯兜底。 */
 function applyPlayerSkill(
   s: BattleState,
   idx: number,
@@ -368,6 +388,7 @@ function applyPlayerSkill(
   }
   const mpCost = skill.cost.mp ?? 0
   if (p.mp < mpCost) {
+    // 正常不可达:MP 不足在 validatePlayerAction 已降级普攻/防御(fight.c:3316)
     s.log.push(`${p.roleId} MP 不足,${skill.name} 施放失败`)
     return
   }
@@ -440,6 +461,91 @@ function applyPlayerSkill(
   }
 }
 
+/**
+ * 该队员是否需要玩家手选指令(session 出菜单 + stepBattle 等填齐共用同一谓词)。
+ * 原版眠/定/疯/死者跳过选招(fight.c:1504-1527 直接强制普攻;uibattle 菜单也不停留)。
+ */
+export function needsManualSelect(p: BattlePlayerState): boolean {
+  return p.hp > 0 && canAct(p.status) && p.status.confused <= 0
+}
+
+/** classic 入队身法动作系数(fight.c:1529-1556):防御×5/辅助法术×3/物品×3/逃跑÷2;
+ *  普攻/攻击法术×1;合体×10 待 P3。调用方对结果 trunc(原版整数运算)。 */
+function actionDexMult(act: BattleAction | undefined, skills: Record<string, SkillData>): number {
+  switch (act?.kind) {
+    case 'defend':
+      return 5
+    case 'item':
+      return 3
+    case 'flee':
+      return 0.5
+    case 'cast': {
+      const t = skills[act.skillId]?.target
+      return t === 'oneEnemy' || t === 'allEnemies' ? 1 : 3
+    }
+    default:
+      return 1
+  }
+}
+
+/** 死目标改选:从原槽位起环扫首个活敌(fight.c:87 PAL_BattleSelectAutoTargetFrom;
+ *  其 iPrevEnemyTarget 优先项是 UI 层记忆,core 不持有,session 需要时自补)。全灭返 -1。 */
+function retargetEnemy(s: BattleState, from: number): number {
+  const n = s.enemies.length
+  const start = from >= 0 && from < n ? from : 0
+  for (let c = 0; c < n; c++) {
+    const i = (start + c) % n
+    if ((s.enemies[i]?.hp ?? 0) > 0) return i
+  }
+  return -1
+}
+
+/**
+ * 出手时刻行动验证(fight.c:3260-3506 PAL_BattlePlayerValidateAction 降级链):
+ * 选招到轮到之间战况可能已变(先手敌封咒/耗 MP、队友抢走目标)——
+ * · cast:封咒中或 MP 不足 → 攻击系(对敌)降普攻承袭目标、辅助系降防御(fight.c:3310-3349)
+ * · item:库存已空 → 降防御(fight.c:3433 UseItem 数 0;多队员同轮抢用同一件时触发)
+ * · 通用尾:对敌动作目标已死 → 环扫改选(fight.c:3500,普攻/对敌单体法术一视同仁)
+ * 返回生效行动;lastAction 按生效值记,表现层自然演降级后的动作(原版同:改写 action 本体)。
+ */
+function validatePlayerAction(s: BattleState, idx: number, act: BattleAction): BattleAction {
+  const p = s.players[idx]!
+  let a = act
+  if (a.kind === 'cast') {
+    const skill = s.skills[a.skillId]
+    if (skill && (p.status.silence > 0 || p.mp < (skill.cost.mp ?? 0))) {
+      const why = p.status.silence > 0 ? '被封咒' : 'MP 不足'
+      if (skill.target === 'oneEnemy' || skill.target === 'allEnemies') {
+        a = { kind: 'attack', targetEnemyIdx: a.targetEnemyIdx ?? -1 }
+        s.log.push(`${p.roleId} ${why},${skill.name} 降级普攻`)
+      } else {
+        a = { kind: 'defend' }
+        s.log.push(`${p.roleId} ${why},${skill.name} 降级防御`)
+      }
+    }
+  } else if (a.kind === 'item') {
+    const itemId = a.itemId
+    const slot = s.inventory.find((x) => x.itemId === itemId)
+    if (!slot || slot.count <= 0) {
+      a = { kind: 'defend' }
+      s.log.push(`${p.roleId} 的 ${itemId} 已耗尽,降级防御`)
+    }
+  }
+  if (a.kind === 'attack') {
+    if ((s.enemies[a.targetEnemyIdx]?.hp ?? 0) <= 0) {
+      const nt = retargetEnemy(s, a.targetEnemyIdx)
+      if (nt >= 0) a = { ...a, targetEnemyIdx: nt }
+    }
+  } else if (a.kind === 'cast' && s.skills[a.skillId]?.target === 'oneEnemy') {
+    const t = a.targetEnemyIdx
+    if (t === undefined || (s.enemies[t]?.hp ?? 0) <= 0) {
+      const nt = retargetEnemy(s, t ?? 0)
+      if (nt >= 0) a = { ...a, targetEnemyIdx: nt }
+    }
+  }
+  return a
+}
+
 function performPlayerAction(s: BattleState, idx: number, _rng: () => number): void {
   const p = s.players[idx]
   if (!p || p.hp <= 0) return
@@ -447,8 +553,9 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
     s.log.push(`${p.roleId} 无法行动`)
     return
   }
-  const act = s.pendingActions.get(idx)
-  if (!act) return
+  const queued = s.pendingActions.get(idx)
+  if (!queued) return
+  const act = validatePlayerAction(s, idx, queued)
   s.lastAction = {
     side: 'player',
     idx,
@@ -462,7 +569,9 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
     p.hiddenCounts[k] = (p.hiddenCounts[k] ?? 0) + n
   }
   if (act.kind === 'defend') {
-    // defending 已在 build queue 时就位(原版语义,防御贯穿整个 performAction);此处只记日志。
+    // 原版 fDefending 出手时才置位(fight.c:4115)、回合末全清(fight.c:1604):先手敌的攻击
+    // 落在置位前不减半。降级防御(封咒/MP/物品空)走同一分支,待遇与手选一致。
+    p.defending = true
     addHidden('defense', 2) // B7c:防御 → defense 池 +2(fight.c:4116,无 RNG)
     s.log.push(`${p.roleId} 防御`)
     return
@@ -520,7 +629,7 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
   }
   if (act.kind === 'attack') {
     const e = s.enemies[act.targetEnemyIdx]
-    if (!e || e.hp <= 0) return // 目标已死,空过（M4a;M4b 自动改目标）
+    if (!e || e.hp <= 0) return // 验证已环扫改选;仍无活敌 = 理论不可达(全灭已判胜),兜底空过
     // B7c:物攻 → attack 池 +1、maxHP 池 +R(2,3)(fight.c:3756-3757,序固定)
     addHidden('attack', 1)
     addHidden('maxHP', 2 + Math.floor(_rng() * 2))

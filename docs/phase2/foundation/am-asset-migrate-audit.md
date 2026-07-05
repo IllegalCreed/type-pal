@@ -535,7 +535,7 @@
 | healHp/healMp/revive | battle-core.ts 直算 | ✅ |
 | applyStatus/removeStatus/applyPoison/curePoison/permanentStatBoost/gate/triggerScript/teleport | default → log "未接" | ⚠️(陆续接,战斗期) |
 | consuming 后扣 | slot.count -= 1 | ✅ |
-| 降级 defend(GetItemAmount==0) | (查 item+slot 失败 → log+return,不降级 defend) | ⚠️ |
+| 降级 defend(GetItemAmount==0) | ✅ 已修(2026-07-05):validatePlayerAction 出手时验证,库存空 → 降防御(fight.c:3433;执行分支的查 item+slot 守卫留作兜底) | ✅ |
 | PAL_ItemUseMenu(选目标 + 8 属性面板) | (use-menu-state + use-box,见 c-menu-audit 单元 5) | ⚠️(单人 demo,见 c-menu-audit) |
 
 **结论**:reforge 范式 = **migrate 把 scriptOnUse 翻成扁平 ItemUseEffect[],reforge 直算**(不跑 AST)。当前 `healHp/healMp/revive` 命中(2/4 +1),其余效果 `applyStatus/removeStatus/applyPoison/curePoison/permanentStatBoost` 战斗期陆续接(harvest C-8 卸装备清状态同坑)。**与一阶段"跑 scriptOnUse"语义等价但实现不同** —— 一阶段效果由 opcode handler 动态决定,reforge 由 migrate 静态翻译决定;**migrate 翻译覆盖度 = reforge 物品效果覆盖度**(强耦合)。

@@ -32,6 +32,7 @@ import {
   type BattleState,
   buildAiView,
   createBattleState,
+  needsManualSelect,
   stepBattle,
 } from './battle-core.js'
 import { getEnemyBasePos, getPlayerBasePos } from './battle-positions.js'
@@ -311,11 +312,12 @@ export class BattleSession {
     this.currentFire = null
   }
 
-  /** 当前待选指令的活队员下标;全填 → undefined。 */
+  /** 当前待选指令的队员下标;全填 → undefined。眠/定/疯/死者不出菜单
+   *  (needsManualSelect 与 core 等填共用谓词;core 建队列时强制普攻兜底)。 */
   private nextSelecting(): number | undefined {
     const s = this.state
     for (let i = 0; i < s.players.length; i++) {
-      if (s.players[i]!.hp > 0 && !s.pendingActions.has(i)) return i
+      if (needsManualSelect(s.players[i]!) && !s.pendingActions.has(i)) return i
     }
     return undefined
   }

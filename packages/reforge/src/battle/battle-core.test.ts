@@ -124,24 +124,40 @@ describe('M4a headless 战斗核', () => {
     expect(s.actionQueue[0]!.isEnemy).toBe(false) // 队首 = 玩家(dex 高)
   })
 
-  test('防御:选 defend → 受击 def×2 前置(fight.c:4926-4929,非伤害减半)', () => {
+  test('防御时序:出手时才置位(fight.c:4115)——先手敌全额伤,后手敌才吃 def×2;回合末全清', () => {
+    // 敌先手(dex 999):防御尚未执行,def 60 全额;str = 40+(20+6)×6 = 196
     const s = createBattleState({
       players: [player('li', { hp: 400, maxHp: 400, defense: 60 })],
       enemies: [mkEnemy('e', { attackStrength: 40, dexterity: 999, level: 20 })],
     })
-    // 敌 dex 高先手;str = 40+(20+6)×6 = 196;防御 → def 60×2 = 120;物抗恒 2;rng0 噪声 0
-    const expected = Math.max(1, calcPhysicalAttackDamage(196, 120, 2))
+    const full = Math.max(1, calcPhysicalAttackDamage(196, 60, 2))
     stepBattle(s, rng0)
     s.pendingActions.set(0, { kind: 'defend' })
     let guard = 0
     while (s.phase !== 'selectAction' || s.turn === 1) {
-      if (s.turn > 1) break
       stepBattle(s, rng0)
       if (++guard > 50) break
     }
-    expect(400 - s.players[0]!.hp).toBe(expected)
+    expect(400 - s.players[0]!.hp).toBe(full)
+    expect(s.players[0]!.defending).toBe(false) // 回合末全清(fight.c:1604)
+
+    // 玩家先手(敌 dex 低):防御已置位 → def×2 = 120 前置(fight.c:4926-4929,非伤害减半)
+    // str = 200+(5+6)×6 = 266;敌 dex (5+6)×3+1 = 34 < 玩家 50
+    const s2 = createBattleState({
+      players: [player('li', { hp: 400, maxHp: 400, defense: 60 })],
+      enemies: [mkEnemy('e', { attackStrength: 200, dexterity: 1, level: 5 })],
+    })
+    const halved = Math.max(1, calcPhysicalAttackDamage(266, 120, 2))
+    stepBattle(s2, rng0)
+    s2.pendingActions.set(0, { kind: 'defend' })
+    guard = 0
+    while (s2.phase !== 'selectAction' || s2.turn === 1) {
+      stepBattle(s2, rng0)
+      if (++guard > 50) break
+    }
+    expect(400 - s2.players[0]!.hp).toBe(halved)
     // 不防御对照:def 60 全额伤更高
-    expect(expected).toBeLessThan(calcPhysicalAttackDamage(196, 60, 2))
+    expect(halved).toBeLessThan(Math.max(1, calcPhysicalAttackDamage(266, 60, 2)))
   })
 })
 
@@ -317,12 +333,162 @@ describe('M4b-3 玩家仙术', () => {
     expect(s.players[0]!.mp).toBe(19)
     expect(s.players[0]!.hp).toBeGreaterThan(20)
 
-    // MP 耗尽:空过不崩
+    // MP 耗尽 + 攻击系:降级普攻(fight.c:3316 降级链;曾空过)
     s.players[0]!.mp = 2
+    const eHpBefore = s.enemies[0]!.hp
     s.pendingActions.set(0, { kind: 'cast', skillId: '300', targetEnemyIdx: 0 })
     guard = 0
     while (s.phase !== 'selectAction' || s.turn === 3) { stepBattle(s, rng0); if (++guard > 50) break }
-    expect(s.log.some((l) => l.includes('MP 不足'))).toBe(true)
+    expect(s.log.some((l) => l.includes('降级普攻'))).toBe(true)
+    expect(s.players[0]!.mp).toBe(2) // 未扣
+    expect(s.enemies[0]!.hp).toBeLessThan(eHpBefore) // 物攻真落敌
+  })
+})
+
+describe('降级链:出手时刻验证(fight.c:3260-3506 PAL_BattlePlayerValidateAction)', () => {
+  const bolt: import('@type-pal/content').SkillData = {
+    id: '300', name: '御剑术', desc: '', cost: { mp: 5 }, usableOutsideBattle: false,
+    target: 'oneEnemy', effects: [{ kind: 'damage', power: 30, elemental: 0 }], animation: { effectSprite: 1 },
+  }
+  const heal: import('@type-pal/content').SkillData = {
+    id: '296', name: '气疗术', desc: '', cost: { mp: 6 }, usableOutsideBattle: true,
+    target: 'oneAlly', effects: [{ kind: 'healHp', amount: 75 }], animation: { effectSprite: 27 },
+  }
+
+  test('封咒 + 攻击系 → 降普攻:MP 不扣,伤害走物攻全链(暴击/隐藏池)', () => {
+    const s = createBattleState({
+      players: [player('li', { attackStrength: 40, skills: ['300'] })],
+      enemies: [mkEnemy('slime', { health: 999, defense: 10, attackStrength: -999 })],
+      skills: { '300': bolt },
+    })
+    stepBattle(s, rng0)
+    s.players[0]!.status.silence = 2 // 选招后被封咒(先手敌施封的 headless 等价)
+    s.pendingActions.set(0, { kind: 'cast', skillId: '300', targetEnemyIdx: 0 })
+    let guard = 0
+    while (s.phase !== 'selectAction' || s.turn === 1) { stepBattle(s, rng0); if (++guard > 50) break }
+    expect(s.log.some((l) => l.includes('被封咒,御剑术 降级普攻'))).toBe(true)
+    expect(s.players[0]!.mp).toBe(30) // MP 未扣
+    const base = calcPhysicalAttackDamage(40, 10 + (1 + 6) * 4, 0)
+    expect(999 - s.enemies[0]!.hp).toBe((base + 1) * 3) // rng0 → +1 → 暴击 ×3(真普攻分支)
+    expect(s.players[0]!.hiddenCounts.attack).toBe(1) // 隐藏池走物攻记账,非施法记账
+  })
+
+  test('MP 不足 + 辅助系 → 降防御:出手时置位可见,没奶没扣,defense 池 +2', () => {
+    const s = createBattleState({
+      players: [player('li', { hp: 50, maxHp: 200, mp: 2, skills: ['296'] })],
+      enemies: [mkEnemy('e', { attackStrength: -999, health: 500 })],
+      skills: { '296': heal },
+    })
+    stepBattle(s, rng0)
+    s.pendingActions.set(0, { kind: 'cast', skillId: '296' }) // mp 2 < 6
+    stepBattle(s, rng0) // build queue → performAction(未消费)
+    stepBattle(s, rng0) // 玩家先手(dex 50 > 敌 31):降级防御执行
+    expect(s.log.some((l) => l.includes('MP 不足,气疗术 降级防御'))).toBe(true)
+    expect(s.players[0]!.defending).toBe(true) // 出手时置位(fight.c:4115)
+    expect(s.players[0]!.hp).toBe(50) // 没奶
+    expect(s.players[0]!.mp).toBe(2) // 没扣
+    expect(s.players[0]!.hiddenCounts.defense).toBe(2) // 走真防御分支(B7c 记账)
+    let guard = 0
+    while (s.phase !== 'selectAction' || s.turn === 1) { stepBattle(s, rng0); if (++guard > 50) break }
+    expect(s.players[0]!.defending).toBe(false) // 回合末全清
+  })
+
+  test('死目标改选:出手前目标已死 → 环扫下一活敌(fight.c:3500 通用尾)', () => {
+    const s = createBattleState({
+      players: [player('li', { attackStrength: 40 })],
+      enemies: [
+        mkEnemy('a', { health: 30 }),
+        mkEnemy('b', { health: 999, defense: 10, attackStrength: -999 }),
+      ],
+    })
+    stepBattle(s, rng0)
+    s.pendingActions.set(0, { kind: 'attack', targetEnemyIdx: 0 })
+    stepBattle(s, rng0) // build queue
+    s.enemies[0]!.hp = 0 // 出手前 a 已死(多队员抢死/毒杀场景的 headless 等价)
+    stepBattle(s, rng0) // 玩家先手:环扫改选 → b
+    expect(s.lastAction?.kind).toBe('attack')
+    expect(s.lastAction?.target).toBe(1)
+    const base = calcPhysicalAttackDamage(40, 10 + (1 + 6) * 4, 0)
+    expect(999 - s.enemies[1]!.hp).toBe((base + 1) * 3)
+  })
+
+  test('入队身法装配(fight.c:1497-1565):动作系数改写先后手;濒死÷2;×[0.9,1.1) 抖动', () => {
+    const heal: import('@type-pal/content').SkillData = {
+      id: '296', name: '气疗术', desc: '', cost: { mp: 6 }, usableOutsideBattle: true,
+      target: 'oneAlly', effects: [{ kind: 'healHp', amount: 75 }], animation: { effectSprite: 27 },
+    }
+    const build = (act: import('./battle-core.js').BattleAction, o: { hp?: number; enemyDex?: number } = {}) => {
+      const s = createBattleState({
+        players: [player('li', { hp: o.hp ?? 400, maxHp: 400 })],
+        enemies: [mkEnemy('e', { level: 1, dexterity: o.enemyDex ?? 10, health: 500, attackStrength: -999 })],
+        skills: { '296': heal },
+      })
+      stepBattle(s, rng0)
+      s.pendingActions.set(0, act)
+      stepBattle(s, rng0) // build queue
+      return s
+    }
+    // 敌 base (1+6)*3+52=73(×0.9=65) > 玩家普攻 50×0.9=45 → 敌先
+    expect(build({ kind: 'attack', targetEnemyIdx: 0 }, { enemyDex: 52 }).actionQueue[0]!.isEnemy).toBe(true)
+    // 防御×5 → 225 → 玩家反超(×5 排序提前与"出手时才置位"成对 = 原版"防得住"的机制)
+    expect(build({ kind: 'defend' }, { enemyDex: 52 }).actionQueue[0]!.isEnemy).toBe(false)
+    // 辅助法术×3 → 135 → 玩家先;物品×3 同
+    expect(build({ kind: 'cast', skillId: '296' }, { enemyDex: 52 }).actionQueue[0]!.isEnemy).toBe(false)
+    expect(build({ kind: 'item', itemId: 'x' }, { enemyDex: 52 }).actionQueue[0]!.isEnemy).toBe(false)
+    // 逃跑÷2 → 22 < 敌 dex10(31×0.9=27) → 敌反超
+    expect(build({ kind: 'flee' }).actionQueue[0]!.isEnemy).toBe(true)
+    // 濒死÷2(fight.c:1557 队列口,区别于非 classic 的 stat 级):hp 60<min(100,80) → 普攻 22 < 27
+    expect(build({ kind: 'attack', targetEnemyIdx: 0 }, { hp: 60 }).actionQueue[0]!.isEnemy).toBe(true)
+    expect(build({ kind: 'attack', targetEnemyIdx: 0 }).actionQueue[0]!.isEnemy).toBe(false) // 满血对照 45>27
+  })
+
+  test('眠者不选招:强制普攻 dex 0 排尾;轮到仍睡跳过;同轮恢复真出手(fight.c:1504-1516)', () => {
+    const mkS = () => {
+      const s = createBattleState({
+        players: [player('li', { attackStrength: 40 })],
+        enemies: [mkEnemy('e', { health: 500, defense: 10, attackStrength: -999 })],
+      })
+      stepBattle(s, rng0)
+      s.players[0]!.status.sleep = 2
+      stepBattle(s, rng0) // 无手选也 build(强制普攻入队)
+      expect(s.phase).toBe('performAction')
+      expect(s.pendingActions.get(0)).toEqual({ kind: 'attack', targetEnemyIdx: -1 })
+      expect(s.actionQueue.find((q) => !q.isEnemy)?.dex).toBe(0) // 排尾
+      stepBattle(s, rng0) // 敌先手(玩家 dex 0)
+      return s
+    }
+    // 未恢复:轮到时仍睡 → 跳过
+    const s1 = mkS()
+    stepBattle(s1, rng0)
+    expect(s1.log.some((l) => l.includes('无法行动'))).toBe(true)
+    expect(s1.enemies[0]!.hp).toBe(500)
+    // 同轮恢复(被唤醒/解定的等价):强制普攻真出手,目标 -1 环扫落敌
+    const s2 = mkS()
+    s2.players[0]!.status.sleep = 0
+    stepBattle(s2, rng0)
+    const base = calcPhysicalAttackDamage(40, 10 + (1 + 6) * 4, 0)
+    expect(500 - s2.enemies[0]!.hp).toBe((base + 1) * 3) // rng0 → 暴击 ×3
+  })
+
+  test('物品已耗尽 → 降防御(fight.c:3433 UseItem 数 0)', () => {
+    const potion: import('@type-pal/content').ItemData = {
+      id: '61', name: '金创药', desc: '', price: 50, bitmap: 0,
+      use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'healHp', amount: 50 }] },
+    } as never
+    const s = createBattleState({
+      players: [player('li', { hp: 10, maxHp: 100 })],
+      enemies: [mkEnemy('e', { attackStrength: -999, health: 500 })],
+      items: { '61': potion },
+      inventory: [{ itemId: '61', count: 1 }],
+    })
+    stepBattle(s, rng0)
+    s.pendingActions.set(0, { kind: 'item', itemId: '61' })
+    stepBattle(s, rng0) // build queue
+    s.inventory[0]!.count = 0 // 出手前已被抢用(多队员场景等价)
+    stepBattle(s, rng0)
+    expect(s.log.some((l) => l.includes('已耗尽,降级防御'))).toBe(true)
+    expect(s.players[0]!.defending).toBe(true)
+    expect(s.players[0]!.hp).toBe(10) // 没吃到药
   })
 })
 

@@ -187,13 +187,14 @@
   - `shift()` 消费队列首(battle-core.ts:306)—— 用 JS array shift,非 sdlpal 的 iCurAction 游标。语义等价。
   - 队列空 → status 衰减 + turn++ + 回 selectAction(battle-core.ts:307-314)。✅
   - enemy/player action 后判胜负(battle-core.ts:328-336)。✅
-- **防御就位时机**(battle-core.ts:299-302):build queue 时按 pendingActions 预设 `defending`,贯穿整个 performAction。注释"原版语义:防御者本回合受击减半,不论敌人是否先手"。✅
+- **防御就位时机**:~~build queue 时预设 `defending`,注释"原版语义:不论敌人是否先手"~~ **✅ 已修(2026-07-05 复核纠正)**:该注释是误标——原版 `fDefending` **出手时才置位**(fight.c:4115 kBattleActionDefend 执行分支)、回合末队列耗尽处全清(fight.c:1604),先手敌打到"选了防御还没轮到"的队员**不减半**。已改执行时置位+回合末清;防御"防得住"靠的是入队 dex×5 排序提前(见单元 3),两者成对。
 
 #### 玩家行动 `performPlayerAction`(battle-core.ts:431-523)
-- **defend**(battle-core.ts:452-457):记 hidden defense+2 + 日志。✅
+- **执行时验证降级链 ✅ 已修(2026-07-05)**:`validatePlayerAction` 移植 PAL_BattlePlayerValidateAction(fight.c:3260-3506)——cast 遇封咒/MP 不足 → 攻击系降普攻(MP 不扣,承袭目标)、辅助系降防御;item 库存已空 → 降防御(fight.c:3433);通用尾:对敌动作死目标环扫改选(fight.c:3500 PAL_BattleSelectAutoTargetFrom 本义)。lastAction 记生效值,表现层自然演降级动作。
+- **defend**(battle-core.ts:452-457):出手时置位 defending + 记 hidden defense+2 + 日志。✅(时机修正见上)
 - **flee**(battle-core.ts:458-475):`str = fleeRate; def = Σ活敌(fleeRate + (level+6)*4); roll ∈ [0,def]; str>=roll 成功`(battle-core.ts:461-468)。✅ 对齐 fight.c:4143。
 - **item**(battle-core.ts:476-503):consuming 扣库存 + healHp/healMp/revive。✅
-- **cast**(battle-core.ts:504-507):转 `applyPlayerSkill`。✅
+- **cast**(battle-core.ts:504-507):转 `applyPlayerSkill`(MP 校验已前移至降级链,函数内守卫纯兜底)。✅
 - **attack**(battle-core.ts:508-522):hidden attack+1/maxHP+R(2,3) + `resolveAttack`。✅
 
 #### 敌人行动 `performEnemyAction`(battle-core.ts:583-665)
@@ -209,9 +210,9 @@
 - reforge `decideEnemyAction`(battle-core.ts:213-269)无此门控;`canAct` 只查 sleep/paralyzed(battle-formulas.ts:216-218)。
 - **影响**:puppet 状态在 reforge 未建模(BattleStatus 无 puppet 字段?见下)。实际 reforge `BattleStatus` 有 `puppet`(battle-formulas.ts:191),但状态机未消费。
 
-#### ⚠️ 缺口:confused/paralyzed 行动降级
-- sdlpal fight.c:1505-1517:sleep/paralyzed 队员 dex=0 + 强制 attack;confused 改派攻击友方(fight.c:1522-1527)。
-- reforge:`canAct` 拦 sleep/paralyzed(battle-core.ts:434-437 返回日志"无法行动"),**不降级攻击**;confused 未在 core 处理(演出层 battle-session 处理)。
+#### ~~⚠️ 缺口~~ ✅ 已修(2026-07-05):confused/paralyzed 行动降级(队列侧)
+- sdlpal fight.c:1505-1517:sleep/paralyzed/死者 dex=0 + 强制 attack("同轮恢复则物攻");confused 强制 attack 保本体 dex(fight.c:1522-1527)。
+- reforge 已修:`needsManualSelect`(眠/定/疯/死不出菜单,session/core 共用谓词)+ 建队列强制普攻 `{attack, target:-1}`;眠/定/死 dex 0 排尾,轮到时仍未恢复 → canAct/hp 守卫跳过,同轮恢复 → 普攻真出手(环扫目标)。**余:疯魔 perform 侧目标改派(随机敌或友,作者拍板)= P2 状态演出。**
 
 ### 2.4 单元结论
 
@@ -222,11 +223,11 @@
 | flee 改行动时掷骰 | fight.c:4143 | battle-system.ts 注释 | battle-core.ts:458-475 | ✅ |
 | dualMove wDualMove=1 50% 随机 | fight.c:1239-1242 | ⚠️ 当必双动(已知偏差) | ⚠️ 沿用布尔化 | ⚠️ 已知偏差,非 bug |
 | fOnlyPuppet 门控 | fight.c:1233 | DL3/DM7 傀儡保留出手 | ❌ 未实现 | ❌ reforge 缺口 |
-| confused/paralyzed 降级攻击 | fight.c:1505-1527 | battle-system.ts:814 dex=0 | ⚠️ canAct 拦死不降级 | ⚠️ reforge 简化 |
+| confused/paralyzed 降级攻击 | fight.c:1505-1527 | battle-system.ts:814 dex=0 | ✅ 已修(2026-07-05):强制普攻+dex0+同轮恢复出手 | ✅ 疯魔目标改派待 P2 |
 
 **单元 2 缺口**:
 1. **[中] reforge fOnlyPuppet 门控缺失**:puppet 状态字段已建模(battle-formulas.ts:191)但状态机未消费。影响:傀儡战术(全队傀儡时敌人不动)在 reforge 不生效。M4 headless 范围可接受,但完整复刻需补。
-2. **[低] reforge confused/paralyzed 不降级攻击**:sdlpal 让这些队员强制普攻(dex=0 排尾),reforge 直接拦死("无法行动")。观感差异,非数值差异。
+2. ~~[低] reforge confused/paralyzed 不降级攻击~~ **✅ 已修(2026-07-05)**:队列侧强制普攻+dex0+同轮恢复出手已落地(见 2.3);疯魔目标改派归 P2。
 3. **[已知] dualMove 布尔化偏差**:一阶段+reforge 都把 wDualMove=1 当必双动。作者知情(battle-system.ts:800-802 注释)。影响:林月如类 boss 比原版强。
 
 ---
@@ -311,27 +312,20 @@
 - dualMove dex2 比较定 fIsSecond(battle-formulas.ts:163-170)。✅
 - stable sort(battle-formulas.ts:174)。✅
 
-#### 调用方 dex 计算(battle-core.ts:289-298)⚠️ **缺口**
-- **enemySlots**(battle-core.ts:293-297):
-  - `dex: getEnemyDexterity(level, dexterity)`(battle-core.ts:295)
-  - `dualMove: def.stats.dualMove`(battle-core.ts:296)
-  - **❌ 无 jitter**:`RandomFloat(0.9,1.1)` 抖动**未应用**。sdlpal fight.c:1474 必抖。
-  - **❌ 无 dex2 二抽**:dualMove 第二 entry 无独立 dex(走 buildActionQueue 的 `dex-1` fallback,battle-formulas.ts:169)。
-- **playerSlots**(battle-core.ts:289-292):
-  - `dex: getPlayerActualDexterity(baseDexterity, haste>0)`(battle-core.ts:291)
-  - **❌ 无行动类型倍率**:coop×10/defend×5/magic×3/flee÷2/item×3 全缺。
-  - **❌ 无 dying ÷2**。
-  - **❌ 无 jitter**。
+#### 调用方 dex 计算 ✅ **已修(2026-07-05,曾全缺)**
+- **enemySlots**:jitter ×[0.9,1.1) + dualMove dex2 独立二抽(仅 dualMove 时二抽,保持抽签结构)。
+- **playerSlots**:行动类型倍率(defend×5/辅助法×3/item×3/flee÷2;coop×10 待 P3 合体)→ dying÷2(fight.c:1557 队列口)→ ×jitter,全程 trunc 镜像整数运算;眠/定/死 dex=0(见单元 2 强制普攻)。
+- 单测钉住:倍率改写先后手(防御/辅助法/物品反超快敌、逃跑/濒死被反超)+ 眠者 dex0 强制普攻。
 
-#### ❌ 缺口汇总(reforge buildActionQueue 调用方)
+#### ~~❌ 缺口汇总~~ ✅ 已修汇总(reforge buildActionQueue 调用方,2026-07-05)
 
 | sdlpal 语义 | 一阶段 | reforge | 影响 |
 |---|---|---|---|
-| 敌 dex jitter RandomFloat(0.9,1.1) | ✅ battle-system.ts:797 | ❌ battle-core.ts:295 未抖 | 敌敌同速时无随机破并列;回合序确定性 |
-| dualMove dex2 独立二抽 | ✅ battle-system.ts:805 | ❌ 走 dex-1 fallback | dualMove 敌第二动 dex 恒 = 第一动-1,非独立抽样 |
-| 行动类型 dex 倍率(×10/5/3/÷2) | ✅ battle-system.ts:831 | ❌ battle-core.ts:289-292 无 | 防御/合击/法术/逃跑的先后与原版不一致 |
-| dying ÷2 | ✅ battle-system.ts:833-835 | ❌ 无 | 濒死队员出手不会变慢 |
-| 队员 dex jitter | ✅ battle-system.ts:837 | ❌ 无 | 队员同速时无随机破并列 |
+| 敌 dex jitter RandomFloat(0.9,1.1) | ✅ battle-system.ts:797 | ✅ 已修 | 同速随机破并列恢复 |
+| dualMove dex2 独立二抽 | ✅ battle-system.ts:805 | ✅ 已修(dualMove 才二抽) | 第二动独立抽样恢复 |
+| 行动类型 dex 倍率(×10/5/3/÷2) | ✅ battle-system.ts:831 | ✅ 已修(coop×10 待 P3) | 防御抢先/逃跑押后与原版一致;与 fDefending 执行时置位成对 |
+| dying ÷2 | ✅ battle-system.ts:833-835 | ✅ 已修(isPlayerDying 上提 content) | 濒死减速恢复 |
+| 队员 dex jitter | ✅ battle-system.ts:837 | ✅ 已修 | 同上 |
 
 ### 3.4 单元结论
 
@@ -339,13 +333,13 @@
 |---|---|---|---|---|
 | haste/slow 排序 | fight.c:356-380 | ✅ formulas.ts haste×3 | ✅ battle-formulas.ts:121-125 haste×3 | ✅ |
 | puppet 排序影响 | fight.c:1233 fOnlyPuppet | ✅ DL3 傀儡保留出手 | ❌ 未消费 puppet | ❌ |
-| dualMove 排序(二抽+比较) | fight.c:1478-1492 | ✅ dex2 真值比较 | ⚠️ dex-1 fallback(无 dex2 传入) | ⚠️ |
+| dualMove 排序(二抽+比较) | fight.c:1478-1492 | ✅ dex2 真值比较 | ✅ 已修(2026-07-05 传 dex2) | ✅ |
 | **buildActionQueue 函数本身** | fight.c:1451-1585 | ✅ turn-queue.ts 1:1 | ✅ battle-formulas.ts 1:1 | ✅ |
-| **调用方 dex 装配** | fight.c:1474,1520-1563 | ✅ 全覆盖 | ❌ 缺 jitter/倍率/dying/dex2 | ❌ |
+| **调用方 dex 装配** | fight.c:1474,1520-1563 | ✅ 全覆盖 | ✅ 已修(2026-07-05,coop×10 待 P3) | ✅ |
 
 **单元 3 缺口**:
-1. **[高] reforge 调用方 dex 装配不全**:`buildActionQueue` 函数本身 1:1 对齐,但 `battle-core.ts:289-298` 调用时**未应用** sdlpal 的 5 项 dex 修正(jitter / 行动类型倍率 / dying÷2 / dualMove dex2 二抽)。后果:reforge 回合序与原版有系统偏差——防御不再抢先、濒死不减速、同速确定性。M4 headless 战可跑通,但回合序复刻不合格。
-2. **[中] dualMove dex2 fallback**:reforge 未传 dex2,走 `dex-1` 近似(battle-formulas.ts:169)。dualMove 敌第二动 dex 恒定,非独立抽样。
+1. ~~[高] reforge 调用方 dex 装配不全~~ **✅ 已修(2026-07-05)**:5 项 dex 修正(jitter/行动类型倍率/dying÷2/dualMove dex2)全落地 battle-core selectAction,单测钉先后手;仅 coop×10 随 P3 合体落地。
+2. ~~[中] dualMove dex2 fallback~~ **✅ 已修(2026-07-05)**:dualMove 敌传独立二抽 dex2。
 
 ---
 

@@ -116,12 +116,19 @@ export function getEnemyDexterity(level: number, dexterity: number): number {
 /**
  * 队员有效 dexterity（PAL_CLASSIC 路径）。fight.c:336-389。
  * baseDexterity 由调用方算好（level+装备+raw）;本函数只应用 haste ×3 + 上限 999。
- * （non-classic 的 slow/dying 修正忠实原版不实现。）
+ * （non-classic 的 slow/dying **stat 级**修正忠实原版不实现;classic 的濒死÷2 与动作系数
+ * 在**队列口**另有一套(fight.c:1529-1560),由 buildActionQueue 的调用方装配。）
  */
 export function getPlayerActualDexterity(baseDexterity: number, haste: boolean): number {
   let dex = baseDexterity
   if (haste) dex *= 3
   return dex > 999 ? 999 : dex
+}
+
+/** 濒死（PAL_IsPlayerDying fight.c:29-49）:hp < min(100, maxHp/5)。
+ *  消费点:入队身法÷2(fight.c:1557)、濒死姿势帧、合体法术资格。 */
+export function isPlayerDying(hp: number, maxHp: number): boolean {
+  return hp < Math.min(100, Math.trunc(maxHp / 5))
 }
 
 // ════════════════════════════════════════════════════════════════════
