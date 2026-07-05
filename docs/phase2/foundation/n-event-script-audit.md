@@ -518,7 +518,7 @@ moveParty: (to, speed) => new Promise(resolve => {
 ```
 - `advanceMoves`(main.ts:1008-1090)每 tick 推进:`mv.acc += dt; while(acc>=stepMs) { 走半格 }`。
 - **commit `8eae732d`**(首步零延迟):`acc` 从 0 起(曾预充满 → 短距 partyWalk 一两帧瞬移)。
-- ✅ **半格步长**(main.ts:1038 注释「原版 16/8px」)。
+- ~~✅ 半格步长(main.ts:1038 注释「原版 16/8px」)~~ **2026-07-05 Claude 复核纠正:❌ 注释是错的,审计照抄未核换算**——reforge grid 1 格 = 16/8px(grid.ts:37 `x=16(col−row)`),0.5 格只有 **8/4px**,而原版 walkTo(0x10 speed3)= 6/3px/tick(scene.c:887-888 NPCWalkOneStep x±2s,y±1s)。量子不对 + stepMs 130ms 与玩家 100ms 错拍 = 作者报 NPC 抖动。**同日已修**:全局 100ms 世界拍 + s/8 格/拍精确速度 + 双轴 <2s px snap(script.c:101)+ slow(0x11)隔拍;单步 op(0x0B-0E)同修 0.5→0.25 格(原版 NPCWalkOneStep(2)=4/2px,script.c:660)。
 
 #### nudgeParty(0x6E)(main.ts:656-662)— **相对,已对齐**
 ```ts

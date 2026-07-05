@@ -140,7 +140,7 @@ function tick(t: number): void {
 
 | 缺口 | 等级 | 分类 | 详情 |
 |---|---|---|---|
-| **G2.1 无全局 accumulator，逻辑随 rAF 频率跑** | **高** | A+B | reforge tick 每 rAF（60/120/144Hz）都执行逻辑（hostile tick、菜单输入、计时器兑现）。sdlpal 一帧=一逻辑 tick（10fps）。后果：① 高刷屏 reforge 逻辑快 6-14×（计时器/对话自动关/hostile 追逐全快）；② `advanceMoves(dt)` 用 wall-clock dt 推实体——与 sdlpal「每 tick 固定位移」语义不同。**接战斗/演出必撞**。行动：照搬 `main-loop.ts:66-137` 的 accumulator（`accumulator -= interval; clamp`）。 |
+| **G2.1 无全局 accumulator，逻辑随 rAF 频率跑** | ~~高~~→**已收窄+移动侧已修** | A+B | 原判：reforge tick 每 rAF 都执行逻辑，① 高刷屏逻辑快 6-14×；② `advanceMoves(dt)` wall-clock 推实体。**2026-07-05 Claude 复核收窄**：①不成立——reforge 计时器/对话/hostile 节流全是 wall-clock **ms 制**（`dt` 累加、`stepMs` 门槛），高刷屏只是采样更密，速率不变，与 sdlpal「帧=tick」模型不同但自洽；②成立且是**作者报「主角+NPC 同时移动 NPC 抖动」的根因**——玩家 stepAcc(100ms) 与实体 SPEED_MS(130ms) **各自累加错相**，高频渲染画出错拍中间帧 = 前后拉扯。**已修**（同日）：移动统一到全局 100ms 世界拍（`advanceMoves` 产 `worldTicksThisFrame`，玩家输入步进消费同一节拍源；DM31 永不补帧），实体速度改原版 px/拍精确模型（NPCWalkOneStep x±2s/y±1s → s/8 格/拍 + 双轴 <2s snap + slow 隔拍）。**全局 accumulator 不采纳**：rAF+ms 是二阶段既定模型，只有「多主体相对位移」需要共拍。 |
 | **G2.2 走步 stepAcc 有累加，但 hostile/move 用 dt** | 中 | B | `advanceMoves(dt)`（`main.ts:630` `entityMoves.set(... acc: 0 ...)`）、`tickHostiles(dt)`（`main.ts:1131`）按 wall-clock dt 推进。sdlpal 是「每逻辑 tick 固定步」（`play.c:240 dwFrameNum++`）。两模型不冲突时 OK，但**确定性 replay / record 会断**（高刷屏 vs 60Hz 不同步）。行动：与 G2.1 一并改 tick 驱动，dt 仅用于渲染插值。 |
 | **G2.3 dt 钳 100ms 非顺延** | 低 | B | `main.ts:1674` `Math.min(t - lastT, 100)`——把 dt 钳到 100ms 但仍喂 dt。sdlpal 是「顺延不补」：慢帧只跑 1 tick。reforge 钳 dt 后仍 `advanceMoves(100)` 一步 = 隐式补帧（虽单步）。与 G2.1 同根。 |
 

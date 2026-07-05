@@ -17,6 +17,7 @@ import {
   type ScriptStage,
   type SpriteDef,
   spriteScreenY,
+  type WalkSpeed,
 } from '@type-pal/content'
 import type { Palette, RleFrame, Tilemap } from '@type-pal/shared'
 import {
@@ -279,8 +280,11 @@ async function main(): Promise<void> {
   const player: { pos: GridPos } = { pos: { ...project.entryScene.entry.pos } }
   let facing: Facing = project.entryScene.entry.facing
   let walking = false
-  let stepFrame = 0 // 0..3 走帧相位
-  let stepAcc = 0 // 步进累加器（ms）
+  let stepFrame = 0 // 0..3 走帧相位(步进节拍 = advanceMoves 的全局世界拍)
+  // 世界拍状态(声明须早于 switchScene 首调,TDZ):累加器/拍计数/本 rAF 拍数(0/1)
+  let worldMoveAcc = 0
+  let worldTickNum = 0
+  let worldTicksThisFrame = 0
 
   const camera = { x: 0, y: 0 }
   // 脚本相机偏移(0x7F 累积;⚠ 一阶段彩依飞走案:走位期间此偏移必须保持,回正才清零,
@@ -357,7 +361,7 @@ async function main(): Promise<void> {
     facing = spawn?.facing ?? entryDef?.facing ?? def.entry.facing
     walking = false
     stepFrame = 0
-    stepAcc = 0
+    worldMoveAcc = 0 // 世界拍相位随场景重置
     updateCamera()
     // W5 场景 BGM 槽:缺省 = 延续上一曲(忠实原版);0 = 停曲。同曲不重启由播放器保证。
     if (def.musicId != null) bgm.play(def.musicId)
@@ -405,13 +409,18 @@ async function main(): Promise<void> {
   let partyGesture: number | null = null // 脚本姿势帧(渲染 = dir*framesPerDir + gesture)
   let leaderSpriteOverride: { def: SpriteDef; frames: typeof playerSprite } | null = null // 0x65 换装
   let activeBattle: BattleSession | null = null // M4b:进行中的战斗(主循环转发 tick/render)
-  // ── M3b 走位/动画驱动(tick 推进;abort 全兑现)──
-  const SPEED_MS: Record<string, number> = { slow: 200, normal: 130, fast: 100, run: 50 }
-  const entityMoves = new Map<
-    string,
-    { to: GridPos; stepMs: number; acc: number; resolve: () => void }
-  >()
-  let partyMove: { to: GridPos; stepMs: number; acc: number; resolve: () => void } | null = null
+  // ── M3b 走位/动画驱动(abort 全兑现)。**全局 100ms 世界拍**:玩家步进与脚本走位共拍
+  //    推进 —— 曾各自累加(玩家 100ms / NPC 130ms)错相,高频渲染把错拍中间帧全画出来,
+  //    同屏对走 NPC 呈「退 16 进 8」锯齿(2026-07-05 作者报抖动/速度怪;原版全世界一 tick 同拍)。
+  //    速度 = 原版速度码 px/拍(scene.c:887-888 NPCWalkOneStep x±2s,y±1s;本 grid 1 格
+  //    = 16/8px → s/8 格/拍)。迁移器 SPEED 表 2/3/4/8 → slow/normal/fast/run 1:1。
+  //    ⚠ 曾「半格/SPEED_MS」:0.5 格=8/4px 量子≠原版 6/3px,注释还把半格错标成 16/8px。
+  const SPEED_GRID: Record<WalkSpeed, number> = { slow: 2 / 8, normal: 3 / 8, fast: 4 / 8, run: 1 }
+  /** 到点 snap 阈(px):任一轴 |offset| < 2·speed 即整体落点(script.c:101 PAL_NPCWalkTo)。 */
+  const SPEED_SNAP_PX: Record<WalkSpeed, number> = { slow: 4, normal: 6, fast: 8, run: 16 }
+  // (worldMoveAcc/worldTickNum/worldTicksThisFrame 声明在上方 stepFrame 处 —— switchScene TDZ)
+  const entityMoves = new Map<string, { to: GridPos; speed: WalkSpeed; resolve: () => void }>()
+  let partyMove: { to: GridPos; speed: WalkSpeed; resolve: () => void } | null = null
   const entityAnim = new Map<string, number>() // 实体走帧计数(移动/0x87 动画共用)
   // auto 巡逻:每实体独立 runner,与主脚本**并行**(2026-07-03 拍板:不复刻对话冻结 NPC);
   // E6a:仅被主脚本接管(authority)的实体其位移暂停,release 恢复。切场景全停。
@@ -624,18 +633,18 @@ async function main(): Promise<void> {
           resolve()
           return
         }
-        // acc 从 0 起:曾预充满 stepMs → 首步零延迟,1-2 步的短距走位在相邻帧内瞬完
-        // = 瞬移(开场李逍遥两条 partyWalk 到密道口,2026-07-03 用户报;实体同防)
+        // 步进只发生在世界拍上(首步至多等 100ms;曾因预充累加器致短距走位瞬移,2026-07-03)
         entityMoves.get(id)?.resolve() // E6a 顺手修:同实体新走位覆盖旧 entry 时兑现旧 Promise(防悬挂卡死调用方)
-        entityMoves.set(id, { to, stepMs: SPEED_MS[speed] ?? 130, acc: 0, resolve })
+        entityMoves.set(id, { to, speed, resolve })
       }),
     stepEntity: (id, dir) => {
       const e = scene.entities.find((x) => x.id === id)
       if (!e) return
       e.facing = dir
       const d = WALK_STEP[dir]
-      // 原版 NPC 步长 = 16/8px = 半格(play.c:213;玩家整格是 reforge 自己的手感设计)
-      e.pos = { ...e.pos, col: e.pos.col + d.dcol * 0.5, row: e.pos.row + d.drow * 0.5 }
+      // 原版单步 op(0x0B-0E)= NPCWalkOneStep(speed 2)= 4/2px = 0.25 格(script.c:660;
+      // scene.c:887-888)。⚠ 曾 0.5 格且误引 play.c:213(那是追逐 speed8=16/8px)→ 步距 2×。
+      e.pos = { ...e.pos, col: e.pos.col + d.dcol * 0.25, row: e.pos.row + d.drow * 0.25 }
       entityAnim.set(id, (entityAnim.get(id) ?? 0) + 1)
     },
     animEntity: (id) => {
@@ -651,7 +660,7 @@ async function main(): Promise<void> {
     },
     moveParty: (to, speed) =>
       new Promise((resolve) => {
-        partyMove = { to, stepMs: SPEED_MS[speed] ?? 130, acc: 0, resolve } // acc 同上从 0 起
+        partyMove = { to, speed, resolve } // 世界拍推进(advanceMoves)
       }),
     nudgeParty: (dx, dy) => {
       const d = pixelDeltaToGridDelta(dx, dy) // 同 nudgeEntity:增量制保碎步小数
@@ -1004,9 +1013,37 @@ async function main(): Promise<void> {
     }
   }
 
-  /** M3b:tick 推进走位驱动(实体 + 队伍;到达即兑现)。 */
+  /**
+   * 原版走位单拍推进(script.c:63-105 PAL_NPCWalkTo 像素语义,菱形格域实现):
+   * 象限定向 → 任一 px 轴 |offset| < 2·speed 则整体 snap 落点 → 否则沿朝向轴走 s/8 格
+   * (= NPCWalkOneStep 的 x±2s,y±1s)。朝向 = **像素轴**象限(⚠ 曾直接套菱形格轴:
+   * 纯 row+ 走位算成 right,2026-07-03 用户报李大娘朝向错)。
+   */
+  function walkTick(
+    pos: GridPos,
+    to: GridPos,
+    speed: WalkSpeed,
+  ): { pos: GridPos; facing: Facing; done: boolean } {
+    const cur = gridToPixel(pos)
+    const tgt = gridToPixel(to)
+    const dx = tgt.x - cur.x
+    const dy = tgt.y - cur.y
+    const facing: Facing = dy < 0 ? (dx < 0 ? 'left' : 'up') : dx < 0 ? 'down' : 'right'
+    const snap = SPEED_SNAP_PX[speed]
+    if (Math.abs(dx) < snap || Math.abs(dy) < snap) return { pos: { ...to }, facing, done: true }
+    const d = WALK_STEP[facing]
+    const g = SPEED_GRID[speed]
+    return {
+      pos: { ...pos, col: pos.col + d.dcol * g, row: pos.row + d.drow * g },
+      facing,
+      done: false,
+    }
+  }
+
+  /** M3b:世界拍推进走位驱动(实体 + 队伍;到达即兑现)。 */
   function advanceMoves(dt: number): void {
-    // M3c 相机 pan:每步(~16ms)移动 (dx,dy),累积进 cameraOffset;走完兑现
+    // M3c 相机 pan:每步(~16ms)移动 (dx,dy),累积进 cameraOffset;走完兑现(演出 FX,
+    // 独立于世界拍保持原速)
     if (cameraPanFx) {
       const fx = cameraPanFx
       const wantSteps = Math.min(fx.steps, fx.done + Math.max(1, Math.round(dt / 16)))
@@ -1019,6 +1056,17 @@ async function main(): Promise<void> {
         fx.resolve()
       }
     }
+    // ── 世界拍(STEP_MS=100ms):至多 1 拍/rAF,真积压丢弃(DM31 永不补帧,防卡顿后瞬移
+    //    连跳)。玩家输入步进(tick 输入段)消费同一 worldTicksThisFrame → 全场同拍。──
+    worldMoveAcc += dt
+    worldTicksThisFrame = 0
+    if (worldMoveAcc >= STEP_MS) {
+      worldMoveAcc -= STEP_MS
+      if (worldMoveAcc > STEP_MS) worldMoveAcc = 0
+      worldTicksThisFrame = 1
+      worldTickNum++
+    }
+    if (!worldTicksThisFrame) return
     // ⚠ 设计裁决(2026-07-03 用户):NPC 走位**不与对话系统耦合**。原版"对话等按键期
     // GameUpdate 停 → NPC 冻结"(开场李大娘读对话时停步回头)是旧引擎阻塞怪癖,clean
     // 引擎不复刻;要演出停顿将来在内容层显式编排(wait/暂停指令),不在引擎层感知对话。
@@ -1029,64 +1077,37 @@ async function main(): Promise<void> {
         mv.resolve()
         continue
       }
-      mv.acc += dt
-      while (mv.acc >= mv.stepMs) {
-        mv.acc -= mv.stepMs
-        const dcol = mv.to.col - e.pos.col
-        const drow = mv.to.row - e.pos.row
-        if (Math.abs(dcol) < 0.26 && Math.abs(drow) < 0.26) break
-        // 半格步长(原版 16/8px);对角同步走(原版逐轴双步近似)
-        const dc = Math.abs(dcol) >= 0.26 ? Math.sign(dcol) * 0.5 : 0
-        const dr = Math.abs(drow) >= 0.26 ? Math.sign(drow) * 0.5 : 0
-        e.pos = { ...e.pos, col: e.pos.col + dc, row: e.pos.row + dr }
-        // 朝向 = 原版象限规则(PAL_NPCWalkTo/一阶段 npcWalkTo:event-system.ts:5199-5205),
-        // 作用在**像素轴**目标差(dx=16(Δcol−Δrow), dy=8(Δcol+Δrow))。⚠ 曾直接套在
-        // 菱形格轴上:纯 row+ 走位(像素朝下)算成 right(2026-07-03 用户报李大娘朝向错)。
-        const dpx = dcol - drow // 16 倍缩放不影响符号
-        const dpy = dcol + drow
-        e.facing = dpy < 0 ? (dpx < 0 ? 'left' : 'up') : dpx < 0 ? 'down' : 'right'
-        // 走位重算帧 = 覆盖 0x16 的演出定帧(一阶段 npcWalkTo 每步写 scriptedFrame 同语义;
-        // 不清则 override 恒压制走路帧 → 站立滑行)
-        entityFrameOverride.delete(id)
-        entityAnim.set(id, (entityAnim.get(id) ?? 0) + 1)
-      }
-      if (Math.abs(mv.to.col - e.pos.col) < 0.26 && Math.abs(mv.to.row - e.pos.row) < 0.26) {
-        e.pos = { ...mv.to }
+      // 0x11 慢走 = speed2 且隔拍走(script.c:688-698 的 (id&1)^(frameNum&1) 简化为全局隔拍)
+      if (mv.speed === 'slow' && worldTickNum % 2 === 0) continue
+      const r = walkTick(e.pos, mv.to, mv.speed)
+      e.pos = r.pos
+      e.facing = r.facing
+      // 走位重算帧 = 覆盖 0x16 的演出定帧(一阶段 npcWalkTo 每步写 scriptedFrame 同语义;
+      // 不清则 override 恒压制走路帧 → 站立滑行)
+      entityFrameOverride.delete(id)
+      if (r.done) {
         entityMoves.delete(id)
+        entityAnim.delete(id) // 原版到点 wCurrentFrameNum=0(script.c:107-111)→ 回站立帧
         mv.resolve()
+      } else {
+        entityAnim.set(id, (entityAnim.get(id) ?? 0) + 1)
       }
     }
     if (partyMove) {
       const mv = partyMove
-      mv.acc += dt
-      while (mv.acc >= mv.stepMs) {
-        mv.acc -= mv.stepMs
-        const dcol = mv.to.col - player.pos.col
-        const drow = mv.to.row - player.pos.row
-        if (Math.abs(dcol) < 0.26 && Math.abs(drow) < 0.26) break
-        // 半格步长(同 moveEntity;曾整格步 → 短距 partyWalk 一两帧跳完 = 瞬移)
-        const dc = Math.abs(dcol) >= 0.26 ? Math.sign(dcol) * 0.5 : 0
-        const dr = Math.abs(drow) >= 0.26 ? Math.sign(drow) * 0.5 : 0
-        player.pos = { ...player.pos, col: player.pos.col + dc, row: player.pos.row + dr }
-        // 同上:像素轴象限(曾错套格轴)
-        const dpx = dc - dr
-        const dpy = dc + dr
-        facing = dpy < 0 ? (dpx < 0 ? 'left' : 'up') : dpx < 0 ? 'down' : 'right'
+      const r = walkTick(player.pos, mv.to, mv.speed)
+      player.pos = r.pos
+      facing = r.facing
+      if (r.done) {
+        partyMove = null
+        walking = false
+        mv.resolve()
+      } else {
         walking = true
         partyGesture = null // 原版走位重算 wFrame
         stepFrame = (stepFrame + 1) % 4
-        updateCamera()
       }
-      if (
-        Math.abs(mv.to.col - player.pos.col) < 0.26 &&
-        Math.abs(mv.to.row - player.pos.row) < 0.26
-      ) {
-        player.pos = { ...mv.to }
-        partyMove = null
-        walking = false
-        updateCamera()
-        mv.resolve()
-      }
+      updateCamera()
     }
   }
 
@@ -1099,7 +1120,7 @@ async function main(): Promise<void> {
     autoAborts.set(e.id, ac)
     const r = new ScriptRunner(autoHost, world.script!, ac.signal) // E6a:auto 视图(被接管实体暂停)
     r.selfId = e.id // chasePlayer/vanishEntity 的 self
-    r.paceMs = 80 // 原版 auto 一帧一 op 的节拍近似(一阶段同语义)
+    r.paceMs = 100 // 原版 auto 一帧(100ms)一 op(曾 80ms 近似;对齐世界拍减小与走位的错相)
     void (async () => {
       while (!ac.signal.aborted) {
         // auto 与主脚本并行(开场李大娘 setEntityState 显形后边对话边走位);仅 hidden
@@ -1973,37 +1994,31 @@ async function main(): Promise<void> {
         }
         const dir = heldDir()
         if (dir) {
-          if (dir !== facing) {
-            facing = dir // 转向：换方向时立刻能起步（stepAcc 拉满）
-            stepAcc = STEP_MS
-          }
-          stepAcc += dt
-          // 每 STEP_MS 走一步（~10fps 步进 = 卡顿感）：意图 → 纯函数碰撞 → 结果 + 走帧推进
-          while (stepAcc >= STEP_MS) {
-            stepAcc -= STEP_MS
+          if (dir !== facing) facing = dir // 转向立即生效(位移等下一拍;原版逐拍读输入)
+          // 与脚本走位共用世界拍(advanceMoves 产的 worldTicksThisFrame)——玩家/NPC 各自
+          // 累加错相曾致同屏对走 NPC 前后拉扯抖动(2026-07-05 作者报);「转向 stepAcc 拉满
+          // 立即起步」的旧 hack 会破相位,一并废除(首步至多等 100ms = 原版手感)。
+          if (worldTicksThisFrame) {
+            // 意图 → 纯函数碰撞 → 结果 + 走帧推进(每拍一步 = 原版 ±16/±8px,play.c:806)
             const next = resolveMove(player.pos, WALK_STEP[dir], isBlocked)
             if (next.col === player.pos.col && next.row === player.pos.row) {
-              // 撞禁入(墙/实体):停下、不原地踏步——站立帧 + 复位迈腿相位 + 清累加(同松键停步)
+              // 撞禁入(墙/实体):停下、不原地踏步——站立帧 + 复位迈腿相位(同松键停步)
               walking = false
               stepFrame = (stepFrame & 2) ^ 2
-              stepAcc = 0
-              break
-            }
-            player.pos = next
-            walking = true
-            partyGesture = null // 原版走路每步重算 wFrame(脚本姿势自然失效)
-            stepFrame = (stepFrame + 1) % 4
-            // M3a touch 触发:边沿语义(落步才查),站着不重触发(一阶段 TouchFar 死锁的架构性规避)
-            const touched = findTrigger('touch')
-            if (touched) {
-              fireTrigger(touched)
-              break
+            } else {
+              player.pos = next
+              walking = true
+              partyGesture = null // 原版走路每步重算 wFrame(脚本姿势自然失效)
+              stepFrame = (stepFrame + 1) % 4
+              updateCamera()
+              // M3a touch 触发:边沿语义(落步才查),站着不重触发(一阶段 TouchFar 死锁的架构性规避)
+              const touched = findTrigger('touch')
+              if (touched) fireTrigger(touched)
             }
           }
         } else if (walking) {
           walking = false
           stepFrame = (stepFrame & 2) ^ 2 // 停步复位迈腿相位（scene.c:773-774）
-          stepAcc = 0
         }
       }
     }
