@@ -286,3 +286,12 @@
 3. **MG2 = 立项三方合并**：迁移器还会重跑（未翻脚本继续翻译），重跑不能覆盖手工改动（音乐别名 / 场景编辑等已进 pal 工程）→ 迁移器需三方合并（base=上次迁移产物 / theirs=新迁移产物 / ours=手工现状）。在 MG2 落地前，**重跑迁移器有覆盖风险 —— 严禁顺手重跑**。
 
 **影响**：roadmap 下一轮 = E6 设计（考证 → 设计文档 → 作者评审）;C7/MG2 进队列带方案。
+
+---
+
+## D23 · 术语规范：指令 vs 事件（2026-07-05，作者拍板）
+
+- **指令（instruction）** = 单条 opcode（schema 的 `Command`：dialog / wait / moveEntity / branch…）。
+- **事件（event）** = 触发方式（interact/touch/onEnter/auto）+ 相关实体/道具 + **一系列指令的组合**（schema 的脚本源级：TriggerSpec / EntityPage / onEnter stages）。
+
+**影响**：编辑器全部中文 UI 文案「命令」→「指令」（指令树/指令手册/插入指令）;数据模式页「事件库」改名「指令手册」（📖）。英文标识符（`Command` 类型等）不动 —— schema 层命名维持。事件级列表/编辑归**场景模块**（事件在场景中配置,不进数据模式;Step2 场景内嵌脚本编辑,见 editor-audit §6）。

@@ -1,5 +1,6 @@
 /**
- * 事件库 = 指令手册(opcode 库;2026-07-05 作者定义:「能查询都有哪些可用的 opcode」)。
+ * 指令手册(opcode 库;2026-07-05 作者术语拍板:指令 = 单 opcode,事件 = 触发方式 +
+ * 相关实体/道具 + 指令序列的组合)。
  * 43 种脚本指令目录:分组/参数/语义/原版 opcode 对照 + 搜索。
  * ⚠ 不放「已编事件链」列表(作者拍板:事件在场景中配置,属场景上下文,不是数据表;
  * 场景内事件的编辑与检索随 Step2「场景内嵌脚本编辑」走)。
@@ -31,7 +32,7 @@ export function EventLibTab(props: { tabBar?: React.ReactNode }) {
       <div className="outliner data-outliner">
         {tabBar}
         <div className="pane-h">
-          <span className="t">事件库 · 指令手册</span>
+          <span className="t">指令手册</span>
           <span className="spacer" />
           <span className="k">{COMMAND_CATALOG.length} 指令</span>
         </div>

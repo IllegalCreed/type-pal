@@ -295,7 +295,7 @@ function CommandRow(props: { cmd: Command; depth: number; path: string; ctx: Row
 }
 
 /** 渲染一组 stages（触发段/进场段）。多段时显示段号 + next 转移语义。
- *  activePath = 演出预览当前命令(高亮+滚动跟随);selectedPath/onSelect/onRowAction = 编辑交互(v1)。 */
+ *  activePath = 演出预览当前指令(高亮+滚动跟随);selectedPath/onSelect/onRowAction = 编辑交互(v1)。 */
 export function ScriptTree(props: {
   stages: readonly ScriptStage[]
   locale: Locale

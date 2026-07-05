@@ -36,7 +36,7 @@ export const DATA_TABS: { id: DataTab; label: string; icon: string }[] = [
   { id: 'enemy', label: '敌人', icon: '👹' },
   { id: 'music', label: '音乐', icon: '🎵' },
   { id: 'vars', label: '变量', icon: '🚩' },
-  { id: 'events', label: '事件库', icon: '💬' },
+  { id: 'events', label: '指令手册', icon: '📖' },
 ]
 
 const KIND_LABEL: Record<SpriteDef['layout']['kind'], string> = {

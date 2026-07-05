@@ -1,8 +1,8 @@
 /**
- * 命令属性表单(C-track v1)—— 事件模式右栏:选中树行 → 编辑该命令参数。
+ * 指令属性表单(C-track v1)—— 事件模式右栏:选中树行 → 编辑该指令参数。
  *
- * 高频命令给专控件;其余(branch/startBattle/confirm/页切换/unmigrated 等结构类)
- * 走 JSON 兜底(textarea + 应用,保证全命令可编)。每次变更即 onChange(整命令替换,
+ * 高频指令给专控件;其余(branch/startBattle/confirm/页切换/unmigrated 等结构类)
+ * 走 JSON 兜底(textarea + 应用,保证全指令可编)。每次变更即 onChange(整指令替换,
  * 由 EventMode 经 script-edit 纯函数 + UpdateScriptCommand 落进 EditSession)。
  *
  * 对话文本:line.text 是 TextId(locale 键);编辑即改写为**字面量**(lookupText
@@ -92,7 +92,7 @@ function EntitySel(props: { value: string; scene: SceneDef; onChange: (id: strin
 function JsonForm(props: { cmd: Command; onChange: (c: Command) => void }) {
   const [text, setText] = useState(() => JSON.stringify(props.cmd, null, 2))
   const [err, setErr] = useState('')
-  // 外部命令变化(选中另一行)→ 重置文本
+  // 外部指令变化(选中另一行)→ 重置文本
   // biome-ignore lint/correctness/useExhaustiveDependencies: 以 cmd 身份重置本地草稿
   useEffect(() => {
     setText(JSON.stringify(props.cmd, null, 2))
@@ -503,11 +503,11 @@ export function CommandForm(props: {
     case 'cameraSnap':
       return (
         <p className="hint">
-          此命令无可编参数{cmd.kind === 'cameraSnap' && cmd.to ? '(定位坐标用 JSON)' : ''}。
+          此指令无可编参数{cmd.kind === 'cameraSnap' && cmd.to ? '(定位坐标用 JSON)' : ''}。
         </p>
       )
     default:
-      // 结构类(branch/confirm/startBattle/页切换)与低频命令:JSON 兜底
+      // 结构类(branch/confirm/startBattle/页切换)与低频指令:JSON 兜底
       return <JsonForm cmd={cmd} onChange={onChange} />
   }
 }

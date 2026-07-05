@@ -21,7 +21,7 @@ export function RefList(props: {
             key={`${r.sceneId}-${r.srcKey}-${i}`}
             className="ref-row"
             disabled={!jumpable}
-            title={jumpable ? '跳到事件模式该脚本源' : 'hostile 战败命令:在布置模式实体检查器编辑'}
+            title={jumpable ? '跳到事件模式该脚本源' : 'hostile 战败指令:在布置模式实体检查器编辑'}
             onClick={() => props.onJump(r.sceneId, r.srcKey)}
           >
             <span className={`rw ${r.access}`}>{r.access === 'write' ? '写' : '读'}</span>
@@ -103,7 +103,7 @@ export function VarsTab(props: {
           onChange={(e) => setFilter(e.target.value)}
         />
         <div className="insp-empty" style={{ marginTop: 8 }}>
-          扫全工程事件脚本(进场/触发/巡逻/战败命令)建反向索引;点引用行跳事件模式。
+          扫全工程事件脚本(进场/触发/巡逻/战败指令)建反向索引;点引用行跳事件模式。
           物品的被引用列表在「物品」页详情里。
         </div>
       </div>
@@ -113,7 +113,7 @@ export function VarsTab(props: {
             <div className="insp-empty" style={{ margin: 16 }}>
               本工程事件脚本没用 flag / 数值变量。迁移内容(原版)走
               entityState/entityStage 状态机;flag/var 是手工剧情的工具 ——
-              事件里插「branch / setFlag / setVar」命令后,此页自动列出。
+              事件里插「branch / setFlag / setVar」指令后,此页自动列出。
             </div>
           ) : (
             <>

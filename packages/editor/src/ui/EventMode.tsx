@@ -1,7 +1,7 @@
 /**
  * 事件模式 —— 脚本查看 + 演出预览(v0)。两段式 outliner:上段选有脚本的场景,下段列该
- * 场景的脚本源;中列上「演出预览画布」(播放/单步/重置/倍速)下「命令树」(跟随高亮当前
- * 命令);右栏演出日志(桩命令)。可视化编辑是后续 C-track。
+ * 场景的脚本源;中列上「演出预览画布」(播放/单步/重置/倍速)下「指令树」(跟随高亮当前
+ * 指令);右栏演出日志(桩指令)。可视化编辑是后续 C-track。
  */
 
 import type {
@@ -38,14 +38,14 @@ interface InsertCtx {
 }
 const selfOf = (c: InsertCtx): string => c.ownerId ?? c.scene.entities[0]?.id ?? 'e0'
 
-/** ➕ 插入菜单 —— 单命令 + 事件模板(按 4382 段触发脚本形状统计的 top 模式提炼;
- *  模板插入即展开为普通命令组,逐条可调,不引入黑盒高层命令)。 */
+/** ➕ 插入菜单 —— 单指令 + 事件模板(按 4382 段触发脚本形状统计的 top 模式提炼;
+ *  模板插入即展开为普通指令组,逐条可调,不引入黑盒高层指令)。 */
 const INSERT_GROUPS: {
   title: string
   items: { label: string; make: (c: InsertCtx) => Command[] }[]
 }[] = [
   {
-    title: '单命令',
+    title: '单指令',
     items: [
       { label: '💬 对话', make: () => [{ kind: 'dialog', line: { text: '(新对话)' } }] },
       { label: '⏱ 等待', make: () => [{ kind: 'wait', ms: 200 }] },
@@ -82,11 +82,11 @@ const INSERT_GROUPS: {
     ],
   },
   {
-    title: '事件模板(展开为命令组)',
+    title: '事件模板(展开为指令组)',
     items: [
       {
         // 435 例:宝箱 —— 开盖帧**持久**(状态切换);防重复 = 原版全部走多段
-        // (段0 给物 next=1,段1「空箱」提示)。v1 插的是段内命令组,第 2 段请手动补。
+        // (段0 给物 next=1,段1「空箱」提示)。v1 插的是段内指令组,第 2 段请手动补。
         label: '📦 宝箱(开盖给物)',
         make: (c) => [
           { kind: 'setEntityFacing', entity: selfOf(c), facing: 'down' },
@@ -296,7 +296,7 @@ export function EventMode(props: {
     playback?.stop()
   }, [active?.key])
 
-  // ── 脚本编辑(v1):选中行 → 右栏表单;行按钮 插/移/删;整 stages 经命令落 session ──
+  // ── 脚本编辑(v1):选中行 → 右栏表单;行按钮 插/移/删;整 stages 经指令落 session ──
   const [selPath, setSelPath] = useState<string | null>(null)
   const [insertFor, setInsertFor] = useState<string | null>(null) // ➕ 目标路径(右栏出模板菜单)
   // biome-ignore lint/correctness/useExhaustiveDependencies: 切场景/切源即清选中
@@ -345,7 +345,7 @@ export function EventMode(props: {
     }
   }
 
-  // 预览/命令树 高度比(拖分隔条调;夹 15%~85%)
+  // 预览/指令树 高度比(拖分隔条调;夹 15%~85%)
   const [previewFrac, setPreviewFrac] = useState(0.46)
   const centerRef = useRef<HTMLDivElement>(null)
   const onSplitDown = (e: React.PointerEvent<HTMLDivElement>): void => {
@@ -492,7 +492,7 @@ export function EventMode(props: {
         </div>
       </div>
 
-      {/* 中:上演出预览 + 拖拽分隔 + 下命令树(跟随高亮) */}
+      {/* 中:上演出预览 + 拖拽分隔 + 下指令树(跟随高亮) */}
       <div className="center event-center" ref={centerRef}>
         <div className="toolbar">
           <span style={{ fontWeight: 600 }}>
@@ -532,7 +532,7 @@ export function EventMode(props: {
                 playback={playback}
               />
             </div>
-            <div className="v-split" onPointerDown={onSplitDown} title="拖动调节预览/命令树高度" />
+            <div className="v-split" onPointerDown={onSplitDown} title="拖动调节预览/指令树高度" />
           </>
         ) : null}
         <div className="script-view">
@@ -554,7 +554,7 @@ export function EventMode(props: {
         </div>
       </div>
 
-      {/* 右:命令编辑 / 插入菜单 / 演出日志 */}
+      {/* 右:指令编辑 / 插入菜单 / 演出日志 */}
       <div className="inspector">
         <div className="insp-head">
           <div className="what">事件 · 脚本 + 预览</div>
@@ -615,7 +615,7 @@ export function EventMode(props: {
         {selCmd && scene && active && selPath ? (
           <div className="section">
             <h4>
-              编辑命令 <span className="cf-path">{selPath}</span>
+              编辑指令 <span className="cf-path">{selPath}</span>
             </h4>
             <CommandForm
               cmd={selCmd}
@@ -637,7 +637,7 @@ export function EventMode(props: {
         ) : null}
         {playback && playback.view.logs.length > 0 ? (
           <div className="section">
-            <h4>演出日志(桩命令)</h4>
+            <h4>演出日志(桩指令)</h4>
             <div className="pv-logs">
               {playback.view.logs.slice(-40).map((l, i) => (
                 <div key={i} className="pv-log">
@@ -651,12 +651,12 @@ export function EventMode(props: {
           <div className="section">
             <h4>脚本编辑 + 演出预览</h4>
             <p className="hint">
-              点树中命令行选中 → 此处编辑参数;行悬停 ＋/↑/↓/🗑 插入/移动/删除。 ▶ 从头播;⏭
+              点树中指令行选中 → 此处编辑参数;行悬停 ＋/↑/↓/🗑 插入/移动/删除。 ▶ 从头播;⏭
               单步逐条(树中高亮);对话点「继续」。演出态是临时副本,不改数据。
             </p>
             <p className="hint">
               <span className="warn-inline">⚠ 黄色</span> = 未翻译(逃生口;大头是野外遇敌 系统
-              op,归能力地图 B8 格);结构类命令用 JSON 编辑。
+              op,归能力地图 B8 格);结构类指令用 JSON 编辑。
             </p>
           </div>
         ) : null}

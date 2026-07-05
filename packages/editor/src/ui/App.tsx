@@ -884,7 +884,7 @@ function EntityInspector(props: {
                 }
               >
                 <option value="">游戏结束(渐红读档,默认)</option>
-                <option value="custom">自定义命令(剧情战输了也继续)</option>
+                <option value="custom">自定义指令(剧情战输了也继续)</option>
               </select>
             </div>
             {Array.isArray(entity.hostile.onLose) && (

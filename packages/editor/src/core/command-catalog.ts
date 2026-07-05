@@ -45,7 +45,7 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
   { kind: 'addVar', icon: '➕', name: '变量增减', group: '世界状态', params: [['var', '变量名'], ['delta', '增量']], desc: '计数器(收集/次数)。' },
   // 音频/战斗配置
   { kind: 'playSound', icon: '🔊', name: '音效', group: '音频/战斗配置', params: [['soundId', '音效号(sounds/<id>.wav)']], desc: '播一发音效。', origin: '0x4D' },
-  { kind: 'playMusic', icon: '🎵', name: '音乐', group: '音频/战斗配置', params: [['musicId', '曲号(0=停)']], desc: '切 BGM;进场景槽曲被本命令覆盖。', origin: '0x43' },
+  { kind: 'playMusic', icon: '🎵', name: '音乐', group: '音频/战斗配置', params: [['musicId', '曲号(0=停)']], desc: '切 BGM;进场景槽曲被本指令覆盖。', origin: '0x43' },
   { kind: 'setBattleMusic', icon: '🎼', name: '战斗音乐', group: '音频/战斗配置', params: [['musicId', '曲号']], desc: '记账:之后的战斗用此曲。', origin: '0x45' },
   { kind: 'setBattleField', icon: '🏞', name: '战场背景', group: '音频/战斗配置', params: [['fieldId', '战场号(58 个)']], desc: '记账:之后的战斗用此背景。', origin: '0x47' },
   // 走位/相机
@@ -59,15 +59,15 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
   { kind: 'cameraPan', icon: '🎥', name: '镜头平移', group: '走位/相机', params: [['dx/dy', '每帧位移'], ['frames', '帧数']], desc: '相对平移(阻塞);跨房间演出。⚠ 不许绝对回正打断。', origin: '0x7F' },
   { kind: 'cameraSnap', icon: '🎯', name: '镜头落定', group: '走位/相机', params: [['to', '目标格(缺省=回正跟随)']], desc: '绝对跳到/回正。', origin: '0x7F 形态' },
   // 战斗/商店
-  { kind: 'startBattle', icon: '⚔', name: '开战', group: '战斗/商店', params: [['team', '敌队号'], ['onLose', '败后命令(缺省 gameOver)'], ['onFlee', '逃后命令'], ['auto', '全自动(过场战)']], desc: '进战斗;剧情战配 onLose 输了也继续。', origin: '0x30 系' },
+  { kind: 'startBattle', icon: '⚔', name: '开战', group: '战斗/商店', params: [['team', '敌队号'], ['onLose', '败后指令(缺省 gameOver)'], ['onFlee', '逃后指令'], ['auto', '全自动(过场战)']], desc: '进战斗;剧情战配 onLose 输了也继续。', origin: '0x30 系' },
   { kind: 'fleeBattle', icon: '🏳', name: '敌逃离', group: '战斗/商店', params: [], desc: '战斗演出:敌人逃走,无奖励结束。', origin: '0x69' },
   { kind: 'endBattle', icon: '🛑', name: '终止战斗', group: '战斗/商店', params: [['result', 'terminate/won/lost']], desc: '脚本裁决战斗结果(林天南撑 7 回合)。', origin: '0x89' },
   { kind: 'openShop', icon: '🏪', name: '商店', group: '战斗/商店', params: [['shop', '商店号'], ['mode', 'buy/sell']], desc: '开买/卖界面。', origin: '0x32 系' },
-  { kind: 'confirm', icon: '❓', name: '是/否框', group: '战斗/商店', params: [['onNo', '选「否」的命令']], desc: '二择;「是」继续往下。', origin: '0x0A' },
+  { kind: 'confirm', icon: '❓', name: '是/否框', group: '战斗/商店', params: [['onNo', '选「否」的指令']], desc: '二择;「是」继续往下。', origin: '0x0A' },
   // 控制流
-  { kind: 'branch', icon: '🔀', name: '条件分支', group: '控制流', params: [['cond', 'flag/var/hasItem/chance/all/any/not…'], ['then', '成立命令'], ['else', '不成立命令']], desc: '结构化条件;可嵌套。', origin: 'jump-on-X 系折叠' },
+  { kind: 'branch', icon: '🔀', name: '条件分支', group: '控制流', params: [['cond', 'flag/var/hasItem/chance/all/any/not…'], ['then', '成立指令'], ['else', '不成立指令']], desc: '结构化条件;可嵌套。', origin: 'jump-on-X 系折叠' },
   { kind: 'setEntityAuto', icon: '🔁', name: '换自动脚本', group: '控制流', params: [['entity', '实体 id'], ['stages', '新段(空=停)']], desc: '运行时切实体巡逻行为。', origin: '0x24' },
   { kind: 'setEntityTrigger', icon: '🔗', name: '换触发脚本', group: '控制流', params: [['entity', '实体 id'], ['stages', '新段']], desc: '运行时切实体触发行为。', origin: '0x25' },
   { kind: 'setEntityTriggerMode', icon: '🎚', name: '触发方式', group: '控制流', params: [['entity', '实体 id'], ['on', 'interact/touch(缺省关)'], ['range', '触发距离']], desc: '开关/改距(演出后启用门等)。', origin: '0x40' },
-  { kind: 'unmigrated', icon: '⚠️', name: '未翻译(逃生口)', group: '控制流', params: [['opcode', '原版 op'], ['operands', '原始参数'], ['note', '备注']], desc: '迁移器翻不动的原版 op;结构保留语义未译,引擎打日志跳过 —— 人工改写成上面的命令。' },
+  { kind: 'unmigrated', icon: '⚠️', name: '未翻译(逃生口)', group: '控制流', params: [['opcode', '原版 op'], ['operands', '原始参数'], ['note', '备注']], desc: '迁移器翻不动的原版 op;结构保留语义未译,引擎打日志跳过 —— 人工改写成上面的指令。' },
 ]
