@@ -922,6 +922,26 @@ async function main(): Promise<void> {
       // 胜利结算路径已在 buildSettlement 里写回 HP + 入账;其余路径(败/逃/敌逃)此处写回 HP。
       if (result !== 'win' || session.enemyFled()) session.writeBackHp(world.party)
       session.writeBackInventory(world.inventory)
+      // Phase E 战后脚本(battle.c:1334-1337):胜利后逐敌槽跑 scriptOnBattleEnd(→ onDefeated,
+      // 掉落对话/剧情旗标);返回值不回写(原版同)。触发战斗的脚本 runner 正悬挂在 startBattle
+      // 上占着全局 runner 槽 → 独立 runner 内联跑(外层在等本函数返回,无并行);共享 scriptAbort
+      // (dev 强停/读档连带中止)。敌整场逃离(0x69)不跑(无奖励语义,同 rewards)。
+      if (result === 'win' && !session.enemyFled() && world.script) {
+        for (const def of session.enemySlotDefs()) {
+          if (!def.onDefeated?.length) continue
+          const r = new ScriptRunner(
+            scriptHost,
+            world.script,
+            (scriptAbort ?? new AbortController()).signal,
+          )
+          await r
+            .runStages(`battle-end:${def.id}`, [{ body: def.onDefeated }])
+            .catch((err: unknown) => {
+              if (!(err instanceof DOMException && err.name === 'AbortError'))
+                console.error('[script] onDefeated', def.id, err)
+            })
+        }
+      }
       // 战斗内切过曲(战斗 BGM/胜利小调)→ 回场景曲;lose 进 gameOver 流程不回。
       if (result !== 'lose' && (typeof battleTrack === 'number' || playedVictory)) {
         const m = world.script?.vars['sys:music']

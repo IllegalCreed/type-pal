@@ -427,6 +427,11 @@ export class BattleSession {
     return this.state.enemyFled
   }
 
+  /** 战末敌槽 def 列表(按槽序,含 divide/summon 增员;Phase E 战后脚本逐槽跑,battle.c:1334)。 */
+  enemySlotDefs(): EnemyDef[] {
+    return this.state.enemies.map((e) => e.def)
+  }
+
   /** 战果(B7a;敌死累计,main 战后入账)。 */
   rewards(): { exp: number; cash: number } {
     return { exp: this.state.expGained, cash: this.state.cashGained }
