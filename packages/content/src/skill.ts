@@ -71,6 +71,8 @@ export interface SkillAnimation {
   effectTimes?: number
   /** 末尾震屏帧数(原 wShake)。 */
   shake?: number
+  /** 屏幕波幅叠加(原 wWave;演出期叠在战场常驻波上,fight.c:2666;原版仅 4 条法术非零)。 */
+  wave?: number
   /** 法术效果音(原 wSound;(i−fireDelay)%n==0 帧循环播)。 */
   sound?: number
 }

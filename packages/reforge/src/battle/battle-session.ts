@@ -14,6 +14,7 @@ import type { DialogBox } from '../dialog/dialog-box.js'
 import { startDialogue } from '../dialogue.js'
 import { drawNumber, type MenuAssets } from '../menu/menu-box.js'
 import { bakeFrame } from '../render.js'
+import { type ScreenShake, shakeOffsetY, WavedBgCache } from '../screen-fx.js'
 import { renderSpans } from '../text/text-render.js'
 import {
   type AnimFrame,
@@ -146,6 +147,13 @@ export class BattleSession {
   private deathFades = new Map<number, number>()
   /** 本步结算中死掉的敌槽(动画播完后统一开淡出 + death 音)。 */
   private pendingDeaths: number[] = []
+  // ── 屏幕级特效(演出审计 §2-1;screen-fx 引擎模块)──
+  /** 波动背景缓存(仅相位/波幅变化时重卷)。 */
+  private readonly wavedBg = new WavedBgCache()
+  /** 法术屏波叠加(OffMagic 首帧设 fx.wave;收尾归 0 = fight.c:2835 还原语义)。 */
+  private frameWaveAdd = 0
+  /** 震屏(法术末 wShake 帧累计;time-based 派生,过期自清)。 */
+  private screenShake: ScreenShake | null = null
   // ── M4c-2 演出(choreography):轮起手钩,dialog 逐条横幅播,空格推进 ──
   private choreoQueue: Command[] = []
   private choreoBanner: { name: string; text: string } | null = null
@@ -176,6 +184,8 @@ export class BattleSession {
       playerCastBase?: number[]
       /** 各队员战斗音效(BattlerSpec.sounds;与 players 同序。演出数据走 opts 通道,不进逻辑核)。 */
       playerSounds?: Array<import('@type-pal/content').BattlerSounds | undefined>
+      /** 战场常驻波幅(battle-fields.json screenWave;法术 wave 演出期叠加其上,battle.c:1559)。 */
+      fieldWave?: number
       /** 自动战斗(0x8A;玩家侧 AI 代打,不出指令菜单 —— 石长老过场战)。 */
       auto?: boolean
       /** 首领战(原版 0x07 fIsBoss=!op2):不可逃;壳层另用于胜利曲 2/结算时长。 */
@@ -557,6 +567,15 @@ export class BattleSession {
           },
           onSound: (id) => this.assets.sfx?.play(id),
           onDamage: (t, v) => this.applyDamageFx(t, v),
+          // 震屏帧:累计活跃至帧尾(level 恒 3,fight.c:2718;合成级垂直位移)
+          onScreenShake: (durMs) => {
+            const until = this.nowMs + durMs
+            this.screenShake = { untilMs: Math.max(this.screenShake?.untilMs ?? 0, until), level: 3 }
+          },
+          // 法术屏波叠加(fight.c:2666;收尾 finishStepVisuals 还原)
+          onWaveAdd: (w) => {
+            this.frameWaveAdd = w
+          },
         })
         this.anim.tick(0) // 进首帧
         return
@@ -623,6 +642,7 @@ export class BattleSession {
       fireDelay: a.fireDelay ?? 0,
       effectTimes: a.effectTimes ?? 0,
       shake: a.shake ?? 0,
+      wave: a.wave ?? 0,
       sound: a.sound ?? 0,
     }
     const damageNums = this.diffDamageNums(pHp, eHp)
@@ -805,6 +825,9 @@ export class BattleSession {
   /** 每步收尾:表现层复位 + 死亡淡出登记(death 音)+ displayHp 兜底同步。 */
   private finishStepVisuals(): void {
     this.resetVisual()
+    // per-action 瞬态复位(审计红线 #7;fight.c:2835 wave 还原语义)
+    this.frameWaveAdd = 0
+    this.screenShake = null
     for (const i of this.pendingDeaths) {
       this.deathFades.set(i, this.nowMs)
       const e = this.state.enemies[i]
@@ -859,6 +882,27 @@ export class BattleSession {
   }
 
   render(ctx: CanvasRenderingContext2D, worldScale: number): void {
+    // 震屏 = 整帧合成级垂直位移(所有图层+UI 之上;video.c UpdateScreen 输出级 —— 一阶段
+    // daaaae51 血泪:只接大世界路径漏战斗侧 = 山神震屏不显示)。露出条带填黑。
+    const dy = shakeOffsetY(this.screenShake, this.nowMs)
+    if (dy !== 0) {
+      ctx.save()
+      ctx.translate(0, dy * worldScale)
+    }
+    try {
+      this.renderInner(ctx, worldScale)
+    } finally {
+      if (dy !== 0) {
+        ctx.restore()
+        ctx.fillStyle = '#000'
+        const band = Math.abs(dy) * worldScale
+        if (dy > 0) ctx.fillRect(0, 0, ctx.canvas.width, band)
+        else ctx.fillRect(0, ctx.canvas.height - band, ctx.canvas.width, band)
+      }
+    }
+  }
+
+  private renderInner(ctx: CanvasRenderingContext2D, worldScale: number): void {
     const s = this.state
     const now = this.nowMs
     const sel = s.phase === 'selectAction' ? this.nextSelecting() : undefined
@@ -911,8 +955,11 @@ export class BattleSession {
       if (sprite && v)
         players.push({ sprite, x: v.x, y: v.y, frame: v.frame, highlight: v.colorShift > 0 })
     })
+    // 屏波:战场常驻 + 法术叠加(fight.c:2666);只卷背景层,精灵画在卷完的背景上自身笔直
+    // (层序铁律,一阶段 2deb52bd:放精灵后 = boss 边缘撕裂)。缓存仅相位变化时重卷。
+    const waveAmp = (this.opts.fieldWave ?? 0) + this.frameWaveAdd
     const scene: BattleScene = {
-      bg: this.assets.bg,
+      ...(this.assets.bg ? { bg: this.wavedBg.render(this.assets.bg, waveAmp, now) } : {}),
       enemies,
       players,
       palette: this.assets.palette,

@@ -66,6 +66,7 @@ describe('M4d-2 战斗动画时间线', () => {
         fireDelay: 0,
         effectTimes: 1,
         shake: 0,
+        wave: 0,
         sound: 0,
       },
       damageNums: [],

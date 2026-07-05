@@ -40,6 +40,10 @@ export interface AnimFrame {
   damageNum?: { target: { side: 'player' | 'enemy'; idx: number }; value: number }
   damageNums?: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
   sound?: number
+  /** 震屏帧(法术末 wShake 帧;session 累计 shakeUntil,合成级垂直位移,level 恒 3 fight.c:2718)。 */
+  screenShake?: boolean
+  /** 屏幕波幅叠加设值(OffMagic 首帧设 = fx.wave;演出期叠在战场常驻波上,动作收尾归 0)。 */
+  waveAdd?: number
 }
 
 export interface BuildPlayerAttackInput {
@@ -250,6 +254,8 @@ export interface CastFxParams {
   fireDelay: number
   effectTimes: number
   shake: number
+  /** 屏幕波幅叠加(原 wWave;fight.c:2666 演出期 += 、末尾还原)。 */
+  wave: number
   sound: number
 }
 
@@ -362,6 +368,10 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
         overlays: [...drop(k), ...summonHold],
         ...(i === fd ? { fighters: [{ side: 'player' as const, idx: casterIdx, frame: 6 }] } : {}),
         ...(fx.sound > 0 && i >= fd && (i - fd) % n === 0 ? { sound: fx.sound } : {}),
+        // 屏波:OffMagic 首帧设叠加值(fight.c:2666 wScreenWave += wWave;收尾还原在 session)
+        ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
+        // 震屏:末 wShake 帧逐帧触发(fight.c:2718 VIDEO_ShakeScreen(i,3))
+        ...(inShake ? { screenShake: true } : {}),
       })
     }
   }
@@ -447,6 +457,9 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
         durationMs: frameDur,
         overlays: [{ sheet: 'magic', frameIdx: k, x: base.x + fx.xOffset, y: base.y + fx.yOffset }],
         ...(fx.sound > 0 && i >= fd && (i - fd) % n === 0 ? { sound: fx.sound } : {}),
+        // 屏波/震屏同玩家侧(fight.c:2942 敌施法同款孪生)
+        ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
+        ...(inShake ? { screenShake: true } : {}),
       })
     }
   }
@@ -463,6 +476,10 @@ export interface AnimSideEffects {
   onDamage?(target: { side: 'player' | 'enemy'; idx: number }, value: number): void
   onFighter?(d: FighterDelta): void
   onOverlay?(o: OverlayDraw[] | null): void
+  /** 震屏帧进入(参数 = 本帧时长;session 累计 shakeUntil,fight.c:2718)。 */
+  onScreenShake?(durationMs: number): void
+  /** 屏幕波幅叠加设值(OffMagic 首帧;收尾还原由 session 管,fight.c:2666/2835)。 */
+  onWaveAdd?(wave: number): void
 }
 
 /** 逐帧推进器:进入新帧时应用 deltas + 派发副作用(每帧恰一次;wall-clock dt 驱动)。 */
@@ -500,5 +517,7 @@ export class AnimPlayer {
     if (f.sound !== undefined && f.sound > 0) this.fx.onSound?.(f.sound)
     if (f.damageNum) this.fx.onDamage?.(f.damageNum.target, f.damageNum.value)
     if (f.damageNums) for (const d of f.damageNums) this.fx.onDamage?.(d.target, d.value)
+    if (f.screenShake) this.fx.onScreenShake?.(f.durationMs)
+    if (f.waveAdd !== undefined) this.fx.onWaveAdd?.(f.waveAdd)
   }
 }

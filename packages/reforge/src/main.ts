@@ -24,6 +24,7 @@ import {
   type AssetBase,
   type LoadedSprite,
   loadBattleBg,
+  loadBattleFields,
   loadBattleSprite,
   loadEffectSprite,
   loadFireSprite,
@@ -409,6 +410,7 @@ async function main(): Promise<void> {
   let partyGesture: number | null = null // 脚本姿势帧(渲染 = dir*framesPerDir + gesture)
   let leaderSpriteOverride: { def: SpriteDef; frames: typeof playerSprite } | null = null // 0x65 换装
   let activeBattle: BattleSession | null = null // M4b:进行中的战斗(主循环转发 tick/render)
+  let battleFieldsPromise: Promise<Map<number, { screenWave: number }>> | null = null // 战场表懒载一次
   // ── M3b 走位/动画驱动(abort 全兑现)。**全局 100ms 世界拍**:玩家步进与脚本走位共拍
   //    推进 —— 曾各自累加(玩家 100ms / NPC 130ms)错相,高频渲染把错拍中间帧全画出来,
   //    同屏对走 NPC 呈「退 16 进 8」锯齿(2026-07-05 作者报抖动/速度怪;原版全世界一 tick 同拍)。
@@ -758,6 +760,11 @@ async function main(): Promise<void> {
             if (eff.kind === 'summon') summonGodIds.add(eff.godId)
         }
       const fieldId = world.script?.vars['sys:battleField'] ?? 24
+      // 战场常驻波(battle.c:1559 进战斗设 field.screenWave;#18/22/32/35/50 水下/幻境)
+      const fields = await (battleFieldsPromise ??= loadBattleFields(project.assetBase).catch(
+        () => new Map<number, { screenWave: number }>(),
+      ))
+      const fieldWave = fields.get(Number(fieldId))?.screenWave ?? 0
       const [bg, summonSprites, enemySprites, playerSprites, faceList, battleIcons, effectSprite, effectIndex] =
         await Promise.all([
           loadBattleBg(project.assetBase, fieldId, palette).catch(() => undefined),
@@ -867,6 +874,7 @@ async function main(): Promise<void> {
           locale: project.locale,
           playerEffectBase,
           playerCastBase,
+          fieldWave,
           // 战斗音效七件套(BattlerSpec.sounds;出招/挥击/吟唱已接,其余随对应演出落地)
           playerSounds: world.party.map((c) => project.actorsById[c.template]?.battler?.sounds),
           // B7b/B7c 胜利结算(会话 over 阶段调一次):HP 写回 + 入账 + 升级 + 隐藏经验 =
@@ -2047,6 +2055,9 @@ async function main(): Promise<void> {
       leader.mp = leader.maxMP
     }
   }
+  // ?field=<战场号>:dev 覆写战场(验屏波/换背景;#32 常驻波 128 最猛)
+  const fieldParam = params.get('field')
+  if (fieldParam !== null && world.script) world.script.vars['sys:battleField'] = Number(fieldParam)
   const battleParam = battleRaw === null ? Number.NaN : Number(battleRaw)
   if (Number.isFinite(battleParam) && battleParam >= 0) {
     void host.startBattle(battleParam).then((r) => showToast(`试打结束:${r}`))

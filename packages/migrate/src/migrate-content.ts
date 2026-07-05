@@ -75,6 +75,7 @@ export interface SourceMagic {
   fireDelay?: number
   effectTimes?: number
   shake?: number
+  wave?: number
   sound?: number
 }
 
@@ -98,6 +99,7 @@ function mapAnimation(m: SourceMagic): SkillData['animation'] {
     fireDelay: m.fireDelay ?? 0,
     effectTimes: m.effectTimes ?? 0,
     shake: m.shake ?? 0,
+    wave: m.wave ?? 0,
     sound: m.sound ?? 0,
   }
 }

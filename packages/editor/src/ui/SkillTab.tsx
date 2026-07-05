@@ -382,6 +382,7 @@ export function SkillTab(props: {
                   {/* 召唤类:原版把 wEffectTimes 复用为背景染色量(fight.c:3145),不是循环次数 —— 表单按语义分支标注 */}
                   <label><span className="lb" title={skill.effects.some((e) => e.kind === 'summon') ? '召唤类技能此字段 = 背景染色量(原版 wEffectTimes→sBackgroundColorShift,fight.c:3145);染色演出接线后生效' : '特效命中段循环次数'}>{skill.effects.some((e) => e.kind === 'summon') ? '背景染色' : '循环次数'}</span> <N v={skill.animation.effectTimes} on={(n) => setAnim({ effectTimes: n })} ph="1" /></label>
                   <label><span className="lb">震屏帧</span> <N v={skill.animation.shake} on={(n) => setAnim({ shake: n })} ph="0" /></label>
+                  <label><span className="lb" title="屏幕波幅叠加(演出期叠在战场常驻波上;原版仅炎咒/三昧真火/火灵符法=1、鬼降=8)">屏波</span> <N v={skill.animation.wave} on={(n) => setAnim({ wave: n })} ph="0" /></label>
                   <label><span className="lb">音效号</span> <N v={skill.animation.sound} on={(n) => setAnim({ sound: n })} ph="(无)" /></label>
                 </div>
                 <FireEffectPreview assetBase={assetBase} anim={skill.animation} />

@@ -128,6 +128,16 @@ export async function loadFireSprite(base: AssetBase, chunk: number): Promise<Lo
   return { frames, anchorX: 0, anchorY: 0 }
 }
 
+/** 战场表(id → screenWave 常驻波幅;battle-fields.json)。缺文件由调用方 catch 空表兜底。 */
+export async function loadBattleFields(
+  base: AssetBase,
+): Promise<Map<number, { screenWave: number }>> {
+  const res = await fetch(`${base.root}/battle-fields.json`)
+  if (!res.ok) throw new Error(`battle-fields: ${res.status}`)
+  const arr = (await res.json()) as Array<{ id: number; screenWave?: number }>
+  return new Map(arr.map((f) => [f.id, { screenWave: f.screenWave ?? 0 }]))
+}
+
 /**
  * 战斗背景(M4b):{root}/../images/battle/bg/{NNN}.png —— FBP 8-bit 索引位图,提取器把索引
  * 直接写成灰度 PNG(R=G=B=索引,未着色)。故此处读 R 通道当索引,经 palette 着色成真彩 canvas
