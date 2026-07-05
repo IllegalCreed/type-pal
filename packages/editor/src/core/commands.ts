@@ -19,6 +19,7 @@ import type {
   ItemData,
   LevelUpSkill,
   SceneDef,
+  SkillData,
   ScriptStage,
   SpriteDef,
 } from '@type-pal/content'
@@ -262,8 +263,8 @@ export class UpdateEntityCommand implements Command {
   }
 }
 
-/** UpdateScene 的 patch 范围(paletteId / entry / musicId / entries)。 */
-export type ScenePatch = Partial<Pick<SceneDef, 'paletteId' | 'entry' | 'musicId' | 'entries'>>
+/** UpdateScene 的 patch 范围(paletteId / entry / musicId / entries / map 整替换)。 */
+export type ScenePatch = Partial<Pick<SceneDef, 'paletteId' | 'entry' | 'musicId' | 'entries' | 'map'>>
 
 /**
  * 改场景字段(paletteId/entry/musicId)。apply 记下旧值,invert 还原。语义同 UpdateEntityCommand。
@@ -284,6 +285,7 @@ export class UpdateSceneCommand implements Command {
     this.patch = { ...patch }
     if (this.patch.entry) this.patch.entry = structuredClone(this.patch.entry)
     if (this.patch.entries) this.patch.entries = structuredClone(this.patch.entries)
+    if (this.patch.map) this.patch.map = structuredClone(this.patch.map)
   }
 
   apply(state: EditorState): EditorState {
@@ -303,6 +305,7 @@ export class UpdateSceneCommand implements Command {
     }
     if ('entries' in this.patch)
       old.entries = scene.entries ? structuredClone(scene.entries) : undefined
+    if ('map' in this.patch && this.patch.map) old.map = structuredClone(scene.map)
     return old
   }
 
@@ -853,5 +856,130 @@ export class CreateScriptSourceCommand implements Command {
       return { ...e, pages: [newPage, ...rest] }
     })
     return withScene(state, this.sceneId, { ...scene, entities })
+  }
+}
+
+/**
+ * 换 prop 实体的精灵引用(放置 palette 配套;actor 实体不适用 —— 角色精灵在角色模式改)。
+ */
+export class SetEntitySpriteCommand implements Command {
+  readonly label = '换实体精灵'
+  private readonly sceneId: string
+  private readonly entityId: string
+  private readonly spriteId: string
+  private old: string | undefined
+  private captured = false
+
+  constructor(sceneId: string, entityId: string, spriteId: string) {
+    this.sceneId = sceneId
+    this.entityId = entityId
+    this.spriteId = spriteId
+  }
+
+  private swap(state: EditorState, to: string): EditorState {
+    const scene = findScene(state, this.sceneId)
+    if (!scene) return state
+    const entities = scene.entities.map((e) => {
+      if (e.id !== this.entityId || !('sprite' in e)) return e
+      return { ...e, sprite: to }
+    })
+    return withScene(state, this.sceneId, { ...scene, entities })
+  }
+
+  apply(state: EditorState): EditorState {
+    const e = findScene(state, this.sceneId)?.entities.find((x) => x.id === this.entityId)
+    if (!e || !('sprite' in e)) return state
+    if (!this.captured) {
+      this.captured = true
+      this.old = e.sprite
+    }
+    return this.swap(state, this.spriteId)
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.captured || this.old === undefined) return state
+    return this.swap(state, this.old)
+  }
+}
+
+/** 不可变:替换 skillId 技能;旁技能同引用。 */
+function withSkill(state: EditorState, skillId: string, next: SkillData): EditorState {
+  let hit = false
+  const skills = state.skills.map((s) => {
+    if (s.id !== skillId) return s
+    hit = true
+    return next
+  })
+  return hit ? { ...state, skills } : state
+}
+
+/** UpdateSkill 的 patch 范围(同 UpdateItem 模式:undefined 值 = 删键)。 */
+export type SkillPatch = Partial<Omit<SkillData, 'id'>>
+
+/** 修改技能字段(undo 恢复旧值)。 */
+export class UpdateSkillCommand implements Command {
+  readonly label = '修改技能'
+  private readonly skillId: string
+  private readonly patch: SkillPatch
+  private oldPatch: SkillPatch | undefined
+
+  constructor(skillId: string, patch: SkillPatch) {
+    this.skillId = skillId
+    this.patch = structuredClone(patch)
+  }
+
+  apply(state: EditorState): EditorState {
+    const sk = state.skills.find((x) => x.id === this.skillId)
+    if (!sk) return state
+    if (!this.oldPatch) {
+      const old: Record<string, unknown> = {}
+      for (const k of Object.keys(this.patch))
+        old[k] = structuredClone((sk as unknown as Record<string, unknown>)[k])
+      this.oldPatch = old as SkillPatch
+    }
+    const next = { ...sk, ...this.patch } as Record<string, unknown>
+    for (const [k, v] of Object.entries(this.patch)) if (v === undefined) delete next[k]
+    return withSkill(state, this.skillId, next as unknown as SkillData)
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.oldPatch) return state
+    const sk = state.skills.find((x) => x.id === this.skillId)
+    if (!sk) return state
+    const next = { ...sk, ...this.oldPatch } as Record<string, unknown>
+    for (const [k, v] of Object.entries(this.oldPatch)) if (v === undefined) delete next[k]
+    return withSkill(state, this.skillId, next as unknown as SkillData)
+  }
+}
+
+/**
+ * 新建场景(复用地图号起步;entry 给定落点;空实体/对话)。invert 删回。
+ * id 由 UI 保证唯一(重复 = no-op 防御)。
+ */
+export class AddSceneCommand implements Command {
+  readonly label = '新建场景'
+  private readonly scene: SceneDef
+  private added = false
+
+  constructor(id: string, mapNum: number, entry: SceneDef['entry'], paletteId?: number) {
+    this.scene = {
+      id,
+      map: { reuseOriginalMap: mapNum },
+      ...(paletteId !== undefined ? { paletteId } : {}),
+      entry: structuredClone(entry),
+      entities: [],
+      dialogues: [],
+    }
+  }
+
+  apply(state: EditorState): EditorState {
+    if (state.scenes.some((s) => s.id === this.scene.id)) return state // 重名防御
+    this.added = true
+    return { ...state, scenes: [...state.scenes, structuredClone(this.scene)] }
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.added) return state
+    return { ...state, scenes: state.scenes.filter((s) => s.id !== this.scene.id) }
   }
 }

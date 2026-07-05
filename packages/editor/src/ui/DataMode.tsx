@@ -23,6 +23,7 @@ import { buildRefIndex } from '../core/ref-index.js'
 import { EnemyTab } from './EnemyTab.js'
 import { ItemTab } from './ItemTab.js'
 import { MusicTab } from './MusicTab.js'
+import { SkillTab } from './SkillTab.js'
 import { SpriteFrames } from './SpriteFrames.js'
 import { VarsTab } from './VarsTab.js'
 
@@ -68,6 +69,8 @@ export function DataMode(props: {
   enemyTeams: EnemyTeamDef[]
   /** 音乐库(音乐页;工程没带 = 空)。 */
   music: MusicDef[]
+  /** 技能数组(SkillTab 编辑;= session state.skills)。 */
+  skillList: import('@type-pal/content').SkillData[]
   /** 全场景(N5 引用反向索引数据源)。 */
   scenes: SceneDef[]
   /** 引用跳转:变量页/物品页点引用 → 事件模式定位。 */
@@ -84,6 +87,7 @@ export function DataMode(props: {
     itemList,
     music,
     scenes,
+    skillList,
     onJumpToEvent,
   } = props
   // N5:引用反向索引(flag/var/item ← 事件脚本);scenes 变才重算(全量扫描毫秒级)
@@ -148,6 +152,10 @@ export function DataMode(props: {
         onJumpToEvent={onJumpToEvent}
       />
     )
+  }
+
+  if (tab === 'skill') {
+    return <SkillTab skills={skillList} session={session} tabBar={tabBar} />
   }
 
   if (tab === 'music') {

@@ -14,15 +14,18 @@ import type {
   HostileBehavior,
   MusicDef,
   SceneDef,
+  SpriteDef,
 } from '@type-pal/content'
 import { isActorEntity, resolveEntitySpriteId, validateReferences } from '@type-pal/content'
 import type { LoadedProject } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import {
   AddEntityCommand,
+  AddSceneCommand,
   CreateScriptSourceCommand,
   DeleteEntityCommand,
   MoveEntityCommand,
+  SetEntitySpriteCommand,
   UpdateEntityCommand,
   UpdateSceneCommand,
 } from '../core/commands.js'
@@ -62,6 +65,8 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
     blocked: false,
   })
   const [placeSceneId, setPlaceSceneId] = useState<string>(state.manifest.entryScene)
+  // 放置 palette:add 工具态右栏选「要放的精灵」(审计断点 #1)
+  const [placeSpriteId, setPlaceSpriteId] = useState<string>(state.sprites[0]?.id ?? '')
   const dirHandleRef = useRef<FileSystemDirectoryHandle | null>(null)
   const [saveErr, setSaveErr] = useState('')
 
@@ -105,6 +110,13 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
         e.preventDefault()
         session.dispatch(new DeleteEntityCommand(scene.id, selEntity.id))
         setSelected(SCENE_NODE)
+        return
+      }
+      // undo/redo 快捷键(⌘/Ctrl+Z,+Shift=redo;输入框内不劫持)
+      if ((e.metaKey || e.ctrlKey) && (e.key === 'z' || e.key === 'Z') && !typing) {
+        e.preventDefault()
+        if (e.shiftKey) session.redo()
+        else session.undo()
       }
     }
     window.addEventListener('keydown', onKey)
@@ -132,7 +144,8 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
   }
   const addAt = (cell: { col: number; row: number }): void => {
     const id = newEntityId(scene.entities)
-    const sprite = state.sprites[0]?.id ?? ''
+    // 放置 palette(审计断点 #1):放当前选中的精灵,不再固定 sprites[0]
+    const sprite = placeSpriteId || (state.sprites[0]?.id ?? '')
     session.dispatch(
       new AddEntityCommand(scene.id, {
         id,
@@ -259,6 +272,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
             enemyTeams={state.enemyTeams ?? []}
             music={state.music ?? []}
             scenes={state.scenes}
+            skillList={state.skills}
             onJumpToEvent={jumpToEvent}
           />
         ) : mode === 'event' ? (
@@ -301,6 +315,25 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                   </option>
                 ))}
               </select>
+              <button
+                type="button"
+                className="tool"
+                title="新建场景(复用当前场景的地图与进场点起步,建后在属性里改)"
+                onClick={() => {
+                  const id = window.prompt('新场景 id(kebab-case):', '')?.trim()
+                  if (!id) return
+                  if (state.scenes.some((sc) => sc.id === id)) {
+                    window.alert(`场景 "${id}" 已存在`)
+                    return
+                  }
+                  session.dispatch(
+                    new AddSceneCommand(id, scene.map.reuseOriginalMap, scene.entry, scene.paletteId),
+                  )
+                  switchPlaceScene(id)
+                }}
+              >
+                ＋ 新建场景
+              </button>
               <div className="tree">
                 <button
                   className={`node${selected === SCENE_NODE ? ' sel' : ''}`}
@@ -424,7 +457,13 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
             </div>
 
             <div className="inspector">
-              {selEntity ? (
+              {tool === 'add' ? (
+                <PlacePalette
+                  sprites={state.sprites}
+                  selectedId={placeSpriteId}
+                  onPick={setPlaceSpriteId}
+                />
+              ) : selEntity ? (
                 <EntityInspector
                   entity={selEntity}
                   session={session}
@@ -432,6 +471,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                   actorsById={actorsById}
                   dialogueIds={scene.dialogues.map((d) => d.id)}
                   enemyTeams={state.enemyTeams ?? []}
+                  sprites={state.sprites}
                   onJumpToEvent={jumpToEvent}
                   onDelete={deleteSelected}
                 />
@@ -479,6 +519,56 @@ function parseTeamNum(id: string | undefined): number | undefined {
   return m ? Number(m[1]) : undefined
 }
 
+const KIND_ICON: Record<string, string> = { directional: '🚶', static: '🪑', loop: '🔥' }
+
+/** 放置 palette(审计断点 #1):add 工具态右栏选「要放的精灵」,点画布放它。 */
+function PlacePalette(props: {
+  sprites: SpriteDef[]
+  selectedId: string
+  onPick: (id: string) => void
+}) {
+  const { sprites, selectedId, onPick } = props
+  const [filter, setFilter] = useState('')
+  const shown = sprites.filter(
+    (s) =>
+      !filter ||
+      s.id.includes(filter) ||
+      s.label.includes(filter) ||
+      String(s.spriteNum).includes(filter),
+  )
+  return (
+    <>
+      <div className="insp-head">
+        <div className="what">放置精灵</div>
+        <div className="who">点画布放选中的精灵</div>
+      </div>
+      <div className="section">
+        <input
+          className="in"
+          placeholder="过滤 id/名/精灵号…"
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        />
+        <div className="palette-list">
+          {shown.map((s) => (
+            <button
+              type="button"
+              key={s.id}
+              className={`palette-row${s.id === selectedId ? ' sel' : ''}`}
+              onClick={() => onPick(s.id)}
+            >
+              <span className="ico">{KIND_ICON[s.layout.kind] ?? '❔'}</span>
+              <span className="nm">{s.label || s.id}</span>
+              <span className="k">#{s.spriteNum}</span>
+            </button>
+          ))}
+          {shown.length === 0 && <div className="insp-empty">(无匹配)</div>}
+        </div>
+      </div>
+    </>
+  )
+}
+
 function EntityInspector(props: {
   entity: EntityDef
   session: EditSession
@@ -487,12 +577,23 @@ function EntityInspector(props: {
   dialogueIds: string[]
   /** 敌队清单(B9 敌对行为 team 下拉;id 约定 team-<N>,引擎按 N 查)。 */
   enemyTeams: EnemyTeamDef[]
+  /** 精灵注册表(prop 实体换精灵下拉)。 */
+  sprites: SpriteDef[]
   /** 跳事件模式定位此实体的触发/巡逻脚本(E2)。 */
   onJumpToEvent: (sceneId: string, srcKey: string) => void
   onDelete: () => void
 }) {
-  const { entity, session, sceneId, actorsById, dialogueIds, enemyTeams, onJumpToEvent, onDelete } =
-    props
+  const {
+    entity,
+    session,
+    sceneId,
+    actorsById,
+    dialogueIds,
+    enemyTeams,
+    sprites,
+    onJumpToEvent,
+    onDelete,
+  } = props
   const setPos = (patch: Partial<GridPos>): void => {
     session.dispatch(new MoveEntityCommand(sceneId, entity.id, { ...entity.pos, ...patch }))
   }
@@ -529,10 +630,22 @@ function EntityInspector(props: {
         ) : 'sprite' in entity ? (
           <div className="field">
             <label>精灵</label>
-            <div className="in pick">
-              <span>{entity.sprite}</span>
-              <span className="meta">prop</span>
-            </div>
+            <select
+              className="in"
+              value={entity.sprite}
+              onChange={(e) =>
+                session.dispatch(new SetEntitySpriteCommand(sceneId, entity.id, e.target.value))
+              }
+            >
+              {!sprites.some((sp) => sp.id === entity.sprite) && (
+                <option value={entity.sprite}>{entity.sprite} (缺)</option>
+              )}
+              {sprites.map((sp) => (
+                <option key={sp.id} value={sp.id}>
+                  {sp.label || sp.id} #{sp.spriteNum}
+                </option>
+              ))}
+            </select>
           </div>
         ) : (
           <div className="field">
@@ -864,8 +977,17 @@ function SceneInspector(props: {
           <label>地图</label>
           <input
             className="in mono"
-            value={`reuseOriginalMap ${scene.map.reuseOriginalMap}`}
-            readOnly
+            type="number"
+            title="复用原版地图号(改后画布即重载;自有地图编辑器 = W7 立项)"
+            value={scene.map.reuseOriginalMap}
+            onChange={(e) =>
+              Number.isFinite(e.target.valueAsNumber) &&
+              session.dispatch(
+                new UpdateSceneCommand(scene.id, {
+                  map: { ...scene.map, reuseOriginalMap: e.target.valueAsNumber },
+                }),
+              )
+            }
           />
         </div>
         <div className="field">

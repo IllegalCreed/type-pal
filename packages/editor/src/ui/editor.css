@@ -150,6 +150,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 0;
+  overflow: hidden; /* 防内容溢出穿透 valbar(2026-07-05 作者报遮挡) */
 }
 .pane-h {
   display: flex;
@@ -185,6 +186,7 @@ body {
   padding: 4px 0;
   overflow-y: auto;
   flex: 1;
+  min-height: 0; /* flex 缺省 min-height:auto 不收缩 → layers 被推出容器(遮挡根因) */
 }
 .node {
   display: flex;
@@ -496,6 +498,12 @@ body {
   flex-direction: column;
   min-height: 0;
 }
+.outliner > button.tool {
+  margin: 2px 8px 6px;
+  justify-content: center;
+  border: 1px dashed var(--line);
+}
+
 .scene-list {
   flex: 0 1 auto;
   max-height: 42%;
@@ -1710,4 +1718,43 @@ body {
 .src-create-row select {
   flex: 1;
   min-width: 0;
+}
+
+/* ── 放置 palette(断点 #1) ── */
+.palette-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 6px;
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+}
+.palette-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 6px;
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  border-radius: 4px;
+  font-size: 12px;
+}
+.palette-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+.palette-row.sel {
+  background: rgba(76, 154, 255, 0.18);
+}
+.palette-row .nm {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.palette-row .k {
+  opacity: 0.5;
+  font-family: ui-monospace, monospace;
 }
