@@ -30,7 +30,7 @@ function loadGodFrames(assetBase: AssetBase, godId: number): Promise<HTMLCanvasE
 }
 
 const W = 200
-const H = 190
+const H = 170
 
 export function SummonPreview(props: { assetBase: AssetBase; godId: number; speed?: number }) {
   const { assetBase, godId, speed } = props
@@ -103,7 +103,7 @@ export function SummonPreview(props: { assetBase: AssetBase; godId: number; spee
             </select>
           </div>
           <div className="hint2">
-            神将 #{godId}(chunk {godId + 10}) · {frames.length} 帧 · 0→{frames.length - 2} 推进 + 定格末帧(fight.c 真值编排)
+            神将 #{godId} · {frames.length} 帧 · 推进后定格(真值编排)
           </div>
         </>
       )}

@@ -279,16 +279,16 @@ export function SkillTab(props: {
             <div className="section">
               <h4>基础</h4>
               <div className="sk-grid">
-                <label>名字 <input className="in" value={skill.name} onChange={(e) => patch({ name: e.target.value })} /></label>
+                <label><span className="lb">名字</span> <input className="in" value={skill.name} onChange={(e) => patch({ name: e.target.value })} /></label>
                 <label>
-                  目标
+                  <span className="lb">目标</span>
                   <select className="in" value={skill.target} onChange={(e) => patch({ target: e.target.value as SkillData['target'] })}>
                     {TARGETS.map((t) => <option key={t.v} value={t.v}>{t.label}</option>)}
                   </select>
                 </label>
-                <label>耗真气 <N v={skill.cost.mp} on={(n) => patch({ cost: { ...skill.cost, mp: n } })} ph="0" /></label>
-                <label>耗体力 <N v={skill.cost.stamina} on={(n) => patch({ cost: { ...skill.cost, stamina: n } })} ph="0" /></label>
-                <label>耗金钱 <N v={skill.cost.money} on={(n) => patch({ cost: { ...skill.cost, money: n } })} ph="0" /></label>
+                <label><span className="lb">耗真气</span> <N v={skill.cost.mp} on={(n) => patch({ cost: { ...skill.cost, mp: n } })} ph="0" /></label>
+                <label><span className="lb">耗体力</span> <N v={skill.cost.stamina} on={(n) => patch({ cost: { ...skill.cost, stamina: n } })} ph="0" /></label>
+                <label><span className="lb">耗金钱</span> <N v={skill.cost.money} on={(n) => patch({ cost: { ...skill.cost, money: n } })} ph="0" /></label>
                 <label className="cf-inline">
                   <input type="checkbox" checked={skill.usableOutsideBattle} onChange={(e) => patch({ usableOutsideBattle: e.target.checked })} />
                   战外可用
@@ -339,9 +339,9 @@ export function SkillTab(props: {
               <h4>动画 <span className="hint2">FIRE 特效参数;右侧预览实时反映</span></h4>
               <div className="sk-anim">
                 <div className="sk-grid">
-                  <label>特效号 <N v={skill.animation.effectSprite} on={(n) => setAnim({ effectSprite: n ?? 0 })} /></label>
+                  <label><span className="lb">特效号</span> <N v={skill.animation.effectSprite} on={(n) => setAnim({ effectSprite: n ?? 0 })} /></label>
                   <label>
-                    落点
+                    <span className="lb">落点</span>
                     <select className="in" value={skill.animation.placement ?? 'normal'} onChange={(e) => setAnim({ placement: e.target.value as SkillAnimation['placement'] })}>
                       <option value="normal">目标点</option>
                       <option value="attackAll">逐敌各放</option>
@@ -349,13 +349,13 @@ export function SkillTab(props: {
                       <option value="attackField">全屏</option>
                     </select>
                   </label>
-                  <label>X 偏移 <N v={skill.animation.xOffset} on={(n) => setAnim({ xOffset: n })} ph="0" /></label>
-                  <label>Y 偏移 <N v={skill.animation.yOffset} on={(n) => setAnim({ yOffset: n })} ph="0" /></label>
-                  <label>速度 <N v={skill.animation.speed} on={(n) => setAnim({ speed: n })} ph="0" /></label>
-                  <label>循环起点 <N v={skill.animation.fireDelay} on={(n) => setAnim({ fireDelay: n })} ph="0" /></label>
-                  <label>循环次数 <N v={skill.animation.effectTimes} on={(n) => setAnim({ effectTimes: n })} ph="1" /></label>
-                  <label>震屏帧 <N v={skill.animation.shake} on={(n) => setAnim({ shake: n })} ph="0" /></label>
-                  <label>音效号 <N v={skill.animation.sound} on={(n) => setAnim({ sound: n })} ph="(无)" /></label>
+                  <label><span className="lb">X 偏移</span> <N v={skill.animation.xOffset} on={(n) => setAnim({ xOffset: n })} ph="0" /></label>
+                  <label><span className="lb">Y 偏移</span> <N v={skill.animation.yOffset} on={(n) => setAnim({ yOffset: n })} ph="0" /></label>
+                  <label><span className="lb">速度</span> <N v={skill.animation.speed} on={(n) => setAnim({ speed: n })} ph="0" /></label>
+                  <label><span className="lb">循环起点</span> <N v={skill.animation.fireDelay} on={(n) => setAnim({ fireDelay: n })} ph="0" /></label>
+                  <label><span className="lb">循环次数</span> <N v={skill.animation.effectTimes} on={(n) => setAnim({ effectTimes: n })} ph="1" /></label>
+                  <label><span className="lb">震屏帧</span> <N v={skill.animation.shake} on={(n) => setAnim({ shake: n })} ph="0" /></label>
+                  <label><span className="lb">音效号</span> <N v={skill.animation.sound} on={(n) => setAnim({ sound: n })} ph="(无)" /></label>
                 </div>
                 <div className="sk-previews">
                   {(() => {

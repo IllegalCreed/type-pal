@@ -31,8 +31,8 @@ function loadFrames(assetBase: AssetBase, chunk: number): Promise<HTMLCanvasElem
   return p
 }
 
-const W = 180
-const H = 150
+const W = 200
+const H = 170
 
 export function FireEffectPreview(props: { assetBase: AssetBase; anim: SkillAnimation }) {
   const { assetBase, anim } = props

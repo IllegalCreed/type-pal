@@ -1832,33 +1832,58 @@ body {
 }
 
 
-/* ── 技能编辑(结构化表单 + 特效预览) ── */
+/* ── 技能编辑(结构化表单 + 特效预览;紧凑 —— 全宽拉伸是物品页被作者否决过的错误) ── */
+.skill-form {
+  max-width: 860px;
+}
 .skill-form .sk-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(120px, 1fr));
-  gap: 6px 12px;
+  grid-template-columns: repeat(3, 220px);
+  gap: 8px 20px;
 }
 .skill-form .sk-grid label {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-size: 12px;
   color: var(--dim);
   min-width: 0;
+  white-space: nowrap; /* 「五行」等双字 label 不许竖排断行 */
+}
+.skill-form .sk-grid label::first-line {
+  /* noop */
+}
+.skill-form .sk-grid > label > span.lb {
+  flex: none;
+  min-width: 52px; /* 4 字 label 宽:输入框起点全列对齐 */
+  text-align: right;
+}
+.skill-form .sk-grid label > span.lb,
+.skill-form .sk-grid label > :first-child:not(.in):not(input):not(select) {
+  flex: none;
 }
 .skill-form .sk-grid label .in {
   flex: 1;
   min-width: 0;
 }
+.skill-form .field textarea.cf-ta {
+  max-width: 640px;
+}
 .ef-num {
   width: 76px;
+  flex: none;
 }
 .ef-row {
   display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  padding: 5px 6px;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  max-width: 720px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+}
+.ef-row:hover {
+  background: rgba(255, 255, 255, 0.02);
 }
 .ef-kind {
   width: 92px;
@@ -1868,16 +1893,17 @@ body {
   flex: 1;
   display: flex;
   flex-wrap: wrap;
-  gap: 4px 12px;
+  gap: 4px 14px;
   align-items: center;
   min-width: 0;
 }
 .ef-fields label {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   font-size: 12px;
   color: var(--dim);
+  white-space: nowrap; /* 五行/持续 等 label 恒单行 */
 }
 .ef-status-set {
   display: flex;
@@ -1891,23 +1917,32 @@ body {
 }
 .sk-anim {
   display: flex;
-  gap: 14px;
+  gap: 24px;
   align-items: flex-start;
 }
 .sk-anim .sk-grid {
-  flex: 1;
+  flex: none;
+  grid-template-columns: repeat(2, 200px);
 }
 .fire-preview {
   flex: none;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+  width: 216px; /* 统一预览卡宽:画布 200 + 边距(神将/特效同规格,说明基线对齐) */
 }
 .fire-preview canvas {
+  width: 200px;
+  height: 170px;
   background: #000;
   border-radius: 6px;
   image-rendering: pixelated;
+  border: 1px solid var(--line);
+}
+.fire-preview .hint2 {
+  text-align: center;
+  line-height: 1.5;
 }
 
 /* ── 特效预览控件 ── */
