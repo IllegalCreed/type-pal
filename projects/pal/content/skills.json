@@ -2557,6 +2557,294 @@
         "shake": 0,
         "sound": 175
       }
+    },
+    {
+      "id": "315",
+      "name": "风神",
+      "desc": "",
+      "cost": {
+        "mp": 64
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "summon",
+          "godId": 4
+        },
+        {
+          "kind": "damage",
+          "power": 450,
+          "elemental": 1
+        }
+      ],
+      "animation": {
+        "effectSprite": 72,
+        "placement": "normal",
+        "xOffset": -16,
+        "yOffset": 16,
+        "speed": 0,
+        "fireDelay": 2,
+        "effectTimes": 65535,
+        "shake": 0,
+        "sound": 349
+      }
+    },
+    {
+      "id": "320",
+      "name": "雷神",
+      "desc": "",
+      "cost": {
+        "mp": 68
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "summon",
+          "godId": 6
+        },
+        {
+          "kind": "damage",
+          "power": 460,
+          "elemental": 2
+        }
+      ],
+      "animation": {
+        "effectSprite": 77,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 10,
+        "speed": 1,
+        "fireDelay": 1,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 322
+      }
+    },
+    {
+      "id": "325",
+      "name": "雪妖",
+      "desc": "",
+      "cost": {
+        "mp": 64
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "summon",
+          "godId": 2
+        },
+        {
+          "kind": "damage",
+          "power": 450,
+          "elemental": 3
+        }
+      ],
+      "animation": {
+        "effectSprite": 23,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 32,
+        "speed": 0,
+        "fireDelay": 2,
+        "effectTimes": 5,
+        "shake": 0,
+        "sound": 336
+      }
+    },
+    {
+      "id": "336",
+      "name": "山神",
+      "desc": "",
+      "cost": {
+        "mp": 66
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "summon",
+          "godId": 3
+        },
+        {
+          "kind": "damage",
+          "power": 455,
+          "elemental": 5
+        }
+      ],
+      "animation": {
+        "effectSprite": 26,
+        "placement": "normal",
+        "xOffset": -28,
+        "yOffset": 13,
+        "speed": 0,
+        "fireDelay": 4,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 329
+      }
+    },
+    {
+      "id": "348",
+      "name": "天剑",
+      "desc": "",
+      "cost": {
+        "mp": 44
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "summon",
+          "godId": 1
+        },
+        {
+          "kind": "damage",
+          "power": 303,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 20,
+        "placement": "normal",
+        "xOffset": 8,
+        "yOffset": -5,
+        "speed": 0,
+        "fireDelay": 13,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 304
+      }
+    },
+    {
+      "id": "351",
+      "name": "武神",
+      "desc": "",
+      "cost": {
+        "mp": 88
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "summon",
+          "godId": 0
+        },
+        {
+          "kind": "damage",
+          "power": 666,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 18,
+        "placement": "normal",
+        "xOffset": -8,
+        "yOffset": 22,
+        "speed": 2,
+        "fireDelay": 1,
+        "effectTimes": 65534,
+        "shake": 0,
+        "sound": 303
+      }
+    },
+    {
+      "id": "363",
+      "name": "剑神",
+      "desc": "",
+      "cost": {
+        "mp": 64
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "summon",
+          "godId": 7
+        },
+        {
+          "kind": "damage",
+          "power": 450,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 89,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 4,
+        "fireDelay": 1,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 343
+      }
+    },
+    {
+      "id": "370",
+      "name": "酒神",
+      "desc": "",
+      "cost": {
+        "mp": 1
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "summon",
+          "godId": 5
+        },
+        {
+          "kind": "damage",
+          "power": 3,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 61,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 18,
+        "speed": 1,
+        "fireDelay": 2,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 301
+      }
+    },
+    {
+      "id": "389",
+      "name": "火神",
+      "desc": "",
+      "cost": {
+        "mp": 65
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "summon",
+          "godId": 8
+        },
+        {
+          "kind": "damage",
+          "power": 452,
+          "elemental": 4
+        }
+      ],
+      "animation": {
+        "effectSprite": 17,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 0,
+        "fireDelay": 1,
+        "effectTimes": 5,
+        "shake": 0,
+        "sound": 302
+      }
     }
   ],
   "levelUp": {

@@ -59,6 +59,8 @@ export interface SourceMagic {
   baseDamage: number
   elemental: number
   effect: number
+  /** wSummonEffect:summon 型的神将 F.MKF 精灵序(0-8);其余型无意义。 */
+  special?: number
   // M4d-2b:动画播放参数(老 fixture 兼容全可选,缺省 0)
   xOffset?: number
   yOffset?: number
@@ -472,7 +474,24 @@ export function mapSkills(
       continue
     }
     if (m.type === 'summon') {
-      pending.push({ id: s.id, name: s._name, reason: 'summon(godId 推导+整精灵替换)→ 战斗期' })
+      // 战斗期已到(2026-07-05 召唤全链):summon = 神将演出(godId = wSummonEffect,F.MKF 神将
+      // 精灵序 0-8:武神/天剑/雪妖/山神/风神/酒神/雷神/剑神/火神)+ 正常伤害结算(打全体)。
+      // 酒神 baseDamage=3 是动态公式(按酒计)占位 → lossy 记账,待机制格。
+      if (s._name === '酒神')
+        lossy.push({ id: s.id, name: s._name, notes: ['summon 伤害=按饮酒动态(原版公式);暂按 baseDamage=3 直译'] })
+      skills.push({
+        id: String(s.id),
+        name: s._name,
+        desc: '', // 原版 desc = scriptDesc 脚本;召唤描述待手工(编辑器可编)
+        cost: { mp: m.costMP },
+        usableOutsideBattle: false,
+        target: 'allEnemies',
+        effects: [
+          { kind: 'summon', godId: m.special ?? 0 },
+          { kind: 'damage', power: m.baseDamage, elemental: m.elemental },
+        ],
+        animation: mapAnimation(m),
+      })
       continue
     }
     if (s.scriptOnUse !== 0) {
