@@ -1832,45 +1832,48 @@ body {
 }
 
 
-/* ── 技能编辑(结构化表单 + 特效预览;紧凑 —— 全宽拉伸是物品页被作者否决过的错误) ── */
+/* ── 技能编辑(垂直字段体系:label 上置 —— 行内 label 在中文变长下天生参差,作者否决) ── */
 .skill-form {
   max-width: 860px;
 }
 .skill-form .sk-grid {
   display: grid;
-  grid-template-columns: repeat(3, 220px);
-  gap: 8px 20px;
+  grid-template-columns: repeat(3, 200px);
+  gap: 10px 24px;
+  align-items: end;
 }
 .skill-form .sk-grid label {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
   font-size: 12px;
   color: var(--dim);
   min-width: 0;
-  white-space: nowrap; /* 「五行」等双字 label 不许竖排断行 */
+  white-space: nowrap;
 }
-.skill-form .sk-grid label::first-line {
-  /* noop */
-}
-.skill-form .sk-grid > label > span.lb {
-  flex: none;
-  min-width: 52px; /* 4 字 label 宽:输入框起点全列对齐 */
-  text-align: right;
-}
-.skill-form .sk-grid label > span.lb,
-.skill-form .sk-grid label > :first-child:not(.in):not(input):not(select) {
-  flex: none;
-}
-.skill-form .sk-grid label .in {
-  flex: 1;
+.skill-form .sk-grid label > span.lb {
+  font-size: 11px;
+  color: var(--faint);
+  text-align: left;
   min-width: 0;
 }
+.skill-form .sk-grid label .in,
+.skill-form .sk-grid label input.ef-num {
+  width: 100%;
+  flex: none;
+}
+.skill-form .sk-grid label.cf-inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 6px; /* 与相邻输入框底缘对齐 */
+}
 .skill-form .field textarea.cf-ta {
-  max-width: 640px;
+  max-width: 616px;
 }
 .ef-num {
-  width: 76px;
+  width: 88px;
   flex: none;
 }
 .ef-row {
@@ -1899,11 +1902,29 @@ body {
 }
 .ef-fields label {
   display: inline-flex;
-  align-items: center;
-  gap: 6px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 3px;
   font-size: 12px;
   color: var(--dim);
-  white-space: nowrap; /* 五行/持续 等 label 恒单行 */
+  white-space: nowrap;
+}
+.ef-fields label > :first-child:is(span),
+.ef-fields label {
+  font-size: 12px;
+}
+.ef-fields label::before {
+  content: none;
+}
+.ef-fields .in {
+  width: 112px;
+}
+.ef-fields label.cf-inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  align-self: end;
+  padding-bottom: 5px;
 }
 .ef-status-set {
   display: flex;
@@ -2011,4 +2032,16 @@ body {
   gap: 10px;
   flex: none;
   align-items: flex-start;
+}
+
+/* 垂直字段(sk-grid 体系外的单字段,同视觉) */
+.v-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 648px;
+}
+.v-field > .lb {
+  font-size: 11px;
+  color: var(--faint);
 }

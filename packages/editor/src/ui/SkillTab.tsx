@@ -93,9 +93,9 @@ function EffectFields(props: { e: SkillEffect; on: (next: SkillEffect) => void }
     case 'damage':
       return (
         <>
-          <label>威力 <N v={e.power} on={(n) => on({ ...e, power: n ?? 0 })} /></label>
+          <label><span>威力</span><N v={e.power} on={(n) => on({ ...e, power: n ?? 0 })} /></label>
           <label>
-            五行
+            <span>五行</span>
             <select className="in" value={e.elemental} onChange={(ev) => on({ ...e, elemental: Number(ev.target.value) })}>
               {ELEMENTS.map((nm, i) => (
                 <option key={nm} value={i === 6 ? 6 : i}>{nm}</option>
@@ -106,19 +106,19 @@ function EffectFields(props: { e: SkillEffect; on: (next: SkillEffect) => void }
       )
     case 'healHp':
     case 'healMp':
-      return <label>量 <N v={e.amount} on={(n) => on({ ...e, amount: n ?? 0 })} /></label>
+      return <label><span>量</span><N v={e.amount} on={(n) => on({ ...e, amount: n ?? 0 })} /></label>
     case 'revive':
-      return <label>回 max% <N v={e.hpPercent} on={(n) => on({ ...e, hpPercent: n ?? 0 })} /></label>
+      return <label><span>回 max%</span><N v={e.hpPercent} on={(n) => on({ ...e, hpPercent: n ?? 0 })} /></label>
     case 'applyStatus':
       return (
         <>
           <label>
-            状态
+            <span>状态</span>
             <select className="in" value={e.status} onChange={(ev) => on({ ...e, status: ev.target.value as StatusId })}>
               {STATUS.map((s) => <option key={s.v} value={s.v}>{s.label}</option>)}
             </select>
           </label>
-          <label>回合 <N v={e.turns} on={(n) => on({ ...e, turns: n ?? 1 })} /></label>
+          <label><span>回合</span><N v={e.turns} on={(n) => on({ ...e, turns: n ?? 1 })} /></label>
         </>
       )
     case 'removeStatus':
@@ -146,16 +146,16 @@ function EffectFields(props: { e: SkillEffect; on: (next: SkillEffect) => void }
     case 'applyPoison':
       return (
         <label>
-          毒 id
+          <span>毒 id</span>
           <input className="in ef-num" value={e.poisonId} onChange={(ev) => on({ ...e, poisonId: ev.target.value })} />
         </label>
       )
     case 'curePoison':
       return (
         <>
-          <label>≤等级 <N v={e.maxLevel} on={(n) => on({ ...e, maxLevel: n })} ph="(全)" /></label>
+          <label><span>≤等级</span><N v={e.maxLevel} on={(n) => on({ ...e, maxLevel: n })} ph="(全)" /></label>
           <label>
-            指定毒
+            <span>指定毒</span>
             <input className="in ef-num" value={e.poisonId ?? ''} placeholder="(任意)" onChange={(ev) => on({ ...e, poisonId: ev.target.value || undefined })} />
           </label>
         </>
@@ -164,7 +164,7 @@ function EffectFields(props: { e: SkillEffect; on: (next: SkillEffect) => void }
       return (
         <>
           <label>
-            属性
+            <span>属性</span>
             <select className="in" value={e.stat} onChange={(ev) => on({ ...e, stat: ev.target.value as typeof e.stat })}>
               <option value="attack">武术</option>
               <option value="defense">防御</option>
@@ -172,9 +172,9 @@ function EffectFields(props: { e: SkillEffect; on: (next: SkillEffect) => void }
               <option value="dexterity">身法</option>
             </select>
           </label>
-          <label>+% <N v={e.percent} on={(n) => on({ ...e, percent: n ?? 0 })} /></label>
+          <label><span>+%</span><N v={e.percent} on={(n) => on({ ...e, percent: n ?? 0 })} /></label>
           <label>
-            持续
+            <span>持续</span>
             <select
               className="in"
               value={e.duration === 'battle' ? 'battle' : 'turns'}
@@ -190,8 +190,8 @@ function EffectFields(props: { e: SkillEffect; on: (next: SkillEffect) => void }
     case 'gate':
       return (
         <>
-          <label>概率% <N v={e.chance} on={(n) => on({ ...e, chance: n })} ph="(无)" /></label>
-          <label>HP≤% <N v={e.hpAtMostPercent} on={(n) => on({ ...e, hpAtMostPercent: n })} ph="(无)" /></label>
+          <label><span>概率%</span><N v={e.chance} on={(n) => on({ ...e, chance: n })} ph="(无)" /></label>
+          <label><span>HP≤%</span><N v={e.hpAtMostPercent} on={(n) => on({ ...e, hpAtMostPercent: n })} ph="(无)" /></label>
           <label className="cf-inline">
             <input type="checkbox" checked={e.magicResist === true} onChange={(ev) => on({ ...e, magicResist: ev.target.checked || undefined })} />
             灵抗掷
@@ -199,11 +199,11 @@ function EffectFields(props: { e: SkillEffect; on: (next: SkillEffect) => void }
         </>
       )
     case 'steal':
-      return <label>成功率 <N v={e.rate} on={(n) => on({ ...e, rate: n ?? 0 })} /></label>
+      return <label><span>成功率</span><N v={e.rate} on={(n) => on({ ...e, rate: n ?? 0 })} /></label>
     case 'summon':
-      return <label>神将号 <N v={e.godId} on={(n) => on({ ...e, godId: n ?? 0 })} /></label>
+      return <label><span>神将号</span><N v={e.godId} on={(n) => on({ ...e, godId: n ?? 0 })} /></label>
     case 'trance':
-      return <label>变身精灵 <N v={e.sprite} on={(n) => on({ ...e, sprite: n ?? 0 })} /></label>
+      return <label><span>变身精灵</span><N v={e.sprite} on={(n) => on({ ...e, sprite: n ?? 0 })} /></label>
     default:
       return <span className="hint2">(无参数)</span>
   }
@@ -294,8 +294,8 @@ export function SkillTab(props: {
                   战外可用
                 </label>
               </div>
-              <div className="field" style={{ marginTop: 6 }}>
-                <label>说明</label>
+              <div className="v-field" style={{ marginTop: 10 }}>
+                <span className="lb">说明</span>
                 <textarea
                   className="in cf-ta"
                   key={`${skill.id}-desc`}
