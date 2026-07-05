@@ -131,6 +131,7 @@
 ## 已完成的专项审计
 
 - [battle-presentation-audit-2026-07-05.md](../battle-presentation-audit-2026-07-05.md) — 战斗演出（P0 bug + P1 缺失 + P2 状态 + P3 合体 + 11 架构红线）
+- [foundation/b-core-audit.md](foundation/b-core-audit.md) — 战斗核心逻辑 4 单元逐函数对照（公式/状态机/回合队列/结算；含 reforge dex 装配缺口 + Phase E 缺失）
 - [phase1-knowledge-harvest.md](phase1-knowledge-harvest.md) — 8 领域踩坑+知识（按领域，非逐文件）
 
 ## 审计产出位置
