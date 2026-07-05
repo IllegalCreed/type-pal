@@ -71,30 +71,30 @@
 
 | 审计单元 | sdlpal C | 一阶段 | reforge | 状态 |
 |---|---|---|---|---|
-| 菜单框架 | uigame.c, ui.c | core/menu/menu-driver.ts, menu-mode.ts | menu/(各 box) | ⬜ 待审 |
-| 状态面板 | uigame.c | core/menu/player-status.ts | menu/(status) | ⬜ 待审 |
-| 装备菜单 | uigame.c, itemmenu.c | core/menu/equip-menu.ts | equip-menu-state.ts | ⬜ 待审 |
-| 仙术菜单 | magicmenu.c | core/menu/in-game-magic-menu.ts | magic-menu-state.ts | ⬜ 待审 |
-| 物品/背包菜单 | uigame.c | core/menu/inventory-menu.ts | use-menu-state.ts | ⬜ 待审 |
-| 商店菜单 | uigame.c | core/menu/shop-menu.ts, sell-menu.ts | (未实现?) | ⬜ 待审 |
-| 存档菜单 | uigame.c | core/menu/save-slot-menu.ts | save/(browser-state) | ⬜ 待审 |
-| 开场菜单 | play.c | core/menu/opening-menu.ts | (未实现,X3) | ⬜ 待审 |
-| 主菜单(暂停) | uigame.c | core/menu/in-game-menu.ts | system-menu-state.ts | ⬜ 待审 |
+| 菜单框架 | uigame.c, ui.c | core/menu/menu-driver.ts, menu-mode.ts | menu/(各 box) | ✅ 已审([c-menu-audit](c-menu-audit.md)) |
+| 状态面板 | uigame.c | core/menu/player-status.ts | menu/(status) | ✅ 已审([c-menu-audit](c-menu-audit.md)) |
+| 装备菜单 | uigame.c, itemmenu.c | core/menu/equip-menu.ts | equip-menu-state.ts | ✅ 已审([c-menu-audit](c-menu-audit.md)) |
+| 仙术菜单 | magicmenu.c | core/menu/in-game-magic-menu.ts | magic-menu-state.ts | ✅ 已审([c-menu-audit](c-menu-audit.md) — MP 禁用门偏离) |
+| 物品/背包菜单 | uigame.c | core/menu/inventory-menu.ts | use-menu-state.ts | ✅ 已审([c-menu-audit](c-menu-audit.md)) |
+| 商店菜单 | uigame.c | core/menu/shop-menu.ts, sell-menu.ts | (未实现) | ✅ 已审([c-menu-audit](c-menu-audit.md) — 缺失) |
+| 存档菜单 | uigame.c | core/menu/save-slot-menu.ts | save/(browser-state) | ✅ 已审([c-menu-audit](c-menu-audit.md) — 故意分歧:30槽分页) |
+| 开场菜单 | play.c | core/menu/opening-menu.ts | (未实现,X3) | ✅ 已审([c-menu-audit](c-menu-audit.md) — 缺失) |
+| 主菜单(暂停) | uigame.c | core/menu/in-game-menu.ts | system-menu-state.ts | ✅ 已审([c-menu-audit](c-menu-audit.md) — DH9 偏离) |
 
 ### 第六批 · 壳层/引导/主循环（X 领域）
 
 | 审计单元 | sdlpal C | 一阶段 | reforge | 状态 |
 |---|---|---|---|---|
-| bootstrap 接线 | main.c, play.c | shell/bootstrap.ts(1894行) | main.ts(引导段) | 🟡 harvest 有,逐函数待审 |
-| 主循环 | game.c | shell/main-loop.ts(181行) | main.ts(rAF tick) | 🟡 harvest 有,逐函数待审 |
-| 输入 | input.c | shell/(input source) | input.ts | ⬜ 待审 |
-| 音频(MIDI) | midi.c, sound.c | shell/audio-midi.ts, audio.ts | audio/bgm.ts, sfx.ts | 🟡 harvest 有,逐函数待审 |
-| AVI 播放 | aviplay.c | shell/avi-player.ts | (未实现) | 🟡 harvest 有 |
-| RNG 播放 | rngplay.c | shell/rng-player.ts | (未实现) | 🟡 harvest 有 |
-| FBP/结局 | (ending.c) | shell/fbp-player.ts, ending-player.ts | (未实现) | 🟡 harvest 有 |
-| 场景加载 | res.c, scene.c | core/scene-system.ts | loader.ts | ⬜ 待审 |
-| 游戏状态 | game.c, play.c | core/game-state.ts | content/character.ts(WorldState) | ⬜ 待审 |
-| 存档 | play.c, uigame.c | core/save/ | save/(store, ops) | 🟡 harvest 有,逐函数待审 |
+| bootstrap 接线 | main.c, play.c | shell/bootstrap.ts(1894行) | main.ts(引导段) | ✅ 已审([x-shell-audit](x-shell-audit.md) — soundfont 预取缺) |
+| 主循环 | game.c | shell/main-loop.ts(181行) | main.ts(rAF tick) | ✅ 已审([x-shell-audit](x-shell-audit.md) — 无 accumulator 高危) |
+| 输入 | input.c | shell/(input source) | input.ts | ✅ 已审([x-shell-audit](x-shell-audit.md) — 后按优先✅) |
+| 音频(MIDI) | midi.c, sound.c | shell/audio-midi.ts, audio.ts | audio/bgm.ts, sfx.ts | ✅ 已审([x-shell-audit](x-shell-audit.md) — 四守卫✅/SFX去重缺/BGM揭场缺) |
+| AVI 播放 | aviplay.c | shell/avi-player.ts | (未实现) | ✅ 已审([x-shell-audit](x-shell-audit.md)) |
+| RNG 播放 | rngplay.c | shell/rng-player.ts | (未实现) | ✅ 已审([x-shell-audit](x-shell-audit.md)) |
+| FBP/结局 | (ending.c) | shell/fbp-player.ts, ending-player.ts | (未实现) | ✅ 已审([x-shell-audit](x-shell-audit.md)) |
+| 场景加载 | res.c, scene.c | core/scene-system.ts | loader.ts | ✅ 已审([x-shell-audit](x-shell-audit.md) — LRU onEvict 缺) |
+| 游戏状态 | game.c, play.c | core/game-state.ts | content/character.ts(WorldState) | ✅ 已审([x-shell-audit](x-shell-audit.md) — per-role HP 免疫) |
+| 存档 | play.c, uigame.c | core/save/ | save/(store, ops) | ✅ 已审([x-shell-audit](x-shell-audit.md) — 运行时归一化缺) |
 
 ### 第七批 · 实体/角色数据（E/C 领域）
 
