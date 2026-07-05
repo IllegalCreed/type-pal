@@ -113,6 +113,17 @@
 - **锚点**: `engineering-notes.md` §3.7b;`0dfc71b7`(0x15 点名)、`8bbbdecc`(初版误同步全队)、`e1b568cb`(朝向源 trail[2].dir)、`a47334a1`(0xA1 重叠 {0,-1});`follower-pos.ts:1-84`;`event-system.ts:3620-3648`
 - **一阶段怎么了**: 0x15 旧码把所有跟随者同步转向 → 修了船却误转隐龙窟站立的李逍遥。正解 = operand[2] 点名单员。跟随者三态：① walking（扇形布局）；② not-walking + 冻结快照（位置=队长+冻结偏移）；③ not-walking + 无快照（trail[m] 摆位）。朝向源 = trail[2].dir（非冻结快照）。
 - **reforge 现状**: ❌ **未实现**（`main.ts:549` "现阶段队伍渲染只有队长"）。**E 域最大待补**，一阶段 5 个 fix + `follower-pos.ts` 直接可参考。
+- **follower-pos oracle（11 case，一阶段 `present/follower-pos.test.ts`，做 E3 时直接抄断言）**：
+  1. **walking**: trail[1]+方向偏移（m=1 down → +16,-8）+ 朝向 trail[2].dir，并捕获 frozenOffset（含 dir）。期望 `{x:1000,y:492,dir:'down'}`，frozenOffset[1]=`{dx:0,dy:-8,dir:'down'}`
+  2. **walking + 落水回退**: 偏移落水 → 回退 trail[1]（scene.c:712 障碍回退）。期望 `{x:984,y:500}`
+  3. **not-walking + 冻结**: 位置冻结（队长+offset）、朝向用**当前 trail[2].dir**（非冻结朝向）。期望 `{x:2016,y:292,dir:'down'}`（dir='down' 非 frozen dir='up'）
+  4. **船上重叠回归**: trail[1]==leader + 落水 + not walking → 不贴队长。期望 `not {x:500,y:500}`
+  5. **not-walking + 无冻结（0x46 摆位）**: 跟随者落 trail[m]=队长+m×offset，**非 trail[1] 再叠偏移**（旧码多退一格）。m=1 期望 `{x:1016,y:492}`
+  6. **刘晋元叫醒回归**: 0x46 黑屏摆位 dir=up，跟随者紧贴队长=trail[1]=队长+(-16,+8)，非 2×偏移。期望 `{x:848,y:584}`
+  7. **not-walking 不捕获 frozenOffset**（只在 walking 捕获，防漂移）
+  8. **trail 不足(length≤1)** → null（不画跟随者）
+  9. **船划行集成**: ride 每步刷 trail 成船行方向 → 朝向跟 trail（=队长），位置仍冻结。期望 dir='down'
+  10. **隐龙窟站立回归**: 队长 0x15 回头不动 trail → 跟随者保持走来方向（不跟队长转）。期望 dir='left'
 
 ### E4. 立绘残留（clearDialogBoxes 整个 box）
 - **分类**: A 原版真值 + B 通用教训 + C 旧架构特有
@@ -182,6 +193,78 @@
 - **锚点**: `draw-player-status.ts:52-82`(坐标);`draw-equip.ts:58-72`;`READ-FIRST.md:8`(铁律 8)
 - **一阶段怎么了**: 完整 port sdlpal ScreenLayout。v1 曾用 attribute/equipment/magic 3 页签是**错的**——原版一屏整布局无页切换。
 - **reforge 现状**: 🟡 reforge 菜单基建在 `menu/`，但 PlayerStatus 全屏 UI 尚未落地。**落地须照抄坐标/色值/一屏布局**，别自作主张换页签。
+
+### C8. 合击法术 coop-magic oracle 清单（reforge 全缺，菜单死桩恒灰）
+
+> **背景**：reforge **完全没有合击实现**——菜单第 4 项（合击）`mainActionValid` 恒 `false`（`battle-session.ts:247-251` 注释"2合击未实现"；`:440` "2 合击:valid 恒 false,到不了"）。一阶段有 38 case 的 `coop-magic.test.ts`（`packages/game/src/core/battle/__tests__/coop-magic.test.ts`）+ 实现 `packages/game/src/core/battle/actions/coop-magic.ts`。**测不存在的代码没意义**，以下是一阶段 38 case 沉淀的真值 oracle，每条带 fight.c 行号 + 一阶段 test 行号，作为 **reforge 实现合击时的 oracle 参考**。演出细节另见 [battle-audit §4 P3](../battle-presentation-audit-2026-07-05.md#4-p3-合体法术整体缺失菜单死桩恒灰)。
+>
+> **reforge 落地时应实现的真值**（分类 A=玩家可见真值 / B=通用工程教训）：
+
+#### C8-1. HP 代价（非 MP！），钳 1
+- **分类**: A 原版真值（**最反直觉**，user 强调）
+- **fight.c**: `3961-3967`——`rgwHP[role] -= wCostMP`（读的是 costMP 字段，但扣的是 **HP**）；`(SHORT)rgwHP <= 0 → rgwHP = 1`
+- **一阶段 test**: `coop-magic.test.ts:75-82`（hp 500→470，mp 不动 30）、`:151-158`（hp 25→1，maxHP/5=20 healthy 但 25-30 钳 1）、`:170-179`（maxHP 9999/hp 150 → 120）
+- **oracle 值**: contributor `hp -= magic.costMP`，`<=0 钳 1`；MP 完全不动。healthy 但低血 contributor 不死（钳 1）。
+- **reforge 现状**: ❌ 未实现。实现时务必扣 HP 不是 MP（字段名 costMP 有迷惑性）。
+
+#### C8-2. 贡献者 = 所有 healthy 队员
+- **分类**: A 原版真值
+- **fight.c**: `3370` `coopContributors[i] = PAL_IsPlayerHealthy(w)`；`PAL_IsPlayerHealthy` = `fight.c:69-76`（非濒死 + 无 sleep/confused/silence/paralyzed/puppet）；`PAL_IsPlayerDying` = `fight.c:45-49`（`hp < min(100, maxHP/5)`）
+- **一阶段 test**: `:160-168`（role0 hp20<100 → 濒死排除，只剩 1 healthy → no-op 兼容 direct caller）、`:208-222`（sleeping 队员 role2 atk999 不计 str、不付 HP）
+- **oracle 值**: healthy = `hp>0 && !isDying(hp<min(100,maxHP/5)) && status.{sleep,confused,silence,paralyzed,puppet}==0`。高 maxHP 队员按 `min(100,maxHP/5)` 判濒死（hp≥100 仍可参与）。
+
+#### C8-3. healthy ≤ 1 → 退化普通攻击（非静默 no-op）
+- **分类**: A 原版真值
+- **fight.c**: `3374-3378`——`if(iTotalHealthy<=1){ action.ActionType=kBattleActionAttack; action.wActionID=0; }`（改 ActionType 后从头跑完整 attack case，含 `rgAttackExp.wCount++` + `rgHealthExp += RandomLong(2,3)`，`fight.c:3756-3757`）
+- **一阶段 test**: `:224-244`（role1 hp0 → 只 1 healthy → 退化普攻：enemy.health 减少、建普攻动画、role0.hp 仍 500 不付协力代价）
+- **oracle 值**: healthy≤1 不是 no-op，是**完整普攻**（含隐藏 exp 写入）。一阶段 direct helper 未传 actor 时兼容 no-op（`:160-168`），但战斗执行端必须退化普攻。
+
+#### C8-4. str = Σ(atk+mag) over contributors / 4
+- **分类**: A 原版真值
+- **fight.c**: `3982-3995`——`str=0; for each contributor: str += PAL_GetPlayerAttackStrength(role) + PAL_GetPlayerMagicStrength(role); str /= 4`
+- **一阶段 test**: `:181-192`（atk40+mag60 + atk20+mag40 = 160 → str=40，伤害 = applyMagicDamage(str=40)）、`:208-222`（role2 atk999 排除后 str 仍 40）
+- **oracle 值**: atk/mag 取 effective 值（含装备，D14 投影后），SUM 后 `/4`（整数除法）。伤害 = `PAL_CalcMagicDamage(str, def, elemRes, poisonRes, mult=1, magic)`，`sDamage<=0 → 1`（`fight.c:4018/4037`，minDamage=1）。
+
+#### C8-5. 伤害目标：applyToAll（magic.type 或 flag）→ 全体，否则单体
+- **分类**: A 原版真值
+- **fight.c**: `3863` `sTarget = FIGHT_DetectMagicTargetChange(...)`；`4000-4025`（sTarget==-1 全体循环，逐敌 `def = wDefense + (wLevel+6)*4`、各掷 `PAL_CalcMagicDamage`）；`4026-4043`（单体）
+- **一阶段 test**: `:278-331`（巫后 355 天女散花 attackField → 全体）、`:333-420`（武神 351 summon）
+- **oracle 值**: `applyToAll(magic.type ∈ {attackAll,attackWhole,attackField,applyToParty,summon} 或 object flag)` → 全体；否则单体 action.target。**判定按 magic.type，不是 flags.applyToAll**（`magic-damage.ts:41-43` 注释：血魔神功 attackWhole 但 applyToAll=False，按 type 才对）。群攻逐敌掷独立 rngFactor（`fight.c:4015` 循环内，每个敌人各掷一次 `RandomFloat(10,11)`）。
+
+#### C8-6. 超杀显示完整伤害（WORD 下溢不钳）
+- **分类**: A 原版真值（DL8 裁决）
+- **fight.c**: `4023/4042` `wHealth -= sDamage`（WORD 下溢不钳，超杀显示完整 sDamage 非剩余血）
+- **一阶段 test**: `:195-206`（enemy.health=5 < refDmg → 超杀，showDamageNum.value = refDmg 完整值，非 5）
+- **oracle 值**: 协法术击杀敌显示**完整算出伤害**，不是剩余血 delta。伤害数字颜色：蓝=掉血（`fight.c:648-708`，DL8 裁决）。
+
+#### C8-7. 整队一回合一次（fThisTurnCoop 门控）
+- **分类**: A 原版真值（user 报的 bug，`05b57306`）
+- **fight.c**: `3858` `fThisTurnCoop=TRUE`；`1707` 每回合重置 `fThisTurnCoop=FALSE`；`1410-1424` 选择期合击立即结束选择（`i=wMaxPartyMemberIndex+1`）；`3973` contributor 设 `kFighterWait`（行动队列只跑 `kFighterAct`，`1727` → contributor 被跳过）；`1050` 合击菜单门控
+- **一阶段 test**: 见 `battle-system.test.ts`（commit 后其余 healthy 队员 pass，非各自 coop；confused 队员保留 autoFill）
+- **oracle 值**: 合击是**整队的单一动作**。caster commit coop 后，其余 healthy 活队员（= contributor）设 pass 被消耗，不单独行动 → 回合只跑这一次 coop。失能（sleep/confused/paralyzed）队员非 contributor，保留 autoFill（confused→attackmate）。**reforge 回合模型实现合击时必须复刻这个门控，否则一回合放 N 次**（user 实测 3 人选 = 放 3×）。
+
+#### C8-8. 装备 override cooperativeMagic（末非 0 槽覆盖）
+- **分类**: A 原版真值（C4 同根）
+- **fight.c**: `3860` `PAL_GetPlayerCooperativeMagic(role)`（取装备 rgwCooperativeMagic 末非 0 槽 override，否则默认 player-roles.cooperativeMagic）
+- **一阶段 test**: `:333-420`（武神 351 装备 override）、`:278-331`（巫后 355）；实现见 `game-state.ts:1573-1589` override getter、`8b541469` 补字段
+- **oracle 值**: 装备可 override 默认合击（武神召唤靠装备 override）。reforge C4 标注 attackAll/grantSkill/coopMagic "联合里定义但运行时未消费 phase3"——**合击实现依赖此 override 先落地**。
+
+#### C8-9. 数据真值（6 角色合击 + special 唯一性）
+- **分类**: A 原版数据真值
+- **锚点**: player-roles.json `cooperativeMagic`；battle-audit §4 P3
+- **数据**: 李逍遥 obj386 / 灵儿+盖罗娇 obj381 / 月如 obj339（**special=0** 唯一非 99）/ 巫后 obj374（dmg 392 最高）/ 阿奴 obj355 天女散花（attackField 全体）。⚠ roleId 3=巫后、4=阿奴（3/4 名字对调陷阱，C2）。
+
+#### C8-10. 聚拢站位 + 演出层序（special 必传）
+- **分类**: A 原版演出真值（red-line #8）
+- **fight.c**: `3877-3951`（聚拢 6 帧 lerp，发起者 → `rgwCoopPos[0]={208,157}`，其余 contributor 倒序排 `{234,170}{260,183}`；t++ 在贡献者判定**前**，归位 Phase7 的 t++ 在**后**——不对称是忠实 quirk 勿"修"）
+- **一阶段 test**: `:258-276`（建动画链、第 6 帧发起者 {208,157}、伤害数字挂 PostMagic 第一帧）、`:86-107`（召唤二次法术 special=99 layerOffset）、`:112-126`（非召唤首次施法 special=99 layerOffset，`fe6d75a3`）、`:333-420`（武神召唤神 spriteKey player-10、bgColorShift、声音挂帧）
+- **oracle 值**: 聚拢站 `{208,157}{234,170}{260,183}` 6 帧 lerp。OffMagic 法术精灵层偏移 = `magic.special` 必传作 z 排序 layerOffset（`4cf2258b`/`fe6d75a3` 两 fix：漏传致 layerOffset 落 0 → 法术精灵排进敌人堆被遮挡）。伤害数字延迟到 OffMagic 落完（PostMagic 第一帧，`fight.c:4045` `PAL_BattleDisplayStatChange`）。详见 battle-audit §4 P3 演出段。
+
+#### C8-11. 合击音（起手 29 非召唤 / caster magicSound 召唤）
+- **分类**: A 原版真值（M6/M9）
+- **fight.c**: `3875` 非 summon `AUDIO_PlaySound(29)` fixed；summon 经 `PAL_BattleShowPlayerPreMagicAnim(TRUE)` → CLASSIC 播 `rgwMagicSound[caster]`（`fight.c:2377`）；效果音 `magic.wSound` 随 OffMagic 帧同步（`53bdb923`、`c051d492`）
+- **一阶段 test**: `:131-149`（非 summon → [29, 77]；summon 无动画资源 → [caster magicSound 9, 77]）、`:246-256`（M9 有动画时即时只起手 29，效果音 77 挂帧不即播）
+- **oracle 值**: 非 summon 起手音 29 fixed；summon 起手音 = caster 的 magicSound。效果音 `magic.sound` **不**即时播，随 OffMagic 起手帧同步（`i===0` 帧，WIN95 时序，作者拍板）；无动画资源回落即时播。
 
 ---
 
