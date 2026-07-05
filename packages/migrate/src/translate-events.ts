@@ -83,6 +83,15 @@ const SPEED: Record<number, 'slow' | 'normal' | 'fast' | 'run'> = {
   4: 'fast',
   8: 'run',
 }
+/** 原版 giveItem-0 数据 bug 修正表(扬州宝物屋 3 箱「获得X」后 giveItem 0 给空;
+ *  键 = 前句 showDialog 的 MSG.DAT 下标,值 = 应给物品号。一阶段 event-system
+ *  patchGiveItemZeroBugs 同表;reforge 无运行时 patch 层,烘在翻译期,产物即干净)。 */
+const GIVEITEM_ZERO_FIXUP: Record<number, number> = {
+  12256: 164, // 「获得九节鞭」→ 九截鞭
+  12347: 103, // 「获得紫青玉蓉膏」→ 紫菁玉蓉膏
+  12408: 116, // 「获得腐尸肉」→ 尸腐肉
+}
+
 /** 分支臂内联深度上限(臂内再遇跳转的嵌套;更深 → unmigrated,M3c 提共享脚本)。 */
 const MAX_ARM_DEPTH = 3
 /** 单臂命令上限(超限 → unmigrated;防组合爆炸,如层层嵌套的战斗败臂)。 */
@@ -323,9 +332,12 @@ function walkBody(
       continue
     }
     if (op === 'giveItem') {
+      // 原版数据 bug 烘焙(扬州宝物屋 3 箱:「获得X」提示后 giveItem 0 给空;一阶段修在
+      // 运行时 patchGiveItemZeroBugs,reforge 无运行时 patch 层 → 翻译期按前句 MSG 下标补真 id)
+      const fix = c.itemId === 0 ? GIVEITEM_ZERO_FIXUP[batch[batch.length - 1]?.msgIdx ?? -1] : undefined
       flush()
       const cnt = c.count && c.count > 1 ? c.count : undefined
-      body.push({ kind: 'giveItem', itemId: String(c.itemId), ...(cnt ? { count: cnt } : {}) })
+      body.push({ kind: 'giveItem', itemId: String(fix ?? c.itemId), ...(cnt ? { count: cnt } : {}) })
       at = { cmds: at.cmds, idx: at.idx + 1 }
       continue
     }

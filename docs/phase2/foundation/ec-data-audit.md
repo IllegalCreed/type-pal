@@ -28,7 +28,7 @@
 | 5 升级/经验 | battle.c PAL_BattleWon + global.c PAL_PlayerLevelUp + CHECK_HIDDEN_EXP | battle-system.ts applyHiddenExpGrowth + 主升级 + maxHP 随机成长 | content/rewards.ts grantBattleRewards + applyHiddenExp | 4/4(主升级阈值/CHECK_HIDDEN_EXP/学法术/Phase F 半恢复) | ✅ 4/4 全 port(rng=Math.random 注入) |
 | 6 技能/仙术数据 | fight.c + magicmenu.c + global.h tagMAGIC | pal-extract/parsers/spells.ts(OBJECT_MAGIC + DATA chunk 4 MAGIC) | content/skill.ts(SkillData + SkillEffect) | 4/4(scriptDesc item-union offset10/bit2 跳/signed 字段/MAGIC_TYPE) | ✨ 数据化干净(scriptDesc 直存文字 / effects clean-rewrite) |
 | 7 物品数据 | itemmenu.c + global.h tagOBJECT_ITEM | pal-extract/parsers/items.ts(OBJECT_ITEM) | content/item.ts(ItemData) | 4/4(wObjectID 统一/295=梦蛇 排除/flags 拆位/equipableBy 6 位) | ✨ 数据化干净(ItemUseEffect 联合独立) |
-| 8 敌人数据 | fight.c + res.c + global.h tagENEMY/tagOBJECT_ENEMY | pal-extract/parsers/enemies.ts(ENEMY + OBJECT_ENEMY) | content/enemy.ts(EnemyDef + EnemyAI) | 5/5(signed modifier/5 字段 OBJECT_ENEMY/enemyId 索引/154 条/反向 _name) | ⚠️ 装载期 HACK patch 台账(battle.c:1611-1700 黑山老妖/狐妖/蛇妖…) **迁移器未烘焙** |
+| 8 敌人数据 | fight.c + res.c + global.h tagENEMY/tagOBJECT_ENEMY | pal-extract/parsers/enemies.ts(ENEMY + OBJECT_ENEMY) | content/enemy.ts(EnemyDef + EnemyAI) | 5/5(signed modifier/5 字段 OBJECT_ENEMY/enemyId 索引/154 条/反向 _name) | ~~⚠️ HACK patch 未烘焙~~ **✅ 复核关闭(2026-07-05):整段 HACK 在 `#ifndef PAL_CLASSIC`(battle.c:1619-1713),是 ATB 模式专属;classic(一阶段/reforge 口径)有意不打,负 dex 走 (SHORT) 排序天然成立——烘焙反而错** |
 
 ---
 
@@ -500,9 +500,10 @@ EquipEffect 联合定义了,但 `effectiveStat` 只算 statBonus。**行动**:**
 #### `tagOBJECT_ENEMY`(`global.h:218-226`)— 5 WORD
 - wEnemyID(0,指向 DATA chunk 1 ENEMY 数组,**1-based**)/ wResistanceToSorcery(2,0..10)/ wScriptOnTurnStart(4)/ wScriptOnBattleEnd(6)/ wScriptOnReady(8)。
 
-#### `PAL_BattleMain`(`battle.c:1611-1700`)— 敌人 init + HACK patch
+#### `PAL_BattleMain`(`battle.c:1611-1713`)— 敌人 init + HACK patch
 - `rgEnemy[i].e = lprgEnemy[rgObject[w].enemy.wEnemyID]`(:1611,直接索引,没减 1)。
-- **HACK patch 台账**(:1624-1700):
+- **⚠️ 复核定性(2026-07-05):下列台账整段在 `#ifndef PAL_CLASSIC`(battle.c:1619 起,#endif :1713)——非 classic ATB 模式才打**(dex 在 ATB 是计量条速率,负值/极值坏 ATB;classic 固定回合序里负 dex 走 `(SHORT)` 比较排队尾,天然成立)。**classic 口径(一阶段+reforge)不打 = 忠实**;台账另漏记两条:Fat Miao(wLevel==4&&wCash==240 → dex+=18)、Black Spider(wLevel==16&&wMagicRate==4&&wAttackEquivItemRate==4 → dex+=50);最终 boss 32760 自动满血同在此段(非 classic 专属)。
+- **HACK patch 台账**(:1624-1712,仅非 classic):
   - 黑山老妖 wDexterity==164 → /= (maxIdx==0 ? 6 : 3)(:1624-1628)
   - 最终 boss wHealth==32760 → 全员满血(:1632-1641)
   - 妖刀 wDexterity==-32 → 0(姥姥刀,:1644-1646)
@@ -536,7 +537,7 @@ EquipEffect 联合定义了,但 `effectiveStat` 只算 statBonus。**行动**:**
 | enemyId 直接索引(没减 1) | enemies.ts:65-69 | ✅ |
 | enemy-teams.json OBJECT→id 翻译 | buildObjectIndexToEnemyIdMap:248-269(M3.30 Bug 1) | ✅ |
 | 反向 _name | buildEnemyObjectNameMap:218-243 | ✅ |
-| 战斗 HACK patch(battle.c:1624-1700) | (未迁移;战斗侧运行时 patch?) | ❓ 待核 |
+| 战斗 HACK patch(battle.c:1624-1712) | 未打 —— 非 classic 专属(#ifndef PAL_CLASSIC),一阶段 classic 口径有意不打 | ✅ 复核关闭(2026-07-05) |
 
 **一阶段 fix 命中**:`aedfa733`(全字段 dump)、D28(signed modifier)、M3.30 Bug 1(enemy-teams 翻译)。
 
@@ -556,7 +557,7 @@ EquipEffect 联合定义了,但 `effectiveStat` 只算 statBonus。**行动**:**
 | signed modifier(attackStrength 等) | EnemyStats(number;signed 语义保留) | ✅ |
 | elemResistance[5] | EnemyStats.elemResistance(ElementVec) | ✅ |
 | enemyId 索引 | EnemyDef.id(enemy-<objectIndex>稳定 string) | ✨ 免疫 |
-| **战斗 HACK patch(battle.c:1624-1700)** | **未烘焙到 EnemyDef** | ❌ 缺口 |
+| **战斗 HACK patch(battle.c:1624-1712)** | **不烘焙 = 正确**(非 classic 专属;classic 负 dex 由 asShort+排序天然处理) | ✅ 复核关闭(2026-07-05) |
 | resistanceToSorcery ≥ 修复 | EnemyAI.resistanceToSorcery 注释明示 ≥ | ✅(修原版 buggy >) |
 
 ### 8.4 缺口 + 行动

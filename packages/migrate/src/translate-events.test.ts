@@ -76,3 +76,24 @@ describe('0x73 淡入场景(script.c: PAL_MakeScene + VIDEO_FadeScreen)', () => 
     expect(f.ms).toBeGreaterThan(0)
   })
 })
+
+describe('giveItem-0 数据 bug 烘焙(扬州宝物屋;键=前句 MSG 下标,一阶段 patchGiveItemZeroBugs 同表)', () => {
+  test('「获得紫青玉蓉膏」(msg 12347) 后 giveItem 0 → 翻译期补真 id 103', () => {
+    const body = bodyOf(
+      ctxOf([
+        { op: 'showDialog', messageIndex: 12347, text: '获得紫青玉蓉膏' } as unknown as SourceCmd,
+        { op: 'giveItem', itemId: 0, count: 0 } as unknown as SourceCmd,
+      ]),
+    )
+    expect(body.find((c) => c.kind === 'giveItem')).toEqual({ kind: 'giveItem', itemId: '103' })
+  })
+  test('修正表外的 giveItem 0 原样直译(只修台账 3 处,不越权)', () => {
+    const body = bodyOf(
+      ctxOf([
+        { op: 'showDialog', messageIndex: 999, text: '无关' } as unknown as SourceCmd,
+        { op: 'giveItem', itemId: 0, count: 0 } as unknown as SourceCmd,
+      ]),
+    )
+    expect(body.find((c) => c.kind === 'giveItem')).toEqual({ kind: 'giveItem', itemId: '0' })
+  })
+})

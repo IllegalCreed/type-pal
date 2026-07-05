@@ -591,17 +591,16 @@ patchGiveItemZeroBugs(commands) // tp 层:修原版宝物屋 giveItem 归零 bug
 - reforge 不读 events/all.json 运行时 patch;events 经 migrate **一次性翻译**成 content/scenes/<id>.json 的结构化 AST。
 - **必须在 migrate 翻译期烘焙补丁**(harvest MG2)。
 
-#### 当前 migrate 状态(实测)
-- `packages/migrate/src/translate-events.ts:325-330`:giveItem 直译 `body.push({ kind: 'giveItem', itemId: String(c.itemId), ... })` —— **不判 itemId==0,直译 "0"**。
-- 实测 `packages/reforge/dist/extracted/events/shared.json:17667`:`{ "op": "giveItem", "itemId": 0, "count": 0 }`(紫青玉蓉膏箱)—— **bug 被原样带入**。
-- migrate 报告(`TranslateReport.unmigrated`)无 giveItem-zero 条目。
+#### 当前 migrate 状态
+- ~~translate-events.ts 直译 itemId:0,bug 原样带入~~ **✅ 已修(2026-07-05)**:`GIVEITEM_ZERO_FIXUP` 修正表(键=前句 showDialog 的 MSG 下标,与一阶段 patchGiveItemZeroBugs 同表:12256→164 九截鞭 / 12347→103 紫菁玉蓉膏 / 12408→116 尸腐肉),giveItem 分支翻译期烘焙;表外 giveItem 0 原样直译(不越权)。单测钉双向。
+- **当前数据同步单点补(D22 不重跑迁移器)**:projects/pal 现存 4 处(s092/s156/s166/s292 的 dlg.12347 紫菁玉蓉膏箱,共享脚本展开的复本)itemId "0"→"103" 已补;12256/12408 两箱所在脚本尚未进迁移集,待 MG2 全量迁移时由修正表自动烘焙。
 
 | 数据 bug | migrate 对照 | 状态 |
 |---|---|---|
-| giveItem-zero | ❌ translate-events.ts 直译 itemId:0,**未烘焙补丁** | ❌(会重新引入"开箱给空"bug) |
-| 6 类已拍板修复 | ❌ 未见系统化台账模块 | ❌ |
+| giveItem-zero | ✅ 翻译期 GIVEITEM_ZERO_FIXUP 烘焙 + 现存数据 4 处单点补 | ✅ 已修(2026-07-05) |
+| 6 类已拍板修复 | ❌ 未见系统化台账模块(散落 engineering-notes §2.2;遇到再逐条核) | ⚠️ |
 
-**结论**:**原版数据 bug 修在 migrate 翻译期(giveItem-zero 烘焙) — reforge 缺!**(harvest 重点核对项确认 ❌)。
+**结论**:giveItem-zero 已闭环(翻译期烘焙 + 存量单点补)。其余拍板修复项按台账遇到再核。
 
 **行动**(优先级 **P0**,会重新引入用户已报过的 bug):
 1. 在 `packages/migrate/src/translate-events.ts` 给 `op === 'giveItem'` 分支(translate-events.ts:325)加 zero-fixup:复用一阶段 `GIVEITEM_ZERO_FIXUP` 表(12256→164 / 12347→103 / 12408→116),按前一句 showDialog.messageIndex 补回真 id。
