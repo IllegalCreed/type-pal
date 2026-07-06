@@ -126,6 +126,29 @@ export function effectiveResistances(
   }
 }
 
+/**
+ * 有效技能 = 已学技能 ∪ 装备授予技能(grantSkill;土灵珠授山神、圣灵珠授术)。
+ * **live 派生(红线):learnedSkills ∪ 装备授予集,严禁 equip 时烙进 learnedSkills 可变槽**
+ * —— 卸装即失效(原版 UpdateEquipments memset 重跑 scriptOnEquip 语义)。去重保序(学的在前)。
+ */
+export function effectiveSkills(
+  learned: readonly string[],
+  char: CharacterInstance,
+  items: Record<string, ItemData>,
+): string[] {
+  const out = [...learned]
+  const seen = new Set(learned)
+  for (const itemId of Object.values(char.equipment)) {
+    for (const eff of items[itemId]?.equip?.effects ?? []) {
+      if (eff.kind === 'grantSkill' && !seen.has(eff.skillId)) {
+        seen.add(eff.skillId)
+        out.push(eff.skillId)
+      }
+    }
+  }
+  return out
+}
+
 /** 背包里该角色可装的物品(equip 能力 + equipableBy 含其模板)。 */
 export function equippableItems(
   world: WorldState,

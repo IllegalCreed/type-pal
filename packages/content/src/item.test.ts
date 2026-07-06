@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest'
 import type { CharacterInstance, WorldState } from './character.js'
 import {
   effectiveResistances,
+  effectiveSkills,
   equipItem,
   equippableItems,
   equippedItemIds,
@@ -114,6 +115,24 @@ describe('effectiveResistances(装备 live 派生;红线)', () => {
     }
     const c = { ...hero(), equipment: { accessory: 'p1', armor: 'p2' } }
     expect(effectiveResistances(c, twoPoison).poisonRes).toBe(100) // 140 钳 100
+  })
+})
+
+describe('effectiveSkills(装备授技 live 派生;红线)', () => {
+  const skItems: ItemDataMap = {
+    orb: { id: 'orb', name: '土灵珠', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, equip: { slot: 'accessory', equipableBy: ['hero'], effects: [{ kind: 'grantSkill', skillId: '336' }] } },
+  }
+  test('已学 ∪ 装备授予,去重保序(学的在前)', () => {
+    const c = { ...hero(), equipment: { accessory: 'orb' } }
+    expect(effectiveSkills(['296', '308'], c, skItems)).toEqual(['296', '308', '336'])
+  })
+  test('已学含授予技 → 不重复', () => {
+    const c = { ...hero(), equipment: { accessory: 'orb' } }
+    expect(effectiveSkills(['336', '296'], c, skItems)).toEqual(['336', '296'])
+  })
+  test('卸装 → 授予技消失(不烙)', () => {
+    const c = { ...hero(), equipment: {} }
+    expect(effectiveSkills(['296'], c, skItems)).toEqual(['296'])
   })
 })
 

@@ -4,6 +4,7 @@ import {
   type DialogueLine,
   type EntityDef,
   effectiveResistances,
+  effectiveSkills,
   effectiveStat,
   emptyWorldScriptState,
   type Facing,
@@ -783,7 +784,8 @@ async function main(): Promise<void> {
           defense: effectiveStat(c, 'defense', itemsById),
           magicStrength: effectiveStat(c, 'magicAttack', itemsById),
           baseDexterity: effectiveStat(c, 'speed', itemsById),
-          skills: world.learnedSkills[c.id] ?? [], // M4b-3:仙术指令数据源
+          // 仙术指令 = 已学 ∪ 装备授予(grantSkill 土灵珠/圣灵珠;红线 live 派生不烙)
+          skills: effectiveSkills(world.learnedSkills[c.id] ?? [], c, itemsById),
           fleeRate: effectiveStat(c, 'luck', itemsById), // 逃跑判定 str
           elemRes: res.elemRes,
           poisonRes: res.poisonRes,
