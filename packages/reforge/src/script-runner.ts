@@ -86,6 +86,12 @@ export interface ScriptHost {
   teleportOut(): Promise<boolean>
   /** 过场编排:播 mp4 视频(videos/{videoId}.mp4),阻塞至播完 or 跳过。加载失败静默不卡流程。 */
   playVideo(videoId: number): Promise<void>
+  /** 过场编排:播 RNG 序列图(chunkIdx;palette 按剧情 paletteId 上色),阻塞至播完 or 跳过。 */
+  playRng(
+    chunkIdx: number,
+    paletteId: number,
+    opts?: { speed?: number; startFrame?: number; endFrame?: number },
+  ): Promise<void>
   openShop(shop: number, mode: 'buy' | 'sell'): void
   confirm(): Promise<boolean>
   // ── 条件查询(hasItem/hasMoney/inParty 的数据源)──
@@ -327,6 +333,12 @@ export class ScriptRunner {
       }
       case 'playVideo':
         return h.playVideo(cmd.videoId)
+      case 'playRng':
+        return h.playRng(cmd.chunkIdx, cmd.paletteId, {
+          speed: cmd.speed,
+          startFrame: cmd.startFrame,
+          endFrame: cmd.endFrame,
+        })
       case 'openShop':
         return h.openShop(cmd.shop, cmd.mode)
       case 'confirm':

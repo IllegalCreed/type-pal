@@ -51,6 +51,7 @@ function fakeHost(calls: string[]): ScriptHost {
       return 'win' as const
     },
     playVideo: alog('playVideo'),
+    playRng: alog('playRng'),
     teleportOut: async () => {
       calls.push('teleportOut()')
       return false
@@ -110,6 +111,13 @@ test('过场编排:playVideo 命令 → host.playVideo(videoId)(阻塞式,一指
   const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
   await r.run([{ kind: 'playVideo', videoId: 1 }])
   expect(calls).toEqual(['playVideo(1)'])
+})
+
+test('过场编排:playRng 命令 → host.playRng(chunkIdx, paletteId, {段/速})', async () => {
+  const calls: string[] = []
+  const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
+  await r.run([{ kind: 'playRng', chunkIdx: 6, paletteId: 3, speed: 25 }])
+  expect(calls).toEqual(['playRng(6,3,{"speed":25})']) // JSON.stringify 丢弃 undefined 的 start/endFrame
 })
 
 describe('演出预览钩子(编辑器):onStep 路径上报 + 单步门', () => {
