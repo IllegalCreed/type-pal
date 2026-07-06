@@ -96,6 +96,8 @@ export function DataMode(props: {
   scenes: SceneDef[]
   /** 工程清单(入口点页编 manifest.entryPoints)。 */
   manifest: import('@type-pal/content').LoadedManifest
+  /** 角色定义(入口点 startWorld 队伍选人)。 */
+  actors: import('@type-pal/content').ActorDef[]
   /** 引用跳转:变量页/物品页点引用 → 事件模式定位。 */
   onJumpToEvent: (sceneId: string, srcKey: string) => void
   /** 当前数据页 + 切换(左栏垂直页列驱动 —— RPGM 数据库范式,2026-07-05 二改)。 */
@@ -115,6 +117,7 @@ export function DataMode(props: {
     battleFields,
     scenes,
     manifest,
+    actors,
     skillList,
     onJumpToEvent,
     tab,
@@ -198,7 +201,15 @@ export function DataMode(props: {
   }
 
   if (tab === 'entrypoint') {
-    return <EntryPointTab manifest={manifest} scenes={scenes} session={session} tabBar={tabBar} />
+    return (
+      <EntryPointTab
+        manifest={manifest}
+        scenes={scenes}
+        actors={actors}
+        session={session}
+        tabBar={tabBar}
+      />
+    )
   }
 
   if (tab === 'battlefield') {
