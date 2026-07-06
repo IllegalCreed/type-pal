@@ -848,14 +848,16 @@ export function translateThrowScript(
       case 0x28: // 对敌下毒/下蛊
         effects.push({ kind: 'applyPoison', poisonId: String(b) })
         break
+      case 0x5e: // 查敌是否中配对毒 —— 致死关系已数据化进 PoisonDef.lethalWith,运行时判,此处跳
+      case 0x60: // 秒杀敌(致死达成)—— 同上
       case 0x42: // 块头标记(投掷前摇)
       case 0x05:
       case 0x47:
       case 167:
         break
       default:
-        // 相生相克/致死(0x5D/5E/2B/5F/60)+ 其它 → 相克数据层后续
-        return { effects, pendingReason: `op 0x${(c.opcode ?? 0).toString(16)}(相生相克/致死)→ 相克数据层` }
+        // 相克(0x5D/0x2B use-on-self 以毒攻毒)+ 其它 → 相克 use 层后续
+        return { effects, pendingReason: `op 0x${(c.opcode ?? 0).toString(16)}(相克 use 链)→ 相克 use 层` }
     }
   }
   return { effects }

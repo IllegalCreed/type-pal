@@ -1348,7 +1348,15 @@
     "icon": 158,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "throw": {
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "556"
+        }
+      ]
+    }
   },
   {
     "id": "123",
@@ -1361,7 +1369,15 @@
     "icon": 116,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "throw": {
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "557"
+        }
+      ]
+    }
   },
   {
     "id": "124",
@@ -1374,7 +1390,15 @@
     "icon": 162,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "throw": {
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "558"
+        }
+      ]
+    }
   },
   {
     "id": "125",
@@ -1387,7 +1411,15 @@
     "icon": 156,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "throw": {
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "559"
+        }
+      ]
+    }
   },
   {
     "id": "126",
@@ -1680,7 +1712,15 @@
     "icon": 131,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "throw": {
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "555"
+        }
+      ]
+    }
   },
   {
     "id": "139",
@@ -1693,7 +1733,15 @@
     "icon": 133,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "throw": {
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "560"
+        }
+      ]
+    }
   },
   {
     "id": "140",

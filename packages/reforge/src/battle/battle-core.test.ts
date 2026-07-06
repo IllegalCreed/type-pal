@@ -984,3 +984,44 @@ describe('P2 投掷道具(throw;养蛊源 + 下毒)', () => {
     expect(s.inventory.find((x) => x.itemId === '144')?.count).toBe(0) // 仍消耗(count 0,写回时清)
   })
 })
+
+describe('P2 投掷致死组合(三对;数据驱动 lethalWith,仅投掷触发)', () => {
+  const ITEMS: Record<string, import('@type-pal/content').ItemData> = {
+    heding: { id: 'heding', name: '鹤顶红', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, throw: { effects: [{ kind: 'applyPoison', poisonId: '556' }] } },
+  }
+  const P: Record<number, import('@type-pal/content').PoisonDef> = {
+    556: { id: 556, name: '鹤顶红', curability: 'severe', color: 0, enemyTicks: [{ hpDelta: -100 }], lethalWith: 557, counters: 558 },
+    557: { id: 557, name: '孔雀胆', curability: 'severe', color: 0, enemyTicks: [{ hpDelta: -100 }], lethalWith: 556, counters: 560 },
+  }
+  test('敌已中孔雀胆(557),投鹤顶红(556)→ 双毒相冲暴毙', () => {
+    const s = createBattleState({
+      players: [player('li')],
+      enemies: [mkEnemy('boss', { health: 9999, defense: 999, attackStrength: 0 })],
+      items: ITEMS, inventory: [{ itemId: 'heding', count: 1 }], poisonDefs: P,
+    })
+    s.enemies[0]!.def.ai.resistanceToSorcery = 0
+    s.enemies[0]!.poisons = [{ poisonId: 557, tickIndex: 0 }] // 已中孔雀胆
+    stepBattle(s, () => 0.5)
+    s.pendingActions.set(0, { kind: 'throw', itemId: 'heding', targetEnemyIdx: 0 })
+    let g = 0
+    do stepBattle(s, () => 0.5)
+    while (s.phase === 'performAction' && g++ < 40)
+    expect(s.enemies[0]!.hp).toBe(0) // 暴毙
+    expect(s.log.some((l) => l.includes('暴毙'))).toBe(true)
+  })
+  test('敌未中配对毒 → 只下毒不暴毙(对照)', () => {
+    const s = createBattleState({
+      players: [player('li')],
+      enemies: [mkEnemy('boss', { health: 9999, defense: 999, attackStrength: 0 })],
+      items: ITEMS, inventory: [{ itemId: 'heding', count: 1 }], poisonDefs: P,
+    })
+    s.enemies[0]!.def.ai.resistanceToSorcery = 0
+    stepBattle(s, () => 0.5)
+    s.pendingActions.set(0, { kind: 'throw', itemId: 'heding', targetEnemyIdx: 0 })
+    let g = 0
+    do stepBattle(s, () => 0.5)
+    while (s.phase === 'performAction' && g++ < 40)
+    expect(s.enemies[0]!.hp).toBeGreaterThan(0) // 未暴毙
+    expect(s.enemies[0]!.poisons.some((p) => p.poisonId === 556)).toBe(true) // 只下了毒
+  })
+})

@@ -882,9 +882,15 @@ function performThrow(
     switch (eff.kind) {
       case 'applyPoison': {
         const pid = Number(eff.poisonId)
-        if (applyPoisonToEnemy(e, pid, rng))
+        if (applyPoisonToEnemy(e, pid, rng)) {
           s.log.push(`${p.roleId} 投掷 ${item.name},${e.def.id} 中 ${s.poisonDefs[pid]?.name ?? `毒${pid}`}`)
-        else s.log.push(`${e.def.id} 抵抗了 ${item.name}`)
+          // 三对致死(数据驱动 lethalWith;仅投掷触发,fight.c 0x5E+0x60):中本毒 + 已中配对毒 → 暴毙
+          const lethal = s.poisonDefs[pid]?.lethalWith
+          if (lethal !== undefined && e.poisons.some((ap) => ap.poisonId === lethal)) {
+            e.hp = 0
+            s.log.push(`${e.def.id} 双毒相冲,当场暴毙`)
+          }
+        } else s.log.push(`${e.def.id} 抵抗了 ${item.name}`)
         break
       }
       case 'healHp': // 对敌"回血"= 反效果,原版罕见;直接扣(负 heal 语义留数据层)

@@ -53,6 +53,17 @@ export interface PoisonDef {
   playerTicks?: PoisonTick[]
   /** 敌人中毒逐回合序列。 */
   enemyTicks?: PoisonTick[]
+  /**
+   * 致死配对毒 id(三对致死组合;数据驱动不硬码 —— 从毒药投掷脚本 0x5E+0x60 反汇编)。
+   * 投掷本毒到已中配对毒的目标 → 当场暴毙。**仅投掷触发**(巫术下毒不带致死检查,原版实证)。
+   * 556↔557 / 558↔555 / 559↔560 三对对称。
+   */
+  lethalWith?: number
+  /**
+   * 相克解毒:use 本毒(对己/队友)时,若身中此 id 的毒 → 以毒攻毒解掉它、不下本毒(单向 6 元环)。
+   * 从毒药 use 脚本 0x5D+0x2B 反汇编。use-on-self 路径消费(投掷不触发相克)。
+   */
+  counters?: number
 }
 
 /** 战斗单位身上一条活跃毒(tickIndex = 脚本指针的数据化)。 */

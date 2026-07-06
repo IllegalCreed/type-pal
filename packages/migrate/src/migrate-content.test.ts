@@ -548,9 +548,11 @@ describe('M1d · 投掷效果(scriptOnThrow → ThrowSpec)', () => {
     expect(byId.get('116')!.throw!.effects).toEqual([{ kind: 'applyPoison', poisonId: '552' }])
     expect(byId.get('117')!.throw!.effects).toEqual([{ kind: 'applyPoison', poisonId: '551' }])
   })
-  test('六大毒药相生相克/致死 → pendingThrow(相克数据层待接,非静默丢)', () => {
-    // 鹤顶红122 等 6 毒药 throw 脚本带 0x5E/0x60 查毒+秒杀 → pending
-    expect(out.report.pendingThrow.length).toBeGreaterThan(0)
-    expect(out.report.pendingThrow.every((p) => p.reason.includes('相'))).toBe(true)
+  test('六大毒药投掷 → applyPoison(致死 0x5E/0x60 数据化进 lethalWith,不再 pendingThrow)', () => {
+    // 鹤顶红122→556 / 三尸蛊138→555:throw 0x28 下毒 + 0x5E/0x60 致死(跳,运行时按 lethalWith 判)
+    expect(byId.get('122')!.throw!.effects).toEqual([{ kind: 'applyPoison', poisonId: '556' }])
+    expect(byId.get('138')!.throw!.effects).toEqual([{ kind: 'applyPoison', poisonId: '555' }])
+    // 剩余 pendingThrow 仅相克 use 链(0x5D/0x2B 以毒攻毒),非六大毒药投掷
+    expect(out.report.pendingThrow.every((p) => p.reason.includes('相克 use'))).toBe(true)
   })
 })
