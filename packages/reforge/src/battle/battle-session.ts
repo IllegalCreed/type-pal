@@ -993,6 +993,9 @@ export class BattleSession {
     const s = this.state
     if (!la) return null
     if (la.kind === 'cast') return this.buildCastTimeline(la, pHp, eHp)
+    // 合击:走仙术施法时间线(合体技带 animation.effectSprite,对目标/全体放法术特效 + 伤害数字)。
+    // 一阶段「贡献者聚拢向施法者」的队形演出是额外 flourish,后续可再补;此处先出正确法术效果。
+    if (la.kind === 'coop') return this.buildCastTimeline(la, pHp, eHp)
     // 投掷道具(frame5 投掷姿 → 目标染色闪 → 复位;数字不显 —— 下毒无即时伤害)
     if (la.kind === 'throw' && la.side === 'player' && la.target !== undefined) {
       const attackerPos = getPlayerBasePos(s.players.length, la.idx)
