@@ -38,6 +38,7 @@
 | [art-pipeline](foundation/art-pipeline.md) | 美术资产生图管线（像素风 / 动画现实路径） | 草案 |
 | [engine-debt-audit](foundation/engine-debt-audit.md) | 第一阶段引擎架构债（18 finding + 反查表）—— 重写的反面输入 | 定稿 |
 | [phase1-knowledge-harvest](foundation/phase1-knowledge-harvest.md) | **一阶段知识测绘**：8 领域踩坑+可移植知识+架构红线（动任何格前先读对应段，铁律 #9） | 活文档 |
+| [`../phase1/game-mechanics`](../phase1/game-mechanics.md) | ★ **原版底层机制真值**（作者亲手考证，1218 行）：战斗/数值/机制专题，动战斗格前必读（铁律 #9 首选参考） | 定稿 |
 | [render-foundation-plan](foundation/render-foundation-plan.md) | D16 渲染地基改造计划（格坐标 + 物理 1280 + UI 高清化，7 Task TDD） | 已落地 |
 | [skill-data-design](foundation/skill-data-design.md) | 技能数据三层架构（SkillData + effects[] 联合 / learnedSkills 关系表 / levelUpSkills 等级表） | 已认可 |
 | [skill-data-plan](foundation/skill-data-plan.md) | 技能数据地基 TDD 实现计划（3 Task：定义+demo / 等级表 / magic→learnedSkills 迁移） | 已实现 |
