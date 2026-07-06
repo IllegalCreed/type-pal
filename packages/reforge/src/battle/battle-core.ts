@@ -58,6 +58,8 @@ export interface BattlePlayerState {
   elemRes?: ElementVec
   /** 毒抗(装备 live 派生;缺省 0)。减毒系伤害 + 降中毒率(fight.c:5141)。 */
   poisonRes?: number
+  /** 攻击全体(长鞭装备 live 派生;物攻扫全场,伤害逐敌减半,fight.c:3683-3730)。 */
+  attackAll?: boolean
   status: BattleStatus
   defending: boolean
   /**
@@ -126,6 +128,8 @@ export interface BattleState {
     crit?: boolean
     /** 连击第二击伤害(dualAttack;present 追加第二挥击,音效落不同帧)。 */
     secondDamage?: number
+    /** 攻击全体各敌伤害(长鞭 attackAll;present 逐敌数字+染色+击退)。 */
+    attackAllHits?: { idx: number; value: number }[]
     /** 敌物攻被格挡(7/17 被动「闪避」:免伤,演出格挡姿+coverSound+仍击退)。 */
     blocked?: boolean
     /** 敌施法被动格挡的队员 idx(1/3 掷,除因子 +1 —— 减伤不免伤;演出摆防御姿 frame3)。 */
@@ -799,6 +803,13 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
     return
   }
   if (act.kind === 'attack') {
+    // 长鞭攻全体(装备 live 派生;fight.c:3683-3730 扫全场,逐敌减半):走专用多目标结算
+    if (p.attackAll && aliveEnemies(s).length > 0) {
+      performAttackAll(s, p, _rng)
+      addHidden('attack', 1)
+      addHidden('maxHP', 2 + Math.floor(_rng() * 2))
+      return
+    }
     const e = s.enemies[act.targetEnemyIdx]
     if (!e || e.hp <= 0) return // 验证已环扫改选;仍无活敌 = 理论不可达(全灭已判胜),兜底空过
     // B7c:物攻 → attack 池 +1、maxHP 池 +R(2,3)(fight.c:3756-3757,序固定)
@@ -816,6 +827,32 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
       s.log.push(`${p.roleId} 连击 ${hit2.crit ? '会心一击 ' : ''}造成 ${hit2.dmg}`)
     }
   }
+}
+
+/**
+ * 长鞭攻全体(fight.c:3683-3730):中心向外顺序 {2,1,0,4,3} 逐敌打,暴击掷一次(全体共享),
+ * 伤害逐个活敌减半(division 每打中一个活敌 ×2)。**无 +R 噪声/无浮动/无李逍遥彩蛋**(异于单体);
+ * def = 敌防 + (敌级+6)×4,物抗直用。逐敌伤害记 lastAction.attackAllHits 供演出。
+ */
+function performAttackAll(s: BattleState, p: BattlePlayerState, rng: () => number): void {
+  const ORDER = [2, 1, 0, 4, 3] // 中心向外(原版 index[])
+  const crit = Math.floor(rng() * 6) === 0 || p.status.bravery > 0
+  let division = 1
+  const hits: { idx: number; value: number }[] = []
+  for (const i of ORDER) {
+    const e = s.enemies[i]
+    if (!e || e.hp <= 0) continue
+    const def = e.def.stats.defense + (e.def.stats.level + 6) * 4
+    let dmg = resolveAttack(p.attackStrength, def, e.def.stats.physicalResistance, e.defending)
+    if (crit) dmg *= 3
+    dmg = Math.trunc(dmg / division)
+    if (dmg <= 0) dmg = 1
+    e.hp = Math.max(0, e.hp - dmg)
+    hits.push({ idx: i, value: dmg })
+    division *= 2 // 下一个活敌伤害减半
+  }
+  if (s.lastAction) s.lastAction.attackAllHits = hits
+  s.log.push(`${p.roleId} ${crit ? '会心 ' : ''}长鞭横扫 ${hits.length} 敌`)
 }
 
 /**

@@ -866,3 +866,46 @@ describe('P2 连击双打(装备授 dualAttack;仙女剑170)', () => {
     expect(s.log.some((l) => l.includes('连击'))).toBe(false) // 敌首击死,无连击
   })
 })
+
+describe('P2 长鞭攻全体(attackAll;fight.c:3683-3730)', () => {
+  test('扫全场,逐敌减半(中心向外 division 翻倍),attackAllHits 记账', () => {
+    // 3 敌同防同血;rng0 → 暴击(floor(0*6)=0);伤害逐个减半
+    const s = createBattleState({
+      players: [player('li', { attackStrength: 100, attackAll: true })],
+      enemies: [
+        mkEnemy('a', { health: 9999, defense: 0, attackStrength: 0 }),
+        mkEnemy('b', { health: 9999, defense: 0, attackStrength: 0 }),
+        mkEnemy('c', { health: 9999, defense: 0, attackStrength: 0 }),
+      ],
+    })
+    stepBattle(s, rng0)
+    for (const e of s.enemies) e.status.sleep = 99 // 隔离敌回合
+    s.pendingActions.set(0, { kind: 'attack', targetEnemyIdx: 0 })
+    let g = 0
+    do stepBattle(s, rng0)
+    while (s.phase === 'performAction' && g++ < 40)
+    // 3 敌都掉血;打击序 {2,1,0}(原版 index[])→ 敌2 division1 全额 > 敌1 half > 敌0 quarter
+    const dealt = s.enemies.map((e) => 9999 - e.hp)
+    expect(dealt.every((d) => d > 0)).toBe(true) // 全都吃到
+    expect(dealt[2]).toBeGreaterThan(dealt[1]!) // 敌2 首打 division1 最重
+    expect(dealt[1]).toBeGreaterThan(dealt[0]!) // 敌1 次之 > 敌0 末打 division4
+    expect(dealt[1]).toBe(Math.trunc(dealt[2]! / 2)) // 逐敌减半(division 翻倍,trunc)
+    expect(dealt[0]).toBe(Math.trunc(dealt[2]! / 4))
+    expect(s.log.some((l) => l.includes('横扫'))).toBe(true)
+  })
+
+  test('单敌 attackAll = 单目标伤害(division 1);无 attackAll 对照单体', () => {
+    const s = createBattleState({
+      players: [player('li', { attackStrength: 100, attackAll: true })],
+      enemies: [mkEnemy('a', { health: 9999, defense: 0, attackStrength: 0 })],
+    })
+    stepBattle(s, rng0)
+    s.enemies[0]!.status.sleep = 99
+    s.pendingActions.set(0, { kind: 'attack', targetEnemyIdx: 0 })
+    let g = 0
+    do stepBattle(s, rng0)
+    while (s.phase === 'performAction' && g++ < 40)
+    expect(9999 - s.enemies[0]!.hp).toBeGreaterThan(0)
+    expect(s.log.some((l) => l.includes('横扫'))).toBe(true)
+  })
+})

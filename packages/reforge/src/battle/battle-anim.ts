@@ -67,6 +67,72 @@ export interface BuildPlayerAttackInput {
   sounds?: { attack: number; weapon: number }
 }
 
+export interface BuildAttackAllInput {
+  attackerIdx: number
+  attackerPos: { x: number; y: number }
+  /** 中心敌落点(挥击站位;取中心敌或首个活敌)。 */
+  centerPos: { x: number; y: number }
+  /** 各命中敌:idx + 屏位 + 伤害(逐敌染色/数字/击退)。 */
+  hits: { idx: number; pos: { x: number; y: number }; value: number }[]
+  weaponSound: number
+  attackSound: number
+}
+
+/**
+ * 长鞭攻全体时间线(fight.c:3683-3730):蓄力7(4)→冲刺至中心 frame8(2)→挥击9+出招音→
+ * 全敌染色+逐敌伤害数字(damageNums)+全敌击退(hurtEnemies 式,3 帧衰减)→染色复位。
+ * 一挥扫全场(异于单体逐个冲刺),伤害已在 core 逐敌减半算好。
+ */
+export function buildPlayerAttackAll(input: BuildAttackAllInput): AnimFrame[] {
+  const { attackerIdx, attackerPos, centerPos, hits, weaponSound, attackSound } = input
+  const frames: AnimFrame[] = []
+  const rushX = centerPos.x + 64
+  const rushY = centerPos.y + 20
+  // 蓄力
+  frames.push({
+    durationMs: delayMs(4),
+    fighters: [{ side: 'player', idx: attackerIdx, frame: 7, pos: { ...attackerPos } }],
+  })
+  // 冲刺至中心 + 出招音
+  frames.push({
+    durationMs: delayMs(2),
+    fighters: [{ side: 'player', idx: attackerIdx, frame: 8, pos: { x: rushX, y: rushY } }],
+    ...(attackSound > 0 ? { sound: attackSound } : {}),
+  })
+  // 挥击 9 + 全敌染色 + 逐敌伤害数字 + 兵器音
+  frames.push({
+    durationMs: delayMs(2),
+    fighters: [
+      { side: 'player', idx: attackerIdx, frame: 9 },
+      ...hits.map((h) => ({ side: 'enemy' as const, idx: h.idx, colorShift: 6 })),
+    ],
+    damageNums: hits.map((h) => ({ target: { side: 'enemy' as const, idx: h.idx }, value: h.value })),
+    ...(weaponSound > 0 ? { sound: weaponSound } : {}),
+  })
+  // 全敌击退 3 帧(x −8/−4/−6 衰减),末帧染色复位
+  let dist = 8
+  const off = { x: 0 }
+  for (let i = 0; i < 3; i++) {
+    off.x -= dist
+    dist = Math.trunc(dist / -2)
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: hits.map((h) => ({
+        side: 'enemy' as const,
+        idx: h.idx,
+        pos: { x: h.pos.x + off.x, y: h.pos.y },
+        ...(i === 2 ? { colorShift: 0 } : {}),
+      })),
+    })
+  }
+  // 攻击者复位站立
+  frames.push({
+    durationMs: delayMs(4),
+    fighters: [{ side: 'player', idx: attackerIdx, frame: 0, pos: { ...attackerPos } }],
+  })
+  return frames
+}
+
 /**
  * 玩家物攻时间线(fight.c:2008-2263 单体简化):
  * 蓄力7(4) → 冲刺8 至敌前(+64,+20)(2) → 前挪(1) → 挥击9 + 特效3帧(敌染色/伤害数字/位移微调)

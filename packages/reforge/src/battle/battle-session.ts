@@ -23,6 +23,7 @@ import {
   buildEnemyPhysical,
   buildMateAttack,
   buildPlayerAttack,
+  buildPlayerAttackAll,
   buildPlayerCast,
   type CastFxParams,
   type OverlayDraw,
@@ -906,6 +907,7 @@ export class BattleSession {
       skillId?: string
       crit?: boolean
       secondDamage?: number
+      attackAllHits?: { idx: number; value: number }[]
       blocked?: boolean
       autoDefend?: number[]
     } | null,
@@ -928,6 +930,27 @@ export class BattleSession {
         weaponSound: this.opts.playerSounds?.[la.idx]?.weapon ?? 0,
         damage: (pHp[la.target] ?? 0) - (s.players[la.target]?.hp ?? 0),
         mateDied: (s.players[la.target]?.hp ?? 0) <= 0,
+      })
+    }
+    // 长鞭攻全体(core 已逐敌减半结算;present 一挥扫全场)
+    if (la.kind === 'attack' && la.side === 'player' && la.attackAllHits?.length) {
+      const attackerPos = getPlayerBasePos(s.players.length, la.idx)
+      if (!attackerPos) return null
+      const hits = la.attackAllHits
+        .map((h) => {
+          const pos = getEnemyBasePos(s.enemies.length, h.idx, this.enemyDefs[h.idx]?.anim.yPosOffset ?? 0)
+          return pos ? { idx: h.idx, pos, value: h.value } : null
+        })
+        .filter((x): x is { idx: number; pos: { x: number; y: number }; value: number } => x !== null)
+      if (!hits.length) return null
+      const snd = this.opts.playerSounds?.[la.idx]
+      return buildPlayerAttackAll({
+        attackerIdx: la.idx,
+        attackerPos,
+        centerPos: hits[Math.floor(hits.length / 2)]!.pos, // 中心敌落点挥击
+        hits,
+        weaponSound: snd?.weapon ?? 0,
+        attackSound: (la.crit ? snd?.critical : snd?.attack) ?? 0,
       })
     }
     if (la.kind !== 'attack' || la.target === undefined) return null

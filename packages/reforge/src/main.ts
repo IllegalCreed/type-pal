@@ -8,6 +8,7 @@ import {
   effectiveSkills,
   effectiveStat,
   emptyWorldScriptState,
+  equipGrantsAttackAll,
   type Facing,
   type GridPos,
   grantBattleRewards,
@@ -773,9 +774,10 @@ async function main(): Promise<void> {
       let playedVictory = false
       // 队员战斗态:CharacterInstance + 装备加成(effectiveStat)
       const itemsById = project.items
-      // dev:?dualattack 给队长强制连击(验双击演出;无 仙女剑 可装的默认档用)
-      const devDualLeader =
-        new URLSearchParams(location.search).get('dualattack') !== null ? world.party[0]?.id : null
+      // dev:?dualattack / ?attackall 给队长强制连击/全体(验演出;无对应装备的默认档用)
+      const devParams = new URLSearchParams(location.search)
+      const devDualLeader = devParams.get('dualattack') !== null ? world.party[0]?.id : null
+      const devAllLeader = devParams.get('attackall') !== null ? world.party[0]?.id : null
       const players = world.party.map((c) => {
         const res = effectiveResistances(c, itemsById) // 五灵/毒抗 live 派生(红线:建态时算)
         const granted = effectiveGrantedStatuses(c, itemsById)
@@ -794,6 +796,8 @@ async function main(): Promise<void> {
           fleeRate: effectiveStat(c, 'luck', itemsById), // 逃跑判定 str
           elemRes: res.elemRes,
           poisonRes: res.poisonRes,
+          // 攻击全体(长鞭 attackAll;红线 live 派生;dev 参数强制)
+          attackAll: equipGrantsAttackAll(c, itemsById) || devAllLeader === c.id,
           // 装备授予常驻状态(连击 dualAttack 仙女剑;红线 live 派生,建态置入不烙持久)
           grantedStatuses:
             devDualLeader === c.id && !granted.includes('dualAttack')
