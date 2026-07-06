@@ -727,9 +727,9 @@ export interface UseScriptTranslation {
  * 静态翻译一条 scriptOnUse 链(线性数据 op → ItemUseEffect[])。
  * 支持:0x1B/0x1C 回血蓝、0x1D 双回(茶叶蛋)、0x22 复活、0x2D applyStatus、0x2F removeStatus、
  *      0x2B/0x2C curePoison、0x29 applyPoison(毒食)、0x19 permanentStatBoost(舍利子/雪蛤蟆)、
- *      0x6 概率门(盐巴)、0x61/0x68 战斗分支头(跳过+有损注)、0x5 重绘/0x47 音效(表现层忽略)、
- *      goto 尾调用跟进。
- * 其余(灵珠 0x81/0x25 剧情、0x5D 毒杀、0x62/0x63 遇敌香、蛊系、引路蜂 0x38 等)→ 整件 pending。
+ *      0x6 概率门(盐巴)、0x61/0x68 战斗分支头(跳过+有损注)、0x38 传送出口(引路蜂/土灵珠)、
+ *      0x5 重绘/0x47 音效/0xA1 trail 收拢(表现层忽略)、goto 尾调用跟进。
+ * 其余(灵珠 0x81/0x25 剧情、0x5D 毒杀、0x62/0x63 遇敌香、蛊系等)→ 整件 pending。
  */
 export function translateUseScript(
   commands: readonly SourceCmd[],
@@ -807,11 +807,15 @@ export function translateUseScript(
       case 0x61: // 毒龙胆/九阴散:没中毒则秒杀自己(gate 效果;后接解毒/回血续跑)
         out.effects.push({ kind: 'dieIfNotPoisoned' })
         break
+      case 0x38: // 引路蜂/土灵珠:传送出口(跑当前场景 onTeleport;无出口→operand[0] 不灵消息=reforge report)
+        out.effects.push({ kind: 'teleportOut' })
+        break
       case 0x68:
         out.lossyNotes.push(`0x${(c.opcode ?? 0).toString(16)} 战斗分支(L_${a})未表达 —— 战斗期`)
         break
       case 0x05: // 重绘画面(表现层)
       case 0x47: // 音效(表现层)
+      case 0xa1: // 跟随者 trail 收拢到队首(传送后表现;demo 单队列无操作)
         break
       case 167:
         break
@@ -986,10 +990,16 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
       } else if (u.effects.length) {
         if (u.lossyNotes.length)
           lossyUse.push({ itemId: srcItem.id, name: srcItem._name, notes: u.lossyNotes })
+        // 传送出口(引路蜂/土灵珠)作用于场景非队友 → target 'scene'(reforge useConfirm 按此不进选目标)
+        const target = u.effects.some((e) => e.kind === 'teleportOut')
+          ? ('scene' as const)
+          : srcItem.flags.applyToAll
+            ? ('allAllies' as const)
+            : ('oneAlly' as const)
         out = {
           ...out,
           use: {
-            target: srcItem.flags.applyToAll ? ('allAllies' as const) : ('oneAlly' as const),
+            target,
             consuming: srcItem.flags.consuming,
             effects: u.effects,
           },

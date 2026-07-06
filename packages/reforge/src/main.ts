@@ -1967,8 +1967,22 @@ async function main(): Promise<void> {
           if (pressed.has('ArrowRight')) useMenu = useMoveCursor(useMenu, 'right')
           if (interact) {
             const r = useConfirm(useMenu, world, project.items, project.poisonsById)
-            if (r.kind === 'direct') world = r.world // 脚本/全体类:已直接执行,回写 world
-            useMenu = r.state
+            if (r.kind === 'teleportOut') {
+              // 引路蜂/土灵珠:当前场景有 onTeleport → 消耗道具、关菜单回大世界、跑出口;
+              // 无出口 = 「引路蜂不灵」(不消耗、留菜单)。同步查 onTeleport 决定,避开 world 异步竞态。
+              if (scene.onTeleport?.length) {
+                if (project.items[r.itemId]?.use?.consuming) host.loseItem(r.itemId, 1) // 引路蜂消耗;土灵珠宝珠不消耗
+                lastUseCursor = useMenu.cursor
+                useMenu = closeUseMenu()
+                menu = CLOSED
+                void host.teleportOut()
+              } else {
+                host.report('引路蜂不灵(当前场景无传送出口)')
+              }
+            } else {
+              if (r.kind === 'direct') world = r.world // 脚本/全体类:已直接执行,回写 world
+              useMenu = r.state
+            }
           }
           if (esc) {
             lastUseCursor = useMenu.cursor // 记忆光标,重开恢复(原版 iCurInvMenuItem)

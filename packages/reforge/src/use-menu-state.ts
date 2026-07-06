@@ -57,6 +57,7 @@ export function useMoveCursor(
 export type UseConfirmResult =
   | { kind: 'pick-target'; state: UseMenuState }
   | { kind: 'direct'; world: WorldState; state: UseMenuState }
+  | { kind: 'teleportOut'; itemId: string; state: UseMenuState } // 引路蜂/土灵珠:reforge 层跑场景出口
 
 /** pick-item Enter:单体(oneAlly)进选目标面板;脚本/全体类直接执行(不选目标)。 */
 export function useConfirm(
@@ -68,6 +69,10 @@ export function useConfirm(
   if (s.phase !== 'pick-item') return { kind: 'pick-target', state: s }
   const sel = s.items[s.cursor]
   if (!sel) return { kind: 'pick-target', state: s }
+  // 引路蜂/土灵珠:teleportOut 效果 → 交 reforge 层跑当前场景 onTeleport(content 不碰场景运行时)
+  if (sel.use?.effects.some((e) => e.kind === 'teleportOut')) {
+    return { kind: 'teleportOut', itemId: sel.id, state: s }
+  }
   if (sel.use?.target === 'oneAlly') {
     return { kind: 'pick-target', state: { ...s, phase: 'pick-target', selectedItemId: sel.id } }
   }

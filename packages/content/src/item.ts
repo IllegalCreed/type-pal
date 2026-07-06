@@ -48,7 +48,7 @@ export type ItemUseEffect =
   | { kind: 'gate'; chance?: number } // 0x6 概率门(盐巴 50% 解毒);失败截断其后
   | { kind: 'dieIfNotPoisoned' } // 0x61(毒龙胆/九阴散):没中毒则秒杀自己,否则续跑后效(解毒/回血)
   | { kind: 'triggerScript'; scriptId: string } // 桂花酒/玉佩剧情;风灵珠场景互动
-  | { kind: 'teleport'; target: string } // 引路蜂回迷宫口
+  | { kind: 'teleportOut' } // 0x38(引路蜂/土灵珠):跑当前场景 onTeleport 出口(无出口=不灵)
 // 待扩充(B2 剧情脚本落地后):giveItems / giveMoney / learnSkill / scenePlace / transform …
 
 export interface UseSpec {
@@ -334,10 +334,11 @@ export function useItem(
             })
           changed = true
           break
-        // 留桩(归宿见 docs):applyStatus→世界状态系统;triggerScript→剧情脚本系统;teleport→脚本 loadScene
+        // 留桩(归宿见 docs):applyStatus→世界状态系统;triggerScript→剧情脚本系统;
+        // teleportOut→reforge 层 useConfirm 拦截跑 host.teleportOut(content 纯函数不碰场景运行时)
         case 'applyStatus':
         case 'triggerScript':
-        case 'teleport':
+        case 'teleportOut':
           break
       }
     }

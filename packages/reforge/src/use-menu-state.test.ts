@@ -1,3 +1,4 @@
+import type { ItemDataMap, WorldState } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { makeTestItems, makeTestWorld } from './test-fixtures.js'
 import {
@@ -35,6 +36,29 @@ describe('使用菜单状态机', () => {
     const script = useConfirm(openUseMenu(w, makeTestItems()), w, makeTestItems()) // idx0 土灵珠(scene/triggerScript)
     expect(script.kind).toBe('direct')
     if (script.kind === 'direct') expect(script.state.phase).toBe('pick-item') // 不进选目标
+  })
+  test('useConfirm:传送出口道具(引路蜂)→ teleportOut 信号,不进选目标/不执行 content', () => {
+    const items: ItemDataMap = {
+      '151': {
+        id: '151',
+        name: '引路蜂',
+        desc: [],
+        icon: 0,
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: true,
+        use: { target: 'scene', consuming: true, effects: [{ kind: 'teleportOut' }] },
+      },
+    }
+    const world: WorldState = {
+      party: [],
+      money: 0,
+      learnedSkills: {},
+      inventory: [{ itemId: '151', count: 1 }],
+    }
+    const r = useConfirm(openUseMenu(world, items), world, items)
+    expect(r.kind).toBe('teleportOut')
+    if (r.kind === 'teleportOut') expect(r.itemId).toBe('151')
   })
   test('useApply:单体用完留 pick-target 可连用,用光才回 pick-item', () => {
     const w0 = makeTestWorld()

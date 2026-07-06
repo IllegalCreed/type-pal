@@ -348,6 +348,16 @@ describe('M1d · 使用效果(scriptOnUse → UseSpec)', () => {
     expect(out.report.lossyUse.map((l) => l.itemId)).not.toContain(136)
     expect(out.report.lossyUse.map((l) => l.itemId)).not.toContain(278)
   })
+  test('引路蜂(151):0x38 传送出口 → teleportOut(target scene, 消耗);土灵珠(267)0x81 场景交互仍 pending', () => {
+    expect(byId.get('151')!.use).toEqual({
+      target: 'scene',
+      consuming: true,
+      effects: [{ kind: 'teleportOut' }],
+    })
+    // 土灵珠 use 脚本以 0x81(是否面对指定 event object)开头 = 场景交互,系统未落地 → 保持 pending
+    expect(byId.get('267')!.use).toBeUndefined()
+    expect(out.report.pendingUse.some((p) => p.itemId === 267)).toBe(true)
+  })
   test('总账:100 usable 全有下落(use 块 + pendingUse = 100),pending 原因均指向未落地系统', () => {
     const withUse = out.items.filter((i) => i.use).length
     expect(withUse + out.report.pendingUse.length).toBe(100)

@@ -1999,7 +1999,16 @@
     "icon": 114,
     "buyPrice": 200,
     "sellPrice": 100,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "scene",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "teleportOut"
+        }
+      ]
+    }
   },
   {
     "id": "152",
