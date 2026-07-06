@@ -81,7 +81,7 @@ function describe(cmd: Command, locale: Locale): Described {
     case 'playVideo':
       return { icon: '🎬', label: `播过场视频 videos/${cmd.videoId}.mp4` }
     case 'playRng':
-      return { icon: '🎞', label: `播 RNG 序列 chunk ${cmd.chunkIdx}`, detail: `palette ${cmd.paletteId}` }
+      return { icon: '🎞', label: `播 RNG 序列 chunk ${cmd.chunkIdx}` }
     case 'wait':
       return { icon: '⏱', label: `等待 ${cmd.ms}ms` }
     case 'teleportParty':

@@ -31,9 +31,10 @@ export type Command =
   // 过场编排(P2):播 mp4 视频(开场 videos/1.mp4 / 结局过场 4-6.mp4)。阻塞至播完 or 跳过键。
   // 「一指令引用一段过场」的 mp4 侧;RNG 序列图(原版 0x36/0x37)另属编排模块序列帧,待落地。
   | { kind: 'playVideo'; videoId: number }
-  // 过场编排(P2):播 RNG.MKF 序列图(开场梦境 / 剧情过场 / 结局)。palette 按剧情指定(原版
-  // PAL_SetPalette 在 RNGPlay 前设);speed = 原版 iSpeed(帧率,缺省 25);frame 段缺省全播。
-  | { kind: 'playRng'; chunkIdx: number; paletteId: number; speed?: number; startFrame?: number; endFrame?: number }
+  // 过场编排(P2):播 RNG.MKF 序列图(开场梦境 / 剧情过场 / 结局)。**无调色盘参数** —— 每个 RNG 的
+  // 正确调色盘是固定素材属性(引擎内 RNG_PALETTE 定死,不暴露给使用者;清洁重写不带索引色概念)。
+  // speed = 原版 iSpeed(帧率,缺省 25);frame 段缺省全播。
+  | { kind: 'playRng'; chunkIdx: number; speed?: number; startFrame?: number; endFrame?: number }
   // ── B8 野外遇敌(原版 0x4C/0x4B/0x4E + GameOver 枢纽的干净表达)──
   /** 向玩家追一步(auto 脚本里即持续追逐——auto runner 天然循环)。range 格内才追(切比雪夫);floating 无视碰撞。 */
   | { kind: 'chasePlayer'; range?: number; speed?: number; floating?: boolean }

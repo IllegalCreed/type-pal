@@ -113,11 +113,11 @@ test('过场编排:playVideo 命令 → host.playVideo(videoId)(阻塞式,一指
   expect(calls).toEqual(['playVideo(1)'])
 })
 
-test('过场编排:playRng 命令 → host.playRng(chunkIdx, paletteId, {段/速})', async () => {
+test('过场编排:playRng 命令 → host.playRng(chunkIdx, {段/速})(无调色盘参数)', async () => {
   const calls: string[] = []
   const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
-  await r.run([{ kind: 'playRng', chunkIdx: 6, paletteId: 3, speed: 25 }])
-  expect(calls).toEqual(['playRng(6,3,{"speed":25})']) // JSON.stringify 丢弃 undefined 的 start/endFrame
+  await r.run([{ kind: 'playRng', chunkIdx: 6, speed: 25 }])
+  expect(calls).toEqual(['playRng(6,{"speed":25})']) // 正确调色盘引擎内定,不传参
 })
 
 describe('演出预览钩子(编辑器):onStep 路径上报 + 单步门', () => {

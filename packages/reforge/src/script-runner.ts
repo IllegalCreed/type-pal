@@ -86,10 +86,9 @@ export interface ScriptHost {
   teleportOut(): Promise<boolean>
   /** 过场编排:播 mp4 视频(videos/{videoId}.mp4),阻塞至播完 or 跳过。加载失败静默不卡流程。 */
   playVideo(videoId: number): Promise<void>
-  /** 过场编排:播 RNG 序列图(chunkIdx;palette 按剧情 paletteId 上色),阻塞至播完 or 跳过。 */
+  /** 过场编排:播 RNG 序列图(chunkIdx;正确调色盘引擎内定死,不传参),阻塞至播完 or 跳过。 */
   playRng(
     chunkIdx: number,
-    paletteId: number,
     opts?: { speed?: number; startFrame?: number; endFrame?: number },
   ): Promise<void>
   openShop(shop: number, mode: 'buy' | 'sell'): void
@@ -334,7 +333,7 @@ export class ScriptRunner {
       case 'playVideo':
         return h.playVideo(cmd.videoId)
       case 'playRng':
-        return h.playRng(cmd.chunkIdx, cmd.paletteId, {
+        return h.playRng(cmd.chunkIdx, {
           speed: cmd.speed,
           startFrame: cmd.startFrame,
           endFrame: cmd.endFrame,

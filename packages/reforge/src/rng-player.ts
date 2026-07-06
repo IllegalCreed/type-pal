@@ -16,6 +16,17 @@
 import { RNG_HEIGHT, RNG_WIDTH, decodeRngFrames, type Palette } from '@type-pal/shared'
 import { decompressGzip } from './assets.js'
 
+/**
+ * 每个 RNG 序列图的**正确调色盘号**(从原版脚本 `setPalette→SetRNG→PlayRNG` 链扒出;chunk 6 = 开机
+ * `PAL_SetPalette(3)`)。RNG 是固定一份调色盘的素材 —— 用对的这份烘一次就完事,**运行时/编辑器都不该
+ * 暴露"调色盘"给使用者选**(清洁重写不把 1995 索引色概念带进新系统)。缺表 = 场景默认盘 0。
+ * 归宿:该随 RNG 素材做成 metadata(rng-frames.json)在提取期定死;暂列此处为单一真源。
+ */
+export const RNG_PALETTE: Readonly<Record<number, number>> = { 3: 2, 6: 3, 7: 6 }
+export function rngPaletteId(chunkIdx: number): number {
+  return RNG_PALETTE[chunkIdx] ?? 0
+}
+
 interface RngManifest {
   chunks: Array<{ chunkIndex: number; frameCount: number; frames: Array<{ index: number }> }>
 }

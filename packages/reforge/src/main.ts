@@ -83,7 +83,7 @@ import { back, CLOSED, confirm, type MenuState, moveCursor, openMenu } from './m
 import { resolveMove } from './movement.js'
 import { Canvas2DRenderer, type CellRect, type SpriteDraw } from './render.js'
 import { renderSceneFrame } from './render-scene.js'
-import { playRng as playRngOverlay } from './rng-player.js'
+import { playRng as playRngOverlay, rngPaletteId } from './rng-player.js'
 import { playVideo as playVideoOverlay } from './video-player.js'
 import {
   browserConfirm,
@@ -1079,9 +1079,10 @@ async function main(): Promise<void> {
     // 过场编排:播 mp4(videos/{id}.mp4;reforge dev/preview 中间件把 /extracted/* 映射到 data/extracted)。
     // 演出期 runner 活跃 → 游戏循环吞输入,视频 overlay 盖住画布;加载失败 video-player 内部静默 resolve。
     playVideo: (videoId) => playVideoOverlay({ src: `/extracted/videos/${videoId}.mp4` }),
-    // 过场编排:播 RNG 序列图(paletteId 上色;speed=iSpeed 帧率)。全屏 canvas overlay,加载失败静默。
-    playRng: async (chunkIdx, paletteId, opts) => {
-      const palette = await getPalette(paletteId).catch(() => undefined)
+    // 过场编排:播 RNG 序列图(speed=iSpeed 帧率)。正确调色盘引擎内 RNG_PALETTE 定死(不暴露);
+    // 全屏 canvas overlay,加载失败静默。
+    playRng: async (chunkIdx, opts) => {
+      const palette = await getPalette(rngPaletteId(chunkIdx)).catch(() => undefined)
       if (!palette) return
       await playRngOverlay({
         chunkIdx,
@@ -1842,8 +1843,8 @@ async function main(): Promise<void> {
     startBattle: (team: number) => host.startBattle(team),
     /** dev:播过场视频(过场编排验证;videos/{id}.mp4,1=开场)。 */
     playVideo: (videoId: number) => host.playVideo(videoId),
-    /** dev:播 RNG 序列图(过场编排验证;chunkIdx + paletteId 上色)。 */
-    playRng: (chunkIdx: number, paletteId: number) => host.playRng(chunkIdx, paletteId),
+    /** dev:播 RNG 序列图(过场编排验证;chunkIdx,正确调色盘引擎内定)。 */
+    playRng: (chunkIdx: number) => host.playRng(chunkIdx),
     get battleLog() {
       return activeBattle?.debugLog() ?? []
     },

@@ -7,11 +7,11 @@
  * playVideo/playRng 引用。**RNG 序列的创作(排帧成新序列)是另一件事**(动画时间轴,
  * 新 UI 形态待定),本页只做浏览/预览/引用,不做创作。预览复用引擎运行时(video/rng-player)。
  *
- * ⚠ RNG 上色调色板随剧情(原版 PAL_SetPalette 在 RNGPlay 前设);本页预览用可选调色板号
- *   (默认 0),仅供辨认;实际颜色以过场脚本指定为准。
+ * RNG 上色用**引擎内定死的正确调色盘**(rngPaletteId;每个 RNG 固定一份,从原版脚本扒出)——
+ * **不暴露"调色盘"给使用者选**(清洁重写不把索引色概念带进新系统)。
  */
 import type { AssetBase } from '@type-pal/reforge'
-import { loadPalette, playRng, playVideo } from '@type-pal/reforge'
+import { loadPalette, playRng, playVideo, rngPaletteId } from '@type-pal/reforge'
 import { useEffect, useState } from 'react'
 
 /** 原版 videos/{N}.mp4(avi-player 考证:1 商标 / 2 splash / 3 opening / 4-6 过场·结局)。 */
@@ -31,7 +31,6 @@ interface RngManifest {
 export function CutsceneTab(props: { assetBase: AssetBase; tabBar?: React.ReactNode }) {
   const { assetBase, tabBar } = props
   const [rngChunks, setRngChunks] = useState<{ chunkIndex: number; frameCount: number }[]>([])
-  const [palId, setPalId] = useState(0)
   const [busy, setBusy] = useState(false)
 
   useEffect(() => {
@@ -62,7 +61,8 @@ export function CutsceneTab(props: { assetBase: AssetBase; tabBar?: React.ReactN
     if (busy) return
     setBusy(true)
     try {
-      const palette = await loadPalette(assetBase, palId)
+      // 用引擎内定死的该 RNG 正确调色盘上色(不让使用者选)
+      const palette = await loadPalette(assetBase, rngPaletteId(chunkIdx))
       await playRng({ chunkIdx, palette })
     } catch (e) {
       console.warn('[cutscene] rng preview failed', e)
@@ -84,20 +84,10 @@ export function CutsceneTab(props: { assetBase: AssetBase; tabBar?: React.ReactN
         </div>
         <div className="insp-empty" style={{ marginTop: 8 }}>
           脚本里用 <span className="mono">playVideo(视频号)</span> /{' '}
-          <span className="mono">playRng(RNG号, 调色板号)</span> 引用一段过场。视频/RNG 本体是只读
-          提取资产,本页只浏览 + 预览(空格/Esc 跳过)。RNG 创作(排帧成新序列)另属动画编辑页(待做)。
+          <span className="mono">playRng(RNG号)</span> 引用一段过场。视频/RNG 本体是只读提取资产,
+          本页只浏览 + 预览(空格/Esc 跳过)。RNG 上色用引擎内定死的正确调色盘,**不用你选**。
+          RNG 创作(排帧成新序列)另属动画编辑页(待做)。
         </div>
-        <label className="row" style={{ marginTop: 8, gap: 6 }}>
-          <span className="k">RNG 预览调色板号</span>
-          <input
-            className="in"
-            style={{ width: 64 }}
-            type="number"
-            min={0}
-            value={palId}
-            onChange={(e) => setPalId(Math.max(0, Number(e.target.value) || 0))}
-          />
-        </label>
       </div>
       <div className="canvas-wrap data-body">
         <div className="et-scroll">
