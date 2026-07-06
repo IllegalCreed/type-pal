@@ -11,6 +11,9 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { type BattleFieldPatch, UpdateBattleFieldCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 
+/** FBP.MKF chunk 0-5 = UI 背景(主菜单/splash/DOS 开场),战场从 6 起(作者实证)。 */
+const FIRST_BATTLE_FIELD_ID = 6
+
 const ELEM_LABEL: Record<keyof ElementVec, string> = {
   wind: '风',
   thunder: '雷',
@@ -54,19 +57,24 @@ export function BattleFieldTab(props: {
 }) {
   const { battleFields, assetBase, session, tabBar } = props
   const [filter, setFilter] = useState('')
-  const [selId, setSelId] = useState<number>(battleFields[0]?.id ?? 0)
+  // FBP.MKF chunk 0-5 是 UI 背景(主菜单 / splash / DOS 开场 3·4),**不是战场** —— 真战场从 6 起
+  //(作者实证)。它们五灵加成恒 0、且不该用战场调色盘上色(否则整偏)。战场页只列真战场。
+  const realFields = useMemo(() => battleFields.filter((f) => f.id >= FIRST_BATTLE_FIELD_ID), [
+    battleFields,
+  ])
+  const [selId, setSelId] = useState<number>(realFields[0]?.id ?? FIRST_BATTLE_FIELD_ID)
   const shown = useMemo(
     () =>
-      battleFields.filter(
+      realFields.filter(
         (f) =>
           !filter ||
           String(f.id).includes(filter) ||
           String(f.id).padStart(3, '0').includes(filter) ||
           (f.name ?? '').includes(filter),
       ),
-    [battleFields, filter],
+    [realFields, filter],
   )
-  const field = battleFields.find((f) => f.id === selId) ?? shown[0]
+  const field = realFields.find((f) => f.id === selId) ?? shown[0]
   const patch = (p: BattleFieldPatch): void => {
     if (field) session.dispatch(new UpdateBattleFieldCommand(field.id, p))
   }
