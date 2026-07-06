@@ -334,3 +334,9 @@
 - **UI 背景 / portraits / baked ui**:RGBA 烘焙保留(数量少,作者拍板)。
 
 **判据**:资产**恒用盘0**且**量大** → 真索引PNG(PLTE 嵌盘0);**随场景盘变**(精灵/瓦片)→ gzip 索引 + 运行时上色;**量少** → RGBA 烘焙随意。⚠ `encodeIndexedPng` 现产的是"R=索引的 RGBA PNG",不是真索引 PNG —— 真压缩要新写 colorType 3 + PLTE 编码器。
+
+### D25 补² · 道具图标真索引PNG **实测被推翻**(2026-07-06,别再当 TODO)
+
+上面「道具图标 → colorType 3 省 ~4×」的直觉(1 vs 4 字节/像素)**没算 DEFLATE + 每文件 PLTE 开销,实测反而更大**。迁移器 baker(`bake-indexed-rgba`)**已把**提取器那份"R=G=B=索引"的臃肿 RGBA 转成**真彩 RGBA**——48×47 少色图标经 PNG DEFLATE 压到 470–1597B(avg ~950B),这一步本身就是那个"~4×"。再转 colorType 3:PLTE/tRNS 固定开销在这么小的图上**压倒** 1 字节/像素的收益。
+
+实测 9 个已烘图标:RGBA 合计 8775B → colorType3 **11923B(+36%,更大)**;外推 234 项 ~222KB RGBA → ~302KB colorType3。**结论:小少色道具图标保持真彩 RGBA(DEFLATE 已最优),不做 colorType 3。** 真正的索引压缩靶子只有**精灵**(量大 + 随场景盘变),而它**早已是 gzip 共享盘索引**(比 colorType 3 更优:盘不进每文件)。→ **D25 补的"道具压缩靶子"作废;无剩余可做的索引压缩项。**
