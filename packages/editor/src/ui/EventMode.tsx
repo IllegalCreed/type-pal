@@ -180,7 +180,7 @@ const INSERT_GROUPS: {
 interface ScriptSource {
   key: string
   label: string
-  kind: 'onEnter' | 'trigger' | 'auto'
+  kind: 'onEnter' | 'onTeleport' | 'trigger' | 'auto'
   sub: string
   stages: readonly ScriptStage[]
 }
@@ -195,6 +195,14 @@ function collectSources(scene: SceneDef): ScriptSource[] {
       kind: 'onEnter',
       sub: `${scene.onEnter.length} 段`,
       stages: scene.onEnter,
+    })
+  if (scene.onTeleport?.length)
+    out.push({
+      key: '__onTeleport__',
+      label: '传送出口(引路蜂/土灵珠)',
+      kind: 'onTeleport',
+      sub: `${scene.onTeleport.length} 段`,
+      stages: scene.onTeleport,
     })
   for (const e of scene.entities) {
     const page = e.pages?.[0]
@@ -222,7 +230,7 @@ function collectSources(scene: SceneDef): ScriptSource[] {
 
 /** 统计一个场景的脚本源数(outliner 徽标)。 */
 function sourceCount(scene: SceneDef): number {
-  let n = scene.onEnter?.length ? 1 : 0
+  let n = (scene.onEnter?.length ? 1 : 0) + (scene.onTeleport?.length ? 1 : 0)
   for (const e of scene.entities) {
     const p = e.pages?.[0]
     if (p?.trigger) n++
@@ -231,7 +239,12 @@ function sourceCount(scene: SceneDef): number {
   return n
 }
 
-const ICON: Record<ScriptSource['kind'], string> = { onEnter: '🚩', trigger: '🔗', auto: '🔁' }
+const ICON: Record<ScriptSource['kind'], string> = {
+  onEnter: '🚩',
+  onTeleport: '🌀',
+  trigger: '🔗',
+  auto: '🔁',
+}
 
 export function EventMode(props: {
   scenes: SceneDef[]

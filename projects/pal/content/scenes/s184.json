@@ -1955,5 +1955,20 @@
         }
       ]
     }
+  ],
+  "onTeleport": [
+    {
+      "body": [
+        {
+          "kind": "loadScene",
+          "scene": "s185",
+          "pos": {
+            "col": 49,
+            "row": 29,
+            "height": 0
+          }
+        }
+      ]
+    }
   ]
 }

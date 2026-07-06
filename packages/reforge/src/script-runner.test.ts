@@ -50,6 +50,10 @@ function fakeHost(calls: string[]): ScriptHost {
       calls.push(`startBattle(${team})`)
       return 'win' as const
     },
+    teleportOut: async () => {
+      calls.push('teleportOut()')
+      return false
+    },
     openShop: log('openShop'),
     confirm: async () => {
       calls.push('confirm()')
@@ -352,6 +356,26 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
       'override(cur,f=53,m=39)',
       'override(s099,f=undefined,m=40)',
     ])
+  })
+  test('teleportOut:成功(有出口)直走;失败(无出口)走 onFail 臂', async () => {
+    const calls: string[] = []
+    const host = fakeHost(calls)
+    let ok = false
+    host.teleportOut = async () => {
+      calls.push(`teleportOut→${ok}`)
+      return ok
+    }
+    const r = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal)
+    const body: Command[] = [
+      { kind: 'teleportOut', onFail: [{ kind: 'playSound', soundId: 42 }] },
+      { kind: 'playSound', soundId: 1 },
+    ]
+    await r.run(body)
+    expect(calls).toEqual(['teleportOut→false', 'playSound(42)', 'playSound(1)']) // 不灵 → onFail 后续走
+    calls.length = 0
+    ok = true
+    await r.run(body)
+    expect(calls).toEqual(['teleportOut→true', 'playSound(1)']) // 传走成功,不跑 onFail
   })
   test('confirm:是 → 直走;否 → onNo 臂', async () => {
     const calls: string[] = []

@@ -682,5 +682,24 @@
     {
       "body": []
     }
+  ],
+  "onTeleport": [
+    {
+      "body": [
+        {
+          "kind": "setPartyFacing",
+          "facing": "right"
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s062",
+          "pos": {
+            "col": 35,
+            "row": 23,
+            "height": 0
+          }
+        }
+      ]
+    }
   ]
 }

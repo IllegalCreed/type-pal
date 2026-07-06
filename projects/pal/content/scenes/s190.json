@@ -1000,5 +1000,20 @@
     {
       "body": []
     }
+  ],
+  "onTeleport": [
+    {
+      "body": [
+        {
+          "kind": "loadScene",
+          "scene": "s176",
+          "pos": {
+            "col": 109,
+            "row": 92,
+            "height": 0
+          }
+        }
+      ]
+    }
   ]
 }

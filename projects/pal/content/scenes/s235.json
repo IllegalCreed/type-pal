@@ -82,5 +82,20 @@
       ]
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onTeleport": [
+    {
+      "body": [
+        {
+          "kind": "loadScene",
+          "scene": "s230",
+          "pos": {
+            "col": 106,
+            "row": 2,
+            "height": 0
+          }
+        }
+      ]
+    }
+  ]
 }

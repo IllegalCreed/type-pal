@@ -312,5 +312,20 @@
     {
       "body": []
     }
+  ],
+  "onTeleport": [
+    {
+      "body": [
+        {
+          "kind": "loadScene",
+          "scene": "s069",
+          "pos": {
+            "col": 117,
+            "row": 29,
+            "height": 0
+          }
+        }
+      ]
+    }
   ]
 }

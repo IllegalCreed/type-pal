@@ -182,5 +182,55 @@
     {
       "body": []
     }
+  ],
+  "onTeleport": [
+    {
+      "body": [
+        {
+          "kind": "setPartyFacing",
+          "facing": "right"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.1897",
+            "speaker": "spk.李逍遥",
+            "slot": "top",
+            "portrait": {
+              "icon": 1,
+              "side": "left"
+            }
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "up"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 8,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s017",
+          "pos": {
+            "col": 61,
+            "row": 42,
+            "height": 0
+          }
+        }
+      ]
+    }
   ]
 }

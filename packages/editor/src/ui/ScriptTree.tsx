@@ -187,6 +187,12 @@ function describe(cmd: Command, locale: Locale): Described {
       }
     case 'openShop':
       return { icon: '🏪', label: `商店 ${cmd.shop}`, detail: cmd.mode === 'buy' ? '买' : '卖' }
+    case 'teleportOut':
+      return {
+        icon: '🌀',
+        label: '传送出口(引路蜂)',
+        blocks: cmd.onFail ? [{ title: '不灵(无出口)', seg: 'onFail', body: cmd.onFail }] : [],
+      }
     case 'confirm':
       return {
         icon: '❓',

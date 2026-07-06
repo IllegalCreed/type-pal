@@ -1393,6 +1393,12 @@ export function mapScenesStatic(
     report.scenes++
     // onEnter 脚本(进场剧情/音乐/战场配置;musicId/entries 窄扫描保留 —— loader/编辑器元数据)
     const onEnter = sc.onEnterLabel ? translateStages(sc.onEnterLabel, undefined, tctx) : undefined
+    // 传送出口脚本(原版 wScriptOnTeleport;引路蜂/土灵珠读它)—— 同 onEnter 走 foldStages
+    // (setPartyPos+loadScene+fade 门模式折叠成单 loadScene)
+    const onTeleportRaw = sc.onTeleportLabel
+      ? translateStages(sc.onTeleportLabel, undefined, tctx)
+      : undefined
+    const onTeleport = onTeleportRaw?.length ? foldStages(onTeleportRaw) : undefined
     // 战斗配置 hoist:enter 链首现 overrideSceneBattle → SceneDef 默认(原版 0x4A/0x45 静态化)
     const hoist = onEnter?.length ? hoistBattleDefaults(foldStages(onEnter)) : undefined
     return {
@@ -1406,6 +1412,7 @@ export function mapScenesStatic(
       entities,
       dialogues: [],
       ...(hoist ? { onEnter: hoist.stages } : {}),
+      ...(onTeleport ? { onTeleport } : {}),
     }
   })
   propagateBattleFieldDefaults(scenes, report)

@@ -437,6 +437,10 @@ export class Playback {
       this.log(`⚔ 战斗 敌队 ${team} → 按胜利继续`)
       return 'win'
     },
+    teleportOut: async () => {
+      this.log('🌀 传送出口(引路蜂)→ 编辑器预览按「不灵」')
+      return false
+    },
     openShop: (shop, mode) => this.log(`🏪 商店 ${shop}(${mode === 'buy' ? '买' : '卖'})`),
     confirm: async () => {
       this.log('❓ 是/否 → 按「是」继续(v0 桩)')

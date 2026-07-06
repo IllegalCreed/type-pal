@@ -62,6 +62,7 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
   { kind: 'fleeBattle', icon: '🏳', name: '敌逃离', group: '战斗/商店', params: [], desc: '战斗演出:敌人逃走,无奖励结束。', origin: '0x69' },
   { kind: 'endBattle', icon: '🛑', name: '终止战斗', group: '战斗/商店', params: [['result', 'terminate/won/lost']], desc: '脚本裁决战斗结果(林天南撑 7 回合)。', origin: '0x89' },
   { kind: 'openShop', icon: '🏪', name: '商店', group: '战斗/商店', params: [['shop', '商店号'], ['mode', 'buy/sell']], desc: '开买/卖界面。', origin: '0x32 系' },
+  { kind: 'teleportOut', icon: '🌀', name: '传送出口', group: '战斗/商店', params: [['onFail', '无出口时指令(「引路蜂不灵」)']], desc: '引路蜂/土灵珠:跑当前场景传送出口脚本;场景没配出口走 onFail。出口本身在场景属性配。', origin: '0x38' },
   { kind: 'confirm', icon: '❓', name: '是/否框', group: '战斗/商店', params: [['onNo', '选「否」的指令']], desc: '二择;「是」继续往下。', origin: '0x0A' },
   // 定位权威(E6b)
   { kind: 'takeEntity', icon: '🔒', name: '接管实体', group: '控制流', params: [['entity', '实体 id']], desc: '显式接管实体定位权威:其 auto 巡逻暂停,位置归本脚本控制(位移指令会隐式接管,此指令用于「先锁再演」的精细控制)。', origin: 'E6 新增' },

@@ -97,6 +97,9 @@ export type Command =
       fieldId?: number
       musicId?: number
     }
+  // 传送出口(原版 0x38;引路蜂/土灵珠道具用):跑当前场景 onTeleport 脚本;场景无此槽 →
+  // 走 onFail(「引路蜂不灵」提示)。战斗中禁用(原版 !fInBattle,道具菜单本就战外,冗余守卫)。
+  | { kind: 'teleportOut'; onFail?: Command[] }
   | { kind: 'openShop'; shop: number; mode: 'buy' | 'sell' }
   | { kind: 'confirm'; onNo: Command[] } // 0x0A 是/否框:选"否"走 onNo,"是"继续
   // 相机(M3c;0x7F 三形态。⚠ 一阶段彩依飞走案:走位期间偏移必须保持,不许绝对回正)

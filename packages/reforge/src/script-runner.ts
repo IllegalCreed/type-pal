@@ -82,6 +82,8 @@ export interface ScriptHost {
     team: number,
     opts?: { auto?: boolean; boss?: boolean; fieldId?: number; musicId?: number },
   ): Promise<'win' | 'lose' | 'flee'>
+  /** 传送出口(0x38):跑当前场景 onTeleport;成功返回 true,场景无此槽返回 false(调用方走 onFail)。 */
+  teleportOut(): Promise<boolean>
   openShop(shop: number, mode: 'buy' | 'sell'): void
   confirm(): Promise<boolean>
   // ── 条件查询(hasItem/hasMoney/inParty 的数据源)──
@@ -314,6 +316,11 @@ export class ScriptRunner {
         })
         if (r === 'lose' && cmd.onLose) return this.run(cmd.onLose, [...path, 'onLose'])
         if (r === 'flee' && cmd.onFlee) return this.run(cmd.onFlee, [...path, 'onFlee'])
+        return
+      }
+      case 'teleportOut': {
+        const ok = await h.teleportOut()
+        if (!ok && cmd.onFail) return this.run(cmd.onFail, [...path, 'onFail'])
         return
       }
       case 'openShop':

@@ -153,6 +153,12 @@ export interface SceneDef {
   dialogues: Dialogue[]
   /** 进场脚本(M3;stages:原版首访 cutscene 演完 advance,之后只跑纯 setup 段)。 */
   onEnter?: ScriptStage[]
+  /**
+   * 传送出口脚本(原版 wScriptOnTeleport):引路蜂/土灵珠(道具 0x38 teleportOut)读它——
+   * 有 = 可用,跑此脚本(通常淡出+loadScene 回洞口/城镇);空/无 = 本场景不可传送(「引路蜂不灵」)。
+   * 编辑器场景页可配「传到何处」(生成 loadScene 脚本);复杂出口(带对话演出)走完整脚本。
+   */
+  onTeleport?: ScriptStage[]
 }
 
 export * from './actor.js'

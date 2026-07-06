@@ -1001,6 +1001,21 @@ async function main(): Promise<void> {
       showToast(`商店 #${shop}(${mode === 'buy' ? '买' : '卖'})—— M3c 落地`)
       host.report(`openShop ${shop} ${mode} 未实现`)
     },
+    // 传送出口(0x38 引路蜂/土灵珠):当前场景有 onTeleport → 内联跑(loadScene 回洞口/城镇),
+    // 返回 true;无此槽 → false(调用方走 onFail「引路蜂不灵」)。runner 槽被道具脚本占着 →
+    // detached 内联跑(同 Phase E)。(0x6D 剧情改写 onTeleport 极罕见,operand[2] 恒 0,暂不接。)
+    teleportOut: async () => {
+      const stages = scene.onTeleport
+      if (!stages?.length) return false
+      if (world.script) {
+        const r = new ScriptRunner(scriptHost, world.script, (scriptAbort ?? new AbortController()).signal)
+        await r.runStages(`teleport:${scene.id}`, stages).catch((err: unknown) => {
+          if (!(err instanceof DOMException && err.name === 'AbortError'))
+            console.error('[script] teleportOut', scene.id, err)
+        })
+      }
+      return true
+    },
     confirm: async () => {
       host.report('confirm 是/否框未实现(暂按"是")')
       return true

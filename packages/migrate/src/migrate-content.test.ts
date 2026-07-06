@@ -480,6 +480,23 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
     expect(out2.scriptReport.chains).toBeGreaterThan(30)
     expect(out2.scriptReport.commands).toBeGreaterThan(300)
   })
+  test('D24 传送出口:onTeleportLabel → onTeleport(setPartyPos+loadScene+fade 折叠成单 loadScene)', () => {
+    // 场景 7 有 wScriptOnTeleport(引路蜂出口);其脚本 L_2201 在 shared 段(跨场景传送脚本)
+    const out = mapScenesStatic(
+      [readScene(7)],
+      new Map([
+        [7, readEvents(7)],
+        [-1, readShared()],
+      ]),
+    )
+    const s7 = out.scenes[0]!
+    expect(s7.onTeleport?.length).toBeGreaterThan(0)
+    // 门模式折叠:出口脚本核心是一条 loadScene(回上层/洞口)
+    const hasLoad = s7.onTeleport!.some((st) => st.body.some((c) => c.kind === 'loadScene'))
+    expect(hasLoad).toBe(true)
+    // 无出口场景(s001)不产 onTeleport 槽
+    expect(byId.get('s001')!.onTeleport).toBeUndefined()
+  })
   test('M3a 0xFFFF 自指:setEntityState(0xFFFF) → 属主实体(拾取消失例)', () => {
     // 全场景搜:某实体的触发脚本里 setEntityState 指向自己(原版拾取 = 0x49[0xFFFF,0] 自灭)
     const selfVanish = out2.scenes

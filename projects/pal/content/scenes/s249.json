@@ -26354,5 +26354,20 @@
         }
       ]
     }
+  ],
+  "onTeleport": [
+    {
+      "body": [
+        {
+          "kind": "loadScene",
+          "scene": "s250",
+          "pos": {
+            "col": 54,
+            "row": 33,
+            "height": 0
+          }
+        }
+      ]
+    }
   ]
 }

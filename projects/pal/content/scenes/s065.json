@@ -4260,5 +4260,38 @@
       ]
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onTeleport": [
+    {
+      "body": [
+        {
+          "kind": "unmigrated",
+          "opcode": 53,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 113,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s065",
+          "pos": {
+            "col": 34,
+            "row": -4,
+            "height": 0
+          }
+        }
+      ]
+    }
+  ]
 }

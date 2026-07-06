@@ -30889,5 +30889,20 @@
         }
       ]
     }
+  ],
+  "onTeleport": [
+    {
+      "body": [
+        {
+          "kind": "loadScene",
+          "scene": "s177",
+          "pos": {
+            "col": 71,
+            "row": 47,
+            "height": 0
+          }
+        }
+      ]
+    }
   ]
 }
