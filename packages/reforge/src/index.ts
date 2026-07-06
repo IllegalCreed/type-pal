@@ -59,3 +59,11 @@ import { createBgmPlayer } from './audio/bgm.js'
 import type { BgmPlayer } from './audio/bgm.js'
 export { createBgmPlayer }
 export type { BgmPlayer }
+
+// 过场编排播放运行时(编辑器过场库预览复用;引擎 script-host 自用同款)
+import { playRng } from './rng-player.js'
+import type { PlayRngOptions } from './rng-player.js'
+import { playVideo } from './video-player.js'
+import type { PlayVideoOptions } from './video-player.js'
+export { playRng, playVideo }
+export type { PlayRngOptions, PlayVideoOptions }

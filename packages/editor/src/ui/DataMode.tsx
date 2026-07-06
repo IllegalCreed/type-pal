@@ -22,6 +22,7 @@ import { UpdateSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { buildRefIndex } from '../core/ref-index.js'
 import { BattleFieldTab } from './BattleFieldTab.js'
+import { CutsceneTab } from './CutsceneTab.js'
 import { EnemyTab } from './EnemyTab.js'
 import { EventLibTab } from './EventLibTab.js'
 import { ItemTab } from './ItemTab.js'
@@ -37,6 +38,7 @@ export type DataTab =
   | 'enemy'
   | 'battlefield'
   | 'music'
+  | 'cutscene'
   | 'vars'
   | 'events'
 export const DATA_TABS: { id: DataTab; label: string; icon: string }[] = [
@@ -46,6 +48,7 @@ export const DATA_TABS: { id: DataTab; label: string; icon: string }[] = [
   { id: 'enemy', label: '敌人', icon: '👹' },
   { id: 'battlefield', label: '战场', icon: '🏞' },
   { id: 'music', label: '音乐', icon: '🎵' },
+  { id: 'cutscene', label: '过场', icon: '🎬' },
   { id: 'vars', label: '变量', icon: '🚩' },
   { id: 'events', label: '指令手册', icon: '📖' },
 ]
@@ -182,6 +185,10 @@ export function DataMode(props: {
     return (
       <MusicTab music={music} musicBase={assetBase.music} session={session} tabBar={tabBar} />
     )
+  }
+
+  if (tab === 'cutscene') {
+    return <CutsceneTab assetBase={assetBase} tabBar={tabBar} />
   }
 
   if (tab === 'battlefield') {
