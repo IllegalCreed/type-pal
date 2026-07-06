@@ -1953,7 +1953,7 @@ async function main(): Promise<void> {
         if (useMenu.phase === 'pick-target') {
           // 选目标:Enter 施用(useApply 回写 world)/ Esc 回列表
           if (interact) {
-            const r = useApply(useMenu, world, world.party[0]?.id ?? '', project.items)
+            const r = useApply(useMenu, world, world.party[0]?.id ?? '', project.items, project.poisonsById)
             world = r.world
             useMenu = r.state
           } else if (esc) {
@@ -1966,7 +1966,7 @@ async function main(): Promise<void> {
           if (pressed.has('ArrowLeft')) useMenu = useMoveCursor(useMenu, 'left')
           if (pressed.has('ArrowRight')) useMenu = useMoveCursor(useMenu, 'right')
           if (interact) {
-            const r = useConfirm(useMenu, world, project.items)
+            const r = useConfirm(useMenu, world, project.items, project.poisonsById)
             if (r.kind === 'direct') world = r.world // 脚本/全体类:已直接执行,回写 world
             useMenu = r.state
           }

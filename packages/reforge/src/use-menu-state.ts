@@ -63,6 +63,7 @@ export function useConfirm(
   s: UseMenuState,
   world: WorldState,
   items: ItemDataMap,
+  poisonDefs?: Record<number, import('@type-pal/content').PoisonDef>,
 ): UseConfirmResult {
   if (s.phase !== 'pick-item') return { kind: 'pick-target', state: s }
   const sel = s.items[s.cursor]
@@ -72,7 +73,7 @@ export function useConfirm(
   }
   // 脚本/全体类:直接执行(脱离洞窟等脚本 / 全体回复)。demo:triggerScript 为桩 → 无视觉变化;
   // 真脚本系统建好后由 triggerScript 实跑(可能换场景/关菜单)。光标留原处(记忆)。
-  const next = useItem(world, world.party[0]?.id ?? '', sel.id, items)
+  const next = useItem(world, world.party[0]?.id ?? '', sel.id, items, poisonDefs)
   return { kind: 'direct', world: next, state: openUseMenu(next, items, s.cursor) }
 }
 
@@ -89,9 +90,10 @@ export function useApply(
   world: WorldState,
   targetCharId: string,
   items: ItemDataMap,
+  poisonDefs?: Record<number, import('@type-pal/content').PoisonDef>,
 ): { world: WorldState; state: UseMenuState } {
   if (s.phase !== 'pick-target' || !s.selectedItemId) return { world, state: s }
-  const next = useItem(world, targetCharId, s.selectedItemId, items)
+  const next = useItem(world, targetCharId, s.selectedItemId, items, poisonDefs)
   const stillUsable = usableItems(next, items).some((it) => it.id === s.selectedItemId)
   return stillUsable
     ? { world: next, state: s } // 还有 → 留选目标连用(选中/光标不变)

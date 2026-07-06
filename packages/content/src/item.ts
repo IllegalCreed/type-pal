@@ -2,6 +2,7 @@
 // 阶段隔离(D18):纯 content 数据 + 类型,无 reforge/引擎依赖。
 import type { ElementVec } from './battle-formulas.js'
 import type { CharacterInstance, WorldState } from './character.js'
+import { applyPoisonSelf, poisonCurableBy } from './poison.js'
 import type { StatusId } from './skill.js'
 
 /** 战斗属性(对齐 CharacterInstance 的 5 项)。 */
@@ -293,6 +294,7 @@ export function useItem(
   targetCharId: string,
   itemId: string,
   items: ItemDataMap,
+  poisonDefs?: Record<number, import('./poison.js').PoisonDef>,
 ): WorldState {
   const item = items[itemId]
   const target = world.party.find((c) => c.id === targetCharId)
@@ -316,7 +318,23 @@ export function useItem(
           next.mp = Math.min(next.maxMP, next.mp + eff.amount)
           changed = true
           break
-        // 留桩(归宿见 docs):applyStatus→状态系统;triggerScript→剧情脚本系统;teleport→脚本 loadScene
+        case 'applyPoison': {
+          // 大世界自毒(毒蛇卵/尸腐肉)或对己 use 毒药(相克/致死)—— 毒态随存档、带入战斗
+          applyPoisonSelf(next, Number(eff.poisonId), poisonDefs)
+          changed = true
+          break
+        }
+        case 'curePoison':
+          if (eff.poisonId !== undefined)
+            next.poisons = (next.poisons ?? []).filter((ap) => ap.poisonId !== Number(eff.poisonId))
+          else if (poisonDefs)
+            next.poisons = (next.poisons ?? []).filter((ap) => {
+              const d = poisonDefs[ap.poisonId]
+              return !d || !poisonCurableBy(d, eff.curesTier ?? 'common')
+            })
+          changed = true
+          break
+        // 留桩(归宿见 docs):applyStatus→世界状态系统;triggerScript→剧情脚本系统;teleport→脚本 loadScene
         case 'applyStatus':
         case 'triggerScript':
         case 'teleport':

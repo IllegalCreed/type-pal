@@ -76,3 +76,27 @@ export interface ActivePoison {
 export function poisonCurableBy(def: Pick<PoisonDef, 'curability'>, maxTier: PoisonCurability): boolean {
   return POISON_CURE_RANK[def.curability] <= POISON_CURE_RANK[maxTier]
 }
+
+/**
+ * 对己下毒三段链(毒药 use-on-self / 大世界自毒;fight.c 0x5D/0x2B/0x5F/0x29):
+ * ① 身中被本毒所克的毒(counters)→ 以毒攻毒解掉、不下本毒;② 否则身中致死配对(lethalWith)→
+ * hp 0 暴毙;③ 都没有 → 下本毒。缺 poisonDefs 或无关系 = 纯加毒。原地改 host,返回结果。
+ */
+export function applyPoisonSelf(
+  host: { hp: number; poisons?: ActivePoison[] },
+  poisonId: number,
+  poisonDefs?: Record<number, PoisonDef>,
+): 'cured' | 'lethal' | 'applied' {
+  const list = (host.poisons ??= [])
+  const def = poisonDefs?.[poisonId]
+  if (def?.counters !== undefined && list.some((ap) => ap.poisonId === def.counters)) {
+    host.poisons = list.filter((ap) => ap.poisonId !== def.counters)
+    return 'cured'
+  }
+  if (def?.lethalWith !== undefined && list.some((ap) => ap.poisonId === def.lethalWith)) {
+    host.hp = 0
+    return 'lethal'
+  }
+  if (!list.some((ap) => ap.poisonId === poisonId)) list.push({ poisonId, tickIndex: 0 })
+  return 'applied'
+}

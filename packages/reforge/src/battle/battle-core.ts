@@ -32,6 +32,7 @@ import {
   getEnemyDexterity,
   getPlayerActualDexterity,
   isPlayerDying,
+  applyPoisonSelf,
   poisonCurableBy,
   magicDefenseDivisor,
   pickAiTarget,
@@ -292,17 +293,7 @@ export function applyPoisonToPlayer(
   poisonId: number,
   poisonDefs: Record<number, PoisonDef>,
 ): 'cured' | 'lethal' | 'applied' {
-  const def = poisonDefs[poisonId]
-  if (def?.counters !== undefined && p.poisons.some((ap) => ap.poisonId === def.counters)) {
-    p.poisons = p.poisons.filter((ap) => ap.poisonId !== def.counters) // 以毒攻毒:解掉被克毒
-    return 'cured'
-  }
-  if (def?.lethalWith !== undefined && p.poisons.some((ap) => ap.poisonId === def.lethalWith)) {
-    p.hp = 0 // 致死配对同身 → 暴毙
-    return 'lethal'
-  }
-  if (!p.poisons.some((ap) => ap.poisonId === poisonId)) p.poisons.push({ poisonId, tickIndex: 0 })
-  return 'applied'
+  return applyPoisonSelf(p, poisonId, poisonDefs) // 战斗↔大世界共用同一三段链(content/poison)
 }
 
 /**

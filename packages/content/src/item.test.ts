@@ -231,3 +231,26 @@ describe('usableItems + useItem', () => {
     expect(useItem(w, 'hero', 'bead', items)).toBe(w) // bead 无 use,原样
   })
 })
+
+describe('大世界自毒/解毒(useItem applyPoison/curePoison → char.poisons;毒源+携带桥)', () => {
+  const poisonItems: ItemDataMap = {
+    egg: { id: 'egg', name: '毒蛇卵', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'applyPoison', poisonId: '551' }] } },
+    rice: { id: 'rice', name: '糯米', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'curePoison', curesTier: 'common' }] } },
+  }
+  const defs = {
+    551: { id: 551, name: '赤毒', curability: 'common' as const, color: 16 },
+    555: { id: 555, name: '三尸蛊', curability: 'severe' as const, color: 0 },
+  }
+  test('用毒蛇卵 → 队员中赤毒(char.poisons 有 551,带入战斗的源)', () => {
+    const w = world([{ itemId: 'egg', count: 1 }])
+    const w2 = useItem(w, 'hero', 'egg', poisonItems, defs)
+    expect(w2.party[0]?.poisons).toEqual([{ poisonId: 551, tickIndex: 0 }])
+    expect(w2.inventory.find((e) => e.itemId === 'egg')).toBeUndefined() // 消耗
+  })
+  test('用糯米(common)→ 解赤毒留三尸蛊(severe)', () => {
+    const w0 = world([{ itemId: 'rice', count: 1 }])
+    w0.party[0]!.poisons = [{ poisonId: 551, tickIndex: 0 }, { poisonId: 555, tickIndex: 0 }]
+    const w2 = useItem(w0, 'hero', 'rice', poisonItems, defs)
+    expect(w2.party[0]?.poisons).toEqual([{ poisonId: 555, tickIndex: 0 }]) // 赤毒解,三尸蛊留
+  })
+})
