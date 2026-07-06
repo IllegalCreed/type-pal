@@ -147,6 +147,7 @@ export type BattleAction =
   | { kind: 'attack'; targetEnemyIdx: number }
   | { kind: 'cast'; skillId: string; targetEnemyIdx?: number } // 对敌单体带目标;施于己方/全体不带
   | { kind: 'item'; itemId: string } // 战斗用品(v1 施于自己;consuming 扣库存)
+  | { kind: 'throw'; itemId: string; targetEnemyIdx: number } // 投掷道具打敌(下毒/伤害;毒药/蛊)
   | { kind: 'defend' }
   | { kind: 'flee' }
 
@@ -822,6 +823,10 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
     }
     return
   }
+  if (act.kind === 'throw') {
+    performThrow(s, p, act.itemId, act.targetEnemyIdx, _rng)
+    return
+  }
   if (act.kind === 'cast') {
     applyPlayerSkill(s, idx, act.skillId, act.targetEnemyIdx, _rng)
     return
@@ -849,6 +854,44 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
       if (s.lastAction) s.lastAction.secondDamage = hit2.dmg
       e.hp = Math.max(0, e.hp - hit2.dmg)
       s.log.push(`${p.roleId} 连击 ${hit2.crit ? '会心一击 ' : ''}造成 ${hit2.dmg}`)
+    }
+  }
+}
+
+/**
+ * 投掷道具打敌(fight.c wScriptOnThrow):对目标敌应用 throw.effects —— applyPoison 走巫抗门
+ * (0x28 下毒:rng(0,9)>=巫抗才中);damage 直接扣血;consuming 扣库存。相生相克/致死(0x5E+0x60)
+ * 是后续数据层(counters/lethalPairs),此处先接基础下毒/伤害(食妖虫寄生、毒药下毒)。
+ */
+function performThrow(
+  s: BattleState,
+  p: BattlePlayerState,
+  itemId: string,
+  targetEnemyIdx: number,
+  rng: () => number,
+): void {
+  const item = s.items[itemId]
+  const slot = s.inventory.find((x) => x.itemId === itemId)
+  const e = s.enemies[targetEnemyIdx]
+  if (!item?.throw || !slot || slot.count <= 0 || !e || e.hp <= 0) {
+    s.log.push(`${p.roleId} 投掷 ${itemId} 失败(缺数据/无库存/目标已死)`)
+    return
+  }
+  slot.count -= 1 // 投掷必消耗
+  for (const eff of item.throw.effects) {
+    switch (eff.kind) {
+      case 'applyPoison': {
+        const pid = Number(eff.poisonId)
+        if (applyPoisonToEnemy(e, pid, rng))
+          s.log.push(`${p.roleId} 投掷 ${item.name},${e.def.id} 中 ${s.poisonDefs[pid]?.name ?? `毒${pid}`}`)
+        else s.log.push(`${e.def.id} 抵抗了 ${item.name}`)
+        break
+      }
+      case 'healHp': // 对敌"回血"= 反效果,原版罕见;直接扣(负 heal 语义留数据层)
+        s.log.push(`${p.roleId} 投掷 ${item.name}(对敌无效果)`)
+        break
+      default:
+        s.log.push(`投掷效果 ${eff.kind} 未接(战斗期陆续)`)
     }
   }
 }

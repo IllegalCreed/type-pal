@@ -80,7 +80,7 @@ interface FloatNum {
   bornAt: number
 }
 
-type UiPhase = 'menu' | 'misc' | 'miscSub' | 'skill' | 'item' | 'target' | 'acting' | 'over'
+type UiPhase = 'menu' | 'misc' | 'miscSub' | 'skill' | 'item' | 'throwItem' | 'target' | 'acting' | 'over'
 
 export interface BattleSessionAssets {
   bg?: CanvasImageSource
@@ -136,6 +136,7 @@ export class BattleSession {
   private itemIdx = 0
   /** 仙术选目标中(target 态确认时:有值 → cast,无值 → attack)。 */
   private pendingSkillId: string | null = null
+  private pendingThrowItem: string | null = null
   private targetIdx = 0
   /** 正在选指令的队员下标(pendingActions 未填的第一个活队员)。 */
   private actTimer = 0
@@ -342,6 +343,11 @@ export class BattleSession {
   /** 战斗可用物品(背包中有货且 items 表带 use)。 */
   private usableItems(): { itemId: string; count: number }[] {
     return this.state.inventory.filter((x) => x.count > 0 && this.state.items[x.itemId]?.use)
+  }
+
+  /** 可投掷道具(有 throw 能力块;毒药/蛊)。 */
+  private throwableItems(): { itemId: string; count: number }[] {
+    return this.state.inventory.filter((x) => x.count > 0 && this.state.items[x.itemId]?.throw)
   }
 
   /** 主菜单 4 项可用性(0攻击/3杂项恒可;1法术=有技能且未封;2合击未实现)。 */
@@ -593,12 +599,16 @@ export class BattleSession {
           } // 0 围攻 / 4 状态:未实现,无响应(灰显)
         }
       } else if (this.ui === 'miscSub') {
-        // 物品二级(一阶段):使用/投掷;Up|Left→使用 Down|Right→投掷;投掷未实现(灰)
+        // 物品二级:使用/投掷;Up|Left→使用 Down|Right→投掷
         if (pressed.has('ArrowUp') || pressed.has('ArrowLeft')) this.miscSubIdx = 0
         if (pressed.has('ArrowDown') || pressed.has('ArrowRight')) this.miscSubIdx = 1
         if (pressed.has('Escape')) this.ui = 'misc'
         if (confirm && this.miscSubIdx === 0) {
           this.ui = 'item'
+          this.itemIdx = 0
+        }
+        if (confirm && this.miscSubIdx === 1 && this.throwableItems().length) {
+          this.ui = 'throwItem'
           this.itemIdx = 0
         }
       } else if (this.ui === 'skill') {
@@ -636,19 +646,41 @@ export class BattleSession {
           s.pendingActions.set(sel, { kind: 'item', itemId: it.itemId })
           this.backToMain()
         }
+      } else if (this.ui === 'throwItem') {
+        const list = this.throwableItems()
+        if (pressed.has('ArrowLeft')) this.itemIdx = Math.max(0, this.itemIdx - 1)
+        if (pressed.has('ArrowRight')) this.itemIdx = Math.min(list.length - 1, this.itemIdx + 1)
+        if (pressed.has('ArrowUp')) this.itemIdx = Math.max(0, this.itemIdx - 3)
+        if (pressed.has('ArrowDown')) this.itemIdx = Math.min(list.length - 1, this.itemIdx + 3)
+        if (pressed.has('Escape')) this.ui = 'miscSub'
+        if (confirm && list.length) {
+          // 选好投掷道具 → 进敌方目标选择(throw 打敌单体)
+          this.pendingThrowItem = list[this.itemIdx % list.length]!.itemId
+          this.ui = 'target'
+          this.targetIdx = 0
+        }
       } else if (this.ui === 'target') {
         const alive = this.aliveEnemyIdxs()
         if (alive.length === 0) return
         if (pressed.has('ArrowLeft'))
           this.targetIdx = (this.targetIdx + alive.length - 1) % alive.length
         if (pressed.has('ArrowRight')) this.targetIdx = (this.targetIdx + 1) % alive.length
-        if (pressed.has('Escape')) this.ui = 'menu'
+        // 返回:投掷态回投掷选物,否则回主菜单
+        if (pressed.has('Escape')) {
+          if (this.pendingThrowItem) {
+            this.pendingThrowItem = null
+            this.ui = 'throwItem'
+          } else this.ui = 'menu'
+        }
         if (confirm) {
           const t = alive[this.targetIdx % alive.length]!
-          const action: BattleAction = this.pendingSkillId
-            ? { kind: 'cast', skillId: this.pendingSkillId, targetEnemyIdx: t }
-            : { kind: 'attack', targetEnemyIdx: t }
+          const action: BattleAction = this.pendingThrowItem
+            ? { kind: 'throw', itemId: this.pendingThrowItem, targetEnemyIdx: t }
+            : this.pendingSkillId
+              ? { kind: 'cast', skillId: this.pendingSkillId, targetEnemyIdx: t }
+              : { kind: 'attack', targetEnemyIdx: t }
           this.pendingSkillId = null
+          this.pendingThrowItem = null
           s.pendingActions.set(sel, action)
           this.backToMain()
         }
@@ -917,6 +949,22 @@ export class BattleSession {
     const s = this.state
     if (!la) return null
     if (la.kind === 'cast') return this.buildCastTimeline(la, pHp, eHp)
+    // 投掷道具(frame5 投掷姿 → 目标染色闪 → 复位;数字不显 —— 下毒无即时伤害)
+    if (la.kind === 'throw' && la.side === 'player' && la.target !== undefined) {
+      const attackerPos = getPlayerBasePos(s.players.length, la.idx)
+      if (!attackerPos) return null
+      return [
+        { durationMs: 120, fighters: [{ side: 'player', idx: la.idx, frame: 5 }] },
+        { durationMs: 200, fighters: [{ side: 'enemy', idx: la.target, colorShift: 6 }] },
+        {
+          durationMs: 160,
+          fighters: [
+            { side: 'player', idx: la.idx, frame: 0 },
+            { side: 'enemy', idx: la.target, colorShift: 0 },
+          ],
+        },
+      ]
+    }
     // 疯魔打友(fight.c:3790-3855):瞬移到队友旁挥兵器,数字/击退/红闪全套
     if (la.kind === 'attackMate' && la.side === 'player' && la.target !== undefined) {
       const attackerPos = getPlayerBasePos(s.players.length, la.idx)
@@ -1381,8 +1429,11 @@ export class BattleSession {
         }))
         drawBattleMenuBox(ctx, ui, g, rows, this.miscIdx, now, 2, 20, this.ui === 'miscSub')
         if (this.ui === 'miscSub') {
-          // 使用/投掷二级 box(30,50);投掷未实现灰显
-          const sub: BattleMenuRow[] = [{ label: '使用' }, { label: '投掷', disabled: true }]
+          // 使用/投掷二级 box(30,50);投掷无可投道具时灰显
+          const sub: BattleMenuRow[] = [
+            { label: '使用' },
+            { label: '投掷', disabled: this.throwableItems().length === 0 },
+          ]
           drawBattleMenuBox(ctx, ui, g, sub, this.miscSubIdx, now, 30, 50)
         }
       } else if (this.ui === 'skill') {
@@ -1395,9 +1446,9 @@ export class BattleSession {
         drawBattleGrid(ctx, ui, g, rows, this.skillIdx, now, MAGIC_GRID)
         const selSkill = this.opts.skills?.[p.skills[this.skillIdx % p.skills.length] ?? '']
         drawMpBox(ctx, ui, selSkill?.cost.mp ?? 0, p.mp)
-      } else if (this.ui === 'item') {
-        // 物品网格(红框 3 列,数量 cyan)+ 左下选中物详情框
-        const list = this.usableItems()
+      } else if (this.ui === 'item' || this.ui === 'throwItem') {
+        // 物品/投掷网格(红框 3 列,数量 cyan)+ 左下选中物详情框
+        const list = this.ui === 'item' ? this.usableItems() : this.throwableItems()
         const rows: BattleMenuRow[] = list.map((it) => ({
           label: this.state.items[it.itemId]?.name ?? it.itemId,
           right: it.count,

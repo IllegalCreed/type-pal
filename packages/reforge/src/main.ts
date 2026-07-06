@@ -2183,6 +2183,13 @@ async function main(): Promise<void> {
       leader.mp = leader.maxMP
     }
   }
+  // ?give=<itemId>:dev 塞道具进背包(验投掷/使用;如 ?give=144 食妖虫)
+  const giveParam = params.get('give')
+  if (giveParam) {
+    const ex = world.inventory.find((x) => x.itemId === giveParam)
+    if (ex) ex.count += 5
+    else world.inventory.push({ itemId: giveParam, count: 5 })
+  }
   // ?field=<战场号>:dev 覆写战场(验屏波/换背景;#32 常驻波 128 最猛)—— 直传参数,不落 world
   const fieldParam = params.get('field')
   const battleParam = battleRaw === null ? Number.NaN : Number(battleRaw)

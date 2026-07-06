@@ -537,3 +537,20 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
     expect(sceneSlug(4)).toBe('s004')
   })
 })
+
+describe('M1d · 投掷效果(scriptOnThrow → ThrowSpec)', () => {
+  const byId = new Map(out.items.map((i) => [i.id, i]))
+  test('食妖虫(144)/碧血蚕(147)投掷 → 下寄生毒(养蛊源:0x28 → applyPoison)', () => {
+    expect(byId.get('144')!.throw!.effects).toEqual([{ kind: 'applyPoison', poisonId: '561' }])
+    expect(byId.get('147')!.throw!.effects).toEqual([{ kind: 'applyPoison', poisonId: '562' }])
+  })
+  test('毒食投掷 → 下常规毒(尸腐肉116→尸毒552/毒蛇卵117→赤毒551)', () => {
+    expect(byId.get('116')!.throw!.effects).toEqual([{ kind: 'applyPoison', poisonId: '552' }])
+    expect(byId.get('117')!.throw!.effects).toEqual([{ kind: 'applyPoison', poisonId: '551' }])
+  })
+  test('六大毒药相生相克/致死 → pendingThrow(相克数据层待接,非静默丢)', () => {
+    // 鹤顶红122 等 6 毒药 throw 脚本带 0x5E/0x60 查毒+秒杀 → pending
+    expect(out.report.pendingThrow.length).toBeGreaterThan(0)
+    expect(out.report.pendingThrow.every((p) => p.reason.includes('相'))).toBe(true)
+  })
+})

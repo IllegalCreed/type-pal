@@ -823,6 +823,44 @@ export function translateUseScript(
   return out
 }
 
+/**
+ * 静态翻译一条 scriptOnThrow 链(投掷对敌:0x28 下毒 → applyPoison)。
+ * 基础层只接下毒/下蛊(食妖虫/毒药);相生相克/致死(0x5D/5E 查毒 + 0x2B 解 + 0x5F/60 秒杀)
+ * = 数据层(counters/lethalPairs)后续接,此处遇到留 pending。
+ */
+export function translateThrowScript(
+  commands: readonly SourceCmd[],
+  labelIndex: Map<string, number>,
+  ip: number,
+): { effects: NonNullable<ItemData['throw']>['effects']; pendingReason?: string } {
+  const effects: NonNullable<ItemData['throw']>['effects'] = []
+  const start = ip === 0 ? undefined : labelIndex.get(`L_${ip}`)
+  if (start === undefined) return { effects, pendingReason: `L_${ip} 不存在` }
+  for (let i = start; i < commands.length; i++) {
+    const c = commands[i]!
+    if (c.op === 'end') return { effects }
+    if (c.op !== 'raw') {
+      if (c.label !== undefined && c.op === undefined) continue
+      return { effects, pendingReason: `剧情类(${c.op})→ B2 脚本` }
+    }
+    const [, b = 0] = c.operands ?? []
+    switch (c.opcode) {
+      case 0x28: // 对敌下毒/下蛊
+        effects.push({ kind: 'applyPoison', poisonId: String(b) })
+        break
+      case 0x42: // 块头标记(投掷前摇)
+      case 0x05:
+      case 0x47:
+      case 167:
+        break
+      default:
+        // 相生相克/致死(0x5D/5E/2B/5F/60)+ 其它 → 相克数据层后续
+        return { effects, pendingReason: `op 0x${(c.opcode ?? 0).toString(16)}(相生相克/致死)→ 相克数据层` }
+    }
+  }
+  return { effects }
+}
+
 // ── 物品(M1a:表字段;M1b:equip;use/throw 留 M1d)──────────
 export function mapItemsTable(
   items: readonly SourceItem[],
@@ -873,6 +911,8 @@ export interface MigrateOutput {
     pendingEquip: { itemId: number; name: string; ops: EquipTranslation['pending'] }[]
     /** M1d:使用链整件翻不动的(灵珠剧情/毒杀/遇敌香/蛊系等)。 */
     pendingUse: { itemId: number; name: string; reason: string }[]
+    /** M1d 投掷链翻不动的(相生相克/致死 → 相克数据层)。 */
+    pendingThrow: { itemId: number; name: string; reason: string }[]
     /** M1d:使用链有损点(战斗分支头)。 */
     lossyUse: { itemId: number; name: string; notes: string[] }[]
   }
@@ -896,6 +936,7 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
   // 物品:表字段(M1a)+ 装备效果(M1b)+ 使用效果(M1d)
   const pendingEquip: MigrateOutput['report']['pendingEquip'] = []
   const pendingUse: MigrateOutput['report']['pendingUse'] = []
+  const pendingThrow: MigrateOutput['report']['pendingThrow'] = []
   const lossyUse: MigrateOutput['report']['lossyUse'] = []
   const itemsTable = mapItemsTable(src.items, descOf('item'))
   const items = itemsTable.map((base, i) => {
@@ -933,6 +974,14 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
         }
       } else {
         pendingUse.push({ itemId: srcItem.id, name: srcItem._name, reason: 'scriptOnUse 空链' })
+      }
+    }
+    if (srcItem.flags.throwable && srcItem.scriptOnThrow !== 0) {
+      const t = translateThrowScript(src.commands, labelIndex, srcItem.scriptOnThrow)
+      if (t.pendingReason) {
+        pendingThrow.push({ itemId: srcItem.id, name: srcItem._name, reason: t.pendingReason })
+      } else if (t.effects.length) {
+        out = { ...out, throw: { effects: t.effects } }
       }
     }
     return out
@@ -1028,6 +1077,7 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
       blockedDescs,
       pendingEquip,
       pendingUse,
+      pendingThrow,
       lossyUse,
     },
   }

@@ -931,3 +931,56 @@ describe('P2 长鞭攻全体(attackAll;fight.c:3683-3730)', () => {
     expect(s.log.some((l) => l.includes('横扫'))).toBe(true)
   })
 })
+
+describe('P2 投掷道具(throw;养蛊源 + 下毒)', () => {
+  const THROW_ITEMS: Record<string, import('@type-pal/content').ItemData> = {
+    '144': { id: '144', name: '食妖虫', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, throw: { effects: [{ kind: 'applyPoison', poisonId: '561' }] } },
+  }
+  const PARASITE: Record<number, import('@type-pal/content').PoisonDef> = {
+    561: { id: 561, name: '食妖虫附', curability: 'incurable', color: 0, enemyTicks: [{ hpDelta: -1 }, { hpDelta: -8, grantItem: '145', selfCure: true }] },
+  }
+  test('投掷食妖虫 → 敌中寄生毒(巫抗门)+ 消耗;到期产灵蛊入背包(养蛊闭环)', () => {
+    const s = createBattleState({
+      players: [player('li', { attackStrength: 0 })],
+      enemies: [mkEnemy('slime', { health: 9999, defense: 999, attackStrength: 0 })],
+      items: THROW_ITEMS,
+      inventory: [{ itemId: '144', count: 2 }],
+      poisonDefs: PARASITE,
+    })
+    s.enemies[0]!.def.ai.resistanceToSorcery = 0 // 零巫抗必中
+    stepBattle(s, () => 0.5)
+    s.enemies[0]!.status.sleep = 99 // 隔离敌回合
+    s.pendingActions.set(0, { kind: 'throw', itemId: '144', targetEnemyIdx: 0 })
+    let g = 0
+    do stepBattle(s, () => 0.5)
+    while (s.phase === 'performAction' && g++ < 40)
+    expect(s.enemies[0]!.poisons.map((p) => p.poisonId)).toEqual([561]) // 中寄生毒
+    expect(s.inventory.find((x) => x.itemId === '144')?.count).toBe(1) // 投掷消耗 2→1
+    // 再过一回合 → 寄生到期产灵蛊
+    s.enemies[0]!.status.sleep = 99
+    s.pendingActions.set(0, { kind: 'defend' })
+    g = 0
+    do stepBattle(s, () => 0.5)
+    while (s.phase === 'performAction' && g++ < 40)
+    expect(s.inventory.find((x) => x.itemId === '145')?.count).toBe(1) // 灵蛊入背包
+  })
+
+  test('巫抗满 → 投掷下毒不中(道具仍消耗)', () => {
+    const s = createBattleState({
+      players: [player('li')],
+      enemies: [mkEnemy('boss', { health: 999 })],
+      items: THROW_ITEMS,
+      inventory: [{ itemId: '144', count: 1 }],
+      poisonDefs: PARASITE,
+    })
+    s.enemies[0]!.def.ai.resistanceToSorcery = 10 // 满巫抗
+    stepBattle(s, () => 0.99)
+    s.enemies[0]!.status.sleep = 99
+    s.pendingActions.set(0, { kind: 'throw', itemId: '144', targetEnemyIdx: 0 })
+    let g = 0
+    do stepBattle(s, () => 0.99)
+    while (s.phase === 'performAction' && g++ < 40)
+    expect(s.enemies[0]!.poisons).toHaveLength(0) // 巫抗挡,不中
+    expect(s.inventory.find((x) => x.itemId === '144')?.count).toBe(0) // 仍消耗(count 0,写回时清)
+  })
+})
