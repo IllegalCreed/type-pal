@@ -1195,6 +1195,32 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
   if (dmg <= 0) dmg = 1
   p.hp = Math.max(0, p.hp - dmg)
   s.log.push(`${e.def.id} 攻击 ${p.roleId} 造成 ${dmg}`)
+  if (p.hp > 0) applyEnemyEquivItem(p, e, s, rng) // 敌普攻附带道具(附毒攻击:尸腐肉/毒蛇卵等)
+}
+
+/**
+ * 敌普攻附带道具效果(fight.c:5139-5146 「attackEquivItem」):命中后掷 `rate >= R(1,10)` 触发,
+ * 再过**玩家毒抗门**(`毒抗 < R(1,100)` 才中,fight.c:5141)→ 跑该道具 use 的 applyPoison 到玩家。
+ * = 附毒攻击(尸腐肉/毒蛇卵 equiv 的蛇妖类)。毒抗越高越难中(大蒜临时毒抗即缩此门);
+ * 三段链走 applyPoisonToPlayer(相克/致死/自毒同路)。仅处理 applyPoison(附毒攻击的用途)。
+ */
+export function applyEnemyEquivItem(
+  p: BattlePlayerState,
+  e: BattleEnemyState,
+  s: BattleState,
+  rng: () => number,
+): void {
+  const equiv = e.def.attackEquivItem
+  const item = equiv ? s.items[equiv.itemId] : undefined
+  if (!equiv || !item?.use) return
+  if (equiv.rate < Math.floor(rng() * 10) + 1) return // rate < R(1,10) → 不触发
+  if ((p.poisonRes ?? 0) >= Math.floor(rng() * 100) + 1) return // 毒抗门:毒抗 ≥ R(1,100) → 抗掉
+  for (const eff of item.use.effects) {
+    if (eff.kind === 'applyPoison') {
+      const r = applyPoisonToPlayer(p, Number(eff.poisonId), s.poisonDefs)
+      if (r === 'applied') s.log.push(`${p.roleId} 中了 ${item.name} 的毒`)
+    }
+  }
 }
 
 /** 跑到终态（headless 便捷驱动;上限防死循环）。返回结果。 */

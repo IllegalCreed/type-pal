@@ -1144,13 +1144,20 @@ export class BattleSession {
     return this.state.log
   }
 
-  /** dev:队员战斗态只读快照(护体符/毒携带等验证:roleId/hp/status/poisons)。 */
-  debugPlayers(): { roleId: string; hp: number; status: BattleStatus; poisons: ActivePoison[] }[] {
+  /** dev:队员战斗态只读快照(护体符/毒携带/大蒜毒抗验证:roleId/hp/status/poisons/poisonRes)。 */
+  debugPlayers(): {
+    roleId: string
+    hp: number
+    status: BattleStatus
+    poisons: ActivePoison[]
+    poisonRes: number
+  }[] {
     return this.state.players.map((p) => ({
       roleId: p.roleId,
       hp: p.hp,
       status: { ...p.status },
       poisons: p.poisons.map((x) => ({ ...x })),
+      poisonRes: p.poisonRes ?? 0,
     }))
   }
 

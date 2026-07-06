@@ -98,6 +98,11 @@ export interface CharacterInstance {
    * ⚠ 与装备常驻 grantedStatuses(连击,红线 live 派生、置 9999 永久)不同:此为定时、随存档持久。
    */
   extraStatuses?: CarriedStatus[]
+  /**
+   * 大世界带入的临时毒抗(大蒜;原版 rgEquipmentEffect Extra 层的 rgwPoisonResistance)。战斗外 use 施加、
+   * 随存档,建态并入战斗 poisonRes(缩「敌普攻附毒门」)。战后三件套 RemoveEquipExtra 清。缺省 = 无。
+   */
+  extraPoisonRes?: number
 }
 
 /** 隐藏经验池键(= 可被隐藏成长的属性;顺序 = 原版 CHECK_HIDDEN_EXP 分配序)。 */

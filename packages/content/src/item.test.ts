@@ -285,3 +285,20 @@ describe('大世界护体符/金刚符(useItem applyStatus → char.extraStatuse
     expect(orig).toEqual([{ status: 'protect', turns: 2 }]) // 源数组未被改
   })
 })
+
+describe('大蒜临时毒抗(useItem extraPoisonRes → char.extraPoisonRes;缩敌附毒门的源)', () => {
+  const garlic: ItemDataMap = {
+    garlic: { id: 'garlic', name: '大蒜', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: true, use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'extraPoisonRes', amount: 30 }] } },
+  }
+  test('用大蒜 → extraPoisonRes=30(建态并入战斗 poisonRes 的源),消耗 -1', () => {
+    const w = world([{ itemId: 'garlic', count: 1 }])
+    const w2 = useItem(w, 'hero', 'garlic', garlic)
+    expect(w2.party[0]?.extraPoisonRes).toBe(30)
+    expect(w2.inventory.find((e) => e.itemId === 'garlic')).toBeUndefined()
+  })
+  test('已有更高毒抗再用 → 取高不降级', () => {
+    const w0 = world([{ itemId: 'garlic', count: 1 }])
+    w0.party[0]!.extraPoisonRes = 50
+    expect(useItem(w0, 'hero', 'garlic', garlic).party[0]?.extraPoisonRes).toBe(50) // max(50,30)
+  })
+})

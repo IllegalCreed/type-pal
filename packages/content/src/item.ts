@@ -49,6 +49,7 @@ export type ItemUseEffect =
   | { kind: 'dieIfNotPoisoned' } // 0x61(毒龙胆/九阴散):没中毒则秒杀自己,否则续跑后效(解毒/回血)
   | { kind: 'triggerScript'; scriptId: string } // 桂花酒/玉佩剧情;风灵珠场景互动
   | { kind: 'teleportOut' } // 0x38(引路蜂/土灵珠):跑当前场景 onTeleport 出口(无出口=不灵)
+  | { kind: 'extraPoisonRes'; amount: number } // 0x17(大蒜):临时毒抗 Extra,带入战斗、三件套清
 // 待扩充(B2 剧情脚本落地后):giveItems / giveMoney / learnSkill / scenePlace / transform …
 
 export interface UseSpec {
@@ -332,6 +333,11 @@ export function useItem(
               const d = poisonDefs[ap.poisonId]
               return !d || !poisonCurableBy(d, eff.curesTier ?? 'common')
             })
+          changed = true
+          break
+        case 'extraPoisonRes':
+          // 大蒜:临时毒抗 Extra,随存档,建态并入战斗 poisonRes(缩敌附毒门)、战后三件套清。刷新取高。
+          next.extraPoisonRes = Math.max(next.extraPoisonRes ?? 0, eff.amount)
           changed = true
           break
         case 'applyStatus': {

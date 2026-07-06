@@ -457,7 +457,17 @@
     "icon": 28,
     "buyPrice": 12,
     "sellPrice": 6,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "extraPoisonRes",
+          "amount": 30
+        }
+      ]
+    }
   },
   {
     "id": "85",

@@ -358,6 +358,13 @@ describe('M1d · 使用效果(scriptOnUse → UseSpec)', () => {
     expect(byId.get('267')!.use).toBeUndefined()
     expect(out.report.pendingUse.some((p) => p.itemId === 267)).toBe(true)
   })
+  test('大蒜(84):0x17 SetPlayerExtraAttribute(层6 行22=毒抗)→ extraPoisonRes(临时毒抗)', () => {
+    expect(byId.get('84')!.use).toEqual({
+      target: 'oneAlly',
+      consuming: true,
+      effects: [{ kind: 'extraPoisonRes', amount: 30 }],
+    })
+  })
   test('总账:100 usable 全有下落(use 块 + pendingUse = 100),pending 原因均指向未落地系统', () => {
     const withUse = out.items.filter((i) => i.use).length
     expect(withUse + out.report.pendingUse.length).toBe(100)

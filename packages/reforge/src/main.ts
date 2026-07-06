@@ -798,7 +798,8 @@ async function main(): Promise<void> {
           skills: effectiveSkills(world.learnedSkills[c.id] ?? [], c, itemsById),
           fleeRate: effectiveStat(c, 'luck', itemsById), // 逃跑判定 str
           elemRes: res.elemRes,
-          poisonRes: res.poisonRes,
+          // 毒抗 = 装备 live 派生 + 大世界大蒜临时 Extra(缩敌附毒门;战后三件套清 extraPoisonRes)
+          poisonRes: res.poisonRes + (c.extraPoisonRes ?? 0),
           // 大世界带入的毒(自毒食/装备咒;战斗内副本,战后三件套清)
           ...(c.poisons?.length ? { poisons: c.poisons.map((x) => ({ ...x })) } : {}),
           // 大世界护体符/金刚符定时状态(护体等;建态注入 status,战后三件套 ClearAllStatus 清)
@@ -1005,9 +1006,10 @@ async function main(): Promise<void> {
       session.writeBackInventory(world.inventory)
       // 战后「三件套」(battle.c:1822-1830):胜/败/逃无条件。① ClearAllStatus → 清大世界护体符定时状态
       // (extraStatuses);② CurePoisonByLevel(3) → 世界毒态清 ≤severe(无影毒/寄生 incurable 留);
-      // ③ RemoveEquipExtra → 装备 Extra(毒抗等)走 live 派生无持久,无需清。
+      // ③ RemoveEquipExtra → 清大蒜临时毒抗 Extra(extraPoisonRes;装备本身 Extra 走 live 派生无持久)。
       for (const c of world.party) {
         if (c.extraStatuses?.length) c.extraStatuses = []
+        if (c.extraPoisonRes) c.extraPoisonRes = undefined
         if (c.poisons?.length) curePoisons(c, project.poisonsById, 'severe')
       }
       // Phase E 战后脚本(battle.c:1334-1337):胜利后逐敌槽跑 scriptOnBattleEnd(→ onDefeated,

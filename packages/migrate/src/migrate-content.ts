@@ -810,6 +810,15 @@ export function translateUseScript(
       case 0x38: // 引路蜂/土灵珠:传送出口(跑当前场景 onTeleport;无出口→operand[0] 不灵消息=reforge report)
         out.effects.push({ kind: 'teleportOut' })
         break
+      case 0x17: {
+        // SetPlayerExtraAttribute(仅大蒜用):operand[0]=17→Extra 层 6,operand[1]=22=毒抗行
+        //(PLAYERROLES rgwPoisonResistance),operand[2]=值。临时毒抗 Extra(三件套 RemoveEquipExtra 清)。
+        // 其余属性行未落地 → pending(不建通用 Extra 系统,仅靶向毒抗一件)。
+        const val = signExtendI16(c.operands?.[2] ?? 0)
+        if (a === 17 && b === 22) out.effects.push({ kind: 'extraPoisonRes', amount: val })
+        else return { ...out, pendingReason: `0x17 未支持的 Extra 属性(层${a - 0xb} 行${b})` }
+        break
+      }
       case 0x68:
         out.lossyNotes.push(`0x${(c.opcode ?? 0).toString(16)} 战斗分支(L_${a})未表达 —— 战斗期`)
         break

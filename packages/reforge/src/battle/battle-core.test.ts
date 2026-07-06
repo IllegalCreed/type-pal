@@ -1,9 +1,11 @@
 import type { EnemyDef } from '@type-pal/content'
 import { calcMagicDamage, calcPhysicalAttackDamage } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import type { ItemData } from '@type-pal/content'
 import {
   type BattlePlayerState,
   type CreatePlayerInput,
+  applyEnemyEquivItem,
   applyPoisonToEnemy,
   applyPoisonToPlayer,
   createBattleState,
@@ -819,6 +821,46 @@ describe('P2 中毒 DoT(数据化毒 tick;fight.c:4454 逐回合)', () => {
     oneTurn(s, () => s.pendingActions.set(0, { kind: 'defend' }))
     expect(s.enemies[0]!.hp).toBe(249) // 500 − min(1000, 250+1) = 500−251
     expect(s.enemies[0]!.poisons).toHaveLength(0) // selfCure
+  })
+})
+
+describe('P2 敌普攻附毒(attackEquivItem + 玩家毒抗门;fight.c:5139-5146)', () => {
+  const poisonItem: ItemData = {
+    id: '116', name: '尸腐肉', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false,
+    use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'applyPoison', poisonId: '552' }] },
+  }
+  const defs = { 552: { id: 552, name: '尸毒', curability: 'common' as const, color: 0 } }
+  const mkState = (poisonRes: number) =>
+    createBattleState({
+      players: [player('li', { poisonRes })],
+      enemies: [{ ...mkEnemy('snake'), attackEquivItem: { itemId: '116', rate: 2 } }],
+      items: { '116': poisonItem },
+      poisonDefs: defs,
+    })
+  test('毒抗 0:rate 门过(rate 2 ≥ R(1,10)=1)+ 毒抗门过(0 < R(1,100)=1)→ 玩家中尸毒', () => {
+    const s = mkState(0)
+    applyEnemyEquivItem(s.players[0]!, s.enemies[0]!, s, () => 0) // rng0:两门都过
+    expect(s.players[0]!.poisons).toEqual([{ poisonId: 552, tickIndex: 0 }])
+  })
+  test('毒抗 50:毒抗门挡(50 ≥ R(1,100)=1)→ 不中毒(大蒜临时毒抗即缩此门)', () => {
+    const s = mkState(50)
+    applyEnemyEquivItem(s.players[0]!, s.enemies[0]!, s, () => 0)
+    expect(s.players[0]!.poisons).toHaveLength(0)
+  })
+  test('rate 门不过(rate 2 < R(1,10)=10)→ 不触发(即便毒抗 0)', () => {
+    const s = mkState(0)
+    applyEnemyEquivItem(s.players[0]!, s.enemies[0]!, s, () => 0.99) // rng≈1:R(1,10)=10 > rate2
+    expect(s.players[0]!.poisons).toHaveLength(0)
+  })
+  test('无 attackEquivItem 的敌 → 不附毒(安全)', () => {
+    const s = createBattleState({
+      players: [player('li', { poisonRes: 0 })],
+      enemies: [mkEnemy('slime')],
+      items: { '116': poisonItem },
+      poisonDefs: defs,
+    })
+    applyEnemyEquivItem(s.players[0]!, s.enemies[0]!, s, () => 0)
+    expect(s.players[0]!.poisons).toHaveLength(0)
   })
 })
 
