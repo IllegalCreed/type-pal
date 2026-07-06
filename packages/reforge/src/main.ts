@@ -82,6 +82,7 @@ import { back, CLOSED, confirm, type MenuState, moveCursor, openMenu } from './m
 import { resolveMove } from './movement.js'
 import { Canvas2DRenderer, type CellRect, type SpriteDraw } from './render.js'
 import { renderSceneFrame } from './render-scene.js'
+import { playVideo as playVideoOverlay } from './video-player.js'
 import {
   browserConfirm,
   browserConfirmOverwriteNo,
@@ -1058,6 +1059,9 @@ async function main(): Promise<void> {
       }
       return true
     },
+    // 过场编排:播 mp4(videos/{id}.mp4;reforge dev/preview 中间件把 /extracted/* 映射到 data/extracted)。
+    // 演出期 runner 活跃 → 游戏循环吞输入,视频 overlay 盖住画布;加载失败 video-player 内部静默 resolve。
+    playVideo: (videoId) => playVideoOverlay({ src: `/extracted/videos/${videoId}.mp4` }),
     confirm: async () => {
       host.report('confirm 是/否框未实现(暂按"是")')
       return true
@@ -1807,6 +1811,8 @@ async function main(): Promise<void> {
     },
     /** dev:直开一场战斗(M4c 验证/编辑器试打入口)。 */
     startBattle: (team: number) => host.startBattle(team),
+    /** dev:播过场视频(过场编排验证;videos/{id}.mp4,1=开场)。 */
+    playVideo: (videoId: number) => host.playVideo(videoId),
     get battleLog() {
       return activeBattle?.debugLog() ?? []
     },

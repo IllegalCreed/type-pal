@@ -78,6 +78,8 @@ function describe(cmd: Command, locale: Locale): Described {
       return { icon: '🧹', label: '清对话框' }
     case 'fade':
       return { icon: '🌓', label: cmd.dir === 'out' ? '淡出（黑）' : '淡入' }
+    case 'playVideo':
+      return { icon: '🎬', label: `播过场视频 videos/${cmd.videoId}.mp4` }
     case 'wait':
       return { icon: '⏱', label: `等待 ${cmd.ms}ms` }
     case 'teleportParty':

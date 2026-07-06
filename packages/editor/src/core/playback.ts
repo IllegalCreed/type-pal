@@ -441,6 +441,7 @@ export class Playback {
       this.log('🌀 传送出口(引路蜂)→ 编辑器预览按「不灵」')
       return false
     },
+    playVideo: async (videoId) => this.log(`🎬 过场视频 videos/${videoId}.mp4(编辑器预览桩)`),
     openShop: (shop, mode) => this.log(`🏪 商店 ${shop}(${mode === 'buy' ? '买' : '卖'})`),
     confirm: async () => {
       this.log('❓ 是/否 → 按「是」继续(v0 桩)')

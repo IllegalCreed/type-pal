@@ -84,6 +84,8 @@ export interface ScriptHost {
   ): Promise<'win' | 'lose' | 'flee'>
   /** 传送出口(0x38):跑当前场景 onTeleport;成功返回 true,场景无此槽返回 false(调用方走 onFail)。 */
   teleportOut(): Promise<boolean>
+  /** 过场编排:播 mp4 视频(videos/{videoId}.mp4),阻塞至播完 or 跳过。加载失败静默不卡流程。 */
+  playVideo(videoId: number): Promise<void>
   openShop(shop: number, mode: 'buy' | 'sell'): void
   confirm(): Promise<boolean>
   // ── 条件查询(hasItem/hasMoney/inParty 的数据源)──
@@ -323,6 +325,8 @@ export class ScriptRunner {
         if (!ok && cmd.onFail) return this.run(cmd.onFail, [...path, 'onFail'])
         return
       }
+      case 'playVideo':
+        return h.playVideo(cmd.videoId)
       case 'openShop':
         return h.openShop(cmd.shop, cmd.mode)
       case 'confirm':

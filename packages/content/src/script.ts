@@ -28,6 +28,9 @@ export type Command =
   | { kind: 'dialog'; line: DialogueLine }
   | { kind: 'clearDialog' } // 原版 0x05 redrawScreen 的语义核(清对话箱)
   | { kind: 'fade'; dir: 'in' | 'out'; ms?: number; color?: 'black' | 'red' }
+  // 过场编排(P2):播 mp4 视频(开场 videos/1.mp4 / 结局过场 4-6.mp4)。阻塞至播完 or 跳过键。
+  // 「一指令引用一段过场」的 mp4 侧;RNG 序列图(原版 0x36/0x37)另属编排模块序列帧,待落地。
+  | { kind: 'playVideo'; videoId: number }
   // ── B8 野外遇敌(原版 0x4C/0x4B/0x4E + GameOver 枢纽的干净表达)──
   /** 向玩家追一步(auto 脚本里即持续追逐——auto runner 天然循环)。range 格内才追(切比雪夫);floating 无视碰撞。 */
   | { kind: 'chasePlayer'; range?: number; speed?: number; floating?: boolean }

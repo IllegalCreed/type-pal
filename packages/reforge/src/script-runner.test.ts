@@ -50,6 +50,7 @@ function fakeHost(calls: string[]): ScriptHost {
       calls.push(`startBattle(${team})`)
       return 'win' as const
     },
+    playVideo: alog('playVideo'),
     teleportOut: async () => {
       calls.push('teleportOut()')
       return false
@@ -102,6 +103,13 @@ test('顺序执行 + 世界状态写入(flags/vars/entityState 双写)', async (
   expect(world.flags.met).toBe(true)
   expect(world.vars.n).toBe(5)
   expect(world.entityState.e9).toBe(0)
+})
+
+test('过场编排:playVideo 命令 → host.playVideo(videoId)(阻塞式,一指令播一段过场)', async () => {
+  const calls: string[] = []
+  const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
+  await r.run([{ kind: 'playVideo', videoId: 1 }])
+  expect(calls).toEqual(['playVideo(1)'])
 })
 
 describe('演出预览钩子(编辑器):onStep 路径上报 + 单步门', () => {
