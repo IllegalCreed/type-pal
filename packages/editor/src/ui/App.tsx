@@ -12,11 +12,17 @@ import type {
   EntityDef,
   GridPos,
   HostileBehavior,
+  Locale,
   MusicDef,
   SceneDef,
   SpriteDef,
 } from '@type-pal/content'
-import { isActorEntity, resolveEntitySpriteId, validateReferences } from '@type-pal/content'
+import {
+  isActorEntity,
+  lookupText,
+  resolveEntitySpriteId,
+  validateReferences,
+} from '@type-pal/content'
 import type { AssetBase, LoadedProject } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import {
@@ -367,7 +373,13 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                     </span>
                     <span>{e.id}</span>
                     <span className="k">
-                      {isActorEntity(e) ? e.actor : 'sprite' in e ? e.sprite : 'zone'}
+                      {isActorEntity(e)
+                        ? (actorsById[e.actor]
+                            ? lookupText(actorsById[e.actor]!.name, state.locale)
+                            : e.actor)
+                        : 'sprite' in e
+                          ? e.sprite
+                          : 'zone'}
                     </span>
                   </button>
                 ))}
@@ -479,6 +491,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                   entity={selEntity}
                   session={session}
                   sceneId={scene.id}
+                  locale={state.locale}
                   actorsById={actorsById}
                   dialogueIds={scene.dialogues.map((d) => d.id)}
                   enemyTeams={state.enemyTeams ?? []}
@@ -589,6 +602,7 @@ function EntityInspector(props: {
   entity: EntityDef
   session: EditSession
   sceneId: string
+  locale: Locale
   actorsById: Record<string, ActorDef>
   dialogueIds: string[]
   /** 敌队清单(B9 敌对行为 team 下拉;id 约定 team-<N>,引擎按 N 查)。 */
@@ -603,6 +617,7 @@ function EntityInspector(props: {
     entity,
     session,
     sceneId,
+    locale,
     actorsById,
     dialogueIds,
     enemyTeams,
@@ -610,6 +625,11 @@ function EntityInspector(props: {
     onJumpToEvent,
     onDelete,
   } = props
+  // 实体的中文显示名:actor 实体解引用到角色名(entity.actor 是 id 引用),否则回落实体 id。
+  const actorName =
+    isActorEntity(entity) && actorsById[entity.actor]
+      ? lookupText(actorsById[entity.actor]!.name, locale)
+      : undefined
   const setPos = (patch: Partial<GridPos>): void => {
     session.dispatch(new MoveEntityCommand(sceneId, entity.id, { ...entity.pos, ...patch }))
   }
@@ -630,7 +650,10 @@ function EntityInspector(props: {
     <>
       <div className="insp-head">
         <div className="what">选中实体</div>
-        <div className="who">{entity.id}</div>
+        <div className="who">
+          {actorName ?? entity.id}
+          {actorName && <code style={{ color: 'var(--faint)', fontSize: 11 }}> {entity.id}</code>}
+        </div>
       </div>
       <div className="section">
         <h4>外观 / 交互</h4>
@@ -639,7 +662,7 @@ function EntityInspector(props: {
           <div className="field">
             <label>角色</label>
             <div className="in pick">
-              <span>{entity.actor}</span>
+              <span>{actorName ?? entity.actor}</span>
               <span className="meta">→ {spriteId ?? '(未解析)'}</span>
             </div>
           </div>

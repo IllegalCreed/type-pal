@@ -6,7 +6,15 @@
  * 本页编 entryPoints 表(增删改 + 场景下拉)。startWorld 子表单(队伍/道具/技能/钱)= 后续切片,
  * 现只标「用默认开局」/「自带(N 队员)」。整表改走 SetEntryPointsCommand(undo/redo + 存 manifest.json)。
  */
-import type { ActorDef, EntryPoint, LoadedManifest, SceneDef, StartWorld } from '@type-pal/content'
+import type {
+  ActorDef,
+  EntryPoint,
+  Locale,
+  LoadedManifest,
+  SceneDef,
+  StartWorld,
+} from '@type-pal/content'
+import { lookupText } from '@type-pal/content'
 import { useMemo, useState } from 'react'
 import { SetEntryPointsCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
@@ -20,10 +28,11 @@ export function EntryPointTab(props: {
   manifest: LoadedManifest
   scenes: SceneDef[]
   actors: ActorDef[]
+  locale: Locale
   session: EditSession
   tabBar?: React.ReactNode
 }) {
-  const { manifest, scenes, actors, session, tabBar } = props
+  const { manifest, scenes, actors, locale, session, tabBar } = props
   const entryPoints = useMemo(() => resolveEntryPoints(manifest), [manifest])
   const [selIdx, setSelIdx] = useState(0)
   const sel = entryPoints[selIdx] ?? entryPoints[0]
@@ -174,7 +183,7 @@ export function EntryPointTab(props: {
                               checked={sel.startWorld?.party.includes(a.id) ?? false}
                               onChange={() => toggleParty(a.id)}
                             />
-                            <span className="mono">{a.id}</span>
+                            <span>{lookupText(a.name, locale)}</span>
                           </label>
                         ))}
                     </div>

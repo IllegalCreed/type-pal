@@ -206,6 +206,7 @@ export function DataMode(props: {
         manifest={manifest}
         scenes={scenes}
         actors={actors}
+        locale={locale}
         session={session}
         tabBar={tabBar}
       />
