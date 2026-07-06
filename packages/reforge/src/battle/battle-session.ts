@@ -30,6 +30,7 @@ import {
 import {
   type BattleAction,
   type BattlePlayerState,
+  type CreatePlayerInput,
   type BattleState,
   buildAiView,
   createBattleState,
@@ -185,7 +186,7 @@ export class BattleSession {
   private settleIdx = 0
 
   constructor(
-    players: Omit<BattlePlayerState, 'status' | 'defending' | 'hiddenCounts'>[],
+    players: CreatePlayerInput[],
     private readonly enemyDefs: EnemyDef[],
     private readonly assets: BattleSessionAssets,
     private readonly nameOf: (roleId: string) => string,
@@ -208,6 +209,8 @@ export class BattleSession {
       fieldWave?: number
       /** 战场五灵加成(battle-fields.json magicEffect;fight.c:244 双向乘入法术伤害)。 */
       fieldEffect?: import('@type-pal/content').ElementVec
+      /** 毒表(id → PoisonDef;逐回合 DoT tick 查)。 */
+      poisonDefs?: Record<number, import('@type-pal/content').PoisonDef>
       /** 自动战斗(0x8A;玩家侧 AI 代打,不出指令菜单 —— 石长老过场战)。 */
       auto?: boolean
       /** 首领战(原版 0x07 fIsBoss=!op2):不可逃;壳层另用于胜利曲 2/结算时长。 */
@@ -230,6 +233,7 @@ export class BattleSession {
       difficulty: opts.difficulty,
       boss: opts.boss,
       fieldEffect: opts.fieldEffect,
+      poisonDefs: opts.poisonDefs,
     })
     this.done = new Promise((res) => {
       this.resolveDone = res

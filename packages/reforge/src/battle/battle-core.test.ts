@@ -3,7 +3,10 @@ import { calcMagicDamage, calcPhysicalAttackDamage } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
   type BattlePlayerState,
+  type CreatePlayerInput,
+  applyPoisonToEnemy,
   createBattleState,
+  curePoisonsByLevel,
   resolveAttack,
   runBattleToEnd,
   stepBattle,
@@ -26,7 +29,7 @@ function mkEnemy(id: string, o: Partial<EnemyDef['stats']> = {}): EnemyDef {
     sounds: { attack: 0, action: 0, magic: 0, death: 0, call: 0 },
   }
 }
-const player = (roleId: string, o: Partial<BattlePlayerState> = {}): Omit<BattlePlayerState, 'status' | 'defending' | 'hiddenCounts'> => ({
+const player = (roleId: string, o: Partial<BattlePlayerState> = {}): CreatePlayerInput => ({
   roleId, hp: 100, maxHp: 100, mp: 30, maxMp: 30, attackStrength: 40, defense: 30, magicStrength: 20, baseDexterity: 50, skills: [], fleeRate: 20, ...o,
 })
 const rng0 = () => 0 // 定值:AI 恒选第一个目标
@@ -682,5 +685,101 @@ describe('疯魔改派(fight.c:1743-1747 执行时刻指派 + 3760-3855 打友)'
     expect(s.log.some((l) => l.includes('li 神志不清'))).toBe(true)
     expect(s.log.some((l) => l.includes('li 攻击'))).toBe(false)
     expect(s.enemies[0]!.hp).toBe(500)
+  })
+})
+
+describe('P2 中毒 DoT(数据化毒 tick;fight.c:4454 逐回合)', () => {
+  const POISONS: Record<number, import('@type-pal/content').PoisonDef> = {
+    551: { id: 551, name: '赤毒', level: 0, color: 16, playerTicks: [{ hpDelta: -7 }], enemyTicks: [{ hpDelta: -7 }] },
+    555: {
+      id: 555, name: '三尸蛊毒', level: 3, color: 128,
+      playerTicks: [{ hpDelta: 0 }, { hpDelta: -1 }, { hpDelta: -2 }, { hpDelta: -3 }, { hpDelta: -200, selfCure: true }],
+      enemyTicks: [{ hpDelta: -111 }, { hpDelta: -222 }, { hpDelta: -333, selfCure: true }],
+    },
+    137: { id: 137, name: '无影毒', level: 173, color: 0, enemyTicks: [{ halveHp: 1000, selfCure: true }] },
+  }
+  // 单回合推进器(填动作 → 消费到回合末毒 tick)
+  const oneTurn = (s: ReturnType<typeof createBattleState>, act: () => void): void => {
+    if (s.phase === 'preBattle') stepBattle(s, rng0)
+    act()
+    let g = 0
+    do stepBattle(s, rng0)
+    while (s.phase === 'performAction' && g++ < 40)
+  }
+
+  // 敌人睡死隔离毒 DoT(否则敌每回合物攻干扰血量;sleep 大回合数撑过测试)
+  const sleepEnemy = (s: ReturnType<typeof createBattleState>): void => {
+    s.enemies[0]!.status.sleep = 99
+  }
+
+  test('赤毒:玩家每回合 −7 循环(指针停末项)', () => {
+    const s = createBattleState({
+      players: [player('li', { hp: 100, attackStrength: 0 })],
+      enemies: [mkEnemy('slime', { health: 9999, defense: 999, attackStrength: 0 })],
+      poisonDefs: POISONS,
+    })
+    s.players[0]!.poisons = [{ poisonId: 551, tickIndex: 0 }]
+    oneTurn(s, () => { sleepEnemy(s); s.pendingActions.set(0, { kind: 'defend' }) })
+    expect(s.players[0]!.hp).toBe(93)
+    oneTurn(s, () => { sleepEnemy(s); s.pendingActions.set(0, { kind: 'defend' }) })
+    expect(s.players[0]!.hp).toBe(86) // 循环 −7
+  })
+
+  test('三尸蛊:递增序列 0→−1→−2→−3→−200 末回合自解', () => {
+    const s = createBattleState({
+      players: [player('li', { hp: 300, attackStrength: 0 })],
+      enemies: [mkEnemy('slime', { health: 9999, defense: 999, attackStrength: 0 })],
+      poisonDefs: POISONS,
+    })
+    s.players[0]!.poisons = [{ poisonId: 555, tickIndex: 0 }]
+    const hp = () => s.players[0]!.hp
+    const turn = () => oneTurn(s, () => { sleepEnemy(s); s.pendingActions.set(0, { kind: 'defend' }) })
+    turn()
+    expect(hp()).toBe(300) // tick0: 0
+    turn()
+    expect(hp()).toBe(299) // tick1: −1
+    turn()
+    expect(hp()).toBe(297) // tick2: −2
+    turn()
+    expect(hp()).toBe(294) // tick3: −3
+    turn()
+    expect(hp()).toBe(94) // tick4: −200 + selfCure
+    expect(s.players[0]!.poisons).toHaveLength(0) // 自解移除
+  })
+
+  test('上毒命中门 = 巫抗(不是毒抗):巫抗满 boss 不中毒', () => {
+    const s = createBattleState({
+      players: [player('li')],
+      enemies: [mkEnemy('boss', { health: 999 })],
+      poisonDefs: POISONS,
+    })
+    s.enemies[0]!.def.ai.resistanceToSorcery = 10 // 满巫抗
+    const hit = applyPoisonToEnemy(s.enemies[0]!, 555, () => 0.99) // floor(0.99*10)=9 < 10 → 挡
+    expect(hit).toBe(false)
+    expect(s.enemies[0]!.poisons).toHaveLength(0)
+    // 零巫抗必中
+    s.enemies[0]!.def.ai.resistanceToSorcery = 0
+    expect(applyPoisonToEnemy(s.enemies[0]!, 555, () => 0.5)).toBe(true)
+    expect(s.enemies[0]!.poisons[0]!.poisonId).toBe(555)
+  })
+
+  test('按等级解毒:maxLevel=2 解常规毒留三尸蛊(3级);173 无影毒任何等级不解', () => {
+    const host = { hp: 100, poisons: [{ poisonId: 551, tickIndex: 0 }, { poisonId: 555, tickIndex: 0 }, { poisonId: 137, tickIndex: 0 }] }
+    curePoisonsByLevel(host, POISONS, 2)
+    expect(host.poisons.map((p) => p.poisonId)).toEqual([555, 137]) // 赤毒(0级)解,三尸蛊(3)/无影(173)留
+    curePoisonsByLevel(host, POISONS, 3) // 复活类
+    expect(host.poisons.map((p) => p.poisonId)).toEqual([137]) // 三尸蛊解,无影毒留
+  })
+
+  test('无影毒对敌:一次性半血上限1000 + 自解', () => {
+    const s = createBattleState({
+      players: [player('li', { attackStrength: 0 })],
+      enemies: [mkEnemy('slime', { health: 500, defense: 999, attackStrength: 0 })],
+      poisonDefs: POISONS,
+    })
+    s.enemies[0]!.poisons = [{ poisonId: 137, tickIndex: 0 }]
+    oneTurn(s, () => s.pendingActions.set(0, { kind: 'defend' }))
+    expect(s.enemies[0]!.hp).toBe(249) // 500 − min(1000, 250+1) = 500−251
+    expect(s.enemies[0]!.poisons).toHaveLength(0) // selfCure
   })
 })

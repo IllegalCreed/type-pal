@@ -6,7 +6,7 @@ import type { EnemyDef } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { GlyphTable } from '../assets.js'
 import type { SfxPlayer } from '../audio/sfx.js'
-import type { BattlePlayerState } from './battle-core.js'
+import type { BattlePlayerState, CreatePlayerInput } from './battle-core.js'
 import { BattleSession, type BattleSessionAssets } from './battle-session.js'
 
 function mkEnemy(
@@ -48,10 +48,7 @@ function mkEnemy(
     ...extra,
   }
 }
-const player = (
-  roleId: string,
-  o: Partial<BattlePlayerState> = {},
-): Omit<BattlePlayerState, 'status' | 'defending' | 'hiddenCounts'> => ({
+const player = (roleId: string, o: Partial<BattlePlayerState> = {}): CreatePlayerInput => ({
   roleId,
   hp: 100,
   maxHp: 100,

@@ -928,6 +928,7 @@ async function main(): Promise<void> {
           playerCastBase,
           fieldWave,
           fieldEffect: fieldDef?.magicEffect,
+          poisonDefs: project.poisonsById,
           // 战斗音效七件套(BattlerSpec.sounds;出招/挥击/吟唱已接,其余随对应演出落地)
           playerSounds: world.party.map((c) => project.actorsById[c.template]?.battler?.sounds),
           // B7b/B7c 胜利结算(会话 over 阶段调一次):HP 写回 + 入账 + 升级 + 隐藏经验 =

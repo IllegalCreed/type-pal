@@ -137,4 +137,13 @@ describe('assembleProject(纯核)', () => {
     expect(p.spritesById['ghost']?.spriteNum).toBe(16)
     expect(p.spritesById['ghost']?.layout).toEqual({ kind: 'directional', framesPerDir: 3 })
   })
+  test('poisons 可选:不传 → poisonsById 空;传入 → 按 id 索引(P2)', () => {
+    expect(assembleProject(manifest, baseJsons).poisonsById).toEqual({})
+    const p = assembleProject(manifest, {
+      ...baseJsons,
+      poisons: [{ id: 551, name: '赤毒', level: 0, color: 16, playerTicks: [{ hpDelta: -7 }] }],
+    })
+    expect(p.poisonsById[551]?.level).toBe(0)
+    expect(p.poisonsById[551]?.playerTicks?.[0]?.hpDelta).toBe(-7)
+  })
 })

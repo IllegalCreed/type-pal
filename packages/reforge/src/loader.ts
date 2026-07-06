@@ -12,6 +12,7 @@ import type {
   EnemyDef,
   EnemyTeamDef,
   ItemDataMap,
+  PoisonDef,
   LevelUpSkill,
   LoadedManifest,
   Locale,
@@ -51,6 +52,8 @@ export interface LoadedProject {
   enemyTeamsById: Record<string, EnemyTeamDef>
   /** 战场表(D24 一等 content 域;缺 manifest 声明 = 空数组,main 走 assetBase 遗留回退)。 */
   battleFields: BattleFieldDef[]
+  /** 毒表(P2 数据化 DoT;id → PoisonDef;缺 = 空 → 毒无效果)。 */
+  poisonsById: Record<number, PoisonDef>
   /** 工程资源根 + 子目录(assets.ts load* 用;来自 manifest.assets)。 */
   assetBase: AssetBase
 }
@@ -72,6 +75,8 @@ export interface ContentJsons {
   enemyTeams?: unknown
   /** 战场表(可选,D24;缺 → 空数组走遗留回退)。 */
   battleFields?: unknown
+  /** 毒表(可选,P2;缺 → 空)。 */
+  poisons?: unknown
 }
 
 function indexById<T extends { id: string }>(arr: T[]): Record<string, T> {
@@ -102,6 +107,9 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
   const battleFields = Array.isArray(jsons.battleFields)
     ? (jsons.battleFields as BattleFieldDef[])
     : []
+  const poisonList = Array.isArray(jsons.poisons) ? (jsons.poisons as PoisonDef[]) : []
+  const poisonsById: Record<number, PoisonDef> = {}
+  for (const p of poisonList) poisonsById[p.id] = p
 
   if (!entryScene || entryScene.id !== manifest.entryScene)
     throw new Error(
@@ -127,6 +135,7 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
     enemiesById: indexById(enemies),
     enemyTeamsById: indexById(enemyTeams),
     battleFields,
+    poisonsById,
     assetBase: (() => {
       // root 以 "/" 开头 = 应用绝对路径(如 "/extracted/data",pal 共享提取源,免拷 221 张图进仓);
       // 否则 = 工程自包含相对路径(demo)。
@@ -163,7 +172,7 @@ export async function loadProject(projectId: string): Promise<LoadedProject> {
   const manifest = (await fetchJson(`${root}/manifest.json`)) as LoadedManifest
   const content = manifest.content
   const dir = scenesDir(manifest)
-  const [actors, sceneIds, entryScene, skills, items, locale, sprites, enemies, enemyTeams, battleFields] =
+  const [actors, sceneIds, entryScene, skills, items, locale, sprites, enemies, enemyTeams, battleFields, poisons] =
     await Promise.all([
       fetchJson(`${root}/${content.actors}`),
       fetchJson(`${root}/${dir}index.json`),
@@ -177,6 +186,7 @@ export async function loadProject(projectId: string): Promise<LoadedProject> {
       content.battleFields
         ? fetchJson(`${root}/${content.battleFields}`)
         : Promise.resolve(undefined),
+      content.poisons ? fetchJson(`${root}/${content.poisons}`) : Promise.resolve(undefined),
     ])
   return assembleProject(manifest, {
     actors,
@@ -189,6 +199,7 @@ export async function loadProject(projectId: string): Promise<LoadedProject> {
     enemies,
     enemyTeams,
     battleFields,
+    poisons,
   })
 }
 

@@ -13,7 +13,8 @@
     "enemies": "content/enemies.json",
     "enemyTeams": "content/enemy-teams.json",
     "music": "content/music.json",
-    "battleFields": "content/battle-fields.json"
+    "battleFields": "content/battle-fields.json",
+    "poisons": "content/poisons.json"
   },
   "assets": {
     "root": "/extracted/data",

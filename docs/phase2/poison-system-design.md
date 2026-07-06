@@ -1,0 +1,82 @@
+# 毒系统设计（P2·2026-07-06）
+
+> 真值锚:[game-mechanics.md §885-994](../phase1/game-mechanics.md)(毒 DoT/七大毒/相生相克/解毒)+ §1115-1218(大世界→战斗携带边界)+ [B-Poison 缺口清单](foundation/phase1-knowledge-harvest.md)。一阶段 102 commit 打磨过。
+
+## 架构决策:毒 = 数据化 DoT 序列,不是字节码脚本(2026-07-06 定,待作者确认)
+
+**分叉**:原版毒 DoT 是事件字节码(`OBJECT_POISON.wPlayerScript/wEnemyScript`,每回合跑一段、指针推进)。二阶段两条路:
+- **(a) 翻译字节码** —— 把毒脚本翻成 `ScriptStage[]`,战斗内跑 ScriptRunner。
+- **(b) 数据化 DoT** —— 毒 = `PoisonDef` 数据(逐回合伤害序列 + 终结动作),战斗核直接消费。✅ **选 (b)**。
+
+**理由**:
+1. 清洁重写铁律 —— 不把字节码解释器带进新引擎的战斗核(毒脚本本就没进 all.json 反汇编,走 SSS object 空间)。
+2. DoT 值是简单已知数据 —— 一阶段文档全表实测(赤毒 −7、三尸蛊 0→−1→−2→−3→−200…),手写数据不需动提取器。
+3. 可编辑 —— 毒进编辑器数据 Tab(同战场页),作者能调/新增毒。
+4. 相生相克也数据化 —— 作者已拍板「不硬码」,毒药关系 = 数据表(相克环 + 致死对),不是脚本 opcode。
+5. 「脚本指针推进」= tick 序列的索引推进,天然映射。
+
+## 数据模型
+
+### PoisonDef(content schema;来自 object-poisons.json + 一阶段实测值)
+
+```ts
+interface PoisonDef {
+  id: number            // 毒 object id(551 赤毒…560 金蚕蛊 / 137 无影毒 / 563-564 伪毒)
+  name: string          // WORD.DAT object 名(状态页显示当前所中毒名)
+  level: number         // 解毒分级键:0-2 常规 / 3 六大毒 / 173 无影毒(无解)/ 99 伪毒(不算中毒)
+  color: number         // 状态页头像染色(wColor)
+  // 逐回合 DoT(指针每回合推进;敌我两套,同毒效果不同)。到序列尾:重复末项 or selfCure。
+  playerTicks?: PoisonTick[]
+  enemyTicks?: PoisonTick[]
+}
+interface PoisonTick {
+  hpDelta?: number      // 每回合血变(负=扣,正=回补伪毒);玩家 0x1B / 敌 0x21
+  halveHp?: number      // 无影毒 0x5B:扣 = min(halveHp, 当前HP/2+1)一次性
+  selfCure?: boolean     // 末回合自解(0x2A/0x2B);三尸蛊暴扣后自除
+}
+```
+
+**关键毒表**(id/level/逐回合,一阶段实测):
+
+| id | 名 | level | 玩家/回合 | 敌/回合 |
+|---|---|---|---|---|
+| 551 | 赤毒 | 0 | −7 循环 | −7 循环 |
+| 552 | 尸毒 | 1 | −12 | −12 |
+| 553 | 瘴毒 | 1 | −20 | −20 |
+| 554 | 毒丝 | 2 | −32 | −32 |
+| 555 | 三尸蛊 | 3 | [0,−1,−2,−3,−200+selfCure] | [−111,−222,−333+selfCure] |
+| 556-560 | 鹤顶红/孔雀胆/血海棠/断肠草/金蚕蛊 | 3 | −50 循环 | −100 循环 |
+| 137 | 无影毒 | 173 | (爆发) | halveHp 1000 一次 |
+| 563/564 | HP/MP 回补 | 99 | +N 循环(伪毒) | — |
+
+### 战斗单位毒槽(不是 BattleStatus 字段!)
+
+```ts
+// BattlePlayerState / EnemyState 各加:
+poisons: ActivePoison[]              // 独立列表,非 status
+interface ActivePoison { poisonId: number; tickIndex: number }  // 指针 = tickIndex
+```
+
+## 核心机制
+
+1. **逐回合 DoT**(fight.c:4454):每单位**行动后**遍历自身 poisons,跑当前 tick(hpDelta/halveHp)→ tickIndex++(钳到末项 or selfCure 则移除该毒)。敌我各取 enemyTicks/playerTicks。
+2. **上毒命中门 = 巫抗**(不是毒抗!fight.c 0x28):对敌下毒 `RandomLong(0,9) >= enemy.resistanceToSorcery` 才中;巫抗满(≥10)的 boss 不中毒。玩家被附带毒另看毒抗(`毒抗 < RandomLong(1,100)` 才中,fight.c:5141)。
+3. **毒抗**(已接一半):`calcMagicDamage` 毒系伤害缩放已对;缺**中毒概率门**(玩家侧)+ 玩家毒抗装备派生(随装备系,M4b-3)。
+4. **解毒分级**:cureByLevel(maxLevel) 移除 level≤maxLevel 的毒。灵血咒/九节菖蒲=2、复活类=3、无影毒(173)无解。
+5. **携带边界**(§1115):大世界护体/毒/毒抗 = 同一份全局数据带进战斗;战斗结束**三件套**清(ClearAllStatus + CurePoisonByLevel(3) + RemoveEquipExtra)→ 都只保一场。reforge:createBattleState 从 world 注入;战后清理。
+6. **毒龙胆/九阴散**(§976):0x61「没中毒就秒杀自己」+ 0x2C 解≤3级+回血;**寿葫芦 level99 伪毒不算中毒**(原版后期修复,一阶段已跟)→ IsPoisoned 判定跳过 level≥99。
+7. **装备诅咒 99 级毒**:装备附毒 = level 99,卸对应部位时清(global.c kBodyPartWear)。
+
+## 相生相克(数据化,不硬码;归毒药道具簇)
+
+- **相克单向 6 元环**:鹤顶红→血海棠→断肠草→三尸蛊→孔雀胆→金蚕蛊→鹤顶红(use 毒药 A 解身上被 A 克的毒)。
+- **三对致死**(双向同身暴毙):孔雀胆↔鹤顶红 / 血海棠↔三尸蛊 / 金蚕蛊↔断肠草。
+- 全在 6 件毒药道具的 use/throw 脚本(0x5D/5E 查毒 + 0x2B 解 + 0x5F/60 秒)。**数据表**:`PoisonDef.counters?: number`(此毒 use 时解哪个毒)+ `lethalPairs`(致死对)。
+- **依赖**:道具大世界使用执行链(未接,同引路蜂 0x38)→ 归**毒药道具簇**,与本切片解耦。
+
+## 切片划分
+
+- **本切片(地基)**:PoisonDef schema + 战斗单位 poisons 槽 + 逐回合 DoT tick + 巫抗上毒门 + 携带注入 + 战后三件套清理 + level99/173 豁免判定。证:赤毒(循环)+ 三尸蛊(递增+自解)+ 无影毒(爆发)端到端。
+- **后续(归毒药道具簇,依赖大世界道具使用)**:相生相克/致死对(数据表 + 道具 use/throw 脚本)、毒蛇卵/尸腐肉自毒、毒龙胆/九阴散、大蒜毒抗。
+- **随装备系**:玩家毒抗装备派生、装备诅咒 99 级毒。
+- **随状态字切片**:状态页毒名 + wColor 头像染色。

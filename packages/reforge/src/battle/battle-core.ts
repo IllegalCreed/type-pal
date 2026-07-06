@@ -10,11 +10,13 @@
  * 公式全走 content/battle-formulas（= sdlpal fight.c）。RNG 可注入（测试定值,运行时真随机）。
  */
 import type {
+  ActivePoison,
   AiBattleView,
   BattleStatus,
   ElementVec,
   EnemyDef,
   ItemData,
+  PoisonDef,
   SkillData,
 } from '@type-pal/content'
 import {
@@ -59,6 +61,8 @@ export interface BattlePlayerState {
    * 施法→maxMP+R(2,3)/magicAttack+1)。战后 grantBattleRewards 按比例分配成长。
    */
   hiddenCounts: Partial<Record<string, number>>
+  /** 中毒列表(独立于 status;每回合 DoT tick + 指针推进。大世界带入/战后清理)。 */
+  poisons: ActivePoison[]
 }
 
 /** 敌人战斗态（引 EnemyDef + 当前 HP/status）。 */
@@ -71,6 +75,8 @@ export interface BattleEnemyState {
   firedRules: Set<number>
   /** 战果已计入 expGained/cashGained(死亡只记一次;B7a)。 */
   rewardCounted?: boolean
+  /** 中毒列表(独立于 status;每回合 DoT tick,敌走 enemyTicks)。 */
+  poisons: ActivePoison[]
 }
 
 export interface BattleState {
@@ -97,6 +103,8 @@ export interface BattleState {
   boss: boolean
   /** 战场五灵加成(双向乘入法术伤害,fight.c:244)。 */
   fieldEffect: ElementVec
+  /** 毒表(id → PoisonDef;DoT tick 查逐回合值;缺 = 该毒无效果)。 */
+  poisonDefs: Record<number, PoisonDef>
   /** 敌人整场逃离(0x69 剧情逃跑:战斗终止无奖励;fled 敌不计胜利奖励)。 */
   enemyFled: boolean
   /** 战果累计(敌死时 += def.stats.exp/cash;敌逃(enemyFled)不计;B7a 战后入账)。 */
@@ -126,8 +134,14 @@ export type BattleAction =
   | { kind: 'defend' }
   | { kind: 'flee' }
 
+/** 队员建态输入:引擎态字段(status/defending/hiddenCounts)自动补;poisons 可从大世界带入。 */
+export type CreatePlayerInput = Omit<
+  BattlePlayerState,
+  'status' | 'defending' | 'hiddenCounts' | 'poisons'
+> & { poisons?: ActivePoison[] }
+
 export interface CreateBattleInput {
-  players: Omit<BattlePlayerState, 'status' | 'defending' | 'hiddenCounts'>[]
+  players: CreatePlayerInput[]
   enemies: EnemyDef[]
   /** 技能表(敌施法查 SkillData;缺省空 = cast 落普攻并 log)。 */
   skills?: Record<string, SkillData>
@@ -142,6 +156,8 @@ export interface CreateBattleInput {
   boss?: boolean
   /** 战场五灵加成(battle-fields magicEffect;fight.c:244 双向乘入法术伤害。缺省全 0)。 */
   fieldEffect?: ElementVec
+  /** 毒表(id → PoisonDef;缺省空 = 无毒生效)。 */
+  poisonDefs?: Record<number, PoisonDef>
 }
 
 export function createBattleState(input: CreateBattleInput): BattleState {
@@ -153,6 +169,7 @@ export function createBattleState(input: CreateBattleInput): BattleState {
       status: emptyBattleStatus(),
       defending: false,
       hiddenCounts: {},
+      poisons: p.poisons?.map((x) => ({ ...x })) ?? [], // 大世界带入的毒(副本;战后不回写)
     })),
     enemies: input.enemies.map((def) => ({
       def,
@@ -160,6 +177,7 @@ export function createBattleState(input: CreateBattleInput): BattleState {
       status: emptyBattleStatus(),
       defending: false,
       firedRules: new Set<number>(),
+      poisons: [],
     })),
     pendingActions: new Map(),
     actionQueue: [],
@@ -171,6 +189,7 @@ export function createBattleState(input: CreateBattleInput): BattleState {
     difficulty: input.difficulty ?? 'normal',
     boss: input.boss ?? false,
     fieldEffect: input.fieldEffect ?? { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    poisonDefs: input.poisonDefs ?? {},
     enemyFled: false,
     expGained: 0,
     cashGained: 0,
@@ -186,6 +205,66 @@ const aliveEnemies = (s: BattleState): number[] =>
 /** 防御减半（原版 defending 时受击伤害 /2;fight.c PAL_BattleUpdateFighters 后处理近似）。 */
 function applyDefense(damage: number, defending: boolean): number {
   return defending ? Math.trunc(damage / 2) : damage
+}
+
+/** 中毒单位的血宿主(玩家/敌通用:读写 hp)。 */
+interface PoisonHost {
+  hp: number
+  maxHp?: number
+  poisons: ActivePoison[]
+}
+
+/**
+ * 逐回合毒 DoT(fight.c:4454;毒 = 数据化 tick 序列,见 poison-system-design.md):
+ * 遍历单位 poisons,跑当前 tick(hpDelta/halveHp)→ tickIndex++(钳末项);selfCure → 移除本毒。
+ * 敌走 enemyTicks、玩家走 playerTicks;缺 def 或缺该侧 ticks = 该毒本回合空过。
+ */
+function tickPoisons(s: BattleState, host: PoisonHost, side: 'player' | 'enemy'): void {
+  if (!host.poisons.length) return
+  const survivors: ActivePoison[] = []
+  for (const ap of host.poisons) {
+    const def = s.poisonDefs[ap.poisonId]
+    const ticks = side === 'player' ? def?.playerTicks : def?.enemyTicks
+    if (!def || !ticks?.length) {
+      survivors.push(ap) // 无数据 = 保留但本回合无效果(不吞毒)
+      continue
+    }
+    const tick = ticks[Math.min(ap.tickIndex, ticks.length - 1)]!
+    if (tick.hpDelta) host.hp = Math.max(0, host.hp + tick.hpDelta)
+    if (tick.halveHp) host.hp = Math.max(0, host.hp - Math.min(tick.halveHp, Math.trunc(host.hp / 2) + 1))
+    const name = def.name || `毒${def.id}`
+    if (tick.hpDelta || tick.halveHp)
+      s.log.push(`${side === 'player' ? (host as BattlePlayerState).roleId : def.id} ${name} 发作`)
+    if (tick.selfCure) continue // 末回合自解:不进 survivors(移除本毒)
+    survivors.push({ poisonId: ap.poisonId, tickIndex: Math.min(ap.tickIndex + 1, ticks.length - 1) })
+  }
+  host.poisons = survivors
+}
+
+/**
+ * 上毒(fight.c 0x28):对敌下毒命中门 = **巫抗**(不是毒抗!)`RandomLong(0,9) >= 巫抗` 才中;
+ * 巫抗满(≥10)的 boss 不中毒。已中同毒不叠(指针不重置)。返回是否命中。
+ */
+export function applyPoisonToEnemy(
+  e: BattleEnemyState,
+  poisonId: number,
+  rng: () => number,
+): boolean {
+  if (Math.floor(rng() * 10) < e.def.ai.resistanceToSorcery) return false // 巫抗挡
+  if (!e.poisons.some((p) => p.poisonId === poisonId)) e.poisons.push({ poisonId, tickIndex: 0 })
+  return true
+}
+
+/**
+ * 按等级解毒(fight.c 0x2C PAL_CurePoisonByLevel):移除 level ≤ maxLevel 的毒。
+ * 灵血咒/九节菖蒲=2、复活类=3、战后三件套=3;无影毒(173)/伪毒(99)高于任何解毒上限 → 留。
+ */
+export function curePoisonsByLevel(
+  host: PoisonHost,
+  poisonDefs: Record<number, PoisonDef>,
+  maxLevel: number,
+): void {
+  host.poisons = host.poisons.filter((ap) => (poisonDefs[ap.poisonId]?.level ?? 0) > maxLevel)
 }
 
 /** 物理攻击结算（攻方 atk vs 受方 def+物抗）。返回实际伤害。 */
@@ -348,7 +427,10 @@ export function stepBattle(s: BattleState, rng: () => number): void {
     case 'performAction': {
       const item = s.actionQueue.shift()
       if (!item) {
-        // 回合末:defending 全清(fight.c:1604 队列耗尽处) + status 衰减 + turn++,回 selectAction
+        // 回合末:毒 DoT(存活单位逐回合扣血+指针推进,fight.c:4454)→ defending 全清
+        // (fight.c:1604 队列耗尽处) + status 衰减 + turn++,回 selectAction
+        for (const p of s.players) if (p.hp > 0) tickPoisons(s, p, 'player')
+        for (const e of s.enemies) if (e.hp > 0) tickPoisons(s, e, 'enemy')
         for (const p of s.players) {
           p.defending = false
           tickBattleStatus(p.status)
@@ -468,6 +550,25 @@ function applyPlayerSkill(
             s.log.push(`${e.def.id} 陷入 ${eff.status}`)
           } else s.log.push(`${e.def.id} 抵抗了 ${eff.status}`)
         }
+        break
+      }
+      case 'applyPoison': {
+        // 三尸咒类:对敌下毒,命中门 = 巫抗(不是毒抗!fight.c 0x28 掷 0~9 >= 巫抗)
+        const pid = Number(eff.poisonId)
+        for (const ti of enemyTargets) {
+          const e = s.enemies[ti]!
+          if (applyPoisonToEnemy(e, pid, rng))
+            s.log.push(`${e.def.id} 中 ${s.poisonDefs[pid]?.name ?? `毒${pid}`}`)
+          else s.log.push(`${e.def.id} 抵抗了下毒`)
+        }
+        break
+      }
+      case 'curePoison': {
+        // 灵血咒类:解己方毒(按等级 maxLevel 或按 id);施于自身(v1 target 己方)
+        if (eff.poisonId !== undefined)
+          p.poisons = p.poisons.filter((ap) => ap.poisonId !== Number(eff.poisonId))
+        else curePoisonsByLevel(p, s.poisonDefs, eff.maxLevel ?? 2)
+        s.log.push(`${p.roleId} 施展 ${skill.name} 解毒`)
         break
       }
       default:
@@ -840,6 +941,7 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
         status: emptyBattleStatus(),
         defending: false,
         firedRules: new Set(),
+        poisons: [],
       })
     }
     s.log.push(`${e.def.id} 分裂出 ${n} 个分身`)
@@ -859,6 +961,7 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
         status: emptyBattleStatus(),
         defending: false,
         firedRules: new Set(),
+        poisons: [],
       })
     }
     s.log.push(`${e.def.id} 召唤了 ${n} 个 ${decision.def.id}`)

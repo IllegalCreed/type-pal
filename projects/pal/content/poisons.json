@@ -1,0 +1,205 @@
+[
+  {
+    "id": 551,
+    "name": "赤毒",
+    "level": 0,
+    "color": 16,
+    "playerTicks": [
+      {
+        "hpDelta": -7
+      }
+    ],
+    "enemyTicks": [
+      {
+        "hpDelta": -7
+      }
+    ]
+  },
+  {
+    "id": 552,
+    "name": "尸毒",
+    "level": 1,
+    "color": 64,
+    "playerTicks": [
+      {
+        "hpDelta": -12
+      }
+    ],
+    "enemyTicks": [
+      {
+        "hpDelta": -12
+      }
+    ]
+  },
+  {
+    "id": 553,
+    "name": "瘴毒",
+    "level": 1,
+    "color": 33,
+    "playerTicks": [
+      {
+        "hpDelta": -20
+      }
+    ],
+    "enemyTicks": [
+      {
+        "hpDelta": -20
+      }
+    ]
+  },
+  {
+    "id": 554,
+    "name": "毒丝",
+    "level": 2,
+    "color": 224,
+    "playerTicks": [
+      {
+        "hpDelta": -32
+      }
+    ],
+    "enemyTicks": [
+      {
+        "hpDelta": -32
+      }
+    ]
+  },
+  {
+    "id": 555,
+    "name": "三尸蛊毒",
+    "level": 3,
+    "color": 128,
+    "playerTicks": [
+      {
+        "hpDelta": 0
+      },
+      {
+        "hpDelta": -1
+      },
+      {
+        "hpDelta": -2
+      },
+      {
+        "hpDelta": -3
+      },
+      {
+        "hpDelta": -200,
+        "selfCure": true
+      }
+    ],
+    "enemyTicks": [
+      {
+        "hpDelta": -111
+      },
+      {
+        "hpDelta": -222
+      },
+      {
+        "hpDelta": -333,
+        "selfCure": true
+      }
+    ]
+  },
+  {
+    "id": 556,
+    "name": "鹤顶红",
+    "level": 3,
+    "color": 160,
+    "playerTicks": [
+      {
+        "hpDelta": -50
+      }
+    ],
+    "enemyTicks": [
+      {
+        "hpDelta": -100
+      }
+    ]
+  },
+  {
+    "id": 557,
+    "name": "孔雀胆",
+    "level": 3,
+    "color": 80,
+    "playerTicks": [
+      {
+        "hpDelta": -50
+      }
+    ],
+    "enemyTicks": [
+      {
+        "hpDelta": -100
+      }
+    ]
+  },
+  {
+    "id": 558,
+    "name": "血海棠",
+    "level": 3,
+    "color": 96,
+    "playerTicks": [
+      {
+        "hpDelta": -50
+      }
+    ],
+    "enemyTicks": [
+      {
+        "hpDelta": -100
+      }
+    ]
+  },
+  {
+    "id": 559,
+    "name": "断肠草",
+    "level": 3,
+    "color": 192,
+    "playerTicks": [
+      {
+        "hpDelta": -50
+      }
+    ],
+    "enemyTicks": [
+      {
+        "hpDelta": -100
+      }
+    ]
+  },
+  {
+    "id": 560,
+    "name": "金蚕蛊毒",
+    "level": 3,
+    "color": 176,
+    "playerTicks": [
+      {
+        "hpDelta": -50
+      }
+    ],
+    "enemyTicks": [
+      {
+        "hpDelta": -100
+      }
+    ]
+  },
+  {
+    "id": 137,
+    "name": "无影毒",
+    "level": 173,
+    "color": 0,
+    "enemyTicks": [
+      {
+        "halveHp": 1000,
+        "selfCure": true
+      }
+    ]
+  },
+  {
+    "id": 563,
+    "name": "气疗回补",
+    "level": 99,
+    "color": 0,
+    "playerTicks": [
+      {
+        "hpDelta": 15
+      }
+    ]
+  }
+]
