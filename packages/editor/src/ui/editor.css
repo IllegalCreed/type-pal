@@ -1723,6 +1723,23 @@ body {
   background: rgba(255, 255, 255, 0.04);
   border-radius: 4px;
 }
+/* 战场页大预览(320×200 逻辑,pixelated 缩放) */
+.bf-tab-preview {
+  width: 320px;
+  max-width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+  display: block;
+}
+.insp-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 6px 0;
+  flex-wrap: wrap;
+}
 
 /* ── 脚本源创建器(断点 #5) ── */
 .src-create {

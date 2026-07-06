@@ -110,9 +110,14 @@ export interface EnemyTeamDef {
   members: string[]
 }
 
-/** 战场（battle-fields.json:元素加成 + 抖屏）。 */
+/** 战场（battle-fields.json;D24 三层化后为一等 content 域,编辑器战场页管理）。 */
 export interface BattleFieldDef {
-  id: string
+  /** 战场号(数字稳定 id;SceneDef.battleFieldId/startBattle.fieldId/hostile 同域引用)。 */
+  id: number
+  /** 显示名(编辑器;缺省显示 id)。 */
+  name?: string
+  /** 背景图显式引用(相对 images 根;缺省 = 惯例路径 battle/bg/<id 三位零填充>.png)。 */
+  bg?: string
   screenWave: number
   /** 5 元素战场加成（-10..+10,喂 calcMagicDamage.fieldEffect）。 */
   magicEffect: ElementVec

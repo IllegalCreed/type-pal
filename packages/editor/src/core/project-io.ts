@@ -37,6 +37,8 @@ export function toEditorState(
     // M4c-3:敌人/敌队(by-id → 数组)
     enemies: Object.values(project.enemiesById ?? {}),
     enemyTeams: Object.values(project.enemyTeamsById ?? {}),
+    // D24:战场表(数组直传;缺 = 空)
+    battleFields: project.battleFields ?? [],
     // Record(非 by-id):直传
     levelUp: project.levelUp,
     locale: project.locale,
@@ -57,6 +59,7 @@ type ContentKey =
   | 'enemies'
   | 'enemyTeams'
   | 'music'
+  | 'battleFields'
 
 /**
  * 工作副本 → {相对路径: JSON 值} 文件集。按 manifest.content 的路径键映射;
@@ -80,6 +83,7 @@ export function serializeProject(state: EditorState): Record<string, unknown> {
     enemies: state.enemies ?? [],
     enemyTeams: state.enemyTeams ?? [],
     music: state.music ?? [],
+    battleFields: state.battleFields ?? [],
   }
 
   // 只产出 manifest.content 里**声明了路径**的文件(sprites 缺则不产出 sprites.json)。

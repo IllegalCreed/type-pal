@@ -20,6 +20,7 @@ const manifest: LoadedManifest = {
     items: 'content/items.json',
     locale: 'content/locale.json',
     sprites: 'content/sprites.json',
+    battleFields: 'content/battle-fields.json',
   },
   assets: { root: 'assets', maps: 'maps', tilesets: 'tilesets', sprites: 'sprites', palettes: 'palettes' },
   startWorld: {
@@ -96,7 +97,11 @@ const spritesJson = [
   { id: 'li-xiaoyao', spriteNum: 2, label: '李逍遥(大世界)', layout: { kind: 'directional', framesPerDir: 3 } },
 ]
 
-const JSONS = { actors: actorsJson, sceneIds: scenesJson.map((s) => s.id), entryScene: scenesJson[0], skills: skillsJson, items: itemsJson, locale: localeJson, sprites: spritesJson }
+const battleFieldsJson = [
+  { id: 24, name: '客栈', screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+  { id: 22, screenWave: 5, magicEffect: { wind: 0, thunder: 0, water: 3, fire: -3, earth: 0 } },
+]
+const JSONS = { actors: actorsJson, sceneIds: scenesJson.map((s) => s.id), entryScene: scenesJson[0], skills: skillsJson, items: itemsJson, locale: localeJson, sprites: spritesJson, battleFields: battleFieldsJson }
 const SCENES = scenesJson as never[]
 
 test('round-trip:toEditorState → serializeProject 还原各 content JSON', () => {
@@ -113,6 +118,8 @@ test('round-trip:toEditorState → serializeProject 还原各 content JSON', () 
   expect(out['content/sprites.json']).toEqual(spritesJson)
   // skills.json 是 { skills, levelUp } 包一层
   expect(out['content/skills.json']).toEqual({ skills: skillsJson.skills, levelUp: skillsJson.levelUp })
+  // D24:战场表 round-trip(数组直传保序)
+  expect(out['content/battle-fields.json']).toEqual(battleFieldsJson)
 
   // manifest.json 整体还原(startWorld 含 seedStats)
   expect(out['manifest.json']).toEqual(manifest)
@@ -164,7 +171,7 @@ test('serializeProject:返回值为纯 JSON 值(可 JSON.stringify,无 undefined
   expect(() => JSON.stringify(out)).not.toThrow()
   // 路径键 = 表域文件 + per-scene(index + 每场景) + manifest.json
   expect(Object.keys(out).sort()).toEqual(
-    ['content/actors.json', 'content/items.json', 'content/locale.json', 'content/scenes/index.json', 'content/scenes/guijie-minju.json', 'content/skills.json', 'content/sprites.json', 'manifest.json'].sort(),
+    ['content/actors.json', 'content/battle-fields.json', 'content/items.json', 'content/locale.json', 'content/scenes/index.json', 'content/scenes/guijie-minju.json', 'content/skills.json', 'content/sprites.json', 'manifest.json'].sort(),
   )
 })
 

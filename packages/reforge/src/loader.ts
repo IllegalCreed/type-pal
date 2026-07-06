@@ -8,6 +8,7 @@
 // 编辑器 loadAllScenes 一次拉全量。见 scene-model-m2-design §2。
 import type {
   ActorDef,
+  BattleFieldDef,
   EnemyDef,
   EnemyTeamDef,
   ItemDataMap,
@@ -48,6 +49,8 @@ export interface LoadedProject {
   enemiesById: Record<string, EnemyDef>
   /** 敌队表(M4;startBattle team-<n> 查;无时空 {})。 */
   enemyTeamsById: Record<string, EnemyTeamDef>
+  /** 战场表(D24 一等 content 域;缺 manifest 声明 = 空数组,main 走 assetBase 遗留回退)。 */
+  battleFields: BattleFieldDef[]
   /** 工程资源根 + 子目录(assets.ts load* 用;来自 manifest.assets)。 */
   assetBase: AssetBase
 }
@@ -67,6 +70,8 @@ export interface ContentJsons {
   /** 敌人/敌队(可选,M4;缺 → 空表)。 */
   enemies?: unknown
   enemyTeams?: unknown
+  /** 战场表(可选,D24;缺 → 空数组走遗留回退)。 */
+  battleFields?: unknown
 }
 
 function indexById<T extends { id: string }>(arr: T[]): Record<string, T> {
@@ -94,6 +99,9 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
   // M4:敌人/敌队轻校验(数组 + id;详校验编辑器期上 zod)
   const enemies = Array.isArray(jsons.enemies) ? (jsons.enemies as EnemyDef[]) : []
   const enemyTeams = Array.isArray(jsons.enemyTeams) ? (jsons.enemyTeams as EnemyTeamDef[]) : []
+  const battleFields = Array.isArray(jsons.battleFields)
+    ? (jsons.battleFields as BattleFieldDef[])
+    : []
 
   if (!entryScene || entryScene.id !== manifest.entryScene)
     throw new Error(
@@ -118,6 +126,7 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
     spritesById: indexById(sprites),
     enemiesById: indexById(enemies),
     enemyTeamsById: indexById(enemyTeams),
+    battleFields,
     assetBase: (() => {
       // root 以 "/" 开头 = 应用绝对路径(如 "/extracted/data",pal 共享提取源,免拷 221 张图进仓);
       // 否则 = 工程自包含相对路径(demo)。
@@ -154,7 +163,7 @@ export async function loadProject(projectId: string): Promise<LoadedProject> {
   const manifest = (await fetchJson(`${root}/manifest.json`)) as LoadedManifest
   const content = manifest.content
   const dir = scenesDir(manifest)
-  const [actors, sceneIds, entryScene, skills, items, locale, sprites, enemies, enemyTeams] =
+  const [actors, sceneIds, entryScene, skills, items, locale, sprites, enemies, enemyTeams, battleFields] =
     await Promise.all([
       fetchJson(`${root}/${content.actors}`),
       fetchJson(`${root}/${dir}index.json`),
@@ -165,6 +174,9 @@ export async function loadProject(projectId: string): Promise<LoadedProject> {
       content.sprites ? fetchJson(`${root}/${content.sprites}`) : Promise.resolve(undefined),
       content.enemies ? fetchJson(`${root}/${content.enemies}`) : Promise.resolve(undefined),
       content.enemyTeams ? fetchJson(`${root}/${content.enemyTeams}`) : Promise.resolve(undefined),
+      content.battleFields
+        ? fetchJson(`${root}/${content.battleFields}`)
+        : Promise.resolve(undefined),
     ])
   return assembleProject(manifest, {
     actors,
@@ -176,6 +188,7 @@ export async function loadProject(projectId: string): Promise<LoadedProject> {
     sprites,
     enemies,
     enemyTeams,
+    battleFields,
   })
 }
 

@@ -13,6 +13,7 @@
 import { isActorEntity } from './actor.js'
 import type {
   ActorDef,
+  BattleFieldDef,
   EnemyDef,
   EnemyTeamDef,
   ItemData,
@@ -49,6 +50,8 @@ export interface ContentBundle {
   enemyTeams?: EnemyTeamDef[]
   /** 音乐库(W5 编辑器:BGM 别名/试听;可缺省 = 空,引擎不消费)。 */
   music?: MusicDef[]
+  /** 战场表(D24 一等 content 域;可缺省 = 空,引擎走 assetBase 遗留回退)。 */
+  battleFields?: BattleFieldDef[]
 }
 
 /** 编辑器被编辑的内容工作副本 = ContentBundle + manifest(EditSession 用)。 */

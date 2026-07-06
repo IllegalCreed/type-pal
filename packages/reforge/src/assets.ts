@@ -132,6 +132,8 @@ export async function loadFireSprite(base: AssetBase, chunk: number): Promise<Lo
 export interface BattleFieldEntry {
   screenWave: number
   magicEffect?: { wind: number; thunder: number; water: number; fire: number; earth: number }
+  /** 背景图显式引用(相对 images 根;缺省 = battle/bg/<id 三位>.png 惯例路径)。 */
+  bg?: string
 }
 
 /** 战场表(id → BattleFieldEntry)。缺文件由调用方 catch 空表兜底。 */
@@ -164,14 +166,15 @@ export interface BattleBgAsset {
   h: number
 }
 
-/** 战斗背景全量(canvas + 索引源)。染色/重着色场景用。 */
+/** 战斗背景全量(canvas + 索引源)。染色/重着色场景用。bgPath = BattleFieldDef.bg 显式引用。 */
 export async function loadBattleBgFull(
   base: AssetBase,
   id: number,
   palette: Palette,
+  bgPath?: string,
 ): Promise<BattleBgAsset> {
   const imagesRoot = base.root.replace(/\/data$/, '/images')
-  const res = await fetch(`${imagesRoot}/battle/bg/${String(id).padStart(3, '0')}.png`)
+  const res = await fetch(`${imagesRoot}/${bgPath ?? `battle/bg/${String(id).padStart(3, '0')}.png`}`)
   if (!res.ok) throw new Error(`battle bg ${id}: ${res.status}`)
   const bitmap = await createImageBitmap(await res.blob())
   const cvs = document.createElement('canvas')

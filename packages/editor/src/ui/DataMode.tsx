@@ -5,6 +5,7 @@
  */
 
 import type {
+  BattleFieldDef,
   EnemyDef,
   EnemyTeamDef,
   ItemDataMap,
@@ -20,6 +21,7 @@ import { useMemo, useState } from 'react'
 import { UpdateSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { buildRefIndex } from '../core/ref-index.js'
+import { BattleFieldTab } from './BattleFieldTab.js'
 import { EnemyTab } from './EnemyTab.js'
 import { EventLibTab } from './EventLibTab.js'
 import { ItemTab } from './ItemTab.js'
@@ -28,12 +30,21 @@ import { SkillTab } from './SkillTab.js'
 import { SpriteFrames } from './SpriteFrames.js'
 import { VarsTab } from './VarsTab.js'
 
-export type DataTab = 'sprite' | 'skill' | 'item' | 'enemy' | 'music' | 'vars' | 'events'
+export type DataTab =
+  | 'sprite'
+  | 'skill'
+  | 'item'
+  | 'enemy'
+  | 'battlefield'
+  | 'music'
+  | 'vars'
+  | 'events'
 export const DATA_TABS: { id: DataTab; label: string; icon: string }[] = [
   { id: 'sprite', label: '精灵库', icon: '🖼' },
   { id: 'skill', label: '技能', icon: '✨' },
   { id: 'item', label: '物品', icon: '🎒' },
   { id: 'enemy', label: '敌人', icon: '👹' },
+  { id: 'battlefield', label: '战场', icon: '🏞' },
   { id: 'music', label: '音乐', icon: '🎵' },
   { id: 'vars', label: '变量', icon: '🚩' },
   { id: 'events', label: '指令手册', icon: '📖' },
@@ -71,6 +82,8 @@ export function DataMode(props: {
   enemyTeams: EnemyTeamDef[]
   /** 音乐库(音乐页;工程没带 = 空)。 */
   music: MusicDef[]
+  /** 战场表(战场页;D24;工程没带 = 空)。 */
+  battleFields: BattleFieldDef[]
   /** 技能数组(SkillTab 编辑;= session state.skills)。 */
   skillList: import('@type-pal/content').SkillData[]
   /** 全场景(N5 引用反向索引数据源)。 */
@@ -91,6 +104,7 @@ export function DataMode(props: {
     locale,
     itemList,
     music,
+    battleFields,
     scenes,
     skillList,
     onJumpToEvent,
@@ -167,6 +181,17 @@ export function DataMode(props: {
   if (tab === 'music') {
     return (
       <MusicTab music={music} musicBase={assetBase.music} session={session} tabBar={tabBar} />
+    )
+  }
+
+  if (tab === 'battlefield') {
+    return (
+      <BattleFieldTab
+        battleFields={battleFields}
+        assetBase={assetBase}
+        session={session}
+        tabBar={tabBar}
+      />
     )
   }
 

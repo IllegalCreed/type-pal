@@ -793,15 +793,29 @@ async function main(): Promise<void> {
         }
       const fieldId = battleOpts?.fieldId ?? sceneOv?.fieldId ?? scene.battleFieldId ?? 24
       // 战场常驻波(battle.c:1559 进战斗设 field.screenWave;#18/22/32/35/50 水下/幻境)
-      // + 五灵加成(lprgBattleField.rgsMagicEffect,fight.c:244 双向乘入法术伤害)
-      const fields = await (battleFieldsPromise ??= loadBattleFields(project.assetBase).catch(
-        () => new Map<number, BattleFieldEntry>(),
-      ))
+      // + 五灵加成(lprgBattleField.rgsMagicEffect,fight.c:244 双向乘入法术伤害)。
+      // 数据源:工程 content 战场表(D24 一等域,编辑器管) > assetBase 遗留回退(未收编工程)。
+      const fields = await (battleFieldsPromise ??= project.battleFields.length
+        ? Promise.resolve(
+            new Map(
+              project.battleFields.map((f) => [
+                Number(f.id),
+                {
+                  screenWave: f.screenWave ?? 0,
+                  ...(f.magicEffect ? { magicEffect: f.magicEffect } : {}),
+                  ...(f.bg ? { bg: f.bg } : {}),
+                },
+              ]),
+            ),
+          )
+        : loadBattleFields(project.assetBase).catch(() => new Map<number, BattleFieldEntry>()))
       const fieldDef = fields.get(Number(fieldId))
       const fieldWave = fieldDef?.screenWave ?? 0
       const [bgFull, summonSprites, enemySprites, playerSprites, faceList, battleIcons, effectSprite, effectIndex] =
         await Promise.all([
-          loadBattleBgFull(project.assetBase, Number(fieldId), palette).catch(() => undefined),
+          loadBattleBgFull(project.assetBase, Number(fieldId), palette, fieldDef?.bg).catch(
+            () => undefined,
+          ),
           Promise.all(
             [...summonGodIds].map(async (g) =>
               [g, await loadBattleSprite(project.assetBase, 'player', g + 10).catch(() => undefined)] as const,

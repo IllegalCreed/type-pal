@@ -7,6 +7,7 @@ import {
   DeleteEntityCommand,
   MoveEntityCommand,
   UpdateActorCommand,
+  UpdateBattleFieldCommand,
   UpdateEntityCommand,
   UpdateLevelUpCommand,
   UpdateMusicNameCommand,
@@ -318,6 +319,32 @@ describe('M4c-3 敌人命令(不可变 + invert)', () => {
     const s3 = t.apply(s0)
     expect(s3.enemyTeams![0]!.members).toEqual(['enemy-2'])
     expect(t.invert(s3).enemyTeams![0]!.members).toEqual(['enemy-1'])
+  })
+})
+
+describe('D24 战场命令(不可变 + invert)', () => {
+  function stF(): EditorState {
+    const base = st() as EditorState & {
+      battleFields: import('@type-pal/content').BattleFieldDef[]
+    }
+    base.battleFields = [
+      { id: 24, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+    ]
+    return base
+  }
+  test('UpdateBattleField:patch name/magicEffect,invert 还原;源不变', () => {
+    const s0 = stF()
+    const cmd = new UpdateBattleFieldCommand(24, {
+      name: '熔岩',
+      magicEffect: { wind: 0, thunder: 0, water: -3, fire: 3, earth: 0 },
+    })
+    const s1 = cmd.apply(s0)
+    expect(s1.battleFields![0]!.name).toBe('熔岩')
+    expect(s1.battleFields![0]!.magicEffect.fire).toBe(3)
+    expect(s0.battleFields![0]!.name).toBeUndefined() // 源不变
+    const back = cmd.invert(s1)
+    expect(back.battleFields![0]!.name).toBeUndefined() // name 清回未设
+    expect(back.battleFields![0]!.magicEffect.fire).toBe(0)
   })
 })
 

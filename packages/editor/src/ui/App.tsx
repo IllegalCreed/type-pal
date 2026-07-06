@@ -276,6 +276,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
             enemies={state.enemies ?? []}
             enemyTeams={state.enemyTeams ?? []}
             music={state.music ?? []}
+            battleFields={state.battleFields ?? []}
             scenes={state.scenes}
             skillList={state.skills}
             onJumpToEvent={jumpToEvent}

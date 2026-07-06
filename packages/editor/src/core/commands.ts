@@ -12,6 +12,7 @@
 
 import type {
   ActorDef,
+  BattleFieldDef,
   EnemyDef,
   EnemyTeamDef,
   EntityDef,
@@ -553,6 +554,56 @@ export class UpdateItemCommand implements Command {
     const restored = { ...it, ...this.oldPatch } as Record<string, unknown>
     for (const [k, v] of Object.entries(this.oldPatch)) if (v === undefined) delete restored[k]
     return withItem(state, this.itemId, restored as unknown as ItemData)
+  }
+}
+
+function withBattleField(state: EditorState, fieldId: number, next: BattleFieldDef): EditorState {
+  const list = state.battleFields ?? []
+  let hit = false
+  const battleFields = list.map((f) => {
+    if (f.id !== fieldId) return f
+    hit = true
+    return next
+  })
+  return hit ? { ...state, battleFields } : state
+}
+
+/** UpdateBattleField 的 patch 范围(id 不可改 —— 数字稳定身份被场景/脚本引用)。 */
+export type BattleFieldPatch = Partial<Pick<BattleFieldDef, 'name' | 'bg' | 'screenWave' | 'magicEffect'>>
+
+/** 改战场字段(D24 战场页)。语义同 UpdateItemCommand:首次 apply 捕获旧值,invert 还原。 */
+export class UpdateBattleFieldCommand implements Command {
+  readonly label = '修改战场'
+  private readonly fieldId: number
+  private readonly patch: BattleFieldPatch
+  private oldPatch: BattleFieldPatch | undefined
+
+  constructor(fieldId: number, patch: BattleFieldPatch) {
+    this.fieldId = fieldId
+    this.patch = structuredClone(patch)
+  }
+
+  apply(state: EditorState): EditorState {
+    const f = (state.battleFields ?? []).find((x) => x.id === this.fieldId)
+    if (!f) return state
+    if (!this.oldPatch) {
+      const old: Record<string, unknown> = {}
+      for (const k of Object.keys(this.patch))
+        old[k] = structuredClone((f as unknown as Record<string, unknown>)[k])
+      this.oldPatch = old as BattleFieldPatch
+    }
+    const next = { ...f, ...this.patch } as Record<string, unknown>
+    for (const [k, v] of Object.entries(this.patch)) if (v === undefined) delete next[k]
+    return withBattleField(state, this.fieldId, next as unknown as BattleFieldDef)
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.oldPatch) return state
+    const f = (state.battleFields ?? []).find((x) => x.id === this.fieldId)
+    if (!f) return state
+    const restored = { ...f, ...this.oldPatch } as Record<string, unknown>
+    for (const [k, v] of Object.entries(this.oldPatch)) if (v === undefined) delete restored[k]
+    return withBattleField(state, this.fieldId, restored as unknown as BattleFieldDef)
   }
 }
 

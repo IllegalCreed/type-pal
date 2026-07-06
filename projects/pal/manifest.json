@@ -12,7 +12,8 @@
     "sprites": "content/sprites.json",
     "enemies": "content/enemies.json",
     "enemyTeams": "content/enemy-teams.json",
-    "music": "content/music.json"
+    "music": "content/music.json",
+    "battleFields": "content/battle-fields.json"
   },
   "assets": {
     "root": "/extracted/data",
