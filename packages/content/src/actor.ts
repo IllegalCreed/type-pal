@@ -48,6 +48,9 @@ export interface BattlerSpec {
   }
   initialEquipment: Record<string, string>
   initialMagic: string[]
+  /** 合体技仙术 id(原版 player-roles cooperativeMagic;战斗「合击」用该角色专属合体技。
+   *  发起者取此 id → 全 healthy 队员贡献 HP+攻/法力,合力一击。缺 = 该角色无合体技。 */
+  cooperativeMagicSkillId?: string
   /** 升级曲线槽位:expTable[i] = 从 level i 升 i+1 所需 exp。属性成长表迁移一阶段时定形。C0 不消费。 */
   leveling?: { expTable: number[] }
   /** 战斗精灵号(F.MKF 系);战斗系统落地时启用。C0 不消费。 */

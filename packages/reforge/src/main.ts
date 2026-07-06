@@ -840,6 +840,13 @@ async function main(): Promise<void> {
           baseDexterity: effectiveStat(c, 'speed', itemsById),
           // 仙术指令 = 已学 ∪ 装备授予(grantSkill 土灵珠/圣灵珠;红线 live 派生不烙)
           skills: effectiveSkills(world.learnedSkills[c.id] ?? [], c, itemsById),
+          // 合体技(角色专属;发起合击用。取自 actor 模板 battler)
+          ...(project.actorsById[c.template]?.battler?.cooperativeMagicSkillId
+            ? {
+                cooperativeMagicSkillId:
+                  project.actorsById[c.template]!.battler!.cooperativeMagicSkillId,
+              }
+            : {}),
           fleeRate: effectiveStat(c, 'luck', itemsById), // 逃跑判定 str
           elemRes: res.elemRes,
           // 毒抗 = 装备 live 派生 + 大世界大蒜临时 Extra(缩敌附毒门;战后三件套清 extraPoisonRes)

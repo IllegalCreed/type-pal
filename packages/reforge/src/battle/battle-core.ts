@@ -56,6 +56,8 @@ export interface BattlePlayerState {
   baseDexterity: number
   /** 会的技能 id(M4b-3;main 从 world.learnedSkills 组装)。 */
   skills: string[]
+  /** 合体技仙术 id(角色专属;发起合击时用。缺 = 该员无合体技,不能发起合击)。 */
+  cooperativeMagicSkillId?: string
   /** 吉运(逃跑判定 str;含装备加成,派生时算好)。 */
   fleeRate: number
   /** 五灵抗(装备 live 派生;缺省全 0)。喂 calcMagicDamage.elemRes,减免元素仙术伤害。 */
@@ -100,6 +102,8 @@ export interface BattleState {
   enemies: BattleEnemyState[]
   /** 本轮各队员选的行动（selectAction 阶段 UI 填;headless 测直接填）。 */
   pendingActions: Map<number, BattleAction>
+  /** 本回合有人合击(fight.c fThisTurnCoop):其余队员出手作废(HP 已在合击结算内扣);回合末清。 */
+  coopThisTurn: boolean
   /** performAction 消费中的队列。 */
   actionQueue: ReturnType<typeof buildActionQueue>
   /** 战斗日志（headless 测断言用;present 期改事件）。 */
@@ -148,6 +152,7 @@ export interface BattleState {
 export type BattleAction =
   | { kind: 'attack'; targetEnemyIdx: number }
   | { kind: 'cast'; skillId: string; targetEnemyIdx?: number } // 对敌单体带目标;施于己方/全体不带
+  | { kind: 'coop'; targetEnemyIdx?: number } // 合击:发起者(pendingActions key)用其 coop 技,全 healthy 队员合力(HP 代价);全体技不带目标
   | { kind: 'item'; itemId: string } // 战斗用品(v1 施于自己;consuming 扣库存)
   | { kind: 'throw'; itemId: string; targetEnemyIdx: number } // 投掷道具打敌(下毒/伤害;毒药/蛊)
   | { kind: 'defend' }
@@ -211,6 +216,7 @@ export function createBattleState(input: CreateBattleInput): BattleState {
       poisons: [],
     })),
     pendingActions: new Map(),
+    coopThisTurn: false,
     actionQueue: [],
     log: [],
     skills: input.skills ?? {},
@@ -485,6 +491,8 @@ export function stepBattle(s: BattleState, rng: () => number): void {
           ...(st.dualMove ? { dex2: Math.trunc(base * (0.9 + rng() * 0.2)) } : {}),
         }
       })
+      // 合击标记:本回合有人选合击 → 其余队员出手作废(fight.c fThisTurnCoop;perform 侧 pass)
+      s.coopThisTurn = [...s.pendingActions.values()].some((a) => a.kind === 'coop')
       s.actionQueue = buildActionQueue(players, enemies)
       // defending 不在此预置:原版出手时才置位(fight.c:4115,见 performPlayerAction defend 分支),
       // 先手敌打到"选了防御但还没轮到"的队员时不减半。曾建队列预置并误标"原版语义"。
@@ -510,6 +518,7 @@ export function stepBattle(s: BattleState, rng: () => number): void {
         }
         for (const e of s.enemies) if (e.hp > 0) tickBattleStatus(e.status)
         s.pendingActions.clear()
+        s.coopThisTurn = false // 合击标记回合末清(下回合重判)
         s.turn++
         s.phase = 'selectAction'
         return
@@ -651,6 +660,122 @@ function applyPlayerSkill(
   }
 }
 
+/** 合击贡献/发起资格(fight.c:69-76 PAL_IsPlayerHealthy):活 + 非濒死 + 无眠/疯/封/麻/傀儡。 */
+export function isPlayerHealthy(p: BattlePlayerState): boolean {
+  if (p.hp <= 0 || isPlayerDying(p.hp, p.maxHp)) return false
+  const st = p.status
+  return (
+    st.sleep <= 0 && st.confused <= 0 && st.silence <= 0 && st.paralyzed <= 0 && st.puppet <= 0
+  )
+}
+
+/** 当前 healthy 队员数(合击资格:≥2 才能发起)。 */
+export function healthyPlayerCount(s: BattleState): number {
+  return s.players.reduce((n, p) => n + (isPlayerHealthy(p) ? 1 : 0), 0)
+}
+
+/**
+ * 协力合击(fight.c:3856-4043 PAL_CLASSIC 移植)。发起者取其 cooperativeMagicSkillId:
+ * · contributors = 全 healthy 队员;≤1 → 退化发起者普攻(选单已门控 ≥2,执行端兜底)。
+ * · HP 代价(非 MP!):每贡献者扣合体技 cost.mp 作 HP,钳 ≥1(fight.c:3961-3967)。
+ * · magStr = Σ(攻+法力) / 4(fight.c:3982-3995);伤害走 calcMagicDamage(同普通仙术),保底 1。
+ * · 目标:allEnemies 技 → 全体,否则单体 targetEnemyIdx。伤害系数(合体×10)是出手身法非伤害。
+ */
+function performCoopMagic(
+  s: BattleState,
+  casterIdx: number,
+  targetEnemyIdx: number | undefined,
+  rng: () => number,
+): void {
+  const caster = s.players[casterIdx]
+  if (!caster) return
+  const coopId = caster.cooperativeMagicSkillId
+  const skill = coopId ? s.skills[coopId] : undefined
+  if (!skill) {
+    s.log.push(`${caster.roleId} 无合体技,合击失败`)
+    return
+  }
+  const contributors = s.players.map((_, i) => i).filter((i) => isPlayerHealthy(s.players[i]!))
+  // healthy ≤ 1 → 退化发起者普攻(fight.c:3374-3378;选招到出手间贡献者阵亡的兜底)
+  if (contributors.length <= 1) {
+    const ti =
+      targetEnemyIdx !== undefined && (s.enemies[targetEnemyIdx]?.hp ?? 0) > 0
+        ? targetEnemyIdx
+        : retargetEnemy(s, targetEnemyIdx ?? 0)
+    const e = s.enemies[ti]
+    s.lastAction = { side: 'player', idx: casterIdx, kind: 'attack', ...(ti >= 0 ? { target: ti } : {}) }
+    if (!e || e.hp <= 0) return
+    caster.hiddenCounts.attack = (caster.hiddenCounts.attack ?? 0) + 1
+    caster.hiddenCounts.maxHP = (caster.hiddenCounts.maxHP ?? 0) + 2 + Math.floor(rng() * 2)
+    const hit = resolvePlayerAttackHit(caster, e, rng)
+    if (s.lastAction) s.lastAction.crit = hit.crit
+    e.hp = Math.max(0, e.hp - hit.dmg)
+    s.log.push(`${caster.roleId} 合击人手不足,改普攻 ${e.def.id} 造成 ${hit.dmg}`)
+    return
+  }
+  // HP 代价:每贡献者扣 skill.cost.mp 作 HP,钳 ≥1(fight.c:3961-3967)
+  const hpCost = skill.cost.mp ?? 0
+  for (const i of contributors) {
+    const p = s.players[i]!
+    p.hp -= hpCost
+    if (p.hp <= 0) p.hp = 1
+  }
+  // magStr = Σ(攻 + 法力) / 4(fight.c:3982-3995;reforge 属性已 effective,无需 SHORT)
+  let str = 0
+  for (const i of contributors) {
+    const p = s.players[i]!
+    str += p.attackStrength + p.magicStrength
+  }
+  str = Math.trunc(str / 4)
+  // 目标:allEnemies 技 → 全体,否则单体(死目标环扫改选)
+  const targets =
+    skill.target === 'allEnemies'
+      ? aliveEnemies(s)
+      : (() => {
+          const ti =
+            targetEnemyIdx !== undefined && (s.enemies[targetEnemyIdx]?.hp ?? 0) > 0
+              ? targetEnemyIdx
+              : retargetEnemy(s, targetEnemyIdx ?? 0)
+          return ti >= 0 ? [ti] : []
+        })()
+  s.lastAction = {
+    side: 'player',
+    idx: casterIdx,
+    kind: 'coop',
+    skillId: coopId,
+    ...(targets.length === 1 ? { target: targets[0] } : {}),
+  }
+  const dmgEff = skill.effects.find((e) => e.kind === 'damage')
+  if (!dmgEff || dmgEff.kind !== 'damage') {
+    s.log.push(`合体技 ${skill.name}(非伤害效果暂未接)`)
+    return
+  }
+  const hits: { idx: number; value: number }[] = []
+  for (const ti of targets) {
+    const e = s.enemies[ti]!
+    const dmg = Math.max(
+      1,
+      applyDefense(
+        calcMagicDamage({
+          magStr: str,
+          def: e.def.stats.defense,
+          rngFactor: 1 + rng() * 0.1,
+          magicData: { baseDamage: dmgEff.power, elemental: dmgEff.elemental },
+          elemRes: e.def.stats.elemResistance,
+          poisonRes: e.def.stats.poisonResistance,
+          resistMult: 1,
+          fieldEffect: s.fieldEffect,
+        }),
+        e.defending,
+      ),
+    )
+    e.hp = Math.max(0, e.hp - dmg)
+    hits.push({ idx: ti, value: dmg })
+    s.log.push(`合体技 ${skill.name} 对 ${e.def.id} 造成 ${dmg}`)
+  }
+  if (s.lastAction && targets.length > 1) s.lastAction.attackAllHits = hits
+}
+
 /**
  * 该队员是否需要玩家手选指令(session 出菜单 + stepBattle 等填齐共用同一谓词)。
  * 原版眠/定/疯/死者跳过选招(fight.c:1504-1527 直接强制普攻;uibattle 菜单也不停留)。
@@ -673,6 +798,8 @@ function actionDexMult(act: BattleAction | undefined, skills: Record<string, Ski
       const t = skills[act.skillId]?.target
       return t === 'oneEnemy' || t === 'allEnemies' ? 1 : 3
     }
+    case 'coop':
+      return 10 // fight.c:1529-1556 合体 ×10(出手极靠前)
     default:
       return 1
   }
@@ -746,6 +873,11 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
   }
   const queued = s.pendingActions.get(idx)
   if (!queued) return
+  // 合击消耗:本回合有人合击 → 其余队员本次出手作废(HP 贡献已在合击结算内扣;fight.c:2532)
+  if (s.coopThisTurn && queued.kind !== 'coop') {
+    s.lastAction = { side: 'player', idx, kind: 'pass' }
+    return
+  }
   let act = queued
   // 疯魔改派(fight.c:1743-1747 执行时刻指派,无视所选动作):濒死 → Pass 完全不出手;
   // 否则随机打敌**或**友(作者 2026-05-31 拍板忠原版 —— sdlpal 是「必打活队友、无活友才 Pass」,
@@ -873,6 +1005,10 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
   }
   if (act.kind === 'cast') {
     applyPlayerSkill(s, idx, act.skillId, act.targetEnemyIdx, _rng)
+    return
+  }
+  if (act.kind === 'coop') {
+    performCoopMagic(s, idx, act.targetEnemyIdx, _rng)
     return
   }
   if (act.kind === 'attack') {

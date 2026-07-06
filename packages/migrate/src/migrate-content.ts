@@ -37,6 +37,8 @@ export interface SourceRole {
   fleeRate: number
   equipment: number[]
   magic: number[]
+  /** 合体技 obj-id(player-roles cooperativeMagic;0 = 无)。 */
+  cooperativeMagic?: number
   attackSound: number
   weaponSound: number
   criticalSound: number
@@ -249,6 +251,10 @@ export function mapActor(role: SourceRole, expTable: readonly number[]): ActorDe
       },
       initialEquipment,
       initialMagic: role.magic.filter((m) => m > 0).map(String),
+      // 合体技 id(原版 player-roles cooperativeMagic obj-id = 合体仙术 skills.json id;0 = 无)
+      ...((role.cooperativeMagic ?? 0) > 0
+        ? { cooperativeMagicSkillId: String(role.cooperativeMagic) }
+        : {}),
       leveling: { expTable: [...expTable] },
       battleSpriteNum: role.spriteNumInBattle,
       // 战斗音效七件套(rgw*Sound 全量;演出层经 session opts 消费)
