@@ -317,6 +317,54 @@
 > 核心：11 条架构红线（§5）+ P0 bug（§1）+ P1 缺失演出（§2）+ P2 状态系统（§3）+ P3 合体法术（§4）+ 6 条基准裁决（§6）+ 4 条待裁决（§7）。
 > **方法论沉淀（§末）**：重实现一阶段打磨密集子系统前，先 harvest 代码注释 + git 修复史成审计清单。
 
+### B-Poison. 毒系统（独立专项，2026-07-06 记账）
+
+> **⚠ reforge 整个系统不存在。** 一阶段 **102 commit** 反复调整过的子系统。不是"漏一两个函数"——从根上没实现。等毒格（B 域新格）立项时,这里是真值清单。
+
+**原版架构（≠ status，是独立系统）**：
+- 毒 ≠ BattleStatus 字段，是独立的 `{poisonId, script}` 列表，挂在角色/敌人身上。
+- **每回合该单位行动后**跑毒脚本、执行完**推进指针**（同种毒逐回合伤害递增）。
+- 巫抗（resistanceToSorcery）管**上毒命中**（0x2E `rng(0,9) >= 抗`，原版后期修复语义 `a17482f8`，非 sdlpal buggy `>`）。
+- 毒抗（poisonResistance）管**玩家中毒率** + **毒系法术伤害缩放**（`calcMagicDamage` 的 `mult = 10 - poisonRes/resistMult`）。
+
+**一阶段沉淀的真值（reforge 实现时的 oracle，需逐条核实/补全）**：
+- **4 小毒 / 7 大毒**：毒分两档，小毒轻伤/大毒重伤，解毒剂效力不同（糯米/雄黄/九节菖蒲 解小毒，毒龙胆 解大毒）。
+- **6 大毒相生相克**：大毒之间有相生相克关系，决定伤害/解毒效果（一阶段反复调整，**需查一阶段代码确认具体规则**——`packages/game/src/core/battle/` + poison 相关文件）。
+- **毒龙胆 / 九阴散 特殊效果**：毒龙胆 = 解大毒特效；九阴散 = 战斗内分支（`migrate-content.ts:792` 标"战斗变体待战斗期"）。
+- **金刚符等战斗外用 → 战斗内生效**：跨战斗持久——世界态用的毒/状态/增益带进战斗。reforge 世界态毒/状态**未建模**。
+- **盐巴 50% 解毒门**：`gate { chance: 0.5 }`，失败截断后续（reforge `item.ts:42` schema 有 `gate` kind，运行时未核）。
+
+**reforge 现状**：
+- schema 有 `applyPoison`/`curePoison`/`gate` kind（`item.ts:39-42` + `skill.ts:35-36`）—— **定义有，运行时零消费**。
+- `calcMagicDamage` 的毒系伤害缩放已对齐（`battle-formulas.ts:91` `mult = 10 - poisonRes/resistMult`）—— 公式在，但**毒 DoT / 相生相克 / 解毒 / 跨战斗持久 全无**。
+- 战斗审计 b-subsystem §状态系统行标了"中毒：整个系统不存在"，但**没当独立高危项追踪**（2026-07-06 记账纠正）。
+
+**行动**：立项毒格（B 域新格）时，先 harvest 一阶段 poison 相关 102 commit 成 oracle 清单（4小毒/7大毒具体 id + 相生相克规则矩阵 + 解毒剂效力表 + DoT 递增公式 + 跨战斗持久语义），再实现。**别从 sdlpal 重推**——一阶段已反复调整过。
+
+### B-Field. 战场场景抗性（接线缺口，2026-07-06 记账）
+
+> **⚠ reforge 断线**：schema 有 + 公式有，开战时**写死 ZERO 没传**。几行代码的接线，但没人接。
+
+**归属层（原版真值）**：
+- 战场数据 `lprgBattleField`（global.h:377）来自 DATA.MKF，每条含 `wScreenWave`（屏波等级）+ `wMagicEffect`（**5 元素加成向量**，这就是"场景自带抗性"的真身）。
+- **战场 id 由脚本设定**：opcode `0x4A setBattlefield` 写 `gs.wNumBattleField`，**写在场景的 onEnter 脚本里**（进场景时设，逐场设），后续 `0x07 startBattle` 读这个全局值。
+- 归属链：**地图 → 场景 onEnter 脚本 → 0x4A 设战场 id → 0x07 开战读**。不是地图属性、不是怪身上的。
+
+**一阶段实现**：
+- `event-system.ts:4029-4032`：0x4A 设 `gs.wNumBattleField = operands[0]`，注释"持久全局，scene enter 脚本逐场设"。
+- `battle-system.ts:332`：开战 `battleFields.find(f => f.id === battleFieldId)` 取 field。
+- `magic-damage.ts:82`：`state.field.magicEffect` 进 calcMagicDamage 作 fieldEffect 加成。
+- `battle.c:1563/1855`：开战设 `wScreenWave = lprgBattleField[...].wScreenWave`，战后恢复战前值。
+
+**reforge 现状**：
+- `BattleFieldDef` schema（`enemy.ts:114`）有 `magicEffect: ElementVec` + `screenWave`。
+- `calcMagicDamage` 支持 fieldEffect（`battle-formulas.ts:99`）。
+- `battle-core.ts:429` **写死 `fieldEffect: { wind:0, ... }`** —— 断线，所有战斗无场景抗性加成。
+- `setBattleField` 命令（`script.ts:76`）有，**未核实持久 + 开战读取**。
+- `battle-session.ts:207` 注释提了 screenWave，但 fieldEffect 接线未核。
+
+**行动**：开战时把 `BattleFieldDef.magicEffect` 传进 calcMagicDamage 的 fieldEffect（替换 `battle-core.ts:429` 的写死 ZERO）；确认 `setBattleField` 持久到 world + 开战读取。**几行代码，但须先确认战场 id 持久层接对**（一阶段是 gs 全局，reforge 该进 WorldState 还是 BattleSession 入参）。
+
 ---
 
 ## X · 元层

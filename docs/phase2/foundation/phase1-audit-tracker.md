@@ -66,6 +66,8 @@
 | 攻击队友(混乱) | fight.c | core/battle/attack-mate.ts | (未实现) | ✅ 已审([b-attack-magic-audit](b-attack-magic-audit.md) — reforge 缺) |
 | 法术对象(召唤) | fight.c | core/battle/magic-object.ts | battle/(召唤相关) | ✅ 已审([b-attack-magic-audit](b-attack-magic-audit.md)) |
 | 战斗 UI | uibattle.c | present/battle/ | battle/(UI 相关) | ✅ 有审计(battle-audit) |
+| **★ 毒系统(独立专项)** | fight.c, sound.c, global.c(poison list) | 一阶段 **102 commit**(4小毒/7大毒/相生相克/DoT递增/解毒/跨战斗持久) | ❌ **整个系统不存在**(schema 有 applyPoison/curePoison kind,运行时零实现) | 📌 **专项缺口**(2026-07-06 记账,等毒格立项) |
+| **★ 战场场景抗性** | global.h lprgBattleField, battle.c:1563 | battle-system.ts(field.magicEffect 消费)+ event-system.ts(0x4A setBattlefield) | ❌ **断线**(BattleFieldDef schema 有 + calcMagicDamage 公式支持,但 `battle-core.ts:429` fieldEffect **写死 ZERO**) | 📌 **接线缺口**(几行代码,等战斗接入场景时补) |
 
 ### 第五批 · 菜单系统（C/X 领域）
 
