@@ -579,7 +579,7 @@
       "effects": [
         {
           "kind": "curePoison",
-          "maxLevel": 2
+          "curesTier": "common"
         }
       ]
     }
@@ -1442,7 +1442,7 @@
       "effects": [
         {
           "kind": "curePoison",
-          "maxLevel": 2
+          "curesTier": "common"
         },
         {
           "kind": "healHp",
@@ -5419,7 +5419,16 @@
         "lin-yueru",
         "anu"
       ],
-      "effects": []
+      "effects": [
+        {
+          "kind": "regenHp",
+          "amount": 20
+        },
+        {
+          "kind": "regenMp",
+          "amount": 20
+        }
+      ]
     }
   },
   {
@@ -5555,7 +5564,7 @@
       "effects": [
         {
           "kind": "curePoison",
-          "maxLevel": 3
+          "curesTier": "severe"
         }
       ]
     }

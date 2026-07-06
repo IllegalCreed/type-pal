@@ -141,9 +141,9 @@ describe('assembleProject(纯核)', () => {
     expect(assembleProject(manifest, baseJsons).poisonsById).toEqual({})
     const p = assembleProject(manifest, {
       ...baseJsons,
-      poisons: [{ id: 551, name: '赤毒', level: 0, color: 16, playerTicks: [{ hpDelta: -7 }] }],
+      poisons: [{ id: 551, name: '赤毒', curability: 'common', color: 16, playerTicks: [{ hpDelta: -7 }] }],
     })
-    expect(p.poisonsById[551]?.level).toBe(0)
+    expect(p.poisonsById[551]?.curability).toBe('common')
     expect(p.poisonsById[551]?.playerTicks?.[0]?.hpDelta).toBe(-7)
   })
 })

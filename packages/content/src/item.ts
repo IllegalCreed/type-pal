@@ -23,6 +23,10 @@ export type EquipEffect =
   | { kind: 'grantStatus'; status: StatusId } // 0x2D 永久(仙女剑→连击)
   | { kind: 'grantSkill'; skillId: string } // 0x1A row65 授合击/召唤(土灵珠→山神 336)
   | { kind: 'attackAll' } // 0x1A(长鞭)
+  // 战斗内每回合回血/回蓝(寿葫芦等;原版借 level99「伪毒」实现,clean 版正名为独立词条 ——
+  // 不复用毒系统这个省空间拖鞋)。
+  | { kind: 'regenHp'; amount: number }
+  | { kind: 'regenMp'; amount: number }
 
 export interface EquipSpec {
   slot: EquipSlot
@@ -38,7 +42,7 @@ export type ItemUseEffect =
   | { kind: 'applyStatus'; status: StatusId; turns: number }
   | { kind: 'removeStatus'; statuses: StatusId[] } // 0x2F(灵心符/银针)
   | { kind: 'applyPoison'; poisonId: string } // 0x29(尸腐肉/毒蛇卵——下毒食物)
-  | { kind: 'curePoison'; maxLevel?: number; poisonId?: string } // 0x2B/0x2C(糯米/雄黄/九节菖蒲)
+  | { kind: 'curePoison'; curesTier?: import('./poison.js').PoisonCurability; poisonId?: string } // 0x2B/0x2C(糯米/雄黄/九节菖蒲)
   | { kind: 'permanentStatBoost'; stat: CombatStat | 'maxHP' | 'maxMP'; delta: number } // 0x19(舍利子/雪蛤蟆——永久成长)
   | { kind: 'gate'; chance?: number } // 0x6 概率门(盐巴 50% 解毒);失败截断其后
   | { kind: 'triggerScript'; scriptId: string } // 桂花酒/玉佩剧情;风灵珠场景互动
@@ -174,6 +178,25 @@ export function equipGrantsAttackAll(
   for (const itemId of Object.values(char.equipment))
     for (const eff of items[itemId]?.equip?.effects ?? []) if (eff.kind === 'attackAll') return true
   return false
+}
+
+/**
+ * 战斗内每回合回血/回蓝(寿葫芦等 regenHp/regenMp 词条累加)。**live 派生(红线):建态读装备,
+ * 卸对应部位即失效**(替代原版 level99「伪毒」的省空间拖鞋 —— clean 版正名为独立词条)。
+ */
+export function effectiveRegen(
+  char: CharacterInstance,
+  items: Record<string, ItemData>,
+): { hp: number; mp: number } {
+  let hp = 0
+  let mp = 0
+  for (const itemId of Object.values(char.equipment)) {
+    for (const eff of items[itemId]?.equip?.effects ?? []) {
+      if (eff.kind === 'regenHp') hp += eff.amount
+      else if (eff.kind === 'regenMp') mp += eff.amount
+    }
+  }
+  return { hp, mp }
 }
 
 /** 背包里该角色可装的物品(equip 能力 + equipableBy 含其模板)。 */

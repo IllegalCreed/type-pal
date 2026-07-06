@@ -408,7 +408,7 @@ export function translateSkillScript(
         out.effects.push({ kind: 'curePoison', poisonId: String(b) })
         break
       case 0x2c:
-        out.effects.push({ kind: 'curePoison', maxLevel: b }) // 灵血咒(解 ≤level 毒)
+        out.effects.push({ kind: 'curePoison', curesTier: b >= 3 ? 'severe' : 'common' }) // 灵血咒:level→可解度语义(2→common/3→severe)
         break
       case 0x2e: {
         // 敌方上状态(自带抗性掷);turns=0 = 纯抗性掷门(夺魂 0x2E[0,0])
@@ -608,6 +608,15 @@ export interface EquipTranslation {
   pending: { opcode: number; operands: number[]; reason: string }[]
 }
 
+/**
+ * 装备"回补伪毒"→ clean regen 词条映射(原版借 level99 毒 563/564 省空间,正名为独立词条)。
+ * 值 = 原版毒 DoT 脚本 0x1B/0x1C 的 operand(SSS chunk3 IP 40860/40858 = [_,20])。
+ */
+const EQUIP_PSEUDO_POISON_REGEN: Record<number, NonNullable<ItemData['equip']>['effects'][number]> = {
+  563: { kind: 'regenHp', amount: 20 }, // 毒563 HP回补:0x1B[_,20]
+  564: { kind: 'regenMp', amount: 20 }, // 毒564 MP回补:0x1C[_,20]
+}
+
 /** 静态翻译一条 scriptOnEquip 链。slot 来自 0x18 的 operand0-0x0B(= EQUIP_INDEX_TO_SLOT 同源行序)。 */
 export function translateEquipScript(
   commands: readonly SourceCmd[],
@@ -664,9 +673,15 @@ export function translateEquipScript(
         else out.pending.push({ opcode: 0x2d, operands: [a, b, cc], reason: `未知状态 id ${a}` })
         break
       }
-      case 0x29: // 寿葫芦毒疗(正面"毒" 563/564)—— 毒系统未落地
-        out.pending.push({ opcode: 0x29, operands: [a, b, cc], reason: '装备授毒(毒系统未落地)' })
+      case 0x29: {
+        // 装备授"毒"—— 原版把 寿葫芦每回合回血/回蓝借 level99 伪毒(563 HP/564 MP)实现,
+        // 这是省空间拖鞋;clean 版正名为独立 regen 词条(值取原版毒脚本 0x1B/0x1C[_,20])。
+        // 其它毒 id(真伤害毒的装备附毒)当前无实例 → 留 pending。
+        const regen = EQUIP_PSEUDO_POISON_REGEN[b]
+        if (regen) out.effects.push(regen)
+        else out.pending.push({ opcode: 0x29, operands: [a, b, cc], reason: `装备授毒 id ${b}(非回补伪毒)` })
         break
+      }
       case 167: // 块头标记(同 desc)
         break
       default:
@@ -775,7 +790,7 @@ export function translateUseScript(
         out.effects.push({ kind: 'curePoison', poisonId: String(b) })
         break
       case 0x2c:
-        out.effects.push({ kind: 'curePoison', maxLevel: b })
+        out.effects.push({ kind: 'curePoison', curesTier: b >= 3 ? 'severe' : 'common' })
         break
       case 0x29:
         out.effects.push({ kind: 'applyPoison', poisonId: String(b) })

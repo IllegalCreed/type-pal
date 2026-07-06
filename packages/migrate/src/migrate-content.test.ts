@@ -166,11 +166,17 @@ describe('M1b · 装备效果(scriptOnEquip → EquipSpec)', () => {
     expect(effs.filter((e) => e.kind === 'attackAll')).toHaveLength(4)
     expect(effs.filter((e) => e.kind === 'grantSkill')).toHaveLength(7)
   })
-  test('pending 恰为已知系统缺口:战斗精灵切换 ×7 + 装备授毒 ×2', () => {
+  test('pending 恰为已知系统缺口:战斗精灵切换 ×7(寿葫芦 0x29 已正名为 regen 词条,不再 pending)', () => {
     const ops = out.report.pendingEquip.flatMap((p) => p.ops)
     expect(ops.filter((o) => o.reason.includes('战斗精灵'))).toHaveLength(7)
-    expect(ops.filter((o) => o.reason.includes('毒'))).toHaveLength(2)
-    expect(ops).toHaveLength(9)
+    expect(ops.filter((o) => o.reason.includes('授毒'))).toHaveLength(0) // 563/564 → regenHp/regenMp
+    expect(ops).toHaveLength(7)
+  })
+  test('寿葫芦(269)0x29 回补伪毒 → clean regen 词条(+20 HP/+20 MP;不借毒系统)', () => {
+    expect(byId.get('269')!.equip!.effects).toEqual([
+      { kind: 'regenHp', amount: 20 },
+      { kind: 'regenMp', amount: 20 },
+    ])
   })
   test('土灵珠(267)= 避土 50 + 授技 336(demo 已核真值)', () => {
     expect(byId.get('267')!.equip!.effects).toEqual([
@@ -229,7 +235,7 @@ describe('M1a+M1c · 技能(纯表 57 + 线性脚本 18 + 门类 5)', () => {
       { kind: 'instantKill' },
     ]) // 灵葫咒:HP≤25% 处决条件 + 60% + 收宝 + 即死(修正设计文档早期例的静默丢门)
     expect(byId.get('308')?.effects).toEqual([
-      { kind: 'curePoison', maxLevel: 2 },
+      { kind: 'curePoison', curesTier: 'common' },
       { kind: 'removeStatus', statuses: ['confused', 'paralyzed', 'sleep'] },
     ]) // 灵血咒:goto 尾调用跟进共享清状态子程序(L_39349)
   })
@@ -331,7 +337,7 @@ describe('M1d · 使用效果(scriptOnUse → UseSpec)', () => {
   })
   test('战斗分支头有损注(九阴散/毒龙胆):场外效果照译', () => {
     expect(byId.get('136')!.use!.effects).toEqual([{ kind: 'healHp', amount: 999 }])
-    expect(byId.get('278')!.use!.effects).toEqual([{ kind: 'curePoison', maxLevel: 3 }])
+    expect(byId.get('278')!.use!.effects).toEqual([{ kind: 'curePoison', curesTier: 'severe' }])
     expect(out.report.lossyUse.map((l) => l.itemId).sort((a, b) => a - b)).toEqual([136, 278])
   })
   test('总账:100 usable 全有下落(use 块 + pendingUse = 100),pending 原因均指向未落地系统', () => {

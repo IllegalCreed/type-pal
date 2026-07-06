@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest'
 import type { CharacterInstance, WorldState } from './character.js'
 import {
   effectiveGrantedStatuses,
+  effectiveRegen,
   effectiveResistances,
   effectiveSkills,
   equipGrantsAttackAll,
@@ -135,6 +136,16 @@ describe('effectiveSkills(装备授技 live 派生;红线)', () => {
   test('卸装 → 授予技消失(不烙)', () => {
     const c = { ...hero(), equipment: {} }
     expect(effectiveSkills(['296'], c, skItems)).toEqual(['296'])
+  })
+})
+
+describe('effectiveRegen(寿葫芦回血回蓝词条;正名替代 level99 伪毒 hack)', () => {
+  const rItems: ItemDataMap = {
+    gourd: { id: 'gourd', name: '寿葫芦', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, equip: { slot: 'accessory', equipableBy: ['hero'], effects: [{ kind: 'regenHp', amount: 20 }, { kind: 'regenMp', amount: 20 }] } },
+  }
+  test('寿葫芦 → 每回合 +20 HP / +20 MP;卸装即失效(不烙)', () => {
+    expect(effectiveRegen({ ...hero(), equipment: { accessory: 'gourd' } }, rItems)).toEqual({ hp: 20, mp: 20 })
+    expect(effectiveRegen({ ...hero(), equipment: {} }, rItems)).toEqual({ hp: 0, mp: 0 })
   })
 })
 

@@ -6,7 +6,7 @@ import {
   type CreatePlayerInput,
   applyPoisonToEnemy,
   createBattleState,
-  curePoisonsByLevel,
+  curePoisons,
   resolveAttack,
   runBattleToEnd,
   stepBattle,
@@ -690,13 +690,17 @@ describe('疯魔改派(fight.c:1743-1747 执行时刻指派 + 3760-3855 打友)'
 
 describe('P2 中毒 DoT(数据化毒 tick;fight.c:4454 逐回合)', () => {
   const POISONS: Record<number, import('@type-pal/content').PoisonDef> = {
-    551: { id: 551, name: '赤毒', level: 0, color: 16, playerTicks: [{ hpDelta: -7 }], enemyTicks: [{ hpDelta: -7 }] },
+    551: { id: 551, name: '赤毒', curability: 'common', color: 16, playerTicks: [{ hpDelta: -7 }], enemyTicks: [{ hpDelta: -7 }] },
     555: {
-      id: 555, name: '三尸蛊毒', level: 3, color: 128,
+      id: 555, name: '三尸蛊毒', curability: 'severe', color: 128,
       playerTicks: [{ hpDelta: 0 }, { hpDelta: -1 }, { hpDelta: -2 }, { hpDelta: -3 }, { hpDelta: -200, selfCure: true }],
       enemyTicks: [{ hpDelta: -111 }, { hpDelta: -222 }, { hpDelta: -333, selfCure: true }],
     },
-    137: { id: 137, name: '无影毒', level: 173, color: 0, enemyTicks: [{ halveHp: 1000, selfCure: true }] },
+    137: { id: 137, name: '无影毒', curability: 'incurable', color: 0, enemyTicks: [{ halveHp: 1000, selfCure: true }] },
+    561: {
+      id: 561, name: '食妖虫附', curability: 'incurable', color: 0,
+      enemyTicks: [{ hpDelta: -1 }, { hpDelta: -2 }, { hpDelta: -8, grantItem: '145', selfCure: true }],
+    },
   }
   // 单回合推进器(填动作 → 消费到回合末毒 tick)
   const oneTurn = (s: ReturnType<typeof createBattleState>, act: () => void): void => {
@@ -763,12 +767,30 @@ describe('P2 中毒 DoT(数据化毒 tick;fight.c:4454 逐回合)', () => {
     expect(s.enemies[0]!.poisons[0]!.poisonId).toBe(555)
   })
 
-  test('按等级解毒:maxLevel=2 解常规毒留三尸蛊(3级);173 无影毒任何等级不解', () => {
+  test('按可解度解毒:common 解常规留六大毒;severe 解六大毒;incurable(无影/寄生)谁都不解', () => {
     const host = { hp: 100, poisons: [{ poisonId: 551, tickIndex: 0 }, { poisonId: 555, tickIndex: 0 }, { poisonId: 137, tickIndex: 0 }] }
-    curePoisonsByLevel(host, POISONS, 2)
-    expect(host.poisons.map((p) => p.poisonId)).toEqual([555, 137]) // 赤毒(0级)解,三尸蛊(3)/无影(173)留
-    curePoisonsByLevel(host, POISONS, 3) // 复活类
-    expect(host.poisons.map((p) => p.poisonId)).toEqual([137]) // 三尸蛊解,无影毒留
+    curePoisons(host, POISONS, 'common') // 灵血咒/九节菖蒲
+    expect(host.poisons.map((p) => p.poisonId)).toEqual([555, 137]) // 赤毒(common)解,三尸蛊(severe)/无影(incurable)留
+    curePoisons(host, POISONS, 'severe') // 复活类
+    expect(host.poisons.map((p) => p.poisonId)).toEqual([137]) // 三尸蛊(severe)解,无影毒(incurable)留
+  })
+
+  test('养蛊:寄生毒递进伤害(−1/−2/−8)+ 到期产道具入背包(食妖虫附→灵蛊145)', () => {
+    const s = createBattleState({
+      players: [player('li', { attackStrength: 0 })],
+      enemies: [mkEnemy('slime', { health: 9999, defense: 999, attackStrength: 0 })],
+      poisonDefs: POISONS,
+    })
+    s.enemies[0]!.poisons = [{ poisonId: 561, tickIndex: 0 }]
+    const hp0 = s.enemies[0]!.hp
+    oneTurn(s, () => s.pendingActions.set(0, { kind: 'defend' }))
+    expect(hp0 - s.enemies[0]!.hp).toBe(1) // tick0: −1(递进首)
+    oneTurn(s, () => s.pendingActions.set(0, { kind: 'defend' }))
+    expect(hp0 - s.enemies[0]!.hp).toBe(3) // tick1: −2(累计 −3)
+    oneTurn(s, () => s.pendingActions.set(0, { kind: 'defend' }))
+    expect(hp0 - s.enemies[0]!.hp).toBe(11) // tick2: −8 + 到期
+    expect(s.enemies[0]!.poisons).toHaveLength(0) // selfCure
+    expect(s.inventory.find((x) => x.itemId === '145')?.count).toBe(1) // 灵蛊入背包
   })
 
   test('无影毒对敌:一次性半血上限1000 + 自解', () => {

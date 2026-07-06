@@ -16,6 +16,7 @@ import type {
   ElementVec,
   EnemyDef,
   ItemData,
+  PoisonCurability,
   PoisonDef,
   SkillData,
 } from '@type-pal/content'
@@ -31,6 +32,7 @@ import {
   getEnemyDexterity,
   getPlayerActualDexterity,
   isPlayerDying,
+  poisonCurableBy,
   magicDefenseDivisor,
   pickAiTarget,
   tickBattleStatus,
@@ -60,6 +62,10 @@ export interface BattlePlayerState {
   poisonRes?: number
   /** 攻击全体(长鞭装备 live 派生;物攻扫全场,伤害逐敌减半,fight.c:3683-3730)。 */
   attackAll?: boolean
+  /** 每回合回血(寿葫芦等 regenHp 词条;live 派生。clean 版正名,不借毒系统)。 */
+  regenHp?: number
+  /** 每回合回蓝(regenMp 词条)。 */
+  regenMp?: number
   status: BattleStatus
   defending: boolean
   /**
@@ -232,10 +238,11 @@ function applyDefense(damage: number, defending: boolean): number {
   return defending ? Math.trunc(damage / 2) : damage
 }
 
-/** 中毒单位的血宿主(玩家/敌通用:读写 hp)。 */
+/** 中毒单位的血宿主(玩家/敌通用:读写 hp;玩家另有 mp,敌无)。 */
 interface PoisonHost {
   hp: number
   maxHp?: number
+  mp?: number
   poisons: ActivePoison[]
 }
 
@@ -256,10 +263,18 @@ function tickPoisons(s: BattleState, host: PoisonHost, side: 'player' | 'enemy')
     }
     const tick = ticks[Math.min(ap.tickIndex, ticks.length - 1)]!
     if (tick.hpDelta) host.hp = Math.max(0, host.hp + tick.hpDelta)
+    if (tick.mpDelta && host.mp !== undefined) host.mp = Math.max(0, host.mp + tick.mpDelta)
     if (tick.halveHp) host.hp = Math.max(0, host.hp - Math.min(tick.halveHp, Math.trunc(host.hp / 2) + 1))
     const name = def.name || `毒${def.id}`
-    if (tick.hpDelta || tick.halveHp)
+    if (tick.hpDelta || tick.mpDelta || tick.halveHp)
       s.log.push(`${side === 'player' ? (host as BattlePlayerState).roleId : def.id} ${name} 发作`)
+    // 养蛊到期产道具(食妖虫附→灵蛊/碧血蚕附→碧血蚕):寄生哪方都产给队伍背包
+    if (tick.grantItem) {
+      const slot = s.inventory.find((x) => x.itemId === tick.grantItem)
+      if (slot) slot.count += 1
+      else s.inventory.push({ itemId: tick.grantItem, count: 1 })
+      s.log.push(`${name} 到期化作 ${tick.grantItem}`)
+    }
     if (tick.selfCure) continue // 末回合自解:不进 survivors(移除本毒)
     survivors.push({ poisonId: ap.poisonId, tickIndex: Math.min(ap.tickIndex + 1, ticks.length - 1) })
   }
@@ -281,15 +296,18 @@ export function applyPoisonToEnemy(
 }
 
 /**
- * 按等级解毒(fight.c 0x2C PAL_CurePoisonByLevel):移除 level ≤ maxLevel 的毒。
- * 灵血咒/九节菖蒲=2、复活类=3、战后三件套=3;无影毒(173)/伪毒(99)高于任何解毒上限 → 留。
+ * 按可解度解毒(fight.c 0x2C；语义分层替代原版 level 魔数):移除可解度 ≤ maxTier 的毒。
+ * 灵血咒/九节菖蒲 = 'common'、复活类/战后三件套 = 'severe';无影毒/寄生毒 = 'incurable' 不可及。
  */
-export function curePoisonsByLevel(
+export function curePoisons(
   host: PoisonHost,
   poisonDefs: Record<number, PoisonDef>,
-  maxLevel: number,
+  maxTier: PoisonCurability,
 ): void {
-  host.poisons = host.poisons.filter((ap) => (poisonDefs[ap.poisonId]?.level ?? 0) > maxLevel)
+  host.poisons = host.poisons.filter((ap) => {
+    const def = poisonDefs[ap.poisonId]
+    return !def || !poisonCurableBy(def, maxTier)
+  })
 }
 
 /** 物理攻击结算（攻方 atk vs 受方 def+物抗）。返回实际伤害。 */
@@ -453,8 +471,14 @@ export function stepBattle(s: BattleState, rng: () => number): void {
     case 'performAction': {
       const item = s.actionQueue.shift()
       if (!item) {
-        // 回合末:毒 DoT(存活单位逐回合扣血+指针推进,fight.c:4454)→ defending 全清
+        // 回合末:装备回血/回蓝(寿葫芦 regenHp/regenMp 词条,clean 版不借毒系统)→
+        // 毒 DoT(存活单位逐回合扣血+指针推进,fight.c:4454)→ defending 全清
         // (fight.c:1604 队列耗尽处) + status 衰减 + turn++,回 selectAction
+        for (const p of s.players)
+          if (p.hp > 0) {
+            if (p.regenHp) p.hp = Math.min(p.maxHp, p.hp + p.regenHp)
+            if (p.regenMp) p.mp = Math.min(p.maxMp, p.mp + p.regenMp)
+          }
         for (const p of s.players) if (p.hp > 0) tickPoisons(s, p, 'player')
         for (const e of s.enemies) if (e.hp > 0) tickPoisons(s, e, 'enemy')
         for (const p of s.players) {
@@ -591,10 +615,10 @@ function applyPlayerSkill(
         break
       }
       case 'curePoison': {
-        // 灵血咒类:解己方毒(按等级 maxLevel 或按 id);施于自身(v1 target 己方)
+        // 灵血咒类:解己方毒(按可解度 tier 或按 id);施于自身(v1 target 己方)
         if (eff.poisonId !== undefined)
           p.poisons = p.poisons.filter((ap) => ap.poisonId !== Number(eff.poisonId))
-        else curePoisonsByLevel(p, s.poisonDefs, eff.maxLevel ?? 2)
+        else curePoisons(p, s.poisonDefs, eff.curesTier ?? 'common')
         s.log.push(`${p.roleId} 施展 ${skill.name} 解毒`)
         break
       }

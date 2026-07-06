@@ -4,6 +4,7 @@ import {
   type DialogueLine,
   type EntityDef,
   effectiveGrantedStatuses,
+  effectiveRegen,
   effectiveResistances,
   effectiveSkills,
   effectiveStat,
@@ -780,6 +781,7 @@ async function main(): Promise<void> {
       const devAllLeader = devParams.get('attackall') !== null ? world.party[0]?.id : null
       const players = world.party.map((c) => {
         const res = effectiveResistances(c, itemsById) // 五灵/毒抗 live 派生(红线:建态时算)
+        const regen = effectiveRegen(c, itemsById)
         const granted = effectiveGrantedStatuses(c, itemsById)
         return {
           roleId: c.id,
@@ -798,6 +800,9 @@ async function main(): Promise<void> {
           poisonRes: res.poisonRes,
           // 攻击全体(长鞭 attackAll;红线 live 派生;dev 参数强制)
           attackAll: equipGrantsAttackAll(c, itemsById) || devAllLeader === c.id,
+          // 每回合回血/回蓝(寿葫芦等 regen 词条;红线 live 派生)
+          regenHp: regen.hp,
+          regenMp: regen.mp,
           // 装备授予常驻状态(连击 dualAttack 仙女剑;红线 live 派生,建态置入不烙持久)
           grantedStatuses:
             devDualLeader === c.id && !granted.includes('dualAttack')

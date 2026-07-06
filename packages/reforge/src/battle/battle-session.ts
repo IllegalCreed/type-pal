@@ -6,7 +6,7 @@
  * M4b-2 指令集:攻击/防御/逃跑(仙术/物品 = M4b-3 与动画一起);渲染 = 静态帧 + 飘字。
  */
 import type { Command, EnemyDef, SkillData } from '@type-pal/content'
-import { evalAiCond, isPlayerDying, lookupText } from '@type-pal/content'
+import { evalAiCond, isPlayerDying, lookupText, POISON_CURE_RANK } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import { bakeBgImageData, type GlyphTable, type LoadedSprite } from '../assets.js'
 import type { SfxPlayer } from '../audio/sfx.js'
@@ -1311,13 +1311,15 @@ export class BattleSession {
         const shownHp = this.visual.players[i]?.displayHp ?? p.hp
         if (ui?.magicPlayerBox) {
           // 中毒头像色:最高级(≤3)毒的 wColor 查调色板(uibattle.c:126-149;伪毒 99/无影 173 不染)
-          let maxLv = -1
+          // 中毒头像色:染色可解毒中可解度最高者(原版 level≤3 染色 = common/severe,incurable 不染)
+          let maxRank = -1
           let poisonRgb: readonly [number, number, number] | undefined
           for (const ap of p.poisons) {
             const def = s.poisonDefs[ap.poisonId]
-            if (!def || def.level > 3 || def.color <= 0) continue
-            if (def.level >= maxLv) {
-              maxLv = def.level
+            if (!def || def.curability === 'incurable' || def.color <= 0) continue
+            const rank = POISON_CURE_RANK[def.curability]
+            if (rank >= maxRank) {
+              maxRank = rank
               poisonRgb = this.assets.palette.colors[def.color & 0xff]
             }
           }

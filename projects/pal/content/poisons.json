@@ -2,7 +2,7 @@
   {
     "id": 551,
     "name": "赤毒",
-    "level": 0,
+    "curability": "common",
     "color": 16,
     "playerTicks": [
       {
@@ -18,7 +18,7 @@
   {
     "id": 552,
     "name": "尸毒",
-    "level": 1,
+    "curability": "common",
     "color": 64,
     "playerTicks": [
       {
@@ -34,7 +34,7 @@
   {
     "id": 553,
     "name": "瘴毒",
-    "level": 1,
+    "curability": "common",
     "color": 33,
     "playerTicks": [
       {
@@ -50,7 +50,7 @@
   {
     "id": 554,
     "name": "毒丝",
-    "level": 2,
+    "curability": "common",
     "color": 224,
     "playerTicks": [
       {
@@ -66,7 +66,7 @@
   {
     "id": 555,
     "name": "三尸蛊毒",
-    "level": 3,
+    "curability": "severe",
     "color": 128,
     "playerTicks": [
       {
@@ -102,7 +102,7 @@
   {
     "id": 556,
     "name": "鹤顶红",
-    "level": 3,
+    "curability": "severe",
     "color": 160,
     "playerTicks": [
       {
@@ -118,7 +118,7 @@
   {
     "id": 557,
     "name": "孔雀胆",
-    "level": 3,
+    "curability": "severe",
     "color": 80,
     "playerTicks": [
       {
@@ -134,7 +134,7 @@
   {
     "id": 558,
     "name": "血海棠",
-    "level": 3,
+    "curability": "severe",
     "color": 96,
     "playerTicks": [
       {
@@ -150,7 +150,7 @@
   {
     "id": 559,
     "name": "断肠草",
-    "level": 3,
+    "curability": "severe",
     "color": 192,
     "playerTicks": [
       {
@@ -166,7 +166,7 @@
   {
     "id": 560,
     "name": "金蚕蛊毒",
-    "level": 3,
+    "curability": "severe",
     "color": 176,
     "playerTicks": [
       {
@@ -182,7 +182,7 @@
   {
     "id": 137,
     "name": "无影毒",
-    "level": 173,
+    "curability": "incurable",
     "color": 0,
     "enemyTicks": [
       {
@@ -192,13 +192,70 @@
     ]
   },
   {
-    "id": 563,
-    "name": "气疗回补",
-    "level": 99,
+    "id": 561,
+    "name": "食妖虫附",
+    "curability": "incurable",
     "color": 0,
-    "playerTicks": [
+    "enemyTicks": [
       {
-        "hpDelta": 15
+        "hpDelta": -1
+      },
+      {
+        "hpDelta": -2
+      },
+      {
+        "hpDelta": -3
+      },
+      {
+        "hpDelta": -4
+      },
+      {
+        "hpDelta": -5
+      },
+      {
+        "hpDelta": -6
+      },
+      {
+        "hpDelta": -7
+      },
+      {
+        "hpDelta": -8,
+        "grantItem": "145",
+        "selfCure": true
+      }
+    ]
+  },
+  {
+    "id": 562,
+    "name": "碧血蚕附",
+    "curability": "incurable",
+    "color": 0,
+    "enemyTicks": [
+      {
+        "hpDelta": -1
+      },
+      {
+        "hpDelta": -2
+      },
+      {
+        "hpDelta": -3
+      },
+      {
+        "hpDelta": -4
+      },
+      {
+        "hpDelta": -5
+      },
+      {
+        "hpDelta": -6
+      },
+      {
+        "hpDelta": -7
+      },
+      {
+        "hpDelta": -8,
+        "grantItem": "149",
+        "selfCure": true
       }
     ]
   }

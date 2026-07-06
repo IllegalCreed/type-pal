@@ -33,7 +33,8 @@ export type SkillEffect =
   | { kind: 'applyStatus'; status: StatusId; turns: number } // 0x2D/0x2E(命中由引擎按目标抗性判)
   | { kind: 'removeStatus'; statuses: StatusId[] } // 0x2F 解状态
   | { kind: 'applyPoison'; poisonId: string } // 0x28/0x29 下毒/下蛊
-  | { kind: 'curePoison'; maxLevel?: number; poisonId?: string } // 0x2A-0x2C 解毒
+  // 0x2A-0x2C 解毒:按可解度 tier(灵血咒 common / 复活类 severe;语义分层替代原版 level 魔数)或按 id 点名
+  | { kind: 'curePoison'; curesTier?: import('./poison.js').PoisonCurability; poisonId?: string }
   | {
       kind: 'buffStat'
       stat: 'attack' | 'defense' | 'magic' | 'dexterity'

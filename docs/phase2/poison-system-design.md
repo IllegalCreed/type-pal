@@ -2,6 +2,18 @@
 
 > 真值锚:[game-mechanics.md §885-994](../phase1/game-mechanics.md)(毒 DoT/七大毒/相生相克/解毒)+ §1115-1218(大世界→战斗携带边界)+ [B-Poison 缺口清单](foundation/phase1-knowledge-harvest.md)。一阶段 102 commit 打磨过。
 
+## 作者架构复审(2026-07-06,三点纠偏 —— 清洁重写去下标式身份)
+
+1. **寿葫芦回血回蓝 ≠ 毒** —— 原版借 level99「伪毒」(563 HP/564 MP 回补)实现每回合 regen,是省空间拖鞋。
+   clean 版正名为独立装备词条 `{kind:'regenHp'|'regenMp', amount}`(值取原版毒脚本 0x1B/0x1C[_,20]),
+   走装备 live 派生(effectiveRegen,红线卸装即失效),回合末结算,**不碰毒系统**。563/564 从毒表删除。
+2. **毒的 level → 语义可解度** —— level 从不代表毒的威力,只被解毒判定当分级键用(魔数下标身份)。
+   改 `curability: 'common' | 'severe' | 'incurable'`:common=常规毒(灵血咒解)/severe=六大毒(复活类解)/
+   incurable=无影毒+寄生毒(谁都不解,只自解)。cure 力也语义化(curesTier);`poisonCurableBy` 按秩比较。
+3. **mpDelta 保留 + 递进/养蛊可表达** —— PoisonTick.mpDelta 留作未来扣蓝毒能力(现无实例);
+   **递进毒**天然可表达(ticks 是序列+指针推进,三尸蛊 [0,−1,−2,−3,−200] 即证);**养蛊**加 `grantItem`
+   (寄生到期产道具入队伍背包):561 食妖虫附→灵蛊145、562 碧血蚕附→赤血蚕149,递进 −1..−8 + 末回合 selfCure+grantItem。
+
 ## 架构决策:毒 = 数据化 DoT 序列,不是字节码脚本(2026-07-06 定,待作者确认)
 
 **分叉**:原版毒 DoT 是事件字节码(`OBJECT_POISON.wPlayerScript/wEnemyScript`,每回合跑一段、指针推进)。二阶段两条路:

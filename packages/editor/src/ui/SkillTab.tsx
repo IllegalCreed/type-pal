@@ -154,7 +154,18 @@ function EffectFields(props: { e: SkillEffect; on: (next: SkillEffect) => void }
     case 'curePoison':
       return (
         <>
-          <label><span>≤等级</span><N v={e.maxLevel} on={(n) => on({ ...e, maxLevel: n })} ph="(全)" /></label>
+          <label>
+            <span>可解度</span>
+            <select
+              className="in"
+              value={e.curesTier ?? ''}
+              onChange={(ev) => on({ ...e, curesTier: (ev.target.value || undefined) as typeof e.curesTier })}
+            >
+              <option value="">(按毒 id)</option>
+              <option value="common">常规(灵血咒)</option>
+              <option value="severe">六大毒(复活类)</option>
+            </select>
+          </label>
           <label>
             <span>指定毒</span>
             <input className="in ef-num" value={e.poisonId ?? ''} placeholder="(任意)" onChange={(ev) => on({ ...e, poisonId: ev.target.value || undefined })} />

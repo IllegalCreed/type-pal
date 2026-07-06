@@ -366,7 +366,7 @@
       "effects": [
         {
           "kind": "curePoison",
-          "maxLevel": 2
+          "curesTier": "common"
         },
         {
           "kind": "removeStatus",
