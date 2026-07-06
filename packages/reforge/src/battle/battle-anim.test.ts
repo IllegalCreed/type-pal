@@ -4,6 +4,7 @@ import {
   AnimPlayer,
   buildEnemyCast,
   buildEnemyPhysical,
+  buildMateAttack,
   buildPlayerAttack,
   buildPlayerCast,
 } from './battle-anim.js'
@@ -126,6 +127,31 @@ describe('M4d-2 战斗动画时间线', () => {
       expect(f.fighters?.some((x) => x.side === 'player') ?? false).toBe(false)
     // 未格挡:全时间线无 player delta
     for (const f of mk()) expect(f.fighters?.some((x) => x.side === 'player') ?? false).toBe(false)
+  })
+
+  test('疯魔打友:抽搐2轮→瞬移队友旁(+30,+12)→frame9+武器音→击退(−12,−6)+红闪+数字→双方复位', () => {
+    const frames = buildMateAttack({
+      attackerIdx: 0,
+      attackerPos: { x: 200, y: 170 },
+      mateIdx: 1,
+      matePos: { x: 240, y: 190 },
+      weaponSound: 12,
+      damage: 5,
+      mateDied: false,
+    })
+    const { events, player } = record(frames)
+    let guard = 0
+    while (!player.tick(50) && guard++ < 200) {}
+    expect(events.filter((e) => e === 'f:player0#8').length).toBe(2) // 原地抽搐 2 轮 frame8
+    expect(events).toContain('f:player0#8@270,202') // 瞬移至队友旁(+30,+12)
+    const swing = events.indexOf('f:player0#9')
+    expect(swing).toBeGreaterThan(-1)
+    expect(events[swing + 1]).toBe('snd:12') // 挥击帧同帧武器音
+    expect(events).toContain('f:player1@228,184') // 队友击退(−12,−6)
+    expect(events).toContain('f:player1c6') // 红闪
+    expect(events).toContain('dmg:player1:5')
+    expect(events).toContain('f:player0#0@200,170') // 攻击者复位
+    expect(events).toContain('f:player1#0@240,190') // 队友复位站立(死则帧2)
   })
 
   test('敌人物攻:action 音→冲至(−44,−16)→命中 frame4+call 音+数字→击退→双方复位', () => {

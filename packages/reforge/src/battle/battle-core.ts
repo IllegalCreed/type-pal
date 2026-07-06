@@ -558,7 +558,37 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
   }
   const queued = s.pendingActions.get(idx)
   if (!queued) return
-  const act = validatePlayerAction(s, idx, queued)
+  let act = queued
+  // 疯魔改派(fight.c:1743-1747 执行时刻指派,无视所选动作):濒死 → Pass 完全不出手;
+  // 否则随机打敌**或**友(作者 2026-05-31 拍板忠原版 —— sdlpal 是「必打活队友、无活友才 Pass」,
+  // 其源码注释自认 original version behaviour is not same,不采)。打友走 attackMate 专用结算
+  // (fight.c:3812-3835),打敌走正常物攻链(原版打敌细节不可考,按普攻结算)。
+  if (p.status.confused > 0) {
+    if (isPlayerDying(p.hp, p.maxHp)) {
+      s.lastAction = { side: 'player', idx, kind: 'pass' }
+      s.log.push(`${p.roleId} 神志不清`)
+      return
+    }
+    const pool = [
+      ...aliveEnemies(s).map((i) => ({ side: 'enemy' as const, i })),
+      ...alivePlayers(s)
+        .filter((i) => i !== idx)
+        .map((i) => ({ side: 'player' as const, i })),
+    ]
+    const pick = pool[Math.floor(_rng() * pool.length)]
+    if (!pick) {
+      s.lastAction = { side: 'player', idx, kind: 'pass' }
+      return // 理论不可达(无活敌已判胜)
+    }
+    if (pick.side === 'player') {
+      s.lastAction = { side: 'player', idx, kind: 'attackMate', target: pick.i }
+      attackMate(s, idx, pick.i)
+      return
+    }
+    act = { kind: 'attack', targetEnemyIdx: pick.i } // 活敌,无需再验证
+  } else {
+    act = validatePlayerAction(s, idx, queued)
+  }
   s.lastAction = {
     side: 'player',
     idx,
@@ -656,6 +686,22 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
     e.hp = Math.max(0, e.hp - dmg)
     s.log.push(`${p.roleId} ${crit || bonus ? '会心一击 ' : ''}攻击 ${e.def.id} 造成 ${dmg}`)
   }
+}
+
+/**
+ * 疯魔打友结算(fight.c:3812-3835):str = 攻,def = 对方防 ×(防御中?2),物抗恒 2;
+ * **无噪声无暴击无闪避**(异于打敌全链);护体 /2 → 保底 1 → 钳余血,顺序照 C。
+ */
+function attackMate(s: BattleState, idx: number, mateIdx: number): void {
+  const p = s.players[idx]!
+  const m = s.players[mateIdx]!
+  const def = m.defense * (m.defending ? 2 : 1)
+  let dmg = calcPhysicalAttackDamage(p.attackStrength, def, 2)
+  if (m.status.protect > 0) dmg = Math.trunc(dmg / 2)
+  if (dmg <= 0) dmg = 1
+  if (dmg > m.hp) dmg = m.hp
+  m.hp -= dmg
+  s.log.push(`${p.roleId} 神志不清,攻击了 ${m.roleId} 造成 ${dmg}`)
 }
 
 /** 敌施法单目标结算(damage 走 calcMagicDamage;heal/status 直接应用;其余 log 跳过)。 */

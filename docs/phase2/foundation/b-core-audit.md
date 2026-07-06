@@ -212,7 +212,7 @@
 
 #### ~~⚠️ 缺口~~ ✅ 已修(2026-07-05):confused/paralyzed 行动降级(队列侧)
 - sdlpal fight.c:1505-1517:sleep/paralyzed/死者 dex=0 + 强制 attack("同轮恢复则物攻");confused 强制 attack 保本体 dex(fight.c:1522-1527)。
-- reforge 已修:`needsManualSelect`(眠/定/疯/死不出菜单,session/core 共用谓词)+ 建队列强制普攻 `{attack, target:-1}`;眠/定/死 dex 0 排尾,轮到时仍未恢复 → canAct/hp 守卫跳过,同轮恢复 → 普攻真出手(环扫目标)。**余:疯魔 perform 侧目标改派(随机敌或友,作者拍板)= P2 状态演出。**
+- reforge 已修:`needsManualSelect`(眠/定/疯/死不出菜单,session/core 共用谓词)+ 建队列强制普攻 `{attack, target:-1}`;眠/定/死 dex 0 排尾,轮到时仍未恢复 → canAct/hp 守卫跳过,同轮恢复 → 普攻真出手(环扫目标)。~~余:疯魔 perform 侧目标改派~~ ✅ **已修(2026-07-06)**:perform 侧执行时刻改派(fight.c:1743-1747 —— C 的 :1735-1760 块就是队列消费点的重指派,眠/定/乱/濒死全在出手瞬间评估,与「同轮恢复才出手」语义互证);随机敌或友(作者拍板)+ attackMate 打友结算(fight.c:3812-3835)+ 混乱濒死 Pass(fight.c:1746)+ ±1px 抖动(battle.c:114-121/187-196)。
 
 ### 2.4 单元结论
 
@@ -223,11 +223,11 @@
 | flee 改行动时掷骰 | fight.c:4143 | battle-system.ts 注释 | battle-core.ts:458-475 | ✅ |
 | dualMove wDualMove=1 50% 随机 | fight.c:1239-1242 | ⚠️ 当必双动(已知偏差) | ⚠️ 沿用布尔化 | ⚠️ 已知偏差,非 bug |
 | fOnlyPuppet 门控 | fight.c:1233 | DL3/DM7 傀儡保留出手 | ❌ 未实现 | ❌ reforge 缺口 |
-| confused/paralyzed 降级攻击 | fight.c:1505-1527 | battle-system.ts:814 dex=0 | ✅ 已修(2026-07-05):强制普攻+dex0+同轮恢复出手 | ✅ 疯魔目标改派待 P2 |
+| confused/paralyzed 降级攻击 | fight.c:1505-1527 | battle-system.ts:814 dex=0 | ✅ 已修(2026-07-05):强制普攻+dex0+同轮恢复出手 | ✅ 疯魔目标改派已修(2026-07-06) |
 
 **单元 2 缺口**:
 1. **[中] reforge fOnlyPuppet 门控缺失**:puppet 状态字段已建模(battle-formulas.ts:191)但状态机未消费。影响:傀儡战术(全队傀儡时敌人不动)在 reforge 不生效。M4 headless 范围可接受,但完整复刻需补。
-2. ~~[低] reforge confused/paralyzed 不降级攻击~~ **✅ 已修(2026-07-05)**:队列侧强制普攻+dex0+同轮恢复出手已落地(见 2.3);疯魔目标改派归 P2。
+2. ~~[低] reforge confused/paralyzed 不降级攻击~~ **✅ 已修(2026-07-05/06)**:队列侧强制普攻+dex0+同轮恢复出手已落地(见 2.3);疯魔目标改派 2026-07-06 已修(随机敌或友+attackMate+濒死Pass+抖动)。
 3. **[已知] dualMove 布尔化偏差**:一阶段+reforge 都把 wDualMove=1 当必双动。作者知情(battle-system.ts:800-802 注释)。影响:林月如类 boss 比原版强。
 
 ---

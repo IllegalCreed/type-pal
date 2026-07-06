@@ -152,6 +152,76 @@ export function buildPlayerAttack(input: BuildPlayerAttackInput): AnimFrame[] {
   return frames
 }
 
+export interface BuildMateAttackInput {
+  attackerIdx: number
+  attackerPos: { x: number; y: number }
+  mateIdx: number
+  matePos: { x: number; y: number }
+  /** 攻击者武器音(rgwWeaponSound,fight.c:3810)。 */
+  weaponSound: number
+  damage: number
+  mateDied: boolean
+}
+
+/**
+ * 疯魔打友时间线(fight.c:3790-3855):frame8↔0 抽搐 2 轮(each Delay1) → Delay2 →
+ * 瞬移至队友旁(+30,+12) frame8 Delay5 → frame9 + 武器音 → 队友击退(−12,−6)(1) →
+ * 红闪 colorShift6 + 伤害数字(1;数字挂帧策略同 buildEnemyPhysical) → 闪清(4) → 双方复位(4)。
+ */
+export function buildMateAttack(input: BuildMateAttackInput): AnimFrame[] {
+  const { attackerIdx, attackerPos, mateIdx, matePos, weaponSound, damage, mateDied } = input
+  const frames: AnimFrame[] = []
+  for (let j = 0; j < 2; j++) {
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [{ side: 'player', idx: attackerIdx, frame: 8 }],
+    })
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [{ side: 'player', idx: attackerIdx, frame: 0 }],
+    })
+  }
+  frames.push({ durationMs: delayMs(2) })
+  frames.push({
+    durationMs: delayMs(5),
+    fighters: [
+      {
+        side: 'player',
+        idx: attackerIdx,
+        frame: 8,
+        pos: { x: matePos.x + 30, y: matePos.y + 12 },
+      },
+    ],
+  })
+  frames.push({
+    durationMs: delayMs(1),
+    fighters: [{ side: 'player', idx: attackerIdx, frame: 9 }],
+    ...(weaponSound > 0 ? { sound: weaponSound } : {}),
+  })
+  frames.push({
+    durationMs: delayMs(1),
+    fighters: [{ side: 'player', idx: mateIdx, pos: { x: matePos.x - 12, y: matePos.y - 6 } }],
+  })
+  frames.push({
+    durationMs: delayMs(1),
+    fighters: [{ side: 'player', idx: mateIdx, colorShift: 6 }],
+    damageNum: { target: { side: 'player', idx: mateIdx }, value: damage },
+  })
+  frames.push({
+    durationMs: delayMs(4),
+    fighters: [{ side: 'player', idx: mateIdx, colorShift: 0 }],
+  })
+  // 双方复位(PAL_BattleUpdateFighters 语义;被打死 → 倒地帧 2)
+  frames.push({
+    durationMs: delayMs(4),
+    fighters: [
+      { side: 'player', idx: attackerIdx, frame: 0, pos: attackerPos },
+      { side: 'player', idx: mateIdx, frame: mateDied ? 2 : 0, pos: matePos },
+    ],
+  })
+  return frames
+}
+
 export interface BuildEnemyPhysicalInput {
   enemyIdx: number
   enemyPos: { x: number; y: number }

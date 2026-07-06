@@ -605,3 +605,82 @@ describe('敌法术:防御除因子 + 被动格挡(fight.c:4673-4853)', () => {
     expect(s2.players[0]!.hp).toBe(100)
   })
 })
+
+describe('疯魔改派(fight.c:1743-1747 执行时刻指派 + 3760-3855 打友)', () => {
+  test('单人队:混乱者无视所选动作乱打唯一活敌;防御被劫持不置位', () => {
+    const s = createBattleState({
+      players: [player('li')],
+      enemies: [mkEnemy('slime', { health: 500, attackStrength: -999 })],
+    })
+    stepBattle(s, rng0)
+    s.players[0]!.status.confused = 3 // 混乱者不出菜单 → 强制普攻入队 → 执行时改派
+    let guard = 0
+    while (s.phase !== 'selectAction' || s.turn === 1) {
+      stepBattle(s, rng0)
+      if (++guard > 50) break
+    }
+    expect(s.log.some((l) => l.includes('攻击 slime 造成'))).toBe(true)
+    expect(s.players[0]!.defending).toBe(false)
+    expect(s.enemies[0]!.hp).toBeLessThan(500)
+  })
+
+  test('双人队:rng 指向队友 → attackMate 公式(防×2 无噪声无暴击),敌毫发无损', () => {
+    // r9=0.99 恒值:改派池 [敌0,友1] → floor(0.99*2)=1 → 打友;敌 AI 无规则 → 普攻但
+    // 被动格挡 floor(0.99*17)=16>=10 → 免伤,保 hp 干净
+    const s = createBattleState({
+      players: [player('li'), player('zhao')],
+      enemies: [mkEnemy('slime', { health: 500, attackStrength: 5 })],
+    })
+    const r9 = () => 0.99
+    stepBattle(s, r9)
+    s.players[0]!.status.confused = 3
+    s.pendingActions.set(1, { kind: 'defend' }) // 队友防御 ×5 先手 → 置位后才挨打
+    let guard = 0
+    while (s.phase !== 'selectAction' || s.turn === 1) {
+      stepBattle(s, r9)
+      if (++guard > 50) break
+    }
+    // 友伤 = calcPhys(攻40, 防30×2(防御中), 物抗2),护体无 → 保底后钳余血
+    const expected = Math.max(1, calcPhysicalAttackDamage(40, 60, 2))
+    expect(s.players[1]!.hp).toBe(100 - expected)
+    expect(s.log.some((l) => l.includes('li 神志不清,攻击了 zhao'))).toBe(true)
+    expect(s.enemies[0]!.hp).toBe(500) // 混乱者没打敌,敌普攻又被格挡
+  })
+
+  test('打友:护体减半(fight.c:3820-3823)', () => {
+    const s = createBattleState({
+      players: [player('li'), player('zhao')],
+      enemies: [mkEnemy('slime', { health: 500, attackStrength: 5 })],
+    })
+    const r9 = () => 0.99
+    stepBattle(s, r9)
+    s.players[0]!.status.confused = 3
+    s.players[1]!.status.protect = 3
+    s.pendingActions.set(1, { kind: 'defend' })
+    let guard = 0
+    while (s.phase !== 'selectAction' || s.turn === 1) {
+      stepBattle(s, r9)
+      if (++guard > 50) break
+    }
+    const expected = Math.max(1, Math.trunc(calcPhysicalAttackDamage(40, 60, 2) / 2))
+    expect(s.players[1]!.hp).toBe(100 - expected)
+  })
+
+  test('混乱+濒死 → Pass 完全不出手(fight.c:1746)', () => {
+    const s = createBattleState({
+      players: [player('li', { hp: 15 })], // 15 < min(100, 100/5=20) = 濒死
+      enemies: [mkEnemy('slime', { health: 500, attackStrength: -999 })],
+    })
+    stepBattle(s, rng0)
+    s.players[0]!.status.confused = 3
+    let guard = 0
+    while (s.phase !== 'selectAction' || s.turn === 1) {
+      if (s.phase === 'lost') break
+      stepBattle(s, rng0)
+      if (++guard > 50) break
+    }
+    expect(s.log.some((l) => l.includes('li 神志不清'))).toBe(true)
+    expect(s.log.some((l) => l.includes('li 攻击'))).toBe(false)
+    expect(s.enemies[0]!.hp).toBe(500)
+  })
+})

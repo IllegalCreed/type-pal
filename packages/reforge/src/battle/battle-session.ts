@@ -6,7 +6,7 @@
  * M4b-2 指令集:攻击/防御/逃跑(仙术/物品 = M4b-3 与动画一起);渲染 = 静态帧 + 飘字。
  */
 import type { Command, EnemyDef, SkillData } from '@type-pal/content'
-import { evalAiCond, lookupText } from '@type-pal/content'
+import { evalAiCond, isPlayerDying, lookupText } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import { bakeBgImageData, type GlyphTable, type LoadedSprite } from '../assets.js'
 import type { SfxPlayer } from '../audio/sfx.js'
@@ -21,6 +21,7 @@ import {
   AnimPlayer,
   buildEnemyCast,
   buildEnemyPhysical,
+  buildMateAttack,
   buildPlayerAttack,
   buildPlayerCast,
   type CastFxParams,
@@ -906,6 +907,21 @@ export class BattleSession {
     const s = this.state
     if (!la) return null
     if (la.kind === 'cast') return this.buildCastTimeline(la, pHp, eHp)
+    // 疯魔打友(fight.c:3790-3855):瞬移到队友旁挥兵器,数字/击退/红闪全套
+    if (la.kind === 'attackMate' && la.side === 'player' && la.target !== undefined) {
+      const attackerPos = getPlayerBasePos(s.players.length, la.idx)
+      const matePos = getPlayerBasePos(s.players.length, la.target)
+      if (!attackerPos || !matePos) return null
+      return buildMateAttack({
+        attackerIdx: la.idx,
+        attackerPos,
+        mateIdx: la.target,
+        matePos,
+        weaponSound: this.opts.playerSounds?.[la.idx]?.weapon ?? 0,
+        damage: (pHp[la.target] ?? 0) - (s.players[la.target]?.hp ?? 0),
+        mateDied: (s.players[la.target]?.hp ?? 0) <= 0,
+      })
+    }
     if (la.kind !== 'attack' || la.target === undefined) return null
     if (la.side === 'player') {
       const t = la.target
@@ -1144,9 +1160,14 @@ export class BattleSession {
         v.frame === 0 && anim && anim.idleFrames > 1 && e.hp > 0
           ? Math.floor(now / (Math.max(1, anim.idleAnimSpeed) * 40)) % anim.idleFrames
           : v.frame
+      // 疯魔抖动(battle.c:114-121):敌 X 轴 ±1/帧;眠/定压制不抖(死亡淡出 hp≤0 自然排除)
+      const jx =
+        e.hp > 0 && e.status.confused > 0 && e.status.sleep <= 0 && e.status.paralyzed <= 0
+          ? Math.floor(Math.random() * 3) - 1
+          : 0
       enemies.push({
         sprite,
-        x: v.x,
+        x: v.x + jx,
         y: v.y,
         frame,
         colorShift: i === highlightEnemy ? 6 : v.colorShift,
@@ -1154,17 +1175,26 @@ export class BattleSession {
       })
     })
     const players: BattleSpriteDraw[] = []
-    s.players.forEach((_p, i) => {
+    s.players.forEach((p, i) => {
       const sprite = this.assets.playerSprites[i]
       const v = this.visual.players[i]
       if (!sprite || !v) return
       // 召唤期队员隐显(渐隐/渐显;hold 全隐 —— fight.c:3160-3181 隐队员只画神将。
       // 形态:作者裁决用正常 alpha 渐变,不用溶解)
       if (summonShow >= 1) return
+      // 疯魔抖动(battle.c:187-196):玩家 Y 轴 ±1/帧;眠/定压制,须活着且非濒死
+      const jy =
+        p.hp > 0 &&
+        p.status.confused > 0 &&
+        p.status.sleep <= 0 &&
+        p.status.paralyzed <= 0 &&
+        !isPlayerDying(p.hp, p.maxHp)
+          ? Math.floor(Math.random() * 3) - 1
+          : 0
       players.push({
         sprite,
         x: v.x,
-        y: v.y,
+        y: v.y + jy,
         frame: v.frame,
         colorShift: v.colorShift,
         ...(summonShow > 0 ? { alpha: 1 - summonShow } : {}),
