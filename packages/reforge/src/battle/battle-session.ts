@@ -35,6 +35,8 @@ import {
   type BattleState,
   buildAiView,
   createBattleState,
+  healthyPlayerCount,
+  isPlayerHealthy,
   needsManualSelect,
   stepBattle,
 } from './battle-core.js'
@@ -137,6 +139,8 @@ export class BattleSession {
   /** 仙术选目标中(target 态确认时:有值 → cast,无值 → attack)。 */
   private pendingSkillId: string | null = null
   private pendingThrowItem: string | null = null
+  /** 合击选目标中(单体合体技进 target 态时置;确认后 = coop 动作 + 消耗其余队员)。 */
+  private pendingCoop = false
   private targetIdx = 0
   /** 正在选指令的队员下标(pendingActions 未填的第一个活队员)。 */
   private actTimer = 0
@@ -350,17 +354,34 @@ export class BattleSession {
     return this.state.inventory.filter((x) => x.count > 0 && this.state.items[x.itemId]?.throw)
   }
 
-  /** 主菜单 4 项可用性(0攻击/3杂项恒可;1法术=有技能且未封;2合击未实现)。 */
+  /** 主菜单 4 项可用性(0攻击/3杂项恒可;1法术=有技能且未封;2合击=有合体技+本人healthy+≥2人healthy)。 */
   private mainActionValid(sel: number): [boolean, boolean, boolean, boolean] {
     const p = this.state.players[sel]
     const magicOk = !!p && p.skills.length > 0 && (p.status?.silence ?? 0) === 0
-    return [true, magicOk, false, true]
+    // 合击(fight.c uibattle.c:271-341):有合体技 + 发起者 healthy + 全队 ≥2 healthy
+    const coopOk =
+      !!p && !!p.cooperativeMagicSkillId && isPlayerHealthy(p) && healthyPlayerCount(this.state) > 1
+    return [true, magicOk, coopOk, true]
   }
 
   /** 提交指令后回主菜单(一阶段 commit 后 selectedAction 重置)。 */
   private backToMain(): void {
     this.ui = 'menu'
     this.menuIdx = 0
+  }
+
+  /**
+   * 合击消耗其余队员本回合出手(fight.c applyCoopConsumesOthers):给尚未选招的其他队员
+   * 填占位动作,令 nextSelecting 结束选招 → 直接进出手。core coopThisTurn 令这些非合击动作
+   * 出手作废(HP 贡献已在合击结算内扣)。已选招的队员亦同(coopThisTurn 侧统一 pass)。
+   */
+  private consumeOthersForCoop(caster: number): void {
+    for (let i = 0; i < this.state.players.length; i++) {
+      if (i === caster) continue
+      if (!this.state.pendingActions.has(i)) {
+        this.state.pendingActions.set(i, { kind: 'attack', targetEnemyIdx: -1 })
+      }
+    }
   }
 
   /** 收集当轮该播的演出钩(once/when 求值;文本 locale 化 + 说话人 = 敌名)。 */
@@ -575,10 +596,25 @@ export class BattleSession {
           } else if (this.menuIdx === 1) {
             this.ui = 'skill'
             this.skillIdx = 0
+          } else if (this.menuIdx === 2) {
+            // 合击:全体合体技直接提交(无目标),单体合体技进选敌
+            const p2 = s.players[sel]!
+            const coopSkill = p2.cooperativeMagicSkillId
+              ? this.opts.skills?.[p2.cooperativeMagicSkillId]
+              : undefined
+            if (coopSkill?.target === 'allEnemies') {
+              s.pendingActions.set(sel, { kind: 'coop' })
+              this.consumeOthersForCoop(sel)
+              this.backToMain()
+            } else {
+              this.pendingCoop = true
+              this.ui = 'target'
+              this.targetIdx = 0
+            }
           } else if (this.menuIdx === 3) {
             this.ui = 'misc'
             this.miscIdx = 0
-          } // 2 合击:valid 恒 false,到不了
+          }
         }
       } else if (this.ui === 'misc') {
         // 杂项盒(一阶段):围攻/道具/防御/逃跑/状态,上下循环;围攻与状态未实现(灰)
@@ -665,23 +701,31 @@ export class BattleSession {
         if (pressed.has('ArrowLeft'))
           this.targetIdx = (this.targetIdx + alive.length - 1) % alive.length
         if (pressed.has('ArrowRight')) this.targetIdx = (this.targetIdx + 1) % alive.length
-        // 返回:投掷态回投掷选物,否则回主菜单
+        // 返回:投掷态回投掷选物,否则回主菜单(合击/普攻/仙术选敌均回菜单)
         if (pressed.has('Escape')) {
           if (this.pendingThrowItem) {
             this.pendingThrowItem = null
             this.ui = 'throwItem'
-          } else this.ui = 'menu'
+          } else {
+            this.pendingCoop = false
+            this.ui = 'menu'
+          }
         }
         if (confirm) {
           const t = alive[this.targetIdx % alive.length]!
           const action: BattleAction = this.pendingThrowItem
             ? { kind: 'throw', itemId: this.pendingThrowItem, targetEnemyIdx: t }
-            : this.pendingSkillId
-              ? { kind: 'cast', skillId: this.pendingSkillId, targetEnemyIdx: t }
-              : { kind: 'attack', targetEnemyIdx: t }
+            : this.pendingCoop
+              ? { kind: 'coop', targetEnemyIdx: t }
+              : this.pendingSkillId
+                ? { kind: 'cast', skillId: this.pendingSkillId, targetEnemyIdx: t }
+                : { kind: 'attack', targetEnemyIdx: t }
+          const wasCoop = this.pendingCoop
           this.pendingSkillId = null
           this.pendingThrowItem = null
+          this.pendingCoop = false
           s.pendingActions.set(sel, action)
+          if (wasCoop) this.consumeOthersForCoop(sel) // 合击消耗其余队员本回合出手
           this.backToMain()
         }
       }
