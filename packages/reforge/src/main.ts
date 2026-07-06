@@ -44,6 +44,7 @@ import {
 import { createBgmPlayer } from './audio/bgm.js'
 import { SfxPlayer } from './audio/sfx.js'
 import { getEnemyBasePos, getPlayerBasePos } from './battle/battle-positions.js'
+import { curePoisons } from './battle/battle-core.js'
 import { BattleSession } from './battle/battle-session.js'
 import { type BattleSpriteDraw, renderBattleScene } from './battle/present-battle.js'
 import { buildSettlementScreens } from './battle/settlement.js'
@@ -798,6 +799,8 @@ async function main(): Promise<void> {
           fleeRate: effectiveStat(c, 'luck', itemsById), // 逃跑判定 str
           elemRes: res.elemRes,
           poisonRes: res.poisonRes,
+          // 大世界带入的毒(自毒食/装备咒;战斗内副本,战后三件套清)
+          ...(c.poisons?.length ? { poisons: c.poisons.map((x) => ({ ...x })) } : {}),
           // 攻击全体(长鞭 attackAll;红线 live 派生;dev 参数强制)
           attackAll: equipGrantsAttackAll(c, itemsById) || devAllLeader === c.id,
           // 每回合回血/回蓝(寿葫芦等 regen 词条;红线 live 派生)
@@ -998,6 +1001,10 @@ async function main(): Promise<void> {
       // 胜利结算路径已在 buildSettlement 里写回 HP + 入账;其余路径(败/逃/敌逃)此处写回 HP。
       if (result !== 'win' || session.enemyFled()) session.writeBackHp(world.party)
       session.writeBackInventory(world.inventory)
+      // 战后「三件套」之毒清理(battle.c:1822-1830 CurePoisonByLevel(3)):胜/败/逃无条件清
+      // 世界毒态 ≤severe(无影毒/寄生 incurable 留)。护体/毒抗走装备 live 派生,无持久 Extra 需清。
+      for (const c of world.party)
+        if (c.poisons?.length) curePoisons(c, project.poisonsById, 'severe')
       // Phase E 战后脚本(battle.c:1334-1337):胜利后逐敌槽跑 scriptOnBattleEnd(→ onDefeated,
       // 掉落对话/剧情旗标);返回值不回写(原版同)。触发战斗的脚本 runner 正悬挂在 startBattle
       // 上占着全局 runner 槽 → 独立 runner 内联跑(外层在等本函数返回,无并行);共享 scriptAbort

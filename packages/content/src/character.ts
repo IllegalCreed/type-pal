@@ -78,6 +78,12 @@ export interface CharacterInstance {
    * (随存档),战斗内行为计数(count)在 BattleState 里、不落此处。缺省 = 全 0。
    */
   hiddenExp?: Partial<Record<HiddenStatKey, { exp: number; level: number }>>
+  /**
+   * 中毒态(跨大世界↔战斗共享;原版全局 rgPoisonStatus):大世界自毒(毒蛇卵/尸腐肉)带入战斗,
+   * 战斗结束「三件套」清 ≤severe(curePoisons severe;无影毒/寄生 incurable 留)。缺省 = 无毒。
+   * ⚠ 战斗内是副本(createBattleState 拷入,DoT 不回写此处);清理走战后 curePoisons。
+   */
+  poisons?: import('./poison.js').ActivePoison[]
 }
 
 /** 隐藏经验池键(= 可被隐藏成长的属性;顺序 = 原版 CHECK_HIDDEN_EXP 分配序)。 */

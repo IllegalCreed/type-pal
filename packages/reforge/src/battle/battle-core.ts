@@ -324,10 +324,11 @@ export function applyPoisonToEnemy(
  * 灵血咒/九节菖蒲 = 'common'、复活类/战后三件套 = 'severe';无影毒/寄生毒 = 'incurable' 不可及。
  */
 export function curePoisons(
-  host: PoisonHost,
+  host: { poisons?: ActivePoison[] },
   poisonDefs: Record<number, PoisonDef>,
   maxTier: PoisonCurability,
 ): void {
+  if (!host.poisons) return
   host.poisons = host.poisons.filter((ap) => {
     const def = poisonDefs[ap.poisonId]
     return !def || !poisonCurableBy(def, maxTier)
