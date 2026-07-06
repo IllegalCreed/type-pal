@@ -1157,3 +1157,107 @@ describe('P2 毒龙胆/九阴散(0x61 没中毒则秒杀)', () => {
     expect(s.players[0]!.poisons).toHaveLength(0) // 三尸蛊(severe)被解
   })
 })
+
+describe('P3 合体技(coop magic)', () => {
+  type SkillData = import('@type-pal/content').SkillData
+  const coopSkill: SkillData = {
+    id: 'c386', name: '合体气功', desc: '', cost: { mp: 9 }, usableOutsideBattle: false,
+    target: 'oneEnemy', effects: [{ kind: 'damage', power: 90, elemental: 0 }],
+    animation: { effectSprite: 1 },
+  }
+  const coopPlayer = (id: string): CreatePlayerInput =>
+    player(id, { attackStrength: 40, magicStrength: 20, cooperativeMagicSkillId: 'c386' })
+  // 跑完当前回合到下一次 selectAction(或终局)
+  const runTurn = (s: ReturnType<typeof createBattleState>): void => {
+    let guard = 0
+    const startTurn = s.turn
+    while (!(s.phase === 'selectAction' && s.turn > startTurn) && s.phase !== 'won' && s.phase !== 'lost') {
+      stepBattle(s, rng0)
+      if (++guard > 80) break
+    }
+  }
+
+  test('合击:全 healthy 贡献 HP(各扣合体技 cost 作 HP)+ 结算走 calcMagicDamage 路径', () => {
+    // 弱敌(合击一击必杀)→ 敌死无反击,贡献 HP 净扣可精确断言
+    const s = createBattleState({
+      players: [coopPlayer('li'), coopPlayer('zhao')],
+      enemies: [mkEnemy('slime', { health: 40, defense: 10, attackStrength: 0 })],
+      skills: { c386: coopSkill },
+    })
+    stepBattle(s, rng0) // preBattle → selectAction(turn 1)
+    s.pendingActions.set(0, { kind: 'coop', targetEnemyIdx: 0 })
+    s.pendingActions.set(1, { kind: 'attack', targetEnemyIdx: 0 })
+    runTurn(s)
+    expect(s.phase).toBe('won') // 合击(magStr=Σ(atk+mag)/4=30)一击秒杀弱敌
+    expect(s.players[0]!.hp).toBe(100 - 9) // 两贡献者各扣 9 HP 代价(cost.mp 作 HP)
+    expect(s.players[1]!.hp).toBe(100 - 9)
+    expect(s.log.some((l) => l.includes('合体技 合体气功 对 slime'))).toBe(true)
+  })
+
+  test('合击消耗:队友本回合出手作废(coopThisTurn),敌只挨合击一击', () => {
+    const s = createBattleState({
+      players: [coopPlayer('li'), coopPlayer('zhao')],
+      enemies: [mkEnemy('slime', { health: 9999, defense: 10, attackStrength: 0 })],
+      skills: { c386: coopSkill },
+    })
+    stepBattle(s, rng0)
+    s.pendingActions.set(0, { kind: 'coop', targetEnemyIdx: 0 })
+    s.pendingActions.set(1, { kind: 'attack', targetEnemyIdx: 0 }) // 队友普攻:应被合击消耗
+    // coopThisTurn 在选招→出手时置位、回合末自清;其效果 = 队友被消耗(下方日志断言),故不在 runTurn 后查该标志
+    runTurn(s)
+    // 合击伤害 1 次;队友普攻被消耗 → 无玩家物攻打到 slime(敌反击是「slime 攻击 li」,非「攻击 slime」)
+    expect(s.log.filter((l) => l.includes('合体技 合体气功')).length).toBe(1)
+    expect(s.log.some((l) => l.includes('攻击 slime'))).toBe(false)
+  })
+
+  test('全体合击技(allEnemies)打全场', () => {
+    const tnsh: SkillData = { ...coopSkill, id: 'c355', name: '天女散花', target: 'allEnemies', effects: [{ kind: 'damage', power: 109, elemental: 0 }] }
+    const s = createBattleState({
+      players: [
+        player('li', { attackStrength: 40, magicStrength: 20, cooperativeMagicSkillId: 'c355' }),
+        player('zhao', { attackStrength: 40, magicStrength: 20, cooperativeMagicSkillId: 'c355' }),
+      ],
+      enemies: [mkEnemy('a', { health: 9999, defense: 0, attackStrength: 0 }), mkEnemy('b', { health: 9999, defense: 0, attackStrength: 0 })],
+      skills: { c355: tnsh },
+    })
+    stepBattle(s, rng0)
+    s.pendingActions.set(0, { kind: 'coop' }) // 无目标 = 全体技自动全场
+    s.pendingActions.set(1, { kind: 'defend' })
+    const a0 = s.enemies[0]!.hp, b0 = s.enemies[1]!.hp
+    runTurn(s)
+    expect(s.enemies[0]!.hp).toBeLessThan(a0)
+    expect(s.enemies[1]!.hp).toBeLessThan(b0) // 全体都掉血
+  })
+
+  test('healthy≤1 → 退化普攻(不扣合击 HP 代价)', () => {
+    const s = createBattleState({
+      players: [coopPlayer('li')],
+      enemies: [mkEnemy('slime', { health: 40, defense: 10, attackStrength: 0 })],
+      skills: { c386: coopSkill },
+    })
+    stepBattle(s, rng0)
+    s.pendingActions.set(0, { kind: 'coop', targetEnemyIdx: 0 })
+    runTurn(s)
+    expect(s.phase).toBe('won') // 退化普攻(会心)秒杀弱敌
+    expect(s.players[0]!.hp).toBe(100) // 无合击 HP 代价(退化路径不扣)
+    expect(s.log.some((l) => l.includes('人手不足'))).toBe(true)
+  })
+
+  test('coop×10 出手身法:合击者敏捷极低仍先手(慢发起者也能消耗快队友)', () => {
+    const s = createBattleState({
+      players: [
+        player('slow', { baseDexterity: 1, attackStrength: 40, magicStrength: 20, cooperativeMagicSkillId: 'c386' }),
+        player('fast', { baseDexterity: 200, attackStrength: 40, magicStrength: 20, cooperativeMagicSkillId: 'c386' }),
+      ],
+      enemies: [mkEnemy('slime', { health: 9999, defense: 10, attackStrength: 0 })],
+      skills: { c386: coopSkill },
+    })
+    stepBattle(s, rng0)
+    s.pendingActions.set(0, { kind: 'coop', targetEnemyIdx: 0 })
+    s.pendingActions.set(1, { kind: 'attack', targetEnemyIdx: 0 })
+    runTurn(s)
+    // 快队友(dex 200)本会先手,但 coopThisTurn 令其普攻作废 → 无玩家物攻打到 slime
+    expect(s.log.some((l) => l.includes('攻击 slime'))).toBe(false)
+    expect(s.log.filter((l) => l.includes('合体技')).length).toBe(1)
+  })
+})
