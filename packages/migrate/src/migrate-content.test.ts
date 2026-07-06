@@ -548,6 +548,11 @@ describe('M1d · 投掷效果(scriptOnThrow → ThrowSpec)', () => {
     expect(byId.get('116')!.throw!.effects).toEqual([{ kind: 'applyPoison', poisonId: '552' }])
     expect(byId.get('117')!.throw!.effects).toEqual([{ kind: 'applyPoison', poisonId: '551' }])
   })
+  test('六大毒药对己 use → applyPoison(本毒)(相克三段链整链化;相克/致死走 PoisonDef 数据)', () => {
+    // 鹤顶红122 use = 下本毒 556(以毒攻毒/致死靠 counters/lethalWith)
+    expect(byId.get('122')!.use!.effects).toEqual([{ kind: 'applyPoison', poisonId: '556' }])
+    expect(byId.get('139')!.use!.effects).toEqual([{ kind: 'applyPoison', poisonId: '560' }])
+  })
   test('六大毒药投掷 → applyPoison(致死 0x5E/0x60 数据化进 lethalWith,不再 pendingThrow)', () => {
     // 鹤顶红122→556 / 三尸蛊138→555:throw 0x28 下毒 + 0x5E/0x60 致死(跳,运行时按 lethalWith 判)
     expect(byId.get('122')!.throw!.effects).toEqual([{ kind: 'applyPoison', poisonId: '556' }])

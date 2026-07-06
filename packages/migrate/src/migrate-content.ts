@@ -823,6 +823,16 @@ export function translateUseScript(
   return out
 }
 
+/** 六大毒药(item id → 本毒 id):对己 use = 相克三段链,整链 = applyPoison(本毒);相克/致死走 PoisonDef 数据。 */
+const POISON_ITEM_SELF: Record<number, number> = {
+  122: 556, // 鹤顶红
+  123: 557, // 孔雀胆
+  124: 558, // 血海棠
+  125: 559, // 断肠草
+  138: 555, // 三尸蛊
+  139: 560, // 金蚕蛊
+}
+
 /**
  * 静态翻译一条 scriptOnThrow 链(投掷对敌:0x28 下毒 → applyPoison)。
  * 基础层只接下毒/下蛊(食妖虫/毒药);相生相克/致死(0x5D/5E 查毒 + 0x2B 解 + 0x5F/60 秒杀)
@@ -961,7 +971,15 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
     }
     if (srcItem.flags.usable) {
       const u = translateUseScript(src.commands, labelIndex, srcItem.scriptOnUse)
-      if (u.pendingReason) {
+      // 六大毒药对己 use = 相克三段链(0x5D 查我毒 + 0x2B 解 / 0x5F 秒 / 0x29 下本毒),整链 =
+      // applyPoison(本毒)——相克/致死靠 PoisonDef.counters/lethalWith 数据(不硬码)。own = 投掷毒。
+      const selfPoison = POISON_ITEM_SELF[srcItem.id]
+      if (selfPoison !== undefined) {
+        out = {
+          ...out,
+          use: { target: 'oneAlly' as const, consuming: srcItem.flags.consuming, effects: [{ kind: 'applyPoison', poisonId: String(selfPoison) }] },
+        }
+      } else if (u.pendingReason) {
         pendingUse.push({ itemId: srcItem.id, name: srcItem._name, reason: u.pendingReason })
       } else if (u.effects.length) {
         if (u.lossyNotes.length)

@@ -1349,6 +1349,16 @@
     "buyPrice": 0,
     "sellPrice": 0,
     "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "556"
+        }
+      ]
+    },
     "throw": {
       "effects": [
         {
@@ -1370,6 +1380,16 @@
     "buyPrice": 0,
     "sellPrice": 0,
     "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "557"
+        }
+      ]
+    },
     "throw": {
       "effects": [
         {
@@ -1391,6 +1411,16 @@
     "buyPrice": 0,
     "sellPrice": 0,
     "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "558"
+        }
+      ]
+    },
     "throw": {
       "effects": [
         {
@@ -1412,6 +1442,16 @@
     "buyPrice": 0,
     "sellPrice": 0,
     "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "559"
+        }
+      ]
+    },
     "throw": {
       "effects": [
         {
@@ -1713,6 +1753,16 @@
     "buyPrice": 0,
     "sellPrice": 0,
     "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "555"
+        }
+      ]
+    },
     "throw": {
       "effects": [
         {
@@ -1734,6 +1784,16 @@
     "buyPrice": 0,
     "sellPrice": 0,
     "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "560"
+        }
+      ]
+    },
     "throw": {
       "effects": [
         {

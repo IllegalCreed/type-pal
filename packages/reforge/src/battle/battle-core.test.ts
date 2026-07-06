@@ -5,6 +5,7 @@ import {
   type BattlePlayerState,
   type CreatePlayerInput,
   applyPoisonToEnemy,
+  applyPoisonToPlayer,
   createBattleState,
   curePoisons,
   resolveAttack,
@@ -1040,5 +1041,28 @@ describe('P2 投掷致死组合(三对;数据驱动 lethalWith,仅投掷触发)'
     expect(s.enemies[0]!.hp).toBeGreaterThan(0) // 未暴毙(仅原 557 DoT 扣血,非致死秒杀)
     expect(s.log.some((l) => l.includes('暴毙'))).toBe(false) // 致死不触发
     expect(s.enemies[0]!.poisons.map((p) => p.poisonId)).toEqual([557]) // 鹤顶红未上(巫抗挡)
+  })
+})
+
+describe('P2 相克 use-on-self(以毒攻毒自解;counters/lethalWith 数据驱动)', () => {
+  const P: Record<number, import('@type-pal/content').PoisonDef> = {
+    556: { id: 556, name: '鹤顶红', curability: 'severe', color: 0, playerTicks: [{ hpDelta: -50 }], counters: 558, lethalWith: 557 },
+    558: { id: 558, name: '血海棠', curability: 'severe', color: 0, playerTicks: [{ hpDelta: -50 }], counters: 559, lethalWith: 555 },
+    557: { id: 557, name: '孔雀胆', curability: 'severe', color: 0, playerTicks: [{ hpDelta: -50 }], counters: 560, lethalWith: 556 },
+  }
+  test('身中血海棠(558),用鹤顶红(556)→ 以毒攻毒解掉558,不下556', () => {
+    const p = { hp: 100, poisons: [{ poisonId: 558, tickIndex: 0 }] } as never
+    expect(applyPoisonToPlayer(p, 556, P)).toBe('cured')
+    expect((p as { poisons: { poisonId: number }[] }).poisons).toEqual([]) // 558 解掉,556 未下
+  })
+  test('身中孔雀胆(557),用鹤顶红(556)→ 致死配对暴毙', () => {
+    const p = { hp: 100, poisons: [{ poisonId: 557, tickIndex: 0 }] } as never
+    expect(applyPoisonToPlayer(p, 556, P)).toBe('lethal')
+    expect((p as { hp: number }).hp).toBe(0) // 暴毙
+  })
+  test('身上无相关毒 → 下本毒(自毒)', () => {
+    const p = { hp: 100, poisons: [] } as never
+    expect(applyPoisonToPlayer(p, 556, P)).toBe('applied')
+    expect((p as { poisons: { poisonId: number }[] }).poisons).toEqual([{ poisonId: 556, tickIndex: 0 }])
   })
 })

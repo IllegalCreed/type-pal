@@ -283,6 +283,29 @@ function tickPoisons(s: BattleState, host: PoisonHost, side: 'player' | 'enemy')
 }
 
 /**
+ * 对己/队友下毒(毒药 use-on-self 三段链,fight.c 0x5D/0x2B/0x5F/0x29):
+ * ① 身中被本毒所克的毒(counters)→ 以毒攻毒解掉它、不下本毒;② 否则身中致死配对毒(lethalWith)
+ * → 当场暴毙;③ 都没有 → 下本毒。**自毒无巫抗门**(巫抗只 gate 对敌)。返回结果供 log。
+ */
+export function applyPoisonToPlayer(
+  p: BattlePlayerState,
+  poisonId: number,
+  poisonDefs: Record<number, PoisonDef>,
+): 'cured' | 'lethal' | 'applied' {
+  const def = poisonDefs[poisonId]
+  if (def?.counters !== undefined && p.poisons.some((ap) => ap.poisonId === def.counters)) {
+    p.poisons = p.poisons.filter((ap) => ap.poisonId !== def.counters) // 以毒攻毒:解掉被克毒
+    return 'cured'
+  }
+  if (def?.lethalWith !== undefined && p.poisons.some((ap) => ap.poisonId === def.lethalWith)) {
+    p.hp = 0 // 致死配对同身 → 暴毙
+    return 'lethal'
+  }
+  if (!p.poisons.some((ap) => ap.poisonId === poisonId)) p.poisons.push({ poisonId, tickIndex: 0 })
+  return 'applied'
+}
+
+/**
  * 上毒(fight.c 0x28):对敌下毒命中门 = **巫抗**(不是毒抗!)`RandomLong(0,9) >= 巫抗` 才中;
  * 巫抗满(≥10)的 boss 不中毒。已中同毒不叠(指针不重置)。返回是否命中。
  */
@@ -816,6 +839,20 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
         case 'revive':
           p.hp = Math.max(p.hp, Math.trunc((p.maxHp * eff.hpPercent) / 100))
           s.log.push(`${p.roleId} 使用 ${item.name}`)
+          break
+        case 'applyPoison': {
+          // 毒药对己 use:相克(以毒攻毒自解)/致死(暴毙)/否则自毒(毒蛇卵等自毒食同路)
+          const r = applyPoisonToPlayer(p, Number(eff.poisonId), s.poisonDefs)
+          s.log.push(
+            `${p.roleId} 使用 ${item.name}${r === 'cured' ? ',以毒攻毒解毒' : r === 'lethal' ? ',双毒相冲暴毙' : ''}`,
+          )
+          break
+        }
+        case 'curePoison':
+          if (eff.poisonId !== undefined)
+            p.poisons = p.poisons.filter((ap) => ap.poisonId !== Number(eff.poisonId))
+          else curePoisons(p, s.poisonDefs, eff.curesTier ?? 'common')
+          s.log.push(`${p.roleId} 使用 ${item.name} 解毒`)
           break
         default:
           s.log.push(`物品效果 ${eff.kind} 未接(战斗期陆续)`)

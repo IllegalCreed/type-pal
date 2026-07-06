@@ -86,7 +86,9 @@ interface ActivePoison { poisonId: number; tickIndex: number }  // 指针 = tick
 - **致死(lethalWith,对称,仅投掷)**:555↔558 / 556↔557 / 559↔560。投掷本毒到已中配对毒的敌 →
   当场暴毙(performThrow 判 lethalWith)。巫术下毒不触发(原版 0x5E/0x60 只在道具 throw 脚本)。✅ 已接
 - **相克(counters,单向 6 环,use-on-self)**:555→557/556→558/557→560/558→559/559→555/560→556。
-  use 毒药(对己)身中被克毒 → 以毒攻毒解掉、不下本毒。**数据已存,消费待 use-on-self 毒药路径**(余项)。
+  use 毒药(对己)三段链 = applyPoison(本毒):① 身中被克毒 → 以毒攻毒解掉、不下本毒;② 身中致死配对
+  → 暴毙;③ 否则下本毒。**✅ 已接**(applyPoisonToPlayer + 物品 use applyPoison 消费;6 毒药 use.effects
+  整链化 = applyPoison(本毒),相克/致死靠 PoisonDef 数据不硬码)。
 
 ### 旧记录(设计初稿,已被上面 bytecode 实证取代)
 
