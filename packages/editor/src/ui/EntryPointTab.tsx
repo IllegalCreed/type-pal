@@ -9,9 +9,11 @@
 import type {
   ActorDef,
   EntryPoint,
+  ItemData,
   Locale,
   LoadedManifest,
   SceneDef,
+  SkillData,
   StartWorld,
 } from '@type-pal/content'
 import { lookupText } from '@type-pal/content'
@@ -28,11 +30,13 @@ export function EntryPointTab(props: {
   manifest: LoadedManifest
   scenes: SceneDef[]
   actors: ActorDef[]
+  items: ItemData[]
+  skills: SkillData[]
   locale: Locale
   session: EditSession
   tabBar?: React.ReactNode
 }) {
-  const { manifest, scenes, actors, locale, session, tabBar } = props
+  const { manifest, scenes, actors, items, skills, locale, session, tabBar } = props
   const entryPoints = useMemo(() => resolveEntryPoints(manifest), [manifest])
   const [selIdx, setSelIdx] = useState(0)
   const sel = entryPoints[selIdx] ?? entryPoints[0]
@@ -59,6 +63,39 @@ export function EntryPointTab(props: {
     patchStartWorld({
       party: cur.includes(actorId) ? cur.filter((id) => id !== actorId) : [...cur, actorId],
     })
+  }
+  // 初始道具(inventory: {itemId,count}[])—— 增删改;map 式不可变更新(noUncheckedIndexedAccess 安全)。
+  const inv = (): StartWorld['inventory'] => sel?.startWorld?.inventory ?? []
+  const patchInventory = (idx: number, patch: Partial<{ itemId: string; count: number }>): void => {
+    patchStartWorld({ inventory: inv().map((r, i) => (i === idx ? { ...r, ...patch } : r)) })
+  }
+  const addInventory = (): void => {
+    patchStartWorld({ inventory: [...inv(), { itemId: items[0]?.id ?? '', count: 1 }] })
+  }
+  const removeInventory = (idx: number): void => {
+    patchStartWorld({ inventory: inv().filter((_, i) => i !== idx) })
+  }
+  // 初始技能(learnedSkills: 实例id → 技能id[])—— 按队员分组;整对象替换。
+  const skillsOf = (memberId: string): string[] => sel?.startWorld?.learnedSkills?.[memberId] ?? []
+  const setSkills = (memberId: string, next: string[]): void => {
+    patchStartWorld({
+      learnedSkills: { ...(sel?.startWorld?.learnedSkills ?? {}), [memberId]: next },
+    })
+  }
+  const patchSkill = (memberId: string, idx: number, skillId: string): void => {
+    setSkills(
+      memberId,
+      skillsOf(memberId).map((s, i) => (i === idx ? skillId : s)),
+    )
+  }
+  const addSkill = (memberId: string): void => {
+    setSkills(memberId, [...skillsOf(memberId), skills[0]?.id ?? ''])
+  }
+  const removeSkill = (memberId: string, idx: number): void => {
+    setSkills(
+      memberId,
+      skillsOf(memberId).filter((_, i) => i !== idx),
+    )
   }
   const addEntry = (): void => {
     // 生成不撞的 id
@@ -188,8 +225,116 @@ export function EntryPointTab(props: {
                         ))}
                     </div>
                   </div>
+                  {/* 初始道具(inventory) */}
+                  <div className="row" style={{ gap: 8, alignItems: 'flex-start', marginTop: 10 }}>
+                    <span className="k" style={{ width: 48 }}>
+                      道具
+                    </span>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                      {inv().map((row, idx) => (
+                        // biome-ignore lint/suspicious/noArrayIndexKey: 行无稳定 id,列表随 session 全量重渲染
+                        <div key={idx} className="row" style={{ gap: 4 }}>
+                          <select
+                            className="in"
+                            style={{ width: 180 }}
+                            value={row.itemId}
+                            onChange={(e) => patchInventory(idx, { itemId: e.target.value })}
+                          >
+                            {!items.some((it) => it.id === row.itemId) && (
+                              <option value={row.itemId}>{row.itemId}(缺)</option>
+                            )}
+                            {items.map((it) => (
+                              <option key={it.id} value={it.id}>
+                                {it.name}
+                              </option>
+                            ))}
+                          </select>
+                          <input
+                            className="in"
+                            style={{ width: 64 }}
+                            type="number"
+                            min={1}
+                            value={row.count}
+                            onChange={(e) =>
+                              patchInventory(idx, { count: Math.max(1, Number(e.target.value) || 1) })
+                            }
+                          />
+                          <button type="button" className="btn" onClick={() => removeInventory(idx)}>
+                            ✕
+                          </button>
+                        </div>
+                      ))}
+                      <button
+                        type="button"
+                        className="btn"
+                        onClick={addInventory}
+                        style={{ alignSelf: 'flex-start' }}
+                      >
+                        + 加道具
+                      </button>
+                    </div>
+                  </div>
+                  {/* 初始技能(learnedSkills,按队员分组) */}
+                  <div className="row" style={{ gap: 8, alignItems: 'flex-start', marginTop: 10 }}>
+                    <span className="k" style={{ width: 48 }}>
+                      技能
+                    </span>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                      {sel.startWorld.party.length === 0 && (
+                        <span className="insp-empty">先在上面勾选队伍,再给队员配初始技能。</span>
+                      )}
+                      {sel.startWorld.party.map((memberId) => {
+                        const actor = actors.find((a) => a.id === memberId)
+                        return (
+                          <div
+                            key={memberId}
+                            style={{ display: 'flex', flexDirection: 'column', gap: 4 }}
+                          >
+                            <span style={{ fontWeight: 600 }}>
+                              {actor ? lookupText(actor.name, locale) : memberId}
+                            </span>
+                            {skillsOf(memberId).map((sid, idx) => (
+                              // biome-ignore lint/suspicious/noArrayIndexKey: 行无稳定 id,列表随 session 全量重渲染
+                              <div key={idx} className="row" style={{ gap: 4, paddingLeft: 12 }}>
+                                <select
+                                  className="in"
+                                  style={{ width: 180 }}
+                                  value={sid}
+                                  onChange={(e) => patchSkill(memberId, idx, e.target.value)}
+                                >
+                                  {!skills.some((sk) => sk.id === sid) && (
+                                    <option value={sid}>{sid}(缺)</option>
+                                  )}
+                                  {skills.map((sk) => (
+                                    <option key={sk.id} value={sk.id}>
+                                      {sk.name}
+                                    </option>
+                                  ))}
+                                </select>
+                                <button
+                                  type="button"
+                                  className="btn"
+                                  onClick={() => removeSkill(memberId, idx)}
+                                >
+                                  ✕
+                                </button>
+                              </div>
+                            ))}
+                            <button
+                              type="button"
+                              className="btn"
+                              onClick={() => addSkill(memberId)}
+                              style={{ alignSelf: 'flex-start', marginLeft: 12 }}
+                            >
+                              + 加技能
+                            </button>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
                   <div className="insp-empty" style={{ marginTop: 8 }}>
-                    初始道具/技能/属性子表单待后续切片;现自定义编队伍 + 金钱(其余沿用克隆的默认值)。
+                    初始属性(seedStats HP/MP)沿用克隆的默认值;需要时后续加。
                   </div>
                 </div>
               )}
