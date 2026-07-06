@@ -88,15 +88,66 @@ export interface InfoBoxPlayer {
   maxHp: number
   mp: number
   maxMp: number
+  /** 坏状态剩余回合(状态字:乱/定/眠/封;缺省不画)。 */
+  status?: { confused?: number; paralyzed?: number; sleep?: number; silence?: number }
+  /** 中毒头像单色化的颜色([r,g,b];最高级 ≤3 毒的 wColor 经调色板;undefined = 无毒正常)。 */
+  poisonRgb?: readonly [number, number, number]
 }
 
-/** 队员信息框一枚:框 + 头像(死亡灰化)+ HP 黄 / MP 青错落数字。 */
+/**
+ * 信息框状态字(uibattle.c:60-104 rgStatusPos/rgwStatusWord/rgbStatusColor):
+ * 仅乱/定/眠/封 4 个坏状态显字,坐标为框内偏移,颜色 = 调色板索引(此处已换算 RGB)。
+ * 仅活人画(hp>0,uibattle.c:243)。
+ */
+const STATUS_WORDS: ReadonlyArray<{
+  key: 'confused' | 'paralyzed' | 'sleep' | 'silence'
+  text: string
+  dx: number
+  dy: number
+  colorIdx: number
+}> = [
+  { key: 'confused', text: '乱', dx: 35, dy: 19, colorIdx: 0x5f },
+  { key: 'paralyzed', text: '定', dx: 44, dy: 12, colorIdx: 0xbf },
+  { key: 'sleep', text: '眠', dx: 54, dy: 1, colorIdx: 0x0e },
+  { key: 'silence', text: '封', dx: 55, dy: 20, colorIdx: 0x3c },
+]
+
+/** 毒色头像缓存(roleId+rgb → 单色化位图;每帧 getImageData 太贵)。 */
+const poisonFaceCache = new Map<string, HTMLCanvasElement>()
+
+/** PAL_RLEBlitMonoColor 的 RGBA 近似:保亮度,色相/饱和取毒色(乘法调制)。 */
+function monoColorFace(face: ImageBitmap, rgb: readonly [number, number, number], key: string): HTMLCanvasElement {
+  const hit = poisonFaceCache.get(key)
+  if (hit) return hit
+  const cvs = document.createElement('canvas')
+  cvs.width = face.width
+  cvs.height = face.height
+  const c = cvs.getContext('2d')!
+  c.drawImage(face, 0, 0)
+  const img = c.getImageData(0, 0, cvs.width, cvs.height)
+  const d = img.data
+  for (let i = 0; i < d.length; i += 4) {
+    if (d[i + 3] === 0) continue
+    // 亮度 × 毒色(原版 mono 色阶按调色板同色系渐变;RGBA 近似 = luma 调制)
+    const luma = (d[i]! * 0.299 + d[i + 1]! * 0.587 + d[i + 2]! * 0.114) / 255
+    d[i] = Math.round(rgb[0] * luma)
+    d[i + 1] = Math.round(rgb[1] * luma)
+    d[i + 2] = Math.round(rgb[2] * luma)
+  }
+  c.putImageData(img, 0, 0)
+  poisonFaceCache.set(key, cvs)
+  return cvs
+}
+
+/** 队员信息框一枚:框 + 头像(死亡灰化/中毒单色化)+ HP 黄 / MP 青错落数字 + 状态字。 */
 export function drawPlayerInfoBox(
   ctx: CanvasRenderingContext2D,
   menu: MenuAssets,
   face: ImageBitmap | undefined,
   p: InfoBoxPlayer,
   slot: number,
+  glyphs?: GlyphTable,
+  palette?: import('@type-pal/shared').Palette,
 ): void {
   const x = INFO_X_BASE + slot * INFO_X_STEP
   const y = INFO_Y
@@ -107,6 +158,13 @@ export function drawPlayerInfoBox(
       ctx.filter = 'grayscale(1) brightness(0.6)' // 死亡:一阶段 mono 黑白的 RGBA 等价
       ctx.drawImage(face, x - 2, y - 4)
       ctx.restore()
+    } else if (p.poisonRgb) {
+      // 中毒:头像按最高级毒 wColor 单色化(uibattle.c:158-161 PAL_RLEBlitMonoColor)
+      ctx.drawImage(
+        monoColorFace(face, p.poisonRgb, `${p.roleId}:${p.poisonRgb.join(',')}`),
+        x - 2,
+        y - 4,
+      )
     } else {
       ctx.drawImage(face, x - 2, y - 4)
     }
@@ -119,6 +177,19 @@ export function drawPlayerInfoBox(
   drawNumber(ctx, p.maxHp, x + NUM_MAX_RIGHT, y + HP_MAX_Y, menu.nums)
   drawNumber(ctx, p.mp, x + NUM_CUR_RIGHT, y + MP_CUR_Y, menu.numsCyan)
   drawNumber(ctx, p.maxMp, x + NUM_MAX_RIGHT, y + MP_MAX_Y, menu.numsCyan)
+  // 状态字(仅活人;uibattle.c:243-255。颜色 = 调色板索引直查,无调色板不画)
+  if (glyphs && palette && p.status && p.hp > 0) {
+    for (const w of STATUS_WORDS) {
+      if ((p.status[w.key] ?? 0) <= 0) continue
+      const rgb = palette.colors[w.colorIdx]
+      if (!rgb) continue
+      renderSpans(ctx, [{ text: w.text }], x + w.dx, y + w.dy, {
+        glyphs,
+        shadow: true,
+        forceRgba: rgb,
+      })
+    }
+  }
 }
 
 export interface BattleMenuRow {

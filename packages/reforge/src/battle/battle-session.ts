@@ -1281,7 +1281,26 @@ export class BattleSession {
       s.players.forEach((p, i) => {
         const shownHp = this.visual.players[i]?.displayHp ?? p.hp
         if (ui?.magicPlayerBox) {
-          drawPlayerInfoBox(ctx, ui, this.assets.faces?.[p.roleId], { ...p, hp: shownHp }, i)
+          // 中毒头像色:最高级(≤3)毒的 wColor 查调色板(uibattle.c:126-149;伪毒 99/无影 173 不染)
+          let maxLv = -1
+          let poisonRgb: readonly [number, number, number] | undefined
+          for (const ap of p.poisons) {
+            const def = s.poisonDefs[ap.poisonId]
+            if (!def || def.level > 3 || def.color <= 0) continue
+            if (def.level >= maxLv) {
+              maxLv = def.level
+              poisonRgb = this.assets.palette.colors[def.color & 0xff]
+            }
+          }
+          drawPlayerInfoBox(
+            ctx,
+            ui,
+            this.assets.faces?.[p.roleId],
+            { ...p, hp: shownHp, status: p.status, ...(poisonRgb ? { poisonRgb } : {}) },
+            i,
+            g,
+            this.assets.palette,
+          )
         } else {
           const x = 8 + i * 106
           const hpColor: readonly [number, number, number] =
