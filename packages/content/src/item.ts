@@ -149,6 +149,33 @@ export function effectiveSkills(
   return out
 }
 
+/**
+ * 装备授予的常驻状态(grantStatus;仙女剑→连击 dualAttack)。返回 StatusId 列表。
+ * **live 派生(红线):建态时读装备,严禁 equip 时烙进 status 可变槽**——卸装即失效。
+ */
+export function effectiveGrantedStatuses(
+  char: CharacterInstance,
+  items: Record<string, ItemData>,
+): StatusId[] {
+  const out: StatusId[] = []
+  for (const itemId of Object.values(char.equipment)) {
+    for (const eff of items[itemId]?.equip?.effects ?? []) {
+      if (eff.kind === 'grantStatus' && !out.includes(eff.status)) out.push(eff.status)
+    }
+  }
+  return out
+}
+
+/** 该角色装备是否授予「攻击全体」(长鞭 attackAll;live 派生红线同上)。 */
+export function equipGrantsAttackAll(
+  char: CharacterInstance,
+  items: Record<string, ItemData>,
+): boolean {
+  for (const itemId of Object.values(char.equipment))
+    for (const eff of items[itemId]?.equip?.effects ?? []) if (eff.kind === 'attackAll') return true
+  return false
+}
+
 /** 背包里该角色可装的物品(equip 能力 + equipableBy 含其模板)。 */
 export function equippableItems(
   world: WorldState,

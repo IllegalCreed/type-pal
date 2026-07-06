@@ -29,7 +29,7 @@ function mkEnemy(id: string, o: Partial<EnemyDef['stats']> = {}): EnemyDef {
     sounds: { attack: 0, action: 0, magic: 0, death: 0, call: 0 },
   }
 }
-const player = (roleId: string, o: Partial<BattlePlayerState> = {}): CreatePlayerInput => ({
+const player = (roleId: string, o: Partial<CreatePlayerInput> = {}): CreatePlayerInput => ({
   roleId, hp: 100, maxHp: 100, mp: 30, maxMp: 30, attackStrength: 40, defense: 30, magicStrength: 20, baseDexterity: 50, skills: [], fleeRate: 20, ...o,
 })
 const rng0 = () => 0 // 定值:AI 恒选第一个目标
@@ -822,5 +822,47 @@ describe('P2 傀儡续战(fOnlyPuppet;fight.c:1102-1141/1739)', () => {
     let g = 0
     while (s.phase !== 'lost' && g++ < 20) stepBattle(s, rng0)
     expect(s.phase).toBe('lost')
+  })
+})
+
+describe('P2 连击双打(装备授 dualAttack;仙女剑170)', () => {
+  // 敌睡死隔离(否则敌回合覆写 lastAction);log 持久,断言走 log + 敌血 delta
+  const drive = (s: ReturnType<typeof createBattleState>): void => {
+    stepBattle(s, rng0)
+    s.enemies[0]!.status.sleep = 99
+    s.pendingActions.set(0, { kind: 'attack', targetEnemyIdx: 0 })
+    let g = 0
+    do stepBattle(s, rng0)
+    while (s.phase === 'performAction' && g++ < 40)
+  }
+
+  test('dualAttack 状态 → 物攻两击(敌未死);log 有连击', () => {
+    const s = createBattleState({
+      players: [player('zhao', { attackStrength: 60, grantedStatuses: ['dualAttack'] })],
+      enemies: [mkEnemy('slime', { health: 9999, defense: 0, attackStrength: 0 })],
+    })
+    expect(s.players[0]!.status.dualAttack).toBeGreaterThan(0) // 建态置入
+    drive(s)
+    expect(s.log.filter((l) => l.includes('zhao')).length).toBeGreaterThanOrEqual(2) // 两击各一条
+    expect(s.log.some((l) => l.includes('连击'))).toBe(true)
+    expect(9999 - s.enemies[0]!.hp).toBeGreaterThan(0)
+  })
+
+  test('无 dualAttack → 单击(对照,无连击 log)', () => {
+    const s = createBattleState({
+      players: [player('li', { attackStrength: 60 })],
+      enemies: [mkEnemy('slime', { health: 9999, defense: 0, attackStrength: 0 })],
+    })
+    drive(s)
+    expect(s.log.some((l) => l.includes('连击'))).toBe(false)
+  })
+
+  test('首击秒杀 → 无第二击(敌已死)', () => {
+    const s = createBattleState({
+      players: [player('zhao', { attackStrength: 9999, grantedStatuses: ['dualAttack'] })],
+      enemies: [mkEnemy('slime', { health: 10, defense: 0, attackStrength: 0 })],
+    })
+    drive(s)
+    expect(s.log.some((l) => l.includes('连击'))).toBe(false) // 敌首击死,无连击
   })
 })

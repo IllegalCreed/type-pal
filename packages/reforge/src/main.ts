@@ -3,6 +3,7 @@ import {
   type Dialogue,
   type DialogueLine,
   type EntityDef,
+  effectiveGrantedStatuses,
   effectiveResistances,
   effectiveSkills,
   effectiveStat,
@@ -772,8 +773,12 @@ async function main(): Promise<void> {
       let playedVictory = false
       // 队员战斗态:CharacterInstance + 装备加成(effectiveStat)
       const itemsById = project.items
+      // dev:?dualattack 给队长强制连击(验双击演出;无 仙女剑 可装的默认档用)
+      const devDualLeader =
+        new URLSearchParams(location.search).get('dualattack') !== null ? world.party[0]?.id : null
       const players = world.party.map((c) => {
         const res = effectiveResistances(c, itemsById) // 五灵/毒抗 live 派生(红线:建态时算)
+        const granted = effectiveGrantedStatuses(c, itemsById)
         return {
           roleId: c.id,
           hp: c.hp,
@@ -789,6 +794,11 @@ async function main(): Promise<void> {
           fleeRate: effectiveStat(c, 'luck', itemsById), // 逃跑判定 str
           elemRes: res.elemRes,
           poisonRes: res.poisonRes,
+          // 装备授予常驻状态(连击 dualAttack 仙女剑;红线 live 派生,建态置入不烙持久)
+          grantedStatuses:
+            devDualLeader === c.id && !granted.includes('dualAttack')
+              ? [...granted, 'dualAttack' as const]
+              : granted,
         }
       })
       // 资产:战场背景(sys:battleField 记账 → 当前场景 palette 着色)+ 敌我战斗精灵 + 队员小头像

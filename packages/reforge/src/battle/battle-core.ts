@@ -124,6 +124,8 @@ export interface BattleState {
     skillId?: string
     /** 物攻暴击(1/6 或狂暴;表现层取暴击音,fight.c:2065-2069)。 */
     crit?: boolean
+    /** 连击第二击伤害(dualAttack;present 追加第二挥击,音效落不同帧)。 */
+    secondDamage?: number
     /** 敌物攻被格挡(7/17 被动「闪避」:免伤,演出格挡姿+coverSound+仍击退)。 */
     blocked?: boolean
     /** 敌施法被动格挡的队员 idx(1/3 掷,除因子 +1 —— 减伤不免伤;演出摆防御姿 frame3)。 */
@@ -138,11 +140,12 @@ export type BattleAction =
   | { kind: 'defend' }
   | { kind: 'flee' }
 
-/** 队员建态输入:引擎态字段(status/defending/hiddenCounts)自动补;poisons 可从大世界带入。 */
+/** 队员建态输入:引擎态字段(status/defending/hiddenCounts)自动补;poisons 大世界带入;
+ *  grantedStatuses 装备常驻状态(连击等,建态时置入 status,红线不烙持久)。 */
 export type CreatePlayerInput = Omit<
   BattlePlayerState,
   'status' | 'defending' | 'hiddenCounts' | 'poisons'
-> & { poisons?: ActivePoison[] }
+> & { poisons?: ActivePoison[]; grantedStatuses?: (keyof BattleStatus)[] }
 
 export interface CreateBattleInput {
   players: CreatePlayerInput[]
@@ -168,13 +171,18 @@ export function createBattleState(input: CreateBattleInput): BattleState {
   return {
     phase: 'preBattle',
     turn: 0,
-    players: input.players.map((p) => ({
-      ...p,
-      status: emptyBattleStatus(),
-      defending: false,
-      hiddenCounts: {},
-      poisons: p.poisons?.map((x) => ({ ...x })) ?? [], // 大世界带入的毒(副本;战后不回写)
-    })),
+    players: input.players.map((p) => {
+      const status = emptyBattleStatus()
+      // 装备常驻状态(连击等):建态时置大值(PERMANENT,不在战内衰减到 0;红线 —— 每战重派生)
+      for (const k of p.grantedStatuses ?? []) status[k] = 9999
+      return {
+        ...p,
+        status,
+        defending: false,
+        hiddenCounts: {},
+        poisons: p.poisons?.map((x) => ({ ...x })) ?? [], // 大世界带入的毒(副本;战后不回写)
+      }
+    }),
     enemies: input.enemies.map((def) => ({
       def,
       hp: def.stats.health,
@@ -796,25 +804,43 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
     // B7c:物攻 → attack 池 +1、maxHP 池 +R(2,3)(fight.c:3756-3757,序固定)
     addHidden('attack', 1)
     addHidden('maxHP', 2 + Math.floor(_rng() * 2))
-    // 玩家物攻伤害装配(fight.c:3629-3663 全链;曾漏 def 等级项与噪声/浮动 → 伤害虚高):
-    // def = 敌防 + (敌级+6)×4 → 基础伤 → +R(1,2) → 暴击(1/6 或狂暴)×3 →
-    // 李逍遥专属 1/12 再 ×2(fight.c:3648 主角彩蛋;按 roleId 数据键) → ×[1,1.125) → 保底 1
-    const def = e.def.stats.defense + (e.def.stats.level + 6) * 4
-    const crit = Math.floor(_rng() * 6) === 0 || p.status.bravery > 0
-    let dmg = resolveAttack(p.attackStrength, def, e.def.stats.physicalResistance, e.defending)
-    dmg += 1 + Math.floor(_rng() * 2)
-    if (crit) dmg *= 3
-    let bonus = false
-    if (p.roleId === 'li-xiaoyao' && Math.floor(_rng() * 12) === 0) {
-      dmg *= 2 // 主角彩蛋暴击(数据化归属待议;原版按 roleId==0)
-      bonus = true
+    const hit1 = resolvePlayerAttackHit(p, e, _rng)
+    if (s.lastAction) s.lastAction.crit = hit1.crit
+    e.hp = Math.max(0, e.hp - hit1.dmg)
+    s.log.push(`${p.roleId} ${hit1.crit ? '会心一击 ' : ''}攻击 ${e.def.id} 造成 ${hit1.dmg}`)
+    // 连击(装备授 dualAttack;仙女剑170):敌未死则第二击(独立 rng 掷,同 fight.c 双击)
+    if (p.status.dualAttack > 0 && e.hp > 0) {
+      const hit2 = resolvePlayerAttackHit(p, e, _rng)
+      if (s.lastAction) s.lastAction.secondDamage = hit2.dmg
+      e.hp = Math.max(0, e.hp - hit2.dmg)
+      s.log.push(`${p.roleId} 连击 ${hit2.crit ? '会心一击 ' : ''}造成 ${hit2.dmg}`)
     }
-    dmg = Math.trunc(dmg * (1 + _rng() * 0.125))
-    if (dmg <= 0) dmg = 1
-    if (s.lastAction) s.lastAction.crit = crit || bonus
-    e.hp = Math.max(0, e.hp - dmg)
-    s.log.push(`${p.roleId} ${crit || bonus ? '会心一击 ' : ''}攻击 ${e.def.id} 造成 ${dmg}`)
   }
+}
+
+/**
+ * 玩家单次物攻伤害(fight.c:3629-3663 全链):def = 敌防 + (敌级+6)×4 → 基础伤 → +R(1,2) →
+ * 暴击(1/6 或狂暴)×3 → 李逍遥专属 1/12 再 ×2(主角彩蛋)→ ×[1,1.125) → 保底 1。
+ * 提取成函数供连击第二击复用(独立 rng 消费,与首击同分布)。
+ */
+function resolvePlayerAttackHit(
+  p: BattlePlayerState,
+  e: BattleEnemyState,
+  rng: () => number,
+): { dmg: number; crit: boolean } {
+  const def = e.def.stats.defense + (e.def.stats.level + 6) * 4
+  const crit = Math.floor(rng() * 6) === 0 || p.status.bravery > 0
+  let dmg = resolveAttack(p.attackStrength, def, e.def.stats.physicalResistance, e.defending)
+  dmg += 1 + Math.floor(rng() * 2)
+  if (crit) dmg *= 3
+  let bonus = false
+  if (p.roleId === 'li-xiaoyao' && Math.floor(rng() * 12) === 0) {
+    dmg *= 2
+    bonus = true
+  }
+  dmg = Math.trunc(dmg * (1 + rng() * 0.125))
+  if (dmg <= 0) dmg = 1
+  return { dmg, crit: crit || bonus }
 }
 
 /**

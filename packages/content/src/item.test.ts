@@ -1,8 +1,10 @@
 import { describe, expect, test } from 'vitest'
 import type { CharacterInstance, WorldState } from './character.js'
 import {
+  effectiveGrantedStatuses,
   effectiveResistances,
   effectiveSkills,
+  equipGrantsAttackAll,
   equipItem,
   equippableItems,
   equippedItemIds,
@@ -133,6 +135,21 @@ describe('effectiveSkills(装备授技 live 派生;红线)', () => {
   test('卸装 → 授予技消失(不烙)', () => {
     const c = { ...hero(), equipment: {} }
     expect(effectiveSkills(['296'], c, skItems)).toEqual(['296'])
+  })
+})
+
+describe('effectiveGrantedStatuses / equipGrantsAttackAll(装备特效 live 派生)', () => {
+  const gItems: ItemDataMap = {
+    fairySword: { id: 'fairySword', name: '仙女剑', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, equip: { slot: 'weapon', equipableBy: ['hero'], effects: [{ kind: 'grantStatus', status: 'dualAttack' }] } },
+    whip: { id: 'whip', name: '长鞭', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, equip: { slot: 'weapon', equipableBy: ['hero'], effects: [{ kind: 'attackAll' }] } },
+  }
+  test('仙女剑 → 授连击 dualAttack;卸装即失效', () => {
+    expect(effectiveGrantedStatuses({ ...hero(), equipment: { weapon: 'fairySword' } }, gItems)).toEqual(['dualAttack'])
+    expect(effectiveGrantedStatuses({ ...hero(), equipment: {} }, gItems)).toEqual([])
+  })
+  test('长鞭 → 攻击全体;无则否', () => {
+    expect(equipGrantsAttackAll({ ...hero(), equipment: { weapon: 'whip' } }, gItems)).toBe(true)
+    expect(equipGrantsAttackAll({ ...hero(), equipment: { weapon: 'fairySword' } }, gItems)).toBe(false)
   })
 })
 

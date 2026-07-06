@@ -905,6 +905,7 @@ export class BattleSession {
       target?: number
       skillId?: string
       crit?: boolean
+      secondDamage?: number
       blocked?: boolean
       autoDefend?: number[]
     } | null,
@@ -940,7 +941,11 @@ export class BattleSession {
         this.enemyDefs[t]?.anim.yPosOffset ?? 0,
       )
       if (!attackerPos || !targetPos) return null
-      return buildPlayerAttack({
+      const totalDmg = (eHp[t] ?? 0) - (s.enemies[t]?.hp ?? 0)
+      const second = la.secondDamage // 连击第二击(present 追加一挥,音效自然落不同帧)
+      const firstDmg = totalDmg - (second ?? 0)
+      const snd = this.opts.playerSounds?.[la.idx]
+      const attackInput = (damage: number, windup: boolean) => ({
         attackerIdx: la.idx,
         attackerPos,
         targetIdx: t,
@@ -949,20 +954,21 @@ export class BattleSession {
         effectFrameBase: this.assets.effectSprite
           ? (this.opts.playerEffectBase?.[la.idx] ?? -1)
           : -1,
-        damage: (eHp[t] ?? 0) - (s.enemies[t]?.hp ?? 0),
-        windup: true,
+        damage,
+        windup,
         // 出招/兵器音;暴击换暴击喝声(rgwCriticalSound 替代 attackSound,fight.c:2065-2069)
-        ...(this.opts.playerSounds?.[la.idx]
+        ...(snd
           ? {
               sounds: {
-                attack: la.crit
-                  ? this.opts.playerSounds[la.idx]!.critical
-                  : this.opts.playerSounds[la.idx]!.attack,
-                weapon: this.opts.playerSounds[la.idx]!.weapon,
+                attack: la.crit ? snd.critical : snd.attack,
+                weapon: snd.weapon,
               },
             }
           : {}),
       })
+      const t1 = buildPlayerAttack(attackInput(firstDmg, true))
+      // 连击:第二挥无 windup(fight.c:windup 仅回合首击);两挥兵器音各在自帧 → 不同帧折叠免疫
+      return second === undefined ? t1 : [...t1, ...buildPlayerAttack(attackInput(second, false))]
     }
     // 敌物攻
     const t = la.target
