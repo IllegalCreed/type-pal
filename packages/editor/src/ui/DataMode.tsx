@@ -23,6 +23,7 @@ import type { EditSession } from '../core/edit-session.js'
 import { buildRefIndex } from '../core/ref-index.js'
 import { BattleFieldTab } from './BattleFieldTab.js'
 import { CutsceneTab } from './CutsceneTab.js'
+import { EntryPointTab } from './EntryPointTab.js'
 import { EnemyTab } from './EnemyTab.js'
 import { EventLibTab } from './EventLibTab.js'
 import { ItemTab } from './ItemTab.js'
@@ -39,6 +40,7 @@ export type DataTab =
   | 'battlefield'
   | 'music'
   | 'cutscene'
+  | 'entrypoint'
   | 'vars'
   | 'events'
 export const DATA_TABS: { id: DataTab; label: string; icon: string }[] = [
@@ -49,6 +51,7 @@ export const DATA_TABS: { id: DataTab; label: string; icon: string }[] = [
   { id: 'battlefield', label: '战场', icon: '🏞' },
   { id: 'music', label: '音乐', icon: '🎵' },
   { id: 'cutscene', label: '过场', icon: '🎬' },
+  { id: 'entrypoint', label: '入口', icon: '🚪' },
   { id: 'vars', label: '变量', icon: '🚩' },
   { id: 'events', label: '指令手册', icon: '📖' },
 ]
@@ -89,8 +92,10 @@ export function DataMode(props: {
   battleFields: BattleFieldDef[]
   /** 技能数组(SkillTab 编辑;= session state.skills)。 */
   skillList: import('@type-pal/content').SkillData[]
-  /** 全场景(N5 引用反向索引数据源)。 */
+  /** 全场景(N5 引用反向索引数据源;入口点场景下拉)。 */
   scenes: SceneDef[]
+  /** 工程清单(入口点页编 manifest.entryPoints)。 */
+  manifest: import('@type-pal/content').LoadedManifest
   /** 引用跳转:变量页/物品页点引用 → 事件模式定位。 */
   onJumpToEvent: (sceneId: string, srcKey: string) => void
   /** 当前数据页 + 切换(左栏垂直页列驱动 —— RPGM 数据库范式,2026-07-05 二改)。 */
@@ -109,6 +114,7 @@ export function DataMode(props: {
     music,
     battleFields,
     scenes,
+    manifest,
     skillList,
     onJumpToEvent,
     tab,
@@ -189,6 +195,10 @@ export function DataMode(props: {
 
   if (tab === 'cutscene') {
     return <CutsceneTab assetBase={assetBase} tabBar={tabBar} />
+  }
+
+  if (tab === 'entrypoint') {
+    return <EntryPointTab manifest={manifest} scenes={scenes} session={session} tabBar={tabBar} />
   }
 
   if (tab === 'battlefield') {

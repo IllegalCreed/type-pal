@@ -278,6 +278,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
             music={state.music ?? []}
             battleFields={state.battleFields ?? []}
             scenes={state.scenes}
+            manifest={state.manifest}
             skillList={state.skills}
             onJumpToEvent={jumpToEvent}
             tab={dataTab}

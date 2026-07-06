@@ -16,6 +16,7 @@ import type {
   EnemyDef,
   EnemyTeamDef,
   EntityDef,
+  EntryPoint,
   GridPos,
   ItemData,
   LevelUpSkill,
@@ -1106,5 +1107,35 @@ export class UpdateStartSkillsCommand implements Command {
 
   invert(state: EditorState): EditorState {
     return this.withSkills(state, this.had ? this.old : undefined)
+  }
+}
+
+/**
+ * 入口点(开局档)编辑:整表替换 manifest.entryPoints(增删改一次一命令)。
+ * apply 首次捕获旧表供 invert 还原。缺省(manifest 无 entryPoints)= 从 entryScene 合成一条 new-game。
+ */
+export class SetEntryPointsCommand implements Command {
+  readonly label = '编辑入口点'
+  private readonly next: EntryPoint[]
+  private old: EntryPoint[] | undefined
+  private captured = false
+
+  constructor(next: EntryPoint[]) {
+    this.next = structuredClone(next)
+  }
+
+  apply(state: EditorState): EditorState {
+    if (!this.captured) {
+      this.old = state.manifest.entryPoints ? structuredClone(state.manifest.entryPoints) : undefined
+      this.captured = true
+    }
+    return { ...state, manifest: { ...state.manifest, entryPoints: structuredClone(this.next) } }
+  }
+
+  invert(state: EditorState): EditorState {
+    const restored = { ...state.manifest }
+    if (this.old) restored.entryPoints = structuredClone(this.old)
+    else delete restored.entryPoints
+    return { ...state, manifest: restored }
   }
 }
