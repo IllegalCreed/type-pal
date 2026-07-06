@@ -45,6 +45,7 @@ export type ItemUseEffect =
   | { kind: 'curePoison'; curesTier?: import('./poison.js').PoisonCurability; poisonId?: string } // 0x2B/0x2C(糯米/雄黄/九节菖蒲)
   | { kind: 'permanentStatBoost'; stat: CombatStat | 'maxHP' | 'maxMP'; delta: number } // 0x19(舍利子/雪蛤蟆——永久成长)
   | { kind: 'gate'; chance?: number } // 0x6 概率门(盐巴 50% 解毒);失败截断其后
+  | { kind: 'dieIfNotPoisoned' } // 0x61(毒龙胆/九阴散):没中毒则秒杀自己,否则续跑后效(解毒/回血)
   | { kind: 'triggerScript'; scriptId: string } // 桂花酒/玉佩剧情;风灵珠场景互动
   | { kind: 'teleport'; target: string } // 引路蜂回迷宫口
 // 待扩充(B2 剧情脚本落地后):giveItems / giveMoney / learnSkill / scenePlace / transform …

@@ -804,7 +804,9 @@ export function translateUseScript(
       case 0x06:
         out.effects.push({ kind: 'gate', chance: a })
         break
-      case 0x61: // 战斗内分支头(九阴散/毒龙胆):场外效果照译,战斗变体待战斗期
+      case 0x61: // 毒龙胆/九阴散:没中毒则秒杀自己(gate 效果;后接解毒/回血续跑)
+        out.effects.push({ kind: 'dieIfNotPoisoned' })
+        break
       case 0x68:
         out.lossyNotes.push(`0x${(c.opcode ?? 0).toString(16)} 战斗分支(L_${a})未表达 —— 战斗期`)
         break

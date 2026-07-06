@@ -76,7 +76,10 @@ interface ActivePoison { poisonId: number; tickIndex: number }  // 指针 = tick
 3. **毒抗**(已接一半):`calcMagicDamage` 毒系伤害缩放已对;缺**中毒概率门**(玩家侧)+ 玩家毒抗装备派生(随装备系,M4b-3)。
 4. **解毒分级**:cureByLevel(maxLevel) 移除 level≤maxLevel 的毒。灵血咒/九节菖蒲=2、复活类=3、无影毒(173)无解。
 5. **携带边界**(§1115):大世界护体/毒/毒抗 = 同一份全局数据带进战斗;战斗结束**三件套**清(ClearAllStatus + CurePoisonByLevel(3) + RemoveEquipExtra)→ 都只保一场。reforge:createBattleState 从 world 注入;战后清理。
-6. **毒龙胆/九阴散**(§976):0x61「没中毒就秒杀自己」+ 0x2C 解≤3级+回血;**寿葫芦 level99 伪毒不算中毒**(原版后期修复,一阶段已跟)→ IsPoisoned 判定跳过 level≥99。
+6. **毒龙胆/九阴散**(§976):0x61「没中毒就秒杀自己」。**✅ 已接**:`dieIfNotPoisoned` use 效果
+   (没中毒 → hp 0 + 截断后效;中毒 → 续跑)—— 毒龙胆 = [dieIfNotPoisoned, curePoison severe]、
+   九阴散 = [dieIfNotPoisoned, healHp 999](bytecode 实证)。寿葫芦已正名 regen 词条(非毒),
+   「level99 伪毒不算中毒」的坑随之消失(毒表里只有真毒,p.poisons 空 = 没中毒,判定天然干净)。
 7. **装备诅咒 99 级毒**:装备附毒 = level 99,卸对应部位时清(global.c kBodyPartWear)。
 
 ## 相生相克(数据化,不硬码)—— 从 bytecode 反汇编,PoisonDef 承载

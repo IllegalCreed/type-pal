@@ -1066,3 +1066,37 @@ describe('P2 相克 use-on-self(以毒攻毒自解;counters/lethalWith 数据驱
     expect((p as { poisons: { poisonId: number }[] }).poisons).toEqual([{ poisonId: 556, tickIndex: 0 }])
   })
 })
+
+describe('P2 毒龙胆/九阴散(0x61 没中毒则秒杀)', () => {
+  const ITEMS: Record<string, import('@type-pal/content').ItemData> = {
+    '278': { id: '278', name: '毒龙胆', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'dieIfNotPoisoned' }, { kind: 'curePoison', curesTier: 'severe' }] } },
+  }
+  const P: Record<number, import('@type-pal/content').PoisonDef> = {
+    555: { id: 555, name: '三尸蛊', curability: 'severe', color: 0, playerTicks: [{ hpDelta: -50 }] },
+  }
+  const useOnSelf = (poisons: { poisonId: number; tickIndex: number }[]) => {
+    const s = createBattleState({
+      players: [player('li', { hp: 100 })],
+      enemies: [mkEnemy('slime', { health: 9999, defense: 999, attackStrength: 0 })],
+      items: ITEMS, inventory: [{ itemId: '278', count: 1 }], poisonDefs: P,
+    })
+    s.players[0]!.poisons = poisons
+    stepBattle(s, rng0)
+    s.enemies[0]!.status.sleep = 99
+    s.pendingActions.set(0, { kind: 'item', itemId: '278' })
+    let g = 0
+    do stepBattle(s, rng0)
+    while (s.phase === 'performAction' && g++ < 40)
+    return s
+  }
+  test('没中毒用毒龙胆 → 反噬暴毙', () => {
+    const s = useOnSelf([])
+    expect(s.players[0]!.hp).toBe(0)
+    expect(s.log.some((l) => l.includes('反噬暴毙'))).toBe(true)
+  })
+  test('中三尸蛊(severe)用毒龙胆 → 解毒不死', () => {
+    const s = useOnSelf([{ poisonId: 555, tickIndex: 0 }])
+    expect(s.players[0]!.hp).toBeGreaterThan(0) // 未暴毙
+    expect(s.players[0]!.poisons).toHaveLength(0) // 三尸蛊(severe)被解
+  })
+})

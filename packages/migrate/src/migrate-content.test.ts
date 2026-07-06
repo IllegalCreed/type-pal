@@ -335,10 +335,18 @@ describe('M1d · 使用效果(scriptOnUse → UseSpec)', () => {
     expect(byId.get('116')!.use!.effects).toEqual([{ kind: 'applyPoison', poisonId: '552' }])
     expect(byId.get('95')!.use!.effects).toEqual([{ kind: 'revive', hpPercent: 10 }])
   })
-  test('战斗分支头有损注(九阴散/毒龙胆):场外效果照译', () => {
-    expect(byId.get('136')!.use!.effects).toEqual([{ kind: 'healHp', amount: 999 }])
-    expect(byId.get('278')!.use!.effects).toEqual([{ kind: 'curePoison', curesTier: 'severe' }])
-    expect(out.report.lossyUse.map((l) => l.itemId).sort((a, b) => a - b)).toEqual([136, 278])
+  test('毒龙胆/九阴散:0x61「没中毒则秒杀」→ dieIfNotPoisoned gate + 后效(不再有损)', () => {
+    expect(byId.get('136')!.use!.effects).toEqual([
+      { kind: 'dieIfNotPoisoned' },
+      { kind: 'healHp', amount: 999 },
+    ])
+    expect(byId.get('278')!.use!.effects).toEqual([
+      { kind: 'dieIfNotPoisoned' },
+      { kind: 'curePoison', curesTier: 'severe' },
+    ])
+    // 0x61 现已表达 → 136/278 不再进 lossyUse
+    expect(out.report.lossyUse.map((l) => l.itemId)).not.toContain(136)
+    expect(out.report.lossyUse.map((l) => l.itemId)).not.toContain(278)
   })
   test('总账:100 usable 全有下落(use 块 + pendingUse = 100),pending 原因均指向未落地系统', () => {
     const withUse = out.items.filter((i) => i.use).length

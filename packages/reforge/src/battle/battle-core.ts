@@ -854,6 +854,14 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
           else curePoisons(p, s.poisonDefs, eff.curesTier ?? 'common')
           s.log.push(`${p.roleId} 使用 ${item.name} 解毒`)
           break
+        case 'dieIfNotPoisoned':
+          // 毒龙胆/九阴散(0x61):没中毒 → 秒杀自己 + 截断后效;中毒 → 续跑解毒/回血
+          if (p.poisons.length === 0) {
+            p.hp = 0
+            s.log.push(`${p.roleId} 使用 ${item.name},未中毒反噬暴毙`)
+            return
+          }
+          break
         default:
           s.log.push(`物品效果 ${eff.kind} 未接(战斗期陆续)`)
       }

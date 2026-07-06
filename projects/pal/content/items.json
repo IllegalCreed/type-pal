@@ -1723,6 +1723,9 @@
       "consuming": true,
       "effects": [
         {
+          "kind": "dieIfNotPoisoned"
+        },
+        {
           "kind": "healHp",
           "amount": 999
         }
@@ -5758,6 +5761,9 @@
       "target": "oneAlly",
       "consuming": true,
       "effects": [
+        {
+          "kind": "dieIfNotPoisoned"
+        },
         {
           "kind": "curePoison",
           "curesTier": "severe"
