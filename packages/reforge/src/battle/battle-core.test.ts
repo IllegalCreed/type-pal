@@ -1024,4 +1024,21 @@ describe('P2 投掷致死组合(三对;数据驱动 lethalWith,仅投掷触发)'
     expect(s.enemies[0]!.hp).toBeGreaterThan(0) // 未暴毙
     expect(s.enemies[0]!.poisons.some((p) => p.poisonId === 556)).toBe(true) // 只下了毒
   })
+  test('巫抗满 boss 免疫致死组合:下毒不中(rng*10 恒<10)→ 无暴毙(致死门在巫抗内)', () => {
+    const s = createBattleState({
+      players: [player('li')],
+      enemies: [mkEnemy('boss', { health: 9999, defense: 999, attackStrength: 0 })],
+      items: ITEMS, inventory: [{ itemId: 'heding', count: 1 }], poisonDefs: P,
+    })
+    s.enemies[0]!.def.ai.resistanceToSorcery = 10 // 满巫抗
+    s.enemies[0]!.poisons = [{ poisonId: 557, tickIndex: 0 }] // 即便已中配对毒
+    stepBattle(s, () => 0.99)
+    s.pendingActions.set(0, { kind: 'throw', itemId: 'heding', targetEnemyIdx: 0 })
+    let g = 0
+    do stepBattle(s, () => 0.99)
+    while (s.phase === 'performAction' && g++ < 40)
+    expect(s.enemies[0]!.hp).toBeGreaterThan(0) // 未暴毙(仅原 557 DoT 扣血,非致死秒杀)
+    expect(s.log.some((l) => l.includes('暴毙'))).toBe(false) // 致死不触发
+    expect(s.enemies[0]!.poisons.map((p) => p.poisonId)).toEqual([557]) // 鹤顶红未上(巫抗挡)
+  })
 })
