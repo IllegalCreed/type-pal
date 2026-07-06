@@ -66,7 +66,8 @@
 
 ### 3.1 作者点名补充圈定（2026-07-06）——抗性/毒系全家桶，一阶段真值锚
 
-> 作者原话点名六项「一阶段反复调整过的问题」，全部属战斗系统 P2 范畴。**一阶段消化成果 = [game-mechanics.md](../phase1/game-mechanics.md)，实现前先读对应节，勿从 C 重推**：
+> 作者原话点名六项「一阶段反复调整过的问题」，全部属战斗系统 P2 范畴。**一阶段消化成果 = [game-mechanics.md](../phase1/game-mechanics.md)，实现前先读对应节，勿从 C 重推**。
+> 互链：reforge 侧现状细账（schema 有哪些 kind 零消费、迁移器备注、盐巴 gate 等）见作者同日记账 [phase1-knowledge-harvest.md](foundation/phase1-knowledge-harvest.md) **B-Poison / B-Field** 专项 + [phase1-audit-tracker.md](foundation/phase1-audit-tracker.md) ★ 行；本表管原版行为锚，那边管 reforge 缺口清单，两边合用：
 
 | 项 | 一阶段真值锚（game-mechanics.md） | reforge 现状 / 归属 |
 |---|---|---|

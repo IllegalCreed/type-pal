@@ -322,6 +322,7 @@
 ### B-Poison. 毒系统（独立专项，2026-07-06 记账）
 
 > **⚠ reforge 整个系统不存在。** 一阶段 **102 commit** 反复调整过的子系统。不是"漏一两个函数"——从根上没实现。等毒格（B 域新格）立项时,这里是真值清单。
+> 互链：**原版行为的逐节行号锚**（4小7大数值表/相生相克脚本机制/毒龙胆 0x61+寿葫芦99豁免/金刚符携带边界,全在 game-mechanics.md 对应节）见 [battle-presentation-audit §3.1](../battle-presentation-audit-2026-07-05.md)（同日）；本节管 reforge 缺口清单,那边管真值锚,两边合用。
 
 **原版架构（≠ status，是独立系统）**：
 - 毒 ≠ BattleStatus 字段，是独立的 `{poisonId, script}` 列表，挂在角色/敌人身上。
