@@ -83,6 +83,7 @@ import { back, CLOSED, confirm, type MenuState, moveCursor, openMenu } from './m
 import { resolveMove } from './movement.js'
 import { Canvas2DRenderer, type CellRect, type SpriteDraw } from './render.js'
 import { renderSceneFrame } from './render-scene.js'
+import { runOpeningMenu } from './opening-menu.js'
 import { playRng as playRngOverlay, rngPaletteId } from './rng-player.js'
 import { playVideo as playVideoOverlay } from './video-player.js'
 import {
@@ -333,8 +334,23 @@ async function main(): Promise<void> {
     { id: 'new-game', label: '开始游戏', scene: project.manifest.entryScene },
   ]
   const entryParam = params.get('entry')
-  const bootEntry = entryParam ? entryPoints.find((e) => e.id === entryParam) : undefined
+  let bootEntry = entryParam ? entryPoints.find((e) => e.id === entryParam) : undefined
   if (entryParam && !bootEntry) console.warn(`[boot] 入口点 "${entryParam}" 不存在,走默认开局`)
+  // 主菜单标题屏(?menu;dev 用 ?scene/?entry 直达跳过):照原版 FBP 2(盘0)+ 竖排 entryPoints 选开局。
+  // 选定即定 bootEntry → 用它的 startWorld + 场景开局。(正式发布时可翻成默认走菜单,现 ?menu opt-in。)
+  if (params.has('menu') && !bootEntry) {
+    const menuBg = await loadBattleBg(project.assetBase, 2, await getPalette(0)).catch(() => undefined)
+    if (menuBg) {
+      const selId = await runOpeningMenu({
+        ctx,
+        glyphs,
+        bg: menuBg,
+        worldScale: WORLD_SCALE,
+        items: entryPoints.map((e) => ({ id: e.id, label: e.label })),
+      })
+      bootEntry = entryPoints.find((e) => e.id === selId) ?? bootEntry
+    }
+  }
   const bootStartWorld = bootEntry?.startWorld ?? project.manifest.startWorld
   const leaderId = bootStartWorld.party[0]
   const leaderActor = leaderId ? project.actorsById[leaderId] : undefined
