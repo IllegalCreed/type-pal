@@ -54,6 +54,10 @@ export interface BattlePlayerState {
   skills: string[]
   /** 吉运(逃跑判定 str;含装备加成,派生时算好)。 */
   fleeRate: number
+  /** 五灵抗(装备 live 派生;缺省全 0)。喂 calcMagicDamage.elemRes,减免元素仙术伤害。 */
+  elemRes?: ElementVec
+  /** 毒抗(装备 live 派生;缺省 0)。减毒系伤害 + 降中毒率(fight.c:5141)。 */
+  poisonRes?: number
   status: BattleStatus
   defending: boolean
   /**
@@ -867,9 +871,9 @@ function applyEnemySkill(
               def: p.defense,
               rngFactor: 1 + rng() * 0.1, // fight.c RandomFloat(1, 1.1)
               magicData: { baseDamage: eff.power, elemental: eff.elemental },
-              // 玩家元素/毒抗:装备派生 M4b-3 落地,先按 0(TODO 同玩家施法一起接)
-              elemRes: ZERO,
-              poisonRes: 0,
+              // 玩家元素/毒抗:装备 live 派生(effectiveResistances → 建态时算好,红线不烙)
+              elemRes: p.elemRes ?? ZERO,
+              poisonRes: p.poisonRes ?? 0,
               resistMult: 20, // 玩家侧抗性除数 20(fight.c:4798/4833;敌侧是 1)
               fieldEffect: s.fieldEffect, // 战场五灵加成(fight.c:244,双向同表)
             }) / magicDefenseDivisor(p.defending, p.status.protect > 0, autoDefend.has(ti)),

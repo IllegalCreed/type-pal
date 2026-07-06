@@ -3,6 +3,7 @@ import {
   type Dialogue,
   type DialogueLine,
   type EntityDef,
+  effectiveResistances,
   effectiveStat,
   emptyWorldScriptState,
   type Facing,
@@ -770,19 +771,24 @@ async function main(): Promise<void> {
       let playedVictory = false
       // 队员战斗态:CharacterInstance + 装备加成(effectiveStat)
       const itemsById = project.items
-      const players = world.party.map((c) => ({
-        roleId: c.id,
-        hp: c.hp,
-        maxHp: c.maxHP,
-        mp: c.mp,
-        maxMp: c.maxMP,
-        attackStrength: effectiveStat(c, 'attack', itemsById),
-        defense: effectiveStat(c, 'defense', itemsById),
-        magicStrength: effectiveStat(c, 'magicAttack', itemsById),
-        baseDexterity: effectiveStat(c, 'speed', itemsById),
-        skills: world.learnedSkills[c.id] ?? [], // M4b-3:仙术指令数据源
-        fleeRate: effectiveStat(c, 'luck', itemsById), // 逃跑判定 str
-      }))
+      const players = world.party.map((c) => {
+        const res = effectiveResistances(c, itemsById) // 五灵/毒抗 live 派生(红线:建态时算)
+        return {
+          roleId: c.id,
+          hp: c.hp,
+          maxHp: c.maxHP,
+          mp: c.mp,
+          maxMp: c.maxMP,
+          attackStrength: effectiveStat(c, 'attack', itemsById),
+          defense: effectiveStat(c, 'defense', itemsById),
+          magicStrength: effectiveStat(c, 'magicAttack', itemsById),
+          baseDexterity: effectiveStat(c, 'speed', itemsById),
+          skills: world.learnedSkills[c.id] ?? [], // M4b-3:仙术指令数据源
+          fleeRate: effectiveStat(c, 'luck', itemsById), // 逃跑判定 str
+          elemRes: res.elemRes,
+          poisonRes: res.poisonRes,
+        }
+      })
       // 资产:战场背景(sys:battleField 记账 → 当前场景 palette 着色)+ 敌我战斗精灵 + 队员小头像
       // B5 召唤:扫队伍已学技能的 summon godId,预载神将精灵(F.MKF player 通道 chunk godId+10)
       const summonGodIds = new Set<number>()

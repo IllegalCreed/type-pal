@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import type { CharacterInstance, WorldState } from './character.js'
 import {
+  effectiveResistances,
   equipItem,
   equippableItems,
   equippedItemIds,
@@ -82,6 +83,39 @@ function hero(hp = 100, mp = 50): CharacterInstance {
 function world(inv: { itemId: string; count: number }[], partyHp = 100, partyMp = 50): WorldState {
   return { party: [hero(partyHp, partyMp)], money: 0, learnedSkills: {}, inventory: inv }
 }
+
+describe('effectiveResistances(装备 live 派生;红线)', () => {
+  const resItems: ItemDataMap = {
+    earthBead: { id: 'earthBead', name: '土灵珠', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, equip: { slot: 'accessory', equipableBy: ['hero'], effects: [{ kind: 'resistance', element: 'earth', percent: 50 }] } },
+    poisonBead: { id: 'poisonBead', name: '五毒珠', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, equip: { slot: 'body', equipableBy: ['hero'], effects: [{ kind: 'resistance', element: 'poison', percent: 100 }] } },
+    fireBead2: { id: 'fireBead2', name: '火珠', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, equip: { slot: 'weapon', equipableBy: ['hero'], effects: [{ kind: 'resistance', element: 'fire', percent: 80 }] } },
+  }
+  test('单件 → 对应元素抗;毒抗分离', () => {
+    const c = { ...hero(), equipment: { accessory: 'earthBead' } }
+    const r = effectiveResistances(c, resItems)
+    expect(r.elemRes.earth).toBe(50)
+    expect(r.elemRes.fire).toBe(0)
+    expect(r.poisonRes).toBe(0)
+  })
+  test('多件叠加,毒抗与五灵各累;卸装即失效(不烙)', () => {
+    const c = { ...hero(), equipment: { accessory: 'earthBead', armor: 'poisonBead', weapon: 'fireBead2' } }
+    const r = effectiveResistances(c, resItems)
+    expect(r.elemRes.earth).toBe(50)
+    expect(r.elemRes.fire).toBe(80)
+    expect(r.poisonRes).toBe(100)
+    // 卸掉毒珠 → 毒抗归 0(live 派生,原对象无残留)
+    const c2 = { ...c, equipment: { accessory: 'earthBead' } }
+    expect(effectiveResistances(c2, resItems).poisonRes).toBe(0)
+  })
+  test('上限 100(fight.c 累加封顶)', () => {
+    const twoPoison: ItemDataMap = {
+      p1: { id: 'p1', name: '', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, equip: { slot: 'accessory', equipableBy: ['hero'], effects: [{ kind: 'resistance', element: 'poison', percent: 70 }] } },
+      p2: { id: 'p2', name: '', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, equip: { slot: 'body', equipableBy: ['hero'], effects: [{ kind: 'resistance', element: 'poison', percent: 70 }] } },
+    }
+    const c = { ...hero(), equipment: { accessory: 'p1', armor: 'p2' } }
+    expect(effectiveResistances(c, twoPoison).poisonRes).toBe(100) // 140 钳 100
+  })
+})
 
 describe('equippableItems', () => {
   test('背包里该角色可装的(equipableBy 命中 + 有 equip 块)', () => {

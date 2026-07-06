@@ -1,5 +1,6 @@
 // 物品 / 装备数据 ① 层。见 docs/phase2/foundation/item-data-design.md。
 // 阶段隔离(D18):纯 content 数据 + 类型,无 reforge/引擎依赖。
+import type { ElementVec } from './battle-formulas.js'
 import type { CharacterInstance, WorldState } from './character.js'
 import type { StatusId } from './skill.js'
 
@@ -93,6 +94,36 @@ export function effectiveStat(
     }
   }
   return v
+}
+
+/**
+ * 有效抗性 = Σ 已穿戴装备的 resistance(五灵 + 毒),上限 100(fight.c poisonRes/elemRes 累加封顶)。
+ * **live 派生(红线):每次 battle 建态时读装备算,严禁 equip 时烙进可变槽**——卸装即失效,
+ * 原版 RemoveEquipmentEffect 语义天然满足。玩家侧喂 calcMagicDamage.elemRes/poisonRes。
+ */
+export function effectiveResistances(
+  char: CharacterInstance,
+  items: Record<string, ItemData>,
+): { elemRes: ElementVec; poisonRes: number } {
+  const elem = { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 }
+  let poison = 0
+  for (const itemId of Object.values(char.equipment)) {
+    for (const eff of items[itemId]?.equip?.effects ?? []) {
+      if (eff.kind !== 'resistance') continue
+      if (eff.element === 'poison') poison += eff.percent
+      else elem[eff.element] += eff.percent
+    }
+  }
+  return {
+    elemRes: {
+      wind: Math.min(100, elem.wind),
+      thunder: Math.min(100, elem.thunder),
+      water: Math.min(100, elem.water),
+      fire: Math.min(100, elem.fire),
+      earth: Math.min(100, elem.earth),
+    },
+    poisonRes: Math.min(100, poison),
+  }
 }
 
 /** 背包里该角色可装的物品(equip 能力 + equipableBy 含其模板)。 */
