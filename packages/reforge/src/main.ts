@@ -336,19 +336,29 @@ async function main(): Promise<void> {
   const entryParam = params.get('entry')
   let bootEntry = entryParam ? entryPoints.find((e) => e.id === entryParam) : undefined
   if (entryParam && !bootEntry) console.warn(`[boot] 入口点 "${entryParam}" 不存在,走默认开局`)
-  // 主菜单标题屏(?menu;dev 用 ?scene/?entry 直达跳过):照原版 FBP 2(盘0)+ 竖排 entryPoints 选开局。
-  // 选定即定 bootEntry → 用它的 startWorld + 场景开局。(正式发布时可翻成默认走菜单,现 ?menu opt-in。)
+  // 主菜单「读取进度」选定的存档槽:非空 → boot 尾走 doLoad 还原(跳过 onEnter 开场演出)。
+  let bootLoadSlot: SlotId | undefined
+  // 存档存储 + 菜单 UI 资产提前建(菜单读档界面即用;总加载量与原先一致,仅提前到菜单前)。
+  const saveStore: SaveStore =
+    typeof indexedDB !== 'undefined' ? new IndexedDbSaveStore() : new MemorySaveStore()
+  const menuAssets = await loadMenuAssets(project.items, project.assetBase)
+  // 主菜单标题屏(?menu;dev 用 ?scene/?entry 直达跳过):照原版 FBP 2(盘0)+ 竖排 entryPoints + 读取进度。
+  // 选开局项 → bootEntry(其 startWorld + 场景开局);选读档 → bootLoadSlot。(正式发布可翻默认走菜单,现 ?menu opt-in。)
   if (params.has('menu') && !bootEntry) {
     const menuBg = await loadBattleBg(project.assetBase, 2, await getPalette(0)).catch(() => undefined)
     if (menuBg) {
-      const selId = await runOpeningMenu({
+      const decision = await runOpeningMenu({
         ctx,
         glyphs,
         bg: menuBg,
         worldScale: WORLD_SCALE,
         items: entryPoints.map((e) => ({ id: e.id, label: e.label })),
+        locale: project.locale,
+        menuAssets,
+        saveStore,
       })
-      bootEntry = entryPoints.find((e) => e.id === selId) ?? bootEntry
+      if (decision.kind === 'load') bootLoadSlot = decision.slotId
+      else bootEntry = entryPoints.find((e) => e.id === decision.entryId) ?? bootEntry
     }
   }
   const bootStartWorld = bootEntry?.startWorld ?? project.manifest.startWorld
@@ -1513,7 +1523,7 @@ async function main(): Promise<void> {
     if (t) startScript(e.id, t.stages, e.id)
   }
 
-  const menuAssets = await loadMenuAssets(project.items, project.assetBase)
+  // menuAssets 已在菜单前建(见上);menuBox 复用之。
   const menuBox = new MenuBox(glyphs, project.locale, menuAssets, project.items)
   let menu: MenuState = CLOSED
   let magicMenu: MagicMenuState = closeMagicMenu()
@@ -1524,9 +1534,7 @@ async function main(): Promise<void> {
   let systemMenu: SystemMenuState = closeSystemMenu()
   let lastSystemCursor = 0 // 系统菜单光标记忆(原版 iCurSystemMenuItem;跨开关恢复)
   let systemPlaceholder: string | undefined // 占位提示文案 id(选占位项后短暂显示)
-  // 存档系统(D-save)：IndexedDB(无则内存降级)；浏览界面态 + 缩略图缓存 + metas 快照。
-  const saveStore: SaveStore =
-    typeof indexedDB !== 'undefined' ? new IndexedDbSaveStore() : new MemorySaveStore()
+  // 存档系统(D-save)：saveStore 已在菜单前建(见上,读档界面复用)；此处续浏览界面态 + 缩略图缓存 + metas 快照。
   let saveBrowser: SaveBrowserState = closeSaveBrowser()
   let saveMetas: SaveMeta[] = []
   const saveThumbs = new Map<SlotId, ImageBitmap>()
@@ -2253,6 +2261,17 @@ async function main(): Promise<void> {
     requestAnimationFrame(tick)
   }
   void refreshSaveMetas() // 预载已有存档 metas + 缩略图(浏览界面首开即有内容)
+  // 主菜单「读取进度」开局:doLoad 还原存档世界 + 落存档场景,跳过 onEnter 开场演出 + dev 参数后即入主循环。
+  if (bootLoadSlot) {
+    if (!(await doLoad(bootLoadSlot))) {
+      // 读档失败(槽空/归一化拒/工程不符)→ 落回默认新局:应用世界态 + 跑入口 onEnter。
+      applyWorldToScene()
+      startAutoRunners()
+      if (scene.onEnter) startScript(`s:${scene.id}`, scene.onEnter)
+    }
+    requestAnimationFrame(tick)
+    return
+  }
   // M3a boot:应用世界脚本态 + 跑入口场景 onEnter(演出/音乐/战场配置)+ auto 巡逻
   applyWorldToScene()
   startAutoRunners()
