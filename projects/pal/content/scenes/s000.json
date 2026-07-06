@@ -26,6 +26,10 @@
     {
       "body": [
         {
+          "kind": "playVideo",
+          "videoId": 1
+        },
+        {
           "kind": "teleportParty",
           "pos": {
             "col": 96,

@@ -61,5 +61,12 @@
         "mp": 30
       }
     }
-  }
+  },
+  "entryPoints": [
+    {
+      "id": "new-game",
+      "label": "开始游戏",
+      "scene": "s000"
+    }
+  ]
 }

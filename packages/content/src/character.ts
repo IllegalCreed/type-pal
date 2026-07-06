@@ -33,12 +33,28 @@ export interface StartWorld {
   seedStats?: Record<string, { hp?: number; mp?: number }>
 }
 
+/**
+ * 入口点(开局档)—— 主菜单一个按钮 = 一个开局。「开始游戏」是一条,DLC 入口各是一条。
+ * 分工(2026-07-06 定):**存档状态走数据(startWorld),叙事走脚本(该场景 onEnter)**。
+ * 判据「读档也能得到它吗」—— 是(队伍/道具/技能/属性/金钱)= 数据;否(视频/梦境/对白)= 场景脚本。
+ * 加 DLC = 加一条 entryPoint(自己的 startWorld + 指向自己的场景,开场叙事写该场景 onEnter),零引擎改动。
+ */
+export interface EntryPoint {
+  id: string // 稳定 id(new-game / dlc1 …;主菜单/存档引用)
+  label: string // 主菜单按钮文案(如「开始游戏」)
+  scene: string // 起始场景 id
+  /** 该开局的初始存档状态(队伍/道具/技能/属性/金钱);缺省 = manifest.startWorld(兼容单入口老工程)。 */
+  startWorld?: StartWorld
+}
+
 /** manifest.json 的形状(loader 解析、main.ts 消费)。工程清单 = 一整套游戏的入口描述。 */
 export interface LoadedManifest {
   id: string // 工程 id(= 文件夹名;稳定身份)
   name: string // 显示名(选单/标题)
   contentVersion: number // 工程内容数据版本(与存档 SAVE_VERSION 是两个轴)
-  entryScene: string // 入口场景 id(= scenes.json 里的 scene.id)
+  entryScene: string // 入口场景 id(= scenes.json 里的 scene.id)。多入口时 = 默认(无菜单/无 ?entry)开局的场景。
+  /** 入口点列表(主菜单开局/DLC 入口)。缺省 = 从 entryScene+startWorld 合成一条 'new-game'(兼容)。 */
+  entryPoints?: EntryPoint[]
   content: Record<string, string> // content 文件清单(kind → 相对路径)
   assets: {
     root: string

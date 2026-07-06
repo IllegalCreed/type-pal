@@ -3,6 +3,7 @@ import {
   type Dialogue,
   type DialogueLine,
   type EntityDef,
+  type EntryPoint,
   effectiveGrantedStatuses,
   effectiveRegen,
   effectiveResistances,
@@ -325,7 +326,17 @@ async function main(): Promise<void> {
       throw new Error(`reforge: ${what} 的精灵 "${spriteId ?? '(未解析)'}" 不在 sprites 注册表`)
     return def
   }
-  const leaderId = project.manifest.startWorld.party[0]
+  // 入口点(开局档):?entry=<id> 选一条 → 用它的 startWorld + 场景开局;缺省(无 ?entry / 无菜单)=
+  // manifest.entryScene + startWorld(兼容单入口)。存档状态走 startWorld(数据),开场叙事走该场景
+  // onEnter(脚本)—— 见 EntryPoint 注。主菜单 UI(照原版标题屏)日后接,现经 ?entry 选。
+  const entryPoints: EntryPoint[] = project.manifest.entryPoints ?? [
+    { id: 'new-game', label: '开始游戏', scene: project.manifest.entryScene },
+  ]
+  const entryParam = params.get('entry')
+  const bootEntry = entryParam ? entryPoints.find((e) => e.id === entryParam) : undefined
+  if (entryParam && !bootEntry) console.warn(`[boot] 入口点 "${entryParam}" 不存在,走默认开局`)
+  const bootStartWorld = bootEntry?.startWorld ?? project.manifest.startWorld
+  const leaderId = bootStartWorld.party[0]
   const leaderActor = leaderId ? project.actorsById[leaderId] : undefined
   if (!leaderActor) throw new Error(`reforge: 队长 "${leaderId ?? '(空)'}" 不在 actors 表`)
   const leaderSpriteDef = requireSpriteDef(leaderActor.spriteId, `队长 ${leaderActor.id}`)
@@ -401,8 +412,13 @@ async function main(): Promise<void> {
   // 初始场景:?scene=<id> dev 直达(须在 index),否则 manifest 入口。
   // ?pos=col,row(&facing=)覆盖落点 —— X5 跳转预览:编辑器「引擎试玩」跳到事件现场。
   const sceneParam = params.get('scene')
+  // 场景优先级:?scene dev 直达 > 选中入口点的场景 > manifest 默认入口。
   const initialSceneId =
-    sceneParam && project.sceneIds.includes(sceneParam) ? sceneParam : project.entryScene.id
+    sceneParam && project.sceneIds.includes(sceneParam)
+      ? sceneParam
+      : bootEntry?.scene && project.sceneIds.includes(bootEntry.scene)
+        ? bootEntry.scene
+        : project.entryScene.id
   const posParam = params.get('pos')?.split(',').map(Number)
   const spawnPos =
     posParam?.length === 2 && posParam.every(Number.isFinite)
@@ -420,7 +436,7 @@ async function main(): Promise<void> {
   })
   const playerSprite = spriteByNum.get(leaderSpriteDef.spriteNum)!
   const dialogBox = new DialogBox(ctx, glyphs, cursorFrames, portraits, project.locale)
-  let world = buildWorld(project.manifest.startWorld, project.actorsById)
+  let world = buildWorld(bootStartWorld, project.actorsById)
   world.script ??= emptyWorldScriptState()
 
   // ══ M3a 脚本运行时(设计 §4:driver Promise + AbortSignal;tick 驱动计时/淡入淡出)══
