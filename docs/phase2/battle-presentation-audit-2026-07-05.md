@@ -58,7 +58,7 @@
 | 连击 | 双击循环未接（两击音效须落**不同帧**防同帧折叠 `0d2d4a0d`；windup 仅回合首击） | — |
 | 傀儡 | 死者续战未接（hp==0 且 puppet>0 仍出手；仅死人可设） | 傀儡帧 0 非死帧 2 |
 | 加速/迟缓 | ~~slow/敌 haste·slow/濒死减速无效~~ **两轮复核终版(2026-07-05)：stat 级修正（fight.c:314-331/365-380 敌 haste·slow/玩家 slow·dying）整段 `#ifndef PAL_CLASSIC`，reforge 忠实非缺（首版漏看 ifdef 的纠正成立）；但 CLASSIC 在队列口另有一套（fight.c:1529-1563）——动作系数 防御×5/辅助法×3/物品×3/逃÷2 + 濒死÷2 + 双方 ×[0.9,1.1) 抖动 + dualMove dex2 二抽，第二轮已全部落地 battle-core（单测钉先后手）** | 无 |
-| 眠/定 | 行为已对（canAct）；~~缺：身法排 0~~ **已修(2026-07-05)：眠/定/死不出菜单（needsManualSelect）+ 强制普攻 dex 0 排尾 + 同轮恢复真出手（fight.c:1504-1516）**；余：自动防御压制 | idle 定格帧 1（濒死姿）+ 相位冻结；「眠/定」字 |
+| 眠/定 | 行为已对（canAct）；~~缺：身法排 0~~ 已修(2026-07-05)；~~余：自动防御压制~~ **✅ 复核已实现(2026-07-06)**：物理被动格挡（fight.c:4938 RandomLong(0,16)>=10=7/17）对混乱/眠/定者压制不闪（battle-core.ts:996-1000，fight.c:4976-4985）——单人队完备；多队员援护例外（被援护的坏状态玩家仍闪）随多队员落地 | idle 定格帧 1（濒死姿）+ 相位冻结；「眠/定」字 |
 | 沉默 | 菜单+AI 已对；~~缺"回合中被封取消已选"~~ **已修(2026-07-05)：执行时降级链（fight.c:3260-3506）——封咒/MP 不足出手时验证，攻击系降普攻（MP 不扣承目标）/辅助系降防御；物品空降防御；死目标环扫改选** | 「封」字 |
 | 设置语义 | ~~二阶段一律 Math.max~~ **✅ 已修(2026-07-05)**：applyPlayerStatus（坏不刷新/好取长仅活人/傀儡仅死者/互斥）+ applyEnemyStatus（0x2E 直接赋值，script.c:1391）；>999 装备永久 = 结构性免疫（装备加成走 stats 派生不入 status 槽）。**免疫判定已验证(2026-07-05 消费点扫描)**：grantStatus/grantSkill/attackAll 三种 EquipEffect 当前零运行时消费，装备只经 effectiveStat 活派生 → 卸装清状态(global.c:1372 RemoveEquipmentEffect)无对应可残留态,免疫成立。**红线：未来接这三效果必须保持活派生**（连击 = 每次读装备算、授技 = learnedSkills ∪ 装备授予集），严禁 equip 时烙进 status/learnedSkills 可变槽——否则原版卸装 bug 原地复活。**顺带记账三个未接功能缺口：土灵珠不授山神(grantSkill)、仙女剑不授连击(grantStatus)、长鞭不攻全体(attackAll + ValidateAction 尾 PAL_PlayerCanAttackAll)——归装备系落地时一并接** | — |
 | 信息框状态字 | — | 乱(word 0x1D, color 0x5F, +35,19)·定(0x1B, 0xBF, +44,12)·眠(0x1C, 0x0E, +54,1)·封(0x1A, 0x3C, +55,20)；**仅这 4 个坏状态显字** |

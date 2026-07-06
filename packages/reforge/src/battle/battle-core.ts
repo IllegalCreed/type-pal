@@ -202,6 +202,15 @@ const alivePlayers = (s: BattleState): number[] =>
 const aliveEnemies = (s: BattleState): number[] =>
   s.enemies.map((e, i) => (e.hp > 0 ? i : -1)).filter((i) => i >= 0)
 
+/** 傀儡续战(fight.c:1139/950/1739):死者 hp==0 但 puppet>0 仍出手(仅死人可设)。 */
+const puppetActs = (p: BattlePlayerState): boolean => p.hp <= 0 && p.status.puppet > 0
+/**
+ * 全队 hp==0 但有傀儡 → 战斗不判负(fOnlyPuppet=FALSE,fight.c:1102-1141):傀儡独战,
+ * 敌方无活玩家目标自然 pass(decideEnemyAction targets 空),傀儡撑到胜或 puppet 回合耗尽。
+ */
+const anyFighter = (s: BattleState): boolean =>
+  s.players.some((p) => p.hp > 0 || p.status.puppet > 0)
+
 /** 防御减半（原版 defending 时受击伤害 /2;fight.c PAL_BattleUpdateFighters 后处理近似）。 */
 function applyDefense(damage: number, defending: boolean): number {
   return defending ? Math.trunc(damage / 2) : damage
@@ -401,7 +410,8 @@ export function stepBattle(s: BattleState, rng: () => number): void {
       // 不在此):动作系数 防御×5/辅助法×3/物品×3/逃÷2(合体×10 待 P3) → 濒死÷2 → ×[0.9,1.1)。
       // 防御×5 与"fDefending 出手时才置位"成对:防御者靠排序提前,原版才显得"防得住"。
       const players = s.players.map((p, i) => {
-        if (p.hp <= 0 || !canAct(p.status)) return { idx: i, dex: 0 }
+        // 死者 dex 0 排尾(除傀儡:死傀儡照常出手,取正常 dex);活者被眠/定压制也 dex 0
+        if ((p.hp <= 0 && !puppetActs(p)) || !canAct(p.status)) return { idx: i, dex: 0 }
         let dex = getPlayerActualDexterity(p.baseDexterity, p.status.haste > 0)
         dex = Math.trunc(dex * actionDexMult(s.pendingActions.get(i), s.skills))
         if (isPlayerDying(p.hp, p.maxHp)) dex = Math.trunc(dex / 2)
@@ -457,7 +467,8 @@ export function stepBattle(s: BattleState, rng: () => number): void {
       if (aliveEnemies(s).length === 0) {
         s.phase = 'won'
         s.log.push('胜利')
-      } else if (alivePlayers(s).length === 0) {
+      } else if (!anyFighter(s)) {
+        // 全队 hp==0 且无傀儡续战 → 负(有傀儡则续战:fight.c fOnlyPuppet)
         s.phase = 'lost'
         s.log.push('全灭')
       }
@@ -664,7 +675,8 @@ function validatePlayerAction(s: BattleState, idx: number, act: BattleAction): B
 
 function performPlayerAction(s: BattleState, idx: number, _rng: () => number): void {
   const p = s.players[idx]
-  if (!p || p.hp <= 0) return
+  if (!p) return
+  if (p.hp <= 0 && !puppetActs(p)) return // 死者不出手(傀儡除外:死傀儡续战 fight.c:1739)
   if (!canAct(p.status)) {
     s.log.push(`${p.roleId} 无法行动`)
     return

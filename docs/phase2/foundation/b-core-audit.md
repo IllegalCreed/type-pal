@@ -226,7 +226,7 @@
 | confused/paralyzed 降级攻击 | fight.c:1505-1527 | battle-system.ts:814 dex=0 | ✅ 已修(2026-07-05):强制普攻+dex0+同轮恢复出手 | ✅ 疯魔目标改派已修(2026-07-06) |
 
 **单元 2 缺口**:
-1. **[中] reforge fOnlyPuppet 门控缺失**:puppet 状态字段已建模(battle-formulas.ts:191)但状态机未消费。影响:傀儡战术(全队傀儡时敌人不动)在 reforge 不生效。M4 headless 范围可接受,但完整复刻需补。
+1. ~~**[中] reforge fOnlyPuppet 门控缺失**~~ **✅ 已修(2026-07-06)**:傀儡续战落地——死者 hp==0 但 puppet>0 仍出手(puppetActs:dex 正常/perform 守卫放行/强制普攻环扫敌);全队 hp==0 有傀儡则不判负(anyFighter,fight.c fOnlyPuppet);敌无活玩家目标自然 pass(decideEnemyAction targets 空)= fOnlyPuppet 门控免费。单测:傀儡续战不判负/傀儡打光敌胜/无傀儡对照负。
 2. ~~[低] reforge confused/paralyzed 不降级攻击~~ **✅ 已修(2026-07-05/06)**:队列侧强制普攻+dex0+同轮恢复出手已落地(见 2.3);疯魔目标改派 2026-07-06 已修(随机敌或友+attackMate+濒死Pass+抖动)。
 3. **[已知] dualMove 布尔化偏差**:一阶段+reforge 都把 wDualMove=1 当必双动。作者知情(battle-system.ts:800-802 注释)。影响:林月如类 boss 比原版强。
 

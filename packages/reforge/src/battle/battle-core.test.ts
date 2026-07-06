@@ -783,3 +783,44 @@ describe('P2 中毒 DoT(数据化毒 tick;fight.c:4454 逐回合)', () => {
     expect(s.enemies[0]!.poisons).toHaveLength(0) // selfCure
   })
 })
+
+describe('P2 傀儡续战(fOnlyPuppet;fight.c:1102-1141/1739)', () => {
+  test('全队 hp==0 但有傀儡 → 不判负,傀儡续战;敌无活玩家目标自然 pass', () => {
+    const s = createBattleState({
+      players: [player('li', { hp: 0, maxHp: 100, attackStrength: 100 })],
+      enemies: [mkEnemy('slime', { health: 999, defense: 0, attackStrength: 50 })],
+    })
+    s.players[0]!.status.puppet = 3 // 死傀儡
+    // 推进两回合(turn 从 preBattle 起即 1);傀儡强制普攻削敌,敌无活玩家 → pass
+    let g = 0
+    while (s.turn < 3 && s.phase !== 'lost' && s.phase !== 'won' && g++ < 60) stepBattle(s, rng0)
+    expect(s.phase).not.toBe('lost') // 傀儡撑着
+    expect(s.enemies[0]!.hp).toBeLessThan(999) // 傀儡真出手削了敌
+    expect(s.log.some((l) => l.includes('无法行动'))).toBe(true) // 敌无活玩家目标 → pass
+  })
+
+  test('傀儡打光敌人 → 胜(死傀儡也能赢)', () => {
+    const s = createBattleState({
+      players: [player('li', { hp: 0, maxHp: 100, attackStrength: 999 })],
+      enemies: [mkEnemy('slime', { health: 20, defense: 0, attackStrength: 0 })],
+    })
+    s.players[0]!.status.puppet = 5
+    const result = runBattleToEnd(
+      s,
+      () => {}, // 傀儡自动强制普攻,无需填动作
+      rng0,
+    )
+    expect(result).toBe('won')
+  })
+
+  test('无傀儡的全灭 → 判负(对照)', () => {
+    const s = createBattleState({
+      players: [player('li', { hp: 0, maxHp: 100 })],
+      enemies: [mkEnemy('slime', { health: 999, defense: 999, attackStrength: 0 })],
+    })
+    // puppet=0,全员死 → 判负
+    let g = 0
+    while (s.phase !== 'lost' && g++ < 20) stepBattle(s, rng0)
+    expect(s.phase).toBe('lost')
+  })
+})
