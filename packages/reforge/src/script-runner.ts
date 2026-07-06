@@ -51,8 +51,8 @@ export interface ScriptHost {
   giveMoney(delta: number): void
   playSound(soundId: number): void
   playMusic(musicId: number): void
-  setBattleMusic(musicId: number): void
-  setBattleField(fieldId: number): void
+  /** 场景战斗配置覆写(scene 缺省 = 当前场景;写 world.sceneBattleOverrides,随存档)。 */
+  overrideSceneBattle(scene: string | undefined, fieldId?: number, musicId?: number): void
   /** E6b 显式定位权威:接管/归还(缺省全部)。 */
   takeEntity(entityId: string): void
   releaseEntity(entityId?: string): void
@@ -78,7 +78,10 @@ export interface ScriptHost {
     range: number | undefined,
   ): void
   // ── M3b 战斗桩 / 商店 / 确认 ──
-  startBattle(team: number, opts?: { auto?: boolean; boss?: boolean }): Promise<'win' | 'lose' | 'flee'>
+  startBattle(
+    team: number,
+    opts?: { auto?: boolean; boss?: boolean; fieldId?: number; musicId?: number },
+  ): Promise<'win' | 'lose' | 'flee'>
   openShop(shop: number, mode: 'buy' | 'sell'): void
   confirm(): Promise<boolean>
   // ── 条件查询(hasItem/hasMoney/inParty 的数据源)──
@@ -270,10 +273,8 @@ export class ScriptRunner {
         return h.playSound(cmd.soundId)
       case 'playMusic':
         return h.playMusic(cmd.musicId)
-      case 'setBattleMusic':
-        return h.setBattleMusic(cmd.musicId)
-      case 'setBattleField':
-        return h.setBattleField(cmd.fieldId)
+      case 'overrideSceneBattle':
+        return h.overrideSceneBattle(cmd.scene, cmd.fieldId, cmd.musicId)
       case 'takeEntity':
         return h.takeEntity(cmd.entity)
       case 'releaseEntity':
@@ -305,7 +306,12 @@ export class ScriptRunner {
       case 'nudgeParty':
         return h.nudgeParty(cmd.dx, cmd.dy)
       case 'startBattle': {
-        const r = await h.startBattle(cmd.team, { auto: cmd.auto, boss: cmd.boss })
+        const r = await h.startBattle(cmd.team, {
+          auto: cmd.auto,
+          boss: cmd.boss,
+          fieldId: cmd.fieldId,
+          musicId: cmd.musicId,
+        })
         if (r === 'lose' && cmd.onLose) return this.run(cmd.onLose, [...path, 'onLose'])
         if (r === 'flee' && cmd.onFlee) return this.run(cmd.onFlee, [...path, 'onFlee'])
         return

@@ -4,6 +4,8 @@
     "reuseOriginalMap": 5
   },
   "musicId": 59,
+  "battleFieldId": 12,
+  "battleMusicId": 37,
   "entries": {
     "from-s263": {
       "pos": {
@@ -8849,14 +8851,6 @@
         {
           "kind": "playMusic",
           "musicId": 59
-        },
-        {
-          "kind": "setBattleField",
-          "fieldId": 12
-        },
-        {
-          "kind": "setBattleMusic",
-          "musicId": 37
         },
         {
           "kind": "teleportParty",

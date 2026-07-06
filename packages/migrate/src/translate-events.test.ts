@@ -6,7 +6,8 @@ import type { Command } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { SourceCmd } from './source-facts.js'
 import type { TranslateCtx } from './translate-events.js'
-import { emptyTranslateReport, translateStages } from './translate-events.js'
+import { emptyTranslateReport, foldBattleConfig, translateStages } from './translate-events.js'
+import { hoistBattleDefaults } from './migrate-content.js'
 
 /** 手搓链 → labelAt(单段,L_1 起步,end 收尾;raw 命令补 op:'raw' 判别)。 */
 function ctxOf(cmds: SourceCmd[], spriteIdForNum?: (num: number) => string): TranslateCtx {
@@ -128,5 +129,55 @@ describe('giveItem-0 数据 bug 烘焙(扬州宝物屋;键=前句 MSG 下标,一
       ]),
     )
     expect(body.find((c) => c.kind === 'giveItem')).toEqual({ kind: 'giveItem', itemId: '0' })
+  })
+})
+
+describe('战斗配置三层化(铁律4:0x4A/0x45 全局变量退役)', () => {
+  test('foldBattleConfig:成对合并 + 邻战(≤3,隔轻量演出)fold 进 startBattle 参数', () => {
+    const body: Command[] = [
+      { kind: 'overrideSceneBattle', musicId: 44 },
+      { kind: 'overrideSceneBattle', fieldId: 22 },
+      { kind: 'setEntityFacing', entity: 'e1', facing: 'down' },
+      { kind: 'startBattle', team: 27 },
+    ]
+    const out = foldBattleConfig(body)
+    expect(out).toEqual([
+      { kind: 'setEntityFacing', entity: 'e1', facing: 'down' },
+      { kind: 'startBattle', team: 27, fieldId: 22, musicId: 44 },
+    ])
+  })
+
+  test('foldBattleConfig:远离战斗/被重命令阻断 → 保持覆写命令(s059 剧情点后改默认)', () => {
+    const body: Command[] = [
+      { kind: 'overrideSceneBattle', fieldId: 53 },
+      { kind: 'overrideSceneBattle', musicId: 39 },
+      { kind: 'playMusic', musicId: 30 },
+      { kind: 'dialog', line: { text: 'x' } },
+      { kind: 'startBattle', team: 1 },
+    ]
+    const out = foldBattleConfig(body)
+    expect(out[0]).toEqual({ kind: 'overrideSceneBattle', fieldId: 53, musicId: 39 })
+    expect(out.some((c) => c.kind === 'startBattle' && c.fieldId === undefined)).toBe(true)
+  })
+
+  test('hoistBattleDefaults:enter 首现 → 场景默认;同值吸收,异值保留为覆写', () => {
+    const stages = [
+      {
+        body: [
+          { kind: 'playMusic', musicId: 31 },
+          { kind: 'overrideSceneBattle', fieldId: 24 },
+          { kind: 'overrideSceneBattle', musicId: 37 },
+          { kind: 'overrideSceneBattle', fieldId: 24 }, // 同值重复 → 吸收
+          { kind: 'overrideSceneBattle', fieldId: 9 }, // 异值 → 保留覆写
+        ] as Command[],
+      },
+    ]
+    const r = hoistBattleDefaults(stages)
+    expect(r.battleFieldId).toBe(24)
+    expect(r.battleMusicId).toBe(37)
+    expect(r.stages[0]!.body).toEqual([
+      { kind: 'playMusic', musicId: 31 },
+      { kind: 'overrideSceneBattle', fieldId: 9 },
+    ])
   })
 })

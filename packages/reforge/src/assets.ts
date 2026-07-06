@@ -128,14 +128,27 @@ export async function loadFireSprite(base: AssetBase, chunk: number): Promise<Lo
   return { frames, anchorX: 0, anchorY: 0 }
 }
 
-/** 战场表(id → screenWave 常驻波幅;battle-fields.json)。缺文件由调用方 catch 空表兜底。 */
-export async function loadBattleFields(
-  base: AssetBase,
-): Promise<Map<number, { screenWave: number }>> {
+/** 战场条目(battle-fields.json):常驻波幅 + 五灵加成(fight.c:244 双向乘入法术伤害)。 */
+export interface BattleFieldEntry {
+  screenWave: number
+  magicEffect?: { wind: number; thunder: number; water: number; fire: number; earth: number }
+}
+
+/** 战场表(id → BattleFieldEntry)。缺文件由调用方 catch 空表兜底。 */
+export async function loadBattleFields(base: AssetBase): Promise<Map<number, BattleFieldEntry>> {
   const res = await fetch(`${base.root}/battle-fields.json`)
   if (!res.ok) throw new Error(`battle-fields: ${res.status}`)
-  const arr = (await res.json()) as Array<{ id: number; screenWave?: number }>
-  return new Map(arr.map((f) => [f.id, { screenWave: f.screenWave ?? 0 }]))
+  const arr = (await res.json()) as Array<{
+    id: number
+    screenWave?: number
+    magicEffect?: BattleFieldEntry['magicEffect']
+  }>
+  return new Map(
+    arr.map((f) => [
+      f.id,
+      { screenWave: f.screenWave ?? 0, ...(f.magicEffect ? { magicEffect: f.magicEffect } : {}) },
+    ]),
+  )
 }
 
 /**

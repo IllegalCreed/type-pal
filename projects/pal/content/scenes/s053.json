@@ -3,6 +3,7 @@
   "map": {
     "reuseOriginalMap": 49
   },
+  "battleMusicId": 37,
   "entries": {
     "from-s049": {
       "pos": {
@@ -721,13 +722,10 @@
                             }
                           },
                           {
-                            "kind": "setBattleField",
-                            "fieldId": 45
-                          },
-                          {
                             "kind": "startBattle",
                             "team": 33,
-                            "boss": true
+                            "boss": true,
+                            "fieldId": 45
                           },
                           {
                             "kind": "setEntityState",
@@ -813,13 +811,10 @@
                             }
                           },
                           {
-                            "kind": "setBattleField",
-                            "fieldId": 45
-                          },
-                          {
                             "kind": "startBattle",
                             "team": 33,
-                            "boss": true
+                            "boss": true,
+                            "fieldId": 45
                           },
                           {
                             "kind": "setEntityState",

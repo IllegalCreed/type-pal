@@ -6791,17 +6791,11 @@
                     ]
                   },
                   {
-                    "kind": "setBattleMusic",
-                    "musicId": 48
-                  },
-                  {
-                    "kind": "setBattleField",
-                    "fieldId": 29
-                  },
-                  {
                     "kind": "startBattle",
                     "team": 39,
-                    "boss": true
+                    "boss": true,
+                    "fieldId": 29,
+                    "musicId": 48
                   },
                   {
                     "kind": "unmigrated",

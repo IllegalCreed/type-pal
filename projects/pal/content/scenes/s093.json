@@ -3,6 +3,7 @@
   "map": {
     "reuseOriginalMap": 86
   },
+  "battleMusicId": 38,
   "entries": {
     "from-s092": {
       "pos": {
@@ -2225,10 +2226,6 @@
                         "side": "left"
                       }
                     }
-                  },
-                  {
-                    "kind": "setBattleField",
-                    "fieldId": 24
                   },
                   {
                     "kind": "startBattle",
@@ -7219,7 +7216,8 @@
                         "kind": "stopScript"
                       }
                     ],
-                    "boss": true
+                    "boss": true,
+                    "fieldId": 24
                   },
                   {
                     "kind": "unmigrated",

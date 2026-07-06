@@ -4,6 +4,8 @@
     "reuseOriginalMap": 85
   },
   "musicId": 81,
+  "battleFieldId": 57,
+  "battleMusicId": 38,
   "entry": {
     "pos": {
       "col": 96,
@@ -569,10 +571,6 @@
                     }
                   },
                   {
-                    "kind": "setBattleMusic",
-                    "musicId": 40
-                  },
-                  {
                     "kind": "startBattle",
                     "team": 30,
                     "onLose": [
@@ -600,7 +598,8 @@
                         "kind": "stopScript"
                       }
                     ],
-                    "boss": true
+                    "boss": true,
+                    "musicId": 40
                   },
                   {
                     "kind": "unmigrated",
@@ -40192,10 +40191,6 @@
         {
           "kind": "playMusic",
           "musicId": 81
-        },
-        {
-          "kind": "setBattleField",
-          "fieldId": 57
         }
       ]
     }

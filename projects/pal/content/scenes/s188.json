@@ -3,6 +3,7 @@
   "map": {
     "reuseOriginalMap": 153
   },
+  "battleFieldId": 15,
   "entries": {
     "from-shared": {
       "pos": {
@@ -1285,10 +1286,6 @@
             0,
             0
           ]
-        },
-        {
-          "kind": "setBattleField",
-          "fieldId": 15
         }
       ]
     }

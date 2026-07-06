@@ -4,6 +4,7 @@
     "reuseOriginalMap": 12
   },
   "musicId": 31,
+  "battleMusicId": 37,
   "entry": {
     "pos": {
       "col": 96,
@@ -10476,10 +10477,6 @@
                     ]
                   },
                   {
-                    "kind": "setBattleField",
-                    "fieldId": 24
-                  },
-                  {
                     "kind": "startBattle",
                     "team": 18,
                     "onLose": [
@@ -10507,7 +10504,8 @@
                         "kind": "stopScript"
                       }
                     ],
-                    "boss": true
+                    "boss": true,
+                    "fieldId": 24
                   },
                   {
                     "kind": "playMusic",
@@ -27053,10 +27051,6 @@
         {
           "kind": "playMusic",
           "musicId": 31
-        },
-        {
-          "kind": "setBattleMusic",
-          "musicId": 37
         },
         {
           "kind": "teleportParty",

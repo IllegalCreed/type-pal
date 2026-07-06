@@ -162,14 +162,6 @@
                     "frame": 1
                   },
                   {
-                    "kind": "setBattleMusic",
-                    "musicId": 39
-                  },
-                  {
-                    "kind": "setBattleField",
-                    "fieldId": 27
-                  },
-                  {
                     "kind": "startBattle",
                     "team": 45,
                     "onLose": [
@@ -197,10 +189,12 @@
                         "kind": "stopScript"
                       }
                     ],
-                    "boss": true
+                    "boss": true,
+                    "fieldId": 27,
+                    "musicId": 39
                   },
                   {
-                    "kind": "setBattleMusic",
+                    "kind": "overrideSceneBattle",
                     "musicId": 40
                   }
                 ],

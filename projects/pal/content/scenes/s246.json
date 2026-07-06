@@ -3,6 +3,8 @@
   "map": {
     "reuseOriginalMap": 177
   },
+  "battleFieldId": 13,
+  "battleMusicId": 41,
   "entries": {
     "from-s244": {
       "pos": {
@@ -4802,10 +4804,6 @@
                     }
                   },
                   {
-                    "kind": "setBattleField",
-                    "fieldId": 13
-                  },
-                  {
                     "kind": "startBattle",
                     "team": 102,
                     "onLose": [
@@ -4833,7 +4831,8 @@
                         "kind": "stopScript"
                       }
                     ],
-                    "boss": true
+                    "boss": true,
+                    "fieldId": 13
                   },
                   {
                     "kind": "unmigrated",
@@ -5680,10 +5679,6 @@
             "text": "dlg.11223",
             "speaker": "spk.李逍遥"
           }
-        },
-        {
-          "kind": "setBattleField",
-          "fieldId": 13
         }
       ],
       "next": "advance"

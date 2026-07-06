@@ -401,17 +401,11 @@
                     ]
                   },
                   {
-                    "kind": "setBattleField",
-                    "fieldId": 24
-                  },
-                  {
-                    "kind": "setBattleMusic",
-                    "musicId": 47
-                  },
-                  {
                     "kind": "startBattle",
                     "team": 25,
-                    "boss": true
+                    "boss": true,
+                    "fieldId": 24,
+                    "musicId": 47
                   },
                   {
                     "kind": "unmigrated",

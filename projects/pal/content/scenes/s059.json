@@ -4,6 +4,8 @@
     "reuseOriginalMap": 76
   },
   "musicId": 83,
+  "battleFieldId": 53,
+  "battleMusicId": 37,
   "entry": {
     "pos": {
       "col": 96,
@@ -2842,14 +2844,6 @@
                     ]
                   },
                   {
-                    "kind": "setBattleMusic",
-                    "musicId": 44
-                  },
-                  {
-                    "kind": "setBattleField",
-                    "fieldId": 22
-                  },
-                  {
                     "kind": "startBattle",
                     "team": 27,
                     "onLose": [
@@ -2877,7 +2871,9 @@
                         "kind": "stopScript"
                       }
                     ],
-                    "boss": true
+                    "boss": true,
+                    "fieldId": 22,
+                    "musicId": 44
                   },
                   {
                     "kind": "giveItem",
@@ -2891,11 +2887,8 @@
                     }
                   },
                   {
-                    "kind": "setBattleField",
-                    "fieldId": 53
-                  },
-                  {
-                    "kind": "setBattleMusic",
+                    "kind": "overrideSceneBattle",
+                    "fieldId": 53,
                     "musicId": 39
                   },
                   {
@@ -130271,10 +130264,6 @@
         {
           "kind": "playMusic",
           "musicId": 83
-        },
-        {
-          "kind": "setBattleField",
-          "fieldId": 53
         },
         {
           "kind": "unmigrated",

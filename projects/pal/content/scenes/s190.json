@@ -3,6 +3,8 @@
   "map": {
     "reuseOriginalMap": 159
   },
+  "battleFieldId": 47,
+  "battleMusicId": 37,
   "entries": {
     "from-s180": {
       "pos": {
@@ -996,12 +998,7 @@
   "dialogues": [],
   "onEnter": [
     {
-      "body": [
-        {
-          "kind": "setBattleMusic",
-          "musicId": 37
-        }
-      ]
+      "body": []
     }
   ]
 }

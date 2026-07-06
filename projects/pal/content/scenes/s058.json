@@ -3,6 +3,7 @@
   "map": {
     "reuseOriginalMap": 71
   },
+  "battleFieldId": 12,
   "entries": {
     "from-shared": {
       "pos": {
@@ -32838,14 +32839,6 @@
                     }
                   },
                   {
-                    "kind": "setBattleMusic",
-                    "musicId": 42
-                  },
-                  {
-                    "kind": "setBattleField",
-                    "fieldId": 56
-                  },
-                  {
                     "kind": "startBattle",
                     "team": 28,
                     "onLose": [
@@ -32873,7 +32866,9 @@
                         "kind": "stopScript"
                       }
                     ],
-                    "boss": true
+                    "boss": true,
+                    "fieldId": 56,
+                    "musicId": 42
                   },
                   {
                     "kind": "setEntityState",
@@ -33024,10 +33019,6 @@
                     }
                   },
                   {
-                    "kind": "setBattleMusic",
-                    "musicId": 45
-                  },
-                  {
                     "kind": "startBattle",
                     "team": 35,
                     "onLose": [
@@ -33055,7 +33046,8 @@
                         "kind": "stopScript"
                       }
                     ],
-                    "boss": true
+                    "boss": true,
+                    "musicId": 45
                   },
                   {
                     "kind": "unmigrated",

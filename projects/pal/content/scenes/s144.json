@@ -3,6 +3,8 @@
   "map": {
     "reuseOriginalMap": 185
   },
+  "battleFieldId": 32,
+  "battleMusicId": 42,
   "entry": {
     "pos": {
       "col": 96,
@@ -3391,14 +3393,6 @@
   "onEnter": [
     {
       "body": [
-        {
-          "kind": "setBattleField",
-          "fieldId": 32
-        },
-        {
-          "kind": "setBattleMusic",
-          "musicId": 42
-        },
         {
           "kind": "setActorSprite",
           "actor": "li-xiaoyao",

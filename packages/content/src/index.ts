@@ -101,6 +101,8 @@ export interface EntityBase {
 export interface HostileBehavior {
   /** 遇敌敌队(startBattle team)。 */
   team: number
+  /** 此怪专属战场(优先于场景默认;水怪上岸打水下场地这类)。 */
+  battleFieldId?: number
   /** 追逐参数(缺省 = 原地不追)。range = 切比雪夫格内才追;speed 越大越快;floating 穿障。 */
   chase?: { range: number; speed: number; floating?: boolean }
   /** 战败后重生秒数(缺省 = 死了不复活)。 */
@@ -128,6 +130,15 @@ export interface SceneDef {
   }
   /** BGM 槽(原版音乐号;窄扫描自 onEnter 链头 playMusic)。缺省 = 延续上一曲(忠实原版)。 */
   musicId?: number
+  /**
+   * 本场景战斗的默认战场(battle-fields id:背景图+五灵加成+屏波)。
+   * 解析优先级:startBattle.fieldId(剧情战显式)> hostile.battleFieldId(明雷怪专属)>
+   * world.sceneBattleOverrides(剧情点覆写)> 此默认 > 项目默认。
+   * 迁移自原版 0x4A 全局变量的进场设置(全局变量形态已按铁律 4 退役,烘成本字段)。
+   */
+  battleFieldId?: number
+  /** 本场景战斗的默认 BGM(0 = 战斗静音,忠实原版);解析优先级同 battleFieldId。缺省 = boss?2:3。 */
+  battleMusicId?: number
   /** 命名入口(M3 传送引用;迁移自 setPartyPos→loadScene 对:from-scene-<src>[-k] / start)。 */
   entries?: Record<string, { pos: GridPos; facing?: Facing }>
   /**

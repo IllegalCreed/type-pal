@@ -46,8 +46,7 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
   // 音频/战斗配置
   { kind: 'playSound', icon: '🔊', name: '音效', group: '音频/战斗配置', params: [['soundId', '音效号(sounds/<id>.wav)']], desc: '播一发音效。', origin: '0x4D' },
   { kind: 'playMusic', icon: '🎵', name: '音乐', group: '音频/战斗配置', params: [['musicId', '曲号(0=停)']], desc: '切 BGM;进场景槽曲被本指令覆盖。', origin: '0x43' },
-  { kind: 'setBattleMusic', icon: '🎼', name: '战斗音乐', group: '音频/战斗配置', params: [['musicId', '曲号']], desc: '记账:之后的战斗用此曲。', origin: '0x45' },
-  { kind: 'setBattleField', icon: '🏞', name: '战场背景', group: '音频/战斗配置', params: [['fieldId', '战场号(58 个)']], desc: '记账:之后的战斗用此背景。', origin: '0x47' },
+  { kind: 'overrideSceneBattle', icon: '🏞', name: '覆写战斗配置', group: '音频/战斗配置', params: [['fieldId', '战场号(58 个,可省)'], ['musicId', '战斗曲号(可省)']], desc: '剧情点后本场景后续战斗改场地/曲(持久随存档)。常规配置走场景属性/startBattle 参数,别用这条。', origin: '0x4A/0x45' },
   // 走位/相机
   { kind: 'moveEntity', icon: '🚶', name: '实体走到', group: '走位/相机', params: [['entity', '实体 id'], ['to', '目标格'], ['speed', 'slow/normal/fast/run']], desc: '阻塞直线走位。', origin: 'NPCWalkTo 系' },
   { kind: 'stepEntity', icon: '👣', name: '实体单步', group: '走位/相机', params: [['entity', '实体 id'], ['dir', '方向']], desc: '设向+走半格(原版 NPC 步长)。', origin: '0x0B-0x0E' },

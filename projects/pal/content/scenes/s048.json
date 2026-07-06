@@ -4,6 +4,7 @@
     "reuseOriginalMap": 45
   },
   "musicId": 12,
+  "battleFieldId": 6,
   "entries": {
     "start": {
       "pos": {
@@ -1157,10 +1158,6 @@
             0,
             0
           ]
-        },
-        {
-          "kind": "setBattleField",
-          "fieldId": 6
         }
       ]
     }

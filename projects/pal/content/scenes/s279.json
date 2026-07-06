@@ -4,6 +4,7 @@
     "reuseOriginalMap": 210
   },
   "musicId": 32,
+  "battleFieldId": 57,
   "entries": {
     "from-s281": {
       "pos": {
@@ -36314,10 +36315,6 @@
         {
           "kind": "playMusic",
           "musicId": 32
-        },
-        {
-          "kind": "setBattleField",
-          "fieldId": 57
         }
       ]
     }

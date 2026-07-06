@@ -4,6 +4,8 @@
     "reuseOriginalMap": 146
   },
   "musicId": 79,
+  "battleFieldId": 40,
+  "battleMusicId": 37,
   "entries": {
     "from-shared": {
       "pos": {
@@ -11257,10 +11259,6 @@
         {
           "kind": "playMusic",
           "musicId": 79
-        },
-        {
-          "kind": "setBattleMusic",
-          "musicId": 37
         }
       ]
     }

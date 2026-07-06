@@ -1030,7 +1030,7 @@ export function mergeExtras<T extends { id: string }>(migrated: T[], extras: T[]
 // 事实锚(2026-07-02 实测):实体 id 全局唯一;direction 0-3 = 下/左/上/右;
 // loadScene 是具名 op 且 sceneId 已解析为 0-based;setPartyPos=raw 70;playMusic=raw 67。
 // ════════════════════════════════════════════════════════════════════
-import type { EnemyDef, EnemyTeamDef, SceneDef } from '@type-pal/content'
+import type { Command, EnemyDef, EnemyTeamDef, SceneDef, ScriptStage } from '@type-pal/content'
 import { pixelToGrid } from '@type-pal/content'
 
 export interface SourceEventObject {
@@ -1083,6 +1083,12 @@ export interface SceneMigrationResult {
     /** spriteNum=0 且有触发脚本 → 迁成 zone 实体的数量(M3a)。 */
     zonesMigrated: number
     hostilesFolded?: number
+    /** 战场/战斗乐 enter 链 hoist 成 SceneDef 默认的场景数。 */
+    battleDefaultsHoisted?: number
+    /** 战场默认经 loadScene 图传播静态化的场景(原版靠全局变量残留继承)。 */
+    battleFieldsPropagated?: string[]
+    /** 有战斗但战场默认解不出的场景(运行时吃项目默认;待人工定值)。 */
+    battleFieldUnresolved?: string[]
   }
 }
 
@@ -1387,17 +1393,22 @@ export function mapScenesStatic(
     report.scenes++
     // onEnter 脚本(进场剧情/音乐/战场配置;musicId/entries 窄扫描保留 —— loader/编辑器元数据)
     const onEnter = sc.onEnterLabel ? translateStages(sc.onEnterLabel, undefined, tctx) : undefined
+    // 战斗配置 hoist:enter 链首现 overrideSceneBattle → SceneDef 默认(原版 0x4A/0x45 静态化)
+    const hoist = onEnter?.length ? hoistBattleDefaults(foldStages(onEnter)) : undefined
     return {
       id: slug,
       map: { reuseOriginalMap: sc.mapNum },
       ...(musicId !== undefined ? { musicId } : {}),
+      ...(hoist?.battleFieldId !== undefined ? { battleFieldId: hoist.battleFieldId } : {}),
+      ...(hoist?.battleMusicId !== undefined ? { battleMusicId: hoist.battleMusicId } : {}),
       ...(Object.keys(entries).length ? { entries } : {}),
       entry: { pos: firstEntry ?? { ...pixelToGrid(1024, 1024), height: 0 }, facing: 'down' },
       entities,
       dialogues: [],
-      ...(onEnter?.length ? { onEnter: foldStages(onEnter) } : {}),
+      ...(hoist ? { onEnter: hoist.stages } : {}),
     }
   })
+  propagateBattleFieldDefaults(scenes, report)
 
   return {
     scenes,
@@ -1406,4 +1417,115 @@ export function mapScenesStatic(
     scriptReport: tctx.report,
     report,
   }
+}
+
+/**
+ * enter 链战斗配置 hoist:首现 overrideSceneBattle(无 scene 键)的 fieldId/musicId 提升为
+ * SceneDef 默认(原版进场 0x4A/0x45 全局变量设置的静态化);同值重复吸收,后现异值保留为
+ * 覆写命令(剧情期改默认);吃空的命令删除。嵌套臂(branch/onLose)不 hoist——保持覆写语义。
+ */
+export function hoistBattleDefaults(stages: ScriptStage[]): {
+  battleFieldId?: number
+  battleMusicId?: number
+  stages: ScriptStage[]
+} {
+  let battleFieldId: number | undefined
+  let battleMusicId: number | undefined
+  const out = stages.map((s) => {
+    const body: Command[] = []
+    for (const c of s.body) {
+      if (c.kind === 'overrideSceneBattle' && c.scene === undefined) {
+        const rest: { fieldId?: number; musicId?: number } = {}
+        if (c.fieldId !== undefined) {
+          if (battleFieldId === undefined || c.fieldId === battleFieldId) battleFieldId ??= c.fieldId
+          else rest.fieldId = c.fieldId
+        }
+        if (c.musicId !== undefined) {
+          if (battleMusicId === undefined || c.musicId === battleMusicId) battleMusicId ??= c.musicId
+          else rest.musicId = c.musicId
+        }
+        if (rest.fieldId !== undefined || rest.musicId !== undefined)
+          body.push({ kind: 'overrideSceneBattle', ...rest })
+        continue
+      }
+      body.push(c)
+    }
+    return { ...s, body }
+  })
+  return { battleFieldId, battleMusicId, stages: out }
+}
+
+/**
+ * 战场/战斗乐默认传播(铁律4收尾):有战斗(startBattle 命令或 hostile 实体)但无默认的场景,
+ * 原版靠全局变量残留继承上游值——沿 loadScene 图 fixpoint 取**唯一**上游值静态化;
+ * 多值歧义/无上游的留空(运行时项目默认)记 report 待人工定值。
+ */
+export function propagateBattleFieldDefaults(
+  scenes: SceneDef[],
+  report: SceneMigrationResult['report'],
+): void {
+  const hasBattle = new Set<string>()
+  const loads = new Map<string, Set<string>>()
+  const walk = (node: unknown, sid: string): void => {
+    if (Array.isArray(node)) {
+      for (const v of node) walk(v, sid)
+      return
+    }
+    if (!node || typeof node !== 'object') return
+    const o = node as Record<string, unknown>
+    if (o.kind === 'startBattle') hasBattle.add(sid)
+    if (o.kind === 'loadScene' && typeof o.scene === 'string') {
+      let set = loads.get(sid)
+      if (!set) loads.set(sid, (set = new Set()))
+      set.add(o.scene)
+    }
+    for (const v of Object.values(o)) walk(v, sid)
+  }
+  for (const s of scenes) {
+    walk(s.onEnter ?? [], s.id)
+    walk(s.entities, s.id)
+    if (s.entities.some((e) => e.hostile)) hasBattle.add(s.id)
+  }
+  const preds = new Map<string, Set<string>>()
+  for (const [src, tgts] of loads)
+    for (const t of tgts) {
+      let set = preds.get(t)
+      if (!set) preds.set(t, (set = new Set()))
+      set.add(src)
+    }
+  const fill = (key: 'battleFieldId' | 'battleMusicId'): string[] => {
+    const known = new Map<string, number>()
+    for (const s of scenes) if (s[key] !== undefined) known.set(s.id, s[key])
+    for (let round = 0; round < 40; round++) {
+      let changed = false
+      for (const s of scenes) {
+        if (known.has(s.id)) continue
+        const vals = new Set<number>()
+        for (const p of preds.get(s.id) ?? []) {
+          const v = known.get(p)
+          if (v !== undefined && p !== s.id) vals.add(v)
+        }
+        if (vals.size === 1) {
+          known.set(s.id, [...vals][0]!)
+          changed = true
+        }
+      }
+      if (!changed) break
+    }
+    const filled: string[] = []
+    for (const s of scenes) {
+      if (!hasBattle.has(s.id) || s[key] !== undefined) continue
+      const v = known.get(s.id)
+      if (v !== undefined) {
+        s[key] = v
+        filled.push(`${s.id}←${v}`)
+      } else if (key === 'battleFieldId') {
+        ;(report.battleFieldUnresolved ??= []).push(s.id)
+      }
+    }
+    return filled
+  }
+  const f = fill('battleFieldId')
+  fill('battleMusicId')
+  if (f.length) report.battleFieldsPropagated = f
 }

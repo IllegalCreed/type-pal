@@ -3,6 +3,7 @@
   "map": {
     "reuseOriginalMap": 60
   },
+  "battleFieldId": 6,
   "entries": {
     "from-s049": {
       "pos": {
@@ -278,12 +279,7 @@
   "dialogues": [],
   "onEnter": [
     {
-      "body": [
-        {
-          "kind": "setBattleField",
-          "fieldId": 6
-        }
-      ]
+      "body": []
     }
   ]
 }

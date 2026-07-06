@@ -3,6 +3,7 @@
   "map": {
     "reuseOriginalMap": 98
   },
+  "battleFieldId": 20,
   "entries": {
     "from-s114": {
       "pos": {
@@ -1806,10 +1807,6 @@
   "onEnter": [
     {
       "body": [
-        {
-          "kind": "setBattleField",
-          "fieldId": 20
-        },
         {
           "kind": "playMusic",
           "musicId": 35

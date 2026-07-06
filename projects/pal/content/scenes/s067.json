@@ -3,6 +3,8 @@
   "map": {
     "reuseOriginalMap": 73
   },
+  "battleFieldId": 57,
+  "battleMusicId": 39,
   "entry": {
     "pos": {
       "col": 96,
@@ -220,17 +222,11 @@
                     "ms": 280
                   },
                   {
-                    "kind": "setBattleField",
-                    "fieldId": 57
-                  },
-                  {
-                    "kind": "setBattleMusic",
-                    "musicId": 40
-                  },
-                  {
                     "kind": "startBattle",
                     "team": 34,
-                    "boss": true
+                    "boss": true,
+                    "fieldId": 57,
+                    "musicId": 40
                   },
                   {
                     "kind": "playMusic",
@@ -29841,14 +29837,6 @@
         {
           "kind": "playMusic",
           "musicId": 19
-        },
-        {
-          "kind": "setBattleMusic",
-          "musicId": 39
-        },
-        {
-          "kind": "setBattleField",
-          "fieldId": 57
         }
       ]
     }

@@ -621,14 +621,6 @@
                     ]
                   },
                   {
-                    "kind": "setBattleMusic",
-                    "musicId": 18
-                  },
-                  {
-                    "kind": "setBattleField",
-                    "fieldId": 48
-                  },
-                  {
                     "kind": "startBattle",
                     "team": 313,
                     "onLose": [
@@ -656,7 +648,9 @@
                         "kind": "stopScript"
                       }
                     ],
-                    "boss": true
+                    "boss": true,
+                    "fieldId": 48,
+                    "musicId": 18
                   },
                   {
                     "kind": "unmigrated",

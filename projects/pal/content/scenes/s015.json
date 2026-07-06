@@ -3,6 +3,8 @@
   "map": {
     "reuseOriginalMap": 7
   },
+  "battleFieldId": 10,
+  "battleMusicId": 37,
   "entries": {
     "from-shared": {
       "pos": {
@@ -164,12 +166,7 @@
   "dialogues": [],
   "onEnter": [
     {
-      "body": [
-        {
-          "kind": "setBattleField",
-          "fieldId": 10
-        }
-      ]
+      "body": []
     }
   ]
 }

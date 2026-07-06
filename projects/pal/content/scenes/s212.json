@@ -3,6 +3,8 @@
   "map": {
     "reuseOriginalMap": 186
   },
+  "battleFieldId": 35,
+  "battleMusicId": 38,
   "entries": {
     "from-s206": {
       "pos": {
@@ -457,10 +459,6 @@
     {
       "body": [
         {
-          "kind": "setBattleField",
-          "fieldId": 35
-        },
-        {
           "kind": "unmigrated",
           "opcode": 113,
           "operands": [
@@ -472,10 +470,6 @@
         {
           "kind": "playMusic",
           "musicId": 83
-        },
-        {
-          "kind": "setBattleMusic",
-          "musicId": 38
         }
       ]
     }

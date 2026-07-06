@@ -3,6 +3,8 @@
   "map": {
     "reuseOriginalMap": 55
   },
+  "battleFieldId": 39,
+  "battleMusicId": 40,
   "entry": {
     "pos": {
       "col": 96,
@@ -2420,16 +2422,8 @@
     {
       "body": [
         {
-          "kind": "setBattleField",
-          "fieldId": 39
-        },
-        {
           "kind": "playMusic",
           "musicId": 78
-        },
-        {
-          "kind": "setBattleMusic",
-          "musicId": 40
         }
       ]
     }

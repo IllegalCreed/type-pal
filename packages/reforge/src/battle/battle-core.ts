@@ -9,7 +9,14 @@
  * summon/transform/divide/flee 动作与 choreography 演出 = M4c-2。
  * 公式全走 content/battle-formulas（= sdlpal fight.c）。RNG 可注入（测试定值,运行时真随机）。
  */
-import type { AiBattleView, BattleStatus, EnemyDef, ItemData, SkillData } from '@type-pal/content'
+import type {
+  AiBattleView,
+  BattleStatus,
+  ElementVec,
+  EnemyDef,
+  ItemData,
+  SkillData,
+} from '@type-pal/content'
 import {
   applyEnemyStatus,
   applyPlayerStatus,
@@ -88,6 +95,8 @@ export interface BattleState {
   difficulty: string
   /** 首领战(原版 0x07 fIsBoss=!op2):不可逃(fight.c:4143 && !fIsBoss);胜利曲/结算时长由壳层用。 */
   boss: boolean
+  /** 战场五灵加成(双向乘入法术伤害,fight.c:244)。 */
+  fieldEffect: ElementVec
   /** 敌人整场逃离(0x69 剧情逃跑:战斗终止无奖励;fled 敌不计胜利奖励)。 */
   enemyFled: boolean
   /** 战果累计(敌死时 += def.stats.exp/cash;敌逃(enemyFled)不计;B7a 战后入账)。 */
@@ -131,6 +140,8 @@ export interface CreateBattleInput {
   difficulty?: string
   /** 首领战(不可逃;缺省 false)。 */
   boss?: boolean
+  /** 战场五灵加成(battle-fields magicEffect;fight.c:244 双向乘入法术伤害。缺省全 0)。 */
+  fieldEffect?: ElementVec
 }
 
 export function createBattleState(input: CreateBattleInput): BattleState {
@@ -159,6 +170,7 @@ export function createBattleState(input: CreateBattleInput): BattleState {
     inventory: input.inventory ?? [],
     difficulty: input.difficulty ?? 'normal',
     boss: input.boss ?? false,
+    fieldEffect: input.fieldEffect ?? { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
     enemyFled: false,
     expGained: 0,
     cashGained: 0,
@@ -426,7 +438,7 @@ function applyPlayerSkill(
                 elemRes: e.def.stats.elemResistance,
                 poisonRes: e.def.stats.poisonResistance,
                 resistMult: 1, // 敌侧抗性 0-10 直用(一阶段敌向量语义)
-                fieldEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+                fieldEffect: s.fieldEffect, // 战场五灵加成(fight.c:244)
               }),
               e.defending,
             ),
@@ -746,7 +758,7 @@ function applyEnemySkill(
               elemRes: ZERO,
               poisonRes: 0,
               resistMult: 20, // 玩家侧抗性除数 20(fight.c:4798/4833;敌侧是 1)
-              fieldEffect: ZERO,
+              fieldEffect: s.fieldEffect, // 战场五灵加成(fight.c:244,双向同表)
             }) / magicDefenseDivisor(p.defending, p.status.protect > 0, autoDefend.has(ti)),
           )
           // 钳到余血、**无最小 1**(fight.c:4805/4840;玩家打敌才 inline 钳 1)

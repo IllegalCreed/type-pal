@@ -498,30 +498,30 @@ export function CommandForm(props: {
           />
         </Row>
       )
-    case 'setBattleMusic':
+    case 'overrideSceneBattle':
+      // 场景战斗配置覆写(剧情点后本场景后续战斗改场地/曲;scene 键少见,走 JSON 兜底改)
       return (
-        <Row label="战斗音乐">
-          <MusicPicker
-            value={cmd.musicId}
-            onChange={(v) => set({ musicId: v ?? 0 })}
-            music={music}
-            baseUrl={musicBase}
-          />
-        </Row>
-      )
-    case 'setBattleField':
-      return (
-        <Row label="战场">
-          {assetBase ? (
-            <BattleFieldPicker
-              value={cmd.fieldId}
-              onChange={(n) => set({ fieldId: n })}
-              assetBase={assetBase}
+        <>
+          <Row label="战场">
+            {assetBase ? (
+              <BattleFieldPicker
+                value={cmd.fieldId ?? 0}
+                onChange={(n) => set({ fieldId: n })}
+                assetBase={assetBase}
+              />
+            ) : (
+              <Num value={cmd.fieldId ?? 0} onChange={(n) => set({ fieldId: n })} />
+            )}
+          </Row>
+          <Row label="战斗音乐">
+            <MusicPicker
+              value={cmd.musicId}
+              onChange={(v) => set({ musicId: v ?? 0 })}
+              music={music}
+              baseUrl={musicBase}
             />
-          ) : (
-            <Num value={cmd.fieldId} onChange={(n) => set({ fieldId: n })} />
-          )}
-        </Row>
+          </Row>
+        </>
       )
     case 'giveMoney':
       return (

@@ -443,8 +443,10 @@ function walkBody(
         }
       } else if (oc === 0x47) push({ kind: 'playSound', soundId: o[0] ?? 0 })
       else if (oc === 0x43) push({ kind: 'playMusic', musicId: o[0] ?? 0 })
-      else if (oc === 0x45) push({ kind: 'setBattleMusic', musicId: o[0] ?? 0 })
-      else if (oc === 0x4a) push({ kind: 'setBattleField', fieldId: o[0] ?? 0 })
+      // 0x45/0x4A(原版全局变量「从此以后战斗用 X」)→ 场景作用域覆写(铁律4:不复活全局)。
+      // 后续窥孔:邻战 → fold 进 startBattle 参数;enter 首现 → hoist 成 SceneDef 默认。
+      else if (oc === 0x45) push({ kind: 'overrideSceneBattle', musicId: o[0] ?? 0 })
+      else if (oc === 0x4a) push({ kind: 'overrideSceneBattle', fieldId: o[0] ?? 0 })
       else if (oc === 0x50) push({ kind: 'fade', dir: 'out' })
       else if (oc === 0x51) push({ kind: 'fade', dir: 'in' })
       else if (oc === 0x73) {
@@ -789,7 +791,58 @@ export function foldDoorPattern(body: Command[]): Command[] {
   return out
 }
 
+/**
+ * 战斗配置 peephole:overrideSceneBattle(无 scene 键,0x45/0x4A 翻译产物)——
+ * ① 相邻同类合并(field+music 常成对出现);② 其后 ≤3 距离内出现 startBattle →
+ * fold 成该 startBattle 的 fieldId/musicId(原版剧情战「战前现场设」的 28+28 处);
+ * 剩余的保持覆写命令(剧情点后改本场景后续战斗,s059/s041 类)。
+ */
+export function foldBattleConfig(body: Command[]): Command[] {
+  const out: Command[] = []
+  for (let i = 0; i < body.length; i++) {
+    const c = body[i]!
+    if (c.kind !== 'overrideSceneBattle' || c.scene !== undefined) {
+      out.push(c)
+      continue
+    }
+    let fieldId = c.fieldId
+    let musicId = c.musicId
+    // ① 吸收紧随的同类(合并 field+music 对)
+    let j = i + 1
+    for (; j < body.length; j++) {
+      const n = body[j]!
+      if (n.kind !== 'overrideSceneBattle' || n.scene !== undefined) break
+      fieldId = n.fieldId ?? fieldId
+      musicId = n.musicId ?? musicId
+    }
+    // ② 向前看 ≤3:startBattle → fold 成参数
+    let folded = false
+    for (let k = j; k <= j + 2 && k < body.length; k++) {
+      const n = body[k]!
+      if (n.kind === 'startBattle') {
+        body[k] = {
+          ...n,
+          ...(fieldId !== undefined ? { fieldId } : {}),
+          ...(musicId !== undefined ? { musicId } : {}),
+        }
+        folded = true
+        break
+      }
+      // 中途隔的只允许轻量演出指令(设向/帧/音效);其余打断 fold
+      if (!['setEntityFacing', 'setEntityFrame', 'playSound', 'wait'].includes(n.kind)) break
+    }
+    if (!folded)
+      out.push({
+        kind: 'overrideSceneBattle',
+        ...(fieldId !== undefined ? { fieldId } : {}),
+        ...(musicId !== undefined ? { musicId } : {}),
+      })
+    i = j - 1
+  }
+  return out
+}
+
 /** 对整条 stages 应用 peephole(体内折叠;段间不跨)。 */
 export function foldStages(stages: ScriptStage[]): ScriptStage[] {
-  return stages.map((s) => ({ ...s, body: foldDoorPattern(s.body) }))
+  return stages.map((s) => ({ ...s, body: foldBattleConfig(foldDoorPattern(s.body)) }))
 }

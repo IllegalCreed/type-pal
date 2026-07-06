@@ -3,6 +3,7 @@
   "map": {
     "reuseOriginalMap": 163
   },
+  "battleFieldId": 23,
   "entries": {
     "from-s206": {
       "pos": {
@@ -2419,14 +2420,6 @@
                     "state": 0
                   },
                   {
-                    "kind": "setBattleField",
-                    "fieldId": 23
-                  },
-                  {
-                    "kind": "setBattleMusic",
-                    "musicId": 37
-                  },
-                  {
                     "kind": "startBattle",
                     "team": 240,
                     "onLose": [
@@ -2454,7 +2447,9 @@
                         "kind": "stopScript"
                       }
                     ],
-                    "boss": true
+                    "boss": true,
+                    "fieldId": 23,
+                    "musicId": 37
                   }
                 ]
               }
@@ -4611,10 +4606,6 @@
   "onEnter": [
     {
       "body": [
-        {
-          "kind": "setBattleField",
-          "fieldId": 23
-        },
         {
           "kind": "playMusic",
           "musicId": 55

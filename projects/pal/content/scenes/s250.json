@@ -3,6 +3,8 @@
   "map": {
     "reuseOriginalMap": 188
   },
+  "battleFieldId": 50,
+  "battleMusicId": 41,
   "entries": {
     "from-s260": {
       "pos": {
@@ -254,10 +256,6 @@
                     ]
                   },
                   {
-                    "kind": "setBattleMusic",
-                    "musicId": 38
-                  },
-                  {
                     "kind": "startBattle",
                     "team": 315,
                     "onLose": [
@@ -285,10 +283,11 @@
                         "kind": "stopScript"
                       }
                     ],
-                    "boss": true
+                    "boss": true,
+                    "musicId": 38
                   },
                   {
-                    "kind": "setBattleMusic",
+                    "kind": "overrideSceneBattle",
                     "musicId": 39
                   }
                 ]
@@ -11878,12 +11877,7 @@
   "dialogues": [],
   "onEnter": [
     {
-      "body": [
-        {
-          "kind": "setBattleField",
-          "fieldId": 50
-        }
-      ]
+      "body": []
     }
   ]
 }

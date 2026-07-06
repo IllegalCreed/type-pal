@@ -22,6 +22,7 @@ import {
 import type { Palette, RleFrame, Tilemap } from '@type-pal/shared'
 import {
   type AssetBase,
+  type BattleFieldEntry,
   type LoadedSprite,
   loadBattleBg,
   loadBattleBgFull,
@@ -431,7 +432,7 @@ async function main(): Promise<void> {
   let partyGesture: number | null = null // 脚本姿势帧(渲染 = dir*framesPerDir + gesture)
   let leaderSpriteOverride: { def: SpriteDef; frames: typeof playerSprite } | null = null // 0x65 换装
   let activeBattle: BattleSession | null = null // M4b:进行中的战斗(主循环转发 tick/render)
-  let battleFieldsPromise: Promise<Map<number, { screenWave: number }>> | null = null // 战场表懒载一次
+  let battleFieldsPromise: Promise<Map<number, BattleFieldEntry>> | null = null // 战场表懒载一次
   // ── M3b 走位/动画驱动(abort 全兑现)。**全局 100ms 世界拍**:玩家步进与脚本走位共拍
   //    推进 —— 曾各自累加(玩家 100ms / NPC 130ms)错相,高频渲染把错拍中间帧全画出来,
   //    同屏对走 NPC 呈「退 16 进 8」锯齿(2026-07-05 作者报抖动/速度怪;原版全世界一 tick 同拍)。
@@ -618,11 +619,17 @@ async function main(): Promise<void> {
       world.script!.vars['sys:music'] = id // 记账(存档恢复用)
       bgm.play(id) // 0 = 停曲(原版语义)
     },
-    setBattleMusic: (id) => {
-      world.script!.vars['sys:battleMusic'] = id
-    },
-    setBattleField: (id) => {
-      world.script!.vars['sys:battleField'] = id
+    // 场景战斗配置覆写(铁律4:原版 0x4A/0x45 全局变量已退役;这是「剧情点后本场景
+    // 后续战斗改场地/曲」的场景作用域持久版,随存档、重入生效)
+    overrideSceneBattle: (sc, fieldId, musicId) => {
+      const s = world.script!
+      const key = sc ?? scene.id
+      const overrides = (s.sceneBattleOverrides ??= {})
+      overrides[key] = {
+        ...overrides[key],
+        ...(fieldId !== undefined ? { fieldId } : {}),
+        ...(musicId !== undefined ? { musicId } : {}),
+      }
     },
     // E6b 显式定位权威(手工演出精细控制;隐式接管见 scriptHost 位移视图)
     takeEntity: (id) => {
@@ -752,10 +759,14 @@ async function main(): Promise<void> {
         await host.wait(400)
         return 'win'
       }
-      // 战斗 BGM(sys:battleMusic 记账,setBattleMusic op 烤自原版脚本):有值即切(0=停,忠实);
-      // 未记账(迁移期脚本未跑到)不切 —— 场景曲延续,不突兀。
-      const battleTrack = world.script?.vars['sys:battleMusic']
-      if (typeof battleTrack === 'number') bgm.play(battleTrack)
+      // 战斗配置三层解析(铁律4,无全局变量):显式参数(剧情战 startBattle.fieldId/明雷
+      // hostile.battleFieldId)→ 场景覆写(overrideSceneBattle,剧情点后改)→ 场景默认
+      // (SceneDef.battleFieldId/battleMusicId,迁移自原版进场 0x4A/0x45)→ 项目默认。
+      const sceneOv = world.script?.sceneBattleOverrides?.[scene.id]
+      // 战斗乐:0 = 停曲(忠实原版);项目默认 37 = 原版新档 wNumBattleMusic@2.RPG:0x10
+      // (⚠ 不是 3——3 是普通胜利曲,battle.c:1032)
+      const battleTrack = battleOpts?.musicId ?? sceneOv?.musicId ?? scene.battleMusicId ?? 37
+      bgm.play(battleTrack)
       let playedVictory = false
       // 队员战斗态:CharacterInstance + 装备加成(effectiveStat)
       const itemsById = project.items
@@ -780,12 +791,14 @@ async function main(): Promise<void> {
           for (const eff of project.skills[sid]?.effects ?? [])
             if (eff.kind === 'summon') summonGodIds.add(eff.godId)
         }
-      const fieldId = world.script?.vars['sys:battleField'] ?? 24
+      const fieldId = battleOpts?.fieldId ?? sceneOv?.fieldId ?? scene.battleFieldId ?? 24
       // 战场常驻波(battle.c:1559 进战斗设 field.screenWave;#18/22/32/35/50 水下/幻境)
+      // + 五灵加成(lprgBattleField.rgsMagicEffect,fight.c:244 双向乘入法术伤害)
       const fields = await (battleFieldsPromise ??= loadBattleFields(project.assetBase).catch(
-        () => new Map<number, { screenWave: number }>(),
+        () => new Map<number, BattleFieldEntry>(),
       ))
-      const fieldWave = fields.get(Number(fieldId))?.screenWave ?? 0
+      const fieldDef = fields.get(Number(fieldId))
+      const fieldWave = fieldDef?.screenWave ?? 0
       const [bgFull, summonSprites, enemySprites, playerSprites, faceList, battleIcons, effectSprite, effectIndex] =
         await Promise.all([
           loadBattleBgFull(project.assetBase, Number(fieldId), palette).catch(() => undefined),
@@ -900,6 +913,7 @@ async function main(): Promise<void> {
           playerEffectBase,
           playerCastBase,
           fieldWave,
+          fieldEffect: fieldDef?.magicEffect,
           // 战斗音效七件套(BattlerSpec.sounds;出招/挥击/吟唱已接,其余随对应演出落地)
           playerSounds: world.party.map((c) => project.actorsById[c.template]?.battler?.sounds),
           // B7b/B7c 胜利结算(会话 over 阶段调一次):HP 写回 + 入账 + 升级 + 隐藏经验 =
@@ -1245,7 +1259,11 @@ async function main(): Promise<void> {
   ): Promise<void> {
     hostileBusy = true
     try {
-      const result = await host.startBattle(h.team)
+      // 明雷怪专属战场(三层解析第二层;缺省走场景覆写/默认)
+      const result = await host.startBattle(
+        h.team,
+        h.battleFieldId !== undefined ? { fieldId: h.battleFieldId } : undefined,
+      )
       if (result === 'win') {
         e.hidden = true // 消失
         if (h.respawnSeconds && h.respawnSeconds > 0) {
@@ -2108,12 +2126,13 @@ async function main(): Promise<void> {
       leader.mp = leader.maxMP
     }
   }
-  // ?field=<战场号>:dev 覆写战场(验屏波/换背景;#32 常驻波 128 最猛)
+  // ?field=<战场号>:dev 覆写战场(验屏波/换背景;#32 常驻波 128 最猛)—— 直传参数,不落 world
   const fieldParam = params.get('field')
-  if (fieldParam !== null && world.script) world.script.vars['sys:battleField'] = Number(fieldParam)
   const battleParam = battleRaw === null ? Number.NaN : Number(battleRaw)
   if (Number.isFinite(battleParam) && battleParam >= 0) {
-    void host.startBattle(battleParam).then((r) => showToast(`试打结束:${r}`))
+    void host
+      .startBattle(battleParam, fieldParam !== null ? { fieldId: Number(fieldParam) } : undefined)
+      .then((r) => showToast(`试打结束:${r}`))
   } else if (spawnPos) {
     // X5 跳转预览(?pos 落点):dev 跳转意图 = 落地即自由,跳过 onEnter 剧情垫
     //   (同一阶段 dev 跳场景语义;onEnter 的队伍瞬移会劫持落点)。要看进场演出 → 不带 pos。

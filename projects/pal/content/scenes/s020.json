@@ -3234,14 +3234,6 @@
                       {
                         "body": [
                           {
-                            "kind": "setBattleMusic",
-                            "musicId": 38
-                          },
-                          {
-                            "kind": "setBattleField",
-                            "fieldId": 24
-                          },
-                          {
                             "kind": "startBattle",
                             "team": 19,
                             "onLose": [
@@ -3269,7 +3261,9 @@
                                 "kind": "stopScript"
                               }
                             ],
-                            "boss": true
+                            "boss": true,
+                            "fieldId": 24,
+                            "musicId": 38
                           },
                           {
                             "kind": "playMusic",
@@ -4265,14 +4259,6 @@
                       {
                         "body": [
                           {
-                            "kind": "setBattleMusic",
-                            "musicId": 38
-                          },
-                          {
-                            "kind": "setBattleField",
-                            "fieldId": 24
-                          },
-                          {
                             "kind": "startBattle",
                             "team": 19,
                             "onLose": [
@@ -4300,7 +4286,9 @@
                                 "kind": "stopScript"
                               }
                             ],
-                            "boss": true
+                            "boss": true,
+                            "fieldId": 24,
+                            "musicId": 38
                           },
                           {
                             "kind": "playMusic",
@@ -5296,14 +5284,6 @@
                       {
                         "body": [
                           {
-                            "kind": "setBattleMusic",
-                            "musicId": 38
-                          },
-                          {
-                            "kind": "setBattleField",
-                            "fieldId": 24
-                          },
-                          {
                             "kind": "startBattle",
                             "team": 19,
                             "onLose": [
@@ -5331,7 +5311,9 @@
                                 "kind": "stopScript"
                               }
                             ],
-                            "boss": true
+                            "boss": true,
+                            "fieldId": 24,
+                            "musicId": 38
                           },
                           {
                             "kind": "playMusic",

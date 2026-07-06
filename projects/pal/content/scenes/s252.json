@@ -3,6 +3,7 @@
   "map": {
     "reuseOriginalMap": 189
   },
+  "battleFieldId": 8,
   "entry": {
     "pos": {
       "col": 96,
@@ -183,10 +184,6 @@
                     ]
                   },
                   {
-                    "kind": "setBattleMusic",
-                    "musicId": 38
-                  },
-                  {
                     "kind": "startBattle",
                     "team": 315,
                     "onLose": [
@@ -214,10 +211,11 @@
                         "kind": "stopScript"
                       }
                     ],
-                    "boss": true
+                    "boss": true,
+                    "musicId": 38
                   },
                   {
-                    "kind": "setBattleMusic",
+                    "kind": "overrideSceneBattle",
                     "musicId": 39
                   }
                 ]
@@ -420,14 +418,6 @@
                     "ms": 600
                   },
                   {
-                    "kind": "setBattleField",
-                    "fieldId": 18
-                  },
-                  {
-                    "kind": "setBattleMusic",
-                    "musicId": 45
-                  },
-                  {
                     "kind": "startBattle",
                     "team": 315,
                     "onLose": [
@@ -455,15 +445,14 @@
                         "kind": "stopScript"
                       }
                     ],
-                    "boss": true
+                    "boss": true,
+                    "fieldId": 18,
+                    "musicId": 45
                   },
                   {
-                    "kind": "setBattleMusic",
+                    "kind": "overrideSceneBattle",
+                    "fieldId": 8,
                     "musicId": 39
-                  },
-                  {
-                    "kind": "setBattleField",
-                    "fieldId": 8
                   },
                   {
                     "kind": "unmigrated",
@@ -1092,10 +1081,6 @@
         {
           "kind": "playMusic",
           "musicId": 82
-        },
-        {
-          "kind": "setBattleField",
-          "fieldId": 8
         }
       ]
     }

@@ -206,6 +206,8 @@ export class BattleSession {
       playerSounds?: Array<import('@type-pal/content').BattlerSounds | undefined>
       /** 战场常驻波幅(battle-fields.json screenWave;法术 wave 演出期叠加其上,battle.c:1559)。 */
       fieldWave?: number
+      /** 战场五灵加成(battle-fields.json magicEffect;fight.c:244 双向乘入法术伤害)。 */
+      fieldEffect?: import('@type-pal/content').ElementVec
       /** 自动战斗(0x8A;玩家侧 AI 代打,不出指令菜单 —— 石长老过场战)。 */
       auto?: boolean
       /** 首领战(原版 0x07 fIsBoss=!op2):不可逃;壳层另用于胜利曲 2/结算时长。 */
@@ -227,6 +229,7 @@ export class BattleSession {
       inventory: opts.inventory,
       difficulty: opts.difficulty,
       boss: opts.boss,
+      fieldEffect: opts.fieldEffect,
     })
     this.done = new Promise((res) => {
       this.resolveDone = res

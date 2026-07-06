@@ -3,6 +3,7 @@
   "map": {
     "reuseOriginalMap": 75
   },
+  "battleFieldId": 55,
   "entries": {
     "from-shared": {
       "pos": {
@@ -89,12 +90,7 @@
   "dialogues": [],
   "onEnter": [
     {
-      "body": [
-        {
-          "kind": "setBattleField",
-          "fieldId": 55
-        }
-      ]
+      "body": []
     }
   ]
 }

@@ -6319,14 +6319,6 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "setBattleMusic",
-                    "musicId": 14
-                  },
-                  {
-                    "kind": "setBattleField",
-                    "fieldId": 52
-                  },
-                  {
                     "kind": "startBattle",
                     "team": 24,
                     "onLose": [
@@ -6354,7 +6346,9 @@
                         "kind": "stopScript"
                       }
                     ],
-                    "boss": true
+                    "boss": true,
+                    "fieldId": 52,
+                    "musicId": 14
                   },
                   {
                     "kind": "playMusic",

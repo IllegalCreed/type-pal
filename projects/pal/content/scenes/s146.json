@@ -3,6 +3,8 @@
   "map": {
     "reuseOriginalMap": 141
   },
+  "battleFieldId": 40,
+  "battleMusicId": 43,
   "entries": {
     "from-shared": {
       "pos": {
@@ -308,14 +310,6 @@
             3,
             0
           ]
-        },
-        {
-          "kind": "setBattleField",
-          "fieldId": 40
-        },
-        {
-          "kind": "setBattleMusic",
-          "musicId": 43
         },
         {
           "kind": "teleportParty",

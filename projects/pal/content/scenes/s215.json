@@ -3,6 +3,7 @@
   "map": {
     "reuseOriginalMap": 213
   },
+  "battleFieldId": 20,
   "entries": {
     "from-s228": {
       "pos": {
@@ -191,16 +192,13 @@
                     }
                   },
                   {
-                    "kind": "setBattleMusic",
+                    "kind": "startBattle",
+                    "team": 223,
+                    "boss": true,
                     "musicId": 38
                   },
                   {
-                    "kind": "startBattle",
-                    "team": 223,
-                    "boss": true
-                  },
-                  {
-                    "kind": "setBattleMusic",
+                    "kind": "overrideSceneBattle",
                     "musicId": 37
                   },
                   {
@@ -965,10 +963,6 @@
         {
           "kind": "playMusic",
           "musicId": 70
-        },
-        {
-          "kind": "setBattleField",
-          "fieldId": 20
         }
       ]
     }

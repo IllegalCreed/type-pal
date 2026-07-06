@@ -567,17 +567,11 @@
                     ]
                   },
                   {
-                    "kind": "setBattleField",
-                    "fieldId": 42
-                  },
-                  {
-                    "kind": "setBattleMusic",
-                    "musicId": 38
-                  },
-                  {
                     "kind": "startBattle",
                     "team": 42,
-                    "boss": true
+                    "boss": true,
+                    "fieldId": 42,
+                    "musicId": 38
                   },
                   {
                     "kind": "unmigrated",

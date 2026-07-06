@@ -295,3 +295,21 @@
 - **事件（event）** = 触发方式（interact/touch/onEnter/auto）+ 相关实体/道具 + **一系列指令的组合**（schema 的脚本源级：TriggerSpec / EntityPage / onEnter stages）。
 
 **影响**：编辑器全部中文 UI 文案「命令」→「指令」（指令树/指令手册/插入指令）;数据模式页「事件库」改名「指令手册」（📖）。英文标识符（`Command` 类型等）不动 —— schema 层命名维持。事件级列表/编辑归**场景模块**（事件在场景中配置,不进数据模式;Step2 场景内嵌脚本编辑,见 editor-audit §6）。
+
+## D24 · 战斗配置三层化：战场/战斗乐全局变量退役（2026-07-06，作者拍板）
+
+**背景**：原版战场号/战斗乐是脚本写的全局变量（0x4A `wNumBattleField` / 0x45 `wNumBattleMusic`，随存档），reforge 曾按迁移语义平移成 `sys:battleField`/`sys:battleMusic` world 变量——作者点破「放全局变量明显是不良架构」（→ READ-FIRST 铁律 4 补）。
+
+**模型**（作者提出，数据扫描全面证实）：
+
+| 层 | schema | 原版数据佐证(90+68 处 set 扫描) |
+|---|---|---|
+| 剧情战显式 | `startBattle.fieldId/musicId` | 28+28 处「set 紧邻 startBattle」全在演出脚本 |
+| 明雷怪专属 | `HostileBehavior.battleFieldId` | （引擎能力预留;原版无实例——明雷靠场景层） |
+| 剧情点覆写 | `overrideSceneBattle` 命令 → `world.sceneBattleOverrides`(随存档) | 11 处「boss 战后本场景后续改场地/曲」(s059/s252…) |
+| 场景默认 | `SceneDef.battleFieldId/battleMusicId` | 60+29 处 enter 链 set |
+| 项目默认 | field 24(dev 惯例)/music **37**(2.RPG@0x10 新档真值;⚠ 3 是胜利曲) | 无 set 场景靠全局残留继承 → 传播静态化 |
+
+解析优先级自上而下。**迁移器**（未来 MG2 同逻辑）：0x4A/0x45 → `overrideSceneBattle` → 窥孔 fold(邻战≤3,隔轻量演出) + enter 首现 hoist + loadScene 图 fixpoint 传播填「靠残留继承」的场景。**存量补丁** 106 文件（fold 35 / hoist 60+29 / 幸存覆写 11 / 传播填 field 25 + music 32）。传播无解场景（field 15 / music 28,原版值路径依赖 = 全局变量事故实锤）落运行时项目默认，清单见 [battle-config-fills-review.md](battle-config-fills-review.md) 待作者定值。
+
+**顺带**：战场五灵加成接通（`battle-fields.json.magicEffect` → session → core 双向 `calcMagicDamage.fieldEffect`，fight.c:244）;`sys:music` 判非管线残留（当前播放曲记账 = 活状态）留任,后续从 vars 袋毕业成显式字段。

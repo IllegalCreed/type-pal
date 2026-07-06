@@ -212,14 +212,6 @@
                     "state": 0
                   },
                   {
-                    "kind": "setBattleField",
-                    "fieldId": 14
-                  },
-                  {
-                    "kind": "setBattleMusic",
-                    "musicId": 38
-                  },
-                  {
                     "kind": "startBattle",
                     "team": 221,
                     "onLose": [
@@ -247,7 +239,9 @@
                         "kind": "stopScript"
                       }
                     ],
-                    "boss": true
+                    "boss": true,
+                    "fieldId": 14,
+                    "musicId": 38
                   },
                   {
                     "kind": "unmigrated",
@@ -259,7 +253,7 @@
                     ]
                   },
                   {
-                    "kind": "setBattleMusic",
+                    "kind": "overrideSceneBattle",
                     "musicId": 39
                   },
                   {

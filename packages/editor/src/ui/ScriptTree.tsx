@@ -149,10 +149,17 @@ function describe(cmd: Command, locale: Locale): Described {
       return { icon: '🔓', label: `归还 ${cmd.entity ?? '(全部)'}` }
     case 'playMusic':
       return { icon: '🎵', label: `音乐 ${cmd.musicId}` }
-    case 'setBattleMusic':
-      return { icon: '🎵', label: `战斗音乐 ${cmd.musicId}` }
-    case 'setBattleField':
-      return { icon: '🗺', label: `战场 ${cmd.fieldId}` }
+    case 'overrideSceneBattle': {
+      const parts = [
+        ...(cmd.fieldId !== undefined ? [`战场 ${cmd.fieldId}`] : []),
+        ...(cmd.musicId !== undefined ? [`战斗乐 ${cmd.musicId}`] : []),
+      ]
+      return {
+        icon: '🗺',
+        label: `覆写战斗配置${cmd.scene ? ` @${cmd.scene}` : ''}`,
+        detail: parts.join(' '),
+      }
+    }
     case 'moveEntity':
       return {
         icon: '🚶',
