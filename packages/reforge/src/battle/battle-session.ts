@@ -5,7 +5,7 @@
  * main.ts 的 host.startBattle 创建它,主循环转发 tick/render,await done 拿结果续脚本。
  * M4b-2 指令集:攻击/防御/逃跑(仙术/物品 = M4b-3 与动画一起);渲染 = 静态帧 + 飘字。
  */
-import type { Command, EnemyDef, SkillData } from '@type-pal/content'
+import type { ActivePoison, BattleStatus, Command, EnemyDef, SkillData } from '@type-pal/content'
 import { evalAiCond, isPlayerDying, lookupText, POISON_CURE_RANK } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import { bakeBgImageData, type GlyphTable, type LoadedSprite } from '../assets.js'
@@ -1142,6 +1142,16 @@ export class BattleSession {
   /** dev:战斗日志只读视图(M4c 验证)。 */
   debugLog(): readonly string[] {
     return this.state.log
+  }
+
+  /** dev:队员战斗态只读快照(护体符/毒携带等验证:roleId/hp/status/poisons)。 */
+  debugPlayers(): { roleId: string; hp: number; status: BattleStatus; poisons: ActivePoison[] }[] {
+    return this.state.players.map((p) => ({
+      roleId: p.roleId,
+      hp: p.hp,
+      status: { ...p.status },
+      poisons: p.poisons.map((x) => ({ ...x })),
+    }))
   }
 
   /** 战后把背包写回 world.inventory(消耗持久;count 0 清项)。 */

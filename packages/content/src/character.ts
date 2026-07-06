@@ -1,5 +1,13 @@
 import type { ActorDef } from './actor.js'
 import type { WorldScriptState } from './script.js'
+import type { StatusId } from './skill.js'
+
+/** 大世界带入战斗的临时状态(护体符/金刚符 = protect;加速符等)。原版全局 rgPlayerStatus 的一格:
+ *  战斗外 use 施加、随存档,建态时注入战斗 status[key]=turns,战后三件套 ClearAllStatus 清。 */
+export interface CarriedStatus {
+  status: StatusId
+  turns: number
+}
 
 /** L1 世界态(跟存档走;现 demo 内存构造)。 */
 export interface WorldState {
@@ -84,6 +92,12 @@ export interface CharacterInstance {
    * ⚠ 战斗内是副本(createBattleState 拷入,DoT 不回写此处);清理走战后 curePoisons。
    */
   poisons?: import('./poison.js').ActivePoison[]
+  /**
+   * 大世界带入的临时状态(护体符/金刚符 protect 7 回合等;原版全局 rgPlayerStatus)。战斗外 use 施加、
+   * 随存档,建态时注入战斗 status[key]=turns。战后三件套 ClearAllStatus 清(只保一场)。缺省 = 无。
+   * ⚠ 与装备常驻 grantedStatuses(连击,红线 live 派生、置 9999 永久)不同:此为定时、随存档持久。
+   */
+  extraStatuses?: CarriedStatus[]
 }
 
 /** 隐藏经验池键(= 可被隐藏成长的属性;顺序 = 原版 CHECK_HIDDEN_EXP 分配序)。 */

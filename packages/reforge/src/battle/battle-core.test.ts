@@ -163,6 +163,21 @@ describe('M4a headless 战斗核', () => {
     // 不防御对照:def 60 全额伤更高
     expect(halved).toBeLessThan(Math.max(1, calcPhysicalAttackDamage(266, 60, 2)))
   })
+
+  test('大世界护体符 carriedStatuses:建态注入实际回合数(护体 7,随战衰减);grantedStatuses 仍 9999 永久', () => {
+    const s = createBattleState({
+      players: [
+        player('shielded', { carriedStatuses: [{ status: 'protect', turns: 7 }] }),
+        player('combo', { grantedStatuses: ['dualAttack'] }),
+      ],
+      enemies: [mkEnemy('slime')],
+    })
+    expect(s.players[0]!.status.protect).toBe(7) // 金刚符定时状态 = 实际回合数
+    expect(s.players[1]!.status.dualAttack).toBe(9999) // 装备常驻 = 永久大值
+    // 无来源的空态基线
+    expect(s.players[0]!.status.dualAttack).toBe(0)
+    expect(s.players[1]!.status.protect).toBe(0)
+  })
 })
 
 describe('M4c 敌人 AI(规则决策 + cast 结算)', () => {

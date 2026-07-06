@@ -334,9 +334,18 @@ export function useItem(
             })
           changed = true
           break
-        // 留桩(归宿见 docs):applyStatus→世界状态系统;triggerScript→剧情脚本系统;
+        case 'applyStatus': {
+          // 大世界护体符/金刚符(护体等):写入 extraStatuses,随存档,建态注入下一场战斗、战后三件套清。
+          // 纯更新(新数组 + 新条目):同状态刷新回合数,否则追加。
+          const prev = next.extraStatuses ?? []
+          next.extraStatuses = prev.some((s) => s.status === eff.status)
+            ? prev.map((s) => (s.status === eff.status ? { status: s.status, turns: eff.turns } : s))
+            : [...prev, { status: eff.status, turns: eff.turns }]
+          changed = true
+          break
+        }
+        // 留桩(归宿见 docs):triggerScript→剧情脚本系统;
         // teleportOut→reforge 层 useConfirm 拦截跑 host.teleportOut(content 纯函数不碰场景运行时)
-        case 'applyStatus':
         case 'triggerScript':
         case 'teleportOut':
           break

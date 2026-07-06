@@ -801,6 +801,8 @@ async function main(): Promise<void> {
           poisonRes: res.poisonRes,
           // 大世界带入的毒(自毒食/装备咒;战斗内副本,战后三件套清)
           ...(c.poisons?.length ? { poisons: c.poisons.map((x) => ({ ...x })) } : {}),
+          // 大世界护体符/金刚符定时状态(护体等;建态注入 status,战后三件套 ClearAllStatus 清)
+          ...(c.extraStatuses?.length ? { carriedStatuses: c.extraStatuses.map((x) => ({ ...x })) } : {}),
           // 攻击全体(长鞭 attackAll;红线 live 派生;dev 参数强制)
           attackAll: equipGrantsAttackAll(c, itemsById) || devAllLeader === c.id,
           // 每回合回血/回蓝(寿葫芦等 regen 词条;红线 live 派生)
@@ -1001,10 +1003,13 @@ async function main(): Promise<void> {
       // 胜利结算路径已在 buildSettlement 里写回 HP + 入账;其余路径(败/逃/敌逃)此处写回 HP。
       if (result !== 'win' || session.enemyFled()) session.writeBackHp(world.party)
       session.writeBackInventory(world.inventory)
-      // 战后「三件套」之毒清理(battle.c:1822-1830 CurePoisonByLevel(3)):胜/败/逃无条件清
-      // 世界毒态 ≤severe(无影毒/寄生 incurable 留)。护体/毒抗走装备 live 派生,无持久 Extra 需清。
-      for (const c of world.party)
+      // 战后「三件套」(battle.c:1822-1830):胜/败/逃无条件。① ClearAllStatus → 清大世界护体符定时状态
+      // (extraStatuses);② CurePoisonByLevel(3) → 世界毒态清 ≤severe(无影毒/寄生 incurable 留);
+      // ③ RemoveEquipExtra → 装备 Extra(毒抗等)走 live 派生无持久,无需清。
+      for (const c of world.party) {
+        if (c.extraStatuses?.length) c.extraStatuses = []
         if (c.poisons?.length) curePoisons(c, project.poisonsById, 'severe')
+      }
       // Phase E 战后脚本(battle.c:1334-1337):胜利后逐敌槽跑 scriptOnBattleEnd(→ onDefeated,
       // 掉落对话/剧情旗标);返回值不回写(原版同)。触发战斗的脚本 runner 正悬挂在 startBattle
       // 上占着全局 runner 槽 → 独立 runner 内联跑(外层在等本函数返回,无并行);共享 scriptAbort
@@ -1802,6 +1807,10 @@ async function main(): Promise<void> {
     startBattle: (team: number) => host.startBattle(team),
     get battleLog() {
       return activeBattle?.debugLog() ?? []
+    },
+    /** dev:活动战斗队员态快照(护体符/毒携带验证:status.protect / poisons)。无战斗 = []。 */
+    get battlePlayers() {
+      return activeBattle?.debugPlayers() ?? []
     },
     /** dev:世界态只读观测(B7a 入账验证:money / party exp/level)。 */
     get world() {

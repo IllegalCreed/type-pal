@@ -13,6 +13,7 @@ import type {
   ActivePoison,
   AiBattleView,
   BattleStatus,
+  CarriedStatus,
   ElementVec,
   EnemyDef,
   ItemData,
@@ -153,11 +154,15 @@ export type BattleAction =
   | { kind: 'flee' }
 
 /** 队员建态输入:引擎态字段(status/defending/hiddenCounts)自动补;poisons 大世界带入;
- *  grantedStatuses 装备常驻状态(连击等,建态时置入 status,红线不烙持久)。 */
+ *  grantedStatuses 装备常驻状态(连击等,建态置 9999 不烙持久);carriedStatuses 大世界护体符定时状态。 */
 export type CreatePlayerInput = Omit<
   BattlePlayerState,
   'status' | 'defending' | 'hiddenCounts' | 'poisons'
-> & { poisons?: ActivePoison[]; grantedStatuses?: (keyof BattleStatus)[] }
+> & {
+  poisons?: ActivePoison[]
+  grantedStatuses?: (keyof BattleStatus)[]
+  carriedStatuses?: CarriedStatus[]
+}
 
 export interface CreateBattleInput {
   players: CreatePlayerInput[]
@@ -187,6 +192,8 @@ export function createBattleState(input: CreateBattleInput): BattleState {
       const status = emptyBattleStatus()
       // 装备常驻状态(连击等):建态时置大值(PERMANENT,不在战内衰减到 0;红线 —— 每战重派生)
       for (const k of p.grantedStatuses ?? []) status[k] = 9999
+      // 大世界护体符/金刚符定时状态:注入实际回合数(随战内衰减;战后 world 侧三件套清 extraStatuses)
+      for (const cs of p.carriedStatuses ?? []) status[cs.status] = Math.max(status[cs.status], cs.turns)
       return {
         ...p,
         status,

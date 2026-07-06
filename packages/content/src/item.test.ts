@@ -254,3 +254,34 @@ describe('大世界自毒/解毒(useItem applyPoison/curePoison → char.poisons
     expect(w2.party[0]?.poisons).toEqual([{ poisonId: 555, tickIndex: 0 }]) // 赤毒解,三尸蛊留
   })
 })
+
+describe('大世界护体符/金刚符(useItem applyStatus → char.extraStatuses;带入战斗的源)', () => {
+  const buffItems: ItemDataMap = {
+    talisman: { id: 'talisman', name: '金刚符', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'applyStatus', status: 'protect', turns: 7 }] } },
+    haste: { id: 'haste', name: '疾风符', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'applyStatus', status: 'haste', turns: 5 }] } },
+  }
+  test('用金刚符 → 队员 extraStatuses 有 protect 7(建态注入战斗的源),消耗 -1', () => {
+    const w = world([{ itemId: 'talisman', count: 1 }])
+    const w2 = useItem(w, 'hero', 'talisman', buffItems)
+    expect(w2.party[0]?.extraStatuses).toEqual([{ status: 'protect', turns: 7 }])
+    expect(w2.inventory.find((e) => e.itemId === 'talisman')).toBeUndefined()
+  })
+  test('已有 protect 再用 → 刷新回合数(不重复条目);不同状态 → 追加', () => {
+    const w0 = world([{ itemId: 'talisman', count: 1 }, { itemId: 'haste', count: 1 }])
+    w0.party[0]!.extraStatuses = [{ status: 'protect', turns: 2 }]
+    const w1 = useItem(w0, 'hero', 'talisman', buffItems)
+    expect(w1.party[0]?.extraStatuses).toEqual([{ status: 'protect', turns: 7 }]) // 刷新 2→7,单条
+    const w2 = useItem(w1, 'hero', 'haste', buffItems)
+    expect(w2.party[0]?.extraStatuses).toEqual([
+      { status: 'protect', turns: 7 },
+      { status: 'haste', turns: 5 },
+    ]) // 追加
+  })
+  test('纯更新不改原 world(输入 extraStatuses 引用不被 mutate)', () => {
+    const w0 = world([{ itemId: 'talisman', count: 1 }])
+    const orig = [{ status: 'protect' as const, turns: 2 }]
+    w0.party[0]!.extraStatuses = orig
+    useItem(w0, 'hero', 'talisman', buffItems)
+    expect(orig).toEqual([{ status: 'protect', turns: 2 }]) // 源数组未被改
+  })
+})
