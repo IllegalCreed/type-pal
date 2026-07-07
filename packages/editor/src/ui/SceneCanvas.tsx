@@ -207,7 +207,9 @@ export function SceneCanvas(props: {
       fh: number,
     ): Omit<HitRect, 'id'> => ({
       x: (wx - ax - panX) * zoom,
-      y: (wy - ay - panY) * zoom,
+      // +7 = 精灵资产坐标约定(render.ts blit y = worldY−anchorY+7;漏掉则选框/命中盒
+      // 整体高 7px —— 作者报「蓝色虚线框偏高」,2026-07-07)
+      y: (wy - ay + 7 - panY) * zoom,
       w: fw * zoom,
       h: fh * zoom,
     })
