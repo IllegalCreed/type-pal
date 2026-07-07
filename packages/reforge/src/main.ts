@@ -361,7 +361,18 @@ async function main(): Promise<void> {
       else bootEntry = entryPoints.find((e) => e.id === decision.entryId) ?? bootEntry
     }
   }
-  const bootStartWorld = bootEntry?.startWorld ?? project.manifest.startWorld
+  // ?party=<id,id,…> dev 覆写开局队伍(验合击等多队员功能;满血在 buildWorld 后统一拉);首位应为世界队长
+  const partyParam = params.get('party')
+  const baseStartWorld = bootEntry?.startWorld ?? project.manifest.startWorld
+  const bootStartWorld = partyParam
+    ? {
+        ...baseStartWorld,
+        party: partyParam
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean),
+      }
+    : baseStartWorld
   const leaderId = bootStartWorld.party[0]
   const leaderActor = leaderId ? project.actorsById[leaderId] : undefined
   if (!leaderActor) throw new Error(`reforge: 队长 "${leaderId ?? '(空)'}" 不在 actors 表`)
@@ -463,6 +474,8 @@ async function main(): Promise<void> {
   const playerSprite = spriteByNum.get(leaderSpriteDef.spriteNum)!
   const dialogBox = new DialogBox(ctx, glyphs, cursorFrames, portraits, project.locale)
   let world = buildWorld(bootStartWorld, project.actorsById)
+  // dev ?party:强制的队员拉满 HP/MP,确保 healthy(否则如赵灵儿初始 28/240 = 濒死,合击项灰)
+  if (partyParam) for (const c of world.party) { c.hp = c.maxHP; c.mp = c.maxMP }
   world.script ??= emptyWorldScriptState()
 
   // ══ M3a 脚本运行时(设计 §4:driver Promise + AbortSignal;tick 驱动计时/淡入淡出)══
