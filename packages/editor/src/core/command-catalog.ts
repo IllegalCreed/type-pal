@@ -70,6 +70,7 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
   // 载具/挂载(E7)
   { kind: 'mountParty', icon: '🛶', name: '挂载队伍', group: '走位/相机', params: [['entity', '载具实体 id'], ['dx/dy', '偏移(缺省 0=重叠)']], desc: '队伍挂上载具(位置=载具+偏移,每帧跟随);骑乘不迈步。', origin: '0xA1 聚拢语义' },
   { kind: 'unmountParty', icon: '🚶', name: '下载具', group: '走位/相机', params: [], desc: '解除挂载,位置留当下。' },
+  { kind: 'setParty', icon: '👥', name: '队伍变更', group: '队伍/场景', params: [['members', '角色模板 id 有序表(站位序)']], desc: '把队伍变成指定阵容:在队保留原实例、reserve 搬回、新人实例化;落选进 reserve 状态不丢(D22)。', origin: '0x75' },
   { kind: 'ride', icon: '⛵', name: '骑行走位', group: '走位/相机', params: [['entity', '载具实体 id'], ['to', '目标格'], ['speed', '速度']], desc: '驱动载具走位,队伍跟随(未挂载自动挂重叠);可连发拼路线。芦苇漂/坐船/骑驴同此契约。', origin: '0x3F/0x44/0x97' },
   // 控制流
   { kind: 'branch', icon: '🔀', name: '条件分支', group: '控制流', params: [['cond', 'flag/var/hasItem/chance/all/any/not…'], ['then', '成立指令'], ['else', '不成立指令']], desc: '结构化条件;可嵌套。', origin: 'jump-on-X 系折叠' },

@@ -58,6 +58,8 @@ export interface ScriptHost {
   mountParty(entityId: string, dx: number, dy: number): void
   unmountParty(): void
   ride(entityId: string, to: GridPos, speed: WalkSpeed): Promise<void>
+  /** C7 队伍变更(D22 reserve):members = 角色模板 id 有序表。 */
+  setParty(members: string[]): void
   // ── M3b 走位 / 演出(阻塞项返回 Promise,须响应 signal)──
   moveEntity(entity: string, to: GridPos, speed: WalkSpeed): Promise<void>
   stepEntity(entity: string, dir: Facing): void
@@ -290,6 +292,8 @@ export class ScriptRunner {
         return h.unmountParty()
       case 'ride':
         return h.ride(cmd.entity, cmd.to, cmd.speed)
+      case 'setParty':
+        return h.setParty(cmd.members)
       case 'stopScript':
         throw new ScriptStopped() // 跳转臂终止(见类注;runStages 收口)
       case 'branch':

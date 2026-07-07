@@ -121,6 +121,9 @@ export type Command =
   | { kind: 'mountParty'; entity: string; dx?: number; dy?: number }
   | { kind: 'unmountParty' }
   | { kind: 'ride'; entity: string; to: GridPos; speed: WalkSpeed }
+  // 队伍管理(C7,D22 reserve 暂存区。原版 0x75 setParty 的 clean 表达:
+  // members = 角色模板 id 有序表(站位序;杜绝下标式身份),离队进 reserve 状态不丢)
+  | { kind: 'setParty'; members: string[] }
   // 控制流(M3b 引擎;schema 先行防返工)
   | { kind: 'branch'; cond: ScriptCondition; then: Command[]; else?: Command[] }
   // 逃生口

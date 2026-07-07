@@ -37,6 +37,7 @@ function fakeHost(calls: string[]): ScriptHost {
     takeEntity: log('takeEntity'),
     releaseEntity: log('releaseEntity'),
     mountParty: log('mountParty'),
+    setParty: log('setParty'),
     unmountParty: log('unmountParty'),
     ride: alog('ride'),
     moveEntity: alog('moveEntity'),

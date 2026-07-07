@@ -631,6 +631,7 @@ export function EventMode(props: {
               编辑指令 <span className="cf-path">{selPath}</span>
             </h4>
             <CommandForm
+              actors={actorsById}
               cmd={selCmd}
               scene={scene}
               locale={locale}

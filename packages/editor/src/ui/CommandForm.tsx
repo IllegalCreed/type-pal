@@ -9,7 +9,7 @@
  * 未命中回显原文,引擎/预览同语义)——新写的行直接放中文,旧行一改即脱离 locale 键。
  */
 import type { Command, Facing, Locale, MusicDef, SceneDef, WalkSpeed } from '@type-pal/content'
-import { lookupText } from '@type-pal/content'
+import { type ActorDef, lookupText } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { useEffect, useState } from 'react'
 import { MusicPicker } from './MusicPicker.js'
@@ -142,9 +142,11 @@ export function CommandForm(props: {
   scenes?: SceneDef[]
   /** 资产 base(战场选择器预览;B2)。缺省退化数字输入。 */
   assetBase?: AssetBase
+  /** 角色表(setParty 队伍编辑下拉;C7)。缺省退化 JSON 兜底。 */
+  actors?: Record<string, ActorDef>
   onChange: (next: Command) => void
 }) {
-  const { cmd, scene, locale, music, musicBase, scenes, assetBase, onChange } = props
+  const { cmd, scene, locale, music, musicBase, scenes, assetBase, actors, onChange } = props
   const set = (patch: object): void => onChange({ ...cmd, ...patch } as Command)
 
   switch (cmd.kind) {
@@ -453,6 +455,48 @@ export function CommandForm(props: {
           </select>
         </Row>
       )
+    case 'setParty': {
+      const battlers = actors
+        ? Object.values(actors).filter((a) => a.battler)
+        : []
+      if (!battlers.length) break // 无角色表 → 走底部 JSON 兜底
+      const members = cmd.members
+      const setMembers = (next: string[]): void => set({ members: next })
+      return (
+        <>
+          {members.map((id, i) => (
+            <Row key={`${i}-${id}`} label={i === 0 ? '队长' : `队员 ${i}`}>
+              <select
+                value={id}
+                onChange={(e) => setMembers(members.map((m, j) => (j === i ? e.target.value : m)))}
+              >
+                {battlers.map((a) => (
+                  <option key={a.id} value={a.id}>
+                    {lookupText(a.name, locale)}
+                  </option>
+                ))}
+              </select>
+              <button type="button" onClick={() => setMembers(members.filter((_, j) => j !== i))}>
+                ✕
+              </button>
+            </Row>
+          ))}
+          <Row label="">
+            <button
+              type="button"
+              onClick={() => {
+                const used = new Set(members)
+                const cand = battlers.find((a) => !used.has(a.id)) ?? battlers[0]
+                if (cand) setMembers([...members, cand.id])
+              }}
+            >
+              + 添加队员
+            </button>
+            <span style={{ opacity: 0.6, fontSize: 12 }}>顺序=站位;落选进 reserve 不丢状态</span>
+          </Row>
+        </>
+      )
+    }
     case 'mountParty':
       return (
         <>

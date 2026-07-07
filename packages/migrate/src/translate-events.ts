@@ -499,6 +499,12 @@ function walkBody(
           to: partyPosToGrid(o[0] ?? 0, o[1] ?? 0, o[2] ?? 0),
           speed: SPEED[sp]!,
         })
+      } else if (oc === 0x75) {
+        // SetParty(C7/D22):operand[0..2] = roleId+1(0=空)→ 角色模板 slug 有序表
+        const members = o.filter((v): v is number => typeof v === 'number' && v > 0)
+          .map((v) => ROLE_SLUGS[v - 1])
+          .filter((m): m is (typeof ROLE_SLUGS)[number] => m !== undefined)
+        push({ kind: 'setParty', members: [...members] })
       } else if (oc === 0xa1) {
         // SetAllPartyPos 全员聚拢队首:骑乘链开头(E7)→ mountParty(属主=载具,全员叠上)
         if (owner) push({ kind: 'mountParty', entity: owner })

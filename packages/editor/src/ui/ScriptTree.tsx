@@ -141,6 +141,8 @@ function describe(cmd: Command, locale: Locale): Described {
       return { icon: '🔢', label: `变量 ${cmd.var} ${cmd.delta >= 0 ? '+' : ''}${cmd.delta}` }
     case 'playSound':
       return { icon: '🔊', label: `音效 ${cmd.soundId}` }
+    case 'setParty':
+      return { icon: '👥', label: `队伍变更 → ${cmd.members.join(', ')}` }
     case 'mountParty':
       return { icon: '🛶', label: `挂载 → ${cmd.entity}` }
     case 'unmountParty':

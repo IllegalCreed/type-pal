@@ -1,4 +1,5 @@
 import {
+  applySetParty,
   buildWorld,
   type Dialogue,
   type DialogueLine,
@@ -397,6 +398,11 @@ async function main(): Promise<void> {
     const a = project.actorsById[id]
     return a ? requireSpriteDef(a.spriteId, `队员 ${a.id}`) : null
   })
+  // C7:队伍精灵号单一真值集(切场景 LRU needed 并集;setParty 动态增补,防新队员被淘汰)
+  const partySpriteNums = new Set<number>([
+    leaderSpriteDef.spriteNum,
+    ...followerSpriteDefs.flatMap((d) => (d ? [d.spriteNum] : [])),
+  ])
 
   /**
    * 切场景(M2c):取场景定义 → 换图/调色板 → 重建渲染器(烤图缓存随 palette 走)→
@@ -418,8 +424,7 @@ async function main(): Promise<void> {
       defs.set(e.id, requireSpriteDef(sid, `实体 ${e.id}`))
     }
     const needed = new Set([
-      leaderSpriteDef.spriteNum,
-      ...followerSpriteDefs.flatMap((d) => (d ? [d.spriteNum] : [])), // E7 队员精灵一并加载
+      ...partySpriteNums, // E7/C7 队伍精灵(含 setParty 中途入队者)一并加载/保护
       ...[...defs.values()].map((d) => d.spriteNum),
     ])
     const missing = [...needed].filter((n) => !spriteByNum.has(n))
@@ -497,8 +502,6 @@ async function main(): Promise<void> {
       : {}),
   })
   const playerSprite = spriteByNum.get(leaderSpriteDef.spriteNum)!
-  // E7 跟随者精灵帧(与队长同 needed 保护,不被 LRU 淘汰;捕获引用长活)
-  const followerFrames = followerSpriteDefs.map((d) => (d ? spriteByNum.get(d.spriteNum) : undefined))
   const dialogBox = new DialogBox(ctx, glyphs, cursorFrames, portraits, project.locale)
   let world = buildWorld(bootStartWorld, project.actorsById)
   // dev ?party:强制的队员拉满 HP/MP,确保 healthy(否则如赵灵儿初始 28/240 = 濒死,合击项灰)
@@ -726,6 +729,21 @@ async function main(): Promise<void> {
     },
     unmountParty: () => {
       dismountParty()
+    },
+    // C7 队伍变更(D22 reserve):搬实例不丢状态;新队员精灵懒加载 + 计入 LRU 保护
+    setParty: (members) => {
+      applySetParty(world, members, project.actorsById)
+      for (const c of world.party) {
+        const a = project.actorsById[c.template]
+        const def = a ? project.spritesById[a.spriteId] : undefined
+        if (!def) continue
+        partySpriteNums.add(def.spriteNum)
+        if (!spriteByNum.has(def.spriteNum)) {
+          void loadSprite(project.assetBase, def.spriteNum).then((sp) => {
+            spriteByNum.set(def.spriteNum, sp)
+          })
+        }
+      }
     },
     ride: async (entityId, to, speed) => {
       // 骑行 = 确保全员挂载 + 驱动载具走位(party 每 tick 派生跟随,相机随 render 帧更新)
@@ -1794,8 +1812,11 @@ async function main(): Promise<void> {
     // E7 跟随者(party[1..N]):照队长那套 push sprite;walk/idle 跟队长走态
     for (let m = 1; m < world.party.length; m++) {
       const fp = followerPos[m]
-      const fd = followerSpriteDefs[m - 1]
-      const fr = followerFrames[m - 1]
+      // C7:按当前 world.party 动态解析精灵(setParty 即时生效;帧未载到先跳过,懒加载补上)
+      const tpl = world.party[m]?.template
+      const actor = tpl ? project.actorsById[tpl] : undefined
+      const fd = actor ? project.spritesById[actor.spriteId] : undefined
+      const fr = fd ? spriteByNum.get(fd.spriteNum) : undefined
       if (!fp || !fd || !fr) continue
       const ffi = walking
         ? walkFrameIndex(fd.layout, fp.facing, stepFrame)

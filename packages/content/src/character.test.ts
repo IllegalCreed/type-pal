@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import type { ActorDef } from './actor.js'
-import { buildWorld, instantiate, type StartWorld } from './character.js'
+import { applySetParty, buildWorld, instantiate, type StartWorld, type WorldState } from './character.js'
 
 // 内联角色 fixture(C0:CharacterTemplate → ActorDef,battler 包住战斗数据)
 const hero: ActorDef = {
@@ -87,5 +87,59 @@ describe('buildWorld(manifest.startWorld 数据化)', () => {
   test('party 引无 battler 的 actor → throw(经 instantiate)', () => {
     const sw: StartWorld = { party: ['villager'], money: 0, learnedSkills: {}, inventory: [] }
     expect(() => buildWorld(sw, { villager })).toThrow(/battler/)
+  })
+})
+
+describe('applySetParty —— C7 队伍变更(D22 reserve 暂存区)', () => {
+  const actors = {
+    'test-hero': { id: 'test-hero', name: 't.hero', spriteId: 's1',
+      battler: { baseStats: { level: 1, hp: 150, maxHP: 150, mp: 100, maxMP: 100, attack: 10, defense: 10, magicAttack: 10, speed: 10, luck: 10 }, initialEquipment: {} } },
+    'test-mate': { id: 'test-mate', name: 't.mate', spriteId: 's2',
+      battler: { baseStats: { level: 1, hp: 90, maxHP: 90, mp: 50, maxMP: 50, attack: 8, defense: 8, magicAttack: 8, speed: 8, luck: 8 }, initialEquipment: {} } },
+  } as unknown as Record<string, import('./actor.js').ActorDef>
+
+  function world(): WorldState {
+    const w = buildWorld({ party: ['test-hero'], money: 0, learnedSkills: {}, inventory: [] }, actors)
+    return w
+  }
+
+  test('新成员首次入队:从模板实例化', () => {
+    const w = world()
+    applySetParty(w, ['test-hero', 'test-mate'], actors)
+    expect(w.party.map((c) => c.template)).toEqual(['test-hero', 'test-mate'])
+    expect(w.party[1]?.hp).toBe(90)
+  })
+
+  test('离队进 reserve,状态不丢;再入队原样搬回', () => {
+    const w = world()
+    applySetParty(w, ['test-hero', 'test-mate'], actors)
+    w.party[1]!.hp = 7 // 打残
+    applySetParty(w, ['test-hero'], actors) // mate 离队
+    expect(w.party.map((c) => c.template)).toEqual(['test-hero'])
+    expect(w.reserve?.map((c) => c.template)).toEqual(['test-mate'])
+    expect(w.reserve?.[0]?.hp).toBe(7) // 不清数据
+    applySetParty(w, ['test-hero', 'test-mate'], actors) // 回归
+    expect(w.party[1]?.hp).toBe(7) // 原实例
+    expect(w.reserve).toEqual([])
+  })
+
+  test('members 顺序 = 站位序(队长在前)', () => {
+    const w = world()
+    applySetParty(w, ['test-mate', 'test-hero'], actors)
+    expect(w.party.map((c) => c.template)).toEqual(['test-mate', 'test-hero'])
+  })
+
+  test('在队成员保留原实例(引用不变)', () => {
+    const w = world()
+    const hero = w.party[0]!
+    hero.hp = 42
+    applySetParty(w, ['test-hero', 'test-mate'], actors)
+    expect(w.party[0]).toBe(hero)
+    expect(w.party[0]?.hp).toBe(42)
+  })
+
+  test('未知角色 id 抛错', () => {
+    const w = world()
+    expect(() => applySetParty(w, ['nobody'], actors)).toThrow(/不在 actors 表/)
   })
 })

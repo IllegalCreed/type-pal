@@ -14,6 +14,9 @@ export interface WorldState {
   /** 剧情脚本世界状态(M3a:flags/vars/entityState/entityStage;跟存档)。旧档缺省 → 空态。 */
   script?: WorldScriptState
   party: CharacterInstance[]
+  /** C7 离队暂存区(D22 拍板):setParty 在 party ↔ reserve 间搬实例,等级/装备/HP 不丢
+   *  (对齐原版 PlayerRoles 全局存活,离队不清数据)。旧档缺省 → 空。 */
+  reserve?: CharacterInstance[]
   money: number // 金钱(跟存档走;demo 内存构造 = 0)
   /** 习得仙术关系表:charInstanceId → skillId[]。独立表(非内嵌 CharacterInstance),解耦 + MMO 玩家私有留口。 */
   learnedSkills: Record<string, string[]>
@@ -147,6 +150,38 @@ export function instantiate(actor: ActorDef): CharacterInstance {
     equipment: { ...b.initialEquipment },
     tags: [],
   }
+}
+
+/**
+ * C7 队伍变更(D22 reserve 暂存区):把 world.party 变成 members 指定的阵容(顺序即站位)。
+ *  - 已在队 → 原实例保留(等级/装备/HP 不丢);
+ *  - 在 reserve → 搬回队伍(离队期间状态原样);
+ *  - 都没有 → 从模板 instantiate(首次入队);
+ *  - 被移出的 → 进 reserve(不清数据,对齐原版 PlayerRoles 全局存活)。
+ * 身份用**角色模板 id**(铁律:杜绝下标式身份)。原地改 world(引擎处处持有 world 引用)。
+ */
+export function applySetParty(
+  world: WorldState,
+  members: readonly string[],
+  actorsById: Record<string, ActorDef>,
+): void {
+  const pool = new Map<string, CharacterInstance>()
+  for (const c of world.party) pool.set(c.template, c)
+  for (const c of world.reserve ?? []) pool.set(c.template, c)
+  const nextParty: CharacterInstance[] = []
+  for (const id of members) {
+    const kept = pool.get(id)
+    if (kept) {
+      nextParty.push(kept)
+      pool.delete(id)
+      continue
+    }
+    const a = actorsById[id]
+    if (!a) throw new Error(`setParty: 角色 "${id}" 不在 actors 表`)
+    nextParty.push(instantiate(a))
+  }
+  world.party = nextParty
+  world.reserve = [...pool.values()] // 落选的全体(含原 reserve 未点名者)留暂存
 }
 
 /**

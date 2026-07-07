@@ -375,6 +375,7 @@ export class Playback {
     playSound: (id) => this.log(`🔊 音效 ${id}`),
     playMusic: (id) => this.log(`🎵 音乐 ${id}`),
     takeEntity: (id) => this.log(`🔒 接管 ${id}`),
+    setParty: (members) => this.log(`👥 队伍变更 → ${members.join(', ')}`),
     mountParty: (id) => this.log(`🛶 挂载队伍 → ${id}`),
     unmountParty: () => this.log('🚶 下载具'),
     ride: async (id, to) => this.log(`🛶 骑行 ${id} → (${to.col},${to.row})`),
