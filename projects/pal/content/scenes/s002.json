@@ -5114,13 +5114,14 @@
                                             ]
                                           },
                                           {
-                                            "kind": "unmigrated",
-                                            "opcode": 63,
-                                            "operands": [
-                                              47,
-                                              77,
-                                              0
-                                            ]
+                                            "kind": "ride",
+                                            "entity": "e36",
+                                            "to": {
+                                              "col": 124,
+                                              "row": 30,
+                                              "height": 0
+                                            },
+                                            "speed": "slow"
                                           },
                                           {
                                             "kind": "fade",

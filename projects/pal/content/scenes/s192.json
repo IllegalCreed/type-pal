@@ -10453,13 +10453,14 @@
                     "facing": "down"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      51,
-                      36,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e3298",
+                    "to": {
+                      "col": 87,
+                      "row": -15,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "setActorSprite",
@@ -21070,13 +21071,14 @@
                     "facing": "down"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      34,
-                      19,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e3299",
+                    "to": {
+                      "col": 54,
+                      "row": -15,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "setActorSprite",

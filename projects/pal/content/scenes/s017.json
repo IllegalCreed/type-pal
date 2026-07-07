@@ -207,13 +207,14 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      27,
-                      53,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e243",
+                    "to": {
+                      "col": 80,
+                      "row": 26,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -230,13 +231,14 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      29,
-                      55,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e243",
+                    "to": {
+                      "col": 85,
+                      "row": 26,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -285,22 +287,24 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      33,
-                      45,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e244",
+                    "to": {
+                      "col": 79,
+                      "row": 12,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      22,
-                      34,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e244",
+                    "to": {
+                      "col": 56,
+                      "row": 12,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -317,22 +321,24 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      33,
-                      45,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e244",
+                    "to": {
+                      "col": 79,
+                      "row": 12,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      27,
-                      52,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e244",
+                    "to": {
+                      "col": 79,
+                      "row": 25,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -381,22 +387,24 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      37,
-                      63,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e245",
+                    "to": {
+                      "col": 100,
+                      "row": 26,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      48,
-                      51,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e245",
+                    "to": {
+                      "col": 100,
+                      "row": 3,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -413,22 +421,24 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      37,
-                      63,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e245",
+                    "to": {
+                      "col": 100,
+                      "row": 26,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      34,
-                      60,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e245",
+                    "to": {
+                      "col": 94,
+                      "row": 26,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -477,13 +487,14 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      40,
-                      41,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e246",
+                    "to": {
+                      "col": 82,
+                      "row": 1,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -500,13 +511,14 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      48,
-                      49,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e246",
+                    "to": {
+                      "col": 97,
+                      "row": 1,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -555,13 +567,14 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      56,
-                      45,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e247",
+                    "to": {
+                      "col": 101,
+                      "row": -11,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -578,13 +591,14 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      51,
-                      50,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e247",
+                    "to": {
+                      "col": 101,
+                      "row": -1,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -633,13 +647,14 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      39,
-                      51,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e248",
+                    "to": {
+                      "col": 90,
+                      "row": 12,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -656,13 +671,14 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      35,
-                      55,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e248",
+                    "to": {
+                      "col": 90,
+                      "row": 20,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -711,22 +727,24 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      13,
-                      42,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e249",
+                    "to": {
+                      "col": 55,
+                      "row": 29,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      16,
-                      45,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e249",
+                    "to": {
+                      "col": 61,
+                      "row": 29,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -743,22 +761,24 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      13,
-                      42,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e249",
+                    "to": {
+                      "col": 55,
+                      "row": 29,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      21,
-                      34,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e249",
+                    "to": {
+                      "col": 55,
+                      "row": 13,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -807,31 +827,34 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      46,
-                      57,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e250",
+                    "to": {
+                      "col": 103,
+                      "row": 11,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      38,
-                      64,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e250",
+                    "to": {
+                      "col": 103,
+                      "row": 26,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      45,
-                      71,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e250",
+                    "to": {
+                      "col": 117,
+                      "row": 26,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -848,31 +871,34 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      38,
-                      64,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e250",
+                    "to": {
+                      "col": 103,
+                      "row": 26,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      46,
-                      57,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e250",
+                    "to": {
+                      "col": 103,
+                      "row": 11,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      40,
-                      51,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e250",
+                    "to": {
+                      "col": 92,
+                      "row": 11,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -921,13 +947,14 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      33,
-                      78,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e251",
+                    "to": {
+                      "col": 111,
+                      "row": 45,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -944,13 +971,14 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      45,
-                      66,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e251",
+                    "to": {
+                      "col": 111,
+                      "row": 21,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -999,13 +1027,14 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      38,
-                      56,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e252",
+                    "to": {
+                      "col": 95,
+                      "row": 18,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -1022,13 +1051,14 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      44,
-                      62,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e252",
+                    "to": {
+                      "col": 107,
+                      "row": 18,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -1077,13 +1107,14 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      34,
-                      52,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e253",
+                    "to": {
+                      "col": 87,
+                      "row": 18,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -1100,13 +1131,14 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      37,
-                      55,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e253",
+                    "to": {
+                      "col": 92,
+                      "row": 18,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -1155,22 +1187,24 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      48,
-                      45,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e254",
+                    "to": {
+                      "col": 94,
+                      "row": -3,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      29,
-                      26,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e254",
+                    "to": {
+                      "col": 55,
+                      "row": -3,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -1187,22 +1221,24 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      48,
-                      45,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e254",
+                    "to": {
+                      "col": 94,
+                      "row": -3,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      39,
-                      55,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e254",
+                    "to": {
+                      "col": 94,
+                      "row": 16,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -1251,22 +1287,24 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      46,
-                      40,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e255",
+                    "to": {
+                      "col": 87,
+                      "row": -6,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      42,
-                      36,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e255",
+                    "to": {
+                      "col": 78,
+                      "row": -6,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -1283,22 +1321,24 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      46,
-                      40,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e255",
+                    "to": {
+                      "col": 87,
+                      "row": -6,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      38,
-                      48,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e255",
+                    "to": {
+                      "col": 87,
+                      "row": 10,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -1347,13 +1387,14 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      44,
-                      33,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e256",
+                    "to": {
+                      "col": 77,
+                      "row": -11,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -1370,13 +1411,14 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      42,
-                      35,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e256",
+                    "to": {
+                      "col": 77,
+                      "row": -7,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -1425,22 +1467,24 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      31,
-                      48,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e257",
+                    "to": {
+                      "col": 80,
+                      "row": 17,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      17,
-                      34,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e257",
+                    "to": {
+                      "col": 52,
+                      "row": 17,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -1457,22 +1501,24 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      31,
-                      48,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e257",
+                    "to": {
+                      "col": 80,
+                      "row": 17,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      34,
-                      46,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e257",
+                    "to": {
+                      "col": 80,
+                      "row": 12,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -1521,13 +1567,14 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      26,
-                      28,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e258",
+                    "to": {
+                      "col": 55,
+                      "row": 2,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -1544,13 +1591,14 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      35,
-                      37,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e258",
+                    "to": {
+                      "col": 73,
+                      "row": 2,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -1599,40 +1647,44 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      41,
-                      37,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e259",
+                    "to": {
+                      "col": 79,
+                      "row": -4,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      43,
-                      35,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e259",
+                    "to": {
+                      "col": 79,
+                      "row": -8,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      41,
-                      33,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e259",
+                    "to": {
+                      "col": 75,
+                      "row": -8,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      40,
-                      35,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e259",
+                    "to": {
+                      "col": 75,
+                      "row": -5,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "setEntityState",
@@ -1664,13 +1716,14 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      34,
-                      29,
-                      1
-                    ]
+                    "kind": "ride",
+                    "entity": "e259",
+                    "to": {
+                      "col": 64,
+                      "row": -5,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "moveParty",
@@ -1687,13 +1740,14 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 68,
-                    "operands": [
-                      40,
-                      35,
-                      0
-                    ]
+                    "kind": "ride",
+                    "entity": "e259",
+                    "to": {
+                      "col": 75,
+                      "row": -5,
+                      "height": 0
+                    },
+                    "speed": "fast"
                   },
                   {
                     "kind": "setEntityState",
