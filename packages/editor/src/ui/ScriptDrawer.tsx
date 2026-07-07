@@ -399,7 +399,10 @@ export function ScriptDrawer(props: {
       </div>
       <div className="script-drawer">
       <div className="drawer-head">
-        <span className="t">
+        <span
+          className="t"
+          style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', minWidth: 40 }}
+        >
           📜 {scene.id}
           {selectedEntityId ? ` · ${selectedEntityId}` : ''}
         </span>
@@ -483,7 +486,7 @@ export function ScriptDrawer(props: {
                   </span>
                   <select
                     className="in"
-                    style={{ height: 22, fontSize: 12 }}
+                    style={{ height: 22, fontSize: 12, width: 104, flex: 'none' }}
                     value={trig.on ?? 'interact'}
                     onChange={(e) =>
                       session.dispatch(
@@ -539,7 +542,19 @@ export function ScriptDrawer(props: {
           </button>
         ) : null}
         <span className="spacer" />
-        <span style={{ color: 'var(--faint)', fontSize: 11, marginRight: 8 }}>
+        <span
+          style={{
+            color: 'var(--faint)',
+            fontSize: 11,
+            marginRight: 8,
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            minWidth: 0,
+            flex: '0 1 auto',
+          }}
+          title="改动即入 undo(↺/↻);▶ 预览是临时副本,不改数据"
+        >
           改动即入 undo · ▶ 预览不改数据
         </span>
         <button type="button" className="mini-txt" onClick={onClose} title="收起抽屉">
