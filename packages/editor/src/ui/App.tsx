@@ -485,6 +485,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                   assetBase={project.assetBase}
                   session={session}
                   music={state.music ?? []}
+                  layers={{ grid: canvasLayers.grid, blocked: canvasLayers.blocked }}
                   onClose={() => setDrawer({ open: false, src: null })}
                 />
               )}

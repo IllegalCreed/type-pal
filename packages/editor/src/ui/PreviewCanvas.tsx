@@ -15,92 +15,23 @@ import type {
   SpriteDef,
 } from '@type-pal/content'
 import { gridToPixel, lookupText, resolveEntitySpriteId, spriteScreenY } from '@type-pal/content'
-import type { AssetBase, LoadedSprite, SpriteDraw } from '@type-pal/reforge'
+import type { AssetBase, SpriteDraw } from '@type-pal/reforge'
 import {
-  Canvas2DRenderer,
   idleFrameIndex,
-  loadPalette,
-  loadSprite,
-  loadTilemap,
-  loadTileset,
   renderSceneFrame,
   walkFrameIndex,
 } from '@type-pal/reforge'
+import {
+  drawGridBlocked,
+  drawTriggerHighlight,
+  useSceneAssets,
+  useStageSize,
+  useViewZoomPan,
+} from './scene-stage.js'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Playback } from '../core/playback.js'
 
-const ZOOM = 3
-
-/** 菱形格顶点(D16:格中心 ±16 横 / ±8 纵;世界像素 → 画布 = (w − camera) × ZOOM)。 */
-function diamondPath(
-  ctx: CanvasRenderingContext2D,
-  cx: number,
-  cy: number,
-  camera: { x: number; y: number },
-): void {
-  const sx = (wx: number): number => (wx - camera.x) * ZOOM
-  const sy = (wy: number): number => (wy - camera.y) * ZOOM
-  ctx.beginPath()
-  ctx.moveTo(sx(cx), sy(cy - 8))
-  ctx.lineTo(sx(cx + 16), sy(cy))
-  ctx.lineTo(sx(cx), sy(cy + 8))
-  ctx.lineTo(sx(cx - 16), sy(cy))
-  ctx.closePath()
-}
-
-/**
- * 选中事件的触发点/面高亮:owner 格金色描边(呼吸)+ 触发范围淡金面
- * (range = max(trigger.range, interact?1:0),切比雪夫盒 —— 与引擎 findTrigger 同源)。
- * zone/隐藏实体无精灵,此标记是它们在预览里唯一的可见形态;ghost = 隐藏实体淡显。
- */
-function drawTriggerHighlight(
-  ctx: CanvasRenderingContext2D,
-  e: EntityDef,
-  camera: { x: number; y: number },
-  now: number,
-  ghost = false,
-): void {
-  const t = e.pages?.[0]?.trigger
-  const range = t ? Math.max(t.range ?? 0, t.on === 'interact' ? 1 : 0) : 0
-  const breath = 0.55 + 0.35 * Math.sin(now / 280)
-  const alpha = ghost ? 0.35 : 1
-  ctx.save()
-  // 范围面(不含中心格,淡金填充)
-  if (range > 0) {
-    ctx.fillStyle = `rgba(255, 203, 113, ${0.2 * alpha})`
-    ctx.strokeStyle = `rgba(255, 214, 90, ${0.35 * alpha})`
-    ctx.lineWidth = 1
-    for (let dc = -range; dc <= range; dc++) {
-      for (let dr = -range; dr <= range; dr++) {
-        if (dc === 0 && dr === 0) continue
-        const p = gridToPixel({ col: e.pos.col + dc, row: e.pos.row + dr, height: 0 })
-        diamondPath(ctx, p.x, p.y, camera)
-        ctx.fill()
-        ctx.stroke()
-      }
-    }
-  }
-  // 中心格:填充 + 呼吸描边
-  const c = gridToPixel({ col: e.pos.col, row: e.pos.row, height: 0 })
-  diamondPath(ctx, c.x, c.y, camera)
-  ctx.fillStyle = `rgba(255, 203, 113, ${0.28 * alpha})`
-  ctx.fill()
-  ctx.lineWidth = 2
-  ctx.strokeStyle = `rgba(255, 214, 90, ${breath * alpha})`
-  ctx.stroke()
-  // 中心十字销(zone/隐藏实体无精灵时的锚点视觉)
-  const sx = (c.x - camera.x) * ZOOM
-  const sy = (c.y - camera.y) * ZOOM
-  ctx.strokeStyle = `rgba(255, 235, 170, ${0.9 * alpha})`
-  ctx.lineWidth = 1.5
-  ctx.beginPath()
-  ctx.moveTo(sx - 5, sy)
-  ctx.lineTo(sx + 5, sy)
-  ctx.moveTo(sx, sy - 5)
-  ctx.lineTo(sx, sy + 5)
-  ctx.stroke()
-  ctx.restore()
-}
+const DEFAULT_ZOOM = 2
 
 /** 收集脚本树里 setActorSprite 引用的精灵 id(预载,防换装闪帧)。 */
 function collectActorSprites(stages: readonly ScriptStage[]): string[] {
@@ -137,6 +68,8 @@ export function PreviewCanvas(props: {
   assetBase: AssetBase
   locale: Locale
   playback: Playback
+  /** 网格/禁入叠加(与布置模式同一开关;共享层绘制)。 */
+  layers?: { grid: boolean; blocked: boolean }
 }) {
   const {
     scene,
@@ -149,30 +82,20 @@ export function PreviewCanvas(props: {
     assetBase,
     locale,
     playback,
+    layers,
   } = props
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
-  const [size, setSize] = useState({ w: 640, h: 360 })
-  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
-  const [err, setErr] = useState('')
-  const loadedRef = useRef<{
-    renderer: Canvas2DRenderer
-    map: Awaited<ReturnType<typeof loadTilemap>>
-    spritesByNum: Map<number, LoadedSprite>
-  } | null>(null)
-  // UI 重渲由宿主(EventMode)订阅 playback.onUi 驱动:父重渲 → 本组件(未 memo)必重渲,
+  // UI 重渲由宿主订阅 playback.onUi 驱动:父重渲 → 本组件(未 memo)必重渲,
   // 控制条/对话条读到最新 playback 状态;canvas 本体由 rAF 自绘,不依赖 React。
-
-  useEffect(() => {
-    const el = wrapRef.current
-    if (!el) return
-    const ro = new ResizeObserver(() => {
-      const r = el.getBoundingClientRect()
-      setSize({ w: Math.max(80, Math.floor(r.width)), h: Math.max(80, Math.floor(r.height)) })
-    })
-    ro.observe(el)
-    return () => ro.disconnect()
-  }, [])
+  // 共享层:容器自适应 + 视图态(滚轮缩放;pan = 相对导演相机的偏移,拖拽累积)
+  const size = useStageSize(wrapRef, 80)
+  const { view, viewRef, setView } = useViewZoomPan({
+    canvasRef,
+    initial: { zoom: DEFAULT_ZOOM, panX: 0, panY: 0 },
+    centerAnchor: true,
+  })
+  const panDragRef = useRef<{ sx: number; sy: number; panX: number; panY: number } | null>(null)
 
   const spriteById = useMemo(() => new Map(sprites.map((s) => [s.id, s])), [sprites])
   const entityDef = (e: SceneDef['entities'][number]): SpriteDef | undefined => {
@@ -198,41 +121,13 @@ export function PreviewCanvas(props: {
 
   const mapNum = scene.map.reuseOriginalMap
   const paletteId = scene.paletteId ?? 0
-  const spriteNumsKey = spriteNums.join(',')
-  // biome-ignore lint/correctness/useExhaustiveDependencies: spriteNums 以 key 串比较(同 SceneCanvas 惯例)
-  useEffect(() => {
-    const ctx = canvasRef.current?.getContext('2d')
-    if (!ctx) return
-    let alive = true
-    setStatus('loading')
-    void (async () => {
-      try {
-        const [map, tiles, palette] = await Promise.all([
-          loadTilemap(assetBase, mapNum),
-          loadTileset(assetBase, mapNum),
-          loadPalette(assetBase, paletteId),
-        ])
-        const entries = await Promise.all(
-          spriteNums.map(async (n) => [n, await loadSprite(assetBase, n)] as const),
-        )
-        if (!alive) return
-        loadedRef.current = {
-          renderer: new Canvas2DRenderer(ctx, palette, tiles),
-          map,
-          spritesByNum: new Map(entries),
-        }
-        setStatus('ready')
-      } catch (e) {
-        if (alive) {
-          setErr(e instanceof Error ? e.message : String(e))
-          setStatus('error')
-        }
-      }
-    })()
-    return () => {
-      alive = false
-    }
-  }, [assetBase, mapNum, paletteId, spriteNumsKey])
+  const { status, err, loadedRef } = useSceneAssets({
+    canvasRef,
+    assetBase,
+    mapNum,
+    paletteId,
+    spriteNums,
+  })
 
   // rAF:tick 演出 + 合成一帧
   // biome-ignore lint/correctness/useExhaustiveDependencies: entityDef/spriteById 纯派生;rAF 每帧读最新
@@ -319,7 +214,7 @@ export function PreviewCanvas(props: {
           })
         }
       }
-      // 相机:向兴趣点平滑趋近(帧率无关 lerp;首帧直达)
+      // 相机 = 导演(POI 平滑趋近)+ 用户偏移(拖拽/缩放,共享视图态);首帧直达
       const tgt = camTarget()
       if (!cam) cam = { ...tgt }
       else {
@@ -327,17 +222,24 @@ export function PreviewCanvas(props: {
         cam.x += (tgt.x - cam.x) * k
         cam.y += (tgt.y - cam.y) * k
       }
-      const camera = { x: cam.x - size.w / ZOOM / 2, y: cam.y - size.h / ZOOM / 2 }
+      const { zoom, panX, panY } = viewRef.current
+      const camera = {
+        x: cam.x - size.w / zoom / 2 + panX,
+        y: cam.y - size.h / zoom / 2 + panY,
+      }
       const room = scene.map.room ?? { col: 0, row: 0, cols: map.width, rows: map.height }
-      renderSceneFrame(ctx, renderer, { map, room, camera, sprites: draws, worldScale: ZOOM })
+      renderSceneFrame(ctx, renderer, { map, room, camera, sprites: draws, worldScale: zoom })
+      // 网格/禁入叠加(与布置模式同开关同画法;共享层)
+      if (layers)
+        drawGridBlocked(ctx, map, room, { zoom, panX: camera.x, panY: camera.y }, layers)
       // 触发点/面高亮:选中事件的 owner 格描边 + 触发范围面(range 切比雪夫盒,引擎 findTrigger 同源)。
       // zone 实体无精灵,这是它在预览里唯一的可见形态。
       if (focusEntityId) {
         const e = scene.entities.find((x) => x.id === focusEntityId)
         if (e && !(v.entity.get(e.id)?.hidden ?? e.hidden)) {
-          drawTriggerHighlight(ctx, e, camera, now)
+          drawTriggerHighlight(ctx, e, camera, viewRef.current.zoom, now)
         } else if (e) {
-          drawTriggerHighlight(ctx, e, camera, now, /* ghost= */ true) // 隐藏实体:淡显位置仍可寻
+          drawTriggerHighlight(ctx, e, camera, viewRef.current.zoom, now, /* ghost= */ true) // 隐藏实体:淡显位置仍可寻
         }
       }
       // 淡幕
@@ -352,7 +254,7 @@ export function PreviewCanvas(props: {
     }
     raf = requestAnimationFrame(frame)
     return () => cancelAnimationFrame(raf)
-  }, [status, scene, size.w, size.h, playback, spriteById, leaderSpriteId, focusEntityId])
+  }, [status, scene, size.w, size.h, playback, spriteById, leaderSpriteId, focusEntityId, layers])
 
   const v = playback.view
   const mode = playback.mode
@@ -432,7 +334,48 @@ export function PreviewCanvas(props: {
         </span>
       </div>
       <div ref={wrapRef} className="preview-stage">
-        <canvas ref={canvasRef} width={size.w} height={size.h} />
+        <canvas
+          ref={canvasRef}
+          width={size.w}
+          height={size.h}
+          style={{ cursor: 'grab', touchAction: 'none' }}
+          onPointerDown={(e) => {
+            panDragRef.current = {
+              sx: e.clientX,
+              sy: e.clientY,
+              panX: viewRef.current.panX,
+              panY: viewRef.current.panY,
+            }
+            try {
+              e.currentTarget.setPointerCapture(e.pointerId)
+            } catch {
+              /* 边缘指针忽略 */
+            }
+          }}
+          onPointerMove={(e) => {
+            const pd = panDragRef.current
+            if (!pd) return
+            const { zoom } = viewRef.current
+            setView((v) => ({
+              ...v,
+              panX: pd.panX - (e.clientX - pd.sx) / zoom,
+              panY: pd.panY - (e.clientY - pd.sy) / zoom,
+            }))
+          }}
+          onPointerUp={() => {
+            panDragRef.current = null
+          }}
+        />
+        {view.zoom !== DEFAULT_ZOOM || view.panX !== 0 || view.panY !== 0 ? (
+          <button
+            type="button"
+            className="mini-txt preview-recenter"
+            title="回正:恢复跟随镜头与默认缩放"
+            onClick={() => setView({ zoom: DEFAULT_ZOOM, panX: 0, panY: 0 })}
+          >
+            ⌖ 回正 {Math.round((view.zoom / DEFAULT_ZOOM) * 100)}%
+          </button>
+        ) : null}
         {status === 'loading' ? <div className="preview-tip">加载资产…</div> : null}
         {status === 'error' ? <div className="preview-tip err">{err}</div> : null}
         {dlg ? (

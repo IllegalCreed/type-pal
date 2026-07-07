@@ -2219,3 +2219,11 @@ body {
 .mini-txt.sel { border-color: var(--acc); color: var(--fg); background: var(--panel); }
 .drawer-tabs { display: inline-flex; gap: 4px; margin-left: 10px; }
 .mini-txt:disabled { opacity: 0.4; cursor: default; }
+
+/* 预览回正(拖/缩后浮现,右上角) */
+.preview-recenter {
+  position: absolute;
+  top: 34px;
+  right: 8px;
+  z-index: 3;
+}

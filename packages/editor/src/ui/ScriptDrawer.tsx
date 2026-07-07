@@ -264,6 +264,8 @@ export function ScriptDrawer(props: {
   assetBase: AssetBase
   session: EditSession
   music: MusicDef[]
+  /** 网格/禁入叠加开关(与布置模式同一状态;传给大预览)。 */
+  layers?: { grid: boolean; blocked: boolean }
   onClose: () => void
 }) {
   const {
@@ -278,6 +280,7 @@ export function ScriptDrawer(props: {
     assetBase,
     session,
     music,
+    layers,
     onClose,
   } = props
   const [srcKey, setSrcKey] = useState<string | null>(focusSrcKey ?? null)
@@ -388,6 +391,7 @@ export function ScriptDrawer(props: {
             assetBase={assetBase}
             locale={locale}
             playback={playback}
+            layers={layers}
           />
         ) : (
           <div className="insp-empty">选择/创建脚本源后,此处预览演出。</div>
