@@ -961,6 +961,10 @@ async function main(): Promise<void> {
           const sp = project.skills[sid]?.animation.effectSprite
           if (sp !== undefined && sp >= 0) fireChunks.add(sp)
         }
+        // 合体技 fire 特效:coop 走 cooperativeMagicSkillId(不在 learnedSkills),漏载 → 合击无技能动画
+        const coopId = project.actorsById[c.template]?.battler?.cooperativeMagicSkillId
+        const coopSp = coopId ? project.skills[coopId]?.animation.effectSprite : undefined
+        if (coopSp !== undefined && coopSp >= 0) fireChunks.add(coopSp)
       }
       for (const e of enemyDefs) {
         for (const r of e.ai.rules ?? []) {
