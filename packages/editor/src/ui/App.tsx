@@ -71,6 +71,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
     entities: true,
     grid: false,
     blocked: false,
+    ghosts: true, // 显隐透视:隐藏实体半透明(编辑器默认开;游戏内不渲染)
   })
   const [placeSceneId, setPlaceSceneId] = useState<string>(state.manifest.entryScene)
   // 放置 palette:add 工具态右栏选「要放的精灵」(审计断点 #1)
@@ -397,6 +398,14 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                   />{' '}
                   实体
                 </label>
+                <label className="lrow" title="初始隐藏的实体(剧情后期才出场)画成半透明幽灵,可点选编排;游戏内不渲染">
+                  <input
+                    type="checkbox"
+                    checked={canvasLayers.ghosts}
+                    onChange={(e) => setCanvasLayers({ ...canvasLayers, ghosts: e.target.checked })}
+                  />{' '}
+                  隐藏实体(透视)
+                </label>
               </div>
             </div>
 
@@ -485,7 +494,11 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                   assetBase={project.assetBase}
                   session={session}
                   music={state.music ?? []}
-                  layers={{ grid: canvasLayers.grid, blocked: canvasLayers.blocked }}
+                  layers={{
+                    grid: canvasLayers.grid,
+                    blocked: canvasLayers.blocked,
+                    ghosts: canvasLayers.ghosts,
+                  }}
                   onClose={() => setDrawer({ open: false, src: null })}
                 />
               )}

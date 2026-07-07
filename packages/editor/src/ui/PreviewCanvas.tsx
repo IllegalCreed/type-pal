@@ -68,8 +68,8 @@ export function PreviewCanvas(props: {
   assetBase: AssetBase
   locale: Locale
   playback: Playback
-  /** 网格/禁入叠加(与布置模式同一开关;共享层绘制)。 */
-  layers?: { grid: boolean; blocked: boolean }
+  /** 网格/禁入/透视叠加(与布置模式同一开关;共享层绘制)。 */
+  layers?: { grid: boolean; blocked: boolean; ghosts?: boolean }
 }) {
   const {
     scene,
@@ -169,7 +169,8 @@ export function PreviewCanvas(props: {
       for (const e of scene.entities) {
         const ov = v.entity.get(e.id)
         const hidden = ov?.hidden ?? e.hidden ?? false
-        if (hidden) continue
+        const ghost = hidden && !!layers?.ghosts // 透视:隐藏实体半透明可见(剧情后期出场的 NPC)
+        if (hidden && !ghost) continue
         const def = entityDef(e)
         const sp = def ? spritesByNum.get(def.spriteNum) : undefined
         if (!def || !sp) continue
@@ -191,6 +192,7 @@ export function PreviewCanvas(props: {
           anchorX: Math.floor(f.width / 2),
           anchorY: f.height,
           baseYBias: e.zBias,
+          ...(ghost ? { alpha: 0.45 } : {}),
         })
       }
       // 玩家(gesture/换装)

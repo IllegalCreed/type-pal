@@ -65,6 +65,8 @@ export interface SpriteDraw {
   anchorY: number
   /** 画序偏置(原版 sLayer 人工覆盖;加进 baseY 排序键,不动 blit 位置)。 */
   baseYBias?: number
+  /** 不透明度(编辑器幽灵渲染等;缺省 1)。 */
+  alpha?: number
 }
 
 /**
@@ -207,7 +209,19 @@ export class Canvas2DRenderer implements Renderer {
       const r = spriteBlitRect(s)
       const bx = Math.round(r.x + ox)
       const by = Math.round(r.y + oy)
-      entries.push({ baseY: s.worldY + 9 + (s.baseYBias ?? 0) * 8, draw: () => this.ctx.drawImage(img, bx, by) })
+      const alpha = s.alpha
+      entries.push({
+        baseY: s.worldY + 9 + (s.baseYBias ?? 0) * 8,
+        draw:
+          alpha !== undefined && alpha < 1
+            ? () => {
+                this.ctx.save()
+                this.ctx.globalAlpha = alpha
+                this.ctx.drawImage(img, bx, by)
+                this.ctx.restore()
+              }
+            : () => this.ctx.drawImage(img, bx, by),
+      })
       if (!opts?.skipCover)
         this.addCoverTiles(entries, map, s.worldX, s.worldY, s.frame.width, s.frame.height, ox, oy)
     }

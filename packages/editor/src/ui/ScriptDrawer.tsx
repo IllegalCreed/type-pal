@@ -285,8 +285,8 @@ export function ScriptDrawer(props: {
   assetBase: AssetBase
   session: EditSession
   music: MusicDef[]
-  /** 网格/禁入叠加开关(与布置模式同一状态;传给大预览)。 */
-  layers?: { grid: boolean; blocked: boolean }
+  /** 网格/禁入/透视叠加开关(与布置模式同一状态;传给大预览)。 */
+  layers?: { grid: boolean; blocked: boolean; ghosts?: boolean }
   onClose: () => void
 }) {
   const {

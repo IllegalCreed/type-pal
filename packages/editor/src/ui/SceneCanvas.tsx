@@ -50,7 +50,15 @@ export function SceneCanvas(props: {
   selectedId: string | null
   tool: Tool
   /** 图层显隐(布置模式左栏开关):base 地板 / cover 高物 / entities 实体 / grid 网格 / blocked 禁入格。 */
-  layers: { base: boolean; cover: boolean; entities: boolean; grid: boolean; blocked: boolean }
+  layers: {
+    base: boolean
+    cover: boolean
+    entities: boolean
+    grid: boolean
+    blocked: boolean
+    /** 显隐透视:初始隐藏实体画半透明幽灵(可点选编排;剧情后期才出场的 NPC 全靠它可见)。 */
+    ghosts: boolean
+  }
   onSelect: (id: string | null) => void
   onMoveEntity: (id: string, cell: { col: number; row: number }) => void
   onAddAt: (cell: { col: number; row: number }) => void
@@ -173,7 +181,8 @@ export function SceneCanvas(props: {
     }
     // 各实体(站立帧 = layout × facing)+ 记命中盒;实体图层关 → 不画不可点
     for (const e of layers.entities ? scene.entities : []) {
-      if (e.hidden) continue // 初始隐藏(M2a):编辑器画布同引擎不渲染(后续可加"显隐透视"开关)
+      const ghost = e.hidden === true
+      if (ghost && !layers.ghosts) continue // 透视关:同引擎不渲染
       const def = entitySpriteDef(e)
       const sp = def ? spritesByNum.get(def.spriteNum) : undefined
       const f = def
@@ -194,6 +203,7 @@ export function SceneCanvas(props: {
         anchorX: ax,
         anchorY: ay,
         baseYBias: e.zBias,
+        ...(ghost ? { alpha: 0.45 } : {}),
       })
       hits.push({ id: e.id, ...physRect(p.x, wy, ax, ay, f.width, f.height) })
     }
