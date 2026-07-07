@@ -25,7 +25,7 @@ export function validateScenes(json: unknown): SceneDef[] {
   const arr = assertArray<SceneDef>(json, 'scenes')
   arr.forEach((s, i) => {
     const o = assertObject(s, `scenes[${i}]`)
-    requireKeys(o, ['id', 'map', 'entry', 'entities', 'dialogues'], `scenes[${i}]`)
+    requireKeys(o, ['id', 'map', 'entry', 'entities'], `scenes[${i}]`)
     if (typeof (s as { id: unknown }).id !== 'string') throw new Error(`scenes[${i}]: id 非string`)
     // paletteId 可选;若在则须 number(缺省 0 由调用方 ?? 兜)。
     const paletteId = (s as { paletteId?: unknown }).paletteId

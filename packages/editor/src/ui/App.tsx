@@ -519,7 +519,6 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                   sceneId={scene.id}
                   locale={state.locale}
                   actorsById={actorsById}
-                  dialogueIds={scene.dialogues.map((d) => d.id)}
                   enemyTeams={state.enemyTeams ?? []}
                   sprites={state.sprites}
                   onJumpToEvent={jumpToEvent}
@@ -630,7 +629,6 @@ function EntityInspector(props: {
   sceneId: string
   locale: Locale
   actorsById: Record<string, ActorDef>
-  dialogueIds: string[]
   /** 敌队清单(B9 敌对行为 team 下拉;id 约定 team-<N>,引擎按 N 查)。 */
   enemyTeams: EnemyTeamDef[]
   /** 精灵注册表(prop 实体换精灵下拉)。 */
@@ -645,7 +643,6 @@ function EntityInspector(props: {
     sceneId,
     locale,
     actorsById,
-    dialogueIds,
     enemyTeams,
     sprites,
     onJumpToEvent,
@@ -744,25 +741,21 @@ function EntityInspector(props: {
           </div>
         </div>
         <div className="field">
-          <label>交互对话</label>
-          <select
-            className="in"
-            value={entity.interact ?? ''}
-            onChange={(e) =>
-              session.dispatch(
-                new UpdateEntityCommand(sceneId, entity.id, {
-                  interact: e.target.value || undefined,
-                }),
-              )
-            }
-          >
-            <option value="">(无)</option>
-            {dialogueIds.map((d) => (
-              <option key={d} value={d}>
-                {d}
-              </option>
-            ))}
-          </select>
+          <label>初始显隐</label>
+          <div title="隐藏 = 游戏里初始不出现(剧情脚本 setEntityState 可显形);编辑器「隐藏实体(透视)」图层仍半透明可见">
+            <input
+              type="checkbox"
+              checked={entity.hidden === true}
+              onChange={(e) =>
+                session.dispatch(
+                  new UpdateEntityCommand(sceneId, entity.id, {
+                    hidden: e.target.checked ? true : undefined,
+                  }),
+                )
+              }
+            />{' '}
+            初始隐藏(待剧情出场)
+          </div>
         </div>
       </div>
       <div className="section">

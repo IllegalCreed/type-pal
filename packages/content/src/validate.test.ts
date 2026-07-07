@@ -6,7 +6,6 @@ const mkScene = (over: Record<string, unknown> = {}): unknown => ({
   map: { reuseOriginalMap: 1, room: { col: 0, row: 0, cols: 1, rows: 1 } },
   entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
   entities: [],
-  dialogues: [],
   ...over,
 })
 const mkEnt = (ref: Record<string, unknown>): Record<string, unknown> => ({

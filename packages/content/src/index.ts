@@ -81,7 +81,6 @@ export interface EntityBase {
   /** 是否挡路（碰撞） */
   collide?: boolean
   /** 交互触发的对话 id */
-  interact?: string
   /** 初始隐藏(原版 sState=0;脚本届时显形 = M3/B2 状态页)。隐藏 = 不渲染不碰撞。 */
   hidden?: boolean
   /** 画序偏置(原版 sLayer 人工覆盖;叠加进 Y-sort 基线,防遮挡漂移)。 */
@@ -150,7 +149,6 @@ export interface SceneDef {
   entry: { pos: GridPos; facing: Facing }
   /** 场上 NPC / 物件（不含玩家） */
   entities: EntityDef[]
-  dialogues: Dialogue[]
   /** 进场脚本(M3;stages:原版首访 cutscene 演完 advance,之后只跑纯 setup 段)。 */
   onEnter?: ScriptStage[]
   /**

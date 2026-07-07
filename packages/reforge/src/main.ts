@@ -2024,21 +2024,7 @@ async function main(): Promise<void> {
     },
   }
 
-  function dialogueById(id: string): Dialogue | undefined {
-    return scene.dialogues.find((d) => d.id === id)
-  }
 
-  /** 玩家附近、可交互的实体（取首个有 interact 且在像素范围内的）。 */
-  function nearbyInteractable(): EntityDef | undefined {
-    const pp = gridToPixel(player.pos)
-    return scene.entities.find((e) => {
-      if (!e.interact || e.hidden) return false
-      const ep = gridToPixel(e.pos)
-      const ex = ep.x - pp.x
-      const ey = ep.y - pp.y
-      return ex * ex + ey * ey <= INTERACT_RANGE * INTERACT_RANGE
-    })
-  }
 
   /** 当前按下的方向键 → 朝向(后按优先:按住一个再按另一个,新方向立即生效;一阶段同语义)。 */
   const ARROW_TO_FACING: Record<string, Facing> = {
@@ -2343,13 +2329,7 @@ async function main(): Promise<void> {
         })
       } else if (interact) {
         const trig = findTrigger('interact')
-        if (trig) {
-          fireTrigger(trig) // M3a:迁移触发脚本优先
-        } else {
-          const ent = nearbyInteractable()
-          const dlg = ent?.interact ? dialogueById(ent.interact) : undefined
-          if (dlg) dialogBox.open(startDialogue(dlg), t) // demo 旧路:对话 id
-        }
+        if (trig) fireTrigger(trig)
       }
       if (!menu.active && !dialogBox.active) {
         // dev:[ / ] 循环切场景(M2c 验收拐杖;定位原版场景)

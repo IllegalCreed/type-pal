@@ -10,8 +10,7 @@ const base: ContentBundle = {
       id: 's',
       map: { reuseOriginalMap: 1, room: { col: 0, row: 0, cols: 1, rows: 1 } },
       entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
-      entities: [{ id: 'e', pos: { col: 0, row: 0, height: 0 }, sprite: 'ghost', interact: 'talk' }],
-      dialogues: [{ id: 'talk', lines: [{ text: 'dlg.talk.0' }] }],
+      entities: [{ id: 'e', pos: { col: 0, row: 0, height: 0 }, sprite: 'ghost' }],
     },
   ],
   actors: [
@@ -35,23 +34,6 @@ const base: ContentBundle = {
 
 test('干净 bundle → 无 issue', () => {
   expect(validateReferences(base)).toEqual([])
-})
-test('entity.interact 指向不存在对话 → 报 error', () => {
-  const b = clone(base)
-  b.scenes[0]!.entities[0]!.interact = 'nope'
-  const iss = validateReferences(b)
-  expect(iss.some((i) => i.severity === 'error' && /interact.*nope/.test(i.where + i.message))).toBe(
-    true,
-  )
-})
-test('DialogueLine.text 不在 locale → 报 warn', () => {
-  const b = clone(base)
-  b.scenes[0]!.dialogues[0]!.lines[0]!.text = 'dlg.missing'
-  expect(
-    validateReferences(b).some(
-      (i) => /locale/.test(i.message) && /dlg\.missing/.test(i.where + i.message),
-    ),
-  ).toBe(true)
 })
 test('levelUp.skillId 不在 skills → 报 warn(demo 已知未迁全)', () => {
   const b = clone(base)
@@ -136,13 +118,4 @@ test('SkillCost.items[].itemId 不在 items → 报 warn', () => {
   const b = clone(base)
   ;(b.skills[0] as { cost?: unknown }).cost = { items: [{ itemId: 'no-wine', amount: 1 }] }
   expect(validateReferences(b).some((i) => /no-wine/.test(i.where + i.message))).toBe(true)
-})
-test('DialogueLine.speaker 不在 locale → 报 warn', () => {
-  const b = clone(base)
-  b.scenes[0]!.dialogues[0]!.lines[0]!.speaker = 'name.unknown'
-  expect(
-    validateReferences(b).some(
-      (i) => /locale/.test(i.message) && /name\.unknown/.test(i.where + i.message),
-    ),
-  ).toBe(true)
 })

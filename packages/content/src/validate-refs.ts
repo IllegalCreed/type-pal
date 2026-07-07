@@ -71,7 +71,6 @@ export function validateReferences(b: ContentBundle): Issue[] {
 
   // ── scenes ──────────────────────────────────────────────
   b.scenes.forEach((scene, si) => {
-    const dialogueIds = new Set(scene.dialogues.map((d) => d.id))
     scene.entities.forEach((e, ei) => {
       const where = `scenes[${si}].entities[${ei}]`
       if (isActorEntity(e)) {
@@ -82,19 +81,6 @@ export function validateReferences(b: ContentBundle): Issue[] {
         // prop 的 sprite → sprites 注册表(缺 = error:引擎 loadSprite 会 throw)
         issues.push({ severity: 'error', where: `${where}.sprite`, message: `精灵 "${e.sprite}" 不在 sprites 注册表` })
       } // zone:true 无视觉引用,无需校验
-      // interact → 同场景 dialogues(缺 = error:startDialogue 会拿不到)
-      if (e.interact && !dialogueIds.has(e.interact))
-        issues.push({ severity: 'error', where: `${where}.interact`, message: `interact "${e.interact}" 不在场景 "${scene.id}" 的 dialogues` })
-    })
-    // DialogueLine.text / speaker → locale(缺 = warn:lookupText 回落显 id,不崩)
-    scene.dialogues.forEach((d, di) => {
-      d.lines.forEach((line, li) => {
-        const lw = `scenes[${si}].dialogues[${di}].lines[${li}]`
-        if (line.text && !localeKeys.has(line.text))
-          issues.push({ severity: 'warn', where: `${lw}.text`, message: `文本 id "${line.text}" 不在 locale(渲染会显 id)` })
-        if (line.speaker && !localeKeys.has(line.speaker))
-          issues.push({ severity: 'warn', where: `${lw}.speaker`, message: `说话人 id "${line.speaker}" 不在 locale` })
-      })
     })
   })
 

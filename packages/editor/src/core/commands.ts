@@ -205,7 +205,7 @@ export class DeleteEntityCommand implements Command {
 /** UpdateEntity 的 patch 范围(collide / interact / facing / hostile)。
  *  C0:'sprite' 移出——实体引用(actor⊕sprite)切换是 C1 的专门命令/UI,patch 不表达联合切换。
  *  B9:hostile 整对象替换(非深合并);传 undefined = 撤销敌对。 */
-export type EntityPatch = Partial<Pick<EntityDef, 'collide' | 'interact' | 'facing' | 'hostile'>>
+export type EntityPatch = Partial<Pick<EntityDef, 'collide' | 'facing' | 'hostile' | 'hidden'>>
 
 /**
  * 改实体字段(collide/interact/facing/hostile)。apply 记下**被 patch 覆盖的旧值**,
@@ -245,8 +245,8 @@ export class UpdateEntityCommand implements Command {
   private captureOld(entity: EntityDef): EntityPatch {
     const old: EntityPatch = {}
     if ('collide' in this.patch) old.collide = entity.collide
-    if ('interact' in this.patch) old.interact = entity.interact
     if ('facing' in this.patch) old.facing = entity.facing
+    if ('hidden' in this.patch) old.hidden = entity.hidden
     if ('hostile' in this.patch)
       old.hostile = entity.hostile ? structuredClone(entity.hostile) : undefined
     return old
@@ -1148,7 +1148,6 @@ export class AddSceneCommand implements Command {
       ...(paletteId !== undefined ? { paletteId } : {}),
       entry: structuredClone(entry),
       entities: [],
-      dialogues: [],
     }
   }
 

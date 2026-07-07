@@ -36,7 +36,6 @@ function st(): EditorState {
         map: {} as never,
         entry: {} as never,
         entities: [ent('a'), ent('b')],
-        dialogues: [],
       },
     ],
     actors: [],
@@ -120,17 +119,17 @@ describe('布置命令集 · 不可变 + invert', () => {
     expect(cmd.invert(s1).scenes[0]!.entities[0]!.collide).toBe(true)
   })
 
-  test('UpdateEntity:改 interact + facing 多字段,invert 还原各自旧值(C0:sprite 已移出 patch)', () => {
+  test('UpdateEntity:改 hidden + facing 多字段,invert 还原各自旧值(interact 已随 demo 旧路退役)', () => {
     const s0 = st()
-    s0.scenes[0]!.entities[0]!.interact = 'old-talk'
-    const cmd = new UpdateEntityCommand('s', 'a', { facing: 'left', interact: 'new-talk' })
+    s0.scenes[0]!.entities[0]!.hidden = true
+    const cmd = new UpdateEntityCommand('s', 'a', { facing: 'left', hidden: undefined })
     const s1 = cmd.apply(s0)
 
     expect(ent0(s1).facing).toBe('left')
-    expect(ent0(s1).interact).toBe('new-talk')
+    expect(ent0(s1).hidden).toBeUndefined() // 取消隐藏
     const back = cmd.invert(s1).scenes[0]!.entities[0]!
     expect(back.facing).toBeUndefined() // 旧 facing(未设 = undefined)
-    expect(back.interact).toBe('old-talk') // 旧 interact
+    expect(back.hidden).toBe(true) // 旧 hidden(曾漏记 captureOld,undo 不回 —— 钉住)
   })
 
   test('UpdateEntity:pos 不在 patch 范围 —— 不可变且不丢失', () => {
@@ -180,8 +179,8 @@ describe('布置命令集 · 不可变 + invert', () => {
   test('Add/Update 只动目标场景,旁场景引用不变', () => {
     const s0 = st()
     s0.scenes = [
-      { id: 's', map: {} as never, entry: {} as never, entities: [ent('a')], dialogues: [] },
-      { id: 'other', map: {} as never, entry: {} as never, entities: [ent('x')], dialogues: [] },
+      { id: 's', map: {} as never, entry: {} as never, entities: [ent('a')] },
+      { id: 'other', map: {} as never, entry: {} as never, entities: [ent('x')] },
     ]
     const s1 = new AddEntityCommand('s', ent('b')).apply(s0)
     expect(s1.scenes[1]).toBe(s0.scenes[1]) // 旁场景同引用(未展开 = 未变)
