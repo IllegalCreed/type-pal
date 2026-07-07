@@ -42,6 +42,20 @@ export interface FollowerPosState {
 }
 
 /**
+ * trail 推进(原版 rgTrail 模型)。同格不记(原地转身队员不动)。
+ * ⚠ dir = **离开该格的方向**(PAL_UpdateParty 先定向后记录):推进时回写旧头 dir 为本步方向。
+ * 拐角格因此记「新方向」,偏移向量提前一槽翻转 → 跟随者拐弯甩尾(m1 甩到拐角外侧再回落)。
+ * 8 字实测原版逐行如此;若记「到达方向」会晚一槽 = 贴路径滑,不忠实(2026-07-07 双轨迹对比定案)。
+ */
+export function pushTrail(trail: TrailEntry[], pos: GridPos, facing: Facing, cap = 6): void {
+  const head = trail[0]
+  if (head && head.pos.col === pos.col && head.pos.row === pos.row) return
+  if (head) head.dir = facing // 离开方向回写
+  trail.unshift({ pos: { ...pos }, dir: facing })
+  if (trail.length > cap) trail.length = cap
+}
+
+/**
  * 跟随者位置 + 朝向 —— port computeFollowerWorldPos(菱形格域)。
  *
  * walking:位置 = trail[1] + 方向偏移(撞墙回退 trail[1]);朝向 = trail[2].dir;捕获冻结快照。

@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { computeFollowerPos, type FollowerPosState, type TrailEntry } from './follower.js'
+import { computeFollowerPos, type FollowerPosState, pushTrail, type TrailEntry } from './follower.js'
 
 const g = (col: number, row: number) => ({ col, row, height: 0 })
 const walkable = () => true
@@ -61,6 +61,31 @@ describe('computeFollowerPos —— 间距校准(phase-1 live 实测:m1=队长�
     s.frozenOffset[1] = { dcol: 2, drow: 0, dir: 'left' }
     const p = computeFollowerPos(s, 1, walkable)!
     expect(p.pos).toEqual(g(12, 10))
+  })
+
+  test('pushTrail 离开方向语义:回写旧头 dir;同格不记(原地转身)', () => {
+    const trail: TrailEntry[] = []
+    pushTrail(trail, g(10, 10), 'right')
+    pushTrail(trail, g(11, 10), 'right')
+    pushTrail(trail, g(11, 10), 'up') // 同格 → 不记且不回写
+    expect(trail.length).toBe(2)
+    expect(trail[0]!.dir).toBe('right')
+    pushTrail(trail, g(11, 9), 'up') // 真步:旧头(11,10)回写离开方向 up
+    expect(trail[1]!.dir).toBe('up')
+    expect(trail[0]!.pos).toEqual(g(11, 9))
+  })
+
+  test('拐弯甩尾(8字实测钉死):拐角格记新方向 → m1 甩到拐角外侧再回落', () => {
+    // 队长向右(col+1)走到拐角 (13,10),再向下(row+1)走 2 步。
+    // 原版逐行实测:队长离拐角 2 步时,m1 = 拐角 + 新方向背后偏移 = 甩出点(非路径格)。
+    const trail: TrailEntry[] = []
+    for (let c = 8; c <= 13; c++) pushTrail(trail, g(c, 10), 'right')
+    pushTrail(trail, g(13, 11), 'down')
+    pushTrail(trail, g(13, 12), 'down')
+    const s: FollowerPosState = { party: g(13, 12), trail, walking: true, frozenOffset: [] }
+    const p1 = computeFollowerPos(s, 1, () => true)!
+    // base = trail[2] = 拐角 (13,10),dir 已回写为离开方向 down → 偏移 (0,-1) → 甩出点 (13,9)
+    expect(p1.pos).toEqual(g(13, 9))
   })
 
   test('walking 捕获冻结快照;trail<=1 返回 null', () => {

@@ -26,7 +26,7 @@ import {
   type WalkSpeed,
 } from '@type-pal/content'
 import type { Palette, RleFrame, Tilemap } from '@type-pal/shared'
-import { computeFollowerPos, type FollowerFrozen, type TrailEntry } from './follower.js'
+import { computeFollowerPos, type FollowerFrozen, pushTrail, type TrailEntry } from './follower.js'
 import {
   type AssetBase,
   type BattleFieldEntry,
@@ -718,18 +718,19 @@ async function main(): Promise<void> {
       else authority.delete(id)
     },
     // E7 载具(D20 父动子随;原版 0xA1 聚拢 + 0x3F/44/97 骑乘的 clean 表达)
+    // 全员叠筏:队长 + 全部跟随者一起 mount 同偏移(原版 0xA1 全员重叠队首;芦苇漂 1 格共乘)。
     mountParty: (entityId, dx, dy) => {
       authority.set('party', { kind: 'mount', parent: entityId, dx, dy })
+      for (let m = 1; m < world.party.length; m++)
+        followerAuth.set(m, { kind: 'mount', parent: entityId, dx, dy })
     },
     unmountParty: () => {
-      const a = authority.get('party')
-      if (a?.kind === 'mount') authority.delete('party') // 位置留当下(派生的最后值)
+      dismountParty()
     },
     ride: async (entityId, to, speed) => {
-      // 骑行 = 确保挂载 + 驱动载具走位(party 每 tick 派生跟随,相机随 render 帧更新)
+      // 骑行 = 确保全员挂载 + 驱动载具走位(party 每 tick 派生跟随,相机随 render 帧更新)
       const a = authority.get('party')
-      if (!(a?.kind === 'mount' && a.parent === entityId))
-        authority.set('party', { kind: 'mount', parent: entityId, dx: 0, dy: 0 })
+      if (!(a?.kind === 'mount' && a.parent === entityId)) host.mountParty(entityId, 0, 0)
       takeByScript(entityId) // 载具本身按位移指令语义接管(其 auto 暂停)
       await host.moveEntity(entityId, to, speed)
     },
@@ -768,6 +769,7 @@ async function main(): Promise<void> {
     },
     moveParty: (to, speed) =>
       new Promise((resolve) => {
+        dismountParty() // 走位即下筏(原版 ride 是 op-scoped,挂载不跨走位;零持久态)
         partyMove = { to, speed, resolve } // 世界拍推进(advanceMoves)
       }),
     nudgeParty: (dx, dy) => {
@@ -1255,6 +1257,23 @@ async function main(): Promise<void> {
   }
 
   /**
+   * E7:下筏(全员卸载 + trail 聚拢重播)。骑乘是 op-scoped 瞬时态:显式 unmountParty、
+   * 走位(moveParty)、脚本收尾/强停 都会来这 —— 不存在跨点持久挂载。
+   * trail 塌成队长当前格 = 下筏全员叠在队长,走开自然拉出队形(原版 0xA1 聚拢态同感)。
+   */
+  function dismountParty(): void {
+    const a = authority.get('party')
+    let mounted = a?.kind === 'mount'
+    for (let m = 1; m < world.party.length; m++)
+      if (followerAuth.get(m)?.kind === 'mount') mounted = true
+    if (!mounted) return
+    if (a?.kind === 'mount') authority.delete('party')
+    for (let m = 1; m < world.party.length; m++)
+      if (followerAuth.get(m)?.kind === 'mount') followerAuth.delete(m)
+    trail = [{ pos: { ...player.pos }, dir: facing }]
+  }
+
+  /**
    * E7:跟随者定位 —— 1:1 移植原版 follower-pos.ts(trail 下标槽 + facing 偏移 + frozenOffset)。
    * follow=原版 trail[1]+偏移模型 / mount=父+偏移(骑乘) / script=显式持有。
    */
@@ -1519,6 +1538,7 @@ async function main(): Promise<void> {
         if (runner !== r) return
         runner = null
         scriptAbort = null
+        dismountParty() // E7 兜底收尾人:脚本链结束仍挂载 → 下筏(防跟随者漏挂持久态)
         authority.clear() // E6a:脚本链收尾统一归还(兜底收尾人;续链新段自行重新接管)
         if (pendingOnEnter) {
           const sid = pendingOnEnter
@@ -1548,6 +1568,7 @@ async function main(): Promise<void> {
     const r = scriptDialogResolve
     scriptDialogResolve = null
     r?.()
+    dismountParty() // E7:强停同样下筏(防跟随者漏挂)
     authority.clear() // E6a:强停演出同样归还全部实体
     for (const t of timers.splice(0)) t.resolve()
     fadeFx?.resolve()
@@ -1709,13 +1730,8 @@ async function main(): Promise<void> {
 
   function render(): void {
     updateCamera() // 相机跟随玩家
-    // trail unshift(原版 rgTrail 模型):队长位置 + 朝向插 trail[0],截尾保留足够槽位
-    // 同格不记 = 原地转身队员不动(原版语义)
-    const head = trail[0]
-    if (!head || head.pos.col !== player.pos.col || head.pos.row !== player.pos.row) {
-      trail.unshift({ pos: { ...player.pos }, dir: facing })
-      if (trail.length > 6) trail.length = 6
-    }
+    // trail 推进(离开方向语义,拐弯甩尾忠实原版 —— 见 pushTrail 文档)
+    pushTrail(trail, player.pos, facing)
     deriveFollowers()
     // 精灵 + 高物瓦片由 renderScene 按投影 Y 统一深度排序（遮挡）；地板自动铺底。
     const sprites: SpriteDraw[] = []
