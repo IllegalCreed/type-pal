@@ -682,18 +682,6 @@ async function main(): Promise<void> {
       world.script!.vars['sys:music'] = id // 记账(存档恢复用)
       bgm.play(id) // 0 = 停曲(原版语义)
     },
-    // 场景战斗配置覆写(铁律4:原版 0x4A/0x45 全局变量已退役;这是「剧情点后本场景
-    // 后续战斗改场地/曲」的场景作用域持久版,随存档、重入生效)
-    overrideSceneBattle: (sc, fieldId, musicId) => {
-      const s = world.script!
-      const key = sc ?? scene.id
-      const overrides = (s.sceneBattleOverrides ??= {})
-      overrides[key] = {
-        ...overrides[key],
-        ...(fieldId !== undefined ? { fieldId } : {}),
-        ...(musicId !== undefined ? { musicId } : {}),
-      }
-    },
     // E6b 显式定位权威(手工演出精细控制;隐式接管见 scriptHost 位移视图)
     takeEntity: (id) => {
       takeByScript(id)
@@ -822,13 +810,13 @@ async function main(): Promise<void> {
         await host.wait(400)
         return 'win'
       }
-      // 战斗配置三层解析(铁律4,无全局变量):显式参数(剧情战 startBattle.fieldId/明雷
-      // hostile.battleFieldId)→ 场景覆写(overrideSceneBattle,剧情点后改)→ 场景默认
-      // (SceneDef.battleFieldId/battleMusicId,迁移自原版进场 0x4A/0x45)→ 项目默认。
-      const sceneOv = world.script?.sceneBattleOverrides?.[scene.id]
+      // 战斗配置解析(无任何持久态):显式参数(剧情战 startBattle.fieldId/musicId、明雷
+      // hostile.battleFieldId)→ 场景默认(SceneDef.battleFieldId/battleMusicId)→ 项目默认。
+      // 原版 0x4A/0x45 持久全局已退役:特殊战场/曲一次性绑 startBattle,打完自然回落场景默认,
+      // 不再有「剧情点覆写 + 随存档」这一档(那全是老全局年代手动清临时战场的产物)。
       // 战斗乐:0 = 停曲(忠实原版);项目默认 37 = 原版新档 wNumBattleMusic@2.RPG:0x10
       // (⚠ 不是 3——3 是普通胜利曲,battle.c:1032)
-      const battleTrack = battleOpts?.musicId ?? sceneOv?.musicId ?? scene.battleMusicId ?? 37
+      const battleTrack = battleOpts?.musicId ?? scene.battleMusicId ?? 37
       bgm.play(battleTrack)
       let playedVictory = false
       // 队员战斗态:CharacterInstance + 装备加成(effectiveStat)
@@ -888,7 +876,7 @@ async function main(): Promise<void> {
           for (const eff of project.skills[sid]?.effects ?? [])
             if (eff.kind === 'summon') summonGodIds.add(eff.godId)
         }
-      const fieldId = battleOpts?.fieldId ?? sceneOv?.fieldId ?? scene.battleFieldId ?? 24
+      const fieldId = battleOpts?.fieldId ?? scene.battleFieldId ?? 24
       // 战场常驻波(battle.c:1559 进战斗设 field.screenWave;#18/22/32/35/50 水下/幻境)
       // + 五灵加成(lprgBattleField.rgsMagicEffect,fight.c:244 双向乘入法术伤害)。
       // 数据源:工程 content 战场表(D24 一等域,编辑器管) > assetBase 遗留回退(未收编工程)。

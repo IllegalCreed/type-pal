@@ -443,10 +443,11 @@ function walkBody(
         }
       } else if (oc === 0x47) push({ kind: 'playSound', soundId: o[0] ?? 0 })
       else if (oc === 0x43) push({ kind: 'playMusic', musicId: o[0] ?? 0 })
-      // 0x45/0x4A(原版全局变量「从此以后战斗用 X」)→ 场景作用域覆写(铁律4:不复活全局)。
-      // 后续窥孔:邻战 → fold 进 startBattle 参数;enter 首现 → hoist 成 SceneDef 默认。
-      else if (oc === 0x45) push({ kind: 'overrideSceneBattle', musicId: o[0] ?? 0 })
-      else if (oc === 0x4a) push({ kind: 'overrideSceneBattle', fieldId: o[0] ?? 0 })
+      // 0x45/0x4A(原版全局变量「从此以后战斗用 X」)→ 迁移期内部标记 BattleCfgMarker
+      // (schema overrideSceneBattle 已退役,不复活):邻战 → fold 进 startBattle 一次性参数;
+      // 其余 → bakeAndStrip 烘成 SceneDef 默认(打完 boss 回落场景默认;无持久态)。绝不进最终 content。
+      else if (oc === 0x45) push(battleCfgMarker({ musicId: o[0] ?? 0 }))
+      else if (oc === 0x4a) push(battleCfgMarker({ fieldId: o[0] ?? 0 }))
       else if (oc === 0x50) push({ kind: 'fade', dir: 'out' })
       else if (oc === 0x51) push({ kind: 'fade', dir: 'in' })
       else if (oc === 0x73) {
@@ -792,30 +793,54 @@ export function foldDoorPattern(body: Command[]): Command[] {
 }
 
 /**
- * 战斗配置 peephole:overrideSceneBattle(无 scene 键,0x45/0x4A 翻译产物)——
+ * 迁移期内部战斗配置标记(原版 0x4A/0x45 全局变量的翻译中转;schema overrideSceneBattle 已退役,
+ * 不复活)。以隐藏于 Command[] 的形式(as 出入,免全链改型)流经 fold(邻战 → startBattle 一次性
+ * 参数)与 bakeAndStripBattleCfg(→ SceneDef 默认),**绝不出现在最终 content**。kind 判别经 asBattleCfg。
+ */
+export interface BattleCfgMarker {
+  kind: 'overrideSceneBattle'
+  scene?: string
+  fieldId?: number
+  musicId?: number
+}
+export function battleCfgMarker(cfg: { fieldId?: number; musicId?: number }): Command {
+  return {
+    kind: 'overrideSceneBattle',
+    ...(cfg.fieldId !== undefined ? { fieldId: cfg.fieldId } : {}),
+    ...(cfg.musicId !== undefined ? { musicId: cfg.musicId } : {}),
+  } as unknown as Command
+}
+export function asBattleCfg(c: Command): BattleCfgMarker | undefined {
+  const m = c as unknown as BattleCfgMarker
+  return m.kind === 'overrideSceneBattle' && m.scene === undefined ? m : undefined
+}
+
+/**
+ * 战斗配置 peephole:BattleCfgMarker(0x45/0x4A 翻译产物)——
  * ① 相邻同类合并(field+music 常成对出现);② 其后 ≤3 距离内出现 startBattle →
- * fold 成该 startBattle 的 fieldId/musicId(原版剧情战「战前现场设」的 28+28 处);
- * 剩余的保持覆写命令(剧情点后改本场景后续战斗,s059/s041 类)。
+ * fold 成该 startBattle 的一次性 fieldId/musicId(原版剧情战「战前现场设」的 28+28 处);
+ * 剩余标记保留(bakeAndStripBattleCfg 烘成 SceneDef 默认;赤鬼王/水魔兽类打完回落场景默认)。
  */
 export function foldBattleConfig(body: Command[]): Command[] {
   const out: Command[] = []
   for (let i = 0; i < body.length; i++) {
     const c = body[i]!
-    if (c.kind !== 'overrideSceneBattle' || c.scene !== undefined) {
+    const cfg = asBattleCfg(c)
+    if (!cfg) {
       out.push(c)
       continue
     }
-    let fieldId = c.fieldId
-    let musicId = c.musicId
+    let fieldId = cfg.fieldId
+    let musicId = cfg.musicId
     // ① 吸收紧随的同类(合并 field+music 对)
     let j = i + 1
     for (; j < body.length; j++) {
-      const n = body[j]!
-      if (n.kind !== 'overrideSceneBattle' || n.scene !== undefined) break
+      const n = asBattleCfg(body[j]!)
+      if (!n) break
       fieldId = n.fieldId ?? fieldId
       musicId = n.musicId ?? musicId
     }
-    // ② 向前看 ≤3:startBattle → fold 成参数
+    // ② 向前看 ≤3:startBattle → fold 成一次性参数
     let folded = false
     for (let k = j; k <= j + 2 && k < body.length; k++) {
       const n = body[k]!
@@ -831,15 +856,32 @@ export function foldBattleConfig(body: Command[]): Command[] {
       // 中途隔的只允许轻量演出指令(设向/帧/音效);其余打断 fold
       if (!['setEntityFacing', 'setEntityFrame', 'playSound', 'wait'].includes(n.kind)) break
     }
-    if (!folded)
-      out.push({
-        kind: 'overrideSceneBattle',
-        ...(fieldId !== undefined ? { fieldId } : {}),
-        ...(musicId !== undefined ? { musicId } : {}),
-      })
+    if (!folded && (fieldId !== undefined || musicId !== undefined))
+      out.push(battleCfgMarker({ fieldId, musicId }))
     i = j - 1
   }
   return out
+}
+
+/**
+ * 从脚本段 bake 出战斗配置默认(last-wins 累加进 acc:后设的赢 —— 赤鬼王类「打完设回区域曲」在触发段、
+ * 晚于 enter 段,区域常态值胜)+ strip 所有标记 → 干净 stages(标记绝不进最终 content)。
+ * 替代原 hoistBattleDefaults;onEnter/实体触发/onTeleport 共用同一场景 acc。
+ */
+export function bakeAndStripBattleCfg(
+  stages: ScriptStage[],
+  acc: { battleFieldId?: number; battleMusicId?: number },
+): ScriptStage[] {
+  return stages.map((s) => ({
+    ...s,
+    body: s.body.filter((c) => {
+      const m = asBattleCfg(c)
+      if (!m) return true
+      if (m.fieldId !== undefined) acc.battleFieldId = m.fieldId
+      if (m.musicId !== undefined) acc.battleMusicId = m.musicId
+      return false
+    }),
+  }))
 }
 
 /** 对整条 stages 应用 peephole(体内折叠;段间不跨)。 */

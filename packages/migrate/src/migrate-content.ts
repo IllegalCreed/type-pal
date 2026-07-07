@@ -157,7 +157,7 @@ import {
   signExtendI16,
 } from './source-facts.js'
 import type { TranslateReport } from './translate-events.js'
-import { emptyTranslateReport, foldStages, translateStages } from './translate-events.js'
+import { asBattleCfg, emptyTranslateReport, foldStages, translateStages } from './translate-events.js'
 export interface LevelUpMagicCell {
   level: number
   magic: number
@@ -1511,21 +1511,20 @@ export function mapScenesStatic(
       ? translateStages(sc.onTeleportLabel, undefined, tctx)
       : undefined
     const onTeleport = onTeleportRaw?.length ? foldStages(onTeleportRaw) : undefined
-    // 战斗配置 hoist:enter 链首现 overrideSceneBattle → SceneDef 默认(原版 0x4A/0x45 静态化)
-    const hoist = onEnter?.length ? hoistBattleDefaults(foldStages(onEnter)) : undefined
-    return {
+    // 战斗配置:enter/实体触发段里的 BattleCfgMarker(0x4A/0x45)→ bake 成 SceneDef 默认 + strip
+    // (无持久态、无 override 命令;赤鬼王/水魔兽类打完 boss 自然回落场景默认)。见 finalizeBattleConfig。
+    const onEnterFolded = onEnter?.length ? foldStages(onEnter) : undefined
+    return finalizeBattleConfig({
       id: slug,
       map: { reuseOriginalMap: sc.mapNum },
       ...(musicId !== undefined ? { musicId } : {}),
-      ...(hoist?.battleFieldId !== undefined ? { battleFieldId: hoist.battleFieldId } : {}),
-      ...(hoist?.battleMusicId !== undefined ? { battleMusicId: hoist.battleMusicId } : {}),
       ...(Object.keys(entries).length ? { entries } : {}),
       entry: { pos: firstEntry ?? { ...pixelToGrid(1024, 1024), height: 0 }, facing: 'down' },
       entities,
       dialogues: [],
-      ...(hoist ? { onEnter: hoist.stages } : {}),
+      ...(onEnterFolded ? { onEnter: onEnterFolded } : {}),
       ...(onTeleport ? { onTeleport } : {}),
-    }
+    })
   })
   propagateBattleFieldDefaults(scenes, report)
 
@@ -1538,40 +1537,48 @@ export function mapScenesStatic(
   }
 }
 
-/**
- * enter 链战斗配置 hoist:首现 overrideSceneBattle(无 scene 键)的 fieldId/musicId 提升为
- * SceneDef 默认(原版进场 0x4A/0x45 全局变量设置的静态化);同值重复吸收,后现异值保留为
- * 覆写命令(剧情期改默认);吃空的命令删除。嵌套臂(branch/onLose)不 hoist——保持覆写语义。
- */
-export function hoistBattleDefaults(stages: ScriptStage[]): {
-  battleFieldId?: number
-  battleMusicId?: number
-  stages: ScriptStage[]
-} {
-  let battleFieldId: number | undefined
-  let battleMusicId: number | undefined
-  const out = stages.map((s) => {
-    const body: Command[] = []
-    for (const c of s.body) {
-      if (c.kind === 'overrideSceneBattle' && c.scene === undefined) {
-        const rest: { fieldId?: number; musicId?: number } = {}
-        if (c.fieldId !== undefined) {
-          if (battleFieldId === undefined || c.fieldId === battleFieldId) battleFieldId ??= c.fieldId
-          else rest.fieldId = c.fieldId
-        }
-        if (c.musicId !== undefined) {
-          if (battleMusicId === undefined || c.musicId === battleMusicId) battleMusicId ??= c.musicId
-          else rest.musicId = c.musicId
-        }
-        if (rest.fieldId !== undefined || rest.musicId !== undefined)
-          body.push({ kind: 'overrideSceneBattle', ...rest })
-        continue
+/** 深走任意结构,bake 出 BattleCfgMarker(0x4A/0x45)→ acc(last-wins)+ strip;返回同构清洁副本。 */
+function deepStripBattleCfg<T>(o: T, acc: { battleFieldId?: number; battleMusicId?: number }): T {
+  if (Array.isArray(o)) {
+    const kept: unknown[] = []
+    for (const x of o) {
+      const m = x && typeof x === 'object' ? asBattleCfg(x as Command) : undefined
+      if (m) {
+        if (m.fieldId !== undefined) acc.battleFieldId = m.fieldId
+        if (m.musicId !== undefined) acc.battleMusicId = m.musicId
+        continue // strip
       }
-      body.push(c)
+      kept.push(deepStripBattleCfg(x, acc))
     }
-    return { ...s, body }
-  })
-  return { battleFieldId, battleMusicId, stages: out }
+    return kept as unknown as T
+  }
+  if (o && typeof o === 'object') {
+    const out: Record<string, unknown> = {}
+    for (const [k, v] of Object.entries(o)) out[k] = deepStripBattleCfg(v, acc)
+    return out as T
+  }
+  return o
+}
+
+/**
+ * 战斗配置定案(替代旧 hoistBattleDefaults):把场景脚本里的 BattleCfgMarker(原版 0x4A/0x45)
+ * bake 成 SceneDef.battleFieldId/battleMusicId + 从脚本 strip 干净。**无持久态、无 override 命令**。
+ * 顺序 onEnter→onTeleport→实体触发/巡逻,last-wins —— 赤鬼王/水魔兽类「打完 boss 设回区域曲」在
+ * 触发段、晚于 enter,故区域常态值胜;特殊一次性战场早 fold 进 startBattle,打完自然回落此默认。
+ */
+export function finalizeBattleConfig(scene: SceneDef): SceneDef {
+  const acc: { battleFieldId?: number; battleMusicId?: number } = {}
+  const onEnter = scene.onEnter ? deepStripBattleCfg(scene.onEnter, acc) : undefined
+  const onTeleport = scene.onTeleport ? deepStripBattleCfg(scene.onTeleport, acc) : undefined
+  const entities = deepStripBattleCfg(scene.entities, acc)
+  return {
+    ...scene,
+    ...(acc.battleFieldId !== undefined ? { battleFieldId: acc.battleFieldId } : {}),
+    ...(acc.battleMusicId !== undefined ? { battleMusicId: acc.battleMusicId } : {}),
+    ...(onEnter ? { onEnter } : {}),
+    ...(onTeleport ? { onTeleport } : {}),
+    entities,
+  }
 }
 
 /**

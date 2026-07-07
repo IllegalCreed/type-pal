@@ -34,7 +34,6 @@ function fakeHost(calls: string[]): ScriptHost {
     giveMoney: log('giveMoney'),
     playSound: log('playSound'),
     playMusic: log('playMusic'),
-    overrideSceneBattle: log('overrideSceneBattle'),
     takeEntity: log('takeEntity'),
     releaseEntity: log('releaseEntity'),
     mountParty: log('mountParty'),
@@ -351,27 +350,16 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
     await r.run(body)
     expect(calls).toEqual(['playSound(1)'])
   })
-  test('startBattle 透传 fieldId/musicId;overrideSceneBattle 派发三参', async () => {
+  test('startBattle 透传一次性 fieldId/musicId(特殊战场绑本战;override 已退役)', async () => {
     const calls: string[] = []
     const host = fakeHost(calls)
     host.startBattle = async (team, opts) => {
       calls.push(`battle(${team},f=${opts?.fieldId},m=${opts?.musicId})`)
       return 'win'
     }
-    host.overrideSceneBattle = (sc, f, m) => {
-      calls.push(`override(${sc ?? 'cur'},f=${f},m=${m})`)
-    }
     const r = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal)
-    await r.run([
-      { kind: 'startBattle', team: 27, fieldId: 22, musicId: 44 },
-      { kind: 'overrideSceneBattle', fieldId: 53, musicId: 39 },
-      { kind: 'overrideSceneBattle', scene: 's099', musicId: 40 },
-    ])
-    expect(calls).toEqual([
-      'battle(27,f=22,m=44)',
-      'override(cur,f=53,m=39)',
-      'override(s099,f=undefined,m=40)',
-    ])
+    await r.run([{ kind: 'startBattle', team: 27, fieldId: 22, musicId: 44 }])
+    expect(calls).toEqual(['battle(27,f=22,m=44)'])
   })
   test('teleportOut:成功(有出口)直走;失败(无出口)走 onFail 臂', async () => {
     const calls: string[] = []

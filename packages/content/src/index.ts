@@ -132,9 +132,9 @@ export interface SceneDef {
   musicId?: number
   /**
    * 本场景战斗的默认战场(battle-fields id:背景图+五灵加成+屏波)。
-   * 解析优先级:startBattle.fieldId(剧情战显式)> hostile.battleFieldId(明雷怪专属)>
-   * world.sceneBattleOverrides(剧情点覆写)> 此默认 > 项目默认。
-   * 迁移自原版 0x4A 全局变量的进场设置(全局变量形态已按铁律 4 退役,烘成本字段)。
+   * 解析优先级(无任何持久态):startBattle.fieldId(剧情战一次性显式)> hostile.battleFieldId
+   * (明雷怪专属)> 此场景默认 > 项目默认。原版 0x4A 持久全局已退役:特殊战场绑一次性
+   * startBattle,打完自然回落本字段;不再有「剧情点覆写 + 随存档」这一档(铁律 4)。
    */
   battleFieldId?: number
   /** 本场景战斗的默认 BGM(0 = 战斗静音,忠实原版);解析优先级同 battleFieldId。缺省 = boss?2:3。 */

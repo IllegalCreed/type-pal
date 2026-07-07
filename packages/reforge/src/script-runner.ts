@@ -51,8 +51,6 @@ export interface ScriptHost {
   giveMoney(delta: number): void
   playSound(soundId: number): void
   playMusic(musicId: number): void
-  /** 场景战斗配置覆写(scene 缺省 = 当前场景;写 world.sceneBattleOverrides,随存档)。 */
-  overrideSceneBattle(scene: string | undefined, fieldId?: number, musicId?: number): void
   /** E6b 显式定位权威:接管/归还(缺省全部)。 */
   takeEntity(entityId: string): void
   releaseEntity(entityId?: string): void
@@ -282,8 +280,6 @@ export class ScriptRunner {
         return h.playSound(cmd.soundId)
       case 'playMusic':
         return h.playMusic(cmd.musicId)
-      case 'overrideSceneBattle':
-        return h.overrideSceneBattle(cmd.scene, cmd.fieldId, cmd.musicId)
       case 'takeEntity':
         return h.takeEntity(cmd.entity)
       case 'releaseEntity':

@@ -2,12 +2,18 @@
  * 开场三 op 翻译回归(2026-07-03 用户实测:李逍遥动作没出来/李大娘没走出场景)。
  * 真值锚:sdlpal script.c 0x0015(dir+gesture)/ 0x0065(setPlayerSprite)/ 0x0073(fadeToScene)。
  */
-import type { Command } from '@type-pal/content'
+import type { Command, SceneDef } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { SourceCmd } from './source-facts.js'
 import type { TranslateCtx } from './translate-events.js'
-import { emptyTranslateReport, foldBattleConfig, translateStages } from './translate-events.js'
-import { hoistBattleDefaults } from './migrate-content.js'
+import {
+  asBattleCfg,
+  battleCfgMarker,
+  emptyTranslateReport,
+  foldBattleConfig,
+  translateStages,
+} from './translate-events.js'
+import { finalizeBattleConfig } from './migrate-content.js'
 
 /** 手搓链 → labelAt(单段,L_1 起步,end 收尾;raw 命令补 op:'raw' 判别)。 */
 function ctxOf(cmds: SourceCmd[], spriteIdForNum?: (num: number) => string): TranslateCtx {
@@ -132,11 +138,11 @@ describe('giveItem-0 数据 bug 烘焙(扬州宝物屋;键=前句 MSG 下标,一
   })
 })
 
-describe('战斗配置三层化(铁律4:0x4A/0x45 全局变量退役)', () => {
-  test('foldBattleConfig:成对合并 + 邻战(≤3,隔轻量演出)fold 进 startBattle 参数', () => {
+describe('战斗配置(铁律4:0x4A/0x45 持久全局退役 —— 无 override 命令、无持久态)', () => {
+  test('foldBattleConfig:成对合并 + 邻战(≤3,隔轻量演出)fold 进 startBattle 一次性参数', () => {
     const body: Command[] = [
-      { kind: 'overrideSceneBattle', musicId: 44 },
-      { kind: 'overrideSceneBattle', fieldId: 22 },
+      battleCfgMarker({ musicId: 44 }),
+      battleCfgMarker({ fieldId: 22 }),
       { kind: 'setEntityFacing', entity: 'e1', facing: 'down' },
       { kind: 'startBattle', team: 27 },
     ]
@@ -147,37 +153,40 @@ describe('战斗配置三层化(铁律4:0x4A/0x45 全局变量退役)', () => {
     ])
   })
 
-  test('foldBattleConfig:远离战斗/被重命令阻断 → 保持覆写命令(s059 剧情点后改默认)', () => {
+  test('foldBattleConfig:远离战斗/被重命令阻断 → 保留标记(后续 bake 成场景默认)', () => {
     const body: Command[] = [
-      { kind: 'overrideSceneBattle', fieldId: 53 },
-      { kind: 'overrideSceneBattle', musicId: 39 },
+      battleCfgMarker({ fieldId: 53 }),
+      battleCfgMarker({ musicId: 39 }),
       { kind: 'playMusic', musicId: 30 },
       { kind: 'dialog', line: { text: 'x' } },
       { kind: 'startBattle', team: 1 },
     ]
     const out = foldBattleConfig(body)
-    expect(out[0]).toEqual({ kind: 'overrideSceneBattle', fieldId: 53, musicId: 39 })
+    expect(asBattleCfg(out[0]!)).toEqual({ kind: 'overrideSceneBattle', fieldId: 53, musicId: 39 })
     expect(out.some((c) => c.kind === 'startBattle' && c.fieldId === undefined)).toBe(true)
   })
 
-  test('hoistBattleDefaults:enter 首现 → 场景默认;同值吸收,异值保留为覆写', () => {
-    const stages = [
-      {
-        body: [
-          { kind: 'playMusic', musicId: 31 },
-          { kind: 'overrideSceneBattle', fieldId: 24 },
-          { kind: 'overrideSceneBattle', musicId: 37 },
-          { kind: 'overrideSceneBattle', fieldId: 24 }, // 同值重复 → 吸收
-          { kind: 'overrideSceneBattle', fieldId: 9 }, // 异值 → 保留覆写
-        ] as Command[],
-      },
-    ]
-    const r = hoistBattleDefaults(stages)
+  test('finalizeBattleConfig:标记 bake 成 SceneDef 默认(last-wins)+ 从脚本 strip 干净', () => {
+    const scene = {
+      id: 's',
+      map: { reuseOriginalMap: 1 },
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' as const },
+      entities: [],
+      dialogues: [],
+      onEnter: [
+        {
+          body: [
+            { kind: 'playMusic', musicId: 31 },
+            battleCfgMarker({ fieldId: 24 }),
+            battleCfgMarker({ musicId: 37 }),
+            battleCfgMarker({ musicId: 39 }), // 后设的赢 → 39(赤鬼王类打完设回区域曲)
+          ],
+        },
+      ],
+    } as unknown as SceneDef
+    const r = finalizeBattleConfig(scene)
     expect(r.battleFieldId).toBe(24)
-    expect(r.battleMusicId).toBe(37)
-    expect(r.stages[0]!.body).toEqual([
-      { kind: 'playMusic', musicId: 31 },
-      { kind: 'overrideSceneBattle', fieldId: 9 },
-    ])
+    expect(r.battleMusicId).toBe(39)
+    expect(r.onEnter?.[0]?.body).toEqual([{ kind: 'playMusic', musicId: 31 }])
   })
 })

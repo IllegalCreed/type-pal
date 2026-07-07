@@ -79,10 +79,6 @@ export type Command =
   // 声音 / 战斗配置
   | { kind: 'playSound'; soundId: number }
   | { kind: 'playMusic'; musicId: number }
-  // 场景作用域战斗配置覆写(替代原版 0x4A/0x45 全局变量的「从此以后」用法,如 boss 战后
-  // 本场景后续战斗换场地/换曲):写 world.sceneBattleOverrides[scene](随存档,重入生效)。
-  // scene 缺省 = 当前场景。解析优先级见 SceneDef.battleFieldId 注。
-  | { kind: 'overrideSceneBattle'; scene?: string; fieldId?: number; musicId?: number }
   // 走位 / 演出(M3b;速度=原版 2/3/4/8 → slow/normal/fast/run)
   | { kind: 'moveEntity'; entity: string; to: GridPos; speed: WalkSpeed } // 阻塞:直线走到(原版 walkTo)
   | { kind: 'stepEntity'; entity: string; dir: Facing } // 单步(0x0B-0E:设向+走一步)
@@ -170,8 +166,6 @@ export interface WorldScriptState {
   entityState: Record<string, number>
   /** 实体触发阶段(原版 end.advance 推进的"第几段");场景 onEnter 用 `s:<sceneId>` 键。 */
   entityStage: Record<string, number>
-  /** 场景战斗配置覆写(overrideSceneBattle 写;剧情点后改本场景后续战斗的场地/曲)。 */
-  sceneBattleOverrides?: Record<string, { fieldId?: number; musicId?: number }>
 }
 
 export function emptyWorldScriptState(): WorldScriptState {
