@@ -314,6 +314,18 @@
 
 **顺带**：战场五灵加成接通（`battle-fields.json.magicEffect` → session → core 双向 `calcMagicDamage.fieldEffect`，fight.c:244）;`sys:music` 判非管线残留（当前播放曲记账 = 活状态）留任,后续从 vars 袋毕业成显式字段。
 
+### D24 补 · `sceneBattleOverrides` 持久覆写层整个退役(2026-07-07,作者定调)
+
+D24 原三层里的「剧情点覆写 `overrideSceneBattle` → `world.sceneBattleOverrides`(随存档)」这一档,**作者复盘后判为不该存在**,已整个退役。核心洞察(作者提出、数据实证):
+
+- **持久全局一旦有了就一辈子不清、成最高优先级,让场景绑定沦为空谈** —— 要最大努力防止它产生。
+- 原版那些「打完 boss 用 0x4A/0x45 改本场景后续战斗」的脚本,**全是老全局年代「手动把临时战场清回常态」的产物**:实测 12 条覆写,**3 个 field 覆写值 100% == 场景自带**(s059赤鬼王/s214/s252,纯清临时);剩下是 music「设回区域常态曲」。
+- **特殊战场天然是一次性的**:赤鬼王战场22、水魔兽 boss 曲38 早已绑在 `startBattle` 一次性参数上,作用域=本场战斗,**打完自然回落场景默认,无需清**。「set 全局→打→clear」还有漏 clear 泄漏风险(逃跑/game over),而绑 startBattle 天然无泄漏。
+
+**新解析(零持久态)**:每场战斗的战场/曲只来自三处**其一** —— `startBattle.fieldId/musicId`(剧情战一次性)> `HostileBehavior.battleFieldId`(明雷绑实体)> `SceneDef.battleFieldId/battleMusicId`(场景默认)。**没有第四档、没有随存档的战场态**。存档只存 sceneId,读回来由场景默认重导出。
+
+**落地**:内容 11 场景 music 烘进 `battleMusicId`(赤鬼王37→39/火麒麟38→37/水魔兽41→39 等,取覆写值=区域常态曲)+ 删全部 12 条覆写;引擎删 host+解析档;schema 删命令+`sceneBattleOverrides` 字段;迁移器 0x4A/0x45 → 内部标记 `BattleCfgMarker`(fold 进 startBattle 或 `finalizeBattleConfig` bake 成场景默认,last-wins)+ strip;编辑器删命令 UI。全库 check 绿、真机验 s059 开战正常。⚠ 走路 BGM 的「当前曲」(`sys:music`)是**另一类**(李大娘病重那种跨场景剧情心情,靠存档持久),不在退役之列。
+
 ## D25 · 资产调色盘方针：家族盘0 + 索引压缩 + 上传量化（2026-07-06，作者拍板）
 
 **背景**：过场 RNG 上色我反复犯"老毛病"——把"调色盘"这个 1995 索引色概念暴露给使用者(过场库 palId 输入框 / playRng paletteId 参数)、还默认盘0 把特例(商标 chunk6=盘3)整偏。作者三连点破:①别让人配调色盘 ②用对的盘 ③**为什么把调色盘系统带进新系统** → 最终作者给出正解:**"调色盘"不是要消灭的概念,而是别暴露给人配、别用错、共享家族盘0**。
