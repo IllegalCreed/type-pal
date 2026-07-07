@@ -253,8 +253,21 @@ body {
 /* 中:toolbar + canvas */
 .center {
   display: grid;
-  grid-template-rows: 40px 1fr;
+  grid-template-rows: 40px minmax(0, 1fr);
   min-width: 0;
+}
+/* 脚本态(script-work 占画布行):内部自分 大预览 | 抽屉 两行 */
+.script-work {
+  display: grid;
+  grid-template-rows: minmax(160px, 1fr) clamp(220px, 34vh, 400px);
+  min-height: 0;
+  min-width: 0;
+}
+.script-work .work-preview {
+  min-height: 0;
+  display: flex;
+  background: #000;
+  overflow: hidden;
 }
 .toolbar {
   display: flex;
@@ -1087,6 +1100,7 @@ body {
   margin-right: 4px;
 }
 .pv-btn {
+  white-space: nowrap;
   font-size: 12px;
   padding: 2px 10px;
   background: var(--bg);
@@ -2139,8 +2153,9 @@ body {
 
 /* ── 场景模式 · 底部脚本抽屉(audit §6 Step2;事件模式接替者)── */
 .script-drawer {
-  flex: 0 0 42%;
-  min-height: 220px;
+  /* script-work 第二行;高度由父 grid 行定 */
+  height: 100%;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   border-top: 1px solid var(--line);
@@ -2162,7 +2177,7 @@ body {
   min-height: 0;
 }
 .script-drawer .drawer-srcs {
-  flex: 0 0 208px;
+  flex: 0 0 176px;
   border-right: 1px solid var(--line);
   overflow-y: auto;
   min-height: 0;
@@ -2174,7 +2189,7 @@ body {
   min-height: 0;
 }
 .script-drawer .drawer-side {
-  flex: 0 0 380px;
+  flex: 0 0 min(44%, 640px);
   border-left: 1px solid var(--line);
   display: flex;
   flex-direction: column;
@@ -2183,7 +2198,7 @@ body {
 .script-drawer .drawer-preview {
   flex: 0 0 auto;
   border-bottom: 1px solid var(--line);
-  max-height: 55%;
+  max-height: 70%;
   display: flex;
   overflow: hidden;
 }
@@ -2192,3 +2207,19 @@ body {
   overflow-y: auto;
   min-height: 0;
 }
+
+/* mini 的文字版:auto 宽、不折行(「▾ 收起」「＋触发」等短文字钮;.mini 是 22px 定宽图标钮) */
+.mini-txt {
+  background: var(--panel2);
+  border: 1px solid var(--line);
+  color: var(--dim);
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+}
+.mini-txt:hover { border-color: var(--acc); color: var(--fg); }
+.mini-txt:disabled { opacity: 0.4; cursor: default; }

@@ -101,6 +101,8 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
   const jumpToEvent = (sceneId: string, srcKey: string): void => {
     setPlaceSceneId(sceneId)
     setMode('place')
+    // 源列跟随选中 → 跳转须同步选中目标(实体源选实体,场景级源选场景节点)
+    setSelected(srcKey.startsWith('__') ? SCENE_NODE : (srcKey.split(':')[0] ?? SCENE_NODE))
     setDrawer({ open: true, src: srcKey })
   }
   const issues = useMemo(() => validateReferences(state), [state])
@@ -404,6 +406,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                 <button
                   className={`tool${tool === 'select' ? ' active' : ''}`}
                   onClick={() => setTool('select')}
+                  disabled={drawer.open}
                   title="选择 / 拖动移位"
                 >
                   ↖ 选择/移动
@@ -411,6 +414,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                 <button
                   className={`tool${tool === 'add' ? ' active' : ''}`}
                   onClick={() => setTool('add')}
+                  disabled={drawer.open}
                   title="点画布放新实体"
                 >
                   ＋ 添加实体
@@ -455,6 +459,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                   {tool === 'add' ? '点画布放实体' : '拖动移位 · Del 删除'}
                 </span>
               </div>
+              {!drawer.open ? (
               <SceneCanvas
                 scene={scene}
                 sprites={state.sprites}
@@ -468,11 +473,12 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                 onMoveEntity={moveEntity}
                 onAddAt={addAt}
               />
-              {drawer.open ? (
+              ) : (
                 <ScriptDrawer
                   scene={scene}
                   scenes={state.scenes}
                   locale={state.locale}
+                  selectedEntityId={selEntity ? selected : null}
                   focusSrcKey={drawer.src}
                   sprites={state.sprites}
                   actorsById={actorsById}
@@ -482,7 +488,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                   music={state.music ?? []}
                   onClose={() => setDrawer({ open: false, src: null })}
                 />
-              ) : null}
+              )}
             </div>
 
             <div className="inspector">

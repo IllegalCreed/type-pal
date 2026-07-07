@@ -245,6 +245,8 @@ export function ScriptDrawer(props: {
   scene: SceneDef
   scenes: SceneDef[]
   locale: Locale
+  /** 当前选中实体(左树/画布唯一选择入口;null = 场景节点)。源列跟随选中,不重复大纲。 */
+  selectedEntityId?: string | null
   /** 定位脚本源(检查器「去编辑」/数据模式引用跳转:__onEnter__ / <eid>:trigger / <eid>:auto)。 */
   focusSrcKey?: string | null
   sprites: SpriteDef[]
@@ -259,6 +261,7 @@ export function ScriptDrawer(props: {
     scene,
     scenes,
     locale,
+    selectedEntityId,
     focusSrcKey,
     sprites,
     actorsById,
@@ -269,13 +272,26 @@ export function ScriptDrawer(props: {
     onClose,
   } = props
   const [srcKey, setSrcKey] = useState<string | null>(focusSrcKey ?? null)
-  const [createEntityId, setCreateEntityId] = useState('')
   // 外部定位(点检查器「去编辑」/引用跳转)→ 跟随切源
   useEffect(() => {
     if (focusSrcKey) setSrcKey(focusSrcKey)
   }, [focusSrcKey])
 
-  const sources = useMemo(() => collectSources(scene), [scene])
+  // 源列**跟随选中**(作者:全场景源列和左大纲重复):实体选中 → 该实体源;场景节点 → 场景级源
+  const allSources = useMemo(() => collectSources(scene), [scene])
+  const sources = useMemo(
+    () =>
+      selectedEntityId
+        ? allSources.filter((s) => s.key.startsWith(`${selectedEntityId}:`))
+        : allSources.filter((s) => s.kind === 'onEnter' || s.kind === 'onTeleport'),
+    [allSources, selectedEntityId],
+  )
+  // 换选中:当前源不属于新范围 → 自动落到范围内首源
+  useEffect(() => {
+    if (srcKey && sources.some((s) => s.key === srcKey)) return
+    setSrcKey(sources[0]?.key ?? null)
+    // biome-ignore lint/correctness/useExhaustiveDependencies: 仅在选中范围变化时收敛
+  }, [sources])
   const active = sources.find((s) => s.key === srcKey) ?? sources[0]
 
   // 演出预览控制器:随场景重建;切场景/切源/卸载时停播丢弃演出态
@@ -344,7 +360,31 @@ export function ScriptDrawer(props: {
   }
 
   return (
-    <div className="script-drawer">
+    <div className="script-work">
+      {/* 上:大预览 —— 占原地图画布位(作者:预览就该用地图的位置,不塞小角落) */}
+      <div className="work-preview">
+        {active ? (
+          <PreviewCanvas
+            scene={scene}
+            stages={active.stages}
+            sourceKey={active.key}
+            focusEntityId={
+              refOf(active.key).kind === 'onEnter' || refOf(active.key).kind === 'onTeleport'
+                ? undefined
+                : (refOf(active.key) as { entityId: string }).entityId
+            }
+            sprites={sprites}
+            actorsById={actorsById}
+            leaderSpriteId={leaderSpriteId}
+            assetBase={assetBase}
+            locale={locale}
+            playback={playback}
+          />
+        ) : (
+          <div className="insp-empty">选择/创建脚本源后,此处预览演出。</div>
+        )}
+      </div>
+      <div className="script-drawer">
       <div className="drawer-head">
         <span className="t">
           📜 脚本 · {scene.id}
@@ -362,7 +402,7 @@ export function ScriptDrawer(props: {
         <span style={{ color: 'var(--faint)', fontSize: 11, marginRight: 8 }}>
           改动即入 undo · ▶ 预览不改数据
         </span>
-        <button type="button" className="mini" onClick={onClose} title="收起抽屉">
+        <button type="button" className="mini-txt" onClick={onClose} title="收起抽屉">
           ▾ 收起
         </button>
       </div>
@@ -382,9 +422,13 @@ export function ScriptDrawer(props: {
                 <span className="src-sub">{s.sub}</span>
               </button>
             ))}
-            {sources.length === 0 ? <div className="script-empty">此场景无脚本源。</div> : null}
+            {sources.length === 0 ? (
+              <div className="script-empty">
+                {selectedEntityId ? `${selectedEntityId} 还没有脚本 —— 下方创建。` : '场景还没有进场脚本 —— 下方创建。'}
+              </div>
+            ) : null}
             <div className="src-create">
-              {!scene.onEnter?.length && (
+              {!selectedEntityId && !scene.onEnter?.length && (
                 <button
                   type="button"
                   className="tool"
@@ -396,56 +440,42 @@ export function ScriptDrawer(props: {
                   ＋ 进场脚本(onEnter)
                 </button>
               )}
-              {scene.entities.length > 0 && (
+              {selectedEntityId && (
                 <div className="src-create-row">
-                  <select
-                    className="in"
-                    value={createEntityId}
-                    onChange={(e) => setCreateEntityId(e.target.value)}
-                  >
-                    <option value="">(选实体)</option>
-                    {scene.entities.map((e) => (
-                      <option key={e.id} value={e.id}>
-                        {e.id}
-                      </option>
-                    ))}
-                  </select>
                   <button
                     type="button"
-                    className="mini"
-                    title="给该实体创建交互触发脚本"
+                    className="mini-txt"
+                    title="给选中实体创建交互触发脚本"
                     disabled={
-                      !createEntityId ||
-                      !!scene.entities.find((e) => e.id === createEntityId)?.pages?.[0]?.trigger
+                      !!scene.entities.find((e) => e.id === selectedEntityId)?.pages?.[0]?.trigger
                     }
                     onClick={() => {
                       session.dispatch(
                         new CreateScriptSourceCommand(scene.id, {
                           kind: 'trigger',
-                          entityId: createEntityId,
+                          entityId: selectedEntityId,
                         }),
                       )
-                      setSrcKey(`${createEntityId}:trigger`)
+                      setSrcKey(`${selectedEntityId}:trigger`)
                     }}
                   >
                     ＋触发
                   </button>
                   <button
                     type="button"
-                    className="mini"
-                    title="给该实体创建巡逻/自动脚本"
+                    className="mini-txt"
+                    title="给选中实体创建巡逻/自动脚本"
                     disabled={
-                      !createEntityId ||
-                      !!scene.entities.find((e) => e.id === createEntityId)?.pages?.[0]?.auto
+                      !!scene.entities.find((e) => e.id === selectedEntityId)?.pages?.[0]?.auto
                     }
                     onClick={() => {
                       session.dispatch(
                         new CreateScriptSourceCommand(scene.id, {
                           kind: 'auto',
-                          entityId: createEntityId,
+                          entityId: selectedEntityId,
                         }),
                       )
-                      setSrcKey(`${createEntityId}:auto`)
+                      setSrcKey(`${selectedEntityId}:auto`)
                     }}
                   >
                     ＋巡逻
@@ -477,26 +507,6 @@ export function ScriptDrawer(props: {
 
         {/* 右:演出预览(上)+ 表单/插入/日志(下滚动) */}
         <div className="drawer-side">
-          {active ? (
-            <div className="drawer-preview">
-              <PreviewCanvas
-                scene={scene}
-                stages={active.stages}
-                sourceKey={active.key}
-                focusEntityId={
-                  refOf(active.key).kind === 'onEnter' || refOf(active.key).kind === 'onTeleport'
-                    ? undefined
-                    : (refOf(active.key) as { entityId: string }).entityId
-                }
-                sprites={sprites}
-                actorsById={actorsById}
-                leaderSpriteId={leaderSpriteId}
-                assetBase={assetBase}
-                locale={locale}
-                playback={playback}
-              />
-            </div>
-          ) : null}
           <div className="drawer-form">
             {insertFor && active ? (
               <div className="section">
@@ -599,6 +609,7 @@ export function ScriptDrawer(props: {
             ) : null}
           </div>
         </div>
+      </div>
       </div>
     </div>
   )
