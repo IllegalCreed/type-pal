@@ -2176,12 +2176,6 @@ body {
   display: flex;
   min-height: 0;
 }
-.script-drawer .drawer-srcs {
-  flex: 0 0 176px;
-  border-right: 1px solid var(--line);
-  overflow-y: auto;
-  min-height: 0;
-}
 .script-drawer .drawer-tree {
   flex: 1;
   overflow: auto;
@@ -2222,4 +2216,6 @@ body {
   white-space: nowrap;
 }
 .mini-txt:hover { border-color: var(--acc); color: var(--fg); }
+.mini-txt.sel { border-color: var(--acc); color: var(--fg); background: var(--panel); }
+.drawer-tabs { display: inline-flex; gap: 4px; margin-left: 10px; }
 .mini-txt:disabled { opacity: 0.4; cursor: default; }

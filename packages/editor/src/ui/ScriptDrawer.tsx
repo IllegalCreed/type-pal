@@ -21,6 +21,7 @@ import {
   CreateScriptSourceCommand,
   type ScriptSourceRef,
   UpdateScriptCommand,
+  UpdateTriggerModeCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { Playback } from '../core/playback.js'
@@ -234,6 +235,13 @@ function collectSources(scene: SceneDef): ScriptSource[] {
   return out
 }
 
+const KIND_LABEL: Record<ScriptSource['kind'], string> = {
+  onEnter: '进场',
+  onTeleport: '传送出口',
+  trigger: '触发',
+  auto: '巡逻',
+}
+
 const ICON: Record<ScriptSource['kind'], string> = {
   onEnter: '🚩',
   onTeleport: '🌀',
@@ -387,17 +395,124 @@ export function ScriptDrawer(props: {
       <div className="script-drawer">
       <div className="drawer-head">
         <span className="t">
-          📜 脚本 · {scene.id}
-          {active ? (
-            <>
-              {' '}
-              <span className="src-ico">{ICON[active.kind]}</span> {active.label}
-              <span className="src-sub" style={{ marginLeft: 6 }}>
-                {active.sub}
-              </span>
-            </>
-          ) : null}
+          📜 {scene.id}
+          {selectedEntityId ? ` · ${selectedEntityId}` : ''}
         </span>
+        {/* 源页签(作者:源列一栏冗余 → 收进头部):有则切换,缺则就地创建 */}
+        <span className="drawer-tabs">
+          {sources.map((s) => (
+            <button
+              key={s.key}
+              type="button"
+              className={`mini-txt${active?.key === s.key ? ' sel' : ''}`}
+              title={s.sub}
+              onClick={() => setSrcKey(s.key)}
+            >
+              {ICON[s.kind]} {KIND_LABEL[s.kind]}
+            </button>
+          ))}
+          {selectedEntityId ? (
+            <>
+              {!scene.entities.find((e) => e.id === selectedEntityId)?.pages?.[0]?.trigger && (
+                <button
+                  type="button"
+                  className="mini-txt"
+                  title="给选中实体创建交互触发脚本"
+                  onClick={() => {
+                    session.dispatch(
+                      new CreateScriptSourceCommand(scene.id, {
+                        kind: 'trigger',
+                        entityId: selectedEntityId,
+                      }),
+                    )
+                    setSrcKey(`${selectedEntityId}:trigger`)
+                  }}
+                >
+                  ＋触发
+                </button>
+              )}
+              {!scene.entities.find((e) => e.id === selectedEntityId)?.pages?.[0]?.auto && (
+                <button
+                  type="button"
+                  className="mini-txt"
+                  title="给选中实体创建巡逻/自动脚本"
+                  onClick={() => {
+                    session.dispatch(
+                      new CreateScriptSourceCommand(scene.id, {
+                        kind: 'auto',
+                        entityId: selectedEntityId,
+                      }),
+                    )
+                    setSrcKey(`${selectedEntityId}:auto`)
+                  }}
+                >
+                  ＋巡逻
+                </button>
+              )}
+            </>
+          ) : (
+            !scene.onEnter?.length && (
+              <button
+                type="button"
+                className="mini-txt"
+                title="创建进场脚本"
+                onClick={() => {
+                  session.dispatch(new CreateScriptSourceCommand(scene.id, { kind: 'onEnter' }))
+                  setSrcKey('__onEnter__')
+                }}
+              >
+                ＋进场脚本
+              </button>
+            )
+          )}
+        </span>
+        {active?.kind === 'trigger' && selectedEntityId
+          ? (() => {
+              const trig = scene.entities.find((e) => e.id === selectedEntityId)?.pages?.[0]
+                ?.trigger
+              if (!trig) return null
+              return (
+                <span className="drawer-tabs" title="触发方式与距离(格)">
+                  <select
+                    className="in"
+                    style={{ height: 22, fontSize: 12 }}
+                    value={trig.on ?? 'interact'}
+                    onChange={(e) =>
+                      session.dispatch(
+                        new UpdateTriggerModeCommand(
+                          scene.id,
+                          selectedEntityId,
+                          e.target.value as 'interact' | 'touch',
+                          trig.range,
+                        ),
+                      )
+                    }
+                  >
+                    <option value="interact">交互(空格)</option>
+                    <option value="touch">触碰即发</option>
+                  </select>
+                  <input
+                    className="in"
+                    type="number"
+                    min={0}
+                    style={{ width: 48, height: 22, fontSize: 12 }}
+                    title="触发距离(格;交互缺省 1,触碰缺省 0)"
+                    value={trig.range ?? (trig.on === 'touch' ? 0 : 1)}
+                    onChange={(e) =>
+                      session.dispatch(
+                        new UpdateTriggerModeCommand(
+                          scene.id,
+                          selectedEntityId,
+                          trig.on ?? 'interact',
+                          Math.max(0, Number(e.target.value) || 0),
+                        ),
+                      )
+                    }
+                  />
+                </span>
+              )
+            })()
+          : null}
         <span className="spacer" />
         <span style={{ color: 'var(--faint)', fontSize: 11, marginRight: 8 }}>
           改动即入 undo · ▶ 预览不改数据
@@ -407,85 +522,6 @@ export function ScriptDrawer(props: {
         </button>
       </div>
       <div className="drawer-body">
-        {/* 左:本场景脚本源 + 创建器 */}
-        <div className="drawer-srcs">
-          <div className="src-list">
-            {sources.map((s) => (
-              <button
-                key={s.key}
-                type="button"
-                className={`src-item${active?.key === s.key ? ' sel' : ''}`}
-                onClick={() => setSrcKey(s.key)}
-              >
-                <span className="src-ico">{ICON[s.kind]}</span>
-                <span className="src-label">{s.label}</span>
-                <span className="src-sub">{s.sub}</span>
-              </button>
-            ))}
-            {sources.length === 0 ? (
-              <div className="script-empty">
-                {selectedEntityId ? `${selectedEntityId} 还没有脚本 —— 下方创建。` : '场景还没有进场脚本 —— 下方创建。'}
-              </div>
-            ) : null}
-            <div className="src-create">
-              {!selectedEntityId && !scene.onEnter?.length && (
-                <button
-                  type="button"
-                  className="tool"
-                  onClick={() => {
-                    session.dispatch(new CreateScriptSourceCommand(scene.id, { kind: 'onEnter' }))
-                    setSrcKey('__onEnter__')
-                  }}
-                >
-                  ＋ 进场脚本(onEnter)
-                </button>
-              )}
-              {selectedEntityId && (
-                <div className="src-create-row">
-                  <button
-                    type="button"
-                    className="mini-txt"
-                    title="给选中实体创建交互触发脚本"
-                    disabled={
-                      !!scene.entities.find((e) => e.id === selectedEntityId)?.pages?.[0]?.trigger
-                    }
-                    onClick={() => {
-                      session.dispatch(
-                        new CreateScriptSourceCommand(scene.id, {
-                          kind: 'trigger',
-                          entityId: selectedEntityId,
-                        }),
-                      )
-                      setSrcKey(`${selectedEntityId}:trigger`)
-                    }}
-                  >
-                    ＋触发
-                  </button>
-                  <button
-                    type="button"
-                    className="mini-txt"
-                    title="给选中实体创建巡逻/自动脚本"
-                    disabled={
-                      !!scene.entities.find((e) => e.id === selectedEntityId)?.pages?.[0]?.auto
-                    }
-                    onClick={() => {
-                      session.dispatch(
-                        new CreateScriptSourceCommand(scene.id, {
-                          kind: 'auto',
-                          entityId: selectedEntityId,
-                        }),
-                      )
-                      setSrcKey(`${selectedEntityId}:auto`)
-                    }}
-                  >
-                    ＋巡逻
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
         {/* 中:指令树(播放跟随高亮) */}
         <div className="drawer-tree">
           {active ? (
@@ -501,7 +537,11 @@ export function ScriptDrawer(props: {
               onRowAction={onRowAction}
             />
           ) : (
-            <div className="insp-empty">此场景无脚本源 —— 左侧创建。</div>
+            <div className="insp-empty">
+              {selectedEntityId
+                ? `${selectedEntityId} 还没有脚本 —— 顶部「＋触发 / ＋巡逻」创建。`
+                : '选中实体编它的脚本;或顶部创建场景进场脚本。'}
+            </div>
           )}
         </div>
 

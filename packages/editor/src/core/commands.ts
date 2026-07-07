@@ -420,6 +420,62 @@ function withScriptStages(scene: SceneDef, ref: ScriptSourceRef, stages: ScriptS
   return { ...scene, entities }
 }
 
+/** 改实体触发方式(交互/触碰 + 距离)。数据位:pages[0].trigger.on/range。 */
+export class UpdateTriggerModeCommand implements Command {
+  readonly label = '改触发方式'
+  private readonly sceneId: string
+  private readonly entityId: string
+  private readonly on: 'interact' | 'touch'
+  private readonly range: number | undefined
+  private old: { on: 'interact' | 'touch'; range: number | undefined } | undefined
+
+  constructor(
+    sceneId: string,
+    entityId: string,
+    on: 'interact' | 'touch',
+    range: number | undefined,
+  ) {
+    this.sceneId = sceneId
+    this.entityId = entityId
+    this.on = on
+    this.range = range
+  }
+
+  private write(
+    state: EditorState,
+    on: 'interact' | 'touch',
+    range: number | undefined,
+  ): EditorState {
+    const scene = findScene(state, this.sceneId)
+    if (!scene) return state
+    const entities = scene.entities.map((e) => {
+      if (e.id !== this.entityId) return e
+      const page = e.pages?.[0]
+      if (!page?.trigger) return e
+      const trigger = { ...page.trigger, on }
+      if (range === undefined) delete (trigger as { range?: number }).range
+      else trigger.range = range
+      return { ...e, pages: [{ ...page, trigger }, ...(e.pages?.slice(1) ?? [])] }
+    })
+    return withEntities(state, this.sceneId, entities)
+  }
+
+  apply(state: EditorState): EditorState {
+    if (!this.old) {
+      const t = findScene(state, this.sceneId)?.entities.find((e) => e.id === this.entityId)
+        ?.pages?.[0]?.trigger
+      if (!t) return state
+      this.old = { on: t.on ?? 'interact', range: t.range }
+    }
+    return this.write(state, this.on, this.range)
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.old) return state
+    return this.write(state, this.old.on, this.old.range)
+  }
+}
+
 /**
  * 修改脚本(粗粒度:整 stages 替换 —— undo 语义简单可靠;细粒度差分交给
  * script-edit.ts 的纯函数在 UI 层算好再发命令)。首次 apply 捕获旧 stages。
