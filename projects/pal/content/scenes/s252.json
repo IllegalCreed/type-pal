@@ -1040,12 +1040,10 @@
           "sprite": "npc-576"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 117,
-          "operands": [
-            4,
-            1,
-            0
+          "kind": "setParty",
+          "members": [
+            "wu-hou",
+            "li-xiaoyao"
           ]
         },
         {

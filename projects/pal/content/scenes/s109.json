@@ -623,12 +623,10 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 117,
-                    "operands": [
-                      3,
-                      1,
-                      0
+                    "kind": "setParty",
+                    "members": [
+                      "lin-yueru",
+                      "li-xiaoyao"
                     ]
                   }
                 ]

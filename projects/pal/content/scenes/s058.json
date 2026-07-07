@@ -33071,12 +33071,9 @@
                     "facing": "left"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 117,
-                    "operands": [
-                      2,
-                      0,
-                      0
+                    "kind": "setParty",
+                    "members": [
+                      "zhao-linger"
                     ]
                   },
                   {
@@ -49820,12 +49817,11 @@
                     "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 117,
-                    "operands": [
-                      1,
-                      2,
-                      3
+                    "kind": "setParty",
+                    "members": [
+                      "li-xiaoyao",
+                      "zhao-linger",
+                      "lin-yueru"
                     ]
                   },
                   {

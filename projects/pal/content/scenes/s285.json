@@ -3561,12 +3561,9 @@
                     "sprite": "npc-232"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 117,
-                    "operands": [
-                      1,
-                      0,
-                      0
+                    "kind": "setParty",
+                    "members": [
+                      "li-xiaoyao"
                     ]
                   },
                   {
@@ -6830,12 +6827,11 @@
                     "sprite": "li-xiaoyao"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 117,
-                    "operands": [
-                      2,
-                      1,
-                      5
+                    "kind": "setParty",
+                    "members": [
+                      "zhao-linger",
+                      "li-xiaoyao",
+                      "anu"
                     ]
                   },
                   {

@@ -139,12 +139,9 @@
                     "state": 1
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 117,
-                    "operands": [
-                      5,
-                      0,
-                      0
+                    "kind": "setParty",
+                    "members": [
+                      "anu"
                     ]
                   },
                   {
@@ -1054,12 +1051,9 @@
                     "state": 1
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 117,
-                    "operands": [
-                      5,
-                      0,
-                      0
+                    "kind": "setParty",
+                    "members": [
+                      "anu"
                     ]
                   },
                   {
@@ -1261,12 +1255,10 @@
                     "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 117,
-                    "operands": [
-                      5,
-                      1,
-                      0
+                    "kind": "setParty",
+                    "members": [
+                      "anu",
+                      "li-xiaoyao"
                     ]
                   },
                   {
@@ -1525,12 +1517,10 @@
                     "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 117,
-                    "operands": [
-                      5,
-                      1,
-                      0
+                    "kind": "setParty",
+                    "members": [
+                      "anu",
+                      "li-xiaoyao"
                     ]
                   }
                 ]
@@ -1755,12 +1745,10 @@
                     "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 117,
-                    "operands": [
-                      5,
-                      1,
-                      0
+                    "kind": "setParty",
+                    "members": [
+                      "anu",
+                      "li-xiaoyao"
                     ]
                   },
                   {
@@ -2019,12 +2007,10 @@
                     "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 117,
-                    "operands": [
-                      5,
-                      1,
-                      0
+                    "kind": "setParty",
+                    "members": [
+                      "anu",
+                      "li-xiaoyao"
                     ]
                   }
                 ]

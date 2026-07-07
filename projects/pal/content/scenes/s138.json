@@ -558,12 +558,10 @@
                     "ms": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 117,
-                    "operands": [
-                      1,
-                      3,
-                      0
+                    "kind": "setParty",
+                    "members": [
+                      "li-xiaoyao",
+                      "lin-yueru"
                     ]
                   },
                   {
@@ -879,12 +877,9 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 117,
-                    "operands": [
-                      1,
-                      0,
-                      0
+                    "kind": "setParty",
+                    "members": [
+                      "li-xiaoyao"
                     ]
                   },
                   {

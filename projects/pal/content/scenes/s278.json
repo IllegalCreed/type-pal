@@ -317,12 +317,9 @@
                     "sprite": "npc-232"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 117,
-                    "operands": [
-                      1,
-                      0,
-                      0
+                    "kind": "setParty",
+                    "members": [
+                      "li-xiaoyao"
                     ]
                   },
                   {
@@ -541,12 +538,11 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 117,
-                    "operands": [
-                      1,
-                      2,
-                      5
+                    "kind": "setParty",
+                    "members": [
+                      "li-xiaoyao",
+                      "zhao-linger",
+                      "anu"
                     ]
                   },
                   {
@@ -617,12 +613,9 @@
                     "sprite": "npc-630"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 117,
-                    "operands": [
-                      1,
-                      0,
-                      0
+                    "kind": "setParty",
+                    "members": [
+                      "li-xiaoyao"
                     ]
                   },
                   {
@@ -905,12 +898,10 @@
                     "ms": 600
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 117,
-                    "operands": [
-                      1,
-                      5,
-                      0
+                    "kind": "setParty",
+                    "members": [
+                      "li-xiaoyao",
+                      "anu"
                     ]
                   },
                   {
@@ -991,12 +982,9 @@
                     "sprite": "npc-193"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 117,
-                    "operands": [
-                      1,
-                      0,
-                      0
+                    "kind": "setParty",
+                    "members": [
+                      "li-xiaoyao"
                     ]
                   },
                   {

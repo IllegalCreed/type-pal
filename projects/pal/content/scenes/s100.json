@@ -1340,12 +1340,9 @@
                     "state": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 117,
-                    "operands": [
-                      1,
-                      0,
-                      0
+                    "kind": "setParty",
+                    "members": [
+                      "li-xiaoyao"
                     ]
                   },
                   {
@@ -1396,12 +1393,9 @@
                     "state": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 117,
-                    "operands": [
-                      1,
-                      0,
-                      0
+                    "kind": "setParty",
+                    "members": [
+                      "li-xiaoyao"
                     ]
                   },
                   {
@@ -1540,12 +1534,10 @@
                     "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 117,
-                    "operands": [
-                      3,
-                      1,
-                      0
+                    "kind": "setParty",
+                    "members": [
+                      "lin-yueru",
+                      "li-xiaoyao"
                     ]
                   }
                 ]
@@ -2977,12 +2969,10 @@
                     "state": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 117,
-                    "operands": [
-                      1,
-                      3,
-                      0
+                    "kind": "setParty",
+                    "members": [
+                      "li-xiaoyao",
+                      "lin-yueru"
                     ]
                   },
                   {
@@ -3625,12 +3615,10 @@
           "musicId": 53
         },
         {
-          "kind": "unmigrated",
-          "opcode": 117,
-          "operands": [
-            3,
-            1,
-            0
+          "kind": "setParty",
+          "members": [
+            "lin-yueru",
+            "li-xiaoyao"
           ]
         },
         {

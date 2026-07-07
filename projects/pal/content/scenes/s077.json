@@ -6714,12 +6714,9 @@
           "sprite": "npc-193"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 117,
-          "operands": [
-            1,
-            0,
-            0
+          "kind": "setParty",
+          "members": [
+            "li-xiaoyao"
           ]
         },
         {
@@ -6871,12 +6868,10 @@
           "sprite": "li-xiaoyao"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 117,
-          "operands": [
-            1,
-            3,
-            0
+          "kind": "setParty",
+          "members": [
+            "li-xiaoyao",
+            "lin-yueru"
           ]
         },
         {

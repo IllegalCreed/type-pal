@@ -1697,12 +1697,11 @@
           "sprite": "li-xiaoyao"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 117,
-          "operands": [
-            2,
-            1,
-            5
+          "kind": "setParty",
+          "members": [
+            "zhao-linger",
+            "li-xiaoyao",
+            "anu"
           ]
         },
         {
