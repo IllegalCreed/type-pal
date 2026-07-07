@@ -19,6 +19,7 @@ import {
   loadTilemap,
   loadTileset,
   renderSceneFrame,
+  spriteBlitRect,
 } from '@type-pal/reforge'
 import { useEffect, useRef, useState } from 'react'
 
@@ -205,14 +206,17 @@ export function SceneCanvas(props: {
       ay: number,
       fw: number,
       fh: number,
-    ): Omit<HitRect, 'id'> => ({
-      x: (wx - ax - panX) * zoom,
-      // +7 = 精灵资产坐标约定(render.ts blit y = worldY−anchorY+7;漏掉则选框/命中盒
-      // 整体高 7px —— 作者报「蓝色虚线框偏高」,2026-07-07)
-      y: (wy - ay + 7 - panY) * zoom,
-      w: fw * zoom,
-      h: fh * zoom,
-    })
+    ): Omit<HitRect, 'id'> => {
+      // 与引擎同一 blit 矩形(spriteBlitRect = +7 资产下沉唯一收口;曾手写漏 +7 致选框偏高)
+      const r = spriteBlitRect({
+        worldX: wx,
+        worldY: wy,
+        anchorX: ax,
+        anchorY: ay,
+        frame: { width: fw, height: fh },
+      })
+      return { x: (r.x - panX) * zoom, y: (r.y - panY) * zoom, w: r.w * zoom, h: r.h * zoom }
+    }
 
     const draws: SpriteDraw[] = []
     const hits: HitRect[] = []

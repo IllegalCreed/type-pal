@@ -67,6 +67,28 @@ export interface SpriteDraw {
   baseYBias?: number
 }
 
+/**
+ * 精灵世界域 blit 矩形 —— **+7 资产级下沉的唯一收口**。
+ * 语义:脚底中点(anchorX=w/2, anchorY=h)对准格中心,整帧再下沉 7px(原版素材坐标约定,
+ * 贴地素材逐像素咬合地图;新素材包届时把 7 参数化归零)。
+ * 所有画/命中消费点(引擎 blit、编辑器选中框/命中盒)必须走这里 —— 别在调用侧手写
+ * `worldY − anchorY + 7`(编辑器曾漏 +7 致选中框偏高,2026-07-07 作者报)。
+ */
+export function spriteBlitRect(s: {
+  worldX: number
+  worldY: number
+  anchorX: number
+  anchorY: number
+  frame: { width: number; height: number }
+}): { x: number; y: number; w: number; h: number } {
+  return {
+    x: s.worldX - s.anchorX,
+    y: s.worldY - s.anchorY + 7,
+    w: s.frame.width,
+    h: s.frame.height,
+  }
+}
+
 interface DrawEntry {
   baseY: number
   draw: () => void
@@ -182,8 +204,9 @@ export class Canvas2DRenderer implements Renderer {
     const entries: DrawEntry[] = []
     for (const s of sprites) {
       const img = this.bake(s.frame)
-      const bx = Math.round(s.worldX - s.anchorX + ox)
-      const by = Math.round(s.worldY - s.anchorY + 7 + oy)
+      const r = spriteBlitRect(s)
+      const bx = Math.round(r.x + ox)
+      const by = Math.round(r.y + oy)
       entries.push({ baseY: s.worldY + 9 + (s.baseYBias ?? 0) * 8, draw: () => this.ctx.drawImage(img, bx, by) })
       if (!opts?.skipCover)
         this.addCoverTiles(entries, map, s.worldX, s.worldY, s.frame.width, s.frame.height, ox, oy)
