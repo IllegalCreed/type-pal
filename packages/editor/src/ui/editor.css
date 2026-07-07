@@ -2217,7 +2217,15 @@ body {
 }
 .mini-txt:hover { border-color: var(--acc); color: var(--fg); }
 .mini-txt.sel { border-color: var(--acc); color: var(--fg); background: var(--panel); }
-.drawer-tabs { display: inline-flex; gap: 4px; margin-left: 10px; }
+.drawer-tabs {
+  display: inline-flex;
+  gap: 4px;
+  margin-left: 10px;
+  align-items: center;
+  /* CJK 短文字在收窄 flex 项里会竖排折行(方/式 距/离)—— 一律禁折禁缩(三犯根治) */
+  white-space: nowrap;
+}
+.drawer-tabs > * { flex: none; white-space: nowrap; }
 .mini-txt:disabled { opacity: 0.4; cursor: default; }
 
 /* 预览回正(拖/缩后浮现,右上角) */
