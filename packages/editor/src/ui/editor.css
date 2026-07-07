@@ -2235,3 +2235,17 @@ body {
   right: 8px;
   z-index: 3;
 }
+
+/* 段头控件(段管理:next 下拉 / ＋段 / 🗑段) */
+.stage-head { display: flex; align-items: center; gap: 6px; }
+.stage-head .spacer { flex: 1; }
+.stage-next-sel {
+  height: 20px;
+  font-size: 11px;
+  width: 110px;
+  flex: none;
+  background: var(--panel2);
+  color: var(--dim);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}

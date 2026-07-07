@@ -27,12 +27,15 @@ import {
 import type { EditSession } from '../core/edit-session.js'
 import { Playback } from '../core/playback.js'
 import {
+  addStageAfter,
   getCommandAt,
   insertAfterAt,
   insertAtHead,
   moveAt,
   parsePath,
   removeAt,
+  removeStage,
+  setStageNext,
   updateCommandAt,
 } from '../core/script-edit.js'
 import { CommandForm } from './CommandForm.js'
@@ -575,6 +578,19 @@ export function ScriptDrawer(props: {
                 setInsertFor(null)
               }}
               onRowAction={onRowAction}
+              onStageAction={(i, a) => {
+                if (!active) return
+                const next =
+                  a.kind === 'addAfter'
+                    ? addStageAfter(active.stages, i)
+                    : a.kind === 'remove'
+                      ? removeStage(active.stages, i)
+                      : setStageNext(active.stages, i, a.next)
+                if (next !== active.stages) {
+                  dispatchStages(next)
+                  setSelPath(null)
+                }
+              }}
             />
           ) : (
             <div className="insp-empty">

@@ -237,6 +237,8 @@ function describe(cmd: Command, locale: Locale): Described {
 
 /** 行级编辑操作(C-track v1)。 */
 export type RowAction = 'insert' | 'up' | 'down' | 'remove'
+/** 段级操作(多段 = 原版「再按一次继续下一段」的结构化版;宝箱防重两段等)。 */
+export type StageAction = { kind: 'addAfter' } | { kind: 'remove' } | { kind: 'next'; next: ScriptStage['next'] }
 
 interface RowCtx {
   locale: Locale
@@ -244,6 +246,7 @@ interface RowCtx {
   selectedPath: string | null
   onSelect?: (path: string, cmd: Command) => void
   onRowAction?: (path: string, action: RowAction) => void
+  onStageAction?: (stageIdx: number, action: StageAction) => void
 }
 
 function CommandRow(props: { cmd: Command; depth: number; path: string; ctx: RowCtx }) {
@@ -323,24 +326,70 @@ export function ScriptTree(props: {
   selectedPath?: string | null
   onSelect?: (path: string, cmd: Command) => void
   onRowAction?: (path: string, action: RowAction) => void
+  onStageAction?: (stageIdx: number, action: StageAction) => void
 }) {
-  const { stages, locale, activePath = null, selectedPath = null, onSelect, onRowAction } = props
+  const { stages, locale, activePath = null, selectedPath = null, onSelect, onRowAction, onStageAction } = props
   const ctx: RowCtx = { locale, activePath, selectedPath, onSelect, onRowAction }
   if (stages.length === 0) return <div className="script-empty">（空脚本）</div>
   return (
     <div className="script-tree">
       {stages.map((st, i) => (
         <div key={i} className="stage">
-          {stages.length > 1 ? (
+          {stages.length > 1 || onStageAction ? (
             <div className="stage-head">
               第 {i + 1} 段
-              <span className="stage-next">
-                {st.next === 'advance'
-                  ? '→ 跑完推进下一段'
-                  : typeof st.next === 'number'
-                    ? `→ 跑完回第 ${st.next + 1} 段`
-                    : '→ 跑完停在本段'}
-              </span>
+              {onStageAction ? (
+                <>
+                  <span className="stage-next">→ 跑完</span>
+                  <select
+                    className="stage-next-sel"
+                    value={st.next === 'advance' ? 'advance' : typeof st.next === 'number' ? String(st.next) : ''}
+                    onChange={(e) => {
+                      const v = e.target.value
+                      onStageAction(i, {
+                        kind: 'next',
+                        next: v === '' ? undefined : v === 'advance' ? 'advance' : Number(v),
+                      })
+                    }}
+                    title="本段跑完后的去向(多段 = 原版「再按一次继续下一段」;宝箱防重两段)"
+                  >
+                    <option value="">停在本段</option>
+                    <option value="advance">推进下一段</option>
+                    {stages.map((_, k) => (
+                      <option key={k} value={k}>
+                        回第 {k + 1} 段
+                      </option>
+                    ))}
+                  </select>
+                  <span className="spacer" />
+                  <button
+                    type="button"
+                    className="mini-txt"
+                    title="在本段之后插入新段"
+                    onClick={() => onStageAction(i, { kind: 'addAfter' })}
+                  >
+                    ＋段
+                  </button>
+                  {stages.length > 1 ? (
+                    <button
+                      type="button"
+                      className="mini-txt"
+                      title="删除本段(指向它的跳转自动清除;可撤销)"
+                      onClick={() => onStageAction(i, { kind: 'remove' })}
+                    >
+                      🗑段
+                    </button>
+                  ) : null}
+                </>
+              ) : (
+                <span className="stage-next">
+                  {st.next === 'advance'
+                    ? '→ 跑完推进下一段'
+                    : typeof st.next === 'number'
+                      ? `→ 跑完回第 ${st.next + 1} 段`
+                      : '→ 跑完停在本段'}
+                </span>
+              )}
             </div>
           ) : null}
           {st.body.length === 0 ? (

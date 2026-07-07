@@ -11,6 +11,9 @@ import {
   parsePath,
   removeAt,
   updateCommandAt,
+  addStageAfter,
+  removeStage,
+  setStageNext,
 } from './script-edit.js'
 
 const dlg = (t: string): Command => ({ kind: 'dialog', line: { text: t } })
@@ -86,5 +89,43 @@ describe('insertAfterAt / removeAt / moveAt', () => {
     const down = moveAt(s, [0, 1, 'then', 0], 1)
     const arm = (getCommandAt(down, [0, 1]) as Extract<Command, { kind: 'branch' }>).then
     expect(arm.map((c) => (c as { line: { text: string } }).line.text)).toEqual(['t1', 't0'])
+  })
+})
+
+describe('段管理 —— addStageAfter/removeStage/setStageNext(next 下标重映射)', () => {
+  const st = (n: number, next?: ScriptStage['next']): ScriptStage =>
+    ({ body: [{ kind: 'wait', ms: n }], ...(next === undefined ? {} : { next }) }) as ScriptStage
+
+  test('加段:插入点之后的数字 next 整体 +1,之前的不动', () => {
+    const stages = [st(0, 2), st(1, 0), st(2)]
+    const out = addStageAfter(stages, 0) // 在段0后插空段
+    expect(out).toHaveLength(4)
+    expect(out[1]?.body).toEqual([]) // 新空段
+    expect(out[0]?.next).toBe(3) // 2 → 3(被插入点推移)
+    expect(out[2]?.next).toBe(0) // 指向段0,在插入点之前 → 不动
+  })
+
+  test('删段:指向被删段的 next 清除;其后数字 -1;至少保 1 段', () => {
+    const stages = [st(0, 1), st(1, 2), st(2, 0)]
+    const out = removeStage(stages, 1)
+    expect(out).toHaveLength(2)
+    expect(out[0]?.next).toBeUndefined() // 指向被删段 → 停
+    expect(out[1]?.next).toBe(0) // 2 → 1?否:原段2 next=0,0<1 不动
+    const solo = removeStage([st(0)], 0)
+    expect(solo).toHaveLength(1) // 保底
+  })
+
+  test('删段:大于删除点的数字引用 -1', () => {
+    const stages = [st(0, 2), st(1), st(2)]
+    const out = removeStage(stages, 1)
+    expect(out[0]?.next).toBe(1) // 2 → 1
+  })
+
+  test('setStageNext:设数字/advance/清除', () => {
+    const stages = [st(0), st(1)]
+    expect(setStageNext(stages, 0, 'advance')[0]?.next).toBe('advance')
+    expect(setStageNext(stages, 0, 1)[0]?.next).toBe(1)
+    const cleared = setStageNext([st(0, 1), st(1)], 0, undefined)
+    expect('next' in (cleared[0] as object)).toBe(false)
   })
 })

@@ -142,3 +142,57 @@ export function moveAt(stages: readonly ScriptStage[], path: CmdPath, dir: -1 | 
     return next
   })
 }
+
+/** 段管理:在 i 后插入空段。段间 next 按下标引用 —— 插入点之后的数字引用整体 +1(防错乱)。 */
+export function addStageAfter(stages: readonly ScriptStage[], i: number): ScriptStage[] {
+  const at = Math.min(Math.max(i, -1), stages.length - 1)
+  const remap = (n: ScriptStage['next']): ScriptStage['next'] =>
+    typeof n === 'number' && n > at ? n + 1 : n
+  const out = stages.map((st) => (st.next !== undefined ? { ...st, next: remap(st.next) } : st))
+  out.splice(at + 1, 0, { body: [] })
+  return out
+}
+
+/** 段管理:删除第 i 段(至少保 1 段)。指向它的 next → 清除(停);其后的数字引用 -1。 */
+export function removeStage(stages: readonly ScriptStage[], i: number): ScriptStage[] {
+  if (stages.length <= 1 || i < 0 || i >= stages.length) return stages as ScriptStage[]
+  const out: ScriptStage[] = []
+  for (let k = 0; k < stages.length; k++) {
+    if (k === i) continue
+    const st = stages[k]!
+    let next = st.next
+    if (typeof next === 'number') {
+      if (next === i) next = undefined
+      else if (next > i) next = next - 1
+    }
+    // 'advance' 语义是「推进到相邻下一段」,下标随位置自然重排,无需重映射
+    if (next !== st.next) out.push({ ...st, ...(next === undefined ? {} : { next }) })
+    else out.push(st)
+    if (next === undefined && st.next !== undefined && typeof st.next === 'number') {
+      // 显式清除:上面展开会把旧 next 带回,重建对象去掉 next 键
+      const clean = { ...st } as ScriptStage & { next?: unknown }
+      delete clean.next
+      out[out.length - 1] = clean
+    }
+  }
+  return out
+}
+
+/** 段管理:设第 i 段的跑完去向(undefined=停 / 'advance'=推进 / 数字=回第 n 段)。 */
+export function setStageNext(
+  stages: readonly ScriptStage[],
+  i: number,
+  next: ScriptStage['next'] | undefined,
+): ScriptStage[] {
+  const st = stages[i]
+  if (!st) return stages as ScriptStage[]
+  return stages.map((s, k) => {
+    if (k !== i) return s
+    if (next === undefined) {
+      const clean = { ...s } as ScriptStage & { next?: unknown }
+      delete clean.next
+      return clean as ScriptStage
+    }
+    return { ...s, next }
+  })
+}
