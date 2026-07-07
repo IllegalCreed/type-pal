@@ -26,6 +26,7 @@ import {
   type WalkSpeed,
 } from '@type-pal/content'
 import type { Palette, RleFrame, Tilemap } from '@type-pal/shared'
+import { computeFollowerPos, type FollowerFrozen, type TrailEntry } from './follower.js'
 import {
   type AssetBase,
   type BattleFieldEntry,
@@ -296,6 +297,20 @@ async function main(): Promise<void> {
   let facing: Facing = project.entryScene.entry.facing
   let walking = false
   let stepFrame = 0 // 0..3 走帧相位(步进节拍 = advanceMoves 的全局世界拍)
+  // ── E7 跟随者定位(party[1..N])──────────────────────────────────────────
+  // 队员并进 E6 定位权威:follow(贪吃蛇踩队长走过的格)/ mount(骑乘=父+偏移)/ script(显式站位)。
+  // follow 无插值:队长走一步队员各进一步,位置=轨迹历史格+队形偏移(原地转身队员不动)。
+  // 骑乘走 mount **不查轨迹** → 无 phase-1「滞后掉队」bug。
+  // trail 槽(原版 rgTrail 下标模型):[0]=最新/[1]=上一步/[2]=更早。队长每走一步 unshift。
+  let trail: TrailEntry[] = []
+  // 跟随者冻结快照(演出/骑乘期位置冻结,防重叠跳变;原版 frozenOffset)
+  const followerFrozen: (FollowerFrozen | null)[] = []
+  type FollowerAuthority =
+    | { kind: 'follow' }
+    | { kind: 'mount'; parent: string; dx: number; dy: number; facing?: Facing }
+    | { kind: 'script'; pos: GridPos; facing: Facing }
+  const followerAuth = new Map<number, FollowerAuthority>() // 队员 idx(1..)→权威;缺省 follow
+  const followerPos: ({ pos: GridPos; facing: Facing } | undefined)[] = [] // 派生(idx 0 空=队长)
   // 世界拍状态(声明须早于 switchScene 首调,TDZ):累加器/拍计数/本 rAF 拍数(0/1)
   let worldMoveAcc = 0
   let worldTickNum = 0
@@ -377,6 +392,11 @@ async function main(): Promise<void> {
   const leaderActor = leaderId ? project.actorsById[leaderId] : undefined
   if (!leaderActor) throw new Error(`reforge: 队长 "${leaderId ?? '(空)'}" 不在 actors 表`)
   const leaderSpriteDef = requireSpriteDef(leaderActor.spriteId, `队长 ${leaderActor.id}`)
+  // E7 跟随者精灵(party[1..N]):boot 期从模板解析,与队长同源。缺 actor/精灵 → null(渲染跳过)。
+  const followerSpriteDefs = bootStartWorld.party.slice(1).map((id) => {
+    const a = project.actorsById[id]
+    return a ? requireSpriteDef(a.spriteId, `队员 ${a.id}`) : null
+  })
 
   /**
    * 切场景(M2c):取场景定义 → 换图/调色板 → 重建渲染器(烤图缓存随 palette 走)→
@@ -399,6 +419,7 @@ async function main(): Promise<void> {
     }
     const needed = new Set([
       leaderSpriteDef.spriteNum,
+      ...followerSpriteDefs.flatMap((d) => (d ? [d.spriteNum] : [])), // E7 队员精灵一并加载
       ...[...defs.values()].map((d) => d.spriteNum),
     ])
     const missing = [...needed].filter((n) => !spriteByNum.has(n))
@@ -440,6 +461,10 @@ async function main(): Promise<void> {
     facing = spawn?.facing ?? entryDef?.facing ?? def.entry.facing
     walking = false
     stepFrame = 0
+    // trail 清零:全队聚拢队长(原版 rgTrail 全 = 队首坐标)
+    trail = [{ pos: { ...player.pos }, dir: facing }]
+    followerFrozen.length = 0
+    followerAuth.clear() // 跨场景回 follow(骑乘/站位权威是演出期瞬时态,不跨场景)
     worldMoveAcc = 0 // 世界拍相位随场景重置
     updateCamera()
     // W5 场景 BGM 槽:缺省 = 延续上一曲(忠实原版);0 = 停曲。同曲不重启由播放器保证。
@@ -472,6 +497,8 @@ async function main(): Promise<void> {
       : {}),
   })
   const playerSprite = spriteByNum.get(leaderSpriteDef.spriteNum)!
+  // E7 跟随者精灵帧(与队长同 needed 保护,不被 LRU 淘汰;捕获引用长活)
+  const followerFrames = followerSpriteDefs.map((d) => (d ? spriteByNum.get(d.spriteNum) : undefined))
   const dialogBox = new DialogBox(ctx, glyphs, cursorFrames, portraits, project.locale)
   let world = buildWorld(bootStartWorld, project.actorsById)
   // dev ?party:强制的队员拉满 HP/MP,确保 healthy(否则如赵灵儿初始 28/240 = 濒死,合击项灰)
@@ -1228,6 +1255,37 @@ async function main(): Promise<void> {
   }
 
   /**
+   * E7:跟随者定位 —— 1:1 移植原版 follower-pos.ts(trail 下标槽 + facing 偏移 + frozenOffset)。
+   * follow=原版 trail[1]+偏移模型 / mount=父+偏移(骑乘) / script=显式持有。
+   */
+  function deriveFollowers(): void {
+    for (let m = 1; m < world.party.length; m++) {
+      const a = followerAuth.get(m) ?? { kind: 'follow' as const }
+      if (a.kind === 'follow') {
+        const r = computeFollowerPos(
+          { party: player.pos, trail, walking, frozenOffset: followerFrozen },
+          m,
+          (col, row) => !isBlocked({ col, row, height: 0 }),
+        )
+        if (r) {
+          followerPos[m] = { pos: r.pos, facing: r.dir }
+        } else {
+          followerPos[m] = undefined
+        }
+      } else if (a.kind === 'mount') {
+        const parent = scene.entities.find((e) => e.id === a.parent)
+        const base = parent ? parent.pos : player.pos
+        followerPos[m] = {
+          pos: { col: base.col + a.dx, row: base.row + a.dy, height: base.height },
+          facing: a.facing ?? followerPos[m]?.facing ?? facing,
+        }
+      } else {
+        followerPos[m] = { pos: { ...a.pos }, facing: a.facing }
+      }
+    }
+  }
+
+  /**
    * 原版走位单拍推进(script.c:63-105 PAL_NPCWalkTo 像素语义,菱形格域实现):
    * 象限定向 → 任一 px 轴 |offset| < 2·speed 则整体 snap 落点 → 否则沿朝向轴走 s/8 格
    * (= NPCWalkOneStep 的 x±2s,y±1s)。朝向 = **像素轴**象限(⚠ 曾直接套菱形格轴:
@@ -1651,6 +1709,14 @@ async function main(): Promise<void> {
 
   function render(): void {
     updateCamera() // 相机跟随玩家
+    // trail unshift(原版 rgTrail 模型):队长位置 + 朝向插 trail[0],截尾保留足够槽位
+    // 同格不记 = 原地转身队员不动(原版语义)
+    const head = trail[0]
+    if (!head || head.pos.col !== player.pos.col || head.pos.row !== player.pos.row) {
+      trail.unshift({ pos: { ...player.pos }, dir: facing })
+      if (trail.length > 6) trail.length = 6
+    }
+    deriveFollowers()
     // 精灵 + 高物瓦片由 renderScene 按投影 Y 统一深度排序（遮挡）；地板自动铺底。
     const sprites: SpriteDraw[] = []
     // 实体站立帧(N 实体;hidden 跳过;zBias 进画序):布局数据化 idleFrameIndex
@@ -1706,6 +1772,26 @@ async function main(): Promise<void> {
         worldY: spriteScreenY(player.pos), // 含 height 上移(D16);地面=0 同 pp.y
         anchorX: Math.floor(pf.width / 2), // 每帧自锚(同上;0x65 换爬行精灵后帧高差巨大)
         anchorY: pf.height,
+      })
+    }
+    // E7 跟随者(party[1..N]):照队长那套 push sprite;walk/idle 跟队长走态
+    for (let m = 1; m < world.party.length; m++) {
+      const fp = followerPos[m]
+      const fd = followerSpriteDefs[m - 1]
+      const fr = followerFrames[m - 1]
+      if (!fp || !fd || !fr) continue
+      const ffi = walking
+        ? walkFrameIndex(fd.layout, fp.facing, stepFrame)
+        : idleFrameIndex(fd.layout, fp.facing)
+      const ff = fr.frames[ffi] ?? fr.frames[0]
+      if (!ff) continue
+      const fpp = gridToPixel(fp.pos)
+      sprites.push({
+        frame: ff,
+        worldX: fpp.x,
+        worldY: spriteScreenY(fp.pos),
+        anchorX: Math.floor(ff.width / 2),
+        anchorY: ff.height,
       })
     }
     // 场景底图:clear + scale + renderScene + restore(抽成 renderSceneFrame,editor 复用同一绘制)。
@@ -1859,6 +1945,9 @@ async function main(): Promise<void> {
   // 调试 / 验证：暴露活动态
   ;(window as unknown as { __reforge?: unknown }).__reforge = {
     player,
+    get followerPos() {
+      return followerPos // E7 调试:跟随者派生落位(idx 1..)
+    },
     // M2c:切场景后 scene/room 会整体重赋 → 必须 getter 活引用(值捕获曾致 dev 传送用错场景坐标)
     get sceneId() {
       return scene.id
