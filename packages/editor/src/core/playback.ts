@@ -374,10 +374,6 @@ export class Playback {
     giveMoney: (delta) => this.log(`💰 ${delta >= 0 ? '+' : ''}${delta} 钱`),
     playSound: (id) => this.log(`🔊 音效 ${id}`),
     playMusic: (id) => this.log(`🎵 音乐 ${id}`),
-    overrideSceneBattle: (sc, fieldId, musicId) =>
-      this.log(
-        `🗺 覆写战斗配置${sc ? ` @${sc}` : ''}${fieldId !== undefined ? ` 战场 ${fieldId}` : ''}${musicId !== undefined ? ` 战斗乐 ${musicId}` : ''}`,
-      ),
     takeEntity: (id) => this.log(`🔒 接管 ${id}`),
     mountParty: (id) => this.log(`🛶 挂载队伍 → ${id}`),
     unmountParty: () => this.log('🚶 下载具'),

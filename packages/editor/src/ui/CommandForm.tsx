@@ -12,7 +12,6 @@ import type { Command, Facing, Locale, MusicDef, SceneDef, WalkSpeed } from '@ty
 import { lookupText } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { useEffect, useState } from 'react'
-import { BattleFieldPicker } from './BattleFieldPicker.js'
 import { MusicPicker } from './MusicPicker.js'
 
 const FACINGS: Facing[] = ['down', 'left', 'up', 'right']
@@ -497,31 +496,6 @@ export function CommandForm(props: {
             baseUrl={musicBase}
           />
         </Row>
-      )
-    case 'overrideSceneBattle':
-      // 场景战斗配置覆写(剧情点后本场景后续战斗改场地/曲;scene 键少见,走 JSON 兜底改)
-      return (
-        <>
-          <Row label="战场">
-            {assetBase ? (
-              <BattleFieldPicker
-                value={cmd.fieldId ?? 0}
-                onChange={(n) => set({ fieldId: n })}
-                assetBase={assetBase}
-              />
-            ) : (
-              <Num value={cmd.fieldId ?? 0} onChange={(n) => set({ fieldId: n })} />
-            )}
-          </Row>
-          <Row label="战斗音乐">
-            <MusicPicker
-              value={cmd.musicId}
-              onChange={(v) => set({ musicId: v ?? 0 })}
-              music={music}
-              baseUrl={musicBase}
-            />
-          </Row>
-        </>
       )
     case 'giveMoney':
       return (
