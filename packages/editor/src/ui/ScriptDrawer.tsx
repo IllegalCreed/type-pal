@@ -93,6 +93,24 @@ const INSERT_GROUPS: {
     ],
   },
   {
+    title: '剧情开关(flag/var —— 数据模式「变量」页自动收录)',
+    items: [
+      { label: '🚩 设开关', make: () => [{ kind: 'setFlag', flag: 'my-flag', value: true }] },
+      { label: '🔢 设数值', make: () => [{ kind: 'setVar', var: 'my-var', value: 1 }] },
+      {
+        label: '🔀 按开关分支',
+        make: () => [
+          {
+            kind: 'branch',
+            cond: { kind: 'flag', flag: 'my-flag', is: true },
+            then: [{ kind: 'dialog', line: { text: '(开关已开)' } }],
+            else: [{ kind: 'dialog', line: { text: '(开关未开)' } }],
+          },
+        ],
+      },
+    ],
+  },
+  {
     title: '事件模板(展开为指令组)',
     items: [
       {

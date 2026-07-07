@@ -524,6 +524,70 @@ export function CommandForm(props: {
           </Row>
         </>
       )
+    case 'setFlag':
+      return (
+        <>
+          <Row label="开关名">
+            <input
+              className="in"
+              value={cmd.flag}
+              onChange={(e) => set({ flag: e.target.value })}
+              placeholder="如 met-li-daniang"
+            />
+          </Row>
+          <Row label="设为">
+            <Sel
+              value={cmd.value ? 'true' : 'false'}
+              options={['true', 'false']}
+              onChange={(v) => set({ value: v === 'true' })}
+            />
+          </Row>
+        </>
+      )
+    case 'setVar':
+      return (
+        <>
+          <Row label="变量名">
+            <input
+              className="in"
+              value={cmd.var}
+              onChange={(e) => set({ var: e.target.value })}
+              placeholder="如 wine-count"
+            />
+          </Row>
+          <Row label="设为">
+            <Num value={cmd.value} onChange={(n) => set({ value: n })} />
+          </Row>
+        </>
+      )
+    case 'branch': {
+      const c = cmd.cond
+      return (
+        <>
+          {c.kind === 'flag' ? (
+            <>
+              <Row label="条件:开关">
+                <input
+                  className="in"
+                  value={c.flag}
+                  onChange={(e) => set({ cond: { ...c, flag: e.target.value } })}
+                />
+              </Row>
+              <Row label="要求为">
+                <Sel
+                  value={c.is ? 'true' : 'false'}
+                  options={['true', 'false']}
+                  onChange={(v) => set({ cond: { ...c, is: v === 'true' } })}
+                />
+              </Row>
+            </>
+          ) : (
+            <p className="hint">非 flag 条件({c.kind})用下方 JSON 编辑。</p>
+          )}
+          <p className="hint">成立走 then 臂、不成立走 else 臂 —— 树里展开臂内行,行悬停 ＋ 插指令。</p>
+        </>
+      )
+    }
     case 'playSound':
       return (
         <Row label="音效 id">
