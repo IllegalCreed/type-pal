@@ -476,6 +476,68 @@ export class UpdateTriggerModeCommand implements Command {
   }
 }
 
+/** 删除脚本源(trigger/auto 槽或 onEnter/onTeleport)。undo 原样恢复(含 trigger 的 on/range)。 */
+export class DeleteScriptSourceCommand implements Command {
+  readonly label = '删除脚本'
+  private readonly sceneId: string
+  private readonly ref: ScriptSourceRef
+  private old: unknown
+
+  constructor(sceneId: string, ref: ScriptSourceRef) {
+    this.sceneId = sceneId
+    this.ref = ref
+  }
+
+  apply(state: EditorState): EditorState {
+    const scene = findScene(state, this.sceneId)
+    if (!scene) return state
+    if (this.ref.kind === 'onEnter' || this.ref.kind === 'onTeleport') {
+      const cur = this.ref.kind === 'onEnter' ? scene.onEnter : scene.onTeleport
+      if (!cur) return state
+      if (this.old === undefined) this.old = structuredClone(cur)
+      const next = { ...scene }
+      delete (next as Record<string, unknown>)[this.ref.kind]
+      return withScene(state, this.sceneId, next)
+    }
+    const entityId = this.ref.entityId
+    const kind = this.ref.kind
+    const entities = scene.entities.map((e) => {
+      if (e.id !== entityId) return e
+      const page = e.pages?.[0]
+      const slot = kind === 'trigger' ? page?.trigger : page?.auto
+      if (!page || !slot) return e
+      if (this.old === undefined) this.old = structuredClone(slot)
+      const newPage = { ...page }
+      delete (newPage as Record<string, unknown>)[kind]
+      return { ...e, pages: [newPage, ...(e.pages?.slice(1) ?? [])] }
+    })
+    return withEntities(state, this.sceneId, entities)
+  }
+
+  invert(state: EditorState): EditorState {
+    if (this.old === undefined) return state
+    const scene = findScene(state, this.sceneId)
+    if (!scene) return state
+    if (this.ref.kind === 'onEnter' || this.ref.kind === 'onTeleport') {
+      return withScene(state, this.sceneId, {
+        ...scene,
+        [this.ref.kind]: structuredClone(this.old),
+      } as typeof scene)
+    }
+    const entityId = this.ref.entityId
+    const kind = this.ref.kind
+    const entities = scene.entities.map((e) => {
+      if (e.id !== entityId) return e
+      const page = e.pages?.[0] ?? {}
+      return {
+        ...e,
+        pages: [{ ...page, [kind]: structuredClone(this.old) }, ...(e.pages?.slice(1) ?? [])],
+      }
+    })
+    return withEntities(state, this.sceneId, entities)
+  }
+}
+
 /**
  * 修改脚本(粗粒度:整 stages 替换 —— undo 语义简单可靠;细粒度差分交给
  * script-edit.ts 的纯函数在 UI 层算好再发命令)。首次 apply 捕获旧 stages。

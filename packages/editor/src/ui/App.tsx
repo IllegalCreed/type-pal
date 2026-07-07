@@ -28,7 +28,6 @@ import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'reac
 import {
   AddEntityCommand,
   AddSceneCommand,
-  CreateScriptSourceCommand,
   DeleteEntityCommand,
   MoveEntityCommand,
   SetEntitySpriteCommand,
@@ -207,7 +206,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
           onClick={() => session.undo()}
           title="撤销"
         >
-          ↶
+          ↺ 撤销
         </button>
         <button
           className="tbtn"
@@ -215,7 +214,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
           onClick={() => session.redo()}
           title="重做"
         >
-          ↷
+          ↻ 重做
         </button>
         <button
           className="save"
@@ -951,53 +950,32 @@ function EntityInspector(props: {
         <h4>
           行为脚本 <span className="hint2">底部抽屉就地编(E2/E4)</span>
         </h4>
-        {entity.pages?.[0]?.trigger ? (
+        {/* 一眼徽标 + 单入口(创建/切换动作在抽屉头部,不重复) */}
+        <div className="lrow" style={{ gap: 8, alignItems: 'center' }}>
+          <span style={{ color: 'var(--dim)', fontSize: 12 }}>
+            {entity.pages?.[0]?.trigger
+              ? `🔗 ${entity.pages[0].trigger.on === 'interact' ? '交互' : '触碰'}·${entity.pages[0].trigger.stages.length}段`
+              : null}
+            {entity.pages?.[0]?.auto ? ` 🔁 巡逻·${entity.pages[0].auto.stages.length}段` : null}
+            {!entity.pages?.[0]?.trigger && !entity.pages?.[0]?.auto ? '(无脚本)' : null}
+          </span>
           <button
             type="button"
-            className="tool"
-            onClick={() => onJumpToEvent(sceneId, `${entity.id}:trigger`)}
-          >
-            🔗 触发脚本({entity.pages[0].trigger.on === 'interact' ? '交互' : '触碰'} ·{' '}
-            {entity.pages[0].trigger.stages.length} 段)→ 去编辑
-          </button>
-        ) : null}
-        {entity.pages?.[0]?.auto ? (
-          <button
-            type="button"
-            className="tool"
-            onClick={() => onJumpToEvent(sceneId, `${entity.id}:auto`)}
-          >
-            🔁 巡逻/自动脚本({entity.pages[0].auto.stages.length} 段)→ 去编辑
-          </button>
-        ) : null}
-        {!entity.pages?.[0]?.trigger && (
-          <button
-            type="button"
-            className="tool"
-            onClick={() => {
-              session.dispatch(
-                new CreateScriptSourceCommand(sceneId, { kind: 'trigger', entityId: entity.id }),
+            className="mini-txt"
+            onClick={() =>
+              onJumpToEvent(
+                sceneId,
+                entity.pages?.[0]?.trigger
+                  ? `${entity.id}:trigger`
+                  : entity.pages?.[0]?.auto
+                    ? `${entity.id}:auto`
+                    : `${entity.id}:trigger`,
               )
-              onJumpToEvent(sceneId, `${entity.id}:trigger`)
-            }}
+            }
           >
-            ＋ 创建触发脚本(交互)→ 去编辑
+            📜 编辑脚本
           </button>
-        )}
-        {!entity.pages?.[0]?.auto && (
-          <button
-            type="button"
-            className="tool"
-            onClick={() => {
-              session.dispatch(
-                new CreateScriptSourceCommand(sceneId, { kind: 'auto', entityId: entity.id }),
-              )
-              onJumpToEvent(sceneId, `${entity.id}:auto`)
-            }}
-          >
-            ＋ 创建巡逻/自动脚本 → 去编辑
-          </button>
-        )}
+        </div>
       </div>
       <div className="section" style={{ borderBottom: 0 }}>
         <button className="tool" style={{ color: 'var(--err)' }} onClick={onDelete}>

@@ -19,6 +19,7 @@ import type { AssetBase } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   CreateScriptSourceCommand,
+  DeleteScriptSourceCommand,
   type ScriptSourceRef,
   UpdateScriptCommand,
   UpdateTriggerModeCommand,
@@ -473,6 +474,9 @@ export function ScriptDrawer(props: {
               if (!trig) return null
               return (
                 <span className="drawer-tabs" title="触发方式与距离(格)">
+                  <span style={{ color: 'var(--faint)', fontSize: 11, alignSelf: 'center' }}>
+                    方式
+                  </span>
                   <select
                     className="in"
                     style={{ height: 22, fontSize: 12 }}
@@ -491,6 +495,9 @@ export function ScriptDrawer(props: {
                     <option value="interact">交互(空格)</option>
                     <option value="touch">触碰即发</option>
                   </select>
+                  <span style={{ color: 'var(--faint)', fontSize: 11, alignSelf: 'center' }}>
+                    距离
+                  </span>
                   <input
                     className="in"
                     type="number"
@@ -513,6 +520,20 @@ export function ScriptDrawer(props: {
               )
             })()
           : null}
+        {active ? (
+          <button
+            type="button"
+            className="mini-txt"
+            style={{ marginLeft: 10, color: 'var(--err)' }}
+            title="删除当前脚本源(可 ↶ 撤销)"
+            onClick={() => {
+              session.dispatch(new DeleteScriptSourceCommand(scene.id, refOf(active.key)))
+              setSrcKey(null)
+            }}
+          >
+            🗑 删此脚本
+          </button>
+        ) : null}
         <span className="spacer" />
         <span style={{ color: 'var(--faint)', fontSize: 11, marginRight: 8 }}>
           改动即入 undo · ▶ 预览不改数据
