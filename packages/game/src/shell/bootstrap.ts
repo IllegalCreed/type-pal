@@ -1852,6 +1852,19 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   if (skipIntroBoot) {
     // ?skip-intro=1 → 跳 trademark + splash + OpeningMenu 直接走 SCENE_ID(=1)新游戏
     startNewGameFromPrimary()
+    // dev:?dev-party=0,1,2 覆写队伍(看跟随者队形用)+ 预载各队员大世界精灵。
+    //   roleId 顺序 = [李逍遥0,赵灵儿1,林月如2,巫后3,阿奴4,盖罗娇5]。
+    const devPartyParam = new URLSearchParams(window.location.search).get('dev-party')
+    if (devPartyParam) {
+      const ids = devPartyParam.split(',').map(Number).filter((n) => Number.isInteger(n) && n >= 0)
+      if (ids.length > 0) {
+        gs.partyMembers = ids
+        const spriteIds = ids
+          .map((rid) => playerRoles.roles[rid]?.spriteNum)
+          .filter((s): s is number => typeof s === 'number' && s > 0 && !npcSpriteFrames.has(s))
+        await Promise.all(spriteIds.map((s) => fetchMissingSprite(s)))
+      }
+    }
   } else {
     // 默认:trademark → splash → OpeningMenu
     // 注:await 不阻塞 startRafLoop(后者立即调,raf 已暂停 via suspendRaf)
