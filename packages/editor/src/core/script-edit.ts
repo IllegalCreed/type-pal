@@ -12,7 +12,7 @@ export type CmdPath = readonly PathSeg[]
 
 /** "0/1/then/1" → [0,1,'then',1]。 */
 export function parsePath(s: string): PathSeg[] {
-  return s.split('/').map((p) => (/^\d+$/.test(p) ? Number(p) : p))
+  return s.split('/').map((p) => (/^-?\d+$/.test(p) ? Number(p) : p)) // -1 = 空段段首哨兵
 }
 
 /** 臂名 → 该命令上的 Command[](不存在返回 undefined)。 */
@@ -112,6 +112,17 @@ export function insertAfterAt(
     cmd,
     ...body.slice(i + 1),
   ])
+}
+
+/** 空段插入第一条(ScriptTree 空段「＋」入口;path 尾段约定 -1 = 段首)。 */
+export function insertAtHead(
+  stages: readonly ScriptStage[],
+  stageIdx: number,
+  cmd: Command,
+): ScriptStage[] {
+  const st = stages[stageIdx]
+  if (!st) return stages as ScriptStage[]
+  return stages.map((s, i) => (i === stageIdx ? { ...s, body: [cmd, ...s.body] } : s))
 }
 
 /** 删除 path 所指命令。 */

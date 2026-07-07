@@ -382,6 +382,7 @@ export class UpdateSpriteCommand implements Command {
 /** 脚本源定位:场景 onEnter,或实体 pages[0] 的 trigger/auto。 */
 export type ScriptSourceRef =
   | { kind: 'onEnter' }
+  | { kind: 'onTeleport' }
   | { kind: 'trigger'; entityId: string }
   | { kind: 'auto'; entityId: string }
 
@@ -391,6 +392,7 @@ export function getScriptStages(
   ref: ScriptSourceRef,
 ): readonly ScriptStage[] | undefined {
   if (ref.kind === 'onEnter') return scene.onEnter
+  if (ref.kind === 'onTeleport') return scene.onTeleport
   const e = scene.entities.find((x) => x.id === ref.entityId)
   const page = e?.pages?.[0]
   return ref.kind === 'trigger' ? page?.trigger?.stages : page?.auto?.stages
@@ -399,6 +401,7 @@ export function getScriptStages(
 /** 不可变:把脚本源的 stages 整体替换(源缺失原样返回)。 */
 function withScriptStages(scene: SceneDef, ref: ScriptSourceRef, stages: ScriptStage[]): SceneDef {
   if (ref.kind === 'onEnter') return { ...scene, onEnter: stages }
+  if (ref.kind === 'onTeleport') return { ...scene, onTeleport: stages }
   const entities = scene.entities.map((e) => {
     if (e.id !== ref.entityId) return e
     const page = e.pages?.[0]
@@ -865,6 +868,8 @@ export class CreateScriptSourceCommand implements Command {
     this.created = true
     const empty: ScriptStage[] = [{ body: [] }]
     if (this.ref.kind === 'onEnter') return withScene(state, this.sceneId, { ...scene, onEnter: empty })
+    if (this.ref.kind === 'onTeleport')
+      return withScene(state, this.sceneId, { ...scene, onTeleport: empty })
     const entityId = this.ref.entityId
     const kind = this.ref.kind
     const entities = scene.entities.map((e) => {
@@ -886,6 +891,11 @@ export class CreateScriptSourceCommand implements Command {
     if (this.ref.kind === 'onEnter') {
       const next = { ...scene }
       delete (next as { onEnter?: unknown }).onEnter
+      return withScene(state, this.sceneId, next)
+    }
+    if (this.ref.kind === 'onTeleport') {
+      const next = { ...scene }
+      delete (next as { onTeleport?: unknown }).onTeleport
       return withScene(state, this.sceneId, next)
     }
     const entityId = this.ref.entityId

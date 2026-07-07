@@ -2136,3 +2136,59 @@ body {
   min-height: 0;
   overflow-y: auto;
 }
+
+/* ── 场景模式 · 底部脚本抽屉(audit §6 Step2;事件模式接替者)── */
+.script-drawer {
+  flex: 0 0 42%;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line);
+  background: var(--panel);
+  overflow: hidden;
+}
+.script-drawer .drawer-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-bottom: 1px solid var(--line);
+  flex: 0 0 auto;
+}
+.script-drawer .drawer-head .t { font-weight: 600; font-size: 12px; }
+.script-drawer .drawer-body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+.script-drawer .drawer-srcs {
+  flex: 0 0 208px;
+  border-right: 1px solid var(--line);
+  overflow-y: auto;
+  min-height: 0;
+}
+.script-drawer .drawer-tree {
+  flex: 1;
+  overflow: auto;
+  min-width: 0;
+  min-height: 0;
+}
+.script-drawer .drawer-side {
+  flex: 0 0 380px;
+  border-left: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.script-drawer .drawer-preview {
+  flex: 0 0 auto;
+  border-bottom: 1px solid var(--line);
+  max-height: 55%;
+  display: flex;
+  overflow: hidden;
+}
+.script-drawer .drawer-form {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}

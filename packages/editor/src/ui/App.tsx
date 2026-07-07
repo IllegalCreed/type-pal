@@ -39,13 +39,13 @@ import type { EditSession } from '../core/edit-session.js'
 import { serializeProject, writeProject } from '../core/project-io.js'
 import { ActorMode } from './ActorMode.js'
 import { DataMode, type DataTab } from './DataMode.js'
-import { EventMode } from './EventMode.js'
+import { ScriptDrawer } from './ScriptDrawer.js'
 import { MusicPicker } from './MusicPicker.js'
 import { SceneCanvas, type Tool } from './SceneCanvas.js'
 import { SpriteThumb } from './SpriteThumb.js'
 
 const SCENE_NODE = '__scene__'
-type Mode = 'place' | 'actor' | 'event' | 'data'
+type Mode = 'place' | 'actor' | 'data'
 
 function newEntityId(existing: EntityDef[]): string {
   const ids = new Set(existing.map((e) => e.id))
@@ -89,15 +89,19 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
     setTool('select')
   }
   // N5 引用跳转:变量页/物品页点引用 → 事件模式定位到 场景+脚本源。
-  // 手动切模式(rail 按钮)清跳转意图,避免旧目标反复劫持事件模式初始定位。
-  const [eventJump, setEventJump] = useState<{ scene: string; src: string } | null>(null)
+  // 底部脚本抽屉(audit §6 Step2:场景模式内嵌脚本编辑,独立事件模式已退役)
+  const [drawer, setDrawer] = useState<{ open: boolean; src: string | null }>({
+    open: false,
+    src: null,
+  })
   const switchMode = (m: Mode): void => {
-    setEventJump(null)
     setMode(m)
   }
+  /** 「去编辑脚本」统一入口(检查器按钮/数据模式引用跳转):回场景模式+定位场景+展开抽屉。 */
   const jumpToEvent = (sceneId: string, srcKey: string): void => {
-    setEventJump({ scene: sceneId, src: srcKey })
-    setMode('event')
+    setPlaceSceneId(sceneId)
+    setMode('place')
+    setDrawer({ open: true, src: srcKey })
   }
   const issues = useMemo(() => validateReferences(state), [state])
   // C0:实体经 actor⊕sprite 解析;玩家精灵 = party[0] → ActorDef.spriteId(与引擎同路径)
@@ -242,13 +246,6 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
             <span className="lbl">地图</span>
           </div>
           <button
-            className={`mode${mode === 'event' ? ' active' : ''}`}
-            onClick={() => switchMode('event')}
-          >
-            <span className="ico">💬</span>
-            <span className="lbl">事件</span>
-          </button>
-          <button
             className={`mode${mode === 'data' ? ' active' : ''}`}
             onClick={() => switchMode('data')}
           >
@@ -290,19 +287,6 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
             onJumpToEvent={jumpToEvent}
             tab={dataTab}
             onTab={setDataTab}
-          />
-        ) : mode === 'event' ? (
-          <EventMode
-            scenes={state.scenes}
-            locale={state.locale}
-            initialSceneId={eventJump?.scene ?? scene.id}
-            initialSrcKey={eventJump?.src}
-            sprites={state.sprites}
-            actorsById={actorsById}
-            leaderSpriteId={leaderSpriteId}
-            assetBase={project.assetBase}
-            session={session}
-            music={state.music ?? []}
           />
         ) : (
           <>
@@ -458,6 +442,14 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                   />{' '}
                   禁入
                 </label>
+                <span className="sep" />
+                <button
+                  className={`tool${drawer.open ? ' active' : ''}`}
+                  onClick={() => setDrawer((d) => ({ open: !d.open, src: d.src }))}
+                  title="底部脚本抽屉:本场景 onEnter/实体触发/巡逻 就地编 + 预览"
+                >
+                  📜 脚本
+                </button>
                 <span className="spacer" />
                 <span style={{ color: 'var(--faint)', fontSize: 11 }}>
                   {tool === 'add' ? '点画布放实体' : '拖动移位 · Del 删除'}
@@ -476,6 +468,21 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                 onMoveEntity={moveEntity}
                 onAddAt={addAt}
               />
+              {drawer.open ? (
+                <ScriptDrawer
+                  scene={scene}
+                  scenes={state.scenes}
+                  locale={state.locale}
+                  focusSrcKey={drawer.src}
+                  sprites={state.sprites}
+                  actorsById={actorsById}
+                  leaderSpriteId={leaderSpriteId}
+                  assetBase={project.assetBase}
+                  session={session}
+                  music={state.music ?? []}
+                  onClose={() => setDrawer({ open: false, src: null })}
+                />
+              ) : null}
             </div>
 
             <div className="inspector">
@@ -936,7 +943,7 @@ function EntityInspector(props: {
       </div>
       <div className="section">
         <h4>
-          行为脚本 <span className="hint2">编辑在事件模式(E2/E4)</span>
+          行为脚本 <span className="hint2">底部抽屉就地编(E2/E4)</span>
         </h4>
         {entity.pages?.[0]?.trigger ? (
           <button

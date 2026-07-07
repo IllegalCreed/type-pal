@@ -1,13 +1,14 @@
 /**
- * 事件模式 —— 脚本查看 + 演出预览(v0)。两段式 outliner:上段选有脚本的场景,下段列该
- * 场景的脚本源;中列上「演出预览画布」(播放/单步/重置/倍速)下「指令树」(跟随高亮当前
- * 指令);右栏演出日志(桩指令)。可视化编辑是后续 C-track。
+ * 场景模式 · 底部脚本抽屉(audit §6 Step2,作者拍板形态)—— 独立事件模式的接替者。
+ * 工作流:建场景 → 选地图 → 布精灵 → **选实体就地写脚本 → 预览**,全程不离开场景模式。
+ * 三栏横排:左 = 本场景脚本源(+创建器);中 = 指令树(播放跟随高亮);
+ * 右 = 演出预览(上)+ 指令表单/插入菜单/日志(下)。
+ * 编辑逻辑与原事件模式同源(UpdateScriptCommand → session,undo 可回)。
  */
 
 import type {
   ActorDef,
   Command,
-  EntityDef,
   Locale,
   MusicDef,
   SceneDef,
@@ -16,12 +17,17 @@ import type {
 } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { CreateScriptSourceCommand, type ScriptSourceRef, UpdateScriptCommand } from '../core/commands.js'
+import {
+  CreateScriptSourceCommand,
+  type ScriptSourceRef,
+  UpdateScriptCommand,
+} from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { Playback } from '../core/playback.js'
 import {
   getCommandAt,
   insertAfterAt,
+  insertAtHead,
   moveAt,
   parsePath,
   removeAt,
@@ -228,17 +234,6 @@ function collectSources(scene: SceneDef): ScriptSource[] {
   return out
 }
 
-/** 统计一个场景的脚本源数(outliner 徽标)。 */
-function sourceCount(scene: SceneDef): number {
-  let n = (scene.onEnter?.length ? 1 : 0) + (scene.onTeleport?.length ? 1 : 0)
-  for (const e of scene.entities) {
-    const p = e.pages?.[0]
-    if (p?.trigger) n++
-    if (p?.auto) n++
-  }
-  return n
-}
-
 const ICON: Record<ScriptSource['kind'], string> = {
   onEnter: '🚩',
   onTeleport: '🌀',
@@ -246,87 +241,78 @@ const ICON: Record<ScriptSource['kind'], string> = {
   auto: '🔁',
 }
 
-export function EventMode(props: {
+export function ScriptDrawer(props: {
+  scene: SceneDef
   scenes: SceneDef[]
   locale: Locale
-  initialSceneId: string
-  /** 初始定位脚本源(N5 引用跳转:__onEnter__ / <eid>:trigger / <eid>:auto);缺省首源。 */
-  initialSrcKey?: string
+  /** 定位脚本源(检查器「去编辑」/数据模式引用跳转:__onEnter__ / <eid>:trigger / <eid>:auto)。 */
+  focusSrcKey?: string | null
   sprites: SpriteDef[]
   actorsById: Record<string, ActorDef>
   leaderSpriteId: string | undefined
   assetBase: AssetBase
   session: EditSession
-  /** 音乐库(BGM 选择器数据;工程没带 = 空,选择器退化数字输入)。 */
   music: MusicDef[]
+  onClose: () => void
 }) {
   const {
+    scene,
     scenes,
     locale,
-    initialSceneId,
-    initialSrcKey,
+    focusSrcKey,
     sprites,
     actorsById,
     leaderSpriteId,
     assetBase,
     session,
     music,
+    onClose,
   } = props
-  const [sceneId, setSceneId] = useState(initialSceneId)
-  const [filter, setFilter] = useState('')
-  const [srcKey, setSrcKey] = useState<string | null>(initialSrcKey ?? null)
+  const [srcKey, setSrcKey] = useState<string | null>(focusSrcKey ?? null)
   const [createEntityId, setCreateEntityId] = useState('')
+  // 外部定位(点检查器「去编辑」/引用跳转)→ 跟随切源
+  useEffect(() => {
+    if (focusSrcKey) setSrcKey(focusSrcKey)
+  }, [focusSrcKey])
 
-  // 全部场景(2026-07-05 审计断点 #5:0 源场景也可进 —— 创建器给它加第一段脚本);有源在前
-  const scriptedScenes = useMemo(
-    () =>
-      scenes
-        .map((s) => ({ scene: s, n: sourceCount(s) }))
-        .sort((a, b) => (a.n > 0 === b.n > 0 ? 0 : a.n > 0 ? -1 : 1)),
-    [scenes],
-  )
-  const shown = useMemo(
-    () => scriptedScenes.filter((x) => !filter || x.scene.id.includes(filter)),
-    [scriptedScenes, filter],
-  )
-  const scene = scenes.find((s) => s.id === sceneId)
-  const sources = useMemo(() => (scene ? collectSources(scene) : []), [scene])
+  const sources = useMemo(() => collectSources(scene), [scene])
   const active = sources.find((s) => s.key === srcKey) ?? sources[0]
 
   // 演出预览控制器:随场景重建;切场景/切源/卸载时停播丢弃演出态
-  const playback = useMemo(() => (scene ? new Playback(scene) : null), [scene])
+  const playback = useMemo(() => new Playback(scene), [scene])
   const [, setUiTick] = useState(0)
   const prevRef = useRef<Playback | null>(null)
   useEffect(() => {
     prevRef.current?.stop()
     prevRef.current = playback
-    if (playback) playback.onUi = () => setUiTick((x) => x + 1) // 低频 UI:高亮/对话/日志/mode
-    return () => playback?.stop()
+    playback.onUi = () => setUiTick((x) => x + 1) // 低频 UI:高亮/对话/日志/mode
+    return () => playback.stop()
   }, [playback])
-  // 切脚本源:停播(演出态归当前源)
   // biome-ignore lint/correctness/useExhaustiveDependencies: 仅在源切换时停播
   useEffect(() => {
-    playback?.stop()
+    playback.stop()
   }, [active?.key])
 
-  // ── 脚本编辑(v1):选中行 → 右栏表单;行按钮 插/移/删;整 stages 经指令落 session ──
+  // ── 脚本编辑:选中行 → 右栏表单;行按钮 插/移/删;整 stages 经指令落 session ──
   const [selPath, setSelPath] = useState<string | null>(null)
-  const [insertFor, setInsertFor] = useState<string | null>(null) // ➕ 目标路径(右栏出模板菜单)
+  const [insertFor, setInsertFor] = useState<string | null>(null)
   // biome-ignore lint/correctness/useExhaustiveDependencies: 切场景/切源即清选中
   useEffect(() => {
     setSelPath(null)
     setInsertFor(null)
-  }, [sceneId, active?.key])
+  }, [scene.id, active?.key])
 
   const refOf = (key: string): ScriptSourceRef =>
     key === '__onEnter__'
       ? { kind: 'onEnter' }
-      : key.endsWith(':trigger')
-        ? { kind: 'trigger', entityId: key.slice(0, -':trigger'.length) }
-        : { kind: 'auto', entityId: key.slice(0, -':auto'.length) }
+      : key === '__onTeleport__'
+        ? { kind: 'onTeleport' } // 旧事件模式漏此分支 → 编辑 onTeleport 会写坏 auto(隐性 bug,迁抽屉时修)
+        : key.endsWith(':trigger')
+          ? { kind: 'trigger', entityId: key.slice(0, -':trigger'.length) }
+          : { kind: 'auto', entityId: key.slice(0, -':auto'.length) }
 
   const dispatchStages = (stages: readonly ScriptStage[]): void => {
-    if (!scene || !active) return
+    if (!active) return
     session.dispatch(new UpdateScriptCommand(scene.id, refOf(active.key), stages))
   }
   const selCmd = active && selPath ? getCommandAt(active.stages, parsePath(selPath)) : undefined
@@ -350,7 +336,6 @@ export function EventMode(props: {
     const next = moveAt(active.stages, p, dir)
     if (next !== active.stages) {
       dispatchStages(next)
-      // 选中跟随移动后的位置
       if (selPath === path) {
         const last = p[p.length - 1] as number
         setSelPath([...p.slice(0, -1), last + dir].join('/'))
@@ -358,68 +343,37 @@ export function EventMode(props: {
     }
   }
 
-  // 预览/指令树 高度比(拖分隔条调;夹 15%~85%)
-  const [previewFrac, setPreviewFrac] = useState(0.46)
-  const centerRef = useRef<HTMLDivElement>(null)
-  const onSplitDown = (e: React.PointerEvent<HTMLDivElement>): void => {
-    e.preventDefault()
-    const el = centerRef.current
-    if (!el) return
-    const rect = el.getBoundingClientRect()
-    const move = (ev: PointerEvent): void => {
-      const frac = (ev.clientY - rect.top - 34) / Math.max(1, rect.height - 34) // 34 ≈ 顶部 toolbar
-      setPreviewFrac(Math.min(0.85, Math.max(0.15, frac)))
-    }
-    const up = (): void => {
-      window.removeEventListener('pointermove', move)
-      window.removeEventListener('pointerup', up)
-    }
-    window.addEventListener('pointermove', move)
-    window.addEventListener('pointerup', up)
-  }
-
   return (
-    <>
-      {/* 左:场景列表(上段)+ 脚本源列表(下段)—— 两段式,源垂直排不挤 */}
-      <div className="outliner event-outliner">
-        <div className="pane-h">
-          <span className="t">有脚本的场景</span>
-          <span className="spacer" />
-          <span className="k">{scriptedScenes.length}</span>
-        </div>
-        <input
-          className="in"
-          placeholder="过滤场景 id…"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          style={{ margin: '0 8px 6px' }}
-        />
-        <div className="scene-list">
-          {shown.map(({ scene: s, n }) => (
-            <button
-              key={s.id}
-              className={`node${s.id === sceneId ? ' sel' : ''}`}
-              onClick={() => {
-                setSceneId(s.id)
-                setSrcKey(null)
-              }}
-            >
-              <span className="ico">🗺️</span>
-              <span>{s.id}</span>
-              <span className="k">{n}</span>
-            </button>
-          ))}
-        </div>
-        <div className="src-section">
-          <div className="pane-h sub">
-            <span className="t">{sceneId} · 脚本源</span>
-            <span className="spacer" />
-            <span className="k">{sources.length}</span>
-          </div>
+    <div className="script-drawer">
+      <div className="drawer-head">
+        <span className="t">
+          📜 脚本 · {scene.id}
+          {active ? (
+            <>
+              {' '}
+              <span className="src-ico">{ICON[active.kind]}</span> {active.label}
+              <span className="src-sub" style={{ marginLeft: 6 }}>
+                {active.sub}
+              </span>
+            </>
+          ) : null}
+        </span>
+        <span className="spacer" />
+        <span style={{ color: 'var(--faint)', fontSize: 11, marginRight: 8 }}>
+          改动即入 undo · ▶ 预览不改数据
+        </span>
+        <button type="button" className="mini" onClick={onClose} title="收起抽屉">
+          ▾ 收起
+        </button>
+      </div>
+      <div className="drawer-body">
+        {/* 左:本场景脚本源 + 创建器 */}
+        <div className="drawer-srcs">
           <div className="src-list">
             {sources.map((s) => (
               <button
                 key={s.key}
+                type="button"
                 className={`src-item${active?.key === s.key ? ' sel' : ''}`}
                 onClick={() => setSrcKey(s.key)}
               >
@@ -429,15 +383,13 @@ export function EventMode(props: {
               </button>
             ))}
             {sources.length === 0 ? <div className="script-empty">此场景无脚本源。</div> : null}
-            {/* 创建器(断点 #5):进场脚本(无则可建)+ 实体 触发/巡逻(选实体建) */}
-            {scene && (
             <div className="src-create">
               {!scene.onEnter?.length && (
                 <button
                   type="button"
                   className="tool"
                   onClick={() => {
-                    session.dispatch(new CreateScriptSourceCommand(sceneId, { kind: 'onEnter' }))
+                    session.dispatch(new CreateScriptSourceCommand(scene.id, { kind: 'onEnter' }))
                     setSrcKey('__onEnter__')
                   }}
                 >
@@ -451,6 +403,7 @@ export function EventMode(props: {
                     value={createEntityId}
                     onChange={(e) => setCreateEntityId(e.target.value)}
                   >
+                    <option value="">(选实体)</option>
                     {scene.entities.map((e) => (
                       <option key={e.id} value={e.id}>
                         {e.id}
@@ -467,7 +420,7 @@ export function EventMode(props: {
                     }
                     onClick={() => {
                       session.dispatch(
-                        new CreateScriptSourceCommand(sceneId, {
+                        new CreateScriptSourceCommand(scene.id, {
                           kind: 'trigger',
                           entityId: createEntityId,
                         }),
@@ -487,7 +440,7 @@ export function EventMode(props: {
                     }
                     onClick={() => {
                       session.dispatch(
-                        new CreateScriptSourceCommand(sceneId, {
+                        new CreateScriptSourceCommand(scene.id, {
                           kind: 'auto',
                           entityId: createEntityId,
                         }),
@@ -500,40 +453,38 @@ export function EventMode(props: {
                 </div>
               )}
             </div>
-            )}
           </div>
         </div>
-      </div>
 
-      {/* 中:上演出预览 + 拖拽分隔 + 下指令树(跟随高亮) */}
-      <div className="center event-center" ref={centerRef}>
-        <div className="toolbar">
-          <span style={{ fontWeight: 600 }}>
-            {active ? `${ICON[active.kind]} ${active.label}` : sceneId}
-          </span>
+        {/* 中:指令树(播放跟随高亮) */}
+        <div className="drawer-tree">
           {active ? (
-            <span className="src-sub" style={{ marginLeft: 6 }}>
-              {active.sub}
-            </span>
-          ) : null}
-          <span className="spacer" />
-          <span style={{ color: 'var(--faint)', fontSize: 11 }}>树只读 · 预览可播</span>
-        </div>
-        {scene && active && playback ? (
-          <>
-            <div
-              style={{
-                flex: `0 0 ${(previewFrac * 100).toFixed(1)}%`,
-                display: 'flex',
-                minHeight: 120,
+            <ScriptTree
+              stages={active.stages}
+              locale={locale}
+              activePath={playback.activePath ?? null}
+              selectedPath={selPath}
+              onSelect={(path) => {
+                setSelPath(path)
+                setInsertFor(null)
               }}
-            >
+              onRowAction={onRowAction}
+            />
+          ) : (
+            <div className="insp-empty">此场景无脚本源 —— 左侧创建。</div>
+          )}
+        </div>
+
+        {/* 右:演出预览(上)+ 表单/插入/日志(下滚动) */}
+        <div className="drawer-side">
+          {active ? (
+            <div className="drawer-preview">
               <PreviewCanvas
                 scene={scene}
                 stages={active.stages}
                 sourceKey={active.key}
                 focusEntityId={
-                  refOf(active.key).kind === 'onEnter'
+                  refOf(active.key).kind === 'onEnter' || refOf(active.key).kind === 'onTeleport'
                     ? undefined
                     : (refOf(active.key) as { entityId: string }).entityId
                 }
@@ -545,150 +496,110 @@ export function EventMode(props: {
                 playback={playback}
               />
             </div>
-            <div className="v-split" onPointerDown={onSplitDown} title="拖动调节预览/指令树高度" />
-          </>
-        ) : null}
-        <div className="script-view">
-          {active ? (
-            <ScriptTree
-              stages={active.stages}
-              locale={locale}
-              activePath={playback?.activePath ?? null}
-              selectedPath={selPath}
-              onSelect={(path) => {
-                setSelPath(path)
-                setInsertFor(null)
-              }}
-              onRowAction={onRowAction}
-            />
-          ) : (
-            <div className="insp-empty">此场景无脚本源。</div>
-          )}
-        </div>
-      </div>
-
-      {/* 右:指令编辑 / 插入菜单 / 演出日志 */}
-      <div className="inspector">
-        <div className="insp-head">
-          <div className="what">事件 · 脚本 + 预览</div>
-          <div className="who">{active ? `${active.label} · ${active.sub}` : '—'}</div>
-        </div>
-        {insertFor && active && scene ? (
-          <div className="section">
-            <h4>插入(到选中行之后)</h4>
-            {INSERT_GROUPS.map((g) => (
-              <div key={g.title}>
-                <div className="cf-group">{g.title}</div>
-                <div className="cf-insert">
-                  {g.items.map((t) => (
-                    <button
-                      key={t.label}
-                      type="button"
-                      className="pv-btn"
-                      onClick={() => {
-                        const ref = refOf(active.key)
-                        const ctx: InsertCtx = {
-                          scene,
-                          ownerId: ref.kind === 'onEnter' ? undefined : ref.entityId,
-                        }
-                        const cmds = t.make(ctx)
-                        const p = parsePath(insertFor)
-                        // 逐条插入(路径递增),整批一次 dispatch
-                        let stages = active.stages
-                        let at = p
-                        for (const cmd of cmds) {
-                          stages = insertAfterAt(stages, at, cmd)
-                          const last = at[at.length - 1] as number
-                          at = [...at.slice(0, -1), last + 1]
-                        }
-                        if (stages !== active.stages) {
-                          dispatchStages(stages)
-                          const first = p[p.length - 1] as number
-                          setSelPath([...p.slice(0, -1), first + 1].join('/'))
-                        }
-                        setInsertFor(null)
-                      }}
-                    >
-                      {t.label}
-                    </button>
+          ) : null}
+          <div className="drawer-form">
+            {insertFor && active ? (
+              <div className="section">
+                <h4>插入(到选中行之后)</h4>
+                {INSERT_GROUPS.map((g) => (
+                  <div key={g.title}>
+                    <div className="cf-group">{g.title}</div>
+                    <div className="cf-insert">
+                      {g.items.map((t) => (
+                        <button
+                          key={t.label}
+                          type="button"
+                          className="pv-btn"
+                          onClick={() => {
+                            const ref = refOf(active.key)
+                            const ctx: InsertCtx = {
+                              scene,
+                              ownerId:
+                                ref.kind === 'onEnter' || ref.kind === 'onTeleport'
+                                  ? undefined
+                                  : ref.entityId,
+                            }
+                            const cmds = t.make(ctx)
+                            const p = parsePath(insertFor)
+                            let stages = active.stages
+                            let at = p
+                            for (const cmd of cmds) {
+                              const last = at[at.length - 1] as number
+                              if (last === -1) {
+                                // 空段「＋ 插入第一条指令」:段首插入
+                                stages = insertAtHead(stages, at[0] as number, cmd)
+                                at = [at[0] as number, 0]
+                              } else {
+                                stages = insertAfterAt(stages, at, cmd)
+                                at = [...at.slice(0, -1), last + 1]
+                              }
+                            }
+                            if (stages !== active.stages) {
+                              dispatchStages(stages)
+                              const first = p[p.length - 1] as number
+                              setSelPath([...p.slice(0, -1), first + 1].join('/'))
+                            }
+                            setInsertFor(null)
+                          }}
+                        >
+                          {t.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+                <div className="cf-insert" style={{ marginTop: 6 }}>
+                  <button type="button" className="pv-btn" onClick={() => setInsertFor(null)}>
+                    取消
+                  </button>
+                </div>
+              </div>
+            ) : null}
+            {selCmd && active && selPath ? (
+              <div className="section">
+                <h4>
+                  编辑指令 <span className="cf-path">{selPath}</span>
+                </h4>
+                <CommandForm
+                  actors={actorsById}
+                  cmd={selCmd}
+                  scene={scene}
+                  locale={locale}
+                  music={music}
+                  musicBase={assetBase.music}
+                  scenes={scenes}
+                  assetBase={assetBase}
+                  onChange={(next) => {
+                    const out = updateCommandAt(active.stages, parsePath(selPath), next)
+                    if (out !== active.stages) dispatchStages(out)
+                  }}
+                />
+              </div>
+            ) : null}
+            {playback.view.logs.length > 0 ? (
+              <div className="section">
+                <h4>演出日志(桩指令)</h4>
+                <div className="pv-logs">
+                  {playback.view.logs.slice(-40).map((l, i) => (
+                    <div key={i} className="pv-log">
+                      {l}
+                    </div>
                   ))}
                 </div>
               </div>
-            ))}
-            <div className="cf-insert" style={{ marginTop: 6 }}>
-              <button type="button" className="pv-btn" onClick={() => setInsertFor(null)}>
-                取消
-              </button>
-            </div>
-            <p className="hint">
-              模板按全 295 场景触发脚本的 top 形状提炼;「自身」自动指当前触发实体。插入后逐条可调。
-            </p>
+            ) : null}
+            {!selCmd && !insertFor ? (
+              <div className="section">
+                <h4>就地写脚本</h4>
+                <p className="hint">
+                  点树中指令行 → 此处编辑;行悬停 ＋/↑/↓/🗑。▶ 从头播;⏭ 单步(树中高亮)。
+                  <span className="warn-inline">⚠ 黄色</span> = 未翻译逃生口。
+                </p>
+              </div>
+            ) : null}
           </div>
-        ) : null}
-        {selCmd && scene && active && selPath ? (
-          <div className="section">
-            <h4>
-              编辑指令 <span className="cf-path">{selPath}</span>
-            </h4>
-            <CommandForm
-              actors={actorsById}
-              cmd={selCmd}
-              scene={scene}
-              locale={locale}
-              music={music}
-              musicBase={assetBase.music}
-              scenes={scenes}
-              assetBase={assetBase}
-              onChange={(next) => {
-                const out = updateCommandAt(active.stages, parsePath(selPath), next)
-                if (out !== active.stages) dispatchStages(out)
-              }}
-            />
-            <p className="hint">
-              改动即入 undo 历史(↶/↷);💾 保存写回工程文件。改完可在预览单步复验。
-            </p>
-          </div>
-        ) : null}
-        {playback && playback.view.logs.length > 0 ? (
-          <div className="section">
-            <h4>演出日志(桩指令)</h4>
-            <div className="pv-logs">
-              {playback.view.logs.slice(-40).map((l, i) => (
-                <div key={i} className="pv-log">
-                  {l}
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : null}
-        {!selCmd && !insertFor ? (
-          <div className="section">
-            <h4>脚本编辑 + 演出预览</h4>
-            <p className="hint">
-              点树中指令行选中 → 此处编辑参数;行悬停 ＋/↑/↓/🗑 插入/移动/删除。 ▶ 从头播;⏭
-              单步逐条(树中高亮);对话点「继续」。演出态是临时副本,不改数据。
-            </p>
-            <p className="hint">
-              <span className="warn-inline">⚠ 黄色</span> = 未翻译(逃生口;大头是野外遇敌 系统
-              op,归能力地图 B8 格);结构类指令用 JSON 编辑。
-            </p>
-          </div>
-        ) : null}
-        {active && active.stages.length > 1 ? (
-          <div className="section">
-            <h4>多段触发</h4>
-            <p className="hint">
-              {active.stages.length} 段:原版「再按一次继续下一段」的结构化版。v0 预览播第 1 段。
-            </p>
-          </div>
-        ) : null}
+        </div>
       </div>
-    </>
+    </div>
   )
-}
-
-/** 供 App 判断实体是否有脚本(布置模式 outliner 加徽标可选用)。 */
-export function entityHasScript(e: EntityDef): boolean {
-  const p = e.pages?.[0]
-  return Boolean(p?.trigger || p?.auto)
 }

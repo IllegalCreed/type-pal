@@ -344,9 +344,20 @@ export function ScriptTree(props: {
             </div>
           ) : null}
           {st.body.length === 0 ? (
-            <div className="script-empty" style={{ paddingLeft: 24 }}>
-              （空段）
-            </div>
+            ctx.onRowAction ? (
+              <button
+                type="button"
+                className="tool"
+                style={{ marginLeft: 24 }}
+                onClick={() => ctx.onRowAction?.(`${i}/-1`, 'insert')}
+              >
+                ＋ 插入第一条指令
+              </button>
+            ) : (
+              <div className="script-empty" style={{ paddingLeft: 24 }}>
+                （空段）
+              </div>
+            )
           ) : (
             st.body.map((c, j) => (
               <CommandRow key={j} cmd={c} depth={0} path={`${i}/${j}`} ctx={ctx} />
