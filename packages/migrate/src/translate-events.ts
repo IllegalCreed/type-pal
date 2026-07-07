@@ -499,6 +499,22 @@ function walkBody(
           to: partyPosToGrid(o[0] ?? 0, o[1] ?? 0, o[2] ?? 0),
           speed: SPEED[sp]!,
         })
+      } else if (oc === 0xa1) {
+        // SetAllPartyPos 全员聚拢队首:骑乘链开头(E7)→ mountParty(属主=载具,全员叠上)
+        if (owner) push({ kind: 'mountParty', entity: owner })
+        else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '聚拢无属主' })
+      } else if (oc === 0x3f || oc === 0x44 || oc === 0x97) {
+        // PartyRideEventObject 骑当前对象走位(速 2/4/8);挂载 op-scoped:
+        // 引擎 moveParty 走位即下筏(dismountParty),连骑不卸、无持久态
+        const sp = oc === 0x3f ? 2 : oc === 0x44 ? 4 : 8
+        if (owner)
+          push({
+            kind: 'ride',
+            entity: owner,
+            to: partyPosToGrid(o[0] ?? 0, o[1] ?? 0, o[2] ?? 0),
+            speed: SPEED[sp]!,
+          })
+        else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '骑乘无属主' })
       } else if (oc === 0x6e) {
         push({ kind: 'nudgeParty', dx: signExtendI16(o[0] ?? 0), dy: signExtendI16(o[1] ?? 0) })
       } else if (oc === 0x7d) {

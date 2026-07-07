@@ -1289,7 +1289,8 @@ async function main(): Promise<void> {
         if (r) {
           followerPos[m] = { pos: r.pos, facing: r.dir }
         } else {
-          followerPos[m] = undefined
+          // trail 塌陷瞬间(刚下筏/进场,只剩 1 槽)→ 叠队长(原版聚拢语义;防 1 帧消失闪烁)
+          followerPos[m] = { pos: { ...player.pos }, facing }
         }
       } else if (a.kind === 'mount') {
         const parent = scene.entities.find((e) => e.id === a.parent)
@@ -1808,6 +1809,9 @@ async function main(): Promise<void> {
         worldY: spriteScreenY(fp.pos),
         anchorX: Math.floor(ff.width / 2),
         anchorY: ff.height,
+        // 队长永远遮挡队员(作者定调,骑乘重叠时尤其):同 Y 平局给队员微负深度,
+        // 序号越大越靠后;偏置 -0.01×8=-0.08px 只破平局,不扰正常深度排序。
+        baseYBias: -0.01 * m,
       })
     }
     // 场景底图:clear + scale + renderScene + restore(抽成 renderSceneFrame,editor 复用同一绘制)。
