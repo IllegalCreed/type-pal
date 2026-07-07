@@ -4,7 +4,7 @@
     "reuseOriginalMap": 187
   },
   "battleFieldId": 35,
-  "battleMusicId": 38,
+  "battleMusicId": 37,
   "entry": {
     "pos": {
       "col": 96,
@@ -167,10 +167,6 @@
                     "boss": true,
                     "fieldId": 35,
                     "musicId": 42
-                  },
-                  {
-                    "kind": "overrideSceneBattle",
-                    "musicId": 37
                   },
                   {
                     "kind": "dialog",

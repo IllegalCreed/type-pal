@@ -4,7 +4,7 @@
     "reuseOriginalMap": 188
   },
   "battleFieldId": 50,
-  "battleMusicId": 41,
+  "battleMusicId": 39,
   "entries": {
     "from-s260": {
       "pos": {
@@ -285,10 +285,6 @@
                     ],
                     "boss": true,
                     "musicId": 38
-                  },
-                  {
-                    "kind": "overrideSceneBattle",
-                    "musicId": 39
                   }
                 ]
               }

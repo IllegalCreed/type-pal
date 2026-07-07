@@ -192,10 +192,6 @@
                     "boss": true,
                     "fieldId": 27,
                     "musicId": 39
-                  },
-                  {
-                    "kind": "overrideSceneBattle",
-                    "musicId": 40
                   }
                 ],
                 "next": "advance"
@@ -7272,5 +7268,6 @@
         }
       ]
     }
-  ]
+  ],
+  "battleMusicId": 40
 }

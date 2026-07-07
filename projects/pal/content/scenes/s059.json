@@ -5,7 +5,7 @@
   },
   "musicId": 83,
   "battleFieldId": 53,
-  "battleMusicId": 37,
+  "battleMusicId": 39,
   "entry": {
     "pos": {
       "col": 96,
@@ -2885,11 +2885,6 @@
                       "text": "dlg.4375",
                       "slot": "narration"
                     }
-                  },
-                  {
-                    "kind": "overrideSceneBattle",
-                    "fieldId": 53,
-                    "musicId": 39
                   },
                   {
                     "kind": "playMusic",

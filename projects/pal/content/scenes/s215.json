@@ -198,10 +198,6 @@
                     "musicId": 38
                   },
                   {
-                    "kind": "overrideSceneBattle",
-                    "musicId": 37
-                  },
-                  {
                     "kind": "unmigrated",
                     "opcode": 120,
                     "operands": [
@@ -981,5 +977,6 @@
         }
       ]
     }
-  ]
+  ],
+  "battleMusicId": 37
 }

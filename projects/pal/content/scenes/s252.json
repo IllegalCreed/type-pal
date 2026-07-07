@@ -213,10 +213,6 @@
                     ],
                     "boss": true,
                     "musicId": 38
-                  },
-                  {
-                    "kind": "overrideSceneBattle",
-                    "musicId": 39
                   }
                 ]
               }
@@ -448,11 +444,6 @@
                     "boss": true,
                     "fieldId": 18,
                     "musicId": 45
-                  },
-                  {
-                    "kind": "overrideSceneBattle",
-                    "fieldId": 8,
-                    "musicId": 39
                   },
                   {
                     "kind": "unmigrated",
@@ -1084,5 +1075,6 @@
         }
       ]
     }
-  ]
+  ],
+  "battleMusicId": 39
 }

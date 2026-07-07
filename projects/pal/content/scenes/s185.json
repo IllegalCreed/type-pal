@@ -5047,10 +5047,6 @@
                     "musicId": 42
                   },
                   {
-                    "kind": "overrideSceneBattle",
-                    "musicId": 39
-                  },
-                  {
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9240",
@@ -19111,5 +19107,6 @@
       }
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "battleMusicId": 39
 }

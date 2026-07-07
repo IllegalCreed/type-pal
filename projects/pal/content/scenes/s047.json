@@ -427,10 +427,6 @@
                     "musicId": 38
                   },
                   {
-                    "kind": "overrideSceneBattle",
-                    "musicId": 40
-                  },
-                  {
                     "kind": "giveItem",
                     "itemId": "289"
                   },
@@ -2474,5 +2470,6 @@
         }
       ]
     }
-  ]
+  ],
+  "battleMusicId": 40
 }
