@@ -138,7 +138,12 @@ const sceneNames = sceneNamesRaw as unknown as SceneNamesData
 // e2e / dev verify 用,正常用户路径仍走 scene 0 → loadScene(2) → scene 1 全流程。
 const skipIntroBoot =
   typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('skip-intro')
-const SCENE_ID = skipIntroBoot ? 1 : 0
+// dev:?dev-scene=N 覆写落地场景(配 ?skip-intro;E7 考证用 —— 空场景走 8 字采队形真值)
+const devSceneBoot =
+  typeof window !== 'undefined'
+    ? Number(new URLSearchParams(window.location.search).get('dev-scene') ?? Number.NaN)
+    : Number.NaN
+const SCENE_ID = Number.isInteger(devSceneBoot) ? devSceneBoot : skipIntroBoot ? 1 : 0
 
 /**
  * M5.6 T18 Step 7:`?build=win95`(默认)/ `?build=dos` URL flag。
