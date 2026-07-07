@@ -146,6 +146,8 @@ export interface BattleState {
     blocked?: boolean
     /** 敌施法被动格挡的队员 idx(1/3 掷,除因子 +1 —— 减伤不免伤;演出摆防御姿 frame3)。 */
     autoDefend?: number[]
+    /** 合击贡献者 slot(结算时 healthy 队员;演出层聚拢队形用,HP 已扣不能事后重算)。 */
+    coopContributors?: number[]
   } | null
 }
 
@@ -743,6 +745,7 @@ function performCoopMagic(
     idx: casterIdx,
     kind: 'coop',
     skillId: coopId,
+    coopContributors: [...contributors],
     ...(targets.length === 1 ? { target: targets[0] } : {}),
   }
   const dmgEff = skill.effects.find((e) => e.kind === 'damage')

@@ -25,6 +25,7 @@ import {
   buildPlayerAttack,
   buildPlayerAttackAll,
   buildPlayerCast,
+  buildPlayerCoop,
   type CastFxParams,
   type OverlayDraw,
 } from './battle-anim.js'
@@ -853,6 +854,8 @@ export class BattleSession {
       skillId?: string
       /** 敌施法被动格挡的队员(摆防御姿 frame3)。 */
       autoDefend?: number[]
+      /** 合击贡献者 slot(有 = 走合击聚拢演出;非召唤合击才用)。 */
+      coopContributors?: number[]
     },
     pHp: number[],
     eHp: number[],
@@ -908,6 +911,21 @@ export class BattleSession {
       // fight.c:3145;⚠ animation.effectTimes 是二次法术循环数,与染色无关 —— 曾混淆)
       this.summonTintShift =
         summonEff?.kind === 'summon' ? (summonEff.tint ?? 0) : 0
+      // 合击(非召唤):走聚拢队形演出(贡献者靠拢→后→前依次施法→放技能)。
+      // 召唤类合击照原版直接播召唤动画(落入下方 buildPlayerCast summon 段,不聚拢)。
+      if (la.coopContributors && !summonSprite) {
+        return buildPlayerCoop({
+          casterIdx: la.idx,
+          contributorIdxs: la.coopContributors,
+          partySize: s.players.length,
+          partyPositions: s.players.map((_, i) => getPlayerBasePos(s.players.length, i)),
+          fireFrames: fire?.frames.length ?? 0,
+          fx,
+          targetPos,
+          damageNums,
+          postTargets,
+        })
+      }
       return buildPlayerCast({
         casterIdx: la.idx,
         casterPos,
@@ -993,8 +1011,8 @@ export class BattleSession {
     const s = this.state
     if (!la) return null
     if (la.kind === 'cast') return this.buildCastTimeline(la, pHp, eHp)
-    // 合击:走仙术施法时间线(合体技带 animation.effectSprite,对目标/全体放法术特效 + 伤害数字)。
-    // 一阶段「贡献者聚拢向施法者」的队形演出是额外 flourish,后续可再补;此处先出正确法术效果。
+    // 合击:走 buildCastTimeline(内含 coopContributors 分支 → buildPlayerCoop 聚拢队形演出;
+    // 召唤类合击落 summon 段直接播召唤动画)。
     if (la.kind === 'coop') return this.buildCastTimeline(la, pHp, eHp)
     // 投掷道具(frame5 投掷姿 → 目标染色闪 → 复位;数字不显 —— 下毒无即时伤害)
     if (la.kind === 'throw' && la.side === 'player' && la.target !== undefined) {

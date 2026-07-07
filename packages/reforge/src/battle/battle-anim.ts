@@ -614,6 +614,145 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
   return frames
 }
 
+/** 合击聚拢队列落点(fight.c COOP_POS;320×200 屏坐标,与队员底锚同系)。 */
+const COOP_POS: ReadonlyArray<readonly [number, number]> = [
+  [208, 157],
+  [234, 170],
+  [260, 183],
+]
+/** 非召唤合击起手音(fight.c:3875 固定 29)。 */
+const COOP_CAST_SOUND = 29
+
+export interface BuildPlayerCoopInput {
+  /** 发起者 slot 索引。 */
+  casterIdx: number
+  /** 贡献者 slot 索引集合(含发起者;= 结算时 healthy 队员,由 core 回填)。 */
+  contributorIdxs: number[]
+  /** 在场队员数(t 计数遍历全队 slot;非贡献者也占 t 槽,fight.c:3905)。 */
+  partySize: number
+  /** 各 slot 站立底锚(index = slot;越界/无 = undefined)。 */
+  partyPositions: ReadonlyArray<{ x: number; y: number } | undefined>
+  /** fire 精灵帧数 + 特效参数 + 目标落点(同 buildPlayerCast)。 */
+  fireFrames: number
+  fx: CastFxParams
+  targetPos?: { x: number; y: number }
+  /** 结算伤害数字(挂 PostMagic 首帧)。 */
+  damageNums: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
+  /** PostMagic 抖动的掉血敌(idx + idle 底锚)。 */
+  postTargets?: { idx: number; pos: { x: number; y: number } }[]
+}
+
+/**
+ * 协力合击动画(port fight.c:3856-4107 PAL_CLASSIC 非召唤分支 / anim-timeline.ts buildCoopMagicTimeline):
+ *  ① 聚拢:全贡献者 6 帧插值滑向 COOP_POS(发起者→[0],余者按 t 槽)。
+ *  ② 蓄势:非发起贡献者 slot 倒序(后→前)逐个摆施法姿 frame5。
+ *  ③ 发起者闪白(colorShift6+frame5,起手音29)→ ④ 出招(frame6)。
+ *  ⑤ OffMagic:fire 精灵放法术特效(caster 已 frame6,不再注入)。
+ *  ⑥ PostMagic:掉血敌三轮抖动 + 闪白,伤害数字挂首帧。
+ *  ⑦ 滑回:全贡献者反向插值回原位 + frame0(t 计数仅非发起贡献者递增,fight.c:4091 非对称,如实复刻)。
+ * 召唤类合击直接走 buildPlayerCast(summon 段),不经此(作者:召唤直接播召唤动画)。
+ */
+export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
+  const { casterIdx, contributorIdxs, partySize, partyPositions, fireFrames, fx, targetPos, damageNums, postTargets } = input
+  const isContrib = (j: number): boolean => contributorIdxs.includes(j)
+  const lerp = (orig: number, coop: number, num: number): number => Math.trunc((orig * (6 - num) + coop * num) / 6)
+  const frames: AnimFrame[] = []
+
+  // ① 聚拢(i=1..6)
+  for (let i = 1; i <= 6; i++) {
+    const fighters: FighterDelta[] = []
+    const oc = partyPositions[casterIdx]
+    if (oc) fighters.push({ side: 'player', idx: casterIdx, pos: { x: lerp(oc.x, COOP_POS[0]![0], i), y: lerp(oc.y, COOP_POS[0]![1], i) } })
+    let t = 0
+    for (let j = 0; j < partySize; j++) {
+      if (j === casterIdx) continue
+      t++ // fight.c:3905:非发起者都占 t 槽(贡献判定之前自增)
+      if (!isContrib(j)) continue
+      const oj = partyPositions[j]
+      const cp = COOP_POS[t]
+      if (!oj || !cp) continue
+      fighters.push({ side: 'player', idx: j, pos: { x: lerp(oj.x, cp[0], i), y: lerp(oj.y, cp[1], i) } })
+    }
+    frames.push({ durationMs: delayMs(1), fighters })
+  }
+
+  // ② 非发起贡献者逐个 frame5(slot 倒序 = 后→前)
+  for (let i = partySize - 1; i >= 0; i--) {
+    if (i === casterIdx || !isContrib(i)) continue
+    frames.push({ durationMs: delayMs(3), fighters: [{ side: 'player', idx: i, frame: 5 }] })
+  }
+
+  // ③ 发起者闪白 + 起手音 → ④ 出招
+  frames.push({ durationMs: delayMs(5), sound: COOP_CAST_SOUND, fighters: [{ side: 'player', idx: casterIdx, colorShift: 6, frame: 5 }] })
+  frames.push({ durationMs: delayMs(3), fighters: [{ side: 'player', idx: casterIdx, colorShift: 0, frame: 6 }] })
+
+  // ⑤ OffMagic:fire 精灵帧循环(caster 已 frame6,不注入)
+  if (fireFrames > 0) {
+    const n = fireFrames
+    const fd = Math.min(fx.fireDelay, n - 1)
+    const l = (n - fd) * fx.effectTimes + n + fx.shake
+    const frameDur = (fx.speed + 5) * 10
+    const drop = (k: number): OverlayDraw[] => {
+      if (fx.placement === 'attackAll') {
+        return ATTACK_ALL_POS.map((p) => ({ sheet: 'magic' as const, frameIdx: k, x: p.x + fx.xOffset, y: p.y + fx.yOffset }))
+      }
+      const base =
+        fx.placement === 'attackWhole'
+          ? { x: 120, y: 100 }
+          : fx.placement === 'attackField'
+            ? { x: 160, y: 200 }
+            : (targetPos ?? { x: 160, y: 100 })
+      return [{ sheet: 'magic', frameIdx: k, x: base.x + fx.xOffset, y: base.y + fx.yOffset }]
+    }
+    for (let i = 0; i < l; i++) {
+      const inShake = l - i <= fx.shake
+      const k = inShake ? (l - fx.shake - 1) % n : i < n ? i : ((i - fd) % (n - fd)) + fd
+      frames.push({
+        durationMs: frameDur,
+        overlays: drop(k),
+        ...(fx.sound > 0 && i >= fd && (i - fd) % n === 0 ? { sound: fx.sound } : {}),
+        ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
+        ...(inShake ? { screenShake: true } : {}),
+      })
+    }
+  }
+
+  // ⑥ PostMagic:掉血敌三轮抖动 + 第2轮闪白;伤害数字挂首帧
+  if (postTargets?.length) {
+    const SHAKE_X = [-8, -4, -6]
+    for (let r = 0; r < 3; r++) {
+      frames.push({
+        durationMs: delayMs(1),
+        ...(r === 0 && damageNums.length ? { damageNums } : {}),
+        fighters: postTargets.map((t) => ({ side: 'enemy' as const, idx: t.idx, pos: { x: t.pos.x + SHAKE_X[r]!, y: t.pos.y }, colorShift: r === 1 ? 6 : 0 })),
+      })
+    }
+    frames.push({ durationMs: delayMs(1), fighters: postTargets.map((t) => ({ side: 'enemy' as const, idx: t.idx, pos: { x: t.pos.x, y: t.pos.y }, colorShift: 0 })) })
+  } else if (damageNums.length) {
+    frames.push({ durationMs: delayMs(2), damageNums })
+  }
+
+  // ⑦ 滑回(i=1..6):反向插值回原位 + frame0(t 仅非发起贡献者递增,fight.c:4091)
+  for (let i = 1; i <= 6; i++) {
+    const fighters: FighterDelta[] = []
+    const oc = partyPositions[casterIdx]
+    if (oc) fighters.push({ side: 'player', idx: casterIdx, frame: 0, pos: { x: Math.trunc((oc.x * i + COOP_POS[0]![0] * (6 - i)) / 6), y: Math.trunc((oc.y * i + COOP_POS[0]![1] * (6 - i)) / 6) } })
+    let t = 0
+    for (let j = 0; j < partySize; j++) {
+      if (!isContrib(j)) continue
+      if (j === casterIdx) continue
+      t++
+      const oj = partyPositions[j]
+      const cp = COOP_POS[t]
+      if (!oj || !cp) continue
+      fighters.push({ side: 'player', idx: j, frame: 0, pos: { x: Math.trunc((oj.x * i + cp[0] * (6 - i)) / 6), y: Math.trunc((oj.y * i + cp[1] * (6 - i)) / 6) } })
+    }
+    frames.push({ durationMs: delayMs(1), fighters })
+  }
+
+  return frames
+}
+
 export interface BuildEnemyCastInput {
   enemyIdx: number
   anim: { idleFrames: number; magicFrames: number }
