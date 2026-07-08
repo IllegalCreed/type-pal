@@ -117,7 +117,8 @@ export function SceneCanvas(props: {
     ...new Set(
       [
         leaderDef?.spriteNum,
-        ...scene.entities.filter((e) => !e.hidden).map((e) => entitySpriteDef(e)?.spriteNum),
+        // 全量含 hidden:显隐透视要画幽灵 —— 曾 filter(!hidden) 致幽灵素材未载、画了个寂寞
+        ...scene.entities.map((e) => entitySpriteDef(e)?.spriteNum),
       ].filter((n): n is number => n != null),
     ),
   ]
@@ -265,6 +266,7 @@ export function SceneCanvas(props: {
     }
     // select 工具
     const hitId = entityAt(e.clientX, e.clientY)
+    if (hitId) pickFromCanvasRef.current = true // 画布点选:用户已看到它,选中定位不动镜头
     onSelect(hitId)
     if (hitId) {
       const ent = scene.entities.find((x) => x.id === hitId)
@@ -327,6 +329,32 @@ export function SceneCanvas(props: {
     if (d?.entityId && d.moved && drag) onMoveEntity(d.entityId, { col: drag.col, row: drag.row })
     setDrag(null)
   }
+
+  // 选中即定位(仅左树/外部点选;画布点选不动镜头):不在视野内 **或缩放小到看不清** →
+  // 平移居中 + 提到 ≥1.5×。隐藏实体多停在房间外虚空(原版把待出场 NPC 藏场景外),
+  // 没有这条根本找不到它们(作者:不能直观在地图上看到)。
+  const pickFromCanvasRef = useRef(false)
+  useEffect(() => {
+    const fromCanvas = pickFromCanvasRef.current
+    pickFromCanvasRef.current = false
+    if (!selectedId || fromCanvas) return
+    const e = scene.entities.find((x) => x.id === selectedId)
+    if (!e) return
+    const p = gridToPixel(e.pos)
+    const { zoom, panX, panY } = viewRef.current
+    const vw = size.w / zoom
+    const vh = size.h / zoom
+    const inView =
+      p.x > panX + vw * 0.08 &&
+      p.x < panX + vw * 0.92 &&
+      p.y > panY + vh * 0.08 &&
+      p.y < panY + vh * 0.92
+    if (!inView || zoom < 1.5) {
+      const nz = Math.max(zoom, 1.5)
+      setView({ zoom: nz, panX: p.x - size.w / nz / 2, panY: p.y - size.h / nz / 2 })
+    }
+    // biome-ignore lint/correctness/useExhaustiveDependencies: 仅在选中变化时定位(view/size 变不触发)
+  }, [selectedId])
 
   // fit 整图:首次就绪 / 切场景 / 容器尺寸变 → 重新 fit(用户缩放平移不触发)。
   useEffect(() => {
