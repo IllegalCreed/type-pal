@@ -70,6 +70,10 @@ export function PreviewCanvas(props: {
   playback: Playback
   /** 网格/禁入/透视叠加(与布置模式同一开关;共享层绘制)。 */
   layers?: { grid: boolean; blocked: boolean; ghosts?: boolean }
+  /** 无活动脚本源时的底部提示(地图仍照常渲染;缺省 = 不显示)。 */
+  hint?: string
+  /** 纯浏览(无活动源)时相机框住场景内容而非玩家 —— 进场点可能在空区(s119),别对着黑。 */
+  sceneFraming?: boolean
 }) {
   const {
     scene,
@@ -83,6 +87,8 @@ export function PreviewCanvas(props: {
     locale,
     playback,
     layers,
+    hint,
+    sceneFraming,
   } = props
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
@@ -154,6 +160,26 @@ export function PreviewCanvas(props: {
       if (focusEntityId) {
         const e = scene.entities.find((x) => x.id === focusEntityId)
         if (e) return gridToPixel(e.pos)
+      }
+      // 纯浏览(无源无焦点)→ 对准场景**内容**:进场点/几何中心都可能在空区(s119 进场点在右下角黑区,
+      // 建筑只占整图一小块),唯一可靠的"内容在哪"= 实体(NPC/物件)所在 → 取质心。无实体才退回房间中心。
+      if (sceneFraming) {
+        const es = scene.entities
+        if (es.length) {
+          let sc = 0
+          let sr = 0
+          for (const e of es) {
+            sc += e.pos.col
+            sr += e.pos.row
+          }
+          return gridToPixel({ col: sc / es.length, row: sr / es.length, height: 0 })
+        }
+        const room = scene.map.room ?? { col: 0, row: 0, cols: map.width, rows: map.height }
+        return gridToPixel({
+          col: room.col + room.cols / 2,
+          row: room.row + room.rows / 2,
+          height: 0,
+        })
       }
       return gridToPixel(v.player.pos)
     }
@@ -256,7 +282,7 @@ export function PreviewCanvas(props: {
     }
     raf = requestAnimationFrame(frame)
     return () => cancelAnimationFrame(raf)
-  }, [status, scene, size.w, size.h, playback, spriteById, leaderSpriteId, focusEntityId, layers])
+  }, [status, scene, size.w, size.h, playback, spriteById, leaderSpriteId, focusEntityId, layers, sceneFraming])
 
   const v = playback.view
   const mode = playback.mode
@@ -380,6 +406,7 @@ export function PreviewCanvas(props: {
         ) : null}
         {status === 'loading' ? <div className="preview-tip">加载资产…</div> : null}
         {status === 'error' ? <div className="preview-tip err">{err}</div> : null}
+        {status === 'ready' && hint ? <div className="preview-tip hint">{hint}</div> : null}
         {dlg ? (
           <div className="preview-dialog">
             {speaker ? <span className="spk">{speaker}</span> : null}

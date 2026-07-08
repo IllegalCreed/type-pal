@@ -271,6 +271,9 @@ const ICON: Record<ScriptSource['kind'], string> = {
   auto: '🔁',
 }
 
+/** 稳定空 stages 引用(无活动源时喂给预览;每渲染新 [] 会破 spriteNums memo)。 */
+const EMPTY_STAGES: readonly ScriptStage[] = []
+
 export function ScriptDrawer(props: {
   scene: SceneDef
   scenes: SceneDef[]
@@ -396,27 +399,35 @@ export function ScriptDrawer(props: {
     <div className="script-work">
       {/* 上:大预览 —— 占原地图画布位(作者:预览就该用地图的位置,不塞小角落) */}
       <div className="work-preview">
-        {active ? (
-          <PreviewCanvas
-            scene={scene}
-            stages={active.stages}
-            sourceKey={active.key}
-            focusEntityId={
-              refOf(active.key).kind === 'onEnter' || refOf(active.key).kind === 'onTeleport'
+        {/* 地图 = 场景画布,脚本模式**始终**渲染(没活动源也画地图+实体,免黑屏看不见场景 —— s119 类无
+            onEnter/onTeleport 场景的坑)。有源 → 焦点该源触发实体 + 可播;无源 → 焦点选中实体(或玩家)+ 提示。 */}
+        <PreviewCanvas
+          scene={scene}
+          stages={active?.stages ?? EMPTY_STAGES}
+          sourceKey={active?.key ?? '__none__'}
+          focusEntityId={
+            active
+              ? refOf(active.key).kind === 'onEnter' || refOf(active.key).kind === 'onTeleport'
                 ? undefined
                 : (refOf(active.key) as { entityId: string }).entityId
-            }
-            sprites={sprites}
-            actorsById={actorsById}
-            leaderSpriteId={leaderSpriteId}
-            assetBase={assetBase}
-            locale={locale}
-            playback={playback}
-            layers={layers}
-          />
-        ) : (
-          <div className="insp-empty">选择/创建脚本源后,此处预览演出。</div>
-        )}
+              : (selectedEntityId ?? undefined)
+          }
+          sprites={sprites}
+          actorsById={actorsById}
+          leaderSpriteId={leaderSpriteId}
+          assetBase={assetBase}
+          locale={locale}
+          playback={playback}
+          layers={layers}
+          sceneFraming={!active && !selectedEntityId}
+          hint={
+            active
+              ? undefined
+              : selectedEntityId
+                ? '此实体还没有脚本 —— 用下方「＋触发 / ＋巡逻」给它加'
+                : '选中左侧实体看它的脚本;场景级脚本用下方「＋进场脚本 / ＋传送出口」'
+          }
+        />
       </div>
       <div className="script-drawer">
       <div className="drawer-head">
@@ -480,19 +491,34 @@ export function ScriptDrawer(props: {
               )}
             </>
           ) : (
-            !scene.onEnter?.length && (
-              <button
-                type="button"
-                className="mini-txt"
-                title="创建进场脚本"
-                onClick={() => {
-                  session.dispatch(new CreateScriptSourceCommand(scene.id, { kind: 'onEnter' }))
-                  setSrcKey('__onEnter__')
-                }}
-              >
-                ＋进场脚本
-              </button>
-            )
+            <>
+              {!scene.onEnter?.length && (
+                <button
+                  type="button"
+                  className="mini-txt"
+                  title="创建进场脚本"
+                  onClick={() => {
+                    session.dispatch(new CreateScriptSourceCommand(scene.id, { kind: 'onEnter' }))
+                    setSrcKey('__onEnter__')
+                  }}
+                >
+                  ＋进场脚本
+                </button>
+              )}
+              {!scene.onTeleport?.length && (
+                <button
+                  type="button"
+                  className="mini-txt"
+                  title="创建传送出口脚本(引路蜂/土灵珠用它把队伍送出本场景;通常淡出+loadScene 回洞口)"
+                  onClick={() => {
+                    session.dispatch(new CreateScriptSourceCommand(scene.id, { kind: 'onTeleport' }))
+                    setSrcKey('__onTeleport__')
+                  }}
+                >
+                  ＋传送出口
+                </button>
+              )}
+            </>
           )}
         </span>
         {active?.kind === 'trigger' && selectedEntityId

@@ -1152,6 +1152,15 @@ body {
 .preview-tip.err {
   color: var(--err);
 }
+/* 无活动脚本源提示:底部横幅,不满屏遮挡(地图照常可见)。 */
+.preview-tip.hint {
+  inset: auto 8px 8px 8px;
+  padding: 5px 10px;
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 4px;
+  color: var(--dim);
+  pointer-events: none;
+}
 .preview-dialog {
   position: absolute;
   left: 8px;
