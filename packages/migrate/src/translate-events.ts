@@ -521,6 +521,15 @@ function walkBody(
             speed: SPEED[sp]!,
           })
         else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '骑乘无属主' })
+      } else if (oc === 0x75) {
+        // SetParty(C7/D22):operands = roleId+1(0=空槽)→ setParty 模板 id 有序表
+        //(站位序;离队进 reserve 状态不丢)。⚠ 杜绝下标:翻成 slug 不是序号。
+        const members: string[] = []
+        for (const v of o) {
+          const slug = v > 0 ? ROLE_SLUGS[v - 1] : undefined
+          if (slug) members.push(slug)
+        }
+        push({ kind: 'setParty', members })
       } else if (oc === 0x6e) {
         push({ kind: 'nudgeParty', dx: signExtendI16(o[0] ?? 0), dy: signExtendI16(o[1] ?? 0) })
       } else if (oc === 0x7d) {
