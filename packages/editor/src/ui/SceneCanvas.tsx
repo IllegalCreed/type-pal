@@ -25,6 +25,9 @@ const WORLD_SCALE = 4
 
 export type Tool = 'select' | 'add'
 
+/** 进场点命中盒的哨兵 id(非实体;选中/拖拽走 entry 专属回调)。 */
+const ENTRY_HIT_ID = '__entry__'
+
 interface HitRect {
   id: string
   x: number
@@ -61,6 +64,10 @@ export function SceneCanvas(props: {
   }
   onSelect: (id: string | null) => void
   onMoveEntity: (id: string, cell: { col: number; row: number }) => void
+  /** 画布点中进场点标记(选中场景节点看 entry 属性)。 */
+  onSelectEntry: () => void
+  /** 拖拽进场点 → 改 scene.entry.pos(入 undo)。 */
+  onMoveEntry: (cell: { col: number; row: number }) => void
   onAddAt: (cell: { col: number; row: number }) => void
 }) {
   const {
@@ -74,6 +81,8 @@ export function SceneCanvas(props: {
     layers,
     onSelect,
     onMoveEntity,
+    onSelectEntry,
+    onMoveEntry,
     onAddAt,
   } = props
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -140,7 +149,11 @@ export function SceneCanvas(props: {
     // M2a:视窗可选 —— 缺省整张图(迁移场景无 room;demo 保留)。整图编辑:room 决定 tile
     // 遍历范围,相机(camera)= 用户平移,worldScale = 用户缩放(renderScene 不夹相机)。
     const room = scene.map.room ?? { col: 0, row: 0, cols: map.width, rows: map.height }
-    const ep = gridToPixel(scene.entry.pos)
+    const entryDragging = drag && drag.id === ENTRY_HIT_ID
+    const entryCell = entryDragging
+      ? { col: drag.col, row: drag.row, height: scene.entry.pos.height ?? 0 }
+      : scene.entry.pos
+    const ep = gridToPixel(entryCell)
     const { zoom, panX, panY } = viewRef.current
     const camera = { x: panX, y: panY }
 
@@ -165,7 +178,9 @@ export function SceneCanvas(props: {
 
     const draws: SpriteDraw[] = []
     const hits: HitRect[] = []
-    // 进场点预览(玩家精灵,按 entry.facing 取站立帧;帧下标 = 引擎同款 idleFrameIndex)
+    // 进场点预览 = scene.entry 的可视化(默认出生位置+朝向),**是标记不是实体**:
+    // 半透明玩家形(身高/朝向参照)+ 下方金菱形环(见 renderSceneFrame 后叠加)。
+    // 曾画成不透明真人 → 像放错的 NPC(作者问"每场景放个李逍遥干嘛"),还被误认成幽灵。
     const ps = leaderDef ? spritesByNum.get(leaderDef.spriteNum) : undefined
     const pf = leaderDef
       ? (ps?.frames[idleFrameIndex(leaderDef.layout, scene.entry.facing)] ?? ps?.frames[0])
@@ -175,9 +190,14 @@ export function SceneCanvas(props: {
       draws.push({
         frame: pf,
         worldX: ep.x,
-        worldY: spriteScreenY(scene.entry.pos),
+        worldY: spriteScreenY(entryCell),
         anchorX: Math.floor(pf.width / 2),
         anchorY: pf.height,
+        alpha: 0.55,
+      })
+      hits.push({
+        id: ENTRY_HIT_ID,
+        ...physRect(ep.x, spriteScreenY(entryCell), Math.floor(pf.width / 2), pf.height, pf.width, pf.height),
       })
     }
     // 各实体(站立帧 = layout × facing)+ 记命中盒;实体图层关 → 不画不可点
@@ -224,6 +244,34 @@ export function SceneCanvas(props: {
       grid: layers.grid,
       blocked: layers.blocked,
     })
+    // 进场点标记环:金菱形 + 朝向短箭头 —— 它是数据标记不是实体(半透明人形只是身高参照)
+    {
+      const sx = (ep.x - panX) * zoom
+      const sy = (ep.y - panY) * zoom
+      ctx.save()
+      ctx.strokeStyle = 'rgba(255, 214, 90, 0.95)'
+      ctx.lineWidth = 2
+      ctx.beginPath()
+      ctx.moveTo(sx, sy - 8 * zoom)
+      ctx.lineTo(sx + 16 * zoom, sy)
+      ctx.lineTo(sx, sy + 8 * zoom)
+      ctx.lineTo(sx - 16 * zoom, sy)
+      ctx.closePath()
+      ctx.stroke()
+      const ARROW: Record<string, [number, number]> = {
+        up: [16, -8],
+        down: [-16, 8],
+        left: [-16, -8],
+        right: [16, 8],
+      }
+      const [adx, ady] = ARROW[scene.entry.facing] ?? [0, 8]
+      ctx.strokeStyle = 'rgba(255, 235, 170, 0.9)'
+      ctx.beginPath()
+      ctx.moveTo(sx, sy)
+      ctx.lineTo(sx + adx * zoom * 0.8, sy + ady * zoom * 0.8)
+      ctx.stroke()
+      ctx.restore()
+    }
 
     const sel = hits.find((h) => h.id === selectedId)
     if (sel) {
@@ -266,6 +314,22 @@ export function SceneCanvas(props: {
     }
     // select 工具
     const hitId = entityAt(e.clientX, e.clientY)
+    if (hitId === ENTRY_HIT_ID) {
+      onSelectEntry()
+      const cell = screenToCell(e.clientX, e.clientY)
+      downRef.current = {
+        entityId: ENTRY_HIT_ID,
+        grabDcol: scene.entry.pos.col - cell.col,
+        grabDrow: scene.entry.pos.row - cell.row,
+        moved: false,
+      }
+      try {
+        e.currentTarget.setPointerCapture(e.pointerId)
+      } catch {
+        /* 边缘指针忽略 */
+      }
+      return
+    }
     if (hitId) pickFromCanvasRef.current = true // 画布点选:用户已看到它,选中定位不动镜头
     onSelect(hitId)
     if (hitId) {
@@ -326,7 +390,10 @@ export function SceneCanvas(props: {
       onAddAt(screenToCell(e.clientX, e.clientY))
       return
     }
-    if (d?.entityId && d.moved && drag) onMoveEntity(d.entityId, { col: drag.col, row: drag.row })
+    if (d?.entityId && d.moved && drag) {
+      if (d.entityId === ENTRY_HIT_ID) onMoveEntry({ col: drag.col, row: drag.row })
+      else onMoveEntity(d.entityId, { col: drag.col, row: drag.row })
+    }
     setDrag(null)
   }
 

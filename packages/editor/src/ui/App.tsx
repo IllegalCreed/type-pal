@@ -479,6 +479,17 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                 layers={canvasLayers}
                 onSelect={(id) => setSelected(id ?? SCENE_NODE)}
                 onMoveEntity={moveEntity}
+                onSelectEntry={() => setSelected(SCENE_NODE)}
+                onMoveEntry={(cell) =>
+                  session.dispatch(
+                    new UpdateSceneCommand(scene.id, {
+                      entry: {
+                        pos: { ...cell, height: scene.entry.pos.height ?? 0 },
+                        facing: scene.entry.facing,
+                      },
+                    }),
+                  )
+                }
                 onAddAt={addAt}
               />
               ) : (
