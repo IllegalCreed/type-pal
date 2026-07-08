@@ -1521,7 +1521,6 @@ export function mapScenesStatic(
       ...(Object.keys(entries).length ? { entries } : {}),
       entry: { pos: firstEntry ?? { ...pixelToGrid(1024, 1024), height: 0 }, facing: 'down' },
       entities,
-      dialogues: [],
       ...(onEnterFolded ? { onEnter: onEnterFolded } : {}),
       ...(onTeleport ? { onTeleport } : {}),
     })
