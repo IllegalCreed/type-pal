@@ -51,6 +51,8 @@ export function SceneCanvas(props: {
   leaderSpriteId: string | undefined
   assetBase: AssetBase
   selectedId: string | null
+  /** 进场点节点是否选中(树/画布点中它 → 金环加粗高亮,和实体的蓝框选中呼应)。 */
+  entrySelected?: boolean
   tool: Tool
   /** 图层显隐(布置模式左栏开关):base 地板 / cover 高物 / entities 实体 / grid 网格 / blocked 禁入格。 */
   layers: {
@@ -77,6 +79,7 @@ export function SceneCanvas(props: {
     leaderSpriteId,
     assetBase,
     selectedId,
+    entrySelected,
     tool,
     layers,
     onSelect,
@@ -249,8 +252,9 @@ export function SceneCanvas(props: {
       const sx = (ep.x - panX) * zoom
       const sy = (ep.y - panY) * zoom
       ctx.save()
-      ctx.strokeStyle = 'rgba(255, 214, 90, 0.95)'
-      ctx.lineWidth = 2
+      // 选中(树/画布点中进场点节点)→ 加粗提亮,和实体蓝框选中呼应;未选 = 常态金环
+      ctx.strokeStyle = entrySelected ? 'rgba(255, 244, 200, 1)' : 'rgba(255, 214, 90, 0.95)'
+      ctx.lineWidth = entrySelected ? 3.5 : 2
       ctx.beginPath()
       ctx.moveTo(sx, sy - 8 * zoom)
       ctx.lineTo(sx + 16 * zoom, sy)
@@ -283,7 +287,7 @@ export function SceneCanvas(props: {
       ctx.restore()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, scene, selectedId, drag, actorsById, leaderSpriteId, view, size, layers])
+  }, [status, scene, selectedId, entrySelected, drag, actorsById, leaderSpriteId, view, size, layers])
 
   // —— 坐标 + 命中 ——（画布像素 = CSS 像素 1:1;world = screen/zoom + pan）
   const screenToCell = (clientX: number, clientY: number): { col: number; row: number } => {

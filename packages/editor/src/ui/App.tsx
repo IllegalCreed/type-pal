@@ -44,6 +44,8 @@ import { SceneCanvas, type Tool } from './SceneCanvas.js'
 import { SpriteThumb } from './SpriteThumb.js'
 
 const SCENE_NODE = '__scene__'
+/** 进场点节点哨兵(与 SceneCanvas 的 ENTRY_HIT_ID 对齐):选中它 → 专属进场点 inspector(坐标+朝向)。 */
+const ENTRY_NODE = '__entry__'
 type Mode = 'place' | 'actor' | 'data'
 
 function newEntityId(existing: EntityDef[]): string {
@@ -344,10 +346,13 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                   <span className="ico">🗺️</span>
                   <span>{scene.id}</span>
                 </button>
-                <div className="node child">
+                <button
+                  className={`node child${selected === ENTRY_NODE ? ' sel' : ''}`}
+                  onClick={() => setSelected(ENTRY_NODE)}
+                >
                   <span className="ico">📍</span>
                   <span>进场点</span>
-                </div>
+                </button>
                 {scene.entities.map((e) => (
                   <button
                     key={e.id}
@@ -475,11 +480,12 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                 leaderSpriteId={leaderSpriteId}
                 assetBase={project.assetBase}
                 selectedId={selEntity ? selected : null}
+                entrySelected={selected === ENTRY_NODE}
                 tool={tool}
                 layers={canvasLayers}
                 onSelect={(id) => setSelected(id ?? SCENE_NODE)}
                 onMoveEntity={moveEntity}
-                onSelectEntry={() => setSelected(SCENE_NODE)}
+                onSelectEntry={() => setSelected(ENTRY_NODE)}
                 onMoveEntry={(cell) =>
                   session.dispatch(
                     new UpdateSceneCommand(scene.id, {
@@ -535,6 +541,8 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
                   onJumpToEvent={jumpToEvent}
                   onDelete={deleteSelected}
                 />
+              ) : selected === ENTRY_NODE ? (
+                <EntryInspector scene={scene} session={session} />
               ) : (
                 <SceneInspector
                   scene={scene}
@@ -1004,6 +1012,85 @@ function EntityInspector(props: {
   )
 }
 
+/**
+ * 进场点 inspector —— 队伍**正常走进**本场景的出生格 + 朝向(scene.entry)。
+ * 坐标可数字直填,也可画布拖红针(两条路都走 UpdateSceneCommand,入 undo)。
+ * 与「命名入口」(别处 loadScene 指定落点)、「传送出口/引路蜂土灵珠」(onTeleport 脚本把你送出去)
+ * 是**三条独立线**,别混:这里只管「正常进来落哪」。
+ */
+function EntryInspector(props: { scene: SceneDef; session: EditSession }) {
+  const { scene, session } = props
+  const facings: SceneDef['entry']['facing'][] = ['down', 'up', 'left', 'right']
+  const patch = (next: Partial<{ col: number; row: number; facing: SceneDef['entry']['facing'] }>): void => {
+    session.dispatch(
+      new UpdateSceneCommand(scene.id, {
+        entry: {
+          pos: {
+            col: next.col ?? scene.entry.pos.col,
+            row: next.row ?? scene.entry.pos.row,
+            height: scene.entry.pos.height ?? 0,
+          },
+          facing: next.facing ?? scene.entry.facing,
+        },
+      }),
+    )
+  }
+  return (
+    <>
+      <div className="insp-head">
+        <div className="what">选中进场点</div>
+        <div className="who">📍 {scene.id}</div>
+      </div>
+      <div className="section">
+        <h4>
+          进场点 <span className="hint2">队伍走进本场景的出生格 + 朝向</span>
+        </h4>
+        <div className="field">
+          <label>坐标</label>
+          <div className="row" style={{ gap: 6 }}>
+            <input
+              className="in mono entry-n"
+              type="number"
+              title="列 col"
+              value={scene.entry.pos.col}
+              onChange={(e) =>
+                Number.isFinite(e.target.valueAsNumber) && patch({ col: e.target.valueAsNumber })
+              }
+            />
+            <input
+              className="in mono entry-n"
+              type="number"
+              title="行 row"
+              value={scene.entry.pos.row}
+              onChange={(e) =>
+                Number.isFinite(e.target.valueAsNumber) && patch({ row: e.target.valueAsNumber })
+              }
+            />
+          </div>
+        </div>
+        <div className="field">
+          <label>朝向</label>
+          <select
+            className="in"
+            value={scene.entry.facing}
+            onChange={(e) => patch({ facing: e.target.value as SceneDef['entry']['facing'] })}
+          >
+            {facings.map((f) => (
+              <option key={f} value={f}>
+                {f}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="insp-empty" style={{ marginTop: 8 }}>
+          也可直接在画布上拖动红色菱形标记改坐标。这是「正常走进来」的落点;引路蜂/土灵珠把队伍送去哪,
+          由本场景的<b>传送出口</b>脚本(📜 脚本模式)决定,和这里无关。
+        </div>
+      </div>
+    </>
+  )
+}
+
 function SceneInspector(props: {
   scene: SceneDef
   session: EditSession
@@ -1012,7 +1099,6 @@ function SceneInspector(props: {
   musicBase: string
 }) {
   const { scene, session, music, musicBase } = props
-  const facings: SceneDef['entry']['facing'][] = ['down', 'up', 'left', 'right']
   return (
     <>
       <div className="insp-head">
@@ -1061,26 +1147,6 @@ function SceneInspector(props: {
             baseUrl={musicBase}
             allowUnset
           />
-        </div>
-        <div className="field">
-          <label>进场朝向</label>
-          <select
-            className="in"
-            value={scene.entry.facing}
-            onChange={(e) =>
-              session.dispatch(
-                new UpdateSceneCommand(scene.id, {
-                  entry: { ...scene.entry, facing: e.target.value as SceneDef['entry']['facing'] },
-                }),
-              )
-            }
-          >
-            {facings.map((f) => (
-              <option key={f} value={f}>
-                {f}
-              </option>
-            ))}
-          </select>
         </div>
       </div>
       <div className="section">
