@@ -121,6 +121,22 @@ export function diffFiles(
   return { write, remove }
 }
 
+/** 写单文件到 dir(逐段建目录;ArrayBuffer 写 Blob,其余序列化)。克隆流式逐文件复用。 */
+export async function writeFile(
+  dir: FileSystemDirectoryHandle,
+  rel: string,
+  value: unknown,
+): Promise<void> {
+  const segs = rel.split('/')
+  const fileName = segs.pop()!
+  let d = dir
+  for (const seg of segs) d = await d.getDirectoryHandle(seg, { create: true })
+  const fh = await d.getFileHandle(fileName, { create: true })
+  const w = await fh.createWritable()
+  await w.write(value instanceof ArrayBuffer ? new Blob([value]) : serializeOne(value))
+  await w.close()
+}
+
 /**
  * FSA 落盘壳(增量 + 二进制):按 diffFiles 只写变化、删已删,返回新快照。
  * rel 逐段 getDirectoryHandle({create:true});二进制值(ArrayBuffer)写 Blob,其余序列化。
@@ -135,17 +151,7 @@ export async function writeProject(
   const { write, remove } = prev
     ? diffFiles(prev, files)
     : { write: Object.keys(files), remove: [] as string[] }
-  for (const rel of write) {
-    const value = files[rel]
-    const segs = rel.split('/')
-    const fileName = segs.pop()!
-    let d = dir
-    for (const seg of segs) d = await d.getDirectoryHandle(seg, { create: true })
-    const fh = await d.getFileHandle(fileName, { create: true })
-    const w = await fh.createWritable()
-    await w.write(value instanceof ArrayBuffer ? new Blob([value]) : serializeOne(value))
-    await w.close()
-  }
+  for (const rel of write) await writeFile(dir, rel, files[rel])
   for (const rel of remove) {
     const segs = rel.split('/')
     const fileName = segs.pop()!

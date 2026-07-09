@@ -16,7 +16,7 @@ export interface SeedFile {
   size: number
 }
 
-interface FileList {
+export interface FileList {
   files: { path: string; size: number }[]
 }
 
@@ -35,7 +35,7 @@ export function relativizeManifest(m: LoadedManifest): LoadedManifest {
 }
 
 /** 场景目录(manifest.content.scenes;规整为以 / 结尾)。 */
-function scenesDir(m: LoadedManifest): string {
+export function scenesDir(m: LoadedManifest): string {
   const dir = m.content.scenes ?? 'content/scenes/'
   return dir.endsWith('/') ? dir : `${dir}/`
 }
