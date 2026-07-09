@@ -186,10 +186,14 @@ export function drawGridBlocked(
     path.lineTo(cx, cy + 8)
     path.closePath()
   }
-  const px0 = room.col * TILE_W - TILE_W
-  const px1 = (room.col + room.cols) * TILE_W + TILE_W
-  const py0 = room.row * TILE_H
-  const py1 = (room.row + room.rows) * TILE_H + TILE_H
+  // 视口裁剪:只遍历「房间 ∩ 可见世界矩形」内的格 —— 否则大图每帧重建整图 Path2D,
+  // 网格开着拖动即卡(作者报)。加一格余量防边缘格半隐时弹跳。
+  const vw = ctx.canvas.width / view.zoom
+  const vh = ctx.canvas.height / view.zoom
+  const px0 = Math.max(room.col * TILE_W - TILE_W, view.panX - TILE_W)
+  const px1 = Math.min((room.col + room.cols) * TILE_W + TILE_W, view.panX + vw + TILE_W)
+  const py0 = Math.max(room.row * TILE_H, view.panY - TILE_H)
+  const py1 = Math.min((room.row + room.rows) * TILE_H + TILE_H, view.panY + vh + TILE_H)
   const isBlocked = show.blocked ? buildIsBlocked(map) : null
   const blockedPath = new Path2D()
   const gridPath = new Path2D()
