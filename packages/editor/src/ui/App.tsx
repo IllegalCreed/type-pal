@@ -36,6 +36,7 @@ import {
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { serializeProject, writeProject } from '../core/project-io.js'
+import { saveHandle } from '../core/handle-store.js'
 import { ActorMode } from './ActorMode.js'
 import { DataMode, type DataTab } from './DataMode.js'
 import { ScriptDrawer } from './ScriptDrawer.js'
@@ -79,6 +80,8 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
   // 放置 palette:add 工具态右栏选「要放的精灵」(审计断点 #1)
   const [placeSpriteId, setPlaceSpriteId] = useState<string>(state.sprites[0]?.id ?? '')
   const dirHandleRef = useRef<FileSystemDirectoryHandle | null>(null)
+  // 上次落盘快照(rel → 内容字符串):增量保存只写变化文件(P3)。首存后建立。
+  const snapshotRef = useRef<Map<string, string> | null>(null)
   const [saveErr, setSaveErr] = useState('')
 
   // 布置模式当前编辑场景(可切;默认入口)。切场景重置选中 —— 实体属于场景。
@@ -178,15 +181,20 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
     session.dispatch(new DeleteEntityCommand(scene.id, selEntity.id))
     setSelected(SCENE_NODE)
   }
-  // 保存:File System Access。首次弹选文件夹(选工程根 projects/<id>/),之后复用句柄。
+  // 保存:File System Access + 增量(快照-diff,只写变化;P3)。首次弹选文件夹并把句柄存
+  // IndexedDB(工程标识 = manifest.id;将来「打开本地/最近工程」= P4 复用)。
   const save = async (): Promise<void> => {
     try {
       let dir = dirHandleRef.current
       if (!dir) {
         dir = await window.showDirectoryPicker({ mode: 'readwrite' })
         dirHandleRef.current = dir
+        snapshotRef.current = null // 新目录 → 快照作废,首存全写
+        void saveHandle(state.manifest.id, dir.name, dir) // 持久化句柄(P4 打开本地用)
       }
-      await writeProject(dir, serializeProject(session.getState()))
+      snapshotRef.current = await writeProject(dir, serializeProject(session.getState()), {
+        ...(snapshotRef.current ? { prevSnapshot: snapshotRef.current } : {}),
+      })
       session.markSaved()
       setSaveErr('')
     } catch (e) {
