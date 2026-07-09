@@ -37,6 +37,7 @@ import {
 import type { EditSession } from '../core/edit-session.js'
 import { serializeProject, writeProject } from '../core/project-io.js'
 import { saveHandle } from '../core/handle-store.js'
+import { type Opened, openExistingProject, saveProjectAs } from '../core/open-actions.js'
 import { ActorMode } from './ActorMode.js'
 import { DataMode, type DataTab } from './DataMode.js'
 import { ScriptDrawer } from './ScriptDrawer.js'
@@ -61,6 +62,10 @@ export function App(props: {
   project: LoadedProject
   /** 启动屏打开/克隆得到的工程目录句柄(P4):保存直接写回此夹,不再首存选夹。 */
   initialDir?: FileSystemDirectoryHandle
+  /** 「工程」菜单切到别的工程(打开/另存为)→ 上抛 main 重建 session。 */
+  onOpened?: (o: Opened) => void
+  /** 「工程」菜单「新建工程」→ 回启动屏。 */
+  onBackToPicker?: () => void
 }) {
   const { session, project } = props
   const subscribe = useMemo(() => (cb: () => void) => session.subscribe(cb), [session])
@@ -208,9 +213,44 @@ export function App(props: {
     }
   }
 
+  // 「工程」菜单(P4 native-app 手感:新建 / 打开别的 / 另存为)。切工程 → 上抛 main 重建 session。
+  const [projMenu, setProjMenu] = useState(false)
+  const runProj = async (fn: () => Promise<Opened | null>): Promise<void> => {
+    setProjMenu(false)
+    try {
+      const o = await fn()
+      if (o) props.onOpened?.(o)
+    } catch (e) {
+      if (e instanceof DOMException && e.name === 'AbortError') return
+      setSaveErr(e instanceof Error ? e.message : String(e))
+    }
+  }
+
   return (
     <div className="editor">
       <div className="topbar">
+        <div className="proj-menu-wrap">
+          <button type="button" className="tbtn" onClick={() => setProjMenu((v) => !v)} title="工程">
+            📁 工程 ▾
+          </button>
+          {projMenu && (
+            <>
+              <div className="proj-menu-scrim" onClick={() => setProjMenu(false)} />
+              <div className="proj-menu">
+                <button type="button" onClick={() => { setProjMenu(false); props.onBackToPicker?.() }}>
+                  ✨ 新建工程…
+                </button>
+                <button type="button" onClick={() => void runProj(openExistingProject)}>📂 打开工程…</button>
+                <button
+                  type="button"
+                  onClick={() => void runProj(() => saveProjectAs(serializeProject(session.getState())))}
+                >
+                  📦 另存为…
+                </button>
+              </div>
+            </>
+          )}
+        </div>
         <div className="proj">
           {state.manifest.name}
           <span className="kind">{state.manifest.id}</span>
@@ -236,7 +276,7 @@ export function App(props: {
           className="save"
           disabled={!session.isDirty()}
           onClick={() => void save()}
-          title="保存到 projects/<id>/(首次选工程文件夹)"
+          title="保存改动到工程文件夹(增量,只写变化;打开工程后直接写回,不再选路径)"
         >
           💾 保存{session.isDirty() ? <span className="dot">●</span> : null}
         </button>

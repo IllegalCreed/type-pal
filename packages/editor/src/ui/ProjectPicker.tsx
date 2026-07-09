@@ -1,24 +1,11 @@
 /**
- * ProjectPicker —— 启动屏(P4)。真实用户入口:从 pal 克隆 / 空白工程 / 打开本地 / 最近工程。
- * 全部落到「拿到本地目录句柄 → openLocalProject 装配 → onOpened」;克隆走进度条。
+ * ProjectPicker —— 启动屏(P4)。真实用户入口:从 pal 克隆 / 打开本地 / 新建空白 / 最近工程。
+ * 动作逻辑在 core/open-actions(与编辑器内「工程」菜单共享);此处只管 UI + 进度/错误态。
  * FSA 选夹是浏览器原生弹窗(须用户手势);非 Chromium 无 showDirectoryPicker → 提示换浏览器。
  */
-import type { MusicDef, SceneDef } from '@type-pal/content'
-import type { LoadedProject } from '@type-pal/reforge'
-import { httpSource } from '@type-pal/reforge'
 import { useEffect, useState } from 'react'
-import { cloneFromPal } from '../core/clone.js'
-import { ensurePermission, listRecent, loadHandle, saveHandle } from '../core/handle-store.js'
-import { openLocalProject } from '../core/open-local.js'
-import { writeProject } from '../core/project-io.js'
-import { buildBlankProject } from '../core/seed.js'
-
-export interface Opened {
-  project: LoadedProject
-  scenes: SceneDef[]
-  music: MusicDef[]
-  dir: FileSystemDirectoryHandle
-}
+import { ensurePermission, listRecent, loadHandle } from '../core/handle-store.js'
+import { finishOpen, newBlankProject, newFromPal, type Opened, openExistingProject } from '../core/open-actions.js'
 
 const mb = (n: number): string => (n / 1024 / 1024).toFixed(1)
 
@@ -37,26 +24,12 @@ export function ProjectPicker(props: { onOpened: (o: Opened) => void; seedBaseUr
 
   const supported = typeof window !== 'undefined' && typeof window.showDirectoryPicker === 'function'
 
-  const pickDir = async (): Promise<FileSystemDirectoryHandle | null> => {
-    try {
-      return await window.showDirectoryPicker({ mode: 'readwrite' })
-    } catch (e) {
-      if (e instanceof DOMException && e.name === 'AbortError') return null
-      throw e
-    }
-  }
-
-  const finish = async (dir: FileSystemDirectoryHandle): Promise<void> => {
-    const opened = await openLocalProject(dir)
-    await saveHandle(opened.project.manifest.id, dir.name, dir)
-    onOpened({ ...opened, dir })
-  }
-
-  const run = (label: string, fn: () => Promise<void>) => async (): Promise<void> => {
+  const run = (label: string, fn: () => Promise<Opened | null>) => async (): Promise<void> => {
     setErr('')
     setBusy(label)
     try {
-      await fn()
+      const o = await fn()
+      if (o) onOpened(o)
     } catch (e) {
       setErr(e instanceof Error ? e.message : String(e))
     } finally {
@@ -65,34 +38,18 @@ export function ProjectPicker(props: { onOpened: (o: Opened) => void; seedBaseUr
     }
   }
 
-  const onCloneFromPal = run('从 pal 克隆', async () => {
-    const dir = await pickDir()
-    if (!dir) return
-    setProgress({ done: 0, total: 1 })
-    await cloneFromPal(httpSource(seedBaseUrl), dir, (done, total) => setProgress({ done, total }))
-    await finish(dir)
-  })
-
-  const onNewBlank = run('创建空白工程', async () => {
-    const dir = await pickDir()
-    if (!dir) return
-    await writeProject(dir, buildBlankProject(dir.name))
-    await finish(dir)
-  })
-
-  const onOpen = run('打开工程', async () => {
-    const dir = await pickDir()
-    if (!dir) return
-    await finish(dir)
-  })
-
+  const onCloneFromPal = run('从 pal 克隆', () =>
+    newFromPal(seedBaseUrl, (done, total) => setProgress({ done, total })),
+  )
+  const onNewBlank = run('创建空白工程', newBlankProject)
+  const onOpen = run('打开工程', openExistingProject)
   const onRecent = (id: string) =>
     run('打开最近工程', async () => {
       const dir = await loadHandle(id)
-      if (!dir) throw new Error('句柄已失效,请重新「打开工程」选择文件夹')
+      if (!dir) throw new Error('句柄已失效,请「打开工程」重新选文件夹')
       const perm = await ensurePermission(dir, { withRequest: true })
       if (perm !== 'granted') throw new Error('未授权访问该文件夹')
-      await finish(dir)
+      return finishOpen(dir)
     })()
 
   if (!supported) {

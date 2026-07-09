@@ -2391,3 +2391,41 @@ body {
   font-size: 12px;
   line-height: 1.5;
 }
+
+/* 顶栏「工程」菜单(P4) */
+.proj-menu-wrap {
+  position: relative;
+}
+.proj-menu-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+}
+.proj-menu {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  z-index: 41;
+  min-width: 160px;
+  background: var(--panel2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 5px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.proj-menu button {
+  text-align: left;
+  padding: 8px 10px;
+  background: transparent;
+  border: 0;
+  border-radius: 5px;
+  color: var(--fg);
+  cursor: pointer;
+  font-size: 13px;
+}
+.proj-menu button:hover {
+  background: var(--panel3);
+}

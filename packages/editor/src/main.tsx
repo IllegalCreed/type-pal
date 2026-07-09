@@ -9,9 +9,10 @@ import type { LoadedProject } from '@type-pal/reforge'
 import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { EditSession } from './core/edit-session.js'
+import type { Opened } from './core/open-actions.js'
 import { toEditorState } from './core/project-io.js'
 import { App } from './ui/App.js'
-import { type Opened, ProjectPicker } from './ui/ProjectPicker.js'
+import { ProjectPicker } from './ui/ProjectPicker.js'
 import './ui/editor.css'
 
 const PROJECT_ID = import.meta.env.VITE_PROJECT_ID as string | undefined
@@ -65,7 +66,16 @@ function Root() {
         <div className="err">载入失败: {boot.error}</div>
       </div>
     )
-  if (boot) return <App session={boot.session} project={boot.project} initialDir={boot.dir} />
+  if (boot)
+    return (
+      <App
+        session={boot.session}
+        project={boot.project}
+        initialDir={boot.dir}
+        onOpened={onOpened}
+        onBackToPicker={() => setBoot(null)}
+      />
+    )
   if (DEV_AUTO) return <div className="boot">载入工程…</div>
   return <ProjectPicker onOpened={onOpened} />
 }
