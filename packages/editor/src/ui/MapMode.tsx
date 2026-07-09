@@ -16,10 +16,12 @@ import {
   bakeFrame,
   buildBlankOwnMap,
   encodeTileLayer0,
+  floodFillSubTiles,
   MAX_LAYER0_TILE,
   paintCells,
   pixelToTile,
   renderSceneFrame,
+  subTilesInRect,
 } from '@type-pal/reforge'
 import { memo, useEffect, useRef, useState } from 'react'
 import { CreateOwnMapCommand, PaintTilesCommand } from '../core/commands.js'
@@ -36,7 +38,7 @@ import {
 const DEFAULT_COLS = 24
 const DEFAULT_ROWS = 24
 
-type MapTool = 'pan' | 'brush' | 'erase'
+type MapTool = 'pan' | 'brush' | 'rect' | 'fill' | 'erase'
 
 /** 单个瓦片缩略图(memo:frame/palette 不变不重烤;选中态只改 className)。 */
 const TileThumb = memo(function TileThumb(props: {
@@ -161,9 +163,10 @@ export function MapMode(props: {
     }
   }, [status, view, size, showGrid, scene.map, liveMap, paintTick, activeTool, loadedRef])
 
-  // ── 画布交互:笔刷/擦除画子格;pan 工具或中/右键 = 平移 ──────────────────
+  // ── 画布交互:笔刷/擦除逐子格,矩形拖对角,填充点一下;pan 工具或中/右键 = 平移 ──
   const panRef = useRef<{ sx: number; sy: number; panX: number; panY: number } | null>(null)
   const paintingRef = useRef(false)
+  const rectAnchorRef = useRef<{ wx: number; wy: number } | null>(null)
 
   const toWorld = (e: React.PointerEvent<HTMLCanvasElement>): { wx: number; wy: number } => {
     const c = e.currentTarget
@@ -189,11 +192,39 @@ export function MapMode(props: {
     setPaintTick((t) => t + 1)
   }
 
+  /** 矩形预览:锚点→当前点 AABB 内子格整批重算进 stroke(拖动中每 move 重建)。 */
+  const rectStrokeTo = (e: React.PointerEvent<HTMLCanvasElement>): void => {
+    const anchor = rectAnchorRef.current
+    if (!anchor) return
+    const { wx, wy } = toWorld(e)
+    const word = encodeTileLayer0(selectedTile)
+    strokeRef.current.clear()
+    for (const p of subTilesInRect(anchor.wx, anchor.wy, wx, wy)) {
+      strokeRef.current.set(`${p.col},${p.row},${p.h}`, { ...p, word })
+    }
+    setPaintTick((t) => t + 1)
+  }
+
   const onDown = (e: React.PointerEvent<HTMLCanvasElement>): void => {
     e.currentTarget.setPointerCapture(e.pointerId)
     if (activeTool !== 'pan' && e.button === 0 && liveMap) {
+      if (activeTool === 'fill') {
+        // 填充:点一下即整笔命令(BFS 同 word 连通区),不走 stroke
+        const { wx, wy } = toWorld(e)
+        const start = pixelToTile(wx, wy)
+        if (start.col >= 0 && start.col < liveMap.width && start.row >= 0 && start.row < liveMap.height) {
+          const edits = floodFillSubTiles(liveMap, start, encodeTileLayer0(selectedTile))
+          if (edits.length > 0) session.dispatch(new PaintTilesCommand(ownPath, edits))
+        }
+        return
+      }
       paintingRef.current = true
-      paintAt(e)
+      if (activeTool === 'rect') {
+        rectAnchorRef.current = toWorld(e)
+        rectStrokeTo(e)
+      } else {
+        paintAt(e)
+      }
       return
     }
     const v = viewRef.current
@@ -201,7 +232,8 @@ export function MapMode(props: {
   }
   const onMove = (e: React.PointerEvent<HTMLCanvasElement>): void => {
     if (paintingRef.current) {
-      paintAt(e)
+      if (activeTool === 'rect') rectStrokeTo(e)
+      else paintAt(e)
       return
     }
     const p = panRef.current
@@ -228,6 +260,7 @@ export function MapMode(props: {
   const onUp = (e: React.PointerEvent<HTMLCanvasElement>): void => {
     if (paintingRef.current) {
       paintingRef.current = false
+      rectAnchorRef.current = null
       const edits = [...strokeRef.current.values()]
       strokeRef.current.clear()
       if (edits.length > 0) session.dispatch(new PaintTilesCommand(ownPath, edits))
@@ -319,6 +352,24 @@ export function MapMode(props: {
           </button>
           <button
             type="button"
+            className={`tool${activeTool === 'rect' ? ' active' : ''}`}
+            onClick={() => setTool('rect')}
+            disabled={!own}
+            title={own ? '矩形铺瓦(拖对角,松手落笔)' : '复用原版地图只读'}
+          >
+            ▭ 矩形
+          </button>
+          <button
+            type="button"
+            className={`tool${activeTool === 'fill' ? ' active' : ''}`}
+            onClick={() => setTool('fill')}
+            disabled={!own}
+            title={own ? '填充连通同瓦区(点一下)' : '复用原版地图只读'}
+          >
+            🪣 填充
+          </button>
+          <button
+            type="button"
             className={`tool${activeTool === 'erase' ? ' active' : ''}`}
             onClick={() => setTool('erase')}
             disabled={!own}
@@ -340,7 +391,9 @@ export function MapMode(props: {
             {own
               ? activeTool === 'pan'
                 ? '自有地图 · 左栏选瓦片开画'
-                : '拖动作画 · 中/右键平移 · 一笔 = 一步撤销'
+                : activeTool === 'fill'
+                  ? '点一下填充连通区 · 中/右键平移'
+                  : `${activeTool === 'rect' ? '拖对角铺矩形' : '拖动作画'} · 中/右键平移 · 一笔 = 一步撤销`
               : '复用原版地图(只读)'}
           </span>
         </div>
@@ -396,8 +449,8 @@ export function MapMode(props: {
                 </span>
               </div>
               <p className="hint2">
-                笔刷以菱形子格为单位;拖一笔 = 一步撤销。矩形 / 填充 / 双层 / 碰撞笔刷 = W7c
-                后续。
+                笔刷/矩形/填充以菱形子格为单位;一笔 = 一步撤销。双层(layer1)/ 碰撞笔刷 /
+                图尺寸编辑 = W7c 后续。
               </p>
             </>
           ) : (

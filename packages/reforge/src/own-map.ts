@@ -36,6 +36,80 @@ export interface SubTileEdit {
   word: number
 }
 
+/** 子格坐标(不带 word;矩形/填充枚举产物)。 */
+export interface SubTilePos {
+  col: number
+  row: number
+  h: 0 | 1
+}
+
+/**
+ * 像素 AABB 内的所有菱形子格(W7c 矩形工具)。子格中心:h=0→(32c,16r) / h=1→(32c+16,16r+8),
+ * 即 lattice (16a, 8b) 且 a+b 偶(a 偶⇒h=0,a 奇⇒h=1)。端点任意序;含界外(paintCells 会忽略)。
+ */
+export function subTilesInRect(x0: number, y0: number, x1: number, y1: number): SubTilePos[] {
+  const [xa, xb] = x0 <= x1 ? [x0, x1] : [x1, x0]
+  const [ya, yb] = y0 <= y1 ? [y0, y1] : [y1, y0]
+  const out: SubTilePos[] = []
+  for (let b = Math.ceil(ya / 8); b * 8 <= yb; b++) {
+    for (let a = Math.ceil(xa / 16); a * 16 <= xb; a++) {
+      if (((a + b) & 1) !== 0) continue
+      if ((a & 1) === 0) out.push({ col: a >> 1, row: b >> 1, h: 0 })
+      else out.push({ col: (a - 1) >> 1, row: (b - 1) >> 1, h: 1 })
+    }
+  }
+  return out
+}
+
+/**
+ * 填充(W7c):从起点子格 BFS 同 word 连通区,返回替换编辑集(不改图;喂 PaintTilesCommand)。
+ * 邻接 = 错排菱形相切的 4 个对角子格(h=0 的邻居全是 h=1,反之亦然)。起点已是目标 word → []。
+ */
+export function floodFillSubTiles(
+  map: Tilemap,
+  start: SubTilePos,
+  word: number,
+): SubTileEdit[] {
+  const at = (c: number, r: number, h: 0 | 1): number | undefined => {
+    const cell = r >= 0 && r < map.height && c >= 0 && c < map.width ? map.cells[r]?.[c] : undefined
+    return cell === undefined ? undefined : h === 0 ? cell.lower : cell.upper
+  }
+  const target = at(start.col, start.row, start.h)
+  if (target === undefined || target === word) return []
+  const out: SubTileEdit[] = []
+  const seen = new Set<string>([`${start.col},${start.row},${start.h}`])
+  const queue: SubTilePos[] = [start]
+  while (queue.length > 0) {
+    const cur = queue.pop()
+    if (!cur) break
+    if (at(cur.col, cur.row, cur.h) !== target) continue
+    out.push({ ...cur, word })
+    const { col: c, row: r, h } = cur
+    const nbs: SubTilePos[] =
+      h === 0
+        ? [
+            { col: c - 1, row: r - 1, h: 1 },
+            { col: c, row: r - 1, h: 1 },
+            { col: c - 1, row: r, h: 1 },
+            { col: c, row: r, h: 1 },
+          ]
+        : [
+            { col: c, row: r, h: 0 },
+            { col: c + 1, row: r, h: 0 },
+            { col: c, row: r + 1, h: 0 },
+            { col: c + 1, row: r + 1, h: 0 },
+          ]
+    for (const nb of nbs) {
+      const key = `${nb.col},${nb.row},${nb.h}`
+      if (!seen.has(key)) {
+        seen.add(key)
+        queue.push(nb)
+      }
+    }
+  }
+  return out
+}
+
 /**
  * 不可变 cell patch:按 edits 写子格 word,只克隆触及的行;界外/重复以后者为准。
  * 笔刷 stroke 预览(每帧临时图)与 PaintTilesCommand(入 undo)共用。

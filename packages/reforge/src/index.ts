@@ -45,9 +45,16 @@ export type { ContentJsons, LoadedProject, LoadedProjectCore }
 export { type FileSource, httpSource } from './file-source.js'
 export { fsaSource } from './fsa-source.js'
 
-// 自有地图(W7):Tilemap 形的作者地图构造/编辑 + 笔刷纯逻辑(W7c)
-export { buildBlankOwnMap, encodeTileLayer0, MAX_LAYER0_TILE, paintCells } from './own-map.js'
-export type { SubTileEdit } from './own-map.js'
+// 自有地图(W7):Tilemap 形的作者地图构造/编辑 + 绘制纯逻辑(W7c:笔刷/矩形/填充)
+export {
+  buildBlankOwnMap,
+  encodeTileLayer0,
+  floodFillSubTiles,
+  MAX_LAYER0_TILE,
+  paintCells,
+  subTilesInRect,
+} from './own-map.js'
+export type { SubTileEdit, SubTilePos } from './own-map.js'
 // Tilemap/Palette 类型转出口(编辑器不直依赖 shared;自有地图工作副本 + tile 面板用)
 export type { Palette, Tilemap } from '@type-pal/shared'
 
