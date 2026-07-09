@@ -29,9 +29,10 @@ import {
   validateSprites,
 } from '@type-pal/content'
 import type { AssetBase } from './assets.js'
+import { type FileSource, httpSource } from './file-source.js'
 
-/** 加载完成的工程对象(main.ts 消费)。场景为懒加载:仅 sceneIds 清单 + 已载入的入口场景。 */
-export interface LoadedProject {
+/** 加载完成的工程数据核(纯组装产物,不含 IO 源;assembleProject 返回它)。 */
+export interface LoadedProjectCore {
   manifest: LoadedManifest
   /** 工程根相对路径(fetch 场景/资源用),如 "projects/demo"。 */
   projectRoot: string
@@ -56,6 +57,11 @@ export interface LoadedProject {
   poisonsById: Record<number, PoisonDef>
   /** 工程资源根 + 子目录(assets.ts load* 用;来自 manifest.assets)。 */
   assetBase: AssetBase
+}
+
+/** 运行期工程对象(main.ts / 编辑器消费):数据核 + 读取源(loadSceneDef/素材加载经它)。 */
+export interface LoadedProject extends LoadedProjectCore {
+  source: FileSource
 }
 
 /** content JSON 输入(assembleProject 的纯参,便于单测喂 fixture)。 */
@@ -93,7 +99,7 @@ function validateSceneIds(json: unknown): string[] {
 }
 
 /** 纯组装核:manifest + content JSON → guard → LoadedProject。无 IO,可单测。 */
-export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): LoadedProject {
+export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): LoadedProjectCore {
   const sceneIds = validateSceneIds(jsons.sceneIds)
   const [entryScene] = validateScenes([jsons.entryScene])
   const actors = validateActors(jsons.actors)
@@ -166,48 +172,51 @@ function scenesDir(manifest: LoadedManifest): string {
   return dir.endsWith('/') ? dir : `${dir}/`
 }
 
-/** IO 壳:fetch manifest + 表域 + 场景 index + 入口场景 → assembleProject。projectId = 工程文件夹名。 */
-export async function loadProject(projectId: string): Promise<LoadedProject> {
-  const root = `projects/${projectId}`
-  const manifest = (await fetchJson(`${root}/manifest.json`)) as LoadedManifest
+/** 真加载核:经 FileSource 读 manifest + 表域 + 场景 index + 入口场景 → assembleProject + 挂 source。 */
+export async function loadProjectFrom(source: FileSource): Promise<LoadedProject> {
+  const manifest = await source.readJson<LoadedManifest>('manifest.json')
   const content = manifest.content
   const dir = scenesDir(manifest)
   const [actors, sceneIds, entryScene, skills, items, locale, sprites, enemies, enemyTeams, battleFields, poisons] =
     await Promise.all([
-      fetchJson(`${root}/${content.actors}`),
-      fetchJson(`${root}/${dir}index.json`),
-      fetchJson(`${root}/${dir}${manifest.entryScene}.json`),
-      fetchJson(`${root}/${content.skills}`),
-      fetchJson(`${root}/${content.items}`),
-      fetchJson(`${root}/${content.locale}`),
-      content.sprites ? fetchJson(`${root}/${content.sprites}`) : Promise.resolve(undefined),
-      content.enemies ? fetchJson(`${root}/${content.enemies}`) : Promise.resolve(undefined),
-      content.enemyTeams ? fetchJson(`${root}/${content.enemyTeams}`) : Promise.resolve(undefined),
-      content.battleFields
-        ? fetchJson(`${root}/${content.battleFields}`)
-        : Promise.resolve(undefined),
-      content.poisons ? fetchJson(`${root}/${content.poisons}`) : Promise.resolve(undefined),
+      source.readJson(content.actors as string),
+      source.readJson(`${dir}index.json`),
+      source.readJson(`${dir}${manifest.entryScene}.json`),
+      source.readJson(content.skills as string),
+      source.readJson(content.items as string),
+      source.readJson(content.locale as string),
+      content.sprites ? source.readJson(content.sprites) : Promise.resolve(undefined),
+      content.enemies ? source.readJson(content.enemies) : Promise.resolve(undefined),
+      content.enemyTeams ? source.readJson(content.enemyTeams) : Promise.resolve(undefined),
+      content.battleFields ? source.readJson(content.battleFields) : Promise.resolve(undefined),
+      content.poisons ? source.readJson(content.poisons) : Promise.resolve(undefined),
     ])
-  return assembleProject(manifest, {
-    actors,
-    sceneIds,
-    entryScene,
-    skills,
-    items,
-    locale,
-    sprites,
-    enemies,
-    enemyTeams,
-    battleFields,
-    poisons,
-  })
+  return {
+    ...assembleProject(manifest, {
+      actors,
+      sceneIds,
+      entryScene,
+      skills,
+      items,
+      locale,
+      sprites,
+      enemies,
+      enemyTeams,
+      battleFields,
+      poisons,
+    }),
+    source,
+  }
+}
+
+/** IO 壳:projectId → httpSource('projects/<id>') → loadProjectFrom。签名不变(dev/引擎入口)。 */
+export async function loadProject(projectId: string): Promise<LoadedProject> {
+  return loadProjectFrom(httpSource(`projects/${projectId}`))
 }
 
 /** 按需载单场景(引擎 switchScene / 编辑器切场景用)。 */
 export async function loadSceneDef(project: LoadedProject, sceneId: string): Promise<SceneDef> {
-  const json = await fetchJson(
-    `${project.projectRoot}/${scenesDir(project.manifest)}${sceneId}.json`,
-  )
+  const json = await project.source.readJson(`${scenesDir(project.manifest)}${sceneId}.json`)
   const [scene] = validateScenes([json])
   if (!scene || scene.id !== sceneId)
     throw new Error(`loadSceneDef: 场景文件 id 不符(期望 "${sceneId}",得 "${scene?.id ?? '(空)'}")`)
@@ -217,10 +226,4 @@ export async function loadSceneDef(project: LoadedProject, sceneId: string): Pro
 /** 编辑器全量路径:按 index 顺序拉全部场景。 */
 export async function loadAllScenes(project: LoadedProject): Promise<SceneDef[]> {
   return Promise.all(project.sceneIds.map((id) => loadSceneDef(project, id)))
-}
-
-async function fetchJson(url: string): Promise<unknown> {
-  const res = await fetch(url)
-  if (!res.ok) throw new Error(`loader: fetch ${url} 失败 (${res.status})`)
-  return res.json()
 }

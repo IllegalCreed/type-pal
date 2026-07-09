@@ -1,6 +1,7 @@
 import type { LoadedManifest } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { assembleProject } from './loader.js'
+import type { FileSource } from './file-source.js'
+import { assembleProject, loadProjectFrom, loadSceneDef } from './loader.js'
 
 const manifest: LoadedManifest = {
   id: 'demo',
@@ -145,5 +146,58 @@ describe('assembleProject(纯核)', () => {
     })
     expect(p.poisonsById[551]?.curability).toBe('common')
     expect(p.poisonsById[551]?.playerTicks?.[0]?.hpDelta).toBe(-7)
+  })
+})
+
+/** 内存 FileSource:按 rel → 预置 JSON 值;缺则抛 404(素材二进制本测不涉)。 */
+function memSource(files: Record<string, unknown>): FileSource {
+  return {
+    async readText(rel) {
+      return JSON.stringify(files[rel])
+    },
+    async readJson<T>(rel: string) {
+      if (!(rel in files)) throw new Error(`memSource 404 ${rel}`)
+      return files[rel] as T
+    },
+    async readBytes() {
+      throw new Error('memSource.readBytes 不涉本测')
+    },
+    async urlFor(rel) {
+      return rel
+    },
+  }
+}
+
+describe('loadProjectFrom(经 FileSource)', () => {
+  const files: Record<string, unknown> = {
+    'manifest.json': {
+      ...manifest,
+      content: {
+        actors: 'content/actors.json',
+        skills: 'content/skills.json',
+        items: 'content/items.json',
+        locale: 'content/locale.json',
+      },
+    },
+    'content/actors.json': actorsJson,
+    'content/skills.json': skillsJson,
+    'content/items.json': itemsJson,
+    'content/locale.json': localeJson,
+    'content/scenes/index.json': ['guijie-minju'],
+    'content/scenes/guijie-minju.json': scenesJson[0],
+  }
+
+  test('读 manifest + 内容 + 入口场景 → LoadedProject(带 source)', async () => {
+    const p = await loadProjectFrom(memSource(files))
+    expect(p.entryScene.id).toBe('guijie-minju')
+    expect(p.sceneIds).toEqual(['guijie-minju'])
+    expect(p.actorsById['li-xiaoyao']).toBeDefined()
+    expect(p.source).toBeDefined()
+  })
+
+  test('loadSceneDef 经 project.source 读单场景', async () => {
+    const p = await loadProjectFrom(memSource(files))
+    const scene = await loadSceneDef(p, 'guijie-minju')
+    expect(scene.id).toBe('guijie-minju')
   })
 })

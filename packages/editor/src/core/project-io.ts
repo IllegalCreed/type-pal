@@ -12,16 +12,17 @@
  *
  * 见 docs/phase2/editor/editor-b1-logic-plan.md(契约 + L3)。
  */
-import type { LoadedProject } from '@type-pal/reforge'
+import type { LoadedProjectCore } from '@type-pal/reforge'
 import type { MusicDef, SceneDef } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
 
 /**
  * 只读工程 → 可变工作副本。by-id Record 翻成数组(Object.values,保原数组序);
  * 数组/Record 直传;运行期派生物(entryScene/assetBase)丢弃。
+ * 参数取数据核 LoadedProjectCore(不需 IO source;运行期 LoadedProject 是其子类型,照传)。
  */
 export function toEditorState(
-  project: LoadedProject,
+  project: LoadedProjectCore,
   scenes: SceneDef[],
   music: MusicDef[] = [], // W5:音乐库(manifest.content.music 声明才有;缺省空)
 ): EditorState {
