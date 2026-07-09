@@ -1,132 +1,200 @@
-# 多 Agent 协作工作流
+# 三贤人系统工作流
 
-本文定义 Codex、Claude Opus、GLM 和用户如何在 type-pal 中协同工作。目标是把聊天里的临时上下文落成仓库里的可追踪状态。
+“三贤人系统”是本项目的多 Agent 协作机制,由 Codex、Claude Opus、GLM 和用户共同组成。本文定义这套系统如何在 type-pal 中协同工作:把聊天里的临时上下文落成仓库里的可追踪状态,同时不让流程拖慢迭代。
 
 ## 文件分工
 
 | 文件 | 用途 |
 |---|---|
-| [`../../AGENTS.md`](../../AGENTS.md) | 所有 Agent 的根协作协议。 |
-| [`board.md`](board.md) | 当前任务看板:状态、负责人、下一棒、阻塞项。 |
-| [`tasks/`](tasks/) | 非平凡任务一任务一卡。 |
-| [`tasks/TASK-template.md`](tasks/TASK-template.md) | 新任务卡模板。 |
+| [`../../AGENTS.md`](../../AGENTS.md) | 多 Agent 根协议。 |
+| [`board.md`](board.md) | 当前进行中/阻塞任务看板。 |
+| [`tasks/`](tasks/) | 任务卡目录。 |
+| [`tasks/TASK-template.md`](tasks/TASK-template.md) | 不可逆/高风险任务模板。 |
+| [`tasks/TASK-lite-template.md`](tasks/TASK-lite-template.md) | 中等任务轻量模板。 |
 
-## 任务类型
+## 角色分工
 
-| 类型 | 例子 | 要求 |
+| 角色 | 模型 | 主要职责 |
 |---|---|---|
-| 轻量 | 回答问题、运行 `date`、修错别字 | 不必建任务卡;改文件仍要自检。 |
-| 小改 | 单文件、低风险文档或代码调整 | 任务卡可选;编码仍然单 Owner。 |
-| 非平凡 | 引擎/编辑器/内容、schema、迁移、UX、战斗、存档、渲染、多包改动 | 必须有看板行 + 任务卡 + 设计共识 + 审核共识。 |
+| 主力编码 / 资源生成 | Codex | 本地实现、测试、浏览器验证、git 收口、AI 生图和替代资源生成。 |
+| 架构审查 / 代码审查 | Claude Opus | 设计压力测试、架构风险、代码审查、视觉级验证代班。 |
+| 覆盖审查 | GLM | 通读审计、中文文档、测试矩阵、数据/schema 覆盖。 |
+| 产品裁决 | User | 优先级、范围取舍、最终验收、分歧拍板。 |
 
-拿不准时按“非平凡”处理。
+Codex 通常是 Coding Owner;需要 AI 生图或批量替代资源生成时,Codex 是唯一 Generation Owner。Opus 和 GLM 是默认审查方池。
 
 ## 状态机
 
 ```txt
-backlog
--> ready
--> design-draft
--> design-consensus
--> implementation
--> self-verify
--> review-consensus
--> user-acceptance
--> done
+draft -> build -> review -> done
 ```
 
 特殊状态:
 
 - `blocked`: 缺用户拍板或外部输入,无法继续。
-- `rework`: 审核后需要返工。
-- `cancelled`: 用户或三方共识决定不继续。
+- `rework`: 审核后需要返工,通常回到 `build`。
+- `cancelled`: 用户或审查结论决定不继续。
 
-## 状态含义
+## 任务分级
 
-| 状态 | Current Owner 要做什么 | 退出条件 |
+| 类型 | 例子 | 流程 |
 |---|---|---|
-| `backlog` | 记录候选任务和粗范围。 | 用户或 Agent 确认值得准备。 |
-| `ready` | 补齐目标、阶段、参考资料、验收条件。 | 可以进入设计草案。 |
-| `design-draft` | 产出具体设计选项和已知风险。 | 三方都有足够上下文开始评审。 |
-| `design-consensus` | Codex、Claude Opus、GLM 分别写明立场。 | `Consensus Result` 允许实现。 |
-| `implementation` | Coding Owner 改代码;其他 Agent 不改实现文件。 | 代码完成到可以本地验证。 |
-| `self-verify` | Coding Owner 跑检查并记录结果。 | 测试/检查结果已写入任务卡。 |
-| `review-consensus` | 三方共同审核设计匹配、覆盖、测试、文档。 | 允许用户验收,或退回 `rework`。 |
-| `user-acceptance` | 用户检查产品体验、范围和取舍。 | 用户接受或要求调整。 |
-| `done` | 收尾并保持看板准确。 | 无剩余必做工作。 |
+| 小改 | 单文件、低风险、不碰 schema、不改公共接口、不改变用户可感知行为(纯重构/文档/注释;行为修正类 bug 修属常规迭代) | 可 `build -> done`;Coding Owner 自测后提交。 |
+| 常规迭代 | 已定 schema/架构上的编辑器、UX、渲染、普通 bug 修 | Coding Owner 自测 + 提交说明写清验证;可事后异步抽审。 |
+| 不可逆/高风险 | schema/save/migration/asset pipeline、跨包公共接口、新能力格、capability-map 状态变化、关键公式/存档/资源管线 | 必须开任务卡并走 `draft -> build -> review -> done`。 |
 
-## 共识关卡
+拿不准时按高一档处理。
 
-### Design Consensus Gate
+## 审查规则
 
-进入实现前,任务卡必须包含:
+默认两方参与:
 
-- Claude Opus 立场:架构、风险、推荐形态。
-- GLM 立场:覆盖面、数据/schema 完整性、测试矩阵。
-- Codex 立场:实现边界、本地验证计划。
-- 共识结论:已达成一致、未解决分歧、需用户拍板项,以及 `Allow implementation: yes`。
+- 实现方:通常为 Codex。
+- 审查方:按任务性质选择 Opus 或 GLM。
 
-任一 Agent 标记 `Allow implementation: no` 时,任务必须停在 `design-consensus`,或转为 `blocked` 等用户拍板。
+审查方选择:
 
-### Review Consensus Gate
+- 架构、schema、跨包边界、引擎抽象、公共接口、视觉级高风险任务:优先 Opus。
+- 覆盖清单、数据迁移、测试矩阵、中文文档:优先 GLM。
+- UI/UX 形态争议:优先 Opus;必要时 GLM 补清单,用户拍板。
 
-进入用户验收前,任务卡必须包含:
+必须三方参与的情况:
 
-- Codex 的实现摘要和本地验证结果。
-- Claude Opus 的架构审核和接受/返工结论。
-- GLM 的覆盖、测试、文档审核和接受/返工结论。
-- 共识结论中写明 `Allow user acceptance: yes`。
+- schema / save / migration / asset pipeline 变化。
+- 新能力格、新领域、跨包公共接口。
+- 影响 `docs/phase2/capability-map.md` 状态判断。
+- 两方意见不一致。
+- 用户明确要求三方审。
+- Coding Owner 自评风险高。
 
-任一 Agent 要求返工时,任务转为 `rework`,指定新的 Current Owner,并记录必改项。
+三方无法收敛时,任务转 `blocked`,由用户拍板。拍板结果必须写回任务卡。
 
-## 角色契约
+## 上下文锚点
 
-### Codex
+所有非小改任务在进入 `build` 前必须有上下文锚点,由熟悉该域的审查方在 `draft` 阶段补齐或确认。
 
-- 负责本地仓库执行:改文件、跑测试、浏览器验证、检查 git 状态、集成收口。
-- 非平凡任务在 Design Consensus Gate 通过前不得开始实现。
-- 接手或交接任务时必须更新看板和任务卡。
-- 必须如实报告验证结果,包括未跑的检查。
+锚点至少包括:
 
-### Claude Opus
+- 已拍板决策和铁律。
+- 相关代码锚点,格式为 `file:line`。
+- 已知坑、审计文档、历史修复或测试。
+- 本任务不得重新引入的概念或机制。
 
-- 负责架构压力测试和高层设计审查。
-- 重点寻找阶段串台、隐藏耦合、陈旧抽象、未来扩展陷阱。
-- 审核阶段必须给出明确的接受/返工结论。
+第一阶段任务的锚点至少包括:
 
-### GLM
+- `CLAUDE.md` 的忠实还原规则和工程经验。
+- 相关 `docs/phase1/engineering-notes.md` 条目。
+- 涉及机制/战斗/数值时的 `docs/phase1/game-mechanics.md`。
+- 相关状态表、审计文档、历史测试或修复记录。
 
-- 负责清单完整性、中文文档质量、schema/数据覆盖、测试矩阵。
-- 重点寻找遗漏场景、缺失文档、验收条件不完整、迁移/数据连锁影响。
-- 审核阶段必须给出明确的接受/返工结论。
+第二阶段任务的锚点至少包括:
 
-### 用户
+- `docs/phase2/READ-FIRST.md`。
+- 相关设计/审计文档,包括需要时的 `docs/phase2/foundation/phase1-knowledge-harvest.md`。
+- 一阶段 UX 真值或代码锚点。
 
-- 负责优先级、产品品味、范围取舍和最终验收。
-- 负责裁决三方无法达成一致的问题。
+常见必带锚点示例:
 
-## 交接规则
+- UI/UX 形态:一阶段实现是 UX 真值;形态级改动先问用户。
+- 调色板/索引色:第二阶段调色板概念已退役,只留盘 0,不得把 `paletteId` 带回 schema/UI。
+- 地图子格: `cell.lower/upper` 是同格两个错排菱形子格,不是普通图层;word 为完整 `u32`,障碍为 `bit13`,编码函数与渲染器互逆必须有测试。
+- 编辑器命令:命令系统是不可变 `apply/invert` 模式。
 
-每次交接必须更新任务卡:
+无上下文锚点的非小改任务不得进入 `build`。
 
-- 改了什么或决定了什么。
-- 证据:文件引用、测试结果、截图、命令输出摘要或文档链接。
-- 新的 `Current Owner` 和 `Next Actor`。
-- 阻塞项或需要用户回答的问题。
+锚点的载体按是否换手区分:
 
-当前状态的退出条件没满足时,不要写“done”交接。
+- 同一 Coding Owner 在同一会话内连续推进的常规迭代,可不单独建卡,锚点视为自持(上下文就在会话里),提交说明照常写清验证。
+- 凡**换 Owner 或跨会话接手**的非小改任务(含额度代班),接手前必须有 lite 卡及锚点;无锚点不得接手。
 
-## 文件与编码 Owner
+## 额度耗尽与代班规则
 
-`implementation` 阶段只能由 Coding Owner 修改该任务的实现文件。其他 Agent 可以在任务卡里评论、审核或提补丁建议,但不能直接修改同一批实现文件,除非任务卡明确重新分配 Owner。
+三个订阅账号的额度消耗不同。某个或多个账号额度耗尽时,流程可以降级,但必须显式记录。
 
-仅记录审核意见的文档可以由审核 Agent 更新,但任务卡必须写清楚谁改了什么。
+| 缺席账号 | 可代班方 | 限制 |
+|---|---|---|
+| Codex | Opus 可全量代班编码/验证/git 收口;GLM 可代写方案或代码草案,由 Opus 或用户安排落地 | AI 生图和批量替代资源生成暂停等待 Codex,或由用户另行安排。 |
+| Opus | GLM + Codex | 可临时代架构审查;高风险架构决策标记“待 Opus 补审”。 |
+| GLM | Opus + Codex | 可临时代覆盖/文档/测试矩阵审查;大范围数据/文档任务标记“待 GLM 补审”。 |
+| Opus + GLM | Codex | Codex 可推进小改;非平凡/高风险任务需用户确认是否允许单 Agent 推进。 |
+
+补审规则:
+
+- 属于三方必审范围的任务,若缺席方额度恢复,应补记审查结论。
+- 用户可以明确裁决“免补审”;该裁决必须写进任务卡。
+- 代班期间发现无法覆盖的风险,任务转 `blocked`。
+- 代班方接手前必读任务卡与上下文锚点及其链接文档(第二阶段含 `READ-FIRST`);上下文重建成本计入排期预期。
+
+## Coding Owner 规则
+
+- `build` 阶段只能有一个 Coding Owner 修改实现文件。
+- 一个任务从 `build` 到 `done` 默认不换 Coding Owner。
+- 需要换人时,必须先在任务卡记录:
+  - 为什么换。
+  - 已完成什么。
+  - 剩下什么。
+  - 改过哪些文件。
+  - 跑过哪些检查。
+  - 新 Owner 必读文档。
+- 第二阶段任务的新 Owner 必读 `docs/phase2/READ-FIRST.md`、任务卡和相关审计/设计文档。
+
+## 资源生成规则
+
+第二阶段会逐步用自有美术资源替换原有资源。凡涉及 AI 生图、批量生成贴图、立绘、头像、图标、场景素材等任务:
+
+- Codex 必须是 Generation Owner,负责实际生成图片、落位文件、更新资源索引和本地验证。
+- Opus 负责审查美术方向与系统架构、资源管线、UX 形态是否冲突。
+- GLM 负责审查替换清单、尺寸/命名、覆盖率、测试矩阵和文档。
+- 任务卡必须记录:
+  - 生成目的和替换对象。
+  - 提示词要点或风格约束。
+  - 输出路径和文件命名。
+  - 尺寸、格式、透明背景、调色或像素风约束。
+  - 资源登记位置和引擎/编辑器验证方式。
+- 生成资源应服务第二阶段自有内容,避免把原版资源的受保护表达照搬成新资产。
+
+## 视觉验证能力
+
+Codex 可在本仓库中通过本地 dev server、Playwright/浏览器工具和截图/像素检查做视觉验证;也可用 `view_image` 检查本地截图。
+
+约束:
+
+- 若当前会话缺少浏览器工具、资产或服务不可用,必须在任务卡和最终回复中明确标记视觉验证未完成。
+- 未完成的视觉验证必须指定 Opus 或用户补验,或由用户明确接受风险。
+- 高风险 canvas/像素级任务即使由 Codex 实现,也优先让 Opus 做 review 或补验。
+
+## 看板规则
+
+看板只保留进行中和阻塞任务,避免和 `docs/phase2/capability-map.md` / git log 重复。
+
+```md
+| ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
+```
+
+- 候选任务看 `docs/phase2/capability-map.md`。
+- 完成记录看 git log 和任务卡。
+- `负责人/下一步` 是用户最终拍板保留的一列,用于回答“轮到谁继续”。
+
+## 任务卡规则
+
+不可逆/高风险任务必须有任务卡。任务卡至少记录:
+
+- 目标和范围。
+- 上下文锚点。
+- 验收条件。
+- draft 阶段的设计结论和风险。
+- build 阶段的 Coding Owner、改动摘要、验证结果。
+- review 阶段的审查结论。
+- 额度耗尽时的缺席 Agent、代班 Agent、代班范围和补审要求。
+- 用户验收或拍板结果。
+
+中等任务可用 [`tasks/TASK-lite-template.md`](tasks/TASK-lite-template.md)。小改可以不建任务卡,但提交说明或最终回复必须写清楚验证结果。
 
 ## 阶段纪律
 
 设计或实现前先判断任务阶段:
 
-- 第一阶段: `packages/game`、`packages/pal-extract`、第一阶段文档。遵守 `AGENTS.md` / `CLAUDE.md` 的忠实还原规则。
+- 第一阶段: `packages/game`、`packages/pal-extract`、第一阶段文档。遵守 `CLAUDE.md` 的忠实还原规则。
 - 第二阶段: `packages/reforge`、`packages/editor`、`packages/content`、`docs/phase2`。优先遵守 `docs/phase2/READ-FIRST.md`。
 
 拿不准时停下来问用户。
@@ -137,6 +205,5 @@ backlog
 
 - 验收条件已满足,或已被明确修改。
 - 必要测试/检查已运行,或未运行原因已记录。
-- 相关文档和能力地图已更新。
-- 看板行指向最终状态。
-- 需要用户验收的任务已被用户接受。
+- 需要更新的文档和能力地图已更新。
+- 用户验收通过,或用户明确授权收口。

@@ -1,12 +1,15 @@
-# 任务卡
+# 三贤人系统任务卡
 
-每个非平凡任务在本目录下放一张任务卡。
+“三贤人系统”是本项目的多 Agent 协作机制。任务卡是这套机制的持久交接记录。
+
+不可逆/高风险任务在本目录下放一张完整任务卡。中等任务可用轻量任务卡。小改可以不建卡,但提交说明或最终回复必须写清验证结果。
 
 新建任务时:
 
-1. 复制 [`TASK-template.md`](TASK-template.md)。
-2. 在 [`../board.md`](../board.md) 增加一行。
-3. 按工作流推进设计共识、实现、审核共识和用户验收。
+1. 不可逆/高风险任务复制 [`TASK-template.md`](TASK-template.md)。
+2. 中等任务复制 [`TASK-lite-template.md`](TASK-lite-template.md)。
+3. 如任务正在进行或阻塞,在 [`../board.md`](../board.md) 增加一行。
+4. 按 `draft -> build -> review -> done` 推进,必要时记录 `blocked` 或 `rework`。
 
 任务卡命名建议:
 

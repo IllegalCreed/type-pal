@@ -1,11 +1,13 @@
 # TASK-ID - 任务标题
 
-Status: backlog
+Status: draft
 Phase: phase1 | phase2 | ops
 Capability: W7 / A4 / B5 / etc.
-Current Owner: User | Codex | Claude Opus | GLM
-Next Actor: User | Codex | Claude Opus | GLM
 Coding Owner: Unassigned
+Generation Owner: Codex | N/A
+Reviewer: Opus | GLM | both | TBD
+Visual Verification Owner: Codex | Opus | User | N/A
+Unavailable Agents: none | Codex | Opus | GLM | multiple
 Branch: TBD
 
 ## 目标
@@ -18,105 +20,99 @@ Branch: TBD
 - 范围外:
 - 明确不做:
 
-## 参考资料
+## 上下文锚点
 
-- `AGENTS.md`
-- `docs/ops/agent-workflow.md`
-- 补充阶段文档和代码锚点。
+所有非小改任务必填;无锚点不得进入 `build`。第一阶段任务至少锚定 `CLAUDE.md`、相关 engineering-notes / game-mechanics / 状态表 / 审计或测试;第二阶段任务至少锚定 `docs/phase2/READ-FIRST.md` 和相关设计/审计文档。
+
+- 已拍板决策 / 铁律:
+- 代码锚点(`file:line`):
+- 已知坑 / 审计文档:
+- 不得重新引入:
+- 相关测试:
 
 ## 验收条件
 
 - 功能:
 - 测试:
 - 文档:
-- 验证:
+- 视觉 / 手工验证:
 
-## Design Consensus Gate
+## Draft: 设计与风险
 
-### Claude Opus
+### 设计结论
 
-结论:
+写清楚架构选择、数据流、模块边界和不做什么。
 
-风险:
+### 已知风险
 
-建议:
+- 风险:
+- 缓解:
 
-Allow implementation: pending
+### 审查方立场
 
-### GLM
+按任务性质选择一个默认审查方。架构/schema/跨包/视觉高风险优先 Opus;覆盖/数据/文档优先 GLM。
 
-结论:
+- Reviewer:
+- 结论:
+- 必改项:
+- 是否允许进入 build: pending
 
-覆盖范围 / 测试矩阵:
+### 三方共识记录(按需)
 
-遗漏项:
+仅在 schema/save/migration/asset pipeline、新能力格、跨包公共接口、capability-map 状态变化、两方分歧、用户要求或 Coding Owner 自评高风险时填写。
 
-Allow implementation: pending
+- Codex:
+- Opus:
+- GLM:
+- 用户拍板:
 
-### Codex
+## 额度 / 代班记录(如适用)
 
-结论:
+某个或多个订阅账号额度耗尽时填写。
 
-实现边界:
+- 缺席 Agent:
+- 缺席原因:
+- 代班 Agent:
+- 代班范围:
+- 风险:
+- 是否需要补审:
+- 用户裁决:
 
-验证计划:
-
-Allow implementation: pending
-
-### 共识结论
-
-- 已达成一致:
-- 保留分歧:
-- 需要用户拍板:
-- Allow implementation: no
-
-## 实现日志
-
-只有 Design Consensus Gate 允许实现后才填写本节。
+## Build: 实现与自测
 
 - Coding Owner:
 - 修改文件:
-- 说明:
-
-## 自验证
-
+- 实现摘要:
 - 运行命令:
 - 浏览器 / 手工检查:
 - 跳过的检查及原因:
 
-## Review Consensus Gate
+## 资源生成记录(如适用)
 
-### Codex
+涉及 AI 生图或批量替代资源时必须填写。Generation Owner 固定为 Codex。
 
-实现摘要:
+- Generation Owner:
+- 生成目的 / 替换对象:
+- 提示词要点 / 风格约束:
+- 输出路径:
+- 尺寸 / 格式 / 透明背景 / 调色约束:
+- 资源登记位置:
+- 验证方式:
 
-验证结果:
+## 视觉验证记录(如适用)
 
-已知风险:
+- Visual Verification Owner:
+- 验证方式:
+- 截图 / 像素检查路径:
+- 结论:
+- 未完成项:
 
-Accept / rework: pending
+## Review: 审查与返工
 
-### Claude Opus
-
-架构审核:
-
-风险审核:
-
-Accept / rework: pending
-
-### GLM
-
-覆盖审核:
-
-测试 / 文档审核:
-
-Accept / rework: pending
-
-### 共识结论
-
+- Reviewer:
+- 审查结论:
 - 必须返工项:
-- 需要用户拍板:
-- Allow user acceptance: no
+- Accept / rework: pending
 
 ## 用户验收
 
@@ -125,6 +121,6 @@ Accept / rework: pending
 
 ## 交接日志
 
-按日期追加。每条写清楚:行动者、证据、下一棒。
+按日期追加。每条写清楚:行动者、证据、下一步。
 
 - YYYY-MM-DD Actor: 摘要。Evidence: 链接/测试。Next: actor/state。
