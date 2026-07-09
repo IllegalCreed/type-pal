@@ -91,4 +91,25 @@ describe('cloneFromPal', () => {
     // 进度:末次 = 满(100 + 50)
     expect(prog.at(-1)).toEqual([150, 150])
   })
+
+  test('.rle 下载后解压再写(去 gzip 头,避 Safe Browsing 深扫)', async () => {
+    const raw = new Uint8Array([9, 8, 7, 6, 5])
+    const gz = await new Response(
+      new Blob([raw]).stream().pipeThrough(new CompressionStream('gzip')),
+    ).arrayBuffer()
+    const seed = memSource({
+      'manifest.json': manifest,
+      'content/scenes/index.json': ['s1'],
+      '/extracted/asset-manifest.json': { files: [{ path: 'data/sprite/1.rle', size: gz.byteLength }] },
+      '/baked/baked-manifest.json': { files: [] },
+      'content/actors.json': [],
+      'content/scenes/s1.json': { id: 's1' },
+      '/extracted/data/sprite/1.rle': gz,
+    })
+    const { dir, written } = recordingDir()
+    await cloneFromPal(seed, dir, () => {})
+    const w = written.get('assets/extracted/data/sprite/1.rle') as Blob
+    const bytes = new Uint8Array(await w.arrayBuffer())
+    expect([...bytes]).toEqual([9, 8, 7, 6, 5]) // 写的是解压后的原始字节,不是 gzip
+  })
 })
