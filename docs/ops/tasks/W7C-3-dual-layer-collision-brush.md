@@ -59,7 +59,7 @@ Capability: W7c
 - GLM: pending
 - counter / 返工处理: 当前无必须返工项。
 - 缺签豁免: pending(若 GLM 额度耗尽或用户决定跳过,须在此补记)
-- done 准入结论: **blocked**。GLM 补签或用户明确豁免前不得标记 done;且用户提出“应支持无限图层”后,须先裁决本任务是否仅作为旧格式兼容切片验收。
+- done 准入结论: **blocked(仅剩 GLM 补签)**。用户已裁决(2026-07-09,授权 Opus 代拟):接受本任务按「旧 Tilemap 兼容切片」定性验收,不作为 W7 任意图层的完成;N 层新格式另立 W7D 返工卡。GLM 补签 accept 后即可 done。
 
 ### 流程偏差记录
 
@@ -128,3 +128,4 @@ Capability: W7c
 不要做: 不要改实现文件;不要把任务标记 done;不要重新引入 paletteId/调色板概念;不要重新考证 cell.lower/upper 子格模型。
 输出要求: 明确输出 agree/accept 或 counter + 理由;若 accept,请说明任务卡“进入 done 前:审查签字”的 GLM 行可改为 accept,done 准入结论是否可改为 done allowed。
 ```
+- 2026-07-09 User(授权 Opus 代拟): 裁决 W7C-3 按兼容切片定性验收;N 层返工立 W7D 卡;done 仍待 GLM 补签(不豁免)。Evidence: 用户「按照你觉得最合理的方式来」。Next: GLM / 补签(用卡内提示词)。

@@ -10,7 +10,8 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| [`W7C-3`](tasks/W7C-3-dual-layer-collision-brush.md) | 地图绘制:双层 + 碰撞笔刷 | review | 用户裁决 + GLM 补签 | Codex build + Opus accept 已完成;用户指出最终目标应为任意图层,本任务只能作为旧 Tilemap 兼容切片候选,不得直接当 W7 多层完成。 |
+| [`W7C-3`](tasks/W7C-3-dual-layer-collision-brush.md) | 地图绘制:双层 + 碰撞笔刷 | review | GLM 补签 done 审查(提示词在卡尾) | 用户已裁决按旧格式兼容切片验收;仅剩 GLM 签字。 |
+| [`W7D`](tasks/W7D-nlayer-map-schema.md) | 自有地图 N 层新格式(schema 返工) | draft | Codex + GLM 设计签字(提示词在卡尾) | Opus 起草;修正 W7a 旧格式地基;三签齐后用户定 Owner。 |
 
 ## 阻塞
 
