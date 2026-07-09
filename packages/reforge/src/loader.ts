@@ -143,24 +143,24 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
     battleFields,
     poisonsById,
     assetBase: (() => {
-      // root 以 "/" 开头 = 应用绝对路径(如 "/extracted/data",pal 共享提取源,免拷 221 张图进仓);
-      // 否则 = 工程自包含相对路径(demo)。
-      const root = a.root.startsWith('/') ? a.root : `projects/${manifest.id}/${a.root}`
-      // 可选目录同规则解析;缺省 = root 下惯例子目录(工程没带 → fetch 404 由加载端容错)。
-      const dir = (v: string | undefined, fallback: string): string =>
-        v ? (v.startsWith('/') ? v : `projects/${manifest.id}/${v}`) : fallback
+      // 素材路径**原样用**:相对(如 "assets/extracted/data" / "assets")的根由 FileSource 提供
+      // ——httpSource 的 baseUrl=projects/<id>(dev/种子),fsaSource 是工程夹(本地克隆);
+      // 绝对("/extracted…",pal 共享提取源)则 source passthrough。
+      // ⚠ 不再在此拼 `projects/<id>/` 前缀:那是 P2 前直连 fetch 的旧约定,统一经 source 后拼了会
+      //   双重前缀(dev pal 全绝对故一直没暴露;克隆工程用相对 assets/ 即命中 → 场景渲染 NotFound 根因)。
+      const root = a.root
       return {
         root,
         maps: a.maps,
         tilesets: a.tilesets,
         sprites: a.sprites,
         palettes: a.palettes,
-        sounds: dir(a.sounds, `${root}/sounds`),
-        music: dir(a.music, `${root}/music`),
-        portraits: dir(a.portraits, `${root}/portraits`),
-        faces: dir(a.faces, `${root}/faces`),
-        itemIcons: dir(a.itemIcons, `${root}/item-icons`),
-        ...(a.ui ? { uiOverride: dir(a.ui, '') } : {}),
+        sounds: a.sounds ?? `${root}/sounds`,
+        music: a.music ?? `${root}/music`,
+        portraits: a.portraits ?? `${root}/portraits`,
+        faces: a.faces ?? `${root}/faces`,
+        itemIcons: a.itemIcons ?? `${root}/item-icons`,
+        ...(a.ui ? { uiOverride: a.ui } : {}),
       }
     })(),
   }
