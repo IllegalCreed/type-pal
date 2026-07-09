@@ -1,7 +1,7 @@
-import { expect, test } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import { assembleProject } from '@type-pal/reforge'
 import type { LoadedManifest } from '@type-pal/content'
-import { serializeProject, toEditorState } from './project-io.js'
+import { diffFiles, serializeProject, toEditorState } from './project-io.js'
 
 /**
  * L3 round-trip 钉真值:toEditorState(读入)→ serializeProject(落盘)应还原各 content JSON。
@@ -191,4 +191,24 @@ test('W5 音乐库:manifest 声明 music → 注入/序列化 round-trip;未声�
   const plain = toEditorState(assembleProject(manifest, JSONS), SCENES)
   expect(plain.music).toEqual([])
   expect(serializeProject(plain)['content/music.json']).toBeUndefined()
+})
+
+describe('diffFiles(增量-diff)', () => {
+  test('只挑内容变了的写;快照有、现无的删', () => {
+    const prev = new Map<string, string>([
+      ['a.json', `${JSON.stringify({ v: 1 }, null, 2)}\n`],
+      ['b.json', `${JSON.stringify({ v: 2 }, null, 2)}\n`],
+      ['old.json', `${JSON.stringify({ v: 3 }, null, 2)}\n`],
+    ])
+    const next = { 'a.json': { v: 1 }, 'b.json': { v: 99 }, 'c.json': { v: 4 } }
+    const { write, remove } = diffFiles(prev, next)
+    expect(write.sort()).toEqual(['b.json', 'c.json']) // a 未变跳过;b 变;c 新
+    expect(remove).toEqual(['old.json']) // old 消失 → 删
+  })
+
+  test('全未变 → 写空、删空(打开未改立即存 = 零写)', () => {
+    const files = { 'a.json': { v: 1 } }
+    const snap = new Map([['a.json', `${JSON.stringify({ v: 1 }, null, 2)}\n`]])
+    expect(diffFiles(snap, files)).toEqual({ write: [], remove: [] })
+  })
 })

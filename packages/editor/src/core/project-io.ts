@@ -99,26 +99,67 @@ export function serializeProject(state: EditorState): Record<string, unknown> {
   return files
 }
 
+/** 序列化单文件为落盘字符串(与 writeProject 写盘同规格,便于快照比对)。字符串值原样。 */
+function serializeOne(value: unknown): string {
+  return typeof value === 'string' ? value : `${JSON.stringify(value, null, 2)}\n`
+}
+
 /**
- * FSA 落盘壳:把 serializeProject 的文件集逐个写到 dir。
- * rel 路径按 '/' 分段,逐段 getDirectoryHandle({create:true});末段 getFileHandle + createWritable。
- * 真写留 Claude 浏览器实测(需 FSA 授权 UI;本函数是纯 IO 壳,无需单测)。
+ * 增量-diff(纯核,可测):next 中内容与快照不同 → write;快照有而 next 无 → remove。
+ * 快照 = Map<rel, 上次落盘字符串>;二进制在快照记占位标记,内容不比对(素材罕改)。
+ */
+export function diffFiles(
+  prev: Map<string, string>,
+  next: Record<string, unknown>,
+): { write: string[]; remove: string[] } {
+  const write: string[] = []
+  for (const [rel, value] of Object.entries(next)) {
+    const cur = value instanceof ArrayBuffer ? ` bin:${value.byteLength}` : serializeOne(value)
+    if (prev.get(rel) !== cur) write.push(rel)
+  }
+  const remove = [...prev.keys()].filter((rel) => !(rel in next))
+  return { write, remove }
+}
+
+/**
+ * FSA 落盘壳(增量 + 二进制):按 diffFiles 只写变化、删已删,返回新快照。
+ * rel 逐段 getDirectoryHandle({create:true});二进制值(ArrayBuffer)写 Blob,其余序列化。
+ * 无 prevSnapshot(首存)= 全写。真写留浏览器实测(需 FSA 授权 UI)。
  */
 export async function writeProject(
   dir: FileSystemDirectoryHandle,
   files: Record<string, unknown>,
-): Promise<void> {
-  for (const [rel, value] of Object.entries(files)) {
+  opts?: { prevSnapshot?: Map<string, string> },
+): Promise<Map<string, string>> {
+  const prev = opts?.prevSnapshot
+  const { write, remove } = prev
+    ? diffFiles(prev, files)
+    : { write: Object.keys(files), remove: [] as string[] }
+  for (const rel of write) {
+    const value = files[rel]
     const segs = rel.split('/')
-    // 末段是文件名;前几段是目录(逐段创建)。
     const fileName = segs.pop()!
     let d = dir
-    for (const seg of segs) {
-      d = await d.getDirectoryHandle(seg, { create: true })
-    }
+    for (const seg of segs) d = await d.getDirectoryHandle(seg, { create: true })
     const fh = await d.getFileHandle(fileName, { create: true })
     const w = await fh.createWritable()
-    await w.write(`${JSON.stringify(value, null, 2)}\n`)
+    await w.write(value instanceof ArrayBuffer ? new Blob([value]) : serializeOne(value))
     await w.close()
   }
+  for (const rel of remove) {
+    const segs = rel.split('/')
+    const fileName = segs.pop()!
+    let d = dir
+    try {
+      for (const seg of segs) d = await d.getDirectoryHandle(seg)
+      await d.removeEntry(fileName)
+    } catch {
+      /* 已不在 = 目标态达成,忽略 */
+    }
+  }
+  const snapshot = new Map<string, string>()
+  for (const [rel, value] of Object.entries(files)) {
+    snapshot.set(rel, value instanceof ArrayBuffer ? ` bin:${value.byteLength}` : serializeOne(value))
+  }
+  return snapshot
 }
