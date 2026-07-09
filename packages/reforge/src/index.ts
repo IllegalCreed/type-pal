@@ -29,9 +29,9 @@ export { decompressGzip, loadBattleBg, loadBattleSprite, loadFireSprite, loadPal
 export type { AssetBase, LoadedSprite }
 
 // 工程 loader(manifest + content JSON → LoadedProject)
-import { assembleProject, loadAllScenes, loadProject, loadSceneDef } from './loader.js'
+import { assembleProject, loadAllScenes, loadProject, loadProjectFrom, loadSceneDef } from './loader.js'
 import type { ContentJsons, LoadedProject, LoadedProjectCore } from './loader.js'
-export { assembleProject, loadAllScenes, loadProject, loadSceneDef }
+export { assembleProject, loadAllScenes, loadProject, loadProjectFrom, loadSceneDef }
 export type { ContentJsons, LoadedProject, LoadedProjectCore }
 
 // 文件源抽象(内容 + 素材统一「从哪读」;httpSource=dev/种子,fsaSource=本地工程)
