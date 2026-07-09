@@ -38,6 +38,9 @@ export type { ContentJsons, LoadedProject, LoadedProjectCore }
 export { type FileSource, httpSource } from './file-source.js'
 export { fsaSource } from './fsa-source.js'
 
+// 自有地图(W7):Tilemap 形的作者地图构造/编辑
+export { buildBlankOwnMap } from './own-map.js'
+
 // 碰撞判定(编辑器画禁入格复用,与游戏同一套 → 不漂移)
 import { buildIsBlocked, isBlockedAt } from './collision.js'
 export { buildIsBlocked, isBlockedAt }
