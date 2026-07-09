@@ -1,6 +1,6 @@
 import type { LoadedManifest } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { enumerateSeedFiles, relativizeManifest } from './seed.js'
+import { buildBlankProject, enumerateSeedFiles, relativizeManifest } from './seed.js'
 
 const manifest = {
   id: 'pal',
@@ -70,5 +70,22 @@ describe('enumerateSeedFiles', () => {
     expect(baked).toMatchObject({ src: '/baked/portraits/1.png', kind: 'binary', size: 50 })
     const actors = seed.find((f) => f.rel === 'content/actors.json')
     expect(actors).toMatchObject({ src: 'content/actors.json', kind: 'json' })
+  })
+})
+
+describe('buildBlankProject', () => {
+  test('名字 → id(kebab)+ 最小骨架(空内容表 + 占位场景 + entryScene 存在)', () => {
+    const files = buildBlankProject('My Game')
+    const m = files['manifest.json'] as { id: string; entryScene: string }
+    expect(m.id).toBe('my-game')
+    expect(m.entryScene).toBe('start')
+    expect(files['content/scenes/index.json']).toEqual(['start'])
+    expect((files['content/scenes/start.json'] as { id: string }).id).toBe('start')
+    expect(files['content/actors.json']).toEqual([])
+    expect(files['content/items.json']).toEqual([])
+  })
+
+  test('空名 → 兜底 id new-project', () => {
+    expect((buildBlankProject('   ')['manifest.json'] as { id: string }).id).toBe('new-project')
   })
 })

@@ -26,6 +26,60 @@ function relPath(s: string): string {
   return s
 }
 
+/**
+ * 空白工程骨架(P4;高端「从头做」):最小 manifest + 空内容表 + 一个占位空场景。
+ * 返回 {rel: 值} 文件集(writeProject 落盘)。assets 指向工程内相对(空 assets 夹,自产素材待地图模块)。
+ * ⚠ 占位场景 map=reuseOriginalMap:0 是**占位**(空白工程无素材)—— 真正可渲染/可玩的空白工程
+ * 依赖地图模块提供「空白地图」模型 + 编辑器容忍无地图(§4.2b,decision A gated on 地图模块)。
+ */
+export function buildBlankProject(name: string): Record<string, unknown> {
+  const id =
+    name
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9-]+/g, '-')
+      .replace(/^-+|-+$/g, '') || 'new-project'
+  return {
+    'manifest.json': {
+      id,
+      name: name.trim() || '新工程',
+      contentVersion: 1,
+      entryScene: 'start',
+      content: {
+        actors: 'content/actors.json',
+        skills: 'content/skills.json',
+        items: 'content/items.json',
+        locale: 'content/locale.json',
+        scenes: 'content/scenes/',
+      },
+      assets: {
+        root: 'assets/extracted/data',
+        maps: 'tilemap',
+        tilesets: 'tileset',
+        sprites: 'sprite',
+        palettes: 'palette',
+        sounds: 'assets/extracted/sounds',
+        music: 'assets/extracted/music',
+        portraits: 'assets/baked/portraits',
+        faces: 'assets/baked/ui/face',
+        itemIcons: 'assets/baked/ui/items',
+      },
+      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+    },
+    'content/actors.json': [],
+    'content/skills.json': { skills: [], levelUp: {} },
+    'content/items.json': [],
+    'content/locale.json': {},
+    'content/scenes/index.json': ['start'],
+    'content/scenes/start.json': {
+      id: 'start',
+      map: { reuseOriginalMap: 0 },
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+      entities: [],
+    },
+  }
+}
+
 /** assets 各绝对路径字段相对化(子目录/相对值不变)。深拷,不改原对象。 */
 export function relativizeManifest(m: LoadedManifest): LoadedManifest {
   const assets = Object.fromEntries(
