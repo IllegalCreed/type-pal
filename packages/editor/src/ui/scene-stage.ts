@@ -214,7 +214,14 @@ export function drawGridBlocked(
       const cx = a * 16
       const cy = b * 8
       if (show.grid) diamond(gridPath, cx, cy)
-      if (isBlocked?.(cx, cy)) diamond(blockedPath, cx, cy)
+      // 禁入红只画图内子格(buildIsBlocked 界外恒 true 是游戏语义;编辑器画它 = 边缘一圈
+      // 误导性红圈,空白图看似全边被标碰撞 —— W7C-3 复验发现,W7c-1 遗留)
+      const inRoom =
+        cx >= room.col * TILE_W &&
+        cx < (room.col + room.cols) * TILE_W &&
+        cy >= room.row * TILE_H &&
+        cy < (room.row + room.rows) * TILE_H
+      if (inRoom && isBlocked?.(cx, cy)) diamond(blockedPath, cx, cy)
     }
   }
   if (show.blocked) {
