@@ -10,7 +10,7 @@
 
 import type { SceneDef, SceneMap } from '@type-pal/content'
 import { gridToPixel, isReuseMap, sceneMapKey } from '@type-pal/content'
-import type { AssetBase, LoadedSprite, SceneMapAssets, Tilemap } from '@type-pal/reforge'
+import type { AssetBase, LoadedSprite, Palette, SceneMapAssets, Tilemap } from '@type-pal/reforge'
 import {
   buildIsBlocked,
   Canvas2DRenderer,
@@ -30,6 +30,9 @@ export interface StageAssets {
   renderer: Canvas2DRenderer
   map: SceneMapAssets['map']
   spritesByNum: Map<number, LoadedSprite>
+  /** tileset 帧(索引 → RleFrame)+ 调色板 —— W7c tile 面板缩略图用。 */
+  tiles: SceneMapAssets['tiles']
+  palette: Palette
 }
 
 /** 容器尺寸 → 画布物理尺寸(自适应;ResizeObserver)。 */
@@ -91,6 +94,8 @@ export function useSceneAssets(opts: {
           renderer: new Canvas2DRenderer(ctx, palette, tiles),
           map,
           spritesByNum: new Map(entries),
+          tiles,
+          palette,
         }
         setStatus('ready')
       } catch (e) {

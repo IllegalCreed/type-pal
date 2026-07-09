@@ -45,14 +45,15 @@ export type { ContentJsons, LoadedProject, LoadedProjectCore }
 export { type FileSource, httpSource } from './file-source.js'
 export { fsaSource } from './fsa-source.js'
 
-// 自有地图(W7):Tilemap 形的作者地图构造/编辑
-export { buildBlankOwnMap } from './own-map.js'
-// Tilemap 类型转出口(编辑器不直依赖 shared;自有地图工作副本用它)
-export type { Tilemap } from '@type-pal/shared'
+// 自有地图(W7):Tilemap 形的作者地图构造/编辑 + 笔刷纯逻辑(W7c)
+export { buildBlankOwnMap, encodeTileLayer0, MAX_LAYER0_TILE, paintCells } from './own-map.js'
+export type { SubTileEdit } from './own-map.js'
+// Tilemap/Palette 类型转出口(编辑器不直依赖 shared;自有地图工作副本 + tile 面板用)
+export type { Palette, Tilemap } from '@type-pal/shared'
 
-// 碰撞判定(编辑器画禁入格复用,与游戏同一套 → 不漂移)
-import { buildIsBlocked, isBlockedAt } from './collision.js'
-export { buildIsBlocked, isBlockedAt }
+// 碰撞判定(编辑器画禁入格复用,与游戏同一套 → 不漂移);pixelToTile = W7c 笔刷靶定
+import { buildIsBlocked, isBlockedAt, pixelToTile } from './collision.js'
+export { buildIsBlocked, isBlockedAt, pixelToTile }
 
 // 「画一帧场景」(editor 复用同一绘制函数画底图)
 import { renderSceneFrame } from './render-scene.js'

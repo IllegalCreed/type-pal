@@ -15,8 +15,9 @@ import type { Tilemap } from '@type-pal/shared'
 const TILE_W = 32
 const TILE_H = 16
 
-/** 像素 → (col,row,h)，sdlpal 菱形四分法（scene.c:556-591）。 */
-function pixelToTile(x: number, y: number): { col: number; row: number; h: 0 | 1 } {
+/** 像素 → (col,row,h)，sdlpal 菱形四分法（scene.c:556-591）。
+ *  导出:W7c 地图编辑器笔刷靶定同一映射(画的就是本格式;新格式迁移时随本层一起退役)。 */
+export function pixelToTile(x: number, y: number): { col: number; row: number; h: 0 | 1 } {
   let col = Math.floor(x / TILE_W)
   let row = Math.floor(y / TILE_H)
   let h: 0 | 1 = 0

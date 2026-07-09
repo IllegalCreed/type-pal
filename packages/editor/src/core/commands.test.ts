@@ -7,6 +7,7 @@ import {
   DeleteEnemyCommand,
   DeleteEntityCommand,
   MoveEntityCommand,
+  PaintTilesCommand,
   UpdateActorCommand,
   UpdateBattleFieldCommand,
   UpdateEntityCommand,
@@ -553,5 +554,52 @@ describe('CreateOwnMapCommand(W7a-5)', () => {
     expect(s2.scenes[0]!.map).toEqual({ reuseOriginalMap: 20 })
     expect(s2.scenes[0]!.entry.pos).toEqual({ col: 5, row: 5, height: 0 })
     expect(s2.maps['content/maps/s.json']).toBeUndefined()
+  })
+})
+
+describe('PaintTilesCommand(W7c)', () => {
+  const rel = 'content/maps/s.json'
+  const stPaint = (): EditorState => {
+    const cells = Array.from({ length: 3 }, () =>
+      Array.from({ length: 3 }, () => ({ lower: 0, upper: 0 })),
+    )
+    return { ...st(), maps: { [rel]: { width: 3, height: 3, cells, tileset: 't' } } } as never
+  }
+
+  test('apply:写子格;invert:还原旧 word;源 state 不动', () => {
+    const s0 = stPaint()
+    const cmd = new PaintTilesCommand(rel, [
+      { col: 0, row: 0, h: 0, word: 5 },
+      { col: 1, row: 0, h: 1, word: 9 },
+    ])
+    const s1 = cmd.apply(s0)
+    expect(s1.maps[rel]!.cells[0]![0]).toEqual({ lower: 5, upper: 0 })
+    expect(s1.maps[rel]!.cells[0]![1]).toEqual({ lower: 0, upper: 9 })
+    expect(s0.maps[rel]!.cells[0]![0]).toEqual({ lower: 0, upper: 0 }) // 源不变
+    const back = cmd.invert(s1)
+    expect(back.maps[rel]!.cells[0]![0]).toEqual({ lower: 0, upper: 0 })
+    expect(back.maps[rel]!.cells[0]![1]).toEqual({ lower: 0, upper: 0 })
+  })
+
+  test('同子格重复编辑:后者为准;undo 还原到 stroke 前(首见旧值)', () => {
+    const s0 = stPaint()
+    const c1 = new PaintTilesCommand(rel, [{ col: 0, row: 0, h: 0, word: 3 }])
+    const s1 = c1.apply(s0)
+    // 第二笔:同格先 7 后 8(拖动折返),apply 后 = 8;undo 回 3(不是 7)
+    const c2 = new PaintTilesCommand(rel, [
+      { col: 0, row: 0, h: 0, word: 7 },
+      { col: 0, row: 0, h: 0, word: 8 },
+    ])
+    const s2 = c2.apply(s1)
+    expect(s2.maps[rel]!.cells[0]![0]!.lower).toBe(8)
+    expect(c2.invert(s2).maps[rel]!.cells[0]![0]!.lower).toBe(3)
+  })
+
+  test('地图不存在(rel 悬空)→ noop', () => {
+    const s0 = stPaint()
+    const cmd = new PaintTilesCommand('content/maps/ghost.json', [
+      { col: 0, row: 0, h: 0, word: 5 },
+    ])
+    expect(cmd.apply(s0)).toBe(s0)
   })
 })

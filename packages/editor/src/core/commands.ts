@@ -26,7 +26,8 @@ import type {
   ScriptStage,
   SpriteDef,
 } from '@type-pal/content'
-import type { Tilemap } from '@type-pal/reforge'
+import type { SubTileEdit, Tilemap } from '@type-pal/reforge'
+import { paintCells } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 
 /**
@@ -365,6 +366,45 @@ export class CreateOwnMapCommand implements Command {
     })
     const { [this.ownMapRel]: _drop, ...restMaps } = next.maps
     return { ...next, maps: restMaps }
+  }
+}
+
+/**
+ * 画瓦片(W7c):对自有地图一笔 stroke 的子格编辑集(笔刷拖一笔 = 一条命令 = 一步 undo)。
+ * apply 首次捕获被覆盖子格的旧 word,invert 原样写回;paintCells 不可变 patch(只克隆触及行)。
+ * edits 同子格重复以后者为准(拖动经过同格多次是常态,捕获旧值取首次见到的)。
+ */
+export class PaintTilesCommand implements Command {
+  readonly label = '画瓦片'
+  private prev: SubTileEdit[] | undefined
+
+  constructor(
+    private readonly mapRel: string,
+    private readonly edits: readonly SubTileEdit[],
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    const map = state.maps[this.mapRel]
+    if (!map) return state
+    if (!this.prev) {
+      const seen = new Set<string>()
+      this.prev = []
+      for (const e of this.edits) {
+        const key = `${e.col},${e.row},${e.h}`
+        if (seen.has(key)) continue
+        seen.add(key)
+        const cell = map.cells[e.row]?.[e.col]
+        if (!cell) continue // 界外:paintCells 同样忽略,无需还原
+        this.prev.push({ ...e, word: e.h === 0 ? cell.lower : cell.upper })
+      }
+    }
+    return { ...state, maps: { ...state.maps, [this.mapRel]: paintCells(map, this.edits) } }
+  }
+
+  invert(state: EditorState): EditorState {
+    const map = state.maps[this.mapRel]
+    if (!map || !this.prev) return state
+    return { ...state, maps: { ...state.maps, [this.mapRel]: paintCells(map, this.prev) } }
   }
 }
 

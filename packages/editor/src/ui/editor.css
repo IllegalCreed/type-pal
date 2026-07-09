@@ -2429,3 +2429,45 @@ body {
 .proj-menu button:hover {
   background: var(--panel3);
 }
+
+/* ── W7c 地图模式:tile 面板 ─────────────────────────────── */
+.tile-grid {
+  overflow-y: auto;
+  min-height: 0;
+  padding: 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 40px);
+  gap: 4px;
+  align-content: start;
+  justify-content: center;
+}
+.tile-thumb {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #14161c;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.tile-thumb canvas {
+  image-rendering: pixelated;
+  max-width: 36px;
+  max-height: 36px;
+}
+.tile-thumb:hover {
+  border-color: var(--acc);
+}
+.tile-thumb.sel {
+  border-color: var(--acc);
+  box-shadow: 0 0 0 1px var(--acc);
+  background: #1a2030;
+}
+.tile-thumb:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
