@@ -5,6 +5,7 @@
  * 解码逻辑复用 @type-pal/shared(parseSpriteChunk + 类型);decompressGzip 端口自 game。
  */
 import { type Palette, parseSpriteChunk, type RleFrame, type Tilemap } from '@type-pal/shared'
+import type { FileSource } from './file-source.js'
 
 /** 工程资源根 + 子目录(由 loader 从 manifest.assets 解析,main 注入给 load*)。 */
 export interface AssetBase {
@@ -25,6 +26,8 @@ export interface AssetBase {
   itemIcons: string
   /** UI chrome 覆盖目录(可选:工程自带皮肤;缺省 = 引擎默认皮 /ui)。 */
   uiOverride?: string
+  /** 读取源(P2:素材经它读,本地工程离线可渲染;loadProjectFrom 注入)。缺省 = 裸 fetch(向后兼容)。 */
+  source?: FileSource
 }
 
 /** 资产缺失指路(新 clone 最常见坑:data/extracted 与 data/baked 是可再生产物,不进 git)。 */
@@ -47,12 +50,24 @@ async function fetchJson<T>(url: string): Promise<T> {
   return (await r.json()) as T
 }
 
+/** 经 source 读素材字节(缺 source → 裸 fetch,向后兼容);404/HTML 按缺失报,附指路。 */
+async function readAssetBytes(base: AssetBase, path: string, label: string): Promise<Uint8Array> {
+  if (base.source) return new Uint8Array(await base.source.readBytes(path))
+  return new Uint8Array(await (await fetchAsset(path, label)).arrayBuffer())
+}
+
+/** 经 source 读素材 JSON(缺 source → 裸 fetch)。 */
+async function readAssetJson<T>(base: AssetBase, path: string): Promise<T> {
+  if (base.source) return base.source.readJson<T>(path)
+  return fetchJson<T>(path)
+}
+
 export function loadTilemap(base: AssetBase, mapNum: number): Promise<Tilemap> {
-  return fetchJson<Tilemap>(`${base.root}/${base.maps}/${mapNum}.json`)
+  return readAssetJson<Tilemap>(base, `${base.root}/${base.maps}/${mapNum}.json`)
 }
 
 export function loadPalette(base: AssetBase, palId: number): Promise<Palette> {
-  return fetchJson<Palette>(`${base.root}/${base.palettes}/${palId}.json`)
+  return readAssetJson<Palette>(base, `${base.root}/${base.palettes}/${palId}.json`)
 }
 
 /** 原版 .rle tileset blob:gzip 解压 → parseSpriteChunk → 按 tile 下标索引的帧。 */

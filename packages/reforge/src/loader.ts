@@ -191,22 +191,21 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
       content.battleFields ? source.readJson(content.battleFields) : Promise.resolve(undefined),
       content.poisons ? source.readJson(content.poisons) : Promise.resolve(undefined),
     ])
-  return {
-    ...assembleProject(manifest, {
-      actors,
-      sceneIds,
-      entryScene,
-      skills,
-      items,
-      locale,
-      sprites,
-      enemies,
-      enemyTeams,
-      battleFields,
-      poisons,
-    }),
-    source,
-  }
+  const core = assembleProject(manifest, {
+    actors,
+    sceneIds,
+    entryScene,
+    skills,
+    items,
+    locale,
+    sprites,
+    enemies,
+    enemyTeams,
+    battleFields,
+    poisons,
+  })
+  // source 注入 assetBase(P2:素材加载经它;assembleProject 纯核不碰 IO,故在壳注入)
+  return { ...core, assetBase: { ...core.assetBase, source }, source }
 }
 
 /** IO 壳:projectId → httpSource('projects/<id>') → loadProjectFrom。签名不变(dev/引擎入口)。 */
