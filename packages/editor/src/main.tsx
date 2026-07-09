@@ -1,32 +1,39 @@
 /**
- * @type-pal/editor 入口(B1.1)。
- *
- * 载 demo 工程 → toEditorState → EditSession → 渲染编辑器外壳(App)。
- * project(LoadedProject)透传给 App:assetBase/entryScene 是运行期派生物,不进 EditorState,
- * 画布渲染要用(见 project-io.ts 的说明)。
+ * @type-pal/editor 入口。
+ * dev(VITE_PROJECT_ID 注入)→ 自动载入该工程(开发便利);`?picker` 强制启动屏(测试用)。
+ * 生产(无 env)→ ProjectPicker 启动屏:新建(克隆/空白)/ 打开本地 / 最近工程(P4)。
  */
-import { StrictMode, useEffect, useState } from 'react'
-import { createRoot } from 'react-dom/client'
+import type { MusicDef } from '@type-pal/content'
 import { loadAllScenes, loadProject } from '@type-pal/reforge'
 import type { LoadedProject } from '@type-pal/reforge'
-import type { MusicDef } from '@type-pal/content'
+import { StrictMode, useEffect, useState } from 'react'
+import { createRoot } from 'react-dom/client'
 import { EditSession } from './core/edit-session.js'
 import { toEditorState } from './core/project-io.js'
 import { App } from './ui/App.js'
+import { type Opened, ProjectPicker } from './ui/ProjectPicker.js'
 import './ui/editor.css'
 
-const PROJECT_ID = import.meta.env.VITE_PROJECT_ID ?? 'demo'
+const PROJECT_ID = import.meta.env.VITE_PROJECT_ID as string | undefined
+const FORCE_PICKER = new URLSearchParams(window.location.search).has('picker')
+const DEV_AUTO = !!PROJECT_ID && !FORCE_PICKER
 
-type Boot = { session: EditSession; project: LoadedProject } | { error: string } | null
+interface Booted {
+  session: EditSession
+  project: LoadedProject
+  dir?: FileSystemDirectoryHandle
+}
+type Boot = Booted | { error: string } | null
 
 function Root() {
   const [boot, setBoot] = useState<Boot>(null)
+
   useEffect(() => {
+    if (!DEV_AUTO || !PROJECT_ID) return
     let alive = true
     loadProject(PROJECT_ID)
       .then(async (project) => {
-        const scenes = await loadAllScenes(project) // 编辑器全量路径(引擎懒加载,M2a-2)
-        // W5:音乐库(manifest.content.music 声明才拉;引擎不消费,纯编辑器数据)
+        const scenes = await loadAllScenes(project)
         const musicRel = project.manifest.content['music']
         const music: MusicDef[] = musicRel
           ? await fetch(`projects/${PROJECT_ID}/${musicRel}`)
@@ -44,9 +51,23 @@ function Root() {
     }
   }, [])
 
-  if (!boot) return <div className="boot">载入 demo 工程…</div>
-  if ('error' in boot) return <div className="boot"><div className="err">载入失败: {boot.error}</div></div>
-  return <App session={boot.session} project={boot.project} />
+  const onOpened = (o: Opened): void => {
+    setBoot({
+      session: new EditSession(toEditorState(o.project, o.scenes, o.music)),
+      project: o.project,
+      dir: o.dir,
+    })
+  }
+
+  if (boot && 'error' in boot)
+    return (
+      <div className="boot">
+        <div className="err">载入失败: {boot.error}</div>
+      </div>
+    )
+  if (boot) return <App session={boot.session} project={boot.project} initialDir={boot.dir} />
+  if (DEV_AUTO) return <div className="boot">载入工程…</div>
+  return <ProjectPicker onOpened={onOpened} />
 }
 
 createRoot(document.getElementById('root')!).render(

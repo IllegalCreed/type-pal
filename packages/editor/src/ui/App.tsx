@@ -56,7 +56,12 @@ function newEntityId(existing: EntityDef[]): string {
   return `entity-${n}`
 }
 
-export function App(props: { session: EditSession; project: LoadedProject }) {
+export function App(props: {
+  session: EditSession
+  project: LoadedProject
+  /** 启动屏打开/克隆得到的工程目录句柄(P4):保存直接写回此夹,不再首存选夹。 */
+  initialDir?: FileSystemDirectoryHandle
+}) {
   const { session, project } = props
   const subscribe = useMemo(() => (cb: () => void) => session.subscribe(cb), [session])
   const getVersion = useMemo(() => () => session.getVersion(), [session])
@@ -79,7 +84,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
   const [placeSceneId, setPlaceSceneId] = useState<string>(state.manifest.entryScene)
   // 放置 palette:add 工具态右栏选「要放的精灵」(审计断点 #1)
   const [placeSpriteId, setPlaceSpriteId] = useState<string>(state.sprites[0]?.id ?? '')
-  const dirHandleRef = useRef<FileSystemDirectoryHandle | null>(null)
+  const dirHandleRef = useRef<FileSystemDirectoryHandle | null>(props.initialDir ?? null)
   // 上次落盘快照(rel → 内容字符串):增量保存只写变化文件(P3)。首存后建立。
   const snapshotRef = useRef<Map<string, string> | null>(null)
   const [saveErr, setSaveErr] = useState('')
