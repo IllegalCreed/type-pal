@@ -9,14 +9,15 @@
  */
 
 import type { SceneDef, SceneMap } from '@type-pal/content'
-import { gridToPixel, sceneMapKey } from '@type-pal/content'
-import type { AssetBase, LoadedSprite, SceneMapAssets } from '@type-pal/reforge'
+import { gridToPixel, isReuseMap, sceneMapKey } from '@type-pal/content'
+import type { AssetBase, LoadedSprite, SceneMapAssets, Tilemap } from '@type-pal/reforge'
 import {
   buildIsBlocked,
   Canvas2DRenderer,
   loadPalette,
   loadSceneMap,
   loadSprite,
+  loadTilesetByPath,
 } from '@type-pal/reforge'
 import { type RefObject, useEffect, useRef, useState } from 'react'
 
@@ -56,14 +57,18 @@ export function useSceneAssets(opts: {
   assetBase: AssetBase
   sceneMap: SceneMap
   spriteNums: number[]
+  /** 编辑器实时自有地图(键 = ownMap 路径)。own 场景从此读地图,不落磁盘(创建后未存磁盘上没有)。 */
+  ownMaps?: Record<string, Tilemap>
 }): { status: 'loading' | 'ready' | 'error'; err: string; loadedRef: RefObject<StageAssets | null> } {
-  const { canvasRef, assetBase, sceneMap, spriteNums } = opts
+  const { canvasRef, assetBase, sceneMap, spriteNums, ownMaps } = opts
   const loadedRef = useRef<StageAssets | null>(null)
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
   const [err, setErr] = useState('')
   const spriteNumsKey = spriteNums.join(',')
   const mapKey = sceneMapKey(sceneMap) // 复用 `r:<号>` / 自有 `o:<路径>`,稳定串防对象身份误触重载
-  // biome-ignore lint/correctness/useExhaustiveDependencies: sceneMap/spriteNums 以 key 串比较(对象/数组身份每渲染变)
+  // 自有地图:优先读实时 state(编辑中未存);无则 undefined → 落回 loadSceneMap 磁盘读(round-trip)
+  const liveMap = !isReuseMap(sceneMap) ? ownMaps?.[sceneMap.ownMap] : undefined
+  // biome-ignore lint/correctness/useExhaustiveDependencies: sceneMap/spriteNums/liveMap 以 key 串比较(对象/数组身份每渲染变)
   useEffect(() => {
     const ctx = canvasRef.current?.getContext('2d')
     if (!ctx) return
@@ -72,7 +77,10 @@ export function useSceneAssets(opts: {
     void (async () => {
       try {
         const [{ map, tiles }, palette] = await Promise.all([
-          loadSceneMap(assetBase, sceneMap), // 复用原版 ⊕ 自有地图,分流内建
+          // 自有地图有实时副本 → 直接用它 + 按其 tileset 取瓦片;否则走 loadSceneMap(复用/磁盘)
+          liveMap
+            ? loadTilesetByPath(assetBase, liveMap.tileset).then((t) => ({ map: liveMap, tiles: t }))
+            : loadSceneMap(assetBase, sceneMap), // 复用原版 ⊕ 自有(磁盘),分流内建
           loadPalette(assetBase, 0), // 只留盘 0(W7a-3:调色板概念退役)
         ])
         const entries = await Promise.all(

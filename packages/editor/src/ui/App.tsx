@@ -42,6 +42,7 @@ import { saveHandle } from '../core/handle-store.js'
 import { type Opened, openExistingProject, saveProjectAs } from '../core/open-actions.js'
 import { ActorMode } from './ActorMode.js'
 import { DataMode, type DataTab } from './DataMode.js'
+import { MapMode } from './MapMode.js'
 import { ScriptDrawer } from './ScriptDrawer.js'
 import { MusicPicker } from './MusicPicker.js'
 import { SceneCanvas, type Tool } from './SceneCanvas.js'
@@ -50,7 +51,7 @@ import { SpriteThumb } from './SpriteThumb.js'
 const SCENE_NODE = '__scene__'
 /** 进场点节点哨兵(与 SceneCanvas 的 ENTRY_HIT_ID 对齐):选中它 → 专属进场点 inspector(坐标+朝向)。 */
 const ENTRY_NODE = '__entry__'
-type Mode = 'place' | 'actor' | 'data'
+type Mode = 'place' | 'actor' | 'data' | 'map'
 
 function newEntityId(existing: EntityDef[]): string {
   const ids = new Set(existing.map((e) => e.id))
@@ -300,10 +301,13 @@ export function App(props: {
             <span className="ico">👥</span>
             <span className="lbl">角色</span>
           </button>
-          <div className="mode soon">
+          <button
+            className={`mode${mode === 'map' ? ' active' : ''}`}
+            onClick={() => switchMode('map')}
+          >
             <span className="ico">🗺️</span>
             <span className="lbl">地图</span>
-          </div>
+          </button>
           <button
             className={`mode${mode === 'data' ? ' active' : ''}`}
             onClick={() => switchMode('data')}
@@ -314,7 +318,14 @@ export function App(props: {
 
         </div>
 
-        {mode === 'actor' ? (
+        {mode === 'map' ? (
+          <MapMode
+            scene={scene}
+            session={session}
+            assetBase={project.assetBase}
+            ownMaps={state.maps}
+          />
+        ) : mode === 'actor' ? (
           <ActorMode
             actors={state.actors}
             sprites={state.sprites}
@@ -534,6 +545,7 @@ export function App(props: {
                 actorsById={actorsById}
                 leaderSpriteId={leaderSpriteId}
                 assetBase={project.assetBase}
+                ownMaps={state.maps}
                 selectedId={selEntity ? selected : null}
                 entrySelected={selected === ENTRY_NODE}
                 tool={tool}
@@ -564,6 +576,7 @@ export function App(props: {
                   actorsById={actorsById}
                   leaderSpriteId={leaderSpriteId}
                   assetBase={project.assetBase}
+                  ownMaps={state.maps}
                   session={session}
                   music={state.music ?? []}
                   layers={{

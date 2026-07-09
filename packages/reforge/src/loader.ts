@@ -21,6 +21,7 @@ import type {
   SpriteDef,
 } from '@type-pal/content'
 import {
+  isReuseMap,
   validateActors,
   validateItems,
   validateLocale,
@@ -28,7 +29,9 @@ import {
   validateSkills,
   validateSprites,
 } from '@type-pal/content'
+import type { Tilemap } from '@type-pal/shared'
 import type { AssetBase } from './assets.js'
+import { loadOwnMap } from './assets.js'
 import { type FileSource, httpSource } from './file-source.js'
 
 /** 加载完成的工程数据核(纯组装产物,不含 IO 源;assembleProject 返回它)。 */
@@ -225,4 +228,23 @@ export async function loadSceneDef(project: LoadedProject, sceneId: string): Pro
 /** 编辑器全量路径:按 index 顺序拉全部场景。 */
 export async function loadAllScenes(project: LoadedProject): Promise<SceneDef[]> {
   return Promise.all(project.sceneIds.map((id) => loadSceneDef(project, id)))
+}
+
+/**
+ * 编辑器:载入所有 own 场景引用的自有地图(content/maps/<id>.json)。
+ * 键 = scene.map.ownMap(工程内相对路径)→ Tilemap,供编辑器 state.maps 实时渲染 + round-trip
+ * (own 场景引用即索引,无需单独 maps 索引)。复用原版地图的场景跳过。pal 无 own 场景 → {}。
+ */
+export async function loadAllOwnMaps(
+  project: LoadedProject,
+  scenes: SceneDef[],
+): Promise<Record<string, Tilemap>> {
+  const out: Record<string, Tilemap> = {}
+  await Promise.all(
+    scenes.map(async (s) => {
+      if (isReuseMap(s.map)) return
+      out[s.map.ownMap] = await loadOwnMap(project.assetBase, s.map.ownMap)
+    }),
+  )
+  return out
 }

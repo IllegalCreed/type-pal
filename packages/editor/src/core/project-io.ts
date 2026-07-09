@@ -14,6 +14,7 @@
  */
 import type { LoadedProjectCore } from '@type-pal/reforge'
 import type { MusicDef, SceneDef } from '@type-pal/content'
+import type { Tilemap } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 
 /**
@@ -25,11 +26,14 @@ export function toEditorState(
   project: LoadedProjectCore,
   scenes: SceneDef[],
   music: MusicDef[] = [], // W5:音乐库(manifest.content.music 声明才有;缺省空)
+  ownMaps: Record<string, Tilemap> = {}, // W7:自有地图(own 场景引用的 content/maps 文件;pal 无 → {})
 ): EditorState {
   return {
     // M2a-2:场景懒加载后 LoadedProject 不再带全量 → 编辑器 loadAllScenes 拉齐后传入
     scenes,
     music,
+    // W7:自有地图工作副本(键 = ownMap 相对路径);渲染读实时态,保存序列化回文件
+    maps: ownMaps,
     // by-id Record → 数组(Object.values 保序:indexById 按原数组序插入)
     actors: Object.values(project.actorsById),
     skills: Object.values(project.skills),
@@ -74,6 +78,9 @@ export function serializeProject(state: EditorState): Record<string, unknown> {
   const dir = (content.scenes ?? 'content/scenes/').replace(/\/?$/, '/')
   files[`${dir}index.json`] = state.scenes.map((s) => s.id)
   for (const s of state.scenes) files[`${dir}${s.id}.json`] = s
+  // W7 自有地图:键即工程内相对路径,直接产出为文件(own 场景引用即索引,无单独 maps index)。
+  // 场景 revert 回复用 → maps 丢掉该键 → diffFiles 检测 prev 有 next 无 → 落盘删除,不留孤儿。
+  for (const [rel, map] of Object.entries(state.maps)) files[rel] = map
   // 各 content 文件:按 manifest 声明的路径键映射到对应值。
   const byKey: Record<ContentKey, unknown> = {
     actors: state.actors,

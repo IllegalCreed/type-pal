@@ -21,10 +21,12 @@ import type {
   ItemData,
   LevelUpSkill,
   SceneDef,
+  SceneMap,
   SkillData,
   ScriptStage,
   SpriteDef,
 } from '@type-pal/content'
+import type { Tilemap } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 
 /**
@@ -315,6 +317,54 @@ export class UpdateSceneCommand implements Command {
     const scene = findScene(state, this.sceneId)
     if (!scene) return state
     return withScene(state, this.sceneId, { ...scene, ...this.oldPatch })
+  }
+}
+
+/**
+ * 新建自有地图(W7a-5):把场景从「复用原版」切成「自有地图」。
+ * 一步做两件事(须原子,故不复用 UpdateSceneCommand):
+ *   ① scene.map = { ownMap: <相对路径> } + 进场点重置到图内(原坐标系是原版图,可能越界新图);
+ *   ② state.maps[相对路径] = 空白 Tilemap(渲染读它,保存序列化成 content/maps/<id>.json)。
+ * invert 还原 scene.map/entry 并丢掉 maps 该键(连带磁盘孤儿由 diffFiles 删)。
+ */
+export class CreateOwnMapCommand implements Command {
+  readonly label = '新建自有地图'
+  private prevMap: SceneMap | undefined
+  private prevEntry: SceneDef['entry'] | undefined
+
+  constructor(
+    private readonly sceneId: string,
+    private readonly ownMapRel: string,
+    private readonly tilemap: Tilemap,
+    private readonly entryPos: GridPos,
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    const scene = findScene(state, this.sceneId)
+    if (!scene) return state
+    if (this.prevMap === undefined) {
+      this.prevMap = structuredClone(scene.map)
+      this.prevEntry = structuredClone(scene.entry)
+    }
+    const next = withScene(state, this.sceneId, {
+      ...scene,
+      map: { ownMap: this.ownMapRel },
+      entry: { ...scene.entry, pos: { ...this.entryPos } },
+    })
+    return { ...next, maps: { ...next.maps, [this.ownMapRel]: this.tilemap } }
+  }
+
+  invert(state: EditorState): EditorState {
+    if (this.prevMap === undefined) return state
+    const scene = findScene(state, this.sceneId)
+    if (!scene) return state
+    const next = withScene(state, this.sceneId, {
+      ...scene,
+      map: this.prevMap,
+      entry: this.prevEntry ?? scene.entry,
+    })
+    const { [this.ownMapRel]: _drop, ...restMaps } = next.maps
+    return { ...next, maps: restMaps }
   }
 }
 

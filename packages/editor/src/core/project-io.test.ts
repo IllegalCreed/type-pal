@@ -125,6 +125,16 @@ test('round-trip:toEditorState → serializeProject 还原各 content JSON', () 
   expect(out['manifest.json']).toEqual(manifest)
 })
 
+test('W7 自有地图 round-trip:ownMaps → serializeProject 产出 content/maps 文件', () => {
+  const project = assembleProject(manifest, JSONS)
+  const tilemap = { width: 2, height: 2, cells: [], tileset: 'tileset/56.rle' }
+  const ownMaps = { 'content/maps/guijie-minju.json': tilemap }
+  const state = toEditorState(project, SCENES, [], ownMaps)
+  expect(state.maps).toEqual(ownMaps) // 键 = ownMap 相对路径,原样入 state
+  const out = serializeProject(state)
+  expect(out['content/maps/guijie-minju.json']).toEqual(tilemap) // 键即路径,直接产出为文件
+})
+
 test('toEditorState:by-id Record → 数组(Object.values 保序)', () => {
   const project = assembleProject(manifest, JSONS)
   const state = toEditorState(project, SCENES)

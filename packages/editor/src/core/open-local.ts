@@ -3,12 +3,21 @@
  * 无有效 manifest.json → 友好报错(不进编辑器)。素材经 fsaSource 从本地读 → 离线渲染。
  */
 import type { MusicDef, SceneDef } from '@type-pal/content'
-import { fsaSource, loadAllScenes, type LoadedProject, loadProjectFrom } from '@type-pal/reforge'
+import {
+  fsaSource,
+  loadAllOwnMaps,
+  loadAllScenes,
+  type LoadedProject,
+  loadProjectFrom,
+} from '@type-pal/reforge'
+import type { Tilemap } from '@type-pal/reforge'
 
 export interface OpenedProject {
   project: LoadedProject
   scenes: SceneDef[]
   music: MusicDef[]
+  /** W7:own 场景引用的自有地图(content/maps/<id>.json);无 own 场景 → {}。 */
+  ownMaps: Record<string, Tilemap>
 }
 
 export async function openLocalProject(dir: FileSystemDirectoryHandle): Promise<OpenedProject> {
@@ -22,9 +31,10 @@ export async function openLocalProject(dir: FileSystemDirectoryHandle): Promise<
     )
   }
   const scenes = await loadAllScenes(project)
+  const ownMaps = await loadAllOwnMaps(project, scenes)
   const musicRel = project.manifest.content['music']
   const music: MusicDef[] = musicRel
     ? await source.readJson<MusicDef[]>(musicRel).catch(() => [])
     : []
-  return { project, scenes, music }
+  return { project, scenes, music, ownMaps }
 }

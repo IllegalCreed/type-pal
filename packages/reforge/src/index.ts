@@ -36,9 +36,9 @@ export { loadSceneMap }
 export type { SceneMapAssets }
 
 // 工程 loader(manifest + content JSON → LoadedProject)
-import { assembleProject, loadAllScenes, loadProject, loadProjectFrom, loadSceneDef } from './loader.js'
+import { assembleProject, loadAllOwnMaps, loadAllScenes, loadProject, loadProjectFrom, loadSceneDef } from './loader.js'
 import type { ContentJsons, LoadedProject, LoadedProjectCore } from './loader.js'
-export { assembleProject, loadAllScenes, loadProject, loadProjectFrom, loadSceneDef }
+export { assembleProject, loadAllOwnMaps, loadAllScenes, loadProject, loadProjectFrom, loadSceneDef }
 export type { ContentJsons, LoadedProject, LoadedProjectCore }
 
 // 文件源抽象(内容 + 素材统一「从哪读」;httpSource=dev/种子,fsaSource=本地工程)
@@ -47,6 +47,8 @@ export { fsaSource } from './fsa-source.js'
 
 // 自有地图(W7):Tilemap 形的作者地图构造/编辑
 export { buildBlankOwnMap } from './own-map.js'
+// Tilemap 类型转出口(编辑器不直依赖 shared;自有地图工作副本用它)
+export type { Tilemap } from '@type-pal/shared'
 
 // 碰撞判定(编辑器画禁入格复用,与游戏同一套 → 不漂移)
 import { buildIsBlocked, isBlockedAt } from './collision.js'

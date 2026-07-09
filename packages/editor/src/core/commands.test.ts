@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import {
   AddEnemyCommand,
+  CreateOwnMapCommand,
   CreateScriptSourceCommand,
   AddEntityCommand,
   DeleteEnemyCommand,
@@ -505,5 +506,52 @@ describe('CreateScriptSourceCommand(断点 #5:空态创建)', () => {
     const back = c.invert(s2)
     expect(ent0(back).pages?.[0]?.auto).toBeUndefined()
     expect(ent0(back).pages?.[0]?.trigger).toBeTruthy()
+  })
+})
+
+describe('CreateOwnMapCommand(W7a-5)', () => {
+  const stMap = (): EditorState =>
+    ({
+      ...st(),
+      scenes: [
+        {
+          id: 's',
+          map: { reuseOriginalMap: 20 },
+          entry: { pos: { col: 5, row: 5, height: 0 }, facing: 'down' },
+          entities: [],
+        },
+      ],
+      maps: {},
+    }) as never
+
+  test('apply:场景转 own + entry 重置 + maps 存图;源不变', () => {
+    const s0 = stMap()
+    const tilemap = { width: 3, height: 3, cells: [], tileset: 'tileset/20.rle' }
+    const cmd = new CreateOwnMapCommand('s', 'content/maps/s.json', tilemap as never, {
+      col: 1,
+      row: 2,
+      height: 0,
+    })
+    const s1 = cmd.apply(s0)
+    expect(s1.scenes[0]!.map).toEqual({ ownMap: 'content/maps/s.json' })
+    expect(s1.scenes[0]!.entry.pos).toEqual({ col: 1, row: 2, height: 0 })
+    expect(s1.maps['content/maps/s.json']).toEqual(tilemap)
+    // 不可变:源 state 不动
+    expect(s0.scenes[0]!.map).toEqual({ reuseOriginalMap: 20 })
+    expect(s0.maps).toEqual({})
+  })
+
+  test('invert:还原 map/entry + 丢掉 maps 该键', () => {
+    const s0 = stMap()
+    const cmd = new CreateOwnMapCommand(
+      's',
+      'content/maps/s.json',
+      { width: 3, height: 3, cells: [], tileset: 'tileset/20.rle' } as never,
+      { col: 1, row: 2, height: 0 },
+    )
+    const s2 = cmd.invert(cmd.apply(s0))
+    expect(s2.scenes[0]!.map).toEqual({ reuseOriginalMap: 20 })
+    expect(s2.scenes[0]!.entry.pos).toEqual({ col: 5, row: 5, height: 0 })
+    expect(s2.maps['content/maps/s.json']).toBeUndefined()
   })
 })
