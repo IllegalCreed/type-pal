@@ -17,9 +17,11 @@ import {
   grantBattleRewards,
   gridToPixel,
   lookupText,
+  mapRoom,
   pixelDeltaToGridDelta,
   pixelToGrid,
   resolveEntitySpriteId,
+  reuseMapNum,
   type SceneDef,
   type ScriptStage,
   type SpriteDef,
@@ -414,7 +416,7 @@ async function main(): Promise<void> {
     spawn?: { entry?: string; pos?: GridPos; facing?: Facing },
   ): Promise<void> {
     const def = await getSceneDef(sceneId)
-    const assets = await getMapAssets(def.map.reuseOriginalMap)
+    const assets = await getMapAssets(reuseMapNum(def.map) ?? 0) // 自有地图(ownMap)引擎分流待 W7a-4
     const pal = await getPalette(Number(params.get('pal') ?? def.paletteId ?? 0))
     const defs = new Map<string, SpriteDef>()
     for (const e of def.entities) {
@@ -456,7 +458,7 @@ async function main(): Promise<void> {
     palette = pal
     renderer = new Canvas2DRenderer(ctx, palette, tiles)
     entitySpriteDefs = defs
-    room = def.map.room ?? { col: 0, row: 0, cols: map.width, rows: map.height }
+    room = mapRoom(def.map) ?? { col: 0, row: 0, cols: map.width, rows: map.height }
     viewMinX = room.col * TILE_W - TILE_W
     viewMinY = room.row * TILE_H - 40
     viewMaxX = (room.col + room.cols) * TILE_W + TILE_W

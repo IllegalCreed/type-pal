@@ -14,7 +14,7 @@ import type {
   ScriptStage,
   SpriteDef,
 } from '@type-pal/content'
-import { gridToPixel, lookupText, resolveEntitySpriteId, spriteScreenY } from '@type-pal/content'
+import { gridToPixel, lookupText, mapRoom, resolveEntitySpriteId, reuseMapNum, spriteScreenY } from '@type-pal/content'
 import type { AssetBase, SpriteDraw } from '@type-pal/reforge'
 import {
   idleFrameIndex,
@@ -125,7 +125,7 @@ export function PreviewCanvas(props: {
     return [...nums]
   }, [scene, stages, spriteById, leaderSpriteId])
 
-  const mapNum = scene.map.reuseOriginalMap
+  const mapNum = reuseMapNum(scene.map) ?? 0 // 自有地图渲染分流待 W7a-4
   const paletteId = scene.paletteId ?? 0
   const { status, err, loadedRef } = useSceneAssets({
     canvasRef,
@@ -174,7 +174,7 @@ export function PreviewCanvas(props: {
           }
           return gridToPixel({ col: sc / es.length, row: sr / es.length, height: 0 })
         }
-        const room = scene.map.room ?? { col: 0, row: 0, cols: map.width, rows: map.height }
+        const room = mapRoom(scene.map) ?? { col: 0, row: 0, cols: map.width, rows: map.height }
         return gridToPixel({
           col: room.col + room.cols / 2,
           row: room.row + room.rows / 2,
@@ -255,7 +255,7 @@ export function PreviewCanvas(props: {
         x: cam.x - size.w / zoom / 2 + panX,
         y: cam.y - size.h / zoom / 2 + panY,
       }
-      const room = scene.map.room ?? { col: 0, row: 0, cols: map.width, rows: map.height }
+      const room = mapRoom(scene.map) ?? { col: 0, row: 0, cols: map.width, rows: map.height }
       renderSceneFrame(ctx, renderer, { map, room, camera, sprites: draws, worldScale: zoom })
       // 网格/禁入叠加(与布置模式同开关同画法;共享层)
       if (layers)

@@ -8,7 +8,7 @@
  */
 
 import type { ActorDef, SceneDef, SpriteDef } from '@type-pal/content'
-import { gridToPixel, pixelToGrid, resolveEntitySpriteId, spriteScreenY } from '@type-pal/content'
+import { gridToPixel, mapRoom, pixelToGrid, resolveEntitySpriteId, reuseMapNum, spriteScreenY } from '@type-pal/content'
 import type { AssetBase, SpriteDraw } from '@type-pal/reforge'
 import { idleFrameIndex, renderSceneFrame, spriteBlitRect } from '@type-pal/reforge'
 import { useEffect, useRef, useState } from 'react'
@@ -102,7 +102,7 @@ export function SceneCanvas(props: {
   const panDragRef = useRef<{ sx: number; sy: number; panX: number; panY: number } | null>(null)
 
   // 地图像素包围盒(菱形投影 AABB;room 缺省 = 整图)。
-  const mapBox = (map: StageAssets['map']) => mapBoxOf(map, scene.map.room)
+  const mapBox = (map: StageAssets['map']) => mapBoxOf(map, mapRoom(scene.map))
   /** fit 整图到容器:zoom 使整图可见(留 4% 边),pan 居中。 */
   const fitView = (map: StageAssets['map']): void => {
     const b = mapBox(map)
@@ -116,7 +116,7 @@ export function SceneCanvas(props: {
     })
   }
 
-  const mapNum = scene.map.reuseOriginalMap
+  const mapNum = reuseMapNum(scene.map) ?? 0 // 自有地图渲染分流待 W7a-4
   const paletteId = scene.paletteId ?? 0
   const spriteById = new Map(sprites.map((s) => [s.id, s]))
   /** 实体 → SpriteDef(actor⊕sprite 统一解析;解析不到 undefined,画布跳过该实体)。 */
@@ -151,7 +151,7 @@ export function SceneCanvas(props: {
 
     // M2a:视窗可选 —— 缺省整张图(迁移场景无 room;demo 保留)。整图编辑:room 决定 tile
     // 遍历范围,相机(camera)= 用户平移,worldScale = 用户缩放(renderScene 不夹相机)。
-    const room = scene.map.room ?? { col: 0, row: 0, cols: map.width, rows: map.height }
+    const room = mapRoom(scene.map) ?? { col: 0, row: 0, cols: map.width, rows: map.height }
     const entryDragging = drag && drag.id === ENTRY_HIT_ID
     const entryCell = entryDragging
       ? { col: drag.col, row: drag.row, height: scene.entry.pos.height ?? 0 }

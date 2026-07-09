@@ -113,20 +113,46 @@ export interface HostileBehavior {
 /** 场景实体 = 公共字段 & (actor ⊕ sprite)。判别用 isActorEntity / resolveEntitySpriteId(actor.ts)。 */
 export type EntityDef = EntityBase & EntityRef
 
+/**
+ * 复用原版地图(demo/迁移):运行时按 mapNum 从 assets 加载 tilemap+tileset。
+ * ⚠ 原版一张图里塞了**多间**民居(定长 64×128 省资源);只取其中**完整一间**的格子矩形
+ * (cell 坐标)。reforge 只渲染/碰撞这个窗口,场景有效尺寸 = 这一间(验证 D3 变尺寸)。
+ */
+export interface ReuseMap {
+  reuseOriginalMap: number
+  /** 可选视窗:房间在原图里的格子矩形(旧 cell 坐标)。**缺省 = 整张图**(原版无房间概念,
+   *  相机夹全图包围盒;room 是 demo 单间切片的发明,迁移场景一律不填)。M2 设计 §1。 */
+  room?: { col: number; row: number; cols: number; rows: number }
+}
+
+/** 自有地图(W7):工程内 `content/maps/<id>.json`(Tilemap 形),作者绘制,脱离原版。 */
+export interface OwnMapRef {
+  /** 工程内相对路径,如 `content/maps/<id>.json`。 */
+  ownMap: string
+}
+
+/** 场景地图 = 复用原版 ⊕ 自有地图。判别用 isReuseMap。 */
+export type SceneMap = ReuseMap | OwnMapRef
+
+/** 判别:复用原版地图(含 reuseOriginalMap 键)vs 自有地图(ownMap)。 */
+export function isReuseMap(m: SceneMap): m is ReuseMap {
+  return 'reuseOriginalMap' in m
+}
+
+/** 复用原版地图号;自有地图返回 undefined(渲染分流由调用方按 isReuseMap 处理)。 */
+export function reuseMapNum(m: SceneMap): number | undefined {
+  return isReuseMap(m) ? m.reuseOriginalMap : undefined
+}
+
+/** 房间视窗(仅复用原版地图有;自有地图 undefined = 整图)。 */
+export function mapRoom(m: SceneMap): ReuseMap['room'] {
+  return isReuseMap(m) ? m.room : undefined
+}
+
 export interface SceneDef {
   id: string
-  /**
-   * demo：复用一张原版地图（运行时按 mapNum 从 /extracted 加载）。
-   * ⚠ 原版一张图里塞了**多间**民居（定长 64×128 省资源）；只取其中**完整一间**的
-   * 格子矩形（cell 坐标）。reforge 只渲染 / 碰撞这个窗口，场景有效尺寸 = 这一间
-   * （验证 D3 变尺寸）。将来编辑器产出的场景会换成自有地图数据。
-   */
-  map: {
-    reuseOriginalMap: number
-    /** 可选视窗:房间在原图里的格子矩形(旧 cell 坐标)。**缺省 = 整张图**(原版无房间概念,
-     *  相机夹全图包围盒;room 是 demo 单间切片的发明,迁移场景一律不填)。M2 设计 §1。 */
-    room?: { col: number; row: number; cols: number; rows: number }
-  }
+  /** 场景地图:复用原版(reuseOriginalMap)或自有(ownMap)。W7 起为联合。 */
+  map: SceneMap
   /** BGM 槽(原版音乐号;窄扫描自 onEnter 链头 playMusic)。缺省 = 延续上一曲(忠实原版)。 */
   musicId?: number
   /**

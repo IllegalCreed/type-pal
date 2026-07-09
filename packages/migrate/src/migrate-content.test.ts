@@ -5,7 +5,9 @@ import { fileURLToPath } from 'node:url'
 import type { ActorDef, SpriteDef } from '@type-pal/content'
 import {
   buildWorld,
+  mapRoom,
   pixelToGrid,
+  reuseMapNum,
   validateActors,
   validateItems,
   validateLocale,
@@ -396,8 +398,8 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
 
   test('s001:mapNum/实体数/坐标零换算/触发区跳过', () => {
     const s1 = byId.get('s001')!
-    expect(s1.map.reuseOriginalMap).toBe(12)
-    expect(s1.map.room).toBeUndefined() // 原版无房间概念 → 整图
+    expect(reuseMapNum(s1.map)).toBe(12)
+    expect(mapRoom(s1.map)).toBeUndefined() // 原版无房间概念 → 整图
     // 32 对象 = 13 可见实体 + 19 隐形触发区(M3a 起 zone 实体随触发脚本全迁)
     expect(s1.entities).toHaveLength(32)
     expect(s1.entities.filter((e) => 'zone' in e)).toHaveLength(19)

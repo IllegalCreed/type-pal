@@ -20,7 +20,9 @@ import type {
 import {
   isActorEntity,
   lookupText,
+  mapRoom,
   resolveEntitySpriteId,
+  reuseMapNum,
   validateReferences,
 } from '@type-pal/content'
 import type { AssetBase, LoadedProject } from '@type-pal/reforge'
@@ -384,7 +386,7 @@ export function App(props: {
                     return
                   }
                   session.dispatch(
-                    new AddSceneCommand(id, scene.map.reuseOriginalMap, scene.entry),
+                    new AddSceneCommand(id, reuseMapNum(scene.map) ?? 0, scene.entry),
                   )
                   switchPlaceScene(id)
                 }}
@@ -1165,13 +1167,17 @@ function SceneInspector(props: {
           <input
             className="in mono"
             type="number"
-            title="复用原版地图号(改后画布即重载;自有地图编辑器 = W7 立项)"
-            value={scene.map.reuseOriginalMap}
+            title="复用原版地图号(改后画布即重载;自有地图 = W7)"
+            value={reuseMapNum(scene.map) ?? 0}
             onChange={(e) =>
               Number.isFinite(e.target.valueAsNumber) &&
               session.dispatch(
                 new UpdateSceneCommand(scene.id, {
-                  map: { ...scene.map, reuseOriginalMap: e.target.valueAsNumber },
+                  // 构造干净 ReuseMap(保留 room);自有地图编辑此字段即转回复用
+                  map: {
+                    reuseOriginalMap: e.target.valueAsNumber,
+                    ...(mapRoom(scene.map) ? { room: mapRoom(scene.map) } : {}),
+                  },
                 }),
               )
             }
