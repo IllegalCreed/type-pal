@@ -37,6 +37,28 @@ Branch: TBD
 - 文档:
 - 视觉 / 手工验证:
 
+## 推进签字
+
+签字是阶段门禁。所有非小改任务必须集齐三方签字才能推进;缺签只能由用户明确豁免。`Status` 字段不能替代签字。
+
+### 进入 build 前:设计签字
+
+- Codex: pending | agree | counter
+- Opus: pending | agree | counter
+- GLM: pending | agree | counter
+- counter / 分歧处理:
+- 缺签豁免: N/A | 用户已批准(写明缺席方、原因、代班方、是否需补签)
+- build 准入结论: blocked | build allowed
+
+### 进入 done 前:审查签字
+
+- Codex: pending | accept | counter
+- Opus: pending | accept | counter
+- GLM: pending | accept | counter
+- counter / 返工处理:
+- 缺签豁免: N/A | 用户已批准(写明缺席方、原因、代班方、是否需补签)
+- done 准入结论: blocked | done allowed
+
 ## Draft: 设计与风险
 
 ### 设计结论
@@ -48,18 +70,18 @@ Branch: TBD
 - 风险:
 - 缓解:
 
-### 审查方立场
+### 主审立场
 
-按任务性质选择一个默认审查方。架构/schema/跨包/视觉高风险优先 Opus;覆盖/数据/文档优先 GLM。
+按任务性质选择一个默认主审方。架构/schema/跨包/视觉高风险优先 Opus;覆盖/数据/文档优先 GLM。主审立场不替代“推进签字”。
 
 - Reviewer:
 - 结论:
 - 必改项:
-- 是否允许进入 build: pending
+- 是否建议进入 build: pending
 
-### 三方共识记录(按需)
+### 三方争议记录(按需)
 
-仅在 schema/save/migration/asset pipeline、新能力格、跨包公共接口、capability-map 状态变化、两方分歧、用户要求或 Coding Owner 自评高风险时填写。
+仅在 schema/save/migration/asset pipeline、新能力格、跨包公共接口、capability-map 状态变化、签字 counter、用户要求或 Coding Owner 自评高风险时填写。
 
 - Codex:
 - Opus:
@@ -124,3 +146,19 @@ Branch: TBD
 按日期追加。每条写清楚:行动者、证据、下一步。
 
 - YYYY-MM-DD Actor: 摘要。Evidence: 链接/测试。Next: actor/state。
+
+## 下一位 Agent 提示词
+
+每次需要用户转交给下一位 Agent 时,由当前 Agent 更新本节,并在最终回复中给出同一段可复制文本。若暂无下一位,写“无,等待用户验收/收口”。
+
+```text
+接手任务:
+任务卡:
+当前状态:
+你的角色:
+先读:
+已完成:
+请你做:
+不要做:
+输出要求:
+```
