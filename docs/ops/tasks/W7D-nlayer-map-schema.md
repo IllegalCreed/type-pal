@@ -71,12 +71,12 @@ Branch: main
 
 ### 进入 build 前:设计签字
 
-- Codex: pending
+- Codex: agree(2026-07-09;实现可行,验证方案可执行,分期切法合理;见 Draft「Codex 设计签字说明」)
 - Opus: agree(起草本卡;设计结论见 Draft)
 - GLM: pending
 - counter / 分歧处理:
 - 缺签豁免: N/A
-- build 准入结论: **blocked**(待 Codex + GLM 设计签字)
+- build 准入结论: **blocked**(待 GLM 设计签字)
 
 ### 进入 done 前:审查签字
 
@@ -132,28 +132,39 @@ Branch: main
 - 风险:层列表 UI 是新形态延伸。
   缓解:照 RPG Maker/Tiled 惯例(用户已授权惯例路线);形态分歧再问用户。
 
+### Codex 设计签字说明(2026-07-09)
+
+结论:**agree**。
+
+- 实现可行性:现有 `loadSceneMap`/`loadAllOwnMaps` 已经把 reuse 与 own 地图加载集中到单点,适合改为旧 `Tilemap` 与新 `OwnMap` union 分流;`EditSession` + Command apply/invert 也适合把旧 `{word,mask}` 载荷替换成 N 层编辑载荷。
+- 工作量判断:这是 schema 级返工,不能当 W7C 小修做。D1/D2/D3 分期合理,其中 D1 必须先完成类型与渲染分流,让 TS 把漏改消费点暴露出来;D2 再接编辑器 UI/命令;D3 收碰撞、引擎行走验证和文档。
+- 验证方案:单测覆盖 schema guard、lattice 几何、层操作、绘制命令 apply/invert、碰撞层;浏览器 6010 覆盖建图→多层绘制→碰撞→保存序列化→重载→引擎/编辑器渲染一致;reuse 场景必须回归,避免旧图兼容层被误伤。
+- 实现约束:编辑命令内部应优先以稳定 `layer.id` 定位图层,不要把裸 `layerIdx` 作为长期身份;重排/删除命令负责捕获旧层与旧索引用于 undo。数组下标只作为当前 z 序和渲染顺序。
+- 实现约束:把 lattice 行列与像素/格坐标转换集中成 helper,禁止把旧 `h` 或 `cell.lower/upper` 概念重新暴露给新 schema/API。
+- 实现约束:OwnMap 校验需钉住 `layers.length >= 1`、每层 `tiles` 尺寸为 `2*height × width`、`collision` 同维度、layer id 唯一;无效数据应在加载/编辑入口早失败。
+
 ### 审查方立场
 
 - 主审:三方(schema 级)。
-- 是否建议进入 build: 待 Codex / GLM 设计签字。
+- 是否建议进入 build: 待 GLM 设计签字(Codex agree,Opus agree)。
 
 ## 交接日志
 
 - 2026-07-09 Opus: 认领 W7a 旧格式地基失误,起草本卡(schema 候选 A + 分期 + 风险);
   用户授权「按最合理方式」→ 本卡立项。Evidence: 本卡 + W7C-3 交接日志。Next: Codex + GLM / 设计签字。
+- 2026-07-09 Codex: 设计签字 agree。实现可行,分期合理;补充稳定 layer.id、lattice helper、OwnMap 校验等实现约束。Evidence: 推进签字与 Codex 设计签字说明。Next: GLM / 覆盖审查设计签字。
 
 ## 下一位 Agent 提示词
 
 ```text
 接手任务: W7D - 自有地图 N 层新格式(schema 级返工)
 任务卡: docs/ops/tasks/W7D-nlayer-map-schema.md
-当前状态: draft(build 准入 blocked,待你签字)
-你的角色: 设计签字(Codex:实现可行性/验证方案/工作量;GLM:覆盖清单/测试矩阵/
-  schema 数据风险/文档遗漏)
+当前状态: draft(build 准入 blocked,Opus agree + Codex agree,待 GLM 签字)
+你的角色: GLM 设计签字(覆盖清单/测试矩阵/schema 数据风险/文档遗漏)
 先读: AGENTS.md 三贤人协议;本卡全部(尤其「上下文锚点」「Draft 设计结论」);
   docs/phase2/decisions.md D16;docs/phase2/foundation/content-schema.md §5。
 已完成: Opus 起草 schema 候选 A(错排 lattice 紧凑数组 + N 层 + 独立碰撞层)、
-  分期方案、风险清单;W7C-3 已定性为旧格式兼容切片(另卡)。
+  分期方案、风险清单;Codex 已从实现可行性/验证方案/工作量角度签 agree,并补充 layer.id、lattice helper、OwnMap 校验等实现约束;W7C-3 已定性为旧格式兼容切片(另卡)。
 请你做: 审本卡设计结论与风险,输出 agree 或 counter + 理由;counter 请附替代方案
   (尤其若你认为网格表达/遮挡语义/分期切法应改)。
 不要做: 不要开始实现(build 准入签字未齐);不要重新引入 u32 位编码/mask/h API/
