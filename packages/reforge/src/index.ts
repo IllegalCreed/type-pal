@@ -19,14 +19,21 @@ import {
   loadBattleBg,
   loadBattleSprite,
   loadFireSprite,
+  loadOwnMap,
   loadPalette,
   loadSprite,
   loadTilemap,
-  loadTileset,
+  loadTilesetByPath,
 } from './assets.js'
 import type { AssetBase, LoadedSprite } from './assets.js'
-export { decompressGzip, loadBattleBg, loadBattleSprite, loadFireSprite, loadPalette, loadSprite, loadTilemap, loadTileset }
+export { decompressGzip, loadBattleBg, loadBattleSprite, loadFireSprite, loadOwnMap, loadPalette, loadSprite, loadTilemap, loadTilesetByPath }
 export type { AssetBase, LoadedSprite }
+
+// 场景地图分流(W7a-4:复用原版 ⊕ 自有地图 → 同形 {map, tiles};引擎 + 编辑器共用)
+import { loadSceneMap } from './scene-map.js'
+import type { SceneMapAssets } from './scene-map.js'
+export { loadSceneMap }
+export type { SceneMapAssets }
 
 // 工程 loader(manifest + content JSON → LoadedProject)
 import { assembleProject, loadAllScenes, loadProject, loadProjectFrom, loadSceneDef } from './loader.js'

@@ -14,7 +14,7 @@ import type {
   ScriptStage,
   SpriteDef,
 } from '@type-pal/content'
-import { gridToPixel, lookupText, mapRoom, resolveEntitySpriteId, reuseMapNum, spriteScreenY } from '@type-pal/content'
+import { gridToPixel, lookupText, mapRoom, resolveEntitySpriteId, spriteScreenY } from '@type-pal/content'
 import type { AssetBase, SpriteDraw } from '@type-pal/reforge'
 import {
   idleFrameIndex,
@@ -125,11 +125,10 @@ export function PreviewCanvas(props: {
     return [...nums]
   }, [scene, stages, spriteById, leaderSpriteId])
 
-  const mapNum = reuseMapNum(scene.map) ?? 0 // 自有地图渲染分流待 W7a-4
   const { status, err, loadedRef } = useSceneAssets({
     canvasRef,
     assetBase,
-    mapNum,
+    sceneMap: scene.map,
     spriteNums,
   })
 

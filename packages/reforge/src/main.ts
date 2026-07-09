@@ -21,8 +21,9 @@ import {
   pixelDeltaToGridDelta,
   pixelToGrid,
   resolveEntitySpriteId,
-  reuseMapNum,
   type SceneDef,
+  type SceneMap,
+  sceneMapKey,
   type ScriptStage,
   type SpriteDef,
   spriteScreenY,
@@ -43,9 +44,9 @@ import {
   loadGlyphs,
   loadPalette,
   loadSprite,
-  loadTilemap,
-  loadTileset,
 } from './assets.js'
+import { loadSceneMap } from './scene-map.js'
+import type { SceneMapAssets } from './scene-map.js'
 import { createBgmPlayer } from './audio/bgm.js'
 import { SfxPlayer } from './audio/sfx.js'
 import { getEnemyBasePos, getPlayerBasePos } from './battle/battle-positions.js'
@@ -218,25 +219,21 @@ async function main(): Promise<void> {
   // ── 场景资产缓存(M2c,设计 §3):map/tileset 按 mapNum LRU(cap16 + protect 当前,
   // 修一阶段按 sceneId 双取坑);palette/sceneDef 小缓存;精灵跨场景累积。──
   const MAP_CACHE_CAP = 16
-  const mapCache = new Map<number, { map: Tilemap; tiles: Map<number, RleFrame> }>()
-  async function getMapAssets(
-    mapNum: number,
-  ): Promise<{ map: Tilemap; tiles: Map<number, RleFrame> }> {
-    const hit = mapCache.get(mapNum)
+  // 键 = sceneMapKey(复用 `r:<号>` / 自有 `o:<路径>`)—— 自有地图无 mapNum,需稳定字符串键(W7a-4)。
+  const mapCache = new Map<string, SceneMapAssets>()
+  async function getMapAssets(sceneMap: SceneMap): Promise<SceneMapAssets> {
+    const key = sceneMapKey(sceneMap)
+    const hit = mapCache.get(key)
     if (hit) {
-      mapCache.delete(mapNum) // LRU touch(Map 插入序 = LRU 序)
-      mapCache.set(mapNum, hit)
+      mapCache.delete(key) // LRU touch(Map 插入序 = LRU 序)
+      mapCache.set(key, hit)
       return hit
     }
-    const [m, t] = await Promise.all([
-      loadTilemap(project.assetBase, mapNum),
-      loadTileset(project.assetBase, mapNum),
-    ])
-    const entry = { map: m, tiles: t }
-    mapCache.set(mapNum, entry)
+    const entry = await loadSceneMap(project.assetBase, sceneMap)
+    mapCache.set(key, entry)
     while (mapCache.size > MAP_CACHE_CAP) {
       const oldest = mapCache.keys().next().value
-      if (oldest === undefined || oldest === mapNum) break // protect 当前
+      if (oldest === undefined || oldest === key) break // protect 当前
       mapCache.delete(oldest)
     }
     return entry
@@ -416,7 +413,7 @@ async function main(): Promise<void> {
     spawn?: { entry?: string; pos?: GridPos; facing?: Facing },
   ): Promise<void> {
     const def = await getSceneDef(sceneId)
-    const assets = await getMapAssets(reuseMapNum(def.map) ?? 0) // 自有地图(ownMap)引擎分流待 W7a-4
+    const assets = await getMapAssets(def.map) // 复用原版 ⊕ 自有地图,分流内建于 loadSceneMap
     const pal = await getPalette(Number(params.get('pal') ?? 0)) // 只留盘 0(W7a-3);?pal= 仅 dev 调试兜底
     const defs = new Map<string, SpriteDef>()
     for (const e of def.entities) {

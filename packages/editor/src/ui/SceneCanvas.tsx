@@ -8,7 +8,7 @@
  */
 
 import type { ActorDef, SceneDef, SpriteDef } from '@type-pal/content'
-import { gridToPixel, mapRoom, pixelToGrid, resolveEntitySpriteId, reuseMapNum, spriteScreenY } from '@type-pal/content'
+import { gridToPixel, mapRoom, pixelToGrid, resolveEntitySpriteId, spriteScreenY } from '@type-pal/content'
 import type { AssetBase, SpriteDraw } from '@type-pal/reforge'
 import { idleFrameIndex, renderSceneFrame, spriteBlitRect } from '@type-pal/reforge'
 import { useEffect, useRef, useState } from 'react'
@@ -116,7 +116,6 @@ export function SceneCanvas(props: {
     })
   }
 
-  const mapNum = reuseMapNum(scene.map) ?? 0 // 自有地图渲染分流待 W7a-4
   const spriteById = new Map(sprites.map((s) => [s.id, s]))
   /** 实体 → SpriteDef(actor⊕sprite 统一解析;解析不到 undefined,画布跳过该实体)。 */
   const entitySpriteDef = (e: SceneDef['entities'][number]): SpriteDef | undefined => {
@@ -136,7 +135,7 @@ export function SceneCanvas(props: {
   const { status, err, loadedRef } = useSceneAssets({
     canvasRef,
     assetBase,
-    mapNum,
+    sceneMap: scene.map,
     spriteNums,
   })
 

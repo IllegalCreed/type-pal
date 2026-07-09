@@ -66,13 +66,31 @@ export function loadTilemap(base: AssetBase, mapNum: number): Promise<Tilemap> {
   return readAssetJson<Tilemap>(base, `${base.root}/${base.maps}/${mapNum}.json`)
 }
 
+/**
+ * 自有地图(W7):从工程内 content 路径读 Tilemap(经 source,相对工程根,如
+ * `content/maps/<id>.json`)。与复用原版地图的唯一分歧只在「Tilemap 从哪来」——
+ * tileset 之后统一由 map.tileset 字段解析(loadTilesetByPath)。ownMap 仅存在于
+ * source-backed 工程(loadProjectFrom 注入),故必经 source。
+ */
+export function loadOwnMap(base: AssetBase, ownMapPath: string): Promise<Tilemap> {
+  return readAssetJson<Tilemap>(base, ownMapPath)
+}
+
 export function loadPalette(base: AssetBase, palId: number): Promise<Palette> {
   return readAssetJson<Palette>(base, `${base.root}/${base.palettes}/${palId}.json`)
 }
 
-/** 原版 .rle tileset blob:gzip 解压 → parseSpriteChunk → 按 tile 下标索引的帧。 */
-export async function loadTileset(base: AssetBase, mapNum: number): Promise<Map<number, RleFrame>> {
-  const raw = await readAssetBytes(base, `${base.root}/${base.tilesets}/${mapNum}.rle`, `tileset ${mapNum}`)
+/**
+ * tileset(.rle = gzip GOP chunk)→ 解压 → parseSpriteChunk → 按 tile 下标索引的帧。
+ * 路径 = Tilemap.tileset 字段(相对 assets root,如 `tileset/56.rle`);复用与自有地图共用同一解析。
+ * ⚠ 不再从 mapNum 反推 —— 地图自描述其 tileset(Phase-2 杜绝下标式身份;复用图 tileset 恰为
+ * `tileset/<mapNum>.rle`,故对复用图逐字节等价于旧 loadTileset(mapNum),零行为变化)。
+ */
+export async function loadTilesetByPath(
+  base: AssetBase,
+  tilesetPath: string,
+): Promise<Map<number, RleFrame>> {
+  const raw = await readAssetBytes(base, `${base.root}/${tilesetPath}`, `tileset ${tilesetPath}`)
   const frames = parseSpriteChunk(await decompressGzip(new Blob([raw])))
   const map = new Map<number, RleFrame>()
   frames.forEach((f, i) => {

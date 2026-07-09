@@ -8,16 +8,15 @@
  * 即恶果。
  */
 
-import type { SceneDef } from '@type-pal/content'
-import { gridToPixel } from '@type-pal/content'
-import type { AssetBase, LoadedSprite } from '@type-pal/reforge'
+import type { SceneDef, SceneMap } from '@type-pal/content'
+import { gridToPixel, sceneMapKey } from '@type-pal/content'
+import type { AssetBase, LoadedSprite, SceneMapAssets } from '@type-pal/reforge'
 import {
   buildIsBlocked,
   Canvas2DRenderer,
   loadPalette,
+  loadSceneMap,
   loadSprite,
-  loadTilemap,
-  loadTileset,
 } from '@type-pal/reforge'
 import { type RefObject, useEffect, useRef, useState } from 'react'
 
@@ -28,7 +27,7 @@ const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > 
 
 export interface StageAssets {
   renderer: Canvas2DRenderer
-  map: Awaited<ReturnType<typeof loadTilemap>>
+  map: SceneMapAssets['map']
   spritesByNum: Map<number, LoadedSprite>
 }
 
@@ -51,19 +50,20 @@ export function useStageSize(
   return size
 }
 
-/** 场景资产加载(tilemap/tileset/palette + 指定精灵号)。spriteNums 以 key 串比较防重载。 */
+/** 场景资产加载(map/tileset/palette + 指定精灵号)。sceneMap/spriteNums 以 key 串比较防重载。 */
 export function useSceneAssets(opts: {
   canvasRef: RefObject<HTMLCanvasElement | null>
   assetBase: AssetBase
-  mapNum: number
+  sceneMap: SceneMap
   spriteNums: number[]
 }): { status: 'loading' | 'ready' | 'error'; err: string; loadedRef: RefObject<StageAssets | null> } {
-  const { canvasRef, assetBase, mapNum, spriteNums } = opts
+  const { canvasRef, assetBase, sceneMap, spriteNums } = opts
   const loadedRef = useRef<StageAssets | null>(null)
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
   const [err, setErr] = useState('')
   const spriteNumsKey = spriteNums.join(',')
-  // biome-ignore lint/correctness/useExhaustiveDependencies: spriteNums 以 key 串比较(数组身份每渲染变)
+  const mapKey = sceneMapKey(sceneMap) // 复用 `r:<号>` / 自有 `o:<路径>`,稳定串防对象身份误触重载
+  // biome-ignore lint/correctness/useExhaustiveDependencies: sceneMap/spriteNums 以 key 串比较(对象/数组身份每渲染变)
   useEffect(() => {
     const ctx = canvasRef.current?.getContext('2d')
     if (!ctx) return
@@ -71,9 +71,8 @@ export function useSceneAssets(opts: {
     setStatus('loading')
     void (async () => {
       try {
-        const [map, tiles, palette] = await Promise.all([
-          loadTilemap(assetBase, mapNum),
-          loadTileset(assetBase, mapNum),
+        const [{ map, tiles }, palette] = await Promise.all([
+          loadSceneMap(assetBase, sceneMap), // 复用原版 ⊕ 自有地图,分流内建
           loadPalette(assetBase, 0), // 只留盘 0(W7a-3:调色板概念退役)
         ])
         const entries = await Promise.all(
@@ -96,7 +95,7 @@ export function useSceneAssets(opts: {
     return () => {
       alive = false
     }
-  }, [assetBase, mapNum, spriteNumsKey, canvasRef])
+  }, [assetBase, mapKey, spriteNumsKey, canvasRef])
   return { status, err, loadedRef }
 }
 

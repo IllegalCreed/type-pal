@@ -149,6 +149,11 @@ export function mapRoom(m: SceneMap): ReuseMap['room'] {
   return isReuseMap(m) ? m.room : undefined
 }
 
+/** 稳定缓存键:复用→`r:<原版号>`,自有→`o:<工程内路径>`。引擎地图 LRU / 编辑器资产重载比较共用。 */
+export function sceneMapKey(m: SceneMap): string {
+  return isReuseMap(m) ? `r:${m.reuseOriginalMap}` : `o:${m.ownMap}`
+}
+
 export interface SceneDef {
   id: string
   /** 场景地图:复用原版(reuseOriginalMap)或自有(ownMap)。W7 起为联合。 */
