@@ -56,10 +56,10 @@ Capability: W7c
 
 - Codex: accept(自测与浏览器像素验证已记录在 Build 段)
 - Opus: accept **仅限「旧 Tilemap 兼容切片」定位**(实现质量复验通过,见 Review 段;但经核实 D16「h/lower-upper 不进新地图模型」与 content-schema §5「N 视觉层 + 独立碰撞层」,本任务的双层/位编码是明文待淘汰的旧格式 —— 不得作为 W7「任意图层」的完成验收;若用户裁决按新格式返工设计,本签字改 counter 并支持返工)
-- GLM: pending
+- GLM: **accept**（仅作为旧 Tilemap 双层兼容切片）。测试矩阵 14 条覆盖充分（masked write 互不干扰 / layer1 ±1 往返 / 碰撞 set·clear / floodFill mask 连通 / invert 整 word 还原），无遗漏关键路径。切片边界清晰（:14-17 标注兼容切片，不得作 N 图层完成收口）；capability-map W7 仍标 ❌ 与切片定性一致；旧格式 encode/mask/pixelToTile 退役归 W7D（:121-122 已标）。限制：accept 仅限兼容切片定性，N 层新格式验收归 W7D。
 - counter / 返工处理: 当前无必须返工项。
-- 缺签豁免: pending(若 GLM 额度耗尽或用户决定跳过,须在此补记)
-- done 准入结论: **blocked(仅剩 GLM 补签)**。用户已裁决(2026-07-09,授权 Opus 代拟):接受本任务按「旧 Tilemap 兼容切片」定性验收,不作为 W7 任意图层的完成;N 层新格式另立 W7D 返工卡。GLM 补签 accept 后即可 done。
+- 缺签豁免: N/A（三方签字已齐）
+- done 准入结论: **done allowed**（Codex accept + Opus accept + GLM accept，三方签字齐）。
 
 ### 流程偏差记录
 

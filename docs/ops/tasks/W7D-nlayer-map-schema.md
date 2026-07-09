@@ -73,10 +73,13 @@ Branch: main
 
 - Codex: agree(2026-07-09;实现可行,验证方案可执行,分期切法合理;见 Draft「Codex 设计签字说明」)
 - Opus: agree(起草本卡;设计结论见 Draft)
-- GLM: pending
-- counter / 分歧处理:
+- GLM: **agree**。候选 A 与 D16 / content-schema §5 完全对齐（N 视觉层数组序=z 序 / 独立碰撞层正交 / 尺寸可变 / tileId 无上限无偏移 / occlude 对齐 upper 语义 / 错排 lattice 紧凑数组与 collision.ts+render.ts 同源）。附 2 条覆盖补充（非 counter，build 时补）+ 1 条风险提醒：
+  - **覆盖补充 1（build 前定）**：碰撞层 `[2*height]×[width]` 是子格维度，但引擎行走碰撞（isBlocked）当前读逻辑格 `map.height`。逻辑格碰撞判定 = 该格两个子格碰撞值的聚合规则（任一阻挡即阻挡？还是两个都阻挡？）候选 A 未写，build 前须定，测试矩阵须覆盖。
+  - **覆盖补充 2（build 前定）**：occlude 层 `null` 格（无瓦）的 cover-tile 深度表处理——应跳过（不遮挡，对齐旧 upper=0 语义）。测试须覆盖"occlude 层 null 格不产 cover tile"。
+  - **风险提醒**：分期 D1→D2 之间编辑器旧格式绘制路径仍在（W7C-3 刚 accept），D1 切新格式后编辑器未改前可能误用旧格式画图。建议 D1 收尾加"旧格式编辑器路径禁用/标灰"守卫。
+- counter / 分歧处理: 当前无 counter。
 - 缺签豁免: N/A
-- build 准入结论: **blocked**(待 GLM 设计签字)
+- build 准入结论: **三签齐（Codex agree + Opus agree + GLM agree），build allowed**。由用户指定 Coding Owner 进 build。
 
 ### 进入 done 前:审查签字
 
