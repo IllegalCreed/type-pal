@@ -34,8 +34,9 @@ import type { ContentJsons, LoadedProject, LoadedProjectCore } from './loader.js
 export { assembleProject, loadAllScenes, loadProject, loadSceneDef }
 export type { ContentJsons, LoadedProject, LoadedProjectCore }
 
-// 文件源抽象(内容 + 素材统一「从哪读」;httpSource=dev/种子,fsaSource=本地工程 P3)
+// 文件源抽象(内容 + 素材统一「从哪读」;httpSource=dev/种子,fsaSource=本地工程)
 export { type FileSource, httpSource } from './file-source.js'
+export { fsaSource } from './fsa-source.js'
 
 // 碰撞判定(编辑器画禁入格复用,与游戏同一套 → 不漂移)
 import { buildIsBlocked, isBlockedAt } from './collision.js'
