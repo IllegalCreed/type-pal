@@ -51,9 +51,9 @@ async function fetchJson<T>(url: string): Promise<T> {
 }
 
 /** 经 source 读素材字节(缺 source → 裸 fetch,向后兼容);404/HTML 按缺失报,附指路。 */
-async function readAssetBytes(base: AssetBase, path: string, label: string): Promise<Uint8Array> {
-  if (base.source) return new Uint8Array(await base.source.readBytes(path))
-  return new Uint8Array(await (await fetchAsset(path, label)).arrayBuffer())
+async function readAssetBytes(base: AssetBase, path: string, label: string): Promise<ArrayBuffer> {
+  if (base.source) return base.source.readBytes(path)
+  return (await fetchAsset(path, label)).arrayBuffer()
 }
 
 /** 经 source 读素材 JSON(缺 source → 裸 fetch)。 */
@@ -72,9 +72,8 @@ export function loadPalette(base: AssetBase, palId: number): Promise<Palette> {
 
 /** 原版 .rle tileset blob:gzip 解压 → parseSpriteChunk → 按 tile 下标索引的帧。 */
 export async function loadTileset(base: AssetBase, mapNum: number): Promise<Map<number, RleFrame>> {
-  const res = await fetchAsset(`${base.root}/${base.tilesets}/${mapNum}.rle`, `tileset ${mapNum}`)
-  const bytes = await decompressGzip(await res.blob())
-  const frames = parseSpriteChunk(bytes)
+  const raw = await readAssetBytes(base, `${base.root}/${base.tilesets}/${mapNum}.rle`, `tileset ${mapNum}`)
+  const frames = parseSpriteChunk(await decompressGzip(new Blob([raw])))
   const map = new Map<number, RleFrame>()
   frames.forEach((f, i) => {
     map.set(i, f)
@@ -91,11 +90,8 @@ export interface LoadedSprite {
 
 /** 原版大世界精灵:{root}/{sprites}/{spriteNum}.rle(gzip RLE 帧组)。 */
 export async function loadSprite(base: AssetBase, spriteNum: number): Promise<LoadedSprite> {
-  const res = await fetchAsset(
-    `${base.root}/${base.sprites}/${spriteNum}.rle`,
-    `sprite ${spriteNum}`,
-  )
-  const frames = parseSpriteChunk(await decompressGzip(await res.blob()))
+  const raw = await readAssetBytes(base, `${base.root}/${base.sprites}/${spriteNum}.rle`, `sprite ${spriteNum}`)
+  const frames = parseSpriteChunk(await decompressGzip(new Blob([raw])))
   const first = frames[0]
   return {
     frames,
@@ -113,11 +109,8 @@ export async function loadBattleSprite(
   kind: 'enemy' | 'player',
   id: number,
 ): Promise<LoadedSprite> {
-  const res = await fetchAsset(
-    `${base.root}/battle-sprite/${kind}/${id}.rle`,
-    `battle sprite ${kind}/${id}`,
-  )
-  const frames = parseSpriteChunk(await decompressGzip(await res.blob()))
+  const raw = await readAssetBytes(base, `${base.root}/battle-sprite/${kind}/${id}.rle`, `battle sprite ${kind}/${id}`)
+  const frames = parseSpriteChunk(await decompressGzip(new Blob([raw])))
   const first = frames[0]
   return {
     frames,
@@ -128,18 +121,15 @@ export async function loadBattleSprite(
 
 /** 物理命中特效精灵(chunk 10 = {root}/magic/effect.rle,gzip RLE;M4d-2)。 */
 export async function loadEffectSprite(base: AssetBase): Promise<LoadedSprite> {
-  const res = await fetchAsset(`${base.root}/magic/effect.rle`, 'effect sprite')
-  const frames = parseSpriteChunk(await decompressGzip(await res.blob()))
+  const raw = await readAssetBytes(base, `${base.root}/magic/effect.rle`, 'effect sprite')
+  const frames = parseSpriteChunk(await decompressGzip(new Blob([raw])))
   return { frames, anchorX: 0, anchorY: 0 }
 }
 
 /** 法术特效精灵(FIRE.MKF chunk = {root}/magic/fire-NN.rle;M4d-2b)。 */
 export async function loadFireSprite(base: AssetBase, chunk: number): Promise<LoadedSprite> {
-  const res = await fetchAsset(
-    `${base.root}/magic/fire-${String(chunk).padStart(2, '0')}.rle`,
-    `fire sprite ${chunk}`,
-  )
-  const frames = parseSpriteChunk(await decompressGzip(await res.blob()))
+  const raw = await readAssetBytes(base, `${base.root}/magic/fire-${String(chunk).padStart(2, '0')}.rle`, `fire sprite ${chunk}`)
+  const frames = parseSpriteChunk(await decompressGzip(new Blob([raw])))
   return { frames, anchorX: 0, anchorY: 0 }
 }
 
@@ -153,13 +143,9 @@ export interface BattleFieldEntry {
 
 /** 战场表(id → BattleFieldEntry)。缺文件由调用方 catch 空表兜底。 */
 export async function loadBattleFields(base: AssetBase): Promise<Map<number, BattleFieldEntry>> {
-  const res = await fetch(`${base.root}/battle-fields.json`)
-  if (!res.ok) throw new Error(`battle-fields: ${res.status}`)
-  const arr = (await res.json()) as Array<{
-    id: number
-    screenWave?: number
-    magicEffect?: BattleFieldEntry['magicEffect']
-  }>
+  const arr = await readAssetJson<
+    Array<{ id: number; screenWave?: number; magicEffect?: BattleFieldEntry['magicEffect'] }>
+  >(base, `${base.root}/battle-fields.json`)
   return new Map(
     arr.map((f) => [
       f.id,
@@ -189,9 +175,9 @@ export async function loadBattleBgFull(
   bgPath?: string,
 ): Promise<BattleBgAsset> {
   const imagesRoot = base.root.replace(/\/data$/, '/images')
-  const res = await fetch(`${imagesRoot}/${bgPath ?? `battle/bg/${String(id).padStart(3, '0')}.png`}`)
-  if (!res.ok) throw new Error(`battle bg ${id}: ${res.status}`)
-  const bitmap = await createImageBitmap(await res.blob())
+  const path = `${imagesRoot}/${bgPath ?? `battle/bg/${String(id).padStart(3, '0')}.png`}`
+  const bytes = await readAssetBytes(base, path, `battle bg ${id}`)
+  const bitmap = await createImageBitmap(new Blob([bytes]))
   const cvs = document.createElement('canvas')
   cvs.width = bitmap.width
   cvs.height = bitmap.height
