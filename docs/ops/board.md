@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| [`W7C-3`](tasks/W7C-3-dual-layer-collision-brush.md) | 地图绘制:双层 + 碰撞笔刷 | build | Codex 实现,完成后 Opus 复验 | 换手首单;锚点卡备齐(子格 u32 + masked 写入定向)。 |
+| [`W7C-3`](tasks/W7C-3-dual-layer-collision-brush.md) | 地图绘制:双层 + 碰撞笔刷 | review | Opus 复验 | Codex build 完成;masked 写入、layer1、碰撞笔刷、6010 像素验证已记录。 |
 
 ## 阻塞
 

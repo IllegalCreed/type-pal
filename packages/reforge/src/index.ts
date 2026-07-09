@@ -48,9 +48,15 @@ export { fsaSource } from './fsa-source.js'
 // 自有地图(W7):Tilemap 形的作者地图构造/编辑 + 绘制纯逻辑(W7c:笔刷/矩形/填充)
 export {
   buildBlankOwnMap,
+  COLLISION_MASK,
   encodeTileLayer0,
+  encodeTileLayer1,
   floodFillSubTiles,
+  LAYER0_TILE_MASK,
+  LAYER1_CLEAR_MASK,
+  LAYER1_TILE_MASK,
   MAX_LAYER0_TILE,
+  MAX_LAYER1_TILE,
   paintCells,
   subTilesInRect,
 } from './own-map.js'

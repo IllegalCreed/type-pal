@@ -1,6 +1,6 @@
 # W7C-3 - 地图绘制:双层(layer1)+ 碰撞笔刷
 
-Status: build
+Status: review
 Owner: Codex
 Reviewer: Opus(视觉级复验)
 Phase: phase2
@@ -34,6 +34,49 @@ Capability: W7c
 - 浏览器(6010 → 地图模式 → 建自有图):画 layer0 后既有 layer1/碰撞位不变;上层画瓦叠加可见;碰撞笔刷红色叠加即时显隐、可擦;undo/redo 像素级;保存序列化含新位。
 - 门禁:reforge + editor typecheck/test 全绿;game 2294 不回归。
 
+## Build: 实现与自测
+- Coding Owner: Codex
+- 修改文件:
+  - `packages/reforge/src/own-map.ts` / `own-map.test.ts` / `index.ts`
+  - `packages/editor/src/core/commands.ts` / `commands.test.ts`
+  - `packages/editor/src/ui/MapMode.tsx`
+  - `docs/ops/board.md` / 本任务卡
+- 实现摘要:
+  - `SubTileEdit` 增加可选 `mask`;`paintCells` 改为 `(old & ~mask) | (word & mask)`,缺省仍兼容整 word 覆盖。
+  - 新增 layer1 编码与掩码常量;`floodFillSubTiles` 支持按 mask 判断连通区。
+  - `PaintTilesCommand` 的 undo 旧值记录改为不带 mask,确保 invert 全 word 精确还原。
+  - 地图模式增加下层/上层切换、layer1 绘制/擦除、碰撞标记/清除、碰撞叠加开关;笔刷/矩形/填充/预览统一走 masked edit。
+  - 地图工具栏改为专用 `map-toolbar` 工具组布局;空间不足时自动换行,画布随工具栏高度下移。
+- 运行命令:
+  - `pnpm --filter @type-pal/reforge test`
+  - `pnpm --filter @type-pal/editor test`
+  - `pnpm --filter @type-pal/reforge typecheck`
+  - `pnpm --filter @type-pal/editor typecheck`
+  - `pnpm --filter @type-pal/game test`(120 files / 2294 tests)
+  - `pnpm check`
+- 浏览器 / 手工检查:
+  - 6010 已有 editor dev server;用系统 Chrome + Playwright 打开 `http://[::1]:6010/`。
+  - 流程:地图模式 → 新建自有地图 → 同一子格 `(12,11,h0)` 画下层 #1 → 画上层 #2 → 标记碰撞 → undo/redo 碰撞 → 下层重画 #3 → 清除碰撞。
+  - 结果:重画后 word = `204803`,解码为 layer0 #3 + layer1 #2 + collision bit;浏览器内 `serializeProject` 输出同一 word。
+  - 像素证据:`/private/tmp/w7c3-blank.png`, `/private/tmp/w7c3-lower.png`, `/private/tmp/w7c3-upper.png`, `/private/tmp/w7c3-collision-set.png`, `/private/tmp/w7c3-undo-collision.png`, `/private/tmp/w7c3-redo-collision.png`, `/private/tmp/w7c3-lower-repaint.png`, `/private/tmp/w7c3-collision-clear.png`。
+  - Canvas hash / 红色像素:blank `400979840/0`;lower `194243175/0`;upper `3715762858/0`;collision `2841328405/7`;undo collision `3715762858/0`;redo collision `2841328405/7`;clear `3715762858/0`。
+  - 工具栏换行检查:1440×920 视口中心区宽 `904px`,工具栏高 `61px`,工具组 `2` 行,canvasTop = toolbarBottom = `101`,截图 `/private/tmp/w7c3-toolbar-wrap-1440.png`。
+- 跳过的检查及原因:
+  - 未点击真实 FSA 保存落盘,避免把验证用 `content/maps/s000.json` 写入工程;改用浏览器内同一 session 的 `serializeProject` 文件集验证保存序列化包含新位。
+
+## Review: 审查与返工
+- Reviewer: Opus(视觉级复验)
+- 审查结论: **accept**。独立复验全部通过:
+  - 代码审:masked write 按卡定向精确落地(掩码常量/±1 偏移/`>>>0` 无符号处理全对);PaintTilesCommand prev 显式不带 mask → invert 整 word 精确还原 ✓;floodFill 按 mask 判连通是合理的超范围增强;UI 的 word/mask 组合(下层/上层/擦除/碰撞 set·clear)逐条核对无误。
+  - 门禁独立重跑:reforge 246 / editor 89 / game 2294 全绿,tc 0。
+  - 浏览器数据级复验(React fiber 读 state,比像素计数更硬):同一子格 画#2→叠上层#5→标碰撞→重画#3 后 word = `0x00062003`(layer0=3 + layer1=6 + bit13 三层共存)——masked 核心成立;undo×5 全撤(含建图)→ redo×5 逐笔重放终态与原态逐字节一致;碰撞清除 `0x62003→0x60003` 只清 bit13。console 零错。
+  - 像素计数在红叠加混色下有噪音(-120 假信号),复验方法以数据级为准 —— 记入方法论。
+- 复验发现项(非 Codex 引入): 碰撞叠加把界外恒阻挡画成边缘红圈(空白图看似全边被标),W7c-1 视口余量遗留;Opus 已作为独立小改修复 scene-stage.ts(blocked 只画图内子格),空白图红像素 50599→0、真标记 297 正常。
+- 必须返工项: 无。
+- Accept / rework: **accept**
+
 ## 交接
 - 2026-07-09 Opus: 发起并起草本卡(锚点含子格 u32 布局考证、masked 写入设计定向、代码锚点)。Evidence: 本卡。Next: User / 定 Owner(Codex 或 Opus)。
 - 2026-07-09 User: 定 Owner = Codex(三贤人换手首单;Opus 复验兜底)。Evidence: 用户拍板。Next: Codex / build。
+- 2026-07-09 Codex: build 完成,状态转 review。Evidence: Build 段命令与 6010 浏览器像素验证记录。Next: Opus / review。
+- 2026-07-09 Opus: 复验 accept(代码审 + 门禁独立重跑 + 数据级浏览器复验);顺手修复复验发现的 W7c-1 边缘红圈遗留(scene-stage.ts,独立小改)。状态 done。Evidence: Review 段。Next: User / 验收,Codex 或 Opus 收口提交。

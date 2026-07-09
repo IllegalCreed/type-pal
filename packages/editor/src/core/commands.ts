@@ -395,7 +395,12 @@ export class PaintTilesCommand implements Command {
         seen.add(key)
         const cell = map.cells[e.row]?.[e.col]
         if (!cell) continue // 界外:paintCells 同样忽略,无需还原
-        this.prev.push({ ...e, word: e.h === 0 ? cell.lower : cell.upper })
+        this.prev.push({
+          col: e.col,
+          row: e.row,
+          h: e.h,
+          word: e.h === 0 ? cell.lower : cell.upper,
+        })
       }
     }
     return { ...state, maps: { ...state.maps, [this.mapRel]: paintCells(map, this.edits) } }

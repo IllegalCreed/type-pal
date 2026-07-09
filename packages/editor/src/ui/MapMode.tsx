@@ -15,9 +15,15 @@ import type { AssetBase, Palette, SubTileEdit, Tilemap } from '@type-pal/reforge
 import {
   bakeFrame,
   buildBlankOwnMap,
+  COLLISION_MASK,
   encodeTileLayer0,
+  encodeTileLayer1,
   floodFillSubTiles,
+  LAYER0_TILE_MASK,
+  LAYER1_CLEAR_MASK,
+  LAYER1_TILE_MASK,
   MAX_LAYER0_TILE,
+  MAX_LAYER1_TILE,
   paintCells,
   pixelToTile,
   renderSceneFrame,
@@ -38,7 +44,9 @@ import {
 const DEFAULT_COLS = 24
 const DEFAULT_ROWS = 24
 
-type MapTool = 'pan' | 'brush' | 'rect' | 'fill' | 'erase'
+type MapTool = 'pan' | 'brush' | 'rect' | 'fill' | 'erase' | 'collision'
+type PaintLayer = 0 | 1
+type CollisionPaint = 'set' | 'clear'
 
 /** 单个瓦片缩略图(memo:frame/palette 不变不重烤;选中态只改 className)。 */
 const TileThumb = memo(function TileThumb(props: {
@@ -62,7 +70,7 @@ const TileThumb = memo(function TileThumb(props: {
     <button
       type="button"
       className={`tile-thumb${selected ? ' sel' : ''}`}
-      title={disabled ? `#${idx}(超 layer0 编码上限,暂不可画)` : `#${idx}`}
+      title={disabled ? `#${idx}(超当前图层编码上限,暂不可画)` : `#${idx}`}
       disabled={disabled}
       onClick={() => onPick(idx)}
     >
@@ -89,7 +97,10 @@ export function MapMode(props: {
     initial: { zoom: 1, panX: 0, panY: 0 },
   })
   const [showGrid, setShowGrid] = useState(true)
+  const [showCollision, setShowCollision] = useState(true)
   const [tool, setTool] = useState<MapTool>('pan')
+  const [paintLayer, setPaintLayer] = useState<PaintLayer>(0)
+  const [collisionPaint, setCollisionPaint] = useState<CollisionPaint>('set')
   const [selectedTile, setSelectedTile] = useState(0)
   // stroke(拖一笔的子格集)+ hover(笔刷落点预览):ref 存数据,tick 触发重画
   const strokeRef = useRef<Map<string, SubTileEdit>>(new Map())
@@ -103,6 +114,11 @@ export function MapMode(props: {
     ownMaps,
   })
   const activeTool: MapTool = own ? tool : 'pan' // 复用图只读:强制平移
+  const maxSelectableTile = paintLayer === 0 ? MAX_LAYER0_TILE : MAX_LAYER1_TILE
+
+  useEffect(() => {
+    if (selectedTile > maxSelectableTile) setSelectedTile(maxSelectableTile)
+  }, [selectedTile, maxSelectableTile])
 
   // 换图 → 居中适配一次。绑 loaded.map 对象身份(而非 sceneMapKey):key 在磁盘加载前就变
   // (撤销/建图),会拿旧图 box 误 fit 并抢先认领新 key;loaded.map 只在真载入新图才换对象,稳。
@@ -143,14 +159,25 @@ export function MapMode(props: {
       sprites: [],
       worldScale: zoom,
     })
-    drawGridBlocked(ctx, map, room, { zoom, panX, panY }, { grid: showGrid, blocked: false })
+    drawGridBlocked(
+      ctx,
+      map,
+      room,
+      { zoom, panX, panY },
+      { grid: showGrid, blocked: showCollision },
+    )
     // hover 菱形(笔刷/擦除):子格中心 h=0→(32c,16r) / h=1→(32c+16,16r+8),半径 16/8
     const hov = hoverRef.current
     if (hov && activeTool !== 'pan') {
       const cx = (hov.col * 32 + hov.h * 16 - panX) * zoom
       const cy = (hov.row * 16 + hov.h * 8 - panY) * zoom
       ctx.save()
-      ctx.strokeStyle = activeTool === 'erase' ? 'rgba(255,90,90,0.95)' : 'rgba(255,255,255,0.9)'
+      ctx.strokeStyle =
+        activeTool === 'erase' || (activeTool === 'collision' && collisionPaint === 'clear')
+          ? 'rgba(255,90,90,0.95)'
+          : activeTool === 'collision'
+            ? 'rgba(255,70,70,0.95)'
+            : 'rgba(255,255,255,0.9)'
       ctx.lineWidth = 1.5
       ctx.beginPath()
       ctx.moveTo(cx, cy - 8 * zoom)
@@ -161,7 +188,19 @@ export function MapMode(props: {
       ctx.stroke()
       ctx.restore()
     }
-  }, [status, view, size, showGrid, scene.map, liveMap, paintTick, activeTool, loadedRef])
+  }, [
+    status,
+    view,
+    size,
+    showGrid,
+    showCollision,
+    scene.map,
+    liveMap,
+    paintTick,
+    activeTool,
+    collisionPaint,
+    loadedRef,
+  ])
 
   // ── 画布交互:笔刷/擦除逐子格,矩形拖对角,填充点一下;pan 工具或中/右键 = 平移 ──
   const panRef = useRef<{ sx: number; sy: number; panX: number; panY: number } | null>(null)
@@ -178,17 +217,37 @@ export function MapMode(props: {
     }
   }
 
+  const editForSubTile = (p: { col: number; row: number; h: 0 | 1 }): SubTileEdit => {
+    if (activeTool === 'collision') {
+      return {
+        ...p,
+        word: collisionPaint === 'set' ? COLLISION_MASK : 0,
+        mask: COLLISION_MASK,
+      }
+    }
+    if (activeTool === 'erase') {
+      return {
+        ...p,
+        word: 0,
+        mask: paintLayer === 0 ? LAYER0_TILE_MASK : LAYER1_CLEAR_MASK,
+      }
+    }
+    return paintLayer === 0
+      ? { ...p, word: encodeTileLayer0(selectedTile), mask: LAYER0_TILE_MASK }
+      : { ...p, word: encodeTileLayer1(selectedTile), mask: LAYER1_TILE_MASK }
+  }
+
   const paintAt = (e: React.PointerEvent<HTMLCanvasElement>): void => {
     const base = liveMap
     if (!base) return
     const { wx, wy } = toWorld(e)
     const { col, row, h } = pixelToTile(wx, wy)
     if (col < 0 || col >= base.width || row < 0 || row >= base.height) return
-    const word = activeTool === 'erase' ? 0 : encodeTileLayer0(selectedTile)
+    const edit = editForSubTile({ col, row, h })
     const key = `${col},${row},${h}`
     const cur = strokeRef.current.get(key)
-    if (cur && cur.word === word) return
-    strokeRef.current.set(key, { col, row, h, word })
+    if (cur && cur.word === edit.word && cur.mask === edit.mask) return
+    strokeRef.current.set(key, edit)
     setPaintTick((t) => t + 1)
   }
 
@@ -197,10 +256,9 @@ export function MapMode(props: {
     const anchor = rectAnchorRef.current
     if (!anchor) return
     const { wx, wy } = toWorld(e)
-    const word = encodeTileLayer0(selectedTile)
     strokeRef.current.clear()
     for (const p of subTilesInRect(anchor.wx, anchor.wy, wx, wy)) {
-      strokeRef.current.set(`${p.col},${p.row},${p.h}`, { ...p, word })
+      strokeRef.current.set(`${p.col},${p.row},${p.h}`, editForSubTile(p))
     }
     setPaintTick((t) => t + 1)
   }
@@ -212,8 +270,14 @@ export function MapMode(props: {
         // 填充:点一下即整笔命令(BFS 同 word 连通区),不走 stroke
         const { wx, wy } = toWorld(e)
         const start = pixelToTile(wx, wy)
-        if (start.col >= 0 && start.col < liveMap.width && start.row >= 0 && start.row < liveMap.height) {
-          const edits = floodFillSubTiles(liveMap, start, encodeTileLayer0(selectedTile))
+        if (
+          start.col >= 0 &&
+          start.col < liveMap.width &&
+          start.row >= 0 &&
+          start.row < liveMap.height
+        ) {
+          const fill = editForSubTile(start)
+          const edits = floodFillSubTiles(liveMap, start, fill.word, fill.mask)
           if (edits.length > 0) session.dispatch(new PaintTilesCommand(ownPath, edits))
         }
         return
@@ -296,6 +360,16 @@ export function MapMode(props: {
 
   const loaded = status === 'ready' ? loadedRef.current : null
   const cursor = activeTool === 'pan' ? 'grab' : 'crosshair'
+  const paintLayerLabel = paintLayer === 0 ? '下层' : '上层'
+  const toolbarHint = !own
+    ? '复用原版地图(只读)'
+    : activeTool === 'pan'
+      ? '自有地图 · 左栏选瓦片开画'
+      : activeTool === 'collision'
+        ? `${collisionPaint === 'set' ? '标记' : '清除'}碰撞 · 中/右键平移 · 一笔 = 一步撤销`
+        : activeTool === 'fill'
+          ? `点一下填充连通区 · ${paintLayerLabel} · 中/右键平移`
+          : `${activeTool === 'rect' ? '拖对角铺矩形' : '拖动作画'} · ${paintLayerLabel} · 中/右键平移 · 一笔 = 一步撤销`
 
   return (
     <>
@@ -303,7 +377,11 @@ export function MapMode(props: {
       <div className="outliner">
         <div className="pane-h">
           <span className="t">{own ? '瓦片' : '地图工具'}</span>
-          {own && loaded ? <span className="hint2">#{selectedTile}</span> : null}
+          {own && loaded ? (
+            <span className="hint2">
+              {paintLayerLabel} #{selectedTile}
+            </span>
+          ) : null}
         </div>
         {own && loaded ? (
           <div className="tile-grid">
@@ -316,7 +394,7 @@ export function MapMode(props: {
                   frame={frame}
                   palette={loaded.palette}
                   selected={idx === selectedTile}
-                  disabled={idx > MAX_LAYER0_TILE}
+                  disabled={idx > maxSelectableTile}
                   onPick={(i) => {
                     setSelectedTile(i)
                     setTool('brush') // 选瓦即入笔刷(RPG Maker 惯例)
@@ -331,71 +409,131 @@ export function MapMode(props: {
         )}
       </div>
 
-      <div className="center">
-        <div className="toolbar">
-          <button
-            type="button"
-            className={`tool${activeTool === 'pan' ? ' active' : ''}`}
-            onClick={() => setTool('pan')}
-            title="平移画布(笔刷态按中/右键拖也可平移)"
-          >
-            ✋ 平移
-          </button>
-          <button
-            type="button"
-            className={`tool${activeTool === 'brush' ? ' active' : ''}`}
-            onClick={() => setTool('brush')}
-            disabled={!own}
-            title={own ? '画选中瓦片(左栏选)' : '复用原版地图只读,先新建自有地图'}
-          >
-            🖌 笔刷
-          </button>
-          <button
-            type="button"
-            className={`tool${activeTool === 'rect' ? ' active' : ''}`}
-            onClick={() => setTool('rect')}
-            disabled={!own}
-            title={own ? '矩形铺瓦(拖对角,松手落笔)' : '复用原版地图只读'}
-          >
-            ▭ 矩形
-          </button>
-          <button
-            type="button"
-            className={`tool${activeTool === 'fill' ? ' active' : ''}`}
-            onClick={() => setTool('fill')}
-            disabled={!own}
-            title={own ? '填充连通同瓦区(点一下)' : '复用原版地图只读'}
-          >
-            🪣 填充
-          </button>
-          <button
-            type="button"
-            className={`tool${activeTool === 'erase' ? ' active' : ''}`}
-            onClick={() => setTool('erase')}
-            disabled={!own}
-            title={own ? '擦除子格(写回空)' : '复用原版地图只读'}
-          >
-            ⌫ 擦除
-          </button>
-          <span className="sep" />
-          <label className={`vtog${showGrid ? ' on' : ''}`}>
-            <input
-              type="checkbox"
-              checked={showGrid}
-              onChange={(e) => setShowGrid(e.target.checked)}
-            />{' '}
-            网格
-          </label>
+      <div className="center map-center">
+        <div className="toolbar map-toolbar">
+          <div className="tool-group">
+            <button
+              type="button"
+              className={`tool${activeTool === 'pan' ? ' active' : ''}`}
+              onClick={() => setTool('pan')}
+              title="平移画布(笔刷态按中/右键拖也可平移)"
+            >
+              ✋ 平移
+            </button>
+          </div>
+          <div className="tool-group">
+            <button
+              type="button"
+              className={`tool${paintLayer === 0 ? ' active' : ''}`}
+              onClick={() => setPaintLayer(0)}
+              disabled={!own}
+              title={own ? '绘制 layer0(下层)' : '复用原版地图只读'}
+            >
+              下层
+            </button>
+            <button
+              type="button"
+              className={`tool${paintLayer === 1 ? ' active' : ''}`}
+              onClick={() => setPaintLayer(1)}
+              disabled={!own}
+              title={own ? '绘制 layer1(上层装饰)' : '复用原版地图只读'}
+            >
+              上层
+            </button>
+          </div>
+          <div className="tool-group">
+            <button
+              type="button"
+              className={`tool${activeTool === 'brush' ? ' active' : ''}`}
+              onClick={() => setTool('brush')}
+              disabled={!own}
+              title={own ? '画选中瓦片(左栏选)' : '复用原版地图只读,先新建自有地图'}
+            >
+              🖌 笔刷
+            </button>
+            <button
+              type="button"
+              className={`tool${activeTool === 'rect' ? ' active' : ''}`}
+              onClick={() => setTool('rect')}
+              disabled={!own}
+              title={own ? '矩形铺瓦(拖对角,松手落笔)' : '复用原版地图只读'}
+            >
+              ▭ 矩形
+            </button>
+            <button
+              type="button"
+              className={`tool${activeTool === 'fill' ? ' active' : ''}`}
+              onClick={() => setTool('fill')}
+              disabled={!own}
+              title={own ? '填充连通同瓦区(点一下)' : '复用原版地图只读'}
+            >
+              🪣 填充
+            </button>
+            <button
+              type="button"
+              className={`tool${activeTool === 'erase' ? ' active' : ''}`}
+              onClick={() => setTool('erase')}
+              disabled={!own}
+              title={own ? '擦除子格(写回空)' : '复用原版地图只读'}
+            >
+              ⌫ 擦除
+            </button>
+          </div>
+          <div className="tool-group">
+            <button
+              type="button"
+              className={`tool${activeTool === 'collision' ? ' active' : ''}`}
+              onClick={() => setTool('collision')}
+              disabled={!own}
+              title={own ? '绘制碰撞禁入位(bit13)' : '复用原版地图只读'}
+            >
+              ⛔ 碰撞
+            </button>
+            <button
+              type="button"
+              className={`tool${activeTool === 'collision' && collisionPaint === 'set' ? ' active' : ''}`}
+              onClick={() => {
+                setCollisionPaint('set')
+                setTool('collision')
+              }}
+              disabled={!own}
+              title={own ? '碰撞笔刷:标记禁入格' : '复用原版地图只读'}
+            >
+              标记
+            </button>
+            <button
+              type="button"
+              className={`tool${activeTool === 'collision' && collisionPaint === 'clear' ? ' active' : ''}`}
+              onClick={() => {
+                setCollisionPaint('clear')
+                setTool('collision')
+              }}
+              disabled={!own}
+              title={own ? '碰撞笔刷:清除禁入格' : '复用原版地图只读'}
+            >
+              清除
+            </button>
+          </div>
+          <div className="tool-group">
+            <label className={`vtog${showGrid ? ' on' : ''}`}>
+              <input
+                type="checkbox"
+                checked={showGrid}
+                onChange={(e) => setShowGrid(e.target.checked)}
+              />{' '}
+              网格
+            </label>
+            <label className={`vtog${showCollision ? ' on' : ''}`}>
+              <input
+                type="checkbox"
+                checked={showCollision}
+                onChange={(e) => setShowCollision(e.target.checked)}
+              />{' '}
+              碰撞
+            </label>
+          </div>
           <span className="spacer" />
-          <span style={{ color: 'var(--faint)', fontSize: 11 }}>
-            {own
-              ? activeTool === 'pan'
-                ? '自有地图 · 左栏选瓦片开画'
-                : activeTool === 'fill'
-                  ? '点一下填充连通区 · 中/右键平移'
-                  : `${activeTool === 'rect' ? '拖对角铺矩形' : '拖动作画'} · 中/右键平移 · 一笔 = 一步撤销`
-              : '复用原版地图(只读)'}
-          </span>
+          <span className="map-toolbar-hint">{toolbarHint}</span>
         </div>
         <div className="viewport" ref={wrapRef}>
           <div className="canvas-note">
@@ -449,7 +587,7 @@ export function MapMode(props: {
                 </span>
               </div>
               <p className="hint2">
-                笔刷/矩形/填充以菱形子格为单位;一笔 = 一步撤销。双层(layer1)/ 碰撞笔刷 /
+                笔刷/矩形/填充以菱形子格为单位;下层/上层绘制与碰撞笔刷互不覆盖;一笔 = 一步撤销。
                 图尺寸编辑 = W7c 后续。
               </p>
             </>

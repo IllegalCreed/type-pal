@@ -256,6 +256,9 @@ body {
   grid-template-rows: 40px minmax(0, 1fr);
   min-width: 0;
 }
+.map-center {
+  grid-template-rows: auto minmax(0, 1fr);
+}
 /* 脚本态(script-work 占画布行):内部自分 大预览 | 抽屉 两行 */
 .script-work {
   display: grid;
@@ -276,6 +279,36 @@ body {
   padding: 0 10px;
   background: var(--panel2);
   border-bottom: 1px solid var(--line);
+}
+.map-toolbar {
+  flex-wrap: wrap;
+  align-content: center;
+  gap: 4px 8px;
+  min-height: 40px;
+  padding: 4px 10px;
+}
+.map-toolbar .tool-group {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 4px;
+}
+.map-toolbar .tool,
+.map-toolbar .vtog {
+  min-height: 30px;
+}
+.map-toolbar .spacer {
+  flex: 1 1 16px;
+  min-width: 0;
+}
+.map-toolbar-hint {
+  flex: 0 1 320px;
+  min-width: 180px;
+  overflow: hidden;
+  color: var(--faint);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .tool {
   display: flex;

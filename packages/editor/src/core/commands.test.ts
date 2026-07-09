@@ -1,26 +1,33 @@
+import type { ActorDef, EntityDef, ScriptStage, SpriteDef } from '@type-pal/content'
+import {
+  COLLISION_MASK,
+  encodeTileLayer0,
+  encodeTileLayer1,
+  LAYER0_TILE_MASK,
+  LAYER1_TILE_MASK,
+} from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
 import {
   AddEnemyCommand,
+  AddEntityCommand,
   CreateOwnMapCommand,
   CreateScriptSourceCommand,
-  AddEntityCommand,
   DeleteEnemyCommand,
   DeleteEntityCommand,
   MoveEntityCommand,
   PaintTilesCommand,
   UpdateActorCommand,
   UpdateBattleFieldCommand,
+  UpdateEnemyCommand,
+  UpdateEnemyTeamsCommand,
   UpdateEntityCommand,
   UpdateLevelUpCommand,
   UpdateMusicNameCommand,
   UpdateSceneCommand,
-  UpdateEnemyCommand,
-  UpdateEnemyTeamsCommand,
   UpdateScriptCommand,
   UpdateSpriteCommand,
 } from './commands.js'
 import type { EditorState } from './edit-session.js'
-import type { ActorDef, EntityDef, ScriptStage, SpriteDef } from '@type-pal/content'
 
 const ent = (id: string): EntityDef => ({
   id,
@@ -593,6 +600,24 @@ describe('PaintTilesCommand(W7c)', () => {
     const s2 = c2.apply(s1)
     expect(s2.maps[rel]!.cells[0]![0]!.lower).toBe(8)
     expect(c2.invert(s2).maps[rel]!.cells[0]![0]!.lower).toBe(3)
+  })
+
+  test('masked apply:只改目标位;invert:整 word 精确还原', () => {
+    const s0 = stPaint()
+    s0.maps[rel]!.cells[0]![0]!.lower =
+      encodeTileLayer0(3) | encodeTileLayer1(4) | COLLISION_MASK | 0x0b00
+    const before = s0.maps[rel]!.cells[0]![0]!.lower
+    const cmd = new PaintTilesCommand(rel, [
+      { col: 0, row: 0, h: 0, word: encodeTileLayer0(0x100), mask: LAYER0_TILE_MASK },
+      { col: 0, row: 0, h: 0, word: encodeTileLayer1(8), mask: LAYER1_TILE_MASK },
+    ])
+
+    const s1 = cmd.apply(s0)
+    expect(s1.maps[rel]!.cells[0]![0]!.lower & LAYER0_TILE_MASK).toBe(encodeTileLayer0(0x100))
+    expect(s1.maps[rel]!.cells[0]![0]!.lower >>> 16).toBe(encodeTileLayer1(8) >>> 16)
+    expect(s1.maps[rel]!.cells[0]![0]!.lower & COLLISION_MASK).toBe(COLLISION_MASK)
+    expect(s1.maps[rel]!.cells[0]![0]!.lower & 0x0f00).toBe(0x0b00)
+    expect(cmd.invert(s1).maps[rel]!.cells[0]![0]!.lower).toBe(before)
   })
 
   test('地图不存在(rel 悬空)→ noop', () => {

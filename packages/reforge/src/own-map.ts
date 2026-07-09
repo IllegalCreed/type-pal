@@ -20,6 +20,17 @@ export function buildBlankOwnMap(cols: number, rows: number, tileset: string): T
 /** layer0 可编码的最大瓦片索引(9 位:位 0-7 + 位 12)。面板超界瓦片禁选。 */
 export const MAX_LAYER0_TILE = 0x1ff
 
+/** layer1 存 tileId + 1,所以最大可画 tileId 少 1；高 16 位的 0 表示无瓦片。 */
+export const MAX_LAYER1_TILE = 0x1fe
+
+/** masked write 位域:画瓦只动瓦片位,碰撞只动 bit13。 */
+export const LAYER0_TILE_MASK = 0x000010ff
+export const LAYER1_TILE_MASK = 0x10ff0000
+export const LAYER1_CLEAR_MASK = 0xffff0000
+export const COLLISION_MASK = 0x00002000
+
+const FULL_WORD_MASK = 0xffffffff
+
 /**
  * 瓦片索引 → 子格 word(仅 layer0 位;layer1/高度/障碍 = 0 —— 笔刷画的新格是干净地板)。
  * 逆运算 = render.ts tileIdLayer0。0 = 空(tileset frame 0 惯例为透明/黑帧)。
@@ -28,12 +39,21 @@ export function encodeTileLayer0(tileId: number): number {
   return (tileId & 0xff) | ((tileId & 0x100) << 4)
 }
 
-/** 一笔子格编辑:h=0 写 cell.lower,h=1 写 cell.upper;word 为完整子格值。 */
+/**
+ * 瓦片索引 → 子格 word 的 layer1 位。
+ * render.ts tileIdLayer1 读高 16 位后 -1,所以写入时必须 +1；0 保留给「无上层瓦片」。
+ */
+export function encodeTileLayer1(tileId: number): number {
+  return (encodeTileLayer0(tileId + 1) << 16) >>> 0
+}
+
+/** 一笔子格编辑:h=0 写 cell.lower,h=1 写 cell.upper;mask 缺省 = 整 word 覆盖。 */
 export interface SubTileEdit {
   col: number
   row: number
   h: 0 | 1
   word: number
+  mask?: number
 }
 
 /** 子格坐标(不带 word;矩形/填充枚举产物)。 */
@@ -69,21 +89,26 @@ export function floodFillSubTiles(
   map: Tilemap,
   start: SubTilePos,
   word: number,
+  mask = FULL_WORD_MASK,
 ): SubTileEdit[] {
   const at = (c: number, r: number, h: 0 | 1): number | undefined => {
     const cell = r >= 0 && r < map.height && c >= 0 && c < map.width ? map.cells[r]?.[c] : undefined
     return cell === undefined ? undefined : h === 0 ? cell.lower : cell.upper
   }
   const target = at(start.col, start.row, start.h)
-  if (target === undefined || target === word) return []
+  const masked = (v: number): number => (v & mask) >>> 0
+  const targetBits = target === undefined ? undefined : masked(target)
+  if (targetBits === undefined || targetBits === masked(word)) return []
   const out: SubTileEdit[] = []
+  const editMask = mask === FULL_WORD_MASK ? undefined : mask
   const seen = new Set<string>([`${start.col},${start.row},${start.h}`])
   const queue: SubTilePos[] = [start]
   while (queue.length > 0) {
     const cur = queue.pop()
     if (!cur) break
-    if (at(cur.col, cur.row, cur.h) !== target) continue
-    out.push({ ...cur, word })
+    const curWord = at(cur.col, cur.row, cur.h)
+    if (curWord === undefined || masked(curWord) !== targetBits) continue
+    out.push(editMask === undefined ? { ...cur, word } : { ...cur, word, mask: editMask })
     const { col: c, row: r, h } = cur
     const nbs: SubTilePos[] =
       h === 0
@@ -110,8 +135,13 @@ export function floodFillSubTiles(
   return out
 }
 
+function applyEditWord(oldWord: number, edit: SubTileEdit): number {
+  const mask = edit.mask ?? FULL_WORD_MASK
+  return ((oldWord & ~mask) | (edit.word & mask)) >>> 0
+}
+
 /**
- * 不可变 cell patch:按 edits 写子格 word,只克隆触及的行;界外/重复以后者为准。
+ * 不可变 cell patch:按 edits 写子格 word(可带 mask),只克隆触及的行;界外/重复以后者为准。
  * 笔刷 stroke 预览(每帧临时图)与 PaintTilesCommand(入 undo)共用。
  */
 export function paintCells(map: Tilemap, edits: readonly SubTileEdit[]): Tilemap {
@@ -126,8 +156,8 @@ export function paintCells(map: Tilemap, edits: readonly SubTileEdit[]): Tilemap
   for (const e of edits) {
     const cell = cells[e.row]?.[e.col]
     if (!cell) continue
-    if (e.h === 0) cell.lower = e.word
-    else cell.upper = e.word
+    if (e.h === 0) cell.lower = applyEditWord(cell.lower, e)
+    else cell.upper = applyEditWord(cell.upper, e)
   }
   return { ...map, cells }
 }
