@@ -265,8 +265,8 @@ export class UpdateEntityCommand implements Command {
   }
 }
 
-/** UpdateScene 的 patch 范围(paletteId / entry / musicId / entries / map 整替换)。 */
-export type ScenePatch = Partial<Pick<SceneDef, 'paletteId' | 'entry' | 'musicId' | 'entries' | 'map'>>
+/** UpdateScene 的 patch 范围(entry / musicId / entries / map 整替换)。 */
+export type ScenePatch = Partial<Pick<SceneDef, 'entry' | 'musicId' | 'entries' | 'map'>>
 
 /**
  * 改场景字段(paletteId/entry/musicId)。apply 记下旧值,invert 还原。语义同 UpdateEntityCommand。
@@ -282,7 +282,7 @@ export class UpdateSceneCommand implements Command {
   constructor(sceneId: string, patch: ScenePatch) {
     this.sceneId = sceneId
     // entry 若有,深拷贝(独立于外部入参,防回写)。
-    // ⚠ 不能无条件写 entry 键:patch 只有 paletteId/musicId 时,旧写法把 entry:undefined
+    // ⚠ 不能无条件写 entry 键:patch 只有 musicId 时,旧写法把 entry:undefined
     //   显式塞进 patch → spread 把必填 scene.entry 覆成 undefined → 渲染 entry.facing 崩。
     this.patch = { ...patch }
     if (this.patch.entry) this.patch.entry = structuredClone(this.patch.entry)
@@ -300,7 +300,6 @@ export class UpdateSceneCommand implements Command {
   /** 按 this.patch 出现的键,从 scene 上摘旧值(entry 深拷贝)。 */
   private captureOld(scene: SceneDef): ScenePatch {
     const old: ScenePatch = {}
-    if ('paletteId' in this.patch) old.paletteId = scene.paletteId
     if ('musicId' in this.patch) old.musicId = scene.musicId // undefined=「延续」也是合法旧值
     if ('entry' in this.patch && this.patch.entry) {
       old.entry = scene.entry ? structuredClone(scene.entry) : undefined
@@ -1141,11 +1140,10 @@ export class AddSceneCommand implements Command {
   private readonly scene: SceneDef
   private added = false
 
-  constructor(id: string, mapNum: number, entry: SceneDef['entry'], paletteId?: number) {
+  constructor(id: string, mapNum: number, entry: SceneDef['entry']) {
     this.scene = {
       id,
       map: { reuseOriginalMap: mapNum },
-      ...(paletteId !== undefined ? { paletteId } : {}),
       entry: structuredClone(entry),
       entities: [],
     }

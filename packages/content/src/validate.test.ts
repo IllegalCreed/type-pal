@@ -14,18 +14,6 @@ const mkEnt = (ref: Record<string, unknown>): Record<string, unknown> => ({
   ...ref,
 })
 
-describe('validateScenes · paletteId', () => {
-  test('无 paletteId → 通过(可选,缺省 0 由调用方兜)', () => {
-    expect(() => validateScenes([mkScene()])).not.toThrow()
-  })
-  test('paletteId 是 number → 通过', () => {
-    expect(() => validateScenes([mkScene({ paletteId: 0 })])).not.toThrow()
-  })
-  test('paletteId 非 number → throw', () => {
-    expect(() => validateScenes([mkScene({ paletteId: '0' })])).toThrow('paletteId 非number')
-  })
-})
-
 describe('validateScenes · 实体 actor ⊕ sprite(C0)', () => {
   test('actor 形态 / sprite 形态 → 各自通过', () => {
     expect(() =>

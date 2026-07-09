@@ -166,11 +166,7 @@ export interface SceneDef {
   battleMusicId?: number
   /** 命名入口(M3 传送引用;迁移自 setPartyPos→loadScene 对:from-scene-<src>[-k] / start)。 */
   entries?: Record<string, { pos: GridPos; facing?: Facing }>
-  /**
-   * 调色板号(原版调色板下标);缺省 0 向后兼容。引擎据此 loadPalette,去 URL `?pal=` 兜底。
-   * (demo 未跑 setPalette 脚本,此前靠 URL 手动指定;现在场景自带。)
-   */
-  paletteId?: number
+  // 调色板字段已退役(W7a-3):清洁重写只留盘 0,无「调色板」概念(见 no-palette-concept 方针)。
   /** 玩家（李逍遥）进场点 */
   entry: { pos: GridPos; facing: Facing }
   /** 场上 NPC / 物件（不含玩家） */

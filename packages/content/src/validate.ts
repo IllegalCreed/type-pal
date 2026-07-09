@@ -27,10 +27,7 @@ export function validateScenes(json: unknown): SceneDef[] {
     const o = assertObject(s, `scenes[${i}]`)
     requireKeys(o, ['id', 'map', 'entry', 'entities'], `scenes[${i}]`)
     if (typeof (s as { id: unknown }).id !== 'string') throw new Error(`scenes[${i}]: id 非string`)
-    // paletteId 可选;若在则须 number(缺省 0 由调用方 ?? 兜)。
-    const paletteId = (s as { paletteId?: unknown }).paletteId
-    if (paletteId !== undefined && typeof paletteId !== 'number')
-      throw new Error(`scenes[${i}]: paletteId 非number`)
+    // (paletteId 字段已退役 W7a-3:只留盘 0,校验一并去)
     // 实体引用:actor ⊕ sprite 恰一(C0;都有/都无 → 数据错)。
     const ents = (s as { entities: unknown }).entities
     if (!Array.isArray(ents)) throw new Error(`scenes[${i}].entities: 期望数组`)

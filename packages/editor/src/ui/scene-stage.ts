@@ -56,10 +56,9 @@ export function useSceneAssets(opts: {
   canvasRef: RefObject<HTMLCanvasElement | null>
   assetBase: AssetBase
   mapNum: number
-  paletteId: number
   spriteNums: number[]
 }): { status: 'loading' | 'ready' | 'error'; err: string; loadedRef: RefObject<StageAssets | null> } {
-  const { canvasRef, assetBase, mapNum, paletteId, spriteNums } = opts
+  const { canvasRef, assetBase, mapNum, spriteNums } = opts
   const loadedRef = useRef<StageAssets | null>(null)
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
   const [err, setErr] = useState('')
@@ -75,7 +74,7 @@ export function useSceneAssets(opts: {
         const [map, tiles, palette] = await Promise.all([
           loadTilemap(assetBase, mapNum),
           loadTileset(assetBase, mapNum),
-          loadPalette(assetBase, paletteId),
+          loadPalette(assetBase, 0), // 只留盘 0(W7a-3:调色板概念退役)
         ])
         const entries = await Promise.all(
           spriteNums.map(async (n) => [n, await loadSprite(assetBase, n)] as const),
@@ -97,7 +96,7 @@ export function useSceneAssets(opts: {
     return () => {
       alive = false
     }
-  }, [assetBase, mapNum, paletteId, spriteNumsKey, canvasRef])
+  }, [assetBase, mapNum, spriteNumsKey, canvasRef])
   return { status, err, loadedRef }
 }
 

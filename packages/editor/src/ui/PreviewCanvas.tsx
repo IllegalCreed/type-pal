@@ -126,12 +126,10 @@ export function PreviewCanvas(props: {
   }, [scene, stages, spriteById, leaderSpriteId])
 
   const mapNum = reuseMapNum(scene.map) ?? 0 // 自有地图渲染分流待 W7a-4
-  const paletteId = scene.paletteId ?? 0
   const { status, err, loadedRef } = useSceneAssets({
     canvasRef,
     assetBase,
     mapNum,
-    paletteId,
     spriteNums,
   })
 

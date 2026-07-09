@@ -417,7 +417,7 @@ async function main(): Promise<void> {
   ): Promise<void> {
     const def = await getSceneDef(sceneId)
     const assets = await getMapAssets(reuseMapNum(def.map) ?? 0) // 自有地图(ownMap)引擎分流待 W7a-4
-    const pal = await getPalette(Number(params.get('pal') ?? def.paletteId ?? 0))
+    const pal = await getPalette(Number(params.get('pal') ?? 0)) // 只留盘 0(W7a-3);?pal= 仅 dev 调试兜底
     const defs = new Map<string, SpriteDef>()
     for (const e of def.entities) {
       // 隐藏实体也登记(M3a:脚本 setEntityState 可显形);zone 无视觉跳过

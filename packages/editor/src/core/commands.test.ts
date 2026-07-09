@@ -140,24 +140,24 @@ describe('布置命令集 · 不可变 + invert', () => {
   })
 
   // ── UpdateSceneCommand ─────────────────────────────────────
-  test('UpdateScene:改 paletteId + 源不变;invert 还原(缺省→undefined)', () => {
+  test('UpdateScene:改 musicId + 源不变;invert 还原(缺省→undefined)', () => {
     const s0 = st()
-    const cmd = new UpdateSceneCommand('s', { paletteId: 3 })
+    const cmd = new UpdateSceneCommand('s', { musicId: 3 })
     const s1 = cmd.apply(s0)
 
-    expect(s1.scenes[0]!.paletteId).toBe(3)
-    expect(s0.scenes[0]!.paletteId).toBeUndefined() // 源不变
-    expect(cmd.invert(s1).scenes[0]!.paletteId).toBeUndefined()
+    expect(s1.scenes[0]!.musicId).toBe(3)
+    expect(s0.scenes[0]!.musicId).toBeUndefined() // 源不变
+    expect(cmd.invert(s1).scenes[0]!.musicId).toBeUndefined()
   })
 
-  test('UpdateScene:已有 paletteId 时 invert 还原旧值', () => {
+  test('UpdateScene:已有 musicId 时 invert 还原旧值', () => {
     const s0 = st()
-    s0.scenes[0]!.paletteId = 1
-    const cmd = new UpdateSceneCommand('s', { paletteId: 3 })
+    s0.scenes[0]!.musicId = 1
+    const cmd = new UpdateSceneCommand('s', { musicId: 3 })
     const s1 = cmd.apply(s0)
 
-    expect(s1.scenes[0]!.paletteId).toBe(3)
-    expect(cmd.invert(s1).scenes[0]!.paletteId).toBe(1)
+    expect(s1.scenes[0]!.musicId).toBe(3)
+    expect(cmd.invert(s1).scenes[0]!.musicId).toBe(1)
   })
 
   test('UpdateScene:改 entry;invert 还原旧 entry(深比较)', () => {
@@ -393,10 +393,10 @@ describe('W5 音乐(musicId patch + 音乐库别名)', () => {
   })
 })
 
-test('UpdateScene 回归:仅 paletteId/musicId patch 不得把必填 entry 覆成 undefined', () => {
+test('UpdateScene 回归:仅 musicId patch 不得把必填 entry 覆成 undefined', () => {
   const s0 = st()
   ;(s0.scenes[0] as { entry: unknown }).entry = { pos: { col: 1, row: 1, height: 0 }, facing: 'down' }
-  const s1 = new UpdateSceneCommand('s', { paletteId: 5 }).apply(s0)
+  const s1 = new UpdateSceneCommand('s', { musicId: 5 }).apply(s0)
   expect(s1.scenes[0]!.entry).toEqual({ pos: { col: 1, row: 1, height: 0 }, facing: 'down' })
   const s2 = new UpdateSceneCommand('s', { musicId: 31 }).apply(s1)
   expect(s2.scenes[0]!.entry.facing).toBe('down')
