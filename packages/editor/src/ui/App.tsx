@@ -384,7 +384,7 @@ export function App(props: {
                     return
                   }
                   session.dispatch(
-                    new AddSceneCommand(id, scene.map.reuseOriginalMap, scene.entry, scene.paletteId),
+                    new AddSceneCommand(id, scene.map.reuseOriginalMap, scene.entry),
                   )
                   switchPlaceScene(id)
                 }}
@@ -1173,20 +1173,6 @@ function SceneInspector(props: {
                 new UpdateSceneCommand(scene.id, {
                   map: { ...scene.map, reuseOriginalMap: e.target.valueAsNumber },
                 }),
-              )
-            }
-          />
-        </div>
-        <div className="field">
-          <label>调色板</label>
-          <input
-            className="in mono"
-            type="number"
-            value={scene.paletteId ?? 0}
-            onChange={(e) =>
-              Number.isFinite(e.target.valueAsNumber) &&
-              session.dispatch(
-                new UpdateSceneCommand(scene.id, { paletteId: e.target.valueAsNumber }),
               )
             }
           />
