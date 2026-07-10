@@ -1,0 +1,30 @@
+{
+  "id": "e2e-own",
+  "name": "E2E 自有内容烟测",
+  "contentVersion": 1,
+  "entryScene": "start",
+  "content": {
+    "actors": "content/actors.json",
+    "skills": "content/skills.json",
+    "items": "content/items.json",
+    "locale": "content/locale.json",
+    "sprites": "content/sprites.json",
+    "tilesets": "content/tilesets.json",
+    "scenes": "content/scenes/"
+  },
+  "assets": {
+    "root": "assets",
+    "maps": "maps",
+    "tilesets": "tilesets",
+    "sprites": "sprites",
+    "palettes": "palettes"
+  },
+  "startWorld": {
+    "party": [
+      "hero"
+    ],
+    "money": 0,
+    "learnedSkills": {},
+    "inventory": []
+  }
+}

@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from 'vitest'
 import type { AssetBase } from './assets.js'
-import { loadOwnMap, loadPalette, loadTilemap } from './assets.js'
+import { loadOwnMap, loadPalette, loadTilemap, loadTilesetByPath } from './assets.js'
 import type { FileSource } from './file-source.js'
 
 const base = (source?: FileSource): AssetBase => ({
@@ -61,5 +61,29 @@ describe('assets.ts 经 FileSource 读', () => {
     await expect(
       loadOwnMap(base(memSource({ ...ownMap, collision: [[0]] })), 'content/maps/a.json'),
     ).rejects.toThrow('期望 2 行')
+  })
+})
+
+describe('loadTilesetByPath 路径约定(W7B)', () => {
+  const gz = async (): Promise<ArrayBuffer> => {
+    // 最小合法 gzip(空 chunk):frameCount=0 → parseSpriteChunk []
+    const { gzipSync } = await import('node:zlib')
+    const buf = gzipSync(Buffer.from([0, 0]))
+    return buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength) as ArrayBuffer
+  }
+  test('assets/ 前缀 = 工程根相对,不拼 root;其余拼 assets root(原版借用)', async () => {
+    const seen: string[] = []
+    const src: FileSource = {
+      readText: async () => '',
+      readJson: async <T>() => ({}) as T,
+      readBytes: async (rel: string) => {
+        seen.push(rel)
+        return gz()
+      },
+      urlFor: async (rel: string) => rel,
+    }
+    await loadTilesetByPath(base(src), 'assets/tilesets/grass.rle')
+    await loadTilesetByPath(base(src), 'tileset/20.rle')
+    expect(seen).toEqual(['assets/tilesets/grass.rle', '/extracted/data/tileset/20.rle'])
   })
 })

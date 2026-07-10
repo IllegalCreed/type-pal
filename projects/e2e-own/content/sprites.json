@@ -1,0 +1,11 @@
+[
+  {
+    "id": "hero",
+    "spriteNum": 2,
+    "label": "主角",
+    "layout": {
+      "kind": "directional",
+      "framesPerDir": 3
+    }
+  }
+]

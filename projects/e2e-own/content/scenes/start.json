@@ -1,0 +1,15 @@
+{
+  "id": "start",
+  "map": {
+    "ownMap": "content/maps/start.json"
+  },
+  "entry": {
+    "pos": {
+      "col": 16,
+      "row": 0,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": []
+}

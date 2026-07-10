@@ -88,7 +88,11 @@ export async function loadTilesetByPath(
   base: AssetBase,
   tilesetPath: string,
 ): Promise<Map<number, RleFrame>> {
-  const raw = await readAssetBytes(base, `${base.root}/${tilesetPath}`, `tileset ${tilesetPath}`)
+  // 路径约定(W7B):`assets/` 前缀 = 工程根相对(上传条目,FSA/httpSource 直达,不拼 root
+  // —— pal 的 root 是 /extracted/data,拼上必 404;e2e 烟测钓出);其余 = assets-root 相对
+  // (原版借用 `tileset/<n>.rle`)。
+  const full = tilesetPath.startsWith('assets/') ? tilesetPath : `${base.root}/${tilesetPath}`
+  const raw = await readAssetBytes(base, full, `tileset ${tilesetPath}`)
   const frames = parseSpriteChunk(await decompressGzip(new Blob([raw])))
   const map = new Map<number, RleFrame>()
   frames.forEach((f, i) => {
