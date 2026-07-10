@@ -539,7 +539,7 @@ export function App(props: {
                   📜 脚本
                 </button>
                 <span className="spacer" />
-                <span style={{ color: 'var(--faint)', fontSize: 11 }}>
+                <span className="toolbar-hint">
                   {tool === 'add' ? '点画布放实体' : '拖动移位 · Del 删除'}
                 </span>
               </div>

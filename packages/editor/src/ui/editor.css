@@ -34,22 +34,32 @@ body {
 
 .editor {
   display: grid;
-  grid-template-rows: 40px 1fr 26px;
+  /* 顶栏/底栏 auto:响应式换行后长高,定高会裁掉换出来的行 */
+  grid-template-rows: auto minmax(0, 1fr) auto;
   height: 100vh;
+  /* 桌面工具合理下限:三块定宽侧栏共 536px,再窄中央塌成细条(按钮溢出叠右栏)。
+     低于下限出横向滚动条(VS Code 同款),不出叠字汤。 */
+  min-width: 720px;
   overflow: hidden;
 }
 
-/* 顶栏 */
+/* 顶栏(响应式三件套见 .toolbar 注;工程名过长省略号收缩,不挤竖) */
 .topbar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 10px;
-  padding: 0 12px;
+  gap: 4px 10px;
+  min-height: 40px;
+  padding: 4px 12px;
+  white-space: nowrap;
   background: var(--panel);
   border-bottom: 1px solid var(--line);
 }
 .topbar .proj {
   font-weight: 600;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .topbar .proj .kind {
   color: var(--dim);
@@ -157,6 +167,7 @@ body {
 }
 .pane-h {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   padding: 8px 10px;
   border-bottom: 1px solid var(--line);
@@ -253,11 +264,9 @@ body {
 /* 中:toolbar + canvas */
 .center {
   display: grid;
-  grid-template-rows: 40px minmax(0, 1fr);
-  min-width: 0;
-}
-.map-center {
+  /* 工具栏行 auto(曾 40px 定高 —— 换行长高会裁;.map-center 早已 auto,现统一) */
   grid-template-rows: auto minmax(0, 1fr);
+  min-width: 0;
 }
 /* 脚本态(script-work 占画布行):内部自分 大预览 | 抽屉 两行 */
 .script-work {
@@ -272,20 +281,22 @@ body {
   background: #000;
   overflow: hidden;
 }
+/* 工具栏基类(布置/地图共用)。响应式三件套 —— 四犯根治,升到基类,别再单栏打补丁:
+   ① 容器 flex-wrap:整项换行,不压瘦格子
+   ② white-space:nowrap(继承进所有子文本):CJK 短标签(选择/移动、网格…)禁项内竖排折行
+   ③ 子项 flex:none(.tool/.vtog):不被挤扁
+   新加任何横排按钮/控件行,照此办理(长句文本行除外 —— 句子逐字折行是正常排版)。 */
 .toolbar {
   display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 0 10px;
-  background: var(--panel2);
-  border-bottom: 1px solid var(--line);
-}
-.map-toolbar {
   flex-wrap: wrap;
   align-content: center;
+  align-items: center;
   gap: 4px 8px;
   min-height: 40px;
   padding: 4px 10px;
+  white-space: nowrap;
+  background: var(--panel2);
+  border-bottom: 1px solid var(--line);
 }
 .map-toolbar .tool-group {
   display: flex;
@@ -301,7 +312,9 @@ body {
   flex: 1 1 16px;
   min-width: 0;
 }
-.map-toolbar-hint {
+/* 工具栏右侧提示文字(地图/布置共用):可收缩、省略号,永不竖排 */
+.map-toolbar-hint,
+.toolbar-hint {
   flex: 0 1 320px;
   min-width: 180px;
   overflow: hidden;
@@ -313,6 +326,8 @@ body {
 .tool {
   display: flex;
   align-items: center;
+  flex: none;
+  white-space: nowrap;
   gap: 5px;
   background: transparent;
   border: 1px solid transparent;
@@ -344,6 +359,8 @@ body {
 .vtog {
   display: flex;
   align-items: center;
+  flex: none;
+  white-space: nowrap;
   gap: 5px;
   color: var(--dim);
   border: 1px solid var(--line);
@@ -500,9 +517,11 @@ body {
 /* 底:状态 */
 .valbar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 14px;
-  padding: 0 12px;
+  gap: 4px 14px;
+  min-height: 26px;
+  padding: 2px 12px;
   background: var(--panel);
   border-top: 1px solid var(--line);
   font-size: 12px;
@@ -777,6 +796,9 @@ body {
   border-radius: 3px;
   background: #2c4a6f;
   color: #9cc4ff;
+  /* 徽章是短标签:长名行里禁被挤竖(响应式三件套,见 .toolbar 注) */
+  flex: none;
+  white-space: nowrap;
 }
 .abadge.npc {
   background: #3a4256;
@@ -874,6 +896,7 @@ body {
 }
 .posehead {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   gap: 10px;
   margin-bottom: 8px;
@@ -1121,6 +1144,7 @@ body {
 }
 .preview-bar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 6px;
   padding: 5px 10px;
@@ -1457,6 +1481,7 @@ body {
 }
 .ea-head {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
 }
@@ -2091,6 +2116,7 @@ body {
 /* ── 特效预览控件 ── */
 .fp-controls {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 6px;
   font-size: 12px;
@@ -2115,6 +2141,7 @@ body {
 }
 .cat-head {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
   font-size: 13px;
@@ -2206,6 +2233,7 @@ body {
 }
 .script-drawer .drawer-head {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 6px;
   padding: 4px 10px;
@@ -2278,8 +2306,9 @@ body {
   z-index: 3;
 }
 
-/* 段头控件(段管理:next 下拉 / ＋段 / 🗑段) */
-.stage-head { display: flex; align-items: center; gap: 6px; }
+/* 段头控件(段管理:next 下拉 / ＋段 / 🗑段)。响应式三件套(见 .toolbar 注):
+   窄树栏整项换行;短标签(第 N 段/→ 跑完)禁项内竖排 */
+.stage-head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; white-space: nowrap; }
 .stage-head .spacer { flex: 1; }
 .stage-next-sel {
   height: 20px;
