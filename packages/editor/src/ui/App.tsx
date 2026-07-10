@@ -325,6 +325,8 @@ export function App(props: {
             session={session}
             assetBase={project.assetBase}
             ownMaps={state.maps}
+            tilesets={state.tilesets ?? []}
+            tilesetBlobs={state.tilesetBlobs}
           />
         ) : mode === 'actor' ? (
           <ActorMode
@@ -350,6 +352,8 @@ export function App(props: {
             enemies={state.enemies ?? []}
             enemyTeams={state.enemyTeams ?? []}
             music={state.music ?? []}
+            tilesets={state.tilesets ?? []}
+            tilesetBlobs={state.tilesetBlobs}
             battleFields={state.battleFields ?? []}
             scenes={state.scenes}
             manifest={state.manifest}
@@ -547,6 +551,8 @@ export function App(props: {
                 leaderSpriteId={leaderSpriteId}
                 assetBase={project.assetBase}
                 ownMaps={state.maps}
+                tilesets={state.tilesets ?? []}
+                tilesetBlobs={state.tilesetBlobs}
                 selectedId={selEntity ? selected : null}
                 entrySelected={selected === ENTRY_NODE}
                 tool={tool}
@@ -578,6 +584,8 @@ export function App(props: {
                   leaderSpriteId={leaderSpriteId}
                   assetBase={project.assetBase}
                   ownMaps={state.maps}
+                  tilesets={state.tilesets ?? []}
+                  tilesetBlobs={state.tilesetBlobs}
                   session={session}
                   music={state.music ?? []}
                   layers={{

@@ -236,3 +236,18 @@ describe('diffFiles(增量-diff)', () => {
     expect(diffFiles(snap, files)).toEqual({ write: [], remove: [] })
   })
 })
+
+test('W7B tileset round-trip:注册表入 state,serializeProject 产出 tilesets.json + 上传字节文件', () => {
+  const withTilesets = {
+    ...manifest,
+    content: { ...manifest.content, tilesets: 'content/tilesets.json' },
+  } as typeof manifest
+  const reg = [{ id: 'grass', name: '草地', category: 'outdoor', path: 'assets/tilesets/grass.rle' }]
+  const project = { ...assembleProject(withTilesets, JSONS), tilesets: reg }
+  const state = toEditorState(project, SCENES)
+  expect(state.tilesets).toEqual(reg)
+  const buf = new ArrayBuffer(8)
+  const out = serializeProject({ ...state, tilesetBlobs: { 'assets/tilesets/grass.rle': buf } })
+  expect(out['content/tilesets.json']).toEqual(reg)
+  expect(out['assets/tilesets/grass.rle']).toBe(buf) // ArrayBuffer 原样入文件集(writeFile 走 Blob)
+})

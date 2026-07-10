@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| [`W7B`](tasks/W7B-tileset-library.md) | tileset 库(上传→量化贴盘0→入库) | draft | Codex + GLM 设计签字(提示词在卡尾) | Opus 起草,4 个设计题待收敛;三签齐后用户定 Owner。 |
+| [`W7B`](tasks/W7B-tileset-library.md) | tileset 库(上传→量化→入库→绑定作画) | review | GLM done 审查(提示词在卡尾);Codex 额度缺席待补签/豁免 | Opus 代班实现 B1-B4,全仓门禁绿 + 6010 闭环实测。 |
 
 ## 阻塞
 

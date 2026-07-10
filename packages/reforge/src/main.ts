@@ -229,7 +229,7 @@ async function main(): Promise<void> {
       mapCache.set(key, hit)
       return hit
     }
-    const entry = await loadSceneMap(project.assetBase, sceneMap)
+    const entry = await loadSceneMap(project.assetBase, sceneMap, project.tilesets)
     mapCache.set(key, entry)
     while (mapCache.size > MAP_CACHE_CAP) {
       const oldest = mapCache.keys().next().value

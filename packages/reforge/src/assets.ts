@@ -256,6 +256,26 @@ export async function loadBattleBg(
  * 浏览器原生 gzip 解压（端口自 game/assets/tileset-blob.ts）。
  * 含 Content-Encoding 双解压防御：无 gzip 魔数(1f 8b) = 上游已解，直接返回。
  */
+/** gzip 的 sprite chunk 字节 → 瓦片帧表(W7B:上传未落盘的内存态与磁盘态共用解码)。 */
+export async function tilesFromChunkBytes(gz: ArrayBuffer): Promise<Map<number, RleFrame>> {
+  const frames = parseSpriteChunk(await decompressGzip(new Blob([gz])))
+  const map = new Map<number, RleFrame>()
+  frames.forEach((f, i) => {
+    map.set(i, f)
+  })
+  return map
+}
+
+/** 浏览器原生 gzip 压缩(W7B 上传 tileset 落盘;与 decompressGzip 对称)。 */
+export async function compressGzip(bytes: Uint8Array): Promise<Uint8Array> {
+  if (typeof CompressionStream === 'undefined') throw new Error('reforge: CompressionStream 不可用')
+  const cs = new CompressionStream('gzip')
+  const body = new Response(new Blob([bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer])).body
+  if (!body) throw new Error('reforge: response body 为空')
+  const out = await new Response(body.pipeThrough(cs)).arrayBuffer()
+  return new Uint8Array(out)
+}
+
 export async function decompressGzip(blob: Blob): Promise<Uint8Array> {
   const buf = await blob.arrayBuffer()
   const bytes = new Uint8Array(buf)

@@ -9,8 +9,8 @@
  */
 
 import type { SceneDef, SceneMap } from '@type-pal/content'
-import { gridToPixel, isReuseMap, sceneMapKey } from '@type-pal/content'
-import type { AssetBase, LoadedSprite, OwnMap, Palette, SceneMapAssets } from '@type-pal/reforge'
+import { gridToPixel, isReuseMap, resolveTilesetPath, sceneMapKey } from '@type-pal/content'
+import type { AssetBase, LoadedSprite, OwnMap, Palette, SceneMapAssets, TilesetDef } from '@type-pal/reforge'
 import {
   buildIsBlocked,
   Canvas2DRenderer,
@@ -18,6 +18,7 @@ import {
   loadSceneMap,
   loadSprite,
   loadTilesetByPath,
+  tilesFromChunkBytes,
 } from '@type-pal/reforge'
 import { type RefObject, useEffect, useRef, useState } from 'react'
 
@@ -62,8 +63,12 @@ export function useSceneAssets(opts: {
   spriteNums: number[]
   /** 编辑器实时自有地图(键 = ownMap 路径)。own 场景从此读地图,不落磁盘(创建后未存磁盘上没有)。 */
   ownMaps?: Record<string, OwnMap>
+  /** tileset 注册表(W7B:OwnMap.tileset 可为注册表 id;缺省 [] = 仅路径直通)。 */
+  tilesets?: readonly TilesetDef[]
+  /** 上传未保存的 tileset 字节(键 = 资产路径);命中则内存解码,不读磁盘。 */
+  tilesetBlobs?: Record<string, ArrayBuffer>
 }): { status: 'loading' | 'ready' | 'error'; err: string; loadedRef: RefObject<StageAssets | null> } {
-  const { canvasRef, assetBase, sceneMap, spriteNums, ownMaps } = opts
+  const { canvasRef, assetBase, sceneMap, spriteNums, ownMaps, tilesets, tilesetBlobs } = opts
   const loadedRef = useRef<StageAssets | null>(null)
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
   const [err, setErr] = useState('')
@@ -71,6 +76,8 @@ export function useSceneAssets(opts: {
   const mapKey = sceneMapKey(sceneMap) // 复用 `r:<号>` / 自有 `o:<路径>`,稳定串防对象身份误触重载
   // 自有地图:优先读实时 state(编辑中未存);无则 undefined → 落回 loadSceneMap 磁盘读(round-trip)
   const liveMap = !isReuseMap(sceneMap) ? ownMaps?.[sceneMap.ownMap] : undefined
+  // 换绑 tileset 时 mapKey 不变 → 引用单独入依赖(W7B);注册表经 resolveTilesetPath 解析 id/路径
+  const tilesetRef = liveMap?.tileset ?? ''
   // biome-ignore lint/correctness/useExhaustiveDependencies: sceneMap/spriteNums/liveMap 以 key 串比较(对象/数组身份每渲染变)
   useEffect(() => {
     const ctx = canvasRef.current?.getContext('2d')
@@ -82,8 +89,15 @@ export function useSceneAssets(opts: {
         const [{ map, tiles }, palette] = await Promise.all([
           // 自有地图有实时副本 → 直接用它 + 按其 tileset 取瓦片;否则走 loadSceneMap(复用/磁盘)
           liveMap
-            ? loadTilesetByPath(assetBase, liveMap.tileset).then((t) => ({ map: liveMap, tiles: t }))
-            : loadSceneMap(assetBase, sceneMap), // 复用原版 ⊕ 自有(磁盘),分流内建
+            ? (async () => {
+                const path = resolveTilesetPath(liveMap.tileset, tilesets ?? [])
+                const mem = tilesetBlobs?.[path] // 上传未保存:内存字节优先(磁盘尚无此文件)
+                const tiles = mem
+                  ? await tilesFromChunkBytes(mem)
+                  : await loadTilesetByPath(assetBase, path)
+                return { map: liveMap, tiles }
+              })()
+            : loadSceneMap(assetBase, sceneMap, tilesets), // 复用原版 ⊕ 自有(磁盘),分流内建
           loadPalette(assetBase, 0), // 只留盘 0(W7a-3:调色板概念退役)
         ])
         const entries = await Promise.all(
@@ -108,7 +122,7 @@ export function useSceneAssets(opts: {
     return () => {
       alive = false
     }
-  }, [assetBase, mapKey, spriteNumsKey, canvasRef])
+  }, [assetBase, mapKey, spriteNumsKey, canvasRef, tilesetRef])
   return { status, err, loadedRef }
 }
 

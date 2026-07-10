@@ -68,6 +68,10 @@ export function PreviewCanvas(props: {
   assetBase: AssetBase
   /** 自有地图实时副本(键 = ownMap 路径);own 场景从此渲染(不落磁盘)。 */
   ownMaps: Record<string, OwnMap>
+  /** tileset 注册表(W7B;OwnMap.tileset 可为 id)。 */
+  tilesets: readonly import('@type-pal/reforge').TilesetDef[]
+  /** 上传未保存的 tileset 字节(内存优先)。 */
+  tilesetBlobs: Record<string, ArrayBuffer>
   locale: Locale
   playback: Playback
   /** 网格/禁入/透视叠加(与布置模式同一开关;共享层绘制)。 */
@@ -87,6 +91,8 @@ export function PreviewCanvas(props: {
     leaderSpriteId,
     assetBase,
     ownMaps,
+    tilesets,
+    tilesetBlobs,
     locale,
     playback,
     layers,
@@ -134,6 +140,8 @@ export function PreviewCanvas(props: {
     sceneMap: scene.map,
     spriteNums,
     ownMaps,
+    tilesets,
+    tilesetBlobs,
   })
 
   // rAF:tick 演出 + 合成一帧

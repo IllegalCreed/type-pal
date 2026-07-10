@@ -26,7 +26,7 @@ import type {
   ScriptStage,
   SpriteDef,
 } from '@type-pal/content'
-import type { OwnMap, OwnMapCollisionEdit, OwnMapLayer, OwnMapTileEdit } from '@type-pal/reforge'
+import type { OwnMap, OwnMapCollisionEdit, OwnMapLayer, OwnMapTileEdit, TilesetDef } from '@type-pal/reforge'
 import {
   insertOwnMapLayer,
   moveOwnMapLayer,
@@ -602,6 +602,110 @@ export class ResizeOwnMapCommand implements Command {
     const map = state.maps[this.mapRel]
     if (!map || !this.prev) return state
     return { ...state, maps: { ...state.maps, [this.mapRel]: this.prev } }
+  }
+}
+
+/**
+ * 换自有地图绑定的 tileset(W7B):OwnMap.tileset = 注册表 id(或借用路径)。
+ * 换绑不重映射瓦片索引(套件间同位替换是常见玩法;索引超出新集 = 渲染空,可换回)。
+ */
+export class SetOwnMapTilesetCommand implements Command {
+  readonly label = '换瓦片集'
+  private prev: string | undefined
+
+  constructor(
+    private readonly mapRel: string,
+    private readonly tileset: string,
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    const map = state.maps[this.mapRel]
+    if (!map || map.tileset === this.tileset) return state
+    if (this.prev === undefined) this.prev = map.tileset
+    return { ...state, maps: { ...state.maps, [this.mapRel]: { ...map, tileset: this.tileset } } }
+  }
+
+  invert(state: EditorState): EditorState {
+    const map = state.maps[this.mapRel]
+    if (!map || this.prev === undefined) return state
+    return { ...state, maps: { ...state.maps, [this.mapRel]: { ...map, tileset: this.prev } } }
+  }
+}
+
+/**
+ * 上传 tileset 入库(W7B):注册表条目 + .rle 字节暂存原子加入;invert 同时移除。
+ * blob 键 = def.path(资产相对路径);保存时 serializeProject 并入文件集。
+ */
+export class AddTilesetCommand implements Command {
+  readonly label = '上传瓦片集'
+  private readonly def: TilesetDef
+  private readonly blob: ArrayBuffer
+
+  constructor(def: TilesetDef, blob: ArrayBuffer) {
+    this.def = structuredClone(def)
+    this.blob = blob
+  }
+
+  apply(state: EditorState): EditorState {
+    if ((state.tilesets ?? []).some((t) => t.id === this.def.id)) return state
+    return {
+      ...state,
+      tilesets: [...(state.tilesets ?? []), this.def],
+      tilesetBlobs: { ...state.tilesetBlobs, [this.def.path]: this.blob },
+    }
+  }
+
+  invert(state: EditorState): EditorState {
+    const { [this.def.path]: _drop, ...restBlobs } = state.tilesetBlobs
+    return {
+      ...state,
+      tilesets: (state.tilesets ?? []).filter((t) => t.id !== this.def.id),
+      tilesetBlobs: restBlobs,
+    }
+  }
+}
+
+/**
+ * 移除 tileset 条目(W7B):捕获条目与暂存字节(若有)供 invert 还原。
+ * 已落盘的 .rle 文件不删(可能被旧存档/其他地图引用;孤儿清理是后续维护活)。
+ */
+export class RemoveTilesetCommand implements Command {
+  readonly label = '移除瓦片集'
+  private removed: TilesetDef | undefined
+  private removedIndex: number | undefined
+  private removedBlob: ArrayBuffer | undefined
+
+  constructor(private readonly tilesetId: string) {}
+
+  apply(state: EditorState): EditorState {
+    const list = state.tilesets ?? []
+    const index = list.findIndex((t) => t.id === this.tilesetId)
+    if (index < 0) return state
+    if (!this.removed) {
+      this.removed = structuredClone(list[index])
+      this.removedIndex = index
+      this.removedBlob = state.tilesetBlobs[list[index]!.path]
+    }
+    const { [list[index]!.path]: _drop, ...restBlobs } = state.tilesetBlobs
+    return {
+      ...state,
+      tilesets: list.filter((t) => t.id !== this.tilesetId),
+      tilesetBlobs: restBlobs,
+    }
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.removed || this.removedIndex === undefined) return state
+    const list = [...(state.tilesets ?? [])]
+    list.splice(this.removedIndex, 0, this.removed)
+    return {
+      ...state,
+      tilesets: list,
+      tilesetBlobs:
+        this.removedBlob !== undefined
+          ? { ...state.tilesetBlobs, [this.removed.path]: this.removedBlob }
+          : state.tilesetBlobs,
+    }
   }
 }
 

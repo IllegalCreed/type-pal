@@ -163,3 +163,13 @@ content/
 - opcode 兼容层 vs 全新事件模型的边界 → P1。
 - 多层地图的角色跨层行走 → P1 引擎。
 - 演出 action 词汇表的完整清单 → P1 / P2。
+
+## tileset 注册表(W7B,2026-07-10 落地)
+
+`manifest.content.tilesets` → `content/tilesets.json`:数组,条目 `{id, name, category, path, tiles?}`。
+- `id` 稳定身份(不含 `/`);`path` = 资产相对路径(`.rle` = gzip GOP 索引帧组,与原版 tileset 同构)。
+- 上传管线:PNG → 网格切片 → **量化贴盘 0**(D25 第 4 条;最近邻,alpha<128 透明)→
+  `encodeSpriteChunk` + gzip 落盘 —— 存索引 1B/px,不烘 RGBA(D25 第 2 条),渲染与
+  原版同一条「索引帧 + 盘 0 → bake」单路。
+- `OwnMap.tileset` 可为注册表 id 或直接路径(原版借用);`resolveTilesetPath` 判别(id 不含 `/`)。
+- `tiles` 为 per-tile 元数据留字段(height 遮挡格高;将来变体分组/stamp 组合走可选字段扩展)。

@@ -15,6 +15,7 @@ export type { Camera, CellRect, Renderer, RenderLayerOpts, SpriteDraw }
 
 // 资产加载(tilemap/palette/tileset/sprite + gzip 解压)
 import {
+  compressGzip,
   decompressGzip,
   loadBattleBg,
   loadBattleSprite,
@@ -26,7 +27,7 @@ import {
   loadTilesetByPath,
 } from './assets.js'
 import type { AssetBase, LoadedSprite } from './assets.js'
-export { decompressGzip, loadBattleBg, loadBattleSprite, loadFireSprite, loadOwnMap, loadPalette, loadSprite, loadTilemap, loadTilesetByPath }
+export { compressGzip, decompressGzip, loadBattleBg, loadBattleSprite, loadFireSprite, loadOwnMap, loadPalette, loadSprite, loadTilemap, loadTilesetByPath }
 export type { AssetBase, LoadedSprite }
 
 // 场景地图分流(W7D:旧 Tilemap 复用图 ⊕ OwnMap v1 自有图;引擎 + 编辑器共用)
@@ -74,10 +75,13 @@ export type {
 export { isOwnMap, validateOwnMap } from '@type-pal/content'
 // 上传素材量化 + 图集网格切片(W7B;编码器在 shared rle-encode)
 export { quantizeToRleFrame, sliceAtlasGrid } from './quantize.js'
+export { tilesFromChunkBytes } from './assets.js'
 export { resolveTilesetPath, validateTilesets } from '@type-pal/content'
 export type { TilesetDef } from '@type-pal/content'
 export type { OwnMap, OwnMapLayer } from '@type-pal/content'
-export type { Palette, Tilemap } from '@type-pal/shared'
+export type { Palette, RleFrame, Tilemap } from '@type-pal/shared'
+// RLE 编码/解析转出口(W7B 上传管线;编辑器不直依赖 shared)
+export { encodeSpriteChunk, parseSpriteChunk } from '@type-pal/shared'
 
 // 碰撞判定(编辑器画禁入格复用,与游戏同一套 → 不漂移);pixelToTile = W7c 笔刷靶定
 import { buildIsBlocked, isBlockedAt, pixelToTile } from './collision.js'

@@ -32,6 +32,7 @@ import {
   PaintTilesCommand,
   RemoveOwnMapLayerCommand,
   ResizeOwnMapCommand,
+  SetOwnMapTilesetCommand,
   UpdateOwnMapLayerCommand,
 } from '../core/commands.js'
 import type { EditorState, EditSession } from '../core/edit-session.js'
@@ -85,8 +86,12 @@ export function MapMode(props: {
   session: EditSession
   assetBase: AssetBase
   ownMaps: EditorState['maps']
+  /** tileset 注册表(W7B:绑定下拉 + OwnMap.tileset id 解析)。 */
+  tilesets: readonly import('@type-pal/reforge').TilesetDef[]
+  /** 上传未保存的 tileset 字节(内存优先)。 */
+  tilesetBlobs: Record<string, ArrayBuffer>
 }) {
-  const { scene, session, assetBase, ownMaps } = props
+  const { scene, session, assetBase, ownMaps, tilesets, tilesetBlobs } = props
   const own = !isReuseMap(scene.map)
   const ownPath = isReuseMap(scene.map) ? '' : scene.map.ownMap
   const liveMap: OwnMap | undefined = own ? ownMaps[ownPath] : undefined
@@ -113,6 +118,8 @@ export function MapMode(props: {
     sceneMap: scene.map,
     spriteNums: [],
     ownMaps,
+    tilesets,
+    tilesetBlobs,
   })
   const activeTool: MapTool = own && liveMap ? tool : 'pan'
   const activeLayer = liveMap?.layers.find((layer) => layer.id === activeLayerId)
@@ -723,6 +730,27 @@ export function MapMode(props: {
               <div className="field">
                 <label>文件</label>
                 <span className="mono map-file">{ownPath}</span>
+              </div>
+              <div className="field">
+                <label>瓦片集</label>
+                <select
+                  className="in"
+                  title="换本图用的瓦片集(库条目;换绑不重映射瓦片索引)"
+                  value={liveMap?.tileset ?? ''}
+                  onChange={(e) => {
+                    if (e.target.value && liveMap)
+                      session.dispatch(new SetOwnMapTilesetCommand(ownPath, e.target.value))
+                  }}
+                >
+                  {liveMap && !tilesets.some((t) => t.id === liveMap.tileset) && (
+                    <option value={liveMap.tileset}>原版借用({liveMap.tileset})</option>
+                  )}
+                  {tilesets.map((t) => (
+                    <option key={t.id} value={t.id}>
+                      {t.name}({t.category})
+                    </option>
+                  ))}
+                </select>
               </div>
               {activeLayer ? (
                 <>

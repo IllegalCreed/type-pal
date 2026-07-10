@@ -1,6 +1,6 @@
 # W7B - tileset 库:自有瓦片图集(上传 → 量化贴盘 0 → 入库可选)
 
-Status: build
+Status: review
 Phase: phase2
 Capability: W7b(与 A4 素材导入交集)
 Coding Owner: Opus(Codex 额度耗尽,用户批准代班,2026-07-10)
@@ -42,7 +42,11 @@ tileset 的创作路线有两条,W7B 管线通吃,差别只在上传的 PNG 装�
   「可平铺等距瓦 + 过渡件」,严禁「生成大图再切」= 零复用陷阱)。
 - **整图切片型(点缀)**:一次性地标/大物件,切片只是载入格式,不为复用,成组摆一次。
 - 原版 PAL 即混合体(每图专属 tileset 但内部大量重复瓦):先画场景再 tile 化归并。
-- 一张地图 = 套件铺底 + 地标点缀;后续增强件:autotile(套件爽用)、stamp(切片型不痛苦)。
+- 一张地图 = 套件铺底 + 地标点缀;后续增强件三层(用户 2026-07-10 提出,与行业工具对应):
+  ① 随机笔刷(同组变体随机抽,Tiled 随机模式;轻,W7C 首个增强)→ ② stamp 盖章
+  (桌椅多瓦一次盖;来源 = 素材预组合 或 地图框选存章,后者更常用)→ ③ terrain/autotile
+  (墙底/面/顶按邻接自动选瓦 + 类内随机变体,RPGM A3/A4 / Wang tiles;大件,单独立卡)。
+  三者都吃 tileset 元数据:tiles 字段已留,分组/组合将来加可选字段,不破坏现有数据。
 
 ## 上下文锚点
 
@@ -122,8 +126,8 @@ tileset 的创作路线有两条,W7B 管线通吃,差别只在上传的 PNG 装�
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
-- Opus: pending
+- Codex: pending(额度耗尽缺席;恢复后补签或用户豁免)
+- Opus: **accept**(2026-07-10;Coding Owner 自审 —— 实现与自验证见 Build 段;终案全落地,B2 双路期按收敛取消)
 - GLM: pending
 - counter / 返工处理:
 - 缺签豁免: N/A
@@ -218,6 +222,27 @@ tileset 的创作路线有两条,W7B 管线通吃,差别只在上传的 PNG 装�
 - 主审:三方(新能力格 + 资产管线)。
 - 是否建议进入 build: 待 Codex / GLM 设计签字(重点收敛设计题 1-4)。
 
+## Build:实现与自验证(Opus 代班,2026-07-10)
+
+- 分期落地:B1 注册表 schema/校验/loader 装配 + pal manifest 声明(初始 []);
+  B2 shared PAL RLE 编码器(解码器之逆;游程分段/尾透明写满/偶对齐/128KB 上限)+
+  reforge 量化(最近邻贴盘 0,alpha<128 透明,同色缓存)与网格切片纯函数;
+  B3a 数据模式「瓦片集」页(列表/上传向导/切片参数/量化预览/入库/详情/移除,
+  AddTileset/RemoveTileset 命令原子改 注册表+字节暂存);
+  B3b 加载链注册表解析(loadSceneMap/liveMap 经 resolveTilesetPath)+ 换绑下拉
+  (SetOwnMapTilesetCommand)+ 内存字节优先(tilesFromChunkBytes:上传未保存即可渲染);
+  B4 文档(content-schema tileset 节 / capability-map W7 → 编辑器侧 ✅)。
+- 单测:编码 roundtrip 8(含伪随机帧/128KB 上限)、量化/切片 3、注册表校验+解析 3、
+  serializeProject 产出 tilesets.json + ArrayBuffer 字节文件 1。
+- 全仓门禁:pnpm check 七包全过(editor 94 / reforge 250 / content 133 / shared 111 / game 2294)。
+- 浏览器闭环(6010):上传 96×32 测试图集 → 32×16 切 6 块 → 量化预览(观感 = 贴盘 0
+  近似色)→ 入库(gzip 123B)→ 详情内存解码 6 瓦 → undo/redo(条目+字节原子)→
+  建自有图 → 绑定下拉换 test-kit → 面板 6 自有瓦 → 砖红瓦画一笔真实渲染(3177 暖像素)。
+  console 零错。真实 FSA 落盘沿 W7D 先例以 serializeProject 单测覆盖(ArrayBuffer 原样
+  入文件集,writeFile 走 Blob 为 P3 已验证机制)。
+- 复验发现并修复:换绑新上传 tileset 曾 404(字节在内存、加载层读磁盘)—— 与 W7D
+  liveMap 同款问题,增设 tilesetBlobs 内存优先分流。
+
 ## 交接日志
 
 - 2026-07-10 Opus: 起草本卡(注册表 schema 倾向 + 渲染双路倾向 b + 量化定向 + 四期
@@ -231,22 +256,23 @@ tileset 的创作路线有两条,W7B 管线通吃,差别只在上传的 PNG 装�
   Evidence: Draft「收敛终案」。Next: GLM / 复确认终案;User / 拍板终案 + 豁免 Codex 设计签 + 定 Owner。
 - 2026-07-10 User: 三合一拍板 —— 终案批准 + 豁免 Codex 设计签 + Coding Owner = Opus 代班。build allowed。Evidence: 用户「你来实现吧」。Next: Opus / build(B1 注册表 → B2 量化+RLE 编码 → B3 UI → B4 闭环)。
 - 2026-07-10 User: 补方法论定调 —— 套件型为主(AI 生图按套件)、整图切片型为辅;已记入本卡「素材方法论」节。
+- 2026-07-10 User: 追问增强件形态,定调三层:随机笔刷 → stamp(素材预组合/地图框选)→ terrain·autotile;均吃 tiles 元数据,schema 留口不实现。
+- 2026-07-10 Opus: build 完成(B1-B4;GLM counter 终案全落地),全仓门禁绿 + 6010 全流程闭环实测;状态转 review,Opus 自签 accept。Codex 仍缺席(额度)。Next: GLM / done 审查签字(用卡尾提示词);Codex 恢复后补签或用户豁免。
 
 ## 下一位 Agent 提示词
 
 ```text
 接手任务: W7B - tileset 库(上传 → 量化贴盘 0 → 入库可选)
 任务卡: docs/ops/tasks/W7B-tileset-library.md
-当前状态: draft(build 准入 blocked,Opus agree,待你设计签字)
-你的角色: 设计签字(Codex:实现可行性/上传与 FSA 落盘/渲染双路工作量;
-  GLM:schema 覆盖/测试矩阵/量化边界与文档风险)
-先读: AGENTS.md;本卡全部(尤其 4 个设计题与分期);docs/phase2/READ-FIRST.md;
-  packages/reforge/src/assets.ts(loadTilesetByPath)与 render.ts(bakedTile)。
-已完成: Opus 起草 —— 注册表 schema 倾向(显式帧表)、渲染双路倾向 b(baked 抽象)、
-  引用形态倾向 id、量化最近邻定向、B1-B4 分期。
-请你做: 对 4 个设计题逐个表态(agree 或 counter+替代方案),整体签 agree / counter。
-不要做: 不要开始实现(签字未齐);不要引入 paletteId/多盘概念(量化目标是内部机制,
-  不暴露给作者);不要把 tileset 身份做成数组下标或裸路径。
-输出要求: 签字写回本卡「进入 build 前:设计签字」你的行;由用户转达或有文件权限的
-  一方代录。三签齐后用户指定 Coding Owner。
+当前状态: review(Opus 代班实现并自签 accept;Codex 额度缺席;你的 done 审查签字 pending)
+你的角色: GLM done 审查(覆盖清单/测试矩阵/文档/你的 counter 落地核验)
+先读: 本卡「收敛终案」「Build:实现与自验证」两节;docs/phase2/decisions.md D25;
+  docs/phase2/foundation/content-schema.md 尾部新增 tileset 节。
+重点核验: ① 你的 counter(索引落盘/单路渲染)是否如约落地 —— 落盘为原版同构 .rle
+  (gzip 索引帧组),渲染零改;② 你设计签字附带的测试矩阵(id 唯一/帧界内/量化五例/
+  双路解析)覆盖情况 —— 注:「双路解析」已随终案改为「注册表 id + 路径直通」二形态,
+  编码 roundtrip 与 128KB 上限为新增覆盖;③ 文档同步(content-schema/capability-map)。
+输出要求: accept 或 counter+理由,写回本卡「进入 done 前:审查签字」GLM 行;
+  说明 done 准入结论可否在 Codex 补签/豁免后转 done allowed。
+不要做: 不要改实现文件;不要标记 done(Codex 缺席须用户裁决豁免与否 + 用户最终验收)。
 ```

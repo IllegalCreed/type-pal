@@ -288,6 +288,9 @@ export function ScriptDrawer(props: {
   assetBase: AssetBase
   /** 自有地图实时副本(键 = ownMap 路径);传给大预览渲染 own 场景。 */
   ownMaps: Record<string, OwnMap>
+  /** tileset 注册表(W7B;转发大预览)。 */
+  tilesets: readonly import('@type-pal/reforge').TilesetDef[]
+  tilesetBlobs: Record<string, ArrayBuffer>
   session: EditSession
   music: MusicDef[]
   /** 网格/禁入/透视叠加开关(与布置模式同一状态;传给大预览)。 */
@@ -305,6 +308,8 @@ export function ScriptDrawer(props: {
     leaderSpriteId,
     assetBase,
     ownMaps,
+    tilesets,
+    tilesetBlobs,
     session,
     music,
     layers,
@@ -420,6 +425,8 @@ export function ScriptDrawer(props: {
           leaderSpriteId={leaderSpriteId}
           assetBase={assetBase}
           ownMaps={ownMaps}
+          tilesets={tilesets}
+          tilesetBlobs={tilesetBlobs}
           locale={locale}
           playback={playback}
           layers={layers}

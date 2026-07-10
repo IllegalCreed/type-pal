@@ -52,6 +52,10 @@ export function SceneCanvas(props: {
   assetBase: AssetBase
   /** 自有地图实时副本(键 = ownMap 路径);own 场景从此渲染(不落磁盘)。 */
   ownMaps: Record<string, OwnMap>
+  /** tileset 注册表(W7B;OwnMap.tileset 可为 id)。 */
+  tilesets: readonly import('@type-pal/reforge').TilesetDef[]
+  /** 上传未保存的 tileset 字节(内存优先)。 */
+  tilesetBlobs: Record<string, ArrayBuffer>
   selectedId: string | null
   /** 进场点节点是否选中(树/画布点中它 → 金环加粗高亮,和实体的蓝框选中呼应)。 */
   entrySelected?: boolean
@@ -81,6 +85,8 @@ export function SceneCanvas(props: {
     leaderSpriteId,
     assetBase,
     ownMaps,
+    tilesets,
+    tilesetBlobs,
     selectedId,
     entrySelected,
     tool,
@@ -141,6 +147,8 @@ export function SceneCanvas(props: {
     sceneMap: scene.map,
     spriteNums,
     ownMaps,
+    tilesets,
+    tilesetBlobs,
   })
 
   useEffect(() => {
