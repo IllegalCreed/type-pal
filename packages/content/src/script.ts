@@ -79,6 +79,8 @@ export type Command =
   // 声音 / 战斗配置
   | { kind: 'playSound'; soundId: number }
   | { kind: 'playMusic'; musicId: number }
+  // 氛围(W6 昼夜;原版 0x53 昼/0x54 夜全局调色板 flag 的 clean 表达 —— 全帧乘法滤镜)
+  | { kind: 'setAmbience'; ambience: string }
   // 走位 / 演出(M3b;速度=原版 2/3/4/8 → slow/normal/fast/run)
   | { kind: 'moveEntity'; entity: string; to: GridPos; speed: WalkSpeed } // 阻塞:直线走到(原版 walkTo)
   | { kind: 'stepEntity'; entity: string; dir: Facing } // 单步(0x0B-0E:设向+走一步)

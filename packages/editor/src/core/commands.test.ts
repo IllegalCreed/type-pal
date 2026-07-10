@@ -2,6 +2,7 @@ import type { ActorDef, EntityDef, ScriptStage, SpriteDef } from '@type-pal/cont
 import { buildBlankOwnMap, buildOwnMapLayer, paintOwnMapTiles } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
 import {
+  AddAmbienceCommand,
   AddEnemyCommand,
   AddEntityCommand,
   AddOwnMapLayerCommand,
@@ -17,6 +18,7 @@ import {
   RemoveOwnMapLayerCommand,
   ResizeOwnMapCommand,
   UpdateActorCommand,
+  UpdateAmbienceCommand,
   UpdateBattleFieldCommand,
   UpdateEnemyCommand,
   UpdateEnemyTeamsCommand,
@@ -389,6 +391,34 @@ describe('D24 战场命令(不可变 + invert)', () => {
     const back = cmd.invert(s1)
     expect(back.battleFields![0]!.name).toBeUndefined() // name 清回未设
     expect(back.battleFields![0]!.magicEffect.fire).toBe(0)
+  })
+})
+
+describe('W6 氛围命令(不可变 + invert)', () => {
+  function stA(): EditorState {
+    const base = st() as EditorState & { ambiences: import('@type-pal/content').AmbienceDef[] }
+    base.ambiences = [
+      { id: 'day', name: '白天', tint: [255, 255, 255] },
+      { id: 'night', name: '夜晚', tint: [117, 229, 255] },
+    ]
+    return base
+  }
+  test('UpdateAmbience:调乘色,invert 还原;源不变', () => {
+    const s0 = stA()
+    const cmd = new UpdateAmbienceCommand('night', { tint: [100, 200, 255] })
+    const s1 = cmd.apply(s0)
+    expect(s1.ambiences![1]!.tint).toEqual([100, 200, 255])
+    expect(s0.ambiences![1]!.tint).toEqual([117, 229, 255]) // 源不变
+    expect(cmd.invert(s1).ambiences![1]!.tint).toEqual([117, 229, 255])
+  })
+  test('AddAmbience:追加恒等白;invert 移除;重复 id 不动', () => {
+    const s0 = stA()
+    const cmd = new AddAmbienceCommand('dusk', '黄昏')
+    const s1 = cmd.apply(s0)
+    expect(s1.ambiences).toHaveLength(3)
+    expect(s1.ambiences![2]).toEqual({ id: 'dusk', name: '黄昏', tint: [255, 255, 255] })
+    expect(cmd.invert(s1).ambiences).toHaveLength(2)
+    expect(new AddAmbienceCommand('day', '重复').apply(s0)).toBe(s0)
   })
 })
 

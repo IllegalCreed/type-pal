@@ -147,6 +147,19 @@ describe('assembleProject(纯核)', () => {
     expect(p.poisonsById[551]?.curability).toBe('common')
     expect(p.poisonsById[551]?.playerTicks?.[0]?.hpDelta).toBe(-7)
   })
+
+  test('ambiences 可选:不传 → 空(setAmbience no-op);传入 → 原序数组(W6)', () => {
+    expect(assembleProject(manifest, baseJsons).ambiences).toEqual([])
+    const p = assembleProject(manifest, {
+      ...baseJsons,
+      ambiences: [
+        { id: 'day', name: '白天', tint: [255, 255, 255] },
+        { id: 'night', name: '夜晚', tint: [117, 229, 255] },
+      ],
+    })
+    expect(p.ambiences.map((a) => a.id)).toEqual(['day', 'night'])
+    expect(p.ambiences[1]?.tint).toEqual([117, 229, 255])
+  })
 })
 
 /** 内存 FileSource:按 rel → 预置 JSON 值;缺则抛 404(素材二进制本测不涉)。 */

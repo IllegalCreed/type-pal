@@ -356,6 +356,7 @@ export function App(props: {
             tilesetBlobs={state.tilesetBlobs}
             battleFields={state.battleFields ?? []}
             poisons={state.poisons ?? []}
+            ambiences={state.ambiences ?? []}
             scenes={state.scenes}
             manifest={state.manifest}
             actors={state.actors}
@@ -589,6 +590,7 @@ export function App(props: {
                   tilesetBlobs={state.tilesetBlobs}
                   session={session}
                   music={state.music ?? []}
+                  ambiences={state.ambiences ?? []}
                   layers={{
                     grid: canvasLayers.grid,
                     blocked: canvasLayers.blocked,

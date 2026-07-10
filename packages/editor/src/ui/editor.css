@@ -2262,6 +2262,49 @@ body {
   white-space: nowrap;
 }
 
+/* ── 氛围页(W6):乘色拾色 + multiply 滤镜预览条(所见即引擎效果)── */
+.amb-tint {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.amb-tint input[type='color'] {
+  width: 34px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: none;
+  cursor: pointer;
+}
+.amb-preview {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  height: 26px;
+  border-radius: 3px;
+  overflow: hidden;
+  isolation: isolate; /* multiply 只和样例条混合,不吃页面底色 */
+}
+.amb-preview-base {
+  position: absolute;
+  inset: 0;
+  /* 彩色样例(草地/土路/水面/暖光/白墙):看得出乘法对各色相的影响 */
+  background: linear-gradient(
+    90deg,
+    #5a9e4b 0 20%,
+    #a97b4e 20% 40%,
+    #4a7fb5 40% 60%,
+    #e0b34c 60% 80%,
+    #d8d4c8 80% 100%
+  );
+}
+.amb-preview-tint {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: multiply;
+}
+
 /* ── 效果行内嵌预览(summon/trance 归位到对应行下,2026-07-05 作者定位) ── */
 .ef-preview-row {
   padding: 4px 8px 10px 104px; /* 缩进对齐 kind 下拉右侧字段区 */

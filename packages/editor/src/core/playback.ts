@@ -374,6 +374,7 @@ export class Playback {
     giveMoney: (delta) => this.log(`💰 ${delta >= 0 ? '+' : ''}${delta} 钱`),
     playSound: (id) => this.log(`🔊 音效 ${id}`),
     playMusic: (id) => this.log(`🎵 音乐 ${id}`),
+    setAmbience: (id) => this.log(`🌗 切氛围 ${id}`), // 预览画布不染(创作视图恒白天);要看夜色走引擎试玩
     takeEntity: (id) => this.log(`🔒 接管 ${id}`),
     setParty: (members) => this.log(`👥 队伍变更 → ${members.join(', ')}`),
     mountParty: (id) => this.log(`🛶 挂载队伍 → ${id}`),

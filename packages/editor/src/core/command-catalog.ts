@@ -46,6 +46,7 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
   // 音频/战斗配置
   { kind: 'playSound', icon: '🔊', name: '音效', group: '音频/战斗配置', params: [['soundId', '音效号(sounds/<id>.wav)']], desc: '播一发音效。', origin: '0x4D' },
   { kind: 'playMusic', icon: '🎵', name: '音乐', group: '音频/战斗配置', params: [['musicId', '曲号(0=停)']], desc: '切 BGM;进场景槽曲被本指令覆盖。', origin: '0x43' },
+  { kind: 'setAmbience', icon: '🌗', name: '切氛围(昼夜)', group: '音频/战斗配置', params: [['ambience', '氛围 id(day 昼/night 夜/自定义)']], desc: '切全局昼夜氛围(全帧色调滤镜);跨场景持续、随存档。', origin: '0x53(昼)/0x54(夜)' },
   // (overrideSceneBattle 已退役:战场/曲走场景属性 battleFieldId/battleMusicId 或 startBattle 一次性参数,无持久覆写)
   // 走位/相机
   { kind: 'moveEntity', icon: '🚶', name: '实体走到', group: '走位/相机', params: [['entity', '实体 id'], ['to', '目标格'], ['speed', 'slow/normal/fast/run']], desc: '阻塞直线走位。', origin: 'NPCWalkTo 系' },

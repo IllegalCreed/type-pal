@@ -187,6 +187,7 @@ export interface SceneDef {
 }
 
 export * from './actor.js'
+export * from './ambience.js'
 export * from './battle-formulas.js'
 export * from './own-map.js'
 export * from './tileset.js'

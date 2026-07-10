@@ -51,6 +51,8 @@ export interface ScriptHost {
   giveMoney(delta: number): void
   playSound(soundId: number): void
   playMusic(musicId: number): void
+  /** W6 氛围(昼夜):切全局氛围(全帧乘法滤镜;原版 0x53/0x54 全局调色板 flag)。 */
+  setAmbience(ambience: string): void
   /** E6b 显式定位权威:接管/归还(缺省全部)。 */
   takeEntity(entityId: string): void
   releaseEntity(entityId?: string): void
@@ -282,6 +284,8 @@ export class ScriptRunner {
         return h.playSound(cmd.soundId)
       case 'playMusic':
         return h.playMusic(cmd.musicId)
+      case 'setAmbience':
+        return h.setAmbience(cmd.ambience)
       case 'takeEntity':
         return h.takeEntity(cmd.entity)
       case 'releaseEntity':

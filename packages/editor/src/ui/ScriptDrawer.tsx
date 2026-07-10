@@ -8,6 +8,7 @@
 
 import type {
   ActorDef,
+  AmbienceDef,
   Command,
   Locale,
   MusicDef,
@@ -293,6 +294,8 @@ export function ScriptDrawer(props: {
   tilesetBlobs: Record<string, ArrayBuffer>
   session: EditSession
   music: MusicDef[]
+  /** 氛围表(setAmbience 表单下拉;W6)。 */
+  ambiences?: AmbienceDef[]
   /** 网格/禁入/透视叠加开关(与布置模式同一状态;传给大预览)。 */
   layers?: { grid: boolean; blocked: boolean; ghosts?: boolean }
   onClose: () => void
@@ -312,6 +315,7 @@ export function ScriptDrawer(props: {
     tilesetBlobs,
     session,
     music,
+    ambiences,
     layers,
     onClose,
   } = props
@@ -730,6 +734,7 @@ export function ScriptDrawer(props: {
                   musicBase={assetBase.music}
                   scenes={scenes}
                   assetBase={assetBase}
+                  ambiences={ambiences}
                   onChange={(next) => {
                     const out = updateCommandAt(active.stages, parsePath(selPath), next)
                     if (out !== active.stages) dispatchStages(out)

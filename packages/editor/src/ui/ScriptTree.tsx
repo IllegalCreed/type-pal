@@ -155,6 +155,8 @@ function describe(cmd: Command, locale: Locale): Described {
       return { icon: '🔓', label: `归还 ${cmd.entity ?? '(全部)'}` }
     case 'playMusic':
       return { icon: '🎵', label: `音乐 ${cmd.musicId}` }
+    case 'setAmbience':
+      return { icon: '🌗', label: `切氛围 ${cmd.ambience === 'night' ? '夜晚' : cmd.ambience === 'day' ? '白天' : cmd.ambience}` }
     case 'moveEntity':
       return {
         icon: '🚶',

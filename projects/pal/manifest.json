@@ -15,7 +15,8 @@
     "music": "content/music.json",
     "battleFields": "content/battle-fields.json",
     "poisons": "content/poisons.json",
-    "tilesets": "content/tilesets.json"
+    "tilesets": "content/tilesets.json",
+    "ambiences": "content/ambiences.json"
   },
   "assets": {
     "root": "/extracted/data",

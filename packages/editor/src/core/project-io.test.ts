@@ -242,6 +242,25 @@ test('B10 毒表:manifest 声明 poisons → round-trip 保原文件序(非升�
   expect(serializeProject(plain)['content/poisons.json']).toBeUndefined()
 })
 
+test('W6 氛围表:manifest 声明 ambiences → round-trip;未声明不产出', () => {
+  const withAmb = {
+    ...manifest,
+    content: { ...manifest.content, ambiences: 'content/ambiences.json' },
+  }
+  const ambJson = [
+    { id: 'day', name: '白天', tint: [255, 255, 255] },
+    { id: 'night', name: '夜晚', tint: [117, 229, 255] },
+  ]
+  const project = assembleProject(withAmb, { ...JSONS, ambiences: ambJson })
+  const state = toEditorState(project, SCENES)
+  expect(state.ambiences?.map((a) => a.id)).toEqual(['day', 'night'])
+  expect(serializeProject(state)['content/ambiences.json']).toEqual(ambJson)
+
+  const plain = toEditorState(assembleProject(manifest, JSONS), SCENES)
+  expect(plain.ambiences).toEqual([])
+  expect(serializeProject(plain)['content/ambiences.json']).toBeUndefined()
+})
+
 describe('diffFiles(增量-diff)', () => {
   test('只挑内容变了的写;快照有、现无的删', () => {
     const prev = new Map<string, string>([

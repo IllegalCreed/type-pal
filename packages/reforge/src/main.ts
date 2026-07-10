@@ -16,11 +16,14 @@ import {
   type GridPos,
   grantBattleRewards,
   gridToPixel,
+  isIdentityTint,
+  lerpTint,
   lookupText,
   isOwnMap,
   mapRoom,
   pixelDeltaToGridDelta,
   pixelToGrid,
+  resolveAmbienceTint,
   resolveEntitySpriteId,
   type SceneDef,
   type SceneMap,
@@ -529,6 +532,31 @@ async function main(): Promise<void> {
   let fadeFx: { dir: 'in' | 'out'; start: number; ms: number; resolve: () => void } | null = null
   let fadeBlack = 0 // 0 透明 → 1 全黑(fade out 后保持,fade in 释放)
   let fadeCurtain: 'black' | 'red' = 'black' // 幕布色(gameOver 渐红;fade-in 结束回黑)
+  // ── W6 氛围(昼夜):全帧 multiply 滤镜(docs/phase2/ambience-design.md)──
+  // world.ambience 是权威(随存档);此处只是显示态:当前乘色 + 300ms 切换过渡。
+  // 纯视觉、无输入门、自终止 —— 不属于「需要收尾人的 time-based 状态」。
+  const AMBIENCE_FADE_MS = 300
+  let ambienceShown = resolveAmbienceTint(world.ambience, project.ambiences)
+  let ambienceFx: { from: [number, number, number]; start: number } | null = null
+  /** 世界态氛围变化后瞬时同步显示(读档/新档;不播过渡)。 */
+  const syncAmbience = (): void => {
+    ambienceShown = resolveAmbienceTint(world.ambience, project.ambiences)
+    ambienceFx = null
+  }
+  /** 帧滤镜:两条出帧路径(大世界 render() 尾 + 战斗分支)都调;恒等色零开销跳过。 */
+  const applyAmbienceTint = (): void => {
+    if (ambienceFx) {
+      const t = (nowMs - ambienceFx.start) / AMBIENCE_FADE_MS
+      ambienceShown = lerpTint(ambienceFx.from, resolveAmbienceTint(world.ambience, project.ambiences), t)
+      if (t >= 1) ambienceFx = null
+    }
+    if (isIdentityTint(ambienceShown)) return
+    ctx.save()
+    ctx.globalCompositeOperation = 'multiply'
+    ctx.fillStyle = `rgb(${ambienceShown[0]},${ambienceShown[1]},${ambienceShown[2]})`
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    ctx.restore()
+  }
   let scriptDialogResolve: (() => void) | null = null
   const entityFrameOverride = new Map<string, number>() // setEntityFrame 演出帧覆盖(切场景清)
   // ── 0x15/0x65 队长演出态(原版 rgParty[].wFrame / rgwSpriteNum;脚本自清,走路时引擎清)──
@@ -721,6 +749,16 @@ async function main(): Promise<void> {
     playMusic: (id) => {
       world.script!.vars['sys:music'] = id // 记账(存档恢复用)
       bgm.play(id) // 0 = 停曲(原版语义)
+    },
+    // W6 氛围(0x53 昼/0x54 夜):world.ambience 权威(随存档),显示态播 300ms 过渡
+    setAmbience: (id) => {
+      if (id !== 'day' && !project.ambiences.some((a) => a.id === id)) {
+        console.warn(`[reforge] setAmbience: 氛围 "${id}" 不在 ambiences 表,忽略`)
+        return
+      }
+      if ((world.ambience ?? 'day') === id) return
+      world.ambience = id
+      ambienceFx = { from: ambienceShown, start: nowMs }
     },
     // E6b 显式定位权威(手工演出精细控制;隐式接管见 scriptHost 位移视图)
     takeEntity: (id) => {
@@ -1722,6 +1760,7 @@ async function main(): Promise<void> {
     }
     world = p.world
     world.script ??= emptyWorldScriptState() // 旧档缺省 → 空态
+    syncAmbience() // W6:读档瞬时还原氛围(夜档回夜;旧档缺省昼),不播过渡
     // 同场景也走 switchScene:场景实体运行时已被演出污染(位置/触发),读档必须回
     // def 初态再由 applyWorldToScene 重放世界态(X1;getSceneDef 已返回 pristine 拷贝)。
     await switchScene(p.position.sceneId, { pos: p.position.pos, facing: p.position.facing })
@@ -1943,6 +1982,8 @@ async function main(): Promise<void> {
       })
       ctx.restore()
     }
+    // W6 氛围滤镜:一切画完之后全帧 multiply(原版夜盘是全局调色板 —— UI 也染,数据实证)
+    applyAmbienceTint()
   }
 
   /** 调试层（将来可移入编辑器）：iso 菱形网格 + 每站立点 isBlocked(绿走/红禁) + 玩家脚点。 */
@@ -2081,6 +2122,7 @@ async function main(): Promise<void> {
     if (activeBattle) {
       activeBattle.tick(dt, pressed)
       activeBattle.render(ctx, WORLD_SCALE)
+      applyAmbienceTint() // 夜里进战斗照染(原版夜战即夜盘)
       requestAnimationFrame(tick)
       return
     }

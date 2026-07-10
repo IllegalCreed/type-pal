@@ -8,7 +8,7 @@
  * 对话文本:line.text 是 TextId(locale 键);编辑即改写为**字面量**(lookupText
  * 未命中回显原文,引擎/预览同语义)——新写的行直接放中文,旧行一改即脱离 locale 键。
  */
-import type { Command, Facing, Locale, MusicDef, SceneDef, WalkSpeed } from '@type-pal/content'
+import type { AmbienceDef, Command, Facing, Locale, MusicDef, SceneDef, WalkSpeed } from '@type-pal/content'
 import { type ActorDef, lookupText } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { useEffect, useState } from 'react'
@@ -54,6 +54,8 @@ function Txt(props: { value: string; onChange: (s: string) => void; placeholder?
 function Sel<T extends string>(props: {
   value: T
   options: readonly T[]
+  /** 可选显示名(与 options 同序;缺省显示 option 值本身)。 */
+  labels?: readonly string[]
   onChange: (v: T) => void
 }) {
   return (
@@ -62,9 +64,9 @@ function Sel<T extends string>(props: {
       value={props.value}
       onChange={(e) => props.onChange(e.target.value as T)}
     >
-      {props.options.map((o) => (
+      {props.options.map((o, i) => (
         <option key={o} value={o}>
-          {o}
+          {props.labels?.[i] ?? o}
         </option>
       ))}
     </select>
@@ -144,9 +146,11 @@ export function CommandForm(props: {
   assetBase?: AssetBase
   /** 角色表(setParty 队伍编辑下拉;C7)。缺省退化 JSON 兜底。 */
   actors?: Record<string, ActorDef>
+  /** 氛围表(setAmbience 下拉;W6)。缺省退化文本输入。 */
+  ambiences?: AmbienceDef[]
   onChange: (next: Command) => void
 }) {
-  const { cmd, scene, locale, music, musicBase, scenes, assetBase, actors, onChange } = props
+  const { cmd, scene, locale, music, musicBase, scenes, assetBase, actors, ambiences, onChange } = props
   const set = (patch: object): void => onChange({ ...cmd, ...patch } as Command)
 
   switch (cmd.kind) {
@@ -603,6 +607,21 @@ export function CommandForm(props: {
             music={music}
             baseUrl={musicBase}
           />
+        </Row>
+      )
+    case 'setAmbience':
+      return (
+        <Row label="氛围">
+          {ambiences?.length ? (
+            <Sel
+              value={cmd.ambience}
+              options={ambiences.map((a) => a.id)}
+              labels={ambiences.map((a) => a.name)}
+              onChange={(v) => set({ ambience: v })}
+            />
+          ) : (
+            <Txt value={cmd.ambience} onChange={(s) => set({ ambience: s })} />
+          )}
         </Row>
       )
     case 'giveMoney':

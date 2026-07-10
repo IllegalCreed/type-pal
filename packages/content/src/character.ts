@@ -22,6 +22,9 @@ export interface WorldState {
   learnedSkills: Record<string, string[]>
   /** 持有物品(跟存档):itemId → 数量。穿戴中的不在此(在 CharacterInstance.equipment)。 */
   inventory: { itemId: string; count: number }[]
+  /** W6 氛围(昼夜):全局单值,照原版 fNightPalette 语义 —— 只被脚本 setAmbience 改、
+   *  跨场景持续、随存档。缺省/旧档 → 'day'(恒等不染)。 */
+  ambience?: string
 }
 
 /** manifest.startWorld —— initialWorld() 的数据化(loader 从工程 JSON 读,buildWorld 组装)。 */

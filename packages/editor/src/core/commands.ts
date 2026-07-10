@@ -12,6 +12,7 @@
 
 import type {
   ActorDef,
+  AmbienceDef,
   BattleFieldDef,
   EnemyDef,
   EnemyTeamDef,
@@ -1749,6 +1750,68 @@ export class UpdatePoisonCommand implements Command {
     const restored = { ...p, ...this.oldPatch } as Record<string, unknown>
     for (const [k, v] of Object.entries(this.oldPatch)) if (v === undefined) delete restored[k]
     return withPoison(state, this.id, restored as unknown as PoisonDef)
+  }
+}
+
+// ── W6 氛围(昼夜)────────────────────────────────────────────────
+
+export type AmbiencePatch = Partial<Omit<AmbienceDef, 'id'>>
+
+/** 改氛围定义(name/tint)。 */
+export class UpdateAmbienceCommand implements Command {
+  readonly label = '修改氛围'
+  private readonly id: string
+  private readonly patch: AmbiencePatch
+  private oldPatch: AmbiencePatch | undefined
+
+  constructor(id: string, patch: AmbiencePatch) {
+    this.id = id
+    this.patch = structuredClone(patch)
+  }
+
+  apply(state: EditorState): EditorState {
+    const a = (state.ambiences ?? []).find((x) => x.id === this.id)
+    if (!a) return state
+    if (!this.oldPatch) {
+      const old: Record<string, unknown> = {}
+      for (const k of Object.keys(this.patch))
+        old[k] = structuredClone((a as unknown as Record<string, unknown>)[k])
+      this.oldPatch = old as AmbiencePatch
+    }
+    const ambiences = (state.ambiences ?? []).map((x) =>
+      x.id === this.id ? { ...x, ...this.patch } : x,
+    )
+    return { ...state, ambiences }
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.oldPatch) return state
+    const ambiences = (state.ambiences ?? []).map((x) =>
+      x.id === this.id ? { ...x, ...this.oldPatch } : x,
+    )
+    return { ...state, ambiences }
+  }
+}
+
+/** 新建氛围(缺省恒等白 = 不染;作者随后调色)。 */
+export class AddAmbienceCommand implements Command {
+  readonly label = '新建氛围'
+  private readonly ambience: AmbienceDef
+  private added = false
+
+  constructor(id: string, name: string) {
+    this.ambience = { id, name, tint: [255, 255, 255] }
+  }
+
+  apply(state: EditorState): EditorState {
+    if ((state.ambiences ?? []).some((a) => a.id === this.ambience.id)) return state
+    this.added = true
+    return { ...state, ambiences: [...(state.ambiences ?? []), structuredClone(this.ambience)] }
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.added) return state
+    return { ...state, ambiences: (state.ambiences ?? []).filter((a) => a.id !== this.ambience.id) }
   }
 }
 

@@ -756,13 +756,8 @@
                     "state": 1
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 84,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
+                    "kind": "setAmbience",
+                    "ambience": "night"
                   },
                   {
                     "kind": "wait",

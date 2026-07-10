@@ -34,6 +34,7 @@ function fakeHost(calls: string[]): ScriptHost {
     giveMoney: log('giveMoney'),
     playSound: log('playSound'),
     playMusic: log('playMusic'),
+    setAmbience: log('setAmbience'),
     takeEntity: log('takeEntity'),
     releaseEntity: log('releaseEntity'),
     mountParty: log('mountParty'),
@@ -118,6 +119,16 @@ test('过场编排:playRng 命令 → host.playRng(chunkIdx, {段/速})(无调�
   const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
   await r.run([{ kind: 'playRng', chunkIdx: 6, speed: 25 }])
   expect(calls).toEqual(['playRng(6,{"speed":25})']) // 正确调色盘引擎内定,不传参
+})
+
+test('setAmbience(W6 昼夜)→ host 分发氛围 id', async () => {
+  const calls: string[] = []
+  const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal, () => 0)
+  await r.run([
+    { kind: 'setAmbience', ambience: 'night' },
+    { kind: 'setAmbience', ambience: 'day' },
+  ])
+  expect(calls).toEqual(['setAmbience("night")', 'setAmbience("day")'])
 })
 
 describe('演出预览钩子(编辑器):onStep 路径上报 + 单步门', () => {

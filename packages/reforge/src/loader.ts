@@ -8,6 +8,7 @@
 // 编辑器 loadAllScenes 一次拉全量。见 scene-model-m2-design §2。
 import type {
   ActorDef,
+  AmbienceDef,
   BattleFieldDef,
   EnemyDef,
   EnemyTeamDef,
@@ -63,6 +64,8 @@ export interface LoadedProjectCore {
   /** 毒表原序数组(B10 编辑器工作副本;⚠ 勿用 Object.values(poisonsById) 代替 ——
    *  数值键会升序重排(137 跳到 551 前),破坏 round-trip 保序)。 */
   poisons: PoisonDef[]
+  /** 氛围表(W6 昼夜;缺 manifest 声明 = 空 → setAmbience no-op)。 */
+  ambiences: AmbienceDef[]
   /** tileset 注册表(W7B;缺 manifest 声明 = 空数组,原版借用走路径直通)。 */
   tilesets: TilesetDef[]
   /** 工程资源根 + 子目录(assets.ts load* 用;来自 manifest.assets)。 */
@@ -93,6 +96,8 @@ export interface ContentJsons {
   battleFields?: unknown
   /** 毒表(可选,P2;缺 → 空)。 */
   poisons?: unknown
+  /** 氛围表(可选,W6;缺 → 空)。 */
+  ambiences?: unknown
   /** tileset 注册表(可选,W7B;缺 → 空)。 */
   tilesets?: unknown
 }
@@ -129,6 +134,7 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
   const poisonList = Array.isArray(jsons.poisons) ? (jsons.poisons as PoisonDef[]) : []
   const poisonsById: Record<number, PoisonDef> = {}
   for (const p of poisonList) poisonsById[p.id] = p
+  const ambiences = Array.isArray(jsons.ambiences) ? (jsons.ambiences as AmbienceDef[]) : []
 
   if (!entryScene || entryScene.id !== manifest.entryScene)
     throw new Error(
@@ -156,6 +162,7 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
     battleFields,
     poisonsById,
     poisons: poisonList,
+    ambiences,
     tilesets,
     assetBase: (() => {
       // 素材路径**原样用**:相对(如 "assets/extracted/data" / "assets")的根由 FileSource 提供
@@ -192,7 +199,7 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
   const manifest = await source.readJson<LoadedManifest>('manifest.json')
   const content = manifest.content
   const dir = scenesDir(manifest)
-  const [actors, sceneIds, entryScene, skills, items, locale, sprites, enemies, enemyTeams, battleFields, poisons, tilesets] =
+  const [actors, sceneIds, entryScene, skills, items, locale, sprites, enemies, enemyTeams, battleFields, poisons, ambiences, tilesets] =
     await Promise.all([
       source.readJson(content.actors as string),
       source.readJson(`${dir}index.json`),
@@ -205,6 +212,7 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
       content.enemyTeams ? source.readJson(content.enemyTeams) : Promise.resolve(undefined),
       content.battleFields ? source.readJson(content.battleFields) : Promise.resolve(undefined),
       content.poisons ? source.readJson(content.poisons) : Promise.resolve(undefined),
+      content.ambiences ? source.readJson(content.ambiences) : Promise.resolve(undefined),
       content.tilesets ? source.readJson(content.tilesets) : Promise.resolve(undefined),
     ])
   const core = assembleProject(manifest, {
@@ -219,6 +227,7 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
     enemyTeams,
     battleFields,
     poisons,
+    ambiences,
     tilesets,
   })
   // source 注入 assetBase(P2:素材加载经它;assembleProject 纯核不碰 IO,故在壳注入)

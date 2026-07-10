@@ -13,6 +13,7 @@
 import { isActorEntity } from './actor.js'
 import type {
   ActorDef,
+  AmbienceDef,
   BattleFieldDef,
   EnemyDef,
   EnemyTeamDef,
@@ -58,6 +59,8 @@ export interface ContentBundle {
   battleFields?: BattleFieldDef[]
   /** 毒定义表(B10 编辑器结构化;可缺省 = 空。保原文件序 —— 勿经 by-id Record 转,数值键会重排)。 */
   poisons?: PoisonDef[]
+  /** 氛围表(W6 昼夜;可缺省 = 空 → setAmbience no-op)。 */
+  ambiences?: AmbienceDef[]
 }
 
 /** 编辑器被编辑的内容工作副本 = ContentBundle + manifest(EditSession 用)。 */

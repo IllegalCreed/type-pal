@@ -1031,13 +1031,8 @@
           "facing": "down"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 83,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "setAmbience",
+          "ambience": "day"
         },
         {
           "kind": "clearDialog"
