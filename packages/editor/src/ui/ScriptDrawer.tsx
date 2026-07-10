@@ -10,6 +10,7 @@ import type {
   ActorDef,
   AmbienceDef,
   Command,
+  Facing,
   Locale,
   MusicDef,
   SceneDef,
@@ -202,6 +203,85 @@ const INSERT_GROUPS: {
           { kind: 'setEntityFacing', entity: selfOf(c), facing: 'down' },
           { kind: 'dialog', line: { text: '(新对话)' } },
         ],
+      },
+    ],
+  },
+  {
+    // E2 巡逻模板:插进实体「行为脚本(auto)」源 —— auto 跑完整套自动重跑 = 天然循环,
+    // 不需要任何「循环」指令。形状提炼自 pal 真实市集游走(s004 e76 环线 / e83 驻足张望)。
+    title: '巡逻(插到实体行为脚本 auto;跑完自动重复)',
+    items: [
+      {
+        // 来回走:A(当前位)↔ B(右移 4 格);落点/速度插完就地改
+        label: '🚶 来回走 A↔B',
+        make: (c) => {
+          const self = selfOf(c)
+          const p = c.scene.entities.find((e) => e.id === c.ownerId)?.pos ?? c.scene.entry.pos
+          return [
+            { kind: 'moveEntity', entity: self, to: { col: p.col + 4, row: p.row, height: p.height }, speed: 'slow' },
+            { kind: 'wait', ms: 400 },
+            { kind: 'moveEntity', entity: self, to: { ...p }, speed: 'slow' },
+            { kind: 'wait', ms: 400 },
+          ]
+        },
+      },
+      {
+        // 环线:绕当前位四角(顺时针);照 s004 e76 途经点形状
+        label: '🔁 环线巡逻(四角)',
+        make: (c) => {
+          const self = selfOf(c)
+          const p = c.scene.entities.find((e) => e.id === c.ownerId)?.pos ?? c.scene.entry.pos
+          const pt = (dc: number, dr: number) => ({ col: p.col + dc, row: p.row + dr, height: p.height })
+          return [
+            { kind: 'moveEntity', entity: self, to: pt(4, 0), speed: 'slow' },
+            { kind: 'moveEntity', entity: self, to: pt(4, 4), speed: 'slow' },
+            { kind: 'moveEntity', entity: self, to: pt(0, 4), speed: 'slow' },
+            { kind: 'moveEntity', entity: self, to: { ...p }, speed: 'slow' },
+          ]
+        },
+      },
+      {
+        // 驻足张望:四向轮转(照 s004 e83 的 wait+facing+frame0 真实形状)
+        label: '👀 驻足张望(四向)',
+        make: (c) => {
+          const self = selfOf(c)
+          const look = (facing: Facing): Command[] => [
+            { kind: 'setEntityFacing', entity: self, facing },
+            { kind: 'setEntityFrame', entity: self, frame: 0 },
+            { kind: 'wait', ms: 600 },
+          ]
+          return [...look('down'), ...look('left'), ...look('up'), ...look('right')]
+        },
+      },
+      {
+        // 随机游走:两层五五开 → 四向各 25% 单步;auto 重跑天然重掷
+        label: '🎲 随机游走一步',
+        make: (c) => {
+          const self = selfOf(c)
+          return [
+            {
+              kind: 'branch',
+              cond: { kind: 'chance', percent: 50 },
+              then: [
+                {
+                  kind: 'branch',
+                  cond: { kind: 'chance', percent: 50 },
+                  then: [{ kind: 'stepEntity', entity: self, dir: 'up' }],
+                  else: [{ kind: 'stepEntity', entity: self, dir: 'down' }],
+                },
+              ],
+              else: [
+                {
+                  kind: 'branch',
+                  cond: { kind: 'chance', percent: 50 },
+                  then: [{ kind: 'stepEntity', entity: self, dir: 'left' }],
+                  else: [{ kind: 'stepEntity', entity: self, dir: 'right' }],
+                },
+              ],
+            },
+            { kind: 'wait', ms: 500 },
+          ]
+        },
       },
     ],
   },
