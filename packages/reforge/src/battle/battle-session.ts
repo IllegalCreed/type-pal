@@ -1566,16 +1566,18 @@ export class BattleSession {
           label,
           disabled: i === 0 || i === 4 || (i === 1 && this.usableItems().length === 0),
         }))
-        // 定宽 48×96 = 一阶段 MISC_BOX(menuTextMaxCols(2字)=1 → (1+2)×16;rows4 → (4+2)×16)。
-        // 第 5 行「状态」压出盒底 4px = 原版本样(五项塞四行盒)。盒宽不随文字撑。
-        drawBattleMenuBox(ctx, ui, g, rows, this.miscIdx, now, 2, 20, 48, 96, this.ui === 'miscSub')
+        // 尺寸 = 一阶段实机对照(2026-07-11 截 6005 战斗杂项盒;作者点破「太窄」):
+        // 原版 CreateBox 按 tile **实宽**平铺 —— 帽 22/轴头 33/中 16,cols=1 → 顶行 71px。
+        // drawSlicedBox 的 w 是回纹主体宽(轴头自动右探 10)→ 主体 22+16+23=61;
+        // 高 rows=4 → 20+18×4+20=112(五行文字全在盒内,不压边)。
+        drawBattleMenuBox(ctx, ui, g, rows, this.miscIdx, now, 2, 20, 61, 112, this.ui === 'miscSub')
         if (this.ui === 'miscSub') {
-          // 使用/投掷二级 box(30,50) 定宽 48×48(cols1 rows1;文字行照原版压边不撑盒)
+          // 使用/投掷二级 box(30,50):cols=1 rows=1 → 主体 61 × 高 20+18+20=58
           const sub: BattleMenuRow[] = [
             { label: '使用' },
             { label: '投掷', disabled: this.throwableItems().length === 0 },
           ]
-          drawBattleMenuBox(ctx, ui, g, sub, this.miscSubIdx, now, 30, 50, 48, 48)
+          drawBattleMenuBox(ctx, ui, g, sub, this.miscSubIdx, now, 30, 50, 61, 58)
         }
       } else if (this.ui === 'skill') {
         // 法术网格(红框 3 列)+ 左上 MP 框
