@@ -1,6 +1,6 @@
 # W7D - 自有地图 N 层新格式(schema 级返工,修正 W7a 旧格式地基)
 
-Status: review
+Status: done
 Phase: phase2
 Capability: W7(地图模块)
 Coding Owner: Codex(用户指定,2026-07-10)
@@ -220,7 +220,7 @@ Branch: main
     另半格可走。聚合是定案的保守规则,非缺陷;建议后续在碰撞工具提示里写明「行走按整格聚合」。
   ③ renderOwnMap 的 occlude 瓦全量入深度表(旧路径按精灵包围盒筛)——24×24 无感;
     大图性能属分块留口范围,不在本卡。
-- GLM:pending。重点复核 schema guard、测试矩阵、文档与旧概念退役覆盖。
+- GLM(2026-07-10,用户转达):**accept**。覆盖清单/测试矩阵/文档同步/旧概念退役完整性通过;其设计签字所提聚合四态与 occlude null 两条覆盖补充确认落地。
 - review 期间不得标记 done;任一 counter 转 rework。
 
 ## 交接日志
@@ -235,29 +235,9 @@ Branch: main
 - 2026-07-10 Opus:主审 accept(代码审 + 门禁独立重跑 + 6010 旧/新遮挡对拍 + fiber 数据级复验;
   GLM 两条覆盖补充确认落地;3 条非阻塞小项记录在 Review 段;FSA 补测评估为不需要)。
   Evidence: Review「Opus 主审」段。Next: GLM / done 审查签字(用卡尾提示词)。
+- 2026-07-10 GLM:done 审查签字 accept(用户转达)。三签齐,done allowed。Next: User / 最终验收。
+- 2026-07-10 User:验收通过,授权收口;W7D 状态 done。地图模块地基自此为 OwnMap v1(N 层 + 独立碰撞),旧 Tilemap 仅服务 reuseOriginalMap。Evidence: 用户转达「glm通过了」+ 收口授权惯例。Next: 无(任务关闭;后续 W7b tileset 库 / W7c-4 尺寸编辑另立卡)。
 
 ## 下一位 Agent 提示词
 
-```text
-接手任务: W7D - 自有地图 N 层新格式(schema 级返工)
-任务卡: docs/ops/tasks/W7D-nlayer-map-schema.md
-当前状态: review(Codex accept + Opus accept;GLM done 审查签字 pending,不得标记 done)
-实现提交: cd1ab67a feat(reforge): 落地 OwnMap v1 N 层地图
-你的角色: GLM done 审查签字(覆盖清单/测试矩阵/文档/旧概念退役覆盖)
-先读: AGENTS.md 三贤人协议;本卡全部(尤其 Build、Review「Opus 主审」段、你自己
-  设计签字时提的 2 条覆盖补充与 1 条风险提醒);docs/phase2/decisions.md D16;
-  docs/phase2/foundation/content-schema.md §5。
-已完成: Codex 实现 D1→D3 并自签 accept;Opus 主审 accept —— 代码审(旧概念零残留/
-  层命令 invert/双入口碰撞语义)、门禁独立重跑(content 130/reforge 245/editor 91/
-  game 2294)、6010 视觉复验(reuse 零回归 + 新格式全流程 + 220% 遮挡对拍 + fiber
-  数据级验证);你的覆盖补充 1(聚合四态 collision.test.ts:94)与补充 2(occlude null
-  own-map.test.ts:109)均确认落地;3 条非阻塞小项已记录(pixelToTile 死出口/碰撞
-  视觉-行为粒度提示/occlude 全量入表性能储备)。
-请你做: 从覆盖清单、测试矩阵、文档同步(content-schema §5 落地标注/capability-map/
-  engineering-notes)、旧概念退役完整性角度审查;确认你设计签字时的 2+1 条是否闭环;
-  输出 accept 或 counter + 理由。
-不要做: 不要改实现文件;不要标记 done(GLM accept 后仍须用户最终验收);
-  不要重新考证子格几何/碰撞聚合(已定案且有测试)。
-输出要求: 签字写回本卡「进入 done 前:审查签字」GLM 行(accept / counter + 理由),
-  说明 done 准入结论可否改 done allowed;由用户转达或有文件权限的一方代录。
-```
+无下一位 Agent 提示词 —— 三签齐 + 用户验收通过,任务已收口(2026-07-10)。

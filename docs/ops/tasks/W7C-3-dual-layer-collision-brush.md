@@ -1,6 +1,6 @@
 # W7C-3 - 地图绘制:双层(layer1)+ 碰撞笔刷
 
-Status: review
+Status: done
 Owner: Codex
 Reviewer: Opus(视觉级复验)
 Phase: phase2
@@ -129,3 +129,4 @@ Capability: W7c
 输出要求: 明确输出 agree/accept 或 counter + 理由;若 accept,请说明任务卡“进入 done 前:审查签字”的 GLM 行可改为 accept,done 准入结论是否可改为 done allowed。
 ```
 - 2026-07-09 User(授权 Opus 代拟): 裁决 W7C-3 按兼容切片定性验收;N 层返工立 W7D 卡;done 仍待 GLM 补签(不豁免)。Evidence: 用户「按照你觉得最合理的方式来」。Next: GLM / 补签(用卡内提示词)。
+- 2026-07-10 User: 最终验收收口(随 W7D 收口一并关闭);本任务定格为旧 Tilemap 兼容切片,其绘制路径已由 W7D(cd1ab67a)整体替换退役。Status: done。
