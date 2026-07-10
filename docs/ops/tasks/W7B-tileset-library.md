@@ -1,6 +1,6 @@
 # W7B - tileset 库:自有瓦片图集(上传 → 量化贴盘 0 → 入库可选)
 
-Status: review
+Status: done
 Phase: phase2
 Capability: W7b(与 A4 素材导入交集)
 Coding Owner: Opus(Codex 额度耗尽,用户批准代班,2026-07-10)
@@ -146,7 +146,7 @@ tileset 的创作路线有两条,W7B 管线通吃,差别只在上传的 PNG 装�
 
 - counter / 返工处理: 当前无 counter。
 - 缺签豁免: **用户豁免 Codex 审查签字**（2026-07-10，额度耗尽，无法补签）
-- done 准入结论: **done allowed**（Opus accept + GLM accept + 用户豁免 Codex）。待用户最终验收。
+- done 准入结论: **done allowed**(Opus accept + GLM accept + 用户豁免 Codex)。用户最终验收通过(2026-07-10),任务关闭。
 
 ## Draft: 设计与风险
 
@@ -291,3 +291,5 @@ tileset 的创作路线有两条,W7B 管线通吃,差别只在上传的 PNG 装�
   说明 done 准入结论可否在 Codex 补签/豁免后转 done allowed。
 不要做: 不要改实现文件;不要标记 done(Codex 缺席须用户裁决豁免与否 + 用户最终验收)。
 ```
+- 2026-07-10 GLM: done 审查 accept(counter 落地/测试矩阵/文档三重点全过)。Evidence: 签字区 GLM 行。Next: User / 裁决 Codex 豁免 + 最终验收。
+- 2026-07-10 User: 豁免 Codex 审查签字(额度耗尽)→ done allowed;最终验收通过,W7B 收口。W7 地图模块(W7a 地基 / W7c 绘制+尺寸 / W7D N 层 schema / W7B tileset 库)全部闭环。Next: 无 —— 后续增强(随机笔刷/stamp/autotile/per-tile 高度编辑)按需另立卡。
