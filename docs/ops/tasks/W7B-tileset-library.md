@@ -145,8 +145,8 @@ tileset 的创作路线有两条,W7B 管线通吃,差别只在上传的 PNG 装�
   **结论**：counter 闭环（索引 .rle + 单路渲染如约落地）；测试矩阵全覆盖（我提的五例 + 超出）；文档同步完整。accept。
 
 - counter / 返工处理: 当前无 counter。
-- 缺签豁免: pending（Codex 额度缺席；恢复后补签或用户豁免）
-- done 准入结论: **GLM accept**；Codex 补签或用户豁免后即可 **done allowed**，待用户最终验收。
+- 缺签豁免: **用户豁免 Codex 审查签字**（2026-07-10，额度耗尽，无法补签）
+- done 准入结论: **done allowed**（Opus accept + GLM accept + 用户豁免 Codex）。待用户最终验收。
 
 ## Draft: 设计与风险
 
