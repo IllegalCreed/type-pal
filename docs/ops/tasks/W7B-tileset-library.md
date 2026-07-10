@@ -1,9 +1,9 @@
 # W7B - tileset 库:自有瓦片图集(上传 → 量化贴盘 0 → 入库可选)
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: W7b(与 A4 素材导入交集)
-Coding Owner: 待三方设计签字后由用户指定
+Coding Owner: Opus(Codex 额度耗尽,用户批准代班,2026-07-10)
 Generation Owner: N/A(作者上传素材;AI 生图另立任务归 Codex)
 Reviewer: 三方(新能力格 + 资产管线,必审)
 Visual Verification Owner: 实现方自验 + Opus 复验(量化观感属像素级)
@@ -118,7 +118,7 @@ tileset 的创作路线有两条,W7B 管线通吃,差别只在上传的 PNG 装�
 - 风险: 缺 Codex 的实现可行性视角 —— 缓解:终案已把实现面收缩到纯函数(量化+RLE 编码)
   与既有管线零改,可行性风险低;Codex 额度恢复后可补签/补审。
 - 是否需要补签: 属三方必审(新能力格+资产管线),额度恢复后应补记。
-- 用户裁决: pending
+- 用户裁决: 批准 —— 豁免 Codex 设计签,Opus 代班 Coding Owner;终案批准(2026-07-10「你来实现吧」)。
 
 ### 进入 done 前:审查签字
 
@@ -229,6 +229,8 @@ tileset 的创作路线有两条,W7B 管线通吃,差别只在上传的 PNG 装�
   (gzip 索引帧组,D25 判据行明文瓦片走此路;D25 补² 证明 PLTE PNG 反超),渲染单路零改,
   schema 再简化,B2 双路期取消。同步记录 Codex 额度耗尽缺席(代班安排见额度/代班记录)。
   Evidence: Draft「收敛终案」。Next: GLM / 复确认终案;User / 拍板终案 + 豁免 Codex 设计签 + 定 Owner。
+- 2026-07-10 User: 三合一拍板 —— 终案批准 + 豁免 Codex 设计签 + Coding Owner = Opus 代班。build allowed。Evidence: 用户「你来实现吧」。Next: Opus / build(B1 注册表 → B2 量化+RLE 编码 → B3 UI → B4 闭环)。
+- 2026-07-10 User: 补方法论定调 —— 套件型为主(AI 生图按套件)、整图切片型为辅;已记入本卡「素材方法论」节。
 
 ## 下一位 Agent 提示词
 
