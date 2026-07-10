@@ -54,3 +54,18 @@ Capability: A4 用户上传自有素材(能力地图 A 域)
   SkillTab 试放,projectId 穿线)。
 - 实测:6010/play.html?project=pal&scene=s042 引擎起且夜景;6051 独立页零回归;pnpm check
   全绿。FSA 路径(空白工程授权→磁盘启动)留用户烟测 —— 记得先 💾 保存,试玩读磁盘。
+
+## 追加(同日 A4c):战斗外观上传(敌/我双面)—— 作者之旅下一堵墙
+空白工程作者能建敌人数值/建队,但敌人外观读原版 `battle-sprite/enemy/<num>.rle` → 自有工程
+打起来是**隐形怪**;玩家侧同病(`battler.battleSpriteNum ?? 0` → 404 → 主角战斗中也隐形)。
+- content:`EnemyDef.spritePath?` + `BattlerSpec.battleSpritePath?`(同 SpriteDef.path 约定)。
+- reforge:`loadBattleSprite(base, kind, id, path?)` 双轨 + 单测;战斗建态两处穿 path。
+- 编辑器:共用 `BattleSpriteUploader`(PNG → 帧宽×帧高网格切**顺序帧** → 量化贴盘 0 预览 →
+  应用);敌人工作台外观区「⬆ 上传外观」(路径按 id 定死 `assets/battle-sprites/enemy/<id>.rle`,
+  重传即覆盖)+ 角色模式「战斗形象」区(player/<actorId>.rle);复合命令 SetEnemy/
+  SetActorBattleSpriteCommand(patch path + blob 暂存一步 undo,重传 invert 还原旧字节,3 测)。
+- EnemyAnimPreview 吃 path+blob:**上传未保存即在预览台上播动画**(待机/施法/攻击帧字段
+  现成可调)。
+- 实测(Playwright,pal):生成 4 帧弹跳史莱姆帧带 → 上传器切 4 帧量化预览 → 应用 →
+  预览台内存播动画 +「自有外观(未保存)」徽章 → 撤销 → 徽章消失回原版路径。
+  pnpm check 全绿(3235 测)。引擎战斗内效果(保存落盘后)同 A4 逻辑,留用户 FSA 全环。

@@ -339,10 +339,12 @@ export function EnemyTab(props: {
   assetBase?: import('@type-pal/reforge').AssetBase
   /** 工程 id(同源试玩页;缺省 pal 兼容旧调用)。 */
   projectId?: string
+  /** 上传未保存的二进制暂存(A4c 敌人外观内存预览)。 */
+  tilesetBlobs?: Record<string, ArrayBuffer>
   /** DataMode 的标签栏(渲染在左栏顶部,保持标签切换)。 */
   tabBar?: React.ReactNode
 }) {
-  const { enemies, enemyTeams, skills, locale, session, tabBar, assetBase, projectId = 'pal' } = props
+  const { enemies, enemyTeams, skills, locale, session, tabBar, assetBase, projectId = 'pal', tilesetBlobs } = props
   const [filter, setFilter] = useState('')
   const [selId, setSelId] = useState(enemies[0]?.id ?? '')
   const [selTeam, setSelTeam] = useState<string | null>(null)
@@ -491,7 +493,12 @@ export function EnemyTab(props: {
             </div>
             {assetBase ? (
               <div className="section">
-                <EnemyAnimPreview enemy={enemy} assetBase={assetBase} session={session} />
+                <EnemyAnimPreview
+                  enemy={enemy}
+                  assetBase={assetBase}
+                  session={session}
+                  blob={enemy.spritePath ? tilesetBlobs?.[enemy.spritePath] : undefined}
+                />
               </div>
             ) : null}
             <div className="section">

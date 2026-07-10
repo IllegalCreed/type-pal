@@ -133,13 +133,20 @@ export async function loadSprite(base: AssetBase, spriteNum: number, path?: stri
 /**
  * 战斗精灵(M4b):{root}/battle-sprite/{kind}/{id}.rle(gzip RLE 帧组;kind=enemy/player)。
  * 帧格式同大世界精灵(parseSpriteChunk),故复用 LoadedSprite。
+ * A4c 双轨:path 有值 = 自有上传(`assets/` 前缀工程根相对,同 loadSprite/tileset 约定)。
  */
 export async function loadBattleSprite(
   base: AssetBase,
   kind: 'enemy' | 'player',
   id: number,
+  path?: string,
 ): Promise<LoadedSprite> {
-  const raw = await readAssetBytes(base, `${base.root}/battle-sprite/${kind}/${id}.rle`, `battle sprite ${kind}/${id}`)
+  const full = path
+    ? path.startsWith('assets/')
+      ? path
+      : `${base.root}/${path}`
+    : `${base.root}/battle-sprite/${kind}/${id}.rle`
+  const raw = await readAssetBytes(base, full, `battle sprite ${path ?? `${kind}/${id}`}`)
   const frames = parseSpriteChunk(await decompressGzip(new Blob([raw])))
   const first = frames[0]
   return {

@@ -18,6 +18,8 @@ import {
   PaintTilesCommand,
   RemoveOwnMapLayerCommand,
   RemoveSpriteCommand,
+  SetActorBattleSpriteCommand,
+  SetEnemyBattleSpriteCommand,
   ResizeOwnMapCommand,
   UpdateActorCommand,
   UpdateAmbienceCommand,
@@ -430,6 +432,61 @@ describe('A4 精灵上传命令(不可变 + invert;blob 暂存进 tilesetBlobs)'
     const back = cmd.invert(s1)
     expect(back.sprites[back.sprites.length - 1]?.id).toBe('my-hero') // 原位(末尾)
     expect(back.tilesetBlobs['assets/sprites/my-hero.rle']).toBeInstanceOf(ArrayBuffer)
+  })
+})
+
+describe('A4c 战斗外观命令(patch path + blob 一步 undo)', () => {
+  function stB(): EditorState {
+    const base = st() as EditorState & {
+      enemies: import('@type-pal/content').EnemyDef[]
+      tilesetBlobs: Record<string, ArrayBuffer>
+      actors: ActorDef[]
+    }
+    base.tilesetBlobs = {}
+    base.enemies = [
+      { id: 'slime', name: 'n.slime', spriteNum: 42, stats: {} as never, ai: {} as never, anim: {} as never, sounds: {} as never },
+    ]
+    base.actors = [
+      { id: 'hero', name: 'n.hero', spriteId: 'hero', battler: { baseStats: {} as never, initialEquipment: {}, initialMagic: [] } },
+      { id: 'npc', name: 'n.npc', spriteId: 'npc' }, // 无 battler
+    ]
+    return base
+  }
+  test('SetEnemyBattleSprite:spritePath + blob 双写;invert 双清(原无 path)', () => {
+    const s0 = stB()
+    const blob = new ArrayBuffer(4)
+    const cmd = new SetEnemyBattleSpriteCommand('slime', 'assets/battle-sprites/enemy/slime.rle', blob)
+    const s1 = cmd.apply(s0)
+    expect(s1.enemies![0]!.spritePath).toBe('assets/battle-sprites/enemy/slime.rle')
+    expect(s1.tilesetBlobs['assets/battle-sprites/enemy/slime.rle']).toBe(blob)
+    expect(s0.enemies![0]!.spritePath).toBeUndefined() // 源不变
+    const back = cmd.invert(s1)
+    expect('spritePath' in back.enemies![0]!).toBe(false)
+    expect(back.tilesetBlobs['assets/battle-sprites/enemy/slime.rle']).toBeUndefined()
+  })
+  test('重传覆盖:invert 还原旧字节(同路径)', () => {
+    const old = new ArrayBuffer(2)
+    const s0 = stB()
+    s0.enemies![0]!.spritePath = 'assets/battle-sprites/enemy/slime.rle'
+    s0.tilesetBlobs['assets/battle-sprites/enemy/slime.rle'] = old
+    const nw = new ArrayBuffer(8)
+    const cmd = new SetEnemyBattleSpriteCommand('slime', 'assets/battle-sprites/enemy/slime.rle', nw)
+    const s1 = cmd.apply(s0)
+    expect(s1.tilesetBlobs['assets/battle-sprites/enemy/slime.rle']).toBe(nw)
+    const back = cmd.invert(s1)
+    expect(back.tilesetBlobs['assets/battle-sprites/enemy/slime.rle']).toBe(old)
+    expect(back.enemies![0]!.spritePath).toBe('assets/battle-sprites/enemy/slime.rle')
+  })
+  test('SetActorBattleSprite:battler.battleSpritePath;无 battler 角色 no-op', () => {
+    const s0 = stB()
+    const blob = new ArrayBuffer(4)
+    const cmd = new SetActorBattleSpriteCommand('hero', 'assets/battle-sprites/player/hero.rle', blob)
+    const s1 = cmd.apply(s0)
+    expect(s1.actors.find((a) => a.id === 'hero')?.battler?.battleSpritePath).toBe('assets/battle-sprites/player/hero.rle')
+    const back = cmd.invert(s1)
+    expect(back.actors.find((a) => a.id === 'hero')?.battler?.battleSpritePath).toBeUndefined()
+    // 无 battler → no-op 同引用
+    expect(new SetActorBattleSpriteCommand('npc', 'x.rle', blob).apply(s0)).toBe(s0)
   })
 })
 

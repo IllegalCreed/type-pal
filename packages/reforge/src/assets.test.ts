@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from 'vitest'
 import type { AssetBase } from './assets.js'
-import { compressGzip, loadOwnMap, loadPalette, loadSprite, loadTilemap, loadTilesetByPath } from './assets.js'
+import { compressGzip, loadBattleSprite, loadOwnMap, loadPalette, loadSprite, loadTilemap, loadTilesetByPath } from './assets.js'
 import type { FileSource } from './file-source.js'
 
 const base = (source?: FileSource): AssetBase => ({
@@ -111,6 +111,33 @@ describe('loadSprite 双轨路径(A4 自有上传)', () => {
       '/extracted/data/sprite/7.rle',
       'assets/sprites/hero.rle',
       '/extracted/data/sprite/9.rle',
+    ])
+  })
+})
+
+describe('loadBattleSprite 双轨路径(A4c 战斗外观上传)', () => {
+  const gz = async (): Promise<ArrayBuffer> => {
+    const out = await compressGzip(new Uint8Array([0, 0]))
+    return out.buffer.slice(out.byteOffset, out.byteOffset + out.byteLength) as ArrayBuffer
+  }
+  test('缺 path = 原版号约定;assets/ 前缀 path = 工程根相对', async () => {
+    const seen: string[] = []
+    const src: FileSource = {
+      readText: async () => '',
+      readJson: async <T>() => ({}) as T,
+      readBytes: async (rel: string) => {
+        seen.push(rel)
+        return gz()
+      },
+      urlFor: async (rel: string) => rel,
+    }
+    await loadBattleSprite(base(src), 'enemy', 42) // 原版号
+    await loadBattleSprite(base(src), 'enemy', 900, 'assets/battle-sprites/slime.rle') // 自有上传
+    await loadBattleSprite(base(src), 'player', 3) // 玩家侧原版号
+    expect(seen).toEqual([
+      '/extracted/data/battle-sprite/enemy/42.rle',
+      'assets/battle-sprites/slime.rle',
+      '/extracted/data/battle-sprite/player/3.rle',
     ])
   })
 })

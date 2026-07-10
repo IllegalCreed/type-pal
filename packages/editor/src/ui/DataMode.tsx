@@ -186,6 +186,7 @@ export function DataMode(props: {
       <EnemyTab
         assetBase={assetBase}
         projectId={manifest.id}
+        tilesetBlobs={tilesetBlobs}
         enemies={enemies}
         enemyTeams={enemyTeams}
         skills={Object.values(skills)}

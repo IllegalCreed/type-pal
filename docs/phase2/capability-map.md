@@ -145,7 +145,7 @@
 | A1 | 预制素材库(服务器端 + 版本化) | — | ❌ | 服务器托管 RGBA 素材包,带版本号;开发期=原版烘色,完成期=自有替代美术(避版权) |
 | A2 | 新建工程:下载预制库写进工程 | — | ✅ | **P4 落地(2026-07-09)**:cloneFromPal 流式逐文件下载(207MB 不 OOM)→ 写本地工程 assets/,manifest.assets 相对化。⚠**Safe Browsing 坑**:.rle 是 gzip(1f8b),Chrome 增强保护当压缩包深扫→批量拦(「Blocked by Safe Browsing」);修 = 克隆时 .rle 解压再写(去 gzip 头,加载器透传),对所有用户零设置生效。baked 清单 = scripts/gen-baked-manifest.mjs(应折进 bake pipeline) |
 | A3 | 新建工程向导(空白/加载预制 二选) | — | ✅ | **P4 落地**:ProjectPicker 启动屏(从 pal 克隆 / 打开本地 / 新建空白〔高级,gated on 地图模块〕/ 最近工程 + 克隆进度条)。非 Chromium 提示换浏览器 |
-| A4 | 用户上传自有素材 | — | ✅ | **done(2026-07-10 A4)**:精灵上传向导(PNG → 行走 4行下/左/上/右×N列 / 静物 / 循环切帧 → 量化贴盘0预览 → 原版同构 .rle 入库 assets/sprites/)+ `SpriteDef.path` 双轨加载(W7B 同路径约定)+ 未保存内存优先(帧页/缩略/场景画布三处 blob 分流)。瓦片集上传 = W7B 已有。全链 Playwright 实测(上传→入库→放置→画布渲染,未落盘全内存);保存→引擎真跑留用户 FSA 烟测 |
+| A4 | 用户上传自有素材 | — | ✅ | **done(2026-07-10 A4)**:精灵上传向导(PNG → 行走 4行下/左/上/右×N列 / 静物 / 循环切帧 → 量化贴盘0预览 → 原版同构 .rle 入库 assets/sprites/)+ `SpriteDef.path` 双轨加载(W7B 同路径约定)+ 未保存内存优先(帧页/缩略/场景画布三处 blob 分流)。瓦片集上传 = W7B 已有。**A4c 战斗外观(同日)**:敌人工作台「⬆ 上传外观」+ 角色模式「战斗形象」(EnemyDef.spritePath/BattlerSpec.battleSpritePath 双轨;帧带网格切;未保存即预览台播动画)—— 补齐自有工程隐形怪/隐形主角。全链 Playwright 实测;保存→引擎真跑留用户 FSA 烟测 |
 | A5 | 工程自包含分发(打包导出) | — | ❌ | 工程始终自包含;导出 = 直接打包工程目录(zip),无「固化」步骤 |
 | A6 | 预制库主动更新检查(可选) | — | ❌ | 用户显式触发:检查服务器新版 → 选择是否拉取覆盖。非自动;非 MVP |
 

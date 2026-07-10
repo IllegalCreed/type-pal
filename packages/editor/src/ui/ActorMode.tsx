@@ -16,8 +16,9 @@ import type {
 import { lookupText } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { useMemo, useState } from 'react'
-import { UpdateActorCommand, UpdateStartSkillsCommand } from '../core/commands.js'
+import { UpdateActorCommand, UpdateStartSkillsCommand, SetActorBattleSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import { BattleSpriteUploader } from './BattleSpriteUploader.js'
 import { LevelingEditor } from './LevelingEditor.js'
 import { PortraitEditor } from './PortraitEditor.js'
 import { SpriteFrames } from './SpriteFrames.js'
@@ -46,6 +47,7 @@ export function ActorMode(props: {
 }) {
   const { actors, sprites, items, skills, locale, assetBase, session, levelUp, startSkills } = props
   const [selId, setSelId] = useState(actors[0]?.id ?? '')
+  const [battleUpload, setBattleUpload] = useState(false) // A4c 战斗形象上传器展开
   const spriteById = useMemo(() => new Map(sprites.map((s) => [s.id, s])), [sprites])
   const actor = actors.find((a) => a.id === selId) ?? actors[0]
   const sprite = actor ? spriteById.get(actor.spriteId) : undefined
@@ -187,6 +189,43 @@ export function ActorMode(props: {
                       on={(x) => setStat('luck', x)}
                     />
                   </div>
+                </div>
+                <div className="section">
+                  <h4>
+                    战斗形象
+                    <span className="hint2">
+                      {actor.battler.battleSpritePath
+                        ? ' 自有形象 ✓(保存后战斗可见)'
+                        : actor.battler.battleSpriteNum != null
+                          ? ` 原版 #${actor.battler.battleSpriteNum}`
+                          : ' 未设置(战斗中隐形)'}
+                    </span>
+                    <button
+                      type="button"
+                      className="mini-txt"
+                      style={{ marginLeft: 8 }}
+                      title="上传 PNG 帧带(横排逐行切),自动贴合工程主色;引擎战斗按帧序取用"
+                      onClick={() => setBattleUpload((v) => !v)}
+                    >
+                      ⬆ 上传
+                    </button>
+                  </h4>
+                  {battleUpload && (
+                    <BattleSpriteUploader
+                      assetBase={assetBase}
+                      onApply={(buf) => {
+                        session.dispatch(
+                          new SetActorBattleSpriteCommand(
+                            actor.id,
+                            `assets/battle-sprites/player/${actor.id}.rle`,
+                            buf,
+                          ),
+                        )
+                        setBattleUpload(false)
+                      }}
+                      onCancel={() => setBattleUpload(false)}
+                    />
+                  )}
                 </div>
                 <div className="section">
                   <h4>初始装备</h4>

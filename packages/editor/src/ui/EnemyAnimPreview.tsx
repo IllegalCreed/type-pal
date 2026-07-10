@@ -9,9 +9,10 @@
  */
 import type { EnemyDef } from '@type-pal/content'
 import type { AssetBase, LoadedSprite } from '@type-pal/reforge'
-import { bakeFrame, loadBattleSprite, loadPalette } from '@type-pal/reforge'
+import { bakeFrame, decompressGzip, loadBattleSprite, loadPalette, parseSpriteChunk } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { UpdateEnemyCommand } from '../core/commands.js'
+import { SetEnemyBattleSpriteCommand, UpdateEnemyCommand } from '../core/commands.js'
+import { BattleSpriteUploader } from './BattleSpriteUploader.js'
 import type { EditSession } from '../core/edit-session.js'
 
 type Mode = 'idle' | 'magic' | 'attack'
@@ -60,11 +61,14 @@ export function EnemyAnimPreview(props: {
   enemy: EnemyDef
   assetBase: AssetBase
   session: EditSession
+  /** 上传未保存的外观字节(A4c;键 = enemy.spritePath,内存解码优先)。 */
+  blob?: ArrayBuffer
 }) {
-  const { enemy, assetBase, session } = props
+  const { enemy, assetBase, session, blob } = props
   const [baked, setBaked] = useState<HTMLCanvasElement[]>([])
   const [err, setErr] = useState('')
   const [mode, setMode] = useState<Mode>('idle')
+  const [uploading, setUploading] = useState(false)
   const [tick, setTick] = useState(0)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -77,7 +81,11 @@ export function EnemyAnimPreview(props: {
       try {
         const [sp, pal]: [LoadedSprite, Awaited<ReturnType<typeof loadPalette>>] =
           await Promise.all([
-            loadBattleSprite(assetBase, 'enemy', enemy.spriteNum),
+            blob
+              ? decompressGzip(new Blob([blob]))
+                  .then(parseSpriteChunk)
+                  .then((frames) => ({ frames, anchorX: 0, anchorY: 0 }))
+              : loadBattleSprite(assetBase, 'enemy', enemy.spriteNum, enemy.spritePath),
             loadPalette(assetBase, 0),
           ])
         if (!alive) return
@@ -89,7 +97,7 @@ export function EnemyAnimPreview(props: {
     return () => {
       alive = false
     }
-  }, [assetBase, enemy.spriteNum])
+  }, [assetBase, enemy.spriteNum, enemy.spritePath, blob])
 
   const { seq, ms } = useMemo(() => frameSeq(enemy.anim, mode), [enemy.anim, mode])
   const outOfRange = useMemo(
@@ -147,7 +155,23 @@ export function EnemyAnimPreview(props: {
           on={(n) => session.dispatch(new UpdateEnemyCommand(enemy.id, { spriteNum: n }))}
         />
         <span className="hint">{baked.length ? `${baked.length} 帧` : ''}</span>
+        {enemy.spritePath && <span className="hint2" title={enemy.spritePath}>自有外观{blob ? '(未保存)' : ''}</span>}
+        <button type="button" className="mini-txt" title="上传 PNG 帧带(横排逐行切),自动贴合工程主色" onClick={() => setUploading((v) => !v)}>
+          ⬆ 上传外观
+        </button>
       </div>
+      {uploading && (
+        <BattleSpriteUploader
+          assetBase={assetBase}
+          onApply={(buf) => {
+            session.dispatch(
+              new SetEnemyBattleSpriteCommand(enemy.id, `assets/battle-sprites/enemy/${enemy.id}.rle`, buf),
+            )
+            setUploading(false)
+          }}
+          onCancel={() => setUploading(false)}
+        />
+      )}
       {err ? (
         <div className="hint" style={{ color: 'var(--err)' }}>
           精灵加载失败: {err}

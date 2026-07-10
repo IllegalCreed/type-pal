@@ -1015,7 +1015,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           ),
           Promise.all(
             enemyDefs.map((e) =>
-              loadBattleSprite(project.assetBase, 'enemy', e.spriteNum).catch(() => undefined),
+              loadBattleSprite(project.assetBase, 'enemy', e.spriteNum, e.spritePath).catch(() => undefined),
             ),
           ),
           Promise.all(
@@ -1024,6 +1024,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
                 project.assetBase,
                 'player',
                 project.actorsById[c.template]?.battler?.battleSpriteNum ?? 0,
+                project.actorsById[c.template]?.battler?.battleSpritePath,
               ).catch(() => undefined),
             ),
           ),

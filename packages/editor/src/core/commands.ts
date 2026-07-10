@@ -1182,6 +1182,7 @@ export type EnemyPatch = Partial<
   Pick<
     EnemyDef,
     | 'spriteNum'
+    | 'spritePath'
     | 'stats'
     | 'ai'
     | 'anim'
@@ -1835,6 +1836,104 @@ export class RemoveSpriteCommand implements Command {
           ? { ...state.tilesetBlobs, [this.removed.path]: this.removedBlob }
           : state.tilesetBlobs,
     }
+  }
+}
+
+// ── A4c 战斗外观上传(敌/我;patch path + blob 暂存一步 undo;路径按 id 定死重传即覆盖)──
+
+/** 上传敌人战斗外观:enemy.spritePath 指到工程内 .rle + 字节暂存。 */
+export class SetEnemyBattleSpriteCommand implements Command {
+  readonly label = '上传敌人外观'
+  private oldPath: string | undefined
+  private oldBlob: ArrayBuffer | undefined
+  private captured = false
+
+  constructor(
+    private readonly enemyId: string,
+    private readonly path: string,
+    private readonly blob: ArrayBuffer,
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    const e = (state.enemies ?? []).find((x) => x.id === this.enemyId)
+    if (!e) return state
+    if (!this.captured) {
+      this.oldPath = e.spritePath
+      this.oldBlob = state.tilesetBlobs[this.path]
+      this.captured = true
+    }
+    return {
+      ...state,
+      enemies: (state.enemies ?? []).map((x) =>
+        x.id === this.enemyId ? { ...x, spritePath: this.path } : x,
+      ),
+      tilesetBlobs: { ...state.tilesetBlobs, [this.path]: this.blob },
+    }
+  }
+
+  invert(state: EditorState): EditorState {
+    const enemies = (state.enemies ?? []).map((x) => {
+      if (x.id !== this.enemyId) return x
+      const next = { ...x, spritePath: this.oldPath }
+      if (this.oldPath === undefined) delete (next as Record<string, unknown>).spritePath
+      return next
+    })
+    let tilesetBlobs = state.tilesetBlobs
+    if (this.oldBlob !== undefined) tilesetBlobs = { ...tilesetBlobs, [this.path]: this.oldBlob }
+    else {
+      const { [this.path]: _drop, ...rest } = tilesetBlobs
+      tilesetBlobs = rest
+    }
+    return { ...state, enemies, tilesetBlobs }
+  }
+}
+
+/** 上传角色战斗形象:battler.battleSpritePath + 字节暂存(无 battler 的角色 no-op)。 */
+export class SetActorBattleSpriteCommand implements Command {
+  readonly label = '上传战斗形象'
+  private oldPath: string | undefined
+  private oldBlob: ArrayBuffer | undefined
+  private captured = false
+
+  constructor(
+    private readonly actorId: string,
+    private readonly path: string,
+    private readonly blob: ArrayBuffer,
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    const a = state.actors.find((x) => x.id === this.actorId)
+    if (!a?.battler) return state
+    if (!this.captured) {
+      this.oldPath = a.battler.battleSpritePath
+      this.oldBlob = state.tilesetBlobs[this.path]
+      this.captured = true
+    }
+    return {
+      ...state,
+      actors: state.actors.map((x) =>
+        x.id === this.actorId && x.battler
+          ? { ...x, battler: { ...x.battler, battleSpritePath: this.path } }
+          : x,
+      ),
+      tilesetBlobs: { ...state.tilesetBlobs, [this.path]: this.blob },
+    }
+  }
+
+  invert(state: EditorState): EditorState {
+    const actors = state.actors.map((x) => {
+      if (x.id !== this.actorId || !x.battler) return x
+      const battler = { ...x.battler, battleSpritePath: this.oldPath }
+      if (this.oldPath === undefined) delete (battler as Record<string, unknown>).battleSpritePath
+      return { ...x, battler }
+    })
+    let tilesetBlobs = state.tilesetBlobs
+    if (this.oldBlob !== undefined) tilesetBlobs = { ...tilesetBlobs, [this.path]: this.oldBlob }
+    else {
+      const { [this.path]: _drop, ...rest } = tilesetBlobs
+      tilesetBlobs = rest
+    }
+    return { ...state, actors, tilesetBlobs }
   }
 }
 
