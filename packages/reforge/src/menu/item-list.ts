@@ -87,6 +87,7 @@ export function drawItemGridList(
   glyphs: GlyphTable,
   now: number,
   skillNameOf?: (id: string) => string | undefined, // grantSkill 派生效果显技能名(缺省回退 id)
+  opts?: { noDesc?: boolean }, // 卖菜单(PAL_SellMenu)原版 g_fNoDesc:desc 区被金钱/售价框占用
 ): void {
   drawSlicedBox(ctx, assets.redBox, LIST_X, LIST_Y, LIST_W, LIST_H)
 
@@ -112,15 +113,18 @@ export function drawItemGridList(
   })
 
   // 底部:itembox + 选中物图标 + 多行描述(浅黄)
-  drawSlicedBox(ctx, assets.itembox, ITEMBOX_X, ITEMBOX_Y, 64, 64, { shadow: false }) // 9-slice;64×64 与原图一致
+  // 9-slice 64×64;**带阴影**(原版 itemmenu.c:196 shadow+正色两笔 —— 曾 shadow:false,作者报缺影)
+  drawSlicedBox(ctx, assets.itembox, ITEMBOX_X, ITEMBOX_Y, 64, 64)
   const sel = items[cursor]
   if (sel) {
     const icon = assets.itemIcons[sel.icon]
     if (icon) ctx.drawImage(icon, ITEMBOX_X + ICON_DX, ITEMBOX_Y + ICON_DY)
     // 风味说明 + 装备效果派生行(数值单一真相源 = equip.effects;desc 只写风味,防脱节)
-    const lines = sel.equip
-      ? [...sel.desc, ...describeEquipEffects(sel.equip.effects, { skillName: skillNameOf })]
-      : sel.desc
-    drawDescLines(ctx, lines, glyphs, now)
+    if (!opts?.noDesc) {
+      const lines = sel.equip
+        ? [...sel.desc, ...describeEquipEffects(sel.equip.effects, { skillName: skillNameOf })]
+        : sel.desc
+      drawDescLines(ctx, lines, glyphs, now)
+    }
   }
 }

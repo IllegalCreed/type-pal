@@ -11,6 +11,7 @@ import type {
   AmbienceDef,
   Command,
   Facing,
+  ShopDef,
   Locale,
   MusicDef,
   SceneDef,
@@ -378,6 +379,8 @@ export function ScriptDrawer(props: {
   projectId: string
   /** 氛围表(setAmbience 表单下拉;W6)。 */
   ambiences?: AmbienceDef[]
+  /** 店铺表(openShop 表单店下拉)。 */
+  shops?: ShopDef[]
   /** 网格/禁入/透视叠加开关(与布置模式同一状态;传给大预览)。 */
   layers?: { grid: boolean; blocked: boolean; ghosts?: boolean }
   onClose: () => void
@@ -399,6 +402,7 @@ export function ScriptDrawer(props: {
     music,
     projectId,
     ambiences,
+    shops,
     layers,
     onClose,
   } = props
@@ -819,6 +823,7 @@ export function ScriptDrawer(props: {
                   scenes={scenes}
                   assetBase={assetBase}
                   ambiences={ambiences}
+                  shops={shops}
                   onChange={(next) => {
                     const out = updateCommandAt(active.stages, parsePath(selPath), next)
                     if (out !== active.stages) dispatchStages(out)

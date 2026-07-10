@@ -51,6 +51,8 @@ export function toEditorState(
     poisons: project.poisons ?? [],
     // W6:氛围表(数组直传;缺 = 空)
     ambiences: project.ambiences ?? [],
+    // 商店表(数组直传;缺 = 空)
+    shops: project.shops ?? [],
     // Record(非 by-id):直传
     levelUp: project.levelUp,
     locale: project.locale,
@@ -75,6 +77,7 @@ type ContentKey =
   | 'battleFields'
   | 'poisons'
   | 'ambiences'
+  | 'shops'
 
 /**
  * 工作副本 → {相对路径: JSON 值} 文件集。按 manifest.content 的路径键映射;
@@ -107,6 +110,7 @@ export function serializeProject(state: EditorState): Record<string, unknown> {
     tilesets: state.tilesets ?? [],
     poisons: state.poisons ?? [],
     ambiences: state.ambiences ?? [],
+    shops: state.shops ?? [],
   }
 
   // 只产出 manifest.content 里**声明了路径**的文件(sprites 缺则不产出 sprites.json)。

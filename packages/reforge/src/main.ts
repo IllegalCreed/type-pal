@@ -25,6 +25,7 @@ import {
   pixelToGrid,
   resolveAmbienceTint,
   resolveEntitySpriteId,
+  sellableItems,
   type SceneDef,
   type SceneMap,
   sceneMapKey,
@@ -84,6 +85,7 @@ import {
   resolveOutdoorSkills,
 } from './magic-menu-state.js'
 import { drawEquipMenu } from './menu/equip-box.js'
+import { drawShop, openShopUi, type ShopUiState, shopInput } from './menu/shop-box.js'
 import { drawMagicMenu } from './menu/magic-box.js'
 import { loadMenuAssets, loadPng, MenuBox } from './menu/menu-box.js'
 import { drawSaveBrowser } from './menu/save-browser-box.js'
@@ -568,6 +570,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     ctx.restore()
   }
   let scriptDialogResolve: (() => void) | null = null
+  // ── 商店/当铺(openShop 阻塞脚本至关店;UI 态 + 关店 resolve)──
+  let shop: { ui: ShopUiState; resolve: () => void } | null = null
   const entityFrameOverride = new Map<string, number>() // setEntityFrame 演出帧覆盖(切场景清)
   // ── 0x15/0x65 队长演出态(原版 rgParty[].wFrame / rgwSpriteNum;脚本自清,走路时引擎清)──
   let partyGesture: number | null = null // 脚本姿势帧(渲染 = dir*framesPerDir + gesture)
@@ -1201,9 +1205,19 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       }
       return result
     },
-    openShop: (shop, mode) => {
-      showToast(`商店 #${shop}(${mode === 'buy' ? '买' : '卖'})—— M3c 落地`)
-      host.report(`openShop ${shop} ${mode} 未实现`)
+    openShop: (shopId, mode) => {
+      // 买 = 店铺货单;卖 = 背包可卖。店不存在 → 报错即回(脚本继续,不卡死)。
+      const list =
+        mode === 'buy'
+          ? (project.shops.find((x) => x.id === shopId)?.items ?? null)
+          : sellableItems(world, project.items)
+      if (list === null) {
+        host.report(`openShop: 店 #${shopId} 不在 shops 表`)
+        return Promise.resolve()
+      }
+      return new Promise<void>((resolve) => {
+        shop = { ui: openShopUi(mode, [...list]), resolve }
+      })
     },
     // 传送出口(0x38 引路蜂/土灵珠):当前场景有 onTeleport → 内联跑(loadScene 回洞口/城镇),
     // 返回 true;无此槽 → false(调用方走 onFail「引路蜂不灵」)。runner 槽被道具脚本占着 →
@@ -1912,6 +1926,17 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       ctx.fillRect(0, 0, canvas.width, canvas.height)
       ctx.restore()
     }
+    // 商店/当铺(openShop;320 逻辑坐标 ×WORLD_SCALE,同菜单)
+    if (shop) {
+      ctx.save()
+      ctx.scale(WORLD_SCALE, WORLD_SCALE)
+      ctx.imageSmoothingEnabled = false
+      drawShop(ctx, shop.ui, world, project.items, menuAssets, glyphs, performance.now(), {
+        no: lookupText('menu.system.no', project.locale),
+        yes: lookupText('menu.system.yes', project.locale),
+      })
+      ctx.restore()
+    }
     // 对话框(UI)同样在 320 逻辑坐标画 + ×WORLD_SCALE 放大:POS 常量、字模 drawImage、
     // 折行 usable 全是 320 系,scale 后统一 ×4 —— 字模点阵整数倍放大锐利、版面比例不变(D16)。
     if (dialogBox.active) {
@@ -2140,8 +2165,17 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     const interact = pressed.has(' ') || pressed.has('Enter')
     const esc = pressed.has('Escape')
 
-    // 三态优先级:菜单 > 对话 > 探索(用 else if 保证互斥)
-    if (menu.active) {
+    // 三态优先级:商店 > 菜单 > 对话 > 探索(用 else if 保证互斥;商店在脚本 openShop
+    // await 期间活跃 —— 必须先于「脚本演出中吞输入」分支消费按键)
+    if (shop) {
+      const r = shopInput(shop.ui, pressed, world, project.items, (next) => {
+        world = next
+      })
+      if (r === 'close') {
+        shop.resolve()
+        shop = null
+      }
+    } else if (menu.active) {
       if (saveBrowser.active) {
         // 存档浏览界面(全屏,优先于菜单输入)
         if (saveBrowser.confirmOverwrite) {

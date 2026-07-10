@@ -24,6 +24,7 @@ import type {
   MusicDef,
   PoisonDef,
   SceneDef,
+  ShopDef,
   SkillData,
   SpriteDef,
   StartWorld,
@@ -61,6 +62,8 @@ export interface ContentBundle {
   poisons?: PoisonDef[]
   /** 氛围表(W6 昼夜;可缺省 = 空 → setAmbience no-op)。 */
   ambiences?: AmbienceDef[]
+  /** 店铺表(openShop 货单;可缺省 = 空 → openShop 报店不存在)。 */
+  shops?: ShopDef[]
 }
 
 /** 编辑器被编辑的内容工作副本 = ContentBundle + manifest(EditSession 用)。 */

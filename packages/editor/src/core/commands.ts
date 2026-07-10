@@ -1839,6 +1839,61 @@ export class RemoveSpriteCommand implements Command {
   }
 }
 
+// ── 商店(货单编辑)────────────────────────────────────────────
+
+/** 改店铺货单(整表替换;首次 apply 捕获旧值)。 */
+export class UpdateShopCommand implements Command {
+  readonly label = '修改店铺'
+  private old: string[] | undefined
+  private captured = false
+
+  constructor(
+    private readonly shopId: number,
+    private readonly items: string[],
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    const shop = (state.shops ?? []).find((x) => x.id === this.shopId)
+    if (!shop) return state
+    if (!this.captured) {
+      this.old = [...shop.items]
+      this.captured = true
+    }
+    return {
+      ...state,
+      shops: (state.shops ?? []).map((x) => (x.id === this.shopId ? { ...x, items: [...this.items] } : x)),
+    }
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.old) return state
+    const old = this.old
+    return {
+      ...state,
+      shops: (state.shops ?? []).map((x) => (x.id === this.shopId ? { ...x, items: [...old] } : x)),
+    }
+  }
+}
+
+/** 新建店铺(空货单;id = max+1 由调用方定)。 */
+export class AddShopCommand implements Command {
+  readonly label = '新建店铺'
+  private added = false
+
+  constructor(private readonly shopId: number) {}
+
+  apply(state: EditorState): EditorState {
+    if ((state.shops ?? []).some((x) => x.id === this.shopId)) return state
+    this.added = true
+    return { ...state, shops: [...(state.shops ?? []), { id: this.shopId, items: [] }] }
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.added) return state
+    return { ...state, shops: (state.shops ?? []).filter((x) => x.id !== this.shopId) }
+  }
+}
+
 // ── A4c 战斗外观上传(敌/我;patch path + blob 暂存一步 undo;路径按 id 定死重传即覆盖)──
 
 /** 上传敌人战斗外观:enemy.spritePath 指到工程内 .rle + 字节暂存。 */

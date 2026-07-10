@@ -93,7 +93,8 @@ export interface ScriptHost {
     chunkIdx: number,
     opts?: { speed?: number; startFrame?: number; endFrame?: number },
   ): Promise<void>
-  openShop(shop: number, mode: 'buy' | 'sell'): void
+  /** 商店/当铺(阻塞脚本至关店;店不存在须立即 resolve 防卡死)。 */
+  openShop(shop: number, mode: 'buy' | 'sell'): Promise<void>
   confirm(): Promise<boolean>
   // ── 条件查询(hasItem/hasMoney/inParty 的数据源)──
   query: {

@@ -441,7 +441,7 @@ export class Playback {
     },
     playVideo: async (videoId) => this.log(`🎬 过场视频 videos/${videoId}.mp4(编辑器预览桩)`),
     playRng: async (chunkIdx) => this.log(`🎞 过场 RNG chunk ${chunkIdx}(编辑器预览桩)`),
-    openShop: (shop, mode) => this.log(`🏪 商店 ${shop}(${mode === 'buy' ? '买' : '卖'})`),
+    openShop: async (shop, mode) => this.log(`🏪 商店 #${shop}(${mode === 'buy' ? '买' : '卖'})`),
     confirm: async () => {
       this.log('❓ 是/否 → 按「是」继续(v0 桩)')
       return true

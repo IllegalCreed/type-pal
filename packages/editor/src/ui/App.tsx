@@ -385,6 +385,7 @@ export function App(props: {
             battleFields={state.battleFields ?? []}
             poisons={state.poisons ?? []}
             ambiences={state.ambiences ?? []}
+            shops={state.shops ?? []}
             scenes={state.scenes}
             manifest={state.manifest}
             actors={state.actors}
@@ -620,6 +621,7 @@ export function App(props: {
                   music={state.music ?? []}
                   projectId={state.manifest.id}
                   ambiences={state.ambiences ?? []}
+                  shops={state.shops ?? []}
                   layers={{
                     grid: canvasLayers.grid,
                     blocked: canvasLayers.blocked,

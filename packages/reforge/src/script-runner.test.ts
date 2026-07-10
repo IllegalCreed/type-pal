@@ -57,7 +57,7 @@ function fakeHost(calls: string[]): ScriptHost {
       calls.push('teleportOut()')
       return false
     },
-    openShop: log('openShop'),
+    openShop: alog('openShop'),
     confirm: async () => {
       calls.push('confirm()')
       return true

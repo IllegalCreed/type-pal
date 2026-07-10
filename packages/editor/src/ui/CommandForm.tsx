@@ -8,7 +8,7 @@
  * 对话文本:line.text 是 TextId(locale 键);编辑即改写为**字面量**(lookupText
  * 未命中回显原文,引擎/预览同语义)——新写的行直接放中文,旧行一改即脱离 locale 键。
  */
-import type { AmbienceDef, Command, Facing, Locale, MusicDef, SceneDef, WalkSpeed } from '@type-pal/content'
+import type { AmbienceDef, Command, Facing, Locale, MusicDef, SceneDef, ShopDef, WalkSpeed } from '@type-pal/content'
 import { type ActorDef, lookupText } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { useEffect, useState } from 'react'
@@ -148,9 +148,11 @@ export function CommandForm(props: {
   actors?: Record<string, ActorDef>
   /** 氛围表(setAmbience 下拉;W6)。缺省退化文本输入。 */
   ambiences?: AmbienceDef[]
+  /** 店铺表(openShop 店下拉)。缺省退化数字输入。 */
+  shops?: ShopDef[]
   onChange: (next: Command) => void
 }) {
-  const { cmd, scene, locale, music, musicBase, scenes, assetBase, actors, ambiences, onChange } = props
+  const { cmd, scene, locale, music, musicBase, scenes, assetBase, actors, ambiences, shops, onChange } = props
   const set = (patch: object): void => onChange({ ...cmd, ...patch } as Command)
 
   switch (cmd.kind) {
@@ -608,6 +610,31 @@ export function CommandForm(props: {
             baseUrl={musicBase}
           />
         </Row>
+      )
+    case 'openShop':
+      return (
+        <>
+          <Row label="店铺">
+            {shops?.length ? (
+              <Sel
+                value={String(cmd.shop)}
+                options={shops.map((x) => String(x.id))}
+                labels={shops.map((x) => `店 ${x.id}(${x.items.length} 货)`)}
+                onChange={(v) => set({ shop: Number(v) })}
+              />
+            ) : (
+              <Num value={cmd.shop} onChange={(n) => set({ shop: n })} />
+            )}
+          </Row>
+          <Row label="模式">
+            <Sel
+              value={cmd.mode}
+              options={['buy', 'sell']}
+              labels={['买(店铺货单)', '卖(当铺收购)']}
+              onChange={(v) => set({ mode: v })}
+            />
+          </Row>
+        </>
       )
     case 'setAmbience':
       return (
