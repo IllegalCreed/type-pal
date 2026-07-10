@@ -125,6 +125,12 @@ interface VisualFighter {
   colorShift: number
   /** 信息框显示血量(伤害数字帧才同步,避免结算即时扣血提前剧透)。 */
   displayHp: number
+  /** 位移平滑目标(smoothMs 标记的 pos delta:渲染位置指数趋近目标 = 快起步、
+   *  减速集中尾段 —— 作者对照原版 pal.exe 的观感;undefined = 无平滑进行中)。 */
+  sx?: number
+  sy?: number
+  /** 趋近时间常数 ms(exp(−dt/τ);~3τ 内基本到位)。 */
+  sTau?: number
 }
 
 export class BattleSession {
@@ -512,6 +518,7 @@ export class BattleSession {
 
   tick(dtMs: number, pressed: ReadonlySet<string>): void {
     this.nowMs += dtMs
+    this.stepSmoothPos(dtMs) // 位移平滑(smoothMs 标记的 pos delta;rAF 级推进)
     // 数字 11 帧×40ms=440ms(uibattle.c:1753 age>10 清);文本飘字维持 900ms
     this.floats = this.floats.filter(
       (f) => this.nowMs - f.bornAt < (f.num !== undefined ? 440 : 900),
@@ -783,7 +790,7 @@ export class BattleSession {
             this.overlays = o
           },
           onSound: (id) => this.assets.sfx?.play(id),
-          onDamage: (t, v) => this.applyDamageFx(t, v),
+          onDamage: (t, v, tone) => this.applyDamageFx(t, v, tone ?? 'blue'),
           // 战斗消息条(物品名 @210,50;untilMs 到期渲染层自清)
           onBanner: (text, durMs) => {
             this.itemBanner = { text, untilMs: this.nowMs + durMs }
@@ -1012,12 +1019,18 @@ export class BattleSession {
     // 召唤类合击落 summon 段直接播召唤动画)。
     if (la.kind === 'coop') return this.buildCastTimeline(la, pHp, eHp)
     // 使用物品(fight.c:2266 举物 + 目标彩色呼吸;v1 施己 → 目标 = 自己)。
-    // 物品名走时间线 banner 帧(与举物/音效同帧起显,作者对照原版确认「三同步」)。
+    // 物品名走时间线 banner 帧(与举物/音效同帧起显,作者对照原版确认「三同步」);
+    // 玩家侧涨益数字从收尾统一弹**挪进时间线**(归位前弹 = 作者对照原版时序;
+    // 从 pendingGains 取走防双弹,敌侧涨益仍走收尾)。
     if (la.kind === 'item' && la.side === 'player') {
       const casterPos = getPlayerBasePos(s.players.length, la.idx)
       if (!casterPos) return null
       const itemName = la.itemId ? s.items[la.itemId]?.name : undefined
-      return buildUseItem({ casterIdx: la.idx, casterPos, targetIdxs: [la.idx], itemName })
+      const gains = this.pendingGains
+        .filter((g) => g.target.side === 'player')
+        .map((g) => ({ idx: g.target.idx, value: g.value, tone: g.tone }))
+      this.pendingGains = this.pendingGains.filter((g) => g.target.side !== 'player')
+      return buildUseItem({ casterIdx: la.idx, casterPos, targetIdxs: [la.idx], itemName, gains })
     }
     // 投掷道具(frame5 投掷姿 → 目标染色闪 → 复位;数字不显 —— 下毒无即时伤害)
     if (la.kind === 'throw' && la.side === 'player' && la.target !== undefined) {
@@ -1130,22 +1143,49 @@ export class BattleSession {
     })
   }
 
-  /** 时间线 delta → 表现层。 */
+  /** 时间线 delta → 表现层。pos 带 smoothMs = 设趋近目标(渲染层插值);否则直落并清平滑。 */
   private applyDelta(d: {
     side: 'player' | 'enemy'
     idx: number
     frame?: number
     pos?: { x: number; y: number }
+    smoothMs?: number
     colorShift?: number
   }): void {
     const v = d.side === 'player' ? this.visual.players[d.idx] : this.visual.enemies[d.idx]
     if (!v) return
     if (d.frame !== undefined) v.frame = d.frame
     if (d.pos) {
-      v.x = d.pos.x
-      v.y = d.pos.y
+      if (d.smoothMs && d.smoothMs > 0) {
+        v.sx = d.pos.x
+        v.sy = d.pos.y
+        v.sTau = d.smoothMs
+      } else {
+        v.x = d.pos.x
+        v.y = d.pos.y
+        v.sx = undefined
+        v.sy = undefined
+      }
     }
     if (d.colorShift !== undefined) v.colorShift = d.colorShift
+  }
+
+  /** 位移平滑推进(每 tick;指数趋近 = 快起步、减速集中尾段,作者对照原版观感)。 */
+  private stepSmoothPos(dtMs: number): void {
+    for (const v of [...this.visual.players, ...this.visual.enemies]) {
+      if (!v || v.sx === undefined) continue
+      const tx = v.sx
+      const ty = v.sy ?? v.y
+      const k = 1 - Math.exp(-dtMs / Math.max(1, v.sTau ?? 35))
+      v.x += (tx - v.x) * k
+      v.y += (ty - v.y) * k
+      if (Math.abs(tx - v.x) < 0.5 && Math.abs(ty - v.y) < 0.5) {
+        v.x = tx
+        v.y = ty
+        v.sx = undefined
+        v.sy = undefined
+      }
+    }
   }
 
   /** 伤害表现:蓝数字飘字(一阶段 damageNum blue)+ displayHp 同步到结算值。 */

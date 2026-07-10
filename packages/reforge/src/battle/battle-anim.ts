@@ -20,6 +20,9 @@ export interface FighterDelta {
   frame?: number
   /** 底锚位置(缺 = 不变)。 */
   pos?: { x: number; y: number }
+  /** pos 的表现层平滑:>0 = 渲染位置以 τ=smoothMs 指数趋近(快起步、尾段减速;
+   *  作者对照原版 pal.exe 的位移插值观感)。缺省/0 = 直落(瞬移)。 */
+  smoothMs?: number
   /** 受击/高亮染色(0 = 复位;一阶段 iColorShift=6 提亮)。 */
   colorShift?: number
 }
@@ -38,7 +41,12 @@ export interface AnimFrame {
   /** 特效 overlay(可多落点:attackAll 三点同帧)。坐标 = 一阶段 fight.c 落点真值。 */
   overlays?: OverlayDraw[]
   damageNum?: { target: { side: 'player' | 'enemy'; idx: number }; value: number }
-  damageNums?: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
+  /** tone 缺省 blue(掉血);yellow=回血 / cyan=回 MP(物品涨益在归位前弹,作者对照原版)。 */
+  damageNums?: Array<{
+    target: { side: 'player' | 'enemy'; idx: number }
+    value: number
+    tone?: 'blue' | 'yellow' | 'cyan'
+  }>
   sound?: number
   /** 震屏帧(法术末 wShake 帧;session 累计 shakeUntil,合成级垂直位移,level 恒 3 fight.c:2718)。 */
   screenShake?: boolean
@@ -297,39 +305,29 @@ export interface BuildUseItemInput {
   targetIdxs: number[]
   /** 物品名:与举物/音效**同帧**起显示 13 帧(一阶段 battleMessage @210,50,fight.c:2316)。 */
   itemName?: string
+  /** 涨益数字(回血黄/回 MP 青):呼吸结束后、**归位之前**弹出(作者对照原版:
+   *  先显血量、后瞬移归位;不传则不弹 —— 调用方须自行防双弹)。 */
+  gains?: Array<{ idx: number; value: number; tone: 'yellow' | 'cyan' }>
 }
 
 /**
- * 战斗使用物品(fight.c:2266-2335 PAL_BattleShowPlayerUseItemAnim;一阶段 buildUseItemTimeline
- * 同源移植):Delay(4) → 施者**先快后慢走近**(−15,−7)→ frame5(举物姿)+sound 28+物品名同帧
- * → 目标 colorShift 0..6 再 5..0(每级 1 帧)→ **瞬移归位** + 收尾停顿 Delay(8)。
- * ⚠ 前移形态:sdlpal/一阶段是单帧直接赋值(瞬移),作者对照原版 pal.exe 裁决
- * (2026-07-11):走近 = 连续且**先快后慢**(ease-out),归位 = **瞬移** —— 跟原版。
+ * 战斗使用物品 —— 逻辑层 1:1 fight.c:2266-2335 PAL_BattleShowPlayerUseItemAnim:
+ * Delay(4) → pos **单帧赋值** (−15,−7) + frame5(举物)+ sound 28 + 物品名(wObjectID,
+ * 同帧起显 13 帧)→ 目标 colorShift 0..6 再 5..0(每级 Delay(1))。
+ * 前移的**连续观感**来自表现层:pos delta 带 smoothMs → session 渲染位置指数趋近
+ * (快起步、减速集中尾段 —— 作者对照原版 pal.exe 三轮校准的插值形态);
+ * 归位不带 smoothMs = 瞬移直落(作者:原版先弹血量数字、后瞬移归位)。
  */
 export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
-  const { casterIdx, casterPos, targetIdxs, itemName } = input
+  const { casterIdx, casterPos, targetIdxs, itemName, gains } = input
   const frames: AnimFrame[] = [{ durationMs: delayMs(4) }]
   const shifted = { x: casterPos.x - 15, y: casterPos.y - 7 }
-  const stepPos = (t: number): { x: number; y: number } => ({
-    x: Math.round(casterPos.x + (shifted.x - casterPos.x) * t),
-    y: Math.round(casterPos.y + (shifted.y - casterPos.y) * t),
-  })
-  // 走近 120ms 细分 12 段 ×10ms(rAF ~16.7ms 每帧都跨到新位置 = 平滑;40ms 大步长
-  // 曾被作者报「不顺畅」—— 三大跳不是滑动)。二次 ease-out 先快后慢,前 40ms 走完
-  // 过半路程;终点并入举物帧(到位即抬手)。
-  const WALK_STEPS = 12
-  for (let s = 1; s < WALK_STEPS; s++) {
-    const ease = 1 - (1 - s / WALK_STEPS) ** 2
-    frames.push({
-      durationMs: 10,
-      fighters: [{ side: 'player', idx: casterIdx, pos: stepPos(ease) }],
-    })
-  }
   const targets = (shift: number): FighterDelta[] =>
     targetIdxs.map((idx) => ({ side: 'player' as const, idx, colorShift: shift }))
   for (let i = 0; i <= 6; i++) {
     const fighters = targets(i)
-    if (i === 0) fighters.unshift({ side: 'player', idx: casterIdx, pos: shifted, frame: 5 })
+    if (i === 0)
+      fighters.unshift({ side: 'player', idx: casterIdx, pos: shifted, frame: 5, smoothMs: 35 })
     frames.push({
       durationMs: delayMs(1),
       fighters,
@@ -339,7 +337,19 @@ export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
     })
   }
   for (let i = 5; i >= 0; i--) frames.push({ durationMs: delayMs(1), fighters: targets(i) })
-  // 归位 = 瞬移(作者对照原版;fight.c 同为 UpdateFighters 直接复位)+ DM12 收尾停顿
+  // 涨益数字:归位**之前**弹(作者对照原版:先显血量、人仍在前移位停一拍,后瞬移归位;
+  // sdlpal fight.c:4404 是复位后 DisplayStatChange —— 跟原版不跟 sdlpal)
+  if (gains?.length) {
+    frames.push({
+      durationMs: delayMs(8),
+      damageNums: gains.map((g) => ({
+        target: { side: 'player' as const, idx: g.idx },
+        value: g.value,
+        tone: g.tone,
+      })),
+    })
+  }
+  // 归位 = 瞬移 + DM12 收尾停顿
   frames.push({
     durationMs: delayMs(8),
     fighters: [{ side: 'player', idx: casterIdx, pos: casterPos, frame: 0 }],
@@ -914,7 +924,11 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
 
 export interface AnimSideEffects {
   onSound?(id: number): void
-  onDamage?(target: { side: 'player' | 'enemy'; idx: number }, value: number): void
+  onDamage?(
+    target: { side: 'player' | 'enemy'; idx: number },
+    value: number,
+    tone?: 'blue' | 'yellow' | 'cyan',
+  ): void
   onFighter?(d: FighterDelta): void
   onOverlay?(o: OverlayDraw[] | null): void
   /** 震屏帧进入(参数 = 本帧时长;session 累计 shakeUntil,fight.c:2718)。 */
@@ -963,7 +977,7 @@ export class AnimPlayer {
     this.fx.onOverlay?.(f.overlays ?? null)
     if (f.sound !== undefined && f.sound > 0) this.fx.onSound?.(f.sound)
     if (f.damageNum) this.fx.onDamage?.(f.damageNum.target, f.damageNum.value)
-    if (f.damageNums) for (const d of f.damageNums) this.fx.onDamage?.(d.target, d.value)
+    if (f.damageNums) for (const d of f.damageNums) this.fx.onDamage?.(d.target, d.value, d.tone)
     if (f.screenShake) this.fx.onScreenShake?.(f.durationMs)
     if (f.waveAdd !== undefined) this.fx.onWaveAdd?.(f.waveAdd)
     if (f.burnBg?.length) this.fx.onBurnBg?.(f.burnBg)

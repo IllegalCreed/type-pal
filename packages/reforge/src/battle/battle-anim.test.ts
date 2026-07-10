@@ -17,7 +17,7 @@ function record(frames: AnimFrame[]) {
     onDamage: (t, v) => events.push(`dmg:${t.side}${t.idx}:${v}`),
     onFighter: (d) =>
       events.push(
-        `f:${d.side}${d.idx}${d.frame !== undefined ? `#${d.frame}` : ''}${d.pos ? `@${d.pos.x},${d.pos.y}` : ''}${d.colorShift !== undefined ? `c${d.colorShift}` : ''}`,
+        `f:${d.side}${d.idx}${d.frame !== undefined ? `#${d.frame}` : ''}${d.pos ? `@${d.pos.x},${d.pos.y}` : ''}${d.smoothMs ? '~' : ''}${d.colorShift !== undefined ? `c${d.colorShift}` : ''}`,
       ),
     onBanner: (text, durMs) => events.push(`banner:${text}:${durMs}`),
   })
@@ -186,22 +186,20 @@ describe('M4d-2 战斗动画时间线', () => {
       casterPos: { x: 240, y: 170 },
       targetIdxs: [1], // v1 施己
       itemName: '观音符',
+      gains: [{ idx: 1, value: 50, tone: 'yellow' }],
     })
     const { events, player } = record(frames)
     let guard = 0
     while (!player.tick(50) && guard++ < 200) {}
-    // 前移 = 120ms 细分 11 中间帧 ×10ms、二次 ease-out 先快后慢(作者两轮对照原版
-    // pal.exe 裁决:连续、先快后慢、非瞬移;40ms 大步长「三大跳」曾被报不顺畅)
-    const walk = events.filter((e) => /^f:player1@/.test(e))
-    expect(walk.length).toBe(11) // 归位瞬移:无走回中间帧,纯 pos 事件只有走近段
-    expect(walk[0]).toBe('f:player1@238,169') // 首帧已在动
-    expect(walk).toContain('f:player1@229,165') // 中点(60ms)已走完 75% 路程 = 先快
-    expect(events.indexOf(walk[0]!)).toBeLessThan(events.indexOf('f:player1#5@225,163'))
-    expect(events).toContain('f:player1#5@225,163') // 到位举物姿
+    // 前移 = 逻辑层 1:1 fight.c:2295(单帧赋值),连续观感走表现层 smoothMs 插值
+    // (指数趋近 = 快起步、减速集中尾段;作者对照原版 pal.exe 三轮校准)——
+    // 时间线上不再有手搓中间步进帧
+    expect(events.filter((e) => /^f:player1@/.test(e)).length).toBe(0)
+    expect(events).toContain('f:player1#5@225,163~') // 前移举物帧带平滑标记
     expect(events).toContain('snd:28') // 用品音(fight.c:2300)
     expect(events).toContain('f:player1c6') // 呼吸峰值
     expect(events).toContain('f:player1c0') // 降回
-    expect(events).toContain('f:player1#0@240,170') // 复位
+    expect(events).toContain('f:player1#0@240,170') // 归位帧**不带**平滑 = 瞬移直落
     // 升 0..6 七级 + 降 5..0 六级 = 13 次染色事件
     expect(events.filter((e) => /^f:player1c\d$/.test(e)).length).toBe(13)
     // 「三同步」(作者对照原版):前移举物 / 音效 / 物品名 banner 同帧派发 —— 事件序列上
@@ -210,6 +208,9 @@ describe('M4d-2 战斗动画时间线', () => {
     expect(bannerAt).toBeGreaterThanOrEqual(0)
     expect(Math.abs(bannerAt - events.indexOf('snd:28'))).toBeLessThanOrEqual(2)
     expect(bannerAt).toBeLessThan(events.indexOf('f:player1c1'))
+    // 涨益数字先于归位(作者对照原版:先显血量、后瞬移归位)
+    expect(events).toContain('dmg:player1:50')
+    expect(events.indexOf('dmg:player1:50')).toBeLessThan(events.indexOf('f:player1#0@240,170'))
   })
 
   test('actWaitFrames=0 的零长帧不卡死,一次 tick 全跨过', () => {
