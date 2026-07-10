@@ -19,6 +19,7 @@ function record(frames: AnimFrame[]) {
       events.push(
         `f:${d.side}${d.idx}${d.frame !== undefined ? `#${d.frame}` : ''}${d.pos ? `@${d.pos.x},${d.pos.y}` : ''}${d.colorShift !== undefined ? `c${d.colorShift}` : ''}`,
       ),
+    onBanner: (text, durMs) => events.push(`banner:${text}:${durMs}`),
   })
   return { events, player }
 }
@@ -184,6 +185,7 @@ describe('M4d-2 战斗动画时间线', () => {
       casterIdx: 1,
       casterPos: { x: 240, y: 170 },
       targetIdxs: [1], // v1 施己
+      itemName: '观音符',
     })
     const { events, player } = record(frames)
     let guard = 0
@@ -195,6 +197,12 @@ describe('M4d-2 战斗动画时间线', () => {
     expect(events).toContain('f:player1#0@240,170') // 复位
     // 升 0..6 七级 + 降 5..0 六级 = 13 次染色事件
     expect(events.filter((e) => /^f:player1c\d$/.test(e)).length).toBe(13)
+    // 「三同步」(作者对照原版):前移举物 / 音效 / 物品名 banner 同帧派发 —— 事件序列上
+    // banner 紧邻 snd:28 与举物帧,且早于任何 colorShift>0
+    const bannerAt = events.indexOf('banner:观音符:520')
+    expect(bannerAt).toBeGreaterThanOrEqual(0)
+    expect(Math.abs(bannerAt - events.indexOf('snd:28'))).toBeLessThanOrEqual(2)
+    expect(bannerAt).toBeLessThan(events.indexOf('f:player1c1'))
   })
 
   test('actWaitFrames=0 的零长帧不卡死,一次 tick 全跨过', () => {

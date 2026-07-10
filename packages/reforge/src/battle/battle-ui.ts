@@ -17,7 +17,7 @@ import {
   SELECTED_COLORS,
 } from '../menu/menu-box.js'
 import type { GlyphTable } from '../text/glyph.js'
-import { measureSpans, renderSpans } from '../text/text-render.js'
+import { renderSpans } from '../text/text-render.js'
 
 // ── 队员信息框(一阶段 91+77i,165;playerbox 75×35 贴屏底)──────────────
 const INFO_X_BASE = 91
@@ -38,7 +38,6 @@ const MP_MAX_Y = 24
 const MENU_PAD_X = 14
 const MENU_PAD_Y = 12
 const MENU_ITEM_H = 18
-const MENU_H_BASE = 22
 /** 已确认父项固定色(一阶段 MENUITEM_COLOR_CONFIRMED 0x2C 金黄)。 */
 const COLOR_CONFIRMED = [255, 203, 113] as const
 
@@ -201,6 +200,8 @@ export interface BattleMenuRow {
 
 /**
  * 竖排小盒菜单(杂项盒/使用投掷盒,一阶段 uibattle 杂项盒布局)。返回框宽。
+ * w/h 定死传入(一阶段盒 = tile 网格 (cols+2)×16,杂项 64×96 / 二级 48×48),
+ * **不随文字动态撑宽** —— 作者点名的惯犯:菜单盒按原版定尺寸,文字长了压边是原版本样。
  * confirmed=true:当前项固定金黄(已进二级,父项确认色 0x2C),其余不闪。
  */
 export function drawBattleMenuBox(
@@ -212,12 +213,10 @@ export function drawBattleMenuBox(
   now: number,
   x: number,
   y: number,
+  w: number,
+  h: number,
   confirmed = false,
 ): number {
-  const hasRight = rows.some((r) => r.right !== undefined)
-  const textW = Math.max(32, ...rows.map((r) => measureSpans([{ text: r.label }], glyphs)))
-  const w = MENU_PAD_X + textW + (hasRight ? 8 + 24 : 0) + 31 // 一阶段 cols 换算:22+textW+23
-  const h = MENU_H_BASE + MENU_ITEM_H * rows.length
   drawSlicedBox(ctx, menu.box, x, y, w, h)
   const blink = SELECTED_COLORS[Math.floor(now / 100) % SELECTED_COLORS.length] ?? COLOR_NORMAL
   rows.forEach((r, i) => {
@@ -325,14 +324,15 @@ export function drawItemDetailBox(
   if (icon) ctx.drawImage(icon, 8, 147)
 }
 
-/** 当前行动队员头顶手指(一阶段 68红/69常 闪烁;x = 精灵中心,topY = 精灵头顶)。 */
+/** 当前行动队员头顶三角(一阶段 68红/69常 闪烁)。
+ *  锚 = 精灵**底中**固定偏移(uibattle.c:1004:blit 至 x−8, y−74),与精灵高度无关。 */
 export function drawCurrentFinger(
   ctx: CanvasRenderingContext2D,
   menu: MenuAssets,
-  centerX: number,
-  topY: number,
+  baseX: number,
+  baseY: number,
   now: number,
 ): void {
   const img = Math.floor(now / 160) % 2 === 0 ? menu.cursorDown : menu.cursorGrid
-  if (img) ctx.drawImage(img, centerX - 4, topY - 10)
+  if (img) ctx.drawImage(img, baseX - (img.width >> 1), baseY - 74)
 }

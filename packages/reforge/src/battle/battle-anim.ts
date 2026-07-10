@@ -50,6 +50,8 @@ export interface AnimFrame {
   /** keepEffect 烙背景(fight.c:2757 末帧 blit lpBackground):把这些特效帧永久画进
    *  战斗背景(整场留存,随屏波卷动;万剑诀插剑入地)。session 侧屏波 ≥9 时丢弃(原版门)。 */
   burnBg?: OverlayDraw[]
+  /** 战斗消息条(物品名 @210,50 等;一阶段 battleMessage):从本帧起显示 durationMs。 */
+  banner?: { text: string; durationMs: number }
 }
 
 export interface BuildPlayerAttackInput {
@@ -293,6 +295,8 @@ export interface BuildUseItemInput {
   casterPos: { x: number; y: number }
   /** 受益目标(v1 施己 = [casterIdx];将来 oneAlly/allAllies 直接传多目标)。 */
   targetIdxs: number[]
+  /** 物品名:与举物/音效**同帧**起显示 13 帧(一阶段 battleMessage @210,50,fight.c:2316)。 */
+  itemName?: string
 }
 
 /**
@@ -301,7 +305,7 @@ export interface BuildUseItemInput {
  * 0..6 再 5..0(每级 1 帧)→ 复位施者 + 收尾停顿 Delay(8)(fight.c:4404-4406,飘字不叠下段)。
  */
 export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
-  const { casterIdx, casterPos, targetIdxs } = input
+  const { casterIdx, casterPos, targetIdxs, itemName } = input
   const frames: AnimFrame[] = [{ durationMs: delayMs(4) }]
   const shifted = { x: casterPos.x - 15, y: casterPos.y - 7 }
   const targets = (shift: number): FighterDelta[] =>
@@ -309,7 +313,13 @@ export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
   for (let i = 0; i <= 6; i++) {
     const fighters = targets(i)
     if (i === 0) fighters.unshift({ side: 'player', idx: casterIdx, pos: shifted, frame: 5 })
-    frames.push({ durationMs: delayMs(1), fighters, ...(i === 0 ? { sound: 28 } : {}) })
+    frames.push({
+      durationMs: delayMs(1),
+      fighters,
+      ...(i === 0 ? { sound: 28 } : {}),
+      // 前移+举物+音效+物品名同帧出现(作者对照原版确认的「三同步」;一阶段 L15 同款)
+      ...(i === 0 && itemName ? { banner: { text: itemName, durationMs: delayMs(13) } } : {}),
+    })
   }
   for (let i = 5; i >= 0; i--) frames.push({ durationMs: delayMs(1), fighters: targets(i) })
   // 复位施者(fight.c 由 UpdateFighters 收口;此处显式帧)+ DM12 收尾停顿
@@ -898,6 +908,8 @@ export interface AnimSideEffects {
   onSummonPhase?(phase: 'in' | 'hold' | 'out' | null): void
   /** keepEffect 烙背景(末帧一次;session 屏波 ≥9 时丢弃,fight.c:2757 wScreenWave<9 门)。 */
   onBurnBg?(marks: OverlayDraw[]): void
+  /** 战斗消息条(物品名等;进入带 banner 的帧时派发一次)。 */
+  onBanner?(text: string, durationMs: number): void
 }
 
 /** 逐帧推进器:进入新帧时应用 deltas + 派发副作用(每帧恰一次;wall-clock dt 驱动)。 */
@@ -938,6 +950,7 @@ export class AnimPlayer {
     if (f.screenShake) this.fx.onScreenShake?.(f.durationMs)
     if (f.waveAdd !== undefined) this.fx.onWaveAdd?.(f.waveAdd)
     if (f.burnBg?.length) this.fx.onBurnBg?.(f.burnBg)
+    if (f.banner) this.fx.onBanner?.(f.banner.text, f.banner.durationMs)
     this.fx.onSummonPhase?.(f.summonPhase ?? null)
   }
 }

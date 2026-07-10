@@ -512,7 +512,10 @@ export class BattleSession {
 
   tick(dtMs: number, pressed: ReadonlySet<string>): void {
     this.nowMs += dtMs
-    this.floats = this.floats.filter((f) => this.nowMs - f.bornAt < 900)
+    // 数字 11 帧×40ms=440ms(uibattle.c:1753 age>10 清);文本飘字维持 900ms
+    this.floats = this.floats.filter(
+      (f) => this.nowMs - f.bornAt < (f.num !== undefined ? 440 : 900),
+    )
     const s = this.state
 
     if (s.phase === 'won' || s.phase === 'lost' || s.phase === 'fled') {
@@ -781,6 +784,10 @@ export class BattleSession {
           },
           onSound: (id) => this.assets.sfx?.play(id),
           onDamage: (t, v) => this.applyDamageFx(t, v),
+          // 战斗消息条(物品名 @210,50;untilMs 到期渲染层自清)
+          onBanner: (text, durMs) => {
+            this.itemBanner = { text, untilMs: this.nowMs + durMs }
+          },
           // 震屏帧:累计活跃至帧尾(level 恒 3,fight.c:2718;合成级垂直位移)
           onScreenShake: (durMs) => {
             const until = this.nowMs + durMs
@@ -1004,13 +1011,13 @@ export class BattleSession {
     // 合击:走 buildCastTimeline(内含 coopContributors 分支 → buildPlayerCoop 聚拢队形演出;
     // 召唤类合击落 summon 段直接播召唤动画)。
     if (la.kind === 'coop') return this.buildCastTimeline(la, pHp, eHp)
-    // 使用物品(fight.c:2266 举物 + 目标彩色呼吸;v1 施己 → 目标 = 自己)
+    // 使用物品(fight.c:2266 举物 + 目标彩色呼吸;v1 施己 → 目标 = 自己)。
+    // 物品名走时间线 banner 帧(与举物/音效同帧起显,作者对照原版确认「三同步」)。
     if (la.kind === 'item' && la.side === 'player') {
       const casterPos = getPlayerBasePos(s.players.length, la.idx)
       if (!casterPos) return null
       const itemName = la.itemId ? s.items[la.itemId]?.name : undefined
-      if (itemName) this.itemBanner = { text: itemName, untilMs: this.nowMs + 13 * 40 }
-      return buildUseItem({ casterIdx: la.idx, casterPos, targetIdxs: [la.idx] })
+      return buildUseItem({ casterIdx: la.idx, casterPos, targetIdxs: [la.idx], itemName })
     }
     // 投掷道具(frame5 投掷姿 → 目标染色闪 → 复位;数字不显 —— 下毒无即时伤害)
     if (la.kind === 'throw' && la.side === 'player' && la.target !== undefined) {
@@ -1149,12 +1156,14 @@ export class BattleSession {
   ): void {
     const v = t.side === 'player' ? this.visual.players[t.idx] : this.visual.enemies[t.idx]
     if (!v) return
-    const sprite =
-      t.side === 'player' ? this.assets.playerSprites[t.idx] : this.assets.enemySprites[t.idx]
-    const h = sprite?.frames[0]?.height ?? 40
+    // 数字锚 = 一阶段真值(present-battle.ts showDamageNum,fight.c:640-708 + uibattle.c:1801):
+    //   x:anchor.x−24 且 5 位右对齐(6px/位)→ 个位右缘 = 底中 + 6(drawNumber 右对齐语义直传)
+    //   y:敌 −115 / 玩家 HP −75 / MP(cyan)−67,下限 10;固定偏移不随精灵高度(此前用
+    //   spriteH 导致高矮怪数字忽高忽低 = 作者报「掉血数字歪」根因之一)
+    const yOff = t.side === 'enemy' ? 115 : tone === 'cyan' ? 67 : 75
     this.floats.push({
-      x: v.x,
-      y: v.y - h - 6,
+      x: v.x + 6,
+      y: Math.max(v.y - yOff, 10),
       text: '',
       num: value,
       tone,
@@ -1465,11 +1474,11 @@ export class BattleSession {
         }
       })
 
-    // 当前行动队员头顶手指(选指令/选目标期间;一阶段 68/69 闪)
+    // 当前行动队员头顶三角(选指令/选目标期间;一阶段 68/69 闪)。
+    // 锚 = 底中固定偏移(uibattle.c:1004 x−8/y−74),不随精灵高度 —— 作者原版截图:三角贴头顶正上。
     if (!dialogActive && sel !== undefined && ui) {
       const pos = getPlayerBasePos(s.players.length, sel)
-      const spriteH = this.assets.playerSprites[sel]?.frames[0]?.height ?? 60
-      if (pos) drawCurrentFinger(ctx, ui, pos.x, pos.y - spriteH, now)
+      if (pos) drawCurrentFinger(ctx, ui, pos.x, pos.y, now)
     }
 
     // 物品使用横幅:物品名 @(210,50) 白字(fight.c:2316 PAL_DrawText color15;到期自清)
@@ -1510,14 +1519,16 @@ export class BattleSession {
           label,
           disabled: i === 0 || i === 4 || (i === 1 && this.usableItems().length === 0),
         }))
-        drawBattleMenuBox(ctx, ui, g, rows, this.miscIdx, now, 2, 20, this.ui === 'miscSub')
+        // 定宽 48×96 = 一阶段 MISC_BOX(menuTextMaxCols(2字)=1 → (1+2)×16;rows4 → (4+2)×16)。
+        // 第 5 行「状态」压出盒底 4px = 原版本样(五项塞四行盒)。盒宽不随文字撑。
+        drawBattleMenuBox(ctx, ui, g, rows, this.miscIdx, now, 2, 20, 48, 96, this.ui === 'miscSub')
         if (this.ui === 'miscSub') {
-          // 使用/投掷二级 box(30,50);投掷无可投道具时灰显
+          // 使用/投掷二级 box(30,50) 定宽 48×48(cols1 rows1;文字行照原版压边不撑盒)
           const sub: BattleMenuRow[] = [
             { label: '使用' },
             { label: '投掷', disabled: this.throwableItems().length === 0 },
           ]
-          drawBattleMenuBox(ctx, ui, g, sub, this.miscSubIdx, now, 30, 50)
+          drawBattleMenuBox(ctx, ui, g, sub, this.miscSubIdx, now, 30, 50, 48, 48)
         }
       } else if (this.ui === 'skill') {
         // 法术网格(红框 3 列)+ 左上 MP 框
@@ -1555,12 +1566,15 @@ export class BattleSession {
     // 伤害/涨益飘字(升起;掉血蓝/回血黄/回 MP 青 = fight.c:648-708,无资产退化文本)
     for (const f of this.floats) {
       const t = (this.nowMs - f.bornAt) / 900
-      const fy = f.y - t * 12
       if (f.num !== undefined && ui) {
+        // 一阶段真值(uibattle.c:1753-1761):每 40ms 上移 1px,age 0..10 共 11 帧;
+        // x 已在 applyDamageFx 算成个位右缘锚,直传右对齐 drawNumber
+        const age = Math.floor((this.nowMs - f.bornAt) / 40)
         const nums =
           f.tone === 'yellow' ? ui.nums : f.tone === 'cyan' ? ui.numsCyan : ui.numsBlue
-        drawNumber(ctx, f.num, f.x + 12, fy, nums)
+        drawNumber(ctx, f.num, f.x, f.y - age, nums)
       } else {
+        const fy = f.y - t * 12
         renderSpans(ctx, [{ text: f.num !== undefined ? `-${f.num}` : f.text }], f.x, fy, {
           glyphs: g,
           shadow: true,
