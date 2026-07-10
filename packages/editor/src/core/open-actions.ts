@@ -48,7 +48,7 @@ export async function openExistingProject(): Promise<Opened | null> {
 export async function newBlankProject(): Promise<Opened | null> {
   const dir = await pickDir()
   if (!dir) return null
-  await writeProject(dir, buildBlankProject(dir.name))
+  await writeProject(dir, await buildBlankProject(dir.name))
   return finishOpen(dir)
 }
 

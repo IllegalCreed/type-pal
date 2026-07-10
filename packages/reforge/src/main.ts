@@ -207,16 +207,20 @@ async function main(): Promise<void> {
   ])
   // portraits 已是预烘 RGBA PNG(@type-pal/migrate bake-assets),不再需 palette 着色。
   // 全立绘一次载(对话样式 op 的 arg0 遍布全剧情;manifest 报有效块,缺块 loader 自跳)。
-  const portraitChunks = await fetch('/extracted/data/portraits.json')
-    .then((r) => (r.ok ? (r.json() as Promise<{ portraits: { chunkIndex: number }[] }>) : null))
-    .then((m) => m?.portraits.map((p) => p.chunkIndex) ?? [1, 2])
-    .catch(() => [1, 2])
-  const portraits = await loadPortraits(portraitChunks, project.assetBase.portraits).catch(
-    (err: unknown) => {
-      console.warn('[reforge] portraits 加载失败,降级无头像:', err)
-      return new Map<number, HTMLCanvasElement>()
-    },
-  )
+  // ⚠ 仅当 manifest 声明了 portraits 才预载:自有工程(空白/Reforge 原创)无原版立绘,
+  //    否则会朝不存在的 portraits 目录刷满 91 条「加载失败」warn(E2E-1 gap #6)。
+  const portraits = project.manifest.assets.portraits
+    ? await (async (): Promise<Map<number, HTMLCanvasElement>> => {
+        const portraitChunks = await fetch('/extracted/data/portraits.json')
+          .then((r) => (r.ok ? (r.json() as Promise<{ portraits: { chunkIndex: number }[] }>) : null))
+          .then((m) => m?.portraits.map((p) => p.chunkIndex) ?? [1, 2])
+          .catch(() => [1, 2])
+        return loadPortraits(portraitChunks, project.assetBase.portraits).catch((err: unknown) => {
+          console.warn('[reforge] portraits 加载失败,降级无头像:', err)
+          return new Map<number, HTMLCanvasElement>()
+        })
+      })()
+    : new Map<number, HTMLCanvasElement>()
 
   // ── 场景资产缓存(M2c,设计 §3):map/tileset 按 mapNum LRU(cap16 + protect 当前,
   // 修一阶段按 sceneId 双取坑);palette/sceneDef 小缓存;精灵跨场景累积。──

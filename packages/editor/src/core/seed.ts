@@ -5,7 +5,30 @@
  * enumerateSeedFiles:汇总克隆要拉的**可复制**文件集(内容表 + 场景 + 全部素材);
  * manifest.json 本身走 relativizeManifest 单独写(不在此列)。
  */
-import type { LoadedManifest } from '@type-pal/content'
+import type { LoadedManifest, OwnMap } from '@type-pal/content'
+import { buildSeedAssets } from './seed-assets.js'
+
+const SEED_W = 12
+const SEED_H = 12
+
+/** 起始地图:12×12 单层草地矩形房(错排 lattice 铺满草棋盘);碰撞全 0,越界自动挡边。 */
+function buildSeedMap(): OwnMap {
+  const rows = SEED_H * 2
+  const tiles: (number | null)[][] = Array.from({ length: rows }, (_, b) =>
+    Array.from({ length: SEED_W }, (_, k) => ((b + k) % 2 === 0 ? 0 : 1)),
+  )
+  const collision = Array.from({ length: rows }, () =>
+    Array.from({ length: SEED_W }, () => 0),
+  )
+  return {
+    version: 1,
+    width: SEED_W,
+    height: SEED_H,
+    tileset: 'starter',
+    layers: [{ id: 'floor', name: '地板', occlude: false, tiles }],
+    collision,
+  }
+}
 
 /** 一个种子文件:从 src 读(种子源 rel;/ 开头=绝对透传)→ 写本地 rel。 */
 export interface SeedFile {
@@ -27,18 +50,22 @@ function relPath(s: string): string {
 }
 
 /**
- * 空白工程骨架(P4;高端「从头做」):最小 manifest + 空内容表 + 一个占位空场景。
- * 返回 {rel: 值} 文件集(writeProject 落盘)。assets 指向工程内相对(空 assets 夹,自产素材待地图模块)。
- * ⚠ 占位场景 map=reuseOriginalMap:0 是**占位**(空白工程无素材)—— 真正可渲染/可玩的空白工程
- * 依赖地图模块提供「空白地图」模型 + 编辑器容忍无地图(§4.2b,decision A gated on 地图模块)。
+ * 空白工程骨架(P4「从头做」;W-blank:开箱即玩)。返回 {rel: 值} 文件集(writeProject 落盘;
+ * 二进制值 = ArrayBuffer 走 Blob)。**零原版字节** —— 自产合成色盘 + 起始地形瓦片集 + 占位主角:
+ * 点新建即出生在一间 12×12 草地房、可走动、被房间边界挡住。作者随后逐一替换占位素材。
+ * async:占位素材 .rle 走浏览器 gzip(seed-assets)。
  */
-export function buildBlankProject(name: string): Record<string, unknown> {
+export async function buildBlankProject(name: string): Promise<Record<string, unknown>> {
   const id =
     name
       .trim()
       .toLowerCase()
       .replace(/[^a-z0-9-]+/g, '-')
       .replace(/^-+|-+$/g, '') || 'new-project'
+  const { palette, tilesetRle, spriteRle } = await buildSeedAssets()
+  // 房间中心 = 菱形轴 ((W+H)/2, (H−W)/2)(方形 → (W,0));落逻辑格中心,不卡边界(gap #7)。
+  const entryCol = Math.floor((SEED_W + SEED_H) / 2)
+  const entryRow = Math.floor((SEED_H - SEED_W) / 2)
   return {
     'manifest.json': {
       id,
@@ -50,33 +77,63 @@ export function buildBlankProject(name: string): Record<string, unknown> {
         skills: 'content/skills.json',
         items: 'content/items.json',
         locale: 'content/locale.json',
+        sprites: 'content/sprites.json',
+        tilesets: 'content/tilesets.json',
         scenes: 'content/scenes/',
       },
       assets: {
-        root: 'assets/extracted/data',
-        maps: 'tilemap',
-        tilesets: 'tileset',
-        sprites: 'sprite',
-        palettes: 'palette',
-        sounds: 'assets/extracted/sounds',
-        music: 'assets/extracted/music',
-        portraits: 'assets/baked/portraits',
-        faces: 'assets/baked/ui/face',
-        itemIcons: 'assets/baked/ui/items',
+        root: 'assets',
+        maps: 'maps',
+        tilesets: 'tilesets',
+        sprites: 'sprites',
+        palettes: 'palettes',
       },
-      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+      startWorld: { party: ['hero'], money: 0, learnedSkills: {}, inventory: [] },
     },
-    'content/actors.json': [],
+    'content/actors.json': [
+      {
+        id: 'hero',
+        name: 'name.hero',
+        spriteId: 'hero',
+        // 最小战斗档:无 battler 的 actor 不能入队(instantiate throw)。作者按需扩。
+        battler: {
+          baseStats: {
+            level: 1,
+            hp: 100,
+            maxHP: 100,
+            mp: 0,
+            maxMP: 0,
+            attack: 10,
+            defense: 5,
+            magicAttack: 5,
+            speed: 10,
+            luck: 10,
+          },
+          initialEquipment: {},
+          initialMagic: [],
+        },
+      },
+    ],
+    'content/sprites.json': [
+      { id: 'hero', spriteNum: 0, label: '占位主角', layout: { kind: 'directional', framesPerDir: 3 } },
+    ],
+    'content/tilesets.json': [
+      { id: 'starter', name: '起始地形', category: 'outdoor', path: 'assets/tilesets/starter.rle' },
+    ],
     'content/skills.json': { skills: [], levelUp: {} },
     'content/items.json': [],
-    'content/locale.json': {},
+    'content/locale.json': { 'name.hero': '主角' },
     'content/scenes/index.json': ['start'],
     'content/scenes/start.json': {
       id: 'start',
-      map: { reuseOriginalMap: 0 },
-      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+      map: { ownMap: 'content/maps/start.json' },
+      entry: { pos: { col: entryCol, row: entryRow, height: 0 }, facing: 'down' },
       entities: [],
     },
+    'content/maps/start.json': buildSeedMap(),
+    'assets/palettes/0.json': palette,
+    'assets/tilesets/starter.rle': tilesetRle,
+    'assets/sprites/0.rle': spriteRle,
   }
 }
 

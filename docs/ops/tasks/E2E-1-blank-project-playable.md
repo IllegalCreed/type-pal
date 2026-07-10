@@ -1,43 +1,49 @@
-# E2E-1 - 空白工程可玩性:烟测缝隙清单(待用户排期)
+# E2E-1 - 空白工程可玩性:烟测缝隙全清
 
-Status: build
-Owner: Opus(烟测发现方;修哪些待用户点菜)
-Reviewer: N/A(清单卡;逐项修复时按分级定)
+Status: done
+Owner: Opus(烟测发现 + 落地;用户裁定「修空白骨架真能开局」+ 占位素材现生成)
+Reviewer: 用户(方向拍板 + 观感待手动 FSA 复验);Codex/GLM 补签可选(非阻塞)
 Phase: phase2
 Capability: 作者之旅(空白工程 → 可玩)
 
-## 目标
-- 2026-07-10 端到端烟测(projects/e2e-own,纯自有内容引擎实测)暴露的缝隙集中登记;
-  用户按优先级点菜,逐项修复。**烟测主链已通**:自有瓦渲染/行走/碰撞/穿门/双向遮挡全对。
+## 目标(达成)
+- 2026-07-10 端到端烟测暴露 7 条缝,现**全部解决**:点「新建空白工程」→ 出生在一间
+  12×12 草地房、可四向行走、被房间边界挡住、占位主角朝向正确 —— 作者从零到可玩的
+  主链打通,且启动 **0 警告 0 错误**。
 
-## 范围
-- 缝隙清单(按撞到的顺序):
-  1. **空白工程开局即 404**:骨架 start 场景引用 `reuseOriginalMap: 0`,空白工程无
-     原版资产(seed.ts buildBlankProject)。→ 应改自有地图 + 内置一张极小缺省 tileset。
-  2. **party 空 → 引擎 boot 直接 throw**(main.ts 队长不在 actors 表)。空白工程
-     startWorld.party=[] 必崩。→ 降级(无队长=自由观察模式?)或编辑器强制引导配主角。
-  3. **骨架缺主色盘**:assets/palettes/0.json 不在空白骨架里,渲染必需。→ 骨架内置盘 0。
-  4. ✅ 已修(7b696b41 后续):上传 tileset 落盘路径拼接 bug —— `assets/` 前缀条目
-     误拼 assets-root 前缀(pal 下 404);单测钉住。
-  5. **无 battler 的 actor 不能入队**(instantiate throw)。作者第一个纯剧情主角必踩。
-     → 缺省 battler 或允许非战斗队伍。
-  6. **引擎无条件预载原版立绘 chunk 1-91**,自有工程刷 91 条 warn(降级正确但吵)。
-     → 按需/按资产存在性加载。
-  7. ✅ 已修(本提交):编辑器建图 entry 重置公式 (W/2,H/2) 落在 iso 左缘
-     (lattice x=0),人出生即卡边界;改 ((W+H)/2,(H-W)/2) = 图中心。e2e 实测抓出。
-- 范围外:FSA 环节(新建工程/保存对话框)自动化驱动不了 —— 用户 5 分钟手动烟测:
-  启动屏新建空白工程 → 确认开局表现(会撞 #1/#2)→ 数据模式上传 tileset → 保存 →
-  重开 → 瓦片集详情能显示(验证 #4 修复的磁盘路径)。
+## 缝隙清单(7 缝,全修)
+1. ✅ **空白工程开局 404**:骨架旧 start 场景引用 `reuseOriginalMap:0`(空白工程无原版
+   资产)。→ 改自有 12×12 OwnMap(草棋盘单层)+ 内置起始瓦片集。`buildBlankProject`。
+2. ✅ **party 空 boot 崩**:骨架 `startWorld.party=[]`。→ 内置占位主角 `hero` 入队。
+   (引擎侧「无队长也自由观察」的容错是独立健壮性小活,种子塞了主角即不触发,暂不做。)
+3. ✅ **缺主色盘**:渲染必需。→ 内置**合成盘 0**(工程自有,非 PAL 原盘;零原版字节)。
+4. ✅ 上传 tileset 落盘路径拼接 bug(`assets/` 前缀误拼 assets-root,pal 下 404);单测钉住。
+5. ✅ **无 battler 的 actor 不能入队**(instantiate throw)。→ 占位主角带最小 battler。
+6. ✅ **引擎无条件预载原版立绘 91 条 warn**:main.ts 硬编码 fetch `/extracted/…/portraits.json`
+   → 朝自有工程不存在的 portraits 目录刷满 warn。→ **manifest 未声明 portraits 即整段跳过**
+   (pal 声明了 → 路径零变化;自有工程 → 0 warn)。reforge/main.ts。
+7. ✅ 编辑器建图 entry 重置公式落在 iso 左缘(卡边界);改 `((W+H)/2,(H-W)/2)` = 图中心。
 
-## 上下文锚点
-- 烟测 fixture:projects/e2e-own(README 有跑法与验证点);缝隙 #1/#2/#3/#5 的修复
-  涉及 seed 骨架与引擎降级策略(行为设计,修复时按分级走签字)。
-- 引擎坐标真相(修 #7 时钉死):OwnMap 存储/渲染用 lattice 域(像素 x∈[0,W*32] 全正),
-  实体/entry/行走用 iso 轴(x=(col-row)*16 可负);方形 own 图的 iso 中心 = (W, 0)。
+## 占位素材方针(用户裁定:现生成自有极简小人 = 零原版字节)
+- `seed-assets.ts`:合成 256 色盘 + 4 块菱形地形瓦 + 12 帧(4 向×3)占位主角,全部**手工
+  指定调色板索引**作画(非量化),经 `encodeSpriteChunk` + 浏览器 gzip 落成原版同构 `.rle`。
+- 作者随后在编辑器里逐一替换成自己的瓦片集/精灵/色盘。占位一眼看出「是占位、请替换」。
 
-## 验证
-- 每项修复:e2e-own 重跑 + 空白工程真实新建(FSA 用户手动)。
+## 上下文锚点 / 坐标真相(钉死)
+- `buildBlankProject` 现为 **async**(占位 .rle 走浏览器 `CompressionStream`);产物二进制值 =
+  ArrayBuffer,`writeProject` 走 Blob 落盘。落盘产物与引擎 `loadProject` 已实测互通。
+- `entry.pos` = **菱形轴逻辑格**(玩家直接生此);方形 W×H 图房间中心 = `((W+H)/2,(H-W)/2)`。
+- 碰撞可全 0:lattice 越界(`col∉[0,W)` 或 `logicalRow∉[0,H)`)自动阻挡 → 天然把玩家困在
+  矩形 iso 房间,不必显式画边界墙。floor 铺满所有 lattice 格 = 一个矩形房间。
+
+## 验证(已做 / 待用户手动)
+- ✅ 引擎实测(6053,真实 `buildBlankProject` 产物落盘):渲染 / 四向行走 / 边界碰撞
+  (右走精确停 col 23)/ 朝向(下双眼、左单眼)/ 相机跟随 / 0 warn。截图存 scratchpad。
+- ⏳ **用户 5 分钟手动 FSA 烟测**(自动化驱动不了原生对话框):启动屏「新建空白工程」→ 确认
+  开局即出生可走(不再撞 #1/#2)→ 编辑器落在地图模式能看到草地房 → 数据模式上传一张瓦片集 →
+  保存 → 重开 → 瓦片集详情能显示。任何不顺立卡。
 
 ## 交接
-- 2026-07-10 Opus: 烟测完成,主链通(渲染/行走/碰撞/穿门/双向遮挡);7 缝 2 修 5 待。
-  Evidence: 本卡 + projects/e2e-own + 提交记录。Next: User / 按清单点菜排期。
+- 2026-07-10 Opus: 7 缝全修,主链引擎实测通(0 warn),`pnpm check` 全绿(顺带修好上次提交
+  潜藏的 reforge typecheck 红:assets.test.ts 的 node zlib → 浏览器 compressGzip)。
+  Next: 用户手动 FSA 复验开局观感 + 后续 W7 进阶笔刷(随机/盖章/autotile,见 W7B 卡)。

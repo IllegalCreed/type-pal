@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from 'vitest'
 import type { AssetBase } from './assets.js'
-import { loadOwnMap, loadPalette, loadTilemap, loadTilesetByPath } from './assets.js'
+import { compressGzip, loadOwnMap, loadPalette, loadTilemap, loadTilesetByPath } from './assets.js'
 import type { FileSource } from './file-source.js'
 
 const base = (source?: FileSource): AssetBase => ({
@@ -66,10 +66,10 @@ describe('assets.ts 经 FileSource 读', () => {
 
 describe('loadTilesetByPath 路径约定(W7B)', () => {
   const gz = async (): Promise<ArrayBuffer> => {
-    // 最小合法 gzip(空 chunk):frameCount=0 → parseSpriteChunk []
-    const { gzipSync } = await import('node:zlib')
-    const buf = gzipSync(Buffer.from([0, 0]))
-    return buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength) as ArrayBuffer
+    // 最小合法 gzip(空 chunk):frameCount=0 → parseSpriteChunk []。用浏览器原生 gzip
+    // (compressGzip,与被测模块同源),不引 node zlib/Buffer(reforge 是浏览器包,tsc 无 node 类型)。
+    const out = await compressGzip(new Uint8Array([0, 0]))
+    return out.buffer.slice(out.byteOffset, out.byteOffset + out.byteLength) as ArrayBuffer
   }
   test('assets/ 前缀 = 工程根相对,不拼 root;其余拼 assets root(原版借用)', async () => {
     const seen: string[] = []
