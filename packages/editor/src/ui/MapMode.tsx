@@ -468,12 +468,12 @@ export function MapMode(props: {
                 >
                   <button
                     type="button"
-                    className="layer-eye"
+                    className={`layer-eye${hiddenLayerIds.has(layer.id) ? ' off' : ''}`}
                     onClick={() => toggleLayerVisible(layer.id)}
                     title={hiddenLayerIds.has(layer.id) ? '显示图层' : '隐藏图层'}
                     aria-label={hiddenLayerIds.has(layer.id) ? '显示图层' : '隐藏图层'}
                   >
-                    {hiddenLayerIds.has(layer.id) ? '○' : '●'}
+                    👁
                   </button>
                   <button
                     type="button"

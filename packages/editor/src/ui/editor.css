@@ -2503,7 +2503,12 @@ body {
   height: 28px;
   padding: 0;
   color: var(--faint);
-  font-size: 10px;
+  font-size: 12px;
+}
+/* 隐藏态:眼睛淡化 + 斜杠删除线(Tiled/PS 惯例的文本版) */
+.layer-eye.off {
+  opacity: 0.3;
+  text-decoration: line-through;
 }
 .layer-name {
   display: flex;
