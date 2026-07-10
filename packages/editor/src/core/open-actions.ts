@@ -9,6 +9,7 @@ import type { OwnMap } from '@type-pal/reforge'
 import { cloneFromPal } from './clone.js'
 import { saveHandle } from './handle-store.js'
 import { openLocalProject } from './open-local.js'
+import { copyDirRecursive } from './fsa-copy.js'
 import { writeProject } from './project-io.js'
 import { buildBlankProject } from './seed.js'
 
@@ -64,9 +65,15 @@ export async function newFromPal(
 }
 
 /** 另存为:当前工程文件集写到新选的夹 → 打开该副本(活动目标切到副本)。取消 → null。 */
-export async function saveProjectAs(files: Record<string, unknown>): Promise<Opened | null> {
+export async function saveProjectAs(
+  files: Record<string, unknown>,
+  srcDir?: FileSystemDirectoryHandle,
+): Promise<Opened | null> {
   const dir = await pickDir()
   if (!dir) return null
+  // A5 债修:先整树拷贝源目录(磁盘素材不在编辑器 state,不拷即丢 —— 克隆工程 200MB assets
+  // 曾被另存为静默丢掉),再 writeProject 覆写内容文件(当前编辑赢)。选同一目录跳过拷贝。
+  if (srcDir && !(await dir.isSameEntry(srcDir))) await copyDirRecursive(srcDir, dir)
   await writeProject(dir, files)
   return finishOpen(dir)
 }

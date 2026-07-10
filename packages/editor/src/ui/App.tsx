@@ -249,7 +249,7 @@ export function App(props: {
                 <button type="button" onClick={() => void runProj(openExistingProject)}>📂 打开工程…</button>
                 <button
                   type="button"
-                  onClick={() => void runProj(() => saveProjectAs(serializeProject(session.getState())))}
+                  onClick={() => void runProj(() => saveProjectAs(serializeProject(session.getState()), dirHandleRef.current ?? undefined))}
                 >
                   📦 另存为…
                 </button>

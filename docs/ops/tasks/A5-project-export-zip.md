@@ -23,7 +23,9 @@ Capability: A5 工程自包含分发(能力地图 A 域)
 - ✅ Playwright:pal dev 菜单项就位、禁用 + 提示正确(无句柄)。
 - ⏳ 用户:本地工程点导出 → 得 zip → 解开与工程夹逐文件一致(macOS 自带解压即可验)。
 
-## 发现债(不在本卡修)
-- **「另存为」只写 serializeProject 文件集** —— 克隆工程磁盘上的既有素材(assets/ 大头)
-  不在编辑器 state 里,另存为会**丢素材**。正解应同导出:递归拷目录 + 覆写 serialize 文件。
-  记账待修(A 域下一小卡)。
+## 发现债 → 已修(次日)
+- **「另存为」只写 serializeProject 文件集丢磁盘素材** —— 已修:`fsa-copy.ts`
+  copyDirRecursive(整树递归拷贝,同名覆盖他文件保留,2 测双向内存 FSA mock)→
+  saveProjectAs 先整树拷源目录再覆写内容文件(当前编辑赢);选同一目录 isSameEntry 跳过拷贝;
+  App 穿 dirHandleRef。dev 种子工程(无句柄)保持旧行为(serialize-only,其素材本就在
+  /extracted 绝对路径)。
