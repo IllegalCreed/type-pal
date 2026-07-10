@@ -15,7 +15,7 @@ import type {
   SpriteDef,
 } from '@type-pal/content'
 import { gridToPixel, lookupText, mapRoom, resolveEntitySpriteId, spriteScreenY } from '@type-pal/content'
-import type { AssetBase, SpriteDraw, Tilemap } from '@type-pal/reforge'
+import type { AssetBase, OwnMap, SpriteDraw } from '@type-pal/reforge'
 import {
   idleFrameIndex,
   renderSceneFrame,
@@ -67,7 +67,7 @@ export function PreviewCanvas(props: {
   leaderSpriteId: string | undefined
   assetBase: AssetBase
   /** 自有地图实时副本(键 = ownMap 路径);own 场景从此渲染(不落磁盘)。 */
-  ownMaps: Record<string, Tilemap>
+  ownMaps: Record<string, OwnMap>
   locale: Locale
   playback: Playback
   /** 网格/禁入/透视叠加(与布置模式同一开关;共享层绘制)。 */

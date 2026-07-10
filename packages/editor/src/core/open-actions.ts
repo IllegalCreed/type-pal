@@ -5,7 +5,7 @@
  */
 import type { MusicDef, SceneDef } from '@type-pal/content'
 import { httpSource, type LoadedProject } from '@type-pal/reforge'
-import type { Tilemap } from '@type-pal/reforge'
+import type { OwnMap } from '@type-pal/reforge'
 import { cloneFromPal } from './clone.js'
 import { saveHandle } from './handle-store.js'
 import { openLocalProject } from './open-local.js'
@@ -17,7 +17,7 @@ export interface Opened {
   scenes: SceneDef[]
   music: MusicDef[]
   /** W7:own 场景引用的自有地图(finishOpen 由 openLocalProject 透传)。 */
-  ownMaps: Record<string, Tilemap>
+  ownMaps: Record<string, OwnMap>
   dir: FileSystemDirectoryHandle
 }
 

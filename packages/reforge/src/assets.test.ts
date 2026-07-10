@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from 'vitest'
 import type { AssetBase } from './assets.js'
-import { loadPalette, loadTilemap } from './assets.js'
+import { loadOwnMap, loadPalette, loadTilemap } from './assets.js'
 import type { FileSource } from './file-source.js'
 
 const base = (source?: FileSource): AssetBase => ({
@@ -46,5 +46,20 @@ describe('assets.ts 经 FileSource 读', () => {
     expect(r).toEqual({ url: '/extracted/data/tilemap/7.json' })
     expect(fetchMock).toHaveBeenCalledWith('/extracted/data/tilemap/7.json')
     vi.restoreAllMocks()
+  })
+
+  test('loadOwnMap 在加载边界校验 v1 schema', async () => {
+    const ownMap = {
+      version: 1,
+      width: 1,
+      height: 1,
+      tileset: 'tileset/1.rle',
+      layers: [{ id: 'floor', name: '地板', occlude: false, tiles: [[null], [null]] }],
+      collision: [[0], [0]],
+    }
+    expect(await loadOwnMap(base(memSource(ownMap)), 'content/maps/a.json')).toEqual(ownMap)
+    await expect(
+      loadOwnMap(base(memSource({ ...ownMap, collision: [[0]] })), 'content/maps/a.json'),
+    ).rejects.toThrow('期望 2 行')
   })
 })

@@ -2,6 +2,7 @@ import type { GridPos } from '@type-pal/content'
 import type { Tilemap } from '@type-pal/shared'
 import { describe, expect, test } from 'vitest'
 import { buildIsBlocked, isBlockedAt, sameGrid, sameTile } from './collision.js'
+import { buildBlankOwnMap, latticeCenter, paintOwnMapCollision } from './own-map.js'
 
 function emptyMap(w: number, h: number): Tilemap {
   const cells = Array.from({ length: h }, () =>
@@ -77,5 +78,29 @@ describe('isBlockedAt / sameGrid — GridPos 入口(D16:复用旧像素层,零�
     const ground: GridPos = { col: 92, row: 12, height: 0 }
     const flying: GridPos = { col: 92, row: 12, height: 5 }
     expect(sameGrid(ground, flying)).toBe(true) // 同平面格,高度不同仍算碰撞
+  })
+})
+
+describe('OwnMap v1 独立碰撞层', () => {
+  test('像素入口精确读取命中的 lattice 子格', () => {
+    let map = buildBlankOwnMap(3, 3, 't')
+    map = paintOwnMapCollision(map, [{ col: 1, row: 3, value: 1 }])
+    const blocked = latticeCenter({ col: 1, row: 3 })
+    const open = latticeCenter({ col: 1, row: 2 })
+    expect(buildIsBlocked(map)(blocked.x, blocked.y)).toBe(true)
+    expect(buildIsBlocked(map)(open.x, open.y)).toBe(false)
+  })
+
+  test('逻辑格聚合两个子格：任一非 0 即阻挡', () => {
+    const pos: GridPos = { col: 2, row: 0, height: 0 }
+    const base = buildBlankOwnMap(3, 3, 't')
+    // gridToPixel(2,0) 命中旧 cell(1,1)，对应 lattice row 2/3。
+    const first = paintOwnMapCollision(base, [{ col: 1, row: 2, value: 1 }])
+    const second = paintOwnMapCollision(base, [{ col: 1, row: 3, value: 1 }])
+    const both = paintOwnMapCollision(first, [{ col: 1, row: 3, value: 1 }])
+    expect(isBlockedAt(base, pos)).toBe(false)
+    expect(isBlockedAt(first, pos)).toBe(true)
+    expect(isBlockedAt(second, pos)).toBe(true)
+    expect(isBlockedAt(both, pos)).toBe(true)
   })
 })

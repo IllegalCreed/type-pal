@@ -19,6 +19,7 @@ import type {
 } from '@type-pal/content'
 import {
   isActorEntity,
+  isReuseMap,
   lookupText,
   mapRoom,
   resolveEntitySpriteId,
@@ -1177,24 +1178,27 @@ function SceneInspector(props: {
         <h4>场景</h4>
         <div className="field">
           <label>地图</label>
-          <input
-            className="in mono"
-            type="number"
-            title="复用原版地图号(改后画布即重载;自有地图 = W7)"
-            value={reuseMapNum(scene.map) ?? 0}
-            onChange={(e) =>
-              Number.isFinite(e.target.valueAsNumber) &&
-              session.dispatch(
-                new UpdateSceneCommand(scene.id, {
-                  // 构造干净 ReuseMap(保留 room);自有地图编辑此字段即转回复用
-                  map: {
-                    reuseOriginalMap: e.target.valueAsNumber,
-                    ...(mapRoom(scene.map) ? { room: mapRoom(scene.map) } : {}),
-                  },
-                }),
-              )
-            }
-          />
+          {isReuseMap(scene.map) ? (
+            <input
+              className="in mono"
+              type="number"
+              title="复用原版地图号(改后画布即重载)"
+              value={reuseMapNum(scene.map)}
+              onChange={(e) =>
+                Number.isFinite(e.target.valueAsNumber) &&
+                session.dispatch(
+                  new UpdateSceneCommand(scene.id, {
+                    map: {
+                      reuseOriginalMap: e.target.valueAsNumber,
+                      ...(mapRoom(scene.map) ? { room: mapRoom(scene.map) } : {}),
+                    },
+                  }),
+                )
+              }
+            />
+          ) : (
+            <span className="mono map-file">{scene.map.ownMap}</span>
+          )}
         </div>
         <div className="field">
           <label>音乐</label>

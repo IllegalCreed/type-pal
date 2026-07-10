@@ -142,6 +142,7 @@ sdlpal 阻塞式过程(PAL_FadeIn 等)tick 化后变成"状态对象 + 收尾人
 
 ## 4. 代码库事实
 
+- **第二阶段地图格式边界（W7D，2026-07-10）**：自有地图已使用 OwnMap v1（尺寸可变 + N 视觉层 + 独立碰撞），编辑器/自有图 API 不再出现 `u32 word/mask/h/lower/upper`。旧 `Tilemap` 位编码、`pixelToTile` 和 `cell.lower/upper` **仅剩 `reuseOriginalMap` 原版资源兼容层**；修改自有地图功能时禁止回接旧格式，修改复用图兼容时也不要把旧概念扩散进 content schema。
 - **extracted scene id 0-based vs loadScene 操作数 1-based**:`data/extracted/data/scene/N.json` 和 `events/scene-N.json` 的 N 是 rgScene 数组下标(0-based);`loadScene`(0x59)的 sceneId 操作数是 sdlpal `wNumScene`(1-based)。用操作数查 extracted 文件先 **-1**;反向搜 `sceneId === N+1`。(追"打完僵尸王进血池":脚本 `loadScene 67` 实际进 extracted scene-66。)
 - **PAL 立交/上下层 = 两张坐标对齐共瓦片的独立地图叠加**:PAL 碰撞是**单层**(`xr+yr*2` 阈值映射唯一菱形子格查 `&0x2000`),同一张图做不出"两条交叉路各自单向通"。游戏用两张坐标对齐、共用同套瓦片的独立地图(各自单层碰撞),一张开横路一张开纵路,路口用事件 `teleport` 换图(同坐标+同瓦片察觉不到)。实例:**隐龙窟迷宫1 = tilemap 42(下层)+ 131(上层)**,scene 40→map42、scene 41→map131,共享 `onTeleportLabel: L_9139`。检测特征:两 tilemap 尺寸相同、共用同套瓦片、对应 scene 共享 teleport label、`topH>0` 子格数差异指示谁是下层。其它多层区(怡红院 117/118、尚书府二层 111、南诏地宫 203/205、试炼窟群)大概率同款。
 - **边界法术对象:梦蛇 = object 295**(巫后/赵灵儿的女娲变身,`0x55 addMagic` 授予)。它是**法术**,但名字落在 **item word 段**末位(61..295),不在 spell 段(296..397)。我们把 OBJECT 表按段拆成 items.json(61..294,**已排除 295**)/ spells.json(296..397 **+ 补 295**),`MENGSHE_OBJ_ID` 常量在 `pal-extract/.../_utils.ts`。原版不分段、直接 `rgObject[295]`(magic-union 施法 + item-union wScriptDesc 出说明);分段后须手工把它归到 spells.json,否则 `spells.find(295)` 落空 → 菜单说明为空(2026-06-19 修)。全表唯一这种对象。

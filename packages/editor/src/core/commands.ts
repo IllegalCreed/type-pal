@@ -26,8 +26,15 @@ import type {
   ScriptStage,
   SpriteDef,
 } from '@type-pal/content'
-import type { SubTileEdit, Tilemap } from '@type-pal/reforge'
-import { paintCells } from '@type-pal/reforge'
+import type { OwnMap, OwnMapCollisionEdit, OwnMapLayer, OwnMapTileEdit } from '@type-pal/reforge'
+import {
+  insertOwnMapLayer,
+  moveOwnMapLayer,
+  paintOwnMapCollision,
+  paintOwnMapTiles,
+  removeOwnMapLayer,
+  updateOwnMapLayer,
+} from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 
 /**
@@ -272,7 +279,7 @@ export class UpdateEntityCommand implements Command {
 export type ScenePatch = Partial<Pick<SceneDef, 'entry' | 'musicId' | 'entries' | 'map'>>
 
 /**
- * 改场景字段(paletteId/entry/musicId)。apply 记下旧值,invert 还原。语义同 UpdateEntityCommand。
+ * 改场景字段(map/entry/musicId)。apply 记下旧值,invert 还原。语义同 UpdateEntityCommand。
  * entry 是对象,patch 传整个新 entry(整体替换,非深合并)。
  * musicId 传 undefined = 清成「延续上一曲」(JSON 落盘时 undefined 键自然消失)。
  */
@@ -325,7 +332,7 @@ export class UpdateSceneCommand implements Command {
  * 新建自有地图(W7a-5):把场景从「复用原版」切成「自有地图」。
  * 一步做两件事(须原子,故不复用 UpdateSceneCommand):
  *   ① scene.map = { ownMap: <相对路径> } + 进场点重置到图内(原坐标系是原版图,可能越界新图);
- *   ② state.maps[相对路径] = 空白 Tilemap(渲染读它,保存序列化成 content/maps/<id>.json)。
+ *   ② state.maps[相对路径] = 空白 OwnMap v1(渲染读它,保存序列化成 content/maps/<id>.json)。
  * invert 还原 scene.map/entry 并丢掉 maps 该键(连带磁盘孤儿由 diffFiles 删)。
  */
 export class CreateOwnMapCommand implements Command {
@@ -336,7 +343,7 @@ export class CreateOwnMapCommand implements Command {
   constructor(
     private readonly sceneId: string,
     private readonly ownMapRel: string,
-    private readonly tilemap: Tilemap,
+    private readonly tilemap: OwnMap,
     private readonly entryPos: GridPos,
   ) {}
 
@@ -370,17 +377,15 @@ export class CreateOwnMapCommand implements Command {
 }
 
 /**
- * 画瓦片(W7c):对自有地图一笔 stroke 的子格编辑集(笔刷拖一笔 = 一条命令 = 一步 undo)。
- * apply 首次捕获被覆盖子格的旧 word,invert 原样写回;paintCells 不可变 patch(只克隆触及行)。
- * edits 同子格重复以后者为准(拖动经过同格多次是常态,捕获旧值取首次见到的)。
+ * 画瓦片(W7D):载荷使用稳定 layer.id + lattice 行列，不再出现旧 word/mask/h。
  */
 export class PaintTilesCommand implements Command {
   readonly label = '画瓦片'
-  private prev: SubTileEdit[] | undefined
+  private prev: OwnMapTileEdit[] | undefined
 
   constructor(
     private readonly mapRel: string,
-    private readonly edits: readonly SubTileEdit[],
+    private readonly edits: readonly OwnMapTileEdit[],
   ) {}
 
   apply(state: EditorState): EditorState {
@@ -390,26 +395,182 @@ export class PaintTilesCommand implements Command {
       const seen = new Set<string>()
       this.prev = []
       for (const e of this.edits) {
-        const key = `${e.col},${e.row},${e.h}`
+        const key = `${e.layerId},${e.col},${e.row}`
         if (seen.has(key)) continue
         seen.add(key)
-        const cell = map.cells[e.row]?.[e.col]
-        if (!cell) continue // 界外:paintCells 同样忽略,无需还原
-        this.prev.push({
-          col: e.col,
-          row: e.row,
-          h: e.h,
-          word: e.h === 0 ? cell.lower : cell.upper,
-        })
+        const tileId = map.layers.find((layer) => layer.id === e.layerId)?.tiles[e.row]?.[e.col]
+        if (tileId === undefined) continue
+        this.prev.push({ ...e, tileId })
       }
     }
-    return { ...state, maps: { ...state.maps, [this.mapRel]: paintCells(map, this.edits) } }
+    return { ...state, maps: { ...state.maps, [this.mapRel]: paintOwnMapTiles(map, this.edits) } }
   }
 
   invert(state: EditorState): EditorState {
     const map = state.maps[this.mapRel]
     if (!map || !this.prev) return state
-    return { ...state, maps: { ...state.maps, [this.mapRel]: paintCells(map, this.prev) } }
+    return { ...state, maps: { ...state.maps, [this.mapRel]: paintOwnMapTiles(map, this.prev) } }
+  }
+}
+
+/** 独立碰撞层的一笔；非零语义由 schema 保留，当前 UI 写 0/1。 */
+export class PaintCollisionCommand implements Command {
+  readonly label = '画碰撞'
+  private prev: OwnMapCollisionEdit[] | undefined
+
+  constructor(
+    private readonly mapRel: string,
+    private readonly edits: readonly OwnMapCollisionEdit[],
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    const map = state.maps[this.mapRel]
+    if (!map) return state
+    if (!this.prev) {
+      const seen = new Set<string>()
+      this.prev = []
+      for (const edit of this.edits) {
+        const key = `${edit.col},${edit.row}`
+        if (seen.has(key)) continue
+        seen.add(key)
+        const value = map.collision[edit.row]?.[edit.col]
+        if (value !== undefined) this.prev.push({ ...edit, value })
+      }
+    }
+    return {
+      ...state,
+      maps: { ...state.maps, [this.mapRel]: paintOwnMapCollision(map, this.edits) },
+    }
+  }
+
+  invert(state: EditorState): EditorState {
+    const map = state.maps[this.mapRel]
+    if (!map || !this.prev) return state
+    return {
+      ...state,
+      maps: { ...state.maps, [this.mapRel]: paintOwnMapCollision(map, this.prev) },
+    }
+  }
+}
+
+export class AddOwnMapLayerCommand implements Command {
+  readonly label = '新增地图层'
+  private readonly layer: OwnMapLayer
+  private insertedIndex: number | undefined
+
+  constructor(
+    private readonly mapRel: string,
+    layer: OwnMapLayer,
+    private readonly index?: number,
+  ) {
+    this.layer = structuredClone(layer)
+  }
+
+  apply(state: EditorState): EditorState {
+    const map = state.maps[this.mapRel]
+    if (!map) return state
+    if (this.insertedIndex === undefined)
+      this.insertedIndex = Math.max(0, Math.min(this.index ?? map.layers.length, map.layers.length))
+    const next = insertOwnMapLayer(map, this.layer, this.insertedIndex)
+    return next === map ? state : { ...state, maps: { ...state.maps, [this.mapRel]: next } }
+  }
+
+  invert(state: EditorState): EditorState {
+    const map = state.maps[this.mapRel]
+    if (!map) return state
+    const next = removeOwnMapLayer(map, this.layer.id)
+    return next === map ? state : { ...state, maps: { ...state.maps, [this.mapRel]: next } }
+  }
+}
+
+export class RemoveOwnMapLayerCommand implements Command {
+  readonly label = '删除地图层'
+  private removed: OwnMapLayer | undefined
+  private removedIndex: number | undefined
+
+  constructor(
+    private readonly mapRel: string,
+    private readonly layerId: string,
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    const map = state.maps[this.mapRel]
+    if (!map || map.layers.length <= 1) return state
+    if (!this.removed) {
+      const index = map.layers.findIndex((layer) => layer.id === this.layerId)
+      if (index < 0) return state
+      this.removed = structuredClone(map.layers[index])
+      this.removedIndex = index
+    }
+    const next = removeOwnMapLayer(map, this.layerId)
+    return next === map ? state : { ...state, maps: { ...state.maps, [this.mapRel]: next } }
+  }
+
+  invert(state: EditorState): EditorState {
+    const map = state.maps[this.mapRel]
+    if (!map || !this.removed || this.removedIndex === undefined) return state
+    const next = insertOwnMapLayer(map, this.removed, this.removedIndex)
+    return next === map ? state : { ...state, maps: { ...state.maps, [this.mapRel]: next } }
+  }
+}
+
+export class MoveOwnMapLayerCommand implements Command {
+  readonly label = '重排地图层'
+  private fromIndex: number | undefined
+
+  constructor(
+    private readonly mapRel: string,
+    private readonly layerId: string,
+    private readonly toIndex: number,
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    const map = state.maps[this.mapRel]
+    if (!map) return state
+    if (this.fromIndex === undefined)
+      this.fromIndex = map.layers.findIndex((l) => l.id === this.layerId)
+    const next = moveOwnMapLayer(map, this.layerId, this.toIndex)
+    return next === map ? state : { ...state, maps: { ...state.maps, [this.mapRel]: next } }
+  }
+
+  invert(state: EditorState): EditorState {
+    const map = state.maps[this.mapRel]
+    if (!map || this.fromIndex === undefined || this.fromIndex < 0) return state
+    const next = moveOwnMapLayer(map, this.layerId, this.fromIndex)
+    return next === map ? state : { ...state, maps: { ...state.maps, [this.mapRel]: next } }
+  }
+}
+
+export class UpdateOwnMapLayerCommand implements Command {
+  readonly label = '修改地图层'
+  private oldPatch: Partial<Pick<OwnMapLayer, 'name' | 'occlude'>> | undefined
+
+  constructor(
+    private readonly mapRel: string,
+    private readonly layerId: string,
+    private readonly patch: Partial<Pick<OwnMapLayer, 'name' | 'occlude'>>,
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    const map = state.maps[this.mapRel]
+    const layer = map?.layers.find((candidate) => candidate.id === this.layerId)
+    if (!map || !layer) return state
+    if (!this.oldPatch) {
+      this.oldPatch = {}
+      if ('name' in this.patch) this.oldPatch.name = layer.name
+      if ('occlude' in this.patch) this.oldPatch.occlude = layer.occlude
+    }
+    const next = updateOwnMapLayer(map, this.layerId, this.patch)
+    return { ...state, maps: { ...state.maps, [this.mapRel]: next } }
+  }
+
+  invert(state: EditorState): EditorState {
+    const map = state.maps[this.mapRel]
+    if (!map || !this.oldPatch) return state
+    return {
+      ...state,
+      maps: { ...state.maps, [this.mapRel]: updateOwnMapLayer(map, this.layerId, this.oldPatch) },
+    }
   }
 }
 

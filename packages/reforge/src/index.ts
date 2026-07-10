@@ -29,7 +29,7 @@ import type { AssetBase, LoadedSprite } from './assets.js'
 export { decompressGzip, loadBattleBg, loadBattleSprite, loadFireSprite, loadOwnMap, loadPalette, loadSprite, loadTilemap, loadTilesetByPath }
 export type { AssetBase, LoadedSprite }
 
-// 场景地图分流(W7a-4:复用原版 ⊕ 自有地图 → 同形 {map, tiles};引擎 + 编辑器共用)
+// 场景地图分流(W7D:旧 Tilemap 复用图 ⊕ OwnMap v1 自有图;引擎 + 编辑器共用)
 import { loadSceneMap } from './scene-map.js'
 import type { SceneMapAssets } from './scene-map.js'
 export { loadSceneMap }
@@ -45,23 +45,33 @@ export type { ContentJsons, LoadedProject, LoadedProjectCore }
 export { type FileSource, httpSource } from './file-source.js'
 export { fsaSource } from './fsa-source.js'
 
-// 自有地图(W7):Tilemap 形的作者地图构造/编辑 + 绘制纯逻辑(W7c:笔刷/矩形/填充)
+// 自有地图(W7D):OwnMap v1 构造/编辑 + 错排 lattice 纯逻辑
 export {
   buildBlankOwnMap,
-  COLLISION_MASK,
-  encodeTileLayer0,
-  encodeTileLayer1,
-  floodFillSubTiles,
-  LAYER0_TILE_MASK,
-  LAYER1_CLEAR_MASK,
-  LAYER1_TILE_MASK,
-  MAX_LAYER0_TILE,
-  MAX_LAYER1_TILE,
-  paintCells,
-  subTilesInRect,
+  buildOwnMapLayer,
+  floodFillOwnMapTiles,
+  insertOwnMapLayer,
+  isLatticeInside,
+  latticeCenter,
+  latticeInRect,
+  moveOwnMapLayer,
+  nextOwnMapLayerId,
+  ownMapTilesInView,
+  paintOwnMapCollision,
+  paintOwnMapTiles,
+  pixelToLattice,
+  removeOwnMapLayer,
+  updateOwnMapLayer,
 } from './own-map.js'
-export type { SubTileEdit, SubTilePos } from './own-map.js'
-// Tilemap/Palette 类型转出口(编辑器不直依赖 shared;自有地图工作副本 + tile 面板用)
+export type {
+  LatticePos,
+  OwnMapCollisionEdit,
+  OwnMapTileDraw,
+  OwnMapTileEdit,
+} from './own-map.js'
+// 地图/调色板类型转出口(编辑器不直依赖 shared/content)
+export { isOwnMap, validateOwnMap } from '@type-pal/content'
+export type { OwnMap, OwnMapLayer } from '@type-pal/content'
 export type { Palette, Tilemap } from '@type-pal/shared'
 
 // 碰撞判定(编辑器画禁入格复用,与游戏同一套 → 不漂移);pixelToTile = W7c 笔刷靶定

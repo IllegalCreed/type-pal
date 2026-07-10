@@ -16,6 +16,7 @@ import type {
   LevelUpSkill,
   LoadedManifest,
   Locale,
+  OwnMap,
   SceneDef,
   SkillDataMap,
   SpriteDef,
@@ -29,7 +30,6 @@ import {
   validateSkills,
   validateSprites,
 } from '@type-pal/content'
-import type { Tilemap } from '@type-pal/shared'
 import type { AssetBase } from './assets.js'
 import { loadOwnMap } from './assets.js'
 import { type FileSource, httpSource } from './file-source.js'
@@ -232,14 +232,14 @@ export async function loadAllScenes(project: LoadedProject): Promise<SceneDef[]>
 
 /**
  * 编辑器:载入所有 own 场景引用的自有地图(content/maps/<id>.json)。
- * 键 = scene.map.ownMap(工程内相对路径)→ Tilemap,供编辑器 state.maps 实时渲染 + round-trip
+ * 键 = scene.map.ownMap(工程内相对路径)→ OwnMap v1,供编辑器实时渲染 + round-trip
  * (own 场景引用即索引,无需单独 maps 索引)。复用原版地图的场景跳过。pal 无 own 场景 → {}。
  */
 export async function loadAllOwnMaps(
   project: LoadedProject,
   scenes: SceneDef[],
-): Promise<Record<string, Tilemap>> {
-  const out: Record<string, Tilemap> = {}
+): Promise<Record<string, OwnMap>> {
+  const out: Record<string, OwnMap> = {}
   await Promise.all(
     scenes.map(async (s) => {
       if (isReuseMap(s.map)) return

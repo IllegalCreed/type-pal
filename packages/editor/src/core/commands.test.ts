@@ -1,21 +1,19 @@
 import type { ActorDef, EntityDef, ScriptStage, SpriteDef } from '@type-pal/content'
-import {
-  COLLISION_MASK,
-  encodeTileLayer0,
-  encodeTileLayer1,
-  LAYER0_TILE_MASK,
-  LAYER1_TILE_MASK,
-} from '@type-pal/reforge'
+import { buildBlankOwnMap, buildOwnMapLayer } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
 import {
   AddEnemyCommand,
   AddEntityCommand,
+  AddOwnMapLayerCommand,
   CreateOwnMapCommand,
   CreateScriptSourceCommand,
   DeleteEnemyCommand,
   DeleteEntityCommand,
   MoveEntityCommand,
+  MoveOwnMapLayerCommand,
+  PaintCollisionCommand,
   PaintTilesCommand,
+  RemoveOwnMapLayerCommand,
   UpdateActorCommand,
   UpdateBattleFieldCommand,
   UpdateEnemyCommand,
@@ -23,6 +21,7 @@ import {
   UpdateEntityCommand,
   UpdateLevelUpCommand,
   UpdateMusicNameCommand,
+  UpdateOwnMapLayerCommand,
   UpdateSceneCommand,
   UpdateScriptCommand,
   UpdateSpriteCommand,
@@ -52,7 +51,9 @@ function st(): EditorState {
     levelUp: {},
     items: [],
     locale: {},
-    sprites: [{ id: 'li', spriteNum: 2, label: '李逍遥', layout: { kind: 'directional', framesPerDir: 3 } }],
+    sprites: [
+      { id: 'li', spriteNum: 2, label: '李逍遥', layout: { kind: 'directional', framesPerDir: 3 } },
+    ],
     startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
   } as never
 }
@@ -238,7 +239,10 @@ describe('C1 命令 · UpdateSprite / UpdateActor(不可变 + invert)', () => {
   })
   test('UpdateActor name/portraits:改 + invert 还原', () => {
     const s0 = stActor()
-    const cmd = new UpdateActorCommand('li', { name: 'name.new', portraits: { default: 1, expressions: { 愤怒: 55 } } })
+    const cmd = new UpdateActorCommand('li', {
+      name: 'name.new',
+      portraits: { default: 1, expressions: { 愤怒: 55 } },
+    })
     const s1 = cmd.apply(s0)
     expect(s1.actors[0]!.name).toBe('name.new')
     expect(s1.actors[0]!.portraits?.expressions).toEqual({ 愤怒: 55 })
@@ -280,7 +284,9 @@ describe('C-track v1 · UpdateScript(整 stages 替换 + invert)', () => {
     expect(e0.pages?.[0]?.auto?.stages).toEqual(stg('auto-new'))
     expect(s1.scenes[0]!.entities[1]).toBe(s0.scenes[0]!.entities[1])
     const s2 = cmd.invert(s1)
-    expect((s2.scenes[0]!.entities[0] as EntityDef).pages?.[0]?.auto?.stages).toEqual(stg('auto-old'))
+    expect((s2.scenes[0]!.entities[0] as EntityDef).pages?.[0]?.auto?.stages).toEqual(
+      stg('auto-old'),
+    )
   })
 
   test('源不存在(实体无 trigger 页)= no-op', () => {
@@ -292,14 +298,41 @@ describe('C-track v1 · UpdateScript(整 stages 替换 + invert)', () => {
 
 describe('M4c-3 敌人命令(不可变 + invert)', () => {
   const mkE = (id: string): import('@type-pal/content').EnemyDef => ({
-    id, name: `name.${id}`, spriteNum: 1,
-    stats: { health: 10, level: 1, exp: 1, cash: 1, attackStrength: 5, magicStrength: 0, defense: 0, dexterity: 5, fleeRate: 0, physicalResistance: 0, poisonResistance: 0, elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 }, dualMove: false, collectValue: 0 },
+    id,
+    name: `name.${id}`,
+    spriteNum: 1,
+    stats: {
+      health: 10,
+      level: 1,
+      exp: 1,
+      cash: 1,
+      attackStrength: 5,
+      magicStrength: 0,
+      defense: 0,
+      dexterity: 5,
+      fleeRate: 0,
+      physicalResistance: 0,
+      poisonResistance: 0,
+      elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      dualMove: false,
+      collectValue: 0,
+    },
     ai: { resistanceToSorcery: 5 },
-    anim: { idleFrames: 1, magicFrames: 0, attackFrames: 1, idleAnimSpeed: 5, actWaitFrames: 0, yPosOffset: 0 },
+    anim: {
+      idleFrames: 1,
+      magicFrames: 0,
+      attackFrames: 1,
+      idleAnimSpeed: 5,
+      actWaitFrames: 0,
+      yPosOffset: 0,
+    },
     sounds: { attack: 0, action: 0, magic: 0, death: 0, call: 0 },
   })
   function stE(): EditorState {
-    const base = st() as EditorState & { enemies: import('@type-pal/content').EnemyDef[]; enemyTeams: import('@type-pal/content').EnemyTeamDef[] }
+    const base = st() as EditorState & {
+      enemies: import('@type-pal/content').EnemyDef[]
+      enemyTeams: import('@type-pal/content').EnemyTeamDef[]
+    }
     base.enemies = [mkE('enemy-1'), mkE('enemy-2')]
     base.enemyTeams = [{ id: 'team-1', members: ['enemy-1'] }]
     return base
@@ -404,7 +437,10 @@ describe('W5 音乐(musicId patch + 音乐库别名)', () => {
 
 test('UpdateScene 回归:仅 musicId patch 不得把必填 entry 覆成 undefined', () => {
   const s0 = st()
-  ;(s0.scenes[0] as { entry: unknown }).entry = { pos: { col: 1, row: 1, height: 0 }, facing: 'down' }
+  ;(s0.scenes[0] as { entry: unknown }).entry = {
+    pos: { col: 1, row: 1, height: 0 },
+    facing: 'down',
+  }
   const s1 = new UpdateSceneCommand('s', { musicId: 5 }).apply(s0)
   expect(s1.scenes[0]!.entry).toEqual({ pos: { col: 1, row: 1, height: 0 }, facing: 'down' })
   const s2 = new UpdateSceneCommand('s', { musicId: 31 }).apply(s1)
@@ -517,7 +553,7 @@ describe('CreateScriptSourceCommand(断点 #5:空态创建)', () => {
   })
 })
 
-describe('CreateOwnMapCommand(W7a-5)', () => {
+describe('CreateOwnMapCommand(W7D)', () => {
   const stMap = (): EditorState =>
     ({
       ...st(),
@@ -534,8 +570,8 @@ describe('CreateOwnMapCommand(W7a-5)', () => {
 
   test('apply:场景转 own + entry 重置 + maps 存图;源不变', () => {
     const s0 = stMap()
-    const tilemap = { width: 3, height: 3, cells: [], tileset: 'tileset/20.rle' }
-    const cmd = new CreateOwnMapCommand('s', 'content/maps/s.json', tilemap as never, {
+    const map = buildBlankOwnMap(3, 3, 'tileset/20.rle')
+    const cmd = new CreateOwnMapCommand('s', 'content/maps/s.json', map, {
       col: 1,
       row: 2,
       height: 0,
@@ -543,7 +579,7 @@ describe('CreateOwnMapCommand(W7a-5)', () => {
     const s1 = cmd.apply(s0)
     expect(s1.scenes[0]!.map).toEqual({ ownMap: 'content/maps/s.json' })
     expect(s1.scenes[0]!.entry.pos).toEqual({ col: 1, row: 2, height: 0 })
-    expect(s1.maps['content/maps/s.json']).toEqual(tilemap)
+    expect(s1.maps['content/maps/s.json']).toEqual(map)
     // 不可变:源 state 不动
     expect(s0.scenes[0]!.map).toEqual({ reuseOriginalMap: 20 })
     expect(s0.maps).toEqual({})
@@ -554,7 +590,7 @@ describe('CreateOwnMapCommand(W7a-5)', () => {
     const cmd = new CreateOwnMapCommand(
       's',
       'content/maps/s.json',
-      { width: 3, height: 3, cells: [], tileset: 'tileset/20.rle' } as never,
+      buildBlankOwnMap(3, 3, 'tileset/20.rle'),
       { col: 1, row: 2, height: 0 },
     )
     const s2 = cmd.invert(cmd.apply(s0))
@@ -564,66 +600,85 @@ describe('CreateOwnMapCommand(W7a-5)', () => {
   })
 })
 
-describe('PaintTilesCommand(W7c)', () => {
+describe('OwnMap v1 绘制与图层命令(W7D)', () => {
   const rel = 'content/maps/s.json'
   const stPaint = (): EditorState => {
-    const cells = Array.from({ length: 3 }, () =>
-      Array.from({ length: 3 }, () => ({ lower: 0, upper: 0 })),
-    )
-    return { ...st(), maps: { [rel]: { width: 3, height: 3, cells, tileset: 't' } } } as never
+    return { ...st(), maps: { [rel]: buildBlankOwnMap(3, 3, 't') } } as never
   }
 
-  test('apply:写子格;invert:还原旧 word;源 state 不动', () => {
+  test('画瓦按稳定 layer.id 写入；invert 还原，源 state 不动', () => {
     const s0 = stPaint()
     const cmd = new PaintTilesCommand(rel, [
-      { col: 0, row: 0, h: 0, word: 5 },
-      { col: 1, row: 0, h: 1, word: 9 },
+      { layerId: 'floor', col: 0, row: 0, tileId: 5 },
+      { layerId: 'floor', col: 1, row: 1, tileId: 900 },
     ])
     const s1 = cmd.apply(s0)
-    expect(s1.maps[rel]!.cells[0]![0]).toEqual({ lower: 5, upper: 0 })
-    expect(s1.maps[rel]!.cells[0]![1]).toEqual({ lower: 0, upper: 9 })
-    expect(s0.maps[rel]!.cells[0]![0]).toEqual({ lower: 0, upper: 0 }) // 源不变
+    expect(s1.maps[rel]!.layers[0]?.tiles[0]?.[0]).toBe(5)
+    expect(s1.maps[rel]!.layers[0]?.tiles[1]?.[1]).toBe(900)
+    expect(s0.maps[rel]!.layers[0]?.tiles[0]?.[0]).toBeNull()
     const back = cmd.invert(s1)
-    expect(back.maps[rel]!.cells[0]![0]).toEqual({ lower: 0, upper: 0 })
-    expect(back.maps[rel]!.cells[0]![1]).toEqual({ lower: 0, upper: 0 })
+    expect(back.maps[rel]!.layers[0]?.tiles[0]?.[0]).toBeNull()
+    expect(back.maps[rel]!.layers[0]?.tiles[1]?.[1]).toBeNull()
   })
 
-  test('同子格重复编辑:后者为准;undo 还原到 stroke 前(首见旧值)', () => {
+  test('同格重复编辑以后者为准；undo 回到 stroke 前', () => {
     const s0 = stPaint()
-    const c1 = new PaintTilesCommand(rel, [{ col: 0, row: 0, h: 0, word: 3 }])
+    const c1 = new PaintTilesCommand(rel, [{ layerId: 'floor', col: 0, row: 0, tileId: 3 }])
     const s1 = c1.apply(s0)
-    // 第二笔:同格先 7 后 8(拖动折返),apply 后 = 8;undo 回 3(不是 7)
     const c2 = new PaintTilesCommand(rel, [
-      { col: 0, row: 0, h: 0, word: 7 },
-      { col: 0, row: 0, h: 0, word: 8 },
+      { layerId: 'floor', col: 0, row: 0, tileId: 7 },
+      { layerId: 'floor', col: 0, row: 0, tileId: 8 },
     ])
     const s2 = c2.apply(s1)
-    expect(s2.maps[rel]!.cells[0]![0]!.lower).toBe(8)
-    expect(c2.invert(s2).maps[rel]!.cells[0]![0]!.lower).toBe(3)
+    expect(s2.maps[rel]!.layers[0]?.tiles[0]?.[0]).toBe(8)
+    expect(c2.invert(s2).maps[rel]!.layers[0]?.tiles[0]?.[0]).toBe(3)
   })
 
-  test('masked apply:只改目标位;invert:整 word 精确还原', () => {
+  test('独立碰撞命令与视觉层正交并可撤销', () => {
     const s0 = stPaint()
-    s0.maps[rel]!.cells[0]![0]!.lower =
-      encodeTileLayer0(3) | encodeTileLayer1(4) | COLLISION_MASK | 0x0b00
-    const before = s0.maps[rel]!.cells[0]![0]!.lower
-    const cmd = new PaintTilesCommand(rel, [
-      { col: 0, row: 0, h: 0, word: encodeTileLayer0(0x100), mask: LAYER0_TILE_MASK },
-      { col: 0, row: 0, h: 0, word: encodeTileLayer1(8), mask: LAYER1_TILE_MASK },
-    ])
+    const painted = new PaintTilesCommand(rel, [
+      { layerId: 'floor', col: 0, row: 0, tileId: 12 },
+    ]).apply(s0)
+    const cmd = new PaintCollisionCommand(rel, [{ col: 0, row: 0, value: 1 }])
+    const s1 = cmd.apply(painted)
+    expect(s1.maps[rel]!.collision[0]?.[0]).toBe(1)
+    expect(s1.maps[rel]!.layers[0]?.tiles[0]?.[0]).toBe(12)
+    const back = cmd.invert(s1)
+    expect(back.maps[rel]!.collision[0]?.[0]).toBe(0)
+    expect(back.maps[rel]!.layers[0]?.tiles[0]?.[0]).toBe(12)
+  })
 
-    const s1 = cmd.apply(s0)
-    expect(s1.maps[rel]!.cells[0]![0]!.lower & LAYER0_TILE_MASK).toBe(encodeTileLayer0(0x100))
-    expect(s1.maps[rel]!.cells[0]![0]!.lower >>> 16).toBe(encodeTileLayer1(8) >>> 16)
-    expect(s1.maps[rel]!.cells[0]![0]!.lower & COLLISION_MASK).toBe(COLLISION_MASK)
-    expect(s1.maps[rel]!.cells[0]![0]!.lower & 0x0f00).toBe(0x0b00)
-    expect(cmd.invert(s1).maps[rel]!.cells[0]![0]!.lower).toBe(before)
+  test('图层新增、重排、属性更新、删除均 apply/invert', () => {
+    const s0 = stPaint()
+    const layer = buildOwnMapLayer(s0.maps[rel]!, 'objects', '物件')
+    const add = new AddOwnMapLayerCommand(rel, layer)
+    const s1 = add.apply(s0)
+    expect(s1.maps[rel]!.layers.map((item) => item.id)).toEqual(['floor', 'objects'])
+
+    const move = new MoveOwnMapLayerCommand(rel, 'objects', 0)
+    const s2 = move.apply(s1)
+    expect(s2.maps[rel]!.layers.map((item) => item.id)).toEqual(['objects', 'floor'])
+    expect(move.invert(s2).maps[rel]!.layers.map((item) => item.id)).toEqual(['floor', 'objects'])
+
+    const update = new UpdateOwnMapLayerCommand(rel, 'objects', {
+      name: '遮挡物',
+      occlude: true,
+    })
+    const s3 = update.apply(s2)
+    expect(s3.maps[rel]!.layers[0]).toMatchObject({ name: '遮挡物', occlude: true })
+    expect(update.invert(s3).maps[rel]!.layers[0]).toMatchObject({ name: '物件', occlude: false })
+
+    const remove = new RemoveOwnMapLayerCommand(rel, 'objects')
+    const s4 = remove.apply(s3)
+    expect(s4.maps[rel]!.layers.map((item) => item.id)).toEqual(['floor'])
+    expect(remove.invert(s4).maps[rel]!.layers.map((item) => item.id)).toEqual(['objects', 'floor'])
+    expect(add.invert(s1).maps[rel]!.layers.map((item) => item.id)).toEqual(['floor'])
   })
 
   test('地图不存在(rel 悬空)→ noop', () => {
     const s0 = stPaint()
     const cmd = new PaintTilesCommand('content/maps/ghost.json', [
-      { col: 0, row: 0, h: 0, word: 5 },
+      { layerId: 'floor', col: 0, row: 0, tileId: 5 },
     ])
     expect(cmd.apply(s0)).toBe(s0)
   })

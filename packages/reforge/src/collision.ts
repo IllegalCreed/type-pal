@@ -9,8 +9,9 @@
  * 「N层+独立碰撞层」新格式后,整个 pixelToTile 连同 h 退役。新代码用 GridPos 入口
  * (isBlockedAt / sameGrid),不要直接调像素接口。
  */
-import { type GridPos, gridToPixel } from '@type-pal/content'
+import { type GridPos, gridToPixel, isOwnMap, type OwnMap } from '@type-pal/content'
 import type { Tilemap } from '@type-pal/shared'
+import { pixelToLattice } from './own-map.js'
 
 const TILE_W = 32
 const TILE_H = 16
@@ -39,7 +40,15 @@ export function pixelToTile(x: number, y: number): { col: number; row: number; h
 }
 
 /** isBlocked(worldX, worldY)：菱形映射 → 格 + 子行 → 障碍位 bit 13 (0x2000)。界外阻挡。 */
-export function buildIsBlocked(map: Tilemap): (x: number, y: number) => boolean {
+export function buildIsBlocked(map: Tilemap | OwnMap): (x: number, y: number) => boolean {
+  if (isOwnMap(map)) {
+    return (x, y) => {
+      const pos = pixelToLattice(x, y)
+      if (pos.col < 0 || pos.col >= map.width || pos.row < 0 || pos.row >= map.height * 2)
+        return true
+      return (map.collision[pos.row]?.[pos.col] ?? 1) !== 0
+    }
+  }
   return (x, y) => {
     const { col, row, h } = pixelToTile(x, y)
     if (col < 0 || col >= map.width || row < 0 || row >= map.height) return true
@@ -60,8 +69,19 @@ export function sameTile(ax: number, ay: number, bx: number, by: number): boolea
 // ── GridPos 入口(D16:新代码用这些,内部复用旧像素兼容层,零行为变化) ──────────────
 
 /** GridPos 是否被阻挡:菱形轴格 → 像素 → 复用 buildIsBlocked 旧判定。 */
-export function isBlockedAt(map: Tilemap, pos: GridPos): boolean {
+export function isBlockedAt(map: Tilemap | OwnMap, pos: GridPos): boolean {
   const { x, y } = gridToPixel(pos)
+  if (isOwnMap(map)) {
+    const lattice = pixelToLattice(x, y)
+    const logicalRow = Math.floor(lattice.row / 2)
+    if (lattice.col < 0 || lattice.col >= map.width || logicalRow < 0 || logicalRow >= map.height)
+      return true
+    // W7D 定案：一个逻辑格的两个错排子格任一非 0，整格即阻挡。
+    return (
+      (map.collision[logicalRow * 2]?.[lattice.col] ?? 1) !== 0 ||
+      (map.collision[logicalRow * 2 + 1]?.[lattice.col] ?? 1) !== 0
+    )
+  }
   return buildIsBlocked(map)(x, y)
 }
 

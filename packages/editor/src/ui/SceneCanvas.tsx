@@ -9,7 +9,7 @@
 
 import type { ActorDef, SceneDef, SpriteDef } from '@type-pal/content'
 import { gridToPixel, mapRoom, pixelToGrid, resolveEntitySpriteId, spriteScreenY } from '@type-pal/content'
-import type { AssetBase, SpriteDraw, Tilemap } from '@type-pal/reforge'
+import type { AssetBase, OwnMap, SpriteDraw } from '@type-pal/reforge'
 import { idleFrameIndex, renderSceneFrame, spriteBlitRect } from '@type-pal/reforge'
 import { useEffect, useRef, useState } from 'react'
 import {
@@ -51,7 +51,7 @@ export function SceneCanvas(props: {
   leaderSpriteId: string | undefined
   assetBase: AssetBase
   /** 自有地图实时副本(键 = ownMap 路径);own 场景从此渲染(不落磁盘)。 */
-  ownMaps: Record<string, Tilemap>
+  ownMaps: Record<string, OwnMap>
   selectedId: string | null
   /** 进场点节点是否选中(树/画布点中它 → 金环加粗高亮,和实体的蓝框选中呼应)。 */
   entrySelected?: boolean

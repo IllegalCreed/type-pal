@@ -8,11 +8,12 @@
  *
  * editor 复用同一函数画底图 → 单一真源、零渲染逻辑漂移。
  */
+import type { OwnMap } from '@type-pal/content'
 import type { Tilemap } from '@type-pal/shared'
 import type { Camera, CellRect, Renderer, SpriteDraw } from './render.js'
 
 export interface RenderSceneFrameArgs {
-  map: Tilemap
+  map: Tilemap | OwnMap
   room: CellRect
   camera: Camera
   sprites: readonly SpriteDraw[]

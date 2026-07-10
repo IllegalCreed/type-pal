@@ -10,14 +10,14 @@ import {
   type LoadedProject,
   loadProjectFrom,
 } from '@type-pal/reforge'
-import type { Tilemap } from '@type-pal/reforge'
+import type { OwnMap } from '@type-pal/reforge'
 
 export interface OpenedProject {
   project: LoadedProject
   scenes: SceneDef[]
   music: MusicDef[]
   /** W7:own 场景引用的自有地图(content/maps/<id>.json);无 own 场景 → {}。 */
-  ownMaps: Record<string, Tilemap>
+  ownMaps: Record<string, OwnMap>
 }
 
 export async function openLocalProject(dir: FileSystemDirectoryHandle): Promise<OpenedProject> {

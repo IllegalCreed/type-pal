@@ -121,6 +121,10 @@
 - 它的归宿 = [collision.ts](../../packages/reforge/src/collision.ts) 这个**旧格式兼容层**的内部细节：只要 reforge 还读 `data/extracted` 的旧 `Tilemap`，`pixelToTile` 就得继续用；等迁移器把图翻成「N 层 + 独立碰撞层」新格式，整个 `pixelToTile` 连同 `h` 一起退役。
 - 一句话：`h` 是「新引擎还兼容旧地图格式多久」的问题，**不是实体坐标该不该带的问题**。
 
+> ✅ **2026-07-10 W7D 进展**：作者自建地图已切到 OwnMap v1（N 视觉层 + 独立碰撞层），
+> 编辑器新路径不再使用 `word/mask/h/lower/upper`。旧 `pixelToTile` 与位编码读取现在只服务
+> `reuseOriginalMap`；等原版地图迁移器完成后再整体删除该兼容层。
+
 ### 物理 1280：UI-HD（近期）vs 世界-HD（远期）—— 两件事分开
 
 物理分辨率提到 **1280×800（4x）**、逻辑保持 **320×200**。两个不同时点、不同性质的需求：

@@ -4,6 +4,7 @@
  * 子目录用 manifest.assets 的 maps/tilesets/sprites/palettes(见 AssetBase)。
  * 解码逻辑复用 @type-pal/shared(parseSpriteChunk + 类型);decompressGzip 端口自 game。
  */
+import { type OwnMap, validateOwnMap } from '@type-pal/content'
 import { type Palette, parseSpriteChunk, type RleFrame, type Tilemap } from '@type-pal/shared'
 import type { FileSource } from './file-source.js'
 
@@ -67,13 +68,10 @@ export function loadTilemap(base: AssetBase, mapNum: number): Promise<Tilemap> {
 }
 
 /**
- * 自有地图(W7):从工程内 content 路径读 Tilemap(经 source,相对工程根,如
- * `content/maps/<id>.json`)。与复用原版地图的唯一分歧只在「Tilemap 从哪来」——
- * tileset 之后统一由 map.tileset 字段解析(loadTilesetByPath)。ownMap 仅存在于
- * source-backed 工程(loadProjectFrom 注入),故必经 source。
+ * 自有地图(W7D):从工程内 content 路径读 OwnMap v1，并在加载边界完整校验。
  */
-export function loadOwnMap(base: AssetBase, ownMapPath: string): Promise<Tilemap> {
-  return readAssetJson<Tilemap>(base, ownMapPath)
+export async function loadOwnMap(base: AssetBase, ownMapPath: string): Promise<OwnMap> {
+  return validateOwnMap(await readAssetJson<unknown>(base, ownMapPath))
 }
 
 export function loadPalette(base: AssetBase, palId: number): Promise<Palette> {

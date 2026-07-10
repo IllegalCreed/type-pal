@@ -68,6 +68,32 @@ scene = {
 
 ## 5. 地图 Schema（尺寸可变 + 多层 + 碰撞层）
 
+> ✅ **OwnMap v1 已落地（2026-07-10，W7D）**：类型与加载校验见
+> `packages/content/src/own-map.ts`；自有地图使用 `version + width/height + layers[] +
+> collision`，旧 `Tilemap.cells.lower/upper + u32 bit` 只留给 `reuseOriginalMap` 兼容路径。
+
+```jsonc
+{
+  "version": 1,
+  "width": 24,
+  "height": 24,
+  "tileset": "tileset/20.rle",
+  "layers": [
+    {
+      "id": "floor",
+      "name": "地板",
+      "occlude": false,
+      "tiles": [/* 2 * height 行 × width 列；tileId | null */]
+    }
+  ],
+  "collision": [/* 同尺寸；0 可通行，非 0 阻挡/预留地形类型 */]
+}
+```
+
+`layers` 数组序就是 z 序，编辑/引用使用稳定 `layer.id`；错排 lattice 行奇偶只负责几何，
+不再暴露旧格式 `h`。角色按逻辑格行走时，该格对应的两个子格碰撞值任一非 0 即阻挡。
+`occlude` 层中的 `null` 是无瓦片，不进入遮挡深度表。
+
 突破原版「2 视觉层」+「定长尺寸」两重天花板，泛化成：
 
 - **尺寸可变（每图自带 width/height）**：原版被 C 定长数组 `Tiles[128][64][2]`（sdlpal map.h:61，提取器 `map.ts:15` 把 64×128 写死成常量）焊成恒定 64×128，小场景也背满 8192 空格。新引擎把尺寸当**每张图自带的数据**，不是全局常量。**两个层次划清**：①每图一个有限矩形网格、尺寸可变 = **现在就做**（渲染 / 碰撞本就按 width/height 跑，近乎白送；小场景所见即所得，大场景突破天花板，编辑器画多大就是多大）；②超大无缝世界 / 分块（chunk）流式加载 = MMO 级，**现在不做、只留口**（别把「一张地图 = 单个有限 cells 网格、坐标单一原点」焊死到将来加不进分块）。

@@ -14,7 +14,7 @@
  */
 import type { LoadedProjectCore } from '@type-pal/reforge'
 import type { MusicDef, SceneDef } from '@type-pal/content'
-import type { Tilemap } from '@type-pal/reforge'
+import type { OwnMap } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 
 /**
@@ -26,7 +26,7 @@ export function toEditorState(
   project: LoadedProjectCore,
   scenes: SceneDef[],
   music: MusicDef[] = [], // W5:音乐库(manifest.content.music 声明才有;缺省空)
-  ownMaps: Record<string, Tilemap> = {}, // W7:自有地图(own 场景引用的 content/maps 文件;pal 无 → {})
+  ownMaps: Record<string, OwnMap> = {}, // W7D:自有地图 v1(own 场景引用;pal 无 → {})
 ): EditorState {
   return {
     // M2a-2:场景懒加载后 LoadedProject 不再带全量 → 编辑器 loadAllScenes 拉齐后传入

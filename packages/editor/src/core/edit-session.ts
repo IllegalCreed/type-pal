@@ -8,7 +8,7 @@
  * 纯 TS + 无 React → 重度单测。见 docs/phase2/editor/editor-design.md §4。
  */
 import type { ContentBundle, LoadedManifest } from '@type-pal/content'
-import type { Tilemap } from '@type-pal/reforge'
+import type { OwnMap } from '@type-pal/reforge'
 import type { Command } from './commands.js'
 
 // commands.ts 引 EditorState(type),本文件引 Command(type) —— 仅类型,运行期无环。
@@ -19,10 +19,10 @@ export type { Command } from './commands.js'
 export interface EditorState extends ContentBundle {
   manifest: LoadedManifest
   /**
-   * 自有地图(W7)工作副本:键 = 工程内相对路径(scene.map.ownMap 指向它)→ Tilemap。
+   * 自有地图(W7D)工作副本:键 = 工程内相对路径(scene.map.ownMap 指向它)→ OwnMap v1。
    * 编辑器画布渲染读此实时态(非磁盘,创建后未存磁盘上没有);保存序列化成 content/maps/<id>.json。
    */
-  maps: Record<string, Tilemap>
+  maps: Record<string, OwnMap>
 }
 
 /** 编辑会话:不可变工作副本 + undo/redo 栈 + 订阅 + 脏标记。 */

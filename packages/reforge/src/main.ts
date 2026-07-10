@@ -29,7 +29,7 @@ import {
   spriteScreenY,
   type WalkSpeed,
 } from '@type-pal/content'
-import type { Palette, RleFrame, Tilemap } from '@type-pal/shared'
+import type { Palette, RleFrame } from '@type-pal/shared'
 import { computeFollowerPos, type FollowerFrozen, pushTrail, type TrailEntry } from './follower.js'
 import {
   type AssetBase,
@@ -283,7 +283,7 @@ async function main(): Promise<void> {
 
   // ── 活动场景态(M2c:boot = switchScene 第一跳,单一代码路)──
   let scene: SceneDef = project.entryScene
-  let map!: Tilemap
+  let map!: SceneMapAssets['map']
   let tiles!: Map<number, RleFrame>
   let palette!: Palette
   let renderer!: Canvas2DRenderer

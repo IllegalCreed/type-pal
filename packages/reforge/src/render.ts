@@ -7,7 +7,9 @@
  *   于是投影靠前者后画、盖住投影靠后者 → 正确遮挡（堆叠高墙的每块小瓦片也对）。
  * 图层只是作画组织，与遮挡无关；遮挡纯看 baseY。等距位偏移端口自 game/draw-tilemap.ts。
  */
+import { isOwnMap, type OwnMap } from '@type-pal/content'
 import type { Palette, RleFrame, Tilemap } from '@type-pal/shared'
+import { ownMapTilesInView } from './own-map.js'
 
 const TILE_W = 32
 const TILE_H = 16
@@ -102,13 +104,15 @@ export interface RenderLayerOpts {
   skipBase?: boolean
   /** 跳过 cover-tiles(高物:墙/家具遮挡片;精灵仍画)。 */
   skipCover?: boolean
+  /** OwnMap 编辑器本地显隐；不写入内容 schema。 */
+  hiddenOwnLayerIds?: readonly string[]
 }
 
 export interface Renderer {
   clear(): void
-  /** 一帧场景：基底两层 + 精灵/cover-tile 按 baseY 深度排序（遮挡）。 */
+  /** 一帧场景：旧 Tilemap 兼容路径或 OwnMap v1 N 层路径。 */
   renderScene(
-    map: Tilemap,
+    map: Tilemap | OwnMap,
     view: CellRect,
     camera: Camera,
     sprites: readonly SpriteDraw[],
@@ -165,12 +169,16 @@ export class Canvas2DRenderer implements Renderer {
   }
 
   renderScene(
-    map: Tilemap,
+    map: Tilemap | OwnMap,
     view: CellRect,
     camera: Camera,
     sprites: readonly SpriteDraw[],
     opts?: RenderLayerOpts,
   ): void {
+    if (isOwnMap(map)) {
+      this.renderOwnMap(map, view, camera, sprites, opts)
+      return
+    }
     const ox = -camera.x
     const oy = -camera.y
     const r0 = Math.max(0, view.row)
@@ -180,21 +188,21 @@ export class Canvas2DRenderer implements Renderer {
 
     // 1) 基底：layer0 全画，再 layer1 全画（present.ts:282-285）;编辑器图层开关可跳过
     if (!opts?.skipBase)
-    for (let layer = 0; layer <= 1; layer++) {
-      const id = layer === 0 ? tileIdLayer0 : tileIdLayer1
-      for (let r = r0; r < r1; r++) {
-        const row = map.cells[r]
-        if (!row) continue
-        for (let c = c0; c < c1; c++) {
-          const cell = row[c]
-          if (!cell) continue
-          const loId = id(cell.lower)
-          if (loId >= 0) this.blit(loId, c * TILE_W - HALF_W + ox, r * TILE_H - SUBROW + oy)
-          const upId = id(cell.upper)
-          if (upId >= 0) this.blit(upId, c * TILE_W + ox, r * TILE_H + oy)
+      for (let layer = 0; layer <= 1; layer++) {
+        const id = layer === 0 ? tileIdLayer0 : tileIdLayer1
+        for (let r = r0; r < r1; r++) {
+          const row = map.cells[r]
+          if (!row) continue
+          for (let c = c0; c < c1; c++) {
+            const cell = row[c]
+            if (!cell) continue
+            const loId = id(cell.lower)
+            if (loId >= 0) this.blit(loId, c * TILE_W - HALF_W + ox, r * TILE_H - SUBROW + oy)
+            const upId = id(cell.upper)
+            if (upId >= 0) this.blit(upId, c * TILE_W + ox, r * TILE_H + oy)
+          }
         }
       }
-    }
 
     // 2) 精灵 + cover-tile 入深度表
     // 资产坐标系约定(sdlpal scene.c:301-316,一阶段 present.ts:540-546 已考证):
@@ -229,6 +237,64 @@ export class Canvas2DRenderer implements Renderer {
     // 3) 按 baseY 升序画（同 baseY 稳定）
     entries.sort((a, b) => a.baseY - b.baseY)
     for (const e of entries) e.draw()
+  }
+
+  /** OwnMap v1：按数组序铺 N 层；occlude 层再与精灵做 Y 深度重绘。 */
+  private renderOwnMap(
+    map: OwnMap,
+    view: CellRect,
+    camera: Camera,
+    sprites: readonly SpriteDraw[],
+    opts?: RenderLayerOpts,
+  ): void {
+    const ox = -camera.x
+    const oy = -camera.y
+    const tiles = ownMapTilesInView(map, view, new Set(opts?.hiddenOwnLayerIds ?? []))
+
+    if (!opts?.skipBase) {
+      for (const tile of tiles) {
+        this.blit(tile.tileId, tile.centerX - HALF_W + ox, tile.centerY - SUBROW + oy)
+      }
+    }
+
+    const entries: DrawEntry[] = []
+    for (const sprite of sprites) {
+      const image = this.bake(sprite.frame)
+      const rect = spriteBlitRect(sprite)
+      const x = Math.round(rect.x + ox)
+      const y = Math.round(rect.y + oy)
+      const alpha = sprite.alpha
+      entries.push({
+        baseY: sprite.worldY + 9 + (sprite.baseYBias ?? 0) * 8,
+        draw:
+          alpha !== undefined && alpha < 1
+            ? () => {
+                this.ctx.save()
+                this.ctx.globalAlpha = alpha
+                this.ctx.drawImage(image, x, y)
+                this.ctx.restore()
+              }
+            : () => this.ctx.drawImage(image, x, y),
+      })
+    }
+
+    if (!opts?.skipCover) {
+      for (const tile of tiles) {
+        if (!tile.occlude) continue
+        const image = this.bakedTile(tile.tileId)
+        if (!image) continue
+        const x = tile.centerX - HALF_W + ox
+        const y = tile.centerY - SUBROW + oy
+        entries.push({
+          // 缺省瓦片高度 1：沿用旧 cover 的中心 + 7 + 8；小数只稳定同格层序。
+          baseY: tile.centerY + 15 + tile.layerIndex / 1000,
+          draw: () => this.ctx.drawImage(image, x, y),
+        })
+      }
+    }
+
+    entries.sort((a, b) => a.baseY - b.baseY)
+    for (const entry of entries) entry.draw()
   }
 
   /** port sdlpal scene.c PAL_CalcCoverTiles：找出会盖住该精灵的高瓦片，作为 cover-tile 入表。 */

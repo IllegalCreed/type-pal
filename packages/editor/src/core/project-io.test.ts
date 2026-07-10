@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { assembleProject } from '@type-pal/reforge'
+import { assembleProject, buildBlankOwnMap, loadOwnMap } from '@type-pal/reforge'
 import type { LoadedManifest } from '@type-pal/content'
 import { diffFiles, serializeProject, toEditorState } from './project-io.js'
 
@@ -125,14 +125,28 @@ test('round-trip:toEditorState → serializeProject 还原各 content JSON', () 
   expect(out['manifest.json']).toEqual(manifest)
 })
 
-test('W7 自有地图 round-trip:ownMaps → serializeProject 产出 content/maps 文件', () => {
+test('W7D 自有地图 round-trip:ownMaps → serializeProject 产出 content/maps 文件', () => {
   const project = assembleProject(manifest, JSONS)
-  const tilemap = { width: 2, height: 2, cells: [], tileset: 'tileset/56.rle' }
-  const ownMaps = { 'content/maps/guijie-minju.json': tilemap }
+  const ownMap = buildBlankOwnMap(2, 2, 'tileset/56.rle')
+  const ownMaps = { 'content/maps/guijie-minju.json': ownMap }
   const state = toEditorState(project, SCENES, [], ownMaps)
   expect(state.maps).toEqual(ownMaps) // 键 = ownMap 相对路径,原样入 state
   const out = serializeProject(state)
-  expect(out['content/maps/guijie-minju.json']).toEqual(tilemap) // 键即路径,直接产出为文件
+  expect(out['content/maps/guijie-minju.json']).toEqual(ownMap) // 键即路径,直接产出为文件
+})
+
+test('W7D 自有地图 serialize → loadOwnMap 重开闭环', async () => {
+  const project = assembleProject(manifest, JSONS)
+  const rel = 'content/maps/guijie-minju.json'
+  const ownMap = buildBlankOwnMap(2, 2, 'tileset/56.rle')
+  const files = serializeProject(toEditorState(project, SCENES, [], { [rel]: ownMap }))
+  const source = {
+    readText: async (path: string) => JSON.stringify(files[path]),
+    readJson: async <T>(path: string) => files[path] as T,
+    readBytes: async () => new ArrayBuffer(0),
+    urlFor: async (path: string) => path,
+  }
+  expect(await loadOwnMap({ ...project.assetBase, source }, rel)).toEqual(ownMap)
 })
 
 test('toEditorState:by-id Record → 数组(Object.values 保序)', () => {

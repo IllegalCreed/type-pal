@@ -125,7 +125,7 @@ export interface ReuseMap {
   room?: { col: number; row: number; cols: number; rows: number }
 }
 
-/** 自有地图(W7):工程内 `content/maps/<id>.json`(Tilemap 形),作者绘制,脱离原版。 */
+/** 自有地图(W7D):工程内 `content/maps/<id>.json`(OwnMap v1),作者绘制,脱离原版。 */
 export interface OwnMapRef {
   /** 工程内相对路径,如 `content/maps/<id>.json`。 */
   ownMap: string
@@ -188,6 +188,7 @@ export interface SceneDef {
 
 export * from './actor.js'
 export * from './battle-formulas.js'
+export * from './own-map.js'
 export * from './character.js'
 export * from './enemy.js'
 export * from './enemy-ai.js'

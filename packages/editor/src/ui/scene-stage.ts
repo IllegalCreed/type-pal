@@ -10,7 +10,7 @@
 
 import type { SceneDef, SceneMap } from '@type-pal/content'
 import { gridToPixel, isReuseMap, sceneMapKey } from '@type-pal/content'
-import type { AssetBase, LoadedSprite, Palette, SceneMapAssets, Tilemap } from '@type-pal/reforge'
+import type { AssetBase, LoadedSprite, OwnMap, Palette, SceneMapAssets } from '@type-pal/reforge'
 import {
   buildIsBlocked,
   Canvas2DRenderer,
@@ -61,7 +61,7 @@ export function useSceneAssets(opts: {
   sceneMap: SceneMap
   spriteNums: number[]
   /** 编辑器实时自有地图(键 = ownMap 路径)。own 场景从此读地图,不落磁盘(创建后未存磁盘上没有)。 */
-  ownMaps?: Record<string, Tilemap>
+  ownMaps?: Record<string, OwnMap>
 }): { status: 'loading' | 'ready' | 'error'; err: string; loadedRef: RefObject<StageAssets | null> } {
   const { canvasRef, assetBase, sceneMap, spriteNums, ownMaps } = opts
   const loadedRef = useRef<StageAssets | null>(null)
