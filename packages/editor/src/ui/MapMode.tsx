@@ -31,6 +31,7 @@ import {
   PaintCollisionCommand,
   PaintTilesCommand,
   RemoveOwnMapLayerCommand,
+  ResizeOwnMapCommand,
   UpdateOwnMapLayerCommand,
 } from '../core/commands.js'
 import type { EditorState, EditSession } from '../core/edit-session.js'
@@ -676,8 +677,43 @@ export function MapMode(props: {
             <>
               <div className="field">
                 <label>尺寸</label>
-                <span className="mono">
-                  {liveMap ? `${liveMap.width} × ${liveMap.height}` : '—'}
+                {/* 左上锚定裁剪/扩展;失焦或回车提交,一次 = 一步撤销(缩图裁掉的内容 undo 可回) */}
+                <span className="size-edit">
+                  <input
+                    key={`w:${liveMap?.width}`}
+                    className="in mono"
+                    type="number"
+                    min={1}
+                    max={256}
+                    defaultValue={liveMap?.width ?? 0}
+                    title="宽(格);1-256,左上锚定"
+                    onBlur={(event) => {
+                      const w = Math.max(1, Math.min(256, Math.floor(event.target.valueAsNumber)))
+                      if (liveMap && Number.isFinite(w) && w !== liveMap.width)
+                        session.dispatch(new ResizeOwnMapCommand(ownPath, w, liveMap.height))
+                    }}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter') event.currentTarget.blur()
+                    }}
+                  />
+                  ×
+                  <input
+                    key={`h:${liveMap?.height}`}
+                    className="in mono"
+                    type="number"
+                    min={1}
+                    max={256}
+                    defaultValue={liveMap?.height ?? 0}
+                    title="高(格);1-256,左上锚定"
+                    onBlur={(event) => {
+                      const h = Math.max(1, Math.min(256, Math.floor(event.target.valueAsNumber)))
+                      if (liveMap && Number.isFinite(h) && h !== liveMap.height)
+                        session.dispatch(new ResizeOwnMapCommand(ownPath, liveMap.width, h))
+                    }}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter') event.currentTarget.blur()
+                    }}
+                  />
                 </span>
               </div>
               <div className="field">

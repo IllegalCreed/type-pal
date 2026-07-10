@@ -224,6 +224,30 @@ export function floodFillOwnMapTiles(
   return out
 }
 
+/**
+ * 改图尺寸(W7c-4):左上锚定 —— 重叠区原样保留,扩展区补 null/0,裁剪区丢弃。
+ * 全层 tiles 与 collision 同步重建到 2H'×W';尺寸不变返回原图。undo 由命令层整图还原
+ * (裁剪破坏性,diff 不够)。
+ */
+export function resizeOwnMap(map: OwnMap, width: number, height: number): OwnMap {
+  if (width === map.width && height === map.height) return map
+  const rows = height * 2
+  const rebuild = <T>(src: readonly (readonly T[])[], fill: T): T[][] =>
+    Array.from({ length: rows }, (_, r) =>
+      Array.from({ length: width }, (_, c) => src[r]?.[c] ?? fill),
+    )
+  return {
+    ...map,
+    width,
+    height,
+    layers: map.layers.map((layer) => ({
+      ...layer,
+      tiles: rebuild<number | null>(layer.tiles, null),
+    })),
+    collision: rebuild(map.collision, 0),
+  }
+}
+
 export function insertOwnMapLayer(
   map: OwnMap,
   layer: OwnMapLayer,

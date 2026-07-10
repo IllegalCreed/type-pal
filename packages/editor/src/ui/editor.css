@@ -2540,6 +2540,17 @@ body {
 .map-readonly-hint {
   padding: 8px 10px;
 }
+/* 地图尺寸编辑(W7c-4):两个窄数字输入 + × 分隔 */
+.size-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--faint);
+}
+.size-edit input {
+  width: 64px;
+}
+
 .map-file {
   max-width: 150px;
   overflow-wrap: anywhere;

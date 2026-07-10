@@ -1,5 +1,5 @@
 import type { ActorDef, EntityDef, ScriptStage, SpriteDef } from '@type-pal/content'
-import { buildBlankOwnMap, buildOwnMapLayer } from '@type-pal/reforge'
+import { buildBlankOwnMap, buildOwnMapLayer, paintOwnMapTiles } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
 import {
   AddEnemyCommand,
@@ -14,6 +14,7 @@ import {
   PaintCollisionCommand,
   PaintTilesCommand,
   RemoveOwnMapLayerCommand,
+  ResizeOwnMapCommand,
   UpdateActorCommand,
   UpdateBattleFieldCommand,
   UpdateEnemyCommand,
@@ -681,5 +682,40 @@ describe('OwnMap v1 绘制与图层命令(W7D)', () => {
       { layerId: 'floor', col: 0, row: 0, tileId: 5 },
     ])
     expect(cmd.apply(s0)).toBe(s0)
+  })
+})
+
+describe('ResizeOwnMapCommand(W7c-4)', () => {
+  const stMap = (): EditorState => {
+    const base = st() as EditorState & { maps: Record<string, unknown> }
+    let map = buildBlankOwnMap(3, 3, 't')
+    map = paintOwnMapTiles(map, [{ layerId: 'floor', col: 2, row: 5, tileId: 7 }])
+    base.maps = { 'content/maps/s.json': map }
+    return base
+  }
+
+  test('裁剪后 invert 整图还原(被裁内容精确回来);源不变', () => {
+    const s0 = stMap()
+    const cmd = new ResizeOwnMapCommand('content/maps/s.json', 2, 2)
+    const s1 = cmd.apply(s0)
+    const m1 = s1.maps['content/maps/s.json']!
+    expect(m1.width).toBe(2)
+    expect(m1.layers[0]!.tiles.length).toBe(4)
+    // 源不变
+    expect(s0.maps['content/maps/s.json']!.width).toBe(3)
+    // invert 整图还原,被裁 tileId=7 回来
+    const back = cmd.invert(s1).maps['content/maps/s.json']!
+    expect(back.width).toBe(3)
+    expect(back.layers[0]!.tiles[5]![2]).toBe(7)
+  })
+
+  test('尺寸不变 → noop 原引用;redo 稳定', () => {
+    const s0 = stMap()
+    expect(new ResizeOwnMapCommand('content/maps/s.json', 3, 3).apply(s0)).toBe(s0)
+    const cmd = new ResizeOwnMapCommand('content/maps/s.json', 4, 4)
+    const s1 = cmd.apply(s0)
+    const s2 = cmd.apply(cmd.invert(s1)) // undo → redo
+    expect(s2.maps['content/maps/s.json']!.width).toBe(4)
+    expect(s2.maps['content/maps/s.json']!.layers[0]!.tiles[5]![2]).toBe(7)
   })
 })

@@ -33,6 +33,7 @@ import {
   paintOwnMapCollision,
   paintOwnMapTiles,
   removeOwnMapLayer,
+  resizeOwnMap,
   updateOwnMapLayer,
 } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
@@ -571,6 +572,36 @@ export class UpdateOwnMapLayerCommand implements Command {
       ...state,
       maps: { ...state.maps, [this.mapRel]: updateOwnMapLayer(map, this.layerId, this.oldPatch) },
     }
+  }
+}
+
+/**
+ * 改图尺寸(W7c-4):左上锚定裁剪/扩展。裁剪破坏性 → prev 直接留 apply 前的整图引用
+ * (不可变数据,零拷贝),invert 整图还原,被裁内容精确回来。
+ */
+export class ResizeOwnMapCommand implements Command {
+  readonly label = '改图尺寸'
+  private prev: OwnMap | undefined
+
+  constructor(
+    private readonly mapRel: string,
+    private readonly width: number,
+    private readonly height: number,
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    const map = state.maps[this.mapRel]
+    if (!map) return state
+    const next = resizeOwnMap(map, this.width, this.height)
+    if (next === map) return state
+    if (!this.prev) this.prev = map
+    return { ...state, maps: { ...state.maps, [this.mapRel]: next } }
+  }
+
+  invert(state: EditorState): EditorState {
+    const map = state.maps[this.mapRel]
+    if (!map || !this.prev) return state
+    return { ...state, maps: { ...state.maps, [this.mapRel]: this.prev } }
   }
 }
 

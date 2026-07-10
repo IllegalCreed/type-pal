@@ -61,6 +61,7 @@ export {
   paintOwnMapTiles,
   pixelToLattice,
   removeOwnMapLayer,
+  resizeOwnMap,
   updateOwnMapLayer,
 } from './own-map.js'
 export type {

@@ -12,6 +12,7 @@ import {
   paintOwnMapTiles,
   pixelToLattice,
   removeOwnMapLayer,
+  resizeOwnMap,
   updateOwnMapLayer,
 } from './own-map.js'
 
@@ -117,5 +118,49 @@ describe('N 层操作与渲染计划', () => {
     expect(
       ownMapTilesInView(map, { col: 0, row: 0, cols: 2, rows: 1 }, new Set(['cover'])),
     ).toEqual([])
+  })
+})
+
+describe('resizeOwnMap(W7c-4)', () => {
+  test('扩展:重叠区保留,新区 tiles=null / collision=0;全层与碰撞同步 2H×W', () => {
+    let map = buildBlankOwnMap(2, 2, 't')
+    map = insertOwnMapLayer(map, buildOwnMapLayer(map, 'cover', '遮挡', true))
+    map = paintOwnMapTiles(map, [
+      { layerId: 'floor', col: 1, row: 1, tileId: 9 },
+      { layerId: 'cover', col: 0, row: 3, tileId: 4 },
+    ])
+    map = paintOwnMapCollision(map, [{ col: 1, row: 2, value: 1 }])
+    const big = resizeOwnMap(map, 4, 3)
+    expect(big.width).toBe(4)
+    expect(big.height).toBe(3)
+    for (const layer of big.layers) {
+      expect(layer.tiles.length).toBe(6)
+      for (const row of layer.tiles) expect(row.length).toBe(4)
+    }
+    expect(big.collision.length).toBe(6)
+    expect(big.layers[0]!.tiles[1]![1]).toBe(9) // 重叠区保留
+    expect(big.layers[1]!.tiles[3]![0]).toBe(4)
+    expect(big.collision[2]![1]).toBe(1)
+    expect(big.layers[0]!.tiles[5]![3]).toBeNull() // 新区
+    expect(big.collision[5]![3]).toBe(0)
+  })
+
+  test('裁剪:界外内容丢弃;尺寸不变返回原引用;源图不动', () => {
+    let map = buildBlankOwnMap(3, 3, 't')
+    map = paintOwnMapTiles(map, [
+      { layerId: 'floor', col: 0, row: 0, tileId: 1 },
+      { layerId: 'floor', col: 2, row: 5, tileId: 7 }, // 将被裁掉
+    ])
+    const small = resizeOwnMap(map, 2, 2)
+    expect(small.layers[0]!.tiles[0]![0]).toBe(1)
+    expect(small.layers[0]!.tiles.length).toBe(4)
+    expect(small.layers[0]!.tiles.every((row) => row.length === 2)).toBe(true)
+    // 源图不动
+    expect(map.layers[0]!.tiles[5]![2]).toBe(7)
+    // 尺寸不变 → 原引用
+    expect(resizeOwnMap(map, 3, 3)).toBe(map)
+    // 裁后再扩回,被裁区已是空(破坏性,undo 靠命令整图还原)
+    const back = resizeOwnMap(small, 3, 3)
+    expect(back.layers[0]!.tiles[5]![2]).toBeNull()
   })
 })
