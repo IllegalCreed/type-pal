@@ -23,6 +23,11 @@ export interface EditorState extends ContentBundle {
    * 编辑器画布渲染读此实时态(非磁盘,创建后未存磁盘上没有);保存序列化成 content/maps/<id>.json。
    */
   maps: Record<string, OwnMap>
+  /**
+   * 上传 tileset 的 .rle 字节暂存(W7B):键 = 资产相对路径(assets/tilesets/<id>.rle)。
+   * 保存时并进文件集(ArrayBuffer → FSA Blob);已在磁盘的旧资产不回读,只存新上传。
+   */
+  tilesetBlobs: Record<string, ArrayBuffer>
 }
 
 /** 编辑会话:不可变工作副本 + undo/redo 栈 + 订阅 + 脏标记。 */

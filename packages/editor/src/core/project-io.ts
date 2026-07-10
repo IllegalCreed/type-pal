@@ -34,6 +34,9 @@ export function toEditorState(
     music,
     // W7:自有地图工作副本(键 = ownMap 相对路径);渲染读实时态,保存序列化回文件
     maps: ownMaps,
+    // W7B:tileset 注册表(loader 已 guard;缺省空)+ 上传字节暂存(载入时空,只存新上传)
+    tilesets: project.tilesets ?? [],
+    tilesetBlobs: {},
     // by-id Record → 数组(Object.values 保序:indexById 按原数组序插入)
     actors: Object.values(project.actorsById),
     skills: Object.values(project.skills),
@@ -57,6 +60,7 @@ export function toEditorState(
 /** manifest.content 的键 → 序列化时该文件存什么值。 */
 type ContentKey =
   | 'actors'
+  | 'tilesets'
   | 'skills'
   | 'items'
   | 'locale'
@@ -81,6 +85,8 @@ export function serializeProject(state: EditorState): Record<string, unknown> {
   // W7 自有地图:键即工程内相对路径,直接产出为文件(own 场景引用即索引,无单独 maps index)。
   // 场景 revert 回复用 → maps 丢掉该键 → diffFiles 检测 prev 有 next 无 → 落盘删除,不留孤儿。
   for (const [rel, map] of Object.entries(state.maps)) files[rel] = map
+  // W7B 上传 tileset 字节:键即资产相对路径(ArrayBuffer → writeFile 走 Blob,diff 记 bin: 占位)
+  for (const [rel, buf] of Object.entries(state.tilesetBlobs)) files[rel] = buf
   // 各 content 文件:按 manifest 声明的路径键映射到对应值。
   const byKey: Record<ContentKey, unknown> = {
     actors: state.actors,
@@ -92,6 +98,7 @@ export function serializeProject(state: EditorState): Record<string, unknown> {
     enemyTeams: state.enemyTeams ?? [],
     music: state.music ?? [],
     battleFields: state.battleFields ?? [],
+    tilesets: state.tilesets ?? [],
   }
 
   // 只产出 manifest.content 里**声明了路径**的文件(sprites 缺则不产出 sprites.json)。

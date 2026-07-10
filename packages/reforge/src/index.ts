@@ -72,6 +72,10 @@ export type {
 } from './own-map.js'
 // 地图/调色板类型转出口(编辑器不直依赖 shared/content)
 export { isOwnMap, validateOwnMap } from '@type-pal/content'
+// 上传素材量化 + 图集网格切片(W7B;编码器在 shared rle-encode)
+export { quantizeToRleFrame, sliceAtlasGrid } from './quantize.js'
+export { resolveTilesetPath, validateTilesets } from '@type-pal/content'
+export type { TilesetDef } from '@type-pal/content'
 export type { OwnMap, OwnMapLayer } from '@type-pal/content'
 export type { Palette, Tilemap } from '@type-pal/shared'
 

@@ -189,6 +189,7 @@ export interface SceneDef {
 export * from './actor.js'
 export * from './battle-formulas.js'
 export * from './own-map.js'
+export * from './tileset.js'
 export * from './character.js'
 export * from './enemy.js'
 export * from './enemy-ai.js'

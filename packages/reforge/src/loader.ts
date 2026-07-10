@@ -20,9 +20,11 @@ import type {
   SceneDef,
   SkillDataMap,
   SpriteDef,
+  TilesetDef,
 } from '@type-pal/content'
 import {
   isReuseMap,
+  validateTilesets,
   validateActors,
   validateItems,
   validateLocale,
@@ -58,6 +60,8 @@ export interface LoadedProjectCore {
   battleFields: BattleFieldDef[]
   /** 毒表(P2 数据化 DoT;id → PoisonDef;缺 = 空 → 毒无效果)。 */
   poisonsById: Record<number, PoisonDef>
+  /** tileset 注册表(W7B;缺 manifest 声明 = 空数组,原版借用走路径直通)。 */
+  tilesets: TilesetDef[]
   /** 工程资源根 + 子目录(assets.ts load* 用;来自 manifest.assets)。 */
   assetBase: AssetBase
 }
@@ -86,6 +90,8 @@ export interface ContentJsons {
   battleFields?: unknown
   /** 毒表(可选,P2;缺 → 空)。 */
   poisons?: unknown
+  /** tileset 注册表(可选,W7B;缺 → 空)。 */
+  tilesets?: unknown
 }
 
 function indexById<T extends { id: string }>(arr: T[]): Record<string, T> {
@@ -116,6 +122,7 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
   const battleFields = Array.isArray(jsons.battleFields)
     ? (jsons.battleFields as BattleFieldDef[])
     : []
+  const tilesets = jsons.tilesets ? validateTilesets(jsons.tilesets) : []
   const poisonList = Array.isArray(jsons.poisons) ? (jsons.poisons as PoisonDef[]) : []
   const poisonsById: Record<number, PoisonDef> = {}
   for (const p of poisonList) poisonsById[p.id] = p
@@ -145,6 +152,7 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
     enemyTeamsById: indexById(enemyTeams),
     battleFields,
     poisonsById,
+    tilesets,
     assetBase: (() => {
       // 素材路径**原样用**:相对(如 "assets/extracted/data" / "assets")的根由 FileSource 提供
       // ——httpSource 的 baseUrl=projects/<id>(dev/种子),fsaSource 是工程夹(本地克隆);
@@ -180,7 +188,7 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
   const manifest = await source.readJson<LoadedManifest>('manifest.json')
   const content = manifest.content
   const dir = scenesDir(manifest)
-  const [actors, sceneIds, entryScene, skills, items, locale, sprites, enemies, enemyTeams, battleFields, poisons] =
+  const [actors, sceneIds, entryScene, skills, items, locale, sprites, enemies, enemyTeams, battleFields, poisons, tilesets] =
     await Promise.all([
       source.readJson(content.actors as string),
       source.readJson(`${dir}index.json`),
@@ -193,6 +201,7 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
       content.enemyTeams ? source.readJson(content.enemyTeams) : Promise.resolve(undefined),
       content.battleFields ? source.readJson(content.battleFields) : Promise.resolve(undefined),
       content.poisons ? source.readJson(content.poisons) : Promise.resolve(undefined),
+      content.tilesets ? source.readJson(content.tilesets) : Promise.resolve(undefined),
     ])
   const core = assembleProject(manifest, {
     actors,
@@ -206,6 +215,7 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
     enemyTeams,
     battleFields,
     poisons,
+    tilesets,
   })
   // source 注入 assetBase(P2:素材加载经它;assembleProject 纯核不碰 IO,故在壳注入)
   return { ...core, assetBase: { ...core.assetBase, source }, source }
