@@ -64,7 +64,14 @@ Branch: main
 ### 进入 build 前:设计签字
 
 - Codex: pending
-- Opus: agree(起草本卡;设计倾向见 Draft,设计题 1-4 待三方收敛)
+- Opus: agree(起草本卡)+ **接受 GLM counter 并收敛终案**(2026-07-10):
+  量化后落盘 = **索引格式**,渲染 = **单路**。核实 D25 原文后确认 GLM 引用准确,且判据行
+  (decisions.md D25 补)明文「随场景盘变(精灵/**瓦片**)→ gzip 索引 + 运行时上色」;
+  我起草时把「运行时零调色盘」(= 不暴露用户/不烘 RGBA)误延伸成「落盘 RGBA」,GLM 抓得对。
+  终案比双方原案更简(见 Draft「收敛终案」):量化输出编码为**与原版 tileset 同构的
+  .rle(gzip GOP 索引帧组)** —— D25 补² 实测证明 PLTE 索引 PNG 被每文件盘开销反超,
+  gzip 共享盘索引才是正解;且 loadTilesetByPath/渲染/TileThumb **零改动**,
+  「双路」概念整个消失,注册表 schema 随之再简化。待 GLM 对收敛版一句话复确认 + 用户拍板。
 - GLM: **agree**（4 题逐个表态 + 1 条 counter 需三方收敛）。
 
   **题 1 注册表 schema：agree**。显式帧表（非隐式网格）正确——菱形瓦高度可变，网格切不动。category 字段对齐用户"按环境分类"诉求。内置原版条目用 `{ kind: "rle", path }` 借用、自有条目用 `{ kind: "atlas", image, frames }` 切片，判别联合干净。测试矩阵须覆盖：id 唯一校验 / 帧表界内校验 / 帧表 w/h=0 边界 / 内置与自有解析双路 / 注册表缺失 tileset id 报错。
@@ -89,6 +96,16 @@ Branch: main
 
   **测试矩阵补充**：量化函数须覆盖——alpha<128→透明边界 / 全透明图 / 单色图（量化不变）/ 256 色图（精确命中盘 0）/ 超出色域图（最近邻近似度）。
 
+### 额度 / 代班记录(2026-07-10)
+
+- 缺席 Agent: Codex(订阅额度耗尽,无法出具设计签字)
+- 代班安排: 设计签字缺席标「待 Codex 补签」;若用户豁免,Opus+GLM 双签 + 用户拍板即可进 build。
+  Coding Owner 按代班规则由 **Opus 全量代班**(编码/验证/git 收口;AGENTS.md 额度与代班节),待用户批准。
+- 风险: 缺 Codex 的实现可行性视角 —— 缓解:终案已把实现面收缩到纯函数(量化+RLE 编码)
+  与既有管线零改,可行性风险低;Codex 额度恢复后可补签/补审。
+- 是否需要补签: 属三方必审(新能力格+资产管线),额度恢复后应补记。
+- 用户裁决: pending
+
 ### 进入 done 前:审查签字
 
 - Codex: pending
@@ -101,6 +118,39 @@ Branch: main
 ## Draft: 设计与风险
 
 ### 设计倾向(Opus 初稿)与待收敛设计题
+
+### 收敛终案(2026-07-10,Opus 接受 GLM counter 后修订;待 GLM 复确认 + 用户拍板)
+
+**量化落盘 = 原版同构 `.rle`(gzip + GOP sprite chunk 索引帧组),渲染单路。**
+
+- 上传管线:PNG → 切片(编辑器内帧表)→ 量化(RGBA → 盘 0 索引,最近邻,alpha<128→透明)
+  → 编码 PAL RLE 帧组(shared rle.ts 解码器的逆,写编码器 + roundtrip 单测)→ gzip
+  (CompressionStream)→ 落盘 `assets/tilesets/<id>.rle`。
+- 加载/渲染:`loadTilesetByPath` **原样零改**(gzip → parseSpriteChunk → 索引帧 + 盘 0
+  bake)—— 自有与原版 tileset **同格式同管线**,单路;TileThumb/bakedTile 全部原样。
+- 注册表 schema 随之简化(修订题 1):source 无需 kind 判别联合、无需 frames 帧表
+  (RLE 帧组自描述 w/h):
+
+```jsonc
+// content/tilesets.json
+[
+  { "id": "pal-20", "name": "原版·仙灵岛", "category": "builtin", "path": "tileset/20.rle" },
+  { "id": "grass",  "name": "草地",       "category": "outdoor",  "path": "assets/tilesets/grass.rle",
+    "tiles": [{ "height": 1 }] }   // per-tile 元数据(留字段)
+]
+```
+
+- D25 对齐:第 2 条(存索引 1B/px,不烘 RGBA)✓;判据行(瓦片 → gzip 索引 + 运行时
+  上色)✓;补²(不用 PLTE PNG,共享盘不进文件)✓;第 4 条(上传即量化,创作者零
+  调色盘知识)✓。
+- 分期修订:**B2 期(渲染/加载双路)取消** —— 併入 B1 为「注册表解析 + id→路径」;
+  新 B2 = 量化 + RLE 编码纯函数(TDD,roundtrip 钉死);B3/B4 不变。
+- GLM 补充的测试矩阵(帧表界内/量化边界五例/id 唯一/缺失 id 报错)全部纳入,另加
+  RLE 编码 roundtrip(编→解 = 恒等)与 gzip 往返。
+
+---
+
+以下为起草时的原始设计题(题 2/4 已被上方终案取代,留档):
 
 **设计题 1:Tileset 注册表 schema(倾向如下)**
 
@@ -159,6 +209,12 @@ Branch: main
 - 2026-07-10 Opus: 起草本卡(注册表 schema 倾向 + 渲染双路倾向 b + 量化定向 + 四期
   分期);W7c-4 尺寸编辑已另行交付(eded4bca),W7 地基侧无遗留。Evidence: 本卡。
   Next: Codex + GLM / 设计签字(收敛设计题 1-4)。
+- 2026-07-10 GLM: 设计签字 agree + 1 counter(题 4 量化落盘格式 vs D25:应存索引非 RGBA,
+  渲染可统一单路)。Evidence: 签字区 GLM 行。Next: Opus / 回应 counter。
+- 2026-07-10 Opus: 核实 D25 后**接受 counter**,收敛终案 —— 量化落盘 = 原版同构 .rle
+  (gzip 索引帧组,D25 判据行明文瓦片走此路;D25 补² 证明 PLTE PNG 反超),渲染单路零改,
+  schema 再简化,B2 双路期取消。同步记录 Codex 额度耗尽缺席(代班安排见额度/代班记录)。
+  Evidence: Draft「收敛终案」。Next: GLM / 复确认终案;User / 拍板终案 + 豁免 Codex 设计签 + 定 Owner。
 
 ## 下一位 Agent 提示词
 
