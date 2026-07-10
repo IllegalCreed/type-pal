@@ -85,10 +85,16 @@ Branch: main
 
 - Codex: **accept**(2026-07-10;Coding Owner 自审通过;实现 `cd1ab67a`,全仓门禁与 6012 浏览器证据见 Build 段)
 - Opus: **accept**(2026-07-10;主审通过 —— 架构/代码审 + 门禁独立重跑 + 6010 视觉复验与旧/新遮挡对拍全过,证据见 Review「Opus 主审」;3 条非阻塞小项随卡记录,不构成返工)
-- GLM: pending
+- GLM: **accept**（2026-07-10）。按覆盖清单/测试矩阵/文档/旧概念退役四角度审查，全部通过：
+  - **覆盖补充 1 闭环**：碰撞聚合四态测试落地（`collision.test.ts:94`——空空/A/B/双阻精确覆盖；"任一子格非 0 即阻挡"定案）。
+  - **覆盖补充 2 闭环**：occlude 层 null 不产渲染/cover（`own-map.test.ts:109`——null 跳过 + 隐藏层也不产项）。
+  - **风险提醒闭环**：D2 已完成，旧概念（encodeTileLayer*/MASK/SubTileEdit/subTilesInRect/floodFillSubTiles/paintCells）全仓零残留；MapMode 无 h/lower/upper/word/mask。旧 pixelToTile 仅留 collision.ts 服务 reuse（Opus 非阻塞①已记）。
+  - **文档同步**：content-schema §5 标「OwnMap v1 已落地」（:71）；capability-map W7 引擎✅编辑器⚠️（缺 W7b）；engineering-notes 补「旧格式仅剩 reuse」。
+  - **门禁**：content 130 / reforge 245 / editor 91 / game 2294 全绿，tc 0。
+  - Opus 3 条非阻塞小项不构成返工。
 - counter / 返工处理: 当前无 counter。
 - 缺签豁免: N/A
-- done 准入结论: blocked(仅剩 GLM 审查签字)
+- done 准入结论: **done allowed**（三方签字齐。待用户最终验收。）
 
 ## Draft: 设计与风险
 
