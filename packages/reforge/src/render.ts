@@ -24,7 +24,13 @@ function tileIdLayer1(d: number): number {
   return ((hi & 0xff) | ((hi >> 4) & 0x100)) - 1 // -1 = 无瓦片
 }
 
-export function bakeFrame(frame: RleFrame, palette: Palette): HTMLCanvasElement {
+/**
+ * 索引帧 → RGBA canvas。colorShift ≠ 0 时做原版受击/演出染色
+ * (一阶段 blitFrame / palcommon.c:398-411):每个像素低 4 位 + shift
+ * clamp[0,0x0F]、高 4 位(色系 band)不动,再查盘 —— 各部位提到各自色系的
+ * 亮档,层次保留(≠ 平涂白;作者原版行军丹截图为准)。
+ */
+export function bakeFrame(frame: RleFrame, palette: Palette, colorShift = 0): HTMLCanvasElement {
   const { width, height, pixels, opaque } = frame
   const cvs = document.createElement('canvas')
   cvs.width = width
@@ -35,7 +41,14 @@ export function bakeFrame(frame: RleFrame, palette: Palette): HTMLCanvasElement 
   const colors = palette.colors
   const n = width * height
   for (let i = 0; i < n; i++) {
-    const c = colors[pixels[i] ?? 0] ?? [0, 0, 0]
+    let idx = pixels[i] ?? 0
+    if (colorShift !== 0) {
+      let low = (idx & 0x0f) + colorShift
+      if (low > 0x0f) low = 0x0f
+      else if (low < 0) low = 0
+      idx = (low | (idx & 0xf0)) & 0xff
+    }
+    const c = colors[idx] ?? [0, 0, 0]
     const o = i * 4
     img.data[o] = c[0] ?? 0
     img.data[o + 1] = c[1] ?? 0

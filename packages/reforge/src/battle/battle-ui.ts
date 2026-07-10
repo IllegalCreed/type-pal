@@ -16,6 +16,7 @@ import {
   type MenuAssets,
   SELECTED_COLORS,
 } from '../menu/menu-box.js'
+import type { Palette } from '@type-pal/shared'
 import type { GlyphTable } from '../text/glyph.js'
 import { renderSpans } from '../text/text-render.js'
 
@@ -238,8 +239,48 @@ export function drawBattleMenuBox(
   return w
 }
 
+/** MonoColor 图标缓存(iconIdx:band → 染色位图;盘/图标战斗内不变,一次烘)。 */
+const monoIconCache = new Map<string, HTMLCanvasElement>()
+
 /**
- * 主菜单 4 图标(一阶段:选中=全彩,可用未选=灰阶,不可用=深灰;highlight=false 全灰)。
+ * PAL_RLEBlitMonoColor 的 RGBA 版(palcommon.c:446,经一阶段 blitSpriteMonoColor):
+ * 每不透明像素取明度档(≈原索引低 nibble),+shift clamp[0,15],查盘 `band|档` 上色。
+ * band 0x00 = 灰组(灰阶);band 0x10 = 红组(**暗红** —— 作者点破「原版一定有红」,对)。
+ */
+function monoIcon(
+  img: ImageBitmap,
+  key: string,
+  palette: Palette,
+  band: number,
+  shift: number,
+): HTMLCanvasElement {
+  const hit = monoIconCache.get(key)
+  if (hit) return hit
+  const cvs = document.createElement('canvas')
+  cvs.width = img.width
+  cvs.height = img.height
+  const c = cvs.getContext('2d')!
+  c.drawImage(img, 0, 0)
+  const im = c.getImageData(0, 0, cvs.width, cvs.height)
+  const d = im.data
+  for (let i = 0; i < d.length; i += 4) {
+    if (d[i + 3] === 0) continue
+    const luma = 0.299 * d[i]! + 0.587 * d[i + 1]! + 0.114 * d[i + 2]!
+    let lv = Math.round((luma / 255) * 15) + shift
+    lv = lv < 0 ? 0 : lv > 15 ? 15 : lv
+    const col = palette.colors[band | lv] ?? [0, 0, 0]
+    d[i] = col[0] ?? 0
+    d[i + 1] = col[1] ?? 0
+    d[i + 2] = col[2] ?? 0
+  }
+  c.putImageData(im, 0, 0)
+  monoIconCache.set(key, cvs)
+  return cvs
+}
+
+/**
+ * 主菜单 4 图标(一阶段 uibattle.c:1067-1078 三态):选中=全彩;可用未选=灰
+ * (MonoColor 0x00,−4);不可用=**暗红**(MonoColor 0x10,−4)。无 palette 时退化滤镜。
  * icons 序 = 0攻击 1法术 2合击 3杂项。
  */
 export function drawMainIcons(
@@ -248,6 +289,7 @@ export function drawMainIcons(
   selected: number,
   valid: readonly boolean[],
   highlight: boolean,
+  palette?: Palette,
 ): void {
   MAIN_ICON_POS.forEach((pos, i) => {
     const img = icons[i]
@@ -256,8 +298,12 @@ export function drawMainIcons(
       ctx.drawImage(img, pos.x, pos.y) // 选中 = 全彩
       return
     }
+    const band = valid[i] ? 0x00 : 0x10
+    if (palette) {
+      ctx.drawImage(monoIcon(img, `${i}:${band}`, palette, band, -4), pos.x, pos.y)
+      return
+    }
     ctx.save()
-    // 一阶段 MonoColor(0,-4)/(0x10,-4) 的 RGBA 近似:可用灰阶 / 不可用更暗
     ctx.filter = valid[i] ? 'grayscale(1) brightness(0.8)' : 'grayscale(1) brightness(0.45)'
     ctx.drawImage(img, pos.x, pos.y)
     ctx.restore()
@@ -325,7 +371,8 @@ export function drawItemDetailBox(
 }
 
 /** 当前行动队员头顶三角(一阶段 68红/69常 闪烁)。
- *  锚 = 精灵**底中**固定偏移(uibattle.c:1004:blit 至 x−8, y−74),与精灵高度无关。 */
+ *  锚 = 底中偏移 (−8, −74) **照抄原版 blit**(uibattle.c:1004;CURSOR 帧 9×6,
+ *  故三角中心在 pos.x−4 —— 不做 width/2 居中换算,作者原版截图它就在头顶正上)。 */
 export function drawCurrentFinger(
   ctx: CanvasRenderingContext2D,
   menu: MenuAssets,
@@ -334,5 +381,5 @@ export function drawCurrentFinger(
   now: number,
 ): void {
   const img = Math.floor(now / 160) % 2 === 0 ? menu.cursorDown : menu.cursorGrid
-  if (img) ctx.drawImage(img, baseX - (img.width >> 1), baseY - 74)
+  if (img) ctx.drawImage(img, baseX - 8, baseY - 74)
 }

@@ -15,8 +15,8 @@ export interface BattleSpriteDraw {
   y: number
   /** 当前帧下标(idle=0;M4b-3 动画驱动改)。 */
   frame: number
-  /** 受击/演出染色等级(一阶段 iColorShift 的 RGBA 等价:向白混合 n/6×85%;
-   *  受击闪白=6 近乎全白,召唤渐升)。0/缺省 = 无。 */
+  /** 受击/演出染色等级(一阶段 iColorShift 1:1:索引低 4 位 + n 顶格,bakeFrame 内做;
+   *  受击=6 时各部位提到各自色系亮档、层次保留)。0/缺省 = 无。 */
   colorShift?: number
   /** 不透明度(缺省 1;死亡改走 dissolve)。 */
   alpha?: number
@@ -107,29 +107,6 @@ export function drawDissolved(
   ctx.drawImage(off, 0, 0, img.width, img.height, dx, dy, img.width, img.height)
 }
 
-// ── 受击/演出闪白(iColorShift 的 RGBA 等效:精灵形状内向白混合)──
-let flashScratch: HTMLCanvasElement | undefined
-
-/** 返回叠了白色(强度 t∈0..1,峰值 85% 白)的精灵离屏;t≤0 原样返回。 */
-function withWhiteFlash(img: CanvasImageSource & { width: number; height: number }, t: number): CanvasImageSource {
-  if (t <= 0) return img
-  if (!flashScratch) flashScratch = document.createElement('canvas')
-  const off = flashScratch
-  if (off.width < img.width) off.width = img.width
-  if (off.height < img.height) off.height = img.height
-  const octx = off.getContext('2d')
-  if (!octx) return img
-  octx.save()
-  octx.clearRect(0, 0, off.width, off.height)
-  octx.drawImage(img, 0, 0)
-  octx.globalCompositeOperation = 'source-atop' // 只染精灵不透明像素
-  octx.fillStyle = `rgba(255,255,255,${(t * 0.85).toFixed(3)})`
-  octx.fillRect(0, 0, img.width, img.height)
-  octx.restore()
-  // scratch 只增不减;超出 img 的区域已 clear 为透明,调用方整图 drawImage 无残影
-  return off
-}
-
 /**
  * 画一帧战斗场景到 ctx(逻辑 320×200 × worldScale)。
  * 顺序:背景 → 敌人(靠上先画)→ 队员(靠下后画),底锚对齐 = x 水平居中、y 脚底。
@@ -153,7 +130,8 @@ export function renderBattleScene(
   for (const d of all) {
     const f = d.sprite.frames[d.frame] ?? d.sprite.frames[0]
     if (!f) continue
-    const img = bakeFrame(f, scene.palette)
+    // colorShift 直接在索引层做原版低 4 位偏移(bakeFrame 内;≠ 白色平涂,层次保留)
+    const img = bakeFrame(f, scene.palette, d.colorShift ?? 0)
     const dx = Math.round(d.x - f.width / 2)
     const dy = Math.round(d.y - f.height)
     if (d.dissolve !== undefined) {
@@ -161,16 +139,10 @@ export function renderBattleScene(
       continue
     }
     const alpha = d.alpha ?? 1
-    const shift = d.colorShift ?? 0
-    if (shift > 0 || alpha < 1) {
+    if (alpha < 1) {
       ctx.save()
-      if (alpha < 1) ctx.globalAlpha = Math.max(0, alpha)
-      // iColorShift = 原版调色板低 4 位加 shift 顶格(palcommon.c:398-411,经一阶段
-      // blitFrame):同色相内亮度顶满 → 观感「闪白」(shift6 时人物近乎全白,作者原版
-      // 行军丹截图佐证)。RGBA 等效 = 向白混合;此前 brightness() 乘性提亮对暗色像素
-      // 几乎无效、闪不白 = 作者报「动画别扭」的一环。上传素材(quantize 调色板无 band
-      // 结构)不宜做索引位移,白混对两类素材观感统一。
-      ctx.drawImage(withWhiteFlash(img, Math.min(shift, 6) / 6), dx, dy)
+      ctx.globalAlpha = Math.max(0, alpha)
+      ctx.drawImage(img, dx, dy)
       ctx.restore()
     } else {
       ctx.drawImage(img, dx, dy)
