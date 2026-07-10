@@ -190,14 +190,14 @@ describe('M4d-2 战斗动画时间线', () => {
     const { events, player } = record(frames)
     let guard = 0
     while (!player.tick(50) && guard++ < 200) {}
-    // 前移 = 连续走 3 步且**先快后慢**(作者对照原版 pal.exe 裁决:ease-out,非线性非瞬移):
-    // 第一步就走过半(232 = 已走 8/15),末步只挪 2px(227→225)
-    expect(events).toContain('f:player1@232,166')
-    expect(events).toContain('f:player1@227,164')
+    // 前移 = 120ms 细分 11 中间帧 ×10ms、二次 ease-out 先快后慢(作者两轮对照原版
+    // pal.exe 裁决:连续、先快后慢、非瞬移;40ms 大步长「三大跳」曾被报不顺畅)
+    const walk = events.filter((e) => /^f:player1@/.test(e))
+    expect(walk.length).toBe(11) // 归位瞬移:无走回中间帧,纯 pos 事件只有走近段
+    expect(walk[0]).toBe('f:player1@238,169') // 首帧已在动
+    expect(walk).toContain('f:player1@229,165') // 中点(60ms)已走完 75% 路程 = 先快
+    expect(events.indexOf(walk[0]!)).toBeLessThan(events.indexOf('f:player1#5@225,163'))
     expect(events).toContain('f:player1#5@225,163') // 到位举物姿
-    expect(events.indexOf('f:player1@232,166')).toBeLessThan(events.indexOf('f:player1#5@225,163'))
-    // 归位 = 瞬移(无走回中间帧):colorShift 降段后直接复位帧
-    expect(events.filter((e) => /^f:player1@/.test(e)).length).toBe(2)
     expect(events).toContain('snd:28') // 用品音(fight.c:2300)
     expect(events).toContain('f:player1c6') // 呼吸峰值
     expect(events).toContain('f:player1c0') // 降回

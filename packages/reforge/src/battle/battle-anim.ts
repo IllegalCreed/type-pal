@@ -314,11 +314,14 @@ export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
     x: Math.round(casterPos.x + (shifted.x - casterPos.x) * t),
     y: Math.round(casterPos.y + (shifted.y - casterPos.y) * t),
   })
-  // 中间 2 帧先快后慢(二次 ease-out),终点并入举物帧(到位即抬手)
-  for (let s = 1; s <= 2; s++) {
-    const ease = 1 - (1 - s / 3) ** 2
+  // 走近 120ms 细分 12 段 ×10ms(rAF ~16.7ms 每帧都跨到新位置 = 平滑;40ms 大步长
+  // 曾被作者报「不顺畅」—— 三大跳不是滑动)。二次 ease-out 先快后慢,前 40ms 走完
+  // 过半路程;终点并入举物帧(到位即抬手)。
+  const WALK_STEPS = 12
+  for (let s = 1; s < WALK_STEPS; s++) {
+    const ease = 1 - (1 - s / WALK_STEPS) ** 2
     frames.push({
-      durationMs: delayMs(1),
+      durationMs: 10,
       fighters: [{ side: 'player', idx: casterIdx, pos: stepPos(ease) }],
     })
   }
