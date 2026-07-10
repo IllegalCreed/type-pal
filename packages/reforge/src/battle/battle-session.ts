@@ -24,6 +24,7 @@ import {
   buildMateAttack,
   buildPlayerAttack,
   buildPlayerAttackAll,
+  buildUseItem,
   buildPlayerCast,
   buildPlayerCoop,
   type CastFxParams,
@@ -185,6 +186,8 @@ export class BattleSession {
   // ── M4c-2 演出(choreography):轮起手钩,dialog 逐条横幅播,空格推进 ──
   private choreoQueue: Command[] = []
   private choreoBanner: { name: string; text: string } | null = null
+  /** 物品使用横幅(fight.c:2316 物品名@(210,50) 白字;13 帧 ≈520ms 到期自清)。 */
+  private itemBanner: { text: string; untilMs: number } | null = null
   private choreoName = ''
   private choreoFired = new Map<number, Set<number>>() // 敌槽 → 已播钩子下标
   private choreoTurn = 0 // 已收集过演出的轮次
@@ -999,6 +1002,7 @@ export class BattleSession {
       kind: string
       target?: number
       skillId?: string
+      itemId?: string
       crit?: boolean
       secondDamage?: number
       attackAllHits?: { idx: number; value: number }[]
@@ -1014,6 +1018,14 @@ export class BattleSession {
     // 合击:走 buildCastTimeline(内含 coopContributors 分支 → buildPlayerCoop 聚拢队形演出;
     // 召唤类合击落 summon 段直接播召唤动画)。
     if (la.kind === 'coop') return this.buildCastTimeline(la, pHp, eHp)
+    // 使用物品(fight.c:2266 举物 + 目标彩色呼吸;v1 施己 → 目标 = 自己)
+    if (la.kind === 'item' && la.side === 'player') {
+      const casterPos = getPlayerBasePos(s.players.length, la.idx)
+      if (!casterPos) return null
+      const itemName = la.itemId ? s.items[la.itemId]?.name : undefined
+      if (itemName) this.itemBanner = { text: itemName, untilMs: this.nowMs + 13 * 40 }
+      return buildUseItem({ casterIdx: la.idx, casterPos, targetIdxs: [la.idx] })
+    }
     // 投掷道具(frame5 投掷姿 → 目标染色闪 → 复位;数字不显 —— 下毒无即时伤害)
     if (la.kind === 'throw' && la.side === 'player' && la.target !== undefined) {
       const attackerPos = getPlayerBasePos(s.players.length, la.idx)
@@ -1480,6 +1492,17 @@ export class BattleSession {
       const pos = getPlayerBasePos(s.players.length, sel)
       const spriteH = this.assets.playerSprites[sel]?.frames[0]?.height ?? 60
       if (pos) drawCurrentFinger(ctx, ui, pos.x, pos.y - spriteH, now)
+    }
+
+    // 物品使用横幅:物品名 @(210,50) 白字(fight.c:2316 PAL_DrawText color15;到期自清)
+    if (this.itemBanner) {
+      if (now >= this.itemBanner.untilMs) this.itemBanner = null
+      else
+        renderSpans(ctx, [{ text: this.itemBanner.text }], 210, 50, {
+          glyphs: g,
+          shadow: true,
+          forceRgba: [255, 255, 255],
+        })
     }
 
     // 战斗内对话框 = 大世界同款 DialogBox 叠战斗场景上(一阶段真值;text.c:1687 不擦底)。

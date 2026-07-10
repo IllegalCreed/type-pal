@@ -136,6 +136,8 @@ export interface BattleState {
     target?: number
     /** cast 动作的技能 id(表现层查 animation 播特效)。 */
     skillId?: string
+    /** item/throw 动作的物品 id(表现层显示物品名 + 查图标)。 */
+    itemId?: string
     /** 物攻暴击(1/6 或狂暴;表现层取暴击音,fight.c:2065-2069)。 */
     crit?: boolean
     /** 连击第二击伤害(dualAttack;present 追加第二挥击,音效落不同帧)。 */
@@ -920,6 +922,7 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
       ? { target: act.targetEnemyIdx }
       : {}),
     ...('skillId' in act ? { skillId: act.skillId } : {}),
+    ...('itemId' in act ? { itemId: act.itemId } : {}),
   }
   const addHidden = (k: string, n: number): void => {
     p.hiddenCounts[k] = (p.hiddenCounts[k] ?? 0) + n

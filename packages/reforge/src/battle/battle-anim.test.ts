@@ -7,6 +7,7 @@ import {
   buildMateAttack,
   buildPlayerAttack,
   buildPlayerCast,
+  buildUseItem,
 } from './battle-anim.js'
 
 function record(frames: AnimFrame[]) {
@@ -176,6 +177,24 @@ describe('M4d-2 战斗动画时间线', () => {
     expect(events).toContain('f:player0@248,174c0') // 击退 +8,+4
     expect(events).toContain('f:enemy0#0@100,100') // 敌回位
     expect(events).toContain('f:player0#0@240,170') // 队员复位站立
+  })
+
+  test('使用物品:举物(-15,-7)frame5+音28 → 目标 colorShift 0..6..0 呼吸 → 复位(fight.c:2266)', () => {
+    const frames = buildUseItem({
+      casterIdx: 1,
+      casterPos: { x: 240, y: 170 },
+      targetIdxs: [1], // v1 施己
+    })
+    const { events, player } = record(frames)
+    let guard = 0
+    while (!player.tick(50) && guard++ < 200) {}
+    expect(events).toContain('f:player1#5@225,163') // 前移举物姿
+    expect(events).toContain('snd:28') // 用品音(fight.c:2300)
+    expect(events).toContain('f:player1c6') // 呼吸峰值
+    expect(events).toContain('f:player1c0') // 降回
+    expect(events).toContain('f:player1#0@240,170') // 复位
+    // 升 0..6 七级 + 降 5..0 六级 = 13 次染色事件
+    expect(events.filter((e) => /^f:player1c\d$/.test(e)).length).toBe(13)
   })
 
   test('actWaitFrames=0 的零长帧不卡死,一次 tick 全跨过', () => {

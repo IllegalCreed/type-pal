@@ -288,6 +288,38 @@ export function buildMateAttack(input: BuildMateAttackInput): AnimFrame[] {
   return frames
 }
 
+export interface BuildUseItemInput {
+  casterIdx: number
+  casterPos: { x: number; y: number }
+  /** 受益目标(v1 施己 = [casterIdx];将来 oneAlly/allAllies 直接传多目标)。 */
+  targetIdxs: number[]
+}
+
+/**
+ * 战斗使用物品(fight.c:2266-2335 PAL_BattleShowPlayerUseItemAnim;一阶段 buildUseItemTimeline
+ * 同源移植):Delay(4) → 施者前移(-15,-7)+frame5(举物姿)+sound 28 → 目标 colorShift
+ * 0..6 再 5..0(每级 1 帧)→ 复位施者 + 收尾停顿 Delay(8)(fight.c:4404-4406,飘字不叠下段)。
+ */
+export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
+  const { casterIdx, casterPos, targetIdxs } = input
+  const frames: AnimFrame[] = [{ durationMs: delayMs(4) }]
+  const shifted = { x: casterPos.x - 15, y: casterPos.y - 7 }
+  const targets = (shift: number): FighterDelta[] =>
+    targetIdxs.map((idx) => ({ side: 'player' as const, idx, colorShift: shift }))
+  for (let i = 0; i <= 6; i++) {
+    const fighters = targets(i)
+    if (i === 0) fighters.unshift({ side: 'player', idx: casterIdx, pos: shifted, frame: 5 })
+    frames.push({ durationMs: delayMs(1), fighters, ...(i === 0 ? { sound: 28 } : {}) })
+  }
+  for (let i = 5; i >= 0; i--) frames.push({ durationMs: delayMs(1), fighters: targets(i) })
+  // 复位施者(fight.c 由 UpdateFighters 收口;此处显式帧)+ DM12 收尾停顿
+  frames.push({
+    durationMs: delayMs(8),
+    fighters: [{ side: 'player', idx: casterIdx, pos: casterPos, frame: 0 }],
+  })
+  return frames
+}
+
 export interface BuildEnemyPhysicalInput {
   enemyIdx: number
   enemyPos: { x: number; y: number }
