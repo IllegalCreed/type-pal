@@ -301,10 +301,10 @@ export interface BuildUseItemInput {
 
 /**
  * 战斗使用物品(fight.c:2266-2335 PAL_BattleShowPlayerUseItemAnim;一阶段 buildUseItemTimeline
- * 同源移植):Delay(4) → 施者**连续走**到 (−15,−7) → frame5(举物姿)+sound 28+物品名同帧
- * → 目标 colorShift 0..6 再 5..0(每级 1 帧)→ 连续走回 + 收尾停顿 Delay(8)。
- * ⚠ 前移形态:sdlpal/一阶段是单帧直接赋值(瞬移),作者对照原版 pal.exe 裁决为
- * **连续移动**(2026-07-11)—— 跟原版,3 步 ×40ms 线性走近/走回。
+ * 同源移植):Delay(4) → 施者**先快后慢走近**(−15,−7)→ frame5(举物姿)+sound 28+物品名同帧
+ * → 目标 colorShift 0..6 再 5..0(每级 1 帧)→ **瞬移归位** + 收尾停顿 Delay(8)。
+ * ⚠ 前移形态:sdlpal/一阶段是单帧直接赋值(瞬移),作者对照原版 pal.exe 裁决
+ * (2026-07-11):走近 = 连续且**先快后慢**(ease-out),归位 = **瞬移** —— 跟原版。
  */
 export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
   const { casterIdx, casterPos, targetIdxs, itemName } = input
@@ -314,10 +314,12 @@ export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
     x: Math.round(casterPos.x + (shifted.x - casterPos.x) * t),
     y: Math.round(casterPos.y + (shifted.y - casterPos.y) * t),
   })
-  for (let s = 1; s <= 3; s++) {
+  // 中间 2 帧先快后慢(二次 ease-out),终点并入举物帧(到位即抬手)
+  for (let s = 1; s <= 2; s++) {
+    const ease = 1 - (1 - s / 3) ** 2
     frames.push({
       durationMs: delayMs(1),
-      fighters: [{ side: 'player', idx: casterIdx, pos: stepPos(s / 3) }],
+      fighters: [{ side: 'player', idx: casterIdx, pos: stepPos(ease) }],
     })
   }
   const targets = (shift: number): FighterDelta[] =>
@@ -334,13 +336,7 @@ export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
     })
   }
   for (let i = 5; i >= 0; i--) frames.push({ durationMs: delayMs(1), fighters: targets(i) })
-  // 走回(与走近对称,frame 复位后退场不突兀)+ DM12 收尾停顿
-  for (let s = 2; s >= 1; s--) {
-    frames.push({
-      durationMs: delayMs(1),
-      fighters: [{ side: 'player', idx: casterIdx, pos: stepPos(s / 3), frame: 0 }],
-    })
-  }
+  // 归位 = 瞬移(作者对照原版;fight.c 同为 UpdateFighters 直接复位)+ DM12 收尾停顿
   frames.push({
     durationMs: delayMs(8),
     fighters: [{ side: 'player', idx: casterIdx, pos: casterPos, frame: 0 }],

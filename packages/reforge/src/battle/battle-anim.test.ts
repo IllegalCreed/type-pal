@@ -190,11 +190,14 @@ describe('M4d-2 战斗动画时间线', () => {
     const { events, player } = record(frames)
     let guard = 0
     while (!player.tick(50) && guard++ < 200) {}
-    // 前移 = 连续走 3 步(作者对照原版 pal.exe 裁决,非 sdlpal 的单帧瞬移)
-    expect(events).toContain('f:player1@235,168')
-    expect(events).toContain('f:player1@230,165')
+    // 前移 = 连续走 3 步且**先快后慢**(作者对照原版 pal.exe 裁决:ease-out,非线性非瞬移):
+    // 第一步就走过半(232 = 已走 8/15),末步只挪 2px(227→225)
+    expect(events).toContain('f:player1@232,166')
+    expect(events).toContain('f:player1@227,164')
     expect(events).toContain('f:player1#5@225,163') // 到位举物姿
-    expect(events.indexOf('f:player1@235,168')).toBeLessThan(events.indexOf('f:player1#5@225,163'))
+    expect(events.indexOf('f:player1@232,166')).toBeLessThan(events.indexOf('f:player1#5@225,163'))
+    // 归位 = 瞬移(无走回中间帧):colorShift 降段后直接复位帧
+    expect(events.filter((e) => /^f:player1@/.test(e)).length).toBe(2)
     expect(events).toContain('snd:28') // 用品音(fight.c:2300)
     expect(events).toContain('f:player1c6') // 呼吸峰值
     expect(events).toContain('f:player1c0') // 降回
