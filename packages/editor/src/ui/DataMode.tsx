@@ -33,6 +33,7 @@ import { PoisonTab } from './PoisonTab.js'
 import { TilesetTab } from './TilesetTab.js'
 import { SkillTab } from './SkillTab.js'
 import { SpriteFrames } from './SpriteFrames.js'
+import { SpriteUploadWizard } from './SpriteUploadWizard.js'
 import { VarsTab } from './VarsTab.js'
 
 export type DataTab =
@@ -164,6 +165,7 @@ export function DataMode(props: {
   const [filter, setFilter] = useState('')
   const [kindFilter, setKindFilter] = useState<'all' | SpriteDef['layout']['kind']>('all')
   const [selId, setSelId] = useState(sprites[0]?.id ?? '')
+  const [uploadingSprite, setUploadingSprite] = useState(false)
 
   const shown = useMemo(
     () =>
@@ -286,6 +288,14 @@ export function DataMode(props: {
             <div className="pane-h">
               <span className="t">精灵</span>
               <span className="spacer" />
+              <button
+                type="button"
+                className="mini-txt"
+                title="上传 PNG 行走图/静物/循环动画,自动贴合工程主色风格"
+                onClick={() => setUploadingSprite(true)}
+              >
+                ＋ 上传精灵
+              </button>
               <span className="k">
                 {shown.length}/{sprites.length}
               </span>
@@ -334,11 +344,26 @@ export function DataMode(props: {
         )}
       </div>
 
-      {/* 中:精灵帧 */}
+      {/* 中:精灵帧(上传态 → 向导) */}
       <div className="center actor-center">
         {tab === 'sprite' ? (
-          sprite ? (
-            <SpriteFrames sprite={sprite} assetBase={assetBase} session={session} />
+          uploadingSprite ? (
+            <SpriteUploadWizard
+              sprites={sprites}
+              assetBase={assetBase}
+              session={session}
+              onDone={(id) => {
+                setUploadingSprite(false)
+                if (id) setSelId(id)
+              }}
+            />
+          ) : sprite ? (
+            <SpriteFrames
+              sprite={sprite}
+              assetBase={assetBase}
+              session={session}
+              blob={sprite.path ? tilesetBlobs[sprite.path] : undefined}
+            />
           ) : (
             <div className="insp-empty" style={{ padding: 40 }}>
               无精灵

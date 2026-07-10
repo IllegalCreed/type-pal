@@ -5,7 +5,7 @@
 
 import type { PoseDef, SpriteDef } from '@type-pal/content'
 import type { AssetBase, LoadedSprite } from '@type-pal/reforge'
-import { bakeFrame, deriveStepCycle, loadPalette, loadSprite } from '@type-pal/reforge'
+import { bakeFrame, decompressGzip, deriveStepCycle, loadPalette, loadSprite, parseSpriteChunk } from '@type-pal/reforge'
 import { useEffect, useRef, useState } from 'react'
 import { UpdateSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
@@ -53,8 +53,10 @@ export function SpriteFrames(props: {
   sprite: SpriteDef
   assetBase: AssetBase
   session: EditSession
+  /** 新上传未保存的字节(A4;内存解码优先,磁盘尚无此文件)。 */
+  blob?: ArrayBuffer
 }) {
-  const { sprite, assetBase, session } = props
+  const { sprite, assetBase, session, blob } = props
   const [loaded, setLoaded] = useState<LoadedSprite | null>(null)
   const [baked, setBaked] = useState<HTMLCanvasElement[]>([])
   const [err, setErr] = useState('')
@@ -99,7 +101,15 @@ export function SpriteFrames(props: {
     void (async () => {
       try {
         const [sp, pal] = await Promise.all([
-          loadSprite(assetBase, sprite.spriteNum),
+          blob
+            ? decompressGzip(new Blob([blob]))
+                .then(parseSpriteChunk)
+                .then((frames) => ({
+                  frames,
+                  anchorX: frames[0] ? Math.floor(frames[0].width / 2) : 0,
+                  anchorY: frames[0]?.height ?? 0,
+                }))
+            : loadSprite(assetBase, sprite.spriteNum, sprite.path),
           loadPalette(assetBase, 0),
         ])
         if (!alive) return
@@ -112,7 +122,7 @@ export function SpriteFrames(props: {
     return () => {
       alive = false
     }
-  }, [assetBase, sprite.spriteNum])
+  }, [assetBase, sprite.spriteNum, sprite.path, blob])
 
   if (err)
     return (

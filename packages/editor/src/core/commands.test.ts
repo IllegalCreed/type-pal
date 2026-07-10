@@ -7,6 +7,7 @@ import {
   AddEntityCommand,
   AddOwnMapLayerCommand,
   AddPoisonCommand,
+  AddSpriteCommand,
   CreateOwnMapCommand,
   CreateScriptSourceCommand,
   DeleteEnemyCommand,
@@ -16,6 +17,7 @@ import {
   PaintCollisionCommand,
   PaintTilesCommand,
   RemoveOwnMapLayerCommand,
+  RemoveSpriteCommand,
   ResizeOwnMapCommand,
   UpdateActorCommand,
   UpdateAmbienceCommand,
@@ -391,6 +393,43 @@ describe('D24 战场命令(不可变 + invert)', () => {
     const back = cmd.invert(s1)
     expect(back.battleFields![0]!.name).toBeUndefined() // name 清回未设
     expect(back.battleFields![0]!.magicEffect.fire).toBe(0)
+  })
+})
+
+describe('A4 精灵上传命令(不可变 + invert;blob 暂存进 tilesetBlobs)', () => {
+  const heroDef: SpriteDef = {
+    id: 'my-hero',
+    spriteNum: 600,
+    label: '我的主角',
+    layout: { kind: 'directional', framesPerDir: 3 },
+    path: 'assets/sprites/my-hero.rle',
+  }
+  function stS(): EditorState {
+    const base = st() as EditorState & { tilesetBlobs: Record<string, ArrayBuffer> }
+    base.tilesetBlobs = {}
+    return base
+  }
+  test('AddSprite:注册表追加 + 字节暂存到 path;invert 双清;源不变', () => {
+    const s0 = stS()
+    const blob = new ArrayBuffer(8)
+    const cmd = new AddSpriteCommand(heroDef, blob)
+    const s1 = cmd.apply(s0)
+    expect(s1.sprites.map((s) => s.id)).toContain('my-hero')
+    expect(s1.tilesetBlobs['assets/sprites/my-hero.rle']).toBe(blob)
+    expect(s0.sprites.map((s) => s.id)).not.toContain('my-hero') // 源不变
+    const back = cmd.invert(s1)
+    expect(back.sprites.map((s) => s.id)).not.toContain('my-hero')
+    expect(back.tilesetBlobs['assets/sprites/my-hero.rle']).toBeUndefined()
+  })
+  test('RemoveSprite:移除 + 清暂存;invert 插回原位带字节', () => {
+    const s0 = new AddSpriteCommand(heroDef, new ArrayBuffer(8)).apply(stS())
+    const cmd = new RemoveSpriteCommand('my-hero')
+    const s1 = cmd.apply(s0)
+    expect(s1.sprites.some((s) => s.id === 'my-hero')).toBe(false)
+    expect(s1.tilesetBlobs['assets/sprites/my-hero.rle']).toBeUndefined()
+    const back = cmd.invert(s1)
+    expect(back.sprites[back.sprites.length - 1]?.id).toBe('my-hero') // 原位(末尾)
+    expect(back.tilesetBlobs['assets/sprites/my-hero.rle']).toBeInstanceOf(ArrayBuffer)
   })
 })
 

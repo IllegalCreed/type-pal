@@ -607,6 +607,7 @@ export function App(props: {
                   sprites={state.sprites}
                   selectedId={placeSpriteId}
                   assetBase={project.assetBase}
+                  blobs={state.tilesetBlobs}
                   onPick={setPlaceSpriteId}
                 />
               ) : selEntity ? (
@@ -674,9 +675,11 @@ function PlacePalette(props: {
   sprites: SpriteDef[]
   selectedId: string
   assetBase: AssetBase
+  /** 上传未保存的精灵字节(A4;键 = def.path,缩略图内存解码)。 */
+  blobs?: Record<string, ArrayBuffer>
   onPick: (id: string) => void
 }) {
-  const { sprites, selectedId, assetBase, onPick } = props
+  const { sprites, selectedId, assetBase, blobs, onPick } = props
   const [filter, setFilter] = useState('')
   const shown = sprites.filter(
     (s) =>
@@ -706,7 +709,12 @@ function PlacePalette(props: {
               className={`palette-row${s.id === selectedId ? ' sel' : ''}`}
               onClick={() => onPick(s.id)}
             >
-              <SpriteThumb assetBase={assetBase} spriteNum={s.spriteNum} />
+              <SpriteThumb
+                assetBase={assetBase}
+                spriteNum={s.spriteNum}
+                path={s.path}
+                blob={s.path ? blobs?.[s.path] : undefined}
+              />
               <span className="nm">
                 {s.label || s.id}
                 <span className="sub">

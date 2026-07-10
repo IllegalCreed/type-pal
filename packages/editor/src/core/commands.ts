@@ -1753,6 +1753,91 @@ export class UpdatePoisonCommand implements Command {
   }
 }
 
+// ── A4 自有精灵上传(镜像 W7B tileset:def 入注册表 + 字节暂存 tilesetBlobs)──
+// tilesetBlobs 名字是 W7B 起的,现泛化为「一切上传二进制」(键 = 工程相对路径);
+// serializeProject 对它一视同仁产出文件,不区分素材种类。
+
+/** 上传精灵入库:SpriteDef(含 path)入注册表 + .rle 字节暂存(保存时落盘)。 */
+export class AddSpriteCommand implements Command {
+  readonly label = '上传精灵'
+  private readonly def: SpriteDef
+  private readonly blob: ArrayBuffer
+
+  constructor(def: SpriteDef, blob: ArrayBuffer) {
+    this.def = structuredClone(def)
+    this.blob = blob
+  }
+
+  apply(state: EditorState): EditorState {
+    if (state.sprites.some((s) => s.id === this.def.id)) return state
+    const path = this.def.path
+    return {
+      ...state,
+      sprites: [...state.sprites, structuredClone(this.def)],
+      ...(path ? { tilesetBlobs: { ...state.tilesetBlobs, [path]: this.blob } } : {}),
+    }
+  }
+
+  invert(state: EditorState): EditorState {
+    const path = this.def.path
+    let tilesetBlobs = state.tilesetBlobs
+    if (path) {
+      const { [path]: _drop, ...rest } = state.tilesetBlobs
+      tilesetBlobs = rest
+    }
+    return {
+      ...state,
+      sprites: state.sprites.filter((s) => s.id !== this.def.id),
+      tilesetBlobs,
+    }
+  }
+}
+
+/** 移除上传精灵条目(捕获条目+暂存字节供 invert;原版精灵条目也可移,引用悬空由校验层报)。 */
+export class RemoveSpriteCommand implements Command {
+  readonly label = '移除精灵'
+  private removed: SpriteDef | undefined
+  private removedIndex: number | undefined
+  private removedBlob: ArrayBuffer | undefined
+
+  constructor(private readonly spriteId: string) {}
+
+  apply(state: EditorState): EditorState {
+    const index = state.sprites.findIndex((s) => s.id === this.spriteId)
+    if (index < 0) return state
+    const def = state.sprites[index]!
+    if (!this.removed) {
+      this.removed = structuredClone(def)
+      this.removedIndex = index
+      this.removedBlob = def.path ? state.tilesetBlobs[def.path] : undefined
+    }
+    let tilesetBlobs = state.tilesetBlobs
+    if (def.path) {
+      const { [def.path]: _drop, ...rest } = state.tilesetBlobs
+      tilesetBlobs = rest
+    }
+    return {
+      ...state,
+      sprites: state.sprites.filter((s) => s.id !== this.spriteId),
+      tilesetBlobs,
+    }
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.removed || this.removedIndex === undefined) return state
+    const sprites = [...state.sprites]
+    sprites.splice(this.removedIndex, 0, this.removed)
+    return {
+      ...state,
+      sprites,
+      tilesetBlobs:
+        this.removedBlob !== undefined && this.removed.path
+          ? { ...state.tilesetBlobs, [this.removed.path]: this.removedBlob }
+          : state.tilesetBlobs,
+    }
+  }
+}
+
 // ── W6 氛围(昼夜)────────────────────────────────────────────────
 
 export type AmbiencePatch = Partial<Omit<AmbienceDef, 'id'>>

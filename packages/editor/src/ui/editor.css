@@ -2262,6 +2262,34 @@ body {
   white-space: nowrap;
 }
 
+/* ── 数据页中栏滚动容器(.dscroll:TilesetTab / 精灵上传向导共用)──
+   曾无任何规则:落在 .center 的 auto 行,内容超高 = 被 .editor overflow:hidden 裁死且
+   无人能滚(与「指令手册看不到」同病根)。跨两行占满中栏 + 自滚,一条规则根治两页。 */
+.center > .dscroll {
+  grid-row: 1 / -1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* ── 精灵上传向导(A4):行走图按向分行预览 ── */
+.sprite-dir-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 2px 0;
+}
+.sprite-dir-label {
+  flex: none;
+  width: 18px;
+  text-align: right;
+}
+.sprite-dir-row .tile-grid {
+  flex: 1;
+  min-height: 0;
+  padding: 2px;
+  justify-content: start;
+}
+
 /* ── 氛围页(W6):乘色拾色 + multiply 滤镜预览条(所见即引擎效果)── */
 .amb-tint {
   display: inline-flex;

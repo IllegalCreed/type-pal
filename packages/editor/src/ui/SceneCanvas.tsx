@@ -141,6 +141,12 @@ export function SceneCanvas(props: {
       ].filter((n): n is number => n != null),
     ),
   ]
+  // A4 自有上传精灵源(path 双轨 + 未保存字节内存优先)
+  const spriteSources = new Map(
+    sprites
+      .filter((s) => s.path)
+      .map((s) => [s.spriteNum, { path: s.path, blob: tilesetBlobs?.[s.path!] }] as const),
+  )
   const { status, err, loadedRef } = useSceneAssets({
     canvasRef,
     assetBase,
@@ -149,6 +155,7 @@ export function SceneCanvas(props: {
     ownMaps,
     tilesets,
     tilesetBlobs,
+    spriteSources,
   })
 
   useEffect(() => {

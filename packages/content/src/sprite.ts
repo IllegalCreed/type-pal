@@ -44,4 +44,10 @@ export interface SpriteDef {
   layout: SpriteLayout
   /** 命名姿势(C1;名字 → 帧序列 + 播放方式)。脚本按名字引用(不记裸帧号)。 */
   poses?: Record<string, PoseDef>
+  /**
+   * 自有上传精灵的 .rle 路径(A4;W7B tileset 同约定:`assets/` 前缀 = 工程根相对)。
+   * 缺省 = 原版号约定 `{root}/{sprites}/{spriteNum}.rle`。上传条目 spriteNum 仍分配唯一号
+   * (spriteByNum 缓存键不变),仅加载路径改走本字段。
+   */
+  path?: string
 }

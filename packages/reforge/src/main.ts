@@ -437,10 +437,13 @@ async function main(): Promise<void> {
       ...partySpriteNums, // E7/C7 队伍精灵(含 setParty 中途入队者)一并加载/保护
       ...[...defs.values()].map((d) => d.spriteNum),
     ])
+    // A4 自有上传精灵按 def.path 加载(num→path;同号多 def 时任取 —— path 只有上传条目有)
+    const pathByNum = new Map<number, string>()
+    for (const d of Object.values(project.spritesById)) if (d.path) pathByNum.set(d.spriteNum, d.path)
     const missing = [...needed].filter((n) => !spriteByNum.has(n))
     await Promise.all(
       missing.map(async (n) => {
-        spriteByNum.set(n, await loadSprite(project.assetBase, n))
+        spriteByNum.set(n, await loadSprite(project.assetBase, n, pathByNum.get(n)))
       }),
     )
     // 精灵 LRU(GLM x-shell G8.2:曾无界累积):recency touch 本场景所需 → 超 cap 淘汰
@@ -717,7 +720,7 @@ async function main(): Promise<void> {
       }
       const def = requireSpriteDef(spriteId, `0x65 换装 ${actorId}`)
       const frames =
-        spriteByNum.get(def.spriteNum) ?? (await loadSprite(project.assetBase, def.spriteNum))
+        spriteByNum.get(def.spriteNum) ?? (await loadSprite(project.assetBase, def.spriteNum, def.path))
       spriteByNum.set(def.spriteNum, frames)
       // 切回本体精灵 = 撤销覆盖(严格等价:override 恒生效,但本体时置 null 让存档/调试态干净)
       leaderSpriteOverride = def.spriteNum === leaderSpriteDef.spriteNum ? null : { def, frames }
@@ -787,7 +790,7 @@ async function main(): Promise<void> {
         if (!def) continue
         partySpriteNums.add(def.spriteNum)
         if (!spriteByNum.has(def.spriteNum)) {
-          void loadSprite(project.assetBase, def.spriteNum).then((sp) => {
+          void loadSprite(project.assetBase, def.spriteNum, def.path).then((sp) => {
             spriteByNum.set(def.spriteNum, sp)
           })
         }

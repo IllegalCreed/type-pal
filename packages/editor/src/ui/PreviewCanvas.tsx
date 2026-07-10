@@ -134,6 +134,16 @@ export function PreviewCanvas(props: {
     return [...nums]
   }, [scene, stages, spriteById, leaderSpriteId])
 
+  // A4 自有上传精灵源(path 双轨 + 未保存字节内存优先)
+  const spriteSources = useMemo(
+    () =>
+      new Map(
+        sprites
+          .filter((s) => s.path)
+          .map((s) => [s.spriteNum, { path: s.path, blob: tilesetBlobs?.[s.path!] }] as const),
+      ),
+    [sprites, tilesetBlobs],
+  )
   const { status, err, loadedRef } = useSceneAssets({
     canvasRef,
     assetBase,
@@ -142,6 +152,7 @@ export function PreviewCanvas(props: {
     ownMaps,
     tilesets,
     tilesetBlobs,
+    spriteSources,
   })
 
   // rAF:tick 演出 + 合成一帧

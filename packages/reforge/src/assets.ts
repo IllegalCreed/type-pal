@@ -108,9 +108,19 @@ export interface LoadedSprite {
   anchorY: number
 }
 
-/** 原版大世界精灵:{root}/{sprites}/{spriteNum}.rle(gzip RLE 帧组)。 */
-export async function loadSprite(base: AssetBase, spriteNum: number): Promise<LoadedSprite> {
-  const raw = await readAssetBytes(base, `${base.root}/${base.sprites}/${spriteNum}.rle`, `sprite ${spriteNum}`)
+/**
+ * 大世界精灵(gzip RLE 帧组)。双轨(A4,W7B tileset 同约定):
+ * - path 缺省 → 原版号约定 `{root}/{sprites}/{spriteNum}.rle`;
+ * - path 有值 → `assets/` 前缀 = 工程根相对(自有上传,不拼 root —— pal 的 root 是
+ *   /extracted/data,拼上必 404);其余 = assets-root 相对。
+ */
+export async function loadSprite(base: AssetBase, spriteNum: number, path?: string): Promise<LoadedSprite> {
+  const full = path
+    ? path.startsWith('assets/')
+      ? path
+      : `${base.root}/${path}`
+    : `${base.root}/${base.sprites}/${spriteNum}.rle`
+  const raw = await readAssetBytes(base, full, `sprite ${path ?? spriteNum}`)
   const frames = parseSpriteChunk(await decompressGzip(new Blob([raw])))
   const first = frames[0]
   return {

@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from 'vitest'
 import type { AssetBase } from './assets.js'
-import { compressGzip, loadOwnMap, loadPalette, loadTilemap, loadTilesetByPath } from './assets.js'
+import { compressGzip, loadOwnMap, loadPalette, loadSprite, loadTilemap, loadTilesetByPath } from './assets.js'
 import type { FileSource } from './file-source.js'
 
 const base = (source?: FileSource): AssetBase => ({
@@ -85,5 +85,32 @@ describe('loadTilesetByPath 路径约定(W7B)', () => {
     await loadTilesetByPath(base(src), 'assets/tilesets/grass.rle')
     await loadTilesetByPath(base(src), 'tileset/20.rle')
     expect(seen).toEqual(['assets/tilesets/grass.rle', '/extracted/data/tileset/20.rle'])
+  })
+})
+
+describe('loadSprite 双轨路径(A4 自有上传)', () => {
+  const gz = async (): Promise<ArrayBuffer> => {
+    const out = await compressGzip(new Uint8Array([0, 0]))
+    return out.buffer.slice(out.byteOffset, out.byteOffset + out.byteLength) as ArrayBuffer
+  }
+  test('缺 path = 原版号约定;assets/ 前缀 path = 工程根相对(不拼 root);其余 path 拼 root', async () => {
+    const seen: string[] = []
+    const src: FileSource = {
+      readText: async () => '',
+      readJson: async <T>() => ({}) as T,
+      readBytes: async (rel: string) => {
+        seen.push(rel)
+        return gz()
+      },
+      urlFor: async (rel: string) => rel,
+    }
+    await loadSprite(base(src), 7) // 原版号
+    await loadSprite(base(src), 580, 'assets/sprites/hero.rle') // 自有上传
+    await loadSprite(base(src), 9, 'sprite/9.rle') // root 相对显式路径
+    expect(seen).toEqual([
+      '/extracted/data/sprite/7.rle',
+      'assets/sprites/hero.rle',
+      '/extracted/data/sprite/9.rle',
+    ])
   })
 })
