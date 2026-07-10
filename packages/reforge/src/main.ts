@@ -1900,6 +1900,7 @@ async function main(): Promise<void> {
           performance.now(),
           project.locale,
           project.items,
+          (sid) => project.skills[sid]?.name,
         )
       } else if (menu.openPanel === 'use') {
         drawUseMenu(
@@ -1911,6 +1912,7 @@ async function main(): Promise<void> {
           performance.now(),
           project.locale,
           project.items,
+          (sid) => project.skills[sid]?.name,
         )
       } else {
         // 级联(主菜单常驻;status 全屏分流在 render 内)。系统菜单 = 叠在主菜单级联上的子层。

@@ -73,9 +73,10 @@ export function drawUseMenu(
   now: number,
   locale: Locale,
   items: ItemDataMap,
+  skillNameOf?: (id: string) => string | undefined,
 ): void {
   // ① 整宽物品列表(两阶段都画;pick-target 时右两列被黄框盖)
-  drawItemGridList(ctx, state.items, state.cursor, world, assets, glyphs, now)
+  drawItemGridList(ctx, state.items, state.cursor, world, assets, glyphs, now, skillNameOf)
   if (state.phase !== 'pick-target') return
 
   const caster = world.party[0] // demo 单人 = 目标

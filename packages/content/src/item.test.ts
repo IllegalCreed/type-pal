@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import type { CharacterInstance, WorldState } from './character.js'
 import {
+  describeEquipEffects,
   effectiveGrantedStatuses,
   effectiveRegen,
   effectiveResistances,
@@ -300,5 +301,49 @@ describe('大蒜临时毒抗(useItem extraPoisonRes → char.extraPoisonRes;缩�
     const w0 = world([{ itemId: 'garlic', count: 1 }])
     w0.party[0]!.extraPoisonRes = 50
     expect(useItem(w0, 'hero', 'garlic', garlic).party[0]?.extraPoisonRes).toBe(50) // max(50,30)
+  })
+})
+
+describe('describeEquipEffects(装备效果 → 派生文案:说明脱节的根治,单一真相源)', () => {
+  test('长鞭:数值并排一行 + 攻击全体独占行(原迁移 desc 漏掉的 attackAll,派生补上)', () => {
+    expect(
+      describeEquipEffects([
+        { kind: 'statBonus', stat: 'attack', delta: 20 },
+        { kind: 'statBonus', stat: 'speed', delta: 20 },
+        { kind: 'attackAll' },
+      ]),
+    ).toEqual(['武术+20　身法+20', '攻击全体'])
+  })
+  test('负数保留符号(短刀 身法-5)', () => {
+    expect(
+      describeEquipEffects([
+        { kind: 'statBonus', stat: 'attack', delta: 6 },
+        { kind: 'statBonus', stat: 'speed', delta: -5 },
+      ]),
+    ).toEqual(['武术+6　身法-5'])
+  })
+  test('数值全并一行:上限 + 抗性(避X率带%,照原版灵珠措辞)', () => {
+    expect(
+      describeEquipEffects([
+        { kind: 'maxPool', pool: 'hp', delta: 50 },
+        { kind: 'resistance', element: 'fire', percent: 30 },
+        { kind: 'resistance', element: 'poison', percent: 20 },
+      ]),
+    ).toEqual(['体力上限+50　避火率+30%　避毒率+20%'])
+  })
+  test('授技能查名(缺 ctx 回退 id);常驻状态 + 回合回复各占一行', () => {
+    expect(
+      describeEquipEffects(
+        [
+          { kind: 'grantSkill', skillId: '336' },
+          { kind: 'grantStatus', status: 'dualAttack' },
+          { kind: 'regenHp', amount: 20 },
+        ],
+        { skillName: (id) => (id === '336' ? '山神' : undefined) },
+      ),
+    ).toEqual(['习得·山神', '常驻·连击', '每回合回体力+20'])
+  })
+  test('纯剧情装备(无机制效果)→ 空数组', () => {
+    expect(describeEquipEffects([])).toEqual([])
   })
 })

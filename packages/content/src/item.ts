@@ -35,6 +35,75 @@ export interface EquipSpec {
   effects: EquipEffect[]
 }
 
+/** 装备效果 → 人读效果文案(唯一出处)。**说明 desc 只写风味,数值一律派生自此**——
+ *  编辑器只读预览 + 运行时详情框/装备菜单都调它,彻底杜绝「说明写 +14、实际 delta 不一定」的脱节。 */
+export interface EquipDescribeCtx {
+  skillName?: (skillId: string) => string | undefined // grantSkill 授技能:id→名,缺省回退 id
+}
+const STAT_LABEL: Record<CombatStat, string> = {
+  attack: '武术',
+  magicAttack: '灵力',
+  defense: '防御',
+  speed: '身法',
+  luck: '吉运',
+}
+const EQUIP_ELEM_LABEL: Record<'poison' | 'wind' | 'thunder' | 'water' | 'fire' | 'earth', string> =
+  { poison: '毒', wind: '风', thunder: '雷', water: '水', fire: '火', earth: '土' }
+const EQUIP_STATUS_LABEL: Record<StatusId, string> = {
+  confused: '混乱',
+  paralyzed: '定身',
+  sleep: '睡眠',
+  silence: '沉默',
+  puppet: '傀儡',
+  bravery: '神勇',
+  protect: '护体',
+  haste: '加速',
+  dualAttack: '连击',
+}
+const signed = (n: number): string => (n >= 0 ? `+${n}` : `${n}`)
+
+/** 派生装备效果行(风味 desc 之外的机制文案)。数值(属性+上限+抗性)并成一行、全角空格分隔
+ *  (照原版 desc 密度,省详情框空间);攻击全体/常驻状态/授技能/回合回复各占一行。空数组→ []。 */
+export function describeEquipEffects(
+  effects: readonly EquipEffect[],
+  ctx?: EquipDescribeCtx,
+): string[] {
+  const numericPieces: string[] = [] // 武术+20 身法+20 体力上限+50 避火率+30%(全并一行)
+  const extraLines: string[] = [] // 攻击全体 / 常驻·连击 / 习得·山神 / 每回合回体力+20
+  for (const e of effects) {
+    switch (e.kind) {
+      case 'statBonus':
+        numericPieces.push(`${STAT_LABEL[e.stat]}${signed(e.delta)}`)
+        break
+      case 'maxPool':
+        numericPieces.push(`${e.pool === 'hp' ? '体力' : '真气'}上限${signed(e.delta)}`)
+        break
+      case 'resistance':
+        numericPieces.push(`避${EQUIP_ELEM_LABEL[e.element]}率${signed(e.percent)}%`) // 照原版灵珠措辞「避X率」
+        break
+      case 'attackAll':
+        extraLines.push('攻击全体')
+        break
+      case 'grantStatus':
+        extraLines.push(`常驻·${EQUIP_STATUS_LABEL[e.status]}`)
+        break
+      case 'grantSkill':
+        extraLines.push(`习得·${ctx?.skillName?.(e.skillId) ?? e.skillId}`)
+        break
+      case 'regenHp':
+        extraLines.push(`每回合回体力${signed(e.amount)}`)
+        break
+      case 'regenMp':
+        extraLines.push(`每回合回真气${signed(e.amount)}`)
+        break
+    }
+  }
+  const out: string[] = []
+  if (numericPieces.length) out.push(numericPieces.join('　'))
+  out.push(...extraLines)
+  return out
+}
+
 /** 使用效果 = 独立联合(≠ SkillEffect):回复类概念重叠 + 脚本/剧情/场景类。本期起步几个 kind,做使用菜单时扩充。 */
 export type ItemUseEffect =
   | { kind: 'healHp'; amount: number }

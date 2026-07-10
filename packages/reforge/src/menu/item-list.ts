@@ -1,7 +1,7 @@
 // 物品列表网格(装备/使用/投掷 共享):红框 3 列网格 + 数量 + 选中光标 + 底部 itembox + 图标 + 多行描述。
 // 布局取自一阶段 draw-inventory.ts / sdlpal itemmenu.c PAL_ItemSelectMenu。320 逻辑坐标,调用方已 ctx.scale。
 // items/cursor 由调用方传(装备过 equippableItems、使用过 usableItems,各自过滤)。
-import { equippedItemIds, type ItemData, type WorldState } from '@type-pal/content'
+import { describeEquipEffects, equippedItemIds, type ItemData, type WorldState } from '@type-pal/content'
 import type { GlyphTable } from '../text/glyph.js'
 import { renderSpans } from '../text/text-render.js'
 import { drawNumber, drawSlicedBox, type MenuAssets } from './menu-box.js'
@@ -25,6 +25,8 @@ const ICON_DY = 7
 const DESC_X = 71
 const DESC_Y = 151
 const DESC_LINE_H = 16 // 多行说明行距(sdlpal itemmenu.c desc 151+i*16)
+const DESC_RIGHT = 316 // 说明区右缘(裁剪滚动用)
+const DESC_VISIBLE = 3 // 详情框可见行数(高度所限);超出 → 自动上滚
 const COLOR_NORMAL = [199, 186, 174] as const // 0x4F 米白(物品名)
 const COLOR_DESC = [243, 239, 93] as const // 0x3C 浅黄(描述)
 const COLOR_EQUIPPED = [81, 93, 44] as const // 0xC8 橄榄绿(穿戴中的物品;原版 MENUITEM_COLOR_EQUIPPEDITEM)
@@ -38,6 +40,43 @@ const SELECTED_COLORS = [
   [243, 219, 105],
 ] as const
 
+/** 详情框多行说明:≤ 可见行数 → 静态;超出 → 裁剪到可见区 + 垂直无缝上滚(marquee),
+ *  首尾各画一遍无缝衔接。风味 + 派生效果都可能撑爆 3 行(灵珠系),滚动保证机制全看得到。 */
+function drawDescLines(
+  ctx: CanvasRenderingContext2D,
+  lines: string[],
+  glyphs: GlyphTable,
+  now: number,
+): void {
+  const draw = (line: string, y: number): void => {
+    renderSpans(ctx, [{ text: line }], DESC_X, Math.round(y), {
+      glyphs,
+      shadow: true,
+      forceRgba: COLOR_DESC,
+    })
+  }
+  if (lines.length <= DESC_VISIBLE) {
+    lines.forEach((line, i) => draw(line, DESC_Y + i * DESC_LINE_H))
+    return
+  }
+  const visH = DESC_VISIBLE * DESC_LINE_H
+  const gap = DESC_LINE_H * 2 // 一轮读完到重播的停顿间隔
+  const period = lines.length * DESC_LINE_H + gap
+  const scroll = ((now / 50) % period) // 约 50ms/px 上滚
+  ctx.save()
+  ctx.beginPath()
+  ctx.rect(DESC_X - 2, DESC_Y - 2, DESC_RIGHT - DESC_X + 2, visH)
+  ctx.clip()
+  for (const base of [0, period]) {
+    // 画两遍(相隔一个周期)→ 上滚到底时下一轮无缝接上
+    for (let i = 0; i < lines.length; i++) {
+      const y = DESC_Y - scroll + base + i * DESC_LINE_H
+      if (y > DESC_Y - DESC_LINE_H && y < DESC_Y + visH) draw(lines[i]!, y)
+    }
+  }
+  ctx.restore()
+}
+
 /** 物品列表(3 列网格 + 数量 + 选中光标)+ 选中物详情(itembox + 图标 + 多行描述)。 */
 export function drawItemGridList(
   ctx: CanvasRenderingContext2D,
@@ -47,6 +86,7 @@ export function drawItemGridList(
   assets: MenuAssets,
   glyphs: GlyphTable,
   now: number,
+  skillNameOf?: (id: string) => string | undefined, // grantSkill 派生效果显技能名(缺省回退 id)
 ): void {
   drawSlicedBox(ctx, assets.redBox, LIST_X, LIST_Y, LIST_W, LIST_H)
 
@@ -77,12 +117,10 @@ export function drawItemGridList(
   if (sel) {
     const icon = assets.itemIcons[sel.icon]
     if (icon) ctx.drawImage(icon, ITEMBOX_X + ICON_DX, ITEMBOX_Y + ICON_DY)
-    sel.desc.forEach((line, i) => {
-      renderSpans(ctx, [{ text: line }], DESC_X, DESC_Y + i * DESC_LINE_H, {
-        glyphs,
-        shadow: true,
-        forceRgba: COLOR_DESC,
-      })
-    })
+    // 风味说明 + 装备效果派生行(数值单一真相源 = equip.effects;desc 只写风味,防脱节)
+    const lines = sel.equip
+      ? [...sel.desc, ...describeEquipEffects(sel.equip.effects, { skillName: skillNameOf })]
+      : sel.desc
+    drawDescLines(ctx, lines, glyphs, now)
   }
 }

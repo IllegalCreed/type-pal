@@ -77,7 +77,7 @@
 |---|---|---|---|---|---|
 | C1 | 数据与属性 | ✅ | ✅ | 6 角色 | done;8 属性输入 |
 | C2 | 精灵动画与姿势 | ✅ | ✅ | 走/特殊动作 | 引擎+姿势框选工具 done。⚠ 数据欠账(2026-07-05 作者指出):579 精灵 0 poses,特殊动作帧混标在行走布局里 —— 手工标注活,工具已备;精灵库缺人物/物件维度过滤 |
-| C3 | 装备 | ⚠️ | ⚠️ | 6 槽装备 | 引擎(2026-07-05/06):equipItem 装上扣包/旧件回包/职业·持有校验(item.test 9 测)+ 菜单流 7 测 + **装备效果 live 派生全链**(五灵/毒抗插 calcMagicDamage、grantSkill 授术[土/圣灵珠]、dualAttack 连击双打、attackAll 长鞭全体、keepEffect 万剑诀插剑复活);待作者游戏内观感验收后引擎列转 ✅。编辑器:equip JSON 可编,结构化编辑缺 |
+| C3 | 装备 | ⚠️ | ✅ | 6 槽装备 | 引擎(2026-07-05/06):equipItem 装上扣包/旧件回包/职业·持有校验(item.test 9 测)+ 菜单流 7 测 + **装备效果 live 派生全链**(五灵/毒抗插 calcMagicDamage、grantSkill 授术[土/圣灵珠]、dualAttack 连击双打、attackAll 长鞭全体、keepEffect 万剑诀插剑复活);待作者游戏内观感验收后引擎列转 ✅。**编辑器(2026-07-10 C3):装备结构化(可装备开关/槽位/可装角色/效果链增删排序,照 SkillTab)+ 说明正名风味 + 「玩家看到」只读派生预览**;**数值单一真相源 = effects**(content `describeEquipEffects`,编辑器/游戏详情框/装备菜单同源;desc 去手拼效果、种子洗 105 件;详情框 >3 行自动上滚)——根治「说明写+14、实际 delta 不一定」脱节 |
 | C4 | 头像/立绘 | ✅ | ✅ | 对话立绘 | portrait bake 88;编辑器(2026-07-05):角色模式立绘编辑(主号+预览图/表情增删改名/整组增删,UpdateActorCommand 可 undo) |
 | C5 | 技能持有 | ✅ | ✅ | 仙术菜单 | 引擎 done(learnedSkills);编辑器(2026-07-05):SkillTab(90 技能列表/名字·说明·战外可用/消耗·目标·效果·动画 JSON 兜底,UpdateSkillCommand 可 undo) |
 | C7 | 队伍管理(入队/离队) | ✅ | ✅ | 0x75 setParty(隐龙窟门口) | done(2026-07-07,D22 reserve 方案):applySetParty 纯函数(在队保留原实例/reserve 搬回带状态/新人实例化/落选不清数据)+ setParty 指令 + 队伍精灵动态解析/懒加载/LRU 保护;reserve 随存档(旧档兜底)。迁移 0x75→setParty(102 处/63 场景)。编辑器:指令表单(中文名下拉有序表)。真机:隐龙窟门口全链 |

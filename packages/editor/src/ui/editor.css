@@ -2195,6 +2195,28 @@ body {
   color: var(--faint);
 }
 
+/* ── 装备效果派生预览(2026-07-10):玩家在游戏详情框/装备菜单看到的效果行,所见即所得 ── */
+.eq-derived {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 12px;
+  max-width: 648px;
+}
+.eq-derived > .lb {
+  font-size: 11px;
+  color: var(--faint);
+}
+.eq-derived-lines {
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.25);
+  color: #e8d8a0; /* 呼应游戏内详情框浅黄效果行 */
+  font-size: 13px;
+  line-height: 1.65;
+}
+
 /* ── 效果行内嵌预览(summon/trance 归位到对应行下,2026-07-05 作者定位) ── */
 .ef-preview-row {
   padding: 4px 8px 10px 104px; /* 缩进对齐 kind 下拉右侧字段区 */

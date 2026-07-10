@@ -77,8 +77,9 @@ function drawEquipList(
   assets: MenuAssets,
   glyphs: GlyphTable,
   now: number,
+  skillNameOf?: (id: string) => string | undefined,
 ): void {
-  drawItemGridList(ctx, state.items, state.cursor, world, assets, glyphs, now)
+  drawItemGridList(ctx, state.items, state.cursor, world, assets, glyphs, now, skillNameOf)
 }
 
 /** pick-role 阶段:换装面板(状态板 bg + 卷轴选中物 + 红名牌角色 + 6 槽当前装备 + 5 属性)。 */
@@ -178,10 +179,11 @@ export function drawEquipMenu(
   now: number,
   locale: Locale,
   items: ItemDataMap,
+  skillNameOf?: (id: string) => string | undefined,
 ): void {
   if (state.phase === 'pick-role') {
     drawEquipPickRole(ctx, state, world, assets, glyphs, locale, now, items)
     return
   }
-  drawEquipList(ctx, state, world, assets, glyphs, now)
+  drawEquipList(ctx, state, world, assets, glyphs, now, skillNameOf)
 }

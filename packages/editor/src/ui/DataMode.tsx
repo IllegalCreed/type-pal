@@ -185,6 +185,9 @@ export function DataMode(props: {
     return (
       <ItemTab
         items={itemList}
+        actors={actors}
+        skills={skillList}
+        locale={locale}
         assetBase={assetBase}
         session={session}
         itemRefs={refIndex.items}
