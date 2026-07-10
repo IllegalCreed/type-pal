@@ -11,7 +11,7 @@
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | [`W7C-3`](tasks/W7C-3-dual-layer-collision-brush.md) | 地图绘制:双层 + 碰撞笔刷 | review | User / 最终验收收口 | 三方均 accept,done allowed;仅作为旧 Tilemap 兼容切片。 |
-| [`W7D`](tasks/W7D-nlayer-map-schema.md) | 自有地图 N 层新格式(schema 返工) | review | Opus 主审 + 视觉对拍 | Codex 完成 `cd1ab67a` 并 accept;待 Opus、GLM done 审查签字。 |
+| [`W7D`](tasks/W7D-nlayer-map-schema.md) | 自有地图 N 层新格式(schema 返工) | review | GLM done 审查签字(提示词在卡尾) | Codex 实现 cd1ab67a + Opus 主审 accept;仅剩 GLM 签字后用户验收。 |
 
 ## 阻塞
 

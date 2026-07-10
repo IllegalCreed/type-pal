@@ -84,11 +84,11 @@ Branch: main
 ### 进入 done 前:审查签字
 
 - Codex: **accept**(2026-07-10;Coding Owner 自审通过;实现 `cd1ab67a`,全仓门禁与 6012 浏览器证据见 Build 段)
-- Opus: pending
+- Opus: **accept**(2026-07-10;主审通过 —— 架构/代码审 + 门禁独立重跑 + 6010 视觉复验与旧/新遮挡对拍全过,证据见 Review「Opus 主审」;3 条非阻塞小项随卡记录,不构成返工)
 - GLM: pending
-- counter / 返工处理:
+- counter / 返工处理: 当前无 counter。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: blocked(仅剩 GLM 审查签字)
 
 ## Draft: 设计与风险
 
@@ -185,7 +185,35 @@ Branch: main
 
 - Codex 自审:accept。实现满足设计约束,旧 `word/mask/h/lower/upper` 已退出自有地图 API;
   旧 `pixelToTile` 仅留 reuse 兼容碰撞路径。
-- Opus:pending。重点做架构/代码审查、同内容旧新遮挡对拍、6010/备用端口视觉复验。
+- Opus 主审(2026-07-10):**accept**。独立复验全过:
+  - **旧概念退出**:全仓扫描 encodeTileLayer*/[LAYER0|LAYER1|COLLISION]_MASK/SubTileEdit/subTilesInRect/floodFillSubTiles/paintCells 零残留;
+    MapMode 无 h/lower/upper/word/mask;`loadOwnMap` 加载边界过完整 `validateOwnMap`(assets.ts:73-75)。
+  - **代码审**:schema guard 齐(重复 id/尺寸/负值/空层全拒);五个层命令(Paint×2/Add/Remove/Move/Update)
+    均「首次 apply 捕获 + invert 精确还原」,Move 往返恒等、Remove 插回原 index;paintOwnMapTiles 按
+    layerId 分组不可变写、界外忽略;pixelToLattice/latticeCenter 几何与旧四分法同源(单测往返钉住)。
+  - **碰撞双入口语义正确**:像素入口(buildIsBlocked)单子格 → 服务编辑器红叠加(所画即所见);
+    逻辑格入口(isBlockedAt)两子格任一非 0 聚合 → 引擎行走全部消费此入口(main.ts:616/1486/1980),
+    聚合四态(空空/A/B/双阻)collision.test.ts:94 精确覆盖 —— GLM 覆盖补充 1 落地。
+  - **occlude null**:ownMapTilesInView 源头跳过 null(永不产出),own-map.test.ts:109 钉住
+    「null 不产渲染/cover 项 + 隐藏层不产项」—— GLM 覆盖补充 2 落地。
+  - **渲染几何对拍**:N 层 blit 公式(centerX-HALF_W, centerY-SUBROW)与旧路径 lower/upper blit
+    逐像素等价(偶行=旧 lower、奇行=旧 upper);occlude 深度基线 centerY+15 与旧 cover(+7+8)同源;
+    layerIndex/1000 稳定同格层序;「先铺后深度重绘」忠实沿用旧机制。
+  - **门禁独立重跑**:content 130 / reforge 245 / editor 91 / game 2294 全绿,四包 tc 0。
+  - **6010 视觉复验**:reuse 回归(s000 map20 + s001 map12 六民居墙/家具/NPC 深度序与历史逐像素一致);
+    新格式全流程(建图→层列表加层/改名/occlude 开关→双层绘制→碰撞标记→undo/redo);fiber 数据级验证
+    (v1、lattice 48×24、floor tileId=2 直存 9 瓦、layer-1 occlude=true 5 瓦、碰撞 2→undo 0→redo 2);
+    SceneCanvas 共享渲染(own 图两层瓦+进场点人形+金环)+ 220% 遮挡对拍(人形盖身后瓦、
+    前景石块正确前置于人形衣摆)。console 零错(仅 favicon 404)。
+  - **FSA 评估**:不需补真实 FSA 落盘 —— serialize→validateOwnMap 集成测试已覆盖格式 round-trip;
+    FSA 写盘是 P3 已验证的格式无关层,补测边际价值≈0。
+- Opus 非阻塞小项(记录,不构成返工):
+  ① `packages/reforge/src/index.ts:77-79` 仍导出 `pixelToTile` 且注释写「W7c 笔刷靶定」——
+    编辑器已不用,死出口 + 过时注释,建议收进 collision 内部或改注释(可交 GLM 文档轮或下卡顺手)。
+  ② 碰撞「视觉≠行为」观察:编辑器红叠加为子格粒度、引擎聚合为逻辑格 —— 作者画半格红可能误以为
+    另半格可走。聚合是定案的保守规则,非缺陷;建议后续在碰撞工具提示里写明「行走按整格聚合」。
+  ③ renderOwnMap 的 occlude 瓦全量入深度表(旧路径按精灵包围盒筛)——24×24 无感;
+    大图性能属分块留口范围,不在本卡。
 - GLM:pending。重点复核 schema guard、测试矩阵、文档与旧概念退役覆盖。
 - review 期间不得标记 done;任一 counter 转 rework。
 
@@ -198,32 +226,32 @@ Branch: main
 - 2026-07-10 User:指定 Codex 为 Coding Owner。
 - 2026-07-10 Codex:接手 build;碰撞聚合定为“两子格任一非 0 即阻挡”,`occlude` 的 `null` 不入遮挡表,D1/D2 不对外形成可编辑半成品。Next:完成 D1→D3 并自验证后转 review。
 - 2026-07-10 Codex:完成 D1→D3,提交 `cd1ab67a`;全仓 `pnpm check`、6012 多层/碰撞/撤销/SceneCanvas 与窄视口验证通过,状态转 review,Codex 签 accept。Next:Opus / 架构代码审查 + 视觉对拍。
+- 2026-07-10 Opus:主审 accept(代码审 + 门禁独立重跑 + 6010 旧/新遮挡对拍 + fiber 数据级复验;
+  GLM 两条覆盖补充确认落地;3 条非阻塞小项记录在 Review 段;FSA 补测评估为不需要)。
+  Evidence: Review「Opus 主审」段。Next: GLM / done 审查签字(用卡尾提示词)。
 
 ## 下一位 Agent 提示词
 
 ```text
 接手任务: W7D - 自有地图 N 层新格式(schema 级返工)
 任务卡: docs/ops/tasks/W7D-nlayer-map-schema.md
-当前状态: review(Codex accept;Opus/GLM done 审查签字 pending,不得标记 done)
+当前状态: review(Codex accept + Opus accept;GLM done 审查签字 pending,不得标记 done)
 实现提交: cd1ab67a feat(reforge): 落地 OwnMap v1 N 层地图
-你的角色: Opus 主审(架构/代码审查 + 视觉级复验)
-先读: AGENTS.md 三贤人协议;本卡全部(尤其上下文锚点、Build、Review);
-  docs/phase2/READ-FIRST.md;docs/phase2/decisions.md D16;
+你的角色: GLM done 审查签字(覆盖清单/测试矩阵/文档/旧概念退役覆盖)
+先读: AGENTS.md 三贤人协议;本卡全部(尤其 Build、Review「Opus 主审」段、你自己
+  设计签字时提的 2 条覆盖补充与 1 条风险提醒);docs/phase2/decisions.md D16;
   docs/phase2/foundation/content-schema.md §5。
-重点代码: packages/content/src/own-map.ts;
-  packages/reforge/src/{own-map,render,collision,assets,scene-map}.ts;
-  packages/editor/src/core/commands.ts;packages/editor/src/ui/MapMode.tsx。
-已完成:OwnMap v1 严格校验、旧/新地图加载渲染分流、稳定 layer.id 的 N 层命令/UI、
-  独立碰撞聚合、serialize→load 重开闭环;最终 pnpm check 全绿(game 2294/editor 91);
-  Codex 已在备用端口 6012 完成多层/碰撞/撤销/SceneCanvas/900px 两行 toolbar 实测。
-请你做:
-  1. 审 schema/API 是否彻底隔离旧 word/mask/h/lower-upper,稳定 id 与命令 invert 是否可靠;
-  2. 复核 collision 两子格聚合、occlude null 跳过及旧 reuse 路径零回归;
-  3. 在 6010(占用则另起端口)做同内容旧/新遮挡对拍与 UI 视觉复验;
-  4. 评估是否还需用临时目录补一次真实 FSA 保存→重开(自动集成测试已覆盖数据闭环)。
-输出要求:无阻塞 flaw 则在「进入 done 前:审查签字」Opus 行写 accept,并在 Review/交接
-  日志记录命令、视觉证据与剩余风险;发现问题则写 counter + 精确 file:line + 返工条件,
-  状态转 rework。提交你的任务卡更新。
-不要做:review 阶段不要直接改实现文件;不要标记 done(仍须 GLM accept + 用户最终验收)。
-完成后:给用户一段可直接复制给 GLM 的下一位 Agent 提示词,并同步写回本卡。
+已完成: Codex 实现 D1→D3 并自签 accept;Opus 主审 accept —— 代码审(旧概念零残留/
+  层命令 invert/双入口碰撞语义)、门禁独立重跑(content 130/reforge 245/editor 91/
+  game 2294)、6010 视觉复验(reuse 零回归 + 新格式全流程 + 220% 遮挡对拍 + fiber
+  数据级验证);你的覆盖补充 1(聚合四态 collision.test.ts:94)与补充 2(occlude null
+  own-map.test.ts:109)均确认落地;3 条非阻塞小项已记录(pixelToTile 死出口/碰撞
+  视觉-行为粒度提示/occlude 全量入表性能储备)。
+请你做: 从覆盖清单、测试矩阵、文档同步(content-schema §5 落地标注/capability-map/
+  engineering-notes)、旧概念退役完整性角度审查;确认你设计签字时的 2+1 条是否闭环;
+  输出 accept 或 counter + 理由。
+不要做: 不要改实现文件;不要标记 done(GLM accept 后仍须用户最终验收);
+  不要重新考证子格几何/碰撞聚合(已定案且有测试)。
+输出要求: 签字写回本卡「进入 done 前:审查签字」GLM 行(accept / counter + 理由),
+  说明 done 准入结论可否改 done allowed;由用户转达或有文件权限的一方代录。
 ```
