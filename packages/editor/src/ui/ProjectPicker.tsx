@@ -101,8 +101,8 @@ export function ProjectPicker(props: { onOpened: (o: Opened) => void; seedBaseUr
                 <span className="picker-act-d">选一个已有的本地工程文件夹继续编辑</span>
               </button>
               <button type="button" className="picker-act" onClick={onNewBlank}>
-                <span className="picker-act-t">✨ 新建空白工程(高级)</span>
-                <span className="picker-act-d">从零做新游戏;画地图前先编角色/道具/技能/对白(地图模块即将推出)</span>
+                <span className="picker-act-t">✨ 新建空白工程</span>
+                <span className="picker-act-d">从零做新游戏;自带一间起始草地房和占位主角,开箱即玩,素材逐步换成你自己的</span>
               </button>
             </div>
 

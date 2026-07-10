@@ -24,10 +24,13 @@ interface Booted {
   project: LoadedProject
   dir?: FileSystemDirectoryHandle
 }
-type Boot = Booted | { error: string } | null
+/** 四态摊开:loading 只属于 dev 首次自动载入;picker 在任何模式下都是真启动屏。
+ *  ⚠ 曾用 null 一态两义(dev=载入占位/生产=启动屏)→ dev 下「新建工程」回 null 永远卡
+ *  「载入工程…」(自动载入 effect 只跑一次,没人再载入;用户 FSA 烟测第一步撞死)。 */
+type Boot = Booted | { error: string } | 'loading' | 'picker'
 
 function Root() {
-  const [boot, setBoot] = useState<Boot>(null)
+  const [boot, setBoot] = useState<Boot>(DEV_AUTO ? 'loading' : 'picker')
 
   useEffect(() => {
     if (!DEV_AUTO || !PROJECT_ID) return
@@ -64,24 +67,27 @@ function Root() {
     })
   }
 
-  if (boot && 'error' in boot)
+  if (boot === 'loading') return <div className="boot">载入工程…</div>
+  if (boot === 'picker') return <ProjectPicker onOpened={onOpened} />
+  if ('error' in boot)
     return (
       <div className="boot">
         <div className="err">载入失败: {boot.error}</div>
+        {/* 错误也不能是死胡同:回启动屏换条路(打开/克隆/新建) */}
+        <button type="button" onClick={() => setBoot('picker')}>
+          回启动屏
+        </button>
       </div>
     )
-  if (boot)
-    return (
-      <App
-        session={boot.session}
-        project={boot.project}
-        initialDir={boot.dir}
-        onOpened={onOpened}
-        onBackToPicker={() => setBoot(null)}
-      />
-    )
-  if (DEV_AUTO) return <div className="boot">载入工程…</div>
-  return <ProjectPicker onOpened={onOpened} />
+  return (
+    <App
+      session={boot.session}
+      project={boot.project}
+      initialDir={boot.dir}
+      onOpened={onOpened}
+      onBackToPicker={() => setBoot('picker')}
+    />
+  )
 }
 
 createRoot(document.getElementById('root')!).render(
