@@ -301,13 +301,25 @@ export interface BuildUseItemInput {
 
 /**
  * 战斗使用物品(fight.c:2266-2335 PAL_BattleShowPlayerUseItemAnim;一阶段 buildUseItemTimeline
- * 同源移植):Delay(4) → 施者前移(-15,-7)+frame5(举物姿)+sound 28 → 目标 colorShift
- * 0..6 再 5..0(每级 1 帧)→ 复位施者 + 收尾停顿 Delay(8)(fight.c:4404-4406,飘字不叠下段)。
+ * 同源移植):Delay(4) → 施者**连续走**到 (−15,−7) → frame5(举物姿)+sound 28+物品名同帧
+ * → 目标 colorShift 0..6 再 5..0(每级 1 帧)→ 连续走回 + 收尾停顿 Delay(8)。
+ * ⚠ 前移形态:sdlpal/一阶段是单帧直接赋值(瞬移),作者对照原版 pal.exe 裁决为
+ * **连续移动**(2026-07-11)—— 跟原版,3 步 ×40ms 线性走近/走回。
  */
 export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
   const { casterIdx, casterPos, targetIdxs, itemName } = input
   const frames: AnimFrame[] = [{ durationMs: delayMs(4) }]
   const shifted = { x: casterPos.x - 15, y: casterPos.y - 7 }
+  const stepPos = (t: number): { x: number; y: number } => ({
+    x: Math.round(casterPos.x + (shifted.x - casterPos.x) * t),
+    y: Math.round(casterPos.y + (shifted.y - casterPos.y) * t),
+  })
+  for (let s = 1; s <= 3; s++) {
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [{ side: 'player', idx: casterIdx, pos: stepPos(s / 3) }],
+    })
+  }
   const targets = (shift: number): FighterDelta[] =>
     targetIdxs.map((idx) => ({ side: 'player' as const, idx, colorShift: shift }))
   for (let i = 0; i <= 6; i++) {
@@ -317,12 +329,18 @@ export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
       durationMs: delayMs(1),
       fighters,
       ...(i === 0 ? { sound: 28 } : {}),
-      // 前移+举物+音效+物品名同帧出现(作者对照原版确认的「三同步」;一阶段 L15 同款)
+      // 举物+音效+物品名同帧出现(作者对照原版确认的「三同步」;一阶段 L15 同款)
       ...(i === 0 && itemName ? { banner: { text: itemName, durationMs: delayMs(13) } } : {}),
     })
   }
   for (let i = 5; i >= 0; i--) frames.push({ durationMs: delayMs(1), fighters: targets(i) })
-  // 复位施者(fight.c 由 UpdateFighters 收口;此处显式帧)+ DM12 收尾停顿
+  // 走回(与走近对称,frame 复位后退场不突兀)+ DM12 收尾停顿
+  for (let s = 2; s >= 1; s--) {
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [{ side: 'player', idx: casterIdx, pos: stepPos(s / 3), frame: 0 }],
+    })
+  }
   frames.push({
     durationMs: delayMs(8),
     fighters: [{ side: 'player', idx: casterIdx, pos: casterPos, frame: 0 }],
