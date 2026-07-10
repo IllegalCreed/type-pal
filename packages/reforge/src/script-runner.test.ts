@@ -79,8 +79,48 @@ function fakeHost(calls: string[]): ScriptHost {
     vanishEntity: log('vanishEntity'),
     loadLastSave: alog('loadLastSave'),
     gameOver: alog('gameOver'),
+    shakeScreen: log('shakeScreen'),
+    toggleDayNight: log('toggleDayNight'),
   }
 }
+
+test('legacy op 兼容层:静默 0x00/0x08,直映射 0x85/0x93/0x35/0x36+0x37/0x80/0x77,未覆盖仍上报', async () => {
+  const calls: string[] = []
+  const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
+  const un = (opcode: number, operands: number[]): Command => ({
+    kind: 'unmigrated',
+    opcode,
+    operands,
+  })
+  await r.run(
+    [
+      un(0x00, [19309, 0, 0]), // NOP 占位 → 静默
+      un(0x08, [0, 0, 0]), // 触发入口推进 → stage 体系已承担,静默
+      un(0x85, [30, 0, 0]), // 延时 30×80ms
+      un(0x93, [8, 0, 0]), // SceneFade step 8 → ceil(64/8)×100 = 800ms 渐入
+      un(0x93, [0xffff, 0, 0]), // step −1 → 6400ms 渐出
+      un(0x35, [999, 4, 0]), // 震屏 999 帧 level4
+      un(0x35, [0, 0, 0]), // 关震屏(level 缺省补 4)
+      un(0x36, [5, 0, 0]), // 设 RNG 序列 5
+      un(0x37, [0, 0, 7]), // 播 RNG:chunk=5(0x36 设的),end≤0 → 缺省,speed 7
+      un(0x80, [0, 0, 0]), // 昼夜切换,更新场景模式 → 3200ms 渐变
+      un(0x77, [0, 0, 0]), // 停乐
+      un(0x9a, [2137, 2145, 0]), // batch2 未覆盖 → 仍上报
+    ],
+    [],
+  )
+  expect(calls).toEqual([
+    'wait(2400)',
+    'fade("in",800)',
+    'fade("out",6400)',
+    'shakeScreen(999,4)',
+    'shakeScreen(0,4)',
+    'playRng(5,{"startFrame":0,"speed":7})',
+    'toggleDayNight(3200)',
+    'playMusic(0)',
+    'report("unmigrated op 0x9a ")',
+  ])
+})
 
 test('顺序执行 + 世界状态写入(flags/vars/entityState 双写)', async () => {
   const calls: string[] = []

@@ -544,12 +544,14 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   let fadeFx: { dir: 'in' | 'out'; start: number; ms: number; resolve: () => void } | null = null
   let fadeBlack = 0 // 0 透明 → 1 全黑(fade out 后保持,fade in 释放)
   let fadeCurtain: 'black' | 'red' = 'black' // 幕布色(gameOver 渐红;fade-in 结束回黑)
+  // 0x35 震屏(script.c:1521 VIDEO_ShakeScreen):世界层渲染 y ±level 交替;到期/0 关自清
+  let worldShake: { untilMs: number; level: number } | null = null
   // ── W6 氛围(昼夜):全帧 multiply 滤镜(docs/phase2/ambience-design.md)──
   // world.ambience 是权威(随存档);此处只是显示态:当前乘色 + 300ms 切换过渡。
   // 纯视觉、无输入门、自终止 —— 不属于「需要收尾人的 time-based 状态」。
   const AMBIENCE_FADE_MS = 300
   let ambienceShown = resolveAmbienceTint(world.ambience, project.ambiences)
-  let ambienceFx: { from: [number, number, number]; start: number } | null = null
+  let ambienceFx: { from: [number, number, number]; start: number; durMs?: number } | null = null
   /** 世界态氛围变化后瞬时同步显示(读档/新档;不播过渡)。 */
   const syncAmbience = (): void => {
     ambienceShown = resolveAmbienceTint(world.ambience, project.ambiences)
@@ -558,7 +560,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   /** 帧滤镜:两条出帧路径(大世界 render() 尾 + 战斗分支)都调;恒等色零开销跳过。 */
   const applyAmbienceTint = (): void => {
     if (ambienceFx) {
-      const t = (nowMs - ambienceFx.start) / AMBIENCE_FADE_MS
+      const t = (nowMs - ambienceFx.start) / (ambienceFx.durMs ?? AMBIENCE_FADE_MS)
       ambienceShown = lerpTint(ambienceFx.from, resolveAmbienceTint(world.ambience, project.ambiences), t)
       if (t >= 1) ambienceFx = null
     }
@@ -773,6 +775,18 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       if ((world.ambience ?? 'day') === id) return
       world.ambience = id
       ambienceFx = { from: ambienceShown, start: nowMs }
+    },
+    // 0x80 昼夜切换(扬州夜转昼等):day↔night 翻转,fadeMs 渐变
+    // (原版 PaletteFade 真值 3200ms;此前 setAmbience 固定 300ms 过快)
+    toggleDayNight: (fadeMs) => {
+      const next = (world.ambience ?? 'day') === 'day' ? 'night' : 'day'
+      if (next !== 'day' && !project.ambiences.some((a) => a.id === next)) return
+      world.ambience = next
+      ambienceFx = { from: ambienceShown, start: nowMs, durMs: fadeMs }
+    },
+    // 0x35 震屏:渲染时世界层 y ±level 交替(40ms 相位 = 原版逐帧);time=0 立即关
+    shakeScreen: (timeFrames, level) => {
+      worldShake = timeFrames > 0 ? { untilMs: nowMs + timeFrames * 40, level } : null
     },
     // E6b 显式定位权威(手工演出精细控制;隐式接管见 scriptHost 位移视图)
     takeEntity: (id) => {
@@ -1910,7 +1924,12 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       })
     }
     // 场景底图:clear + scale + renderScene + restore(抽成 renderSceneFrame,editor 复用同一绘制)。
-    renderSceneFrame(ctx, renderer, { map, room, camera, sprites, worldScale: WORLD_SCALE, layers: ownTileHeights ? { ownTileHeights } : undefined })
+    // 0x35 震屏:相机 y ±level 交替(40ms 相位;到期自清)
+    if (worldShake && nowMs >= worldShake.untilMs) worldShake = null
+    const shakeCam = worldShake
+      ? { x: camera.x, y: camera.y + (Math.floor(nowMs / 40) % 2 === 0 ? worldShake.level : -worldShake.level) }
+      : camera
+    renderSceneFrame(ctx, renderer, { map, room, camera: shakeCam, sprites, worldScale: WORLD_SCALE, layers: ownTileHeights ? { ownTileHeights } : undefined })
     // debug 碰撞叠加层(reforge 自己的 dev 拐杖;非编辑器叠加层)—— 在底图之上、独立变换块。
     if (DEBUG_COLLISION) {
       ctx.save()

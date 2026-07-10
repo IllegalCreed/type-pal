@@ -104,6 +104,12 @@ export interface ScriptHost {
   }
   /** unmigrated / 未实现命令上报(dev toast + console;生产静默日志)。 */
   report(msg: string): void
+  // ── 原版 op 运行时兼容层(batch1)的小能力;可选 = 部分 host(choreo/测试)不需要 ──
+  /** 0x35 震屏(script.c:1521):timeFrames 帧(40ms/帧)内画面上下 ±level;0 = 立即关。 */
+  shakeScreen?(timeFrames: number, level: number): void
+  /** 0x80 昼夜切换(script.c:2381):world.ambience day↔night 翻转 + fadeMs 渐变
+   *  (原版 PaletteFade 真值:更新场景 3200ms / 立即模式 800ms,一阶段 OP_PALETTE_FADE)。 */
+  toggleDayNight?(fadeMs: number): void
 }
 
 /** 条件求值(chance 用注入的 random,可测)。 */
@@ -358,6 +364,69 @@ export class ScriptRunner {
       case 'setEntityTriggerMode':
         return h.setEntityTriggerMode(cmd.entity, cmd.on, cmd.range)
       case 'unmigrated':
+        return this.runLegacyOp(cmd, h)
+    }
+  }
+
+  /** 0x36 设的「当前 RNG 序列」(script.c:1537;0x37 播放时消费)。 */
+  private curRngChunk = 0
+
+  /**
+   * 迁移器翻不动的原版 op 的**运行时兼容层**(batch1,2026-07-11)——
+   * 内容文件不动(round-trip 不变式),执行层按 sdlpal script.c 逐 case 精读语义直映射。
+   * jump-family(0x58/0x74/0x83/0x86,带字节码跳转地址,树化后无目标)与状态机类
+   * (0x13/0x9A/0x6D/0x78 等)留 batch2;未覆盖的仍上报。
+   */
+  private async runLegacyOp(
+    cmd: { opcode: number; operands: number[]; note?: string },
+    h: ScriptHost,
+  ): Promise<void> {
+    const a = cmd.operands[0] ?? 0
+    const b = cmd.operands[1] ?? 0
+    const c = cmd.operands[2] ?? 0
+    const i16 = (n: number): number => (n & 0x8000 ? n - 0x10000 : n)
+    switch (cmd.opcode) {
+      case 0x00: // NOP(script.c:3204 default 前的空 op;迁移器留作分支臂占位)
+      case 0x08: // 触发入口推进(script.c:3335 wScriptEntry++)—— stage 推进体系已承担该语义
+        return
+      case 0x35: // 震屏(script.c:1521):time=op0 帧,level=op1||4;time=0 立即关
+        h.shakeScreen?.(a, b || 4)
+        return
+      case 0x36: // 设当前 RNG 序列号(script.c:1537)
+        this.curRngChunk = a
+        return
+      case 0x37: // 播 RNG(script.c:1544 PAL_RNGPlay(cur, op0, op1>0?op1:-1, op2>0?op2:16))
+        return h.playRng(this.curRngChunk, {
+          startFrame: a,
+          endFrame: b > 0 ? b : undefined,
+          speed: c > 0 ? c : 16,
+        })
+      case 0x77: // 停当前音乐(script.c:2215;fade 时长 op0×3s 细节未复刻,直接停)
+        h.playMusic(0)
+        return
+      case 0x80: // 昼夜切换(script.c:2381):toggle + PaletteFade;时长真值 = 一阶段
+        // OP_PALETTE_FADE:op0==0(更新场景)3200ms 渐变,否则 800ms
+        h.toggleDayNight?.(a === 0 ? 3200 : 800)
+        return
+      case 0x85: // 延时(script.c:2511 UTIL_Delay(op0 × 80ms))
+        return h.wait(a * 80)
+      case 0x8c: {
+        // 颜色渐变(script.c:2582 PAL_ColorFade(delay=op1, color=op0, fFrom=op2)):
+        // 时长 = 64 × (op1×10 || 10)ms(一阶段 OP_COLOR_FADE);fFrom = 从纯色渐回场景。
+        // reforge 无调色板,纯色近似黑幕:from → fade in / to → fade out。
+        const ms = 64 * (b * 10 || 10)
+        return h.fade(c !== 0 ? 'in' : 'out', ms)
+      }
+      case 0x93: {
+        // SceneFade(script.c:2664):step=int16(op0)||1;总时长 ceil(64/|step|)×100ms
+        // (一阶段 OP_SCENE_FADE);step<0 = 渐暗(needToFadeIn 语义由后续 fade in 恢复)
+        const step = i16(a) || 1
+        const ms = Math.ceil(64 / Math.abs(step)) * 100
+        return h.fade(step < 0 ? 'out' : 'in', ms)
+      }
+      case 0x9b: // fade to 当前场景(script.c:2766 VIDEO_FadeScreen(2)≈640ms 渐入)
+        return h.fade('in', 640)
+      default:
         h.report(`unmigrated op 0x${cmd.opcode.toString(16)} ${cmd.note ?? ''}`)
         return
     }
