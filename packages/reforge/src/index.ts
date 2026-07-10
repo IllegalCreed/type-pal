@@ -88,9 +88,12 @@ import { buildIsBlocked, isBlockedAt, pixelToTile } from './collision.js'
 export { buildIsBlocked, isBlockedAt, pixelToTile }
 
 // 「画一帧场景」(editor 复用同一绘制函数画底图)
+import { bootGame } from './main.js'
 import { renderSceneFrame } from './render-scene.js'
 import type { RenderSceneFrameArgs } from './render-scene.js'
 export { renderSceneFrame }
+// 引擎启动函数(编辑器 play 页同源试玩;页面须备 <canvas id="screen">)
+export { bootGame }
 export type { RenderSceneFrameArgs }
 
 // 精灵帧下标计算(C0 布局数据化;editor 画布/角色模式走路预览共用,单一真源)

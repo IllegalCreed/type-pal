@@ -231,9 +231,11 @@ export function SkillTab(props: {
   skills: SkillData[]
   session: EditSession
   assetBase: AssetBase
+  /** 工程 id(同源试玩页;缺省 pal 兼容旧调用)。 */
+  projectId?: string
   tabBar?: React.ReactNode
 }) {
-  const { skills, session, assetBase, tabBar } = props
+  const { skills, session, assetBase, projectId = 'pal', tabBar } = props
   const [filter, setFilter] = useState('')
   const [selId, setSelId] = useState(skills[0]?.id ?? '')
   const shown = useMemo(
@@ -303,7 +305,7 @@ export function SkillTab(props: {
                   style={{ width: 'auto', padding: '0 10px', marginLeft: 12 }}
                   title="开真实战斗临时授此技试放(完整语境预览;不改存档/工程数据)"
                   onClick={() =>
-                    window.open(`http://localhost:6051/?scene=s001&battle=0&skill=${skill.id}`, '_blank')
+                    window.open(`play.html?project=${projectId}&scene=s001&battle=0&skill=${skill.id}`, '_blank')
                   }
                 >
                   ⚔ 战斗中试放

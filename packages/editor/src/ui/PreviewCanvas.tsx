@@ -60,6 +60,8 @@ export function PreviewCanvas(props: {
   scene: SceneDef
   stages: readonly ScriptStage[]
   sourceKey: string
+  /** 工程 id(同源试玩页 ?project=;本地工程经 IndexedDB 句柄,dev 种子回退 http)。 */
+  projectId: string
   /** 当前源的触发实体(未播时镜头对准它;onEnter 源 undefined = 对准玩家)。 */
   focusEntityId: string | undefined
   sprites: SpriteDef[]
@@ -85,6 +87,7 @@ export function PreviewCanvas(props: {
     scene,
     stages,
     sourceKey,
+    projectId,
     focusEntityId,
     sprites,
     actorsById,
@@ -368,13 +371,13 @@ export function PreviewCanvas(props: {
         <button
           type="button"
           className="pv-btn"
-          title="真引擎里跳到事件现场试玩(X5;读磁盘工程,改动须先 💾 保存;需 reforge dev:pal 在跑)"
+          title="真引擎里跳到事件现场试玩(X5;读磁盘工程,改动须先 💾 保存)"
           onClick={() => {
             // 落点:触发实体邻格(下方一格 —— touch range≥1 走近即触发,interact 面对面按空格);
             // onEnter 源无实体 → 不带 pos,走场景入口。
             const e = focusEntityId ? scene.entities.find((x) => x.id === focusEntityId) : undefined
             const pos = e ? `&pos=${e.pos.col},${e.pos.row + 1}&facing=up` : ''
-            window.open(`http://${location.hostname}:6051/?scene=${scene.id}${pos}`, '_blank')
+            window.open(`play.html?project=${projectId}&scene=${scene.id}${pos}`, '_blank')
           }}
         >
           🎮 引擎试玩

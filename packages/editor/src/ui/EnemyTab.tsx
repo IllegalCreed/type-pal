@@ -1,7 +1,7 @@
 /**
  * 敌人工作台(M4c-3)—— 数据模式「敌人」标签:从头造新敌人的生产线。
  * 左:敌人列表(过滤/➕新建);中:数值 + AI 规则表格 + 掉落;右:敌队(⚔ 一键试打 =
- * 打开 reforge ?battle=<team>,复用真实引擎零仿真偏差,见 docs/dev-servers.md 6051)。
+ * 同源试玩页 ?battle=<team>,复用真实引擎零仿真偏差(本地工程 FSA 句柄跨不了源)。
  *
  * AI 规则表格:常见条件/动作下拉行编;复杂条件(all/any/not)与 choreography/onDefeated
  * 走 JSON 兜底(同 CommandForm 哲学:全数据可编不留死角)。
@@ -29,7 +29,7 @@ import type { EditSession } from '../core/edit-session.js'
 import { EnemyAnimPreview } from './EnemyAnimPreview.js'
 
 /** reforge(pal)地址:主机跟随编辑器访问地址(局域网/同事机不再错跳 localhost),端口按 dev-servers.md。 */
-const reforgeUrl = (): string => `http://${location.hostname}:6051`
+// 同源试玩页(本地工程 FSA 句柄跨不了源;?project= 由调用处拼)
 
 /** 新敌人模板(史莱姆级;id 用 c 前缀避开迁移 objectIndex 空间)。 */
 function newEnemy(id: string): EnemyDef {
@@ -337,10 +337,12 @@ export function EnemyTab(props: {
   session: EditSession
   /** 资产根(外观预览加载战斗精灵;缺省不渲预览)。 */
   assetBase?: import('@type-pal/reforge').AssetBase
+  /** 工程 id(同源试玩页;缺省 pal 兼容旧调用)。 */
+  projectId?: string
   /** DataMode 的标签栏(渲染在左栏顶部,保持标签切换)。 */
   tabBar?: React.ReactNode
 }) {
-  const { enemies, enemyTeams, skills, locale, session, tabBar, assetBase } = props
+  const { enemies, enemyTeams, skills, locale, session, tabBar, assetBase, projectId = 'pal' } = props
   const [filter, setFilter] = useState('')
   const [selId, setSelId] = useState(enemies[0]?.id ?? '')
   const [selTeam, setSelTeam] = useState<string | null>(null)
@@ -603,7 +605,7 @@ export function EnemyTab(props: {
         </div>
         <div className="section">
           <h4>
-            所在敌队 <span className="hint2">⚔ 打开 reforge(6051)试打</span>
+            所在敌队 <span className="hint2">⚔ 同源试玩页试打</span>
           </h4>
           {teamsOfSel.length === 0 ? (
             <p className="hint">不在任何敌队。加入或新建一队才能被遭遇/试打。</p>
@@ -624,7 +626,7 @@ export function EnemyTab(props: {
                 className="pv-btn"
                 title="读磁盘工程:改动须先 💾 保存"
                 onClick={() =>
-                  window.open(`${reforgeUrl()}/?battle=${t.id.replace('team-', '')}`, '_blank')
+                  window.open(`play.html?project=${projectId}&battle=${t.id.replace('team-', '')}`, '_blank')
                 }
               >
                 ⚔ 试打

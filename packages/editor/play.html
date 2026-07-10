@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>试玩 · type-pal</title>
+    <style>
+      body { margin: 0; background: #111; display: grid; place-items: center; min-height: 100vh; font-family: system-ui, "PingFang SC", sans-serif; }
+      /* 物理 1280×800(逻辑 320×200 的 4x);整数倍放大 + pixelated 保点阵锐利(同 reforge 页) */
+      canvas { image-rendering: pixelated; display: block; width: 1280px; height: 800px; }
+      #gate { position: fixed; inset: 0; display: grid; place-items: center; background: #111; }
+      #gate[hidden] { display: none; }
+      .gate-card { text-align: center; color: #d7dce5; }
+      .gate-card button { font-size: 18px; padding: 12px 32px; border-radius: 8px; border: 1px solid #4c9aff; background: #1d2634; color: #d7dce5; cursor: pointer; }
+      .gate-card button:hover { background: #243042; }
+      .gate-card p { color: #8b93a3; font-size: 13px; margin-top: 12px; }
+      .gate-card .err { color: #e05b5b; }
+    </style>
+  </head>
+  <body>
+    <canvas id="screen" width="1280" height="800"></canvas>
+    <div id="gate" hidden>
+      <div class="gate-card">
+        <button id="gate-btn" type="button">▶ 开始试玩</button>
+        <p id="gate-hint">需授权读取本地工程文件夹(浏览器安全要求,每次开页点一下)</p>
+      </div>
+    </div>
+    <script type="module" src="/src/play.ts"></script>
+  </body>
+</html>

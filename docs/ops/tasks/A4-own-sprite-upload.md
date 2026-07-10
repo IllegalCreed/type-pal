@@ -40,3 +40,17 @@ Capability: A4 用户上传自有素材(能力地图 A 域)
 ## 遗留
 - A 域其余格未动:A1 预制素材库(服务器)/ A5 打包导出 zip / A6 更新检查。
 - 上传精灵默认无 poses(特殊动作姿势另用姿势框选工具标注,C2 既有)。
+
+## 追加修复(同日):本地工程「引擎试玩」开出李逍遥
+作者空白工程点脚本抽屉「🎮 引擎试玩」→ 出来是 pal 的李逍遥。根因:三处按钮(试玩/试打/
+试放)写死 `http://…:6051` —— 那台 dev 实例永远 `VITE_PROJECT_ID=pal`;而本地工程 = FSA
+句柄,**跨源根本读不到**。修:
+- 引擎入口拆成页面无关的 `bootGame(project)`(canvas/location 全部延迟进函数 —— barrel
+  导出后 node 测试 import 即执行模块级代码,曾炸 6 个测试文件;boot.ts = 独立页入口壳)。
+- 编辑器新增**同源 play.html**:?project=<id> → IndexedDB 句柄(本地工程)→ 手势授权门 →
+  fsaSource 磁盘启动;无句柄 → 回退 dev 种子 http(pal 走这)。scene/pos/battle/skill 等
+  参数由 bootGame 自读 location,原样生效。vite 多页 build input 补齐。
+- 三处按钮全改 `play.html?project=${manifest.id}&…`(PreviewCanvas 试玩 / EnemyTab 试打 /
+  SkillTab 试放,projectId 穿线)。
+- 实测:6010/play.html?project=pal&scene=s042 引擎起且夜景;6051 独立页零回归;pnpm check
+  全绿。FSA 路径(空白工程授权→磁盘启动)留用户烟测 —— 记得先 💾 保存,试玩读磁盘。

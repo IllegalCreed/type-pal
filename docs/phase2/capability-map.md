@@ -123,7 +123,7 @@
 | X3 | 标题/流程/结局 | ⚠️ | — | 新游戏/通关 | 引擎(2026-07-06):主菜单标题屏(FBP2 底图 + entryPoints 竖排)+「新的故事」新游戏流 +「旧的回忆」读档(→存档浏览→doLoad 跳开场);缺通关/结局流转(❌)。开局数据侧见 X7 |
 | X4 | 资源管线(RGBA 化) | ⚠️ | — | — | bake 双根落位:UI 皮→引擎 public(工程可覆盖 manifest.assets.ui)、内容资产(立绘/头像/物品图标)→ data/baked 库层;精灵/瓦片仍运行时 bake |
 | X6 | 工程生命周期 | ✅ | ✅ | — | **P1–P4 落地(2026-07-09)**:FileSource 抽象(httpSource/fsaSource,覆盖内容+素材)→ 启动屏 ProjectPicker(克隆/空白·打开本地·最近)→ 增量保存(快照-diff)+ IndexedDB 句柄(手势重连)+ 编辑器内「工程」菜单(新建/打开/另存为)。真实用户本地 app 闭环。见 editor/project-lifecycle-{design,p1..p4}。打包导出 zip = A5(未做) |
-| X5 | **跳转预览/沙盒启动** | ✅ | ✅ | 跳任意演出 | v1:编辑器事件页「🎮 引擎试玩」→ ?scene&pos&facing 落事件现场(邻格朝向,空格即触发);?pos = dev 语义跳过 onEnter(防剧情劫持落点)。世界态前置(flag 快照)待补——复杂剧情垫场景仍需真档 |
+| X5 | **跳转预览/沙盒启动** | ✅ | ✅ | 跳任意演出 | v1:编辑器「🎮 引擎试玩」→ ?scene&pos&facing 落事件现场;?pos = dev 语义跳过 onEnter。**本地工程试玩修复(2026-07-10)**:曾写死 6051(永远 pal → 空白工程开出李逍遥,作者报);FSA 句柄跨不了源 → 引擎入口拆 `bootGame(project)` + 编辑器**同源 play.html**(IndexedDB 句柄→手势授权→fsaSource 磁盘启动;无句柄回退 dev 种子 http),试玩/试打/试放三处全改同源。世界态前置(flag 快照)待补 |
 | X7 | 入口点/开局档(多DLC入口) | ✅ | ✅ | 新游戏开局 | 引擎(2026-07-06):entryPoints 数据地基(startWorld:队伍/背包/各员初始仙术/金钱/进场景脚本)+ 主菜单竖排选开局 + boot 从入口点起局。编辑器:数据模式「入口」页(增删改 entryPoints)+ startWorld 子表单(队伍勾选/背包/技能/金钱)|
 
 ### 迁移器(Migrator)— 工具域,完成期退役 — 2 格

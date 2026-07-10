@@ -185,6 +185,7 @@ export function DataMode(props: {
     return (
       <EnemyTab
         assetBase={assetBase}
+        projectId={manifest.id}
         enemies={enemies}
         enemyTeams={enemyTeams}
         skills={Object.values(skills)}
@@ -212,7 +213,7 @@ export function DataMode(props: {
   }
 
   if (tab === 'skill') {
-    return <SkillTab skills={skillList} session={session} assetBase={assetBase} tabBar={tabBar} />
+    return <SkillTab skills={skillList} session={session} assetBase={assetBase} projectId={manifest.id} tabBar={tabBar} />
   }
 
   if (tab === 'poison') {

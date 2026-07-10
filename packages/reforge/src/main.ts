@@ -154,16 +154,23 @@ function get2dContext(c: HTMLCanvasElement): CanvasRenderingContext2D {
   return context
 }
 
-const canvas = document.getElementById('screen') as HTMLCanvasElement
-const ctx = get2dContext(canvas)
+// 画布延迟到 bootGame 取(曾模块级 getElementById → 导入即抓 DOM,无 #screen 的页面
+// import 本模块直接炸;拆成可复用启动函数后,编辑器 play 页同源试玩也走 bootGame)。
+let canvas!: HTMLCanvasElement
+let ctx!: CanvasRenderingContext2D
 
-// 调试：?collision 把障碍格(0x2000)染色盖在画面上，肉眼比对禁入格 vs 视觉墙。
-const DEBUG_COLLISION = new URLSearchParams(location.search).has('collision')
-
-async function main(): Promise<void> {
-  // 工程化:运行期加载工程(vite define 注入 VITE_PROJECT_ID;缺省 demo)。
-  const PROJECT_ID = import.meta.env.VITE_PROJECT_ID ?? 'demo'
-  const project: LoadedProject = await loadProject(PROJECT_ID)
+/**
+ * 引擎启动(页面无关的可复用入口):调用方备好 `<canvas id="screen">` + 已加载的工程。
+ * 独立 reforge 页(boot.ts)传 loadProject(VITE_PROJECT_ID);编辑器 play 页(同源试玩)
+ * 传 FSA/HTTP source 装出的工程 —— 本地工程句柄跨不了源,试玩必须同源,这就是拆出本函数的原因。
+ * ⚠ 模块级严禁碰 DOM/location:barrel 导出后,node 测试环境 import 本模块即执行模块级代码。
+ */
+export async function bootGame(project: LoadedProject): Promise<void> {
+  canvas = document.getElementById('screen') as HTMLCanvasElement
+  if (!canvas) throw new Error('bootGame: 页面缺 <canvas id="screen">')
+  ctx = get2dContext(canvas)
+  // 调试:?collision 把障碍格(0x2000)染色盖在画面上,肉眼比对禁入格 vs 视觉墙。
+  const DEBUG_COLLISION = new URLSearchParams(location.search).has('collision')
   document.title = `${project.manifest.name} · reforge` // 标题随工程(index.html 只是加载占位)
   const params = new URLSearchParams(location.search)
   const sfx = new SfxPlayer(project.assetBase.sounds) // 应用级单例(解码缓存跨战斗复用)
@@ -2578,12 +2585,4 @@ async function renderSpriteGallery(assetBase: AssetBase, palette: Palette): Prom
   console.log('[reforge] sprite gallery 0..47 rendered')
 }
 
-main().catch((e: unknown) => {
-  const msg = e instanceof Error ? e.message : String(e)
-  ctx.fillStyle = '#200'
-  ctx.fillRect(0, 0, canvas.width, canvas.height)
-  ctx.fillStyle = '#f55'
-  ctx.font = '12px monospace'
-  ctx.fillText(`reforge ERR: ${msg}`, 10, 24)
-  console.error('[reforge]', e)
-})
+// 页面入口壳(loadProject + bootGame + 错误画屏)在 boot.ts —— 本模块只导出可复用启动函数。

@@ -590,6 +590,7 @@ export function App(props: {
                   tilesetBlobs={state.tilesetBlobs}
                   session={session}
                   music={state.music ?? []}
+                  projectId={state.manifest.id}
                   ambiences={state.ambiences ?? []}
                   layers={{
                     grid: canvasLayers.grid,

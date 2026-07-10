@@ -294,6 +294,8 @@ export function ScriptDrawer(props: {
   tilesetBlobs: Record<string, ArrayBuffer>
   session: EditSession
   music: MusicDef[]
+  /** 工程 id(同源试玩页 ?project=)。 */
+  projectId: string
   /** 氛围表(setAmbience 表单下拉;W6)。 */
   ambiences?: AmbienceDef[]
   /** 网格/禁入/透视叠加开关(与布置模式同一状态;传给大预览)。 */
@@ -315,6 +317,7 @@ export function ScriptDrawer(props: {
     tilesetBlobs,
     session,
     music,
+    projectId,
     ambiences,
     layers,
     onClose,
@@ -417,6 +420,7 @@ export function ScriptDrawer(props: {
           scene={scene}
           stages={active?.stages ?? EMPTY_STAGES}
           sourceKey={active?.key ?? '__none__'}
+          projectId={projectId}
           focusEntityId={
             active
               ? refOf(active.key).kind === 'onEnter' || refOf(active.key).kind === 'onTeleport'
