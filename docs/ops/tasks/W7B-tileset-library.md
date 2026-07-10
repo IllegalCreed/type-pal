@@ -128,10 +128,25 @@ tileset 的创作路线有两条,W7B 管线通吃,差别只在上传的 PNG 装�
 
 - Codex: pending(额度耗尽缺席;恢复后补签或用户豁免)
 - Opus: **accept**(2026-07-10;Coding Owner 自审 —— 实现与自验证见 Build 段;终案全落地,B2 双路期按收敛取消)
-- GLM: pending
-- counter / 返工处理:
-- 缺签豁免: N/A
-- done 准入结论: blocked
+- GLM: **accept**（2026-07-10）。按三重点逐项核验：
+
+  **① counter 落地（索引 .rle 落盘 / 单路渲染）**：✅ 如约落地。`packages/shared/src/rle-encode.ts` 编码器 = 解码器之逆（encodeRleFrame → GOP chunk），量化后编为与原版同构 .rle（gzip GOP 索引帧组），非 RGBA PNG。`loadTilesetByPath` 零改（单路：gzip → parseSpriteChunk → 索引帧 + 盘 0 bake）。**双路概念彻底消失**，与终案一致。
+
+  **② 测试矩阵覆盖**：✅ 充分。
+  - RLE 编码 roundtrip 8 例（混合游程 / 全透明 / 全不透明 / 超 0x7f 分段 / 尾部透明写满 / 伪随机帧 / 多帧变尺寸 / 空 chunk 边界）+ 128KB 上限——覆盖了我提的 roundtrip 要求，且超出（128KB 上限我没提）。
+  - 量化边界 5 例（精确命中 / 近似色最近邻 / alpha<128 透明 / 全透明 / 单色）——**我提的五例全覆盖**。
+  - 网格切片 1 例（4×2 按 2×2 切 + 余量裁掉）。
+  - 注册表校验/解析/serializeProject 产出——覆盖 id/路径二形态。
+
+  **③ 文档同步**：✅ 三处全更。content-schema §tileset 注册表（:167-174，含 resolveTilesetPath 判别）；capability-map W7 引擎✅编辑器✅（W7D+W7B 已落地，备注后续增强）；门禁七包全绿（editor 94 / reforge 250 / content 133 / game 2294）。
+
+  **Opus 复验发现并修复的 tilesetBlobs 内存优先分流**（换绑新上传 tileset 曾 404，同 W7D liveMap 同款）——正确修复，纳入审查通过范围。
+
+  **结论**：counter 闭环（索引 .rle + 单路渲染如约落地）；测试矩阵全覆盖（我提的五例 + 超出）；文档同步完整。accept。
+
+- counter / 返工处理: 当前无 counter。
+- 缺签豁免: pending（Codex 额度缺席；恢复后补签或用户豁免）
+- done 准入结论: **GLM accept**；Codex 补签或用户豁免后即可 **done allowed**，待用户最终验收。
 
 ## Draft: 设计与风险
 
