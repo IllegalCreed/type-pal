@@ -355,6 +355,7 @@ export function App(props: {
             tilesets={state.tilesets ?? []}
             tilesetBlobs={state.tilesetBlobs}
             battleFields={state.battleFields ?? []}
+            poisons={state.poisons ?? []}
             scenes={state.scenes}
             manifest={state.manifest}
             actors={state.actors}

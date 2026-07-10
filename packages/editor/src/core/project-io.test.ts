@@ -217,6 +217,31 @@ test('W5 音乐库:manifest 声明 music → 注入/序列化 round-trip;未声�
   expect(serializeProject(plain)['content/music.json']).toBeUndefined()
 })
 
+test('B10 毒表:manifest 声明 poisons → round-trip 保原文件序(非升序);未声明不产出', () => {
+  const withPoisons = {
+    ...manifest,
+    content: { ...manifest.content, poisons: 'content/poisons.json' },
+  }
+  // ⚠ 保序是命脉:pal 的 poisons.json 原序 551..560,137,561(非升序)。
+  // 经 poisonsById(Record<number,…>)转数组会被 JS 数值键升序重排(137 跳最前)→ 首存无谓 diff。
+  // loader 暴露原序数组 project.poisons,toEditorState 必须用它。
+  const poisonsJson = [
+    { id: 551, name: '赤毒', curability: 'common', color: 16, playerTicks: [{ hpDelta: -7 }] },
+    { id: 137, name: '无影毒', curability: 'incurable', color: 0, enemyTicks: [{ halveHp: 1000, selfCure: true }] },
+    { id: 556, name: '鹤顶红', curability: 'severe', color: 160, lethalWith: 557, counters: 558 },
+  ]
+  const project = assembleProject(withPoisons, { ...JSONS, poisons: poisonsJson })
+  const state = toEditorState(project, SCENES)
+  expect(state.poisons?.map((p) => p.id)).toEqual([551, 137, 556]) // 原序,非 [137,551,556]
+  const out = serializeProject(state)
+  expect(out['content/poisons.json']).toEqual(poisonsJson)
+
+  // 未声明(原 manifest):不产出 poisons 文件;toEditorState 缺省空数组
+  const plain = toEditorState(assembleProject(manifest, JSONS), SCENES)
+  expect(plain.poisons).toEqual([])
+  expect(serializeProject(plain)['content/poisons.json']).toBeUndefined()
+})
+
 describe('diffFiles(增量-diff)', () => {
   test('只挑内容变了的写;快照有、现无的删', () => {
     const prev = new Map<string, string>([

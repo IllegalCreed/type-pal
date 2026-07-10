@@ -5,6 +5,7 @@ import {
   AddEnemyCommand,
   AddEntityCommand,
   AddOwnMapLayerCommand,
+  AddPoisonCommand,
   CreateOwnMapCommand,
   CreateScriptSourceCommand,
   DeleteEnemyCommand,
@@ -23,6 +24,7 @@ import {
   UpdateLevelUpCommand,
   UpdateMusicNameCommand,
   UpdateOwnMapLayerCommand,
+  UpdatePoisonCommand,
   UpdateSceneCommand,
   UpdateScriptCommand,
   UpdateSpriteCommand,
@@ -387,6 +389,52 @@ describe('D24 战场命令(不可变 + invert)', () => {
     const back = cmd.invert(s1)
     expect(back.battleFields![0]!.name).toBeUndefined() // name 清回未设
     expect(back.battleFields![0]!.magicEffect.fire).toBe(0)
+  })
+})
+
+describe('B10 毒命令(不可变 + invert)', () => {
+  function stP(): EditorState {
+    const base = st() as EditorState & { poisons: import('@type-pal/content').PoisonDef[] }
+    base.poisons = [
+      { id: 551, name: '赤毒', curability: 'common', color: 16, playerTicks: [{ hpDelta: -7 }] },
+      { id: 556, name: '鹤顶红', curability: 'severe', color: 160, lethalWith: 557, counters: 558 },
+    ]
+    return base
+  }
+  test('UpdatePoison:patch 名/ticks,invert 还原;源不变', () => {
+    const s0 = stP()
+    const cmd = new UpdatePoisonCommand(551, {
+      name: '赤毒·改',
+      playerTicks: [{ hpDelta: -9 }, { hpDelta: -18, selfCure: true }],
+    })
+    const s1 = cmd.apply(s0)
+    expect(s1.poisons![0]!.name).toBe('赤毒·改')
+    expect(s1.poisons![0]!.playerTicks).toHaveLength(2)
+    expect(s0.poisons![0]!.name).toBe('赤毒') // 源不变
+    expect(s0.poisons![0]!.playerTicks).toHaveLength(1)
+    const back = cmd.invert(s1)
+    expect(back.poisons![0]!.name).toBe('赤毒')
+    expect(back.poisons![0]!.playerTicks).toEqual([{ hpDelta: -7 }])
+  })
+  test('UpdatePoison:patch undefined = 删键(清 lethalWith),invert 还原', () => {
+    const s0 = stP()
+    const cmd = new UpdatePoisonCommand(556, { lethalWith: undefined })
+    const s1 = cmd.apply(s0)
+    expect('lethalWith' in s1.poisons![1]!).toBe(false)
+    expect(s1.poisons![1]!.counters).toBe(558) // 未 patch 的键不动
+    const back = cmd.invert(s1)
+    expect(back.poisons![1]!.lethalWith).toBe(557)
+  })
+  test('AddPoison:追加缺省毒;invert 移除;重复 id 不动', () => {
+    const s0 = stP()
+    const cmd = new AddPoisonCommand(1000, '试验毒')
+    const s1 = cmd.apply(s0)
+    expect(s1.poisons).toHaveLength(3)
+    expect(s1.poisons![2]).toMatchObject({ id: 1000, name: '试验毒', curability: 'common' })
+    expect(cmd.invert(s1).poisons).toHaveLength(2)
+    // 重复 id:apply 原样返回
+    const dup = new AddPoisonCommand(551, '重复')
+    expect(dup.apply(s0)).toBe(s0)
   })
 })
 

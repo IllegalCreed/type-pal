@@ -60,6 +60,9 @@ export interface LoadedProjectCore {
   battleFields: BattleFieldDef[]
   /** 毒表(P2 数据化 DoT;id → PoisonDef;缺 = 空 → 毒无效果)。 */
   poisonsById: Record<number, PoisonDef>
+  /** 毒表原序数组(B10 编辑器工作副本;⚠ 勿用 Object.values(poisonsById) 代替 ——
+   *  数值键会升序重排(137 跳到 551 前),破坏 round-trip 保序)。 */
+  poisons: PoisonDef[]
   /** tileset 注册表(W7B;缺 manifest 声明 = 空数组,原版借用走路径直通)。 */
   tilesets: TilesetDef[]
   /** 工程资源根 + 子目录(assets.ts load* 用;来自 manifest.assets)。 */
@@ -152,6 +155,7 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
     enemyTeamsById: indexById(enemyTeams),
     battleFields,
     poisonsById,
+    poisons: poisonList,
     tilesets,
     assetBase: (() => {
       // 素材路径**原样用**:相对(如 "assets/extracted/data" / "assets")的根由 FileSource 提供

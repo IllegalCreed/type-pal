@@ -2217,6 +2217,51 @@ body {
   line-height: 1.65;
 }
 
+/* ── 毒页(B10):tick 序号 + 关系总览(致死对/相克链)── */
+.tick-no {
+  flex: none;
+  width: 20px;
+  text-align: right;
+  font-size: 11px;
+  color: var(--faint);
+}
+.rel-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap; /* 相克链 6 环窄栏折行,不挤竖 */
+  gap: 4px 6px;
+  padding: 3px 0;
+}
+.rel-chain-node {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.rel-poison {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--fg);
+  font-size: 12px;
+  padding: 1px 7px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex: none;
+}
+.rel-poison:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+.rel-op {
+  color: var(--faint);
+  font-size: 12px;
+  flex: none;
+}
+.rel-warn {
+  color: var(--warn);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
 /* ── 效果行内嵌预览(summon/trance 归位到对应行下,2026-07-05 作者定位) ── */
 .ef-preview-row {
   padding: 4px 8px 10px 104px; /* 缩进对齐 kind 下拉右侧字段区 */

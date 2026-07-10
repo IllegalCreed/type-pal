@@ -21,6 +21,7 @@ import type {
   LoadedManifest,
   Locale,
   MusicDef,
+  PoisonDef,
   SceneDef,
   SkillData,
   SpriteDef,
@@ -55,6 +56,8 @@ export interface ContentBundle {
   tilesets?: TilesetDef[]
   /** 战场表(D24 一等 content 域;可缺省 = 空,引擎走 assetBase 遗留回退)。 */
   battleFields?: BattleFieldDef[]
+  /** 毒定义表(B10 编辑器结构化;可缺省 = 空。保原文件序 —— 勿经 by-id Record 转,数值键会重排)。 */
+  poisons?: PoisonDef[]
 }
 
 /** 编辑器被编辑的内容工作副本 = ContentBundle + manifest(EditSession 用)。 */

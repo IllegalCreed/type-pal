@@ -28,6 +28,7 @@ import { EnemyTab } from './EnemyTab.js'
 import { EventLibTab } from './EventLibTab.js'
 import { ItemTab } from './ItemTab.js'
 import { MusicTab } from './MusicTab.js'
+import { PoisonTab } from './PoisonTab.js'
 import { TilesetTab } from './TilesetTab.js'
 import { SkillTab } from './SkillTab.js'
 import { SpriteFrames } from './SpriteFrames.js'
@@ -38,6 +39,7 @@ export type DataTab =
   | 'skill'
   | 'item'
   | 'enemy'
+  | 'poison'
   | 'battlefield'
   | 'music'
   | 'tileset'
@@ -50,6 +52,7 @@ export const DATA_TABS: { id: DataTab; label: string; icon: string }[] = [
   { id: 'skill', label: '技能', icon: '✨' },
   { id: 'item', label: '物品', icon: '🎒' },
   { id: 'enemy', label: '敌人', icon: '👹' },
+  { id: 'poison', label: '毒', icon: '☠️' },
   { id: 'battlefield', label: '战场', icon: '🏞' },
   { id: 'music', label: '音乐', icon: '🎵' },
   { id: 'tileset', label: '瓦片集', icon: '🧱' },
@@ -96,6 +99,8 @@ export function DataMode(props: {
   tilesetBlobs: Record<string, ArrayBuffer>
   /** 战场表(战场页;D24;工程没带 = 空)。 */
   battleFields: BattleFieldDef[]
+  /** 毒定义表(毒页,B10;工程没带 = 空)。 */
+  poisons: import('@type-pal/content').PoisonDef[]
   /** 技能数组(SkillTab 编辑;= session state.skills)。 */
   skillList: import('@type-pal/content').SkillData[]
   /** 全场景(N5 引用反向索引数据源;入口点场景下拉)。 */
@@ -123,6 +128,7 @@ export function DataMode(props: {
     tilesets,
     tilesetBlobs,
     battleFields,
+    poisons,
     scenes,
     manifest,
     actors,
@@ -199,6 +205,10 @@ export function DataMode(props: {
 
   if (tab === 'skill') {
     return <SkillTab skills={skillList} session={session} assetBase={assetBase} tabBar={tabBar} />
+  }
+
+  if (tab === 'poison') {
+    return <PoisonTab poisons={poisons} items={itemList} session={session} tabBar={tabBar} />
   }
 
   if (tab === 'tileset') {
