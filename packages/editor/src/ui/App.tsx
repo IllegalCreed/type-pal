@@ -40,6 +40,7 @@ import {
 import type { EditSession } from '../core/edit-session.js'
 import { serializeProject, writeProject } from '../core/project-io.js'
 import { saveHandle } from '../core/handle-store.js'
+import { exportProjectZip } from '../core/export-zip.js'
 import { type Opened, openExistingProject, saveProjectAs } from '../core/open-actions.js'
 import { ActorMode } from './ActorMode.js'
 import { DataMode, type DataTab } from './DataMode.js'
@@ -97,6 +98,7 @@ export function App(props: {
   // 上次落盘快照(rel → 内容字符串):增量保存只写变化文件(P3)。首存后建立。
   const snapshotRef = useRef<Map<string, string> | null>(null)
   const [saveErr, setSaveErr] = useState('')
+  const [exporting, setExporting] = useState(false) // A5 导出 zip 进行中
 
   // 布置模式当前编辑场景(可切;默认入口)。切场景重置选中 —— 实体属于场景。
   const scene =
@@ -250,6 +252,32 @@ export function App(props: {
                   onClick={() => void runProj(() => saveProjectAs(serializeProject(session.getState())))}
                 >
                   📦 另存为…
+                </button>
+                <button
+                  type="button"
+                  disabled={!dirHandleRef.current || exporting}
+                  title={
+                    dirHandleRef.current
+                      ? '把工程文件夹原样打包下载(读磁盘;未保存改动不入包)'
+                      : '需先打开/保存本地工程(dev 种子工程无文件夹)'
+                  }
+                  onClick={() => {
+                    setProjMenu(false)
+                    const dir = dirHandleRef.current
+                    if (!dir) return
+                    if (
+                      session.isDirty() &&
+                      !window.confirm('有未保存改动 —— 导出读的是磁盘,这些改动不会进 zip。仍要导出吗?(建议先 💾 保存)')
+                    )
+                      return
+                    setExporting(true)
+                    setSaveErr('')
+                    void exportProjectZip(dir, state.manifest.id)
+                      .catch((e: unknown) => setSaveErr(e instanceof Error ? e.message : String(e)))
+                      .finally(() => setExporting(false))
+                  }}
+                >
+                  {exporting ? '🗜 打包中…' : '🗜 导出 zip…'}
                 </button>
               </div>
             </>
