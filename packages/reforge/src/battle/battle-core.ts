@@ -9,6 +9,7 @@
  * summon/transform/divide/flee 动作与 choreography 演出 = M4c-2。
  * 公式全走 content/battle-formulas（= sdlpal fight.c）。RNG 可注入（测试定值,运行时真随机）。
  */
+import { getEnemyBasePos } from './battle-positions.js'
 import type {
   ActivePoison,
   AiBattleView,
@@ -85,6 +86,9 @@ export interface BattlePlayerState {
 export interface BattleEnemyState {
   def: EnemyDef
   hp: number
+  /** 站位底锚(建态时按**开战敌数**一次定死;死怪空位不递补、增援填死槽继承 ——
+   *  原版/一阶段真值:布局列数=开战编队,曾按实时 length 现算 → 死怪/增援全场重排,作者报)。 */
+  basePos: { x: number; y: number }
   status: BattleStatus
   defending: boolean
   /** once 规则已触发下标(M4c;transform 时清零)。 */
@@ -211,13 +215,15 @@ export function createBattleState(input: CreateBattleInput): BattleState {
         poisons: p.poisons?.map((x) => ({ ...x })) ?? [], // 大世界带入的毒(副本;战后不回写)
       }
     }),
-    enemies: input.enemies.map((def) => ({
+    enemies: input.enemies.map((def, i) => ({
       def,
       hp: def.stats.health,
       status: emptyBattleStatus(),
       defending: false,
       firedRules: new Set<number>(),
       poisons: [],
+      // 站位一次定死(按开战敌数;yPosOffset 是敌种属性一并烙进)
+      basePos: getEnemyBasePos(input.enemies.length, i, def.anim.yPosOffset) ?? { x: 100, y: 110 },
     })),
     pendingActions: new Map(),
     coopThisTurn: false,
@@ -242,6 +248,26 @@ const alivePlayers = (s: BattleState): number[] =>
   s.players.map((p, i) => (p.hp > 0 ? i : -1)).filter((i) => i >= 0)
 const aliveEnemies = (s: BattleState): number[] =>
   s.enemies.map((e, i) => (e.hp > 0 ? i : -1)).filter((i) => i >= 0)
+
+/** 增援落位:优先复用死槽(原版填空槽语义 —— 继承槽位 basePos,布局不换挡、在场怪不动);
+ *  无死槽才追加(仅新怪落新位,既有怪 basePos 已定死不受影响)。
+ *  rewardCounted 重置:复活槽的新怪再死要重新计赏(老怪死时已入账,不双计)。 */
+function spawnIntoSlot(s: BattleState, spawn: Omit<BattleEnemyState, 'basePos'>): void {
+  const slot = s.enemies.findIndex((x) => x.hp <= 0)
+  if (slot >= 0) {
+    const basePos = s.enemies[slot]!.basePos
+    s.enemies[slot] = { ...spawn, basePos, rewardCounted: false }
+    return
+  }
+  s.enemies.push({
+    ...spawn,
+    basePos:
+      getEnemyBasePos(s.enemies.length + 1, s.enemies.length, spawn.def.anim.yPosOffset) ?? {
+        x: 100,
+        y: 110,
+      },
+  })
+}
 
 /** 傀儡续战(fight.c:1139/950/1739):死者 hp==0 但 puppet>0 仍出手(仅死人可设)。 */
 const puppetActs = (p: BattlePlayerState): boolean => p.hp <= 0 && p.status.puppet > 0
@@ -1273,7 +1299,7 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
     const share = Math.max(1, Math.trunc(e.hp / (n + 1)))
     e.hp = share
     for (let k = 0; k < n; k++) {
-      s.enemies.push({
+      spawnIntoSlot(s, {
         def: e.def,
         hp: share,
         status: emptyBattleStatus(),
@@ -1293,7 +1319,7 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
       return
     }
     for (let k = 0; k < n; k++) {
-      s.enemies.push({
+      spawnIntoSlot(s, {
         def: decision.def,
         hp: decision.def.stats.health,
         status: emptyBattleStatus(),

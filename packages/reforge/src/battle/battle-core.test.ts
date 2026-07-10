@@ -314,6 +314,29 @@ describe('M4c-2 动作:变身/分裂/召唤/整场逃离', () => {
     expect(s2.enemies.length).toBe(5) // 1 + min(9, 4) = 5 槽满
   })
 
+  test('站位定死:死怪不换挡、分裂/召唤填死槽继承位置(作者报「死后错位」根治)', () => {
+    const a = mkEnemy('a', { health: 10 })
+    const b = mkEnemy('b', { health: 200 })
+    const c = mkEnemy('c', { health: 200 })
+    const s = createBattleState({ players: [player('li')], enemies: [a, b, c] })
+    const posB = { ...s.enemies[1]!.basePos }
+    const posC = { ...s.enemies[2]!.basePos }
+    // a 死:b/c 站位纹丝不动(曾按活敌数换挡 → 全场重排)
+    s.enemies[0]!.hp = 0
+    expect(s.enemies[1]!.basePos).toEqual(posB)
+    expect(s.enemies[2]!.basePos).toEqual(posC)
+    // 分裂/召唤填死槽:继承 a 的槽位坐标,不加长数组
+    const posA = { ...s.enemies[0]!.basePos }
+    const blob = mkEnemy('blob', { health: 90 })
+    blob.ai = { resistanceToSorcery: 5, rules: [{ at: 'act', do: { kind: 'summon', count: 1 }, once: true }] }
+    s.enemies[1] = { ...s.enemies[1]!, def: blob, firedRules: new Set() }
+    runOneTurn(s)
+    expect(s.enemies.length).toBe(3) // 填槽不 push
+    expect(s.enemies[0]!.hp).toBeGreaterThan(0) // 死槽被增援复活
+    expect(s.enemies[0]!.basePos).toEqual(posA) // 继承槽位
+    expect(s.enemies[0]!.rewardCounted).toBe(false) // 新怪再死重新计赏
+  })
+
   test('fleeAll:整场敌逃离 → won + enemyFled 标记(无奖励语义留钩)', () => {
     const snake = mkEnemy('snake', { health: 500 })
     snake.ai = { resistanceToSorcery: 5, rules: [{ at: 'act', do: { kind: 'flee' } }] }

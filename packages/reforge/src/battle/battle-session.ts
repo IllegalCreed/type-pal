@@ -323,10 +323,7 @@ export class BattleSession {
     const s = this.state
     this.resetPlayersVisual()
     this.visual.enemies = s.enemies.map((e, i) => {
-      const pos = getEnemyBasePos(s.enemies.length, i, this.enemyDefs[i]?.anim.yPosOffset ?? 0) ?? {
-        x: 0,
-        y: 0,
-      }
+      const pos = e.basePos
       const prev = this.visual.enemies[i]
       return { x: pos.x, y: pos.y, frame: 0, colorShift: 0, displayHp: prev?.displayHp ?? e.hp }
     })
@@ -891,24 +888,13 @@ export class BattleSession {
       if (!casterPos) return null
       // normal 落点:敌目标(攻击系)或施法者自身(heal/self)
       const targetPos =
-        la.target !== undefined
-          ? (getEnemyBasePos(
-              s.enemies.length,
-              la.target,
-              this.enemyDefs[la.target]?.anim.yPosOffset ?? 0,
-            ) ?? casterPos)
-          : casterPos
+        la.target !== undefined ? (s.enemies[la.target]?.basePos ?? casterPos) : casterPos
       // PostMagic 受击目标:掉血的敌人(fight.c wPrevHP≠wHealth 语义 → damageNums 敌方项)
       const postTargets = damageNums
         .filter((d) => d.target.side === 'enemy')
         .map((d) => ({
           idx: d.target.idx,
-          pos:
-            getEnemyBasePos(
-              s.enemies.length,
-              d.target.idx,
-              this.enemyDefs[d.target.idx]?.anim.yPosOffset ?? 0,
-            ) ?? { x: 160, y: 100 },
+          pos: s.enemies[d.target.idx]?.basePos ?? { x: 160, y: 100 },
         }))
       // 召唤背景染色量 = summon 效果自己的 tint(原召唤 magic 的 wEffectTimes SHORT,
       // fight.c:3145;⚠ animation.effectTimes 是二次法术循环数,与染色无关 —— 曾混淆)
@@ -1063,7 +1049,7 @@ export class BattleSession {
       if (!attackerPos) return null
       const hits = la.attackAllHits
         .map((h) => {
-          const pos = getEnemyBasePos(s.enemies.length, h.idx, this.enemyDefs[h.idx]?.anim.yPosOffset ?? 0)
+          const pos = s.enemies[h.idx]?.basePos
           return pos ? { idx: h.idx, pos, value: h.value } : null
         })
         .filter((x): x is { idx: number; pos: { x: number; y: number }; value: number } => x !== null)
@@ -1083,11 +1069,7 @@ export class BattleSession {
       const t = la.target
       if ((eHp[t] ?? 0) <= 0) return null // 目标已死 = core 空过,无动画
       const attackerPos = getPlayerBasePos(s.players.length, la.idx)
-      const targetPos = getEnemyBasePos(
-        s.enemies.length,
-        t,
-        this.enemyDefs[t]?.anim.yPosOffset ?? 0,
-      )
+      const targetPos = s.enemies[t]?.basePos
       if (!attackerPos || !targetPos) return null
       const totalDmg = (eHp[t] ?? 0) - (s.enemies[t]?.hp ?? 0)
       const second = la.secondDamage // 连击第二击(present 追加一挥,音效自然落不同帧)
@@ -1120,11 +1102,7 @@ export class BattleSession {
     }
     // 敌物攻
     const t = la.target
-    const enemyPos = getEnemyBasePos(
-      s.enemies.length,
-      la.idx,
-      this.enemyDefs[la.idx]?.anim.yPosOffset ?? 0,
-    )
+    const enemyPos = s.enemies[la.idx]?.basePos
     const targetPos = getPlayerBasePos(s.players.length, t)
     const def = s.enemies[la.idx]?.def
     if (!enemyPos || !targetPos || !def) return null
@@ -1266,7 +1244,7 @@ export class BattleSession {
     const pos =
       side === 'player'
         ? getPlayerBasePos(this.state.players.length, idx)
-        : getEnemyBasePos(this.state.enemies.length, idx, this.enemyDefs[idx]?.anim.yPosOffset ?? 0)
+        : this.state.enemies[idx]?.basePos
     if (!pos) return
     const sprite =
       side === 'player' ? this.assets.playerSprites[idx] : this.assets.enemySprites[idx]
@@ -1333,7 +1311,7 @@ export class BattleSession {
         }
       }
       // idle 呼吸帧:visual.frame===0(站立默认)时循环 idleFrames;时间线设过的特殊帧原样
-      const anim = this.enemyDefs[i]?.anim
+      const anim = e.def.anim
       const frame =
         v.frame === 0 && anim && anim.idleFrames > 1 && e.hp > 0
           ? Math.floor(now / (Math.max(1, anim.idleAnimSpeed) * 40)) % anim.idleFrames
