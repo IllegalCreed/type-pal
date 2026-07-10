@@ -8,7 +8,7 @@
  */
 
 import type { ActorDef, SceneDef, SpriteDef } from '@type-pal/content'
-import { gridToPixel, mapRoom, pixelToGrid, resolveEntitySpriteId, spriteScreenY } from '@type-pal/content'
+import { gridToPixel, isReuseMap as sceneIsReuse, mapRoom, pixelToGrid, resolveEntitySpriteId, spriteScreenY, tileHeightsOf } from '@type-pal/content'
 import type { AssetBase, OwnMap, SpriteDraw } from '@type-pal/reforge'
 import { idleFrameIndex, renderSceneFrame, spriteBlitRect } from '@type-pal/reforge'
 import { useEffect, useRef, useState } from 'react'
@@ -248,7 +248,11 @@ export function SceneCanvas(props: {
       camera,
       sprites: draws,
       worldScale: zoom,
-      layers: { skipBase: !layers.base, skipCover: !layers.cover },
+      layers: {
+        skipBase: !layers.base,
+        skipCover: !layers.cover,
+        ...(!sceneIsReuse(scene.map) ? { ownTileHeights: tileHeightsOf(tilesets, (map as import('@type-pal/reforge').OwnMap).tileset) } : {}),
+      },
     })
 
     // 叠加层:网格/禁入(共享层;预览/W7 同一套)
@@ -296,7 +300,7 @@ export function SceneCanvas(props: {
       ctx.restore()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, scene, selectedId, entrySelected, drag, actorsById, leaderSpriteId, view, size, layers])
+  }, [status, scene, selectedId, entrySelected, drag, actorsById, leaderSpriteId, view, size, layers, tilesets])
 
   // —— 坐标 + 命中 ——（画布像素 = CSS 像素 1:1;world = screen/zoom + pan）
   const screenToCell = (clientX: number, clientY: number): { col: number; row: number } => {

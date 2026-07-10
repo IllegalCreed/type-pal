@@ -63,3 +63,21 @@ export function resolveTilesetPath(ref: string, tilesets: readonly TilesetDef[])
   if (ref.includes('/')) return ref
   throw new Error(`tileset "${ref}" 不在注册表且非路径形态`)
 }
+
+/**
+ * 当前地图绑定 tileset 的 per-tile 高度表(tileId → 遮挡格高;W7 高度补全)。
+ * ref 可为注册表 id 或路径(匹配条目 path);无条目/无元数据 → undefined(渲染按缺省 1)。
+ * 语义对齐原版:height=0 纯地面不遮挡;height=h 深度锚向下延伸 h 个半格(8px/单位):一格高家具=2,三格高墙顶=6。
+ */
+export function tileHeightsOf(
+  tilesets: readonly TilesetDef[],
+  ref: string,
+): ReadonlyMap<number, number> | undefined {
+  const hit = tilesets.find((t) => t.id === ref || t.path === ref)
+  if (!hit?.tiles?.length) return undefined
+  const map = new Map<number, number>()
+  hit.tiles.forEach((meta, i) => {
+    if (meta.height !== undefined) map.set(i, meta.height)
+  })
+  return map.size > 0 ? map : undefined
+}

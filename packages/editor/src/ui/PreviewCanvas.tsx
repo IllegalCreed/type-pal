@@ -14,7 +14,7 @@ import type {
   ScriptStage,
   SpriteDef,
 } from '@type-pal/content'
-import { gridToPixel, lookupText, mapRoom, resolveEntitySpriteId, spriteScreenY } from '@type-pal/content'
+import { gridToPixel, isReuseMap as sceneIsReuse, lookupText, mapRoom, resolveEntitySpriteId, spriteScreenY, tileHeightsOf } from '@type-pal/content'
 import type { AssetBase, OwnMap, SpriteDraw } from '@type-pal/reforge'
 import {
   idleFrameIndex,
@@ -265,7 +265,16 @@ export function PreviewCanvas(props: {
         y: cam.y - size.h / zoom / 2 + panY,
       }
       const room = mapRoom(scene.map) ?? { col: 0, row: 0, cols: map.width, rows: map.height }
-      renderSceneFrame(ctx, renderer, { map, room, camera, sprites: draws, worldScale: zoom })
+      renderSceneFrame(ctx, renderer, {
+        map,
+        room,
+        camera,
+        sprites: draws,
+        worldScale: zoom,
+        layers: !sceneIsReuse(scene.map)
+          ? { ownTileHeights: tileHeightsOf(tilesets, (map as import('@type-pal/reforge').OwnMap).tileset) }
+          : undefined,
+      })
       // 网格/禁入叠加(与布置模式同开关同画法;共享层)
       if (layers)
         drawGridBlocked(ctx, map, room, { zoom, panX: camera.x, panY: camera.y }, layers)
@@ -291,7 +300,7 @@ export function PreviewCanvas(props: {
     }
     raf = requestAnimationFrame(frame)
     return () => cancelAnimationFrame(raf)
-  }, [status, scene, size.w, size.h, playback, spriteById, leaderSpriteId, focusEntityId, layers, sceneFraming])
+  }, [status, scene, size.w, size.h, playback, spriteById, leaderSpriteId, focusEntityId, layers, sceneFraming, tilesets])
 
   const v = playback.view
   const mode = playback.mode

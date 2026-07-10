@@ -106,6 +106,9 @@ export interface RenderLayerOpts {
   skipCover?: boolean
   /** OwnMap 编辑器本地显隐；不写入内容 schema。 */
   hiddenOwnLayerIds?: readonly string[]
+  /** OwnMap per-tile 遮挡格高(tileId → height;来自 tileset 元数据)。缺省全按 1。
+   *  语义对齐原版:0 = 纯地面不遮挡;h = 深度锚向下延伸 h×8px(单位半格:一格高家具=2)。 */
+  ownTileHeights?: ReadonlyMap<number, number>
 }
 
 export interface Renderer {
@@ -279,15 +282,19 @@ export class Canvas2DRenderer implements Renderer {
     }
 
     if (!opts?.skipCover) {
+      const heights = opts?.ownTileHeights
       for (const tile of tiles) {
         if (!tile.occlude) continue
+        // per-tile 高度(W7 高度补全):缺省 1;0 = 纯地面,即使在 occlude 层也不遮挡(对齐旧
+        // 语义 iTileHeight<=0 不进 cover)。深度锚 = 中心 + 7 + h×SUBROW(旧 baseY 公式同源)。
+        const h = heights?.get(tile.tileId) ?? 1
+        if (h <= 0) continue
         const image = this.bakedTile(tile.tileId)
         if (!image) continue
         const x = tile.centerX - HALF_W + ox
         const y = tile.centerY - SUBROW + oy
         entries.push({
-          // 缺省瓦片高度 1：沿用旧 cover 的中心 + 7 + 8；小数只稳定同格层序。
-          baseY: tile.centerY + 15 + tile.layerIndex / 1000,
+          baseY: tile.centerY + 7 + h * SUBROW + tile.layerIndex / 1000,
           draw: () => this.ctx.drawImage(image, x, y),
         })
       }

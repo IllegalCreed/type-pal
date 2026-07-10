@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { resolveTilesetPath, validateTilesets } from './tileset.js'
+import { resolveTilesetPath, tileHeightsOf, validateTilesets } from './tileset.js'
 
 describe('validateTilesets(W7B)', () => {
   test('合法条目(含 tiles 元数据留字段)→ 原样返回', () => {
@@ -26,5 +26,23 @@ describe('resolveTilesetPath', () => {
     expect(resolveTilesetPath('grass', reg)).toBe('assets/tilesets/grass.rle')
     expect(resolveTilesetPath('tileset/20.rle', reg)).toBe('tileset/20.rle')
     expect(() => resolveTilesetPath('nope', reg)).toThrow('不在注册表')
+  })
+})
+
+describe('tileHeightsOf(W7 高度补全)', () => {
+  const reg = [
+    { id: 'wall', name: '墙', category: 'indoor', path: 'assets/tilesets/wall.rle',
+      tiles: [{}, { height: 1 }, { height: 2 }, { height: 3 }, { height: 0 }] },
+    { id: 'plain', name: '素', category: 'misc', path: 'assets/tilesets/plain.rle' },
+  ]
+  test('按 id 或 path 命中;只收显式标注;0 也收(纯地面语义)', () => {
+    const h = tileHeightsOf(reg, 'wall')
+    expect(h?.get(1)).toBe(1)
+    expect(h?.get(3)).toBe(3)
+    expect(h?.get(0)).toBeUndefined() // 未标注(空对象)不入表 → 渲染缺省 1
+    expect(h?.get(4)).toBe(0) // 显式 0 = 不遮挡
+    expect(tileHeightsOf(reg, 'assets/tilesets/wall.rle')?.get(2)).toBe(2) // path 匹配
+    expect(tileHeightsOf(reg, 'plain')).toBeUndefined() // 无元数据
+    expect(tileHeightsOf(reg, 'nope')).toBeUndefined()
   })
 })

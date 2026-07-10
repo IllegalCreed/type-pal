@@ -633,6 +633,51 @@ export class SetOwnMapTilesetCommand implements Command {
 }
 
 /**
+ * 标注瓦片遮挡格高(W7 高度补全):tilesets[id].tiles[tileIdx].height。
+ * height undefined = 清除标注(渲染回缺省 1);0 = 纯地面不遮挡。单位 = 半格 8px(原版同源):一格高家具 = 2,三格高墙的墙顶 = 6。
+ * tiles 稀疏数组按需补齐空对象(下标 = 瓦片索引,与 RLE 帧序同源)。
+ */
+export class UpdateTilesetTileHeightCommand implements Command {
+  readonly label = '标瓦片高度'
+  private prev: number | undefined
+  private captured = false
+
+  constructor(
+    private readonly tilesetId: string,
+    private readonly tileIdx: number,
+    private readonly height: number | undefined,
+  ) {}
+
+  private write(state: EditorState, height: number | undefined): EditorState {
+    const list = state.tilesets ?? []
+    const index = list.findIndex((t) => t.id === this.tilesetId)
+    if (index < 0) return state
+    const def = list[index]!
+    const tiles = [...(def.tiles ?? [])]
+    while (tiles.length <= this.tileIdx) tiles.push({})
+    tiles[this.tileIdx] = height === undefined ? {} : { height }
+    const next = [...list]
+    next[index] = { ...def, tiles }
+    return { ...state, tilesets: next }
+  }
+
+  apply(state: EditorState): EditorState {
+    if (!this.captured) {
+      this.prev = (state.tilesets ?? []).find((t) => t.id === this.tilesetId)?.tiles?.[
+        this.tileIdx
+      ]?.height
+      this.captured = true
+    }
+    return this.write(state, this.height)
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.captured) return state
+    return this.write(state, this.prev)
+  }
+}
+
+/**
  * 上传 tileset 入库(W7B):注册表条目 + .rle 字节暂存原子加入;invert 同时移除。
  * blob 键 = def.path(资产相对路径);保存时 serializeProject 并入文件集。
  */

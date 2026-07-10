@@ -1,6 +1,6 @@
 /** 地图模式(W7D)：OwnMap v1 的 N 视觉层与独立碰撞层编辑器。 */
 import type { SceneDef } from '@type-pal/content'
-import { isReuseMap, mapRoom, pixelToGrid, reuseMapNum } from '@type-pal/content'
+import { isReuseMap, mapRoom, pixelToGrid, reuseMapNum, tileHeightsOf } from '@type-pal/content'
 import type {
   AssetBase,
   LatticePos,
@@ -175,7 +175,10 @@ export function MapMode(props: {
       camera: { x: panX, y: panY },
       sprites: [],
       worldScale: zoom,
-      layers: { hiddenOwnLayerIds: [...hiddenLayerIds] },
+      layers: {
+        hiddenOwnLayerIds: [...hiddenLayerIds],
+        ...(liveMap ? { ownTileHeights: tileHeightsOf(tilesets, liveMap.tileset) } : {}),
+      },
     })
     drawGridBlocked(
       ctx,
@@ -219,6 +222,7 @@ export function MapMode(props: {
     activeTool,
     collisionPaint,
     hiddenLayerIds,
+    tilesets,
     loadedRef,
   ])
 

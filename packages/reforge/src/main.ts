@@ -17,6 +17,7 @@ import {
   grantBattleRewards,
   gridToPixel,
   lookupText,
+  isOwnMap,
   mapRoom,
   pixelDeltaToGridDelta,
   pixelToGrid,
@@ -24,6 +25,7 @@ import {
   type SceneDef,
   type SceneMap,
   sceneMapKey,
+  tileHeightsOf,
   type ScriptStage,
   type SpriteDef,
   spriteScreenY,
@@ -288,6 +290,8 @@ async function main(): Promise<void> {
   let palette!: Palette
   let renderer!: Canvas2DRenderer
   let room!: CellRect
+  /** own 图 per-tile 遮挡格高(切场景时按绑定 tileset 元数据算;reuse/无元数据 = undefined)。 */
+  let ownTileHeights: ReadonlyMap<number, number> | undefined
   let viewMinX = 0
   let viewMinY = 0
   let viewMaxX = 0
@@ -452,6 +456,9 @@ async function main(): Promise<void> {
     scene = def
     map = assets.map
     tiles = assets.tiles
+    ownTileHeights = isOwnMap(assets.map)
+      ? tileHeightsOf(project.tilesets, assets.map.tileset)
+      : undefined
     palette = pal
     renderer = new Canvas2DRenderer(ctx, palette, tiles)
     entitySpriteDefs = defs
@@ -1835,7 +1842,7 @@ async function main(): Promise<void> {
       })
     }
     // 场景底图:clear + scale + renderScene + restore(抽成 renderSceneFrame,editor 复用同一绘制)。
-    renderSceneFrame(ctx, renderer, { map, room, camera, sprites, worldScale: WORLD_SCALE })
+    renderSceneFrame(ctx, renderer, { map, room, camera, sprites, worldScale: WORLD_SCALE, layers: ownTileHeights ? { ownTileHeights } : undefined })
     // debug 碰撞叠加层(reforge 自己的 dev 拐杖;非编辑器叠加层)—— 在底图之上、独立变换块。
     if (DEBUG_COLLISION) {
       ctx.save()
