@@ -1,12 +1,12 @@
 # W7D - 自有地图 N 层新格式(schema 级返工,修正 W7a 旧格式地基)
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: W7(地图模块)
-Coding Owner: 待三方设计签字后由用户指定(建议 Codex,Opus 复验)
+Coding Owner: Codex(用户指定,2026-07-10)
 Generation Owner: N/A
 Reviewer: 三方(schema 级必审)
-Visual Verification Owner: Opus(渲染对拍)
+Visual Verification Owner: Codex 已自验;Opus 负责 review 对拍
 Unavailable Agents: none
 Branch: main
 
@@ -23,7 +23,7 @@ Branch: main
   - 新 OwnMap schema(content 校验)+ buildBlankOwnMap 改产新格式。
   - reforge 渲染 N 层路径(旧路径原样服务 reuse;两路分流在 loadSceneMap 已有的架构上)。
   - 编辑器 MapMode 适配:层列表(增/删/重排/显隐/选中作画)、绘制工具由 word/mask 换
-    (layerIdx, tileId|null)、碰撞笔刷写独立碰撞层;交互骨架(一笔一撤/stroke 预览/
+    (layerId, tileId|null)、碰撞笔刷写独立碰撞层;交互骨架(一笔一撤/stroke 预览/
     矩形/填充/hover/瓦片面板)原样保留。
   - 引擎行走碰撞读新碰撞层;建图→多层画→碰撞→存→载→引擎渲染闭环。
 - 范围外 / 明确不做:
@@ -50,7 +50,7 @@ Branch: main
   - `packages/reforge/src/render.ts`(旧渲染路径不动;新路径新增)
   - `packages/editor/src/ui/MapMode.tsx`(交互骨架保留,位编码消费点替换)
   - `packages/editor/src/core/commands.ts` PaintTilesCommand(命令骨架保留,
-    edit 载荷由 {word,mask} 换 {layerIdx, tileId|null} / 碰撞值)
+    edit 载荷由 {word,mask} 换 {layerId, tileId|null} / 碰撞值)
   - 测试:`own-map.test.ts` / `commands.test.ts` 对应重写
 - 交互惯例(已立勿改):一笔=一步撤销;stroke 本地预览;中/右键平移;选瓦自动入笔刷;
   绘制工具照 RPG Maker/Tiled 惯例(用户授权)。
@@ -83,7 +83,7 @@ Branch: main
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept**(2026-07-10;Coding Owner 自审通过;实现 `cd1ab67a`,全仓门禁与 6012 浏览器证据见 Build 段)
 - Opus: pending
 - GLM: pending
 - counter / 返工处理:
@@ -119,7 +119,7 @@ Branch: main
 - **渲染**:reforge 新增 N 层渲染路径(逐层按数组序画;occlude 层入深度表),
   旧路径零改动服务 reuse;分流点 = loadSceneMap(判据:新格式带 version/layers)。
 - **编辑器**:MapMode 左栏上部加层列表(选中层作画/眼睛显隐/加删重排),下部瓦片面板
-  不变;PaintTilesCommand 载荷换 {layerIdx, tileId|null} 与碰撞写;undo 语义(一笔
+  不变;PaintTilesCommand 载荷换 {layerId, tileId|null} 与碰撞写;undo 语义(一笔
   一撤、prev 全量还原)不变。
 - **兼容**:无存量自有地图 → 直接切换,不写迁移;W7C-3 的旧格式绘制路径(encode/mask/
   MAX_LAYER0 等)随本卡退役,pixelToTile 退回 collision.ts 兼容层仅服务 reuse。
@@ -146,32 +146,84 @@ Branch: main
 - 实现约束:把 lattice 行列与像素/格坐标转换集中成 helper,禁止把旧 `h` 或 `cell.lower/upper` 概念重新暴露给新 schema/API。
 - 实现约束:OwnMap 校验需钉住 `layers.length >= 1`、每层 `tiles` 尺寸为 `2*height × width`、`collision` 同维度、layer id 唯一;无效数据应在加载/编辑入口早失败。
 
+### Build 实施定案(2026-07-10)
+
+- Coding Owner:Codex;按 D1(schema/加载/渲染)→ D2(命令/N 层 UI)→ D3(碰撞/闭环/文档)连续推进,期间不换 Owner。
+- 碰撞聚合:引擎按逻辑格判定时,该格对应的两个错排子格**任一值非 0 即阻挡**。这是保守规则,避免半格障碍被角色穿过;测试覆盖仅第一子格、仅第二子格、两者均阻挡、两者均为空。
+- 遮挡空格:`occlude: true` 的视觉层中 `null` 表示无瓦片,必须直接跳过,不产生 cover-tile/深度表项。
+- 分期守卫:D1 与 D2 不作为可交付中间态;若开发被迫停在 D1,编辑器遇到 OwnMap v1 必须禁用旧 `word/mask/h` 绘制路径。D2 完成后旧自有地图绘制 API 整体退役,旧 Tilemap 路径只服务 `reuseOriginalMap`。
+
 ### 审查方立场
 
 - 主审:三方(schema 级)。
-- 是否建议进入 build: 待 GLM 设计签字(Codex agree,Opus agree)。
+- 是否建议进入 build: 三方 agree,用户已指定 Codex 接手。
+
+## Build:实现与自验证
+
+- 实现提交:`cd1ab67a feat(reforge): 落地 OwnMap v1 N 层地图`。
+- D1:新增 `@type-pal/content` OwnMap v1 类型/加载 guard;校验版本、正尺寸、至少一层、
+  `2H×W` 矩阵、唯一稳定 layer id、tile/collision 非负整数。`loadSceneMap` 汇成旧
+  `Tilemap | OwnMap`,Canvas2DRenderer 新增 N 层与 `occlude` 深度重绘路径;旧路径保留给 reuse。
+- D2:编辑器工作副本切为 `Record<string, OwnMap>`;绘制命令改用稳定 `layer.id`;新增视觉层
+  增/删/重排/改名/遮挡属性与独立碰撞命令,全部 apply/invert;MapMode 落地图层列表、显隐、
+  选层作画,瓦片编号不再受旧 9 位上限。窄窗口 toolbar 保持自动换行。
+- D3:引擎 `isBlockedAt` 对逻辑格执行“两子格任一非 0 即阻挡”;像素叠加精确读命中子格;
+  `occlude` 的 `null` 由纯渲染计划直接跳过。`serializeProject → loadOwnMap` 集成测试覆盖
+  存储后重开数据闭环;content-schema/decisions/capability-map/engineering-notes 已同步。
+- 自动验证:`pnpm check` 最终通过。计数:shared 103、content 130、migrate 73、
+  pal-extract 251、reforge 245、game 2294、editor 91,全部 typecheck + test 绿。
+- 浏览器验证:6010 已被现有服务占用,故在全新 `http://localhost:6012/` 实测。完成复用图载入→
+  新建 24×24 OwnMap→新增/改名/显隐/遮挡/重排图层→前景与地板分别绘瓦→碰撞标记→
+  撤销/重做→切回 SceneCanvas 共享渲染;画布非空且两层瓦片、红碰撞格、进场角色均可见。
+- 响应式验证:900×700 视口 toolbar 分为两行(`rowTops=[44,78]`),toolbar 底部与 viewport
+  顶部同为 132px,`document.scrollWidth === innerWidth === 900`,无重叠/横向溢出。
+- 浏览器日志:实现完成后重启 6012 并用全新标签检查,该次启动无新增 warning/error。
+- 未在用户目录触发原生 FSA 写盘(避免弹授权或误写文件);以 `serializeProject → loadOwnMap`
+  集成测试覆盖同一数据闭环。Opus review 可按需用临时目录补真实 FSA 手工复验。
+
+## Review:审查与返工
+
+- Codex 自审:accept。实现满足设计约束,旧 `word/mask/h/lower/upper` 已退出自有地图 API;
+  旧 `pixelToTile` 仅留 reuse 兼容碰撞路径。
+- Opus:pending。重点做架构/代码审查、同内容旧新遮挡对拍、6010/备用端口视觉复验。
+- GLM:pending。重点复核 schema guard、测试矩阵、文档与旧概念退役覆盖。
+- review 期间不得标记 done;任一 counter 转 rework。
 
 ## 交接日志
 
 - 2026-07-09 Opus: 认领 W7a 旧格式地基失误,起草本卡(schema 候选 A + 分期 + 风险);
   用户授权「按最合理方式」→ 本卡立项。Evidence: 本卡 + W7C-3 交接日志。Next: Codex + GLM / 设计签字。
 - 2026-07-09 Codex: 设计签字 agree。实现可行,分期合理;补充稳定 layer.id、lattice helper、OwnMap 校验等实现约束。Evidence: 推进签字与 Codex 设计签字说明。Next: GLM / 覆盖审查设计签字。
+- 2026-07-09 GLM:设计签字 agree;补充逻辑格碰撞聚合、`occlude` 空格测试与 D1→D2 旧编辑路径风险。Evidence:推进签字 GLM 行。Next:用户指定 Coding Owner。
+- 2026-07-10 User:指定 Codex 为 Coding Owner。
+- 2026-07-10 Codex:接手 build;碰撞聚合定为“两子格任一非 0 即阻挡”,`occlude` 的 `null` 不入遮挡表,D1/D2 不对外形成可编辑半成品。Next:完成 D1→D3 并自验证后转 review。
+- 2026-07-10 Codex:完成 D1→D3,提交 `cd1ab67a`;全仓 `pnpm check`、6012 多层/碰撞/撤销/SceneCanvas 与窄视口验证通过,状态转 review,Codex 签 accept。Next:Opus / 架构代码审查 + 视觉对拍。
 
 ## 下一位 Agent 提示词
 
 ```text
 接手任务: W7D - 自有地图 N 层新格式(schema 级返工)
 任务卡: docs/ops/tasks/W7D-nlayer-map-schema.md
-当前状态: draft(build 准入 blocked,Opus agree + Codex agree,待 GLM 签字)
-你的角色: GLM 设计签字(覆盖清单/测试矩阵/schema 数据风险/文档遗漏)
-先读: AGENTS.md 三贤人协议;本卡全部(尤其「上下文锚点」「Draft 设计结论」);
-  docs/phase2/decisions.md D16;docs/phase2/foundation/content-schema.md §5。
-已完成: Opus 起草 schema 候选 A(错排 lattice 紧凑数组 + N 层 + 独立碰撞层)、
-  分期方案、风险清单;Codex 已从实现可行性/验证方案/工作量角度签 agree,并补充 layer.id、lattice helper、OwnMap 校验等实现约束;W7C-3 已定性为旧格式兼容切片(另卡)。
-请你做: 审本卡设计结论与风险,输出 agree 或 counter + 理由;counter 请附替代方案
-  (尤其若你认为网格表达/遮挡语义/分期切法应改)。
-不要做: 不要开始实现(build 准入签字未齐);不要重新引入 u32 位编码/mask/h API/
-  paletteId;不要重新考证子格几何(错排 lattice 已钉死)。
-输出要求: 签字写回本卡「进入 build 前:设计签字」你的行(agree / counter + 理由);
-  由用户转达或有文件权限的一方代录。三签齐后用户指定 Coding Owner 进 build。
+当前状态: review(Codex accept;Opus/GLM done 审查签字 pending,不得标记 done)
+实现提交: cd1ab67a feat(reforge): 落地 OwnMap v1 N 层地图
+你的角色: Opus 主审(架构/代码审查 + 视觉级复验)
+先读: AGENTS.md 三贤人协议;本卡全部(尤其上下文锚点、Build、Review);
+  docs/phase2/READ-FIRST.md;docs/phase2/decisions.md D16;
+  docs/phase2/foundation/content-schema.md §5。
+重点代码: packages/content/src/own-map.ts;
+  packages/reforge/src/{own-map,render,collision,assets,scene-map}.ts;
+  packages/editor/src/core/commands.ts;packages/editor/src/ui/MapMode.tsx。
+已完成:OwnMap v1 严格校验、旧/新地图加载渲染分流、稳定 layer.id 的 N 层命令/UI、
+  独立碰撞聚合、serialize→load 重开闭环;最终 pnpm check 全绿(game 2294/editor 91);
+  Codex 已在备用端口 6012 完成多层/碰撞/撤销/SceneCanvas/900px 两行 toolbar 实测。
+请你做:
+  1. 审 schema/API 是否彻底隔离旧 word/mask/h/lower-upper,稳定 id 与命令 invert 是否可靠;
+  2. 复核 collision 两子格聚合、occlude null 跳过及旧 reuse 路径零回归;
+  3. 在 6010(占用则另起端口)做同内容旧/新遮挡对拍与 UI 视觉复验;
+  4. 评估是否还需用临时目录补一次真实 FSA 保存→重开(自动集成测试已覆盖数据闭环)。
+输出要求:无阻塞 flaw 则在「进入 done 前:审查签字」Opus 行写 accept,并在 Review/交接
+  日志记录命令、视觉证据与剩余风险;发现问题则写 counter + 精确 file:line + 返工条件,
+  状态转 rework。提交你的任务卡更新。
+不要做:review 阶段不要直接改实现文件;不要标记 done(仍须 GLM accept + 用户最终验收)。
+完成后:给用户一段可直接复制给 GLM 的下一位 Agent 提示词,并同步写回本卡。
 ```
