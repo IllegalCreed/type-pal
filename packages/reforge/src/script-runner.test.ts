@@ -81,6 +81,9 @@ function fakeHost(calls: string[]): ScriptHost {
     gameOver: alog('gameOver'),
     shakeScreen: log('shakeScreen'),
     toggleDayNight: log('toggleDayNight'),
+    increaseHpMp: log('increaseHpMp'),
+    revivePartyAll: log('revivePartyAll'),
+    learnSkill: log('learnSkill'),
   }
 }
 
@@ -105,6 +108,10 @@ test('legacy op 兼容层:静默 0x00/0x08,直映射 0x85/0x93/0x35/0x36+0x37/0x
       un(0x37, [0, 0, 7]), // 播 RNG:chunk=5(0x36 设的),end≤0 → 缺省,speed 7
       un(0x80, [0, 0, 0]), // 昼夜切换,更新场景模式 → 3200ms 渐变
       un(0x77, [0, 0, 0]), // 停乐
+      un(0x1d, [1, 9999, 0]), // 全队增血蓝(HP/MP 同加 op1;op2 忽略 = sdlpal/一阶段裁决)
+      un(0x1d, [1, 0xfc19, 0]), // 负增量(int16 −999;温泉陷阱两用)
+      un(0x22, [1, 10, 0]), // 全队复活 10/10 = 满血
+      un(0x55, [301, 2, 0]), // 学仙术:magic 301 → 角色 2−1=1(赵灵儿)
       un(0x9a, [2137, 2145, 0]), // batch2 未覆盖 → 仍上报
     ],
     [],
@@ -118,6 +125,10 @@ test('legacy op 兼容层:静默 0x00/0x08,直映射 0x85/0x93/0x35/0x36+0x37/0x
     'playRng(5,{"startFrame":0,"speed":7})',
     'toggleDayNight(3200)',
     'playMusic(0)',
+    'increaseHpMp(9999)',
+    'increaseHpMp(-999)',
+    'revivePartyAll(10)',
+    'learnSkill(1,"301")',
     'report("unmigrated op 0x9a ")',
   ])
 })

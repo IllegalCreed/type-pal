@@ -110,6 +110,15 @@ export interface ScriptHost {
   /** 0x80 昼夜切换(script.c:2381):world.ambience day↔night 翻转 + fadeMs 渐变
    *  (原版 PaletteFade 真值:更新场景 3200ms / 立即模式 800ms,一阶段 OP_PALETTE_FADE)。 */
   toggleDayNight?(fadeMs: number): void
+  /** 0x1D 全队增血蓝(script.c:923 PAL_IncreaseHPMP(role, op1, op1)):HP/MP **同加** amount
+   *  (op2 忽略,sdlpal/一阶段同);仅活人、clamp [0,max]。负数 = 扣(温泉/陷阱两用)。 */
+  increaseHpMp?(amount: number): void
+  /** 0x22 全队复活(script.c:1052):仅死者;HP = maxHP×tenths/10 + 解重毒(CurePoisonByLevel(3)
+   *  ≙ severe)+ 清临时状态(遍历 RemovePlayerStatus ≙ extraStatuses 清空)。 */
+  revivePartyAll?(tenths: number): void
+  /** 0x55 学仙术(script.c:1816 PAL_AddMagic):roleIdx = 原版角色号(0李逍遥/1赵灵儿/2林月如/
+   *  3巫后/4阿奴/5盖罗娇);已会不重复。 */
+  learnSkill?(roleIdx: number, skillId: string): void
 }
 
 /** 条件求值(chance 用注入的 random,可测)。 */
@@ -407,6 +416,19 @@ export class ScriptRunner {
       case 0x80: // 昼夜切换(script.c:2381):toggle + PaletteFade;时长真值 = 一阶段
         // OP_PALETTE_FADE:op0==0(更新场景)3200ms 渐变,否则 800ms
         h.toggleDayNight?.(a === 0 ? 3200 : 800)
+        return
+      case 0x1d: // 增血蓝(script.c:923):HP/MP 同加 int16(op1),op2 忽略(sdlpal/一阶段裁决)。
+        // pal 数据 9 处全 op0=1(全队);op0=0 单人形态(事件对象指角色)全游戏未出现,报缺口
+        if (a !== 0) h.increaseHpMp?.(i16(b))
+        else h.report(`unmigrated op 0x1d 单人形态(op0=0)未接`)
+        return
+      case 0x22: // 复活(script.c:1052):仅死者,HP=max×op1/10 + 解重毒 + 清临时状态;数据全 op0=1
+        if (a !== 0) h.revivePartyAll?.(b)
+        else h.report(`unmigrated op 0x22 单人形态(op0=0)未接`)
+        return
+      case 0x55: // 学仙术(script.c:1816):op0=magic id,op1>0 → 角色 op1−1;op1=0(事件对象)未出现
+        if (b > 0) h.learnSkill?.(b - 1, String(a))
+        else h.report(`unmigrated op 0x55 事件对象形态(op1=0)未接`)
         return
       case 0x85: // 延时(script.c:2511 UTIL_Delay(op0 × 80ms))
         return h.wait(a * 80)

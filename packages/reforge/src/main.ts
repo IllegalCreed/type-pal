@@ -139,6 +139,17 @@ const TILE_W = 32
 const TILE_H = 16
 const _MARGIN = 32
 
+/** 原版角色号 → 模板 id(0x55 学仙术等 legacy op 的 role 操作数;= 原版 PlayerRoles 表序。
+ *  ⚠ 3=巫后、4=阿奴(原版名字指针 3/4 对调是名字层面,角色号本身照表序)。 */
+const ORIGINAL_ROLE_TEMPLATES = [
+  'li-xiaoyao',
+  'zhao-linger',
+  'lin-yueru',
+  'wu-hou',
+  'anu',
+  'gai-luojiao',
+] as const
+
 // 移动手感（port sdlpal）。帧下标计算已数据化 → sprite-anim.ts(读 SpriteDef.layout,C0)。
 const STEP_MS = 100 // 探索步进 ~10fps = 仙剑「卡顿感」（不是 60fps 平滑滑行）
 // 方向 → 菱形轴单轴步进(D16):走一格只动一个轴。down=右下视野=row+1,up=左上=row-1,
@@ -788,6 +799,34 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     shakeScreen: (timeFrames, level) => {
       worldShake = timeFrames > 0 ? { untilMs: nowMs + timeFrames * 40, level } : null
     },
+    // 0x1D 全队增血蓝(客栈/温泉 9999 全满):HP/MP 同加 amount(sdlpal op1 双用),仅活人,clamp
+    increaseHpMp: (amount) => {
+      for (const c of world.party) {
+        if (c.hp <= 0) continue
+        c.hp = Math.max(0, Math.min(c.maxHP, c.hp + amount))
+        c.mp = Math.max(0, Math.min(c.maxMP, c.mp + amount))
+      }
+    },
+    // 0x22 全队复活(仅死者):HP = max×tenths/10 + 解重毒 + 清临时状态(0x22 遍历 RemovePlayerStatus)
+    revivePartyAll: (tenths) => {
+      for (const c of world.party) {
+        if (c.hp > 0) continue
+        c.hp = Math.max(1, Math.trunc((c.maxHP * tenths) / 10))
+        curePoisons(c, project.poisonsById, 'severe')
+        if (c.extraStatuses?.length) c.extraStatuses = []
+      }
+    },
+    // 0x55 学仙术:原版角色号(0李逍遥…4阿奴)→ actors 表序模板 id;离队成员也照学
+    // (原版 PlayerRoles 全局存活);已会不重复。找不到实例 → 记在模板名下(入队时同键)。
+    learnSkill: (roleIdx, skillId) => {
+      const tid = ORIGINAL_ROLE_TEMPLATES[roleIdx]
+      if (!tid || !project.skills[skillId]) return
+      const inst =
+        world.party.find((c) => c.template === tid) ??
+        world.reserve?.find((c) => c.template === tid)
+      const list = (world.learnedSkills[inst?.id ?? tid] ??= [])
+      if (!list.includes(skillId)) list.push(skillId)
+    },
     // E6b 显式定位权威(手工演出精细控制;隐式接管见 scriptHost 位移视图)
     takeEntity: (id) => {
       takeByScript(id)
@@ -1184,6 +1223,11 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       // 胜利结算路径已在 buildSettlement 里写回 HP + 入账;其余路径(败/逃/敌逃)此处写回 HP。
       if (result !== 'win' || session.enemyFled()) session.writeBackHp(world.party)
       session.writeBackInventory(world.inventory)
+      // 偷窃/收妖所得:**无条件**入账(原版偷钱 dwCash 即时加、收妖值全局累计 —— 逃跑也保留;
+      // 偷到的物品随 writeBackInventory 一并回世界)
+      if (session.moneyStolen() > 0) world.money += session.moneyStolen()
+      if (session.collectGained() > 0)
+        world.collectValue = (world.collectValue ?? 0) + session.collectGained()
       // 战后「三件套」(battle.c:1822-1830):胜/败/逃无条件。① ClearAllStatus → 清大世界护体符定时状态
       // (extraStatuses);② CurePoisonByLevel(3) → 世界毒态清 ≤severe(无影毒/寄生 incurable 留);
       // ③ RemoveEquipExtra → 清大蒜临时毒抗 Extra(extraPoisonRes;装备本身 Extra 走 live 派生无持久)。
@@ -2121,6 +2165,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     playRng: (chunkIdx: number) => host.playRng(chunkIdx),
     get battleLog() {
       return activeBattle?.debugLog() ?? []
+    },
+    /** dev:渲染层诊断(fade 卡黑/战斗态排查)。 */
+    get renderDebug() {
+      return { fadeBlack, inBattle: !!activeBattle, menuActive: menu.active }
     },
     /** dev:活动战斗队员态快照(护体符/毒携带验证:status.protect / poisons)。无战斗 = []。 */
     get battlePlayers() {

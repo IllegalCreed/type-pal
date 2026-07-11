@@ -17,7 +17,7 @@ function record(frames: AnimFrame[]) {
     onDamage: (t, v) => events.push(`dmg:${t.side}${t.idx}:${v}`),
     onFighter: (d) =>
       events.push(
-        `f:${d.side}${d.idx}${d.frame !== undefined ? `#${d.frame}` : ''}${d.pos ? `@${d.pos.x},${d.pos.y}` : ''}${d.smoothMs ? '~' : ''}${d.colorShift !== undefined ? `c${d.colorShift}` : ''}`,
+        `f:${d.side}${d.idx}${d.frame !== undefined ? `#${d.frame}` : ''}${d.pos ? `@${d.pos.x},${d.pos.y}` : ''}${d.colorShift !== undefined ? `c${d.colorShift}` : ''}`,
       ),
     onBanner: (text, durMs) => events.push(`banner:${text}:${durMs}`),
   })
@@ -191,11 +191,18 @@ describe('M4d-2 战斗动画时间线', () => {
     const { events, player } = record(frames)
     let guard = 0
     while (!player.tick(50) && guard++ < 200) {}
-    // 前移 = 逻辑层 1:1 fight.c:2295(单帧赋值),连续观感走表现层 smoothMs 插值
-    // (指数趋近 = 快起步、减速集中尾段;作者对照原版 pal.exe 三轮校准)——
-    // 时间线上不再有手搓中间步进帧
-    expect(events.filter((e) => /^f:player1@/.test(e)).length).toBe(0)
-    expect(events).toContain('f:player1#5@225,163~') // 前移举物帧带平滑标记
+    // 走近 = 原版通用位移形制:6 步线性插值 ×40ms、整数除法(合击聚拢
+    // fight.c:3881-3890 同构;作者六轮对照原版收口 —— 非 ease/密帧/渲染平滑)
+    const walk = events.filter((e) => /^f:player1@/.test(e))
+    expect(walk).toEqual([
+      'f:player1@237,168',
+      'f:player1@235,167',
+      'f:player1@232,166',
+      'f:player1@230,165',
+      'f:player1@227,164',
+      'f:player1@225,163',
+    ])
+    expect(events).toContain('f:player1#5@225,163') // 到位举物姿(无渲染平滑标记)
     expect(events).toContain('snd:28') // 用品音(fight.c:2300)
     expect(events).toContain('f:player1c6') // 呼吸峰值
     expect(events).toContain('f:player1c0') // 降回

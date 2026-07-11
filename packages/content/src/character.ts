@@ -25,6 +25,8 @@ export interface WorldState {
   /** W6 氛围(昼夜):全局单值,照原版 fNightPalette 语义 —— 只被脚本 setAmbience 改、
    *  跨场景持续、随存档。缺省/旧档 → 'day'(恒等不染)。 */
   ambience?: string
+  /** 收妖值(原版 wCollectValue:灵葫咒 0x33 收妖累计,酒仙处兑换)。缺省/旧档 → 0。 */
+  collectValue?: number
 }
 
 /** manifest.startWorld —— initialWorld() 的数据化(loader 从工程 JSON 读,buildWorld 组装)。 */

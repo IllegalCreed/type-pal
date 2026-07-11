@@ -125,12 +125,6 @@ interface VisualFighter {
   colorShift: number
   /** 信息框显示血量(伤害数字帧才同步,避免结算即时扣血提前剧透)。 */
   displayHp: number
-  /** 位移平滑目标(smoothMs 标记的 pos delta:渲染位置指数趋近目标 = 快起步、
-   *  减速集中尾段 —— 作者对照原版 pal.exe 的观感;undefined = 无平滑进行中)。 */
-  sx?: number
-  sy?: number
-  /** 趋近时间常数 ms(exp(−dt/τ);~3τ 内基本到位)。 */
-  sTau?: number
 }
 
 export class BattleSession {
@@ -150,6 +144,10 @@ export class BattleSession {
   /** 合击选目标中(单体合体技进 target 态时置;确认后 = coop 动作 + 消耗其余队员)。 */
   private pendingCoop = false
   private targetIdx = 0
+  /** 选目标阵营:enemy=选敌(默认);ally=选队友(oneAlly 技能/物品 —— 还魂/解状态点名尸体/队友)。 */
+  private targetSide: 'enemy' | 'ally' = 'enemy'
+  /** 物品选队友中(oneAlly 物品进 target 态;确认后 = item 动作带 targetAllyIdx)。 */
+  private pendingItemId: string | null = null
   // ── 战斗快捷键状态(一阶段 uibattle.c:1166-1302 全套;S 状态屏 reforge 无状态面板暂缺)──
   /** A 自动战斗:持续每回合自动普攻,菜单态 Esc 取消。 */
   private fAuto = false
@@ -520,6 +518,16 @@ export class BattleSession {
     return { exp: this.state.expGained, cash: this.state.cashGained }
   }
 
+  /** 偷到的钱(飞龙探云手;原版 dwCash 即时加 —— main 无条件入账,逃跑也保留)。 */
+  moneyStolen(): number {
+    return this.state.moneyStolen
+  }
+
+  /** 收妖值(灵葫咒 0x33;main 无条件并入 world.collectValue)。 */
+  collectGained(): number {
+    return this.state.collectGained
+  }
+
   /** B7c 隐藏经验行为计数(roleId → 池计数;main 传 grantBattleRewards 分配)。 */
   hiddenCounts(): Record<string, Partial<Record<string, number>>> {
     const out: Record<string, Partial<Record<string, number>>> = {}
@@ -529,7 +537,6 @@ export class BattleSession {
 
   tick(dtMs: number, pressed: ReadonlySet<string>): void {
     this.nowMs += dtMs
-    this.stepSmoothPos(dtMs) // 位移平滑(smoothMs 标记的 pos delta;rAF 级推进)
     // 数字 11 帧×40ms=440ms(uibattle.c:1753 age>10 清);文本飘字维持 900ms
     this.floats = this.floats.filter(
       (f) => this.nowMs - f.bornAt < (f.num !== undefined ? 440 : 900),
@@ -668,6 +675,7 @@ export class BattleSession {
         if (confirm) {
           if (this.menuIdx === 0) {
             this.ui = 'target'
+            this.targetSide = 'enemy'
             this.pendingSkillId = null
             this.targetIdx = 0
           } else if (this.menuIdx === 1) {
@@ -686,6 +694,7 @@ export class BattleSession {
             } else {
               this.pendingCoop = true
               this.ui = 'target'
+              this.targetSide = 'enemy'
               this.targetIdx = 0
             }
           } else if (this.menuIdx === 3) {
@@ -738,7 +747,14 @@ export class BattleSession {
             if (skill.target === 'oneEnemy') {
               this.pendingSkillId = skillId
               this.ui = 'target'
+              this.targetSide = 'enemy'
               this.targetIdx = 0
+            } else if (skill.target === 'oneAlly' && s.players.length > 1) {
+              // 对队友单体(还魂咒/冰心诀):进己方选人(单人队直落自己,不弹选人)
+              this.pendingSkillId = skillId
+              this.ui = 'target'
+              this.targetSide = 'ally'
+              this.targetIdx = sel
             } else {
               this.submitAnd(sel, { kind: 'cast', skillId })
             }
@@ -753,7 +769,15 @@ export class BattleSession {
         if (pressed.has('Escape')) this.ui = 'miscSub'
         if (confirm && list.length) {
           const it = list[this.itemIdx % list.length]!
-          this.submitAnd(sel, { kind: 'item', itemId: it.itemId })
+          if (this.state.items[it.itemId]?.use?.target === 'oneAlly' && s.players.length > 1) {
+            // oneAlly 物品(还魂香/灵心符):选队友(可选尸体 —— 复活正需要);单人队直落自己
+            this.pendingItemId = it.itemId
+            this.ui = 'target'
+            this.targetSide = 'ally'
+            this.targetIdx = sel
+          } else {
+            this.submitAnd(sel, { kind: 'item', itemId: it.itemId })
+          }
         }
       } else if (this.ui === 'throwItem') {
         const list = this.throwableItems()
@@ -766,7 +790,37 @@ export class BattleSession {
           // 选好投掷道具 → 进敌方目标选择(throw 打敌单体)
           this.pendingThrowItem = list[this.itemIdx % list.length]!.itemId
           this.ui = 'target'
+          this.targetSide = 'enemy'
           this.targetIdx = 0
+        }
+      } else if (this.ui === 'target' && this.targetSide === 'ally') {
+        // 己方选人(oneAlly 技能/物品):全队成员循环,**含死者**(还魂要点名尸体);
+        // 高亮闪目标,Esc 回来源列表,确认提交带 targetAllyIdx
+        const n = s.players.length
+        if (pressed.has('ArrowLeft') || pressed.has('ArrowUp'))
+          this.targetIdx = (this.targetIdx + n - 1) % n
+        if (pressed.has('ArrowRight') || pressed.has('ArrowDown'))
+          this.targetIdx = (this.targetIdx + 1) % n
+        if (pressed.has('Escape')) {
+          this.targetSide = 'enemy'
+          if (this.pendingItemId) {
+            this.pendingItemId = null
+            this.ui = 'item'
+          } else {
+            this.pendingSkillId = null
+            this.ui = 'skill'
+          }
+        }
+        if (confirm) {
+          const t = this.targetIdx % n
+          const action: BattleAction = this.pendingItemId
+            ? { kind: 'item', itemId: this.pendingItemId, targetAllyIdx: t }
+            : { kind: 'cast', skillId: this.pendingSkillId!, targetAllyIdx: t }
+          this.pendingItemId = null
+          this.pendingSkillId = null
+          this.targetSide = 'enemy'
+          this.submit(sel, action)
+          this.backToMain()
         }
       } else if (this.ui === 'target') {
         const alive = this.aliveEnemyIdxs()
@@ -824,6 +878,8 @@ export class BattleSession {
       stepBattle(s, this.rng)
       const la = s.lastAction
       s.lastAction = null // 消费即清(回合末空步不重播)
+      // 偷窃结果横幅(fight.c:5289 偷到居中对话;与物品名同一 banner 位)
+      if (la?.stealBanner) this.itemBanner = { text: la.stealBanner, untilMs: this.nowMs + 1200 }
       // 本步死亡敌(动画收尾统一开淡出 + death 音;一阶段 diedFromAttack 语义)
       this.pendingDeaths = s.enemies
         .map((e, i) => (i < eHp.length && eHp[i]! > 0 && e.hp <= 0 && !s.enemyFled ? i : -1))
@@ -1070,6 +1126,7 @@ export class BattleSession {
       attackAllHits?: { idx: number; value: number }[]
       blocked?: boolean
       autoDefend?: number[]
+      targetAllyIdx?: number
     } | null,
     pHp: number[],
     eHp: number[],
@@ -1092,7 +1149,14 @@ export class BattleSession {
         .filter((g) => g.target.side === 'player')
         .map((g) => ({ idx: g.target.idx, value: g.value, tone: g.tone }))
       this.pendingGains = this.pendingGains.filter((g) => g.target.side !== 'player')
-      return buildUseItem({ casterIdx: la.idx, casterPos, targetIdxs: [la.idx], itemName, gains })
+      // oneAlly 点名队友时呼吸落在目标身上(还魂香喂尸体);缺省施己
+      return buildUseItem({
+        casterIdx: la.idx,
+        casterPos,
+        targetIdxs: [la.targetAllyIdx ?? la.idx],
+        itemName,
+        gains,
+      })
     }
     // 投掷道具(frame5 投掷姿 → 目标染色闪 → 复位;数字不显 —— 下毒无即时伤害)
     if (la.kind === 'throw' && la.side === 'player' && la.target !== undefined) {
@@ -1253,49 +1317,22 @@ export class BattleSession {
     this.submitAnd(sel, act)
   }
 
-  /** 时间线 delta → 表现层。pos 带 smoothMs = 设趋近目标(渲染层插值);否则直落并清平滑。 */
+  /** 时间线 delta → 表现层(原版语义:pos 直落;连续位移由时间线插值帧承担)。 */
   private applyDelta(d: {
     side: 'player' | 'enemy'
     idx: number
     frame?: number
     pos?: { x: number; y: number }
-    smoothMs?: number
     colorShift?: number
   }): void {
     const v = d.side === 'player' ? this.visual.players[d.idx] : this.visual.enemies[d.idx]
     if (!v) return
     if (d.frame !== undefined) v.frame = d.frame
     if (d.pos) {
-      if (d.smoothMs && d.smoothMs > 0) {
-        v.sx = d.pos.x
-        v.sy = d.pos.y
-        v.sTau = d.smoothMs
-      } else {
-        v.x = d.pos.x
-        v.y = d.pos.y
-        v.sx = undefined
-        v.sy = undefined
-      }
+      v.x = d.pos.x
+      v.y = d.pos.y
     }
     if (d.colorShift !== undefined) v.colorShift = d.colorShift
-  }
-
-  /** 位移平滑推进(每 tick;指数趋近 = 快起步、减速集中尾段,作者对照原版观感)。 */
-  private stepSmoothPos(dtMs: number): void {
-    for (const v of [...this.visual.players, ...this.visual.enemies]) {
-      if (!v || v.sx === undefined) continue
-      const tx = v.sx
-      const ty = v.sy ?? v.y
-      const k = 1 - Math.exp(-dtMs / Math.max(1, v.sTau ?? 35))
-      v.x += (tx - v.x) * k
-      v.y += (ty - v.y) * k
-      if (Math.abs(tx - v.x) < 0.5 && Math.abs(ty - v.y) < 0.5) {
-        v.x = tx
-        v.y = ty
-        v.sx = undefined
-        v.sy = undefined
-      }
-    }
   }
 
   /** 伤害表现:蓝数字飘字(一阶段 damageNum blue)+ displayHp 同步到结算值。 */
@@ -1441,11 +1478,20 @@ export class BattleSession {
       sv === null ? 0 : sv.phase === 'hold' ? 1 : Math.min(1, Math.max(0, (now - sv.start) / (72 * 16)))
     const summonShow = sv === null ? 0 : sv.phase === 'out' ? 1 - svT : svT
     const sel = s.phase === 'selectAction' ? this.nextSelecting() : undefined
-    // 选敌高亮目标(target 态,闪烁节拍)
+    // 选敌高亮目标(target 态,闪烁节拍);选队友(ally 态)同款高亮闪自己人
     const alive = this.aliveEnemyIdxs()
+    const targetBlink = Math.floor(now / 160) % 2 === 0
     const highlightEnemy =
-      sel !== undefined && this.ui === 'target' && alive.length && Math.floor(now / 160) % 2 === 0
+      sel !== undefined &&
+      this.ui === 'target' &&
+      this.targetSide === 'enemy' &&
+      alive.length &&
+      targetBlink
         ? alive[this.targetIdx % alive.length]
+        : undefined
+    const highlightPlayer =
+      sel !== undefined && this.ui === 'target' && this.targetSide === 'ally' && targetBlink
+        ? this.targetIdx % Math.max(1, s.players.length)
         : undefined
     // 场景(M4d-2:visual 层驱动 —— 动画位移/帧/受击染色;死亡 = 颗粒溶解)
     const enemies: BattleSpriteDraw[] = []
@@ -1511,7 +1557,7 @@ export class BattleSession {
         x: v.x,
         y: v.y + jy,
         frame: v.frame,
-        colorShift: v.colorShift,
+        colorShift: i === highlightPlayer ? 6 : v.colorShift,
         ...(summonShow > 0 ? { alpha: 1 - summonShow } : {}),
       })
     })

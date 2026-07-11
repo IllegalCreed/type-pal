@@ -20,9 +20,6 @@ export interface FighterDelta {
   frame?: number
   /** 底锚位置(缺 = 不变)。 */
   pos?: { x: number; y: number }
-  /** pos 的表现层平滑:>0 = 渲染位置以 τ=smoothMs 指数趋近(快起步、尾段减速;
-   *  作者对照原版 pal.exe 的位移插值观感)。缺省/0 = 直落(瞬移)。 */
-  smoothMs?: number
   /** 受击/高亮染色(0 = 复位;一阶段 iColorShift=6 提亮)。 */
   colorShift?: number
 }
@@ -311,23 +308,39 @@ export interface BuildUseItemInput {
 }
 
 /**
- * 战斗使用物品 —— 逻辑层 1:1 fight.c:2266-2335 PAL_BattleShowPlayerUseItemAnim:
- * Delay(4) → pos **单帧赋值** (−15,−7) + frame5(举物)+ sound 28 + 物品名(wObjectID,
- * 同帧起显 13 帧)→ 目标 colorShift 0..6 再 5..0(每级 Delay(1))。
- * 前移的**连续观感**来自表现层:pos delta 带 smoothMs → session 渲染位置指数趋近
- * (快起步、减速集中尾段 —— 作者对照原版 pal.exe 三轮校准的插值形态);
- * 归位不带 smoothMs = 瞬移直落(作者:原版先弹血量数字、后瞬移归位)。
+ * 战斗使用物品(fight.c:2266-2335 PAL_BattleShowPlayerUseItemAnim 主体):
+ * Delay(4) → 走近 → frame5(举物)+ sound 28 + 物品名同帧起显 13 帧 →
+ * 目标 colorShift 0..6 再 5..0(每级 Delay(1))→ 先弹涨益数字 → 瞬移归位。
+ * ⚠ 走近形制:sdlpal 此函数是单帧赋值,但作者实测原版 pal.exe 为连续插值;
+ * 采用原版同类位移的通用形制 = **6 步线性插值,每步 Delay(1),整数除法**
+ * (合击聚拢原样保留在 fight.c:3876-3925:`(orig×(6−i)+target×i)/6`)—— 照抄,
+ * 不做 ease/密帧/渲染平滑(作者裁决 2026-07-11 第六轮收口)。
  */
 export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
   const { casterIdx, casterPos, targetIdxs, itemName, gains } = input
   const frames: AnimFrame[] = [{ durationMs: delayMs(4) }]
   const shifted = { x: casterPos.x - 15, y: casterPos.y - 7 }
+  // 走近:6 步线性(fight.c:3881-3890 同构;C 整除 = floor)
+  for (let i = 1; i <= 6; i++) {
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [
+        {
+          side: 'player',
+          idx: casterIdx,
+          pos: {
+            x: Math.floor((casterPos.x * (6 - i) + shifted.x * i) / 6),
+            y: Math.floor((casterPos.y * (6 - i) + shifted.y * i) / 6),
+          },
+        },
+      ],
+    })
+  }
   const targets = (shift: number): FighterDelta[] =>
     targetIdxs.map((idx) => ({ side: 'player' as const, idx, colorShift: shift }))
   for (let i = 0; i <= 6; i++) {
     const fighters = targets(i)
-    if (i === 0)
-      fighters.unshift({ side: 'player', idx: casterIdx, pos: shifted, frame: 5, smoothMs: 35 })
+    if (i === 0) fighters.unshift({ side: 'player', idx: casterIdx, pos: shifted, frame: 5 })
     frames.push({
       durationMs: delayMs(1),
       fighters,

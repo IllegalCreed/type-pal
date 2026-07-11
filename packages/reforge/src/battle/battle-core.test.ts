@@ -1,4 +1,4 @@
-import type { EnemyDef } from '@type-pal/content'
+import type { EnemyDef, SkillData } from '@type-pal/content'
 import { calcMagicDamage, calcPhysicalAttackDamage } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { ItemData } from '@type-pal/content'
@@ -1282,5 +1282,320 @@ describe('P3 合体技(coop magic)', () => {
     // 快队友(dex 200)本会先手,但 coopThisTurn 令其普攻作废 → 无玩家物攻打到 slime
     expect(s.log.some((l) => l.includes('攻击 slime'))).toBe(false)
     expect(s.log.filter((l) => l.includes('合体技')).length).toBe(1)
+  })
+})
+
+// ── P0 技能效果接线(2026-07-11 通关审计):gate 顺序门/即死/偷窃/收妖/解状态/buffStat/复活/
+//    変身 + 己方目标路由 + 敌方侧 gate·即死·下毒。
+//    考证锚:script.c 0x06(掷[1,100]≥率 fail)/0x64(HP 高于阈值 fail)/0x2E(rng(0,9)≥巫抗)/
+//    0x60 即死/0x33 收妖/0x29 玩家中毒掷[1,100]>毒抗;fight.c:5193 偷窃(rng(0,10)≤率)──
+describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/目标路由)', () => {
+  const mkSkill = (id: string, o: Partial<SkillData>): SkillData => ({
+    id,
+    name: id,
+    desc: '',
+    cost: {},
+    usableOutsideBattle: false,
+    target: 'oneEnemy',
+    effects: [],
+    animation: { effectSprite: 0 },
+    ...o,
+  })
+  /** 推一整回合:必要时进 selectAction → 填招(先于建队,防 auto-fill 抢跑)→ 消费到回合末。 */
+  const turn = (
+    s: ReturnType<typeof createBattleState>,
+    rng: () => number,
+    act: (st: ReturnType<typeof createBattleState>) => void,
+  ): void => {
+    if (s.phase === 'preBattle') stepBattle(s, rng)
+    act(s)
+    let guard = 0
+    do {
+      stepBattle(s, rng)
+    } while (s.phase === 'performAction' && ++guard < 60)
+  }
+  const rngHigh = () => 0.99 // 概率门恒失败(掷 100);灵抗门恒失败(掷 9 < 抗 10 才会,见各测)
+  const dummy = (o: Partial<EnemyDef['stats']> = {}) =>
+    mkEnemy('dummy', { attackStrength: 0, health: 9999, ...o })
+
+  test('灵葫咒链:HP≤25% 门过 + 概率门过 → 收妖 + 即死;满血敌 HP 门截断=无任何效果', () => {
+    const lh = mkSkill('lh', {
+      effects: [
+        { kind: 'gate', hpAtMostPercent: 25 },
+        { kind: 'gate', chance: 60 },
+        { kind: 'collectTreasure' },
+        { kind: 'instantKill' },
+      ],
+    })
+    // 残血敌(20/100 ≤ 25%):rng0 掷 1 < 60 过 → 收妖 5 + 即死
+    const s = createBattleState({
+      players: [player('li', { skills: ['lh'] })],
+      enemies: [dummy({ health: 100, collectValue: 5 })],
+      skills: { lh },
+    })
+    s.enemies[0]!.hp = 20
+    turn(s, rng0, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'lh', targetEnemyIdx: 0 }))
+    expect(s.enemies[0]!.hp).toBe(0)
+    expect(s.collectGained).toBe(5)
+    expect(s.log.some((l) => l.includes('魂飞魄散'))).toBe(true)
+    // 满血敌:HP 门截断 → 不死、不收妖、显「无任何效果」
+    const s2 = createBattleState({
+      players: [player('li', { skills: ['lh'] })],
+      enemies: [dummy({ health: 100, collectValue: 5 })],
+      skills: { lh },
+    })
+    turn(s2, rng0, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'lh', targetEnemyIdx: 0 }))
+    expect(s2.enemies[0]!.hp).toBe(100)
+    expect(s2.collectGained).toBe(0)
+    expect(s2.log.some((l) => l.includes('无任何效果'))).toBe(true)
+  })
+
+  test('概率门(0x06):掷 100 ≥ 60 → 截断即死;灵抗门:巫抗 0 过 / 巫抗满不过', () => {
+    const kill60 = mkSkill('k60', {
+      effects: [
+        { kind: 'gate', chance: 60 },
+        { kind: 'instantKill' },
+      ],
+    })
+    const s = createBattleState({
+      players: [player('li', { skills: ['k60'] })],
+      enemies: [dummy()],
+      skills: { k60: kill60 },
+    })
+    turn(s, rngHigh, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'k60', targetEnemyIdx: 0 }))
+    expect(s.enemies[0]!.hp).toBe(9999)
+    expect(s.log.some((l) => l.includes('无任何效果'))).toBe(true)
+    // 灵抗门(0x2E 同构 rng(0,9) >= 巫抗):rng0 掷 0 —— 巫抗 0 过(即死),巫抗 5(mkEnemy 默认)不过
+    const mres = mkSkill('mres', {
+      effects: [
+        { kind: 'gate', magicResist: true },
+        { kind: 'instantKill' },
+      ],
+    })
+    const pass = createBattleState({
+      players: [player('li', { skills: ['mres'] })],
+      enemies: [{ ...dummy(), ai: { resistanceToSorcery: 0 } }],
+      skills: { mres },
+    })
+    turn(pass, rng0, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'mres', targetEnemyIdx: 0 }))
+    expect(pass.enemies[0]!.hp).toBe(0)
+    const block = createBattleState({
+      players: [player('li', { skills: ['mres'] })],
+      enemies: [dummy()],
+      skills: { mres },
+    })
+    turn(block, rng0, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'mres', targetEnemyIdx: 0 }))
+    expect(block.enemies[0]!.hp).toBe(9999)
+  })
+
+  test('偷窃(fight.c:5193):偷物入包、余量递减、偷光一无所获;偷钱敌走 moneyStolen', () => {
+    const st6 = mkSkill('steal6', { effects: [{ kind: 'steal', rate: 6 }] })
+    const s = createBattleState({
+      players: [player('li', { skills: ['steal6'] })],
+      enemies: [{ ...dummy(), steal: { itemId: '91', count: 2 } }],
+      skills: { steal6: st6 },
+      items: { '91': { id: '91', name: '天蚕丝' } as ItemData },
+    })
+    const cast = (st: ReturnType<typeof createBattleState>) =>
+      st.pendingActions.set(0, { kind: 'cast', skillId: 'steal6', targetEnemyIdx: 0 })
+    turn(s, rng0, cast) // rng0 掷 0 ≤ 6 命中
+    expect(s.inventory.find((x) => x.itemId === '91')?.count).toBe(1)
+    expect(s.log.some((l) => l.includes('偷到 天蚕丝'))).toBe(true)
+    turn(s, rng0, cast)
+    expect(s.inventory.find((x) => x.itemId === '91')?.count).toBe(2)
+    turn(s, rng0, cast) // 余量耗尽
+    expect(s.inventory.find((x) => x.itemId === '91')?.count).toBe(2)
+    expect(s.log.some((l) => l.includes('一无所获'))).toBe(true)
+    // 偷钱敌(itemId '0'):c = trunc(100/(2+0)) = 50 → moneyStolen
+    const coins = createBattleState({
+      players: [player('li', { skills: ['steal6'] })],
+      enemies: [{ ...dummy(), steal: { itemId: '0', count: 100 } }],
+      skills: { steal6: st6 },
+    })
+    turn(coins, rng0, cast)
+    expect(coins.moneyStolen).toBe(50)
+    expect(coins.enemies[0]!.stealLeft).toBe(50)
+  })
+
+  test('解状态(0x2F)按 targetAllyIdx 点名队友;buffStat 烙属性 + 定时到期扣回', () => {
+    const bx = mkSkill('bx', {
+      target: 'oneAlly',
+      effects: [{ kind: 'removeStatus', statuses: ['confused', 'paralyzed', 'sleep'] }],
+    })
+    const s = createBattleState({
+      players: [player('li', { skills: ['bx'] }), player('ling')],
+      enemies: [dummy()],
+      skills: { bx },
+    })
+    s.players[1]!.status.sleep = 4
+    turn(s, rng0, (st) => {
+      st.pendingActions.set(0, { kind: 'cast', skillId: 'bx', targetAllyIdx: 1 })
+      st.pendingActions.set(1, { kind: 'defend' })
+    })
+    expect(s.players[1]!.status.sleep).toBe(0)
+    // buffStat:攻 +100%(40→80)整场;定时 1 回合的到期扣回
+    const buff = mkSkill('buff', {
+      target: 'self',
+      effects: [
+        { kind: 'buffStat', stat: 'attack', percent: 100, duration: 'battle' },
+        { kind: 'buffStat', stat: 'dexterity', percent: 50, duration: 1 },
+      ],
+    })
+    const b = createBattleState({
+      players: [player('li', { skills: ['buff'], attackStrength: 40, baseDexterity: 50 })],
+      enemies: [dummy()],
+      skills: { buff },
+    })
+    turn(b, rng0, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'buff' }))
+    expect(b.players[0]!.attackStrength).toBe(80) // 'battle' 整场:回合末不回落
+    expect(b.players[0]!.baseDexterity).toBe(50) // 定时 1 回合:本回合末已扣回 75→50
+    turn(b, rng0, (st) => st.pendingActions.set(0, { kind: 'defend' }))
+    expect(b.players[0]!.attackStrength).toBe(80)
+  })
+
+  test('复活(0x22 全语义):还魂咒仅救死者 + 解重毒 + 清定时状态(装备 9999 哨兵保留)', () => {
+    const rev = mkSkill('rev', { target: 'oneAlly', effects: [{ kind: 'revive', hpPercent: 10 }] })
+    const s = createBattleState({
+      players: [
+        player('li', { skills: ['rev'] }),
+        player('ling', { maxHp: 200, poisons: [{ poisonId: 1, tickIndex: 0 }] }),
+      ],
+      enemies: [dummy()],
+      skills: { rev },
+      poisonDefs: { 1: { id: 1, name: '赤毒', curability: 'common', color: 0 } },
+    })
+    const t = s.players[1]!
+    t.hp = 0
+    t.status.confused = 3 // 定时状态:复活应清
+    t.status.dualAttack = 9999 // 装备常驻哨兵:应保留
+    turn(s, rng0, (st) => {
+      st.pendingActions.set(0, { kind: 'cast', skillId: 'rev', targetAllyIdx: 1 })
+      st.pendingActions.set(1, { kind: 'defend' })
+    })
+    expect(t.hp).toBe(20) // 200×10%
+    expect(t.poisons.length).toBe(0)
+    expect(t.status.confused).toBe(0)
+    expect(t.status.dualAttack).toBeGreaterThan(0)
+    expect(s.log.some((l) => l.includes('死而复生'))).toBe(true)
+    // 对活人无效果
+    turn(s, rng0, (st) => {
+      st.pendingActions.set(0, { kind: 'cast', skillId: 'rev', targetAllyIdx: 1 })
+      st.pendingActions.set(1, { kind: 'defend' })
+    })
+    expect(t.hp).toBe(20)
+    expect(s.log.some((l) => l.includes('无任何效果'))).toBe(true)
+  })
+
+  test('物品 targetAllyIdx 路由:还魂香喂尸体复活;金创药对死人无效果', () => {
+    const items: Record<string, ItemData> = {
+      hh: {
+        id: 'hh',
+        name: '还魂香',
+        use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'revive', hpPercent: 10 }] },
+      } as ItemData,
+      jc: {
+        id: 'jc',
+        name: '金创药',
+        use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'healHp', amount: 50 }] },
+      } as ItemData,
+    }
+    const s = createBattleState({
+      players: [player('li'), player('ling', { maxHp: 200 })],
+      enemies: [dummy()],
+      items,
+      inventory: [
+        { itemId: 'hh', count: 1 },
+        { itemId: 'jc', count: 1 },
+      ],
+    })
+    s.players[1]!.hp = 0
+    turn(s, rng0, (st) => {
+      st.pendingActions.set(0, { kind: 'item', itemId: 'jc', targetAllyIdx: 1 })
+      st.pendingActions.set(1, { kind: 'defend' })
+    })
+    expect(s.players[1]!.hp).toBe(0) // 死人吃药无效(PAL_IncreaseHPMP 仅活人)
+    turn(s, rng0, (st) => {
+      st.pendingActions.set(0, { kind: 'item', itemId: 'hh', targetAllyIdx: 1 })
+      st.pendingActions.set(1, { kind: 'defend' })
+    })
+    expect(s.players[1]!.hp).toBe(20)
+    expect(s.inventory.find((x) => x.itemId === 'hh')?.count).toBe(0)
+  })
+
+  test('敌方夺魂(gate 灵抗直通 + 概率 33 + 即死):掷 1 过门 → 队员魂飞魄散', () => {
+    const dh = mkSkill('dh', {
+      effects: [
+        { kind: 'gate', magicResist: true },
+        { kind: 'gate', chance: 33 },
+        { kind: 'instantKill' },
+      ],
+    })
+    const reaper = {
+      ...mkEnemy('reaper', { health: 9999, attackStrength: 0 }),
+      ai: { resistanceToSorcery: 5, rules: [{ at: 'act', do: { kind: 'cast', skillId: 'dh' } }] },
+    } as EnemyDef
+    const s = createBattleState({
+      players: [player('li'), player('ling')],
+      enemies: [reaper],
+      skills: { dh },
+    })
+    turn(s, rng0, (st) => {
+      st.pendingActions.set(0, { kind: 'defend' })
+      st.pendingActions.set(1, { kind: 'defend' })
+    })
+    expect(s.players.some((p) => p.hp <= 0)).toBe(true)
+    expect(s.log.some((l) => l.includes('魂飞魄散'))).toBe(true)
+    // 概率门失败(掷 100 ≥ 33):无人死
+    const s2 = createBattleState({
+      players: [player('li'), player('ling')],
+      enemies: [reaper],
+      skills: { dh },
+    })
+    turn(s2, rngHigh, (st) => {
+      st.pendingActions.set(0, { kind: 'defend' })
+      st.pendingActions.set(1, { kind: 'defend' })
+    })
+    expect(s2.players.every((p) => p.hp > 0)).toBe(true)
+  })
+
+  test('敌方下毒(0x29):掷[1,100] > 毒抗 → 中毒;高毒抗挡下', () => {
+    const px = mkSkill('px', { effects: [{ kind: 'applyPoison', poisonId: '1' }] })
+    const snake = {
+      ...mkEnemy('snake', { health: 9999, attackStrength: 0 }),
+      ai: { resistanceToSorcery: 5, rules: [{ at: 'act', do: { kind: 'cast', skillId: 'px' } }] },
+    } as EnemyDef
+    const hit = createBattleState({
+      players: [player('li')],
+      enemies: [snake],
+      skills: { px },
+      poisonDefs: { 1: { id: 1, name: '赤毒', curability: 'common', color: 0 } },
+    })
+    turn(hit, rng0, (st) => st.pendingActions.set(0, { kind: 'defend' })) // 掷 1 > 毒抗 0 → 中
+    expect(hit.players[0]!.poisons.length).toBe(1)
+    const resist = createBattleState({
+      players: [player('li', { poisonRes: 50 })],
+      enemies: [snake],
+      skills: { px },
+    })
+    turn(resist, rng0, (st) => st.pendingActions.set(0, { kind: 'defend' })) // 掷 1 ≤ 50 → 抗住
+    expect(resist.players[0]!.poisons.length).toBe(0)
+  })
+
+  test('変身(trance):tranceSprite 落施法者;链上 buffStat 同步生效', () => {
+    const mengshe = mkSkill('ms', {
+      target: 'self',
+      effects: [
+        { kind: 'trance', sprite: 5 },
+        { kind: 'buffStat', stat: 'attack', percent: 100, duration: 'battle' },
+      ],
+    })
+    const s = createBattleState({
+      players: [player('ling', { skills: ['ms'], attackStrength: 30 })],
+      enemies: [dummy()],
+      skills: { ms: mengshe },
+    })
+    turn(s, rng0, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'ms' }))
+    expect(s.players[0]!.tranceSprite).toBe(5)
+    expect(s.players[0]!.attackStrength).toBe(60)
   })
 })
