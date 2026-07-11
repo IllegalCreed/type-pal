@@ -179,6 +179,10 @@ export interface BattleState {
     targetAllyIdx?: number
     /** 偷窃结果横幅(「偷到 xx」;present 层顶部横幅,对齐原版偷窃对话框)。 */
     stealBanner?: string
+    /** flee 动作成败(演出分流:成功全队滑出屏 / 失败挪步定格;battle.c:1438 / fight.c:4152)。 */
+    fleeSuccess?: boolean
+    /** divide/summon 本步新占的敌槽(演出层:分身滑开起点/新怪精灵播种)。 */
+    spawnedIdxs?: number[]
   } | null
 }
 
@@ -278,13 +282,14 @@ const aliveEnemies = (s: BattleState): number[] =>
 
 /** 增援落位:优先复用死槽(原版填空槽语义 —— 继承槽位 basePos,布局不换挡、在场怪不动);
  *  无死槽才追加(仅新怪落新位,既有怪 basePos 已定死不受影响)。
- *  rewardCounted 重置:复活槽的新怪再死要重新计赏(老怪死时已入账,不双计)。 */
-function spawnIntoSlot(s: BattleState, spawn: Omit<BattleEnemyState, 'basePos'>): void {
+ *  rewardCounted 重置:复活槽的新怪再死要重新计赏(老怪死时已入账,不双计)。
+ *  返回落位槽下标(演出层:分裂滑开/新怪精灵播种)。 */
+function spawnIntoSlot(s: BattleState, spawn: Omit<BattleEnemyState, 'basePos'>): number {
   const slot = s.enemies.findIndex((x) => x.hp <= 0)
   if (slot >= 0) {
     const basePos = s.enemies[slot]!.basePos
     s.enemies[slot] = { ...spawn, basePos, rewardCounted: false }
-    return
+    return slot
   }
   s.enemies.push({
     ...spawn,
@@ -294,6 +299,7 @@ function spawnIntoSlot(s: BattleState, spawn: Omit<BattleEnemyState, 'basePos'>)
         y: 110,
       },
   })
+  return s.enemies.length - 1
 }
 
 /** 傀儡续战(fight.c:1139/950/1739):死者 hp==0 但 puppet>0 仍出手(仅死人可设)。 */
@@ -1193,9 +1199,11 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
     const roll = Math.floor(_rng() * (def + 1))
     if (!s.boss && p.fleeRate >= roll) {
       s.phase = 'fled'
+      if (s.lastAction) s.lastAction.fleeSuccess = true
       s.log.push('全队逃跑')
     } else {
       addHidden('luck', 2) // B7c:逃跑失败 → 吉运池 +2(fight.c:4170 rgFleeExp,仅逃者本人)
+      if (s.lastAction) s.lastAction.fleeSuccess = false
       s.log.push(`${p.roleId} 逃跑失败${s.boss ? '(首领战不可逃)' : ''}`)
     }
     return
@@ -1581,16 +1589,20 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
     }
     const share = Math.max(1, Math.trunc(e.hp / (n + 1)))
     e.hp = share
+    const spawned: number[] = []
     for (let k = 0; k < n; k++) {
-      spawnIntoSlot(s, {
-        def: e.def,
-        hp: share,
-        status: emptyBattleStatus(),
-        defending: false,
-        firedRules: new Set(),
-        poisons: [],
-      })
+      spawned.push(
+        spawnIntoSlot(s, {
+          def: e.def,
+          hp: share,
+          status: emptyBattleStatus(),
+          defending: false,
+          firedRules: new Set(),
+          poisons: [],
+        }),
+      )
     }
+    if (s.lastAction) s.lastAction.spawnedIdxs = spawned
     s.log.push(`${e.def.id} 分裂出 ${n} 个分身`)
     return
   }
@@ -1601,16 +1613,20 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
       s.log.push(`${e.def.id} 召唤失败(无空位)`)
       return
     }
+    const spawned: number[] = []
     for (let k = 0; k < n; k++) {
-      spawnIntoSlot(s, {
-        def: decision.def,
-        hp: decision.def.stats.health,
-        status: emptyBattleStatus(),
-        defending: false,
-        firedRules: new Set(),
-        poisons: [],
-      })
+      spawned.push(
+        spawnIntoSlot(s, {
+          def: decision.def,
+          hp: decision.def.stats.health,
+          status: emptyBattleStatus(),
+          defending: false,
+          firedRules: new Set(),
+          poisons: [],
+        }),
+      )
     }
+    if (s.lastAction) s.lastAction.spawnedIdxs = spawned
     s.log.push(`${e.def.id} 召唤了 ${n} 个 ${decision.def.id}`)
     return
   }

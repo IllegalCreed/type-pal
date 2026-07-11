@@ -3,8 +3,13 @@ import {
   type AnimFrame,
   AnimPlayer,
   buildEnemyCast,
+  buildEnemyDivide,
+  buildEnemyEscape,
   buildEnemyPhysical,
+  buildEnemyTransform,
+  buildFleeFail,
   buildMateAttack,
+  buildPartyFlee,
   buildPlayerAttack,
   buildPlayerCast,
   buildUseItem,
@@ -218,6 +223,77 @@ describe('M4d-2 战斗动画时间线', () => {
     // 涨益数字先于归位(作者对照原版:先显血量、后瞬移归位)
     expect(events).toContain('dmg:player1:50')
     expect(events.indexOf('dmg:player1:50')).toBeLessThan(events.indexOf('f:player1#0@240,170'))
+  })
+
+  test('逃跑成功(battle.c:1438):16 帧×40ms 槽位差值滑出;音效45首帧;单人队 slot0 走 (+4,+4)', () => {
+    const frames = buildPartyFlee({
+      players: [
+        { idx: 0, pos: { x: 200, y: 160 } },
+        { idx: 1, pos: { x: 240, y: 170 } },
+      ],
+      single: false,
+    })
+    expect(frames.length).toBe(16)
+    expect(frames[0]!.sound).toBe(45)
+    expect(frames[0]!.fighters).toEqual([
+      { side: 'player', idx: 0, frame: 0, pos: { x: 204, y: 166 } }, // slot0 (+4,+6)
+      { side: 'player', idx: 1, frame: 0, pos: { x: 244, y: 174 } }, // slot1 (+4,+4)
+    ])
+    expect(frames[15]!.fighters).toEqual([
+      { side: 'player', idx: 0, frame: 0, pos: { x: 264, y: 256 } },
+      { side: 'player', idx: 1, frame: 0, pos: { x: 304, y: 234 } },
+    ])
+    // 单人队:slot0 差值 fallthrough (+4,+4)(battle.c:1481 switch 穿透)
+    const solo = buildPartyFlee({ players: [{ idx: 0, pos: { x: 240, y: 170 } }], single: true })
+    expect(solo[0]!.fighters![0]!.pos).toEqual({ x: 244, y: 174 })
+  })
+
+  test('逃跑失败(fight.c:4152):3 帧 (+4,+2) 挪步 → frame1 定格 320ms + 「逃跑失败」banner', () => {
+    const frames = buildFleeFail({ idx: 1, pos: { x: 240, y: 170 } })
+    expect(frames.length).toBe(4)
+    expect(frames[0]!.fighters![0]).toEqual({
+      side: 'player',
+      idx: 1,
+      frame: 0,
+      pos: { x: 244, y: 172 },
+    })
+    expect(frames[2]!.fighters![0]!.pos).toEqual({ x: 252, y: 176 })
+    expect(frames[3]).toEqual({
+      durationMs: 320,
+      fighters: [{ side: 'player', idx: 1, frame: 1 }],
+      banner: { text: '逃跑失败', durationMs: 320 },
+    })
+  })
+
+  test('敌逃(battle.c:1376):每 10ms x−5 至滑出左屏 + 终帧停 500ms;音效45首帧', () => {
+    const frames = buildEnemyEscape({ enemies: [{ idx: 0, pos: { x: 100, y: 110 }, width: 50 }] })
+    // ceil((100+50)/5) = 30 步 + 终帧
+    expect(frames.length).toBe(31)
+    expect(frames[0]!.sound).toBe(45)
+    expect(frames[0]!.durationMs).toBe(10)
+    expect(frames[0]!.fighters![0]!.pos).toEqual({ x: 95, y: 110 })
+    expect(frames[29]!.fighters![0]!.pos).toEqual({ x: -50, y: 110 }) // 完全出屏
+    expect(frames[30]).toEqual({ durationMs: 500 })
+  })
+
+  test('变身现形(script.c:2954 0x9F):colorShift 0→5 六帧染白 → 归 0 + 音效 47', () => {
+    const frames = buildEnemyTransform({ idx: 2 })
+    expect(frames.length).toBe(7)
+    expect(frames.slice(0, 6).map((f) => f.fighters![0]!.colorShift)).toEqual([0, 1, 2, 3, 4, 5])
+    expect(frames[6]!.fighters![0]!.colorShift).toBe(0)
+    expect(frames[6]!.sound).toBe(47)
+  })
+
+  test('分裂滑开(script.c:2853 0x9C):10 帧整数二分逼近 + 终帧精确落位', () => {
+    const frames = buildEnemyDivide({
+      motherPos: { x: 100, y: 100 },
+      spawns: [{ idx: 3, target: { x: 180, y: 120 } }],
+    })
+    expect(frames.length).toBe(11)
+    const xs = frames.map((f) => f.fighters![0]!.pos!.x)
+    expect(xs).toEqual([140, 160, 170, 175, 177, 178, 179, 179, 179, 179, 180]) // (cur+target)/2 整除
+    expect(frames[0]!.fighters![0]!.pos!.y).toBe(110)
+    expect(frames[10]!.fighters![0]!.pos).toEqual({ x: 180, y: 120 })
   })
 
   test('actWaitFrames=0 的零长帧不卡死,一次 tick 全跨过', () => {

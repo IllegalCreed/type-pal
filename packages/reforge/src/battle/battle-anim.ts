@@ -998,3 +998,138 @@ export class AnimPlayer {
     this.fx.onSummonPhase?.(f.summonPhase ?? null)
   }
 }
+
+// ── P1 演出批(2026-07-11):逃跑成功/失败/敌逃/变身/分裂 —— gameplay 早在 core 结算,
+//    此处纯时间线(帧序/差值/时长 = sdlpal 原版逐行考证,锚点见各函数注释)──
+
+export interface BuildPartyFleeInput {
+  /** 活着的队员(slot 序;死者不滑 —— battle.c:1467 只动 HP>0)。pos = 站位底锚。 */
+  players: { idx: number; pos: { x: number; y: number } }[]
+  /** 单人队:slot0 差值走 case 穿透的 (+4,+4)(battle.c:1481-1500 switch fallthrough)。 */
+  single: boolean
+}
+
+/** 全队逃跑成功(battle.c:1438 PAL_BattlePlayerEscape):音效 45 + 全员 frame0,16 帧 ×40ms
+ *  按槽位差值滑右下出屏(slot0 (+4,+6)(单人 (+4,+4))/ slot1 (+4,+4)/ slot2 (+6,+3));
+ *  收尾**不复位**(人已离场 —— session 侧 skipNextReset,原版直接 RemoveFromScreen)。 */
+export function buildPartyFlee(input: BuildPartyFleeInput): AnimFrame[] {
+  const step = (slot: number): { dx: number; dy: number } => {
+    if (slot === 0) return input.single ? { dx: 4, dy: 4 } : { dx: 4, dy: 6 }
+    if (slot === 1) return { dx: 4, dy: 4 }
+    return { dx: 6, dy: 3 }
+  }
+  const frames: AnimFrame[] = []
+  for (let i = 1; i <= 16; i++) {
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: input.players.map((p) => {
+        const d = step(p.idx)
+        return {
+          side: 'player' as const,
+          idx: p.idx,
+          frame: 0,
+          pos: { x: p.pos.x + d.dx * i, y: p.pos.y + d.dy * i },
+        }
+      }),
+      ...(i === 1 ? { sound: 45 } : {}),
+    })
+  }
+  return frames
+}
+
+/** 逃跑失败(fight.c:4152-4168):frame0 + 3 帧 ×40ms 每帧 (+4,+2) 向右下挪步 →
+ *  frame1 定格 8 帧(320ms)+ 屏显「逃跑失败」(BATTLE_LABEL_ESCAPEFAIL);
+ *  复位交收尾 resetVisual(原版下一次 UpdateFighters 归位)。 */
+export function buildFleeFail(input: { idx: number; pos: { x: number; y: number } }): AnimFrame[] {
+  const frames: AnimFrame[] = []
+  for (let i = 1; i <= 3; i++)
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [
+        {
+          side: 'player',
+          idx: input.idx,
+          frame: 0,
+          pos: { x: input.pos.x + 4 * i, y: input.pos.y + 2 * i },
+        },
+      ],
+    })
+  frames.push({
+    durationMs: delayMs(8),
+    fighters: [{ side: 'player', idx: input.idx, frame: 1 }],
+    banner: { text: '逃跑失败', durationMs: delayMs(8) },
+  })
+  return frames
+}
+
+/** 敌整场逃离(battle.c:1376 PAL_BattleEnemyEscape):音效 45,每 10ms 全体 x−5,
+ *  直到全部滑出左屏(x+精灵宽 ≤ 0);终帧停 500ms(原版 UTIL_Delay(500) 再终止)。 */
+export function buildEnemyEscape(input: {
+  enemies: { idx: number; pos: { x: number; y: number }; width: number }[]
+}): AnimFrame[] {
+  if (!input.enemies.length) return [{ durationMs: 500 }]
+  const ticks = Math.max(1, ...input.enemies.map((e) => Math.ceil((e.pos.x + e.width) / 5)))
+  const frames: AnimFrame[] = []
+  for (let t = 1; t <= ticks; t++) {
+    frames.push({
+      durationMs: 10,
+      fighters: input.enemies.map((e) => ({
+        side: 'enemy' as const,
+        idx: e.idx,
+        pos: { x: e.pos.x - 5 * t, y: e.pos.y },
+      })),
+      ...(t === 1 ? { sound: 45 } : {}),
+    })
+  }
+  frames.push({ durationMs: 500 })
+  return frames
+}
+
+/** 敌变身现形(script.c:2954 0x9F):colorShift 0→5 六帧 ×40ms 染白渐显 → 归 0 + 音效 47
+ *  定格一拍。换精灵由 session 侧异步重载 —— 原版 PAL_LoadBattleSprites + FadeScene
+ *  交叉淡的 clean 表达(def 已在 core 换好、保 HP)。 */
+export function buildEnemyTransform(input: { idx: number }): AnimFrame[] {
+  const frames: AnimFrame[] = []
+  for (let i = 0; i < 6; i++)
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [{ side: 'enemy', idx: input.idx, frame: 0, colorShift: i }],
+    })
+  frames.push({
+    durationMs: delayMs(5),
+    fighters: [{ side: 'enemy', idx: input.idx, colorShift: 0 }],
+    sound: 47,
+  })
+  return frames
+}
+
+/** 敌分裂滑开(script.c:2853-2868 0x9C):分身自本体位置起,10 帧 ×40ms 每帧
+ *  pos = (pos + 槽位)/2 **整数二分逼近**(原版自带的指数收敛形制);终帧精确落位
+ *  (UpdateFighters)。本体 pos == 槽位,二分不动,无需入列。 */
+export function buildEnemyDivide(input: {
+  motherPos: { x: number; y: number }
+  spawns: { idx: number; target: { x: number; y: number } }[]
+}): AnimFrame[] {
+  const cur = new Map(input.spawns.map((s) => [s.idx, { ...input.motherPos }]))
+  const frames: AnimFrame[] = []
+  for (let i = 0; i < 10; i++) {
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: input.spawns.map((sp) => {
+        const c = cur.get(sp.idx)!
+        c.x = Math.trunc((c.x + sp.target.x) / 2)
+        c.y = Math.trunc((c.y + sp.target.y) / 2)
+        return { side: 'enemy' as const, idx: sp.idx, frame: 0, pos: { x: c.x, y: c.y } }
+      }),
+    })
+  }
+  frames.push({
+    durationMs: delayMs(1),
+    fighters: input.spawns.map((sp) => ({
+      side: 'enemy' as const,
+      idx: sp.idx,
+      pos: { x: sp.target.x, y: sp.target.y },
+    })),
+  })
+  return frames
+}

@@ -20,8 +20,13 @@ import {
   type AnimFrame,
   AnimPlayer,
   buildEnemyCast,
+  buildEnemyDivide,
+  buildEnemyEscape,
   buildEnemyPhysical,
+  buildEnemyTransform,
+  buildFleeFail,
   buildMateAttack,
+  buildPartyFlee,
   buildPlayerAttack,
   buildPlayerAttackAll,
   buildUseItem,
@@ -175,6 +180,10 @@ export class BattleSession {
   private currentSummon: LoadedSprite | null = null
   /** 本次施法动画的 fire sprite(overlays sheet='magic' 的图源)。 */
   private currentFire: LoadedSprite | null = null
+  /** 敌整场逃离演出中的敌槽(hp 已被 core 清零,渲染豁免继续画 —— 滑出屏动画可见)。 */
+  private fleeingEnemies: number[] | null = null
+  /** 本步演出收尾跳过 resetVisual(逃跑成功/敌逃:人已离场,归位会闪回)。 */
+  private skipNextReset = false
   /** 敌槽 → 淡出开始时刻(动画收尾后登记;渲染 alpha 渐隐)。 */
   private deathFades = new Map<number, number>()
   /** 本步结算中死掉的敌槽(动画播完后统一开淡出 + death 音)。 */
@@ -246,6 +255,9 @@ export class BattleSession {
        * 缺 → 无结算屏(直接收尾;单测)。
        */
       buildSettlement?: () => SettlementScreen[]
+      /** 按敌 def 加载战斗精灵(变身换形/异种召唤时中场重载 —— 原版 PAL_LoadBattleSprites;
+       *  缺 = 沿用槽位旧精灵,分裂/同种召唤不受影响)。 */
+      loadEnemySprite?: (def: EnemyDef) => Promise<LoadedSprite | undefined>
     } = {},
   ) {
     this.state = createBattleState({
@@ -1127,6 +1139,8 @@ export class BattleSession {
       blocked?: boolean
       autoDefend?: number[]
       targetAllyIdx?: number
+      fleeSuccess?: boolean
+      spawnedIdxs?: number[]
     } | null,
     pHp: number[],
     eHp: number[],
@@ -1157,6 +1171,95 @@ export class BattleSession {
         itemName,
         gains,
       })
+    }
+    // 玩家逃跑(fight.c:4126-4171):成功 = 全队 16 帧滑右下出屏(不复位,人已离场);
+    // 失败 = 挪 3 小步 + frame1 定格 320ms + 「逃跑失败」label,复位交收尾
+    if (la.kind === 'flee' && la.side === 'player') {
+      if (la.fleeSuccess) {
+        const alive = s.players
+          .map((_, i) => i)
+          .filter((i) => (pHp[i] ?? 0) > 0)
+          .map((i) => ({ idx: i, pos: getPlayerBasePos(s.players.length, i) ?? { x: 240, y: 170 } }))
+        if (!alive.length) return null
+        this.skipNextReset = true
+        return buildPartyFlee({ players: alive, single: s.players.length === 1 })
+      }
+      const pos = getPlayerBasePos(s.players.length, la.idx)
+      return pos ? buildFleeFail({ idx: la.idx, pos }) : null
+    }
+    // 敌整场逃离(battle.c:1376 0x69):全体 10ms/x−5 滑出左屏 + 停 500ms;
+    // hp 已被 core 清零 → fleeingEnemies 渲染豁免,收尾不复位
+    if (la.kind === 'fleeAll' && la.side === 'enemy') {
+      const fleeing = s.enemies
+        .map((e, i) => ({ e, i }))
+        .filter(({ i }) => (eHp[i] ?? 0) > 0)
+        .map(({ e, i }) => ({
+          idx: i,
+          pos: e.basePos,
+          width: this.assets.enemySprites[i]?.frames[0]?.width ?? 80,
+        }))
+      if (!fleeing.length) return null
+      this.fleeingEnemies = fleeing.map((f) => f.idx)
+      this.skipNextReset = true
+      return buildEnemyEscape({ enemies: fleeing })
+    }
+    // 敌变身现形(script.c:2954 0x9F):colorShift 0→5 染白 + 音 47;def 已换(保 HP),
+    // 精灵异步重载(原版 PAL_LoadBattleSprites;同精灵号变身 = 立即命中缓存)
+    if (la.kind === 'transform' && la.side === 'enemy') {
+      const def = s.enemies[la.idx]?.def
+      if (def)
+        this.opts.loadEnemySprite?.(def).then((sp) => {
+          if (sp) this.assets.enemySprites[la.idx] = sp
+        })
+      return buildEnemyTransform({ idx: la.idx })
+    }
+    // 敌分裂(script.c:2776 0x9C):分身播种(visual 落本体位 + 共用本体精灵)→
+    // 10 帧整数二分滑开到各自槽位
+    if (la.kind === 'divide' && la.side === 'enemy' && la.spawnedIdxs?.length) {
+      const mother = s.enemies[la.idx]
+      if (!mother) return null
+      for (const si of la.spawnedIdxs) {
+        this.visual.enemies[si] = {
+          x: mother.basePos.x,
+          y: mother.basePos.y,
+          frame: 0,
+          colorShift: 0,
+          displayHp: s.enemies[si]?.hp ?? 0,
+        }
+        if (!this.assets.enemySprites[si]) this.assets.enemySprites[si] = this.assets.enemySprites[la.idx]
+      }
+      return buildEnemyDivide({
+        motherPos: mother.basePos,
+        spawns: la.spawnedIdxs.map((si) => ({
+          idx: si,
+          target: s.enemies[si]?.basePos ?? mother.basePos,
+        })),
+      })
+    }
+    // 敌召唤(script.c:2871 0x9E):本体 magic 帧起手;新怪精灵播种(同种共用本体精灵,
+    // 异种走 loadEnemySprite 重载),现身在收尾 resetVisual(原版 FadeScene 交叉淡的简化)
+    if (la.kind === 'summon' && la.side === 'enemy') {
+      for (const si of la.spawnedIdxs ?? []) {
+        const def = s.enemies[si]?.def
+        if (!def) continue
+        if (def.spriteNum === s.enemies[la.idx]?.def.spriteNum) {
+          if (!this.assets.enemySprites[si]) this.assets.enemySprites[si] = this.assets.enemySprites[la.idx]
+        } else {
+          this.opts.loadEnemySprite?.(def).then((sp) => {
+            if (sp) this.assets.enemySprites[si] = sp
+          })
+        }
+      }
+      const anim = s.enemies[la.idx]?.def.anim
+      if (!anim || anim.magicFrames <= 0) return null
+      const frames: AnimFrame[] = []
+      for (let i = 0; i < anim.magicFrames; i++)
+        frames.push({
+          durationMs: 40 * Math.max(1, anim.actWaitFrames),
+          fighters: [{ side: 'enemy', idx: la.idx, frame: anim.idleFrames + i }],
+        })
+      frames.push({ durationMs: 40, fighters: [{ side: 'enemy', idx: la.idx, frame: 0 }] })
+      return frames
     }
     // 投掷道具(frame5 投掷姿 → 目标染色闪 → 复位;数字不显 —— 下毒无即时伤害)
     if (la.kind === 'throw' && la.side === 'player' && la.target !== undefined) {
@@ -1370,7 +1473,8 @@ export class BattleSession {
 
   /** 每步收尾:表现层复位 + 死亡淡出登记(death 音)+ displayHp 兜底同步。 */
   private finishStepVisuals(): void {
-    this.resetVisual()
+    if (this.skipNextReset) this.skipNextReset = false
+    else this.resetVisual()
     // per-action 瞬态复位(审计红线 #7;fight.c:2835 wave 还原语义)
     this.frameWaveAdd = 0
     this.screenShake = null
@@ -1504,7 +1608,7 @@ export class BattleSession {
       // 不能凭它判死否则强力术一出手怪就没、整段演出打空气。用 pendingDeaths(本步正被这次
       // 演出击杀的敌)区分两类:① 正被击杀 → 演出全程照画,收尾(finishStepVisuals)才登记
       // 淡出;② 早已死亡(逃跑清场)→ 不在 pendingDeaths 且 hp≤0 → 不画。原版语义:命中数字后才淡出。
-      const dyingNow = this.pendingDeaths.includes(i)
+      const dyingNow = this.pendingDeaths.includes(i) || this.fleeingEnemies?.includes(i) === true
       let alpha = 1
       if (e.hp <= 0 && !dyingNow) {
         if (fade === undefined) return // 早死无淡出登记(逃跑清场等)= 不画
