@@ -1065,6 +1065,12 @@ export async function bootGame(project: LoadedProject): Promise<void> {
                   project.actorsById[c.template]!.battler!.cooperativeMagicSkillId,
               }
             : {}),
+          // 守护关系(rgwCoveredBy 具名化):模板 → 在场队友实例 id;守护者不在队 = 无人护
+          ...(() => {
+            const gt = project.actorsById[c.template]?.battler?.coveredBy
+            const g = gt ? world.party.find((x) => x.template === gt) : undefined
+            return g ? { coveredBy: g.id } : {}
+          })(),
           fleeRate: effectiveStat(c, 'luck', itemsById), // 逃跑判定 str
           elemRes: res.elemRes,
           // 毒抗 = 装备 live 派生 + 大世界大蒜临时 Extra(缩敌附毒门;战后三件套清 extraPoisonRes)

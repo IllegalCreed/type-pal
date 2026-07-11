@@ -316,6 +316,30 @@ describe('M4d-2 战斗动画时间线', () => {
     expect(frames[10]!.fighters![0]!.pos).toEqual({ x: 180, y: 120 })
   })
 
+  test('替挡演出(fight.c:5012-5099):守护者 frame3 瞬移目标前接刀 → 敌被架开 + 守护者小退,零伤害', () => {
+    const frames = buildEnemyPhysical({
+      enemyIdx: 0,
+      enemyPos: { x: 100, y: 100 },
+      targetIdx: 1,
+      targetPos: { x: 240, y: 170 },
+      anim: { idleFrames: 4, magicFrames: 0, attackFrames: 2, actWaitFrames: 1 },
+      sounds: { action: 0, call: 2 },
+      damage: 0,
+      targetDied: false,
+      blocked: true,
+      cover: { idx: 0, sound: 15 },
+    })
+    const { events, player } = record(frames)
+    let guard = 0
+    while (!player.tick(50) && guard++ < 200) {}
+    expect(events).toContain('f:player0#3@216,158') // 守护者瞬移目标前 (−24,−12)
+    expect(events).toContain('snd:15') // 音 = 守护者的 coverSound(非敌 call)
+    expect(events).toContain('f:enemy0@186,146') // 敌被架开(冲锋位 (196,154) −10,−8)
+    expect(events).toContain('f:player0@220,160') // 守护者小退(目标 −20,−10)
+    expect(events.some((e) => e.startsWith('dmg:'))).toBe(false) // 完全免伤
+    expect(events.some((e) => e.includes('player1#4'))).toBe(false) // 目标无受击帧
+  })
+
   test('actWaitFrames=0 的零长帧不卡死,一次 tick 全跨过', () => {
     const frames = buildEnemyPhysical({
       enemyIdx: 0,

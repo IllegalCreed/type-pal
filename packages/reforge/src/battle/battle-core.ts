@@ -59,6 +59,9 @@ export interface BattlePlayerState {
   skills: string[]
   /** 合体技仙术 id(角色专属;发起合击时用。缺 = 该员无合体技,不能发起合击)。 */
   cooperativeMagicSkillId?: string
+  /** 守护者 roleId(原版 rgwCoveredBy 具名化;main 从 actor.battler.coveredBy 解析成
+   *  在场队员实例 id)。此角色濒死/失能被敌物攻且 7/17 掷中 → 守护者替挡(完全免伤)。 */
+  coveredBy?: string
   /** 吉运(逃跑判定 str;含装备加成,派生时算好)。 */
   fleeRate: number
   /** 五灵抗(装备 live 派生;缺省全 0)。喂 calcMagicDamage.elemRes,减免元素仙术伤害。 */
@@ -174,6 +177,8 @@ export interface BattleState {
     attackAllHits?: { idx: number; value: number }[]
     /** 敌物攻被格挡(7/17 被动「闪避」:免伤,演出格挡姿+coverSound+仍击退)。 */
     blocked?: boolean
+    /** 替挡守护者 idx(coveredBy 关系;blocked 且此值在 → 守护者顶身前接刀演出)。 */
+    coverIdx?: number
     /** 敌施法被动格挡的队员 idx(1/3 掷,除因子 +1 —— 减伤不免伤;演出摆防御姿 frame3)。 */
     autoDefend?: number[]
     /** 合击贡献者 slot(结算时 healthy 队员;演出层聚拢队形用,HP 已扣不能事后重算)。 */
@@ -1673,14 +1678,37 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
   if (str < 0) str = 0
   // 被动格挡「闪避」(fight.c:4938 RandomLong(0,16)>=10 = 7/17;乱/眠/定无援护不闪
   // fight.c:4976-4985。格挡 = 完全免伤,演出仍击退,格挡音 = 玩家 coverSound)
-  const blocked =
-    Math.floor(rng() * 17) >= 10 &&
-    p.status.confused <= 0 &&
-    p.status.sleep <= 0 &&
-    p.status.paralyzed <= 0
-  if (s.lastAction) s.lastAction.blocked = blocked
+  // 被动闪避掷(7/17,fight.c:4938)+ 替挡(fight.c:4941-4985 全链):
+  // · 目标濒死/乱/眠/定 且掷中 → 守护者(coveredBy 数据关系)顶上 —— 须在场、活着、
+  //   自身非濒死/乱/眠/定;替挡 = **完全免伤**(守护者架开,谁都不掉血)
+  // · 坏状态(乱/眠/定)且无援护 → 不许闪(CLASSIC);濒死无援护仍可自闪
+  const roll = Math.floor(rng() * 17) >= 10
+  const badStatus = p.status.confused > 0 || p.status.sleep > 0 || p.status.paralyzed > 0
+  let coverIdx = -1
+  if (roll && (badStatus || isPlayerDying(p.hp, p.maxHp)) && p.coveredBy) {
+    const gi = s.players.findIndex((x) => x.roleId === p.coveredBy)
+    const g = s.players[gi]
+    if (
+      g &&
+      g.hp > 0 &&
+      !isPlayerDying(g.hp, g.maxHp) &&
+      g.status.confused <= 0 &&
+      g.status.sleep <= 0 &&
+      g.status.paralyzed <= 0
+    )
+      coverIdx = gi
+  }
+  const blocked = roll && (coverIdx >= 0 || !badStatus)
+  if (s.lastAction) {
+    s.lastAction.blocked = blocked
+    if (blocked && coverIdx >= 0) s.lastAction.coverIdx = coverIdx
+  }
   if (blocked) {
-    s.log.push(`${p.roleId} 格挡了 ${e.def.id} 的攻击`)
+    s.log.push(
+      coverIdx >= 0
+        ? `${s.players[coverIdx]!.roleId} 挡下了 ${e.def.id} 对 ${p.roleId} 的攻击`
+        : `${p.roleId} 格挡了 ${e.def.id} 的攻击`,
+    )
     return
   }
   const def = p.defense * (p.defending ? 2 : 1)

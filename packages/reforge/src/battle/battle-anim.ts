@@ -384,6 +384,9 @@ export interface BuildEnemyPhysicalInput {
   blocked?: boolean
   /** 目标玩家的格挡音(rgwCoverSound;blocked 时替代 call)。 */
   coverSound?: number
+  /** 替挡守护者(coveredBy;blocked 且有 → 守护者 frame3 瞬移目标前 (−24,−12) 接刀,
+   *  音 = 守护者 coverSound,命中拍敌被架开 (−10,−8) + 守护者小退 (+4,+2);fight.c:5012-5099)。 */
+  cover?: { idx: number; sound?: number }
 }
 
 /**
@@ -416,6 +419,20 @@ export function buildEnemyPhysical(input: BuildEnemyPhysicalInput): AnimFrame[] 
   frames.push({ durationMs: delayMs(1), ...(sounds.action > 0 ? { sound: sounds.action } : {}) })
   const chargeX = targetPos.x - 44
   const chargeY = targetPos.y - 16
+  // 替挡:守护者 frame3 瞬移到目标身前 (−24,−12)(fight.c:5016-5021,在敌攻击帧循环前)
+  if (blocked && input.cover) {
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [
+        {
+          side: 'player',
+          idx: input.cover.idx,
+          frame: 3,
+          pos: { x: targetPos.x - 24, y: targetPos.y - 12 },
+        },
+      ],
+    })
+  }
   if (attackFrames === 0) {
     frames.push({
       durationMs: delayMs(2),
@@ -442,6 +459,28 @@ export function buildEnemyPhysical(input: BuildEnemyPhysicalInput): AnimFrame[] 
         ],
       })
     }
+  }
+  // 替挡命中拍(fight.c:5052-5099):目标不动不掉血,音 = 守护者 coverSound,
+  // 敌被架开 (−10,−8) + 守护者小退 (+4,+2) → 敌回位;守护者归位交收尾 resetVisual
+  if (blocked && input.cover) {
+    const c = input.cover
+    frames.push({
+      durationMs: delayMs(1),
+      ...((c.sound ?? 0) > 0 ? { sound: c.sound } : {}),
+    })
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [
+        { side: 'enemy', idx: enemyIdx, pos: { x: chargeX - 10, y: chargeY - 8 } },
+        { side: 'player', idx: c.idx, pos: { x: targetPos.x - 20, y: targetPos.y - 10 } },
+      ],
+    })
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [{ side: 'enemy', idx: enemyIdx, frame: 0, pos: { ...enemyPos } }],
+    })
+    frames.push({ durationMs: delayMs(4) })
+    return frames
   }
   // 命中 / 格挡(fight.c:5052-5085:格挡 = frame3 免伤免闪白免数字,音换玩家 coverSound;
   // 击退在 gate 外 —— 格挡也被推)

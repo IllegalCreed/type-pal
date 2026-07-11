@@ -1613,6 +1613,40 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
     expect(s.players[0]!.hp).toBeLessThan(100)
   })
 
+  test('替挡(coveredBy,fight.c:4941-4985):濒死被攻守护者顶上免伤;守护者失能退化自挡;坏状态无援护不许闪', () => {
+    const mk = () =>
+      createBattleState({
+        players: [
+          player('ling'), // slot0 守护者(健康)
+          player('li', { hp: 10, maxHp: 100, coveredBy: 'ling' }), // slot1 濒死(10 < 100/5)
+        ],
+        enemies: [dummy({ attackStrength: 50 })],
+      })
+    const bothDefend = (st: ReturnType<typeof createBattleState>) => {
+      st.pendingActions.set(0, { kind: 'defend' })
+      st.pendingActions.set(1, { kind: 'defend' })
+    }
+    // rngHigh:敌选目标 = 第二个活人(slot1 濒死李);闪避掷 16≥10 过 → 守护者替挡,完全免伤
+    const s = mk()
+    turn(s, rngHigh, bothDefend)
+    expect(s.players[1]!.hp).toBe(10)
+    expect(s.log.some((l) => l.includes('挡下'))).toBe(true)
+    // 守护者睡着 → 替挡资格失效;濒死无援护**仍可自闪**(坏状态清单不含濒死)
+    const s2 = mk()
+    s2.players[0]!.status.sleep = 3
+    turn(s2, rngHigh, bothDefend)
+    expect(s2.players[1]!.hp).toBe(10)
+    expect(s2.log.some((l) => l.includes('格挡'))).toBe(true)
+    expect(s2.log.some((l) => l.includes('挡下'))).toBe(false)
+    // 目标睡着(坏状态)且守护者也睡 → 不许闪(CLASSIC fight.c:4974),掷中也吃伤害
+    const s3 = mk()
+    s3.players[0]!.status.sleep = 3
+    s3.players[1]!.hp = 90
+    s3.players[1]!.status.sleep = 3
+    turn(s3, rngHigh, bothDefend)
+    expect(s3.players[1]!.hp).toBeLessThan(90)
+  })
+
   test('変身(trance):tranceSprite 落施法者;链上 buffStat 同步生效', () => {
     const mengshe = mkSkill('ms', {
       target: 'self',

@@ -110,6 +110,18 @@
   (逐行环绕卷动,原版 32 相位表),扬州二楼/立交场景人物遮挡层正确。
   隐蛊在大世界物品菜单**不出现**(原版战斗专用 flag,已建模)。
 
+## ⑭ B5 替挡 cover(1 分钟,2026-07-11 新)
+- 入口:<http://localhost:6051/?scene=s002&pos=15,15> → F12:
+  ```js
+  const w=__reforge.world, li=w.party[0], l2=JSON.parse(JSON.stringify(li));
+  l2.id='zhao-linger'; l2.template='zhao-linger'; l2.hp=10; l2.maxHP=200;
+  w.party.push(l2); __reforge.startBattle(0)
+  ```
+- 步骤:连按 **D D**(全队防御)耗几轮,等敌人打濒死的灵儿。
+- 预期:约四成概率触发替挡 —— **李逍遥闪身挡在灵儿身前**(格挡姿),灵儿**不掉血**,
+  敌人被架开退半步;守护关系照原版数据(灵儿/月如/阿奴←李逍遥护,李逍遥←月如护,
+  盖罗娇←阿奴护)。守护者自己濒死/睡/定/乱时不替挡;睡着的队员若无人护,掷中也躲不开。
+
 ## ⑦ A5 导出 zip(1 分钟)
 - 本地工程打开态 → 📁 工程菜单 → 「🗜 导出 zip…」(dev pal 工程该按钮是灰的,属正常)→
   下载 `<工程id>.zip` → 解压 → 与工程文件夹抽查比对(manifest.json / content/ / assets/)。

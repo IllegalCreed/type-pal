@@ -1147,6 +1147,7 @@ export class BattleSession {
       secondDamage?: number
       attackAllHits?: { idx: number; value: number }[]
       blocked?: boolean
+      coverIdx?: number
       autoDefend?: number[]
       targetAllyIdx?: number
       fleeSuccess?: boolean
@@ -1389,6 +1390,17 @@ export class BattleSession {
       ...(la.blocked ? { blocked: true } : {}),
       ...(la.blocked && this.opts.playerSounds?.[t]?.cover
         ? { coverSound: this.opts.playerSounds[t]!.cover }
+        : {}),
+      // 替挡(coveredBy):守护者顶身前接刀,音 = **守护者**的 coverSound
+      ...(la.blocked && la.coverIdx !== undefined
+        ? {
+            cover: {
+              idx: la.coverIdx,
+              ...(this.opts.playerSounds?.[la.coverIdx]?.cover
+                ? { sound: this.opts.playerSounds[la.coverIdx]!.cover }
+                : {}),
+            },
+          }
         : {}),
       damage: (pHp[t] ?? 0) - (s.players[t]?.hp ?? 0),
       targetDied: (s.players[t]?.hp ?? 0) <= 0,
