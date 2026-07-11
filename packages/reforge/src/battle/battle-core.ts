@@ -161,6 +161,9 @@ export interface BattleState {
   moneyDelta: number
   /** 建态金钱快照(乾坤一掷 min(钱,5000) 上限、铜钱镖 500 门槛;可用金 = money + moneyDelta)。 */
   money: number
+  /** 战斗内自清演出的敌种(0x90 敌 AI turnStart 末尾清自身:说一次台词后降级;
+   *  战后并入 world.script.clearedEnemyChoreo,跨战斗持久 —— 刀手/胖苗)。def id。 */
+  clearedEnemyChoreo: string[]
   /** 最近一步已结算的行动(表现层读:音效/动画时机;每次 perform*Action 覆写)。 */
   lastAction: {
     side: 'player' | 'enemy'
@@ -285,6 +288,7 @@ export function createBattleState(input: CreateBattleInput): BattleState {
     hidingTime: 0,
     moneyDelta: 0,
     money: input.money ?? 0,
+    clearedEnemyChoreo: [],
     lastAction: null,
   }
 }

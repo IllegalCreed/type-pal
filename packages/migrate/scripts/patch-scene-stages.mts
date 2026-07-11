@@ -1,15 +1,16 @@
 /**
- * 0x6D 离线补丁(方案 A 修正版,作者拍板 2026-07-11)。
+ * 场景脚本离线补丁(方案 A,作者拍板 2026-07-11)—— 剧情侧未迁移 op 的针对性转换。
  *
  * 为什么不全量重生成:盘上产物在上次生成后积累了大量手工内容(playVideo 演出补丁、
  * 四技补录、coveredBy、隐蛊 use 块…),migrate:content 全量重写会全部冲掉(已实测,
- * 149 文件 2714 行删除)。本脚本只做 0x6D 的净效应,其余内容分毫不动:
+ * 149 文件 2714 行删除)。本脚本只做以下净效应,其余内容分毫不动:
  *
- *  1. 盘上场景里 `unmigrated opcode 0x6D`(改 enter,op1>0)站点 → 占位 setSceneStage;
- *  2. resolveSceneStagePatches:目标地址链翻译 → 追加为目标场景 onEnter 新段 + 回填下标
- *     (嵌套 0x6D 迭代回填;数字 next 平移;'advance' 保持);
- *  3. 新对白键(dlg./spk. 前缀)并入盘上 locale.json(不覆盖既有键);
- *  4. 只写回有变化的文件。幂等:已转换站点不再命中,重复跑零 diff。
+ *  · 0x6D(改场景进场剧情)→ setSceneStage:目标地址链追加为目标场景 onEnter 新段 + 回填
+ *    (resolveSceneStagePatches;嵌套迭代;数字 next 平移;'advance' 保持;(scene,addr) 去重);
+ *  · 0x1A(改角色形象)→ setActorAppearance:SoA 字段 0头像/1战斗精灵/2大世界精灵→id/64走路帧丢弃;
+ *  · 0x90(剧情侧清敌种回合演出)→ clearEnemyChoreo:六脚蜘蛛 s138 酒剑仙救场后降级。
+ *  新对白键(dlg./spk. 前缀)并入 locale.json(不覆盖既有)。只写回有变化的文件。幂等。
+ *  (敌 AI 侧 0x90 自清 —— 刀手/胖苗 —— 走 patch-enemy-choreo.mts,那侧改 enemies.json)
  *
  * 用法:pnpm --filter @type-pal/migrate exec tsx scripts/patch-scene-stages.mts
  */
@@ -77,6 +78,7 @@ const ROLE_SLUGS = ['li-xiaoyao', 'zhao-linger', 'lin-yueru', 'wu-hou', 'anu', '
 // swap 重建数组(非原地改)—— 0x1A 走路帧(field 64)要**丢弃**元素,需 map+filter。
 let sites6d = 0
 let sites1a = 0
+let sites90 = 0
 type Cmd = { kind?: string; opcode?: number; operands?: number[] }
 const swapCmd = (x: unknown): unknown | undefined => {
   const c = x as Cmd
@@ -96,6 +98,11 @@ const swapCmd = (x: unknown): unknown | undefined => {
     if (field === 2) return sites1a++, { kind: 'setActorAppearance', actor, spriteId: spriteIdForNum(val) }
     if (field === 64) return sites1a++, undefined // 走路帧:新精灵 layout 自带,丢弃
     return x // 非形象字段 → 保留 unmigrated
+  }
+  if (c.opcode === 0x90 && (o[2] ?? 0) === 0 && (o[1] ?? 0) === 0) {
+    // 0x90 剧情侧清敌种回合演出(六脚蜘蛛 s138 酒剑仙救场):object 号 → enemy def id
+    sites90++
+    return { kind: 'clearEnemyChoreo', enemy: `enemy-${o[0] ?? 0}` }
   }
   return x
 }
@@ -148,7 +155,7 @@ scenes.forEach((s, i) => {
 })
 
 console.log(
-  `[patch-scene-stages] 0x6D 站点 ${sites} · 0x1A 形象站点 ${sites1a} · 场景写回 ${written} · locale 新键 ${newKeys} · sprites +${newSprites}`,
+  `[patch-scene-stages] 0x6D 站点 ${sites} · 0x1A 形象站点 ${sites1a} · 0x90 敌种降级 ${sites90} · 场景写回 ${written} · locale 新键 ${newKeys} · sprites +${newSprites}`,
 )
 const un = Object.entries(tctx.report.unmigrated)
 if (un.length) console.log('  翻译缺口:', un.map(([k, v]) => `${k}×${v}`).join(' / '))

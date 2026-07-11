@@ -1057,9 +1057,18 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     },
     startBattle: async (team, battleOpts) => {
       const teamDef = project.enemyTeamsById[`team-${team}`]
+      // 0x90 敌种降级:被清演出的敌种(六脚蜘蛛/酒剑仙救场后)剥掉 turnStart 回合演出
+      // (含剧情台词 + 撑8回合自逃 —— 原版清 scriptOnTurnStart 整条,变回可正常打死的普通敌);
+      // 浅拷贝 def 防污染全局 enemiesById
+      const clearedChoreo = new Set(world.script?.clearedEnemyChoreo ?? [])
       const enemyDefs = (teamDef?.members ?? [])
         .map((id) => project.enemiesById[id])
         .filter((e): e is NonNullable<typeof e> => !!e)
+        .map((e) =>
+          clearedChoreo.has(e.id) && e.choreography?.some((c) => c.at === 'turnStart')
+            ? { ...e, choreography: e.choreography.filter((c) => c.at !== 'turnStart') }
+            : e,
+        )
       if (enemyDefs.length === 0) {
         showToast(`遇敌 #${team} —— 敌队缺数据,桩胜(M4c)`)
         await host.wait(400)
@@ -1345,6 +1354,12 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         world.money = Math.max(0, world.money + session.moneyDelta())
       if (session.collectGained() > 0)
         world.collectValue = (world.collectValue ?? 0) + session.collectGained()
+      // 0x90 敌种降级:战斗内自清的敌种(刀手/胖苗说完台词)并入 world 持久集合,后续遭遇跳过其演出
+      const selfCleared = session.clearedEnemyChoreo()
+      if (selfCleared.length) {
+        const set = ((world.script ??= emptyWorldScriptState()).clearedEnemyChoreo ??= [])
+        for (const id of selfCleared) if (!set.includes(id)) set.push(id)
+      }
       // 战后「三件套」(battle.c:1822-1830):胜/败/逃无条件。① ClearAllStatus → 清大世界护体符定时状态
       // (extraStatuses);② CurePoisonByLevel(3) → 世界毒态清 ≤severe(无影毒/寄生 incurable 留);
       // ③ RemoveEquipExtra → 清大蒜临时毒抗 Extra(extraPoisonRes;装备本身 Extra 走 live 派生无持久)。

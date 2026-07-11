@@ -572,13 +572,8 @@
                     "musicId": 38
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 144,
-                    "operands": [
-                      435,
-                      0,
-                      0
-                    ]
+                    "kind": "clearEnemyChoreo",
+                    "enemy": "enemy-435"
                   },
                   {
                     "kind": "playMusic",

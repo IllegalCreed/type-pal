@@ -65,6 +65,9 @@ export type Command =
   // 0x1A:持久改角色形象(原版 PlayerRoles SoA 字段:成年灵儿换头像/精灵/战斗精灵,随存档)。
   // 一条命令改一个维度(migrate 按 SoA 字段号分流);spriteId 已解析成 id,portrait/battleSprite 是号。
   | { kind: 'setActorAppearance'; actor: string; spriteId?: string; portrait?: number; battleSprite?: number }
+  // 0x90:清敌种回合演出(原版清 enemy object scriptOnTurnStart:剧情战后把敌种降级,
+  // 六脚蜘蛛/酒剑仙救场后不再串剧情台词)。写 world.script.clearedEnemyChoreo,持久随存档。
+  | { kind: 'clearEnemyChoreo'; enemy: string }
   // 0x69:敌人逃离战场(战斗演出 choreography 专用;终止战斗无奖励)。大世界 host 打日志跳过。
   | { kind: 'fleeBattle' }
   // 0x89:脚本终止战斗(choreography 专用)。result:terminate 无奖励干净退(林天南撑 7 回合)/
@@ -189,6 +192,9 @@ export interface WorldScriptState {
   /** 场景底图覆写(原版 0x99 wMapNum 改写:键 = sceneId;0xFFFF 当前场景即时重载,
    *  其余场景下次进场生效;随存档持久 —— 麒麟洞 s230/s243 岩浆变化)。 */
   mapOverride?: Record<string, number>
+  /** 已清除回合演出的敌种(原版 0x90 清 enemy object 的 scriptOnTurnStart:剧情战打完把敌种
+   *  「降级」—— 六脚蜘蛛/酒剑仙救场后,后续遭遇不再串剧情台词。持久随存档)。值 = 敌 def id。 */
+  clearedEnemyChoreo?: string[]
 }
 
 export function emptyWorldScriptState(): WorldScriptState {

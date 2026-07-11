@@ -502,6 +502,13 @@ export class BattleSession {
         this.choreoQueue.length = 0
         return
       }
+      case 'clearEnemyChoreo': {
+        // 0x90 敌 AI 自清:说完台词把自身敌种记入待清集合(战后 main 并入 world 持久)。
+        // 本场剩余队列照跑完(原版清的是 scriptOnTurnStart,影响下次战斗,不打断本场)。
+        if (!this.state.clearedEnemyChoreo.includes(c.enemy))
+          this.state.clearedEnemyChoreo.push(c.enemy)
+        return
+      }
       case 'wait':
         return // 演出节拍由横幅按键控制,wait 忽略
       default:
@@ -562,6 +569,11 @@ export class BattleSession {
   /** 收妖值(灵葫咒 0x33;main 无条件并入 world.collectValue)。 */
   collectGained(): number {
     return this.state.collectGained
+  }
+
+  /** 战斗内自清演出的敌种(0x90 敌 AI turnStart 末尾;main 战后并入 world.script.clearedEnemyChoreo)。 */
+  clearedEnemyChoreo(): string[] {
+    return this.state.clearedEnemyChoreo
   }
 
   /** B7c 隐藏经验行为计数(roleId → 池计数;main 传 grantBattleRewards 分配)。 */

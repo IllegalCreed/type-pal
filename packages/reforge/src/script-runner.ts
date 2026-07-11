@@ -293,6 +293,12 @@ export class ScriptRunner {
           ...(cmd.portrait !== undefined ? { portrait: cmd.portrait } : {}),
           ...(cmd.battleSprite !== undefined ? { battleSprite: cmd.battleSprite } : {}),
         })
+      case 'clearEnemyChoreo': {
+        // 0x90:敌种降级(六脚蜘蛛/酒剑仙救场后)—— 写持久集合,战斗建队时跳过其回合演出
+        const set = (this.world.clearedEnemyChoreo ??= [])
+        if (!set.includes(cmd.enemy)) set.push(cmd.enemy)
+        return
+      }
       case 'fleeBattle':
         return h.fleeBattle()
       case 'setEntityState':
