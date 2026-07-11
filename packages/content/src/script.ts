@@ -174,6 +174,9 @@ export interface WorldScriptState {
   /** 实体位置覆写(原版 0x13 绝对定位的持久层:跨场景定位常见(pal 数据 36/54 处),
    *  进场重放到实体;本场景实体活体同步生效)。缺省/旧档 → 无覆写。 */
   entityPos?: Record<string, GridPos>
+  /** 实体图层覆写(原版 0x7E sLayer:**只进深度排序键**(+8px/层)不进落笔位,
+   *  一阶段 present.ts:540 真值;立交/上下层遮挡)。render 每帧直读,天然跨场景。 */
+  entityLayer?: Record<string, number>
 }
 
 export function emptyWorldScriptState(): WorldScriptState {

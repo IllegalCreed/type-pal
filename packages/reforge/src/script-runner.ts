@@ -461,6 +461,19 @@ export class ScriptRunner {
         }
         return
       }
+      case 0x71:
+        // 屏幕水波(一阶段 OP_WAVE_SCREEN:wScreenWave=op0 / sWaveProgression=int16(op1),
+        // present 层每帧消费:32 相位逐行左卷 + 波幅累加,==0/≥256 自灭)。状态入 vars 随存档
+        this.world.vars['sys:screenWave'] = a
+        this.world.vars['sys:waveProgression'] = i16(b)
+        return
+      case 0x7e: {
+        // 实体图层(一阶段 OP_SET_OBJECT_LAYER:sLayer=int16(op1),**只进深度排序键** +8px/层)。
+        // 写 world.script.entityLayer,render 每帧直读(跨场景/存档天然持久)
+        const ent = a === 0 || a === 0xffff ? this.selfId : `e${a - 1}`
+        if (ent) (this.world.entityLayer ??= {})[ent] = i16(b)
+        return
+      }
       case 0x8f: {
         // 金钱减半(一阶段 OP_HALVE_CASH:cash = floor(cash/2);酒剑仙赌局)。
         // ⚠ delta 形式须扣 (cash − floor(cash/2)):扣 trunc(cash/2) 在奇数上余 ceil,差 1

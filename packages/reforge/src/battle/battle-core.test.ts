@@ -1581,6 +1581,38 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
     expect(resist.players[0]!.poisons.length).toBe(0)
   })
 
+  test('隐身(0x5C 隐蛊):负值待激活→行动步前激活(同轮敌即跳过),3 轮不行动,轮末递减恢复', () => {
+    const s = createBattleState({
+      players: [player('li', { hp: 100 })],
+      enemies: [dummy({ attackStrength: 100, health: 9999 })],
+      items: {
+        yg: {
+          id: 'yg',
+          name: '隐蛊',
+          use: {
+            target: 'allAllies',
+            consuming: true,
+            battleOnly: true,
+            effects: [{ kind: 'hideParty', turns: 3 }],
+          },
+        } as ItemData,
+      },
+      inventory: [{ itemId: 'yg', count: 1 }],
+    })
+    // R1:用隐蛊(队员 dex×3 先手)—— 同轮敌人立即被跳过(激活在每个行动步前,fight.c:3529)
+    turn(s, rng0, (st) => st.pendingActions.set(0, { kind: 'item', itemId: 'yg' }))
+    expect(s.players[0]!.hp).toBe(100)
+    expect(s.hidingTime).toBe(2) // 轮末 3→2
+    // R2/R3:敌仍不行动
+    turn(s, rng0, (st) => st.pendingActions.set(0, { kind: 'defend' }))
+    turn(s, rng0, (st) => st.pendingActions.set(0, { kind: 'defend' }))
+    expect(s.players[0]!.hp).toBe(100)
+    expect(s.hidingTime).toBe(0)
+    // R4:隐身结束,敌恢复攻击
+    turn(s, rng0, (st) => st.pendingActions.set(0, { kind: 'defend' }))
+    expect(s.players[0]!.hp).toBeLessThan(100)
+  })
+
   test('変身(trance):tranceSprite 落施法者;链上 buffStat 同步生效', () => {
     const mengshe = mkSkill('ms', {
       target: 'self',

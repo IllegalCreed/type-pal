@@ -61,6 +61,7 @@ import { BattleSession } from './battle/battle-session.js'
 import { type BattleSpriteDraw, renderBattleScene } from './battle/present-battle.js'
 import { buildSettlementScreens } from './battle/settlement.js'
 import { isBlockedAt, sameGrid } from './collision.js'
+import { advanceWave, WorldWaveRenderer } from './screen-wave.js'
 import { loadCursorFrames, loadPortraits } from './dialog/dialog-assets.js'
 import { DialogBox } from './dialog/dialog-box.js'
 import { startDialogue } from './dialogue.js'
@@ -557,6 +558,17 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   let fadeCurtain: 'black' | 'red' = 'black' // 幕布色(gameOver 渐红;fade-in 结束回黑)
   // 0x35 震屏(script.c:1521 VIDEO_ShakeScreen):世界层渲染 y ±level 交替;到期/0 关自清
   let worldShake: { untilMs: number; level: number } | null = null
+  // 0x71 屏波(仙灵岛水面/蛤蟆谷):世界层合成到离屏后逐行左卷;状态在 vars 随存档
+  const worldWave = new WorldWaveRenderer()
+  let waveCanvas: HTMLCanvasElement | null = null
+  function ensureWaveCanvas(): HTMLCanvasElement {
+    if (!waveCanvas) waveCanvas = document.createElement('canvas')
+    if (waveCanvas.width !== canvas.width || waveCanvas.height !== canvas.height) {
+      waveCanvas.width = canvas.width
+      waveCanvas.height = canvas.height
+    }
+    return waveCanvas
+  }
   // ── W6 氛围(昼夜):全帧 multiply 滤镜(docs/phase2/ambience-design.md)──
   // world.ambience 是权威(随存档);此处只是显示态:当前乘色 + 300ms 切换过渡。
   // 纯视觉、无输入门、自终止 —— 不属于「需要收尾人的 time-based 状态」。
@@ -1957,6 +1969,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       const f = def ? (sp?.frames[fi] ?? sp?.frames[0]) : undefined
       if (!sp || !f) continue
       const p = gridToPixel(e.pos)
+      // 0x7E 图层覆写:只进深度排序键(+8px/层 = 一阶段 present.ts:540 sLayer×8 真值),
+      // 不进落笔位;render 直读持久映射,跨场景/存档天然生效
+      const lay = world.script?.entityLayer?.[e.id]
       sprites.push({
         frame: f,
         worldX: p.x,
@@ -1965,7 +1980,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         // 已修):组锚(首帧)配变尺寸帧组(爬行 193 高 31~73)会溢出几十 px = 演出瞬移感。
         anchorX: Math.floor(f.width / 2),
         anchorY: f.height,
-        baseYBias: e.zBias,
+        baseYBias: lay ? (e.zBias ?? 0) + lay * 8 : e.zBias,
       })
     }
     // 玩家帧:脚本姿势(0x15 gesture,原版 wFrame=dir*3+gesture)优先;否则 walk/idle
@@ -2021,7 +2036,17 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     const shakeCam = worldShake
       ? { x: camera.x, y: camera.y + (Math.floor(nowMs / 40) % 2 === 0 ? worldShake.level : -worldShake.level) }
       : camera
-    renderSceneFrame(ctx, renderer, { map, room, camera: shakeCam, sprites, worldScale: WORLD_SCALE, layers: ownTileHeights ? { ownTileHeights } : undefined })
+    // 0x71 屏波:活跃时世界层先合成到离屏,再逐行左卷到主画布(一阶段 applyScreenWave
+    // 的 canvas 行卷版;波幅每帧自累加,==0/≥256 自灭 —— advanceWave 原地改 vars 随存档)
+    const waveAmp = world.script ? advanceWave(world.script.vars) : 0
+    if (waveAmp > 0) {
+      const wc = ensureWaveCanvas()
+      const wctx = get2dContext(wc)
+      renderSceneFrame(wctx, renderer, { map, room, camera: shakeCam, sprites, worldScale: WORLD_SCALE, layers: ownTileHeights ? { ownTileHeights } : undefined })
+      worldWave.apply(ctx, wc, waveAmp, WORLD_SCALE)
+    } else {
+      renderSceneFrame(ctx, renderer, { map, room, camera: shakeCam, sprites, worldScale: WORLD_SCALE, layers: ownTileHeights ? { ownTileHeights } : undefined })
+    }
     // debug 碰撞叠加层(reforge 自己的 dev 拐杖;非编辑器叠加层)—— 在底图之上、独立变换块。
     if (DEBUG_COLLISION) {
       ctx.save()

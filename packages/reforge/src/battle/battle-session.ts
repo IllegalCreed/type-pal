@@ -416,6 +416,8 @@ export class BattleSession {
   /** 收集当轮该播的演出钩(once/when 求值;文本 locale 化 + 说话人 = 敌名)。 */
   private collectChoreo(): void {
     const s = this.state
+    // 隐身期(0x5C)敌 turnStart 演出也不跑(一阶段 fight.c:1680 ==0 才跑 turnStart 脚本)
+    if (s.hidingTime > 0) return
     const rng = this.rng
     s.enemies.forEach((e, idx) => {
       if (e.hp <= 0) return
@@ -1668,6 +1670,8 @@ export class BattleSession {
       // 召唤期队员隐显(渐隐/渐显;hold 全隐 —— fight.c:3160-3181 隐队员只画神将。
       // 形态:作者裁决用正常 alpha 渐变,不用溶解)
       if (summonShow >= 1) return
+      // 隐身期(0x5C 隐蛊)不画队员 —— battle.c:202-211;受击闪白(colorShift≠0)例外仍画
+      if (s.hidingTime > 0 && v.colorShift === 0) return
       // 疯魔抖动(battle.c:187-196):玩家 Y 轴 ±1/帧;眠/定压制,须活着且非濒死
       const jy =
         p.hp > 0 &&

@@ -1854,7 +1854,18 @@
     "icon": 120,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "allAllies",
+      "consuming": true,
+      "battleOnly": true,
+      "effects": [
+        {
+          "kind": "hideParty",
+          "turns": 3
+        }
+      ]
+    }
   },
   {
     "id": "142",

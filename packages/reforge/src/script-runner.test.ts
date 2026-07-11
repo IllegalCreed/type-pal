@@ -116,7 +116,7 @@ test('legacy op 兼容层:静默 0x00/0x08,直映射 0x85/0x93/0x35/0x36+0x37/0x
       un(0x1d, [1, 0xfc19, 0]), // 负增量(int16 −999;温泉陷阱两用)
       un(0x22, [1, 10, 0]), // 全队复活 10/10 = 满血
       un(0x55, [301, 2, 0]), // 学仙术:magic 301 → 角色 2−1=1(赵灵儿)
-      un(0x7e, [59, 3, 0]), // 图层类未覆盖(渲染层概念未建)→ 仍上报
+      un(0x6d, [115, 17192, 0]), // 场景脚本入口重设(迁移器批,地址依赖)→ 仍上报
     ],
     [],
   )
@@ -133,7 +133,7 @@ test('legacy op 兼容层:静默 0x00/0x08,直映射 0x85/0x93/0x35/0x36+0x37/0x
     'increaseHpMp(-999)',
     'revivePartyAll(10)',
     'learnSkill(1,"301")',
-    'report("unmigrated op 0x7e ")',
+    'report("unmigrated op 0x6d ")',
   ])
 })
 
@@ -158,10 +158,16 @@ test('legacy 对象族:0x9A 批量状态/0x13 定位/0x6F 条件同步/0x23 卸�
       un(0x23, [1, 6, 0]), // 角色 1(赵灵儿)卸槽 6−1=5(佩饰)
       un(0x8f, [0, 0, 0]), // 金钱减半:query.money()=50 → −25
       un(0xa3, [4, 67, 0]), // CD 音轨 → 回退 RIX 曲 67
+      un(0x71, [255, 0xfffc, 0]), // 屏波:幅 255 + 推进 −4(渐弱)→ vars
+      un(0x7e, [60, 3, 0]), // 实体图层:e59 → 层 3
+      un(0x7e, [0xffff, 0xffdf, 0]), // 自指 e50 → 层 int16(−33)
     ],
     [],
   )
   expect(world.entityState).toEqual({ e4: 2, e5: 2, e6: 2, e50: 0 })
+  expect(world.vars['sys:screenWave']).toBe(255)
+  expect(world.vars['sys:waveProgression']).toBe(-4)
+  expect(world.entityLayer).toEqual({ e59: 3, e50: -33 })
   expect(calls).toEqual([
     'setEntityState("e4",2)', // 0x9A 宿主重放通知(main 侧整场 applyWorldToScene)
     'setEntityPos("e9",{"col":4,"row":0})',

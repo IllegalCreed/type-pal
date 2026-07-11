@@ -119,12 +119,17 @@ export type ItemUseEffect =
   | { kind: 'triggerScript'; scriptId: string } // 桂花酒/玉佩剧情;风灵珠场景互动
   | { kind: 'teleportOut' } // 0x38(引路蜂/土灵珠):跑当前场景 onTeleport 出口(无出口=不灵)
   | { kind: 'extraPoisonRes'; amount: number } // 0x17(大蒜):临时毒抗 Extra,带入战斗、三件套清
+  // 0x5C(隐蛊):全队隐身 turns 回合 —— 敌整轮跳过(连 turnStart choreo 都不跑)、队员画面消失。
+  // CLASSIC 语义(一阶段 iHidingTime 三函数):存负值待激活 → 行动步前取反激活 → 轮末 −1
+  | { kind: 'hideParty'; turns: number }
 // 待扩充(B2 剧情脚本落地后):giveItems / giveMoney / learnSkill / scenePlace / transform …
 
 export interface UseSpec {
   target?: 'oneAlly' | 'allAllies' | 'self' | 'scene'
   consuming: boolean
   effects: ItemUseEffect[]
+  /** 战斗专用(原版 wFlags 只带 UsableInBattle,如隐蛊):大世界使用菜单不列。缺省 = 两边可用。 */
+  battleOnly?: boolean
 }
 
 /** 战斗投掷,phase3 细化。 */
@@ -347,12 +352,12 @@ export function usableItems(world: WorldState, items: ItemDataMap): ItemData[] {
   const invUsable = world.inventory
     .filter((e) => e.count > 0)
     .map((e) => items[e.itemId])
-    .filter((it): it is ItemData => it?.use != null)
+    .filter((it): it is ItemData => it?.use != null && !it.use.battleOnly)
   const invIds = new Set(invUsable.map((it) => it.id))
   const equippedUsable: ItemData[] = []
   for (const id of equippedItemIds(world)) {
     const it = items[id]
-    if (it?.use != null && !invIds.has(id)) equippedUsable.push(it)
+    if (it?.use != null && !it.use.battleOnly && !invIds.has(id)) equippedUsable.push(it)
   }
   return [...invUsable, ...equippedUsable]
 }

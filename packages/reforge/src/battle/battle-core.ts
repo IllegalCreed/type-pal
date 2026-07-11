@@ -151,6 +151,9 @@ export interface BattleState {
   /** 收妖值累计(灵葫咒 collectTreasure,script.c 0x33 wCollectValue += 敌 collectValue;
    *  战后并入 world.collectValue —— 与战利品不同,偷/收所得**无条件**入账,逃跑也保留)。 */
   collectGained: number
+  /** 隐身回合(0x5C 隐蛊;一阶段 iHidingTime CLASSIC 三段):<0 待激活(用品当步存负)、
+   *  行动步前取反激活(同轮后续敌立即跳过)、>0 敌整轮不行动、轮末 −1 到 0 结束。 */
+  hidingTime: number
   /** 偷到的金钱(飞龙探云手偷钱敌:原版 dwCash 即时加;战后无条件并入 world.money)。 */
   moneyStolen: number
   /** 最近一步已结算的行动(表现层读:音效/动画时机;每次 perform*Action 覆写)。 */
@@ -270,6 +273,7 @@ export function createBattleState(input: CreateBattleInput): BattleState {
     expGained: 0,
     cashGained: 0,
     collectGained: 0,
+    hidingTime: 0,
     moneyStolen: 0,
     lastAction: null,
   }
@@ -661,13 +665,20 @@ export function stepBattle(s: BattleState, rng: () => number): void {
             })
         }
         for (const e of s.enemies) if (e.hp > 0) tickBattleStatus(e.status)
+        // 隐身每轮 −1(一阶段 decrementHidingEffect;CLASSIC 无条件,到 0 = 隐身结束)
+        if (s.hidingTime > 0) s.hidingTime -= 1
         s.pendingActions.clear()
         s.coopThisTurn = false // 合击标记回合末清(下回合重判)
         s.turn++
         s.phase = 'selectAction'
         return
       }
-      if (item.isEnemy) performEnemyAction(s, item.idx, rng)
+      // 隐身激活(0x5C 负值 → 取反;一阶段 activateHidingEffect 在处理**每个动作前**,
+      // 使同轮后续敌人动作立即被跳过 —— fight.c:3529)
+      if (s.hidingTime < 0) s.hidingTime = -s.hidingTime
+      if (item.isEnemy && s.hidingTime > 0) {
+        // 隐身期敌整轮跳过(fight.c:1716 ==0 才行动;连选目标都不做)
+      } else if (item.isEnemy) performEnemyAction(s, item.idx, rng)
       else performPlayerAction(s, item.idx, rng)
       // B7a 战果累计:本步新死敌 += exp/cash(只记一次;敌逃(enemyFled)清场不计)
       for (const e of s.enemies) {
@@ -1279,6 +1290,11 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
             return
           }
           break
+        case 'hideParty':
+          // 0x5C 隐蛊:存负值待激活(一阶段 CLASSIC:行动步前取反 → 同轮后续敌立即跳过)
+          s.hidingTime = -eff.turns
+          s.log.push(`全队隐匿形迹`)
+          break
         default:
           s.log.push(`物品效果 ${eff.kind} 未接(战斗期陆续)`)
       }
@@ -1571,10 +1587,10 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
     return
   }
   if (decision.kind === 'transform') {
-    // 原版 0x9F 状态门(script.c:2958;眠/定上游 canAct 已挡,此处补混乱 —— 混乱敌照常
-    // 行动是忠实行为,但不许变身/召唤)
-    if (e.status.confused > 0) {
-      s.log.push(`${e.def.id} 神志不清,变身失败`)
+    // 原版 0x9F 状态门(script.c:2958):隐身中不可变身;眠/定上游 canAct 已挡,补混乱
+    // (混乱敌照常行动是忠实行为,但不许变身/召唤)
+    if (s.hidingTime > 0 || e.status.confused > 0) {
+      s.log.push(`${e.def.id} 变身失败`)
       return
     }
     // 原版 0x9F(DM1):换 stats/精灵,**保当前 HP**;规则表随新形态,once 记账清零
@@ -1615,9 +1631,9 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
     return
   }
   if (decision.kind === 'summon') {
-    // 原版 0x9E 状态门(script.c:2901;眠/定上游已挡,补混乱)
-    if (e.status.confused > 0) {
-      s.log.push(`${e.def.id} 神志不清,召唤失败`)
+    // 原版 0x9E 状态门(script.c:2901):隐身中不可召唤(一阶段审计补过的坑);补混乱
+    if (s.hidingTime > 0 || e.status.confused > 0) {
+      s.log.push(`${e.def.id} 召唤失败`)
       return
     }
     const slots = MAX_ENEMIES - aliveEnemies(s).length
