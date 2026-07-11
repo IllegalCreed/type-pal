@@ -50,11 +50,12 @@ for (const d of disk) {
 }
 if (changed) writeJson('projects/pal/content/enemies.json', disk)
 
-// locale 合并(敌台词新键;clearEnemyChoreo 无文本,一般 0)
+// locale 合并(敌战斗对白新键 —— 敌 AI 翻译走 out.localeNames,统一对话 locale;0x79 内联的
+// 胖苗/绿叶台词键即在此。含场景 scriptLocale 兜底)
 const localePath = 'projects/pal/content/locale.json'
 const locale = existsSync(resolve(repo, localePath)) ? readJson<Record<string, string>>(localePath) : {}
 let newKeys = 0
-for (const [k, v] of Object.entries(out.scriptLocale ?? {})) {
+for (const [k, v] of Object.entries({ ...out.localeNames, ...out.scriptLocale })) {
   if (!(k in locale)) {
     locale[k] = v
     newKeys++

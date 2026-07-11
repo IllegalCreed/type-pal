@@ -183,10 +183,21 @@ describe('advance 游标状态机 → 规则', () => {
     expect(t.onDefeated?.some((c) => c.kind === 'dialog')).toBe(true)
   })
 
-  test('翻不净:0x79(队伍条件)落 pending 不崩', () => {
+  test('0x79 段内有后续对话:保留段内(「不跳」臂台词),不 pending 不崩', () => {
+    // 0x79 后段内有对话(女飞贼/石长老「不跳」臂):遭遇绑定后队伍门无义 → 保留段内对话
     const t = translateEnemyScripts(ctxOf({ 700: [raw(0x79, 3, 0), dlg('x', 1), end()] }), {
       turnStart: 700,
     })
-    expect(t.pending.some((p) => p.includes('0x79'))).toBe(true)
+    expect(t.pending.some((p) => p.includes('0x79'))).toBe(false)
+    expect(t.choreography[0]?.body.some((c) => c.kind === 'dialog')).toBe(true)
+  })
+  test('0x79 段内无后续对话:内联跳转目标台词(胖苗/绿叶 —— 台词只在跳转目标)', () => {
+    // 700 段仅 0x79 跳 800;800 是台词。遭遇绑定后无条件内联(boss 场角色必在队)
+    const t = translateEnemyScripts(
+      ctxOf({ 700: [raw(0x79, 3, 800), end()], 800: [dlg('胖苗台词', 1), end()] }),
+      { turnStart: 700 },
+    )
+    expect(t.pending.some((p) => p.includes('0x79'))).toBe(false)
+    expect(t.choreography[0]?.body.some((c) => c.kind === 'dialog')).toBe(true)
   })
 })

@@ -8663,7 +8663,66 @@
       "magic": 219,
       "death": 186,
       "call": 91
-    }
+    },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13103"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13104"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13105"
+            }
+          },
+          {
+            "kind": "fleeBattle"
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13106"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13107"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13108"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13109"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13110"
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "enemy-500",

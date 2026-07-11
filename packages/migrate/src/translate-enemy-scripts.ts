@@ -139,6 +139,19 @@ function translateHook(
         i++
         continue
       }
+      if (oc === 0x79) {
+        // 0x79「队伍含角色 → 跳台词」:原版条件分支(角色在队说 A、否则说 B/沉默)。
+        // 遭遇绑定后队伍门无意义 —— boss 遭遇本就是对的剧情场。仅当**段内 0x79 后无对话**
+        // (胖苗/绿叶:台词只在跳转目标 addr)时,内联目标段对话让台词进来;段内已有对话
+        // (女飞贼/石长老:0x79 后是「不跳」臂台词)则保留段内、不动(避免双套台词)。
+        const laterDialog = seg.ops.slice(i + 1).some((x) => x.op === 'showDialog')
+        if (!laterDialog) {
+          const targetOps = segment(ctx, ops[1] ?? 0)?.[0]?.ops ?? []
+          seg.ops.splice(i + 1, 0, ...targetOps) // 拼到 0x79 后,循环继续走进(speaker 合并/0x90 丢弃复用现逻辑)
+        }
+        i++
+        continue
+      }
       if (oc === 0x67) {
         casts.push({ k: seg.k, magic: ops[0] ?? 0, rate: ops[1] || 10 })
         i++

@@ -3258,7 +3258,303 @@
                             ],
                             "boss": true,
                             "fieldId": 24,
-                            "musicId": 38
+                            "musicId": 38,
+                            "choreography": [
+                              {
+                                "at": "turnStart",
+                                "once": true,
+                                "body": [
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13145"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13146"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13147"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13148"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13149"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13150"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13151"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13152"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13153"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13154"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13155"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13156"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13157"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13158"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13159"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13160"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13161"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13162"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13163"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13164"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13165"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13166"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13167"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13168"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13169"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13170"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13171"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13172"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13173"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13174"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13175"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13176"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13177"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13178"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13179"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13180"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13181"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13182"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13183"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13184"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13185"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13186"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13187"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13188"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13189"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13190"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13191"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13192"
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
                           },
                           {
                             "kind": "playMusic",
@@ -4272,7 +4568,303 @@
                             ],
                             "boss": true,
                             "fieldId": 24,
-                            "musicId": 38
+                            "musicId": 38,
+                            "choreography": [
+                              {
+                                "at": "turnStart",
+                                "once": true,
+                                "body": [
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13145"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13146"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13147"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13148"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13149"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13150"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13151"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13152"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13153"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13154"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13155"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13156"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13157"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13158"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13159"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13160"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13161"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13162"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13163"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13164"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13165"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13166"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13167"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13168"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13169"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13170"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13171"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13172"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13173"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13174"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13175"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13176"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13177"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13178"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13179"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13180"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13181"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13182"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13183"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13184"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13185"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13186"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13187"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13188"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13189"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13190"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13191"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13192"
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
                           },
                           {
                             "kind": "playMusic",
@@ -5286,7 +5878,303 @@
                             ],
                             "boss": true,
                             "fieldId": 24,
-                            "musicId": 38
+                            "musicId": 38,
+                            "choreography": [
+                              {
+                                "at": "turnStart",
+                                "once": true,
+                                "body": [
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13145"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13146"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13147"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13148"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13149"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13150"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13151"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13152"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13153"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13154"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13155"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13156"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13157"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13158"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13159"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13160"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13161"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13162"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13163"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13164"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13165"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13166"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13167"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13168"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13169"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13170"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13171"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13172"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13173"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13174"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13175"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13176"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13177"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13178"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13179"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13180"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13181"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13182"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13183"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13184"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13185"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13186"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13187"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13188"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13189"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13190"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13191"
+                                    }
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.13192"
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
                           },
                           {
                             "kind": "playMusic",

@@ -28,20 +28,29 @@ const writeJson = (rel: string, v: unknown): void => {
   writeFileSync(resolve(repo, rel), `${JSON.stringify(v, null, 2)}\n`)
 }
 
-// 带 gate 的 boss 敌种(考证:0x79/0x90;有对话可搬。胖苗485/绿叶499 台词未翻进来,不在此)
-const BOSS_ENEMIES = new Set(['enemy-435', 'enemy-454', 'enemy-478', 'enemy-496'])
+// 领衔规则可靠的 boss 敌种(boss 场里该敌种是队伍首领 members[0];实测无误 attach)
+const LEAD_BOSS = new Set(['enemy-435', 'enemy-454', 'enemy-478', 'enemy-496'])
+// 显式 boss-map(非首领 boss:该敌种在 boss 队非首领位,领衔规则会误 attach 到它领衔的杂兵场)。
+// 胖苗:boss 场 s020 水月宫(拜月教掳灵儿,team-19 首领是 495)—— 它领衔的 s246/s228/s229 是
+// 苗疆杂兵场(灵儿已离队,原版 0x79 灵儿门正好 gate 掉),故仅 team-19 attach、领衔规则排除胖苗。
+const EXPLICIT_BOSS: Record<string, number[]> = { 'enemy-485': [19] }
+const BOSS_ENEMIES = new Set([...LEAD_BOSS, ...Object.keys(EXPLICIT_BOSS)])
 
 const enemies = readJson<EnemyDef[]>('projects/pal/content/enemies.json')
 const teams = readJson<{ id: string; members: string[] }[]>('projects/pal/content/enemy-teams.json')
 
-// 敌种 → 领衔队(members[0]==敌种)
+// 敌种 → boss 队号:领衔规则(members[0]==敌种,仅 LEAD_BOSS)+ 显式 map
 const leadTeamsOf = new Map<string, Set<number>>()
 for (const t of teams) {
   const lead = t.members?.[0]
-  if (lead && BOSS_ENEMIES.has(lead)) {
+  if (lead && LEAD_BOSS.has(lead)) {
     const n = Number(t.id.replace('team-', ''))
     ;(leadTeamsOf.get(lead) ?? leadTeamsOf.set(lead, new Set()).get(lead)!).add(n)
   }
+}
+for (const [enemy, tns] of Object.entries(EXPLICIT_BOSS)) {
+  const set = leadTeamsOf.get(enemy) ?? leadTeamsOf.set(enemy, new Set()).get(enemy)!
+  for (const n of tns) set.add(n)
 }
 // boss 敌种 → choreography(搬运源)
 const choreoOf = new Map<string, EnemyDef['choreography']>()
@@ -84,11 +93,11 @@ for (const f of files) {
   if (JSON.stringify(d) !== before) writeJson(`${sceneDir}/${f}`, d)
 }
 
-// ── 从 def 删除已搬走的 boss 敌种 choreography ──
+// ── 从 def 删除 boss 敌种 choreography(有 boss 队 + 有对话 = 对话已在/应在遭遇上;
+//    幂等:不依赖本次是否 attach —— scene 上次已 attach 时 walk 会跳过,但 def 仍须删)──
 let deleted = 0
 for (const e of enemies) {
-  if (attachedEnemies.has(e.id) && e.choreography) {
-    e.choreography = undefined
+  if (choreoOf.has(e.id) && leadTeamsOf.has(e.id) && e.choreography) {
     delete (e as { choreography?: unknown }).choreography
     deleted++
   }
@@ -96,6 +105,7 @@ for (const e of enemies) {
 if (deleted) writeJson('projects/pal/content/enemies.json', enemies)
 
 console.log(
-  `[patch-boss-encounters] startBattle attach ${attached} 处 · 涉敌种 [${[...attachedEnemies].join(', ')}] · def 删 choreography ${deleted}`,
+  `[patch-boss-encounters] startBattle attach ${attached} 处 · def 删 choreography ${deleted} 敌种 [${[...choreoOf.keys()].filter((k) => leadTeamsOf.has(k)).join(', ')}]`,
 )
 void existsSync
+void attachedEnemies
