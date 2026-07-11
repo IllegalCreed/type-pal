@@ -184,6 +184,14 @@ const swapCmd = (x: unknown, owner: string): unknown | undefined => {
   }
   if (c.opcode === 0x8f) return sites4++, { kind: 'halveMoney' }
   if (c.opcode === 0x76) return sites78++, undefined // 0x76 ShowFBP 0xFFFF 填黑(reforge 天然 no-op)
+  if (c.opcode === 0x6f) {
+    // 0x6F 条件同步:源(op0,self=owner)状态==int16(op1) → 触发者同设。branch + entityState 条件
+    const src = self(o[0] ?? 0)
+    if (!src || !owner) return x
+    const val = i16(o[1] ?? 0)
+    sites4++
+    return { kind: 'branch', cond: { kind: 'entityState', entity: src, is: val }, then: [{ kind: 'setEntityState', entity: owner, state: val }] }
+  }
   return x
 }
 const swap = (o: unknown, owner: string): unknown => {

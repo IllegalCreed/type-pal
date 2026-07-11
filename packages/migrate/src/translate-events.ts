@@ -482,6 +482,20 @@ function walkBody(
         })
       } else if (oc === 0x76) {
         push(undefined) // 0x76 ShowFBP:全数据 op0=0xFFFF 填黑帧缓冲(reforge 每帧重画天然 no-op)
+      } else if (oc === 0x6f) {
+        // 0x6F 条件同步(script.c:2115):源对象(op0)状态==int16(op1) → 触发者同设该值。
+        // 用现有 branch + entityState 条件 + setEntityState,无需新命令(仙灵岛/村口双态机关门)
+        const src = pcRef(o[0] ?? 0)
+        const val = signExtendI16(o[1] ?? 0)
+        if (src && owner) {
+          flush()
+          // 条件设值,非跳转:then 跑完落穿回父体后续(不补 stopScript)
+          body.push({
+            kind: 'branch',
+            cond: { kind: 'entityState', entity: src, is: val },
+            then: [{ kind: 'setEntityState', entity: owner, state: val }],
+          })
+        } else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '0x6F 无属主' })
       } else if (oc === 0x49) {
         const ent = entRef(o[0] ?? 0)
         if (ent) push({ kind: 'setEntityState', entity: ent, state: signExtendI16(o[1] ?? 0) })

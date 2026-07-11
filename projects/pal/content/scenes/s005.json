@@ -10155,12 +10155,18 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 111,
-                    "operands": [
-                      136,
-                      0,
-                      0
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "entity": "e135",
+                      "is": 0
+                    },
+                    "then": [
+                      {
+                        "kind": "setEntityState",
+                        "entity": "e134",
+                        "state": 0
+                      }
                     ]
                   }
                 ],
@@ -10202,12 +10208,18 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 111,
-                    "operands": [
-                      135,
-                      0,
-                      0
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "entity": "e134",
+                      "is": 0
+                    },
+                    "then": [
+                      {
+                        "kind": "setEntityState",
+                        "entity": "e135",
+                        "state": 0
+                      }
                     ]
                   }
                 ],
@@ -10281,12 +10293,18 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 111,
-                    "operands": [
-                      139,
-                      0,
-                      0
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "entity": "e138",
+                      "is": 0
+                    },
+                    "then": [
+                      {
+                        "kind": "setEntityState",
+                        "entity": "e137",
+                        "state": 0
+                      }
                     ]
                   }
                 ],
@@ -10328,12 +10346,18 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 111,
-                    "operands": [
-                      138,
-                      0,
-                      0
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "entity": "e137",
+                      "is": 0
+                    },
+                    "then": [
+                      {
+                        "kind": "setEntityState",
+                        "entity": "e138",
+                        "state": 0
+                      }
                     ]
                   }
                 ],
