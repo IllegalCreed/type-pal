@@ -77,13 +77,16 @@ import {
 import { Keyboard } from './input.js'
 import { type LoadedProject, loadProject, loadSceneDef } from './loader.js'
 import {
+  castOutdoorSkill,
   closeMagicMenu,
   type MagicMenuState,
   magicBackFromTarget,
+  magicConfirmCaster,
   magicConfirmSpell,
+  magicMoveCaster,
   magicMoveCursor,
+  magicMoveTarget,
   openMagicMenu,
-  resolveOutdoorSkills,
 } from './magic-menu-state.js'
 import { drawEquipMenu } from './menu/equip-box.js'
 import { drawShop, openShopUi, type ShopUiState, shopInput } from './menu/shop-box.js'
@@ -92,7 +95,15 @@ import { loadMenuAssets, loadPng, MenuBox } from './menu/menu-box.js'
 import { drawSaveBrowser } from './menu/save-browser-box.js'
 import { drawSystemMenu } from './menu/system-box.js'
 import { drawUseMenu } from './menu/use-box.js'
-import { back, CLOSED, confirm, type MenuState, moveCursor, openMenu } from './menu-state.js'
+import {
+  back,
+  CLOSED,
+  closeMenu,
+  confirm,
+  type MenuState,
+  moveCursor,
+  openMenu,
+} from './menu-state.js'
 import { resolveMove } from './movement.js'
 import { Canvas2DRenderer, type CellRect, type SpriteDraw } from './render.js'
 import { renderSceneFrame } from './render-scene.js'
@@ -543,6 +554,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   let world = buildWorld(bootStartWorld, project.actorsById)
   // dev ?party:强制的队员拉满 HP/MP,确保 healthy(否则如赵灵儿初始 28/240 = 濒死,合击项灰)
   if (partyParam) for (const c of world.party) { c.hp = c.maxHP; c.mp = c.maxMP }
+  // DEV 调试口(__rfBattle 同款):验收/自动化直读世界态(party HP/MP、money、learnedSkills)
+  if (import.meta.env.DEV)
+    Object.defineProperty(window, '__rfWorld', { get: () => world, configurable: true })
   world.script ??= emptyWorldScriptState()
 
   // ══ M3a 脚本运行时(设计 §4:driver Promise + AbortSignal;tick 驱动计时/淡入淡出)══
@@ -1848,6 +1862,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   let equipMenu: EquipMenuState = closeEquipMenu()
   let useMenu: UseMenuState = closeUseMenu()
   let lastUseCursor = 0 // 使用面板光标记忆(原版 iCurInvMenuItem;跨开关恢复)
+  let lastMagicCaster = 0 // 仙术施法人光标记忆(原版 uigame.c:674 static w;确认时写,DL22)
   let statusIdx = 0 // 状态板当前查看的队员索引(原版 iCurrent;方向键切人,越界关菜单)
   let systemMenu: SystemMenuState = closeSystemMenu()
   let lastSystemCursor = 0 // 系统菜单光标记忆(原版 iCurSystemMenuItem;跨开关恢复)
@@ -2117,7 +2132,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           overwriteYes,
         )
       } else if (menu.openPanel === 'magic') {
-        drawMagicMenu(ctx, magicMenu, world, menuAssets, glyphs, performance.now())
+        drawMagicMenu(ctx, magicMenu, world, menuAssets, glyphs, performance.now(), {
+          facesDir: project.assetBase.faces,
+          nameFor: (tpl) => lookupText(`name.${tpl}`, project.locale),
+        })
       } else if (menu.openPanel === 'equip') {
         drawEquipMenu(
           ctx,
@@ -2369,19 +2387,52 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           if (esc) saveBrowser = closeSaveBrowser() // 回系统菜单(menu 仍 active)
         }
       } else if (menu.openPanel === 'magic') {
-        if (magicMenu.phase === 'pick-target') {
-          // 选目标阶段:红箭头出;Enter 施法完成 / Esc 取消 → 都回选技能
-          if (interact || esc) magicMenu = magicBackFromTarget(magicMenu)
+        if (magicMenu.phase === 'pick-caster') {
+          // 选施法人(uigame.c:686-723):上下循环(可停死人,确认拦);确认记忆光标(DL22 static w)
+          if (pressed.has('ArrowUp') || pressed.has('ArrowLeft'))
+            magicMenu = magicMoveCaster(magicMenu, world, 'up')
+          if (pressed.has('ArrowDown') || pressed.has('ArrowRight'))
+            magicMenu = magicMoveCaster(magicMenu, world, 'down')
+          if (interact) {
+            magicMenu = magicConfirmCaster(magicMenu, world, project.skills)
+            if (magicMenu.phase === 'pick-spell') lastMagicCaster = magicMenu.casterIdx
+          }
+          if (esc) {
+            // 一阶段真值:仙术菜单 Cancel = 关整个菜单回大世界(uigame.c goto out)
+            magicMenu = closeMagicMenu()
+            menu = closeMenu()
+          }
+        } else if (magicMenu.phase === 'pick-target') {
+          // 选目标(uigame.c:769-861):↑←/↓→ ±1 不 wrap;Enter 施放(fSuccess 才扣 MP,
+          // 满血/死人不吃消耗),放完 MP 不够再来一发 → 退回选技能;够则留此连放;Esc 回选技能
+          if (pressed.has('ArrowUp') || pressed.has('ArrowLeft'))
+            magicMenu = magicMoveTarget(magicMenu, world, 'up')
+          if (pressed.has('ArrowDown') || pressed.has('ArrowRight'))
+            magicMenu = magicMoveTarget(magicMenu, world, 'down')
+          if (interact) {
+            const skill = magicMenu.spells[magicMenu.cursor]
+            if (skill) {
+              castOutdoorSkill(world, skill, magicMenu.casterIdx, magicMenu.targetIdx, project.poisonsById)
+              const c = world.party[magicMenu.casterIdx]
+              if (!c || c.mp < (skill.cost.mp ?? 0)) magicMenu = magicBackFromTarget(magicMenu)
+            }
+          }
+          if (esc) magicMenu = magicBackFromTarget(magicMenu)
         } else {
-          // 选技能阶段:网格导航 + Enter → 进选目标;Esc 关仙术面板
+          // 选技能:网格导航;Enter → allAllies 直放留此连放 / 单体进选目标;
+          // Esc 关整个菜单(一阶段真值:不回选施法人 —— caster 框原版在循环外只弹一次)
           if (pressed.has('ArrowUp')) magicMenu = magicMoveCursor(magicMenu, 'up')
           if (pressed.has('ArrowDown')) magicMenu = magicMoveCursor(magicMenu, 'down')
           if (pressed.has('ArrowLeft')) magicMenu = magicMoveCursor(magicMenu, 'left')
           if (pressed.has('ArrowRight')) magicMenu = magicMoveCursor(magicMenu, 'right')
-          if (interact) magicMenu = magicConfirmSpell(magicMenu)
+          if (interact) {
+            const r = magicConfirmSpell(magicMenu, world)
+            if (r?.kind === 'castAll')
+              castOutdoorSkill(world, r.skill, magicMenu.casterIdx, 'all', project.poisonsById)
+          }
           if (esc) {
             magicMenu = closeMagicMenu()
-            menu = back(menu)
+            menu = closeMenu()
           }
         }
       } else if (menu.openPanel === 'equip') {
@@ -2552,9 +2603,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           const caster = world.party[0]
           // 进面板初始化子态:仙术解析可用 / 装备解析可装
           if (menu.openPanel === 'magic') {
-            magicMenu = openMagicMenu(
-              caster ? resolveOutdoorSkills(world, caster.id, project.skills) : [],
-            )
+            // 多人队进选施法人(光标 = 上次记忆);单人队直进技能网格(uigame.c:677-681)
+            magicMenu = openMagicMenu(world, project.skills, lastMagicCaster)
           } else if (menu.openPanel === 'equip' && caster) {
             equipMenu = openEquipMenu(world, caster.id, project.items)
           } else if (menu.openPanel === 'use') {

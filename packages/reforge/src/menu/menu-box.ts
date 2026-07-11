@@ -329,10 +329,8 @@ export interface MenuAssets {
   itemIcons: Record<number, ImageBitmap | undefined>
   /** 仙术菜单:红框九宫格 9 块(ui/box-red,iStyle1)。 */
   redBox: BoxTiles
-  /** 仙术菜单:角色框(playerbox)。 */
+  /** 仙术菜单:角色框(playerbox;全队 x=45+78i 排开)。 */
   magicPlayerBox: ImageBitmap | undefined
-  /** 仙术菜单:角色头像(face-0 = 李逍遥 roleId 0)。 */
-  magicFace: ImageBitmap | undefined
   /** 仙术菜单:网格选中光标(cursor/grid,frame 69)。 */
   cursorGrid: ImageBitmap | undefined
   /** 仙术菜单/战斗选队友箭头常色帧(cursor/up,frame 67)。 */
@@ -420,11 +418,10 @@ export async function loadMenuAssets(items: ItemDataMap, dirs: MenuAssetDirs): P
   iconChunks.forEach((ch, i) => {
     itemIcons[ch] = iconArr[i]
   })
-  // 仙术菜单专用 sprite(角色框 / 头像 / 网格光标)
-  const [magicPlayerBox, magicFace, cursorGrid, cursorUp, cursorUpRed, cursorDown, settleArrow] =
+  // 仙术菜单专用 sprite(角色框 / 网格光标;队员头像 magic-box faceFor 按 template 懒加载)
+  const [magicPlayerBox, cursorGrid, cursorUp, cursorUpRed, cursorDown, settleArrow] =
     await Promise.all([
       ui('magic/playerbox.png'),
-      loadPng(`${dirs.faces}/li-xiaoyao.png`), // TODO 多人:按当前查看角色的 actorId 取
       ui('cursor/grid.png'),
       ui('cursor/up.png'),
       ui('cursor/up-red.png'),
@@ -444,7 +441,6 @@ export async function loadMenuAssets(items: ItemDataMap, dirs: MenuAssetDirs): P
     itemIcons,
     redBox: { tiles: redTiles },
     magicPlayerBox,
-    magicFace,
     cursorGrid,
     cursorUp,
     cursorUpRed,

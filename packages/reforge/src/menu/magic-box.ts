@@ -1,10 +1,12 @@
-// 仙术菜单 Canvas UI(D17)。真值坐标见 docs/phase2/menu/magic-menu-plan.md「真值规格」(= game draw-magic.ts)。
-// 在 320 逻辑坐标画,调用方已 ctx.scale(WORLD_SCALE)。
+// 仙术菜单 Canvas UI(D17 → P2 施法链)。真值坐标见 docs/phase2/menu/magic-menu-plan.md
+// (= game draw-magic.ts,uigame.c:653-875 1:1)。在 320 逻辑坐标画,调用方已 ctx.scale(WORLD_SCALE)。
+// 三阶段:pick-caster(全队信息框 + 选人竖列框)/ pick-spell(网格 + MP box + 描述)/
+// pick-target(同 pick-spell + 队员框顶红箭头)。
 import type { WorldState } from '@type-pal/content'
 import type { MagicMenuState } from '../magic-menu-state.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { renderSpans } from '../text/text-render.js'
-import { drawScroll, drawSlicedBox, type MenuAssets } from './menu-box.js'
+import { drawScroll, drawSlicedBox, loadPng, type MenuAssets } from './menu-box.js'
 
 // ── 网格(红框)──
 const GRID_X = 10
@@ -36,14 +38,21 @@ const MP_NEEDED_X = 15
 const MP_SLASH_X = 45
 const MP_CUR_X = 50
 const MP_NUM_Y = 14
-// ── 角色框(底部,单人)──
+// ── 队员信息框(底部,全队;uigame.c:686-693:x=45+78i, y=165)──
 const PBOX_X = 45
 const PBOX_Y = 165
+const PBOX_STEP = 78
+// ── 选施法人竖列框(uigame.c:717:box(35,62),项 (48, 75+18i))──
+const CASTER_BOX_X = 35
+const CASTER_BOX_Y = 62
+const CASTER_ITEM_X = 48
+const CASTER_ITEM_Y = 75
+const CASTER_LINE = 18
 // ── 描述(顶部):选中仙术 desc(0x3C 浅黄)──
 const DESC_X = 102
 const DESC_Y = 3
 const COLOR_DESC = [243, 239, 93] as const // 0x3C(palette 0)
-// ── 选人红箭头(draw-magic PICKER_CURSOR (75 + 78×i, 158);单人 i=0)──
+// ── 选人红箭头(draw-magic PICKER_CURSOR (75 + 78×i, 158))──
 const PICKER_X = 75
 const PICKER_Y = 158
 
@@ -71,7 +80,21 @@ function drawNumRight(
   }
 }
 
-/** 大世界仙术菜单(单人查看版):红框网格 + MP box + 角色框 + 描述。 */
+// 队员小头像懒加载缓存(faces/<template>.png;portraitFor 同款模式:null = 加载中/失败)
+const faceCache = new Map<string, ImageBitmap | null>()
+function faceFor(facesDir: string, template: string): ImageBitmap | undefined {
+  const key = `${facesDir}/${template}`
+  const hit = faceCache.get(key)
+  if (hit) return hit
+  if (hit === null) return undefined
+  faceCache.set(key, null)
+  void loadPng(`${facesDir}/${template}.png`).then((img) => {
+    if (img) faceCache.set(key, img)
+  })
+  return undefined
+}
+
+/** 大世界仙术菜单:三阶段渲染(见文件头)。nameFor = 队员显示名(locale 由壳层闭包)。 */
 export function drawMagicMenu(
   ctx: CanvasRenderingContext2D,
   state: MagicMenuState,
@@ -79,10 +102,66 @@ export function drawMagicMenu(
   assets: MenuAssets,
   glyphs: GlyphTable,
   now: number,
+  opts: { facesDir?: string; nameFor?: (template: string) => string } = {},
 ): void {
-  const caster = world.party[0]
-  const sel = state.spells[state.cursor]
+  const caster = world.party[state.casterIdx]
   const blink = SELECTED_COLORS[Math.floor(now / 100) % SELECTED_COLORS.length] ?? COLOR_NORMAL
+
+  // ── 底部全队信息框(全阶段常画;uigame.c:684-693)──
+  world.party.forEach((c, i) => {
+    const x = PBOX_X + i * PBOX_STEP
+    if (assets.magicPlayerBox) ctx.drawImage(assets.magicPlayerBox, x, PBOX_Y)
+    const face = opts.facesDir ? faceFor(opts.facesDir, c.template) : undefined
+    if (face) ctx.drawImage(face, x - 2, PBOX_Y - 4)
+    if (assets.slash) {
+      ctx.drawImage(assets.slash, x + 49, PBOX_Y + 6)
+      ctx.drawImage(assets.slash, x + 49, PBOX_Y + 22)
+    }
+    drawNumRight(ctx, c.hp, x + 26, PBOX_Y + 5, assets.nums)
+    drawNumRight(ctx, c.maxHP, x + 47, PBOX_Y + 8, assets.nums)
+    drawNumRight(ctx, c.mp, x + 26, PBOX_Y + 21, assets.numsCyan)
+    drawNumRight(ctx, c.maxMP, x + 47, PBOX_Y + 24, assets.numsCyan)
+  })
+
+  // ── pick-caster:选施法人竖列框(box(35,62) 项 (48,75+18i);死人灰红、选中黄闪)──
+  if (state.phase === 'pick-caster') {
+    const names = world.party.map((c) => opts.nameFor?.(c.template) ?? c.template)
+    const maxLen = names.reduce((m, n) => Math.max(m, n.length), 2)
+    // 白框宽随最长名(字 16px);高 = 行数×18 + 上下沿(drawSlicedBox w/h 为主体尺寸)
+    drawSlicedBox(
+      ctx,
+      assets.box,
+      CASTER_BOX_X,
+      CASTER_BOX_Y,
+      maxLen * 16 + 22,
+      world.party.length * CASTER_LINE + 20,
+    )
+    world.party.forEach((c, i) => {
+      const selected = i === state.casterIdx
+      const dead = c.hp <= 0
+      const color = dead
+        ? selected
+          ? COLOR_DISABLED_SEL
+          : COLOR_DISABLED
+        : selected
+          ? blink
+          : COLOR_NORMAL
+      renderSpans(
+        ctx,
+        [{ text: names[i] ?? c.template }],
+        CASTER_ITEM_X,
+        CASTER_ITEM_Y + i * CASTER_LINE,
+        {
+          glyphs,
+          shadow: true,
+          forceRgba: color,
+        },
+      )
+    })
+    return // 选人阶段不画网格/MP box(spellMenu 未建;uigame.c 真值)
+  }
+
+  const sel = state.spells[state.cursor]
 
   // ① 红框网格 + 仙术名(3 列 × 5 行)。先画字、再画光标 → 光标在文字之上。
   drawSlicedBox(ctx, assets.redBox, GRID_X, GRID_Y, GRID_W, GRID_H)
@@ -110,23 +189,9 @@ export function drawMagicMenu(
   if (assets.slash) ctx.drawImage(assets.slash, MP_SLASH_X, MP_NUM_Y)
   if (caster) drawNumRight(ctx, caster.mp, MP_CUR_X, MP_NUM_Y, assets.numsCyan)
 
-  // ③ 角色框(底部):playerbox + face + HP(全黄)/ MP(全青),右对齐;max 偏下错落(draw-magic 真值)
-  if (assets.magicPlayerBox) ctx.drawImage(assets.magicPlayerBox, PBOX_X, PBOX_Y)
-  if (assets.magicFace) ctx.drawImage(assets.magicFace, PBOX_X - 2, PBOX_Y - 4)
-  if (caster) {
-    if (assets.slash) {
-      ctx.drawImage(assets.slash, PBOX_X + 49, PBOX_Y + 6)
-      ctx.drawImage(assets.slash, PBOX_X + 49, PBOX_Y + 22)
-    }
-    drawNumRight(ctx, caster.hp, PBOX_X + 26, PBOX_Y + 5, assets.nums)
-    drawNumRight(ctx, caster.maxHP, PBOX_X + 47, PBOX_Y + 8, assets.nums)
-    drawNumRight(ctx, caster.mp, PBOX_X + 26, PBOX_Y + 21, assets.numsCyan)
-    drawNumRight(ctx, caster.maxMP, PBOX_X + 47, PBOX_Y + 24, assets.numsCyan)
-  }
-
-  // 选人红箭头:仅「选目标」阶段画(选完技能才出;draw-magic 真值:pick-target 才画 CURSOR_UP)
+  // ③ 选人红箭头:仅「选目标」阶段画,指向 targetIdx 队员框顶(uigame.c:793-796)
   if (state.phase === 'pick-target' && assets.cursorUp) {
-    ctx.drawImage(assets.cursorUp, PICKER_X, PICKER_Y)
+    ctx.drawImage(assets.cursorUp, PICKER_X + state.targetIdx * PBOX_STEP, PICKER_Y)
   }
 
   // ④ 描述(顶部,浅黄 0x3C):选中仙术 desc
