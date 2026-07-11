@@ -27,6 +27,8 @@ export interface SaveMeta {
   party: { name: string; level: number }[]
   mapName: string
   savedAt: number // Date.now() epoch ms（调用方注入）
+  /** 存档次数(原版 wSavedTimes 跨槽计数器:每存 = max(全部槽)+1;旧档缺省 = 不显示)。 */
+  savedTimes?: number
 }
 
 /** 全量还原状态；version 驱动迁移。本期 v1 = world + 坐标(GridPos 含 col/row/height) + 工程绑定。 */

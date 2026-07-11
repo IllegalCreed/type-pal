@@ -158,6 +158,16 @@ export function drawSaveBrowser(
         shadow: true,
         forceRgba: COLOR_NORMAL,
       })
+      // 存档次数(原版 wSavedTimes;party 行右对齐,标题黄小注)
+      if (meta.savedTimes !== undefined) {
+        const st = `存${meta.savedTimes}次`
+        const stW = measureSpans([{ text: st }], glyphs)
+        renderSpans(ctx, [{ text: st }], rx - stW, cy + 8, {
+          glyphs,
+          shadow: true,
+          forceRgba: COLOR_TITLE,
+        })
+      }
       // 地图名(左对齐) + 时间(右对齐),同一行
       renderSpans(ctx, [{ text: meta.mapName }], ix, cy + 26, {
         glyphs,

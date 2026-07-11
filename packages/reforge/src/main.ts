@@ -120,7 +120,7 @@ import {
 } from './save/browser-state.js'
 import { buildMeta, buildPayload, captureThumbnail, normalizePayload } from './save/ops.js'
 import { IndexedDbSaveStore, MemorySaveStore, type SaveStore } from './save/store.js'
-import type { SaveMeta, SavePayload, SlotId } from './save/types.js'
+import { ALL_SLOT_IDS, type SaveMeta, type SavePayload, type SlotId } from './save/types.js'
 import { type ScriptHost, ScriptRunner } from './script-runner.js'
 import { animFrameIndex, idleFrameIndex, loopFrameIndex, walkFrameIndex } from './sprite-anim.js'
 import {
@@ -1869,6 +1869,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   let systemPlaceholder: string | undefined // 占位提示文案 id(选占位项后短暂显示)
   // 存档系统(D-save)：saveStore 已在菜单前建(见上,读档界面复用)；此处续浏览界面态 + 缩略图缓存 + metas 快照。
   let saveBrowser: SaveBrowserState = closeSaveBrowser()
+  let lastSaveSlot: SlotId | undefined // 默认槽记忆(原版 bCurrentSaveSlot:存/读过哪槽,下次浏览默认停那)
   let saveMetas: SaveMeta[] = []
   const saveThumbs = new Map<SlotId, ImageBitmap>()
   let overwriteYes = false // 覆盖确认框高亮(右=是)
@@ -1892,12 +1893,15 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   }
 
   async function doSave(slotId: SlotId, thumb: Blob): Promise<void> {
+    // wSavedTimes 跨槽计数器(uigame.c:578-598:max(全部槽)+1;saveMetas 是槽表快照)
+    const savedTimes = saveMetas.reduce((m, x) => Math.max(m, x.savedTimes ?? 0), 0) + 1
     const meta = buildMeta(
       slotId,
       world,
       MAP_NAME,
       (c) => lookupText(`name.${c.template}`, project.locale),
       Date.now(),
+      savedTimes,
     )
     const payload = buildPayload(
       world,
@@ -1935,6 +1939,13 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     }
     world = p.world
     world.script ??= emptyWorldScriptState() // 旧档缺省 → 空态
+    // 读档解毒(原版真值:毒/定时状态/装备临时抗性在 GLOBALVARS 不入 SAVEDGAME → 读档即净身;
+    // reforge 全量 world 入档,故读回后主动清 runtime-only 三件)
+    for (const c of world.party) {
+      c.poisons = undefined
+      c.extraStatuses = undefined
+      c.extraPoisonRes = undefined
+    }
     syncAmbience() // W6:读档瞬时还原氛围(夜档回夜;旧档缺省昼),不播过渡
     // 同场景也走 switchScene:场景实体运行时已被演出污染(位置/触发),读档必须回
     // def 初态再由 applyWorldToScene 重放世界态(X1;getSceneDef 已返回 pristine 拷贝)。
@@ -1961,11 +1972,13 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     const cursor = saveBrowser.cursor
     const thumb = lastGameThumb ?? (await captureThumbnail(canvas))
     await doSave(slotId, thumb)
+    lastSaveSlot = slotId // bCurrentSaveSlot(uigame.c:718 存档选槽即记)
     if (saveBrowser.active) saveBrowser = openSaveBrowser(mode, saveMetas, cursor)
   }
   /** 浏览界面读槽:成功 → 关菜单回大世界。 */
   async function browserLoad(slotId: SlotId): Promise<void> {
     if (await doLoad(slotId)) {
+      lastSaveSlot = slotId
       saveBrowser = closeSaveBrowser()
       menu = CLOSED
     }
@@ -2581,11 +2594,13 @@ export async function bootGame(project: LoadedProject): Promise<void> {
               soundOn: audioPrefs.sound,
             })
             systemMenu = r.state
+            // 默认槽(bCurrentSaveSlot):光标停上次存/读的槽;从未操作过 → 0
+            const defCursor = lastSaveSlot ? Math.max(0, ALL_SLOT_IDS.indexOf(lastSaveSlot)) : 0
             if (r.action?.kind === 'open-save') {
-              saveBrowser = openSaveBrowser('save', saveMetas) // 开浏览界面·存模式
+              saveBrowser = openSaveBrowser('save', saveMetas, defCursor) // 开浏览界面·存模式
               overwriteYes = false
             } else if (r.action?.kind === 'open-load') {
-              saveBrowser = openSaveBrowser('load', saveMetas) // 开浏览界面·读模式
+              saveBrowser = openSaveBrowser('load', saveMetas, defCursor) // 开浏览界面·读模式
               overwriteYes = false
             }
           } else if (esc) {

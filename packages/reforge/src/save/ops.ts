@@ -8,6 +8,7 @@ export function buildMeta(
   mapName: string,
   nameOf: (c: CharacterInstance) => string,
   now: number,
+  savedTimes?: number, // 原版 wSavedTimes(调用方算 max(全部槽)+1 传入)
 ): SaveMeta {
   return {
     slotId,
@@ -15,6 +16,7 @@ export function buildMeta(
     party: world.party.map((c) => ({ name: nameOf(c), level: c.level })),
     mapName,
     savedAt: now,
+    ...(savedTimes !== undefined ? { savedTimes } : {}),
   }
 }
 
