@@ -219,7 +219,7 @@ export class BattleSession {
   /** 物品使用横幅(fight.c:2316 物品名@(210,50) 白字;13 帧 ≈520ms 到期自清)。 */
   private itemBanner: { text: string; untilMs: number; x?: number; y?: number } | null = null
   private choreoName = ''
-  private choreoFired = new Map<number, Set<number>>() // 敌槽 → 已播钩子下标
+  private encounterFired = new Set<number>() // 遭遇演出已播钩子下标(encounter 级,非 per-enemy)
   private choreoTurn = 0 // 已收集过演出的轮次
   // ── B7b 胜利结算屏(经验金钱 → 升级 → 练成;逐屏空格推进)──
   private settlement: SettlementScreen[] | null = null // null = 未构建;[] = 无屏
@@ -239,6 +239,9 @@ export class BattleSession {
       inventory?: { itemId: string; count: number }[]
       difficulty?: string
       locale?: Record<string, string>
+      /** 遭遇专属战斗演出(startBattle.choreography;二阶段 clean:对话绑这一场遭遇而非敌种。
+       *  boss 战由 scene 脚本传入,杂兵遭遇缺省无)。 */
+      encounterChoreo?: import('@type-pal/content').BattleChoreography[]
       /** 各队员命中特效帧基(battle-effect-index[spriteNum*2+1]*3;与 players 同序;缺 = 无特效)。 */
       playerEffectBase?: number[]
       /** 各队员施法前摇特效帧基(battle-effect-index[spriteNum*2]*10+15;缺 = 跳过前摇特效)。 */
@@ -435,19 +438,18 @@ export class BattleSession {
     // 隐身期(0x5C)敌 turnStart 演出也不跑(一阶段 fight.c:1680 ==0 才跑 turnStart 脚本)
     if (s.hidingTime > 0) return
     const rng = this.rng
-    s.enemies.forEach((e, idx) => {
-      if (e.hp <= 0) return
-      const list = e.def.choreography ?? []
-      const fired = this.choreoFired.get(idx) ?? new Set<number>()
-      this.choreoFired.set(idx, fired)
-      list.forEach((c, ci) => {
-        if (c.at !== 'turnStart' && !(c.at === 'battleStart' && s.turn === 1)) return
-        if (c.once && fired.has(ci)) return
-        if (c.when && !evalAiCond(c.when, buildAiView(s, e), rng)) return
-        fired.add(ci)
-        this.choreoName = lookupText(e.def.name, this.opts.locale ?? {})
-        this.choreoQueue.push(...c.body)
-      })
+    // 遭遇绑定(二阶段 clean):对话来自 startBattle.choreography(这一场遭遇),不再 per-enemy
+    // 遍历敌 def.choreography —— 消掉原版敌种共享 + 0x79 队伍门 + 0x90 说一次那套 hack。
+    const list = this.opts.encounterChoreo ?? []
+    // when 条件的 self(turn 类不依赖;hpBelow 类按 boss = 首个活敌)
+    const primary = s.enemies.find((e) => e.hp > 0)
+    this.choreoName = primary ? lookupText(primary.def.name, this.opts.locale ?? {}) : ''
+    list.forEach((c, ci) => {
+      if (c.at !== 'turnStart' && !(c.at === 'battleStart' && s.turn === 1)) return
+      if (c.once && this.encounterFired.has(ci)) return
+      if (c.when && primary && !evalAiCond(c.when, buildAiView(s, primary), rng)) return
+      this.encounterFired.add(ci)
+      this.choreoQueue.push(...c.body)
     })
   }
 
@@ -500,13 +502,6 @@ export class BattleSession {
         this.state.phase = c.result === 'lost' ? 'lost' : 'won'
         this.state.log.push(`战斗结束(${c.result})`)
         this.choreoQueue.length = 0
-        return
-      }
-      case 'clearEnemyChoreo': {
-        // 0x90 敌 AI 自清:说完台词把自身敌种记入待清集合(战后 main 并入 world 持久)。
-        // 本场剩余队列照跑完(原版清的是 scriptOnTurnStart,影响下次战斗,不打断本场)。
-        if (!this.state.clearedEnemyChoreo.includes(c.enemy))
-          this.state.clearedEnemyChoreo.push(c.enemy)
         return
       }
       case 'wait':
@@ -569,11 +564,6 @@ export class BattleSession {
   /** 收妖值(灵葫咒 0x33;main 无条件并入 world.collectValue)。 */
   collectGained(): number {
     return this.state.collectGained
-  }
-
-  /** 战斗内自清演出的敌种(0x90 敌 AI turnStart 末尾;main 战后并入 world.script.clearedEnemyChoreo)。 */
-  clearedEnemyChoreo(): string[] {
-    return this.state.clearedEnemyChoreo
   }
 
   /** B7c 隐藏经验行为计数(roleId → 池计数;main 传 grantBattleRewards 分配)。 */

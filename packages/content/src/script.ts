@@ -65,9 +65,6 @@ export type Command =
   // 0x1A:持久改角色形象(原版 PlayerRoles SoA 字段:成年灵儿换头像/精灵/战斗精灵,随存档)。
   // 一条命令改一个维度(migrate 按 SoA 字段号分流);spriteId 已解析成 id,portrait/battleSprite 是号。
   | { kind: 'setActorAppearance'; actor: string; spriteId?: string; portrait?: number; battleSprite?: number }
-  // 0x90:清敌种回合演出(原版清 enemy object scriptOnTurnStart:剧情战后把敌种降级,
-  // 六脚蜘蛛/酒剑仙救场后不再串剧情台词)。写 world.script.clearedEnemyChoreo,持久随存档。
-  | { kind: 'clearEnemyChoreo'; enemy: string }
   // 0x69:敌人逃离战场(战斗演出 choreography 专用;终止战斗无奖励)。大世界 host 打日志跳过。
   | { kind: 'fleeBattle' }
   // 0x89:脚本终止战斗(choreography 专用)。result:terminate 无奖励干净退(林天南撑 7 回合)/
@@ -110,6 +107,10 @@ export type Command =
       /** 本场专属战场/战斗乐(剧情/boss 战显式指定;缺省走 场景覆写→场景默认→项目默认)。 */
       fieldId?: number
       musicId?: number
+      /** 遭遇专属战斗演出(开场白/逐回合台词/结束条件;二阶段 clean 架构:对话绑**这一场遭遇**
+       *  而非敌种 —— 消掉原版敌种绑定 + 0x79 队伍门 + 0x90 说一次那套 hack。boss 战由此携带,
+       *  杂兵遭遇不带;同敌种在不同遭遇的对话天然独立)。见 enemy.ts BattleChoreography。 */
+      choreography?: import('./enemy.js').BattleChoreography[]
     }
   // 传送出口(原版 0x38;引路蜂/土灵珠道具用):跑当前场景 onTeleport 脚本;场景无此槽 →
   // 走 onFail(「引路蜂不灵」提示)。战斗中禁用(原版 !fInBattle,道具菜单本就战外,冗余守卫)。
@@ -192,9 +193,6 @@ export interface WorldScriptState {
   /** 场景底图覆写(原版 0x99 wMapNum 改写:键 = sceneId;0xFFFF 当前场景即时重载,
    *  其余场景下次进场生效;随存档持久 —— 麒麟洞 s230/s243 岩浆变化)。 */
   mapOverride?: Record<string, number>
-  /** 已清除回合演出的敌种(原版 0x90 清 enemy object 的 scriptOnTurnStart:剧情战打完把敌种
-   *  「降级」—— 六脚蜘蛛/酒剑仙救场后,后续遭遇不再串剧情台词。持久随存档)。值 = 敌 def id。 */
-  clearedEnemyChoreo?: string[]
 }
 
 export function emptyWorldScriptState(): WorldScriptState {

@@ -497,10 +497,9 @@ function walkBody(
           note(ctx, `0x1A 字段 ${field}(非形象/o2=0)`)
         }
       } else if (oc === 0x90 && (o[2] ?? 0) === 0 && (o[1] ?? 0) === 0) {
-        // 0x90 清 enemy object scriptOnTurnStart(slot 0 清 0):剧情/AI 战后把敌种降级,
-        // 台词 show-once 跨战斗持久(六脚蜘蛛剧情侧 / 刀手·胖苗 AI 侧)。对象号 → enemy def id
-        // (clean 敌 def 按 object index 命名 enemy-<idx>)。slot≠0(battleEnd/ready)/ 非清 → unmigrated
-        push({ kind: 'clearEnemyChoreo', enemy: `enemy-${o[0] ?? 0}` })
+        // 0x90 剧情侧清 enemy scriptOnTurnStart(六脚蜘蛛 s138 酒剑仙救场后降级):原版敌种绑定的
+        // 「说一次」hack。二阶段遭遇绑定后**无需** —— 对话属于这场遭遇的 startBattle,丢弃(no-op)。
+        push(undefined)
       } else if (oc === 0x05 || oc === 0x8e) push({ kind: 'clearDialog' })
       else if (oc === 0xa7)
         push(undefined) // noop(备份屏)

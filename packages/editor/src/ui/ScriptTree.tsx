@@ -123,8 +123,6 @@ function describe(cmd: Command, locale: Locale): Described {
       return { icon: '🎞', label: `${cmd.entity} 定帧 ${cmd.frame}` }
     case 'setSceneStage':
       return { icon: '📜', label: `${cmd.scene} 进场剧情 → 第 ${cmd.stage} 段` }
-    case 'clearEnemyChoreo':
-      return { icon: '🕸', label: `${cmd.enemy} 降级`, detail: '清回合演出(台词说一次)' }
     case 'setActorAppearance': {
       const parts = [
         cmd.spriteId ? `精灵 ${cmd.spriteId}` : '',

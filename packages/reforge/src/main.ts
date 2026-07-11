@@ -1057,18 +1057,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     },
     startBattle: async (team, battleOpts) => {
       const teamDef = project.enemyTeamsById[`team-${team}`]
-      // 0x90 敌种降级:被清演出的敌种(六脚蜘蛛/酒剑仙救场后)剥掉 turnStart 回合演出
-      // (含剧情台词 + 撑8回合自逃 —— 原版清 scriptOnTurnStart 整条,变回可正常打死的普通敌);
-      // 浅拷贝 def 防污染全局 enemiesById
-      const clearedChoreo = new Set(world.script?.clearedEnemyChoreo ?? [])
       const enemyDefs = (teamDef?.members ?? [])
         .map((id) => project.enemiesById[id])
         .filter((e): e is NonNullable<typeof e> => !!e)
-        .map((e) =>
-          clearedChoreo.has(e.id) && e.choreography?.some((c) => c.at === 'turnStart')
-            ? { ...e, choreography: e.choreography.filter((c) => c.at !== 'turnStart') }
-            : e,
-        )
       if (enemyDefs.length === 0) {
         showToast(`遇敌 #${team} —— 敌队缺数据,桩胜(M4c)`)
         await host.wait(400)
@@ -1298,6 +1289,11 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           fieldEffect: fieldDef?.magicEffect,
           poisonDefs: project.poisonsById,
           money: world.money, // 乾坤一掷/铜钱镖消耗基数(战内 delta 战后统一入账)
+          // 战斗演出来源(二阶段 clean):遭遇专属(startBattle.choreography,boss 战剧情台词)优先;
+          // 缺省回落敌种 def.choreography(随机遇敌固有台词 —— 无 scene 遭遇挂点的敌种)。
+          // boss/杂兵混的敌种(胖苗)对话迁到 boss startBattle 且从 def 删,故杂兵场回落为空 = 不串戏。
+          encounterChoreo:
+            battleOpts?.choreography ?? enemyDefs.flatMap((e) => e.choreography ?? []),
           // 战斗音效七件套(BattlerSpec.sounds;出招/挥击/吟唱已接,其余随对应演出落地)
           playerSounds: world.party.map((c) => project.actorsById[c.template]?.battler?.sounds),
           // 变身换形/异种召唤的中场精灵重载(原版 PAL_LoadBattleSprites)
@@ -1354,12 +1350,6 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         world.money = Math.max(0, world.money + session.moneyDelta())
       if (session.collectGained() > 0)
         world.collectValue = (world.collectValue ?? 0) + session.collectGained()
-      // 0x90 敌种降级:战斗内自清的敌种(刀手/胖苗说完台词)并入 world 持久集合,后续遭遇跳过其演出
-      const selfCleared = session.clearedEnemyChoreo()
-      if (selfCleared.length) {
-        const set = ((world.script ??= emptyWorldScriptState()).clearedEnemyChoreo ??= [])
-        for (const id of selfCleared) if (!set.includes(id)) set.push(id)
-      }
       // 战后「三件套」(battle.c:1822-1830):胜/败/逃无条件。① ClearAllStatus → 清大世界护体符定时状态
       // (extraStatuses);② CurePoisonByLevel(3) → 世界毒态清 ≤severe(无影毒/寄生 incurable 留);
       // ③ RemoveEquipExtra → 清大蒜临时毒抗 Extra(extraPoisonRes;装备本身 Extra 走 live 派生无持久)。

@@ -232,9 +232,8 @@ function translateHook(
         continue
       }
       if (oc === 0x90 && (ops[2] ?? 0) === 0 && (ops[1] ?? 0) === 0) {
-        // 0x90 敌自清 scriptOnTurnStart(刀手/胖苗 turnStart 末尾):说完台词降级,台词 show-once
-        // 跨战斗持久。战斗执行到此记入 clearedEnemyChoreo,战后写 world 持久;对象号 = 自身 def
-        dlg.push({ kind: 'clearEnemyChoreo', enemy: `enemy-${ops[0] ?? 0}` })
+        // 0x90 敌自清 scriptOnTurnStart:原版「说一次降级」的 hack。二阶段遭遇绑定后**无需**——
+        // 这段对话属于 boss 遭遇(startBattle),杂兵遭遇本就不带,不存在"跨遭遇串戏"。丢弃。
         i++
         continue
       }

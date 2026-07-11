@@ -223,14 +223,3 @@ describe('0x1A 改角色形象(SoA 字段 → setActorAppearance)', () => {
     expect(body1a([7, 100, 2])[0]?.kind).toBe('unmigrated')
   })
 })
-
-describe('0x90 剧情侧清敌种回合演出(→ clearEnemyChoreo)', () => {
-  test('清 turnStart(slot0 清0)→ clearEnemyChoreo(六脚蜘蛛 object 435)', () => {
-    const body = bodyOf(ctxOf([{ opcode: 0x90, operands: [435, 0, 0] }]))
-    expect(body).toEqual([{ kind: 'clearEnemyChoreo', enemy: 'enemy-435' }])
-  })
-  test('非清(val≠0)/非 turnStart(slot≠0)→ 保留 unmigrated', () => {
-    expect(bodyOf(ctxOf([{ opcode: 0x90, operands: [435, 999, 0] }]))[0]?.kind).toBe('unmigrated')
-    expect(bodyOf(ctxOf([{ opcode: 0x90, operands: [435, 0, 1] }]))[0]?.kind).toBe('unmigrated')
-  })
-})

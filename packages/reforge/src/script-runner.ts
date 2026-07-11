@@ -86,7 +86,14 @@ export interface ScriptHost {
   // ── M3b 战斗桩 / 商店 / 确认 ──
   startBattle(
     team: number,
-    opts?: { auto?: boolean; boss?: boolean; fieldId?: number; musicId?: number },
+    opts?: {
+      auto?: boolean
+      boss?: boolean
+      fieldId?: number
+      musicId?: number
+      /** 遭遇专属战斗演出(startBattle.choreography;对话绑遭遇而非敌种)。 */
+      choreography?: import('@type-pal/content').BattleChoreography[]
+    },
   ): Promise<'win' | 'lose' | 'flee'>
   /** 传送出口(0x38):跑当前场景 onTeleport;成功返回 true,场景无此槽返回 false(调用方走 onFail)。 */
   teleportOut(): Promise<boolean>
@@ -293,12 +300,6 @@ export class ScriptRunner {
           ...(cmd.portrait !== undefined ? { portrait: cmd.portrait } : {}),
           ...(cmd.battleSprite !== undefined ? { battleSprite: cmd.battleSprite } : {}),
         })
-      case 'clearEnemyChoreo': {
-        // 0x90:敌种降级(六脚蜘蛛/酒剑仙救场后)—— 写持久集合,战斗建队时跳过其回合演出
-        const set = (this.world.clearedEnemyChoreo ??= [])
-        if (!set.includes(cmd.enemy)) set.push(cmd.enemy)
-        return
-      }
       case 'fleeBattle':
         return h.fleeBattle()
       case 'setEntityState':
@@ -371,6 +372,7 @@ export class ScriptRunner {
           boss: cmd.boss,
           fieldId: cmd.fieldId,
           musicId: cmd.musicId,
+          ...(cmd.choreography ? { choreography: cmd.choreography } : {}),
         })
         if (r === 'lose' && cmd.onLose) return this.run(cmd.onLose, [...path, 'onLose'])
         if (r === 'flee' && cmd.onFlee) return this.run(cmd.onFlee, [...path, 'onFlee'])
