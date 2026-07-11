@@ -19,6 +19,7 @@ import { useMemo, useState } from 'react'
 import { UpdateActorCommand, UpdateStartSkillsCommand, SetActorBattleSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { BattleSpriteUploader } from './BattleSpriteUploader.js'
+import { LevelCurveEditor } from './LevelCurveEditor.js'
 import { LevelingEditor } from './LevelingEditor.js'
 import { PortraitEditor } from './PortraitEditor.js'
 import { SpriteFrames } from './SpriteFrames.js'
@@ -48,6 +49,7 @@ export function ActorMode(props: {
   const { actors, sprites, items, skills, locale, assetBase, session, levelUp, startSkills } = props
   const [selId, setSelId] = useState(actors[0]?.id ?? '')
   const [battleUpload, setBattleUpload] = useState(false) // A4c 战斗形象上传器展开
+  const [editingCurve, setEditingCurve] = useState(false) // C6 中区升级曲线编辑器展开
   const spriteById = useMemo(() => new Map(sprites.map((s) => [s.id, s])), [sprites])
   const actor = actors.find((a) => a.id === selId) ?? actors[0]
   const sprite = actor ? spriteById.get(actor.spriteId) : undefined
@@ -97,9 +99,18 @@ export function ActorMode(props: {
         </div>
       </div>
 
-      {/* 中:精灵帧标注(C1c) */}
+      {/* 中:精灵帧标注(C1c)/ 升级曲线编辑器(C6,宽幅拖点)二选一 */}
       <div className="center actor-center">
-        {actor && sprite ? (
+        {editingCurve && actor?.battler ? (
+          <LevelCurveEditor
+            key={actor.id}
+            actor={actor as ActorDef & { battler: NonNullable<ActorDef['battler']> }}
+            levelUpRows={levelUp[actor.id] ?? []}
+            skills={skills}
+            session={session}
+            onClose={() => setEditingCurve(false)}
+          />
+        ) : actor && sprite ? (
           <SpriteFrames sprite={sprite} assetBase={assetBase} session={session} />
         ) : (
           <div className="insp-empty" style={{ padding: 40 }}>
@@ -308,6 +319,7 @@ export function ActorMode(props: {
                   levelUpRows={levelUp[actor.id] ?? []}
                   skills={skills}
                   session={session}
+                  onEditCurve={() => setEditingCurve(true)}
                 />
               </>
             ) : (

@@ -1,34 +1,23 @@
 /**
- * 升级编辑(C6 编辑器侧)—— 角色模式「升级」区:
- * - expTable 经验曲线(actor.battler.leveling;textarea 数字串失焦提交,UpdateActorCommand)
+ * 升级编辑(C6 编辑器侧)—— 角色模式「升级」区(检查器窄栏只放**摘要 + 入口**;
+ * 经验曲线本体在中区宽幅 LevelCurveEditor 拖点编辑 —— 作者:「一大堆数没站在用户角度」):
+ * - 经验曲线摘要行 + 「📈 编辑曲线」按钮(中区打开)
  * - 升级学技能行(skills.json 的 levelUp[actorId];level + 技能下拉,UpdateLevelUpCommand)
  */
 import type { ActorDef, LevelUpSkill, SkillDataMap } from '@type-pal/content'
 import { useState } from 'react'
-import { UpdateActorCommand, UpdateLevelUpCommand } from '../core/commands.js'
+import { UpdateLevelUpCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
-
-/** 解析经验曲线文本:逗号/空白分隔非负整数;含非法 token 返回 null(不落盘)。 */
-export function parseExpTable(text: string): number[] | null {
-  const tokens = text.split(/[\s,]+/).filter(Boolean)
-  const out: number[] = []
-  for (const t of tokens) {
-    const n = Number(t)
-    if (!Number.isInteger(n) || n < 0) return null
-    out.push(n)
-  }
-  return out
-}
 
 export function LevelingEditor(props: {
   actor: ActorDef & { battler: NonNullable<ActorDef['battler']> }
   levelUpRows: LevelUpSkill[]
   skills: SkillDataMap
   session: EditSession
+  onEditCurve: () => void
 }) {
-  const { actor, levelUpRows, skills, session } = props
+  const { actor, levelUpRows, skills, session, onEditCurve } = props
   const [open, setOpen] = useState(false)
-  const [expErr, setExpErr] = useState(false)
   const expTable = actor.battler.leveling?.expTable ?? []
   const skillIds = Object.keys(skills)
 
@@ -59,38 +48,18 @@ export function LevelingEditor(props: {
       </button>
       <div className="field">
         <label>经验曲线</label>
-        <div className="hint2">
-          升到 L+1 级需累计经验(下标 = 当前级);逗号/空白分隔,{expTable.length} 级
-          {expErr ? <span style={{ color: 'var(--err)' }}> · 含非法数字,未保存</span> : null}
-        </div>
+        <span className="hint2">
+          {expTable.length
+            ? `${expTable.length} 级 · 末级累计 ${expTable[expTable.length - 1]}`
+            : '无曲线'}
+        </span>
       </div>
-      <textarea
-        className="in cf-ta exp-ta"
-        key={`${actor.id}-exp`}
-        defaultValue={expTable.join(', ')}
-        spellCheck={false}
-        onBlur={(e) => {
-          const parsed = parseExpTable(e.target.value)
-          if (!parsed) {
-            setExpErr(true)
-            return
-          }
-          setExpErr(false)
-          const same = parsed.length === expTable.length && parsed.every((n, i) => n === expTable[i])
-          if (same) return
-          session.dispatch(
-            new UpdateActorCommand(actor.id, {
-              battler: {
-                ...actor.battler,
-                ...(parsed.length ? { leveling: { expTable: parsed } } : {}),
-              },
-            }),
-          )
-        }}
-      />
+      <button type="button" className="tool" onClick={onEditCurve}>
+        📈 编辑曲线(中区拖点)
+      </button>
       <div className="field" style={{ marginTop: 6 }}>
         <label>升级学技能</label>
-        <div className="hint2">升到该级自动习得(战后结算「练成」)</div>
+        <div className="hint2">升到该级自动习得(战后结算「练成」;等级线也画在曲线图上)</div>
       </div>
       {levelUpRows.map((r, i) => (
         <div className="pt-row" key={`${r.level}-${r.skillId}-${i}`}>
