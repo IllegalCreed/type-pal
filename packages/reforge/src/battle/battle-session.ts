@@ -150,6 +150,17 @@ export class BattleSession {
   /** 合击选目标中(单体合体技进 target 态时置;确认后 = coop 动作 + 消耗其余队员)。 */
   private pendingCoop = false
   private targetIdx = 0
+  // ── 战斗快捷键状态(一阶段 uibattle.c:1166-1302 全套;S 状态屏 reforge 无状态面板暂缺)──
+  /** A 自动战斗:持续每回合自动普攻,菜单态 Esc 取消。 */
+  private fAuto = false
+  /** F 强行(本轮粘滞):剩余队员自动普攻。 */
+  private stickyForce = false
+  /** R 重复(本轮粘滞):剩余队员自动重提上回合动作(耗尽/MP 不足退化普攻)。 */
+  private stickyRepeat = false
+  /** 各队员上回合动作(R 重复的数据源;手动提交时记录)。 */
+  private readonly lastActs = new Map<number, BattleAction>()
+  /** 本回合手动提交顺序(菜单态 Esc 回退上一队员重选,uibattle.c:1298 revert)。 */
+  private submitOrder: number[] = []
   /** 正在选指令的队员下标(pendingActions 未填的第一个活队员)。 */
   private actTimer = 0
   private overTimer = 0
@@ -589,9 +600,64 @@ export class BattleSession {
         )
         return
       }
-      if (this.ui === 'acting') this.ui = 'menu' // 新回合回菜单
+      if (this.ui === 'acting') {
+        this.ui = 'menu' // 新回合回菜单
+        this.stickyForce = false // F/R 粘滞只管本轮(uibattle.c 轮末清)
+        this.stickyRepeat = false
+        this.submitOrder = []
+      }
+      // 粘滞/自动断路:F(本轮)/R(本轮)/A(持续)→ 剩余队员不出菜单自动提交;Esc 取消
+      if (this.fAuto || this.stickyForce || this.stickyRepeat) {
+        if (pressed.has('Escape')) {
+          this.fAuto = false
+          this.stickyForce = false
+          this.stickyRepeat = false
+        } else {
+          if (this.stickyRepeat) this.submitRepeat(sel)
+          else this.submitForce(sel)
+          return
+        }
+      }
       const confirm = pressed.has(' ') || pressed.has('Enter')
       if (this.ui === 'menu') {
+        // 战斗快捷键(一阶段 uibattle.c:1166-1302;WASD 原义还原同一阶段 input.ts)
+        const key = (a: string, b: string): boolean => pressed.has(a) || pressed.has(b)
+        if (key('d', 'D')) return this.submitAnd(sel, { kind: 'defend' }) // 防御
+        if (key('q', 'Q')) return this.submitAnd(sel, { kind: 'flee' }) // 逃跑
+        if (key('e', 'E')) {
+          // 用物品:直开使用列表(uibattle.c:1224)
+          if (this.usableItems().length) {
+            this.ui = 'item'
+            this.itemIdx = 0
+          }
+          return
+        }
+        if (key('w', 'W')) {
+          // 投掷:直开投掷列表(uibattle.c:1230)
+          if (this.throwableItems().length) {
+            this.ui = 'throwItem'
+            this.itemIdx = 0
+          }
+          return
+        }
+        if (key('r', 'R')) {
+          this.stickyRepeat = true // 整轮粘滞(uibattle.c:1240 fRepeat)
+          return this.submitRepeat(sel)
+        }
+        if (key('f', 'F')) {
+          this.stickyForce = true // 整轮粘滞(uibattle.c:1252 fForce)
+          return this.submitForce(sel)
+        }
+        if (key('a', 'A')) {
+          this.fAuto = true // 持续自动(uibattle.c:1266 fAutoAttack;Esc 取消)
+          return this.submitForce(sel)
+        }
+        // Esc:回退上一个已提交队员重选(uibattle.c:1298;无可回退则无操作)
+        if (pressed.has('Escape') && this.submitOrder.length) {
+          const prev = this.submitOrder.pop()!
+          s.pendingActions.delete(prev)
+          return
+        }
         // 一阶段主菜单方向语义:Up→攻击 Down→杂项 Left→法术(valid) Right→合击(valid);invalid 回 0
         const valid = this.mainActionValid(sel)
         if (pressed.has('ArrowUp')) this.menuIdx = 0
@@ -614,7 +680,7 @@ export class BattleSession {
               ? this.opts.skills?.[p2.cooperativeMagicSkillId]
               : undefined
             if (coopSkill?.target === 'allEnemies') {
-              s.pendingActions.set(sel, { kind: 'coop' })
+              this.submit(sel, { kind: 'coop' })
               this.consumeOthersForCoop(sel)
               this.backToMain()
             } else {
@@ -638,11 +704,9 @@ export class BattleSession {
             if (this.usableItems().length) this.ui = 'miscSub'
             this.miscSubIdx = 0
           } else if (this.miscIdx === 2) {
-            s.pendingActions.set(sel, { kind: 'defend' })
-            this.backToMain()
+            this.submitAnd(sel, { kind: 'defend' })
           } else if (this.miscIdx === 3) {
-            s.pendingActions.set(sel, { kind: 'flee' })
-            this.backToMain()
+            this.submitAnd(sel, { kind: 'flee' })
           } // 0 围攻 / 4 状态:未实现,无响应(灰显)
         }
       } else if (this.ui === 'miscSub') {
@@ -676,8 +740,7 @@ export class BattleSession {
               this.ui = 'target'
               this.targetIdx = 0
             } else {
-              s.pendingActions.set(sel, { kind: 'cast', skillId })
-              this.backToMain()
+              this.submitAnd(sel, { kind: 'cast', skillId })
             }
           } // MP 不足/缺数据:留在网格(灰显)
         }
@@ -690,8 +753,7 @@ export class BattleSession {
         if (pressed.has('Escape')) this.ui = 'miscSub'
         if (confirm && list.length) {
           const it = list[this.itemIdx % list.length]!
-          s.pendingActions.set(sel, { kind: 'item', itemId: it.itemId })
-          this.backToMain()
+          this.submitAnd(sel, { kind: 'item', itemId: it.itemId })
         }
       } else if (this.ui === 'throwItem') {
         const list = this.throwableItems()
@@ -735,7 +797,7 @@ export class BattleSession {
           this.pendingSkillId = null
           this.pendingThrowItem = null
           this.pendingCoop = false
-          s.pendingActions.set(sel, action)
+          this.submit(sel, action)
           if (wasCoop) this.consumeOthersForCoop(sel) // 合击消耗其余队员本回合出手
           this.backToMain()
         }
@@ -1141,6 +1203,54 @@ export class BattleSession {
       damage: (pHp[t] ?? 0) - (s.players[t]?.hp ?? 0),
       targetDied: (s.players[t]?.hp ?? 0) <= 0,
     })
+  }
+
+  /** 手动/快捷键提交统一入口:记 lastActs(R 重复源)+ submitOrder(Esc 回退)。 */
+  private submit(sel: number, act: BattleAction): void {
+    this.state.pendingActions.set(sel, act)
+    this.lastActs.set(sel, act)
+    this.submitOrder.push(sel)
+  }
+
+  /** submit + 回主菜单(快捷键 D/Q 一步提交用)。 */
+  private submitAnd(sel: number, act: BattleAction): void {
+    this.submit(sel, act)
+    this.backToMain()
+  }
+
+  /** 强行/自动:普攻首活敌(无活敌退化防御)。F/A 快捷键与粘滞轮转共用。 */
+  private submitForce(sel: number): void {
+    const alive = this.aliveEnemyIdxs()
+    this.submitAnd(
+      sel,
+      alive.length ? { kind: 'attack', targetEnemyIdx: alive[0]! } : { kind: 'defend' },
+    )
+  }
+
+  /** R 重复:重提上回合动作;物品耗尽/MP 不足/目标已死 → 修正或退化普攻(uibattle.c repeat 语义)。 */
+  private submitRepeat(sel: number): void {
+    let act = this.lastActs.get(sel)
+    if (act?.kind === 'item') {
+      const id = act.itemId
+      if (!this.usableItems().some((i) => i.itemId === id)) act = undefined
+    }
+    if (act?.kind === 'throw') {
+      const id = act.itemId
+      if (!this.throwableItems().some((i) => i.itemId === id)) act = undefined
+    }
+    if (act?.kind === 'cast') {
+      const sk = this.opts.skills?.[act.skillId]
+      const p = this.state.players[sel]
+      if (!sk || !p || p.mp < (sk.cost.mp ?? 0)) act = undefined
+    }
+    if (act && 'targetEnemyIdx' in act && act.targetEnemyIdx !== undefined) {
+      const alive = this.aliveEnemyIdxs()
+      if (!alive.includes(act.targetEnemyIdx)) {
+        act = alive.length ? { ...act, targetEnemyIdx: alive[0]! } : undefined
+      }
+    }
+    if (!act) return this.submitForce(sel)
+    this.submitAnd(sel, act)
   }
 
   /** 时间线 delta → 表现层。pos 带 smoothMs = 设趋近目标(渲染层插值);否则直落并清平滑。 */
