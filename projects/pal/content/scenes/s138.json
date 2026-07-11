@@ -569,7 +569,101 @@
                     "team": 42,
                     "boss": true,
                     "fieldId": 42,
-                    "musicId": 38
+                    "musicId": 38,
+                    "choreography": [
+                      {
+                        "at": "turnStart",
+                        "once": true,
+                        "body": [
+                          {
+                            "kind": "playSound",
+                            "soundId": 245
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.13260",
+                              "speaker": "spk.蜘蛛精"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "at": "turnStart",
+                        "once": true,
+                        "when": {
+                          "kind": "turn",
+                          "op": ">=",
+                          "value": 3
+                        },
+                        "body": [
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.13262",
+                              "speaker": "spk.蜘蛛精"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "at": "turnStart",
+                        "once": true,
+                        "when": {
+                          "kind": "turn",
+                          "op": ">=",
+                          "value": 5
+                        },
+                        "body": [
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.13264",
+                              "speaker": "spk.蜘蛛精"
+                            }
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.13265"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "at": "turnStart",
+                        "once": true,
+                        "when": {
+                          "kind": "turn",
+                          "op": ">=",
+                          "value": 7
+                        },
+                        "body": [
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.13267",
+                              "speaker": "spk.蜘蛛精"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "at": "turnStart",
+                        "once": true,
+                        "when": {
+                          "kind": "turn",
+                          "op": ">=",
+                          "value": 8
+                        },
+                        "body": [
+                          {
+                            "kind": "endBattle",
+                            "result": "terminate"
+                          }
+                        ]
+                      }
+                    ]
                   },
                   {
                     "kind": "clearEnemyChoreo",

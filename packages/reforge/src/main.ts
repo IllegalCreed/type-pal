@@ -2828,9 +2828,35 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   const fieldParam = params.get('field')
   const battleParam = battleRaw === null ? Number.NaN : Number(battleRaw)
   if (Number.isFinite(battleParam) && battleParam >= 0) {
-    void host
-      .startBattle(battleParam, fieldParam !== null ? { fieldId: Number(fieldParam) } : undefined)
-      .then((r) => showToast(`试打结束:${r}`))
+    // ?battle-scene=<场景>:从该场景脚本取此 team 的 startBattle.choreography(遭遇绑定对话;
+    // dev 试打默认不带剧情对话,加此参数验证 boss 遭遇台词)
+    const choreoScene = params.get('battle-scene')
+    const findChoreo = async (): Promise<
+      import('@type-pal/content').BattleChoreography[] | undefined
+    > => {
+      if (!choreoScene) return undefined
+      const def = await getSceneDef(choreoScene).catch(() => undefined)
+      let found: import('@type-pal/content').BattleChoreography[] | undefined
+      const walk = (o: unknown): void => {
+        if (Array.isArray(o)) o.forEach(walk)
+        else if (o && typeof o === 'object') {
+          const c = o as { kind?: string; team?: number; choreography?: unknown }
+          if (c.kind === 'startBattle' && c.team === battleParam && c.choreography)
+            found = c.choreography as import('@type-pal/content').BattleChoreography[]
+          for (const v of Object.values(o)) walk(v)
+        }
+      }
+      if (def) walk(def)
+      return found
+    }
+    void findChoreo().then((choreography) =>
+      host
+        .startBattle(battleParam, {
+          ...(fieldParam !== null ? { fieldId: Number(fieldParam) } : {}),
+          ...(choreography ? { choreography } : {}),
+        })
+        .then((r) => showToast(`试打结束:${r}`)),
+    )
   } else if (spawnPos) {
     // X5 跳转预览(?pos 落点):dev 跳转意图 = 落地即自由,跳过 onEnter 剧情垫
     //   (同一阶段 dev 跳场景语义;onEnter 的队伍瞬移会劫持落点)。要看进场演出 → 不带 pos。

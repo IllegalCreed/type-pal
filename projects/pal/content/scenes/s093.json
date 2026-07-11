@@ -7215,7 +7215,39 @@
                       }
                     ],
                     "boss": true,
-                    "fieldId": 24
+                    "fieldId": 24,
+                    "choreography": [
+                      {
+                        "at": "turnStart",
+                        "once": true,
+                        "when": {
+                          "kind": "turn",
+                          "op": ">=",
+                          "value": 2
+                        },
+                        "body": [
+                          {
+                            "kind": "playSound",
+                            "soundId": 193
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.13214"
+                            }
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.13215"
+                            }
+                          },
+                          {
+                            "kind": "fleeBattle"
+                          }
+                        ]
+                      }
+                    ]
                   },
                   {
                     "kind": "unmigrated",

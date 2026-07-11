@@ -13893,7 +13893,54 @@
                                                 "kind": "stopScript"
                                               }
                                             ],
-                                            "boss": true
+                                            "boss": true,
+                                            "choreography": [
+                                              {
+                                                "at": "turnStart",
+                                                "once": true,
+                                                "when": {
+                                                  "kind": "firstOfKind"
+                                                },
+                                                "body": [
+                                                  {
+                                                    "kind": "dialog",
+                                                    "line": {
+                                                      "text": "dlg.13139"
+                                                    }
+                                                  },
+                                                  {
+                                                    "kind": "dialog",
+                                                    "line": {
+                                                      "text": "dlg.13140"
+                                                    }
+                                                  },
+                                                  {
+                                                    "kind": "dialog",
+                                                    "line": {
+                                                      "text": "dlg.13141"
+                                                    }
+                                                  },
+                                                  {
+                                                    "kind": "dialog",
+                                                    "line": {
+                                                      "text": "dlg.13142"
+                                                    }
+                                                  },
+                                                  {
+                                                    "kind": "dialog",
+                                                    "line": {
+                                                      "text": "dlg.13143"
+                                                    }
+                                                  },
+                                                  {
+                                                    "kind": "dialog",
+                                                    "line": {
+                                                      "text": "dlg.13144"
+                                                    }
+                                                  }
+                                                ]
+                                              }
+                                            ]
                                           },
                                           {
                                             "kind": "unmigrated",

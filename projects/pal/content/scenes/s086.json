@@ -367,7 +367,39 @@
                       }
                     ],
                     "boss": true,
-                    "musicId": 48
+                    "musicId": 48,
+                    "choreography": [
+                      {
+                        "at": "turnStart",
+                        "once": true,
+                        "when": {
+                          "kind": "turn",
+                          "op": ">=",
+                          "value": 2
+                        },
+                        "body": [
+                          {
+                            "kind": "playSound",
+                            "soundId": 193
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.13214"
+                            }
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.13215"
+                            }
+                          },
+                          {
+                            "kind": "fleeBattle"
+                          }
+                        ]
+                      }
+                    ]
                   },
                   {
                     "kind": "setParty",
