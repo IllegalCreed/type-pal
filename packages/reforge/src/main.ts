@@ -2569,9 +2569,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
             systemMenu = { ...systemMenu, confirmYes: wantYes }
             const r = systemConfirmYes(systemMenu)
             if (r.action?.kind === 'quit') {
-              // 退出(本期占位:无标题屏)→ 留菜单层显「未实现」(关面板的话提示就看不到)
-              systemPlaceholder = 'menu.not-implemented'
-              systemMenu = { ...systemMenu, phase: 'menu', confirmYes: false }
+              // 退出「是」→ 回标题屏(作者拍板 2026-07-11):导航到 ?menu 干净重启
+              // (丢弃 dev 参数;未存进度即弃,原版 quit 同语义 —— 想留进度先存档)
+              location.href = `${location.pathname}?menu`
             } else {
               lastSystemCursor = systemMenu.cursor
               systemMenu = closeSystemMenu()
