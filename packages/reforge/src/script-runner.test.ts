@@ -161,6 +161,9 @@ test('legacy 对象族:0x9A 批量状态/0x13 定位/0x6F 条件同步/0x23 卸�
       un(0x71, [255, 0xfffc, 0]), // 屏波:幅 255 + 推进 −4(渐弱)→ vars
       un(0x7e, [60, 3, 0]), // 实体图层:e59 → 层 3
       un(0x7e, [0xffff, 0xffdf, 0]), // 自指 e50 → 层 int16(−33)
+      un(0x98, [82, 83, 0]), // 编外跟随者:精灵 chunk 82/83 直用(s102 书生)
+      un(0x99, [231, 164, 0]), // 换底图:场景 231(1-based)→ s230 override mapNum 164
+      un(0x98, [0, 0, 0]), // 清跟随者
     ],
     [],
   )
@@ -168,6 +171,8 @@ test('legacy 对象族:0x9A 批量状态/0x13 定位/0x6F 条件同步/0x23 卸�
   expect(world.vars['sys:screenWave']).toBe(255)
   expect(world.vars['sys:waveProgression']).toBe(-4)
   expect(world.entityLayer).toEqual({ e59: 3, e50: -33 })
+  expect(world.followers).toBeUndefined() // 设 82/83 后被清
+  expect(world.mapOverride).toEqual({ s230: 164 })
   expect(calls).toEqual([
     'setEntityState("e4",2)', // 0x9A 宿主重放通知(main 侧整场 applyWorldToScene)
     'setEntityPos("e9",{"col":4,"row":0})',

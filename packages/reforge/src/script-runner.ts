@@ -22,6 +22,8 @@ import { applyStageNext, pixelToGrid, stageIndexFor } from '@type-pal/content'
 export interface ScriptHost {
   dialog(line: DialogueLine): Promise<void>
   clearDialog(): void
+  /** 0x99 当前场景即时换底图(mapNum 已写入 world.script.mapOverride;host 重载 map 资产,不动实体)。 */
+  reloadMap?(mapNum: number): Promise<void>
   fade(dir: 'in' | 'out', ms: number, color?: 'black' | 'red'): Promise<void>
   /** B8:实体向玩家追一步(auto 循环内 = 持续追逐;撞上玩家由 host 触发 touch)。 */
   chaseStep(entityId: string, range: number, speed: number, floating: boolean): Promise<void>
@@ -101,6 +103,8 @@ export interface ScriptHost {
     hasItem(itemId: string, atLeast: number): boolean
     money(): number
     inParty(actorId: string): boolean
+    /** 当前场景 id(0x99 当前场景换图的 override 键;缺省实现可返回空串 = 不落 override)。 */
+    sceneId?(): string
   }
   /** unmigrated / 未实现命令上报(dev toast + console;生产静默日志)。 */
   report(msg: string): void
@@ -467,6 +471,26 @@ export class ScriptRunner {
         this.world.vars['sys:screenWave'] = a
         this.world.vars['sys:waveProgression'] = i16(b)
         return
+      case 0x98: {
+        // 编外跟随者(script.c:2709 nFollower):op0/op1 >0 = 精灵 chunk 直用(非角色表,
+        // s102 书生 82/83);全 0 = 清。写 world 持久,渲染层队尾按 trail 跟走
+        const fl = [a, b].filter((x) => x > 0)
+        this.world.followers = fl.length ? fl : undefined
+        return
+      }
+      case 0x99: {
+        // 换场景底图(script.c:2740):op0=0xFFFF 当前场景 mapNum=op1 即时重载(不动实体);
+        // else 场景 s<op0>(1-based→id)下次进场生效。override 随存档持久
+        const mapNum = b
+        if (a === 0xffff) {
+          const cur = h.query.sceneId?.()
+          if (cur) (this.world.mapOverride ??= {})[cur] = mapNum
+          await h.reloadMap?.(mapNum)
+        } else {
+          ;(this.world.mapOverride ??= {})[`s${String(a - 1).padStart(3, '0')}`] = mapNum
+        }
+        return
+      }
       case 0x76:
         // ShowFBP(script.c:2199)。全游戏 4 站点(水月宫 s020)全为 op0=0xFFFF「填黑帧缓冲」,
         // 且前面必有 fade out(一阶段 blackScreenHold 防 FadeIn 旧帧回闪)。reforge 每帧重画

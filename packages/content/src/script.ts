@@ -177,6 +177,12 @@ export interface WorldScriptState {
   /** 实体图层覆写(原版 0x7E sLayer:**只进深度排序键**(+8px/层)不进落笔位,
    *  一阶段 present.ts:540 真值;立交/上下层遮挡)。render 每帧直读,天然跨场景。 */
   entityLayer?: Record<string, number>
+  /** 编外跟随者精灵号(原版 0x98 nFollower:operand **直接当精灵 chunk**,非角色表;
+   *  ≤2 个,队尾按 trail 跟走恒 3 帧步 —— s102 书生 82/83)。空/缺省 = 无。 */
+  followers?: number[]
+  /** 场景底图覆写(原版 0x99 wMapNum 改写:键 = sceneId;0xFFFF 当前场景即时重载,
+   *  其余场景下次进场生效;随存档持久 —— 麒麟洞 s230/s243 岩浆变化)。 */
+  mapOverride?: Record<string, number>
 }
 
 export function emptyWorldScriptState(): WorldScriptState {

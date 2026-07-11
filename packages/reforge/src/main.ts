@@ -34,6 +34,7 @@ import {
   type SpriteDef,
   spriteScreenY,
   type WalkSpeed,
+  isReuseMap,
 } from '@type-pal/content'
 import type { Palette, RleFrame } from '@type-pal/shared'
 import { computeFollowerPos, type FollowerFrozen, pushTrail, type TrailEntry } from './follower.js'
@@ -455,7 +456,13 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     spawn?: { entry?: string; pos?: GridPos; facing?: Facing },
   ): Promise<void> {
     const def = await getSceneDef(sceneId)
-    const assets = await getMapAssets(def.map) // 复用原版 ⊕ 自有地图,分流内建于 loadSceneMap
+    // 0x99 底图覆写:原版图按 override mapNum 换底(麒麟洞岩浆;自有地图不受 override)
+    const ovMap = world.script?.mapOverride?.[sceneId]
+    const mapRef =
+      ovMap !== undefined && isReuseMap(def.map)
+        ? { ...def.map, reuseOriginalMap: ovMap }
+        : def.map
+    const assets = await getMapAssets(mapRef) // 复用原版 ⊕ 自有地图,分流内建于 loadSceneMap
     const pal = await getPalette(Number(params.get('pal') ?? 0)) // 只留盘 0(W7a-3);?pal= 仅 dev 调试兜底
     const defs = new Map<string, SpriteDef>()
     for (const e of def.entities) {
@@ -1401,6 +1408,14 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         (world.inventory.find((x) => x.itemId === itemId)?.count ?? 0) >= atLeast,
       money: () => world.money,
       inParty: (actorId) => world.party.some((c) => c.id === actorId || c.template === actorId),
+      sceneId: () => scene.id,
+    },
+    // 0x99 当前场景即时换底图:只换 map 资产(map/tiles/renderer),不动实体/坐标/room
+    reloadMap: async (mapNum) => {
+      const assets = await getMapAssets({ reuseOriginalMap: mapNum })
+      map = assets.map
+      tiles = assets.tiles
+      renderer = new Canvas2DRenderer(ctx, palette, tiles)
     },
     report: (msg) => {
       if (!import.meta.env.DEV) return
@@ -2072,6 +2087,36 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         anchorY: ff.height,
         // 队长永远遮挡队员(作者定调,骑乘重叠时尤其):同 Y 平局给队员微负深度,
         // 序号越大越靠后;偏置 -0.01×8=-0.08px 只破平局,不扰正常深度排序。
+        baseYBias: -0.01 * m,
+      })
+    }
+    // 0x98 编外跟随者(script.c:2709 nFollower):精灵号直用(s102 书生 82/83),
+    // 排队员之后按 trail 再深一档跟走;精灵未载(书生本就是场景实体,通常已载)跳过
+    const extraFollowers = world.script?.followers ?? []
+    for (let k = 0; k < extraFollowers.length; k++) {
+      const chunk = extraFollowers[k]!
+      const fr = spriteByNum.get(chunk)
+      const m = world.party.length + k
+      const r = computeFollowerPos(
+        { party: player.pos, trail, walking, frozenOffset: followerFrozen },
+        m,
+        (col, row) => !isBlocked({ col, row, height: 0 }),
+      )
+      const pos = r?.pos ?? player.pos
+      const dir = r?.dir ?? facing
+      if (!fr) continue
+      // 布局按四向行走图惯例(原版 MGO 跟随者即此;帧不够时 walkFrameIndex 回落首帧)
+      const layout = { kind: 'directional' as const, framesPerDir: 3 }
+      const ffi = walking ? walkFrameIndex(layout, dir, stepFrame) : idleFrameIndex(layout, dir)
+      const ff = fr.frames[ffi] ?? fr.frames[0]
+      if (!ff) continue
+      const fpp = gridToPixel(pos)
+      sprites.push({
+        frame: ff,
+        worldX: fpp.x,
+        worldY: spriteScreenY(pos),
+        anchorX: Math.floor(ff.width / 2),
+        anchorY: ff.height,
         baseYBias: -0.01 * m,
       })
     }
