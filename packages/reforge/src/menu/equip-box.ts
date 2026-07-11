@@ -98,15 +98,14 @@ function drawEquipPickRole(
   if (!caster) return
   const sel = state.selectedItemId ? items[state.selectedItemId] : undefined
 
-  // ① 左:选中物 — 纵向卷轴框(frame-70)+ 图标(卷面居中)+ 数量(青)+ 名(金,左对齐)
+  // ① 左:选中物 — 纵向卷轴框(frame-70)+ 图标 + 数量(青)+ 名(金,左对齐)
   drawSlicedBox(ctx, assets.itembox, PR_IMAGE_BOX.x, PR_IMAGE_BOX.y, 64, 64, { shadow: false })
   if (sel) {
     const icon = assets.itemIcons[sel.icon]
     if (icon) {
-      // 卷轴顶有滚杆 → 图标在卷面(略偏下)居中
-      const cx = PR_IMAGE_BOX.x + 32
-      const cy = PR_IMAGE_BOX.y + 36
-      ctx.drawImage(icon, Math.round(cx - icon.width / 2), Math.round(cy - icon.height / 2))
+      // 图标贴框内左上 (+8,+8) = 一阶段 draw-equip.ts / uigame.c:1869 真值(32×32 图标
+      // 落在卷面上部深色区)。曾自创「卷面居中偏下」(+36 中心)→ 作者报「太靠下」,偏了 12px。
+      ctx.drawImage(icon, PR_IMAGE_BOX.x + 8, PR_IMAGE_BOX.y + 8)
     }
     const count = world.inventory.find((e) => e.itemId === sel.id)?.count ?? 0
     if (count > 1) drawNumber(ctx, count, PR_ITEM_AMOUNT_RIGHT, PR_ITEM_AMOUNT_Y, assets.numsCyan)
