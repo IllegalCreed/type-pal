@@ -1242,6 +1242,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           fieldWave,
           fieldEffect: fieldDef?.magicEffect,
           poisonDefs: project.poisonsById,
+          money: world.money, // 乾坤一掷/铜钱镖消耗基数(战内 delta 战后统一入账)
           // 战斗音效七件套(BattlerSpec.sounds;出招/挥击/吟唱已接,其余随对应演出落地)
           playerSounds: world.party.map((c) => project.actorsById[c.template]?.battler?.sounds),
           // 变身换形/异种召唤的中场精灵重载(原版 PAL_LoadBattleSprites)
@@ -1284,14 +1285,18 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       )
       const sessionRef = session
       activeBattle = session
+      // DEV 调试口(一阶段 __tpgs 先例):验收/自动化直读战斗态(phase/ui/log)
+      if (import.meta.env.DEV) (window as { __rfBattle?: unknown }).__rfBattle = session
       const result = await session.done
+      if (import.meta.env.DEV) (window as { __rfBattle?: unknown }).__rfBattle = null
       activeBattle = null
       // 胜利结算路径已在 buildSettlement 里写回 HP + 入账;其余路径(败/逃/敌逃)此处写回 HP。
       if (result !== 'win' || session.enemyFled()) session.writeBackHp(world.party)
       session.writeBackInventory(world.inventory)
-      // 偷窃/收妖所得:**无条件**入账(原版偷钱 dwCash 即时加、收妖值全局累计 —— 逃跑也保留;
+      // 偷窃/金钱技消耗/收妖所得:**无条件**入账(原版 dwCash 即时加减 —— 逃跑也保留;
       // 偷到的物品随 writeBackInventory 一并回世界)
-      if (session.moneyStolen() > 0) world.money += session.moneyStolen()
+      if (session.moneyDelta() !== 0)
+        world.money = Math.max(0, world.money + session.moneyDelta())
       if (session.collectGained() > 0)
         world.collectValue = (world.collectValue ?? 0) + session.collectGained()
       // 战后「三件套」(battle.c:1822-1830):胜/败/逃无条件。① ClearAllStatus → 清大世界护体符定时状态

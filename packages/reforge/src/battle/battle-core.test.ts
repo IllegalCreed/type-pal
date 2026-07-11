@@ -1389,7 +1389,7 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
     expect(block.enemies[0]!.hp).toBe(9999)
   })
 
-  test('偷窃(fight.c:5193):偷物入包、余量递减、偷光一无所获;偷钱敌走 moneyStolen', () => {
+  test('偷窃(fight.c:5193):偷物入包、余量递减、偷光一无所获;偷钱敌走 moneyDelta', () => {
     const st6 = mkSkill('steal6', { effects: [{ kind: 'steal', rate: 6 }] })
     const s = createBattleState({
       players: [player('li', { skills: ['steal6'] })],
@@ -1407,15 +1407,90 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
     turn(s, rng0, cast) // 余量耗尽
     expect(s.inventory.find((x) => x.itemId === '91')?.count).toBe(2)
     expect(s.log.some((l) => l.includes('一无所获'))).toBe(true)
-    // 偷钱敌(itemId '0'):c = trunc(100/(2+0)) = 50 → moneyStolen
+    // 偷钱敌(itemId '0'):c = trunc(100/(2+0)) = 50 → moneyDelta
     const coins = createBattleState({
       players: [player('li', { skills: ['steal6'] })],
       enemies: [{ ...dummy(), steal: { itemId: '0', count: 100 } }],
       skills: { steal6: st6 },
     })
     turn(coins, rng0, cast)
-    expect(coins.moneyStolen).toBe(50)
+    expect(coins.moneyDelta).toBe(50)
     expect(coins.enemies[0]!.stealLeft).toBe(50)
+  })
+
+  test('金蝉脱壳(0x3A):非 boss 全队必逃 → fled;boss 战「无法逃离!」战斗继续', () => {
+    const jc = mkSkill('jc', {
+      target: 'allAllies',
+      cost: { mp: 33 },
+      effects: [{ kind: 'fleeBattle' }],
+    })
+    const mk = (boss: boolean) =>
+      createBattleState({
+        players: [player('li', { skills: ['jc'], mp: 50, maxMp: 50 })],
+        enemies: [dummy()],
+        skills: { jc },
+        boss,
+      })
+    const s = mk(false)
+    turn(s, rng0, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'jc' }))
+    expect(s.phase).toBe('fled')
+    expect(s.players[0]!.mp).toBe(17) // MP 33 照扣
+    const b = mk(true)
+    turn(b, rng0, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'jc' }))
+    expect(b.phase).not.toBe('fled')
+    expect(b.log.some((l) => l.includes('无法逃离'))).toBe(true)
+  })
+
+  test('乾坤一掷(0x88):消耗 min(金钱,5000)、基伤=消耗×2/5;分文没有 → 无任何效果不扣钱', () => {
+    const qk = mkSkill('qk', {
+      target: 'allEnemies',
+      cost: { mp: 1 },
+      effects: [{ kind: 'moneyDamage', maxSpend: 5000, num: 2, den: 5, elemental: 0 }],
+    })
+    const mk = (money: number) =>
+      createBattleState({
+        players: [player('li', { skills: ['qk'] })],
+        enemies: [dummy({ health: 9999 })],
+        skills: { qk },
+        money,
+      })
+    const s = mk(8000)
+    turn(s, rng0, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'qk' }))
+    expect(s.moneyDelta).toBe(-5000) // 8000 有钱也封顶 5000(script.c:2547)
+    expect(s.enemies[0]!.hp).toBeLessThan(9999) // 基伤 2000 入常规法术结算
+    expect(s.log.some((l) => l.includes('掷出 5000 文钱'))).toBe(true)
+    const poor = mk(0)
+    turn(poor, rng0, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'qk' }))
+    expect(poor.moneyDelta).toBe(0)
+    expect(poor.enemies[0]!.hp).toBe(9999)
+    expect(poor.log.some((l) => l.includes('金钱不足'))).toBe(true)
+  })
+
+  test('铜钱镖(cost.money):固定扣 500 + 伤害;不足 500 → 降级普攻不扣钱(与 MP 门同待遇)', () => {
+    const tq = mkSkill('tq', {
+      target: 'oneEnemy',
+      cost: { mp: 1, money: 500 },
+      effects: [{ kind: 'damage', power: 198, elemental: 0 }],
+    })
+    const mk = (money: number) =>
+      createBattleState({
+        players: [player('li', { skills: ['tq'] })],
+        enemies: [dummy({ health: 9999 })],
+        skills: { tq },
+        money,
+      })
+    const s = mk(600)
+    turn(s, rng0, (st) =>
+      st.pendingActions.set(0, { kind: 'cast', skillId: 'tq', targetEnemyIdx: 0 }),
+    )
+    expect(s.moneyDelta).toBe(-500)
+    expect(s.enemies[0]!.hp).toBeLessThan(9999)
+    const poor = mk(400)
+    turn(poor, rng0, (st) =>
+      st.pendingActions.set(0, { kind: 'cast', skillId: 'tq', targetEnemyIdx: 0 }),
+    )
+    expect(poor.moneyDelta).toBe(0) // 降级普攻,消耗未发生
+    expect(poor.log.some((l) => l.includes('金钱不足') && l.includes('降级普攻'))).toBe(true)
   })
 
   test('解状态(0x2F)按 targetAllyIdx 点名队友;buffStat 烙属性 + 定时到期扣回', () => {

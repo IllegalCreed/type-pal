@@ -48,6 +48,8 @@ const EFFECT_KINDS: { v: SkillEffect['kind']; label: string }[] = [
   { v: 'collectTreasure', label: '收宝' },
   { v: 'summon', label: '召唤' },
   { v: 'trance', label: '变身' },
+  { v: 'fleeBattle', label: '脱离战斗' },
+  { v: 'moneyDamage', label: '金钱伤害' },
 ]
 
 /** kind 切换的缺省效果体。 */
@@ -68,6 +70,8 @@ function defaultEffect(kind: SkillEffect['kind']): SkillEffect {
     case 'collectTreasure': return { kind }
     case 'summon': return { kind, godId: 0 }
     case 'trance': return { kind, sprite: 0 }
+    case 'fleeBattle': return { kind }
+    case 'moneyDamage': return { kind, maxSpend: 5000, num: 2, den: 5, elemental: 0 }
   }
 }
 
@@ -222,6 +226,15 @@ function EffectFields(props: { e: SkillEffect; on: (next: SkillEffect) => void }
       )
     case 'trance':
       return <label><span>变身精灵</span><N v={e.sprite} on={(n) => on({ ...e, sprite: n ?? 0 })} /></label>
+    case 'moneyDamage':
+      return (
+        <>
+          <label title="消耗 = min(当前金钱, 此上限);乾坤一掷 5000"><span>消耗上限</span><N v={e.maxSpend} on={(n) => on({ ...e, maxSpend: n ?? 5000 })} /></label>
+          <label title="基伤 = 消耗 × 分子/分母(乾坤一掷 2/5)"><span>分子</span><N v={e.num} on={(n) => on({ ...e, num: n ?? 1 })} w={48} /></label>
+          <label><span>分母</span><N v={e.den} on={(n) => on({ ...e, den: n ?? 1 })} w={48} /></label>
+          <label><span>五灵</span><N v={e.elemental} on={(n) => on({ ...e, elemental: n ?? 0 })} w={48} /></label>
+        </>
+      )
     default:
       return <span className="hint2">(无参数)</span>
   }

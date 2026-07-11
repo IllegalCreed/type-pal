@@ -2883,6 +2883,119 @@
         "shake": 0,
         "sound": 117
       }
+    },
+    {
+      "id": "314",
+      "name": "风卷残云",
+      "desc": "风系高级法术，攻击敌方全体。",
+      "cost": {
+        "mp": 42
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 280,
+          "elemental": 1
+        }
+      ],
+      "animation": {
+        "effectSprite": 44,
+        "placement": "attackField",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 2,
+        "shake": 0,
+        "sound": 103
+      }
+    },
+    {
+      "id": "344",
+      "name": "铜钱镖",
+      "desc": "将金钱当做暗器，攻击敌方单人，一次使用五百文钱。",
+      "cost": {
+        "mp": 1,
+        "money": 500
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 198,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 31,
+        "placement": "normal",
+        "xOffset": 32,
+        "yOffset": 20,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 347
+      }
+    },
+    {
+      "id": "392",
+      "name": "金蝉脱壳",
+      "desc": "战斗中逃跑。",
+      "cost": {
+        "mp": 33
+      },
+      "usableOutsideBattle": false,
+      "target": "allAllies",
+      "effects": [
+        {
+          "kind": "fleeBattle"
+        }
+      ],
+      "animation": {
+        "effectSprite": 65535,
+        "placement": "normal",
+        "xOffset": 0,
+        "yOffset": 0,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 0
+      }
+    },
+    {
+      "id": "394",
+      "name": "乾坤一掷",
+      "desc": "使用金钱镖攻击敌方全体，会耗损大量金钱。",
+      "cost": {
+        "mp": 1
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "moneyDamage",
+          "maxSpend": 5000,
+          "num": 2,
+          "den": 5,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 31,
+        "placement": "attackAll",
+        "xOffset": 32,
+        "yOffset": 20,
+        "speed": 0,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "sound": 347
+      }
     }
   ],
   "levelUp": {

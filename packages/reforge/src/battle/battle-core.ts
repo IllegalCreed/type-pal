@@ -157,8 +157,10 @@ export interface BattleState {
   /** 隐身回合(0x5C 隐蛊;一阶段 iHidingTime CLASSIC 三段):<0 待激活(用品当步存负)、
    *  行动步前取反激活(同轮后续敌立即跳过)、>0 敌整轮不行动、轮末 −1 到 0 结束。 */
   hidingTime: number
-  /** 偷到的金钱(飞龙探云手偷钱敌:原版 dwCash 即时加;战后无条件并入 world.money)。 */
-  moneyStolen: number
+  /** 战斗内金钱增减合计(偷钱敌 +;乾坤一掷/铜钱镖消耗 −;战后无条件并入 world.money)。 */
+  moneyDelta: number
+  /** 建态金钱快照(乾坤一掷 min(钱,5000) 上限、铜钱镖 500 门槛;可用金 = money + moneyDelta)。 */
+  money: number
   /** 最近一步已结算的行动(表现层读:音效/动画时机;每次 perform*Action 覆写)。 */
   lastAction: {
     side: 'player' | 'enemy'
@@ -185,9 +187,9 @@ export interface BattleState {
     coopContributors?: number[]
     /** cast/item 的己方目标 idx(oneAlly 点名队友;演出层把举物/特效落到目标身上)。 */
     targetAllyIdx?: number
-    /** 偷窃结果横幅(「偷到 xx」;present 层顶部横幅,对齐原版偷窃对话框)。 */
-    stealBanner?: string
-    /** flee 动作成败(演出分流:成功全队滑出屏 / 失败挪步定格;battle.c:1438 / fight.c:4152)。 */
+    /** 结果横幅(偷窃「获得 xx」/金蝉 boss「无法逃离!」/乾坤「金钱不足」;present 层顶部居中,对齐原版对话框提示)。 */
+    notice?: string
+    /** flee/金蝉脱壳 成败(演出分流:成功全队滑出屏 / 失败挪步或原地横幅;battle.c:1438 / fight.c:4152)。 */
     fleeSuccess?: boolean
     /** divide/summon 本步新占的敌槽(演出层:分身滑开起点/新怪精灵播种)。 */
     spawnedIdxs?: number[]
@@ -232,6 +234,8 @@ export interface CreateBattleInput {
   fieldEffect?: ElementVec
   /** 毒表(id → PoisonDef;缺省空 = 无毒生效)。 */
   poisonDefs?: Record<number, PoisonDef>
+  /** 入战金钱快照(乾坤一掷/铜钱镖消耗基数;缺省 0 = 金钱技放不出)。 */
+  money?: number
 }
 
 export function createBattleState(input: CreateBattleInput): BattleState {
@@ -279,10 +283,14 @@ export function createBattleState(input: CreateBattleInput): BattleState {
     cashGained: 0,
     collectGained: 0,
     hidingTime: 0,
-    moneyStolen: 0,
+    moneyDelta: 0,
+    money: input.money ?? 0,
     lastAction: null,
   }
 }
+
+/** 战斗内当前可用金钱(快照 + 战内增减,钳 ≥0)。 */
+const battleMoney = (s: BattleState): number => Math.max(0, s.money + s.moneyDelta)
 
 const alivePlayers = (s: BattleState): number[] =>
   s.players.map((p, i) => (p.hp > 0 ? i : -1)).filter((i) => i >= 0)
@@ -432,8 +440,8 @@ export function reviveBattlePlayer(
 
 /**
  * 偷窃(fight.c:5193 PAL_BattleStealFromEnemy):命中 = 有余量 && (rng(0,10) ≤ rate || rate=0)。
- * steal.itemId 空/'0' = 偷钱(余量/R(2,3),即时入 moneyStolen);否则余量 −1 得该物 1 件入背包。
- * 余量 stealLeft 烙敌身上(原版 nStealItem--),偷光再偷一无所获。结果写 lastAction.stealBanner。
+ * steal.itemId 空/'0' = 偷钱(余量/R(2,3),即时入 moneyDelta);否则余量 −1 得该物 1 件入背包。
+ * 余量 stealLeft 烙敌身上(原版 nStealItem--),偷光再偷一无所获。结果写 lastAction.notice。
  */
 function performSteal(
   s: BattleState,
@@ -455,9 +463,9 @@ function performSteal(
     const c = Math.trunc(e.stealLeft / (2 + Math.floor(rng() * 2)))
     e.stealLeft -= c
     if (c > 0) {
-      s.moneyStolen += c
+      s.moneyDelta += c
       // 提示文案 = 原版 CLASSIC「获得 N 文钱」(WORD34+WORD10;一阶段居中框同款,c=0 不弹)
-      if (s.lastAction) s.lastAction.stealBanner = `获得 ${c} 文钱`
+      if (s.lastAction) s.lastAction.notice = `获得 ${c} 文钱`
       s.log.push(`${p.roleId} 获得 ${c} 文钱`)
     }
     return
@@ -467,7 +475,7 @@ function performSteal(
   if (slot) slot.count += 1
   else s.inventory.push({ itemId: spec.itemId, count: 1 })
   const name = s.items[spec.itemId]?.name ?? spec.itemId
-  if (s.lastAction) s.lastAction.stealBanner = `获得 ${name}`
+  if (s.lastAction) s.lastAction.notice = `获得 ${name}`
   s.log.push(`${p.roleId} 获得 ${name}`)
 }
 
@@ -735,7 +743,15 @@ function applyPlayerSkill(
     s.log.push(`${p.roleId} MP 不足,${skill.name} 施放失败`)
     return
   }
+  // 金钱消耗门(铜钱镖 cost.money=500;原版 scriptOnUse 0x1E 扣钱、不足跳「金钱不足」臂):
+  // 与 MP 同待遇 —— validatePlayerAction 已降级,此守卫纯兜底(在扣 MP 之前,失败不吃任何消耗)
+  const moneyCost = skill.cost.money ?? 0
+  if (moneyCost > battleMoney(s)) {
+    s.log.push(`${p.roleId} 金钱不足,${skill.name} 施放失败`)
+    return
+  }
   p.mp -= mpCost
+  if (moneyCost > 0) s.moneyDelta -= moneyCost
   // B7c:施法成功 → maxMP 池 +R(2,3)、magicAttack 池 +1(fight.c:4328-4329,序固定)
   p.hiddenCounts.maxMP = (p.hiddenCounts.maxMP ?? 0) + 2 + Math.floor(rng() * 2)
   p.hiddenCounts.magicAttack = (p.hiddenCounts.magicAttack ?? 0) + 1
@@ -838,28 +854,38 @@ function applyPlayerSkill(
         break
       }
       case 'damage': {
-        for (const ti of enemyTargets) {
-          const e = s.enemies[ti]!
-          const dmg = Math.max(
-            1,
-            applyDefense(
-              calcMagicDamage({
-                magStr: p.magicStrength,
-                def: e.def.stats.defense,
-                rngFactor: 1 + rng() * 0.1,
-                magicData: { baseDamage: eff.power, elemental: eff.elemental },
-                elemRes: e.def.stats.elemResistance,
-                poisonRes: e.def.stats.poisonResistance,
-                resistMult: 1, // 敌侧抗性 0-10 直用(一阶段敌向量语义)
-                fieldEffect: s.fieldEffect, // 战场五灵加成(fight.c:244)
-              }),
-              e.defending,
-            ),
-          )
-          e.hp = Math.max(0, e.hp - dmg)
-          s.log.push(`${p.roleId} 施展 ${skill.name} 对 ${e.def.id} 造成 ${dmg}`)
-        }
+        for (const ti of enemyTargets) dealSkillDamage(s, p, ti, eff.power, eff.elemental, skill.name, rng)
         break
+      }
+      case 'moneyDamage': {
+        // 0x88 乾坤一掷:消耗 min(可用金, maxSpend),基伤 = 消耗×num/den(script.c:2547-2554);
+        // 之后走常规法术伤害结算。分文没有 → 原版 0x1E 验钱门跳「金钱不足」臂,无任何效果
+        const spend = Math.min(battleMoney(s), eff.maxSpend)
+        if (spend <= 0) {
+          s.log.push(`${p.roleId} 金钱不足,${skill.name} 无任何效果`)
+          if (s.lastAction) s.lastAction.notice = '金钱不足'
+          break effects
+        }
+        s.moneyDelta -= spend
+        s.log.push(`${p.roleId} 掷出 ${spend} 文钱`)
+        const power = Math.trunc((spend * eff.num) / eff.den)
+        for (const ti of enemyTargets) dealSkillDamage(s, p, ti, power, eff.elemental, skill.name, rng)
+        break
+      }
+      case 'fleeBattle': {
+        // 0x3A 金蝉脱壳:全队**必定**脱离战斗(无掷率);boss 战不可(原版跳「无法逃离!」文案臂)
+        if (s.boss) {
+          s.log.push('无法逃离!')
+          if (s.lastAction) {
+            s.lastAction.notice = '无法逃离!'
+            s.lastAction.fleeSuccess = false
+          }
+        } else {
+          s.phase = 'fled'
+          s.log.push(`${p.roleId} 施展 ${skill.name},全队脱离战斗`)
+          if (s.lastAction) s.lastAction.fleeSuccess = true
+        }
+        break effects
       }
       case 'healHp': {
         // 0x1B 回血:PAL_IncreaseHPMP 仅活人(global.c:1287);目标按 skill.target 路由
@@ -928,6 +954,37 @@ function applyPlayerSkill(
         s.log.push(`技能效果 ${(eff as { kind: string }).kind} 未接(战斗期陆续)`)
     }
   }
+}
+
+/** 玩家法术伤害单敌结算(damage/moneyDamage 共用):魔强+抗性+战场五灵,防御姿减半,保底 1。 */
+function dealSkillDamage(
+  s: BattleState,
+  p: BattlePlayerState,
+  ti: number,
+  power: number,
+  elemental: number,
+  skillName: string,
+  rng: () => number,
+): void {
+  const e = s.enemies[ti]!
+  const dmg = Math.max(
+    1,
+    applyDefense(
+      calcMagicDamage({
+        magStr: p.magicStrength,
+        def: e.def.stats.defense,
+        rngFactor: 1 + rng() * 0.1,
+        magicData: { baseDamage: power, elemental },
+        elemRes: e.def.stats.elemResistance,
+        poisonRes: e.def.stats.poisonResistance,
+        resistMult: 1, // 敌侧抗性 0-10 直用(一阶段敌向量语义)
+        fieldEffect: s.fieldEffect, // 战场五灵加成(fight.c:244)
+      }),
+      e.defending,
+    ),
+  )
+  e.hp = Math.max(0, e.hp - dmg)
+  s.log.push(`${p.roleId} 施展 ${skillName} 对 ${e.def.id} 造成 ${dmg}`)
 }
 
 /** 合击贡献/发起资格(fight.c:69-76 PAL_IsPlayerHealthy):活 + 非濒死 + 无眠/疯/封/麻/傀儡。 */
@@ -1117,8 +1174,14 @@ function validatePlayerAction(s: BattleState, idx: number, act: BattleAction): B
   let a = act
   if (a.kind === 'cast') {
     const skill = s.skills[a.skillId]
-    if (skill && (p.status.silence > 0 || p.mp < (skill.cost.mp ?? 0))) {
-      const why = p.status.silence > 0 ? '被封咒' : 'MP 不足'
+    if (
+      skill &&
+      (p.status.silence > 0 ||
+        p.mp < (skill.cost.mp ?? 0) ||
+        battleMoney(s) < (skill.cost.money ?? 0))
+    ) {
+      const why =
+        p.status.silence > 0 ? '被封咒' : p.mp < (skill.cost.mp ?? 0) ? 'MP 不足' : '金钱不足'
       if (skill.target === 'oneEnemy' || skill.target === 'allEnemies') {
         a = { kind: 'attack', targetEnemyIdx: a.targetEnemyIdx ?? -1 }
         s.log.push(`${p.roleId} ${why},${skill.name} 降级普攻`)

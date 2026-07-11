@@ -62,6 +62,11 @@ export type SkillEffect =
   // 致武神/天剑全程静默、剑神只闻二级刀剑声)。
   | { kind: 'summon'; godId: number; speed?: number; tint?: number; sound?: number }
   | { kind: 'trance'; sprite: number } // type=trance 変身:换战斗精灵(梦蛇);属性提升另走 buffStat
+  // 0x3A(金蝉脱壳 scriptOnUse):全队**必定**脱离战斗(无掷率);boss 战不可(原版跳「无法逃离」臂)
+  | { kind: 'fleeBattle' }
+  // 0x88(乾坤一掷 scriptOnUse):消耗 min(金钱, maxSpend) 文,基伤 = 消耗 × num/den
+  // (script.c:2547-2554:5000 上限、×2/5);随后走常规法术伤害结算(elemental 同 damage)
+  | { kind: 'moneyDamage'; maxSpend: number; num: number; den: number; elemental: number }
 
 /** 招式动画(presentation,与 gameplay 解耦)。播放参数 = 原版 MAGIC 表考证(M4d-2b)。 */
 export interface SkillAnimation {

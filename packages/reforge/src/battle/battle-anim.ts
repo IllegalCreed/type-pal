@@ -1098,7 +1098,7 @@ export function buildFleeFail(input: { idx: number; pos: { x: number; y: number 
  * 偷窃冲刺(fight.c:5218-5251;一阶段 buildStealTimeline 1:1):瞬移到敌前
  * (敌位 + (64−offset, 22+offset),offset=(敌idx−队员idx)×8)frame10 → 5 步滑步
  * (x−=i+8, y−=4),末步敌闪白(colorShift 6)→ 再退 1px 定格 3 帧 + 敌复色。
- * 结算在 core(performSteal),「获得 …」居中提示由 session 按 lastAction.stealBanner 显示。
+ * 结算在 core(performSteal),「获得 …」居中提示由 session 按 lastAction.notice 显示。
  */
 export function buildSteal(input: {
   casterIdx: number

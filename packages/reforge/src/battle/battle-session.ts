@@ -251,6 +251,8 @@ export class BattleSession {
       fieldEffect?: import('@type-pal/content').ElementVec
       /** 毒表(id → PoisonDef;逐回合 DoT tick 查)。 */
       poisonDefs?: Record<number, import('@type-pal/content').PoisonDef>
+      /** 入战金钱快照(乾坤一掷/铜钱镖消耗基数;缺省 0 = 金钱技选单置灰)。 */
+      money?: number
       /** 自动战斗(0x8A;玩家侧 AI 代打,不出指令菜单 —— 石长老过场战)。 */
       auto?: boolean
       /** 首领战(原版 0x07 fIsBoss=!op2):不可逃;壳层另用于胜利曲 2/结算时长。 */
@@ -277,6 +279,7 @@ export class BattleSession {
       boss: opts.boss,
       fieldEffect: opts.fieldEffect,
       poisonDefs: opts.poisonDefs,
+      money: opts.money,
     })
     this.done = new Promise((res) => {
       this.resolveDone = res
@@ -546,9 +549,14 @@ export class BattleSession {
     return { exp: this.state.expGained, cash: this.state.cashGained }
   }
 
-  /** 偷到的钱(飞龙探云手;原版 dwCash 即时加 —— main 无条件入账,逃跑也保留)。 */
-  moneyStolen(): number {
-    return this.state.moneyStolen
+  /** 战内金钱增减合计(偷钱 +/乾坤·铜钱镖消耗 −;原版 dwCash 即时加减 —— main 无条件入账,逃跑也保留)。 */
+  moneyDelta(): number {
+    return this.state.moneyDelta
+  }
+
+  /** 战内当前可用金钱(快照+增减;铜钱镖 cost.money 选单门)。 */
+  private moneyNow(): number {
+    return Math.max(0, this.state.money + this.state.moneyDelta)
   }
 
   /** 收妖值(灵葫咒 0x33;main 无条件并入 world.collectValue)。 */
@@ -771,7 +779,11 @@ export class BattleSession {
         if (confirm) {
           const skillId = list[this.skillIdx % list.length]!
           const skill = this.opts.skills?.[skillId]
-          if (skill && p.mp >= (skill.cost.mp ?? 0)) {
+          if (
+            skill &&
+            p.mp >= (skill.cost.mp ?? 0) &&
+            this.moneyNow() >= (skill.cost.money ?? 0)
+          ) {
             if (skill.target === 'oneEnemy') {
               this.pendingSkillId = skillId
               this.ui = 'target'
@@ -906,10 +918,10 @@ export class BattleSession {
       stepBattle(s, this.rng)
       const la = s.lastAction
       s.lastAction = null // 消费即清(回合末空步不重播)
-      // 偷窃结果「获得 …」(fight.c:5288 CLASSIC 居中对话框;一阶段 narration 同款):
-      // 战斗标签位 (130,75),1.2s 自清(时间线播完后仍在显示,对齐原版动画后弹框时序)
-      if (la?.stealBanner)
-        this.itemBanner = { text: la.stealBanner, untilMs: this.nowMs + 1200, x: 130, y: 75 }
+      // 结果横幅(偷窃「获得 …」/金蝉 boss「无法逃离!」/乾坤「金钱不足」;fight.c:5288 CLASSIC
+      // 居中对话框,一阶段 narration 同款):战斗标签位 (130,75),1.2s 自清(时间线播完后仍显示)
+      if (la?.notice)
+        this.itemBanner = { text: la.notice, untilMs: this.nowMs + 1200, x: 130, y: 75 }
       // 本步死亡敌(动画收尾统一开淡出 + death 音;一阶段 diedFromAttack 语义)
       this.pendingDeaths = s.enemies
         .map((e, i) => (i < eHp.length && eHp[i]! > 0 && e.hp <= 0 && !s.enemyFled ? i : -1))
@@ -1182,6 +1194,18 @@ export class BattleSession {
       ) {
         const pos = s.enemies[la.target]?.basePos
         if (pos) return buildSteal({ casterIdx: la.idx, targetIdx: la.target, enemyPos: pos })
+      }
+      // 金蝉脱壳(fleeBattle;effectSprite=65535 无特效,generic cast 会打空气):
+      // 成功 → 全队滑出屏(flee 命令成功同款演出);boss 失败 → 无演出,「无法逃离!」横幅已弹
+      if (la.side === 'player' && sk?.effects.some((e) => e.kind === 'fleeBattle')) {
+        if (!la.fleeSuccess) return null
+        const alive = s.players
+          .map((_, i) => i)
+          .filter((i) => (pHp[i] ?? 0) > 0)
+          .map((i) => ({ idx: i, pos: getPlayerBasePos(s.players.length, i) ?? { x: 240, y: 170 } }))
+        if (!alive.length) return null
+        this.skipNextReset = true
+        return buildPartyFlee({ players: alive })
       }
       return this.buildCastTimeline(la, pHp, eHp)
     }
@@ -1456,7 +1480,8 @@ export class BattleSession {
     if (act?.kind === 'cast') {
       const sk = this.opts.skills?.[act.skillId]
       const p = this.state.players[sel]
-      if (!sk || !p || p.mp < (sk.cost.mp ?? 0)) act = undefined
+      if (!sk || !p || p.mp < (sk.cost.mp ?? 0) || this.moneyNow() < (sk.cost.money ?? 0))
+        act = undefined
     }
     if (act && 'targetEnemyIdx' in act && act.targetEnemyIdx !== undefined) {
       const alive = this.aliveEnemyIdxs()
@@ -1921,7 +1946,10 @@ export class BattleSession {
         const rows: BattleMenuRow[] = p.skills.map((sid) => {
           const sk = this.opts.skills?.[sid]
           const mp = sk?.cost.mp ?? 0
-          return { label: sk?.name ?? sid, disabled: !sk || p.mp < mp }
+          return {
+            label: sk?.name ?? sid,
+            disabled: !sk || p.mp < mp || this.moneyNow() < (sk.cost.money ?? 0),
+          }
         })
         drawBattleGrid(ctx, ui, g, rows, this.skillIdx, now, MAGIC_GRID)
         const selSkill = this.opts.skills?.[p.skills[this.skillIdx % p.skills.length] ?? '']
