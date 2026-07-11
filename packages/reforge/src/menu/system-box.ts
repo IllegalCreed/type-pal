@@ -17,7 +17,7 @@ import {
 
 // 系统 menu box@(40,60),项起(53,72),行距 18(draw-menu.ts:54-56 真值)
 const SYS_BOX = { x: 40, y: 60 }
-const SYS_BOX_W = 100 // box 宽:4 字项(64px@x53)右侧留内边 ≈ 左内边 13(曾 84 = 文字贴右框,作者报)
+const SYS_BOX_W = 92 // box 宽:作者两轮校准(84 贴边 → 100 偏宽 → 92 折中)
 const SYS_ITEM_X = 53
 const SYS_ITEM_Y0 = 72
 const SYS_ITEM_DY = 18
