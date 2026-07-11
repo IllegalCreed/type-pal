@@ -62,6 +62,9 @@ export type Command =
   // 0x65:换角色大世界精灵(id 引用,非下标)。原版写 PlayerRoles.rgwSpriteNum[role],
   // 持续到下一次显式切换(开场练武 627/疯跑 193 后脚本自行切回)。
   | { kind: 'setActorSprite'; actor: string; sprite: string }
+  // 0x1A:持久改角色形象(原版 PlayerRoles SoA 字段:成年灵儿换头像/精灵/战斗精灵,随存档)。
+  // 一条命令改一个维度(migrate 按 SoA 字段号分流);spriteId 已解析成 id,portrait/battleSprite 是号。
+  | { kind: 'setActorAppearance'; actor: string; spriteId?: string; portrait?: number; battleSprite?: number }
   // 0x69:敌人逃离战场(战斗演出 choreography 专用;终止战斗无奖励)。大世界 host 打日志跳过。
   | { kind: 'fleeBattle' }
   // 0x89:脚本终止战斗(choreography 专用)。result:terminate 无奖励干净退(林天南撑 7 回合)/

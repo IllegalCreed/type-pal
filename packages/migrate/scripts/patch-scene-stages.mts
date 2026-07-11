@@ -45,32 +45,8 @@ const files = readdirSync(resolve(repo, sceneDir)).filter(
 const scenes: SceneDef[] = files.map((f) => readJson(`${sceneDir}/${f}`))
 const before = new Map(scenes.map((s, i) => [i, JSON.stringify(scenes[i])]))
 
-// ── ① 站点替换:unmigrated 0x6D(op1>0)→ 占位 ──
-let sites = 0
-const swap = (o: unknown): void => {
-  if (Array.isArray(o)) {
-    o.forEach((x, i) => {
-      const c = x as { kind?: string; opcode?: number; operands?: number[] }
-      if (c && c.kind === 'unmigrated' && c.opcode === 0x6d && (c.operands?.[1] ?? 0) > 0) {
-        const tgt = (c.operands?.[0] ?? 1) - 1
-        o[i] = {
-          kind: 'setSceneStage',
-          scene: `s${String(tgt).padStart(3, '0')}`,
-          stage: -1,
-          _addr: c.operands?.[1],
-        }
-        sites++
-      } else swap(x)
-    })
-  } else if (o && typeof o === 'object') {
-    for (const v of Object.values(o)) swap(v)
-  }
-}
-for (const s of scenes) swap(s)
-
-// ── ② post-pass:追加段 + 回填 ──
-// spriteIdForNum:追加段里的 0x65 换精灵需要 num→id(否则落 unmigrated)。复用盘上 sprites.json
-// 注册表;追加段首见的 num 建 npc-<num> def 追加(与正常迁移 mapScenesStatic 同规则)。
+// ── sprite 注册表 + spriteIdForNum(0x6D 追加段的 0x65 换精灵 + 0x1A 大世界精灵覆写共用;
+//    盘上 sprites.json 复用,首见 num 建 npc-<num>,与正常迁移 mapScenesStatic 同规则)──
 const spritesPath = 'projects/pal/content/sprites.json'
 const sprites = readJson<SpriteDef[]>(spritesPath)
 const spriteById = new Map(sprites.map((s) => [s.id, s]))
@@ -82,22 +58,73 @@ const spriteIdForNum = (num: number): string => {
   if (hit) return hit
   const defId = `npc-${num}`
   if (!spriteById.has(defId)) {
-    const def: SpriteDef = {
+    sprites.push({
       id: defId,
       spriteNum: num,
       label: `原精灵 ${num}(0x65 换装)`,
       layout: { kind: 'directional', framesPerDir: 3 },
-    }
-    sprites.push(def)
-    spriteById.set(defId, def)
+    })
+    spriteById.set(defId, sprites[sprites.length - 1]!)
     spriteIdByNum.set(num, defId)
     newSprites++
   }
   return defId
 }
+// roleId(0-based)→ 角色 template(0x1A o[2]-1;成年灵儿 role 1 = zhao-linger)
+const ROLE_SLUGS = ['li-xiaoyao', 'zhao-linger', 'lin-yueru', 'wu-hou', 'anu', 'gai-luojiao']
+
+// ── ① 站点替换:0x6D → setSceneStage 占位;0x1A(形象字段)→ setActorAppearance ──
+// swap 重建数组(非原地改)—— 0x1A 走路帧(field 64)要**丢弃**元素,需 map+filter。
+let sites6d = 0
+let sites1a = 0
+type Cmd = { kind?: string; opcode?: number; operands?: number[] }
+const swapCmd = (x: unknown): unknown | undefined => {
+  const c = x as Cmd
+  if (c?.kind !== 'unmigrated') return x
+  const o = c.operands ?? []
+  if (c.opcode === 0x6d && (o[1] ?? 0) > 0) {
+    sites6d++
+    return { kind: 'setSceneStage', scene: `s${String((o[0] ?? 1) - 1).padStart(3, '0')}`, stage: -1, _addr: o[1] }
+  }
+  if (c.opcode === 0x1a) {
+    const actor = ROLE_SLUGS[(o[2] ?? 0) - 1]
+    const field = o[0] ?? -1
+    const val = o[1] ?? 0
+    if (!actor) return x // o[2]=0(当前玩家)数据中未出现 → 保留 unmigrated
+    if (field === 0) return sites1a++, { kind: 'setActorAppearance', actor, portrait: val }
+    if (field === 1) return sites1a++, { kind: 'setActorAppearance', actor, battleSprite: val }
+    if (field === 2) return sites1a++, { kind: 'setActorAppearance', actor, spriteId: spriteIdForNum(val) }
+    if (field === 64) return sites1a++, undefined // 走路帧:新精灵 layout 自带,丢弃
+    return x // 非形象字段 → 保留 unmigrated
+  }
+  return x
+}
+const swap = (o: unknown): unknown => {
+  if (Array.isArray(o)) {
+    const out: unknown[] = []
+    for (const x of o) {
+      const swapped = swapCmd(x)
+      if (swapped === undefined) continue // field-64 丢弃
+      out.push(swapped === x ? swap(x) : swapped)
+    }
+    return out
+  }
+  if (o && typeof o === 'object') {
+    const r = o as Record<string, unknown>
+    for (const k of Object.keys(r)) r[k] = swap(r[k])
+    return r
+  }
+  return o
+}
+scenes.forEach((s, i) => {
+  scenes[i] = swap(s) as SceneDef
+})
+
+// ── ② post-pass:追加段 + 回填(0x6D)──
 const tctx: TranslateCtx = { labelAt, locale: {}, report: emptyTranslateReport(), spriteIdForNum }
 resolveSceneStagePatches(scenes, tctx)
 if (newSprites) writeJson(spritesPath, sprites)
+const sites = sites6d
 
 // ── ③ locale 合并(新键不覆盖既有)──
 const localePath = 'projects/pal/content/locale.json'
@@ -121,7 +148,7 @@ scenes.forEach((s, i) => {
 })
 
 console.log(
-  `[patch-scene-stages] 站点转换 ${sites} · 场景写回 ${written} · locale 新键 ${newKeys}`,
+  `[patch-scene-stages] 0x6D 站点 ${sites} · 0x1A 形象站点 ${sites1a} · 场景写回 ${written} · locale 新键 ${newKeys} · sprites +${newSprites}`,
 )
 const un = Object.entries(tctx.report.unmigrated)
 if (un.length) console.log('  翻译缺口:', un.map(([k, v]) => `${k}×${v}`).join(' / '))

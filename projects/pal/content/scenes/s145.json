@@ -932,40 +932,19 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 26,
-          "operands": [
-            0,
-            91,
-            2
-          ]
+          "kind": "setActorAppearance",
+          "actor": "zhao-linger",
+          "portrait": 91
         },
         {
-          "kind": "unmigrated",
-          "opcode": 26,
-          "operands": [
-            1,
-            5,
-            2
-          ]
+          "kind": "setActorAppearance",
+          "actor": "zhao-linger",
+          "battleSprite": 5
         },
         {
-          "kind": "unmigrated",
-          "opcode": 26,
-          "operands": [
-            2,
-            512,
-            2
-          ]
-        },
-        {
-          "kind": "unmigrated",
-          "opcode": 26,
-          "operands": [
-            64,
-            4,
-            2
-          ]
+          "kind": "setActorAppearance",
+          "actor": "zhao-linger",
+          "spriteId": "npc-512"
         },
         {
           "kind": "unmigrated",

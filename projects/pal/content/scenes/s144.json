@@ -3408,15 +3408,6 @@
           "sprite": "npc-533"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 26,
-          "operands": [
-            64,
-            4,
-            2
-          ]
-        },
-        {
           "kind": "setParty",
           "members": [
             "zhao-linger",

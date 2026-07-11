@@ -788,6 +788,21 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       // 切回本体精灵 = 撤销覆盖(严格等价:override 恒生效,但本体时置 null 让存档/调试态干净)
       leaderSpriteOverride = def.spriteNum === leaderSpriteDef.spriteNum ? null : { def, frames }
     },
+    // 0x1A:持久改角色形象(成年灵儿),写 CharacterInstance.appearance 随存档。按 template 匹配队员;
+    // 大世界精灵覆写要预载新精灵帧(队长/跟随者渲染每帧读 appearance.spriteId)。
+    setActorAppearance: async (actorTemplate, patch) => {
+      const c = world.party.find((m) => m.template === actorTemplate)
+      if (!c) {
+        host.report(`setActorAppearance: ${actorTemplate} 不在队伍`)
+        return
+      }
+      c.appearance = { ...c.appearance, ...patch }
+      if (patch.spriteId) {
+        const def = requireSpriteDef(patch.spriteId, `0x1A 换形象 ${actorTemplate}`)
+        if (!spriteByNum.has(def.spriteNum))
+          spriteByNum.set(def.spriteNum, await loadSprite(project.assetBase, def.spriteNum, def.path))
+      }
+    },
     fleeBattle: () => {
       host.report('fleeBattle: 战斗演出专用命令,大世界上下文忽略')
     },
@@ -1164,8 +1179,14 @@ export async function bootGame(project: LoadedProject): Promise<void> {
               loadBattleSprite(
                 project.assetBase,
                 'player',
-                project.actorsById[c.template]?.battler?.battleSpriteNum ?? 0,
-                project.actorsById[c.template]?.battler?.battleSpritePath,
+                // 0x1A 战斗精灵覆写优先(成年灵儿 appearance.battleSprite);缺 = 模板
+                c.appearance?.battleSprite ??
+                  project.actorsById[c.template]?.battler?.battleSpriteNum ??
+                  0,
+                // 覆写走原版号 → 无自有 path(loadBattleSprite 回落原版 F.MKF 提取图)
+                c.appearance?.battleSprite !== undefined
+                  ? undefined
+                  : project.actorsById[c.template]?.battler?.battleSpritePath,
               ).catch(() => undefined),
             ),
           ),
@@ -1180,12 +1201,14 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         ])
       // 各队员命中/施法前摇特效帧基(fight.c:2055 攻击 [1]*3;2387 施法 [0]*10+15;表缺 → −1)
       const playerEffectBase = world.party.map((c) => {
-        const sn = project.actorsById[c.template]?.battler?.battleSpriteNum ?? 0
+        const sn =
+          c.appearance?.battleSprite ?? project.actorsById[c.template]?.battler?.battleSpriteNum ?? 0
         const v = effectIndex?.[sn * 2 + 1]
         return v === undefined ? -1 : v * 3
       })
       const playerCastBase = world.party.map((c) => {
-        const sn = project.actorsById[c.template]?.battler?.battleSpriteNum ?? 0
+        const sn =
+          c.appearance?.battleSprite ?? project.actorsById[c.template]?.battler?.battleSpriteNum ?? 0
         const v = effectIndex?.[sn * 2]
         return v === undefined ? -1 : v * 10 + 15
       })
@@ -2047,9 +2070,16 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       })
     }
     // 玩家帧:脚本姿势(0x15 gesture,原版 wFrame=dir*3+gesture)优先;否则 walk/idle
-    // 走 sprite-anim。精灵本体可被 0x65 换装覆盖(练武/疯跑)。
-    const ld = leaderSpriteOverride?.def ?? leaderSpriteDef
-    const ls = leaderSpriteOverride?.frames ?? playerSprite
+    // 走 sprite-anim。精灵本体覆盖优先级:0x65 临时换装(练武/疯跑,内存态)> 0x1A 持久形象
+    //（成年灵儿当队长;appearance.spriteId 随存档,帧 host 已预载)> 本体。
+    const leaderAppSprite = world.party[0]?.appearance?.spriteId
+    const leaderAppDef =
+      leaderAppSprite && leaderAppSprite !== leaderActor?.spriteId
+        ? project.spritesById[leaderAppSprite]
+        : undefined
+    const leaderAppFrames = leaderAppDef ? spriteByNum.get(leaderAppDef.spriteNum) : undefined
+    const ld = leaderSpriteOverride?.def ?? leaderAppDef ?? leaderSpriteDef
+    const ls = leaderSpriteOverride?.frames ?? leaderAppFrames ?? playerSprite
     const fi =
       partyGesture != null
         ? idleFrameIndex(ld.layout, facing) + partyGesture
@@ -2070,10 +2100,12 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     // E7 跟随者(party[1..N]):照队长那套 push sprite;walk/idle 跟队长走态
     for (let m = 1; m < world.party.length; m++) {
       const fp = followerPos[m]
-      // C7:按当前 world.party 动态解析精灵(setParty 即时生效;帧未载到先跳过,懒加载补上)
-      const tpl = world.party[m]?.template
-      const actor = tpl ? project.actorsById[tpl] : undefined
-      const fd = actor ? project.spritesById[actor.spriteId] : undefined
+      // C7:按当前 world.party 动态解析精灵(setParty 即时生效;帧未载到先跳过,懒加载补上)。
+      // 0x1A 形象覆写优先(成年灵儿 appearance.spriteId;host 已预载其帧)。
+      const c = world.party[m]
+      const actor = c ? project.actorsById[c.template] : undefined
+      const spriteId = c?.appearance?.spriteId ?? actor?.spriteId
+      const fd = spriteId ? project.spritesById[spriteId] : undefined
       const fr = fd ? spriteByNum.get(fd.spriteNum) : undefined
       if (!fp || !fd || !fr) continue
       const ffi = walking

@@ -123,6 +123,14 @@ function describe(cmd: Command, locale: Locale): Described {
       return { icon: '🎞', label: `${cmd.entity} 定帧 ${cmd.frame}` }
     case 'setSceneStage':
       return { icon: '📜', label: `${cmd.scene} 进场剧情 → 第 ${cmd.stage} 段` }
+    case 'setActorAppearance': {
+      const parts = [
+        cmd.spriteId ? `精灵 ${cmd.spriteId}` : '',
+        cmd.portrait !== undefined ? `立绘 ${cmd.portrait}` : '',
+        cmd.battleSprite !== undefined ? `战斗精灵 ${cmd.battleSprite}` : '',
+      ].filter(Boolean)
+      return { icon: '🎭', label: `${cmd.actor} 换形象`, detail: parts.join(' · ') }
+    }
     case 'giveItem':
       return {
         icon: '🎁',

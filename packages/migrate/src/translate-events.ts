@@ -472,6 +472,30 @@ function walkBody(
           })
           note(ctx, sprite ? 'setActorSprite 未知角色' : 'setActorSprite 无注册回调')
         }
+      } else if (oc === 0x1a) {
+        // 0x1A 改角色 SoA 属性(script.c:834:p[field*6 + role] = val)。全游戏 4 站点全是**形象**字段
+        // (成年灵儿 role 1):field 0=头像 / 1=战斗精灵 / 2=大世界精灵 / 64=走路帧。映射成具名
+        // setActorAppearance,杜绝下标式身份。field 2 的精灵号 → id(spriteIdForNum);64 走路帧
+        // 由新精灵 layout 自带,丢弃。o[2]=0(当前玩家,数据中未出现)→ unmigrated。
+        const roleIdx = (o[2] ?? 0) - 1
+        const actor = roleIdx >= 0 ? ROLE_SLUGS[roleIdx] : undefined
+        const field = o[0] ?? -1
+        const val = o[1] ?? 0
+        if (actor && field === 0) push({ kind: 'setActorAppearance', actor, portrait: val })
+        else if (actor && field === 1) push({ kind: 'setActorAppearance', actor, battleSprite: val })
+        else if (actor && field === 2) {
+          const sprite = ctx.spriteIdForNum?.(val)
+          if (sprite) push({ kind: 'setActorAppearance', actor, spriteId: sprite })
+          else {
+            push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '0x1A 精灵无注册回调' })
+            note(ctx, '0x1A setActorAppearance 无精灵回调')
+          }
+        } else if (actor && field === 64) {
+          push(undefined) // 走路帧:新精灵 layout 自带,clean 模型无独立帧数字段
+        } else {
+          push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: `0x1A 字段 ${field}` })
+          note(ctx, `0x1A 字段 ${field}(非形象/o2=0)`)
+        }
       } else if (oc === 0x05 || oc === 0x8e) push({ kind: 'clearDialog' })
       else if (oc === 0xa7)
         push(undefined) // noop(备份屏)

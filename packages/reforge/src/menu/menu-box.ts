@@ -581,7 +581,9 @@ export class MenuBox {
     })
     // 立绘随队员切(原版 rgwAvatar[role] → RGM chunk;曾恒李逍遥,作者 P2 审计条)。
     // 懒加载未就绪时回落 assets.avatar(首帧闪一下李逍遥,下一帧即对)
-    const avatar = this.portraitFor(actor?.portraits?.default) ?? this.assets.avatar
+    // 0x1A 立绘覆写优先(成年灵儿 appearance.portrait);缺 = 模板 portraits.default
+    const avatar =
+      this.portraitFor(c.appearance?.portrait ?? actor?.portraits?.default) ?? this.assets.avatar
     if (avatar) ctx.drawImage(avatar, Math.round(MID_CX - avatar.width / 2), AVATAR_Y)
     // 毒名(作者裁决 2026-07-11:原版 (185,58) 竖排在 reforge 状态板上与装备格重叠 ——
     // 改**头像下方横向流式排列,超宽自动换行**;显示门(curability≠incurable ≙ 原版

@@ -43,6 +43,8 @@ export interface ScriptHost {
   setPartyFacing(facing: Facing, gesture?: number, member?: number): void
   /** 0x65:换角色大世界精灵(异步:精灵可能需加载)。持续到下一次显式切换。 */
   setActorSprite(actor: string, sprite: string): Promise<void>
+  /** 0x1A:持久改角色形象(写 CharacterInstance.appearance,随存档;成年灵儿)。缺 = 该 host 不支持。 */
+  setActorAppearance?(actor: string, patch: { spriteId?: string; portrait?: number; battleSprite?: number }): Promise<void>
   /** 战斗演出:敌逃离战场(choreography 专用;大世界 host 打日志跳过)。 */
   fleeBattle(): void
   setEntityState(entity: string, state: number): void
@@ -285,6 +287,12 @@ export class ScriptRunner {
         return h.setPartyFacing(cmd.facing, cmd.gesture, cmd.member)
       case 'setActorSprite':
         return h.setActorSprite(cmd.actor, cmd.sprite)
+      case 'setActorAppearance':
+        return h.setActorAppearance?.(cmd.actor, {
+          ...(cmd.spriteId !== undefined ? { spriteId: cmd.spriteId } : {}),
+          ...(cmd.portrait !== undefined ? { portrait: cmd.portrait } : {}),
+          ...(cmd.battleSprite !== undefined ? { battleSprite: cmd.battleSprite } : {}),
+        })
       case 'fleeBattle':
         return h.fleeBattle()
       case 'setEntityState':
@@ -495,6 +503,15 @@ export class ScriptRunner {
         }
         return
       }
+      // 0x24(改实体巡逻脚本)/ 0x90(写全局对象 rgwData 槽):各仅 1 站点的低层脚本指针 poke —
+      // 0x24 @s206 把触发实体的 autoScript 重绑成另一实体的躲藏行为(阿奴捉迷藏);0x90 @s138
+      // 写全局对象表 rgObject[n].rgwData[2+k](对象类型相关,无 clean 概念映射)。二者均无干净
+      // 建模、非主线卡点 → 落 report(dev warn + 生产静默),不为 2 个边缘单点建"运行时重绑实体
+      // 脚本"整套机制(content-first:范围错配)。将来若成主线障碍再评估。
+      case 0x24:
+      case 0x90:
+        h.report(`op 0x${cmd.opcode.toString(16)}(单点低层脚本 poke,已知搁置)`)
+        return
       case 0x76:
         // ShowFBP(script.c:2199)。全游戏 4 站点(水月宫 s020)全为 op0=0xFFFF「填黑帧缓冲」,
         // 且前面必有 fade out(一阶段 blackScreenHold 防 FadeIn 旧帧回闪)。reforge 每帧重画

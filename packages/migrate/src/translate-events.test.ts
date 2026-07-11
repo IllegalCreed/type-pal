@@ -201,3 +201,25 @@ describe('0x6D 改场景进场剧情(占位 → 具名 setSceneStage)', () => {
     expect(body[0]?.kind).toBe('unmigrated')
   })
 })
+
+describe('0x1A 改角色形象(SoA 字段 → setActorAppearance)', () => {
+  const spriteIdForNum = (n: number) => `npc-${n}`
+  const body1a = (ops: number[]) =>
+    bodyOf(ctxOf([{ opcode: 0x1a, operands: ops }], spriteIdForNum))
+  test('字段0=头像 → portrait(灵儿 role1)', () => {
+    expect(body1a([0, 88, 2])).toEqual([{ kind: 'setActorAppearance', actor: 'zhao-linger', portrait: 88 }])
+  })
+  test('字段1=战斗精灵 → battleSprite', () => {
+    expect(body1a([1, 9, 2])).toEqual([{ kind: 'setActorAppearance', actor: 'zhao-linger', battleSprite: 9 }])
+  })
+  test('字段2=大世界精灵 → spriteId(经 spriteIdForNum)', () => {
+    expect(body1a([2, 38, 2])).toEqual([{ kind: 'setActorAppearance', actor: 'zhao-linger', spriteId: 'npc-38' }])
+  })
+  test('字段64=走路帧 → 丢弃(新精灵 layout 自带)', () => {
+    const stages = translateStages('L_1', 'e0', ctxOf([{ opcode: 0x1a, operands: [64, 4, 2] }], spriteIdForNum))
+    expect(stages?.[0]?.body ?? []).toEqual([])
+  })
+  test('未知字段 → 保留 unmigrated', () => {
+    expect(body1a([7, 100, 2])[0]?.kind).toBe('unmigrated')
+  })
+})
