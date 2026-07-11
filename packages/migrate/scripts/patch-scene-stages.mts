@@ -18,6 +18,7 @@ import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { pixelDeltaToGridDelta, pixelToGrid, type SceneDef, type SpriteDef } from '@type-pal/content'
+import { partyPosToGrid } from '../src/source-facts.js'
 import { resolveSceneStagePatches, type SourceCmd } from '../src/migrate-content.js'
 import { emptyTranslateReport, translateStages, type TranslateCtx } from '../src/translate-events.js'
 
@@ -84,15 +85,33 @@ const extractPatrol = (addr: number, owner: string, cap = 24): Record<string, un
   const out: Record<string, unknown>[] = []
   if (at) {
     const cmds = at.cmds
+    const SPD: Record<number, string> = { 2: 'slow', 3: 'normal', 4: 'fast', 8: 'run' }
     for (let i = at.idx; i < cmds.length && out.length < cap; i++) {
-      const c = cmds[i] as { op?: string; opcode?: number }
+      const c = cmds[i] as { op?: string; opcode?: number; operands?: number[] }
       if (c.op !== 'raw') break // end / 具名 op → 止(巡逻段纯 raw)
       const oc = c.opcode ?? -1
+      const o = c.operands ?? []
       if (oc === 0x87) out.push({ kind: 'animEntity', entity: owner })
       else if (oc >= 0x0b && oc <= 0x0e)
         out.push({ kind: 'stepEntity', entity: owner, dir: FACING_BY_DIR[oc - 0x0b] })
-      else if (oc === 0x09) continue // waitFrames 略
-      else break // 0x06 概率循环回跳 / 其他 op → 止
+      else if (oc === 0x0f) {
+        // 0x0F 设朝向/姿势(script.c:663;0xFFFF = 不改该项)
+        if ((o[0] ?? 0xffff) !== 0xffff)
+          out.push({ kind: 'setEntityFacing', entity: owner, facing: FACING_BY_DIR[o[0]!] ?? 'down' })
+        if ((o[1] ?? 0xffff) !== 0xffff)
+          out.push({ kind: 'setEntityFrame', entity: owner, frame: o[1]! })
+      } else if (oc === 0x10 || oc === 0x11 || oc === 0x7c || oc === 0x82) {
+        // 走向指定格(script.c:677);速度码同 walkBody
+        const sp = oc === 0x11 ? 2 : oc === 0x10 ? 3 : oc === 0x7c ? 4 : 8
+        out.push({
+          kind: 'moveEntity',
+          entity: owner,
+          to: partyPosToGrid(o[0] ?? 0, o[1] ?? 0, o[2] ?? 0),
+          speed: SPD[sp],
+        })
+      } else if (oc === 0x09) continue // waitFrames 略
+      else if (oc === 0x06 && ((o[1] ?? -1) === addr || (o[1] ?? 0) === 0)) continue // 概率回段首/END:auto 循环天然吸收,跳过继续提取
+      else break // 其他跳转 / end / 具名 op → 止
     }
   }
   out.push({ kind: 'stopScript' })
@@ -234,6 +253,14 @@ const swapCmd = (x: unknown, owner: string): unknown | undefined => {
   // 孤立一条,回 all.json 原址重翻整段(branch + fall-through);展开由 swap 承担(数组再逐条 swap)。
   if (c.opcode === 0x58 || c.opcode === 0x74 || c.opcode === 0x86 || c.opcode === 0x83) {
     return rewriteJump(c.opcode, o, owner) ?? x
+  }
+  // 0x24 setEntityAuto「页目标不可译」:目标段是自引用巡逻环(0x06 跳回段首),translateStages
+  // 遇环截断 → 落 unmigrated。改用 extractPatrol 有界提取走步,包成 auto stages(NPC 自主巡逻)。
+  if (c.opcode === 0x24 && c.note === '页目标不可译') {
+    const ent = self(o[0] ?? 0)
+    if (!ent) return x
+    sites4++
+    return { kind: 'setEntityAuto', entity: ent, stages: [{ body: extractPatrol(o[1] ?? 0, ent) }] }
   }
   return x
 }

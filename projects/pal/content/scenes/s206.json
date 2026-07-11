@@ -1235,14 +1235,107 @@
                             "speed": "slow"
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 36,
-                            "operands": [
-                              3476,
-                              29228,
-                              0
-                            ],
-                            "note": "页目标不可译"
+                            "kind": "setEntityAuto",
+                            "entity": "e3475",
+                            "stages": [
+                              {
+                                "body": [
+                                  {
+                                    "kind": "setEntityFacing",
+                                    "entity": "e3475",
+                                    "facing": "up"
+                                  },
+                                  {
+                                    "kind": "setEntityFrame",
+                                    "entity": "e3475",
+                                    "frame": 0
+                                  },
+                                  {
+                                    "kind": "setEntityFacing",
+                                    "entity": "e3475",
+                                    "facing": "down"
+                                  },
+                                  {
+                                    "kind": "setEntityFrame",
+                                    "entity": "e3475",
+                                    "frame": 0
+                                  },
+                                  {
+                                    "kind": "setEntityFacing",
+                                    "entity": "e3475",
+                                    "facing": "right"
+                                  },
+                                  {
+                                    "kind": "setEntityFrame",
+                                    "entity": "e3475",
+                                    "frame": 0
+                                  },
+                                  {
+                                    "kind": "setEntityFacing",
+                                    "entity": "e3475",
+                                    "facing": "down"
+                                  },
+                                  {
+                                    "kind": "setEntityFrame",
+                                    "entity": "e3475",
+                                    "frame": 0
+                                  },
+                                  {
+                                    "kind": "setEntityFacing",
+                                    "entity": "e3475",
+                                    "facing": "left"
+                                  },
+                                  {
+                                    "kind": "setEntityFrame",
+                                    "entity": "e3475",
+                                    "frame": 0
+                                  },
+                                  {
+                                    "kind": "moveEntity",
+                                    "entity": "e3475",
+                                    "to": {
+                                      "col": 138,
+                                      "row": 43,
+                                      "height": 0
+                                    },
+                                    "speed": "normal"
+                                  },
+                                  {
+                                    "kind": "setEntityFacing",
+                                    "entity": "e3475",
+                                    "facing": "up"
+                                  },
+                                  {
+                                    "kind": "setEntityFrame",
+                                    "entity": "e3475",
+                                    "frame": 0
+                                  },
+                                  {
+                                    "kind": "setEntityFacing",
+                                    "entity": "e3475",
+                                    "facing": "right"
+                                  },
+                                  {
+                                    "kind": "setEntityFrame",
+                                    "entity": "e3475",
+                                    "frame": 0
+                                  },
+                                  {
+                                    "kind": "setEntityFacing",
+                                    "entity": "e3475",
+                                    "facing": "left"
+                                  },
+                                  {
+                                    "kind": "setEntityFrame",
+                                    "entity": "e3475",
+                                    "frame": 0
+                                  },
+                                  {
+                                    "kind": "stopScript"
+                                  }
+                                ]
+                              }
+                            ]
                           }
                         ]
                       }
