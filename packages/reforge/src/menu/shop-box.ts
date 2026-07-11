@@ -39,7 +39,7 @@ const SELL_PRICE_BOX = { x: 224, y: 150, len: 5 }
 
 const COLOR_NORMAL = [199, 186, 174] as const // 0x4F 米白
 const COLOR_LABEL = [26, 30, 22] as const // 卷轴纸上标签(原版 color0 黑,无影)
-const COLOR_LABEL_SHADOW = [150, 138, 118] as const // 深色 label 的暖灰影(作者裁决)
+const COLOR_LABEL_SHADOW = [92, 84, 72] as const // 深色 label 的深灰影(作者裁决:不加粗)
 const SELECTED_COLORS = [
   [247, 231, 109],
   [235, 211, 97],
@@ -150,8 +150,7 @@ export function drawShop(
     renderSpans(ctx, [{ text: '金钱' }], SELL_CASH_BOX.x + 10, SELL_CASH_BOX.y + 10, {
       glyphs,
       shadow: true,
-      shadowRgba: COLOR_LABEL_SHADOW, // 黑字灰影(作者裁决)
-      bold: true, // 原版金钱卷轴 label 为粗体位图字(作者裁决 2026-07-11)
+      shadowRgba: COLOR_LABEL_SHADOW, // 单线条黑字 + 深灰影(作者裁决)
       forceRgba: COLOR_LABEL,
     })
     drawNumber(ctx, world.money, SELL_CASH_BOX.x + 48 + 30, SELL_CASH_BOX.y + 15, assets.nums)
@@ -161,8 +160,7 @@ export function drawShop(
       renderSpans(ctx, [{ text: '售价' }], SELL_PRICE_BOX.x + 10, SELL_PRICE_BOX.y + 10, {
         glyphs,
         shadow: true,
-        shadowRgba: COLOR_LABEL_SHADOW, // 黑字灰影(作者裁决)
-        bold: true, // 原版金钱卷轴 label 为粗体位图字(作者裁决 2026-07-11)
+        shadowRgba: COLOR_LABEL_SHADOW, // 单线条黑字 + 深灰影(作者裁决)
         forceRgba: COLOR_LABEL,
       })
       drawNumber(ctx, sel.sellPrice, SELL_PRICE_BOX.x + 48 + 30, SELL_PRICE_BOX.y + 15, assets.nums)
@@ -196,8 +194,7 @@ export function drawShop(
     renderSpans(ctx, [{ text: '现有' }], OWNED_BOX.x + 10, OWNED_BOX.y + 10, {
       glyphs,
       shadow: true,
-      shadowRgba: COLOR_LABEL_SHADOW, // 黑字灰影(作者裁决)
-      bold: true, // 原版金钱卷轴 label 为粗体位图字(作者裁决 2026-07-11)
+      shadowRgba: COLOR_LABEL_SHADOW, // 单线条黑字 + 深灰影(作者裁决)
       forceRgba: COLOR_LABEL,
     })
     drawNumber(ctx, sel ? ownedCount(world, sel.id) : 0, OWNED_BOX.x + 49 + 30, OWNED_BOX.y + 15, assets.nums)
@@ -205,8 +202,7 @@ export function drawShop(
     renderSpans(ctx, [{ text: '金钱' }], CASH_BOX.x + 10, CASH_BOX.y + 10, {
       glyphs,
       shadow: true,
-      shadowRgba: COLOR_LABEL_SHADOW, // 黑字灰影(作者裁决)
-      bold: true, // 原版金钱卷轴 label 为粗体位图字(作者裁决 2026-07-11)
+      shadowRgba: COLOR_LABEL_SHADOW, // 单线条黑字 + 深灰影(作者裁决)
       forceRgba: COLOR_LABEL,
     })
     drawNumber(ctx, world.money, CASH_BOX.x + 49 + 30, CASH_BOX.y + 15, assets.nums)

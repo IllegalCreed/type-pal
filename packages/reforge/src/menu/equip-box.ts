@@ -24,7 +24,7 @@ import { drawNumber, drawSlicedBox, type MenuAssets } from './menu-box.js'
 const COLOR_NORMAL = [199, 186, 174] as const // 0x4F 米白(物品名)
 const COLOR_GOLD = [255, 203, 113] as const // 选中物名(MENUITEM_COLOR_CONFIRMED 0x2C 金黄)
 const COLOR_DARK = [0, 0, 0] as const // 槽位/属性 label(原版烤进 FBP 的纯黑字,无阴影)
-const COLOR_DARK_SHADOW = [150, 138, 118] as const // 黑 label 的暖灰影(黑影糊团,作者裁决用灰)
+const COLOR_DARK_SHADOW = [92, 84, 72] as const // 黑 label 的深灰影(作者三轮裁决:单线条黑字+深灰影,不加粗)
 const SELECTED_COLORS = [
   [247, 231, 109],
   [235, 211, 97],
@@ -127,14 +127,13 @@ function drawEquipPickRole(
     { glyphs, shadow: true, forceRgba: blink },
   )
 
-  // ② 中:6 槽 label(纯黑无阴影,原版 FBP 黑字)+ 当前装备名(白)
+  // ② 中:6 槽 label(黑字+深灰影)+ 当前装备名(白)
   PR_SLOTS.forEach(({ slot, label }, i) => {
     const y = PR_ROW_Y0 + i * PR_ROW_DY
     renderSpans(ctx, [{ text: lookupText(label, locale) }], PR_LABEL_X, y, {
       glyphs,
       shadow: true,
-      shadowRgba: COLOR_DARK_SHADOW, // 黑字灰影(黑影糊团,作者裁决)
-      bold: true, // 原版 FBP 粗体位图字观感(作者裁决 2026-07-11)
+      shadowRgba: COLOR_DARK_SHADOW, // 单线条黑字 + 深灰影(作者裁决)
       forceRgba: COLOR_DARK,
     })
     // 装备名:穿戴中才画;空槽留空(原版 draw-equip:if eqItemId!==0 才 renderText)
@@ -148,7 +147,7 @@ function drawEquipPickRole(
     }
   })
 
-  // ③ 右:5 属性 label(纯黑伪加粗)+ 有效值(青,右对齐)
+  // ③ 右:5 属性 label(黑字+深灰影)+ 有效值(青,右对齐)
   PR_STATS.forEach(({ stat, label }, i) => {
     renderSpans(
       ctx,
@@ -158,8 +157,7 @@ function drawEquipPickRole(
       {
         glyphs,
         shadow: true,
-        shadowRgba: COLOR_DARK_SHADOW, // 黑字灰影(黑影糊团,作者裁决)
-        bold: true, // 原版 FBP 粗体位图字观感(作者裁决 2026-07-11)
+        shadowRgba: COLOR_DARK_SHADOW, // 单线条黑字 + 深灰影(作者裁决)
         forceRgba: COLOR_DARK,
       },
     )
