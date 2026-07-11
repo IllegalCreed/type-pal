@@ -2371,15 +2371,6 @@
                     "dir": "out"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 118,
-                    "operands": [
-                      65535,
-                      0,
-                      0
-                    ]
-                  },
-                  {
                     "kind": "setEntityState",
                     "entity": "e345",
                     "state": 0
@@ -4264,15 +4255,6 @@
                                     "dir": "out"
                                   },
                                   {
-                                    "kind": "unmigrated",
-                                    "opcode": 118,
-                                    "operands": [
-                                      65535,
-                                      0,
-                                      0
-                                    ]
-                                  },
-                                  {
                                     "kind": "fade",
                                     "dir": "in"
                                   },
@@ -5557,15 +5539,6 @@
                                     "dir": "out"
                                   },
                                   {
-                                    "kind": "unmigrated",
-                                    "opcode": 118,
-                                    "operands": [
-                                      65535,
-                                      0,
-                                      0
-                                    ]
-                                  },
-                                  {
                                     "kind": "fade",
                                     "dir": "in"
                                   },
@@ -6848,15 +6821,6 @@
                                   {
                                     "kind": "fade",
                                     "dir": "out"
-                                  },
-                                  {
-                                    "kind": "unmigrated",
-                                    "opcode": 118,
-                                    "operands": [
-                                      65535,
-                                      0,
-                                      0
-                                    ]
                                   },
                                   {
                                     "kind": "fade",

@@ -183,12 +183,32 @@ const swapCmd = (x: unknown, owner: string): unknown | undefined => {
     return sites4++, { kind: 'setMapOverride', scene: `s${String((o[0] ?? 1) - 1).padStart(3, '0')}`, mapNum: o[1] ?? 0 }
   }
   if (c.opcode === 0x8f) return sites4++, { kind: 'halveMoney' }
+  if (c.opcode === 0x76) return sites78++, undefined // 0x76 ShowFBP 0xFFFF 填黑(reforge 天然 no-op)
   return x
 }
 const swap = (o: unknown, owner: string): unknown => {
   if (Array.isArray(o)) {
     const out: unknown[] = []
+    let lastRngChunk = 0 // 0x36 设 RNG 序列号,0x37 消费(折叠成 playRng{chunkIdx})
     for (const x of o) {
+      const cc = x as Cmd
+      if (cc?.kind === 'unmigrated' && cc.opcode === 0x36) {
+        lastRngChunk = cc.operands?.[0] ?? 0
+        sites4++
+        continue // 0x36 折进紧跟的 0x37,不单独成命令
+      }
+      if (cc?.kind === 'unmigrated' && cc.opcode === 0x37) {
+        const op = cc.operands ?? []
+        sites4++
+        out.push({
+          kind: 'playRng',
+          chunkIdx: lastRngChunk,
+          startFrame: op[0] ?? 0,
+          ...((op[1] ?? 0) > 0 ? { endFrame: op[1] } : {}),
+          speed: (op[2] ?? 0) > 0 ? op[2] : 16,
+        })
+        continue
+      }
       const swapped = swapCmd(x, owner)
       if (swapped === undefined) continue // field-64 丢弃
       if (Array.isArray(swapped)) out.push(...swapped) // 巡逻还原:多命令展开

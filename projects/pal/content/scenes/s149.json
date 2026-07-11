@@ -684,22 +684,10 @@
           "level": 4
         },
         {
-          "kind": "unmigrated",
-          "opcode": 54,
-          "operands": [
-            5,
-            0,
-            0
-          ]
-        },
-        {
-          "kind": "unmigrated",
-          "opcode": 55,
-          "operands": [
-            0,
-            0,
-            7
-          ]
+          "kind": "playRng",
+          "chunkIdx": 5,
+          "startFrame": 0,
+          "speed": 7
         },
         {
           "kind": "fade",
@@ -725,22 +713,10 @@
           "level": 1
         },
         {
-          "kind": "unmigrated",
-          "opcode": 54,
-          "operands": [
-            2,
-            0,
-            0
-          ]
-        },
-        {
-          "kind": "unmigrated",
-          "opcode": 55,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "playRng",
+          "chunkIdx": 2,
+          "startFrame": 0,
+          "speed": 16
         },
         {
           "kind": "fade",

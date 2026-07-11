@@ -28369,15 +28369,6 @@
                   "ms": 3200
                 },
                 {
-                  "kind": "unmigrated",
-                  "opcode": 118,
-                  "operands": [
-                    65535,
-                    0,
-                    0
-                  ]
-                },
-                {
                   "kind": "fade",
                   "dir": "in"
                 },

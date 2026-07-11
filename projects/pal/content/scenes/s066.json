@@ -430,15 +430,6 @@
           "level": 4
         },
         {
-          "kind": "unmigrated",
-          "opcode": 54,
-          "operands": [
-            0,
-            0,
-            0
-          ]
-        },
-        {
           "kind": "playMusic",
           "musicId": 26
         },
@@ -451,13 +442,10 @@
           "soundId": 117
         },
         {
-          "kind": "unmigrated",
-          "opcode": 55,
-          "operands": [
-            0,
-            0,
-            14
-          ]
+          "kind": "playRng",
+          "chunkIdx": 0,
+          "startFrame": 0,
+          "speed": 14
         },
         {
           "kind": "setEntityState",

@@ -9952,26 +9952,14 @@
           "dir": "out"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 54,
-          "operands": [
-            3,
-            0,
-            0
-          ]
-        },
-        {
           "kind": "playMusic",
           "musicId": 72
         },
         {
-          "kind": "unmigrated",
-          "opcode": 55,
-          "operands": [
-            0,
-            0,
-            8
-          ]
+          "kind": "playRng",
+          "chunkIdx": 3,
+          "startFrame": 0,
+          "speed": 8
         },
         {
           "kind": "playMusic",

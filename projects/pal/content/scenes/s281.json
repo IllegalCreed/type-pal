@@ -656,22 +656,11 @@
                     "musicId": 34
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 54,
-                    "operands": [
-                      9,
-                      0,
-                      0
-                    ]
-                  },
-                  {
-                    "kind": "unmigrated",
-                    "opcode": 55,
-                    "operands": [
-                      0,
-                      1,
-                      8
-                    ]
+                    "kind": "playRng",
+                    "chunkIdx": 9,
+                    "startFrame": 0,
+                    "endFrame": 1,
+                    "speed": 8
                   },
                   {
                     "kind": "dialog",
@@ -688,13 +677,11 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 55,
-                    "operands": [
-                      1,
-                      16,
-                      8
-                    ]
+                    "kind": "playRng",
+                    "chunkIdx": 9,
+                    "startFrame": 1,
+                    "endFrame": 16,
+                    "speed": 8
                   },
                   {
                     "kind": "dialog",
@@ -710,13 +697,11 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 55,
-                    "operands": [
-                      17,
-                      54,
-                      8
-                    ]
+                    "kind": "playRng",
+                    "chunkIdx": 9,
+                    "startFrame": 17,
+                    "endFrame": 54,
+                    "speed": 8
                   },
                   {
                     "kind": "dialog",
@@ -734,13 +719,11 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 55,
-                    "operands": [
-                      55,
-                      59,
-                      8
-                    ]
+                    "kind": "playRng",
+                    "chunkIdx": 9,
+                    "startFrame": 55,
+                    "endFrame": 59,
+                    "speed": 8
                   },
                   {
                     "kind": "dialog",
@@ -772,13 +755,11 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 55,
-                    "operands": [
-                      60,
-                      74,
-                      8
-                    ]
+                    "kind": "playRng",
+                    "chunkIdx": 9,
+                    "startFrame": 60,
+                    "endFrame": 74,
+                    "speed": 8
                   },
                   {
                     "kind": "dialog",
@@ -816,13 +797,11 @@
                     "level": 1
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 55,
-                    "operands": [
-                      75,
-                      109,
-                      8
-                    ]
+                    "kind": "playRng",
+                    "chunkIdx": 9,
+                    "startFrame": 75,
+                    "endFrame": 109,
+                    "speed": 8
                   },
                   {
                     "kind": "dialog",

@@ -9024,22 +9024,11 @@
           "level": 4
         },
         {
-          "kind": "unmigrated",
-          "opcode": 54,
-          "operands": [
-            4,
-            0,
-            0
-          ]
-        },
-        {
-          "kind": "unmigrated",
-          "opcode": 55,
-          "operands": [
-            0,
-            21,
-            6
-          ]
+          "kind": "playRng",
+          "chunkIdx": 4,
+          "startFrame": 0,
+          "endFrame": 21,
+          "speed": 6
         },
         {
           "kind": "shakeScreen",
@@ -9047,13 +9036,10 @@
           "level": 4
         },
         {
-          "kind": "unmigrated",
-          "opcode": 55,
-          "operands": [
-            22,
-            0,
-            9
-          ]
+          "kind": "playRng",
+          "chunkIdx": 4,
+          "startFrame": 22,
+          "speed": 9
         },
         {
           "kind": "playMusic",

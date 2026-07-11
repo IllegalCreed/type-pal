@@ -38967,15 +38967,6 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 54,
-          "operands": [
-            8,
-            0,
-            0
-          ]
-        },
-        {
           "kind": "playSound",
           "soundId": 256
         },
@@ -38984,13 +38975,10 @@
           "dir": "out"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 55,
-          "operands": [
-            0,
-            0,
-            8
-          ]
+          "kind": "playRng",
+          "chunkIdx": 8,
+          "startFrame": 0,
+          "speed": 8
         },
         {
           "kind": "playSound",

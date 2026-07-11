@@ -239,6 +239,7 @@ function walkBody(
   depth = 0,
 ): { body: Command[]; term: WalkTerm } {
   const body: Command[] = []
+  let lastRngChunk = 0 // 0x36 设当前 RNG 序列号,0x37 播放时消费(折叠成 playRng{chunkIdx})
   let slot: DialogueLine['slot'] | undefined
   /** 当前立绘(对话样式 op 的 arg0 = RGM 立绘号;top→左 / bottom→右;0/narration = 无)。 */
   let portrait: DialogueLine['portrait']
@@ -468,6 +469,19 @@ function walkBody(
         else push({ kind: 'setMapOverride', scene: sceneSlug((o[0] ?? 1) - 1), mapNum: o[1] ?? 0 })
       } else if (oc === 0x8f) {
         push({ kind: 'halveMoney' }) // 0x8F 金钱减半
+      } else if (oc === 0x36) {
+        lastRngChunk = o[0] ?? 0 // 0x36 设当前 RNG 序列号(script.c:1537;配 0x37)
+      } else if (oc === 0x37) {
+        // 0x37 播 RNG(script.c:1544):startFrame=op0,endFrame=op1>0,speed=op2>0?op2:16
+        push({
+          kind: 'playRng',
+          chunkIdx: lastRngChunk,
+          startFrame: o[0] ?? 0,
+          ...((o[1] ?? 0) > 0 ? { endFrame: o[1] } : {}),
+          speed: (o[2] ?? 0) > 0 ? o[2]! : 16,
+        })
+      } else if (oc === 0x76) {
+        push(undefined) // 0x76 ShowFBP:全数据 op0=0xFFFF 填黑帧缓冲(reforge 每帧重画天然 no-op)
       } else if (oc === 0x49) {
         const ent = entRef(o[0] ?? 0)
         if (ent) push({ kind: 'setEntityState', entity: ent, state: signExtendI16(o[1] ?? 0) })

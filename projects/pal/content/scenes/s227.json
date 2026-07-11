@@ -584,26 +584,14 @@
           "ms": 1500
         },
         {
-          "kind": "unmigrated",
-          "opcode": 54,
-          "operands": [
-            7,
-            0,
-            0
-          ]
-        },
-        {
           "kind": "fade",
           "dir": "out"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 55,
-          "operands": [
-            0,
-            0,
-            8
-          ]
+          "kind": "playRng",
+          "chunkIdx": 7,
+          "startFrame": 0,
+          "speed": 8
         },
         {
           "kind": "dialog",

@@ -147,91 +147,69 @@
                     "dir": "out"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 54,
-                    "operands": [
-                      1,
-                      0,
-                      0
-                    ]
-                  },
-                  {
                     "kind": "playMusic",
                     "musicId": 86
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 55,
-                    "operands": [
-                      0,
-                      112,
-                      16
-                    ]
+                    "kind": "playRng",
+                    "chunkIdx": 1,
+                    "startFrame": 0,
+                    "endFrame": 112,
+                    "speed": 16
                   },
                   {
                     "kind": "playSound",
                     "soundId": 86
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 55,
-                    "operands": [
-                      113,
-                      162,
-                      16
-                    ]
+                    "kind": "playRng",
+                    "chunkIdx": 1,
+                    "startFrame": 113,
+                    "endFrame": 162,
+                    "speed": 16
                   },
                   {
                     "kind": "playSound",
                     "soundId": 87
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 55,
-                    "operands": [
-                      163,
-                      186,
-                      16
-                    ]
+                    "kind": "playRng",
+                    "chunkIdx": 1,
+                    "startFrame": 163,
+                    "endFrame": 186,
+                    "speed": 16
                   },
                   {
                     "kind": "playSound",
                     "soundId": 85
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 55,
-                    "operands": [
-                      187,
-                      195,
-                      16
-                    ]
+                    "kind": "playRng",
+                    "chunkIdx": 1,
+                    "startFrame": 187,
+                    "endFrame": 195,
+                    "speed": 16
                   },
                   {
                     "kind": "playSound",
                     "soundId": 85
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 55,
-                    "operands": [
-                      196,
-                      266,
-                      16
-                    ]
+                    "kind": "playRng",
+                    "chunkIdx": 1,
+                    "startFrame": 196,
+                    "endFrame": 266,
+                    "speed": 16
                   },
                   {
                     "kind": "playSound",
                     "soundId": 88
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 55,
-                    "operands": [
-                      267,
-                      0,
-                      16
-                    ]
+                    "kind": "playRng",
+                    "chunkIdx": 1,
+                    "startFrame": 267,
+                    "speed": 16
                   },
                   {
                     "kind": "fade",
