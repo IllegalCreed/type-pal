@@ -1634,6 +1634,33 @@ export class AddSkillCommand implements Command {
 }
 
 /**
+ * 重命名工程(manifest.name 显示名;id/文件夹名不变 —— 稳定标识与显示名分离,
+ * 改名不断存档/URL 引用)。manifest 整替换,序列化随 manifest.json 落盘。
+ */
+export class RenameProjectCommand implements Command {
+  readonly label = '重命名工程'
+  private readonly next: string
+  private old = ''
+  private captured = false
+
+  constructor(next: string) {
+    this.next = next
+  }
+
+  apply(s: EditorState): EditorState {
+    if (!this.captured) {
+      this.old = s.manifest.name
+      this.captured = true
+    }
+    return { ...s, manifest: { ...s.manifest, name: this.next } }
+  }
+
+  invert(s: EditorState): EditorState {
+    return { ...s, manifest: { ...s.manifest, name: this.old } }
+  }
+}
+
+/**
  * 改 startWorld.learnedSkills[actorId](新档初始技能 —— 战斗技能的真实来源;
  * buildWorld 直取,actor.battler.initialMagic 是原版数据存留不参与战斗)。
  * manifest.startWorld 同引用整替换,序列化随 manifest.json 落盘。

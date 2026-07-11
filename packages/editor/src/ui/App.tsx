@@ -33,6 +33,7 @@ import {
   AddSceneCommand,
   DeleteEntityCommand,
   MoveEntityCommand,
+  RenameProjectCommand,
   SetEntitySpriteCommand,
   UpdateEntityCommand,
   UpdateSceneCommand,
@@ -247,6 +248,17 @@ export function App(props: {
                   ✨ 新建工程…
                 </button>
                 <button type="button" onClick={() => void runProj(openExistingProject)}>📂 打开工程…</button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setProjMenu(false)
+                    const cur = state.manifest.name
+                    const next = window.prompt('工程名称(标题显示名;文件夹与 id 不变):', cur)?.trim()
+                    if (next && next !== cur) session.dispatch(new RenameProjectCommand(next))
+                  }}
+                >
+                  ✏️ 重命名工程…
+                </button>
                 <button
                   type="button"
                   onClick={() => void runProj(() => saveProjectAs(serializeProject(session.getState()), dirHandleRef.current ?? undefined))}

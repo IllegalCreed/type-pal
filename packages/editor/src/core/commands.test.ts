@@ -18,9 +18,10 @@ import {
   PaintTilesCommand,
   RemoveOwnMapLayerCommand,
   RemoveSpriteCommand,
+  RenameProjectCommand,
+  ResizeOwnMapCommand,
   SetActorBattleSpriteCommand,
   SetEnemyBattleSpriteCommand,
-  ResizeOwnMapCommand,
   UpdateActorCommand,
   UpdateAmbienceCommand,
   UpdateBattleFieldCommand,
@@ -891,5 +892,19 @@ describe('ResizeOwnMapCommand(W7c-4)', () => {
     const s2 = cmd.apply(cmd.invert(s1)) // undo → redo
     expect(s2.maps['content/maps/s.json']!.width).toBe(4)
     expect(s2.maps['content/maps/s.json']!.layers[0]!.tiles[5]![2]).toBe(7)
+  })
+})
+
+describe('RenameProjectCommand', () => {
+  test('改显示名不动 id;invert 还原;源不变', () => {
+    const s0 = st()
+    s0.manifest = { id: 'pal', name: '旧名' } as never
+    const cmd = new RenameProjectCommand('新名')
+    const s1 = cmd.apply(s0)
+    expect((s1.manifest as { name: string }).name).toBe('新名')
+    expect((s1.manifest as { id: string }).id).toBe('pal')
+    expect((s0.manifest as { name: string }).name).toBe('旧名') // 源不变
+    const back = cmd.invert(s1)
+    expect((back.manifest as { name: string }).name).toBe('旧名')
   })
 })
