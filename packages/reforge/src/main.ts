@@ -98,7 +98,6 @@ import { drawUseMenu } from './menu/use-box.js'
 import {
   back,
   CLOSED,
-  closeMenu,
   confirm,
   type MenuState,
   moveCursor,
@@ -2399,9 +2398,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
             if (magicMenu.phase === 'pick-spell') lastMagicCaster = magicMenu.casterIdx
           }
           if (esc) {
-            // 一阶段真值:仙术菜单 Cancel = 关整个菜单回大世界(uigame.c goto out)
+            // 退出回 hub(作者拍板的统一 UX,同 system 菜单;不复刻原版 goto out 弹回大世界)
             magicMenu = closeMagicMenu()
-            menu = closeMenu()
+            menu = back(menu)
           }
         } else if (magicMenu.phase === 'pick-target') {
           // 选目标(uigame.c:769-861):↑←/↓→ ±1 不 wrap;Enter 施放(fSuccess 才扣 MP,
@@ -2421,7 +2420,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           if (esc) magicMenu = magicBackFromTarget(magicMenu)
         } else {
           // 选技能:网格导航;Enter → allAllies 直放留此连放 / 单体进选目标;
-          // Esc 关整个菜单(一阶段真值:不回选施法人 —— caster 框原版在循环外只弹一次)
+          // Esc 退出回 hub(作者拍板统一 UX;原版是 goto out 弹回大世界 + 不回选人框,不复刻)
           if (pressed.has('ArrowUp')) magicMenu = magicMoveCursor(magicMenu, 'up')
           if (pressed.has('ArrowDown')) magicMenu = magicMoveCursor(magicMenu, 'down')
           if (pressed.has('ArrowLeft')) magicMenu = magicMoveCursor(magicMenu, 'left')
@@ -2433,7 +2432,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           }
           if (esc) {
             magicMenu = closeMagicMenu()
-            menu = closeMenu()
+            menu = back(menu)
           }
         }
       } else if (menu.openPanel === 'equip') {
