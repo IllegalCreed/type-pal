@@ -12,10 +12,13 @@
  * - battleEnd:全部是「(概率)给物+对白」→ 复用 translateStages → onDefeated。
  * 翻不净(0x79 队伍条件对话 / 复杂跳转臂等)→ pending 标注,编辑器手修(同 M3 方针)。
  */
-import type { AiRule, BattleChoreography, Command } from '@type-pal/content'
+import type { AiRule, BattleChoreography, Command, DialogueLine } from '@type-pal/content'
 import type { SourceCmd } from './source-facts.js'
 import type { TranslateCtx } from './translate-events.js'
 import { translateStages } from './translate-events.js'
+
+/** 说话人行:全角/半角冒号结尾(原版约定,同 translate-events SPEAKER_RE)。 */
+const ENEMY_SPEAKER_RE = /[∶:：]\s*$/
 
 export interface EnemyScriptTranslation {
   rules: AiRule[]
@@ -123,6 +126,9 @@ function translateHook(
   for (const seg of segs) {
     let firstOnly = false
     const dlg: Command[] = []
+    // 说话人合并:冒号结尾行(「蜘蛛精:」)不单独成句,记住它合并到紧跟的正文句
+    // (否则说话人行自己成一句空正文对话 —— 战斗框只显「蜘蛛精:」没台词,作者报的通病)
+    let pendingSpeaker: string | undefined
     let i = 0
     while (i < seg.ops.length) {
       const c = seg.ops[i]!
@@ -241,7 +247,19 @@ function translateHook(
         const text = (c as { text?: string }).text ?? ''
         const key = idx !== undefined ? `dlg.${idx}` : text
         if (idx !== undefined) ctx.locale[key] = text
-        dlg.push({ kind: 'dialog', line: { text: key } }) // 说话人由战斗对话条自补敌名
+        if (ENEMY_SPEAKER_RE.test(text)) {
+          // 说话人行:记住,合并到下一正文句(不单独成对话)
+          pendingSpeaker = text.replace(ENEMY_SPEAKER_RE, '')
+        } else {
+          const line: DialogueLine = { text: key }
+          if (pendingSpeaker) {
+            const sk = `spk.${pendingSpeaker}`
+            ctx.locale[sk] = pendingSpeaker
+            line.speaker = sk
+            pendingSpeaker = undefined
+          }
+          dlg.push({ kind: 'dialog', line })
+        }
         i++
         continue
       }
