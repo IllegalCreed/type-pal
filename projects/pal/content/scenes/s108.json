@@ -6813,15 +6813,6 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 120,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
-                  },
-                  {
                     "kind": "setEntityState",
                     "entity": "e2011",
                     "state": 0

@@ -4835,15 +4835,6 @@
                     "fieldId": 13
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 120,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
-                  },
-                  {
                     "kind": "setEntityState",
                     "entity": "e4352",
                     "state": 0
@@ -5217,15 +5208,6 @@
                       }
                     ],
                     "boss": true
-                  },
-                  {
-                    "kind": "unmigrated",
-                    "opcode": 120,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
                   },
                   {
                     "kind": "setEntityState",

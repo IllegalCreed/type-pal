@@ -166,15 +166,6 @@
                     "fieldId": 24
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 120,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
-                  },
-                  {
                     "kind": "setMultiEntityState",
                     "entities": [
                       "e438",

@@ -73,6 +73,32 @@ const spriteIdForNum = (num: number): string => {
 }
 // roleId(0-based)→ 角色 template(0x1A o[2]-1;成年灵儿 role 1 = zhao-linger)
 const ROLE_SLUGS = ['li-xiaoyao', 'zhao-linger', 'lin-yueru', 'wu-hou', 'anu', 'gai-luojiao']
+const FACING_BY_DIR = ['down', 'left', 'up', 'right'] as const
+
+// 有界巡逻提取:从 addr 取走步/动画序列(0x87 anim / 0x0b-0x0e walkOneStep),遇 0x06 概率循环
+// 回跳即止(auto/演出损耗可接受,同 chasePlayer 处理)。修「臂超长(800)」—— 7 个巡逻段互跳网
+// 内联爆炸截断成 opcode-0 哨兵,这里还原成有界走动演出(NPC 交互后走一段,不爆炸)。
+let patrolFixed = 0
+const extractPatrol = (addr: number, owner: string, cap = 24): Record<string, unknown>[] => {
+  const at = labelAt.get(`L_${addr}`)
+  const out: Record<string, unknown>[] = []
+  if (at) {
+    const cmds = at.cmds
+    for (let i = at.idx; i < cmds.length && out.length < cap; i++) {
+      const c = cmds[i] as { op?: string; opcode?: number }
+      if (c.op !== 'raw') break // end / 具名 op → 止(巡逻段纯 raw)
+      const oc = c.opcode ?? -1
+      if (oc === 0x87) out.push({ kind: 'animEntity', entity: owner })
+      else if (oc >= 0x0b && oc <= 0x0e)
+        out.push({ kind: 'stepEntity', entity: owner, dir: FACING_BY_DIR[oc - 0x0b] })
+      else if (oc === 0x09) continue // waitFrames 略
+      else break // 0x06 概率循环回跳 / 其他 op → 止
+    }
+  }
+  out.push({ kind: 'stopScript' })
+  patrolFixed++
+  return out
+}
 
 // ── ① 站点替换:0x6D → setSceneStage 占位;0x1A(形象字段)→ setActorAppearance ──
 // swap 重建数组(非原地改)—— 0x1A 走路帧(field 64)要**丢弃**元素,需 map+filter。
@@ -81,11 +107,16 @@ let sites1a = 0
 let sites90 = 0
 let sites9a = 0
 let sites2 = 0
-type Cmd = { kind?: string; opcode?: number; operands?: number[] }
-const swapCmd = (x: unknown): unknown | undefined => {
+let sites78 = 0
+type Cmd = { kind?: string; opcode?: number; operands?: number[]; note?: string }
+const swapCmd = (x: unknown, owner: string): unknown | undefined => {
   const c = x as Cmd
   if (c?.kind !== 'unmigrated') return x
   const o = c.operands ?? []
+  // 臂超长(800)哨兵:7 巡逻段互跳网内联爆炸 → 还原有界走动演出(owner 交互后走一段)
+  if (c.opcode === 0 && c.note?.startsWith('臂超长')) {
+    return owner ? extractPatrol(o[0] ?? 0, owner) : { kind: 'stopScript' }
+  }
   if (c.opcode === 0x6d && (o[1] ?? 0) > 0) {
     sites6d++
     return { kind: 'setSceneStage', scene: `s${String((o[0] ?? 1) - 1).padStart(3, '0')}`, stage: -1, _addr: o[1] }
@@ -115,27 +146,31 @@ const swapCmd = (x: unknown): unknown | undefined => {
   if (c.opcode === 0x53) return sites2++, { kind: 'setAmbience', ambience: 'day' }
   if (c.opcode === 0x54) return sites2++, { kind: 'setAmbience', ambience: 'night' }
   if (c.opcode === 0x9b) return sites2++, undefined // 0x9B sdlpal FIXME wrong,no-op
+  if (c.opcode === 0x78) return sites78++, undefined // 0x78 sdlpal FIXME 自己都没实现,no-op
   return x
 }
-const swap = (o: unknown): unknown => {
+const swap = (o: unknown, owner: string): unknown => {
   if (Array.isArray(o)) {
     const out: unknown[] = []
     for (const x of o) {
-      const swapped = swapCmd(x)
+      const swapped = swapCmd(x, owner)
       if (swapped === undefined) continue // field-64 丢弃
-      out.push(swapped === x ? swap(x) : swapped)
+      if (Array.isArray(swapped)) out.push(...swapped) // 巡逻还原:多命令展开
+      else out.push(swapped === x ? swap(x, owner) : swapped)
     }
     return out
   }
   if (o && typeof o === 'object') {
     const r = o as Record<string, unknown>
-    for (const k of Object.keys(r)) r[k] = swap(r[k])
+    // 进入实体子树时 owner = 实体 id(臂超长巡逻的属主 —— 走步/动画的 entity)
+    const childOwner = typeof r.id === 'string' && Array.isArray(r.pages) ? r.id : owner
+    for (const k of Object.keys(r)) r[k] = swap(r[k], childOwner)
     return r
   }
   return o
 }
 scenes.forEach((s, i) => {
-  scenes[i] = swap(s) as SceneDef
+  scenes[i] = swap(s, '') as SceneDef
 })
 
 // ── ② post-pass:追加段 + 回填(0x6D)──
@@ -166,7 +201,7 @@ scenes.forEach((s, i) => {
 })
 
 console.log(
-  `[patch-scene-stages] 0x6D 站点 ${sites} · 0x1A 形象站点 ${sites1a} · 0x90 敌种降级 ${sites90} · 0x9A 批量状态 ${sites9a} · 第二批 ${sites2} · 场景写回 ${written} · locale 新键 ${newKeys} · sprites +${newSprites}`,
+  `[patch-scene-stages] 0x6D 站点 ${sites} · 0x1A 形象站点 ${sites1a} · 0x90 敌种降级 ${sites90} · 0x9A 批量状态 ${sites9a} · 第二批 ${sites2} · 0x78 静默 ${sites78} · 巡逻还原 ${patrolFixed} · 场景写回 ${written} · locale 新键 ${newKeys} · sprites +${newSprites}`,
 )
 const un = Object.entries(tctx.report.unmigrated)
 if (un.length) console.log('  翻译缺口:', un.map(([k, v]) => `${k}×${v}`).join(' / '))

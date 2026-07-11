@@ -598,15 +598,6 @@
                     "musicId": 40
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 120,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
-                  },
-                  {
                     "kind": "setEntityState",
                     "entity": "e1693",
                     "state": 0

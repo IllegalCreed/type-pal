@@ -384,8 +384,10 @@ function walkBody(
           note(ctx, '分支臂含段转移(按 end 处理)')
         let arm = r.body
         if (arm.length > MAX_ARM_BODY) {
-          note(ctx, '分支臂超长截断')
-          arm = [{ kind: 'unmigrated', opcode: 0, operands: [addr], note: `臂超长(${arm.length})` }]
+          // 巡逻互跳网(0x87 anim + walkOneStep + 0x06 概率环)内联爆炸:保留前段走步演出(有界),
+          // 弃尾部互跳链 —— 不丢成 opcode-0 哨兵(NPC 交互后走一段;概率循环由演出损耗吸收)
+          note(ctx, '分支臂超长截断(保留前段走步)')
+          arm = arm.slice(0, MAX_ARM_BODY)
         }
         arm = [...arm, { kind: 'stopScript' }]
         memo.set(memoKey, arm)

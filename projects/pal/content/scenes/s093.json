@@ -2232,15 +2232,6 @@
                     "team": 29,
                     "onLose": [
                       {
-                        "kind": "unmigrated",
-                        "opcode": 120,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
-                      },
-                      {
                         "kind": "setEntityState",
                         "entity": "e1758",
                         "state": 0
@@ -7247,15 +7238,6 @@
                           }
                         ]
                       }
-                    ]
-                  },
-                  {
-                    "kind": "unmigrated",
-                    "opcode": 120,
-                    "operands": [
-                      0,
-                      0,
-                      0
                     ]
                   },
                   {
