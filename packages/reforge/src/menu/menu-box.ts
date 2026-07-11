@@ -587,20 +587,27 @@ export class MenuBox {
     // 懒加载未就绪时回落 assets.avatar(首帧闪一下李逍遥,下一帧即对)
     const avatar = this.portraitFor(actor?.portraits?.default) ?? this.assets.avatar
     if (avatar) ctx.drawImage(avatar, Math.round(MID_CX - avatar.width / 2), AVATAR_Y)
-    // 毒行(uigame.c:1245-1253;一阶段 draw-player-status §10 补齐):curability≠incurable
-    // 显示(≙ 原版 wPoisonLevel≤3 门 —— 无影毒/寄生这类不显),名色 = 调色板[wColor+10],
-    // 位置 (185, 58+18j),j 按显示项递增
-    let pj = 0
+    // 毒名(作者裁决 2026-07-11:原版 (185,58) 竖排在 reforge 状态板上与装备格重叠 ——
+    // 改**头像下方横向流式排列,超宽自动换行**;显示门(curability≠incurable ≙ 原版
+    // level≤3)与名色(调色板[wColor+10],uigame.c:1252)不变)
+    let px = MID_CX - 40
+    let py = AVATAR_Y + (avatar?.height ?? 84) + 8
     for (const ap of c.poisons ?? []) {
       const def = this.extras.poisonsById?.[ap.poisonId]
       if (!def || def.curability === 'incurable') continue
+      const spans = [{ text: def.name }]
+      const w = measureSpans(spans, this.glyphs)
+      if (px + w > MID_CX + 40 && px > MID_CX - 40) {
+        px = MID_CX - 40
+        py += 18
+      }
       const col = this.extras.palette?.colors[(def.color + 10) & 0xff]
-      renderSpans(ctx, [{ text: def.name }], 185, 58 + pj * 18, {
+      renderSpans(ctx, spans, px, py, {
         glyphs: this.glyphs,
         shadow: true,
         ...(col ? { forceRgba: col } : {}),
       })
-      pj++
+      px += w + 8
     }
 
     // 右栏:6 装备格 2 列 × 3 行平铺 —— 格 + 装备图标 + 装备物名(格下居中,0xBE)。
