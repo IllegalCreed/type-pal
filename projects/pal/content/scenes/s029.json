@@ -81,15 +81,6 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 8,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
-                  },
-                  {
                     "kind": "openShop",
                     "shop": 0,
                     "mode": "sell"
@@ -231,15 +222,6 @@
                   },
                   {
                     "kind": "clearDialog"
-                  },
-                  {
-                    "kind": "unmigrated",
-                    "opcode": 8,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
                   },
                   {
                     "kind": "dialog",

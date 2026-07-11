@@ -135,15 +135,6 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 8,
-          "operands": [
-            0,
-            0,
-            0
-          ]
-        },
-        {
           "kind": "playMusic",
           "musicId": 78
         }

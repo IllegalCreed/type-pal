@@ -2999,13 +2999,8 @@
                   "dir": "in"
                 },
                 {
-                  "kind": "unmigrated",
-                  "opcode": 133,
-                  "operands": [
-                    20,
-                    0,
-                    0
-                  ]
+                  "kind": "wait",
+                  "ms": 1600
                 },
                 {
                   "kind": "loseItem",

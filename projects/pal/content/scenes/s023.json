@@ -497,15 +497,6 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 8,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
-                  },
-                  {
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.2298"
@@ -1314,15 +1305,6 @@
                         },
                         "then": [
                           {
-                            "kind": "unmigrated",
-                            "opcode": 8,
-                            "operands": [
-                              0,
-                              0,
-                              0
-                            ]
-                          },
-                          {
                             "kind": "dialog",
                             "line": {
                               "text": "dlg.2271",
@@ -1431,15 +1413,6 @@
                       {
                         "kind": "stopScript"
                       }
-                    ]
-                  },
-                  {
-                    "kind": "unmigrated",
-                    "opcode": 8,
-                    "operands": [
-                      0,
-                      0,
-                      0
                     ]
                   },
                   {

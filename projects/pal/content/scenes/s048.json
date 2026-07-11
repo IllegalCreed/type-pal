@@ -1071,13 +1071,9 @@
           "ms": 1200
         },
         {
-          "kind": "unmigrated",
-          "opcode": 147,
-          "operands": [
-            65532,
-            0,
-            0
-          ]
+          "kind": "fade",
+          "dir": "out",
+          "ms": 1600
         },
         {
           "kind": "setEntityState",
@@ -1143,15 +1139,6 @@
               "side": "right"
             }
           }
-        },
-        {
-          "kind": "unmigrated",
-          "opcode": 8,
-          "operands": [
-            0,
-            0,
-            0
-          ]
         }
       ]
     }

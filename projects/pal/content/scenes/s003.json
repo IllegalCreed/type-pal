@@ -681,13 +681,8 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 133,
-                    "operands": [
-                      4,
-                      0,
-                      0
-                    ]
+                    "kind": "wait",
+                    "ms": 320
                   },
                   {
                     "kind": "setEntityState",
@@ -706,13 +701,8 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 133,
-                    "operands": [
-                      4,
-                      0,
-                      0
-                    ]
+                    "kind": "wait",
+                    "ms": 320
                   },
                   {
                     "kind": "setEntityFacing",

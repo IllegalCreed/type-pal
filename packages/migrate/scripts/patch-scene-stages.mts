@@ -108,6 +108,7 @@ let sites90 = 0
 let sites9a = 0
 let sites2 = 0
 let sites78 = 0
+let sites4 = 0
 type Cmd = { kind?: string; opcode?: number; operands?: number[]; note?: string }
 const swapCmd = (x: unknown, owner: string): unknown | undefined => {
   const c = x as Cmd
@@ -147,6 +148,18 @@ const swapCmd = (x: unknown, owner: string): unknown | undefined => {
   if (c.opcode === 0x54) return sites2++, { kind: 'setAmbience', ambience: 'night' }
   if (c.opcode === 0x9b) return sites2++, undefined // 0x9B sdlpal FIXME wrong,no-op
   if (c.opcode === 0x78) return sites78++, undefined // 0x78 sdlpal FIXME 自己都没实现,no-op
+  if (c.opcode === 0x08) return sites78++, undefined // 0x08 触发入口推进(stage 体系已承担),NOP
+  // 批 4(runLegacyOp 兜底 → 已有命令;逻辑同 runner runLegacyOp,退役双解释器)
+  const i16 = (u: number) => (u & 0x8000 ? u - 0x10000 : u)
+  if (c.opcode === 0x77) return sites4++, { kind: 'playMusic', musicId: 0 }
+  if (c.opcode === 0xa3) return sites4++, { kind: 'playMusic', musicId: o[1] ?? 0 }
+  if (c.opcode === 0x85) return sites4++, { kind: 'wait', ms: (o[0] ?? 0) * 80 }
+  if (c.opcode === 0x8c)
+    return sites4++, { kind: 'fade', dir: (o[2] ?? 0) !== 0 ? 'in' : 'out', ms: 64 * ((o[1] ?? 0) * 10 || 10) }
+  if (c.opcode === 0x93) {
+    const step = i16(o[0] ?? 0) || 1
+    return sites4++, { kind: 'fade', dir: step < 0 ? 'out' : 'in', ms: Math.ceil(64 / Math.abs(step)) * 100 }
+  }
   return x
 }
 const swap = (o: unknown, owner: string): unknown => {
@@ -201,7 +214,7 @@ scenes.forEach((s, i) => {
 })
 
 console.log(
-  `[patch-scene-stages] 0x6D 站点 ${sites} · 0x1A 形象站点 ${sites1a} · 0x90 敌种降级 ${sites90} · 0x9A 批量状态 ${sites9a} · 第二批 ${sites2} · 0x78 静默 ${sites78} · 巡逻还原 ${patrolFixed} · 场景写回 ${written} · locale 新键 ${newKeys} · sprites +${newSprites}`,
+  `[patch-scene-stages] 0x6D 站点 ${sites} · 0x1A 形象站点 ${sites1a} · 0x90 敌种降级 ${sites90} · 0x9A 批量状态 ${sites9a} · 第二批 ${sites2} · 0x78 静默 ${sites78} · 批4 ${sites4} · 巡逻还原 ${patrolFixed} · 场景写回 ${written} · locale 新键 ${newKeys} · sprites +${newSprites}`,
 )
 const un = Object.entries(tctx.report.unmigrated)
 if (un.length) console.log('  翻译缺口:', un.map(([k, v]) => `${k}×${v}`).join(' / '))

@@ -77,13 +77,8 @@
                     "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 119,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
+                    "kind": "playMusic",
+                    "musicId": 0
                   },
                   {
                     "kind": "moveParty",
@@ -247,13 +242,8 @@
                     "scene": "s170"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 163,
-                    "operands": [
-                      2,
-                      22,
-                      0
-                    ]
+                    "kind": "playMusic",
+                    "musicId": 22
                   },
                   {
                     "kind": "fade",
@@ -893,13 +883,8 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 119,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "playMusic",
+          "musicId": 0
         },
         {
           "kind": "setEntityState",

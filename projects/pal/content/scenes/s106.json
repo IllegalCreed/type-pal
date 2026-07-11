@@ -923,13 +923,8 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 119,
-          "operands": [
-            1,
-            0,
-            0
-          ]
+          "kind": "playMusic",
+          "musicId": 0
         },
         {
           "kind": "clearDialog"
@@ -959,13 +954,9 @@
           "soundId": 175
         },
         {
-          "kind": "unmigrated",
-          "opcode": 140,
-          "operands": [
-            26,
-            2,
-            0
-          ]
+          "kind": "fade",
+          "dir": "out",
+          "ms": 1280
         },
         {
           "kind": "setEntityTrigger",

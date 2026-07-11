@@ -4888,13 +4888,9 @@
           "facing": "down"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 147,
-          "operands": [
-            2,
-            0,
-            0
-          ]
+          "kind": "fade",
+          "dir": "in",
+          "ms": 3200
         },
         {
           "kind": "playSound",

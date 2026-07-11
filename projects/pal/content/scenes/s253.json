@@ -512,13 +512,9 @@
                     "soundId": 175
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 140,
-                    "operands": [
-                      79,
-                      2,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "out",
+                    "ms": 1280
                   },
                   {
                     "kind": "setActorSprite",
@@ -540,13 +536,9 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 140,
-                    "operands": [
-                      79,
-                      2,
-                      65535
-                    ]
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 1280
                   },
                   {
                     "kind": "wait",

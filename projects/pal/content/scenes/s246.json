@@ -5630,13 +5630,9 @@
           ]
         },
         {
-          "kind": "unmigrated",
-          "opcode": 147,
-          "operands": [
-            1,
-            0,
-            0
-          ]
+          "kind": "fade",
+          "dir": "in",
+          "ms": 6400
         },
         {
           "kind": "setPartyFacing",

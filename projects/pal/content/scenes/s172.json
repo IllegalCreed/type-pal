@@ -869,13 +869,9 @@
           ]
         },
         {
-          "kind": "unmigrated",
-          "opcode": 147,
-          "operands": [
-            65535,
-            0,
-            0
-          ]
+          "kind": "fade",
+          "dir": "out",
+          "ms": 6400
         },
         {
           "kind": "nudgeEntity",

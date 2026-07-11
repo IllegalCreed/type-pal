@@ -1893,13 +1893,8 @@
                             "scene": "s120"
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 119,
-                            "operands": [
-                              0,
-                              0,
-                              0
-                            ]
+                            "kind": "playMusic",
+                            "musicId": 0
                           },
                           {
                             "kind": "fade",
@@ -45980,15 +45975,6 @@
           "kind": "setSceneStage",
           "scene": "s114",
           "stage": 1
-        },
-        {
-          "kind": "unmigrated",
-          "opcode": 8,
-          "operands": [
-            0,
-            0,
-            0
-          ]
         },
         {
           "kind": "playMusic",

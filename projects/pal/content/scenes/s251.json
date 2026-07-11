@@ -4060,13 +4060,8 @@
     {
       "body": [
         {
-          "kind": "unmigrated",
-          "opcode": 119,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "playMusic",
+          "musicId": 0
         },
         {
           "kind": "teleportParty",
@@ -4096,13 +4091,9 @@
           "kind": "clearDialog"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 140,
-          "operands": [
-            127,
-            0,
-            65535
-          ]
+          "kind": "fade",
+          "dir": "in",
+          "ms": 640
         },
         {
           "kind": "wait",

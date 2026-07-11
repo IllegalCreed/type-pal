@@ -598,15 +598,6 @@
           "kind": "clearDialog"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 8,
-          "operands": [
-            0,
-            0,
-            0
-          ]
-        },
-        {
           "kind": "loadScene",
           "scene": "s045",
           "pos": {

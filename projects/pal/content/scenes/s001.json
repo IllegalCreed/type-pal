@@ -1430,13 +1430,8 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 133,
-                    "operands": [
-                      5,
-                      0,
-                      0
-                    ]
+                    "kind": "wait",
+                    "ms": 400
                   },
                   {
                     "kind": "dialog",
@@ -28379,13 +28374,9 @@
                   "facing": "left"
                 },
                 {
-                  "kind": "unmigrated",
-                  "opcode": 147,
-                  "operands": [
-                    65534,
-                    0,
-                    0
-                  ]
+                  "kind": "fade",
+                  "dir": "out",
+                  "ms": 3200
                 },
                 {
                   "kind": "unmigrated",

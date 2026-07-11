@@ -405,13 +405,9 @@
                     "member": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 147,
-                    "operands": [
-                      65532,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "out",
+                    "ms": 1600
                   },
                   {
                     "kind": "loadScene",
@@ -815,13 +811,9 @@
                     "member": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 147,
-                    "operands": [
-                      65532,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "out",
+                    "ms": 1600
                   },
                   {
                     "kind": "loadScene",
@@ -1225,13 +1217,9 @@
                     "member": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 147,
-                    "operands": [
-                      65532,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "out",
+                    "ms": 1600
                   },
                   {
                     "kind": "loadScene",
@@ -1635,13 +1623,9 @@
                     "member": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 147,
-                    "operands": [
-                      65532,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "out",
+                    "ms": 1600
                   },
                   {
                     "kind": "loadScene",
@@ -2045,13 +2029,9 @@
                     "member": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 147,
-                    "operands": [
-                      65532,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "out",
+                    "ms": 1600
                   },
                   {
                     "kind": "loadScene",
@@ -2455,13 +2435,9 @@
                     "member": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 147,
-                    "operands": [
-                      65532,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "out",
+                    "ms": 1600
                   },
                   {
                     "kind": "loadScene",
@@ -2865,13 +2841,9 @@
                     "member": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 147,
-                    "operands": [
-                      65532,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "out",
+                    "ms": 1600
                   },
                   {
                     "kind": "loadScene",

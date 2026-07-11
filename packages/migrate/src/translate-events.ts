@@ -422,6 +422,21 @@ function walkBody(
         push({ kind: 'setAmbience', ambience: 'night' }) // 0x54 use night palette(script.c:1810)
       } else if (oc === 0x9b) {
         push(undefined) // 0x9B fade-to-scene:sdlpal 自认 FIXME wrong(script.c:2769),no-op
+      } else if (oc === 0x08) {
+        push(undefined) // 0x08 触发入口推进(script.c:3335;stage 推进体系已承担),NOP
+      } else if (oc === 0x77) {
+        push({ kind: 'playMusic', musicId: 0 }) // 0x77 停当前音乐(script.c:2215)
+      } else if (oc === 0xa3) {
+        push({ kind: 'playMusic', musicId: o[1] ?? 0 }) // 0xA3 CD 音轨 → 回退 RIX 曲 op1(script.c:3023)
+      } else if (oc === 0x85) {
+        push({ kind: 'wait', ms: (o[0] ?? 0) * 80 }) // 0x85 延时 op0×80ms(script.c:2511)
+      } else if (oc === 0x8c) {
+        // 0x8C 颜色渐变(script.c:2582):ms=64×(op1×10||10);fFrom(op2)=从纯色渐回场景 → fade in
+        push({ kind: 'fade', dir: (o[2] ?? 0) !== 0 ? 'in' : 'out', ms: 64 * ((o[1] ?? 0) * 10 || 10) })
+      } else if (oc === 0x93) {
+        // 0x93 SceneFade(script.c:2664):step=int16(op0)||1;ms=ceil(64/|step|)×100;step<0=渐暗
+        const step = signExtendI16(o[0] ?? 0) || 1
+        push({ kind: 'fade', dir: step < 0 ? 'out' : 'in', ms: Math.ceil(64 / Math.abs(step)) * 100 })
       } else if (oc === 0x49) {
         const ent = entRef(o[0] ?? 0)
         if (ent) push({ kind: 'setEntityState', entity: ent, state: signExtendI16(o[1] ?? 0) })

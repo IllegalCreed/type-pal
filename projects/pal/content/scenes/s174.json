@@ -1281,13 +1281,8 @@
           "ms": 400
         },
         {
-          "kind": "unmigrated",
-          "opcode": 119,
-          "operands": [
-            1,
-            0,
-            0
-          ]
+          "kind": "playMusic",
+          "musicId": 0
         },
         {
           "kind": "dialog",
@@ -1301,13 +1296,8 @@
           "dir": "out"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 163,
-          "operands": [
-            8,
-            27,
-            0
-          ]
+          "kind": "playMusic",
+          "musicId": 27
         },
         {
           "kind": "loadScene",
@@ -1389,22 +1379,13 @@
           ]
         },
         {
-          "kind": "unmigrated",
-          "opcode": 147,
-          "operands": [
-            1,
-            0,
-            0
-          ]
+          "kind": "fade",
+          "dir": "in",
+          "ms": 6400
         },
         {
-          "kind": "unmigrated",
-          "opcode": 119,
-          "operands": [
-            1,
-            0,
-            0
-          ]
+          "kind": "playMusic",
+          "musicId": 0
         },
         {
           "kind": "dialog",

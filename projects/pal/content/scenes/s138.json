@@ -830,13 +830,8 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 119,
-                    "operands": [
-                      1,
-                      0,
-                      0
-                    ]
+                    "kind": "playMusic",
+                    "musicId": 0
                   },
                   {
                     "kind": "clearDialog"

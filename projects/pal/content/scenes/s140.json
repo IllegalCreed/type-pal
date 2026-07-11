@@ -4613,22 +4613,12 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 119,
-          "operands": [
-            1,
-            0,
-            0
-          ]
+          "kind": "playMusic",
+          "musicId": 0
         },
         {
-          "kind": "unmigrated",
-          "opcode": 133,
-          "operands": [
-            10,
-            0,
-            0
-          ]
+          "kind": "wait",
+          "ms": 800
         },
         {
           "kind": "playMusic",
@@ -9560,13 +9550,8 @@
           "ms": 1280
         },
         {
-          "kind": "unmigrated",
-          "opcode": 119,
-          "operands": [
-            1,
-            0,
-            0
-          ]
+          "kind": "playMusic",
+          "musicId": 0
         },
         {
           "kind": "fade",
@@ -9993,13 +9978,8 @@
           ]
         },
         {
-          "kind": "unmigrated",
-          "opcode": 119,
-          "operands": [
-            1,
-            0,
-            0
-          ]
+          "kind": "playMusic",
+          "musicId": 0
         },
         {
           "kind": "fade",

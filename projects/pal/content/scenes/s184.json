@@ -1823,13 +1823,8 @@
     {
       "body": [
         {
-          "kind": "unmigrated",
-          "opcode": 119,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "playMusic",
+          "musicId": 0
         },
         {
           "kind": "teleportParty",
@@ -1934,15 +1929,6 @@
         },
         {
           "kind": "clearDialog"
-        },
-        {
-          "kind": "unmigrated",
-          "opcode": 8,
-          "operands": [
-            0,
-            0,
-            0
-          ]
         },
         {
           "kind": "playMusic",

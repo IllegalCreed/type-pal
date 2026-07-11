@@ -184,13 +184,8 @@
                             "soundId": 93
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 133,
-                            "operands": [
-                              4,
-                              0,
-                              0
-                            ]
+                            "kind": "wait",
+                            "ms": 320
                           },
                           {
                             "kind": "playSound",
@@ -215,13 +210,8 @@
                             "soundId": 93
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 133,
-                            "operands": [
-                              6,
-                              0,
-                              0
-                            ]
+                            "kind": "wait",
+                            "ms": 480
                           },
                           {
                             "kind": "setEntityState",
@@ -428,13 +418,8 @@
                             "soundId": 93
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 133,
-                            "operands": [
-                              4,
-                              0,
-                              0
-                            ]
+                            "kind": "wait",
+                            "ms": 320
                           },
                           {
                             "kind": "playSound",
@@ -459,13 +444,8 @@
                             "soundId": 93
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 133,
-                            "operands": [
-                              6,
-                              0,
-                              0
-                            ]
+                            "kind": "wait",
+                            "ms": 480
                           },
                           {
                             "kind": "setEntityState",

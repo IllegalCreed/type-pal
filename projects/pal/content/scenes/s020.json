@@ -1316,13 +1316,8 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 119,
-                    "operands": [
-                      1,
-                      0,
-                      0
-                    ]
+                    "kind": "playMusic",
+                    "musicId": 0
                   },
                   {
                     "kind": "dialog",
@@ -1715,13 +1710,8 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 119,
-                    "operands": [
-                      1,
-                      0,
-                      0
-                    ]
+                    "kind": "playMusic",
+                    "musicId": 0
                   },
                   {
                     "kind": "fade",
@@ -1764,13 +1754,9 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 147,
-                    "operands": [
-                      1,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 6400
                   },
                   {
                     "kind": "dialog",
@@ -2489,13 +2475,8 @@
                     "dir": "in"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 133,
-                    "operands": [
-                      30,
-                      0,
-                      0
-                    ]
+                    "kind": "wait",
+                    "ms": 2400
                   },
                   {
                     "kind": "setPartyFacing",
@@ -12234,15 +12215,6 @@
                   },
                   {
                     "kind": "clearDialog"
-                  },
-                  {
-                    "kind": "unmigrated",
-                    "opcode": 8,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
                   },
                   {
                     "kind": "playSound",

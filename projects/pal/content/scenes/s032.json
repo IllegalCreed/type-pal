@@ -11595,13 +11595,8 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 163,
-          "operands": [
-            9,
-            14,
-            0
-          ]
+          "kind": "playMusic",
+          "musicId": 14
         }
       ],
       "next": "advance"

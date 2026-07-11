@@ -147,13 +147,9 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 147,
-                    "operands": [
-                      65532,
-                      0,
-                      0
-                    ]
+                    "kind": "fade",
+                    "dir": "out",
+                    "ms": 1600
                   },
                   {
                     "kind": "setActorSprite",
@@ -635,13 +631,8 @@
                     "ms": 600
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 119,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
+                    "kind": "playMusic",
+                    "musicId": 0
                   },
                   {
                     "kind": "dialog",
@@ -1226,13 +1217,8 @@
     {
       "body": [
         {
-          "kind": "unmigrated",
-          "opcode": 133,
-          "operands": [
-            10,
-            0,
-            0
-          ]
+          "kind": "wait",
+          "ms": 800
         },
         {
           "kind": "unmigrated",
@@ -1255,13 +1241,9 @@
           "kind": "clearDialog"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 140,
-          "operands": [
-            26,
-            4,
-            65535
-          ]
+          "kind": "fade",
+          "dir": "in",
+          "ms": 2560
         },
         {
           "kind": "dialog",
