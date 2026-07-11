@@ -62,6 +62,9 @@ export function LevelCurveEditor(props: {
   const [genStep, setGenStep] = useState(25)
   const svgRef = useRef<SVGSVGElement>(null)
   const dragRef = useRef<{ idx: number; moved: boolean } | null>(null)
+  // 横向视窗(级数区间;null = 全览)。滚轮以光标为锚缩放,拖空白平移(作者:100 级太密)
+  const [view, setView] = useState<{ s: number; e: number } | null>(null)
+  const panRef = useRef<{ startLevel: number; s: number; e: number } | null>(null)
   // 最新表镜像:pointerup 在 setState 外提交(在 updater 里 dispatch = setState during render)
   const tableRef = useRef(table)
   tableRef.current = table
@@ -76,8 +79,46 @@ export function LevelCurveEditor(props: {
   const maxY = niceCeil(Math.max(...table, 1))
   const plotW = W - PAD.l - PAD.r
   const plotH = H - PAD.t - PAD.b
-  const x = (i: number): number => PAD.l + (n <= 1 ? 0 : (i * plotW) / (n - 1))
+  const vs = view?.s ?? 0
+  const ve = view?.e ?? Math.max(1, n - 1)
+  const span = Math.max(1, ve - vs)
+  const x = (i: number): number => PAD.l + ((i - vs) * plotW) / span
   const y = (v: number): number => PAD.t + plotH * (1 - v / maxY)
+  /** 指针 X → 级数(浮点;缩放锚点/平移用)。 */
+  const levelAtPointer = (clientX: number): number => {
+    const svg = svgRef.current
+    if (!svg) return vs
+    const rect = svg.getBoundingClientRect()
+    const px = ((clientX - rect.left) * W) / rect.width
+    return vs + ((px - PAD.l) / plotW) * span
+  }
+  const clampView = (s: number, e: number): { s: number; e: number } | null => {
+    const sp = Math.min(Math.max(e - s, 6), Math.max(1, n - 1))
+    let ns = Math.max(0, Math.min(s, n - 1 - sp))
+    return sp >= n - 1 ? null : { s: ns, e: ns + sp }
+  }
+
+  // 滚轮缩放须非 passive 才能 preventDefault(React onWheel 是 passive)
+  useEffect(() => {
+    const svg = svgRef.current
+    if (!svg) return
+    const onWheel = (e: WheelEvent): void => {
+      e.preventDefault()
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+        // 触控板横滑 = 平移
+        const dl = (e.deltaX / plotW) * span
+        setView(clampView(vs + dl, ve + dl))
+        return
+      }
+      const anchor = levelAtPointer(e.clientX)
+      const factor = e.deltaY > 0 ? 1.25 : 0.8
+      const nsSpan = span * factor
+      const ns = anchor - (anchor - vs) * (nsSpan / span)
+      setView(clampView(ns, ns + nsSpan))
+    }
+    svg.addEventListener('wheel', onWheel, { passive: false })
+    return () => svg.removeEventListener('wheel', onWheel)
+  })
 
   const commit = (next: number[]): void => {
     const cur = actor.battler.leveling?.expTable ?? []
@@ -99,24 +140,40 @@ export function LevelCurveEditor(props: {
     return Math.max(0, Math.round(v))
   }
 
-  const path = useMemo(
-    () => table.map((v, i) => `${i === 0 ? 'M' : 'L'}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' '),
+  // 只渲染视窗内的点/线段(各留一颗溢出点保线条连续)
+  const iFrom = Math.max(0, Math.floor(vs) - 1)
+  const iTo = Math.min(n - 1, Math.ceil(ve) + 1)
+  const path = useMemo(() => {
+    let d = ''
+    for (let i = iFrom; i <= iTo; i++)
+      d += `${i === iFrom ? 'M' : 'L'}${x(i).toFixed(1)},${y(table[i]!).toFixed(1)} `
+    return d
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [table, maxY, n],
-  )
+  }, [table, maxY, n, vs, ve])
 
-  const xLabelEvery = Math.max(1, Math.ceil(n / 14))
-  const skillMarks = levelUpRows.filter((r) => r.level >= 0 && r.level < n)
+  const xLabelEvery = Math.max(1, Math.ceil(span / 14))
+  const skillMarks = levelUpRows.filter((r) => r.level >= iFrom && r.level <= iTo)
   const monotonic = isNonDecreasing(table)
+  const visIdxs = Array.from({ length: iTo - iFrom + 1 }, (_, k) => iFrom + k)
 
   return (
     <div className="dscroll" style={{ padding: '12px 16px' }}>
       <div className="toolbar" style={{ marginBottom: 6 }}>
         <span style={{ fontWeight: 600 }}>升级曲线 · {actor.id}</span>
         <span className="hint" style={{ marginLeft: 8 }}>
-          拖点调值 · 下标 = 当前级,值 = 升到下一级所需**累计**经验
+          拖点调值 · 滚轮横向缩放 · 拖空白平移
         </span>
         <span className="spacer" />
+        {view && (
+          <>
+            <span className="hint">
+              L{Math.round(vs)}–{Math.round(ve)}
+            </span>
+            <button type="button" className="tool" onClick={() => setView(null)}>
+              🔍 全览
+            </button>
+          </>
+        )}
         <button type="button" className="tool" onClick={onClose}>
           ← 返回精灵帧
         </button>
@@ -126,20 +183,37 @@ export function LevelCurveEditor(props: {
         ref={svgRef}
         viewBox={`0 0 ${W} ${H}`}
         style={{ width: '100%', maxWidth: 900, touchAction: 'none', display: 'block' }}
+        onPointerDown={(e) => {
+          // 空白处按下 = 平移(点上的 pointerdown 已 stopPropagation)
+          if (dragRef.current) return
+          panRef.current = { startLevel: levelAtPointer(e.clientX), s: vs, e: ve }
+          ;(e.currentTarget as SVGSVGElement).setPointerCapture(e.pointerId)
+        }}
         onPointerMove={(e) => {
           const d = dragRef.current
-          if (!d) return
-          d.moved = true
-          const v = valueAtPointer(e.clientY)
-          setTable((t) => {
-            const next = t.map((old, i) => (i === d.idx ? v : old))
-            tableRef.current = next
-            return next
-          })
+          if (d) {
+            d.moved = true
+            const v = valueAtPointer(e.clientY)
+            setTable((t) => {
+              const next = t.map((old, i) => (i === d.idx ? v : old))
+              tableRef.current = next
+              return next
+            })
+            return
+          }
+          const p = panRef.current
+          if (p && view) {
+            // 以按下时的级锚点平移(全览态无处可移)
+            const cur = vs + (((e.clientX - (svgRef.current?.getBoundingClientRect().left ?? 0)) *
+              (W / (svgRef.current?.getBoundingClientRect().width ?? W)) - PAD.l) / plotW) * (p.e - p.s)
+            const dl = p.startLevel - cur
+            setView(clampView(p.s + dl, p.e + dl))
+          }
         }}
         onPointerUp={() => {
           const d = dragRef.current
           dragRef.current = null
+          panRef.current = null
           if (d?.moved) commit(tableRef.current) // 一次拖拽 = 一步撤销
         }}
       >
@@ -156,8 +230,8 @@ export function LevelCurveEditor(props: {
             </g>
           )
         })}
-        {/* X 刻度(等级) */}
-        {table.map((_, i) =>
+        {/* X 刻度(等级,仅视窗内) */}
+        {visIdxs.map((i) =>
           i % xLabelEvery === 0 ? (
             <text
               key={`x${i}`}
@@ -193,19 +267,20 @@ export function LevelCurveEditor(props: {
             </text>
           </g>
         ))}
-        {/* 曲线 + 可拖点 */}
+        {/* 曲线 + 可拖点(仅视窗内;点密时半径随缩放放大) */}
         <path d={path} fill="none" stroke="var(--accent)" strokeWidth={2} />
-        {table.map((v, i) => (
+        {visIdxs.map((i) => (
           <circle
             key={`p${i}`}
             cx={x(i)}
-            cy={y(v)}
+            cy={y(table[i]!)}
             r={sel === i ? 7 : 5}
             fill={sel === i ? 'var(--accent)' : 'var(--panel3)'}
             stroke="var(--accent)"
             strokeWidth={2}
             style={{ cursor: 'ns-resize' }}
             onPointerDown={(e) => {
+              e.stopPropagation() // 别触发空白平移
               e.currentTarget.setPointerCapture(e.pointerId)
               dragRef.current = { idx: i, moved: false }
               setSel(i)
