@@ -54,6 +54,7 @@ import {
   drawBattleGrid,
   drawBattleMenuBox,
   drawCurrentFinger,
+  drawPlayerTargetArrow,
   drawItemDetailBox,
   drawMainIcons,
   drawMpBox,
@@ -183,6 +184,9 @@ export class BattleSession {
   private currentFire: LoadedSprite | null = null
   /** 敌整场逃离演出中的敌槽(hp 已被 core 清零,渲染豁免继续画 —— 滑出屏动画可见)。 */
   private fleeingEnemies: number[] | null = null
+  /** 隐身渐隐/渐显过渡(0x5C;hidingTime 边沿触发,72×16ms = 原版 FadeScene 时长)。 */
+  private hideFade: { dir: 'out' | 'in'; start: number } | null = null
+  private prevHidden = false
   /** 本步演出收尾跳过 resetVisual(逃跑成功/敌逃:人已离场,归位会闪回)。 */
   private skipNextReset = false
   /** 敌槽 → 淡出开始时刻(动画收尾后登记;渲染 alpha 渐隐)。 */
@@ -1616,8 +1620,22 @@ export class BattleSession {
     const svT =
       sv === null ? 0 : sv.phase === 'hold' ? 1 : Math.min(1, Math.max(0, (now - sv.start) / (72 * 16)))
     const summonShow = sv === null ? 0 : sv.phase === 'out' ? 1 - svT : svT
+    // 隐身可见度 hideVis(0 显 → 1 全隐):hidingTime 边沿触发 72×16ms 渐变
+    // (原版激活/结束各走一次 PAL_BattleFadeScene 溶解,battle.c:609 12×6×16ms)
+    const hiddenNow = s.hidingTime > 0
+    if (hiddenNow !== this.prevHidden) {
+      this.hideFade = { dir: hiddenNow ? 'out' : 'in', start: now }
+      this.prevHidden = hiddenNow
+    }
+    let hideVis = hiddenNow ? 1 : 0
+    if (this.hideFade) {
+      const ht = Math.min(1, (now - this.hideFade.start) / (72 * 16))
+      hideVis = this.hideFade.dir === 'out' ? ht : 1 - ht
+      if (ht >= 1) this.hideFade = null
+    }
     const sel = s.phase === 'selectAction' ? this.nextSelecting() : undefined
-    // 选敌高亮目标(target 态,闪烁节拍);选队友(ally 态)同款高亮闪自己人
+    // 选敌高亮目标(target 态,闪烁节拍)。选队友是**箭头光标**(drawPlayerTargetArrow,
+    // 一阶段两套形制:敌 = colorShift 高亮 / 友 = 箭头移动,勿混 —— 曾拿高亮套友方,作者纠)
     const alive = this.aliveEnemyIdxs()
     const targetBlink = Math.floor(now / 160) % 2 === 0
     const highlightEnemy =
@@ -1627,10 +1645,6 @@ export class BattleSession {
       alive.length &&
       targetBlink
         ? alive[this.targetIdx % alive.length]
-        : undefined
-    const highlightPlayer =
-      sel !== undefined && this.ui === 'target' && this.targetSide === 'ally' && targetBlink
-        ? this.targetIdx % Math.max(1, s.players.length)
         : undefined
     // 场景(M4d-2:visual 层驱动 —— 动画位移/帧/受击染色;死亡 = 颗粒溶解)
     const enemies: BattleSpriteDraw[] = []
@@ -1682,8 +1696,10 @@ export class BattleSession {
       // 召唤期队员隐显(渐隐/渐显;hold 全隐 —— fight.c:3160-3181 隐队员只画神将。
       // 形态:作者裁决用正常 alpha 渐变,不用溶解)
       if (summonShow >= 1) return
-      // 隐身期(0x5C 隐蛊)不画队员 —— battle.c:202-211;受击闪白(colorShift≠0)例外仍画
-      if (s.hidingTime > 0 && v.colorShift === 0) return
+      // 隐身(0x5C 隐蛊)**渐隐/渐显**(作者对照原版:用完渐隐,回合到了渐显 —— 原版激活/
+      // 结束各走一次 PAL_BattleFadeScene 12×6×16ms 溶解;此处 alpha 渐变同 72×16ms)。
+      // 全隐期受击闪白(colorShift≠0)例外仍画(battle.c:202-211)
+      if (hideVis >= 1 && v.colorShift === 0) return
       // 疯魔抖动(battle.c:187-196):玩家 Y 轴 ±1/帧;眠/定压制,须活着且非濒死
       const jy =
         p.hp > 0 &&
@@ -1693,13 +1709,14 @@ export class BattleSession {
         !isPlayerDying(p.hp, p.maxHp)
           ? Math.floor(Math.random() * 3) - 1
           : 0
+      const alpha = (1 - summonShow) * (v.colorShift !== 0 ? 1 : 1 - hideVis)
       players.push({
         sprite,
         x: v.x,
         y: v.y + jy,
         frame: v.frame,
-        colorShift: i === highlightPlayer ? 6 : v.colorShift,
-        ...(summonShow > 0 ? { alpha: 1 - summonShow } : {}),
+        colorShift: v.colorShift,
+        ...(alpha < 1 ? { alpha } : {}),
       })
     })
     // 屏波:战场常驻 + 法术叠加(fight.c:2666);只卷背景层,精灵画在卷完的背景上自身笔直
@@ -1814,8 +1831,16 @@ export class BattleSession {
     // 当前行动队员头顶三角(选指令/选目标期间;一阶段 68/69 闪)。
     // 锚 = 底中固定偏移(uibattle.c:1004 x−8/y−74),不随精灵高度 —— 作者原版截图:三角贴头顶正上。
     if (!dialogActive && sel !== undefined && ui) {
-      const pos = getPlayerBasePos(s.players.length, sel)
-      if (pos) drawCurrentFinger(ctx, ui, pos.x, pos.y, now)
+      if (this.ui === 'target' && this.targetSide === 'ally') {
+        // 选队友 = **箭头光标**移动到候选队员(一阶段 selectTargetPlayer:只画目标箭头,
+        // 不画行动者三角;选敌方才是 colorShift 高亮 —— 曾拿高亮套友方,作者纠)
+        const t = this.targetIdx % Math.max(1, s.players.length)
+        const v = this.visual.players[t]
+        if (v) drawPlayerTargetArrow(ctx, ui, v.x, v.y, now)
+      } else {
+        const pos = getPlayerBasePos(s.players.length, sel)
+        if (pos) drawCurrentFinger(ctx, ui, pos.x, pos.y, now)
+      }
     }
 
     // 物品使用横幅:物品名 @(210,50) 白字(fight.c:2316 PAL_DrawText color15;到期自清)

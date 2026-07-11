@@ -171,6 +171,8 @@ for (let i = 0; i <= 8; i++) {
 mkdirSync(resolve(PUBLIC, 'ui/magic'), { recursive: true })
 bakeFile(resolve(EXTRACTED, 'images/ui/frame-18.png'), resolve(PUBLIC, 'ui/magic/playerbox.png'))
 mkdirSync(resolve(PUBLIC, 'ui/cursor'), { recursive: true })
+// 66 = 选队友箭头红帧(与 67 常色 40ms 交替闪;一阶段 SPRITENUM_BATTLE_ARROW_SELECTEDPLAYER_RED)
+bakeFile(resolve(EXTRACTED, 'images/ui/frame-66.png'), resolve(PUBLIC, 'ui/cursor/up-red.png'))
 bakeFile(resolve(EXTRACTED, 'images/ui/frame-67.png'), resolve(PUBLIC, 'ui/cursor/up.png'))
 bakeFile(resolve(EXTRACTED, 'images/ui/frame-68.png'), resolve(PUBLIC, 'ui/cursor/down.png'))
 bakeFile(resolve(EXTRACTED, 'images/ui/frame-69.png'), resolve(PUBLIC, 'ui/cursor/grid.png'))

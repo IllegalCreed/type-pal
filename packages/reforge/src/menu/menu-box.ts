@@ -332,8 +332,11 @@ export interface MenuAssets {
   magicFace: ImageBitmap | undefined
   /** 仙术菜单:网格选中光标(cursor/grid,frame 69)。 */
   cursorGrid: ImageBitmap | undefined
-  /** 仙术菜单:选人红箭头(cursor/up,frame 67)。 */
+  /** 仙术菜单/战斗选队友箭头常色帧(cursor/up,frame 67)。 */
   cursorUp: ImageBitmap | undefined
+  /** 战斗选队友箭头红帧(cursor/up-red,frame 66;与 67 常色 40ms 交替闪 —— 一阶段
+   *  SPRITENUM_BATTLE_ARROW_SELECTEDPLAYER_RED/arrowBlinkRed 真值)。 */
+  cursorUpRed: ImageBitmap | undefined
   /** 战斗当前行动者红手指(cursor/down,frame 68;与 cursorGrid 69 交替闪)。 */
   cursorDown: ImageBitmap | undefined
   /** 结算升级屏 old→cur 箭头(frame 47)。 */
@@ -415,12 +418,13 @@ export async function loadMenuAssets(items: ItemDataMap, dirs: MenuAssetDirs): P
     itemIcons[ch] = iconArr[i]
   })
   // 仙术菜单专用 sprite(角色框 / 头像 / 网格光标)
-  const [magicPlayerBox, magicFace, cursorGrid, cursorUp, cursorDown, settleArrow] =
+  const [magicPlayerBox, magicFace, cursorGrid, cursorUp, cursorUpRed, cursorDown, settleArrow] =
     await Promise.all([
       ui('magic/playerbox.png'),
       loadPng(`${dirs.faces}/li-xiaoyao.png`), // TODO 多人:按当前查看角色的 actorId 取
       ui('cursor/grid.png'),
       ui('cursor/up.png'),
+      ui('cursor/up-red.png'),
       ui('cursor/down.png'),
       ui('cursor/settle-arrow.png'),
     ])
@@ -440,6 +444,7 @@ export async function loadMenuAssets(items: ItemDataMap, dirs: MenuAssetDirs): P
     magicFace,
     cursorGrid,
     cursorUp,
+    cursorUpRed,
     cursorDown,
     settleArrow,
     itembox: { tiles: itemboxTiles },

@@ -383,3 +383,17 @@ export function drawCurrentFinger(
   const img = Math.floor(now / 160) % 2 === 0 ? menu.cursorDown : menu.cursorGrid
   if (img) ctx.drawImage(img, baseX - 8, baseY - 74)
 }
+
+/** 选队友箭头(一阶段 drawPlayerTargetArrow 1:1):帧 67 常色 / 66 红 40ms 交替
+ *  (arrowBlinkRed),贴候选队员底中 (−8, −67)(uibattle.c:1574)。
+ *  选队友 = **箭头光标移动**;选敌方才是 colorShift 高亮 —— 两套形制勿混。 */
+export function drawPlayerTargetArrow(
+  ctx: CanvasRenderingContext2D,
+  menu: MenuAssets,
+  baseX: number,
+  baseY: number,
+  now: number,
+): void {
+  const img = (Math.floor(now / 40) & 1) === 1 ? menu.cursorUpRed : menu.cursorUp
+  if (img) ctx.drawImage(img, baseX - 8, baseY - 67)
+}
