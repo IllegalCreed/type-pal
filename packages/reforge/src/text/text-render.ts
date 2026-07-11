@@ -11,6 +11,10 @@ export interface RenderSpansOpts {
   maxChars?: number
   /** 传则全字用该固定 RGBA 色(覆盖 span.color);姓名牌固定色用。 */
   forceRgba?: readonly [number, number, number]
+  /** 伪加粗:主色叠画 x 与 x+1(笔画 →2px)。装备/商店面板深色 label 用 ——
+   *  原版 FBP 同位是美工粗体位图字(纯黑无影,考证 2026-07-11),16px 字模
+   *  细笔画显单薄,作者裁决以加粗补偿、不引入原版没有的阴影。 */
+  bold?: boolean
 }
 
 /**
@@ -37,11 +41,14 @@ export function renderSpans(
       if (g) {
         if (opts.shadow) {
           const s = bakeGlyph(cp, g, SHADOW_RGBA)
-          ctx.drawImage(s, cursorX + 1, y)
+          const sx = opts.bold ? 2 : 1 // 加粗时影随主体外扩,不被第二笔盖掉
+          ctx.drawImage(s, cursorX + sx, y)
           ctx.drawImage(s, cursorX, y + 1)
-          ctx.drawImage(s, cursorX + 1, y + 1)
+          ctx.drawImage(s, cursorX + sx, y + 1)
         }
-        ctx.drawImage(bakeGlyph(cp, g, rgba), cursorX, y)
+        const main = bakeGlyph(cp, g, rgba)
+        ctx.drawImage(main, cursorX, y)
+        if (opts.bold) ctx.drawImage(main, cursorX + 1, y)
       }
       cursorX += w
       shown++

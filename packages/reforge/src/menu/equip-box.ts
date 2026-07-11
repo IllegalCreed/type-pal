@@ -132,6 +132,7 @@ function drawEquipPickRole(
     renderSpans(ctx, [{ text: lookupText(label, locale) }], PR_LABEL_X, y, {
       glyphs,
       shadow: false,
+      bold: true, // 原版 FBP 粗体位图字观感(作者裁决 2026-07-11)
       forceRgba: COLOR_DARK,
     })
     // 装备名:穿戴中才画;空槽留空(原版 draw-equip:if eqItemId!==0 才 renderText)
@@ -145,7 +146,7 @@ function drawEquipPickRole(
     }
   })
 
-  // ③ 右:5 属性 label(纯黑无阴影)+ 有效值(青,右对齐)
+  // ③ 右:5 属性 label(纯黑伪加粗)+ 有效值(青,右对齐)
   PR_STATS.forEach(({ stat, label }, i) => {
     renderSpans(
       ctx,
@@ -155,6 +156,7 @@ function drawEquipPickRole(
       {
         glyphs,
         shadow: false,
+        bold: true, // 原版 FBP 粗体位图字观感(作者裁决 2026-07-11)
         forceRgba: COLOR_DARK,
       },
     )

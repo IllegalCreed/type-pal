@@ -148,6 +148,7 @@ export function drawShop(
     drawScroll(ctx, assets.scroll, SELL_CASH_BOX.x, SELL_CASH_BOX.y, SELL_CASH_BOX.len)
     renderSpans(ctx, [{ text: '金钱' }], SELL_CASH_BOX.x + 10, SELL_CASH_BOX.y + 10, {
       glyphs,
+      bold: true, // 原版金钱卷轴 label 为粗体位图字(作者裁决 2026-07-11)
       forceRgba: COLOR_LABEL,
     })
     drawNumber(ctx, world.money, SELL_CASH_BOX.x + 48 + 30, SELL_CASH_BOX.y + 15, assets.nums)
@@ -156,6 +157,7 @@ export function drawShop(
     if (sel?.sellable) {
       renderSpans(ctx, [{ text: '售价' }], SELL_PRICE_BOX.x + 10, SELL_PRICE_BOX.y + 10, {
         glyphs,
+        bold: true, // 原版金钱卷轴 label 为粗体位图字(作者裁决 2026-07-11)
         forceRgba: COLOR_LABEL,
       })
       drawNumber(ctx, sel.sellPrice, SELL_PRICE_BOX.x + 48 + 30, SELL_PRICE_BOX.y + 15, assets.nums)
@@ -188,12 +190,14 @@ export function drawShop(
     drawScroll(ctx, assets.scroll, OWNED_BOX.x, OWNED_BOX.y, OWNED_BOX.len)
     renderSpans(ctx, [{ text: '现有' }], OWNED_BOX.x + 10, OWNED_BOX.y + 10, {
       glyphs,
+      bold: true, // 原版金钱卷轴 label 为粗体位图字(作者裁决 2026-07-11)
       forceRgba: COLOR_LABEL,
     })
     drawNumber(ctx, sel ? ownedCount(world, sel.id) : 0, OWNED_BOX.x + 49 + 30, OWNED_BOX.y + 15, assets.nums)
     drawScroll(ctx, assets.scroll, CASH_BOX.x, CASH_BOX.y, CASH_BOX.len)
     renderSpans(ctx, [{ text: '金钱' }], CASH_BOX.x + 10, CASH_BOX.y + 10, {
       glyphs,
+      bold: true, // 原版金钱卷轴 label 为粗体位图字(作者裁决 2026-07-11)
       forceRgba: COLOR_LABEL,
     })
     drawNumber(ctx, world.money, CASH_BOX.x + 49 + 30, CASH_BOX.y + 15, assets.nums)
