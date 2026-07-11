@@ -467,6 +467,13 @@ export class ScriptRunner {
         this.world.vars['sys:screenWave'] = a
         this.world.vars['sys:waveProgression'] = i16(b)
         return
+      case 0x76:
+        // ShowFBP(script.c:2199)。全游戏 4 站点(水月宫 s020)全为 op0=0xFFFF「填黑帧缓冲」,
+        // 且前面必有 fade out(一阶段 blackScreenHold 防 FadeIn 旧帧回闪)。reforge 每帧重画
+        // 无陈旧帧缓冲,黑幕(fadeBlack 保持)下实体重排、fade in 揭新景 → 0xFFFF 即 no-op。
+        // 真 FBP 图(op0≠0xFFFF)数据中不存在;若内容工程将来用到再接全屏图演出
+        if (a !== 0xffff) console.warn(`[script] 0x76 ShowFBP 图 ${a} 未实现(数据中无此用法)`)
+        return
       case 0x7e: {
         // 实体图层(一阶段 OP_SET_OBJECT_LAYER:sLayer=int16(op1),**只进深度排序键** +8px/层)。
         // 写 world.script.entityLayer,render 每帧直读(跨场景/存档天然持久)
