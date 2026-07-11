@@ -8,6 +8,7 @@ import {
   AddOwnMapLayerCommand,
   AddPoisonCommand,
   AddSpriteCommand,
+  AppendSpriteFramesCommand,
   CreateOwnMapCommand,
   CreateScriptSourceCommand,
   DeleteEnemyCommand,
@@ -433,6 +434,23 @@ describe('A4 精灵上传命令(不可变 + invert;blob 暂存进 tilesetBlobs)'
     const back = cmd.invert(s1)
     expect(back.sprites[back.sprites.length - 1]?.id).toBe('my-hero') // 原位(末尾)
     expect(back.tilesetBlobs['assets/sprites/my-hero.rle']).toBeInstanceOf(ArrayBuffer)
+  })
+  test('AppendSpriteFrames:替换暂存字节;invert 回旧字节;无旧暂存(帧在盘)则删键回落读盘', () => {
+    const path = 'assets/sprites/my-hero.rle'
+    const prev = new ArrayBuffer(8)
+    const merged = new ArrayBuffer(16)
+    // 有暂存(未保存过的新精灵续帧):invert 回旧字节
+    const s0 = new AddSpriteCommand(heroDef, prev).apply(stS())
+    const cmd = new AppendSpriteFramesCommand(path, prev, merged)
+    const s1 = cmd.apply(s0)
+    expect(s1.tilesetBlobs[path]).toBe(merged)
+    expect(s0.tilesetBlobs[path]).toBe(prev) // 源不变
+    expect(cmd.invert(s1).tilesetBlobs[path]).toBe(prev)
+    // 无暂存(帧在磁盘):apply 建键,invert 删键(引用回落读盘文件)
+    const cmd2 = new AppendSpriteFramesCommand(path, undefined, merged)
+    const s2 = cmd2.apply(stS())
+    expect(s2.tilesetBlobs[path]).toBe(merged)
+    expect(cmd2.invert(s2).tilesetBlobs[path]).toBeUndefined()
   })
 })
 

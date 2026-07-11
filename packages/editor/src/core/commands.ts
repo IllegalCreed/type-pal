@@ -1821,6 +1821,35 @@ export class AddSpriteCommand implements Command {
   }
 }
 
+/**
+ * 给现有精灵追加帧带(A4;作者反馈「后补动作不必重传整图」):替换该 path 的暂存字节
+ * (新字节 = 旧帧 + 新帧重编码,由向导侧完成)。prev = 追加前的暂存字节;undefined =
+ * 此前未暂存(帧在磁盘)→ invert 删除暂存键(回落读盘)。命名动作走「精灵帧」面板 poses。
+ */
+export class AppendSpriteFramesCommand implements Command {
+  readonly label = '追加精灵帧'
+  private readonly path: string
+  private readonly prev: ArrayBuffer | undefined
+  private readonly next: ArrayBuffer
+
+  constructor(path: string, prev: ArrayBuffer | undefined, next: ArrayBuffer) {
+    this.path = path
+    this.prev = prev
+    this.next = next
+  }
+
+  apply(state: EditorState): EditorState {
+    return { ...state, tilesetBlobs: { ...state.tilesetBlobs, [this.path]: this.next } }
+  }
+
+  invert(state: EditorState): EditorState {
+    if (this.prev)
+      return { ...state, tilesetBlobs: { ...state.tilesetBlobs, [this.path]: this.prev } }
+    const { [this.path]: _drop, ...rest } = state.tilesetBlobs
+    return { ...state, tilesetBlobs: rest }
+  }
+}
+
 /** 移除上传精灵条目(捕获条目+暂存字节供 invert;原版精灵条目也可移,引用悬空由校验层报)。 */
 export class RemoveSpriteCommand implements Command {
   readonly label = '移除精灵'

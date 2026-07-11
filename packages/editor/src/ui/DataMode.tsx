@@ -364,6 +364,7 @@ export function DataMode(props: {
               sprites={sprites}
               assetBase={assetBase}
               session={session}
+              blobs={tilesetBlobs}
               onDone={(id) => {
                 setUploadingSprite(false)
                 if (id) setSelId(id)
