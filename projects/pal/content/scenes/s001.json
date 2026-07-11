@@ -27783,13 +27783,8 @@
           "gesture": 11
         },
         {
-          "kind": "unmigrated",
-          "opcode": 84,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "setAmbience",
+          "ambience": "night"
         },
         {
           "kind": "wait",
@@ -28430,13 +28425,8 @@
                   "dir": "out"
                 },
                 {
-                  "kind": "unmigrated",
-                  "opcode": 83,
-                  "operands": [
-                    0,
-                    0,
-                    0
-                  ]
+                  "kind": "setAmbience",
+                  "ambience": "day"
                 },
                 {
                   "kind": "setEntityState",

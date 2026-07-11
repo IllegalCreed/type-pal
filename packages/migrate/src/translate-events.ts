@@ -414,6 +414,12 @@ function walkBody(
         const entities: string[] = []
         for (let v = from; v <= to; v++) entities.push(`e${v - 1}`)
         push({ kind: 'setMultiEntityState', entities, state: signExtendI16(o[2] ?? 0) })
+      } else if (oc === 0x53) {
+        push({ kind: 'setAmbience', ambience: 'day' }) // 0x53 use day palette(script.c:1803)
+      } else if (oc === 0x54) {
+        push({ kind: 'setAmbience', ambience: 'night' }) // 0x54 use night palette(script.c:1810)
+      } else if (oc === 0x9b) {
+        push(undefined) // 0x9B fade-to-scene:sdlpal 自认 FIXME wrong(script.c:2769),no-op
       } else if (oc === 0x49) {
         const ent = entRef(o[0] ?? 0)
         if (ent) push({ kind: 'setEntityState', entity: ent, state: signExtendI16(o[1] ?? 0) })

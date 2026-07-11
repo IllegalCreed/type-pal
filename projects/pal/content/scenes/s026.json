@@ -635,13 +635,8 @@
           "state": 1
         },
         {
-          "kind": "unmigrated",
-          "opcode": 84,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "setAmbience",
+          "ambience": "night"
         },
         {
           "kind": "clearDialog"
@@ -788,13 +783,8 @@
           "state": 0
         },
         {
-          "kind": "unmigrated",
-          "opcode": 83,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "setAmbience",
+          "ambience": "day"
         },
         {
           "kind": "clearDialog"

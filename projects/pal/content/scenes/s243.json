@@ -4586,15 +4586,6 @@
           ]
         },
         {
-          "kind": "unmigrated",
-          "opcode": 155,
-          "operands": [
-            2,
-            65535,
-            0
-          ]
-        },
-        {
           "kind": "wait",
           "ms": 1000
         },

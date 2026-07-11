@@ -245,13 +245,8 @@
     {
       "body": [
         {
-          "kind": "unmigrated",
-          "opcode": 84,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "setAmbience",
+          "ambience": "night"
         }
       ]
     },
@@ -8948,13 +8943,8 @@
     {
       "body": [
         {
-          "kind": "unmigrated",
-          "opcode": 83,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "setAmbience",
+          "ambience": "day"
         }
       ]
     }

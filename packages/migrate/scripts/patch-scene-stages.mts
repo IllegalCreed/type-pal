@@ -80,6 +80,7 @@ let sites6d = 0
 let sites1a = 0
 let sites90 = 0
 let sites9a = 0
+let sites2 = 0
 type Cmd = { kind?: string; opcode?: number; operands?: number[] }
 const swapCmd = (x: unknown): unknown | undefined => {
   const c = x as Cmd
@@ -110,6 +111,10 @@ const swapCmd = (x: unknown): unknown | undefined => {
     sites9a++
     return { kind: 'setMultiEntityState', entities, state: i16(o[2] ?? 0) }
   }
+  // 第二批简单映射(实缺口 → 已有命令 / drop)
+  if (c.opcode === 0x53) return sites2++, { kind: 'setAmbience', ambience: 'day' }
+  if (c.opcode === 0x54) return sites2++, { kind: 'setAmbience', ambience: 'night' }
+  if (c.opcode === 0x9b) return sites2++, undefined // 0x9B sdlpal FIXME wrong,no-op
   return x
 }
 const swap = (o: unknown): unknown => {
@@ -161,7 +166,7 @@ scenes.forEach((s, i) => {
 })
 
 console.log(
-  `[patch-scene-stages] 0x6D 站点 ${sites} · 0x1A 形象站点 ${sites1a} · 0x90 敌种降级 ${sites90} · 0x9A 批量状态 ${sites9a} · 场景写回 ${written} · locale 新键 ${newKeys} · sprites +${newSprites}`,
+  `[patch-scene-stages] 0x6D 站点 ${sites} · 0x1A 形象站点 ${sites1a} · 0x90 敌种降级 ${sites90} · 0x9A 批量状态 ${sites9a} · 第二批 ${sites2} · 场景写回 ${written} · locale 新键 ${newKeys} · sprites +${newSprites}`,
 )
 const un = Object.entries(tctx.report.unmigrated)
 if (un.length) console.log('  翻译缺口:', un.map(([k, v]) => `${k}×${v}`).join(' / '))
