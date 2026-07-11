@@ -169,6 +169,14 @@ const swapCmd = (x: unknown, owner: string): unknown | undefined => {
     sites6d++
     return { kind: 'setSceneStage', scene: `s${String((o[0] ?? 1) - 1).padStart(3, '0')}`, stage: -1, _addr: o[1] }
   }
+  // 0x6D op2>0:运行时装场景 onTeleport(赤鬼王血池 s059 打完才可用土灵珠/引路蜂出去,
+  // 否则封闭无出口=死锁)。翻目标段为 stages,存 world.onTeleport 覆写。
+  if (c.opcode === 0x6d && (o[2] ?? 0) > 0) {
+    const scene = `s${String((o[0] ?? 1) - 1).padStart(3, '0')}`
+    const st = translateStages(`L_${o[2]}`, undefined, tctx)
+    if (st?.length) return sites4++, { kind: 'setSceneOnTeleport', scene, stages: st }
+    return x
+  }
   // 0x6D op1=0 且 op2=0:sdlpal(2069-2080)两 if 皆 false = no-op(未设 onEnter/onTeleport)
   if (c.opcode === 0x6d && (o[1] ?? 0) === 0 && (o[2] ?? 0) === 0) return sites78++, undefined
   if (c.opcode === 0x1a) {
@@ -240,6 +248,7 @@ const swapCmd = (x: unknown, owner: string): unknown | undefined => {
     return sites4++, { kind: 'setMapOverride', scene: `s${String((o[0] ?? 1) - 1).padStart(3, '0')}`, mapNum: o[1] ?? 0 }
   }
   if (c.opcode === 0x8f) return sites4++, { kind: 'halveMoney' }
+  if (c.opcode === 0xa0) return sites4++, { kind: 'quitToTitle' } // 0xA0 通关退出(拜月决战后)→ 回标题屏
   if (c.opcode === 0x76) return sites78++, undefined // 0x76 ShowFBP 0xFFFF 填黑(reforge 天然 no-op)
   if (c.opcode === 0x6f) {
     // 0x6F 条件同步:源(op0,self=owner)状态==int16(op1) → 触发者同设。branch + entityState 条件

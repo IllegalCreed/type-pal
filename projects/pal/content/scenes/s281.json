@@ -830,13 +830,7 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 160,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
+                    "kind": "quitToTitle"
                   }
                 ]
               }

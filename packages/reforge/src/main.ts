@@ -1414,9 +1414,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     },
     // 传送出口(0x38 引路蜂/土灵珠):当前场景有 onTeleport → 内联跑(loadScene 回洞口/城镇),
     // 返回 true;无此槽 → false(调用方走 onFail「引路蜂不灵」)。runner 槽被道具脚本占着 →
-    // detached 内联跑(同 Phase E)。(0x6D 剧情改写 onTeleport 极罕见,operand[2] 恒 0,暂不接。)
+    // detached 内联跑(同 Phase E)。0x6D op2 运行时装的出口(赤鬼王血池 s059 打完才装)存
+    // world.onTeleport 覆写,优先于静态 scene.onTeleport —— 否则血池封闭无出口=死锁卡关。
     teleportOut: async () => {
-      const stages = scene.onTeleport
+      const stages = world.script?.onTeleport?.[scene.id] ?? scene.onTeleport
       if (!stages?.length) return false
       if (world.script) {
         const r = new ScriptRunner(scriptHost, world.script, (scriptAbort ?? new AbortController()).signal)
@@ -1467,6 +1468,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       map = assets.map
       tiles = assets.tiles
       renderer = new Canvas2DRenderer(ctx, palette, tiles)
+    },
+    // 0xA0 游戏通关退出 → 回标题屏(复用系统菜单 quit 的 ?menu 干净重启;未存进度弃)
+    quitToTitle: () => {
+      location.href = `${location.pathname}?menu`
     },
     report: (msg) => {
       if (!import.meta.env.DEV) return
@@ -2596,7 +2601,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
             if (r.kind === 'teleportOut') {
               // 引路蜂/土灵珠:当前场景有 onTeleport → 消耗道具、关菜单回大世界、跑出口;
               // 无出口 = 「引路蜂不灵」(不消耗、留菜单)。同步查 onTeleport 决定,避开 world 异步竞态。
-              if (scene.onTeleport?.length) {
+              // world.onTeleport 覆写(0x6D op2 运行时装,如血池 s059 打完)优先于静态槽。
+              if ((world.script?.onTeleport?.[scene.id] ?? scene.onTeleport)?.length) {
                 if (project.items[r.itemId]?.use?.consuming) host.loseItem(r.itemId, 1) // 引路蜂消耗;土灵珠宝珠不消耗
                 lastUseCursor = useMenu.cursor
                 useMenu = closeUseMenu()

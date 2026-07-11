@@ -117,6 +117,8 @@ function describe(cmd: Command, locale: Locale): Described {
       }
     case 'stopScript':
       return { icon: '⛔', label: '终止脚本(跳转臂尾;阶段不转移)' }
+    case 'quitToTitle':
+      return { icon: '🏁', label: '游戏通关退出 → 回标题屏' }
     case 'setEntityState':
       return {
         icon: '👁',
@@ -269,6 +271,8 @@ function describe(cmd: Command, locale: Locale): Described {
         label: `${cmd.entity} 换触发脚本`,
         detail: cmd.stages.length ? `${cmd.stages.length} 段` : '停用',
       }
+    case 'setSceneOnTeleport':
+      return { icon: '🌀', label: `${cmd.scene} 装传送出口`, detail: `${cmd.stages.length} 段` }
     case 'setEntityTriggerMode':
       return {
         icon: '🔗',

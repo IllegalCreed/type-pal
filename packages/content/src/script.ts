@@ -95,6 +95,7 @@ export type Command =
   // 运行(否则落穿回父体 = 概率门/确认门全废)——翻译器在每个跳走臂尾发射本命令;
   // runner 收到即结束 runStages 本次运行且**阶段不转移**(auto 下拍重跑 = 原版"原地不动")。
   | { kind: 'stopScript' }
+  | { kind: 'quitToTitle' } // 0xA0 游戏通关退出(拜月最终决战后 → 回标题屏;仙剑单一结局)
   // 世界状态
   | { kind: 'giveItem'; itemId: string; count?: number }
   | { kind: 'loseItem'; itemId: string; count?: number }
@@ -143,6 +144,7 @@ export type Command =
   // 页切换(M3c;原版 0x24/25/40 改脚本入口指针。运行时覆盖,暂不持久 —— 原版存档存指针,
   // clean 版的持久化留给页注册表设计(M4 期);过场局部行为切换不受影响)
   | { kind: 'setEntityAuto'; entity: string; stages: ScriptStage[] } // 0x24;空 stages = 停用
+  | { kind: 'setSceneOnTeleport'; scene: string; stages: ScriptStage[] } // 0x6D op2:运行时装场景传送出口(血池打完才可走)
   | { kind: 'setEntityTrigger'; entity: string; stages: ScriptStage[] } // 0x25;触发方式沿用当前
   | { kind: 'setEntityTriggerMode'; entity: string; on?: 'interact' | 'touch'; range?: number } // 0x40;on 缺省=关
   // 定位权威(E6b:显式接管/归还 —— 隐式接管见位移指令;手工演出精细控制用)
@@ -213,6 +215,9 @@ export interface WorldScriptState {
   /** 场景底图覆写(原版 0x99 wMapNum 改写:键 = sceneId;0xFFFF 当前场景即时重载,
    *  其余场景下次进场生效;随存档持久 —— 麒麟洞 s230/s243 岩浆变化)。 */
   mapOverride?: Record<string, number>
+  /** 场景传送出口覆写(原版 0x6D operand[2] wScriptOnTeleport 运行时改写:键 = sceneId;
+   *  随存档持久 —— 赤鬼王血池 s059 打完赤鬼王才装 onTeleport,否则封闭无出口=死锁)。 */
+  onTeleport?: Record<string, ScriptStage[]>
 }
 
 export function emptyWorldScriptState(): WorldScriptState {

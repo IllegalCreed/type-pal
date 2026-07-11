@@ -2507,12 +2507,39 @@
                     "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 109,
-                    "operands": [
-                      60,
-                      0,
-                      11870
+                    "kind": "setSceneOnTeleport",
+                    "scene": "s059",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "shakeScreen",
+                            "frames": 0,
+                            "level": 4
+                          },
+                          {
+                            "kind": "setScreenWave",
+                            "level": 0,
+                            "progression": 0
+                          },
+                          {
+                            "kind": "loadScene",
+                            "scene": "s065"
+                          },
+                          {
+                            "kind": "teleportParty",
+                            "pos": {
+                              "col": 34,
+                              "row": -4,
+                              "height": 0
+                            }
+                          },
+                          {
+                            "kind": "fade",
+                            "dir": "out"
+                          }
+                        ]
+                      }
                     ]
                   },
                   {

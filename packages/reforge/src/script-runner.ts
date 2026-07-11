@@ -24,6 +24,8 @@ export interface ScriptHost {
   clearDialog(): void
   /** 0x99 当前场景即时换底图(mapNum 已写入 world.script.mapOverride;host 重载 map 资产,不动实体)。 */
   reloadMap?(mapNum: number): Promise<void>
+  /** 0xA0 游戏通关退出:回标题屏(?menu;未存进度弃,同系统菜单 quit)。 */
+  quitToTitle?(): void
   fade(dir: 'in' | 'out', ms: number, color?: 'black' | 'red'): Promise<void>
   /** B8:实体向玩家追一步(auto 循环内 = 持续追逐;撞上玩家由 host 触发 touch)。 */
   chaseStep(entityId: string, range: number, speed: number, floating: boolean): Promise<void>
@@ -422,6 +424,9 @@ export class ScriptRunner {
         return h.setParty(cmd.members)
       case 'stopScript':
         throw new ScriptStopped() // 跳转臂终止(见类注;runStages 收口)
+      case 'quitToTitle':
+        return h.quitToTitle?.() // 0xA0 通关退出 → 回标题屏
+
       case 'branch':
         return evalCondition(cmd.cond, this.world, h.query, this.random)
           ? this.run(cmd.then, [...path, 'then'])
@@ -475,6 +480,10 @@ export class ScriptRunner {
         return h.cameraSnap(cmd.to)
       case 'setEntityAuto':
         return h.setEntityAuto(cmd.entity, cmd.stages)
+      case 'setSceneOnTeleport':
+        // 0x6D op2:运行时装场景传送出口 → 持久写 world(teleportOut/引路蜂菜单读覆写优先)
+        ;(this.world.onTeleport ??= {})[cmd.scene] = cmd.stages
+        return
       case 'setEntityTrigger':
         return h.setEntityTrigger(cmd.entity, cmd.stages)
       case 'setEntityTriggerMode':
