@@ -1055,6 +1055,22 @@ export function needsManualSelect(p: BattlePlayerState): boolean {
   return p.hp > 0 && canAct(p.status) && p.status.confused <= 0
 }
 
+/**
+ * 本回合已预占的物品数(原版 nAmountInUse,fight.c:1900-1916 真值:**投掷无条件占、
+ * 使用仅 consuming 物占**)。从 pendingActions 动态算 —— 菜单 Esc 回退上一队员后
+ * 下次建列表自然释放预占(一阶段 battle-system:1778 同思路)。选单侧扣此数,
+ * 防止两名队员同回合选走同一件仅剩 1 的药(出手端 validate 耗尽降级仍兜底)。
+ */
+export function pendingItemUses(s: BattleState): Map<string, number> {
+  const m = new Map<string, number>()
+  for (const a of s.pendingActions.values()) {
+    if (a.kind === 'throw') m.set(a.itemId, (m.get(a.itemId) ?? 0) + 1)
+    else if (a.kind === 'item' && s.items[a.itemId]?.use?.consuming)
+      m.set(a.itemId, (m.get(a.itemId) ?? 0) + 1)
+  }
+  return m
+}
+
 /** classic 入队身法动作系数(fight.c:1529-1556):防御×5/辅助法术×3/物品×3/逃跑÷2;
  *  普攻/攻击法术×1;合体×10 待 P3。调用方对结果 trunc(原版整数运算)。 */
 function actionDexMult(act: BattleAction | undefined, skills: Record<string, SkillData>): number {

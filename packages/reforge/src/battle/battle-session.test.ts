@@ -184,3 +184,51 @@ describe('B9 特殊战斗形态', () => {
     expect(result).toBe('win') // 玩家不出菜单,AI 代打秒杀
   })
 })
+
+describe('P2 库存预占(原版 nAmountInUse,fight.c:1900-1916)', () => {
+  test('前一队员选走最后一件消耗品,后一队员 E 打不开列表 —— 不会重复提交同一件', () => {
+    const sfx = { play: () => {} } as unknown as SfxPlayer
+    const assets: BattleSessionAssets = {
+      palette: { colors: [], cycles: [] } as unknown as import('@type-pal/shared').Palette,
+      glyphs: stubGlyphs,
+      enemySprites: [undefined],
+      playerSprites: [undefined, undefined],
+      sfx,
+    }
+    const session = new BattleSession(
+      [player('li'), player('ling')],
+      [mkEnemy('slime', { attackStrength: 0, health: 9999 })],
+      assets,
+      (id) => id,
+      () => 0,
+      {
+        items: {
+          yao: {
+            id: 'yao',
+            name: '药',
+            desc: [],
+            icon: 0,
+            buyPrice: 0,
+            sellPrice: 0,
+            sellable: false,
+            use: { consuming: true, effects: [{ kind: 'healHp', amount: 1 }] },
+          },
+        },
+        inventory: [{ itemId: 'yao', count: 1 }],
+      },
+    )
+    session.tick(16, new Set()) // battleStart choreo
+    // 队员0:E 开用品 → Enter 提交最后一件药(target 缺省 = 直接提交)
+    session.tick(16, new Set(['e']))
+    session.tick(16, new Set(['Enter']))
+    // 队员1:E 应打不开(剩余 0 已被预占)→ Enter Enter 走的是主菜单普攻路径
+    session.tick(16, new Set(['e']))
+    session.tick(16, new Set(['Enter']))
+    session.tick(16, new Set(['Enter']))
+    for (let i = 0; i < 20; i++) session.tick(500, new Set()) // 消费本回合
+    const log = session.debugLog()
+    expect(log.filter((l) => l.includes('使用 药')).length).toBe(1) // 只用了一次
+    expect(log.some((l) => l.includes('已耗尽,降级防御'))).toBe(false) // 未发生重复提交兜底
+    expect(log.some((l) => l.includes('攻击 slime'))).toBe(true) // 队员1 落在普攻
+  })
+})

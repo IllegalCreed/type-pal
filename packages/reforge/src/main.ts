@@ -1831,7 +1831,13 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   }
 
   // menuAssets 已在菜单前建(见上);menuBox 复用之。
-  const menuBox = new MenuBox(glyphs, project.locale, menuAssets, project.items)
+  // 状态板数据源(P2 补缺):毒行/头像随队员/EXP 阈值查表 —— 缺一不掉功能,只回落旧行为
+  const menuBox = new MenuBox(glyphs, project.locale, menuAssets, project.items, {
+    poisonsById: project.poisonsById,
+    actorsById: project.actorsById,
+    portraitsDir: project.assetBase.portraits,
+    palette: await getPalette(0).catch(() => undefined),
+  })
   let menu: MenuState = CLOSED
   let magicMenu: MagicMenuState = closeMagicMenu()
   let equipMenu: EquipMenuState = closeEquipMenu()

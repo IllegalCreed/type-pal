@@ -131,6 +131,19 @@
   敌人被架开退半步;守护关系照原版数据(灵儿/月如/阿奴←李逍遥护,李逍遥←月如护,
   盖罗娇←阿奴护)。守护者自己濒死/睡/定/乱时不替挡;睡着的队员若无人护,掷中也躲不开。
 
+## ⑮ P2 状态板三件 + 战斗库存预占(1 分钟,2026-07-11 新)
+- 状态板:<http://localhost:6051/?scene=s002&pos=15,15> → F12:
+  ```js
+  const w=__reforge.world, li=w.party[0], l=JSON.parse(JSON.stringify(li));
+  l.id='zhao-linger'; l.template='zhao-linger'; l.hp=88; l.maxHP=240; l.level=5;
+  w.party.push(l); li.poisons=[{poisonId:551,tickIndex:0},{poisonId:553,tickIndex:0}]
+  ```
+  → Esc → Enter(状态)。预期:李逍遥页立绘右侧竖排**「赤毒」「瘴毒」**毒名
+  (原版 wColor 调色板色);→ 键切到灵儿:**立绘变灵儿**、经验阈值变 **0/265**
+  (修行5 查 expTable,不再写死 15);无影毒/寄生类不显示(原版 level≤3 门)。
+- 库存预占:接 ⑪ 的双人战斗给 1 张还魂香 —— 队员甲选走后,**队员乙按 E 打不开用品列表**
+  (原版 nAmountInUse:投掷无条件占、使用仅耗材占;Esc 回退队员甲自动释放)。
+
 ## ⑦ A5 导出 zip(1 分钟)
 - 本地工程打开态 → 📁 工程菜单 → 「🗜 导出 zip…」(dev pal 工程该按钮是灰的,属正常)→
   下载 `<工程id>.zip` → 解压 → 与工程文件夹抽查比对(manifest.json / content/ / assets/)。

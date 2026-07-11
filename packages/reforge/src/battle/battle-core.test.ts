@@ -12,6 +12,7 @@ import {
   curePoisons,
   resolveAttack,
   runBattleToEnd,
+  pendingItemUses,
   stepBattle,
 } from './battle-core.js'
 
@@ -1645,6 +1646,26 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
     s3.players[1]!.status.sleep = 3
     turn(s3, rngHigh, bothDefend)
     expect(s3.players[1]!.hp).toBeLessThan(90)
+  })
+
+  test('库存预占(nAmountInUse,fight.c:1900-1916):投掷无条件占;使用仅 consuming 物占', () => {
+    const s = createBattleState({
+      players: [player('li'), player('ling')],
+      enemies: [dummy()],
+      items: {
+        yao: { id: 'yao', name: '药', use: { consuming: true, effects: [] } } as unknown as ItemData,
+        zhu: { id: 'zhu', name: '珠', use: { consuming: false, effects: [] } } as unknown as ItemData,
+        du: { id: 'du', name: '毒', throw: { effects: [] } } as unknown as ItemData,
+      },
+    })
+    s.pendingActions.set(0, { kind: 'item', itemId: 'yao' })
+    s.pendingActions.set(1, { kind: 'throw', itemId: 'du', targetEnemyIdx: 0 })
+    const m = pendingItemUses(s)
+    expect(m.get('yao')).toBe(1) // consuming 用品占
+    expect(m.get('du')).toBe(1) // 投掷无条件占
+    s.pendingActions.set(0, { kind: 'item', itemId: 'zhu' }) // 不耗物品(宝珠类):不占
+    expect(pendingItemUses(s).get('zhu')).toBeUndefined()
+    expect(pendingItemUses(s).get('yao')).toBeUndefined() // 改选后自动释放(动态计算)
   })
 
   test('変身(trance):tranceSprite 落施法者;链上 buffStat 同步生效', () => {

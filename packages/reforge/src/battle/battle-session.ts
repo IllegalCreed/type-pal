@@ -46,6 +46,7 @@ import {
   healthyPlayerCount,
   isPlayerHealthy,
   needsManualSelect,
+  pendingItemUses,
   stepBattle,
 } from './battle-core.js'
 import { getEnemyBasePos, getPlayerBasePos } from './battle-positions.js'
@@ -377,14 +378,22 @@ export class BattleSession {
     return this.state.enemies.map((e, i) => (e.hp > 0 ? i : -1)).filter((i) => i >= 0)
   }
 
-  /** 战斗可用物品(背包中有货且 items 表带 use)。 */
+  /** 战斗可用物品(背包有货且带 use);数量已扣本回合预占(nAmountInUse 语义:
+   *  前面队员选走最后一件后,后面队员列表里即不再出现 —— 剩 0 隐藏沿用本列表现约定,
+   *  「全显示+灰」的原版列表语义留 P2 列表专项一并裁)。 */
   private usableItems(): { itemId: string; count: number }[] {
-    return this.state.inventory.filter((x) => x.count > 0 && this.state.items[x.itemId]?.use)
+    const used = pendingItemUses(this.state)
+    return this.state.inventory
+      .map((x) => ({ itemId: x.itemId, count: x.count - (used.get(x.itemId) ?? 0) }))
+      .filter((x) => x.count > 0 && this.state.items[x.itemId]?.use)
   }
 
-  /** 可投掷道具(有 throw 能力块;毒药/蛊)。 */
+  /** 可投掷道具(有 throw 能力块;毒药/蛊)。数量同扣预占(投掷无条件占,fight.c:1900)。 */
   private throwableItems(): { itemId: string; count: number }[] {
-    return this.state.inventory.filter((x) => x.count > 0 && this.state.items[x.itemId]?.throw)
+    const used = pendingItemUses(this.state)
+    return this.state.inventory
+      .map((x) => ({ itemId: x.itemId, count: x.count - (used.get(x.itemId) ?? 0) }))
+      .filter((x) => x.count > 0 && this.state.items[x.itemId]?.throw)
   }
 
   /** 主菜单 4 项可用性(0攻击/3杂项恒可;1法术=有技能且未封;2合击=有合体技+本人healthy+≥2人healthy)。 */

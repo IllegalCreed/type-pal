@@ -6,15 +6,18 @@
  * 九宫格框:原版 UI box frame-00..08(9 块直接定位,因 frame 尺寸不规则)。
  */
 import {
+  type ActorDef,
   type CharacterInstance,
   EQUIP_SLOT_IDS,
   effectiveStat,
   type ItemDataMap,
   type Locale,
   lookupText,
+  type PoisonDef,
   type TextId,
   type WorldState,
 } from '@type-pal/content'
+import type { Palette } from '@type-pal/shared'
 import type { MenuState } from '../menu-state.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { measureSpans, renderSpans } from '../text/text-render.js'
@@ -272,7 +275,7 @@ export function drawConfirmBox(
   })
 }
 
-// demo:李逍遥 1→2 升级所需 exp(原版 rgLevelUpExp[1]);升级系统建后取真值
+// 阈值表缺失时的兜底(原版 rgLevelUpExp[1] = 李逍遥 1→2 所需;正路取 battler.leveling.expTable)
 const EXP_TO_NEXT = 15
 
 /** 状态面板属性行(数据驱动:加属性 = 列表多一条)。顺序对齐原版。
@@ -283,9 +286,9 @@ interface StatRow {
   max?: number
   maxKind?: 'blue' | 'cyan'
 }
-function statList(c: CharacterInstance, items: ItemDataMap): StatRow[] {
+function statList(c: CharacterInstance, items: ItemDataMap, expToNext?: number): StatRow[] {
   return [
-    { labelId: 'stat.exp', value: c.exp, max: EXP_TO_NEXT, maxKind: 'cyan' },
+    { labelId: 'stat.exp', value: c.exp, max: expToNext ?? EXP_TO_NEXT, maxKind: 'cyan' },
     { labelId: 'stat.level', value: c.level },
     { labelId: 'stat.hp', value: c.hp, max: c.maxHP, maxKind: 'blue' },
     { labelId: 'stat.mp', value: c.mp, max: c.maxMP, maxKind: 'blue' },
@@ -452,12 +455,39 @@ export async function loadMenuAssets(items: ItemDataMap, dirs: MenuAssetDirs): P
 }
 
 export class MenuBox {
+  /** 状态板头像懒加载缓存(chunk 号 → 图;null = 加载中/失败,回落 assets.avatar)。 */
+  private readonly portraitCache = new Map<number, ImageBitmap | null>()
+
   constructor(
     private readonly glyphs: GlyphTable,
     private readonly locale: Locale,
     private readonly assets: MenuAssets,
     private readonly items: ItemDataMap,
+    /** 状态板数据源(P2 补缺:毒行/头像随队员/EXP 阈值查表)。缺省 = 旧行为(单测兜底)。 */
+    private readonly extras: {
+      /** 毒表(状态板毒行:curability≠incurable 显示 ≙ 原版 level≤3 门)。 */
+      poisonsById?: Record<number, PoisonDef>
+      /** 角色表(头像号 portraits.default / 升级阈值 battler.leveling.expTable)。 */
+      actorsById?: Record<string, ActorDef>
+      /** 立绘目录(按角色头像号懒加载;menuAssets.avatar 只是李逍遥兜底)。 */
+      portraitsDir?: string
+      /** 调色板(毒名色 = colors[wColor+10],uigame.c:1252)。 */
+      palette?: Palette
+    } = {},
   ) {}
+
+  /** 按 RGM 头像号取立绘(懒加载 + 缓存;未就绪返回 undefined 由调用方回落)。 */
+  private portraitFor(num: number | undefined): ImageBitmap | undefined {
+    if (num === undefined || !this.extras.portraitsDir) return undefined
+    const hit = this.portraitCache.get(num)
+    if (hit) return hit
+    if (hit === null) return undefined // 加载中/失败
+    this.portraitCache.set(num, null)
+    void loadPng(`${this.extras.portraitsDir}/${num}.png`).then((img) => {
+      if (img) this.portraitCache.set(num, img)
+    })
+    return undefined
+  }
 
   render(
     ctx: CanvasRenderingContext2D,
@@ -521,13 +551,16 @@ export class MenuBox {
     // 背景(全屏 320×200)
     if (this.assets.statusBg) ctx.drawImage(this.assets.statusBg, 0, 0, 320, 200)
 
-    // 当前查看的队员(原版 iCurrent;越界 clamp)。demo 单人恒 0;立绘暂仍李逍遥(多人时按 template 取)。
+    // 当前查看的队员(原版 iCurrent;越界 clamp)
     const c = world.party[Math.min(Math.max(0, member), world.party.length - 1)]
     if (!c) return
+    const actor = this.extras.actorsById?.[c.template]
+    // EXP 阈值 = 该角色升级曲线 expTable[level](原版 rgLevelUpExp[level];曾写死 15)
+    const expToNext = actor?.battler?.leveling?.expTable?.[c.level]
 
     // 左栏:属性 9 项 —— label 字模(米白)+ value 数字 sprite(黄);HP/MP 当前/最大(max 蓝 + 斜杠)
     let y = STAT_Y0
-    for (const row of statList(c, this.items)) {
+    for (const row of statList(c, this.items, expToNext)) {
       renderSpans(ctx, [{ text: lookupText(row.labelId, this.locale) }], STAT_X, y, {
         glyphs: this.glyphs,
         shadow: true,
@@ -550,8 +583,25 @@ export class MenuBox {
       shadow: true,
       forceRgba: COLOR_NAME,
     })
-    const { avatar } = this.assets
+    // 立绘随队员切(原版 rgwAvatar[role] → RGM chunk;曾恒李逍遥,作者 P2 审计条)。
+    // 懒加载未就绪时回落 assets.avatar(首帧闪一下李逍遥,下一帧即对)
+    const avatar = this.portraitFor(actor?.portraits?.default) ?? this.assets.avatar
     if (avatar) ctx.drawImage(avatar, Math.round(MID_CX - avatar.width / 2), AVATAR_Y)
+    // 毒行(uigame.c:1245-1253;一阶段 draw-player-status §10 补齐):curability≠incurable
+    // 显示(≙ 原版 wPoisonLevel≤3 门 —— 无影毒/寄生这类不显),名色 = 调色板[wColor+10],
+    // 位置 (185, 58+18j),j 按显示项递增
+    let pj = 0
+    for (const ap of c.poisons ?? []) {
+      const def = this.extras.poisonsById?.[ap.poisonId]
+      if (!def || def.curability === 'incurable') continue
+      const col = this.extras.palette?.colors[(def.color + 10) & 0xff]
+      renderSpans(ctx, [{ text: def.name }], 185, 58 + pj * 18, {
+        glyphs: this.glyphs,
+        shadow: true,
+        ...(col ? { forceRgba: col } : {}),
+      })
+      pj++
+    }
 
     // 右栏:6 装备格 2 列 × 3 行平铺 —— 格 + 装备图标 + 装备物名(格下居中,0xBE)。
     // 原版 draw-player-status:画穿戴物名(item._name)非槽位名;空槽(无装备)跳过、留空。
