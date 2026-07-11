@@ -55,8 +55,9 @@ export interface AnimFrame {
   /** keepEffect 烙背景(fight.c:2757 末帧 blit lpBackground):把这些特效帧永久画进
    *  战斗背景(整场留存,随屏波卷动;万剑诀插剑入地)。session 侧屏波 ≥9 时丢弃(原版门)。 */
   burnBg?: OverlayDraw[]
-  /** 战斗消息条(物品名 @210,50 等;一阶段 battleMessage):从本帧起显示 durationMs。 */
-  banner?: { text: string; durationMs: number }
+  /** 战斗消息条(一阶段 battleMessage):从本帧起显示 durationMs。缺省位 = 物品名 (210,50);
+   *  x/y 覆写 = 战斗标签位(逃跑失败/偷窃「获得」用 (130,75),一阶段渲染真值)。 */
+  banner?: { text: string; durationMs: number; x?: number; y?: number }
 }
 
 export interface BuildPlayerAttackInput {
@@ -953,7 +954,7 @@ export interface AnimSideEffects {
   /** keepEffect 烙背景(末帧一次;session 屏波 ≥9 时丢弃,fight.c:2757 wScreenWave<9 门)。 */
   onBurnBg?(marks: OverlayDraw[]): void
   /** 战斗消息条(物品名等;进入带 banner 的帧时派发一次)。 */
-  onBanner?(text: string, durationMs: number): void
+  onBanner?(text: string, durationMs: number, x?: number, y?: number): void
 }
 
 /** 逐帧推进器:进入新帧时应用 deltas + 派发副作用(每帧恰一次;wall-clock dt 驱动)。 */
@@ -994,7 +995,7 @@ export class AnimPlayer {
     if (f.screenShake) this.fx.onScreenShake?.(f.durationMs)
     if (f.waveAdd !== undefined) this.fx.onWaveAdd?.(f.waveAdd)
     if (f.burnBg?.length) this.fx.onBurnBg?.(f.burnBg)
-    if (f.banner) this.fx.onBanner?.(f.banner.text, f.banner.durationMs)
+    if (f.banner) this.fx.onBanner?.(f.banner.text, f.banner.durationMs, f.banner.x, f.banner.y)
     this.fx.onSummonPhase?.(f.summonPhase ?? null)
   }
 }
@@ -1005,32 +1006,23 @@ export class AnimPlayer {
 export interface BuildPartyFleeInput {
   /** 活着的队员(slot 序;死者不滑 —— battle.c:1467 只动 HP>0)。pos = 站位底锚。 */
   players: { idx: number; pos: { x: number; y: number } }[]
-  /** 单人队:slot0 差值走 case 穿透的 (+4,+4)(battle.c:1481-1500 switch fallthrough)。 */
-  single: boolean
 }
 
 /** 全队逃跑成功(battle.c:1438 PAL_BattlePlayerEscape):音效 45 + 全员 frame0,16 帧 ×40ms
- *  按槽位差值滑右下出屏(slot0 (+4,+6)(单人 (+4,+4))/ slot1 (+4,+4)/ slot2 (+6,+3));
- *  收尾**不复位**(人已离场 —— session 侧 skipNextReset,原版直接 RemoveFromScreen)。 */
+ *  **全员统一 (+5,+4) 右下**滑出屏 —— 一阶段 fleeStepDelta 真值(作者 2026-05-31 拍板:
+ *  忠于原版三人同向同速,主动偏离 sdlpal 的槽位扇形 (4,6)/(4,4)/(6,3),其源码自带 TODO
+ *  承认与原版不一致)。收尾**不复位**(人已离场,session skipNextReset)。 */
 export function buildPartyFlee(input: BuildPartyFleeInput): AnimFrame[] {
-  const step = (slot: number): { dx: number; dy: number } => {
-    if (slot === 0) return input.single ? { dx: 4, dy: 4 } : { dx: 4, dy: 6 }
-    if (slot === 1) return { dx: 4, dy: 4 }
-    return { dx: 6, dy: 3 }
-  }
   const frames: AnimFrame[] = []
   for (let i = 1; i <= 16; i++) {
     frames.push({
       durationMs: delayMs(1),
-      fighters: input.players.map((p) => {
-        const d = step(p.idx)
-        return {
-          side: 'player' as const,
-          idx: p.idx,
-          frame: 0,
-          pos: { x: p.pos.x + d.dx * i, y: p.pos.y + d.dy * i },
-        }
-      }),
+      fighters: input.players.map((p) => ({
+        side: 'player' as const,
+        idx: p.idx,
+        frame: 0,
+        pos: { x: p.pos.x + 5 * i, y: p.pos.y + 4 * i },
+      })),
       ...(i === 1 ? { sound: 45 } : {}),
     })
   }
@@ -1057,7 +1049,48 @@ export function buildFleeFail(input: { idx: number; pos: { x: number; y: number 
   frames.push({
     durationMs: delayMs(8),
     fighters: [{ side: 'player', idx: input.idx, frame: 1 }],
-    banner: { text: '逃跑失败', durationMs: delayMs(8) },
+    // 战斗标签位 (130,75) = 一阶段 BATTLE_LABEL_ESCAPEFAIL 渲染真值(非物品 banner 的 210,50)
+    banner: { text: '逃跑失败', durationMs: delayMs(8), x: 130, y: 75 },
+  })
+  return frames
+}
+
+/**
+ * 偷窃冲刺(fight.c:5218-5251;一阶段 buildStealTimeline 1:1):瞬移到敌前
+ * (敌位 + (64−offset, 22+offset),offset=(敌idx−队员idx)×8)frame10 → 5 步滑步
+ * (x−=i+8, y−=4),末步敌闪白(colorShift 6)→ 再退 1px 定格 3 帧 + 敌复色。
+ * 结算在 core(performSteal),「获得 …」居中提示由 session 按 lastAction.stealBanner 显示。
+ */
+export function buildSteal(input: {
+  casterIdx: number
+  targetIdx: number
+  enemyPos: { x: number; y: number }
+}): AnimFrame[] {
+  const offset = (input.targetIdx - input.casterIdx) * 8
+  let x = input.enemyPos.x + 64 - offset
+  let y = input.enemyPos.y + 22 + offset
+  const frames: AnimFrame[] = [
+    {
+      durationMs: delayMs(1),
+      fighters: [{ side: 'player', idx: input.casterIdx, frame: 10, pos: { x, y } }],
+    },
+  ]
+  for (let i = 0; i < 5; i++) {
+    x -= i + 8
+    y -= 4
+    const fighters: FighterDelta[] = [
+      { side: 'player', idx: input.casterIdx, frame: 10, pos: { x, y } },
+    ]
+    if (i === 4) fighters.push({ side: 'enemy', idx: input.targetIdx, colorShift: 6 })
+    frames.push({ durationMs: delayMs(1), fighters })
+  }
+  x -= 1
+  frames.push({
+    durationMs: delayMs(3),
+    fighters: [
+      { side: 'player', idx: input.casterIdx, pos: { x, y } },
+      { side: 'enemy', idx: input.targetIdx, colorShift: 0 },
+    ],
   })
   return frames
 }
@@ -1096,7 +1129,7 @@ export function buildEnemyTransform(input: { idx: number }): AnimFrame[] {
       fighters: [{ side: 'enemy', idx: input.idx, frame: 0, colorShift: i }],
     })
   frames.push({
-    durationMs: delayMs(5),
+    durationMs: delayMs(1), // 归 0 一拍(一阶段 buildEnemyTransformTimeline 末帧 40ms)
     fighters: [{ side: 'enemy', idx: input.idx, colorShift: 0 }],
     sound: 47,
   })

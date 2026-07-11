@@ -1400,7 +1400,7 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
       st.pendingActions.set(0, { kind: 'cast', skillId: 'steal6', targetEnemyIdx: 0 })
     turn(s, rng0, cast) // rng0 掷 0 ≤ 6 命中
     expect(s.inventory.find((x) => x.itemId === '91')?.count).toBe(1)
-    expect(s.log.some((l) => l.includes('偷到 天蚕丝'))).toBe(true)
+    expect(s.log.some((l) => l.includes('获得 天蚕丝'))).toBe(true) // CLASSIC「获得」文案(一阶段同)
     turn(s, rng0, cast)
     expect(s.inventory.find((x) => x.itemId === '91')?.count).toBe(2)
     turn(s, rng0, cast) // 余量耗尽

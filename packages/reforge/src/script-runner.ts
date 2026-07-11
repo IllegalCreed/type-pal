@@ -16,7 +16,7 @@ import type {
   WalkSpeed,
   WorldScriptState,
 } from '@type-pal/content'
-import { applyStageNext, stageIndexFor } from '@type-pal/content'
+import { applyStageNext, pixelToGrid, stageIndexFor } from '@type-pal/content'
 
 /** 命令的副作用出口 —— main.ts(或测试 fake)实现。所有异步项须响应 signal 取消。 */
 export interface ScriptHost {
@@ -119,6 +119,15 @@ export interface ScriptHost {
   /** 0x55 学仙术(script.c:1816 PAL_AddMagic):roleIdx = 原版角色号(0李逍遥/1赵灵儿/2林月如/
    *  3巫后/4阿奴/5盖罗娇);已会不重复。 */
   learnSkill?(roleIdx: number, skillId: string): void
+  /** 0x13 实体绝对定位(script.c:716):持久写 world.script.entityPos + 本场景实体活体生效
+   *  (跨场景定位常见,进场时由 applyWorldToScene 重放)。 */
+  setEntityPos?(id: string, pos: { col: number; row: number }): void
+  /** 0x6F 条件同步的源状态读取:脚本覆写优先,否则活体实体推导(隐 0 / 可见 1 / 挡路 2);
+   *  不在本场景且无覆写 → undefined。 */
+  getEntityState?(id: string): number | undefined
+  /** 0x23 卸装(script.c:1104):roleIdx = 原版角色号;slot = 槽序(0头/1披/2身/3武/4脚/5佩)
+   *  或 'all' 全卸;卸下物退回背包。 */
+  unequipRole?(roleIdx: number, slot: number | 'all'): void
 }
 
 /** 条件求值(chance 用注入的 random,可测)。 */
@@ -430,6 +439,46 @@ export class ScriptRunner {
         if (b > 0) h.learnSkill?.(b - 1, String(a))
         else h.report(`unmigrated op 0x55 事件对象形态(op1=0)未接`)
         return
+      case 0x13: {
+        // 实体绝对定位(script.c:716):op0 对象选择器(0/0xFFFF=触发者),op1/op2 = 原版像素
+        // 坐标 → pixelToGrid 换算(与迁移器 partyPosToGrid 同源)。持久 + 活体双写在 host。
+        const ent = a === 0 || a === 0xffff ? this.selfId : `e${a - 1}`
+        if (ent) h.setEntityPos?.(ent, pixelToGrid(b, c))
+        return
+      }
+      case 0x23: // 卸装(script.c:1104):op0=角色号,op1=0 全卸 / op1−1 槽序;卸下退回背包
+        h.unequipRole?.(a, b === 0 ? 'all' : b - 1)
+        return
+      case 0x6f: {
+        // 条件同步状态(script.c:2115):源对象(op0)状态 == int16(op1) → 触发者同设该值
+        // (仙灵岛/村口双态机关门)。源状态:脚本覆写优先,否则活体推导(host)。
+        const src = a === 0 || a === 0xffff ? this.selfId : `e${a - 1}`
+        const self = this.selfId
+        if (!src || !self) return
+        if (h.getEntityState?.(src) === i16(b)) {
+          this.world.entityState[self] = i16(b)
+          h.setEntityState(self, i16(b))
+        }
+        return
+      }
+      case 0x8f: {
+        // 金钱减半(一阶段 OP_HALVE_CASH:cash = floor(cash/2);酒剑仙赌局)。
+        // ⚠ delta 形式须扣 (cash − floor(cash/2)):扣 trunc(cash/2) 在奇数上余 ceil,差 1
+        const money = h.query.money()
+        h.giveMoney(-(money - Math.floor(money / 2)))
+        return
+      }
+      case 0x9a: {
+        // 批量设实体状态(script.c:2756):全局对象号区间 [op0,op1] 全设 sState=op2。
+        // 实体 id = 全局号−1(迁移器 entRef 同源),跨场景写 world 持久、进场重放
+        for (let v = a; v <= b && v - a < 512; v++) {
+          this.world.entityState[`e${v - 1}`] = i16(c)
+        }
+        h.setEntityState(`e${a - 1}`, i16(c)) // 通知宿主重放一次(main 侧整场 applyWorldToScene)
+        return
+      }
+      case 0xa3: // CD 音轨播放(script.c:3023):CD 不可用回退 RIX 曲 op1 —— 直接放 op1
+        return h.playMusic(b)
       case 0x85: // 延时(script.c:2511 UTIL_Delay(op0 × 80ms))
         return h.wait(a * 80)
       case 0x8c: {

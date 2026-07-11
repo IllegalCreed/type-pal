@@ -29,6 +29,7 @@ import {
   buildPartyFlee,
   buildPlayerAttack,
   buildPlayerAttackAll,
+  buildSteal,
   buildUseItem,
   buildPlayerCast,
   buildPlayerCoop,
@@ -211,7 +212,7 @@ export class BattleSession {
   private choreoQueue: Command[] = []
   private choreoBanner: { name: string; text: string } | null = null
   /** 物品使用横幅(fight.c:2316 物品名@(210,50) 白字;13 帧 ≈520ms 到期自清)。 */
-  private itemBanner: { text: string; untilMs: number } | null = null
+  private itemBanner: { text: string; untilMs: number; x?: number; y?: number } | null = null
   private choreoName = ''
   private choreoFired = new Map<number, Set<number>>() // 敌槽 → 已播钩子下标
   private choreoTurn = 0 // 已收集过演出的轮次
@@ -890,8 +891,10 @@ export class BattleSession {
       stepBattle(s, this.rng)
       const la = s.lastAction
       s.lastAction = null // 消费即清(回合末空步不重播)
-      // 偷窃结果横幅(fight.c:5289 偷到居中对话;与物品名同一 banner 位)
-      if (la?.stealBanner) this.itemBanner = { text: la.stealBanner, untilMs: this.nowMs + 1200 }
+      // 偷窃结果「获得 …」(fight.c:5288 CLASSIC 居中对话框;一阶段 narration 同款):
+      // 战斗标签位 (130,75),1.2s 自清(时间线播完后仍在显示,对齐原版动画后弹框时序)
+      if (la?.stealBanner)
+        this.itemBanner = { text: la.stealBanner, untilMs: this.nowMs + 1200, x: 130, y: 75 }
       // 本步死亡敌(动画收尾统一开淡出 + death 音;一阶段 diedFromAttack 语义)
       this.pendingDeaths = s.enemies
         .map((e, i) => (i < eHp.length && eHp[i]! > 0 && e.hp <= 0 && !s.enemyFled ? i : -1))
@@ -921,9 +924,14 @@ export class BattleSession {
           },
           onSound: (id) => this.assets.sfx?.play(id),
           onDamage: (t, v, tone) => this.applyDamageFx(t, v, tone ?? 'blue'),
-          // 战斗消息条(物品名 @210,50;untilMs 到期渲染层自清)
-          onBanner: (text, durMs) => {
-            this.itemBanner = { text, untilMs: this.nowMs + durMs }
+          // 战斗消息条(物品名缺省 @210,50;逃跑失败/获得类带 (130,75) 标签位;到期渲染层自清)
+          onBanner: (text, durMs, x, y) => {
+            this.itemBanner = {
+              text,
+              untilMs: this.nowMs + durMs,
+              ...(x !== undefined ? { x } : {}),
+              ...(y !== undefined ? { y } : {}),
+            }
           },
           // 震屏帧:累计活跃至帧尾(level 恒 3,fight.c:2718;合成级垂直位移)
           onScreenShake: (durMs) => {
@@ -1147,7 +1155,20 @@ export class BattleSession {
   ): AnimFrame[] | null {
     const s = this.state
     if (!la) return null
-    if (la.kind === 'cast') return this.buildCastTimeline(la, pHp, eHp)
+    if (la.kind === 'cast') {
+      // 偷窃技(飞龙探云手):专用冲刺时间线(一阶段 buildStealTimeline;技能 effectSprite=65535
+      // 本就无特效,generic cast 会打空气)—— 冲到敌前 5 步滑步 + 敌闪白
+      const sk = la.skillId ? s.skills[la.skillId] : undefined
+      if (
+        la.side === 'player' &&
+        la.target !== undefined &&
+        sk?.effects.some((e) => e.kind === 'steal')
+      ) {
+        const pos = s.enemies[la.target]?.basePos
+        if (pos) return buildSteal({ casterIdx: la.idx, targetIdx: la.target, enemyPos: pos })
+      }
+      return this.buildCastTimeline(la, pHp, eHp)
+    }
     // 合击:走 buildCastTimeline(内含 coopContributors 分支 → buildPlayerCoop 聚拢队形演出;
     // 召唤类合击落 summon 段直接播召唤动画)。
     if (la.kind === 'coop') return this.buildCastTimeline(la, pHp, eHp)
@@ -1182,7 +1203,7 @@ export class BattleSession {
           .map((i) => ({ idx: i, pos: getPlayerBasePos(s.players.length, i) ?? { x: 240, y: 170 } }))
         if (!alive.length) return null
         this.skipNextReset = true
-        return buildPartyFlee({ players: alive, single: s.players.length === 1 })
+        return buildPartyFlee({ players: alive })
       }
       const pos = getPlayerBasePos(s.players.length, la.idx)
       return pos ? buildFleeFail({ idx: la.idx, pos }) : null
@@ -1785,11 +1806,17 @@ export class BattleSession {
     if (this.itemBanner) {
       if (now >= this.itemBanner.untilMs) this.itemBanner = null
       else
-        renderSpans(ctx, [{ text: this.itemBanner.text }], 210, 50, {
-          glyphs: g,
-          shadow: true,
-          forceRgba: [255, 255, 255],
-        })
+        renderSpans(
+          ctx,
+          [{ text: this.itemBanner.text }],
+          this.itemBanner.x ?? 210,
+          this.itemBanner.y ?? 50,
+          {
+            glyphs: g,
+            shadow: true,
+            forceRgba: [255, 255, 255],
+          },
+        )
     }
 
     // 战斗内对话框 = 大世界同款 DialogBox 叠战斗场景上(一阶段真值;text.c:1687 不擦底)。

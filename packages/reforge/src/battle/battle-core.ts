@@ -403,9 +403,10 @@ export function curePoisons(
 }
 
 /**
- * 复活(script.c 0x22 全语义,还魂咒/还魂香共用):**仅死者**;HP = max×pct/100(保底 1)
- * + 解重毒(PAL_CurePoisonByLevel(3) ≙ 'severe')+ 清全部定时状态(0x22 遍历 RemovePlayerStatus)。
- * 装备常驻状态(建态 9999 哨兵,如仙女剑连击)非 rgPlayerStatus 层,保留。活人 → false(0x22 脚本失败位)。
+ * 复活(script.c 0x22 全语义,还魂咒/还魂香共用):**仅死者**;HP = floor(max×pct/100)
+ * (一阶段 OP_REVIVE_PLAYER 真值:无保底 1,极端小 max 复活到 0 = 依旧倒地,忠实)
+ * + 解重毒(PAL_CurePoisonByLevel(3) ≙ 'severe')+ 清全部定时状态(0x22 遍历 RemovePlayerStatus;
+ * 一阶段哨兵语义:装备常驻(建态 9999,如仙女剑连击)保留)。活人 → false(0x22 脚本失败位)。
  */
 export function reviveBattlePlayer(
   s: BattleState,
@@ -413,7 +414,7 @@ export function reviveBattlePlayer(
   hpPercent: number,
 ): boolean {
   if (t.hp > 0) return false
-  t.hp = Math.max(1, Math.trunc((t.maxHp * hpPercent) / 100))
+  t.hp = Math.trunc((t.maxHp * hpPercent) / 100)
   curePoisons(t, s.poisonDefs, 'severe')
   for (const k of Object.keys(t.status) as (keyof BattleStatus)[])
     if (t.status[k] < 9000) t.status[k] = 0
@@ -446,8 +447,9 @@ function performSteal(
     e.stealLeft -= c
     if (c > 0) {
       s.moneyStolen += c
-      if (s.lastAction) s.lastAction.stealBanner = `偷到 ${c} 文钱`
-      s.log.push(`${p.roleId} 偷到 ${c} 文钱`)
+      // 提示文案 = 原版 CLASSIC「获得 N 文钱」(WORD34+WORD10;一阶段居中框同款,c=0 不弹)
+      if (s.lastAction) s.lastAction.stealBanner = `获得 ${c} 文钱`
+      s.log.push(`${p.roleId} 获得 ${c} 文钱`)
     }
     return
   }
@@ -456,8 +458,8 @@ function performSteal(
   if (slot) slot.count += 1
   else s.inventory.push({ itemId: spec.itemId, count: 1 })
   const name = s.items[spec.itemId]?.name ?? spec.itemId
-  if (s.lastAction) s.lastAction.stealBanner = `偷到 ${name}`
-  s.log.push(`${p.roleId} 偷到 ${name}`)
+  if (s.lastAction) s.lastAction.stealBanner = `获得 ${name}`
+  s.log.push(`${p.roleId} 获得 ${name}`)
 }
 
 /** 0x30 buffStat:百分比临时增益。delta 立即烙进属性字段并记账;定时的回合末到期扣回。 */
@@ -1569,6 +1571,12 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
     return
   }
   if (decision.kind === 'transform') {
+    // 原版 0x9F 状态门(script.c:2958;眠/定上游 canAct 已挡,此处补混乱 —— 混乱敌照常
+    // 行动是忠实行为,但不许变身/召唤)
+    if (e.status.confused > 0) {
+      s.log.push(`${e.def.id} 神志不清,变身失败`)
+      return
+    }
     // 原版 0x9F(DM1):换 stats/精灵,**保当前 HP**;规则表随新形态,once 记账清零
     e.def = decision.def
     e.firedRules = new Set()
@@ -1607,6 +1615,11 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
     return
   }
   if (decision.kind === 'summon') {
+    // 原版 0x9E 状态门(script.c:2901;眠/定上游已挡,补混乱)
+    if (e.status.confused > 0) {
+      s.log.push(`${e.def.id} 神志不清,召唤失败`)
+      return
+    }
     const slots = MAX_ENEMIES - aliveEnemies(s).length
     const n = Math.min(decision.count, slots)
     if (n <= 0) {

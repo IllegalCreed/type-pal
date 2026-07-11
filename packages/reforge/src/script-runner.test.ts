@@ -84,6 +84,10 @@ function fakeHost(calls: string[]): ScriptHost {
     increaseHpMp: log('increaseHpMp'),
     revivePartyAll: log('revivePartyAll'),
     learnSkill: log('learnSkill'),
+    setEntityPos: log('setEntityPos'),
+    // 0x6F 源状态:e103 隐(0)、其余可见(1)—— 双臂用例
+    getEntityState: (id: string) => (id === 'e103' ? 0 : 1),
+    unequipRole: log('unequipRole'),
   }
 }
 
@@ -112,7 +116,7 @@ test('legacy op 兼容层:静默 0x00/0x08,直映射 0x85/0x93/0x35/0x36+0x37/0x
       un(0x1d, [1, 0xfc19, 0]), // 负增量(int16 −999;温泉陷阱两用)
       un(0x22, [1, 10, 0]), // 全队复活 10/10 = 满血
       un(0x55, [301, 2, 0]), // 学仙术:magic 301 → 角色 2−1=1(赵灵儿)
-      un(0x9a, [2137, 2145, 0]), // batch2 未覆盖 → 仍上报
+      un(0x7e, [59, 3, 0]), // 图层类未覆盖(渲染层概念未建)→ 仍上报
     ],
     [],
   )
@@ -129,7 +133,44 @@ test('legacy op 兼容层:静默 0x00/0x08,直映射 0x85/0x93/0x35/0x36+0x37/0x
     'increaseHpMp(-999)',
     'revivePartyAll(10)',
     'learnSkill(1,"301")',
-    'report("unmigrated op 0x9a ")',
+    'report("unmigrated op 0x7e ")',
+  ])
+})
+
+test('legacy 对象族:0x9A 批量状态/0x13 定位/0x6F 条件同步/0x23 卸装/0x8F 减半/0xA3 音轨', async () => {
+  const calls: string[] = []
+  const world = emptyWorldScriptState()
+  const r = new ScriptRunner(fakeHost(calls), world, new AbortController().signal)
+  r.selfId = 'e50' // 触发者(0x6F 同步目标 / 0x13 自指)
+  const un = (opcode: number, operands: number[]): Command => ({
+    kind: 'unmigrated',
+    opcode,
+    operands,
+  })
+  await r.run(
+    [
+      un(0x9a, [5, 7, 2]), // 全局对象 5..7 → e4/e5/e6 设 2(挡路)
+      un(0x13, [10, 64, 32]), // 对象 10 = e9 定位:pixelToGrid(64,32) = (4,0)
+      un(0x13, [0xffff, 32, 16]), // 自指 → e50:(2,0)
+      un(0x6f, [104, 0, 0]), // 源 e103 状态 0 == 0 → 触发者 e50 同设 0
+      un(0x6f, [105, 0, 0]), // 源 e104 状态 1 ≠ 0 → 不同步
+      un(0x23, [2, 0, 0]), // 角色 2(林月如)卸全部
+      un(0x23, [1, 6, 0]), // 角色 1(赵灵儿)卸槽 6−1=5(佩饰)
+      un(0x8f, [0, 0, 0]), // 金钱减半:query.money()=50 → −25
+      un(0xa3, [4, 67, 0]), // CD 音轨 → 回退 RIX 曲 67
+    ],
+    [],
+  )
+  expect(world.entityState).toEqual({ e4: 2, e5: 2, e6: 2, e50: 0 })
+  expect(calls).toEqual([
+    'setEntityState("e4",2)', // 0x9A 宿主重放通知(main 侧整场 applyWorldToScene)
+    'setEntityPos("e9",{"col":4,"row":0})',
+    'setEntityPos("e50",{"col":2,"row":0})',
+    'setEntityState("e50",0)', // 0x6F 命中臂
+    'unequipRole(2,"all")',
+    'unequipRole(1,5)',
+    'giveMoney(-25)',
+    'playMusic(67)',
   ])
 })
 

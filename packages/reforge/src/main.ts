@@ -617,13 +617,17 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     resolve: () => void
   } | null = null
 
-  /** 世界脚本状态 → 场景实体(entityState:≤0 隐,≥2 挡路;进场/读档/设态后重放)。 */
+  /** 世界脚本状态 → 场景实体(entityState:≤0 隐,≥2 挡路;entityPos:0x13 绝对定位覆写;
+   *  进场/读档/设态后重放)。 */
   function applyWorldToScene(): void {
     for (const e of scene.entities) {
       const st = world.script?.entityState[e.id]
-      if (st === undefined) continue
-      e.hidden = st <= 0
-      e.collide = st >= 2
+      if (st !== undefined) {
+        e.hidden = st <= 0
+        e.collide = st >= 2
+      }
+      const pos = world.script?.entityPos?.[e.id]
+      if (pos) e.pos = { ...pos }
     }
   }
 
@@ -753,6 +757,44 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       host.report('fleeBattle: 战斗演出专用命令,大世界上下文忽略')
     },
     setEntityState: () => applyWorldToScene(), // runner 已写 world.script,这里只重放视觉
+    // 0x13 实体绝对定位:持久写 entityPos(跨场景 36/54 处,进场重放)+ 本场景活体生效
+    setEntityPos: (id, pos) => {
+      if (world.script) {
+        const e = scene.entities.find((x) => x.id === id)
+        const height = e?.pos.height ?? 0
+        ;(world.script.entityPos ??= {})[id] = { col: pos.col, row: pos.row, height }
+      }
+      applyWorldToScene()
+    },
+    // 0x6F 源状态读取:脚本覆写优先,否则活体推导(隐 0 / 挡路 2 / 可见 1)
+    getEntityState: (id) => {
+      const st = world.script?.entityState[id]
+      if (st !== undefined) return st
+      const e = scene.entities.find((x) => x.id === id)
+      return e ? (e.hidden ? 0 : e.collide ? 2 : 1) : undefined
+    },
+    // 0x23 卸装:原版角色号 → 模板 → 实例;卸下退回背包(离队成员在 reserve 照卸)
+    unequipRole: (roleIdx, slot) => {
+      const tid = ORIGINAL_ROLE_TEMPLATES[roleIdx]
+      const inst =
+        world.party.find((c) => c.template === tid) ??
+        world.reserve?.find((c) => c.template === tid)
+      if (!inst) return
+      const slots =
+        slot === 'all'
+          ? Object.keys(inst.equipment)
+          : [['head', 'cloak', 'body', 'weapon', 'feet', 'accessory'][slot]].filter(
+              (x): x is string => !!x,
+            )
+      for (const k of slots) {
+        const itemId = inst.equipment[k]
+        if (!itemId) continue
+        delete inst.equipment[k]
+        const entry = world.inventory.find((x) => x.itemId === itemId)
+        if (entry) entry.count += 1
+        else world.inventory.push({ itemId, count: 1 })
+      }
+    },
     setEntityFacing: (id, fc) => {
       const e = scene.entities.find((x) => x.id === id)
       if (e) e.facing = fc
@@ -811,7 +853,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     revivePartyAll: (tenths) => {
       for (const c of world.party) {
         if (c.hp > 0) continue
-        c.hp = Math.max(1, Math.trunc((c.maxHP * tenths) / 10))
+        // 一阶段 OP_REVIVE_PLAYER 真值:floor(max×tenths/10),无保底 1
+        c.hp = Math.floor((c.maxHP * tenths) / 10)
         curePoisons(c, project.poisonsById, 'severe')
         if (c.extraStatuses?.length) c.extraStatuses = []
       }

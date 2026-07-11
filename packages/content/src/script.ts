@@ -171,6 +171,9 @@ export interface WorldScriptState {
   entityState: Record<string, number>
   /** 实体触发阶段(原版 end.advance 推进的"第几段");场景 onEnter 用 `s:<sceneId>` 键。 */
   entityStage: Record<string, number>
+  /** 实体位置覆写(原版 0x13 绝对定位的持久层:跨场景定位常见(pal 数据 36/54 处),
+   *  进场重放到实体;本场景实体活体同步生效)。缺省/旧档 → 无覆写。 */
+  entityPos?: Record<string, GridPos>
 }
 
 export function emptyWorldScriptState(): WorldScriptState {
