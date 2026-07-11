@@ -1863,6 +1863,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   let useMenu: UseMenuState = closeUseMenu()
   let lastUseCursor = 0 // 使用面板光标记忆(原版 iCurInvMenuItem;跨开关恢复)
   let lastMagicCaster = 0 // 仙术施法人光标记忆(原版 uigame.c:674 static w;确认时写,DL22)
+  let lastMainCursor = 0 // 主菜单光标记忆(原版 iCurMainMenuItem;确认时写)
   let statusIdx = 0 // 状态板当前查看的队员索引(原版 iCurrent;方向键切人,越界关菜单)
   let systemMenu: SystemMenuState = closeSystemMenu()
   let lastSystemCursor = 0 // 系统菜单光标记忆(原版 iCurSystemMenuItem;跨开关恢复)
@@ -2600,6 +2601,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         if (pressed.has('ArrowDown') || pressed.has('ArrowRight')) menu = moveCursor(menu, 1)
         if (interact) {
           menu = confirm(menu)
+          lastMainCursor = menu.stack[0]?.cursor ?? 0 // 主菜单光标记忆(iCurMainMenuItem)
           const caster = world.party[0]
           // 进面板初始化子态:仙术解析可用 / 装备解析可装
           if (menu.openPanel === 'magic') {
@@ -2628,7 +2630,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       } else if (pressed.has('F9')) {
         void quickLoad() // 快速读档(快速槽)
       } else if (esc) {
-        menu = openMenu()
+        menu = openMenu(lastMainCursor)
         // 抓当前干净游戏帧(此刻菜单尚未画)→ 菜单内存档的缩略图源
         void captureThumbnail(canvas).then((b) => {
           lastGameThumb = b

@@ -41,8 +41,10 @@ export interface MenuState {
 
 export const CLOSED: MenuState = { active: false, stack: [] }
 
-export function openMenu(): MenuState {
-  return { active: true, stack: [{ nodes: MAIN_MENU, cursor: 0 }] }
+/** 开主菜单。defaultCursor = 上次选中项记忆(原版 iCurMainMenuItem 全局;越界归 0)。 */
+export function openMenu(defaultCursor = 0): MenuState {
+  const cursor = defaultCursor >= 0 && defaultCursor < MAIN_MENU.length ? defaultCursor : 0
+  return { active: true, stack: [{ nodes: MAIN_MENU, cursor }] }
 }
 
 export function closeMenu(): MenuState {
