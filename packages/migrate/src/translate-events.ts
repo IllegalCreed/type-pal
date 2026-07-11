@@ -13,7 +13,13 @@
  *  - 跳转族(census 31 op)未实现的 → unmigrated + 截断本段(flow-cut,不猜控制流);
  *  - 其它未知 op → unmigrated + 继续(不破坏后续可译部分)。
  */
-import { type Command, type DialogueLine, pixelToGrid, type ScriptStage } from '@type-pal/content'
+import {
+  type Command,
+  type DialogueLine,
+  pixelDeltaToGridDelta,
+  pixelToGrid,
+  type ScriptStage,
+} from '@type-pal/content'
 import type { SourceCmd } from './source-facts.js'
 import {
   FACING_BY_DIR,
@@ -72,11 +78,11 @@ export interface TranslateCtx {
   spriteIdForNum?: (num: number) => string
 }
 
-/** 尚未结构化的跳转族(census 全清单减去已结构化:0x06/07/0A/1E/20/58/74/79/86/94)。
- * 命中即截断本段,不猜控制流。0x83(下标式 wEventObjectIndex 区间判定)清洁重写不复刻,留族内。 */
+/** 尚未结构化的跳转族(census 全清单减去已结构化:0x06/07/0A/1E/20/58/74/79/83/86/94)。
+ * 命中即截断本段,不猜控制流。 */
 const JUMP_FAMILY = new Set([
-  0x2e, 0x33, 0x34, 0x38, 0x3a, 0x5d, 0x5e, 0x61, 0x64, 0x68, 0x81, 0x83, 0x84, 0x91, 0x95, 0x9c,
-  0x9e, 0xa2,
+  0x2e, 0x33, 0x34, 0x38, 0x3a, 0x5d, 0x5e, 0x61, 0x64, 0x68, 0x81, 0x84, 0x91, 0x95, 0x9c, 0x9e,
+  0xa2,
 ])
 /** 原版速度码 → WalkSpeed。 */
 const SPEED: Record<number, 'slow' | 'normal' | 'fast' | 'run'> = {
@@ -94,8 +100,10 @@ const GIVEITEM_ZERO_FIXUP: Record<number, number> = {
   12408: 116, // 「获得腐尸肉」→ 尸腐肉
 }
 
-/** 分支臂内联深度上限(臂内再遇跳转的嵌套;更深 → unmigrated,M3c 提共享脚本)。 */
-const MAX_ARM_DEPTH = 3
+/** 分支臂内联深度上限(臂内再遇跳转的嵌套;更深 → unmigrated,M3c 提共享脚本)。
+ *  3→6(2026-07-12):17 条"分支臂不可内联"= 15 个独立段各 1-2 引用(非高频共享),
+ *  depth 3 截断过早;提到 6 让多数深层臂闭合。MAX_ARM_BODY=200 仍兜底防组合爆炸。 */
+const MAX_ARM_DEPTH = 6
 /** 单臂命令上限(超限 → unmigrated;防组合爆炸,如层层嵌套的战斗败臂)。 */
 const MAX_ARM_BODY = 200
 /** 每逻辑帧 40ms(一阶段主循环 tick;waitFrames/goto frameDelay 换算)。 */
@@ -443,6 +451,14 @@ function walkBody(
         const ent = pcRef(o[0] ?? 0)
         if (ent) push({ kind: 'setEntityPos', entity: ent, pos: { ...pixelToGrid(o[1] ?? 0, o[2] ?? 0), height: 0 } })
         else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '0x13 无属主' })
+      } else if (oc === 0x12) {
+        // 0x12 相对队伍摆位(script.c:706):pCurrent = 队伍绝对像素 + op1/op2 偏移。
+        // 清洁重写:偏移 → 格偏移(pixelDeltaToGridDelta 防 round 吞小位移),运行时加队伍格坐标。
+        const ent = pcRef(o[0] ?? 0)
+        if (ent) {
+          const { dcol, drow } = pixelDeltaToGridDelta(signExtendI16(o[1] ?? 0), signExtendI16(o[2] ?? 0))
+          push({ kind: 'setEntityPosRelParty', entity: ent, dcol, drow })
+        } else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '0x12 无属主' })
       } else if (oc === 0x35) {
         push({ kind: 'shakeScreen', frames: o[0] ?? 0, level: (o[1] ?? 0) || 4 }) // 0x35 震屏
       } else if (oc === 0x71) {
@@ -788,6 +804,15 @@ function walkBody(
               atLeast: (o[1] ?? 0) || 1,
             },
           },
+          then: inlineArm(o[2]),
+        })
+      } else if (oc === 0x83 && (o[2] ?? 0) !== 0) {
+        // 0x83(script.c:2452)对象 op0 不在本场景 EventObject 下标区间 → jump op2。
+        // 清洁重写:全局对象号 → e{号−1} 场景实体 id(杜绝下标身份),判「实体是否属本场景」。
+        flush()
+        body.push({
+          kind: 'branch',
+          cond: { kind: 'not', cond: { kind: 'entityInScene', entity: `e${(o[0] ?? 0) - 1}` } },
           then: inlineArm(o[2]),
         })
       } else if (oc === 0x94) {

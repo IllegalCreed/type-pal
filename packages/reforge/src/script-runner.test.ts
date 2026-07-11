@@ -75,6 +75,7 @@ function fakeHost(calls: string[]): ScriptHost {
       inParty: (id: string) => id === 'li-xiaoyao',
       allFullHp: () => true,
       itemEquipped: () => false,
+      entityInScene: (id: string) => id === 'e100',
     },
     report: log('report'),
     chaseStep: alog('chaseStep'),

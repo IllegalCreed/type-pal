@@ -116,6 +116,8 @@ export interface ScriptHost {
     allFullHp(): boolean
     /** 0x86 将军冢玉佛珠门:全队装备该物(itemId)件数 ≥ atLeast。 */
     itemEquipped(itemId: string, atLeast: number): boolean
+    /** 0x83:实体 id 是否属于当前场景(取代原版 EventObject 下标区间判定)。 */
+    entityInScene(id: string): boolean
     /** 当前场景 id(0x99 当前场景换图的 override 键;缺省实现可返回空串 = 不落 override)。 */
     sceneId?(): string
   }
@@ -139,6 +141,8 @@ export interface ScriptHost {
   /** 0x13 实体绝对定位(script.c:716):持久写 world.script.entityPos + 本场景实体活体生效
    *  (跨场景定位常见,进场时由 applyWorldToScene 重放)。 */
   setEntityPos?(id: string, pos: { col: number; row: number }): void
+  /** 0x12 相对队伍摆位:运行时把实体摆到队伍格坐标 + (dcol,drow)偏移处。 */
+  setEntityPosRelParty?(id: string, dcol: number, drow: number): void
   /** 0x6F 条件同步的源状态读取:脚本覆写优先,否则活体实体推导(隐 0 / 可见 1 / 挡路 2);
    *  不在本场景且无覆写 → undefined。 */
   getEntityState?(id: string): number | undefined
@@ -177,6 +181,8 @@ export function evalCondition(
     }
     case 'entityState':
       return (world.entityState[cond.entity] ?? Number.NaN) === cond.is
+    case 'entityInScene':
+      return query.entityInScene(cond.entity)
     case 'chance':
       return random() * 100 < cond.percent
     case 'hasItem':
@@ -329,6 +335,9 @@ export class ScriptRunner {
         }
         return h.setEntityPos?.(cmd.entity, cmd.pos)
       }
+      case 'setEntityPosRelParty':
+        // 0x12:绝对格 = 运行时队伍格 + 偏移,由 host 计算(runner 无队伍坐标)
+        return h.setEntityPosRelParty?.(cmd.entity, cmd.dcol, cmd.drow)
       case 'shakeScreen':
         h.shakeScreen?.(cmd.frames, cmd.level)
         return

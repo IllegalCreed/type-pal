@@ -300,12 +300,123 @@
                     "kind": "confirm",
                     "onNo": [
                       {
-                        "kind": "unmigrated",
-                        "opcode": 0,
-                        "operands": [
-                          21220
-                        ],
-                        "note": "分支臂不可内联"
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.7835",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "icon": 9,
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.7838",
+                          "speaker": "spk.秀才",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.7840",
+                          "speaker": "spk.秀才",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.7844",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "icon": 1,
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.7849",
+                          "speaker": "spk.秀才",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.7851",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "icon": 9,
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.7853",
+                          "speaker": "spk.秀才",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.7855",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "icon": 1,
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.7856",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "giveMoney",
+                        "delta": 1500
+                      },
+                      {
+                        "kind": "setEntityState",
+                        "entity": "e1882",
+                        "state": 0
+                      },
+                      {
+                        "kind": "setFollowers",
+                        "sprites": [
+                          83
+                        ]
                       },
                       {
                         "kind": "stopScript"

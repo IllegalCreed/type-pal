@@ -85,14 +85,186 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 131,
-                    "operands": [
-                      3608,
-                      0,
-                      31286
-                    ],
-                    "note": "jump-family 0x83"
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "not",
+                      "cond": {
+                        "kind": "entityInScene",
+                        "entity": "e3607"
+                      }
+                    },
+                    "then": [
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "not",
+                          "cond": {
+                            "kind": "entityInScene",
+                            "entity": "e3607"
+                          }
+                        },
+                        "then": []
+                      },
+                      {
+                        "kind": "setEntityState",
+                        "entity": "e3607",
+                        "state": 0
+                      },
+                      {
+                        "kind": "setEntityState",
+                        "entity": "e3606",
+                        "state": 1
+                      },
+                      {
+                        "kind": "setEntityTriggerMode",
+                        "entity": "e3606",
+                        "on": "touch",
+                        "range": 0
+                      },
+                      {
+                        "kind": "setEntityTrigger",
+                        "entity": "e3606",
+                        "stages": [
+                          {
+                            "body": [
+                              {
+                                "kind": "mountParty",
+                                "entity": "e3606"
+                              },
+                              {
+                                "kind": "ride",
+                                "entity": "e3606",
+                                "to": {
+                                  "col": 113,
+                                  "row": 82,
+                                  "height": 0
+                                },
+                                "speed": "fast"
+                              },
+                              {
+                                "kind": "moveParty",
+                                "to": {
+                                  "col": 114,
+                                  "row": 82,
+                                  "height": 0
+                                },
+                                "speed": "fast"
+                              }
+                            ],
+                            "next": "advance"
+                          },
+                          {
+                            "body": [
+                              {
+                                "kind": "mountParty",
+                                "entity": "e3606"
+                              },
+                              {
+                                "kind": "ride",
+                                "entity": "e3606",
+                                "to": {
+                                  "col": 99,
+                                  "row": 82,
+                                  "height": 0
+                                },
+                                "speed": "fast"
+                              },
+                              {
+                                "kind": "moveParty",
+                                "to": {
+                                  "col": 99,
+                                  "row": 81,
+                                  "height": 0
+                                },
+                                "speed": "fast"
+                              }
+                            ],
+                            "next": 0
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e3607",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e3606",
+                    "state": 1
+                  },
+                  {
+                    "kind": "setEntityTriggerMode",
+                    "entity": "e3606",
+                    "on": "touch",
+                    "range": 0
+                  },
+                  {
+                    "kind": "setEntityTrigger",
+                    "entity": "e3606",
+                    "stages": [
+                      {
+                        "body": [
+                          {
+                            "kind": "mountParty",
+                            "entity": "e3606"
+                          },
+                          {
+                            "kind": "ride",
+                            "entity": "e3606",
+                            "to": {
+                              "col": 113,
+                              "row": 82,
+                              "height": 0
+                            },
+                            "speed": "fast"
+                          },
+                          {
+                            "kind": "moveParty",
+                            "to": {
+                              "col": 114,
+                              "row": 82,
+                              "height": 0
+                            },
+                            "speed": "fast"
+                          }
+                        ],
+                        "next": "advance"
+                      },
+                      {
+                        "body": [
+                          {
+                            "kind": "mountParty",
+                            "entity": "e3606"
+                          },
+                          {
+                            "kind": "ride",
+                            "entity": "e3606",
+                            "to": {
+                              "col": 99,
+                              "row": 82,
+                              "height": 0
+                            },
+                            "speed": "fast"
+                          },
+                          {
+                            "kind": "moveParty",
+                            "to": {
+                              "col": 99,
+                              "row": 81,
+                              "height": 0
+                            },
+                            "speed": "fast"
+                          }
+                        ],
+                        "next": 0
+                      }
+                    ]
                   }
                 ]
               }

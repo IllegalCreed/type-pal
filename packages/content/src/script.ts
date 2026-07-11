@@ -14,6 +14,7 @@ export type ScriptCondition =
   | { kind: 'flag'; flag: string; is: boolean }
   | { kind: 'var'; var: string; op: '==' | '!=' | '>=' | '<=' | '>' | '<'; value: number }
   | { kind: 'entityState'; entity: string; is: number }
+  | { kind: 'entityInScene'; entity: string } // 原版 0x83:对象是否属于当前场景(取代下标区间判定)
   | { kind: 'chance'; percent: number } // 原版 0x06 jumpByRate
   | { kind: 'hasItem'; itemId: string; atLeast?: number }
   | { kind: 'itemEquipped'; itemId: string; atLeast?: number } // 原版 0x86:全队装备该物件数 ≥ atLeast(默认1)
@@ -61,6 +62,7 @@ export type Command =
   | { kind: 'setMultiEntityState'; entities: string[]; state: number }
   // ── 批 4:runLegacyOp 兜底的高频 op 具名化(退役双解释器,语义见 runner runLegacyOp / script.c)──
   | { kind: 'setEntityPos'; entity: string; pos: GridPos } // 0x13 实体绝对定位(持久+活体双写)
+  | { kind: 'setEntityPosRelParty'; entity: string; dcol: number; drow: number } // 0x12 相对队伍格偏移摆位
   | { kind: 'shakeScreen'; frames: number; level: number } // 0x35 震屏(time 帧/level;time=0 关)
   | { kind: 'setScreenWave'; level: number; progression: number } // 0x71 屏幕水波(状态入 vars 随存档)
   | { kind: 'setEntityLayer'; entity: string; layer: number } // 0x7E 实体图层(只进深度键 +8px/层)

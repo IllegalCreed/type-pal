@@ -655,12 +655,52 @@
                     "kind": "confirm",
                     "onNo": [
                       {
-                        "kind": "unmigrated",
-                        "opcode": 0,
-                        "operands": [
-                          17178
-                        ],
-                        "note": "分支臂不可内联"
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.5987",
+                          "speaker": "spk.小贩"
+                        }
+                      },
+                      {
+                        "kind": "confirm",
+                        "onNo": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "not",
+                          "cond": {
+                            "kind": "hasMoney",
+                            "atLeast": 30
+                          }
+                        },
+                        "then": [
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.5989",
+                              "speaker": "spk.小贩"
+                            }
+                          },
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "giveMoney",
+                        "delta": -30
+                      },
+                      {
+                        "kind": "giveItem",
+                        "itemId": "80"
                       },
                       {
                         "kind": "stopScript"

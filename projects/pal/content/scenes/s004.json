@@ -16288,13 +16288,10 @@
     {
       "body": [
         {
-          "kind": "unmigrated",
-          "opcode": 18,
-          "operands": [
-            84,
-            65408,
-            56
-          ]
+          "kind": "setEntityPosRelParty",
+          "entity": "e83",
+          "dcol": -0.5,
+          "drow": 7.5
         },
         {
           "kind": "setEntityFacing",

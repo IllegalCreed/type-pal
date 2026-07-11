@@ -17,7 +17,7 @@
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { pixelToGrid, type SceneDef, type SpriteDef } from '@type-pal/content'
+import { pixelDeltaToGridDelta, pixelToGrid, type SceneDef, type SpriteDef } from '@type-pal/content'
 import { resolveSceneStagePatches, type SourceCmd } from '../src/migrate-content.js'
 import { emptyTranslateReport, translateStages, type TranslateCtx } from '../src/translate-events.js'
 
@@ -111,6 +111,7 @@ allCommands.forEach((c, i) => {
     rawIdxByKey.set(`${cc.opcode}:${(cc.operands ?? []).join(',')}`, i) // 同键取最后(等价共享段)
 })
 let sitesJump = 0
+let sites00 = 0
 /** jump-family 站点 → 从 all.json 原址重翻的完整段体([branch, ...fall-through]);失败留 unmigrated。 */
 const rewriteJump = (opcode: number, o: number[], owner: string): Record<string, unknown>[] | undefined => {
   const idx = rawIdxByKey.get(`${opcode}:${o.join(',')}`)
@@ -138,6 +139,12 @@ const swapCmd = (x: unknown, owner: string): unknown | undefined => {
   // 臂超长(800)哨兵:7 巡逻段互跳网内联爆炸 → 还原有界走动演出(owner 交互后走一段)
   if (c.opcode === 0 && c.note?.startsWith('臂超长')) {
     return owner ? extractPatrol(o[0] ?? 0, owner) : { kind: 'stopScript' }
+  }
+  // 「分支臂不可内联」:depth 3 截断的深层臂,回原址(o[0])用 depth 6 重翻(后随既有 stopScript 收尾)
+  if (c.opcode === 0 && c.note === '分支臂不可内联') {
+    const st = translateStages(`L_${o[0] ?? 0}`, owner || undefined, tctx)
+    if (st) return sites00++, (st.flatMap((s) => s.body) as Record<string, unknown>[])
+    return x // depth 6 仍闭合不了 → 保留
   }
   if (c.opcode === 0x6d && (o[1] ?? 0) > 0) {
     sites6d++
@@ -189,6 +196,11 @@ const swapCmd = (x: unknown, owner: string): unknown | undefined => {
     const ent = self(o[0] ?? 0)
     return ent ? (sites4++, { kind: 'setEntityPos', entity: ent, pos: { ...pixelToGrid(o[1] ?? 0, o[2] ?? 0), height: 0 } }) : x
   }
+  if (c.opcode === 0x12) {
+    // 0x12 相对队伍摆位:op1/op2 相对像素偏移 → 格偏移(运行时加队伍格坐标)
+    const ent = self(o[0] ?? 0)
+    return ent ? (sites4++, { kind: 'setEntityPosRelParty', entity: ent, ...pixelDeltaToGridDelta(i16(o[1] ?? 0), i16(o[2] ?? 0)) }) : x
+  }
   if (c.opcode === 0x35) return sites4++, { kind: 'shakeScreen', frames: o[0] ?? 0, level: (o[1] ?? 0) || 4 }
   if (c.opcode === 0x71) return sites4++, { kind: 'setScreenWave', level: o[0] ?? 0, progression: i16(o[1] ?? 0) }
   if (c.opcode === 0x7e) {
@@ -218,9 +230,9 @@ const swapCmd = (x: unknown, owner: string): unknown | undefined => {
     sites4++
     return { kind: 'branch', cond: { kind: 'entityState', entity: src, is: val }, then: [{ kind: 'setEntityState', entity: owner, state: val }] }
   }
-  // jump-family(0x58 物品数/0x74 洪大夫满血/0x86 玉佛珠装备):迁移器截断成孤立一条,
-  // 回 all.json 原址重翻整段(branch + fall-through);展开由 swap 承担(数组再逐条 swap)。
-  if (c.opcode === 0x58 || c.opcode === 0x74 || c.opcode === 0x86) {
+  // jump-family(0x58 物品数/0x74 洪大夫满血/0x86 玉佛珠装备/0x83 对象在本场景):迁移器截断成
+  // 孤立一条,回 all.json 原址重翻整段(branch + fall-through);展开由 swap 承担(数组再逐条 swap)。
+  if (c.opcode === 0x58 || c.opcode === 0x74 || c.opcode === 0x86 || c.opcode === 0x83) {
     return rewriteJump(c.opcode, o, owner) ?? x
   }
   return x
@@ -250,8 +262,9 @@ const swap = (o: unknown, owner: string): unknown => {
       }
       const swapped = swapCmd(x, owner)
       if (swapped === undefined) continue // field-64 丢弃
-      // 巡逻还原/jump 重翻段:多命令展开,段内 unmigrated(治疗段 0x22/0x1d 等)再逐条 swap 成具名
-      if (Array.isArray(swapped)) for (const it of swapped) out.push(swap(it, owner))
+      // 巡逻还原/jump/深层臂重翻段:整段再过 swap 的数组分支 —— 顶层每条走 swapCmd(drop 0x78、
+      // 具名化 0x22/0x1d 等)、嵌套 branch.then 递归处理。逐条 swap(object 分支)会漏顶层 swapCmd。
+      if (Array.isArray(swapped)) out.push(...(swap(swapped, owner) as unknown[]))
       else out.push(swapped === x ? swap(x, owner) : swapped)
     }
     return out
@@ -296,7 +309,7 @@ scenes.forEach((s, i) => {
 })
 
 console.log(
-  `[patch-scene-stages] 0x6D 站点 ${sites} · 0x1A 形象站点 ${sites1a} · 0x90 敌种降级 ${sites90} · 0x9A 批量状态 ${sites9a} · 第二批 ${sites2} · 0x78 静默 ${sites78} · 批4 ${sites4} · jump重翻 ${sitesJump} · 巡逻还原 ${patrolFixed} · 场景写回 ${written} · locale 新键 ${newKeys} · sprites +${newSprites}`,
+  `[patch-scene-stages] 0x6D 站点 ${sites} · 0x1A 形象站点 ${sites1a} · 0x90 敌种降级 ${sites90} · 0x9A 批量状态 ${sites9a} · 第二批 ${sites2} · 0x78 静默 ${sites78} · 批4 ${sites4} · jump重翻 ${sitesJump} · 深层臂重翻 ${sites00} · 巡逻还原 ${patrolFixed} · 场景写回 ${written} · locale 新键 ${newKeys} · sprites +${newSprites}`,
 )
 const un = Object.entries(tctx.report.unmigrated)
 if (un.length) console.log('  翻译缺口:', un.map(([k, v]) => `${k}×${v}`).join(' / '))

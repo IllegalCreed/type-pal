@@ -816,6 +816,19 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       }
       applyWorldToScene()
     },
+    // 0x12 相对队伍摆位:绝对格 = 队伍当前格 + (dcol,drow);持久/活体同 setEntityPos
+    setEntityPosRelParty: (id, dcol, drow) => {
+      if (world.script) {
+        const e = scene.entities.find((x) => x.id === id)
+        const height = e?.pos.height ?? 0
+        ;(world.script.entityPos ??= {})[id] = {
+          col: player.pos.col + dcol,
+          row: player.pos.row + drow,
+          height,
+        }
+      }
+      applyWorldToScene()
+    },
     // 0x6F 源状态读取:脚本覆写优先,否则活体推导(隐 0 / 挡路 2 / 可见 1)
     getEntityState: (id) => {
       const st = world.script?.entityState[id]
@@ -1445,6 +1458,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           (n, c) => n + Object.values(c.equipment).filter((v) => v === itemId).length,
           0,
         ) >= atLeast,
+      entityInScene: (id) => scene.entities.some((x) => x.id === id),
       sceneId: () => scene.id,
     },
     // 0x99 当前场景即时换底图:只换 map 资产(map/tiles/renderer),不动实体/坐标/room

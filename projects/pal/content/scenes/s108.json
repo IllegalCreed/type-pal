@@ -1826,12 +1826,84 @@
                             "kind": "confirm",
                             "onNo": [
                               {
-                                "kind": "unmigrated",
-                                "opcode": 0,
-                                "operands": [
-                                  19309
-                                ],
-                                "note": "分支臂不可内联"
+                                "kind": "dialog",
+                                "line": {
+                                  "text": "dlg.7015",
+                                  "speaker": "spk.茅山道士"
+                                }
+                              },
+                              {
+                                "kind": "confirm",
+                                "onNo": [
+                                  {
+                                    "kind": "stopScript"
+                                  }
+                                ]
+                              },
+                              {
+                                "kind": "branch",
+                                "cond": {
+                                  "kind": "not",
+                                  "cond": {
+                                    "kind": "hasMoney",
+                                    "atLeast": 15000
+                                  }
+                                },
+                                "then": [
+                                  {
+                                    "kind": "clearDialog"
+                                  },
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.6986",
+                                      "speaker": "spk.茅山道士"
+                                    }
+                                  },
+                                  {
+                                    "kind": "stopScript"
+                                  }
+                                ]
+                              },
+                              {
+                                "kind": "giveMoney",
+                                "delta": -15000
+                              },
+                              {
+                                "kind": "clearDialog"
+                              },
+                              {
+                                "kind": "dialog",
+                                "line": {
+                                  "text": "dlg.7017",
+                                  "speaker": "spk.茅山道士"
+                                }
+                              },
+                              {
+                                "kind": "setEntityState",
+                                "entity": "e2005",
+                                "state": 0
+                              },
+                              {
+                                "kind": "setSceneStage",
+                                "scene": "s119",
+                                "stage": 3
+                              },
+                              {
+                                "kind": "loadScene",
+                                "scene": "s120"
+                              },
+                              {
+                                "kind": "playMusic",
+                                "musicId": 0
+                              },
+                              {
+                                "kind": "fade",
+                                "dir": "out"
+                              },
+                              {
+                                "kind": "playMusic",
+                                "musicId": 32
                               },
                               {
                                 "kind": "stopScript"

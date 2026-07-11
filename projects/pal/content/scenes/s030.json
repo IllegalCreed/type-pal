@@ -151,12 +151,25 @@
                     "kind": "confirm",
                     "onNo": [
                       {
-                        "kind": "unmigrated",
-                        "opcode": 0,
-                        "operands": [
-                          7469
-                        ],
-                        "note": "分支臂不可内联"
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.2640",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "icon": 1,
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.2638",
+                          "speaker": "spk.少女"
+                        }
                       },
                       {
                         "kind": "stopScript"

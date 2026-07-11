@@ -24,6 +24,8 @@ function describeCondition(c: ScriptCondition, locale: Locale): string {
       return `变量 ${c.var} ${c.op} ${c.value}`
     case 'entityState':
       return `${c.entity} 状态 = ${c.is}`
+    case 'entityInScene':
+      return `${c.entity} 在本场景`
     case 'chance':
       return `${c.percent}% 概率`
     case 'hasItem':
@@ -129,6 +131,8 @@ function describe(cmd: Command, locale: Locale): Described {
       }
     case 'setEntityPos':
       return { icon: '📍', label: `${cmd.entity} 定位`, detail: `(${cmd.pos.col},${cmd.pos.row})` }
+    case 'setEntityPosRelParty':
+      return { icon: '📍', label: `${cmd.entity} 相对队伍定位`, detail: `队伍±(${cmd.dcol},${cmd.drow})` }
     case 'shakeScreen':
       return { icon: '📳', label: `震屏 ${cmd.frames} 帧 · 幅 ${cmd.level}` }
     case 'setScreenWave':
