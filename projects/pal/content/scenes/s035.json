@@ -13484,22 +13484,14 @@
                             "range": 2
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 109,
-                            "operands": [
-                              37,
-                              36203,
-                              0
-                            ]
+                            "kind": "setSceneStage",
+                            "scene": "s036",
+                            "stage": 1
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 109,
-                            "operands": [
-                              38,
-                              36203,
-                              0
-                            ]
+                            "kind": "setSceneStage",
+                            "scene": "s037",
+                            "stage": 1
                           },
                           {
                             "kind": "setEntityAuto",

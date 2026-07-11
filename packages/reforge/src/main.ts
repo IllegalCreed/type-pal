@@ -446,6 +446,16 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     ...followerSpriteDefs.flatMap((d) => (d ? [d.spriteNum] : [])),
   ])
 
+  // world 须先于 switchScene 定义(switchScene 首调在 boot 时读 world.script.mapOverride;
+  // 0x99 底图覆写持久层。放此前 = 避免 TDZ)。
+  let world = buildWorld(bootStartWorld, project.actorsById)
+  // dev ?party:强制的队员拉满 HP/MP,确保 healthy(否则如赵灵儿初始 28/240 = 濒死,合击项灰)
+  if (partyParam) for (const c of world.party) { c.hp = c.maxHP; c.mp = c.maxMP }
+  // DEV 调试口(__rfBattle 同款):验收/自动化直读世界态(party HP/MP、money、learnedSkills)
+  if (import.meta.env.DEV)
+    Object.defineProperty(window, '__rfWorld', { get: () => world, configurable: true })
+  world.script ??= emptyWorldScriptState()
+
   /**
    * 切场景(M2c):取场景定义 → 换图/调色板 → 重建渲染器(烤图缓存随 palette 走)→
    * 补载缺失精灵(spriteByNum 跨场景累积)→ 落位(spawn.pos > 命名入口 > 场景缺省)→ 相机重夹。
@@ -557,13 +567,6 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   })
   const playerSprite = spriteByNum.get(leaderSpriteDef.spriteNum)!
   const dialogBox = new DialogBox(ctx, glyphs, cursorFrames, portraits, project.locale)
-  let world = buildWorld(bootStartWorld, project.actorsById)
-  // dev ?party:强制的队员拉满 HP/MP,确保 healthy(否则如赵灵儿初始 28/240 = 濒死,合击项灰)
-  if (partyParam) for (const c of world.party) { c.hp = c.maxHP; c.mp = c.maxMP }
-  // DEV 调试口(__rfBattle 同款):验收/自动化直读世界态(party HP/MP、money、learnedSkills)
-  if (import.meta.env.DEV)
-    Object.defineProperty(window, '__rfWorld', { get: () => world, configurable: true })
-  world.script ??= emptyWorldScriptState()
 
   // ══ M3a 脚本运行时(设计 §4:driver Promise + AbortSignal;tick 驱动计时/淡入淡出)══
   let runner: ScriptRunner | null = null

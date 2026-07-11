@@ -238,6 +238,29 @@
     },
     {
       "body": []
+    },
+    {
+      "body": [
+        {
+          "kind": "setParty",
+          "members": [
+            "zhao-linger",
+            "li-xiaoyao"
+          ]
+        },
+        {
+          "kind": "overrideSceneBattle",
+          "musicId": 37
+        },
+        {
+          "kind": "playMusic",
+          "musicId": 70
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": []
     }
   ],
   "onTeleport": [

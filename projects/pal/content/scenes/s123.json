@@ -258,5 +258,148 @@
         }
       ]
     }
+  ],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "playMusic",
+          "musicId": 32
+        }
+      ]
+    },
+    {
+      "body": [
+        {
+          "kind": "moveParty",
+          "to": {
+            "col": 53,
+            "row": 28,
+            "height": 0
+          },
+          "speed": "slow"
+        },
+        {
+          "kind": "wait",
+          "ms": 240
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.6410",
+            "speaker": "spk.林月如",
+            "portrait": {
+              "icon": 24,
+              "side": "right"
+            }
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.6412",
+            "speaker": "spk.李逍遥",
+            "slot": "top",
+            "portrait": {
+              "icon": 1,
+              "side": "left"
+            }
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.6414",
+            "slot": "top",
+            "portrait": {
+              "icon": 1,
+              "side": "left"
+            }
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "left"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.6418",
+            "speaker": "spk.林月如",
+            "portrait": {
+              "icon": 22,
+              "side": "right"
+            }
+          }
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.6421",
+            "speaker": "spk.李逍遥",
+            "slot": "top",
+            "portrait": {
+              "icon": 6,
+              "side": "left"
+            }
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "right"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.6424",
+            "speaker": "spk.林月如",
+            "portrait": {
+              "icon": 22,
+              "side": "right"
+            }
+          }
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": []
+    },
+    {
+      "body": [
+        {
+          "kind": "unmigrated",
+          "opcode": 113,
+          "operands": [
+            2,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "playMusic",
+          "musicId": 32
+        }
+      ]
+    }
   ]
 }

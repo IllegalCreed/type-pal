@@ -415,13 +415,9 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 109,
-                    "operands": [
-                      38,
-                      8857,
-                      0
-                    ]
+                    "kind": "setSceneStage",
+                    "scene": "s037",
+                    "stage": 2
                   },
                   {
                     "kind": "loadScene",
@@ -12732,6 +12728,19 @@
         {
           "kind": "setAmbience",
           "ambience": "day"
+        }
+      ]
+    },
+    {
+      "body": [
+        {
+          "kind": "unmigrated",
+          "opcode": 84,
+          "operands": [
+            0,
+            0,
+            0
+          ]
         }
       ]
     }

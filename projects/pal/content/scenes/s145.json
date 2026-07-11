@@ -391,6 +391,658 @@
           "musicId": 81
         }
       ]
+    },
+    {
+      "body": [
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 75,
+            "row": -22,
+            "height": 0
+          }
+        },
+        {
+          "kind": "setActorSprite",
+          "actor": "li-xiaoyao",
+          "sprite": "li-xiaoyao"
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "up"
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2400",
+          "facing": "up"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2400",
+          "frame": 0
+        },
+        {
+          "kind": "cameraSnap",
+          "to": {
+            "col": 63,
+            "row": -41,
+            "height": 0
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8916",
+            "speaker": "spk.赵灵儿"
+          }
+        },
+        {
+          "kind": "fade",
+          "dir": "out"
+        },
+        {
+          "kind": "cameraSnap"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8919",
+            "speaker": "spk.李逍遥",
+            "portrait": {
+              "icon": 10,
+              "side": "right"
+            }
+          }
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2400",
+          "facing": "right"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2400",
+          "frame": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 80
+        },
+        {
+          "kind": "moveParty",
+          "to": {
+            "col": 75,
+            "row": -24,
+            "height": 0
+          },
+          "speed": "fast"
+        },
+        {
+          "kind": "wait",
+          "ms": 80
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8922",
+            "speaker": "spk.李逍遥",
+            "portrait": {
+              "icon": 2,
+              "side": "right"
+            }
+          }
+        },
+        {
+          "kind": "cameraSnap",
+          "to": {
+            "col": 63,
+            "row": -41,
+            "height": 0
+          }
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8925",
+            "speaker": "spk.赵灵儿"
+          }
+        },
+        {
+          "kind": "cameraSnap"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8927",
+            "speaker": "spk.李逍遥",
+            "portrait": {
+              "icon": 5,
+              "side": "right"
+            }
+          }
+        },
+        {
+          "kind": "fade",
+          "dir": "out"
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2400",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2401",
+          "state": 1
+        },
+        {
+          "kind": "setActorSprite",
+          "actor": "li-xiaoyao",
+          "sprite": "npc-511"
+        },
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 69,
+            "row": -37,
+            "height": 0
+          }
+        },
+        {
+          "kind": "nudgeParty",
+          "dx": 0,
+          "dy": 0
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "cameraSnap"
+        },
+        {
+          "kind": "nudgeParty",
+          "dx": 0,
+          "dy": 16
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down",
+          "gesture": 1
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "playSound",
+          "soundId": 45
+        },
+        {
+          "kind": "nudgeParty",
+          "dx": 0,
+          "dy": 16
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "nudgeParty",
+          "dx": 0,
+          "dy": 16
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down",
+          "gesture": 1
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "nudgeParty",
+          "dx": 0,
+          "dy": 16
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "nudgeParty",
+          "dx": 0,
+          "dy": 16
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down",
+          "gesture": 1
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "nudgeParty",
+          "dx": 0,
+          "dy": 16
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "nudgeParty",
+          "dx": 0,
+          "dy": 16
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down",
+          "gesture": 1
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "nudgeParty",
+          "dx": 0,
+          "dy": 16
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "nudgeParty",
+          "dx": 0,
+          "dy": 16
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down",
+          "gesture": 1
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "nudgeParty",
+          "dx": 0,
+          "dy": 16
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down",
+          "gesture": 2
+        },
+        {
+          "kind": "wait",
+          "ms": 40
+        },
+        {
+          "kind": "playSound",
+          "soundId": 92
+        },
+        {
+          "kind": "wait",
+          "ms": 40
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down",
+          "gesture": 3
+        },
+        {
+          "kind": "wait",
+          "ms": 120
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down",
+          "gesture": 4
+        },
+        {
+          "kind": "setEntityAuto",
+          "entity": "e2401",
+          "stages": [
+            {
+              "body": [
+                {
+                  "kind": "moveEntity",
+                  "entity": "e2401",
+                  "to": {
+                    "col": 79,
+                    "row": -25,
+                    "height": 0
+                  },
+                  "speed": "normal"
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2401",
+                  "facing": "up"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2401",
+                  "frame": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 560
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8930",
+            "slot": "top",
+            "portrait": {
+              "icon": 21,
+              "side": "left"
+            }
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8932",
+            "speaker": "spk.李逍遥",
+            "portrait": {
+              "icon": 6,
+              "side": "right"
+            }
+          }
+        },
+        {
+          "kind": "wait",
+          "ms": 160
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8934",
+            "speaker": "spk.赵灵儿",
+            "portrait": {
+              "icon": 90,
+              "side": "right"
+            }
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8936",
+            "speaker": "spk.林月如",
+            "portrait": {
+              "icon": 21,
+              "side": "right"
+            }
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8939",
+            "portrait": {
+              "icon": 21,
+              "side": "right"
+            }
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8942",
+            "speaker": "spk.赵灵儿",
+            "portrait": {
+              "icon": 90,
+              "side": "right"
+            }
+          }
+        },
+        {
+          "kind": "setEntityAuto",
+          "entity": "e2401",
+          "stages": [
+            {
+              "body": [
+                {
+                  "kind": "moveEntity",
+                  "entity": "e2401",
+                  "to": {
+                    "col": 79,
+                    "row": -26,
+                    "height": 0
+                  },
+                  "speed": "normal"
+                },
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e2401",
+                  "facing": "up"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e2401",
+                  "frame": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 200
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8944",
+            "speaker": "spk.林月如",
+            "portrait": {
+              "icon": 21,
+              "side": "right"
+            }
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8945",
+            "portrait": {
+              "icon": 21,
+              "side": "right"
+            }
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 119,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2402",
+          "state": 1
+        },
+        {
+          "kind": "playSound",
+          "soundId": 122
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 53,
+          "operands": [
+            10,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 480
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8948",
+            "speaker": "spk.镇狱明王",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 26,
+          "operands": [
+            0,
+            91,
+            2
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 26,
+          "operands": [
+            1,
+            5,
+            2
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 26,
+          "operands": [
+            2,
+            512,
+            2
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 26,
+          "operands": [
+            64,
+            4,
+            2
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 85,
+          "operands": [
+            295,
+            2,
+            0
+          ]
+        },
+        {
+          "kind": "setParty",
+          "members": [
+            "li-xiaoyao",
+            "zhao-linger",
+            "lin-yueru"
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 27,
+          "operands": [
+            1,
+            999,
+            0
+          ]
+        },
+        {
+          "kind": "startBattle",
+          "team": 188,
+          "onLose": [
+            {
+              "kind": "playMusic",
+              "musicId": 1
+            },
+            {
+              "kind": "fade",
+              "dir": "out",
+              "ms": 900,
+              "color": "red"
+            },
+            {
+              "kind": "dialog",
+              "line": {
+                "text": "dlg.13135",
+                "slot": "narration"
+              }
+            },
+            {
+              "kind": "loadLastSave"
+            },
+            {
+              "kind": "stopScript"
+            }
+          ],
+          "boss": true,
+          "fieldId": 32,
+          "musicId": 45
+        },
+        {
+          "kind": "playMusic",
+          "musicId": 36
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 120,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s154"
+        }
+      ]
     }
   ]
 }

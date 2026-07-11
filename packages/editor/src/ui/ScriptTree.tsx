@@ -121,6 +121,8 @@ function describe(cmd: Command, locale: Locale): Described {
       return { icon: '🧭', label: `${cmd.entity} 转向 ${cmd.facing}` }
     case 'setEntityFrame':
       return { icon: '🎞', label: `${cmd.entity} 定帧 ${cmd.frame}` }
+    case 'setSceneStage':
+      return { icon: '📜', label: `${cmd.scene} 进场剧情 → 第 ${cmd.stage} 段` }
     case 'giveItem':
       return {
         icon: '🎁',

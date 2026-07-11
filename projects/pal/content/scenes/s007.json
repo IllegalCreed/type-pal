@@ -942,5 +942,46 @@
         }
       ]
     }
+  ],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "unmigrated",
+          "opcode": 119,
+          "operands": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.821",
+            "portrait": {
+              "icon": 10,
+              "side": "right"
+            }
+          }
+        },
+        {
+          "kind": "playMusic",
+          "musicId": 70
+        },
+        {
+          "kind": "setSceneStage",
+          "scene": "s004",
+          "stage": 6
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": []
+    }
   ]
 }

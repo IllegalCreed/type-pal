@@ -1813,13 +1813,9 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 109,
-                    "operands": [
-                      119,
-                      18261,
-                      0
-                    ]
+                    "kind": "setSceneStage",
+                    "scene": "s118",
+                    "stage": 2
                   },
                   {
                     "kind": "unmigrated",

@@ -530,13 +530,9 @@
                     "facing": "down"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 109,
-                    "operands": [
-                      85,
-                      14024,
-                      0
-                    ]
+                    "kind": "setSceneStage",
+                    "scene": "s084",
+                    "stage": 0
                   }
                 ],
                 "next": "advance"

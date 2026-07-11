@@ -190,3 +190,14 @@ describe('战斗配置(铁律4:0x4A/0x45 持久全局退役 —— 无 override 
     expect(r.onEnter?.[0]?.body).toEqual([{ kind: 'playMusic', musicId: 31 }])
   })
 })
+
+describe('0x6D 改场景进场剧情(占位 → 具名 setSceneStage)', () => {
+  test('op0=场景号(1-based)op1=地址 → 占位命令(stage=-1 + _addr,post-pass 回填)', () => {
+    const body = bodyOf(ctxOf([{ opcode: 0x6d, operands: [21, 2920, 0] }]))
+    expect(body).toEqual([{ kind: 'setSceneStage', scene: 's020', stage: -1, _addr: 2920 }])
+  })
+  test('op1=0(只改 teleport,全游戏 1 站点)→ 保留 unmigrated', () => {
+    const body = bodyOf(ctxOf([{ opcode: 0x6d, operands: [21, 0, 777] }]))
+    expect(body[0]?.kind).toBe('unmigrated')
+  })
+})

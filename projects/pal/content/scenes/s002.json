@@ -5938,13 +5938,9 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 109,
-                    "operands": [
-                      5,
-                      3531,
-                      0
-                    ]
+                    "kind": "setSceneStage",
+                    "scene": "s004",
+                    "stage": 2
                   },
                   {
                     "kind": "setEntityTrigger",

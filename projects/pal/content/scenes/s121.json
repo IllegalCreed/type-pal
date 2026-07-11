@@ -256,6 +256,31 @@
     },
     {
       "body": []
+    },
+    {
+      "body": [
+        {
+          "kind": "playMusic",
+          "musicId": 32
+        }
+      ]
+    },
+    {
+      "body": [
+        {
+          "kind": "unmigrated",
+          "opcode": 113,
+          "operands": [
+            2,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "playMusic",
+          "musicId": 32
+        }
+      ]
     }
   ]
 }

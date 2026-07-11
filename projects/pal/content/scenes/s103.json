@@ -450,13 +450,9 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 109,
-                    "operands": [
-                      102,
-                      21484,
-                      0
-                    ]
+                    "kind": "setSceneStage",
+                    "scene": "s101",
+                    "stage": 1
                   }
                 ],
                 "next": "advance"

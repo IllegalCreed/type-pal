@@ -1553,94 +1553,54 @@
                     "state": 1
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 109,
-                    "operands": [
-                      115,
-                      20697,
-                      0
-                    ]
+                    "kind": "setSceneStage",
+                    "scene": "s114",
+                    "stage": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 109,
-                    "operands": [
-                      116,
-                      20697,
-                      0
-                    ]
+                    "kind": "setSceneStage",
+                    "scene": "s115",
+                    "stage": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 109,
-                    "operands": [
-                      117,
-                      20697,
-                      0
-                    ]
+                    "kind": "setSceneStage",
+                    "scene": "s116",
+                    "stage": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 109,
-                    "operands": [
-                      109,
-                      20697,
-                      0
-                    ]
+                    "kind": "setSceneStage",
+                    "scene": "s108",
+                    "stage": 1
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 109,
-                    "operands": [
-                      119,
-                      20697,
-                      0
-                    ]
+                    "kind": "setSceneStage",
+                    "scene": "s118",
+                    "stage": 4
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 109,
-                    "operands": [
-                      120,
-                      20697,
-                      0
-                    ]
+                    "kind": "setSceneStage",
+                    "scene": "s119",
+                    "stage": 1
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 109,
-                    "operands": [
-                      122,
-                      20697,
-                      0
-                    ]
+                    "kind": "setSceneStage",
+                    "scene": "s121",
+                    "stage": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 109,
-                    "operands": [
-                      123,
-                      20697,
-                      0
-                    ]
+                    "kind": "setSceneStage",
+                    "scene": "s122",
+                    "stage": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 109,
-                    "operands": [
-                      124,
-                      20697,
-                      0
-                    ]
+                    "kind": "setSceneStage",
+                    "scene": "s123",
+                    "stage": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 109,
-                    "operands": [
-                      125,
-                      20697,
-                      0
-                    ]
+                    "kind": "setSceneStage",
+                    "scene": "s124",
+                    "stage": 0
                   },
                   {
                     "kind": "unmigrated",
@@ -1713,6 +1673,33 @@
               }
             ]
           }
+        }
+      ]
+    }
+  ],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "playMusic",
+          "musicId": 32
+        }
+      ]
+    },
+    {
+      "body": [
+        {
+          "kind": "unmigrated",
+          "opcode": 113,
+          "operands": [
+            2,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "playMusic",
+          "musicId": 32
         }
       ]
     }

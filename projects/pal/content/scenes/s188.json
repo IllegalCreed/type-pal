@@ -1241,13 +1241,9 @@
           ]
         },
         {
-          "kind": "unmigrated",
-          "opcode": 109,
-          "operands": [
-            183,
-            27448,
-            0
-          ]
+          "kind": "setSceneStage",
+          "scene": "s182",
+          "stage": 0
         },
         {
           "kind": "setEntityTrigger",

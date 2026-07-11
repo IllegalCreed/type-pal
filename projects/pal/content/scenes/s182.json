@@ -165,5 +165,366 @@
         }
       ]
     }
+  ],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "setEntityTrigger",
+          "entity": "e2960",
+          "stages": [
+            {
+              "body": [
+                {
+                  "kind": "loadScene",
+                  "scene": "s183"
+                },
+                {
+                  "kind": "teleportParty",
+                  "pos": {
+                    "col": 148,
+                    "row": 59,
+                    "height": 0
+                  }
+                },
+                {
+                  "kind": "fade",
+                  "dir": "out"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "fade",
+          "dir": "in",
+          "ms": 300
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "right"
+        },
+        {
+          "kind": "wait",
+          "ms": 280
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "left"
+        },
+        {
+          "kind": "wait",
+          "ms": 240
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "up"
+        },
+        {
+          "kind": "wait",
+          "ms": 120
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.9736",
+            "speaker": "spk.李逍遥",
+            "slot": "top",
+            "portrait": {
+              "icon": 2,
+              "side": "left"
+            }
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "branch",
+          "cond": {
+            "kind": "entityState",
+            "entity": "e4724",
+            "is": 0
+          },
+          "then": [
+            {
+              "kind": "setEntityState",
+              "entity": "e2984",
+              "state": 0
+            },
+            {
+              "kind": "setParty",
+              "members": [
+                "anu",
+                "li-xiaoyao"
+              ]
+            },
+            {
+              "kind": "stopScript"
+            }
+          ]
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2984",
+          "facing": "right"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2984",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.9738",
+            "speaker": "spk.阿奴",
+            "portrait": {
+              "icon": 32,
+              "side": "right"
+            }
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.9741",
+            "speaker": "spk.李逍遥",
+            "slot": "top",
+            "portrait": {
+              "icon": 1,
+              "side": "left"
+            }
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.9743",
+            "speaker": "spk.阿奴",
+            "portrait": {
+              "icon": 27,
+              "side": "right"
+            }
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.9748",
+            "speaker": "spk.李逍遥",
+            "slot": "top",
+            "portrait": {
+              "icon": 3,
+              "side": "left"
+            }
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.9751",
+            "speaker": "spk.阿奴",
+            "portrait": {
+              "icon": 28,
+              "side": "right"
+            }
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.9753",
+            "speaker": "spk.李逍遥",
+            "slot": "top",
+            "portrait": {
+              "icon": 5,
+              "side": "left"
+            }
+          }
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2984",
+          "facing": "up"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2984",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.9756",
+            "speaker": "spk.阿奴",
+            "portrait": {
+              "icon": 28,
+              "side": "right"
+            }
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.9761",
+            "speaker": "spk.李逍遥",
+            "slot": "top",
+            "portrait": {
+              "icon": 1,
+              "side": "left"
+            }
+          }
+        },
+        {
+          "kind": "branch",
+          "cond": {
+            "kind": "entityState",
+            "entity": "e3456",
+            "is": 0
+          },
+          "then": [
+            {
+              "kind": "clearDialog"
+            },
+            {
+              "kind": "dialog",
+              "line": {
+                "text": "dlg.9763",
+                "speaker": "spk.阿奴",
+                "portrait": {
+                  "icon": 27,
+                  "side": "right"
+                }
+              }
+            },
+            {
+              "kind": "clearDialog"
+            },
+            {
+              "kind": "dialog",
+              "line": {
+                "text": "dlg.9766",
+                "speaker": "spk.李逍遥",
+                "slot": "top",
+                "portrait": {
+                  "icon": 10,
+                  "side": "left"
+                }
+              }
+            },
+            {
+              "kind": "clearDialog"
+            },
+            {
+              "kind": "dialog",
+              "line": {
+                "text": "dlg.9768",
+                "speaker": "spk.阿奴",
+                "portrait": {
+                  "icon": 29,
+                  "side": "right"
+                }
+              }
+            },
+            {
+              "kind": "dialog",
+              "line": {
+                "text": "dlg.9771",
+                "speaker": "spk.李逍遥",
+                "slot": "top",
+                "portrait": {
+                  "icon": 10,
+                  "side": "left"
+                }
+              }
+            },
+            {
+              "kind": "setEntityFacing",
+              "entity": "e2984",
+              "facing": "right"
+            },
+            {
+              "kind": "setEntityFrame",
+              "entity": "e2984",
+              "frame": 0
+            },
+            {
+              "kind": "clearDialog"
+            },
+            {
+              "kind": "dialog",
+              "line": {
+                "text": "dlg.9773",
+                "speaker": "spk.阿奴",
+                "portrait": {
+                  "icon": 27,
+                  "side": "right"
+                }
+              }
+            },
+            {
+              "kind": "setEntityState",
+              "entity": "e2984",
+              "state": 0
+            },
+            {
+              "kind": "setParty",
+              "members": [
+                "anu",
+                "li-xiaoyao"
+              ]
+            },
+            {
+              "kind": "stopScript"
+            }
+          ]
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2984",
+          "state": 0
+        },
+        {
+          "kind": "setParty",
+          "members": [
+            "anu",
+            "li-xiaoyao"
+          ]
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": []
+    }
   ]
 }

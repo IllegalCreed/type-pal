@@ -45,6 +45,8 @@ export interface TranslateReport {
   unmigrated: Record<string, number>
   /** 因未实现跳转族而截断的段数。 */
   flowCuts: number
+  /** 0x6D 场景进场剧情补丁站点数(post-pass 追加段+回填)。 */
+  sceneStagePatches?: number
 }
 
 export function emptyTranslateReport(): TranslateReport {
@@ -741,6 +743,18 @@ function walkBody(
         }
       } else if (oc === 0x26 || oc === 0x27) {
         push({ kind: 'openShop', shop: o[0] ?? 0, mode: oc === 0x26 ? 'buy' : 'sell' })
+      } else if (oc === 0x6d && (o[0] ?? 0) > 0 && (o[1] ?? 0) > 0) {
+        // 0x6D 改场景 onEnter 到新地址(45 站点目标全是新链):emit 占位(stage=-1 + _addr),
+        // migrate-content post-pass 把目标链追加为目标场景 onEnter 新段后回填真下标。
+        // op2(teleport 地址)非零仅 1 站点且与 enter 互斥 —— 仍落 unmigrated 保留
+        const tgt = (o[0] ?? 1) - 1 // 1-based 场景号 → 0-based slug
+        push({
+          kind: 'setSceneStage',
+          scene: `s${String(tgt).padStart(3, '0')}`,
+          stage: -1,
+          _addr: o[1],
+        } as Command)
+        ctx.report.sceneStagePatches = (ctx.report.sceneStagePatches ?? 0) + 1
       } else if (JUMP_FAMILY.has(oc)) {
         // 未实现的跳转族:截断本段(不猜控制流)
         flush()

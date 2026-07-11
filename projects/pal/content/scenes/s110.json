@@ -956,13 +956,9 @@
                     "state": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 109,
-                    "operands": [
-                      107,
-                      16627,
-                      0
-                    ]
+                    "kind": "setSceneStage",
+                    "scene": "s106",
+                    "stage": 1
                   },
                   {
                     "kind": "fade",
@@ -1224,6 +1220,222 @@
       "sprite": "npc-308",
       "hidden": true,
       "zBias": 4
+    }
+  ],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "unmigrated",
+          "opcode": 133,
+          "operands": [
+            10,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 53,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 0,
+            "row": 0,
+            "height": 0
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 140,
+          "operands": [
+            26,
+            4,
+            65535
+          ]
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.5928",
+            "slot": "narration"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.5930",
+            "slot": "narration"
+          }
+        },
+        {
+          "kind": "fade",
+          "dir": "out"
+        },
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 67,
+            "row": 15,
+            "height": 0
+          }
+        },
+        {
+          "kind": "playSound",
+          "soundId": 26
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.5931",
+            "slot": "narration"
+          }
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2059",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2059",
+          "frame": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 80
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2060",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2060",
+          "frame": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 240
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2059",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2059",
+          "frame": 1
+        },
+        {
+          "kind": "wait",
+          "ms": 160
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2059",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2059",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.5933",
+            "slot": "narration"
+          }
+        },
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 67,
+            "row": 16,
+            "height": 0
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "right"
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2059",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2060",
+          "state": 0
+        },
+        {
+          "kind": "setActorSprite",
+          "actor": "li-xiaoyao",
+          "sprite": "li-xiaoyao"
+        },
+        {
+          "kind": "setParty",
+          "members": [
+            "li-xiaoyao",
+            "lin-yueru"
+          ]
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.5935",
+            "speaker": "spk.李逍遥",
+            "slot": "narration"
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 34,
+          "operands": [
+            1,
+            10,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 29,
+          "operands": [
+            1,
+            9999,
+            0
+          ]
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": []
     }
   ]
 }

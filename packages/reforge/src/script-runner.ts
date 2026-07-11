@@ -290,6 +290,10 @@ export class ScriptRunner {
       case 'setEntityState':
         this.world.entityState[cmd.entity] = cmd.state
         return h.setEntityState(cmd.entity, cmd.state)
+      case 'setSceneStage':
+        // 0x6D:目标场景进场剧情切到指定段(startScript 键 `s:<sceneId>`,stageIndexFor 选段)
+        this.world.entityStage[`s:${cmd.scene}`] = cmd.stage
+        return
       case 'setEntityFacing':
         return h.setEntityFacing(cmd.entity, cmd.facing)
       case 'setEntityFrame':

@@ -9062,13 +9062,9 @@
                             }
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 109,
-                            "operands": [
-                              5,
-                              903,
-                              0
-                            ]
+                            "kind": "setSceneStage",
+                            "scene": "s004",
+                            "stage": 4
                           }
                         ],
                         "next": "advance"

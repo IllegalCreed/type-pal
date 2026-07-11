@@ -2486,5 +2486,597 @@
         }
       ]
     }
+  ],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "playMusic",
+          "musicId": 50
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2495",
+            "speaker": "spk.算命仙",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "wait",
+          "ms": 160
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "up"
+        },
+        {
+          "kind": "wait",
+          "ms": 80
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "up",
+          "member": 1
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2498",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2501",
+            "speaker": "spk.算命仙",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2503",
+            "speaker": "spk.算命仙",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2506",
+            "speaker": "spk.算命仙",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2509",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2511",
+            "speaker": "spk.算命仙",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2512",
+            "portrait": {
+              "icon": 11,
+              "side": "right"
+            }
+          }
+        },
+        {
+          "kind": "wait",
+          "ms": 240
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2514",
+            "speaker": "spk.算命仙",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2515",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2518",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2521",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "right"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "nudgeParty",
+          "dx": 8,
+          "dy": 4
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "nudgeParty",
+          "dx": 8,
+          "dy": 4
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2524",
+            "speaker": "spk.算命仙",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "up"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2526",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "setEntityAuto",
+          "entity": "e425",
+          "stages": [
+            {
+              "body": [
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "up"
+                },
+                {
+                  "kind": "wait",
+                  "ms": 80
+                },
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "up"
+                },
+                {
+                  "kind": "wait",
+                  "ms": 80
+                },
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "up"
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "up"
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "up"
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "up"
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "up"
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "up"
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "up"
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "up"
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "up"
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "up"
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e425",
+                  "facing": "left"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e425",
+                  "frame": 0
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "down"
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "down"
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "down"
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "down"
+                }
+              ],
+              "next": 15
+            },
+            {
+              "body": [
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "down"
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "down"
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "down"
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "down"
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "down"
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "down"
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "down"
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "down"
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [],
+              "next": "advance"
+            },
+            {
+              "body": [],
+              "next": "advance"
+            },
+            {
+              "body": [],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "setEntityFacing",
+                  "entity": "e425",
+                  "facing": "right"
+                },
+                {
+                  "kind": "setEntityFrame",
+                  "entity": "e425",
+                  "frame": 0
+                },
+                {
+                  "kind": "branch",
+                  "cond": {
+                    "kind": "chance",
+                    "percent": 51
+                  },
+                  "then": [
+                    {
+                      "kind": "stepEntity",
+                      "entity": "e425",
+                      "dir": "up"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 80
+                    },
+                    {
+                      "kind": "stepEntity",
+                      "entity": "e425",
+                      "dir": "up"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 80
+                    },
+                    {
+                      "kind": "stepEntity",
+                      "entity": "e425",
+                      "dir": "up"
+                    },
+                    {
+                      "kind": "stopScript"
+                    }
+                  ]
+                }
+              ],
+              "next": "advance"
+            },
+            {
+              "body": [
+                {
+                  "kind": "branch",
+                  "cond": {
+                    "kind": "chance",
+                    "percent": 99
+                  },
+                  "then": [
+                    {
+                      "kind": "stopScript"
+                    }
+                  ]
+                },
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "up"
+                },
+                {
+                  "kind": "wait",
+                  "ms": 80
+                },
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "up"
+                },
+                {
+                  "kind": "wait",
+                  "ms": 80
+                },
+                {
+                  "kind": "stepEntity",
+                  "entity": "e425",
+                  "dir": "up"
+                }
+              ],
+              "next": "advance"
+            }
+          ]
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2528",
+            "speaker": "spk.算命仙",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "right"
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": []
+    }
   ]
 }

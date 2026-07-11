@@ -498,13 +498,9 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 109,
-                    "operands": [
-                      8,
-                      2360,
-                      0
-                    ]
+                    "kind": "setSceneStage",
+                    "scene": "s007",
+                    "stage": 0
                   },
                   {
                     "kind": "setEntityState",

@@ -4610,6 +4610,66 @@
           "musicId": 55
         }
       ]
+    },
+    {
+      "body": [
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 34,
+            "row": 3,
+            "height": 0
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.10664",
+            "speaker": "spk.李逍遥",
+            "slot": "top",
+            "portrait": {
+              "icon": 1,
+              "side": "left"
+            }
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "left"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.10667",
+            "speaker": "spk.阿奴",
+            "portrait": {
+              "icon": 29,
+              "side": "right"
+            }
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "right"
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": []
     }
   ]
 }

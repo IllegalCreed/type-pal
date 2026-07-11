@@ -964,13 +964,9 @@
                             "state": 0
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 109,
-                            "operands": [
-                              159,
-                              23189,
-                              0
-                            ]
+                            "kind": "setSceneStage",
+                            "scene": "s158",
+                            "stage": 0
                           },
                           {
                             "kind": "loadScene",

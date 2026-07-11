@@ -156,7 +156,7 @@ import {
   sceneSlug,
   signExtendI16,
 } from './source-facts.js'
-import type { TranslateReport } from './translate-events.js'
+import type { TranslateCtx, TranslateReport } from './translate-events.js'
 import { asBattleCfg, emptyTranslateReport, foldStages, translateStages } from './translate-events.js'
 export interface LevelUpMagicCell {
   level: number
@@ -1526,6 +1526,7 @@ export function mapScenesStatic(
     })
   })
   propagateBattleFieldDefaults(scenes, report)
+  resolveSceneStagePatches(scenes, tctx)
 
   return {
     scenes,
@@ -1534,6 +1535,68 @@ export function mapScenesStatic(
     scriptReport: tctx.report,
     report,
   }
+}
+
+/**
+ * 0x6D post-pass:walkBody 发的 setSceneStage 占位(stage=-1 + _addr)→ 把目标地址链翻译
+ * 并**追加为目标场景 onEnter 新段**,回填真实段下标。考证:45 站点目标全是新链(不在目标
+ * 场景既有 onEnter 链内,部分目标场景原本无 onEnter)—— 原版语义「换进场脚本地址」在
+ * stage 模型下 = 追加段 + 显式设段。
+ * - (scene, addr) 去重:同地址多站点共用同一追加段;
+ * - 追加段内部的数字 next(reset 下标)相对本链 → 整体平移 +base;'advance' 相对推进不平移,
+ *   末段越界由 stageIndexFor 钳末段兜底;
+ * - 追加链可能再含 0x6D(嵌套占位)→ 迭代到不动点(cap 5 轮);
+ * - 翻不出/目标场景缺 → 回填 stage 0 + note 上报(不静默)。
+ */
+export function resolveSceneStagePatches(scenes: SceneDef[], tctx: TranslateCtx): void {
+  const byId = new Map(scenes.map((s) => [s.id, s]))
+  type Pending = { kind: string; scene: string; stage: number; _addr?: number }
+  const collect = (o: unknown, out: Pending[]): void => {
+    if (Array.isArray(o)) {
+      for (const x of o) collect(x, out)
+    } else if (o && typeof o === 'object') {
+      const c = o as Pending
+      if (c.kind === 'setSceneStage' && c._addr !== undefined) out.push(c)
+      for (const v of Object.values(o)) collect(v, out)
+    }
+  }
+  for (let round = 0; round < 5; round++) {
+    const pend: Pending[] = []
+    for (const s of scenes) collect(s, pend)
+    if (!pend.length) return
+    const startIdxByKey = new Map<string, number>()
+    for (const cmd of pend) {
+      const key = `${cmd.scene}|${cmd._addr}`
+      let idx = startIdxByKey.get(key)
+      if (idx === undefined) {
+        const tgt = byId.get(cmd.scene)
+        const stages = tgt ? translateStages(`L_${cmd._addr}`, undefined, tctx) : undefined
+        const folded = stages?.length ? foldStages(stages) : undefined
+        if (!tgt || !folded?.length) {
+          tctx.report.unmigrated[`0x6d 目标不可译 ${cmd.scene}:${cmd._addr}`] =
+            (tctx.report.unmigrated[`0x6d 目标不可译 ${cmd.scene}:${cmd._addr}`] ?? 0) + 1
+          idx = 0
+        } else {
+          const arr = (tgt.onEnter ??= [])
+          idx = arr.length
+          for (const st of folded) {
+            // 数字 next 是链内相对下标 → 平移到追加基址;'advance' 相对推进保持
+            const next = typeof st.next === 'number' ? st.next + idx : st.next
+            arr.push({ ...st, ...(next !== undefined ? { next } : {}) })
+          }
+        }
+        startIdxByKey.set(key, idx)
+      }
+      cmd.stage = idx
+      delete cmd._addr
+    }
+  }
+  // 5 轮仍有剩(病理嵌套):上报
+  const left: Pending[] = []
+  for (const s of scenes) collect(s, left)
+  if (left.length)
+    tctx.report.unmigrated['0x6d 嵌套超 5 轮'] =
+      (tctx.report.unmigrated['0x6d 嵌套超 5 轮'] ?? 0) + left.length
 }
 
 /** 深走任意结构,bake 出 BattleCfgMarker(0x4A/0x45)→ acc(last-wins)+ strip;返回同构清洁副本。 */

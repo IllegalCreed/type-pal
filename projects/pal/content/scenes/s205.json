@@ -1365,13 +1365,9 @@
                     "speed": "run"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 109,
-                    "operands": [
-                      207,
-                      29937,
-                      0
-                    ]
+                    "kind": "setSceneStage",
+                    "scene": "s206",
+                    "stage": 1
                   },
                   {
                     "kind": "loadScene",
@@ -1855,13 +1851,9 @@
                     "speed": "run"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 109,
-                    "operands": [
-                      207,
-                      29937,
-                      0
-                    ]
+                    "kind": "setSceneStage",
+                    "scene": "s206",
+                    "stage": 1
                   },
                   {
                     "kind": "loadScene",

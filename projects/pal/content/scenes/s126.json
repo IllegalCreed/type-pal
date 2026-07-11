@@ -5240,13 +5240,9 @@
           "state": 2
         },
         {
-          "kind": "unmigrated",
-          "opcode": 109,
-          "operands": [
-            109,
-            19695,
-            0
-          ]
+          "kind": "setSceneStage",
+          "scene": "s108",
+          "stage": 2
         }
       ],
       "next": "advance"

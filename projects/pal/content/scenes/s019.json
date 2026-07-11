@@ -74886,6 +74886,161 @@
           "state": 0
         }
       ]
+    },
+    {
+      "body": [
+        {
+          "kind": "playMusic",
+          "musicId": 76
+        },
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 66,
+            "row": -22,
+            "height": 0
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "right"
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e283",
+          "state": 1
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 154,
+          "operands": [
+            285,
+            312,
+            2
+          ]
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.1828",
+            "slot": "top",
+            "portrait": {
+              "icon": 15,
+              "side": "left"
+            }
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.1831",
+            "slot": "top",
+            "portrait": {
+              "icon": 15,
+              "side": "left"
+            }
+          }
+        },
+        {
+          "kind": "fade",
+          "dir": "out"
+        },
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 68,
+            "row": -21,
+            "height": 0
+          }
+        },
+        {
+          "kind": "setParty",
+          "members": [
+            "li-xiaoyao",
+            "zhao-linger"
+          ]
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "up"
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "right",
+          "member": 1
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e283",
+          "state": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.1833",
+            "speaker": "spk.李逍遥",
+            "portrait": {
+              "icon": 1,
+              "side": "right"
+            }
+          }
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.1834",
+            "slot": "top",
+            "portrait": {
+              "icon": 11,
+              "side": "left"
+            }
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "left"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.1836",
+            "speaker": "spk.李逍遥",
+            "portrait": {
+              "icon": 9,
+              "side": "right"
+            }
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.1839",
+            "portrait": {
+              "icon": 9,
+              "side": "right"
+            }
+          }
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": []
     }
   ]
 }

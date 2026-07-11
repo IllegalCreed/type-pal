@@ -4033,13 +4033,9 @@
                                     "scene": "s002"
                                   },
                                   {
-                                    "kind": "unmigrated",
-                                    "opcode": 109,
-                                    "operands": [
-                                      2,
-                                      2920,
-                                      0
-                                    ]
+                                    "kind": "setSceneStage",
+                                    "scene": "s001",
+                                    "stage": 2
                                   },
                                   {
                                     "kind": "setEntityState",
@@ -4224,13 +4220,9 @@
                             "state": 1
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 109,
-                            "operands": [
-                              2,
-                              2876,
-                              0
-                            ]
+                            "kind": "setSceneStage",
+                            "scene": "s001",
+                            "stage": 4
                           },
                           {
                             "kind": "loadScene",
@@ -5055,13 +5047,9 @@
                                     "scene": "s002"
                                   },
                                   {
-                                    "kind": "unmigrated",
-                                    "opcode": 109,
-                                    "operands": [
-                                      2,
-                                      2920,
-                                      0
-                                    ]
+                                    "kind": "setSceneStage",
+                                    "scene": "s001",
+                                    "stage": 2
                                   },
                                   {
                                     "kind": "setEntityState",
@@ -5246,13 +5234,9 @@
                             "state": 1
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 109,
-                            "operands": [
-                              2,
-                              2876,
-                              0
-                            ]
+                            "kind": "setSceneStage",
+                            "scene": "s001",
+                            "stage": 4
                           },
                           {
                             "kind": "loadScene",
@@ -6077,13 +6061,9 @@
                                     "scene": "s002"
                                   },
                                   {
-                                    "kind": "unmigrated",
-                                    "opcode": 109,
-                                    "operands": [
-                                      2,
-                                      2920,
-                                      0
-                                    ]
+                                    "kind": "setSceneStage",
+                                    "scene": "s001",
+                                    "stage": 2
                                   },
                                   {
                                     "kind": "setEntityState",
@@ -6268,13 +6248,9 @@
                             "state": 1
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 109,
-                            "operands": [
-                              2,
-                              2876,
-                              0
-                            ]
+                            "kind": "setSceneStage",
+                            "scene": "s001",
+                            "stage": 4
                           },
                           {
                             "kind": "loadScene",
@@ -6681,13 +6657,9 @@
                     "range": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 109,
-                    "operands": [
-                      20,
-                      4912,
-                      0
-                    ]
+                    "kind": "setSceneStage",
+                    "scene": "s019",
+                    "stage": 1
                   },
                   {
                     "kind": "fade",
