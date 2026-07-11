@@ -527,14 +527,244 @@
                             "kind": "clearDialog"
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 88,
-                            "operands": [
-                              281,
-                              1,
-                              10323
-                            ],
-                            "note": "jump-family 0x58"
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "not",
+                              "cond": {
+                                "kind": "hasItem",
+                                "itemId": "281",
+                                "atLeast": 1
+                              }
+                            },
+                            "then": [
+                              {
+                                "kind": "dialog",
+                                "line": {
+                                  "text": "dlg.3655",
+                                  "speaker": "spk.煎药童子"
+                                }
+                              },
+                              {
+                                "kind": "stopScript"
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "not",
+                              "cond": {
+                                "kind": "hasItem",
+                                "itemId": "283",
+                                "atLeast": 1
+                              }
+                            },
+                            "then": [
+                              {
+                                "kind": "dialog",
+                                "line": {
+                                  "text": "dlg.3658",
+                                  "speaker": "spk.煎药童子"
+                                }
+                              },
+                              {
+                                "kind": "stopScript"
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "not",
+                              "cond": {
+                                "kind": "hasItem",
+                                "itemId": "282",
+                                "atLeast": 1
+                              }
+                            },
+                            "then": [
+                              {
+                                "kind": "dialog",
+                                "line": {
+                                  "text": "dlg.3658",
+                                  "speaker": "spk.煎药童子"
+                                }
+                              },
+                              {
+                                "kind": "stopScript"
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3641"
+                            }
+                          },
+                          {
+                            "kind": "fade",
+                            "dir": "out"
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 40
+                          },
+                          {
+                            "kind": "loseItem",
+                            "itemId": "281"
+                          },
+                          {
+                            "kind": "loseItem",
+                            "itemId": "283"
+                          },
+                          {
+                            "kind": "loseItem",
+                            "itemId": "282"
+                          },
+                          {
+                            "kind": "giveItem",
+                            "itemId": "286"
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3643"
+                            }
+                          },
+                          {
+                            "kind": "setEntityAuto",
+                            "entity": "e905",
+                            "stages": [
+                              {
+                                "body": [
+                                  {
+                                    "kind": "setEntityFacing",
+                                    "entity": "e905",
+                                    "facing": "up"
+                                  },
+                                  {
+                                    "kind": "setEntityFrame",
+                                    "entity": "e905",
+                                    "frame": 0
+                                  }
+                                ],
+                                "next": 0
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "setEntityAuto",
+                            "entity": "e908",
+                            "stages": []
+                          },
+                          {
+                            "kind": "setEntityFacing",
+                            "entity": "e908",
+                            "facing": "left"
+                          },
+                          {
+                            "kind": "setEntityFrame",
+                            "entity": "e908",
+                            "frame": 0
+                          },
+                          {
+                            "kind": "setEntityTrigger",
+                            "entity": "e905",
+                            "stages": [
+                              {
+                                "body": [
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.3765",
+                                      "speaker": "spk.韩医仙",
+                                      "slot": "top",
+                                      "portrait": {
+                                        "icon": 65,
+                                        "side": "left"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "setEntityTrigger",
+                            "entity": "e908",
+                            "stages": [
+                              {
+                                "body": [
+                                  {
+                                    "kind": "dialog",
+                                    "line": {
+                                      "text": "dlg.3767",
+                                      "speaker": "spk.韩梦慈",
+                                      "slot": "top",
+                                      "portrait": {
+                                        "icon": 50,
+                                        "side": "left"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "setEntityPos",
+                            "entity": "e905",
+                            "pos": {
+                              "col": 80,
+                              "row": -7,
+                              "height": 0
+                            }
+                          },
+                          {
+                            "kind": "setEntityPos",
+                            "entity": "e908",
+                            "pos": {
+                              "col": 84,
+                              "row": -7,
+                              "height": 0
+                            }
+                          },
+                          {
+                            "kind": "setEntityState",
+                            "entity": "e887",
+                            "state": 0
+                          },
+                          {
+                            "kind": "setParty",
+                            "members": [
+                              "li-xiaoyao",
+                              "lin-yueru"
+                            ]
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3646",
+                              "speaker": "spk.煎药童子"
+                            }
+                          },
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.3651",
+                              "speaker": "spk.煎药童子"
+                            }
+                          },
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "openShop",
+                            "shop": 8,
+                            "mode": "buy"
                           }
                         ]
                       }

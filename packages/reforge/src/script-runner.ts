@@ -112,6 +112,10 @@ export interface ScriptHost {
     hasItem(itemId: string, atLeast: number): boolean
     money(): number
     inParty(actorId: string): boolean
+    /** 0x74 洪大夫治伤门:全队活人 HP 均满(满则不触发治疗对白/加血)。 */
+    allFullHp(): boolean
+    /** 0x86 将军冢玉佛珠门:全队装备该物(itemId)件数 ≥ atLeast。 */
+    itemEquipped(itemId: string, atLeast: number): boolean
     /** 当前场景 id(0x99 当前场景换图的 override 键;缺省实现可返回空串 = 不落 override)。 */
     sceneId?(): string
   }
@@ -177,6 +181,10 @@ export function evalCondition(
       return random() * 100 < cond.percent
     case 'hasItem':
       return query.hasItem(cond.itemId, cond.atLeast ?? 1)
+    case 'itemEquipped':
+      return query.itemEquipped(cond.itemId, cond.atLeast ?? 1)
+    case 'allFullHp':
+      return query.allFullHp()
     case 'hasMoney':
       return query.money() >= cond.atLeast
     case 'inParty':

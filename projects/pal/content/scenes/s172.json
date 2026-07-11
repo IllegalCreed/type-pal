@@ -398,14 +398,86 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 88,
-                    "operands": [
-                      152,
-                      36,
-                      28405
-                    ],
-                    "note": "jump-family 0x58"
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "not",
+                      "cond": {
+                        "kind": "hasItem",
+                        "itemId": "152",
+                        "atLeast": 36
+                      }
+                    },
+                    "then": [
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.10069",
+                          "speaker": "spk.老婆婆",
+                          "portrait": {
+                            "icon": 82,
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.10073",
+                          "portrait": {
+                            "icon": 82,
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.10076",
+                          "portrait": {
+                            "icon": 82,
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.10079",
+                      "speaker": "spk.老婆婆",
+                      "portrait": {
+                        "icon": 82,
+                        "side": "right"
+                      }
+                    }
+                  },
+                  {
+                    "kind": "loseItem",
+                    "itemId": "152",
+                    "count": 36
+                  },
+                  {
+                    "kind": "fade",
+                    "dir": "out"
+                  },
+                  {
+                    "kind": "setSceneStage",
+                    "scene": "s174",
+                    "stage": 4
+                  },
+                  {
+                    "kind": "loadScene",
+                    "scene": "s175"
                   }
                 ]
               }
@@ -535,15 +607,6 @@
   "onEnter": [
     {
       "body": [
-        {
-          "kind": "unmigrated",
-          "opcode": 109,
-          "operands": [
-            183,
-            0,
-            0
-          ]
-        },
         {
           "kind": "setEntityTrigger",
           "entity": "e2960",

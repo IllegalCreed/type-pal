@@ -86,14 +86,112 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 134,
-                    "operands": [
-                      274,
-                      0,
-                      11991
-                    ],
-                    "note": "jump-family 0x86"
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "not",
+                      "cond": {
+                        "kind": "itemEquipped",
+                        "itemId": "274",
+                        "atLeast": 1
+                      }
+                    },
+                    "then": [
+                      {
+                        "kind": "nudgeParty",
+                        "dx": 16,
+                        "dy": -8
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "nudgeParty",
+                        "dx": 16,
+                        "dy": -8
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.4345",
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e1220",
+                    "state": 0
+                  },
+                  {
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 300
+                  },
+                  {
+                    "kind": "setPartyFacing",
+                    "facing": "down",
+                    "gesture": 1
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -10,
+                    "dy": 10
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "nudgeParty",
+                    "dx": -6,
+                    "dy": 6
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "loadScene",
+                    "scene": "s061"
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 138,
+                      "row": 53,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "fade",
+                    "dir": "out"
                   }
                 ]
               }

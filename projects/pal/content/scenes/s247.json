@@ -638,14 +638,50 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 88,
-                    "operands": [
-                      195,
-                      1,
-                      33360
-                    ],
-                    "note": "jump-family 0x58"
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "not",
+                      "cond": {
+                        "kind": "hasItem",
+                        "itemId": "195",
+                        "atLeast": 1
+                      }
+                    },
+                    "then": [
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.11549",
+                          "speaker": "spk.巫后",
+                          "portrait": {
+                            "icon": 73,
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.11547",
+                      "speaker": "spk.李逍遥"
+                    }
+                  },
+                  {
+                    "kind": "loseItem",
+                    "itemId": "195"
+                  },
+                  {
+                    "kind": "fade",
+                    "dir": "out"
+                  },
+                  {
+                    "kind": "loadScene",
+                    "scene": "s254"
                   }
                 ]
               }

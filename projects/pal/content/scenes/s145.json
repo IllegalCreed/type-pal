@@ -941,13 +941,8 @@
           ]
         },
         {
-          "kind": "unmigrated",
-          "opcode": 27,
-          "operands": [
-            1,
-            999,
-            0
-          ]
+          "kind": "increaseHpMp",
+          "delta": 999
         },
         {
           "kind": "startBattle",

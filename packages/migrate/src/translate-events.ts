@@ -72,11 +72,11 @@ export interface TranslateCtx {
   spriteIdForNum?: (num: number) => string
 }
 
-/** 尚未结构化的跳转族(census 全清单减去 M3b 已实现:0x06/07/0A/1E/20/79/94)。
- * 命中即截断本段,不猜控制流。 */
+/** 尚未结构化的跳转族(census 全清单减去已结构化:0x06/07/0A/1E/20/58/74/79/86/94)。
+ * 命中即截断本段,不猜控制流。0x83(下标式 wEventObjectIndex 区间判定)清洁重写不复刻,留族内。 */
 const JUMP_FAMILY = new Set([
-  0x2e, 0x33, 0x34, 0x38, 0x3a, 0x58, 0x5d, 0x5e, 0x61, 0x64, 0x68, 0x74, 0x81, 0x83, 0x84, 0x86,
-  0x91, 0x95, 0x9c, 0x9e, 0xa2,
+  0x2e, 0x33, 0x34, 0x38, 0x3a, 0x5d, 0x5e, 0x61, 0x64, 0x68, 0x81, 0x83, 0x84, 0x91, 0x95, 0x9c,
+  0x9e, 0xa2,
 ])
 /** 原版速度码 → WalkSpeed。 */
 const SPEED: Record<number, 'slow' | 'normal' | 'fast' | 'run'> = {
@@ -753,6 +753,43 @@ function walkBody(
           then: inlineArm(o[2]),
         })
         body.push({ kind: 'loseItem', itemId: String(o[0]), ...(cnt > 1 ? { count: cnt } : {}) })
+      } else if (oc === 0x58 && (o[2] ?? 0) !== 0) {
+        // 0x58(script.c:1864)物品数 < op1 → jump op2。纯判定不消耗(区别 0x20 检查即扣)。
+        // then=不足段(inlineArm 自带 stopScript);够则 fall-through 继续主线。
+        flush()
+        body.push({
+          kind: 'branch',
+          cond: {
+            kind: 'not',
+            cond: { kind: 'hasItem', itemId: String(o[0]), atLeast: Math.max(1, o[1] ?? 1) },
+          },
+          then: inlineArm(o[2]),
+        })
+      } else if (oc === 0x74 && (o[0] ?? 0) !== 0) {
+        // 0x74(script.c:2158)非全员满血 → jump op0(洪大夫治伤段)。then=治疗(不满血);
+        // fall-through=满血唠叨段。治疗臂自带 stopScript 不落穿,构成 if/else。
+        flush()
+        body.push({
+          kind: 'branch',
+          cond: { kind: 'not', cond: { kind: 'allFullHp' } },
+          then: inlineArm(o[0]),
+        })
+      } else if (oc === 0x86 && (o[2] ?? 0) !== 0) {
+        // 0x86(script.c:2528)全队装备 op0 件数 < (op1||1) → jump op2(将军冢玉佛珠门禁)。
+        // sdlpal#324:op1==0 按 1(否则 count<0 恒假、不戴玉佛珠也破屏障;一阶段同修)。
+        flush()
+        body.push({
+          kind: 'branch',
+          cond: {
+            kind: 'not',
+            cond: {
+              kind: 'itemEquipped',
+              itemId: String(o[0]),
+              atLeast: (o[1] ?? 0) || 1,
+            },
+          },
+          then: inlineArm(o[2]),
+        })
       } else if (oc === 0x94) {
         flush()
         const ent = entRef(o[0] ?? 0)

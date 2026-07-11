@@ -28,6 +28,10 @@ function describeCondition(c: ScriptCondition, locale: Locale): string {
       return `${c.percent}% 概率`
     case 'hasItem':
       return `持有物品 ${c.itemId}${c.atLeast ? `≥${c.atLeast}` : ''}`
+    case 'itemEquipped':
+      return `装备物品 ${c.itemId}${c.atLeast && c.atLeast > 1 ? `≥${c.atLeast}` : ''}`
+    case 'allFullHp':
+      return '全队满血'
     case 'hasMoney':
       return `钱 ≥ ${c.atLeast}`
     case 'inParty':

@@ -16,6 +16,8 @@ export type ScriptCondition =
   | { kind: 'entityState'; entity: string; is: number }
   | { kind: 'chance'; percent: number } // 原版 0x06 jumpByRate
   | { kind: 'hasItem'; itemId: string; atLeast?: number }
+  | { kind: 'itemEquipped'; itemId: string; atLeast?: number } // 原版 0x86:全队装备该物件数 ≥ atLeast(默认1)
+  | { kind: 'allFullHp' } // 原版 0x74:全队 HP 均满(洪大夫治伤门)
   | { kind: 'hasMoney'; atLeast: number }
   | { kind: 'inParty'; actorId: string }
   | { kind: 'all'; of: ScriptCondition[] }

@@ -73,6 +73,8 @@ function fakeHost(calls: string[]): ScriptHost {
       hasItem: () => false,
       money: () => 50,
       inParty: (id: string) => id === 'li-xiaoyao',
+      allFullHp: () => true,
+      itemEquipped: () => false,
     },
     report: log('report'),
     chaseStep: alog('chaseStep'),
@@ -447,6 +449,20 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
       }, // false
     ])
     expect(calls).toEqual(['playSound(1)', 'playSound(2)', 'playSound(3)', 'playSound(4)'])
+  })
+  test('branch:allFullHp/itemEquipped 走 query(0x74 洪大夫治伤门 / 0x86 玉佛珠门禁)', async () => {
+    // fakeHost:allFullHp→true(满血)、itemEquipped→false(未装备)
+    const calls: string[] = []
+    const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
+    await r.run([
+      // 0x74 洪大夫:非满血才治疗。满血 → not(allFullHp)=false → 不治疗
+      { kind: 'branch', cond: { kind: 'not', cond: { kind: 'allFullHp' } }, then: [{ kind: 'playSound', soundId: 1 }] },
+      { kind: 'branch', cond: { kind: 'allFullHp' }, then: [{ kind: 'playSound', soundId: 2 }] }, // 满血 ✓
+      // 0x86 玉佛珠:未装备才拦。未装备 → not(itemEquipped)=true → 拦截
+      { kind: 'branch', cond: { kind: 'not', cond: { kind: 'itemEquipped', itemId: '274', atLeast: 1 } }, then: [{ kind: 'playSound', soundId: 3 }] },
+      { kind: 'branch', cond: { kind: 'itemEquipped', itemId: '274' }, then: [{ kind: 'playSound', soundId: 4 }] }, // 未装备 → 不走
+    ])
+    expect(calls).toEqual(['playSound(2)', 'playSound(3)'])
   })
   test('startBattle:win 直走;lose 走 onLose 臂', async () => {
     const calls: string[] = []

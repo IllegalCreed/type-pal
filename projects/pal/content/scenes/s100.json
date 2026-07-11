@@ -3486,14 +3486,146 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 88,
-                    "operands": [
-                      81,
-                      1,
-                      20542
-                    ],
-                    "note": "jump-family 0x58"
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "not",
+                      "cond": {
+                        "kind": "hasItem",
+                        "itemId": "81",
+                        "atLeast": 1
+                      }
+                    },
+                    "then": [
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.7576",
+                          "speaker": "spk.酒剑仙"
+                        }
+                      },
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "not",
+                      "cond": {
+                        "kind": "hasItem",
+                        "itemId": "83",
+                        "atLeast": 1
+                      }
+                    },
+                    "then": [
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.7576",
+                          "speaker": "spk.酒剑仙"
+                        }
+                      },
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "not",
+                      "cond": {
+                        "kind": "hasItem",
+                        "itemId": "82",
+                        "atLeast": 1
+                      }
+                    },
+                    "then": [
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.7576",
+                          "speaker": "spk.酒剑仙"
+                        }
+                      },
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "not",
+                      "cond": {
+                        "kind": "hasItem",
+                        "itemId": "86",
+                        "atLeast": 1
+                      }
+                    },
+                    "then": [
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.7578",
+                          "speaker": "spk.酒剑仙"
+                        }
+                      },
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "loseItem",
+                    "itemId": "81"
+                  },
+                  {
+                    "kind": "loseItem",
+                    "itemId": "83"
+                  },
+                  {
+                    "kind": "loseItem",
+                    "itemId": "82"
+                  },
+                  {
+                    "kind": "loseItem",
+                    "itemId": "86"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7572",
+                      "speaker": "spk.酒剑仙",
+                      "slot": "top",
+                      "portrait": {
+                        "icon": 37,
+                        "side": "left"
+                      }
+                    }
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e1838",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setSceneStage",
+                    "scene": "s115",
+                    "stage": 2
+                  },
+                  {
+                    "kind": "loadScene",
+                    "scene": "s116"
+                  },
+                  {
+                    "kind": "fade",
+                    "dir": "out"
+                  },
+                  {
+                    "kind": "playMusic",
+                    "musicId": 32
                   }
                 ]
               }

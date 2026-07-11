@@ -47,14 +47,58 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 116,
-                    "operands": [
-                      2008,
-                      0,
-                      0
-                    ],
-                    "note": "jump-family 0x74"
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "not",
+                      "cond": {
+                        "kind": "allFullHp"
+                      }
+                    },
+                    "then": [
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.708",
+                          "speaker": "spk.洪大夫"
+                        }
+                      },
+                      {
+                        "kind": "increaseHpMp",
+                        "delta": 9999
+                      },
+                      {
+                        "kind": "fade",
+                        "dir": "out"
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "line": {
+                          "text": "dlg.712",
+                          "speaker": "spk.洪大夫"
+                        }
+                      },
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.719",
+                      "speaker": "spk.洪大夫"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "openShop",
+                    "shop": 1,
+                    "mode": "buy"
                   }
                 ]
               }

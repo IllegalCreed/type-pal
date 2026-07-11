@@ -19,7 +19,7 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { pixelToGrid, type SceneDef, type SpriteDef } from '@type-pal/content'
 import { resolveSceneStagePatches, type SourceCmd } from '../src/migrate-content.js'
-import { emptyTranslateReport, type TranslateCtx } from '../src/translate-events.js'
+import { emptyTranslateReport, translateStages, type TranslateCtx } from '../src/translate-events.js'
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 const readJson = <T,>(rel: string): T => JSON.parse(readFileSync(resolve(repo, rel), 'utf8')) as T
@@ -100,6 +100,27 @@ const extractPatrol = (addr: number, owner: string, cap = 24): Record<string, un
   return out
 }
 
+// ── 翻译上下文(swapCmd 的 jump-family 重翻 + post-pass 0x6D 共用同一 tctx)──
+const tctx: TranslateCtx = { labelAt, locale: {}, report: emptyTranslateReport(), spriteIdForNum }
+// (opcode,operands) → all.json 全局下标:jump-family 站点被迁移器截断成孤立一条(fall-through
+// 段没翻进 scene JSON),须回 all.json 从站点原址重翻整段(walkBody 已把 0x58/74/86 结构化)。
+const rawIdxByKey = new Map<string, number>()
+allCommands.forEach((c, i) => {
+  const cc = c as { op?: string; opcode?: number; operands?: number[] }
+  if (cc.op === 'raw')
+    rawIdxByKey.set(`${cc.opcode}:${(cc.operands ?? []).join(',')}`, i) // 同键取最后(等价共享段)
+})
+let sitesJump = 0
+/** jump-family 站点 → 从 all.json 原址重翻的完整段体([branch, ...fall-through]);失败留 unmigrated。 */
+const rewriteJump = (opcode: number, o: number[], owner: string): Record<string, unknown>[] | undefined => {
+  const idx = rawIdxByKey.get(`${opcode}:${o.join(',')}`)
+  if (idx === undefined) return undefined
+  const st = translateStages(`L_${idx}`, owner || undefined, tctx)
+  if (!st) return undefined
+  sitesJump++
+  return st.flatMap((s) => s.body) as Record<string, unknown>[]
+}
+
 // ── ① 站点替换:0x6D → setSceneStage 占位;0x1A(形象字段)→ setActorAppearance ──
 // swap 重建数组(非原地改)—— 0x1A 走路帧(field 64)要**丢弃**元素,需 map+filter。
 let sites6d = 0
@@ -122,6 +143,8 @@ const swapCmd = (x: unknown, owner: string): unknown | undefined => {
     sites6d++
     return { kind: 'setSceneStage', scene: `s${String((o[0] ?? 1) - 1).padStart(3, '0')}`, stage: -1, _addr: o[1] }
   }
+  // 0x6D op1=0 且 op2=0:sdlpal(2069-2080)两 if 皆 false = no-op(未设 onEnter/onTeleport)
+  if (c.opcode === 0x6d && (o[1] ?? 0) === 0 && (o[2] ?? 0) === 0) return sites78++, undefined
   if (c.opcode === 0x1a) {
     const actor = ROLE_SLUGS[(o[2] ?? 0) - 1]
     const field = o[0] ?? -1
@@ -173,6 +196,9 @@ const swapCmd = (x: unknown, owner: string): unknown | undefined => {
     return ent ? (sites4++, { kind: 'setEntityLayer', entity: ent, layer: i16(o[1] ?? 0) }) : x
   }
   if (c.opcode === 0x1d && (o[0] ?? 0) !== 0) return sites4++, { kind: 'increaseHpMp', delta: i16(o[1] ?? 0) }
+  // 0x1B 全队增减 HP(script.c:877 op0≠0 = apply to everyone)。严格只加 HP;此处复用 increaseHpMp
+  // (HP/MP 同加),站点(s145)为加满场景、MP 一并回满无害。op0==0 单人形态无站点,不接。
+  if (c.opcode === 0x1b && (o[0] ?? 0) !== 0) return sites4++, { kind: 'increaseHpMp', delta: i16(o[1] ?? 0) }
   if (c.opcode === 0x22 && (o[0] ?? 0) !== 0) return sites4++, { kind: 'revivePartyAll', tenths: o[1] ?? 0 }
   if (c.opcode === 0x55 && (o[1] ?? 0) > 0) return sites4++, { kind: 'learnSkill', role: (o[1] ?? 1) - 1, skill: String(o[0] ?? 0) }
   if (c.opcode === 0x23) return sites4++, { kind: 'unequip', role: o[0] ?? 0, slot: (o[1] ?? 0) === 0 ? 'all' : (o[1] ?? 1) - 1 }
@@ -191,6 +217,11 @@ const swapCmd = (x: unknown, owner: string): unknown | undefined => {
     const val = i16(o[1] ?? 0)
     sites4++
     return { kind: 'branch', cond: { kind: 'entityState', entity: src, is: val }, then: [{ kind: 'setEntityState', entity: owner, state: val }] }
+  }
+  // jump-family(0x58 物品数/0x74 洪大夫满血/0x86 玉佛珠装备):迁移器截断成孤立一条,
+  // 回 all.json 原址重翻整段(branch + fall-through);展开由 swap 承担(数组再逐条 swap)。
+  if (c.opcode === 0x58 || c.opcode === 0x74 || c.opcode === 0x86) {
+    return rewriteJump(c.opcode, o, owner) ?? x
   }
   return x
 }
@@ -219,7 +250,8 @@ const swap = (o: unknown, owner: string): unknown => {
       }
       const swapped = swapCmd(x, owner)
       if (swapped === undefined) continue // field-64 丢弃
-      if (Array.isArray(swapped)) out.push(...swapped) // 巡逻还原:多命令展开
+      // 巡逻还原/jump 重翻段:多命令展开,段内 unmigrated(治疗段 0x22/0x1d 等)再逐条 swap 成具名
+      if (Array.isArray(swapped)) for (const it of swapped) out.push(swap(it, owner))
       else out.push(swapped === x ? swap(x, owner) : swapped)
     }
     return out
@@ -238,7 +270,6 @@ scenes.forEach((s, i) => {
 })
 
 // ── ② post-pass:追加段 + 回填(0x6D)──
-const tctx: TranslateCtx = { labelAt, locale: {}, report: emptyTranslateReport(), spriteIdForNum }
 resolveSceneStagePatches(scenes, tctx)
 if (newSprites) writeJson(spritesPath, sprites)
 const sites = sites6d
@@ -265,7 +296,7 @@ scenes.forEach((s, i) => {
 })
 
 console.log(
-  `[patch-scene-stages] 0x6D 站点 ${sites} · 0x1A 形象站点 ${sites1a} · 0x90 敌种降级 ${sites90} · 0x9A 批量状态 ${sites9a} · 第二批 ${sites2} · 0x78 静默 ${sites78} · 批4 ${sites4} · 巡逻还原 ${patrolFixed} · 场景写回 ${written} · locale 新键 ${newKeys} · sprites +${newSprites}`,
+  `[patch-scene-stages] 0x6D 站点 ${sites} · 0x1A 形象站点 ${sites1a} · 0x90 敌种降级 ${sites90} · 0x9A 批量状态 ${sites9a} · 第二批 ${sites2} · 0x78 静默 ${sites78} · 批4 ${sites4} · jump重翻 ${sitesJump} · 巡逻还原 ${patrolFixed} · 场景写回 ${written} · locale 新键 ${newKeys} · sprites +${newSprites}`,
 )
 const un = Object.entries(tctx.report.unmigrated)
 if (un.length) console.log('  翻译缺口:', un.map(([k, v]) => `${k}×${v}`).join(' / '))

@@ -23434,14 +23434,71 @@
                       {
                         "body": [
                           {
-                            "kind": "unmigrated",
-                            "opcode": 116,
-                            "operands": [
-                              3320,
-                              0,
-                              0
-                            ],
-                            "note": "jump-family 0x74"
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "not",
+                              "cond": {
+                                "kind": "allFullHp"
+                              }
+                            },
+                            "then": [
+                              {
+                                "kind": "dialog",
+                                "line": {
+                                  "text": "dlg.1203",
+                                  "speaker": "spk.洪大夫"
+                                }
+                              },
+                              {
+                                "kind": "revivePartyAll",
+                                "tenths": 10
+                              },
+                              {
+                                "kind": "increaseHpMp",
+                                "delta": 9999
+                              },
+                              {
+                                "kind": "fade",
+                                "dir": "out"
+                              },
+                              {
+                                "kind": "clearDialog"
+                              },
+                              {
+                                "kind": "dialog",
+                                "line": {
+                                  "text": "dlg.1207",
+                                  "speaker": "spk.洪大夫"
+                                }
+                              },
+                              {
+                                "kind": "stopScript"
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.1196",
+                              "speaker": "spk.洪大夫"
+                            }
+                          },
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "dialog",
+                            "line": {
+                              "text": "dlg.1199"
+                            }
+                          },
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "openShop",
+                            "shop": 1,
+                            "mode": "buy"
                           }
                         ]
                       }

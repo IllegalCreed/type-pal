@@ -1439,6 +1439,12 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         (world.inventory.find((x) => x.itemId === itemId)?.count ?? 0) >= atLeast,
       money: () => world.money,
       inParty: (actorId) => world.party.some((c) => c.id === actorId || c.template === actorId),
+      allFullHp: () => world.party.every((c) => c.hp >= c.maxHP),
+      itemEquipped: (itemId, atLeast) =>
+        world.party.reduce(
+          (n, c) => n + Object.values(c.equipment).filter((v) => v === itemId).length,
+          0,
+        ) >= atLeast,
       sceneId: () => scene.id,
     },
     // 0x99 当前场景即时换底图:只换 map 资产(map/tiles/renderer),不动实体/坐标/room

@@ -1689,6 +1689,62 @@
           "musicId": 32
         }
       ]
+    },
+    {
+      "body": [
+        {
+          "kind": "setMultiEntityState",
+          "entities": [
+            "e2136",
+            "e2137",
+            "e2138",
+            "e2139",
+            "e2140",
+            "e2141",
+            "e2142",
+            "e2143",
+            "e2144"
+          ],
+          "state": 2
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2145",
+          "state": 2
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2146",
+          "state": 2
+        },
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 67,
+            "row": -2,
+            "height": 0
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "right"
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "right",
+          "member": 1
+        },
+        {
+          "kind": "setParty",
+          "members": [
+            "li-xiaoyao"
+          ]
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": []
     }
   ]
 }
