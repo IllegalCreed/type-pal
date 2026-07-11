@@ -49,6 +49,48 @@ const DIR_COLOR: Record<string, string> = {
 }
 
 /**
+ * 动画预览格:按帧序 order 定时轮播(walk 步序/循环/姿势共用)。
+ * 节拍与引擎同源:走路 100ms/步(STEP_MS)、循环 250ms/帧(loopFrameIndex 缺省)。
+ * interval 只重画 canvas 不触发 React 渲染;底对齐居中同 FrameCell。
+ */
+function AnimCell(props: {
+  canvases: (HTMLCanvasElement | undefined)[]
+  order: number[]
+  msPerFrame: number
+  maxW: number
+  maxH: number
+  scale: number
+}) {
+  const ref = useRef<HTMLCanvasElement>(null)
+  const { canvases, order, msPerFrame, maxW, maxH, scale } = props
+  const cw = Math.max(1, Math.round(maxW * scale))
+  const ch = Math.max(1, Math.round(maxH * scale))
+  useEffect(() => {
+    const c = ref.current
+    const ctx = c?.getContext('2d')
+    if (!c || !ctx || order.length === 0) return
+    c.width = cw
+    c.height = ch
+    let i = 0
+    const draw = (): void => {
+      ctx.clearRect(0, 0, cw, ch)
+      const src = canvases[order[i % order.length] ?? 0]
+      if (src) {
+        ctx.imageSmoothingEnabled = false
+        const w = src.width * scale
+        const h = src.height * scale
+        ctx.drawImage(src, (cw - w) / 2, ch - h, w, h)
+      }
+      i++
+    }
+    draw()
+    const timer = setInterval(draw, Math.max(60, msPerFrame))
+    return () => clearInterval(timer)
+  }, [canvases, order, msPerFrame, cw, ch, scale])
+  return <canvas ref={ref} className="fcell-canvas" />
+}
+
+/**
  * 把 baked 精灵帧画进统一尺寸的 <canvas>:cell = 精灵最大帧包围盒 × scale(所有帧同尺寸 → 网格整齐),
  * 每帧在 cell 内**底对齐居中**(帧大小不一也完整不裁,脚底对齐地面视觉自然)。pixelated。
  */
@@ -348,6 +390,18 @@ export function SpriteFrames(props: {
                   </code>
                 </div>
                 <div className="cells">
+                  <div className="fcell" title="走路预览(引擎同源步序,100ms/步)">
+                    <span className="fidx">▶</span>
+                    <AnimCell
+                      canvases={baked}
+                      order={deriveStepCycle(fpd).map((p) => di * fpd + p)}
+                      msPerFrame={100}
+                      maxW={maxW}
+                      maxH={maxH}
+                      scale={2}
+                    />
+                    <span className="ftag">走</span>
+                  </div>
                   {Array.from({ length: fpd }, (_, fi) => {
                     const idx = di * fpd + fi
                     return (
@@ -412,6 +466,20 @@ export function SpriteFrames(props: {
           </>
         ) : (
           <div className="cells" style={{ flexWrap: 'wrap' }}>
+            {layout.kind === 'loop' && (
+              <div className="fcell" title="循环预览(引擎同源,250ms/帧)">
+                <span className="fidx">▶</span>
+                <AnimCell
+                  canvases={baked}
+                  order={Array.from({ length: total }, (_, i) => i)}
+                  msPerFrame={250}
+                  maxW={maxW}
+                  maxH={maxH}
+                  scale={2}
+                />
+                <span className="ftag">循环</span>
+              </div>
+            )}
             {loaded.frames.map((_, idx) => (
               <div
                 key={idx}
@@ -446,12 +514,20 @@ export function SpriteFrames(props: {
                   </button>
                 </div>
                 <div className="pf">
+                  <AnimCell
+                    canvases={baked}
+                    order={pose.frames}
+                    msPerFrame={pose.mode === 'loop' ? 250 : 400}
+                    maxW={maxW}
+                    maxH={maxH}
+                    scale={1.3}
+                  />
                   {pose.frames.map((fi) => (
                     <FrameCell key={fi} canvas={baked[fi]} maxW={maxW} maxH={maxH} scale={1.3} />
                   ))}
                 </div>
                 <span className="pmode">
-                  {pose.mode === 'loop' ? '循环' : '静态'} · 帧 {pose.frames.join(',')}
+                  ▶ {pose.mode === 'loop' ? '循环' : '静态'} · 帧 {pose.frames.join(',')}
                 </span>
               </div>
             ))}
