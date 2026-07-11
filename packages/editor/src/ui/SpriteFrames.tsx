@@ -1,14 +1,43 @@
 /**
- * 精灵帧标注(C1c)—— 把角色精灵的全部帧渲成网格,按布局分组标注。
- * C1c:四向帧网格(真实精灵)+ 命名姿势展示 + 走路预览。编辑交互(框选/命名)= C1d。
+ * 精灵帧面板(C1c/C1d + A4d)—— 精灵的全部帧网格 + 命名姿势 + **帧级编辑就地做**:
+ * 点任意帧 → 替换该帧(选图直接换,面板即刷新,可撤销);工具栏「＋ 追加帧」→ 选图
+ * 切帧接到末尾(后补动作不回上传向导 —— 作者反馈「替换一帧还要去追加?动线太复杂」)。
+ * 帧级编辑仅自有精灵(有 path);原版号约定精灵只读展示。
  */
 
 import type { PoseDef, SpriteDef } from '@type-pal/content'
-import type { AssetBase, LoadedSprite } from '@type-pal/reforge'
-import { bakeFrame, decompressGzip, deriveStepCycle, loadPalette, loadSprite, parseSpriteChunk } from '@type-pal/reforge'
+import type { AssetBase, LoadedSprite, Palette, RleFrame } from '@type-pal/reforge'
+import {
+  bakeFrame,
+  compressGzip,
+  decompressGzip,
+  deriveStepCycle,
+  encodeSpriteChunk,
+  loadPalette,
+  loadSprite,
+  parseSpriteChunk,
+  quantizeToRleFrame,
+  sliceAtlasGrid,
+} from '@type-pal/reforge'
 import { useEffect, useRef, useState } from 'react'
-import { UpdateSpriteCommand } from '../core/commands.js'
+import { AppendSpriteFramesCommand, UpdateSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+
+/** 读用户选图 → RGBA(量化/切帧的公共前置)。 */
+async function fileToRgba(
+  file: File,
+): Promise<{ rgba: Uint8Array; w: number; h: number }> {
+  const bitmap = await createImageBitmap(file)
+  const cvs = document.createElement('canvas')
+  cvs.width = bitmap.width
+  cvs.height = bitmap.height
+  const ctx = cvs.getContext('2d')
+  if (!ctx) throw new Error('2d context 不可用')
+  ctx.drawImage(bitmap, 0, 0)
+  bitmap.close()
+  const data = ctx.getImageData(0, 0, cvs.width, cvs.height)
+  return { rgba: new Uint8Array(data.data.buffer.slice(0)), w: cvs.width, h: cvs.height }
+}
 
 const DIRS = ['down', 'left', 'up', 'right'] as const
 const DIR_LABEL: Record<string, string> = { down: '下', left: '左', up: '上', right: '右' }
@@ -59,11 +88,60 @@ export function SpriteFrames(props: {
   const { sprite, assetBase, session, blob } = props
   const [loaded, setLoaded] = useState<LoadedSprite | null>(null)
   const [baked, setBaked] = useState<HTMLCanvasElement[]>([])
+  const [palette, setPalette] = useState<Palette | null>(null)
   const [err, setErr] = useState('')
   // 命名姿势框选:选中的未分配帧 + 待建姿势名/播放方式
   const [selFrames, setSelFrames] = useState<Set<number>>(new Set())
   const [poseName, setPoseName] = useState('')
   const [poseMode, setPoseMode] = useState<PoseDef['mode']>('static')
+  // 帧级编辑(自有精灵):点帧选中待替换;追加帧草稿(选图后给切帧网格确认)
+  const [replaceIdx, setReplaceIdx] = useState<number | null>(null)
+  const [appendDraft, setAppendDraft] = useState<{
+    rgba: Uint8Array
+    w: number
+    h: number
+    cols: number
+    rows: number
+  } | null>(null)
+  const replaceFileRef = useRef<HTMLInputElement>(null)
+  const appendFileRef = useRef<HTMLInputElement>(null)
+  const editable = !!sprite.path // 帧级编辑仅自有精灵;原版号约定精灵只读
+
+  /** 当前帧集重编码 → 替换暂存字节(可撤销;面板经 blob prop 变更自动刷新)。 */
+  const commitFrames = async (frames: RleFrame[], label: string): Promise<void> => {
+    if (!sprite.path) return
+    const gz = await compressGzip(encodeSpriteChunk(frames))
+    const buf = gz.buffer.slice(gz.byteOffset, gz.byteOffset + gz.byteLength) as ArrayBuffer
+    session.dispatch(new AppendSpriteFramesCommand(sprite.path, blob, buf, label))
+  }
+
+  const doReplace = async (file: File): Promise<void> => {
+    if (replaceIdx === null || !loaded || !palette) return
+    try {
+      const { rgba, w, h } = await fileToRgba(file)
+      const frame = quantizeToRleFrame(rgba, w, h, palette) // 整图 = 单帧,量化贴盘
+      const next = loaded.frames.map((f, i) => (i === replaceIdx ? frame : f))
+      await commitFrames(next, `替换精灵帧 #${replaceIdx}`)
+      setReplaceIdx(null)
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : String(e))
+    }
+  }
+
+  const doAppend = async (): Promise<void> => {
+    if (!appendDraft || !loaded || !palette) return
+    const { rgba, w, h, cols, rows } = appendDraft
+    if (w % cols !== 0 || h % rows !== 0) return
+    try {
+      const news = sliceAtlasGrid(rgba, w, h, w / cols, h / rows).map((t) =>
+        quantizeToRleFrame(t.rgba, t.width, t.height, palette),
+      )
+      await commitFrames([...loaded.frames, ...news], `追加精灵帧 ×${news.length}`)
+      setAppendDraft(null)
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : String(e))
+    }
+  }
 
   const toggleFrame = (i: number): void => {
     setSelFrames((prev) => {
@@ -114,6 +192,7 @@ export function SpriteFrames(props: {
         ])
         if (!alive) return
         setLoaded(sp)
+        setPalette(pal)
         setBaked(sp.frames.map((f) => bakeFrame(f, pal)))
       } catch (e) {
         if (alive) setErr(e instanceof Error ? e.message : String(e))
@@ -158,7 +237,104 @@ export function SpriteFrames(props: {
         <span className="hint" style={{ marginLeft: 8 }}>
           #{sprite.spriteNum} · {total} 帧 · {layoutDesc(layout)}
         </span>
+        {editable && (
+          <>
+            <span className="spacer" />
+            <span className="hint">点任意帧可替换</span>
+            <button type="button" className="tool" onClick={() => appendFileRef.current?.click()}>
+              ＋ 追加帧
+            </button>
+            <input
+              ref={appendFileRef}
+              type="file"
+              accept="image/png,image/webp,image/gif"
+              style={{ display: 'none' }}
+              onChange={(e) => {
+                const f = e.target.files?.[0]
+                e.target.value = ''
+                if (!f) return
+                void fileToRgba(f)
+                  .then((d) => setAppendDraft({ ...d, cols: 1, rows: 1 }))
+                  .catch((er) => setErr(er instanceof Error ? er.message : String(er)))
+              }}
+            />
+            <input
+              ref={replaceFileRef}
+              type="file"
+              accept="image/png,image/webp,image/gif"
+              style={{ display: 'none' }}
+              onChange={(e) => {
+                const f = e.target.files?.[0]
+                e.target.value = ''
+                if (f) void doReplace(f)
+              }}
+            />
+          </>
+        )}
       </div>
+      {replaceIdx !== null && (
+        <div className="pose-form">
+          <span>
+            替换帧 <b>#{replaceIdx}</b>:选一张图(整图作为该帧,自动贴合工程主色)
+          </span>
+          <button type="button" className="tool active" onClick={() => replaceFileRef.current?.click()}>
+            选图替换…
+          </button>
+          <button type="button" className="tool" onClick={() => setReplaceIdx(null)}>
+            取消
+          </button>
+        </div>
+      )}
+      {appendDraft && (
+        <div className="pose-form">
+          <span>
+            追加帧:{appendDraft.w}×{appendDraft.h} 切
+          </span>
+          <input
+            className="in mono"
+            type="number"
+            min={1}
+            max={16}
+            style={{ width: 52 }}
+            value={appendDraft.cols}
+            onChange={(e) =>
+              setAppendDraft({ ...appendDraft, cols: Math.max(1, Math.floor(e.target.valueAsNumber) || 1) })
+            }
+          />
+          <span>列 ×</span>
+          <input
+            className="in mono"
+            type="number"
+            min={1}
+            max={16}
+            style={{ width: 52 }}
+            value={appendDraft.rows}
+            onChange={(e) =>
+              setAppendDraft({ ...appendDraft, rows: Math.max(1, Math.floor(e.target.valueAsNumber) || 1) })
+            }
+          />
+          <span>行</span>
+          {appendDraft.w % appendDraft.cols === 0 && appendDraft.h % appendDraft.rows === 0 ? (
+            <span className="hint">
+              {appendDraft.cols * appendDraft.rows} 帧 · 每帧 {appendDraft.w / appendDraft.cols}×
+              {appendDraft.h / appendDraft.rows} · 接在 #{total} 起(可框选命名姿势)
+            </span>
+          ) : (
+            <span style={{ color: 'var(--err)' }}>切不开:宽高须整除列/行</span>
+          )}
+          <button
+            type="button"
+            className="tool active"
+            disabled={appendDraft.w % appendDraft.cols !== 0 || appendDraft.h % appendDraft.rows !== 0}
+            onClick={() => void doAppend()}
+          >
+            ✓ 追加
+          </button>
+          <button type="button" className="tool" onClick={() => setAppendDraft(null)}>
+            取消
+          </button>
+        </div>
+      )}
       <div className="frames-scroll">
         {layout.kind === 'directional' ? (
           <>
@@ -179,8 +355,15 @@ export function SpriteFrames(props: {
                         key={idx}
                         className={`fcell${fi === 0 ? ' stand' : ''}`}
                         style={{
-                          borderColor: `color-mix(in srgb, ${DIR_COLOR[dir]} 45%, var(--line))`,
+                          borderColor:
+                            replaceIdx === idx
+                              ? 'var(--accent)'
+                              : `color-mix(in srgb, ${DIR_COLOR[dir]} 45%, var(--line))`,
+                          ...(editable ? { cursor: 'pointer' } : {}),
+                          ...(replaceIdx === idx ? { outline: '2px solid var(--accent)' } : {}),
                         }}
+                        title={editable ? `点击替换帧 #${idx}` : undefined}
+                        onClick={editable ? () => setReplaceIdx(idx) : undefined}
                       >
                         <span className="fidx">{idx}</span>
                         <FrameCell canvas={baked[idx]} maxW={maxW} maxH={maxH} scale={2} />
@@ -191,6 +374,37 @@ export function SpriteFrames(props: {
                 </div>
               </div>
             ))}
+            {total > walkCount && (
+              <div className="dirgroup">
+                <div className="gh">
+                  <span className="chip" style={{ background: '#a06cd5' }} />
+                  动作帧
+                  <code>
+                    帧 {walkCount}–{total - 1} · 命名/引用走下方姿势
+                  </code>
+                </div>
+                <div className="cells" style={{ flexWrap: 'wrap' }}>
+                  {Array.from({ length: total - walkCount }, (_, k) => {
+                    const idx = walkCount + k
+                    return (
+                      <div
+                        key={idx}
+                        className="fcell"
+                        style={{
+                          ...(editable ? { cursor: 'pointer' } : {}),
+                          ...(replaceIdx === idx ? { outline: '2px solid var(--accent)' } : {}),
+                        }}
+                        title={editable ? `点击替换帧 #${idx}` : undefined}
+                        onClick={editable ? () => setReplaceIdx(idx) : undefined}
+                      >
+                        <span className="fidx">{idx}</span>
+                        <FrameCell canvas={baked[idx]} maxW={maxW} maxH={maxH} scale={2} />
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
             <div className="walk-preview">
               步序预览 {DIR_LABEL.down}: [{deriveStepCycle(fpd).join(', ')}] · 与引擎同源
               sprite-anim
@@ -199,7 +413,16 @@ export function SpriteFrames(props: {
         ) : (
           <div className="cells" style={{ flexWrap: 'wrap' }}>
             {loaded.frames.map((_, idx) => (
-              <div key={idx} className="fcell">
+              <div
+                key={idx}
+                className="fcell"
+                style={{
+                  ...(editable ? { cursor: 'pointer' } : {}),
+                  ...(replaceIdx === idx ? { outline: '2px solid var(--accent)' } : {}),
+                }}
+                title={editable ? `点击替换帧 #${idx}` : undefined}
+                onClick={editable ? () => setReplaceIdx(idx) : undefined}
+              >
                 <span className="fidx">{idx}</span>
                 <FrameCell canvas={baked[idx]} maxW={maxW} maxH={maxH} scale={2} />
               </div>

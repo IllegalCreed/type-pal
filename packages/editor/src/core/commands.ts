@@ -1827,12 +1827,13 @@ export class AddSpriteCommand implements Command {
  * 此前未暂存(帧在磁盘)→ invert 删除暂存键(回落读盘)。命名动作走「精灵帧」面板 poses。
  */
 export class AppendSpriteFramesCommand implements Command {
-  readonly label = '追加精灵帧'
+  readonly label: string
   private readonly path: string
   private readonly prev: ArrayBuffer | undefined
   private readonly next: ArrayBuffer
 
-  constructor(path: string, prev: ArrayBuffer | undefined, next: ArrayBuffer) {
+  constructor(path: string, prev: ArrayBuffer | undefined, next: ArrayBuffer, label = '追加精灵帧') {
+    this.label = label
     this.path = path
     this.prev = prev
     this.next = next
