@@ -54,6 +54,9 @@ export type Command =
   | { kind: 'setPartyFacing'; facing: Facing; gesture?: number; member?: number }
   // 实体
   | { kind: 'setEntityState'; entity: string; state: number } // 0x49;≤0 隐,≥2 挡路
+  // 0x9A:批量设实体状态(原版全局对象号区间 [op0,op1] 全设 sState=op2;迁移器展开成实体 id 数组,
+  // 杜绝下标式身份)。≤0 隐 / 1 显 / ≥2 显+挡路,语义同 setEntityState。跨场景写 world 持久、进场重放。
+  | { kind: 'setMultiEntityState'; entities: string[]; state: number }
   // 0x6D:改场景进场剧情到指定段(原版改 wScriptOnEnter 地址;迁移器把目标链追加为该场景
   // onEnter 新段并回填下标 —— 45 站点目标全是新链,不在既有链内)。运行时写 entityStage['s:<scene>']
   | { kind: 'setSceneStage'; scene: string; stage: number }

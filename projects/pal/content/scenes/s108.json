@@ -11298,13 +11298,19 @@
                     "kind": "cameraSnap"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      2137,
-                      2145,
-                      0
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e2136",
+                      "e2137",
+                      "e2138",
+                      "e2139",
+                      "e2140",
+                      "e2141",
+                      "e2142",
+                      "e2143",
+                      "e2144"
+                    ],
+                    "state": 0
                   },
                   {
                     "kind": "setEntityState",
@@ -11312,13 +11318,13 @@
                     "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      2157,
-                      2159,
-                      0
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e2156",
+                      "e2157",
+                      "e2158"
+                    ],
+                    "state": 0
                   },
                   {
                     "kind": "setEntityState",

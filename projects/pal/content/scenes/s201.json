@@ -221,13 +221,17 @@
                     "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      3355,
-                      3361,
-                      0
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e3354",
+                      "e3355",
+                      "e3356",
+                      "e3357",
+                      "e3358",
+                      "e3359",
+                      "e3360"
+                    ],
+                    "state": 0
                   },
                   {
                     "kind": "setEntityState",

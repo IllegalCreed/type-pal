@@ -441,13 +441,17 @@
                     "state": 1
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      3658,
-                      3664,
-                      0
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e3657",
+                      "e3658",
+                      "e3659",
+                      "e3660",
+                      "e3661",
+                      "e3662",
+                      "e3663"
+                    ],
+                    "state": 0
                   },
                   {
                     "kind": "setEntityFacing",

@@ -1969,13 +1969,18 @@
                   "frame": 1
                 },
                 {
-                  "kind": "unmigrated",
-                  "opcode": 154,
-                  "operands": [
-                    1911,
-                    1918,
-                    2
-                  ]
+                  "kind": "setMultiEntityState",
+                  "entities": [
+                    "e1910",
+                    "e1911",
+                    "e1912",
+                    "e1913",
+                    "e1914",
+                    "e1915",
+                    "e1916",
+                    "e1917"
+                  ],
+                  "state": 2
                 },
                 {
                   "kind": "startBattle",

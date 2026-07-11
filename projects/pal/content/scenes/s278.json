@@ -327,13 +327,13 @@
                     "facing": "down"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      4747,
-                      4749,
-                      1
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e4746",
+                      "e4747",
+                      "e4748"
+                    ],
+                    "state": 1
                   },
                   {
                     "kind": "setEntityState",
@@ -591,13 +591,12 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      4745,
-                      4746,
-                      0
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e4744",
+                      "e4745"
+                    ],
+                    "state": 0
                   },
                   {
                     "kind": "teleportParty",
@@ -623,13 +622,13 @@
                     "facing": "down"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      4747,
-                      4749,
-                      0
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e4746",
+                      "e4747",
+                      "e4748"
+                    ],
+                    "state": 0
                   },
                   {
                     "kind": "setEntityState",

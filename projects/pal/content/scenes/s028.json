@@ -175,13 +175,25 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      439,
-                      453,
-                      0
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e438",
+                      "e439",
+                      "e440",
+                      "e441",
+                      "e442",
+                      "e443",
+                      "e444",
+                      "e445",
+                      "e446",
+                      "e447",
+                      "e448",
+                      "e449",
+                      "e450",
+                      "e451",
+                      "e452"
+                    ],
+                    "state": 0
                   },
                   {
                     "kind": "setEntityAuto",

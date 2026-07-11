@@ -4141,13 +4141,14 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 154,
-          "operands": [
-            1708,
-            1711,
-            2
-          ]
+          "kind": "setMultiEntityState",
+          "entities": [
+            "e1707",
+            "e1708",
+            "e1709",
+            "e1710"
+          ],
+          "state": 2
         }
       ],
       "next": "advance"

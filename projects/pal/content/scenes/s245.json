@@ -39011,13 +39011,19 @@
           "state": 1
         },
         {
-          "kind": "unmigrated",
-          "opcode": 154,
-          "operands": [
-            4338,
-            4346,
-            1
-          ]
+          "kind": "setMultiEntityState",
+          "entities": [
+            "e4337",
+            "e4338",
+            "e4339",
+            "e4340",
+            "e4341",
+            "e4342",
+            "e4343",
+            "e4344",
+            "e4345"
+          ],
+          "state": 1
         },
         {
           "kind": "teleportParty",

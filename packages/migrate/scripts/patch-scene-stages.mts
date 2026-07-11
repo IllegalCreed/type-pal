@@ -79,6 +79,7 @@ const ROLE_SLUGS = ['li-xiaoyao', 'zhao-linger', 'lin-yueru', 'wu-hou', 'anu', '
 let sites6d = 0
 let sites1a = 0
 let sites90 = 0
+let sites9a = 0
 type Cmd = { kind?: string; opcode?: number; operands?: number[] }
 const swapCmd = (x: unknown): unknown | undefined => {
   const c = x as Cmd
@@ -99,10 +100,15 @@ const swapCmd = (x: unknown): unknown | undefined => {
     if (field === 64) return sites1a++, undefined // 走路帧:新精灵 layout 自带,丢弃
     return x // 非形象字段 → 保留 unmigrated
   }
-  if (c.opcode === 0x90 && (o[2] ?? 0) === 0 && (o[1] ?? 0) === 0) {
-    // 0x90 剧情侧清敌种回合演出(六脚蜘蛛 s138 酒剑仙救场):object 号 → enemy def id
-    sites90++
-    return { kind: 'clearEnemyChoreo', enemy: `enemy-${o[0] ?? 0}` }
+  if (c.opcode === 0x9a) {
+    // 0x9A 批量设实体状态:区间 [op0,op1] → 实体 id 数组 e<号−1>(杜绝下标式身份),钳 512
+    const from = o[0] ?? 0
+    const to = Math.min(o[1] ?? from, from + 511)
+    const i16 = (u: number) => (u & 0x8000 ? u - 0x10000 : u)
+    const entities: string[] = []
+    for (let v = from; v <= to; v++) entities.push(`e${v - 1}`)
+    sites9a++
+    return { kind: 'setMultiEntityState', entities, state: i16(o[2] ?? 0) }
   }
   return x
 }
@@ -155,7 +161,7 @@ scenes.forEach((s, i) => {
 })
 
 console.log(
-  `[patch-scene-stages] 0x6D 站点 ${sites} · 0x1A 形象站点 ${sites1a} · 0x90 敌种降级 ${sites90} · 场景写回 ${written} · locale 新键 ${newKeys} · sprites +${newSprites}`,
+  `[patch-scene-stages] 0x6D 站点 ${sites} · 0x1A 形象站点 ${sites1a} · 0x90 敌种降级 ${sites90} · 0x9A 批量状态 ${sites9a} · 场景写回 ${written} · locale 新键 ${newKeys} · sprites +${newSprites}`,
 )
 const un = Object.entries(tctx.report.unmigrated)
 if (un.length) console.log('  翻译缺口:', un.map(([k, v]) => `${k}×${v}`).join(' / '))

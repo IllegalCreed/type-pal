@@ -2516,94 +2516,172 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      1180,
-                      1189,
-                      0
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e1179",
+                      "e1180",
+                      "e1181",
+                      "e1182",
+                      "e1183",
+                      "e1184",
+                      "e1185",
+                      "e1186",
+                      "e1187",
+                      "e1188"
+                    ],
+                    "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      1207,
-                      1218,
-                      0
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e1206",
+                      "e1207",
+                      "e1208",
+                      "e1209",
+                      "e1210",
+                      "e1211",
+                      "e1212",
+                      "e1213",
+                      "e1214",
+                      "e1215",
+                      "e1216",
+                      "e1217"
+                    ],
+                    "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      1222,
-                      1228,
-                      0
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e1221",
+                      "e1222",
+                      "e1223",
+                      "e1224",
+                      "e1225",
+                      "e1226",
+                      "e1227"
+                    ],
+                    "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      1148,
-                      1167,
-                      0
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e1147",
+                      "e1148",
+                      "e1149",
+                      "e1150",
+                      "e1151",
+                      "e1152",
+                      "e1153",
+                      "e1154",
+                      "e1155",
+                      "e1156",
+                      "e1157",
+                      "e1158",
+                      "e1159",
+                      "e1160",
+                      "e1161",
+                      "e1162",
+                      "e1163",
+                      "e1164",
+                      "e1165",
+                      "e1166"
+                    ],
+                    "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      1304,
-                      1322,
-                      0
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e1303",
+                      "e1304",
+                      "e1305",
+                      "e1306",
+                      "e1307",
+                      "e1308",
+                      "e1309",
+                      "e1310",
+                      "e1311",
+                      "e1312",
+                      "e1313",
+                      "e1314",
+                      "e1315",
+                      "e1316",
+                      "e1317",
+                      "e1318",
+                      "e1319",
+                      "e1320",
+                      "e1321"
+                    ],
+                    "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      1051,
-                      0,
-                      0
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [],
+                    "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      916,
-                      923,
-                      0
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e915",
+                      "e916",
+                      "e917",
+                      "e918",
+                      "e919",
+                      "e920",
+                      "e921",
+                      "e922"
+                    ],
+                    "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      889,
-                      898,
-                      0
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e888",
+                      "e889",
+                      "e890",
+                      "e891",
+                      "e892",
+                      "e893",
+                      "e894",
+                      "e895",
+                      "e896",
+                      "e897"
+                    ],
+                    "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      846,
-                      860,
-                      0
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e845",
+                      "e846",
+                      "e847",
+                      "e848",
+                      "e849",
+                      "e850",
+                      "e851",
+                      "e852",
+                      "e853",
+                      "e854",
+                      "e855",
+                      "e856",
+                      "e857",
+                      "e858",
+                      "e859"
+                    ],
+                    "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      833,
-                      840,
-                      0
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e832",
+                      "e833",
+                      "e834",
+                      "e835",
+                      "e836",
+                      "e837",
+                      "e838",
+                      "e839"
+                    ],
+                    "state": 0
                   },
                   {
                     "kind": "setEntityState",

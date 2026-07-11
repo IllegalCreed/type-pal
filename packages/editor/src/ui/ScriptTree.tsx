@@ -117,6 +117,12 @@ function describe(cmd: Command, locale: Locale): Described {
         label: `${cmd.entity} 状态 → ${cmd.state}`,
         detail: cmd.state <= 0 ? '隐藏' : cmd.state >= 2 ? '现身+挡路' : '现身',
       }
+    case 'setMultiEntityState':
+      return {
+        icon: '👁',
+        label: `批量设 ${cmd.entities.length} 实体 → ${cmd.state}`,
+        detail: cmd.state <= 0 ? '隐藏' : cmd.state >= 2 ? '现身+挡路' : '现身',
+      }
     case 'setEntityFacing':
       return { icon: '🧭', label: `${cmd.entity} 转向 ${cmd.facing}` }
     case 'setEntityFrame':

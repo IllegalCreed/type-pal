@@ -449,13 +449,18 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      1638,
-                      1645,
-                      0
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e1637",
+                      "e1638",
+                      "e1639",
+                      "e1640",
+                      "e1641",
+                      "e1642",
+                      "e1643",
+                      "e1644"
+                    ],
+                    "state": 0
                   },
                   {
                     "kind": "setEntityAuto",
@@ -1075,13 +1080,19 @@
                     "state": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      1651,
-                      1659,
-                      0
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e1650",
+                      "e1651",
+                      "e1652",
+                      "e1653",
+                      "e1654",
+                      "e1655",
+                      "e1656",
+                      "e1657",
+                      "e1658"
+                    ],
+                    "state": 0
                   }
                 ]
               }

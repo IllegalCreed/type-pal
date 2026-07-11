@@ -4373,13 +4373,13 @@
           ]
         },
         {
-          "kind": "unmigrated",
-          "opcode": 154,
-          "operands": [
-            1616,
-            1618,
-            2
-          ]
+          "kind": "setMultiEntityState",
+          "entities": [
+            "e1615",
+            "e1616",
+            "e1617"
+          ],
+          "state": 2
         }
       ]
     }

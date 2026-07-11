@@ -305,6 +305,12 @@ export class ScriptRunner {
       case 'setEntityState':
         this.world.entityState[cmd.entity] = cmd.state
         return h.setEntityState(cmd.entity, cmd.state)
+      case 'setMultiEntityState': {
+        // 0x9A 批量:区间实体全设同 state;写 world 持久 + 通知宿主重放一次(main 整场 applyWorldToScene)
+        for (const e of cmd.entities) this.world.entityState[e] = cmd.state
+        if (cmd.entities[0]) return h.setEntityState(cmd.entities[0], cmd.state)
+        return
+      }
       case 'setSceneStage':
         // 0x6D:目标场景进场剧情切到指定段(startScript 键 `s:<sceneId>`,stageIndexFor 选段)
         this.world.entityStage[`s:${cmd.scene}`] = cmd.stage

@@ -2866,22 +2866,20 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      61,
-                      62,
-                      0
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e60",
+                      "e61"
+                    ],
+                    "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      26,
-                      27,
-                      2
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e25",
+                      "e26"
+                    ],
+                    "state": 2
                   },
                   {
                     "kind": "unmigrated",
@@ -23119,22 +23117,29 @@
                             "state": 1
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 154,
-                            "operands": [
-                              277,
-                              283,
-                              0
-                            ]
+                            "kind": "setMultiEntityState",
+                            "entities": [
+                              "e276",
+                              "e277",
+                              "e278",
+                              "e279",
+                              "e280",
+                              "e281",
+                              "e282"
+                            ],
+                            "state": 0
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 154,
-                            "operands": [
-                              354,
-                              359,
-                              2
-                            ]
+                            "kind": "setMultiEntityState",
+                            "entities": [
+                              "e353",
+                              "e354",
+                              "e355",
+                              "e356",
+                              "e357",
+                              "e358"
+                            ],
+                            "state": 2
                           }
                         ],
                         "next": "advance"

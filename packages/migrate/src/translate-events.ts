@@ -406,6 +406,14 @@ function walkBody(
           ...(gesture ? { gesture } : {}), // 0 = 站立帧,省略 → 运行时清脚本姿势
           ...(member ? { member } : {}),
         })
+      } else if (oc === 0x9a) {
+        // 0x9A 批量设实体状态(script.c:2756):全局对象号区间 [op0,op1] 全设 sState=op2。
+        // 展开成实体 id 数组(e<号−1>;杜绝下标式身份);区间钳 512 防病理(同 runLegacyOp)。
+        const from = o[0] ?? 0
+        const to = Math.min(o[1] ?? from, from + 511)
+        const entities: string[] = []
+        for (let v = from; v <= to; v++) entities.push(`e${v - 1}`)
+        push({ kind: 'setMultiEntityState', entities, state: signExtendI16(o[2] ?? 0) })
       } else if (oc === 0x49) {
         const ent = entRef(o[0] ?? 0)
         if (ent) push({ kind: 'setEntityState', entity: ent, state: signExtendI16(o[1] ?? 0) })

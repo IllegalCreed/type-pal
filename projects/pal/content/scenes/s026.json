@@ -685,13 +685,20 @@
           "state": 2
         },
         {
-          "kind": "unmigrated",
-          "opcode": 154,
-          "operands": [
-            483,
-            492,
-            0
-          ]
+          "kind": "setMultiEntityState",
+          "entities": [
+            "e482",
+            "e483",
+            "e484",
+            "e485",
+            "e486",
+            "e487",
+            "e488",
+            "e489",
+            "e490",
+            "e491"
+          ],
+          "state": 0
         },
         {
           "kind": "setEntityTrigger",

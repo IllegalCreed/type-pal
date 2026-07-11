@@ -223,3 +223,14 @@ describe('0x1A 改角色形象(SoA 字段 → setActorAppearance)', () => {
     expect(body1a([7, 100, 2])[0]?.kind).toBe('unmigrated')
   })
 })
+
+describe('0x9A 批量设实体状态(→ setMultiEntityState)', () => {
+  test('区间 [5,7] → e4/e5/e6,state=op2', () => {
+    const body = bodyOf(ctxOf([{ opcode: 0x9a, operands: [5, 7, 2] }]))
+    expect(body).toEqual([{ kind: 'setMultiEntityState', entities: ['e4', 'e5', 'e6'], state: 2 }])
+  })
+  test('单点区间 [10,10] → e9', () => {
+    const body = bodyOf(ctxOf([{ opcode: 0x9a, operands: [10, 10, 0] }]))
+    expect(body).toEqual([{ kind: 'setMultiEntityState', entities: ['e9'], state: 0 }])
+  })
+})

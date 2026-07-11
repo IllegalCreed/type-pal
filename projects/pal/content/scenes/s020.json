@@ -2414,22 +2414,26 @@
                     "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      360,
-                      362,
-                      0
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e359",
+                      "e360",
+                      "e361"
+                    ],
+                    "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      277,
-                      283,
-                      2
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e276",
+                      "e277",
+                      "e278",
+                      "e279",
+                      "e280",
+                      "e281",
+                      "e282"
+                    ],
+                    "state": 2
                   },
                   {
                     "kind": "setEntityState",
@@ -3031,13 +3035,16 @@
                     "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      354,
-                      359,
-                      0
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e353",
+                      "e354",
+                      "e355",
+                      "e356",
+                      "e357",
+                      "e358"
+                    ],
+                    "state": 0
                   },
                   {
                     "kind": "setEntityTrigger",
@@ -7483,13 +7490,19 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 154,
-                    "operands": [
-                      86,
-                      94,
-                      0
-                    ]
+                    "kind": "setMultiEntityState",
+                    "entities": [
+                      "e85",
+                      "e86",
+                      "e87",
+                      "e88",
+                      "e89",
+                      "e90",
+                      "e91",
+                      "e92",
+                      "e93"
+                    ],
+                    "state": 0
                   },
                   {
                     "kind": "setEntityAuto",
