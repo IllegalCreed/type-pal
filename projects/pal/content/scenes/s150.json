@@ -8871,13 +8871,9 @@
     {
       "body": [
         {
-          "kind": "unmigrated",
-          "opcode": 53,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "shakeScreen",
+          "frames": 0,
+          "level": 4
         },
         {
           "kind": "teleportParty",
@@ -9023,13 +9019,9 @@
           "dir": "out"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 53,
-          "operands": [
-            99,
-            0,
-            0
-          ]
+          "kind": "shakeScreen",
+          "frames": 99,
+          "level": 4
         },
         {
           "kind": "unmigrated",
@@ -9050,13 +9042,9 @@
           ]
         },
         {
-          "kind": "unmigrated",
-          "opcode": 53,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "shakeScreen",
+          "frames": 0,
+          "level": 4
         },
         {
           "kind": "unmigrated",

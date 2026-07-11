@@ -2248,13 +2248,9 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 85,
-                    "operands": [
-                      315,
-                      5,
-                      0
-                    ]
+                    "kind": "learnSkill",
+                    "role": 4,
+                    "skill": "315"
                   },
                   {
                     "kind": "setEntityState",
@@ -2296,13 +2292,9 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 85,
-                    "operands": [
-                      320,
-                      1,
-                      0
-                    ]
+                    "kind": "learnSkill",
+                    "role": 0,
+                    "skill": "320"
                   },
                   {
                     "kind": "setEntityState",
@@ -2344,13 +2336,9 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 85,
-                    "operands": [
-                      325,
-                      5,
-                      0
-                    ]
+                    "kind": "learnSkill",
+                    "role": 4,
+                    "skill": "325"
                   },
                   {
                     "kind": "setEntityState",
@@ -2415,13 +2403,9 @@
                     },
                     "then": [
                       {
-                        "kind": "unmigrated",
-                        "opcode": 85,
-                        "operands": [
-                          389,
-                          2,
-                          0
-                        ]
+                        "kind": "learnSkill",
+                        "role": 1,
+                        "skill": "389"
                       },
                       {
                         "kind": "stopScript"
@@ -2429,13 +2413,9 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 85,
-                    "operands": [
-                      389,
-                      5,
-                      0
-                    ]
+                    "kind": "learnSkill",
+                    "role": 4,
+                    "skill": "389"
                   }
                 ]
               }
@@ -2461,13 +2441,9 @@
               {
                 "body": [
                   {
-                    "kind": "unmigrated",
-                    "opcode": 85,
-                    "operands": [
-                      336,
-                      1,
-                      0
-                    ]
+                    "kind": "learnSkill",
+                    "role": 0,
+                    "skill": "336"
                   },
                   {
                     "kind": "setEntityState",

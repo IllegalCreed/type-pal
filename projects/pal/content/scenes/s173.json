@@ -49,22 +49,14 @@
           "musicId": 28
         },
         {
-          "kind": "unmigrated",
-          "opcode": 35,
-          "operands": [
-            1,
-            6,
-            0
-          ]
+          "kind": "unequip",
+          "role": 1,
+          "slot": 5
         },
         {
-          "kind": "unmigrated",
-          "opcode": 35,
-          "operands": [
-            2,
-            0,
-            0
-          ]
+          "kind": "unequip",
+          "role": 2,
+          "slot": "all"
         },
         {
           "kind": "teleportParty",

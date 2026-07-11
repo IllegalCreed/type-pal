@@ -845,13 +845,9 @@
     {
       "body": [
         {
-          "kind": "unmigrated",
-          "opcode": 113,
-          "operands": [
-            2,
-            0,
-            0
-          ]
+          "kind": "setScreenWave",
+          "level": 2,
+          "progression": 0
         },
         {
           "kind": "playMusic",
@@ -1004,13 +1000,9 @@
           "frame": 4
         },
         {
-          "kind": "unmigrated",
-          "opcode": 126,
-          "operands": [
-            2211,
-            0,
-            0
-          ]
+          "kind": "setEntityLayer",
+          "entity": "e2210",
+          "layer": 0
         },
         {
           "kind": "clearDialog"

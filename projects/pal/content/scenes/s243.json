@@ -4577,13 +4577,8 @@
           "ms": 480
         },
         {
-          "kind": "unmigrated",
-          "opcode": 153,
-          "operands": [
-            65535,
-            165,
-            0
-          ]
+          "kind": "setMapOverride",
+          "mapNum": 165
         },
         {
           "kind": "wait",

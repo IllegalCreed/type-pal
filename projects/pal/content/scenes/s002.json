@@ -406,13 +406,13 @@
                     "state": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 19,
-                    "operands": [
-                      60,
-                      976,
-                      1704
-                    ]
+                    "kind": "setEntityPos",
+                    "entity": "e59",
+                    "pos": {
+                      "col": 137,
+                      "row": 76,
+                      "height": 0
+                    }
                   },
                   {
                     "kind": "setEntityTrigger",
@@ -421,13 +421,13 @@
                       {
                         "body": [
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              124,
-                              1152,
-                              1376
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e123",
+                            "pos": {
+                              "col": 122,
+                              "row": 50,
+                              "height": 0
+                            }
                           },
                           {
                             "kind": "setEntityTrigger",

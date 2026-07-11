@@ -1205,13 +1205,13 @@
                     "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 19,
-                    "operands": [
-                      219,
-                      1152,
-                      1344
-                    ]
+                    "kind": "setEntityPos",
+                    "entity": "e218",
+                    "pos": {
+                      "col": 120,
+                      "row": 48,
+                      "height": 0
+                    }
                   },
                   {
                     "kind": "setEntityState",
@@ -1309,13 +1309,13 @@
                     "speed": "fast"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 19,
-                    "operands": [
-                      219,
-                      1072,
-                      1378
-                    ]
+                    "kind": "setEntityPos",
+                    "entity": "e218",
+                    "pos": {
+                      "col": 120,
+                      "row": 53,
+                      "height": 0
+                    }
                   },
                   {
                     "kind": "setEntityState",
@@ -1391,13 +1391,13 @@
                     "speed": "run"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 19,
-                    "operands": [
-                      219,
-                      1030,
-                      1350
-                    ]
+                    "kind": "setEntityPos",
+                    "entity": "e218",
+                    "pos": {
+                      "col": 117,
+                      "row": 52,
+                      "height": 0
+                    }
                   },
                   {
                     "kind": "setEntityState",
@@ -1482,13 +1482,13 @@
                     "speed": "run"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 19,
-                    "operands": [
-                      219,
-                      1088,
-                      1280
-                    ]
+                    "kind": "setEntityPos",
+                    "entity": "e218",
+                    "pos": {
+                      "col": 114,
+                      "row": 46,
+                      "height": 0
+                    }
                   },
                   {
                     "kind": "setEntityState",
@@ -1593,13 +1593,13 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 19,
-                    "operands": [
-                      219,
-                      1072,
-                      1270
-                    ]
+                    "kind": "setEntityPos",
+                    "entity": "e218",
+                    "pos": {
+                      "col": 113,
+                      "row": 46,
+                      "height": 0
+                    }
                   },
                   {
                     "kind": "setEntityState",
@@ -1773,13 +1773,13 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 19,
-                    "operands": [
-                      219,
-                      1032,
-                      1288
-                    ]
+                    "kind": "setEntityPos",
+                    "entity": "e218",
+                    "pos": {
+                      "col": 113,
+                      "row": 48,
+                      "height": 0
+                    }
                   },
                   {
                     "kind": "setEntityState",

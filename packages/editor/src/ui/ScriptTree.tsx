@@ -123,6 +123,30 @@ function describe(cmd: Command, locale: Locale): Described {
         label: `批量设 ${cmd.entities.length} 实体 → ${cmd.state}`,
         detail: cmd.state <= 0 ? '隐藏' : cmd.state >= 2 ? '现身+挡路' : '现身',
       }
+    case 'setEntityPos':
+      return { icon: '📍', label: `${cmd.entity} 定位`, detail: `(${cmd.pos.col},${cmd.pos.row})` }
+    case 'shakeScreen':
+      return { icon: '📳', label: `震屏 ${cmd.frames} 帧 · 幅 ${cmd.level}` }
+    case 'setScreenWave':
+      return { icon: '🌊', label: `屏波 幅 ${cmd.level} · 推进 ${cmd.progression}` }
+    case 'setEntityLayer':
+      return { icon: '📐', label: `${cmd.entity} 图层 → ${cmd.layer}` }
+    case 'increaseHpMp':
+      return { icon: '❤', label: `全队 HP/MP ${cmd.delta >= 0 ? '+' : ''}${cmd.delta}` }
+    case 'revivePartyAll':
+      return { icon: '✨', label: `全队复活(HP=max×${cmd.tenths}/10)` }
+    case 'learnSkill':
+      return { icon: '📖', label: `角色 ${cmd.role} 习得仙术 ${cmd.skill}` }
+    case 'unequip':
+      return { icon: '🔓', label: `角色 ${cmd.role} 卸装 ${cmd.slot === 'all' ? '全部' : `槽${cmd.slot}`}` }
+    case 'toggleDayNight':
+      return { icon: '🌗', label: `昼夜切换(${cmd.ms}ms)` }
+    case 'setFollowers':
+      return { icon: '👥', label: cmd.sprites.length ? `编外跟随者 ${cmd.sprites.join('/')}` : '清跟随者' }
+    case 'setMapOverride':
+      return { icon: '🗺', label: `换底图 → ${cmd.mapNum}`, detail: cmd.scene ?? '当前场景' }
+    case 'halveMoney':
+      return { icon: '💸', label: '金钱减半' }
     case 'setEntityFacing':
       return { icon: '🧭', label: `${cmd.entity} 转向 ${cmd.facing}` }
     case 'setEntityFrame':

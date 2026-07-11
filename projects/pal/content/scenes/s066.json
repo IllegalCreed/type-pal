@@ -425,13 +425,9 @@
           "facing": "down"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 53,
-          "operands": [
-            90,
-            0,
-            0
-          ]
+          "kind": "shakeScreen",
+          "frames": 90,
+          "level": 4
         },
         {
           "kind": "unmigrated",

@@ -1221,13 +1221,9 @@
           "ms": 800
         },
         {
-          "kind": "unmigrated",
-          "opcode": 53,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "shakeScreen",
+          "frames": 0,
+          "level": 4
         },
         {
           "kind": "teleportParty",
@@ -1396,22 +1392,12 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 34,
-          "operands": [
-            1,
-            10,
-            0
-          ]
+          "kind": "revivePartyAll",
+          "tenths": 10
         },
         {
-          "kind": "unmigrated",
-          "opcode": 29,
-          "operands": [
-            1,
-            9999,
-            0
-          ]
+          "kind": "increaseHpMp",
+          "delta": 9999
         }
       ],
       "next": "advance"

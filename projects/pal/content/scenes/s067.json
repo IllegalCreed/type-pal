@@ -607,13 +607,9 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 35,
-                    "operands": [
-                      1,
-                      6,
-                      0
-                    ]
+                    "kind": "unequip",
+                    "role": 1,
+                    "slot": 5
                   },
                   {
                     "kind": "loseItem",

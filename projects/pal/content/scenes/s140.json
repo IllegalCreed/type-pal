@@ -4630,13 +4630,9 @@
           "ms": 1500
         },
         {
-          "kind": "unmigrated",
-          "opcode": 126,
-          "operands": [
-            2372,
-            33,
-            0
-          ]
+          "kind": "setEntityLayer",
+          "entity": "e2371",
+          "layer": 33
         },
         {
           "kind": "setEntityAuto",

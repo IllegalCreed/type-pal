@@ -8784,13 +8784,9 @@
                     "itemId": "265"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 113,
-                    "operands": [
-                      1,
-                      2,
-                      0
-                    ]
+                    "kind": "setScreenWave",
+                    "level": 1,
+                    "progression": 2
                   },
                   {
                     "kind": "wait",

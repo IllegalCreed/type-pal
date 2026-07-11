@@ -420,13 +420,8 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 128,
-                    "operands": [
-                      1,
-                      0,
-                      0
-                    ]
+                    "kind": "toggleDayNight",
+                    "ms": 800
                   },
                   {
                     "kind": "dialog",

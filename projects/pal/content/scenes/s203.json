@@ -2445,13 +2445,9 @@
     {
       "body": [
         {
-          "kind": "unmigrated",
-          "opcode": 113,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "setScreenWave",
+          "level": 0,
+          "progression": 0
         },
         {
           "kind": "setEntityState",

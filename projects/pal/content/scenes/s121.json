@@ -175,13 +175,8 @@
     {
       "body": [
         {
-          "kind": "unmigrated",
-          "opcode": 29,
-          "operands": [
-            1,
-            9999,
-            9999
-          ]
+          "kind": "increaseHpMp",
+          "delta": 9999
         },
         {
           "kind": "teleportParty",
@@ -268,13 +263,9 @@
     {
       "body": [
         {
-          "kind": "unmigrated",
-          "opcode": 113,
-          "operands": [
-            2,
-            0,
-            0
-          ]
+          "kind": "setScreenWave",
+          "level": 2,
+          "progression": 0
         },
         {
           "kind": "playMusic",

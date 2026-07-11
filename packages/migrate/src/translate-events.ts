@@ -13,7 +13,7 @@
  *  - 跳转族(census 31 op)未实现的 → unmigrated + 截断本段(flow-cut,不猜控制流);
  *  - 其它未知 op → unmigrated + 继续(不破坏后续可译部分)。
  */
-import type { Command, DialogueLine, ScriptStage } from '@type-pal/content'
+import { type Command, type DialogueLine, pixelToGrid, type ScriptStage } from '@type-pal/content'
 import type { SourceCmd } from './source-facts.js'
 import {
   FACING_BY_DIR,
@@ -437,6 +437,37 @@ function walkBody(
         // 0x93 SceneFade(script.c:2664):step=int16(op0)||1;ms=ceil(64/|step|)×100;step<0=渐暗
         const step = signExtendI16(o[0] ?? 0) || 1
         push({ kind: 'fade', dir: step < 0 ? 'out' : 'in', ms: Math.ceil(64 / Math.abs(step)) * 100 })
+      } else if (oc === 0x13) {
+        // 0x13 实体绝对定位(script.c:716):op0 选择器,op1/op2 原版像素 → pixelToGrid
+        const ent = pcRef(o[0] ?? 0)
+        if (ent) push({ kind: 'setEntityPos', entity: ent, pos: { ...pixelToGrid(o[1] ?? 0, o[2] ?? 0), height: 0 } })
+        else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '0x13 无属主' })
+      } else if (oc === 0x35) {
+        push({ kind: 'shakeScreen', frames: o[0] ?? 0, level: (o[1] ?? 0) || 4 }) // 0x35 震屏
+      } else if (oc === 0x71) {
+        push({ kind: 'setScreenWave', level: o[0] ?? 0, progression: signExtendI16(o[1] ?? 0) }) // 0x71 屏波
+      } else if (oc === 0x7e) {
+        const ent = pcRef(o[0] ?? 0)
+        if (ent) push({ kind: 'setEntityLayer', entity: ent, layer: signExtendI16(o[1] ?? 0) }) // 0x7E 图层
+        else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '0x7E 无属主' })
+      } else if (oc === 0x1d && (o[0] ?? 0) !== 0) {
+        push({ kind: 'increaseHpMp', delta: signExtendI16(o[1] ?? 0) }) // 0x1D 全队增血蓝(op0=1)
+      } else if (oc === 0x22 && (o[0] ?? 0) !== 0) {
+        push({ kind: 'revivePartyAll', tenths: o[1] ?? 0 }) // 0x22 全队复活(op0=1)
+      } else if (oc === 0x55 && (o[1] ?? 0) > 0) {
+        push({ kind: 'learnSkill', role: (o[1] ?? 1) - 1, skill: String(o[0] ?? 0) }) // 0x55 学仙术
+      } else if (oc === 0x23) {
+        push({ kind: 'unequip', role: o[0] ?? 0, slot: (o[1] ?? 0) === 0 ? 'all' : (o[1] ?? 1) - 1 }) // 0x23 卸装
+      } else if (oc === 0x80) {
+        push({ kind: 'toggleDayNight', ms: (o[0] ?? 0) === 0 ? 3200 : 800 }) // 0x80 昼夜切换
+      } else if (oc === 0x98) {
+        push({ kind: 'setFollowers', sprites: [o[0] ?? 0, o[1] ?? 0].filter((x) => x > 0) }) // 0x98 跟随者
+      } else if (oc === 0x99) {
+        // 0x99 换底图:op0=0xFFFF 当前场景即时重载;else 目标场景下次进场
+        if ((o[0] ?? 0) === 0xffff) push({ kind: 'setMapOverride', mapNum: o[1] ?? 0 })
+        else push({ kind: 'setMapOverride', scene: sceneSlug((o[0] ?? 1) - 1), mapNum: o[1] ?? 0 })
+      } else if (oc === 0x8f) {
+        push({ kind: 'halveMoney' }) // 0x8F 金钱减半
       } else if (oc === 0x49) {
         const ent = entRef(o[0] ?? 0)
         if (ent) push({ kind: 'setEntityState', entity: ent, state: signExtendI16(o[1] ?? 0) })

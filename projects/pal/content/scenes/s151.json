@@ -87,13 +87,9 @@
           "musicId": 15
         },
         {
-          "kind": "unmigrated",
-          "opcode": 53,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "shakeScreen",
+          "frames": 0,
+          "level": 4
         },
         {
           "kind": "teleportParty",

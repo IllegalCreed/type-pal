@@ -1682,13 +1682,9 @@
                     "frame": 6
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 126,
-                    "operands": [
-                      550,
-                      0,
-                      0
-                    ]
+                    "kind": "setEntityLayer",
+                    "entity": "e549",
+                    "layer": 0
                   },
                   {
                     "kind": "setPartyFacing",
@@ -6513,13 +6509,9 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 126,
-                    "operands": [
-                      549,
-                      7,
-                      0
-                    ]
+                    "kind": "setEntityLayer",
+                    "entity": "e548",
+                    "layer": 7
                   },
                   {
                     "kind": "setEntityAuto",

@@ -4382,13 +4382,8 @@
           "state": 2
         },
         {
-          "kind": "unmigrated",
-          "opcode": 128,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "toggleDayNight",
+          "ms": 3200
         },
         {
           "kind": "wait",

@@ -14504,13 +14504,13 @@
                     "state": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 19,
-                    "operands": [
-                      576,
-                      1104,
-                      1256
-                    ]
+                    "kind": "setEntityPos",
+                    "entity": "e575",
+                    "pos": {
+                      "col": 113,
+                      "row": 44,
+                      "height": 0
+                    }
                   },
                   {
                     "kind": "setEntityFacing",
@@ -14533,22 +14533,22 @@
                     "state": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 19,
-                    "operands": [
-                      578,
-                      1216,
-                      1248
-                    ]
+                    "kind": "setEntityPos",
+                    "entity": "e577",
+                    "pos": {
+                      "col": 116,
+                      "row": 40,
+                      "height": 0
+                    }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 19,
-                    "operands": [
-                      579,
-                      1200,
-                      1240
-                    ]
+                    "kind": "setEntityPos",
+                    "entity": "e578",
+                    "pos": {
+                      "col": 115,
+                      "row": 40,
+                      "height": 0
+                    }
                   },
                   {
                     "kind": "setEntityAuto",

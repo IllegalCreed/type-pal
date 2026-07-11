@@ -581,22 +581,12 @@
           "state": 0
         },
         {
-          "kind": "unmigrated",
-          "opcode": 34,
-          "operands": [
-            1,
-            10,
-            0
-          ]
+          "kind": "revivePartyAll",
+          "tenths": 10
         },
         {
-          "kind": "unmigrated",
-          "opcode": 29,
-          "operands": [
-            1,
-            9999,
-            0
-          ]
+          "kind": "increaseHpMp",
+          "delta": 9999
         }
       ],
       "next": "advance"

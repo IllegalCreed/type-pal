@@ -4906,13 +4906,8 @@
           "ms": 1000
         },
         {
-          "kind": "unmigrated",
-          "opcode": 153,
-          "operands": [
-            65535,
-            164,
-            0
-          ]
+          "kind": "setMapOverride",
+          "mapNum": 164
         },
         {
           "kind": "playSound",

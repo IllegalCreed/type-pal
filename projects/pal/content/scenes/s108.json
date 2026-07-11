@@ -6790,22 +6790,12 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 34,
-                    "operands": [
-                      1,
-                      10,
-                      0
-                    ]
+                    "kind": "revivePartyAll",
+                    "tenths": 10
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 29,
-                    "operands": [
-                      1,
-                      9999,
-                      0
-                    ]
+                    "kind": "increaseHpMp",
+                    "delta": 9999
                   },
                   {
                     "kind": "setEntityState",
@@ -6824,13 +6814,9 @@
                     "dy": -80
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 126,
-                    "operands": [
-                      65535,
-                      33,
-                      0
-                    ]
+                    "kind": "setEntityLayer",
+                    "entity": "e2009",
+                    "layer": 33
                   },
                   {
                     "kind": "setEntityAuto",
@@ -45993,13 +45979,9 @@
     {
       "body": [
         {
-          "kind": "unmigrated",
-          "opcode": 113,
-          "operands": [
-            2,
-            0,
-            0
-          ]
+          "kind": "setScreenWave",
+          "level": 2,
+          "progression": 0
         },
         {
           "kind": "setEntityState",
@@ -46481,13 +46463,9 @@
     {
       "body": [
         {
-          "kind": "unmigrated",
-          "opcode": 113,
-          "operands": [
-            2,
-            0,
-            0
-          ]
+          "kind": "setScreenWave",
+          "level": 2,
+          "progression": 0
         },
         {
           "kind": "playMusic",

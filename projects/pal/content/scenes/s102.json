@@ -340,12 +340,9 @@
                     "state": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 152,
-                    "operands": [
-                      82,
-                      0,
-                      0
+                    "kind": "setFollowers",
+                    "sprites": [
+                      82
                     ]
                   }
                 ]
@@ -5542,13 +5539,8 @@
                         }
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 152,
-                        "operands": [
-                          0,
-                          0,
-                          0
-                        ]
+                        "kind": "setFollowers",
+                        "sprites": []
                       },
                       {
                         "kind": "fade",

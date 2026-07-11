@@ -242,13 +242,8 @@
                     "boss": true
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 34,
-                    "operands": [
-                      1,
-                      5,
-                      0
-                    ]
+                    "kind": "revivePartyAll",
+                    "tenths": 5
                   },
                   {
                     "kind": "clearDialog"

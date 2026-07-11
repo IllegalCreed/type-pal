@@ -2431,22 +2431,14 @@
     {
       "body": [
         {
-          "kind": "unmigrated",
-          "opcode": 53,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "shakeScreen",
+          "frames": 0,
+          "level": 4
         },
         {
-          "kind": "unmigrated",
-          "opcode": 113,
-          "operands": [
-            0,
-            0,
-            0
-          ]
+          "kind": "setScreenWave",
+          "level": 0,
+          "progression": 0
         },
         {
           "kind": "loadScene",

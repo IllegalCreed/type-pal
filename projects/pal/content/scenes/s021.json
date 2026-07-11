@@ -4964,22 +4964,13 @@
                     "facing": "down"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 85,
-                    "operands": [
-                      301,
-                      2,
-                      0
-                    ]
+                    "kind": "learnSkill",
+                    "role": 1,
+                    "skill": "301"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 29,
-                    "operands": [
-                      1,
-                      9999,
-                      9999
-                    ]
+                    "kind": "increaseHpMp",
+                    "delta": 9999
                   }
                 ]
               }

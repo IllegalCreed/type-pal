@@ -1809,13 +1809,7 @@
                     "stage": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 143,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
+                    "kind": "halveMoney"
                   }
                 ],
                 "next": "advance"

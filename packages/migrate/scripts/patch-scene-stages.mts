@@ -17,7 +17,7 @@
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import type { SceneDef, SpriteDef } from '@type-pal/content'
+import { pixelToGrid, type SceneDef, type SpriteDef } from '@type-pal/content'
 import { resolveSceneStagePatches, type SourceCmd } from '../src/migrate-content.js'
 import { emptyTranslateReport, type TranslateCtx } from '../src/translate-events.js'
 
@@ -160,6 +160,29 @@ const swapCmd = (x: unknown, owner: string): unknown | undefined => {
     const step = i16(o[0] ?? 0) || 1
     return sites4++, { kind: 'fade', dir: step < 0 ? 'out' : 'in', ms: Math.ceil(64 / Math.abs(step)) * 100 }
   }
+  // 批 4b:runLegacyOp 兜底 → 新具名命令(owner=触发实体;self 选择器 0/0xFFFF → owner)
+  const self = (v: number): string | undefined => (v === 0 || v === 0xffff ? owner || undefined : `e${v - 1}`)
+  if (c.opcode === 0x13) {
+    const ent = self(o[0] ?? 0)
+    return ent ? (sites4++, { kind: 'setEntityPos', entity: ent, pos: { ...pixelToGrid(o[1] ?? 0, o[2] ?? 0), height: 0 } }) : x
+  }
+  if (c.opcode === 0x35) return sites4++, { kind: 'shakeScreen', frames: o[0] ?? 0, level: (o[1] ?? 0) || 4 }
+  if (c.opcode === 0x71) return sites4++, { kind: 'setScreenWave', level: o[0] ?? 0, progression: i16(o[1] ?? 0) }
+  if (c.opcode === 0x7e) {
+    const ent = self(o[0] ?? 0)
+    return ent ? (sites4++, { kind: 'setEntityLayer', entity: ent, layer: i16(o[1] ?? 0) }) : x
+  }
+  if (c.opcode === 0x1d && (o[0] ?? 0) !== 0) return sites4++, { kind: 'increaseHpMp', delta: i16(o[1] ?? 0) }
+  if (c.opcode === 0x22 && (o[0] ?? 0) !== 0) return sites4++, { kind: 'revivePartyAll', tenths: o[1] ?? 0 }
+  if (c.opcode === 0x55 && (o[1] ?? 0) > 0) return sites4++, { kind: 'learnSkill', role: (o[1] ?? 1) - 1, skill: String(o[0] ?? 0) }
+  if (c.opcode === 0x23) return sites4++, { kind: 'unequip', role: o[0] ?? 0, slot: (o[1] ?? 0) === 0 ? 'all' : (o[1] ?? 1) - 1 }
+  if (c.opcode === 0x80) return sites4++, { kind: 'toggleDayNight', ms: (o[0] ?? 0) === 0 ? 3200 : 800 }
+  if (c.opcode === 0x98) return sites4++, { kind: 'setFollowers', sprites: [o[0] ?? 0, o[1] ?? 0].filter((v) => v > 0) }
+  if (c.opcode === 0x99) {
+    if ((o[0] ?? 0) === 0xffff) return sites4++, { kind: 'setMapOverride', mapNum: o[1] ?? 0 }
+    return sites4++, { kind: 'setMapOverride', scene: `s${String((o[0] ?? 1) - 1).padStart(3, '0')}`, mapNum: o[1] ?? 0 }
+  }
+  if (c.opcode === 0x8f) return sites4++, { kind: 'halveMoney' }
   return x
 }
 const swap = (o: unknown, owner: string): unknown => {

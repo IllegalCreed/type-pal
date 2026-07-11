@@ -6899,13 +6899,8 @@
           "frame": 0
         },
         {
-          "kind": "unmigrated",
-          "opcode": 34,
-          "operands": [
-            1,
-            10,
-            0
-          ]
+          "kind": "revivePartyAll",
+          "tenths": 10
         },
         {
           "kind": "clearDialog"

@@ -5621,13 +5621,9 @@
           "facing": "up"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 113,
-          "operands": [
-            255,
-            65532,
-            0
-          ]
+          "kind": "setScreenWave",
+          "level": 255,
+          "progression": -4
         },
         {
           "kind": "fade",

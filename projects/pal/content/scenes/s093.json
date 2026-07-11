@@ -7079,13 +7079,9 @@
                         ]
                       },
                       {
-                        "kind": "unmigrated",
-                        "opcode": 126,
-                        "operands": [
-                          1760,
-                          13,
-                          0
-                        ]
+                        "kind": "setEntityLayer",
+                        "entity": "e1759",
+                        "layer": 13
                       },
                       {
                         "kind": "wait",
@@ -12088,13 +12084,9 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 126,
-                    "operands": [
-                      1760,
-                      13,
-                      0
-                    ]
+                    "kind": "setEntityLayer",
+                    "entity": "e1759",
+                    "layer": 13
                   },
                   {
                     "kind": "wait",

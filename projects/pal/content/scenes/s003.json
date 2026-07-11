@@ -1212,13 +1212,13 @@
                             "range": 2
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              9,
-                              1376,
-                              288
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e8",
+                            "pos": {
+                              "col": 61,
+                              "row": -25,
+                              "height": 0
+                            }
                           },
                           {
                             "kind": "fade",

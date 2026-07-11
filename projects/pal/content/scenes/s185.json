@@ -9911,13 +9911,9 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 126,
-                    "operands": [
-                      3114,
-                      10,
-                      0
-                    ]
+                    "kind": "setEntityLayer",
+                    "entity": "e3113",
+                    "layer": 10
                   },
                   {
                     "kind": "setActorSprite",

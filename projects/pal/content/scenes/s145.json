@@ -896,13 +896,9 @@
           "soundId": 122
         },
         {
-          "kind": "unmigrated",
-          "opcode": 53,
-          "operands": [
-            10,
-            0,
-            0
-          ]
+          "kind": "shakeScreen",
+          "frames": 10,
+          "level": 4
         },
         {
           "kind": "wait",
@@ -932,13 +928,9 @@
           "spriteId": "npc-512"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 85,
-          "operands": [
-            295,
-            2,
-            0
-          ]
+          "kind": "learnSkill",
+          "role": 1,
+          "skill": "295"
         },
         {
           "kind": "setParty",

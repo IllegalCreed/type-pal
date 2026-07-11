@@ -590,13 +590,13 @@
                     }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 19,
-                    "operands": [
-                      9,
-                      1392,
-                      296
-                    ]
+                    "kind": "setEntityPos",
+                    "entity": "e8",
+                    "pos": {
+                      "col": 62,
+                      "row": -25,
+                      "height": 0
+                    }
                   },
                   {
                     "kind": "setEntityTriggerMode",
@@ -680,13 +680,13 @@
                             "range": 2
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              9,
-                              1376,
-                              288
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e8",
+                            "pos": {
+                              "col": 61,
+                              "row": -25,
+                              "height": 0
+                            }
                           },
                           {
                             "kind": "fade",
@@ -1731,13 +1731,13 @@
                             "range": 2
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              9,
-                              1376,
-                              288
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e8",
+                            "pos": {
+                              "col": 61,
+                              "row": -25,
+                              "height": 0
+                            }
                           },
                           {
                             "kind": "fade",
@@ -2027,13 +2027,13 @@
                             }
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              9,
-                              1392,
-                              296
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e8",
+                            "pos": {
+                              "col": 62,
+                              "row": -25,
+                              "height": 0
+                            }
                           },
                           {
                             "kind": "setEntityTriggerMode",
@@ -2117,13 +2117,13 @@
                                     "range": 2
                                   },
                                   {
-                                    "kind": "unmigrated",
-                                    "opcode": 19,
-                                    "operands": [
-                                      9,
-                                      1376,
-                                      288
-                                    ]
+                                    "kind": "setEntityPos",
+                                    "entity": "e8",
+                                    "pos": {
+                                      "col": 61,
+                                      "row": -25,
+                                      "height": 0
+                                    }
                                   },
                                   {
                                     "kind": "fade",
@@ -2877,22 +2877,22 @@
                     "state": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 19,
-                    "operands": [
-                      26,
-                      1168,
-                      376
-                    ]
+                    "kind": "setEntityPos",
+                    "entity": "e25",
+                    "pos": {
+                      "col": 60,
+                      "row": -13,
+                      "height": 0
+                    }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 19,
-                    "operands": [
-                      27,
-                      1200,
-                      376
-                    ]
+                    "kind": "setEntityPos",
+                    "entity": "e26",
+                    "pos": {
+                      "col": 61,
+                      "row": -14,
+                      "height": 0
+                    }
                   },
                   {
                     "kind": "setEntityAuto",
@@ -10452,13 +10452,13 @@
                     "range": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 19,
-                    "operands": [
-                      9,
-                      1376,
-                      288
-                    ]
+                    "kind": "setEntityPos",
+                    "entity": "e8",
+                    "pos": {
+                      "col": 61,
+                      "row": -25,
+                      "height": 0
+                    }
                   },
                   {
                     "kind": "setParty",
@@ -23050,13 +23050,13 @@
                                     "stages": []
                                   },
                                   {
-                                    "kind": "unmigrated",
-                                    "opcode": 19,
-                                    "operands": [
-                                      118,
-                                      1120,
-                                      1424
-                                    ]
+                                    "kind": "setEntityPos",
+                                    "entity": "e117",
+                                    "pos": {
+                                      "col": 124,
+                                      "row": 54,
+                                      "height": 0
+                                    }
                                   },
                                   {
                                     "kind": "clearDialog"
@@ -23166,22 +23166,12 @@
                     "facing": "right"
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 34,
-                    "operands": [
-                      1,
-                      10,
-                      0
-                    ]
+                    "kind": "revivePartyAll",
+                    "tenths": 10
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 29,
-                    "operands": [
-                      1,
-                      9999,
-                      9999
-                    ]
+                    "kind": "increaseHpMp",
+                    "delta": 9999
                   },
                   {
                     "kind": "setEntityTriggerMode",
@@ -28099,13 +28089,13 @@
                   "frame": 0
                 },
                 {
-                  "kind": "unmigrated",
-                  "opcode": 19,
-                  "operands": [
-                    57,
-                    1440,
-                    1456
-                  ]
+                  "kind": "setEntityPos",
+                  "entity": "e56",
+                  "pos": {
+                    "col": 136,
+                    "row": 46,
+                    "height": 0
+                  }
                 },
                 {
                   "kind": "setEntityAuto",
@@ -28450,13 +28440,13 @@
           ]
         },
         {
-          "kind": "unmigrated",
-          "opcode": 19,
-          "operands": [
-            69,
-            1616,
-            1528
-          ]
+          "kind": "setEntityPos",
+          "entity": "e68",
+          "pos": {
+            "col": 146,
+            "row": 45,
+            "height": 0
+          }
         }
       ],
       "next": "advance"

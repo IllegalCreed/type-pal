@@ -679,13 +679,9 @@
           ]
         },
         {
-          "kind": "unmigrated",
-          "opcode": 53,
-          "operands": [
-            999,
-            4,
-            0
-          ]
+          "kind": "shakeScreen",
+          "frames": 999,
+          "level": 4
         },
         {
           "kind": "unmigrated",
@@ -724,13 +720,9 @@
           "ms": 3200
         },
         {
-          "kind": "unmigrated",
-          "opcode": 53,
-          "operands": [
-            999,
-            1,
-            0
-          ]
+          "kind": "shakeScreen",
+          "frames": 999,
+          "level": 1
         },
         {
           "kind": "unmigrated",

@@ -1598,13 +1598,9 @@
                     "stage": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 113,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
+                    "kind": "setScreenWave",
+                    "level": 0,
+                    "progression": 0
                   },
                   {
                     "kind": "playMusic",
@@ -1684,13 +1680,9 @@
     {
       "body": [
         {
-          "kind": "unmigrated",
-          "opcode": 113,
-          "operands": [
-            2,
-            0,
-            0
-          ]
+          "kind": "setScreenWave",
+          "level": 2,
+          "progression": 0
         },
         {
           "kind": "playMusic",

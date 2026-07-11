@@ -57,6 +57,19 @@ export type Command =
   // 0x9A:批量设实体状态(原版全局对象号区间 [op0,op1] 全设 sState=op2;迁移器展开成实体 id 数组,
   // 杜绝下标式身份)。≤0 隐 / 1 显 / ≥2 显+挡路,语义同 setEntityState。跨场景写 world 持久、进场重放。
   | { kind: 'setMultiEntityState'; entities: string[]; state: number }
+  // ── 批 4:runLegacyOp 兜底的高频 op 具名化(退役双解释器,语义见 runner runLegacyOp / script.c)──
+  | { kind: 'setEntityPos'; entity: string; pos: GridPos } // 0x13 实体绝对定位(持久+活体双写)
+  | { kind: 'shakeScreen'; frames: number; level: number } // 0x35 震屏(time 帧/level;time=0 关)
+  | { kind: 'setScreenWave'; level: number; progression: number } // 0x71 屏幕水波(状态入 vars 随存档)
+  | { kind: 'setEntityLayer'; entity: string; layer: number } // 0x7E 实体图层(只进深度键 +8px/层)
+  | { kind: 'increaseHpMp'; delta: number } // 0x1D 全队 HP/MP 同加 int16
+  | { kind: 'revivePartyAll'; tenths: number } // 0x22 全队复活(HP=max×tenths/10 + 解重毒)
+  | { kind: 'learnSkill'; role: number; skill: string } // 0x55 角色学仙术(role 0-based)
+  | { kind: 'unequip'; role: number; slot: number | 'all' } // 0x23 卸装(退回背包)
+  | { kind: 'toggleDayNight'; ms: number } // 0x80 昼夜切换(op0==0 → 3200ms 否则 800ms)
+  | { kind: 'setFollowers'; sprites: number[] } // 0x98 编外跟随者精灵号(空=清)
+  | { kind: 'setMapOverride'; scene?: string; mapNum: number } // 0x99 换底图(scene 缺=当前即时重载)
+  | { kind: 'halveMoney' } // 0x8F 金钱减半(酒剑仙赌局;运行时算 delta)
   // 0x6D:改场景进场剧情到指定段(原版改 wScriptOnEnter 地址;迁移器把目标链追加为该场景
   // onEnter 新段并回填下标 —— 45 站点目标全是新链,不在既有链内)。运行时写 entityStage['s:<scene>']
   | { kind: 'setSceneStage'; scene: string; stage: number }

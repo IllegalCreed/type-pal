@@ -465,31 +465,19 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 85,
-          "operands": [
-            370,
-            1,
-            0
-          ]
+          "kind": "learnSkill",
+          "role": 0,
+          "skill": "370"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 85,
-          "operands": [
-            390,
-            1,
-            0
-          ]
+          "kind": "learnSkill",
+          "role": 0,
+          "skill": "390"
         },
         {
-          "kind": "unmigrated",
-          "opcode": 85,
-          "operands": [
-            393,
-            1,
-            0
-          ]
+          "kind": "learnSkill",
+          "role": 0,
+          "skill": "393"
         },
         {
           "kind": "giveItem",

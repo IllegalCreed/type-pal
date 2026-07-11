@@ -311,6 +311,57 @@ export class ScriptRunner {
         if (cmd.entities[0]) return h.setEntityState(cmd.entities[0], cmd.state)
         return
       }
+      // ── 批 4:runLegacyOp 兜底 op 具名化(逻辑同 runLegacyOp,退役双解释器)──
+      case 'setEntityPos': {
+        // 0x13 实体绝对定位:持久写 entityPos + 活体生效(host)
+        ;(this.world.entityPos ??= {})[cmd.entity] = {
+          col: cmd.pos.col,
+          row: cmd.pos.row,
+          height: cmd.pos.height ?? 0,
+        }
+        return h.setEntityPos?.(cmd.entity, cmd.pos)
+      }
+      case 'shakeScreen':
+        h.shakeScreen?.(cmd.frames, cmd.level)
+        return
+      case 'setScreenWave':
+        this.world.vars['sys:screenWave'] = cmd.level
+        this.world.vars['sys:waveProgression'] = cmd.progression
+        return
+      case 'setEntityLayer':
+        ;(this.world.entityLayer ??= {})[cmd.entity] = cmd.layer
+        return
+      case 'increaseHpMp':
+        h.increaseHpMp?.(cmd.delta)
+        return
+      case 'revivePartyAll':
+        h.revivePartyAll?.(cmd.tenths)
+        return
+      case 'learnSkill':
+        h.learnSkill?.(cmd.role, cmd.skill)
+        return
+      case 'unequip':
+        h.unequipRole?.(cmd.role, cmd.slot)
+        return
+      case 'toggleDayNight':
+        h.toggleDayNight?.(cmd.ms)
+        return
+      case 'setFollowers':
+        this.world.followers = cmd.sprites.length ? cmd.sprites : undefined
+        return
+      case 'setMapOverride':
+        if (cmd.scene === undefined) {
+          const cur = h.query.sceneId?.()
+          if (cur) (this.world.mapOverride ??= {})[cur] = cmd.mapNum
+          return h.reloadMap?.(cmd.mapNum)
+        }
+        ;(this.world.mapOverride ??= {})[cmd.scene] = cmd.mapNum
+        return
+      case 'halveMoney': {
+        const money = h.query.money()
+        h.giveMoney(-(money - Math.floor(money / 2)))
+        return
+      }
       case 'setSceneStage':
         // 0x6D:目标场景进场剧情切到指定段(startScript 键 `s:<sceneId>`,stageIndexFor 选段)
         this.world.entityStage[`s:${cmd.scene}`] = cmd.stage

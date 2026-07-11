@@ -943,13 +943,13 @@
           "ms": 320
         },
         {
-          "kind": "unmigrated",
-          "opcode": 19,
-          "operands": [
-            426,
-            1168,
-            808
-          ]
+          "kind": "setEntityPos",
+          "entity": "e425",
+          "pos": {
+            "col": 87,
+            "row": 14,
+            "height": 0
+          }
         },
         {
           "kind": "setEntityFacing",
@@ -1024,13 +1024,8 @@
           ]
         },
         {
-          "kind": "unmigrated",
-          "opcode": 29,
-          "operands": [
-            1,
-            9999,
-            9999
-          ]
+          "kind": "increaseHpMp",
+          "delta": 9999
         },
         {
           "kind": "setEntityState",

@@ -937,13 +937,9 @@
           }
         },
         {
-          "kind": "unmigrated",
-          "opcode": 53,
-          "operands": [
-            30,
-            0,
-            0
-          ]
+          "kind": "shakeScreen",
+          "frames": 30,
+          "level": 4
         },
         {
           "kind": "wait",

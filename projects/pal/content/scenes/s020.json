@@ -278,22 +278,22 @@
                             "state": 2
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              117,
-                              1184,
-                              1424
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e116",
+                            "pos": {
+                              "col": 126,
+                              "row": 52,
+                              "height": 0
+                            }
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              124,
-                              1152,
-                              1376
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e123",
+                            "pos": {
+                              "col": 122,
+                              "row": 50,
+                              "height": 0
+                            }
                           },
                           {
                             "kind": "setEntityState",
@@ -842,13 +842,13 @@
                     "frame": 0
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 19,
-                    "operands": [
-                      343,
-                      632,
-                      1444
-                    ]
+                    "kind": "setEntityPos",
+                    "entity": "e342",
+                    "pos": {
+                      "col": 110,
+                      "row": 71,
+                      "height": 0
+                    }
                   },
                   {
                     "kind": "clearDialog"
@@ -2363,13 +2363,8 @@
                     "ms": 600
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 128,
-                    "operands": [
-                      0,
-                      0,
-                      0
-                    ]
+                    "kind": "toggleDayNight",
+                    "ms": 3200
                   },
                   {
                     "kind": "fade",
@@ -2583,13 +2578,13 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 19,
-                    "operands": [
-                      343,
-                      544,
-                      1504
-                    ]
+                    "kind": "setEntityPos",
+                    "entity": "e342",
+                    "pos": {
+                      "col": 111,
+                      "row": 77,
+                      "height": 0
+                    }
                   },
                   {
                     "kind": "setEntityFacing",
@@ -3045,22 +3040,22 @@
                             }
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              117,
-                              1184,
-                              1424
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e116",
+                            "pos": {
+                              "col": 126,
+                              "row": 52,
+                              "height": 0
+                            }
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              124,
-                              1152,
-                              1376
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e123",
+                            "pos": {
+                              "col": 122,
+                              "row": 50,
+                              "height": 0
+                            }
                           },
                           {
                             "kind": "setEntityState",
@@ -3154,31 +3149,31 @@
                     "state": 2
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 19,
-                    "operands": [
-                      60,
-                      1128,
-                      1624
-                    ]
+                    "kind": "setEntityPos",
+                    "entity": "e59",
+                    "pos": {
+                      "col": 137,
+                      "row": 66,
+                      "height": 0
+                    }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 19,
-                    "operands": [
-                      61,
-                      1184,
-                      1616
-                    ]
+                    "kind": "setEntityPos",
+                    "entity": "e60",
+                    "pos": {
+                      "col": 138,
+                      "row": 64,
+                      "height": 0
+                    }
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 19,
-                    "operands": [
-                      62,
-                      1168,
-                      1704
-                    ]
+                    "kind": "setEntityPos",
+                    "entity": "e61",
+                    "pos": {
+                      "col": 143,
+                      "row": 70,
+                      "height": 0
+                    }
                   },
                   {
                     "kind": "setEntityFacing",
@@ -3560,13 +3555,13 @@
                             "state": 2
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              69,
-                              1184,
-                              1696
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e68",
+                            "pos": {
+                              "col": 143,
+                              "row": 69,
+                              "height": 0
+                            }
                           },
                           {
                             "kind": "setEntityFacing",
@@ -3591,22 +3586,22 @@
                             "facing": "left"
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              60,
-                              1056,
-                              1648
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e59",
+                            "pos": {
+                              "col": 136,
+                              "row": 70,
+                              "height": 0
+                            }
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              59,
-                              1088,
-                              1664
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e58",
+                            "pos": {
+                              "col": 138,
+                              "row": 70,
+                              "height": 0
+                            }
                           },
                           {
                             "kind": "setEntityState",
@@ -3639,22 +3634,22 @@
                             "state": 2
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              57,
-                              992,
-                              1712
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e56",
+                            "pos": {
+                              "col": 138,
+                              "row": 76,
+                              "height": 0
+                            }
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              58,
-                              1072,
-                              1672
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e57",
+                            "pos": {
+                              "col": 138,
+                              "row": 71,
+                              "height": 0
+                            }
                           },
                           {
                             "kind": "setEntityFacing",
@@ -3886,13 +3881,9 @@
                             "dy": -16
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 126,
-                            "operands": [
-                              59,
-                              3,
-                              0
-                            ]
+                            "kind": "setEntityLayer",
+                            "entity": "e58",
+                            "layer": 3
                           },
                           {
                             "kind": "clearDialog"
@@ -3949,13 +3940,9 @@
                             "dy": 8
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 126,
-                            "operands": [
-                              59,
-                              0,
-                              0
-                            ]
+                            "kind": "setEntityLayer",
+                            "entity": "e58",
+                            "layer": 0
                           },
                           {
                             "kind": "clearDialog"
@@ -4861,13 +4848,13 @@
                             "state": 2
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              69,
-                              1184,
-                              1696
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e68",
+                            "pos": {
+                              "col": 143,
+                              "row": 69,
+                              "height": 0
+                            }
                           },
                           {
                             "kind": "setEntityFacing",
@@ -4892,22 +4879,22 @@
                             "facing": "left"
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              60,
-                              1056,
-                              1648
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e59",
+                            "pos": {
+                              "col": 136,
+                              "row": 70,
+                              "height": 0
+                            }
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              59,
-                              1088,
-                              1664
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e58",
+                            "pos": {
+                              "col": 138,
+                              "row": 70,
+                              "height": 0
+                            }
                           },
                           {
                             "kind": "setEntityState",
@@ -4940,22 +4927,22 @@
                             "state": 2
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              57,
-                              992,
-                              1712
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e56",
+                            "pos": {
+                              "col": 138,
+                              "row": 76,
+                              "height": 0
+                            }
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              58,
-                              1072,
-                              1672
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e57",
+                            "pos": {
+                              "col": 138,
+                              "row": 71,
+                              "height": 0
+                            }
                           },
                           {
                             "kind": "setEntityFacing",
@@ -5187,13 +5174,9 @@
                             "dy": -16
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 126,
-                            "operands": [
-                              59,
-                              3,
-                              0
-                            ]
+                            "kind": "setEntityLayer",
+                            "entity": "e58",
+                            "layer": 3
                           },
                           {
                             "kind": "clearDialog"
@@ -5250,13 +5233,9 @@
                             "dy": 8
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 126,
-                            "operands": [
-                              59,
-                              0,
-                              0
-                            ]
+                            "kind": "setEntityLayer",
+                            "entity": "e58",
+                            "layer": 0
                           },
                           {
                             "kind": "clearDialog"
@@ -6162,13 +6141,13 @@
                             "state": 2
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              69,
-                              1184,
-                              1696
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e68",
+                            "pos": {
+                              "col": 143,
+                              "row": 69,
+                              "height": 0
+                            }
                           },
                           {
                             "kind": "setEntityFacing",
@@ -6193,22 +6172,22 @@
                             "facing": "left"
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              60,
-                              1056,
-                              1648
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e59",
+                            "pos": {
+                              "col": 136,
+                              "row": 70,
+                              "height": 0
+                            }
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              59,
-                              1088,
-                              1664
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e58",
+                            "pos": {
+                              "col": 138,
+                              "row": 70,
+                              "height": 0
+                            }
                           },
                           {
                             "kind": "setEntityState",
@@ -6241,22 +6220,22 @@
                             "state": 2
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              57,
-                              992,
-                              1712
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e56",
+                            "pos": {
+                              "col": 138,
+                              "row": 76,
+                              "height": 0
+                            }
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 19,
-                            "operands": [
-                              58,
-                              1072,
-                              1672
-                            ]
+                            "kind": "setEntityPos",
+                            "entity": "e57",
+                            "pos": {
+                              "col": 138,
+                              "row": 71,
+                              "height": 0
+                            }
                           },
                           {
                             "kind": "setEntityFacing",
@@ -6488,13 +6467,9 @@
                             "dy": -16
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 126,
-                            "operands": [
-                              59,
-                              3,
-                              0
-                            ]
+                            "kind": "setEntityLayer",
+                            "entity": "e58",
+                            "layer": 3
                           },
                           {
                             "kind": "clearDialog"
@@ -6551,13 +6526,9 @@
                             "dy": 8
                           },
                           {
-                            "kind": "unmigrated",
-                            "opcode": 126,
-                            "operands": [
-                              59,
-                              0,
-                              0
-                            ]
+                            "kind": "setEntityLayer",
+                            "entity": "e58",
+                            "layer": 0
                           },
                           {
                             "kind": "clearDialog"
@@ -7262,13 +7233,13 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 19,
-                    "operands": [
-                      85,
-                      1376,
-                      944
-                    ]
+                    "kind": "setEntityPos",
+                    "entity": "e84",
+                    "pos": {
+                      "col": 102,
+                      "row": 16,
+                      "height": 0
+                    }
                   },
                   {
                     "kind": "setEntityFacing",
@@ -7414,13 +7385,13 @@
                     ]
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 19,
-                    "operands": [
-                      77,
-                      1360,
-                      952
-                    ]
+                    "kind": "setEntityPos",
+                    "entity": "e76",
+                    "pos": {
+                      "col": 102,
+                      "row": 17,
+                      "height": 0
+                    }
                   },
                   {
                     "kind": "setEntityAuto",
@@ -7846,13 +7817,13 @@
                     "state": 1
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 19,
-                    "operands": [
-                      343,
-                      842,
-                      1352
-                    ]
+                    "kind": "setEntityPos",
+                    "entity": "e342",
+                    "pos": {
+                      "col": 111,
+                      "row": 58,
+                      "height": 0
+                    }
                   },
                   {
                     "kind": "setEntityAuto",
@@ -12221,13 +12192,8 @@
                     "soundId": 263
                   },
                   {
-                    "kind": "unmigrated",
-                    "opcode": 29,
-                    "operands": [
-                      1,
-                      999,
-                      0
-                    ]
+                    "kind": "increaseHpMp",
+                    "delta": 999
                   },
                   {
                     "kind": "dialog",
