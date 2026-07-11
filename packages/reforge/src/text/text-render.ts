@@ -15,6 +15,8 @@ export interface RenderSpansOpts {
    *  原版 FBP 同位是美工粗体位图字(纯黑无影,考证 2026-07-11),16px 字模
    *  细笔画显单薄,作者裁决以加粗补偿、不引入原版没有的阴影。 */
   bold?: boolean
+  /** 影色覆盖(缺省黑)。黑 label 配灰影用 —— 黑字黑影糊成一坨,作者裁决影用灰。 */
+  shadowRgba?: readonly [number, number, number]
 }
 
 /**
@@ -40,7 +42,7 @@ export function renderSpans(
       const w = g?.width ?? 16
       if (g) {
         if (opts.shadow) {
-          const s = bakeGlyph(cp, g, SHADOW_RGBA)
+          const s = bakeGlyph(cp, g, opts.shadowRgba ?? SHADOW_RGBA)
           const sx = opts.bold ? 2 : 1 // 加粗时影随主体外扩,不被第二笔盖掉
           ctx.drawImage(s, cursorX + sx, y)
           ctx.drawImage(s, cursorX, y + 1)

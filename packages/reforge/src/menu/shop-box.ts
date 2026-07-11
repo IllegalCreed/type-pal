@@ -39,6 +39,7 @@ const SELL_PRICE_BOX = { x: 224, y: 150, len: 5 }
 
 const COLOR_NORMAL = [199, 186, 174] as const // 0x4F 米白
 const COLOR_LABEL = [26, 30, 22] as const // 卷轴纸上标签(原版 color0 黑,无影)
+const COLOR_LABEL_SHADOW = [150, 138, 118] as const // 深色 label 的暖灰影(作者裁决)
 const SELECTED_COLORS = [
   [247, 231, 109],
   [235, 211, 97],
@@ -148,6 +149,8 @@ export function drawShop(
     drawScroll(ctx, assets.scroll, SELL_CASH_BOX.x, SELL_CASH_BOX.y, SELL_CASH_BOX.len)
     renderSpans(ctx, [{ text: '金钱' }], SELL_CASH_BOX.x + 10, SELL_CASH_BOX.y + 10, {
       glyphs,
+      shadow: true,
+      shadowRgba: COLOR_LABEL_SHADOW, // 黑字灰影(作者裁决)
       bold: true, // 原版金钱卷轴 label 为粗体位图字(作者裁决 2026-07-11)
       forceRgba: COLOR_LABEL,
     })
@@ -157,6 +160,8 @@ export function drawShop(
     if (sel?.sellable) {
       renderSpans(ctx, [{ text: '售价' }], SELL_PRICE_BOX.x + 10, SELL_PRICE_BOX.y + 10, {
         glyphs,
+        shadow: true,
+        shadowRgba: COLOR_LABEL_SHADOW, // 黑字灰影(作者裁决)
         bold: true, // 原版金钱卷轴 label 为粗体位图字(作者裁决 2026-07-11)
         forceRgba: COLOR_LABEL,
       })
@@ -190,6 +195,8 @@ export function drawShop(
     drawScroll(ctx, assets.scroll, OWNED_BOX.x, OWNED_BOX.y, OWNED_BOX.len)
     renderSpans(ctx, [{ text: '现有' }], OWNED_BOX.x + 10, OWNED_BOX.y + 10, {
       glyphs,
+      shadow: true,
+      shadowRgba: COLOR_LABEL_SHADOW, // 黑字灰影(作者裁决)
       bold: true, // 原版金钱卷轴 label 为粗体位图字(作者裁决 2026-07-11)
       forceRgba: COLOR_LABEL,
     })
@@ -197,6 +204,8 @@ export function drawShop(
     drawScroll(ctx, assets.scroll, CASH_BOX.x, CASH_BOX.y, CASH_BOX.len)
     renderSpans(ctx, [{ text: '金钱' }], CASH_BOX.x + 10, CASH_BOX.y + 10, {
       glyphs,
+      shadow: true,
+      shadowRgba: COLOR_LABEL_SHADOW, // 黑字灰影(作者裁决)
       bold: true, // 原版金钱卷轴 label 为粗体位图字(作者裁决 2026-07-11)
       forceRgba: COLOR_LABEL,
     })
