@@ -10,8 +10,8 @@ const view = (
   difficulty: 'normal',
   allyCount: 2,
   players: [
-    { index: 0, hpPercent: 80, hp: 400, mp: 50, attack: 60 },
-    { index: 2, hpPercent: 30, hp: 90, mp: 10, attack: 40 },
+    { index: 0, hpPercent: 80, hp: 400, mp: 50, attack: 60, role: 'li-xiaoyao' },
+    { index: 2, hpPercent: 30, hp: 90, mp: 10, attack: 40, role: 'lin-yueru' },
   ],
   ...over,
   self: { hpPercent: 100, firstOfKind: true, silenced: false, ...over?.self },
@@ -39,6 +39,11 @@ describe('evalAiCond', () => {
     expect(evalAiCond({ kind: 'allyCount', op: '<=', value: 1 }, view(), r0)).toBe(false)
     expect(evalAiCond({ kind: 'difficulty', in: ['hard', 'hardcore'] }, view(), r0)).toBe(false)
     expect(evalAiCond({ kind: 'difficulty', in: ['normal'] }, view(), r0)).toBe(true)
+  })
+  test('playerInParty:角色在队(0x79 门 —— 绿叶小妖赵灵儿在队才退下)', () => {
+    // view 默认队伍 = [李逍遥, 林月如]
+    expect(evalAiCond({ kind: 'playerInParty', role: 'li-xiaoyao' }, view(), r0)).toBe(true)
+    expect(evalAiCond({ kind: 'playerInParty', role: 'zhao-linger' }, view(), r0)).toBe(false)
   })
   test('组合子 all/any/not', () => {
     const c = {

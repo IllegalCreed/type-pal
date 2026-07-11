@@ -28,6 +28,7 @@ export type AiCond =
   | { kind: 'firstOfKind' }
   | { kind: 'anyPlayerHpBelow'; percent: number }
   | { kind: 'allyCount'; op: '<=' | '>='; value: number }
+  | { kind: 'playerInParty'; role: string } // 原版 0x79:某角色(模板 id)在队(绿叶小妖:赵灵儿在队则退下)
   | { kind: 'difficulty'; in: Difficulty[] } // 当前难度预设命中列表(预设无全序,用集合)
   | { kind: 'all'; of: AiCond[] }
   | { kind: 'any'; of: AiCond[] }
@@ -66,8 +67,8 @@ export interface AiBattleView {
   }
   /** 场上活敌数(含自己)。 */
   allyCount: number
-  /** 活队员(索引 = 战斗槽)。 */
-  players: { index: number; hpPercent: number; hp: number; mp: number; attack: number }[]
+  /** 活队员(索引 = 战斗槽;role = 角色模板 id,playerInParty 门用)。 */
+  players: { index: number; hpPercent: number; hp: number; mp: number; attack: number; role: string }[]
 }
 
 export function evalAiCond(cond: AiCond, view: AiBattleView, rng: () => number): boolean {
@@ -88,6 +89,8 @@ export function evalAiCond(cond: AiCond, view: AiBattleView, rng: () => number):
       return view.players.some((p) => p.hpPercent < cond.percent)
     case 'allyCount':
       return cond.op === '<=' ? view.allyCount <= cond.value : view.allyCount >= cond.value
+    case 'playerInParty':
+      return view.players.some((p) => p.role === cond.role)
     case 'difficulty':
       return cond.in.includes(view.difficulty)
     case 'all':

@@ -521,6 +521,7 @@ export function buildAiView(s: BattleState, self: BattleEnemyState): AiBattleVie
         hp: p.hp,
         mp: p.mp,
         attack: p.attackStrength,
+        role: p.roleId,
       }
     }),
   }

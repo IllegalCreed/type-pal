@@ -2829,7 +2829,101 @@
     "attackEquivItem": {
       "itemId": "159",
       "rate": 3
-    }
+    },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "body": [
+          {
+            "kind": "playSound",
+            "soundId": 245
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13260",
+              "speaker": "spk.蜘蛛精"
+            }
+          }
+        ]
+      },
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 3
+        },
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13262",
+              "speaker": "spk.蜘蛛精"
+            }
+          }
+        ]
+      },
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 5
+        },
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13264",
+              "speaker": "spk.蜘蛛精"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13265"
+            }
+          }
+        ]
+      },
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 7
+        },
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13267",
+              "speaker": "spk.蜘蛛精"
+            }
+          }
+        ]
+      },
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 8
+        },
+        "body": [
+          {
+            "kind": "endBattle",
+            "result": "terminate"
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "enemy-436",
@@ -3898,7 +3992,54 @@
       "magic": 248,
       "death": 243,
       "call": 0
-    }
+    },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "firstOfKind"
+        },
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13139"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13140"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13141"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13142"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13143"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13144"
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "enemy-455",
@@ -6869,7 +7010,56 @@
     "steal": {
       "itemId": "212",
       "count": 1
-    }
+    },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "playerInParty",
+          "role": "lin-yueru"
+        },
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13217",
+              "speaker": "spk.女飞贼"
+            }
+          }
+        ]
+      },
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "turn",
+          "op": ">=",
+          "value": 2
+        },
+        "body": [
+          {
+            "kind": "playSound",
+            "soundId": 193
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13214"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13215"
+            }
+          },
+          {
+            "kind": "fleeBattle"
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "enemy-479",
@@ -7415,7 +7605,307 @@
     "steal": {
       "itemId": "101",
       "count": 1
-    }
+    },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "when": {
+          "kind": "playerInParty",
+          "role": "zhao-linger"
+        },
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13145"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13146"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13147"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13148"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13149"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13150"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13151"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13152"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13153"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13154"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13155"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13156"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13157"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13158"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13159"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13160"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13161"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13162"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13163"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13164"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13165"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13166"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13167"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13168"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13169"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13170"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13171"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13172"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13173"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13174"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13175"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13176"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13177"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13178"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13179"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13180"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13181"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13182"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13183"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13184"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13185"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13186"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13187"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13188"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13189"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13190"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13191"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13192"
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "enemy-486",
@@ -8481,7 +8971,113 @@
     "steal": {
       "itemId": "123",
       "count": 3
-    }
+    },
+    "choreography": [
+      {
+        "at": "turnStart",
+        "once": true,
+        "body": [
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13219",
+              "speaker": "spk.赵灵儿"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13221",
+              "speaker": "spk.石长老"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13222"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13223"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13224"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13226",
+              "speaker": "spk.赵灵儿"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13227"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13229",
+              "speaker": "spk.石长老"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13230"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13232",
+              "speaker": "spk.李逍遥"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13233"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13235",
+              "speaker": "spk.石长老"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13236"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13238",
+              "speaker": "spk.李逍遥"
+            }
+          },
+          {
+            "kind": "dialog",
+            "line": {
+              "text": "dlg.13240",
+              "speaker": "spk.石长老"
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "enemy-497",
@@ -8668,6 +9264,10 @@
       {
         "at": "turnStart",
         "once": true,
+        "when": {
+          "kind": "playerInParty",
+          "role": "zhao-linger"
+        },
         "body": [
           {
             "kind": "dialog",

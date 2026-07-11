@@ -13,6 +13,16 @@
  * 翻不净(0x79 队伍条件对话 / 复杂跳转臂等)→ pending 标注,编辑器手修(同 M3 方针)。
  */
 import type { AiRule, BattleChoreography, Command, DialogueLine } from '@type-pal/content'
+
+/** 0x79 队伍门:原版 rgwName word(operand[0])→ 角色模板 id。rgwName=[36,37,38,40,39,41]。 */
+const NAME_WORD_TO_SLUG: Record<number, string> = {
+  36: 'li-xiaoyao',
+  37: 'zhao-linger',
+  38: 'lin-yueru',
+  39: 'anu',
+  40: 'wu-hou',
+  41: 'gai-luojiao',
+}
 import type { SourceCmd } from './source-facts.js'
 import type { TranslateCtx } from './translate-events.js'
 import { translateStages } from './translate-events.js'
@@ -125,6 +135,7 @@ function translateHook(
   }
   for (const seg of segs) {
     let firstOnly = false
+    let partyGate: string | undefined // 0x79 队伍门(角色模板 id 在队才演本段;绿叶小妖:赵灵儿退下)
     const dlg: Command[] = []
     // 说话人合并:冒号结尾行(「蜘蛛精:」)不单独成句,记住它合并到紧跟的正文句
     // (否则说话人行自己成一句空正文对话 —— 战斗框只显「蜘蛛精:」没台词,作者报的通病)
@@ -146,6 +157,9 @@ function translateHook(
         // (女飞贼/石长老:0x79 后是「不跳」臂台词)则保留段内、不动(避免双套台词)。
         const laterDialog = seg.ops.slice(i + 1).some((x) => x.op === 'showDialog')
         if (!laterDialog) {
+          // 台词只在跳转目标(胖苗/绿叶):内联目标段对话进来,并**保留队伍门**为本段 when。
+          // 巡逻小怪(绿叶小妖)门控有意义:赵灵儿在队才退下,单人(首次剧情)照打 —— 不再丢门。
+          partyGate = NAME_WORD_TO_SLUG[ops[0] ?? -1]
           const targetOps = segment(ctx, ops[1] ?? 0)?.[0]?.ops ?? []
           seg.ops.splice(i + 1, 0, ...targetOps) // 拼到 0x79 后,循环继续走进(speaker 合并/0x90 丢弃复用现逻辑)
         }
@@ -285,14 +299,14 @@ function translateHook(
       i++
     }
     if (dlg.length) {
+      const when = turnCond(seg.k, undefined, [
+        firstOnly ? { kind: 'firstOfKind' } : undefined,
+        partyGate ? { kind: 'playerInParty', role: partyGate } : undefined,
+      ])
       out.choreography.push({
         at: 'turnStart',
         once: true, // advance 语义:该段只演一次
-        ...(seg.k > 1 || firstOnly
-          ? {
-              when: turnCond(seg.k, undefined, [firstOnly ? { kind: 'firstOfKind' } : undefined]),
-            }
-          : {}),
+        ...(when ? { when } : {}),
         body: dlg,
       })
     }
