@@ -51,7 +51,7 @@ export interface DialogueLine {
   /** 尾停顿 + 自动推进(ms);存在 = 打完停 N ms 自动进下一页、不等键。原版 ~NN。 */
   autoAdvance?: number
   /** 画到哪个面板;默认 bottom。异 slot 推进 = 共存,同 slot = 覆盖。narration = 中央叙述窗(原版 0x3E)。 */
-  slot?: 'top' | 'bottom' | 'narration'
+  slot?: 'top' | 'bottom' | 'narration' | 'center'
   /** 头像 RGM chunk + 左/右;省略 = 无头像。 */
   portrait?: { icon: number; side: 'left' | 'right' }
   /** 等键光标形态(0 默认箭头 / 1 / 2);省略 = 0。原版 `(`/`)` 控制符 → 此显式字段。 */
@@ -187,6 +187,7 @@ export interface SceneDef {
 }
 
 export * from './actor.js'
+export * from './dialog-text.js'
 export * from './ambience.js'
 export * from './battle-formulas.js'
 export * from './own-map.js'
