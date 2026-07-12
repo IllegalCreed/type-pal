@@ -111,6 +111,7 @@ import { renderSceneFrame } from './render-scene.js'
 import { resolveSceneFacing } from './scene-transition.js'
 import {
   applyDitherGradient,
+  buildDitherBridge,
   DITHER_TOTAL_STEPS,
   type DitherColorSpace,
   DitherTransitionController,
@@ -482,6 +483,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         pr,
         step: active.lastStep,
         hasTarget: !!active.target,
+        hasBridge: !!active.bridge,
+        bridgeBuildMs: active.bridgeBuildMs,
         source: active.source,
         colorSpace: ditherColorSpace,
         ...zeroFrame,
@@ -2461,12 +2464,26 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       const isZeroFrame = !dither.target
       if (!dither.target) {
         dither.target = ctx.getImageData(0, 0, canvas.width, canvas.height)
+        dither.bridge = new ImageData(
+          new Uint8ClampedArray(dither.target.data.length),
+          dither.target.width,
+          dither.target.height,
+        )
         dither.output = new ImageData(
           dither.backup.data.slice(),
           dither.backup.width,
           dither.backup.height,
         )
-        dither.startedAt = nowMs
+        const bridgeStartedAt = performance.now()
+        buildDitherBridge(
+          dither.backup.data,
+          dither.target.data,
+          dither.bridge.data,
+          canvas.width * canvas.height,
+        )
+        dither.bridgeBuildMs = performance.now() - bridgeStartedAt
+        // bridge 预计算期间屏幕仍保持 backup；从计算完成后起算，不能吞掉首趟 180ms 假色阶段。
+        dither.startedAt = performance.now()
       } else {
         pr =
           dither.durationMs <= 0
@@ -2474,9 +2491,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
             : Math.max(0, Math.min(1, (nowMs - dither.startedAt!) / dither.durationMs))
       }
       const step = Math.floor(pr * DITHER_TOTAL_STEPS)
-      if (dither.output && dither.lastStep !== step) {
+      if (dither.bridge && dither.output && dither.lastStep !== step) {
         applyDitherGradient(
           dither.backup.data,
+          dither.bridge.data,
           dither.target.data,
           dither.output.data,
           step,
