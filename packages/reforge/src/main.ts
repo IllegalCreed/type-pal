@@ -108,6 +108,7 @@ import {
 import { resolveMove } from './movement.js'
 import { Canvas2DRenderer, type CellRect, type SpriteDraw } from './render.js'
 import { renderSceneFrame } from './render-scene.js'
+import { resolveSceneFacing } from './scene-transition.js'
 import {
   applyDitherGradient,
   DITHER_TOTAL_STEPS,
@@ -515,6 +516,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     canvas.dataset.rfRender = JSON.stringify({
       fadeBlack,
       position: player.pos,
+      facing,
       scriptRunning: !!runner,
       dialogActive: dialogBox.active,
     })
@@ -542,7 +544,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
    */
   async function switchScene(
     sceneId: string,
-    spawn?: { entry?: string; pos?: GridPos; facing?: Facing },
+    spawn?: { entry?: string; pos?: GridPos; facing?: Facing; inheritFacing?: Facing },
   ): Promise<void> {
     const def = await getSceneDef(sceneId)
     // 0x99 底图覆写:原版图按 override mapNum 换底(麒麟洞岩浆;自有地图不受 override)
@@ -606,7 +608,11 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     viewMaxY = (room.row + room.rows) * TILE_H + 16
     const entryDef = spawn?.entry ? def.entries?.[spawn.entry] : undefined
     player.pos = { ...(spawn?.pos ?? entryDef?.pos ?? def.entry.pos) }
-    facing = spawn?.facing ?? entryDef?.facing ?? def.entry.facing
+    facing = resolveSceneFacing(
+      spawn?.facing,
+      spawn?.inheritFacing,
+      entryDef?.facing ?? def.entry.facing,
+    )
     walking = false
     stepFrame = 0
     // trail 清零:全队聚拢队长(原版 rgTrail 全 = 队首坐标)
@@ -645,7 +651,14 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       : {}),
   })
   const playerSprite = spriteByNum.get(leaderSpriteDef.spriteNum)!
-  const dialogBox = new DialogBox(ctx, glyphs, cursorFrames, portraits, project.locale)
+  const dialogBox = new DialogBox(
+    ctx,
+    glyphs,
+    cursorFrames,
+    portraits,
+    project.locale,
+    menuAssets.scroll,
+  )
 
   // ══ M3a 脚本运行时(设计 §4:driver Promise + AbortSignal;tick 驱动计时/淡入淡出)══
   let runner: ScriptRunner | null = null
@@ -862,7 +875,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       markSceneLoad(fromSceneId, sceneId, 'switch')
       stopAutoRunners()
       try {
-        await switchScene(sceneId, { pos, facing: fc })
+        await switchScene(sceneId, { pos, facing: fc, inheritFacing: facing })
       } catch (error) {
         ditherTransition.cancel()
         markSceneLoad(fromSceneId, sceneId, 'error')

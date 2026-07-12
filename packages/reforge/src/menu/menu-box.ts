@@ -23,7 +23,7 @@ import type { GlyphTable } from '../text/glyph.js'
 import { measureSpans, renderSpans } from '../text/text-render.js'
 
 /** 9 个九宫格块(0..8 = i*3+j,i=row,j=col;黄框 frame-00..08)。 */
-interface BoxTiles {
+export interface BoxTiles {
   /** 9 块预烘 RGBA,索引 = i*3+j。frame 尺寸不规则 → drawSlicedBox 按各块实际宽高定位。 */
   tiles: (ImageBitmap | undefined)[]
 }

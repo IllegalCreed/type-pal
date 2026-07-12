@@ -3,15 +3,17 @@
  * 逐段推进 + top/bottom 多槽:同槽覆盖、异槽共存。位置真值 GLM spec §3。
  * 每段话在它的 slot 内自动折行(layoutLines)+ 按 4 显示行/页分页,翻页只翻活跃槽。
  */
-import { type Locale, lookupText, type TextSpan } from '@type-pal/content'
+import { type Locale, lookupText, parseRichText, type TextSpan } from '@type-pal/content'
 import type { RleFrame } from '@type-pal/shared'
 import { advanceLine, type DialogueState } from '../dialogue.js'
+import { type BoxTiles, drawScroll } from '../menu/menu-box.js'
 import type { GlyphTable } from '../text/glyph.js'
-import { CURSOR_COLOR_COUNT, CURSOR_RGBA, TITLE_RGBA } from '../text/palette-color.js'
+import { CURSOR_COLOR_COUNT, CURSOR_RGBA, colorRgba, TITLE_RGBA } from '../text/palette-color.js'
 import { measureSpans, renderSpans } from '../text/text-render.js'
 import { charsShown, countChars, DEFAULT_SPEED_MS } from '../text/typewriter.js'
 import { bakeCursorTinted } from './dialog-assets.js'
 import { type DisplayLine, layoutLines } from './layout.js'
+import { narrationScrollLayout } from './narration-scroll.js'
 import { advanceSlots, emptySlots, type SlotId, type SlotState } from './slot.js'
 
 // GLM spec §3 布局真值(320×200 坐标系)。无头像 / 有头像两种正文+姓名 x(spec §3 hasPortrait 三元)。
@@ -47,6 +49,8 @@ const CURSOR_RESERVE = 12 // 末行末尾给光标留位,防顶出屏幕
 /** 单个 slot 的排版渲染态(slot.ts 管 lineIdx,这里管该段的排版)。 */
 interface SlotRender {
   displayLines: DisplayLine[]
+  /** narration 单行卷轴使用未折行的富文本。 */
+  singleLineSpans: TextSpan[]
   pageStart: number
 }
 
@@ -66,6 +70,7 @@ export class DialogBox {
     private readonly cursorFrames: RleFrame[],
     private readonly portraits: ReadonlyMap<number, HTMLCanvasElement> = new Map(),
     private readonly locale: Locale = {},
+    private readonly scroll?: BoxTiles,
   ) {}
 
   get active(): boolean {
@@ -88,14 +93,18 @@ export class DialogBox {
       // bottom 头像在右(portrait.x=270),正文右边收到头像左边界
       maxRight = POS[slot].portrait.x - portraitImg.width / 2 - 4
     }
+    const resolved = lookupText(line.text, this.locale)
     const displayLines = layoutLines(
       [line],
       this.glyphs,
-      (id) => lookupText(id, this.locale),
+      () => resolved,
       maxRight,
       startX,
     ).map((dl) => ({ ...dl, srcLineIdx: lineIdx }))
-    return { slot, render: { displayLines, pageStart: 0 } }
+    return {
+      slot,
+      render: { displayLines, singleLineSpans: parseRichText(resolved), pageStart: 0 },
+    }
   }
 
   open(state: DialogueState, nowMs: number): void {
@@ -200,8 +209,8 @@ export class DialogBox {
   render(nowMs: number): void {
     this.update(nowMs)
     if (!this.state) return
-    // 画两个 slot(top 和 bottom),留显的全字、活跃的按打字进度
-    for (const slotId of ['bottom', 'top'] as const) {
+    // narration 是横向单行卷轴，仍在普通上下对话槽之后绘制。
+    for (const slotId of ['bottom', 'top', 'narration'] as const) {
       const entry = this.slots[slotId]
       const r = this.renders[slotId]
       if (!entry || !r) continue
@@ -217,6 +226,10 @@ export class DialogBox {
     const pos = POS[slotId]
     const page = r.displayLines.slice(r.pageStart, r.pageStart + LINES_PER_PAGE)
     if (page.length === 0) return
+    if (slotId === 'narration') {
+      this.renderNarrationScroll(r, isActive)
+      return
+    }
 
     // 该段话的头像(若有):spec §3 位置,bottom 右 / top 左。
     const firstDl = page[0]
@@ -277,6 +290,25 @@ export class DialogBox {
         lastLine?.cursorFrame ?? 0,
       )
     }
+  }
+
+  /** 原版 kDialogCenterWindow：横向单行卷轴 + 全文瞬显，不画普通对话光标。 */
+  private renderNarrationScroll(r: SlotRender, isActive: boolean): void {
+    const text = r.singleLineSpans.map((span) => span.text).join('')
+    if (!text) return
+    const layout = narrationScrollLayout(text)
+    if (this.scroll) {
+      drawScroll(this.ctx, this.scroll, layout.boxX, layout.boxY, layout.boxLen, { shadow: false })
+    }
+    let x = layout.textX
+    for (const span of r.singleLineSpans) {
+      x += renderSpans(this.ctx, [span], x, layout.textY, {
+        glyphs: this.glyphs,
+        shadow: false,
+        forceRgba: span.color ? colorRgba(span.color) : [0, 0, 0],
+      })
+    }
+    if (isActive) this.pageDone = true
   }
 
   private drawCursor(
