@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| X3/M3 | 通用 0x73 dither + 开场/opcode 迁移修复 | rework / 三版设计签字 | GLM 复核 | 第三版假色桥接:**Codex+Opus agree,待 GLM**。Opus 数学验算全过(visits 边界/单调/step6 全屏 bridge=180ms 精确吻合原版;bridge=target 色相色度×source 感知亮度,正确保留 `(tgtHi\|srcLo)` 结构),附 R1-R4 build 要求;三签齐后 Codex build。任务卡:[X3-opening-dither-speaker-inheritance.md](tasks/X3-opening-dither-speaker-inheritance.md) |
+| X3/M3 | 通用 0x73 dither + 开场/opcode 迁移修复 | review | Opus 实现/动态主审，随后 GLM | 第三版三签齐，Codex 已在 `bdd35ff6` 实现并自验 accept：OKLab 假色 bridge 首访跳转 + 11 级收敛，R1-R4、reforge 316 tests、全仓 check、6051 step6/2160ms/零帧锚均过；真实 bridge 构建 16.4-16.9ms。待 Opus/GLM accept 与用户视觉终裁。任务卡:[X3-opening-dither-speaker-inheritance.md](tasks/X3-opening-dither-speaker-inheritance.md) |
 
 ## 阻塞
 
