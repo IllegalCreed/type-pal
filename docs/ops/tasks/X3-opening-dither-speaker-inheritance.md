@@ -110,7 +110,7 @@ s000→s001 只是其中一个跨场景用例。同时修复梦话 speaker 继�
 ### 进入 build 前：设计签字
 
 - Codex: **agree**（2026-07-12；已接受并写入 Opus M1：跨场景由 loadScene 窄前瞻在 switch 前捕获一次性交接帧，独立站点才命令内快照；M2 采用先关 dialog 状态再取最后已呈现 canvas；M3 已补 0% 纯旧帧像素锚。其余 opcode 三修与统一收口不变）
-- Opus: **counter**（2026-07-12；整体方向 agree,核心必改 M1——跨场景 backup 帧捕获须由 loadScene 窄前瞻在 switchScene 前快照交接;命令内快照在 async switchScene + pendingOnEnter + async setActorSprite 下会取到新场景帧。另 M2 backup 对话顺序对齐一阶段、M3 补 0% 帧像素锚。详见主审立场）
+- Opus: **agree**（2026-07-12 复核；Codex Draft 设计点 2-6 已落实 M1/M2/M3——M1 跨场景 backup 由 loadScene 窄前瞻在 switchScene 前捕获 + `targetSceneId` 一次性交接、收口全路径零超时(根除 s001→s001);M2 先 `dialogBox.close()` 再取最后已呈现 canvas,经核对与一阶段 present.ts:262-267 拷 backup 顺序一致(纠正我原"清对话后不含对话"假设);M3 已补 0% 帧像素锚。逐项复核通过,无剩余必改项。详见主审立场复核结果）
 - GLM: **agree**（整体设计方向 + 迁移三修 + 测试矩阵均正确；Opus M1 是运行时架构修正，不影响迁移语义）。逐项复核：
 
   **迁移覆盖（1）0x73 全站点**：
@@ -137,7 +137,7 @@ s000→s001 只是其中一个跨场景用例。同时修复梦话 speaker 继�
 
 - counter / 分歧处理: Codex 已按 Opus M1/M2/M3 更新 Draft；GLM 迁移层无 counter。等待 Opus 复核后把其 counter 改签 agree。
 - 缺签豁免: N/A
-- build 准入结论: **build 仍 blocked：Codex/GLM agree，Opus 原 counter 尚待本人复核改签；三签齐后直接进 build。**
+- build 准入结论: **allow —— 三签齐(Codex agree + GLM agree + Opus agree),M1/M2/M3 复核通过,允许 Codex 进入 build。**
 
 ### 进入 done 前：审查签字
 
@@ -207,16 +207,11 @@ s000→s001 只是其中一个跨场景用例。同时修复梦话 speaker 继�
 ### 主审立场
 
 - Reviewer: Opus（架构/视觉主审）+ GLM（迁移覆盖/测试矩阵）
-- 结论: **counter**（整体设计方向正确 —— 恢复基线 + 通用 `ditherScreen` + opcode 三修 + 统一收尾都对；但跨场景用例的 backup 帧捕获路径必须纠正，否则 dither 从新场景溶解到新场景、完全无效）。
-- 必改项:
-  - **【M1·阻塞】跨场景 ditherScreen 的 backup 帧捕获不能靠"命令内快照当前 canvas"**。设计点 2/3 假设"switchScene 与 onEnter continuation 在同一微任务链、命令直接捕获仍在 canvas 上的旧帧"——当前架构不成立,证据:
-    - `switchScene` 是 **async**（main.ts:478 `await getSceneDef`,首次进 s001 未缓存 = 真异步挂起）；`scene = def` 之后仍可能 `await` 补载精灵。
-    - onEnter 不是同步 continuation:经 `pendingOnEnter`(main.ts:790)在脚本链收尾 finally(main.ts:1881)才 `startScript`;且 onEnter 前缀含 **async 命令** `setActorSprite`(main.ts:810)。
-    - 上述任一 `await` 挂起 → 一次 rAF → tick 渲染新场景 → canvas 变 s001 → 命令内快照取到 **s001**(dither s001→s001,视觉零效果 = 用户报的"过渡没做")。
-    - 干净解法(**≠ 复活全局冻屏**):`loadScene` **窄前瞻确定跳过 fade 的那一次**,在 `switchScene` 之前(canvas 确定仍是旧场景)快照旧帧,交接给紧随的 `ditherScreen`。这是窄前瞻的**确定性协作**(该 ditherScreen 必执行、确定消费、无超时兜底),与此前被否的"全局无条件快照 + 150 帧超时"本质不同(后者靠猜测+兜底路由错误,前者靠窄前瞻已确认的确定性)。
-    - **独立站点(同场景 0x73 无前置 loadScene)命令内快照成立**(canvas 就是当前场景,无 switchScene 异步)——命令内快照对独立站点保留,**仅跨场景用例需 loadScene 协作 backup**。设计文案须把这两类分开写清,不能用"统一命令内快照"覆盖跨场景。
-  - **【M2·对齐一阶段】backup 帧的对话内容顺序**。sdlpal 0x73 不清对话(script.c:2144 直接 backup 当前屏);一阶段(UX 真值)0x73 清对话后才 backup(present.ts:603 target 不含对白)。设计点 2 的"取 backup(含旧对话)→ 关 dialogBox → target"使旧帧含对话、新帧不含,与一阶段不一致。s000→s001 主用例无差异(此刻梦话已按键推进完并清屏,canvas 无对话框);仅**同场景通用站点**(0x73 前有未清对话)有差异。改法:命令内快照顺序调整为**先关 dialogBox 再取 backup**(对齐一阶段),或对通用站点标偏差、6051 复验含对话站点观感。非阻塞,但须在设计里明确取舍。
-  - **【M3·验证锚】新增 0% 帧 = 纯旧场景冻帧的像素断言**。这是 M1 的验收锚:6051 开场 dither 的 0% 帧必须是**纯 s000 冻帧**(非 s001、非黑),否则即证明 backup 捕获错误。当前验收条款只查中间帧"旧+新原色",须补 0% 帧身份检查。
+- 结论: **agree**（2026-07-12 复核；Codex 已在 Draft 设计点 2-6 落实 M1/M2/M3,逐项核对满足;整体通用 `ditherScreen` 架构 + opcode 三修 + 统一收尾均正确,无剩余阻塞项）。
+- M1/M2/M3 复核结果（原 counter 三项，现全部通过）:
+  - **【M1 通过】跨场景 backup 帧捕获**:设计点 2 改为 `loadScene` 窄前瞻在 **`switchScene` 之前**从当前 canvas 捕获旧帧、写入 `{targetSceneId, backup}` 一次性交接态——backup 在 canvas 确定仍是旧场景时捕获,**不受后续 async `switchScene`/`onEnter`/`setActorSprite` 的 rAF 影响,根除 s001→s001**(即我原 counter 的核心风险)。设计点 3/6:交接态绑 `targetSceneId`、只被紧随 ditherScreen 原子 take、普通 `loadScene` 永不创建、**零 150 帧超时**、onEnter 未消费即放行——够窄且收口完整,非全局冻屏。独立站点仍命令内快照(设计点 2/4),两类分开写清。收尾人覆盖正常/abort/读档/再切场景/onEnter 未消费全路径,符合 x-shell-audit。
+  - **【M2 通过】backup 对话顺序**:核对**推翻我原假设**——一阶段 present.ts:262-267 的 `backupPixels = new Uint8Array(fb.indices)` 在 `fb.clear()` **之前**拷(注释明写"fb clear 前还留着上一帧像素"),即一阶段 backup **本就含上一帧对话像素**,dialog 状态清只影响 target。Codex"先 `dialogBox.close()` 再取最后已呈现 canvas"与此**顺序一致**(backup 含旧对话、target 不含),论证成立。s000→s001 主用例此刻梦话已清、canvas 无对话框、无差异。
+  - **【M3 通过】0% 帧像素锚**:验收 103 已补"dither 0% 帧须与切换前保存的 s000 最终冻帧逐像素相等(非 s001/黑/混合帧)",正是 backup 正确性的硬锚。
 - 已核对通过、agree 的部分(供 build 直接采用):
   - **0x50/0x51 时长公式正确**:sdlpal script.c:1780 `PAL_FadeOut(op0?op0:1)`、:1790 `PAL_FadeIn(int16(op0)>0?op0:1)`,palette.c:163/232 `iDelay*10*60`=×600ms → Codex 的 `(op0||1)*600` / `(int16(op0)>0?op0:1)*600` **逐项对齐**,含 op0=0(=1 档=600ms)与 0xFFFF(int16<0 → 1 档)边界。当前 runner 默认 300ms 确是缩半 bug。
   - **0x49 operand0==0 flush-不-push**:保留批次边界、消除 `e-1`,方向对(script.c:1711 no-op 语义)。
@@ -224,7 +219,7 @@ s000→s001 只是其中一个跨场景用例。同时修复梦话 speaker 继�
   - **统一收尾 helper**(正常/abort/读档/再切场景全清 active + 兑现 resolve、禁孤儿 Promise、不用超时)符合 x-shell-audit 收尾人原则,agree。
   - **对白在 dither 完成后出现**:依 event-system.ts:2493 + present.ts:603 一阶段执行链,任务卡定案正确,agree。⚠ 用户 2026-07-11 视觉描述"带第二句对话一起过渡"与此有观感分歧——按铁律 8 视觉裁决权归用户:6051 须录 0/25/50/75/100% 交用户复验,若用户坚持对白参与 dissolve 再单开变更,不在本卡强行改语义。
   - **产物白名单收口 + 禁 migrate:content 写盘**:工作区当前有 40+ 脏场景文件,严格白名单(s000/s001 手工同步 + migrate src/test),其余 dry-run,agree 且强调。
-- 是否建议进入 build: **暂缓 —— M1/M2 在设计层落定(Codex 更新 Draft 明确跨场景 backup 交接 + backup 对话顺序取舍)后即可 build,无需推翻整体设计**。counter 是纠正核心 backup 捕获路径,不是否定通用 ditherScreen 架构。
+- 是否建议进入 build: **是 —— 三签齐(Codex agree + GLM agree + Opus agree),M1/M2/M3 全部复核通过,无剩余阻塞项,允许 Codex 进入 build。** build 时必须钉死:①M3 的 0% 帧 = s000 冻帧逐像素锚(backup 正确性硬验);②普通场景(s001→s003 出口)全程 `__rfDither` inactive 回归;③交接态收口全路径测试(正常/abort/读档/再切场景/onEnter 未消费);④迁移产物 dry-run 白名单同步(s000/s001 + migrate src/test,禁 migrate:content 写盘)。
 
 ### 三方争议记录（按需）
 
@@ -282,17 +277,18 @@ N/A
 - 2026-07-12 Codex: 接收 GLM opcode 审计并本地复核：0x73 为通用独立站点（69 canonical + 4 shared 索引条目），旧 pending-loadScene 设计作废，改为命令内快照的 ditherScreen；同时纳入 0x49 no-op/e-1 与 0x50/51 delay×600ms。Evidence: `all.json`/`shared.json` 统计、`script.c:1711/1775`、`palette.c:PAL_FadeOut/In`。Next: Opus 复核修订版设计；不得实现。
 - 2026-07-12 Opus: 设计签 **counter**（M1 阻塞 + M2/M3 非阻塞）。核对锚点:sdlpal script.c:2140-2147(0x73=VIDEO_BackupScreen→MakeScene→FadeScreen,原版不清对话)、:1780/:1790(0x50/0x51 delay 公式)、palette.c:163/232(×10×60=600ms) → 0x50/0x51 公式确认正确;main.ts:474/478(switchScene async)、:790/1881(onEnter 走 pendingOnEnter tick)、:810(setActorSprite async) → 坐实"命令内快照会取到新场景帧",跨场景须 loadScene 窄前瞻在 switchScene 前快照交接。整体通用 ditherScreen 架构、opcode 三修、统一收尾、speaker walkBody、产物白名单均 agree。Evidence: 本卡主审立场 + 三方争议 Opus 行。Next: GLM 复核迁移覆盖/测试矩阵;Codex 据 M1/M2/M3 更新 Draft 后三签齐再 build。未改任何实现文件。
 - 2026-07-12 Codex: 已落实 Opus M1/M2/M3：跨场景由 loadScene 窄前瞻在 switch 前捕获并按 targetSceneId 一次性交接，等待期仅该路径保持旧帧；独立站点仍命令内快照；两路先关 dialog 状态再取最后已呈现 canvas；验收新增 0% 与 s000 冻帧逐像素相等。Evidence: Draft 设计点 2-6、验收 M3。Next: Opus 复核改签 agree；仍不得 build。
+- 2026-07-12 Opus: **复核改签 agree,三签齐**。逐项核对 Draft 设计点 2-6:【M1 通过】backup 在 `switchScene` 前从当前 canvas 捕获 + `{targetSceneId,backup}` 一次性交接 + 收尾全路径(正常/abort/读档/再切场景/onEnter 未消费)零超时 → 根除 s001→s001;【M2 通过】核对 present.ts:262-267 `backupPixels` 在 `fb.clear()` 前拷、本就含上一帧对话像素,Codex"先 `dialogBox.close()` 再取最后已呈现 canvas"与一阶段顺序一致(纠正我原"清对话后 backup 不含对话"假设);【M3 通过】验收 103 补 0% 帧=s000 冻帧逐像素锚。0x50/0x51 公式、speaker walkBody、统一收尾、产物白名单沿用 agree。build 准入改 allow。Evidence: 主审立场复核结果 + present.ts:262-267。Next: Codex 进 build,钉死 ①0% 帧像素锚 ②普通场景 `__rfDither` inactive 回归 ③交接收口全路径测试 ④迁移 dry-run 白名单(禁 migrate:content 写盘)。未改任何实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务:X3/M3 通用 0x73 逐像素过渡、开场恢复与 opcode 迁移语义修复（Opus M1 复核）
+接手任务:X3/M3 通用 0x73 逐像素过渡、开场恢复与 opcode 迁移语义修复（进入 build）
 任务卡:docs/ops/tasks/X3-opening-dither-speaker-inheritance.md
-当前状态:draft；Codex agree（已落实 M1/M2/M3）、GLM agree、Opus counter 待复核；build 准入仍 blocked
-你的角色:Claude Opus，复核你提出的 M1/M2/M3 是否已完整写入 Draft，并更新 Opus 设计签字
-先读:AGENTS.md、docs/phase2/READ-FIRST.md、任务卡 Draft 设计点 2-6、验收 M3、你原主审立场与最新交接日志
-已完成:Codex 已把 backup 来源拆为两路——跨场景由 loadScene 窄前瞻在 switchScene 前关闭 dialog、捕获旧 canvas 并以 targetSceneId 一次性交接，异步等待期仅该确定路径覆盖旧帧；独立站点无交接时仍命令内快照。交接态无帧数超时，由匹配 ditherScreen 原子消费，onEnter 结束/abort/读档/再切场景统一清理。M2 定为先关 dialog 状态再捕获最后已呈现 canvas，不强制重绘；M3 已增加 0% 帧与 s000 最终冻帧逐像素相等
-请你做:逐项复核 M1 是否避免 s001→s001、一次性交接是否足够窄且有收尾，M2 顺序是否接受，M3 像素锚是否充分；若满足，把任务卡 Opus 设计签字由 counter 改为 agree，更新主审结论、build 准入结论、看板与交接日志并提交文档；若仍 counter，写明剩余的可执行修改
-不要做:不得修改任何实现文件；三签未齐不得 build；不得运行会写工作区的 pnpm migrate:content；不得改 Codex/GLM 的签字内容
-输出要求:明确 agree/counter、剩余必改项（如有）、提交 hash；agree 时明确“三签齐，允许 Codex 进入 build”并给出可直接复制给 Codex 的下一位 Agent 提示词
+当前状态:draft；三签齐(Codex agree + GLM agree + Opus agree),build 准入 allow
+你的角色:Codex，Coding Owner，按 Draft 设计点 1-10 实现并自测,填写 Build 段与视觉验证段
+先读:AGENTS.md、docs/phase2/READ-FIRST.md、任务卡全部(尤其 Draft 设计点 1-10、验收条件、当前草稿处置、已知风险、三方 agree 逐项复核)
+已完成:三签齐设计定案——通用 ditherScreen 命令(跨场景由 loadScene 窄前瞻在 switchScene 前捕获旧帧 + targetSceneId 一次性交接;独立站点命令内快照);统一收尾 helper(正常/abort/读档/再切场景/onEnter 未消费,零超时);0x49 flush-不-push 消 e-1;0x50/0x51 delay×600ms;speaker walkBody 继承;M2 先 close dialog 再取最后已呈现 canvas;M3 0% 帧=s000 冻帧像素锚
+请你做:按白名单实现——(1)撤当前草稿的全局 loadScene 劫持/pending 冻屏/0x73 no-op,恢复普通 loadScene 的 fade out→switchScene→fade in;(2)ScriptCommand `ditherScreen` + ScriptHost + runner dispatch;(3)loadScene 窄前瞻 `{targetSceneId,backup}` 交接态 + ditherScreen 两路 backup(交接优先/独立站点命令内)+ tick 72 级 dissolve 绘制 + 统一收尾 helper;(4)migrate 0x73→`ditherScreen{ms:(op0+1)*10*72}`、0x49 op0==0 no-op-但-flush、0x50/0x51 delay×600ms、speaker 跨 flush 继承;(5)三类单测(dither helper step0/72/单调/边界 + runner 两路+abort + migrate 四项)+ 产物扫描(ditherScreen 条数==预期、e-1==0);(6)手工同步 s000/s001,其余 dry-run 临时目录核对;(7)6051 视觉验证(0/25/50/75/100% 截图 + `__rfDither`,M3 0% 帧=s000 冻帧逐像素锚,s001→s003 普通出口全程 `__rfDither` inactive 回归)。填 Build/视觉验证段
+不要做:不跑会写工作区的 pnpm migrate:content(只临时目录 dry-run);不碰工作区 40+ 无关脏场景文件;不把 0x73 塞回全局 loadScene/pending 冻屏/150 帧超时;不带 palette/nibble/paletteId 进 reforge;非本卡改动(dialog-text/center slot/loadScene 1-based/E2E checkpoint)不顺手提交或回退
+输出要求:修改文件白名单、`pnpm check` 结果、6051 截图 + 0% 帧像素锚结论、跳过项及原因、提交 hash;done 前回三签审查(Codex 自审 + Opus 视觉复验 + GLM 迁移复核)
 ```

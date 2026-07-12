@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| X3/M3 | 通用 0x73 dither + 开场/opcode 迁移修复 | draft | Opus 复核 M1/M2/M3 | Codex 已落实跨场景 loadScene 一次性交接、独立站点命令内快照及 0% 纯旧帧锚；Codex/GLM agree，待 Opus counter 改签后进 build。任务卡:[X3-opening-dither-speaker-inheritance.md](tasks/X3-opening-dither-speaker-inheritance.md) |
+| X3/M3 | 通用 0x73 dither + 开场/opcode 迁移修复 | build 准入 | Codex 实现 | **三签齐(Codex+GLM+Opus agree)**,M1/M2/M3 复核通过,build 准入 allow;Codex 按 Draft 设计点 1-10 实现(跨场景 loadScene 前捕获+targetSceneId 一次性交接、独立站点命令内快照、opcode 三修、统一收尾、0% 帧像素锚)。任务卡:[X3-opening-dither-speaker-inheritance.md](tasks/X3-opening-dither-speaker-inheritance.md) |
 
 ## 阻塞
 
