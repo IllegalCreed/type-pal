@@ -1,9 +1,9 @@
 # X3/M3 - 通用 0x73 逐像素过渡、开场恢复与 opcode 迁移语义修复
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: X3（标题/流程/开场演出）+ M3（脚本迁移）
-Coding Owner: Codex（暂停 build，等待二次设计三签）
+Coding Owner: Codex（build 已完成；等待 Opus / GLM review）
 Generation Owner: N/A
 Reviewer: Opus + GLM
 Visual Verification Owner: Codex 自验；Opus 复验
@@ -178,7 +178,9 @@ s000→s001 只是其中一个跨场景用例。同时修复梦话 speaker 继�
 
 ### 进入 done 前：审查签字
 
-- Codex: pending
+- Codex: **accept**（2026-07-12；12 级离散 RGBA 渐变、gamma-correct 默认路径、两路 backup、
+  生命周期收口和迁移四修均已实现。定向测试、四个受影响包测试、全仓 `pnpm check`、迁移 dry-run
+  与 6051 开场/普通换场视觉回归通过；6002 未取得可重复的完整动态录屏，已如实列为 Opus 复验重点）
 - Opus: pending
 - GLM: pending
 - counter / 返工处理:
@@ -315,25 +317,43 @@ s000→s001 只是其中一个跨场景用例。同时修复梦话 speaker 继�
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（已暂停，等待二次三签）
-- 任务相关未提交文件: `packages/content/src/script.ts`、`packages/reforge/src/dither-transition.ts`、
-  `packages/reforge/src/dither-transition.test.ts`、`packages/reforge/src/script-runner.ts`、
-  `packages/reforge/src/script-runner.test.ts`、`packages/reforge/src/main.ts`、
-  `packages/migrate/src/translate-events.ts`、`packages/migrate/src/translate-events.test.ts`、
-  `projects/pal/content/scenes/s000.json`、`projects/pal/content/scenes/s001.json`。工作区另有大量既存脏文件，
-  不得据此列表回退或提交其他人的改动。
-- 已实现: `ditherScreen` command/host/runner、两路 backup 与生命周期 controller、迁移四修、s000/s001
-  最小同步；视觉 helper 当前仍是已被用户否决的二值 hard dissolve/Bayer 原型，必须等二次三签后重写。
-- 已运行（视觉裁决前）:
-  - `@type-pal/content` 检查通过：16 files / 159 tests。
-  - `@type-pal/migrate` 检查通过：6 files / 92 tests。
-  - `@type-pal/reforge` 检查通过：33 files / 302 tests；后续 dither/runner 定向测试 32 tests 通过。
-  - 不落盘迁移 dry-run：295 scenes；展开 AST 中 `ditherScreen` 110 处，`entity:"e-1"` 0，fade 缺 `ms` 0。
-- 未完成验证: 最新 `main.ts` 场景诊断标记加入后尚未重跑 typecheck/测试；全仓 `pnpm check` 未跑；
-  视觉算法将重写，旧视觉测试不再构成验收证据。
-- 浏览器 / 手工检查: backup 0% 帧、目标帧、2160ms 时序与对白出现顺序已对；用户明确判定逐像素
-  硬切观感错误。普通 s001→s003 出口检查出现黑屏停留，尚未定位，不能判为回归通过。
-- 当前处置: 保留未提交工作现场，不提交错误视觉原型；二次三签未齐前不再改实现文件。
+- Coding Owner: Codex（build 完成，已转 review）
+- 实现范围:
+  - `packages/reforge/src/dither-transition.ts`：删除二值 hard replacement/Bayer 阈值，改为不可变
+    source/target/output 三缓冲；按 `RG_INDEX={0,3,1,5,2,4}` 六相位错峰、每像素 12 级重新计算。
+    同时提供 `srgb` 与 gamma 2.2 `linear-light` 两路；浏览器复验后默认采用后者，DEV 可用
+    `?dither-srgb=1` 回退对照。RGB 做 gamma-correct，alpha 保持编码值线性插值。
+  - `packages/reforge/src/main.ts`：接通跨场景窄前瞻 handoff、独立站点 snapshot、最终 canvas 壳层
+    渲染、0% 像素锚、离散 step 缓存和正常/abort/读档/再换场统一收尾；普通 `loadScene` 仍走既有
+    fade out/switch/fade in。
+  - `packages/content/src/script.ts`、`packages/reforge/src/script-runner.ts`：新增通用
+    `ditherScreen` command/host/dispatch，runner 阻塞等待并在 abort 后停止续跑。
+  - `packages/migrate/src/translate-events.ts`：0x73 产 `ditherScreen`；0x49 operand0=0 不再产
+    `e-1`；0x50/0x51 写入 delay×600ms；speaker 在同 slot 的批次间继承。
+  - `projects/pal/content/scenes/s000.json`、`s001.json`：仅做开场相关最小产物同步。
+  - `packages/editor/src/core/playback.ts`、`ui/ScriptTree.tsx`、`ui/CommandForm.tsx`：补齐公共命令的
+    编辑器预览、树标签与时长编辑，消除全仓公共联合类型漏接。
+- 自动验证:
+  - dither + runner 定向测试：2 files / 34 tests 通过。
+  - `@type-pal/content`：16 files / 159 tests 通过。
+  - `@type-pal/migrate`：6 files / 92 tests 通过。
+  - `@type-pal/reforge`：33 files / 306 tests 通过。
+  - `@type-pal/editor`：13 files / 118 tests 通过。
+  - 全仓 `pnpm check` 通过：shared 111、content 159、migrate 92、reforge 306、pal-extract 251、
+    game 2294、editor 118。
+  - 为排除大量未暂存改动造成的假绿，另用 `git write-tree` 从白名单暂存区生成隔离工作树并再次运行
+    全仓 `pnpm check`：shared 67、content 150、migrate 92、reforge 306、pal-extract 251、game 2290、
+    editor 118，全部通过。前两次隔离运行因临时树缺 Git 未跟踪的 `data/extracted` / 原版 raw 资源
+    报 `ENOENT`；补只读链接后同一命令 exit 0，未把环境缺文件伪记为代码失败。
+  - `git diff --check` 通过；dither 新文件 Biome 定向检查通过。未对既存混合脏文件做全文件格式化，
+    避免产生与本任务无关的格式 churn。
+- 不落盘迁移 dry-run：295 scenes；展开 AST 中 `ditherScreen` 110 处，`entity:"e-1"` 0，
+  fade 缺 `ms` 0；临时脚本执行后已删除，未运行 `pnpm migrate:content`。
+- 普通换场回归结论：先前所谓 s001→s003“黑屏”是测试落点误用 s003 默认坐标 `(86,9)`；该位置
+  本来就是空白区域。使用真实出口落点 `(141,51)` 复验实际 ScriptRunner→host.loadScene 路径：
+  `s001 -> s003` 完成、`fadeBlack=0`、`scriptRunning=false`、dither 全程 inactive，客栈大厅正常显示。
+- 工作区仍有大量其他 Agent 的未提交迁移产物、对话与 E2E 改动；本任务不得回退或整批提交它们，
+  git 收口必须按白名单逐文件/逐 hunk 处理。
 
 ## 资源生成记录（如适用）
 
@@ -343,24 +363,36 @@ N/A
 
 - Visual Verification Owner: Codex 自验；Opus 复验
 - 验证方式: 6051 开场全链 + 普通出口回归 + 分阶段截图/像素检查 + 一阶段/二阶段动态并排对照
-- 已确认: pending backup 指向 s001；active source 为 handoff；0% 帧等于旧 s000 冻帧且不同于 target；
-  终帧和对白时机正确；实测时长约 2.16s。
-- 用户结论: 当前 hard dissolve **不接受**。每个像素是生硬切换，而一阶段观感是同一像素逐渐变色。
-- 未完成项: 二次算法的 0/25/50/75/100% 重录、同一逻辑像素跨帧颜色序列、与一阶段录屏并排、
-  s001→s003 普通出口黑屏定位和回归。
+- 6051 开场全链已确认：handoff 指向 s001；active source 为 `handoff`；0% 帧
+  `zeroFrameMatchesBackup=true` 且 `zeroFrameDiffersFromTarget=true`；约 2.16s 后完成，李大娘对白只在
+  dither 完成后出现，终帧是正常 s001 世界帧。
+- 已分别录制 sRGB 与 gamma-correct 的 25/50/75% 帧。对整屏非透明像素取编码亮度均值：旧帧
+  1.568、目标帧 46.052；sRGB 为 15.786 / 20.112 / 29.991，gamma-correct 为
+  19.508 / 26.395 / 35.072。高差异像素 `(383,275)` 从旧 `[0,0,0]` 到目标
+  `[247,242,236]`；sRGB 三帧为 `[29,28,26]` / `[70,71,65]` / `[138,139,134]`，gamma
+  三帧为 `[62,61,57]` / `[119,118,114]` / `[165,162,157]`。两路均出现真实中间色，gamma
+  中段更明亮、较少暗浑，因此默认采用 `linear-light`。
+- 截图证据：`/tmp/type-pal-x3-evidence/old.png`、`srgb25/50/75.png`、
+  `gamma25/50/75.png`、`target.png`，并排图 `/tmp/type-pal-x3-evidence/compare.png`。
+- 默认 gamma 路径与 `?dither-srgb=1` 回退路径均在 6051 实跑；默认终态 `scene=s001`、dither
+  inactive、后续对白 active。普通 s001→s003 真实落点复验通过，无冻屏或残留旧帧。
+- 未完成项：6002 可进入一阶段梦境场景，但本轮没有取得可重复触发的完整 s000→s001 动态录屏，
+  因此“首趟 palette 高位跳”的并排动态节奏仍需 Opus 或用户复验。任务验收只要求一阶段确认顺序与
+  姓名、RGBA 数值无需等同 palette；这一未验项不伪装成已通过。
 
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: 用户视觉复验触发 rework，二次设计待 Opus/GLM 签字。
-- 必须返工项: 删除二值 hard replacement/Bayer 阈值，改为本卡二次设计的每像素 12 级离散 RGBA
-  渐变；补相应单测与动态像素证据；另行定位普通出口黑屏。
-- Accept / rework: rework
+- 审查结论: Codex 自验 `accept`；等待 Opus 做架构/视觉主审，再由 GLM 做迁移覆盖/测试矩阵复核。
+- 复验重点: 12 级错峰渐变是否真正消除旧 hard dissolve 的生硬感；gamma 默认方案是否自然；
+  0%/100% 锚、对白时序、普通换场与 abort/读档收口；任务白名单是否夹带无关脏改。
+- Accept / rework: review pending
 
 ## 用户验收
 
-- 用户结论: **reject 当前视觉算法**（2026-07-12）；时机和对应帧基本正确，但过渡观感明显不对。
-- 后续任务: 二次设计三签后由 Codex 重写视觉 helper；李大娘停步脚本尚未重写，继续作为本卡范围外的后续演出任务。
+- 历史结论: **reject 旧二值视觉算法**（2026-07-12）；时机和对应帧基本正确，但逐像素硬切观感不对。
+- 当前状态: 已按二次三签方案改为 12 级逐像素渐变并默认 gamma-correct，等待 Opus/GLM review 与
+  用户对新动态效果的最终验收。李大娘停步脚本尚未重写，仍属本卡范围外的后续演出任务。
 
 ## 交接日志
 
@@ -378,17 +410,29 @@ N/A
   离散 RGBA 插值”二次设计签 agree。Evidence: 本卡“用户视觉裁决”与“二次设计签字”。Next: Opus 审二次
   设计；不得改实现。
 - 2026-07-12 Opus: 二次视觉算法签 **agree**。数学核对 level 公式(step0→level0/step72→level12/`inner=step%6` 令 6 相位错峰/每像素单调逐级)——12 级离散 RGBA 插值忠实恢复一阶段“单像素逐趟变色”动态,与被否的二值硬切本质不同。3 复验重点:①颜色空间——sRGB 直接插值中间色可能偏暗(gamma≈2.2 编码上线性插值),6051 中间帧复验亮度,已定纯 RGBA gamma-correct 退路(转线性光强空间插值再编码回,不恢复 palette);②“首趟高 nibble 立即跳 target”细节丢失(palette→RGBA 必然),6051 与一阶段录屏并排比节奏;③浏览器取样补 25/50/75% 亮度数值。1 独立阻塞:s001→s003 黑屏 done 前必解(与视觉算法正交,疑 `hasEarlyDitherScreen` 误判或普通 fade 恢复不全)。backup 两路/2160ms/对白时序/收口/迁移四修沿用一次 agree。Evidence: 二次主审立场逐条结论 + dither-fade.ts:29-42。Next: GLM 二次复核测试矩阵/迁移无影响;三签齐后 Codex build(含 sRGB+gamma 两路公式 + 黑屏定位)。未改实现文件。
+- 2026-07-12 GLM: 二次设计签 **agree**；确认视觉 helper 仅改 reforge 运行时，对迁移四修零影响；
+  12 级/phase/端点/4×4/非累积测试矩阵完整，gamma-correct 仍是纯 RGBA 运算。Evidence: 二次签字
+  GLM 行。Next: 三签齐，Codex 进入 build。
+- 2026-07-12 Codex: 二次 build 完成并自验 `accept`。删除 hard dissolve/Bayer，落地不可变三缓冲的
+  6 相位 × 12 级 RGBA 渐变；sRGB 与 gamma 两路浏览器量化后默认 gamma-correct，保留
+  `?dither-srgb=1` 对照。定向测试 34 项、content/migrate/reforge/editor 包检查和全仓
+  `pnpm check` 全绿；dry-run 为 295 scenes / ditherScreen 110 / e-1 0 / fade missing ms 0。
+  6051 的 0%/100% 锚、2160ms、对白时序通过；普通 s001→s003 所谓黑屏定位为错误测试落点，
+  真实出口 `(141,51)` 回归通过。Evidence: Build/视觉验证段与 `/tmp/type-pal-x3-evidence/compare.png`。
+  Next: Opus 做实现/视觉主审，不得标 done；Opus 后交 GLM 复核迁移覆盖和测试矩阵。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务:X3/M3 通用 0x73 逐像素过渡二次设计审查（GLM 复核）
+接手任务:X3/M3 通用 0x73 逐像素过渡实现与视觉主审
 任务卡:docs/ops/tasks/X3-opening-dither-speaker-inheritance.md
-当前状态:rework；二次签字 Codex agree、Opus agree、GLM pending；build 准入 blocked（待 GLM）
-你的角色:GLM，二次设计复核（迁移覆盖 / 测试矩阵）；只审设计，不修改实现文件
-先读:AGENTS.md、docs/phase2/READ-FIRST.md、任务卡二次设计段（“用户视觉裁决”“二次视觉算法修订签字”“二次主审立场”“Build/视觉验证记录”），核对 packages/reforge/src/dither-transition.ts:1-87
-已完成:Codex 提 12 级离散 RGBA 插值(`level=clamp(floor(step/6)+(phaseRank<step%6?1:0),0,12)`,不可变 old/target,4×4 块同级,0/72 端点);Opus 二次 agree——数学核对 level 公式正确、恢复一阶段“单像素逐趟变色”动态,附 3 复验重点(①sRGB gamma 中间色偏暗 + 纯 RGBA gamma-correct 退路 ②“首趟高位跳”细节丢失 ③25/50/75% 亮度取样)+1 独立阻塞(s001→s003 黑屏,与视觉正交)
-请你做:复核(1)视觉算法重写只动 reforge 运行时(`dither-transition.ts` helper),对迁移语义/产物零影响;(2)二次测试矩阵——12 级单像素单调逼近 / phase rank 顺序 / 0-72 端点 / 4×4 同步的纯函数覆盖是否完整;(3)迁移四修沿用有效(0x73 dry-run 110 处 ditherScreen、`entity:"e-1"` 归零、fade 缺 ms 归零,与你首次审计一致);(4)确认 Opus 的 gamma-correct 退路也是纯 reforge 运算(不碰迁移)。在二次“视觉算法修订签字”GLM 行签 agree 或 counter,更新交接日志
-不要做:不改任何实现文件;三签未齐不得 build;不跑会写工作区的 pnpm migrate:content(只临时目录 dry-run);不碰 40+ 无关脏场景文件
-输出要求:明确 agree/counter、测试矩阵评估、迁移无影响确认、提交 hash;三签齐后交 Codex build（含 sRGB+gamma 两路公式与 s001→s003 黑屏定位）
+当前状态:review；二次设计三签齐，Codex build/自验完成并签 accept；Opus、GLM done 前审查签字 pending
+你的角色:Claude Opus，架构/代码/视觉主审；默认只审查，不改实现文件。发现问题签 counter 并列出返工项
+先读:AGENTS.md、docs/phase2/READ-FIRST.md、任务卡“上下文锚点/二次设计/Build/视觉验证/Review”，再读 packages/game/src/present/dither-fade.ts:13-42 与任务白名单 diff
+重点代码:packages/reforge/src/dither-transition.ts、dither-transition.test.ts、main.ts、script-runner.ts/test.ts；packages/content/src/script.ts；packages/migrate/src/translate-events.ts/test.ts；packages/editor/src/core/playback.ts、ui/ScriptTree.tsx、ui/CommandForm.tsx；s000.json/s001.json 只审本任务相关 hunk
+已完成:删除二值 hard dissolve/Bayer，改为不可变 source/target/output 三缓冲，RG_INDEX 六相位错峰、每像素 12 级；同时实现 sRGB 与 gamma 2.2 linear-light，6051 量化后默认 gamma，DEV `?dither-srgb=1` 可对照。跨场景 handoff/独立 snapshot、0% 像素锚、2160ms、对白完成后出现、abort/读档/再换场收口均已接通。迁移四修与 editor 联合类型接线已补齐
+验证证据:定向 34 tests；content 159、migrate 92、reforge 306、editor 118；全仓 pnpm check 全绿；dry-run 295 scenes / ditherScreen 110 / e-1 0 / fade missing ms 0。截图在 /tmp/type-pal-x3-evidence/，并排图 compare.png。普通 s001→s003 用真实出口落点(141,51)复验通过；此前黑屏是误用空白默认落点(86,9)
+请你复验:1)12 级公式、gamma LUT 端点/性能/alpha 是否正确，是否还存在像素硬切；2)main.ts 窄前瞻只劫持早期 dither 的目标 stage，普通 loadScene 不受影响；3)active/pending Promise 在正常/abort/读档/再切场景全部收口；4)6051 观察 0/25/50/75/100%、对白时序与普通出口；5)尽量用 6002 对照一阶段动态节奏，特别是首趟 palette 高位跳。Codex 未取得可重复的 6002 完整转场录像，不得把该项误记为已验；RGBA 数值无需等同 palette
+红线:不跑会写工作区的 pnpm migrate:content；工作区有大量其他 Agent 脏文件，禁止回退或整批提交；review 阶段默认不得修改实现文件；三方 accept 未齐不得标 done
+输出要求:在任务卡“进入 done 前：审查签字”Opus 行和 Review/交接日志写 accept，或签 counter 并给精确 file:line/复现步骤/返工项；提交仅文档审查记录。若 accept，必须在任务卡写一段可直接复制给 GLM 的下一位提示词，要求其复核迁移覆盖、测试矩阵与白名单后签 accept/counter
 ```

@@ -27,6 +27,8 @@ export interface ScriptHost {
   /** 0xA0 游戏通关退出:回标题屏(?menu;未存进度弃,同系统菜单 quit)。 */
   quitToTitle?(): void
   fade(dir: 'in' | 'out', ms: number, color?: 'black' | 'red'): Promise<void>
+  /** 0x73 RGBA 逐像素渐变；host 持有帧快照与生命周期。 */
+  ditherScreen(ms: number): Promise<void>
   /** B8:实体向玩家追一步(auto 循环内 = 持续追逐;撞上玩家由 host 触发 touch)。 */
   chaseStep(entityId: string, range: number, speed: number, floating: boolean): Promise<void>
   /** B8:实体消失 seconds 秒后重现(临时态)。 */
@@ -258,7 +260,11 @@ export class ScriptRunner {
       const cur = [...path, i]
       this.onStep?.({ path: cur, cmd })
       await this.exec(cmd, cur)
-      if (this.paceMs > 0) await this.host.wait(this.paceMs)
+      throwIfAborted(this.signal)
+      if (this.paceMs > 0) {
+        await this.host.wait(this.paceMs)
+        throwIfAborted(this.signal)
+      }
     }
   }
 
@@ -292,6 +298,8 @@ export class ScriptRunner {
         return h.clearDialog()
       case 'fade':
         return h.fade(cmd.dir, cmd.ms ?? 300, cmd.color)
+      case 'ditherScreen':
+        return h.ditherScreen(cmd.ms ?? 720)
       case 'chasePlayer':
         return h.chaseStep(this.selfId ?? '', cmd.range ?? 8, cmd.speed ?? 4, cmd.floating ?? false)
       case 'vanishEntity':

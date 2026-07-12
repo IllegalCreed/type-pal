@@ -27088,9 +27088,8 @@
           }
         },
         {
-          "kind": "fade",
-          "dir": "in",
-          "ms": 600
+          "kind": "ditherScreen",
+          "ms": 2160
         },
         {
           "kind": "dialog",

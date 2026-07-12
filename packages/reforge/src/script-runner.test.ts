@@ -20,6 +20,7 @@ function fakeHost(calls: string[]): ScriptHost {
     dialog: alog('dialog'),
     clearDialog: log('clearDialog'),
     fade: alog('fade'),
+    ditherScreen: alog('ditherScreen'),
     wait: alog('wait'),
     teleportParty: log('teleportParty'),
     loadScene: alog('loadScene'),
@@ -547,4 +548,28 @@ test('E6b takeEntity/releaseEntity 派发到 host', async () => {
   expect(calls).toContain('takeEntity("e1")')
   expect(calls).toContain('releaseEntity("e1")')
   expect(calls).toContain('releaseEntity()')
+})
+
+test('ditherScreen 阻塞后续命令，host 收口 Promise 后 abort 不会落穿', async () => {
+  const calls: string[] = []
+  const host = fakeHost(calls)
+  let finishDither: (() => void) | undefined
+  host.ditherScreen = (ms) =>
+    new Promise((resolve) => {
+      calls.push(`ditherScreen(${ms})`)
+      finishDither = resolve
+    })
+  const ac = new AbortController()
+  const runner = new ScriptRunner(host, emptyWorldScriptState(), ac.signal)
+  const running = runner.run([
+    { kind: 'ditherScreen', ms: 2160 },
+    { kind: 'playSound', soundId: 1 },
+  ])
+  await Promise.resolve()
+  expect(calls).toEqual(['ditherScreen(2160)'])
+
+  ac.abort()
+  finishDither?.()
+  await expect(running).rejects.toMatchObject({ name: 'AbortError' })
+  expect(calls).toEqual(['ditherScreen(2160)'])
 })

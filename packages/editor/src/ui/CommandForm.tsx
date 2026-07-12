@@ -212,6 +212,12 @@ export function CommandForm(props: {
           </Row>
         </>
       )
+    case 'ditherScreen':
+      return (
+        <Row label="毫秒">
+          <Num value={cmd.ms ?? 720} onChange={(n) => set({ ms: n })} step={10} />
+        </Row>
+      )
     case 'teleportParty':
       return (
         <>

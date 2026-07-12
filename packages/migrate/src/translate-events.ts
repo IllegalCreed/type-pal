@@ -251,6 +251,9 @@ function walkBody(
   let slot: DialogueLine['slot'] | undefined
   /** 当前立绘(对话样式 op 的 arg0 = RGM 立绘号;top→左 / bottom→右;0/narration = 无)。 */
   let portrait: DialogueLine['portrait']
+  /** 姓名牌属于整条 walkBody；同 slot 的 flush/clearDialog 不应把梦话说话人抹掉。 */
+  let activeSpeaker: string | undefined
+  let speakerAwaitingBody = false
   /** 对话批:待成组的 showDialog 行。 */
   let batch: { msgIdx: number; text: string }[] = []
   const visited = new Set<number>() // goto 环保护(同数组按下标;跨数组由 steps 总上限兜底)
@@ -259,20 +262,18 @@ function walkBody(
 
   const flush = () => {
     if (!batch.length) return
-    // 成组:尾冒号行开新 utterance 记 speaker;其余行拼接为一页文本
-    let speaker: string | undefined
+    // 成组:尾冒号行更新 walkBody 级 speaker;其余行拼接为一页文本。
     let parts: { msgIdx: number; text: string }[] = []
-    let emittedForSpeaker = false
     const emit = () => {
       if (!parts.length) return
       const key = `dlg.${parts[0]!.msgIdx}`
       ctx.locale[key] = parts.map((p) => p.text).join('')
       const line: DialogueLine = { text: key }
-      if (speaker) {
-        const sk = `spk.${speaker}`
-        ctx.locale[sk] = speaker
+      if (activeSpeaker) {
+        const sk = `spk.${activeSpeaker}`
+        ctx.locale[sk] = activeSpeaker
         line.speaker = sk
-        emittedForSpeaker = true
+        speakerAwaitingBody = false
       }
       if (slot) line.slot = slot
       if (portrait) line.portrait = portrait
@@ -282,12 +283,12 @@ function walkBody(
     for (const l of batch) {
       if (SPEAKER_RE.test(l.text)) {
         emit()
-        speaker = l.text.replace(SPEAKER_RE, '')
-        emittedForSpeaker = false
+        if (speakerAwaitingBody) note(ctx, '悬空说话人行(无正文)')
+        activeSpeaker = l.text.replace(SPEAKER_RE, '')
+        speakerAwaitingBody = true
       } else parts.push(l)
     }
     emit()
-    if (speaker && !emittedForSpeaker) note(ctx, '悬空说话人行(无正文)') // 罕见边角,上报不造假页
     batch = []
   }
 
@@ -327,6 +328,9 @@ function walkBody(
     }
     if (op && op in STYLE_SLOT) {
       flush() // 先出旧批(用旧 slot/portrait),再切样式
+      if (speakerAwaitingBody) note(ctx, '悬空说话人行(无正文)')
+      activeSpeaker = undefined
+      speakerAwaitingBody = false
       slot = STYLE_SLOT[op]
       // 立绘:top(0x3C)/bottom(0x3D) 的 arg0 = wNumCharFace(RGM 立绘号);sdlpal script.c:3402/3412。
       // top→左 / bottom→右(reforge POS 已定位);center/narration 无立绘(arg0 是颜色,清)。
@@ -513,16 +517,20 @@ function walkBody(
           })
         } else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '0x6F 无属主' })
       } else if (oc === 0x49) {
-        const ent = entRef(o[0] ?? 0)
-        if (ent) push({ kind: 'setEntityState', entity: ent, state: signExtendI16(o[1] ?? 0) })
+        // script.c:operand0==0 是 no-op；仍 flush，保留 opcode 两侧的对话批次边界。
+        if ((o[0] ?? 0) === 0) push(undefined)
         else {
-          push({
-            kind: 'unmigrated',
-            opcode: oc,
-            operands: [...o],
-            note: '0xFFFF 自指但无属主(onEnter)',
-          })
-          note(ctx, 'setState 自指无属主')
+          const ent = entRef(o[0] ?? 0)
+          if (ent) push({ kind: 'setEntityState', entity: ent, state: signExtendI16(o[1] ?? 0) })
+          else {
+            push({
+              kind: 'unmigrated',
+              opcode: oc,
+              operands: [...o],
+              note: '0xFFFF 自指但无属主(onEnter)',
+            })
+            note(ctx, 'setState 自指无属主')
+          }
         }
       } else if (oc === 0x0f && owner) {
         flush()
@@ -556,12 +564,15 @@ function walkBody(
       // 其余 → bakeAndStrip 烘成 SceneDef 默认(打完 boss 回落场景默认;无持久态)。绝不进最终 content。
       else if (oc === 0x45) push(battleCfgMarker({ musicId: o[0] ?? 0 }))
       else if (oc === 0x4a) push(battleCfgMarker({ fieldId: o[0] ?? 0 }))
-      else if (oc === 0x50) push({ kind: 'fade', dir: 'out' })
-      else if (oc === 0x51) push({ kind: 'fade', dir: 'in' })
+      else if (oc === 0x50)
+        push({ kind: 'fade', dir: 'out', ms: ((o[0] ?? 0) || 1) * 600 })
+      else if (oc === 0x51) {
+        const delay = signExtendI16(o[0] ?? 0)
+        push({ kind: 'fade', dir: 'in', ms: (delay > 0 ? delay : 1) * 600 })
+      }
       else if (oc === 0x73) {
-        // 淡入场景(script.c 0x0073:PAL_MakeScene + VIDEO_FadeScreen(o[0]))。
-        // o[0] 为原版 fade 速度档(开场=2);换算成 ms 走通用 fade 驱动。
-        push({ kind: 'fade', dir: 'in', ms: Math.max(1, o[0] ?? 1) * 300 })
+        // VIDEO_FadeScreen 每 speed 档 10ms、每档 72 个空间步；独立站点同样必须保留。
+        push({ kind: 'ditherScreen', ms: ((o[0] ?? 0) + 1) * 10 * 72 })
       } else if (oc === 0x65) {
         // 换角色大世界精灵(script.c 0x0065:rgwSpriteNum[o[0]] = o[1])。开场李逍遥
         // 练武 627/疯跑 193 全靠它;未迁移时角色只会站桩(2026-07-03 用户实测)。

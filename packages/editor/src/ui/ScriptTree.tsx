@@ -84,6 +84,8 @@ function describe(cmd: Command, locale: Locale): Described {
       return { icon: '🧹', label: '清对话框' }
     case 'fade':
       return { icon: '🌓', label: cmd.dir === 'out' ? '淡出（黑）' : '淡入' }
+    case 'ditherScreen':
+      return { icon: '▦', label: `逐像素渐变 ${cmd.ms ?? 720}ms` }
     case 'playVideo':
       return { icon: '🎬', label: `播过场视频 videos/${cmd.videoId}.mp4` }
     case 'playRng':

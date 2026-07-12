@@ -31,6 +31,8 @@ export type Command =
   | { kind: 'dialog'; line: DialogueLine }
   | { kind: 'clearDialog' } // 原版 0x05 redrawScreen 的语义核(清对话箱)
   | { kind: 'fade'; dir: 'in' | 'out'; ms?: number; color?: 'black' | 'red' }
+  /** 原版 0x73:把上一帧按 6 相位 × 12 级逐像素渐变为当前世界帧。 */
+  | { kind: 'ditherScreen'; ms?: number }
   // 过场编排(P2):播 mp4 视频(开场 videos/1.mp4 / 结局过场 4-6.mp4)。阻塞至播完 or 跳过键。
   // 「一指令引用一段过场」的 mp4 侧;RNG 序列图(原版 0x36/0x37)另属编排模块序列帧,待落地。
   | { kind: 'playVideo'; videoId: number }

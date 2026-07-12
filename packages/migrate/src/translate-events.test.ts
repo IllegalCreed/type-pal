@@ -74,13 +74,73 @@ describe('0x65 换角色大世界精灵(script.c: rgwSpriteNum[role]=sprite)', (
 })
 
 describe('0x73 淡入场景(script.c: PAL_MakeScene + VIDEO_FadeScreen)', () => {
-  test('→ fade in(时长 = operand[0] 换算,非零)', () => {
+  test('→ 通用 ditherScreen，speed=2 精确换算为 2160ms', () => {
     const body = bodyOf(ctxOf([{ opcode: 0x73, operands: [2, 0, 0] }]))
-    expect(body).toHaveLength(1)
-    const f = body[0]! as Extract<Command, { kind: 'fade' }>
-    expect(f.kind).toBe('fade')
-    expect(f.dir).toBe('in')
-    expect(f.ms).toBeGreaterThan(0)
+    expect(body).toEqual([{ kind: 'ditherScreen', ms: 2160 }])
+  })
+})
+
+describe('0x49 setObjectState operand0=0', () => {
+  test('不产 e-1 实体命令，但保留两侧对话批次边界', () => {
+    const body = bodyOf(
+      ctxOf([
+        { op: 'showDialog', messageIndex: 10, text: '前页' } as unknown as SourceCmd,
+        { opcode: 0x49, operands: [0, 2, 0] },
+        { op: 'showDialog', messageIndex: 11, text: '后页' } as unknown as SourceCmd,
+      ]),
+    )
+    expect(body.filter((c) => c.kind === 'dialog')).toHaveLength(2)
+    expect(body.some((c) => c.kind === 'setEntityState')).toBe(false)
+    expect(JSON.stringify(body)).not.toContain('e-1')
+  })
+})
+
+describe('0x50/0x51 fade delay 保真', () => {
+  test.each([
+    [0x50, 0, 'out', 600],
+    [0x50, 3, 'out', 1800],
+    [0x50, 0xffff, 'out', 0xffff * 600],
+    [0x51, 0, 'in', 600],
+    [0x51, 3, 'in', 1800],
+    [0x51, 0xffff, 'in', 600],
+  ] as const)('opcode %# operand=%d → %s %dms', (opcode, operand, dir, ms) => {
+    expect(bodyOf(ctxOf([{ opcode, operands: [operand, 0, 0] }]))).toEqual([
+      { kind: 'fade', dir, ms },
+    ])
+  })
+})
+
+describe('对话 speaker 在同一 walkBody/slot 内继承', () => {
+  test('跨 raw 0x05 flush 仍继承', () => {
+    const body = bodyOf(
+      ctxOf([
+        { op: 'showDialog', messageIndex: 20, text: '李逍遥：' } as unknown as SourceCmd,
+        { op: 'showDialog', messageIndex: 21, text: '第一句' } as unknown as SourceCmd,
+        { opcode: 0x05, operands: [0, 0, 0] },
+        { op: 'showDialog', messageIndex: 22, text: '第二句' } as unknown as SourceCmd,
+      ]),
+    )
+    const lines = body.flatMap((c) => (c.kind === 'dialog' ? [c.line] : []))
+    expect(lines.map((line) => line.speaker)).toEqual(['spk.李逍遥', 'spk.李逍遥'])
+  })
+
+  test('换 slot 清空；新姓名牌会替换旧姓名', () => {
+    const body = bodyOf(
+      ctxOf([
+        { op: 'showDialog', messageIndex: 30, text: '李逍遥：' } as unknown as SourceCmd,
+        { op: 'showDialog', messageIndex: 31, text: '旧姓名' } as unknown as SourceCmd,
+        { op: 'showDialog', messageIndex: 32, text: '李大娘：' } as unknown as SourceCmd,
+        { op: 'showDialog', messageIndex: 33, text: '新姓名' } as unknown as SourceCmd,
+        { op: 'setDialogStyleTop', arg0: 55 } as unknown as SourceCmd,
+        { op: 'showDialog', messageIndex: 34, text: '换槽后无姓名' } as unknown as SourceCmd,
+      ]),
+    )
+    const lines = body.flatMap((c) => (c.kind === 'dialog' ? [c.line] : []))
+    expect(lines.map((line) => line.speaker)).toEqual([
+      'spk.李逍遥',
+      'spk.李大娘',
+      undefined,
+    ])
   })
 })
 

@@ -336,6 +336,11 @@ export class Playback {
         this.fadeJob?.resolve()
         this.fadeJob = { dir, ms, done: 0, resolve }
       }),
+    ditherScreen: (ms) =>
+      new Promise<void>((resolve) => {
+        this.log(`逐像素渐变 ${ms}ms（编辑器预览只模拟时长）`)
+        this.timers.push({ left: ms, resolve })
+      }),
     wait: (ms) =>
       new Promise<void>((resolve) => {
         this.timers.push({ left: ms, resolve })

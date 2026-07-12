@@ -26,6 +26,7 @@ import {
   resolveAmbienceTint,
   resolveEntitySpriteId,
   sellableItems,
+  stageIndexFor,
   type SceneDef,
   type SceneMap,
   sceneMapKey,
@@ -107,6 +108,13 @@ import {
 import { resolveMove } from './movement.js'
 import { Canvas2DRenderer, type CellRect, type SpriteDraw } from './render.js'
 import { renderSceneFrame } from './render-scene.js'
+import {
+  applyDitherGradient,
+  DITHER_TOTAL_STEPS,
+  type DitherColorSpace,
+  DitherTransitionController,
+  hasEarlyDitherScreen,
+} from './dither-transition.js'
 import { runOpeningMenu } from './opening-menu.js'
 import { playRng as playRngOverlay, rngPaletteId } from './rng-player.js'
 import { playVideo as playVideoOverlay } from './video-player.js'
@@ -198,6 +206,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   const DEBUG_COLLISION = new URLSearchParams(location.search).has('collision')
   document.title = `${project.manifest.name} · reforge` // 标题随工程(index.html 只是加载占位)
   const params = new URLSearchParams(location.search)
+  const ditherColorSpace: DitherColorSpace =
+    import.meta.env.DEV && params.get('dither-srgb') === '1' ? 'srgb' : 'linear-light'
   const sfx = new SfxPlayer(project.assetBase.sounds) // 应用级单例(解码缓存跨战斗复用)
   const bgm = createBgmPlayer(project.assetBase.music) // W5/X2:场景 BGM(懒初始化,首曲才拉 soundfont)
   // autoplay 解锁:BGM 随 boot 场景起播,彼时多半无手势 → ctx suspended;首个手势补播。
@@ -449,11 +459,80 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   // world 须先于 switchScene 定义(switchScene 首调在 boot 时读 world.script.mapOverride;
   // 0x99 底图覆写持久层。放此前 = 避免 TDZ)。
   let world = buildWorld(bootStartWorld, project.actorsById)
+  const ditherTransition = new DitherTransitionController<ImageData>()
+  let ditherZeroFrameMatchesBackup: boolean | null = null
+  let ditherZeroFrameDiffersFromTarget: boolean | null = null
+  const ditherDebugState = () => {
+    const active = ditherTransition.active
+    const zeroFrame = {
+      zeroFrameMatchesBackup: ditherZeroFrameMatchesBackup,
+      zeroFrameDiffersFromTarget: ditherZeroFrameDiffersFromTarget,
+    }
+    if (active) {
+      const pr =
+        active.startedAt === null
+          ? 0
+          : active.durationMs <= 0
+            ? 1
+            : Math.max(0, Math.min(1, (performance.now() - active.startedAt) / active.durationMs))
+      return {
+        active: true,
+        pending: false,
+        pr,
+        step: active.lastStep,
+        hasTarget: !!active.target,
+        source: active.source,
+        colorSpace: ditherColorSpace,
+        ...zeroFrame,
+      }
+    }
+    const targetSceneId = ditherTransition.pendingTargetSceneId
+    return targetSceneId
+      ? {
+          active: false,
+          pending: true,
+          pr: 0,
+          step: -1,
+          hasTarget: false,
+          targetSceneId,
+          colorSpace: ditherColorSpace,
+          ...zeroFrame,
+        }
+      : {
+          active: false,
+          pending: false,
+          pr: 0,
+          step: -1,
+          hasTarget: false,
+          colorSpace: ditherColorSpace,
+          ...zeroFrame,
+        }
+  }
+  const syncDitherDebugDataset = (): void => {
+    if (!import.meta.env.DEV) return
+    canvas.dataset.rfScene = scene.id
+    canvas.dataset.rfDither = JSON.stringify(ditherDebugState())
+    canvas.dataset.rfRender = JSON.stringify({
+      fadeBlack,
+      position: player.pos,
+      scriptRunning: !!runner,
+      dialogActive: dialogBox.active,
+    })
+  }
+  const markSceneLoad = (from: string, to: string, step: string): void => {
+    if (import.meta.env.DEV) canvas.dataset.rfSceneLoad = JSON.stringify({ from, to, step })
+  }
   // dev ?party:强制的队员拉满 HP/MP,确保 healthy(否则如赵灵儿初始 28/240 = 濒死,合击项灰)
   if (partyParam) for (const c of world.party) { c.hp = c.maxHP; c.mp = c.maxMP }
   // DEV 调试口(__rfBattle 同款):验收/自动化直读世界态(party HP/MP、money、learnedSkills)
-  if (import.meta.env.DEV)
+  if (import.meta.env.DEV) {
     Object.defineProperty(window, '__rfWorld', { get: () => world, configurable: true })
+    Object.defineProperty(window, '__rfScene', { get: () => scene, configurable: true })
+    Object.defineProperty(window, '__rfDither', {
+      get: ditherDebugState,
+      configurable: true,
+    })
+  }
   world.script ??= emptyWorldScriptState()
 
   /**
@@ -758,15 +837,59 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       updateCamera()
     },
     loadScene: async (sceneId, pos, fc) => {
-      await hostFade('out', 260)
+      const fromSceneId = scene.id
+      markSceneLoad(fromSceneId, sceneId, 'preflight')
+      ditherTransition.cancel()
+      const targetDef = await getSceneDef(sceneId)
+      const targetStages = targetDef.onEnter
+      const targetStage = targetStages?.[
+        stageIndexFor(world.script!, `s:${sceneId}`, targetStages)
+      ]
+      const handoffToDither = hasEarlyDitherScreen(targetStage)
+      markSceneLoad(fromSceneId, sceneId, handoffToDither ? 'handoff' : 'fade-out')
+      if (handoffToDither) {
+        // M2:先关对话状态、但不强制重画；canvas 仍是旧场景最后已呈现帧。
+        dialogBox.close()
+        ditherZeroFrameMatchesBackup = null
+        ditherZeroFrameDiffersFromTarget = null
+        ditherTransition.arm(
+          sceneId,
+          ctx.getImageData(0, 0, canvas.width, canvas.height),
+        )
+      } else {
+        await hostFade('out', 260)
+      }
+      markSceneLoad(fromSceneId, sceneId, 'switch')
       stopAutoRunners()
-      await switchScene(sceneId, { pos, facing: fc })
+      try {
+        await switchScene(sceneId, { pos, facing: fc })
+      } catch (error) {
+        ditherTransition.cancel()
+        markSceneLoad(fromSceneId, sceneId, 'error')
+        throw error
+      }
+      markSceneLoad(fromSceneId, sceneId, 'committed')
       applyWorldToScene()
       entityFrameOverride.clear()
       pendingOnEnter = sceneId // 新场景 onEnter 排队(当前脚本收尾后跑,不嵌套)
       sceneChangedByScript = true // X1:演出链全部收尾后写 auto 档
       startAutoRunners()
-      await hostFade('in', 260)
+      if (!handoffToDither) {
+        markSceneLoad(fromSceneId, sceneId, 'fade-in')
+        await hostFade('in', 260)
+      }
+      markSceneLoad(fromSceneId, sceneId, 'done')
+    },
+    ditherScreen: (ms) => {
+      // 独立 0x73 与交接路径都先关闭 dialog 状态；只有无匹配 handoff 时 snapshot 才会执行。
+      dialogBox.close()
+      ditherZeroFrameMatchesBackup = null
+      ditherZeroFrameDiffersFromTarget = null
+      return ditherTransition.begin(
+        scene.id,
+        () => ctx.getImageData(0, 0, canvas.width, canvas.height),
+        ms,
+      )
     },
     setPartyFacing: (fc, gesture, member) => {
       // 原版 0x15:wPartyDirection=o[0] + rgParty[o[2]].wFrame=dir*3+o[1] —— 每次都写帧;
@@ -1845,6 +1968,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         scriptAbort = null
         dismountParty() // E7 兜底收尾人:脚本链结束仍挂载 → 下筏(防跟随者漏挂持久态)
         authority.clear() // E6a:脚本链收尾统一归还(兜底收尾人;续链新段自行重新接管)
+        const finishedSceneId = key.startsWith('s:') ? key.slice(2) : null
+        if (finishedSceneId === scene.id) ditherTransition.clearPendingFor(finishedSceneId)
         if (pendingOnEnter) {
           const sid = pendingOnEnter
           pendingOnEnter = null
@@ -1878,6 +2003,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     for (const t of timers.splice(0)) t.resolve()
     fadeFx?.resolve()
     fadeFx = null
+    ditherTransition.cancel()
     fadeBlack = 0
     entityFrameOverride.clear()
     partyGesture = null // 演出态随脚本终止一并清(dev 强停/读档;正常流脚本自清)
@@ -2314,6 +2440,56 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     }
     // W6 氛围滤镜:一切画完之后全帧 multiply(原版夜盘是全局调色板 —— UI 也染,数据实证)
     applyAmbienceTint()
+    // 0x73 是壳层整屏输出特效，必须放在氛围滤镜之后：backup 来自上一张最终 canvas，
+    // target 也取本帧最终 canvas，避免夜景旧像素被重复 multiply。首帧强制 pr=0。
+    const dither = ditherTransition.active
+    if (dither) {
+      let pr = 0
+      const isZeroFrame = !dither.target
+      if (!dither.target) {
+        dither.target = ctx.getImageData(0, 0, canvas.width, canvas.height)
+        dither.output = new ImageData(
+          dither.backup.data.slice(),
+          dither.backup.width,
+          dither.backup.height,
+        )
+        dither.startedAt = nowMs
+      } else {
+        pr =
+          dither.durationMs <= 0
+            ? 1
+            : Math.max(0, Math.min(1, (nowMs - dither.startedAt!) / dither.durationMs))
+      }
+      const step = Math.floor(pr * DITHER_TOTAL_STEPS)
+      if (dither.output && dither.lastStep !== step) {
+        applyDitherGradient(
+          dither.backup.data,
+          dither.target.data,
+          dither.output.data,
+          step,
+          canvas.width * canvas.height,
+          { width: canvas.width, pixelScale: WORLD_SCALE },
+          ditherColorSpace,
+        )
+        dither.lastStep = step
+      }
+      if (dither.output) ctx.putImageData(dither.output, 0, 0)
+      if (import.meta.env.DEV && isZeroFrame) {
+        const shown = ctx.getImageData(0, 0, canvas.width, canvas.height).data
+        const equals = (a: Uint8ClampedArray, b: Uint8ClampedArray): boolean => {
+          if (a.length !== b.length) return false
+          for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false
+          return true
+        }
+        ditherZeroFrameMatchesBackup = equals(shown, dither.backup.data)
+        ditherZeroFrameDiffersFromTarget = !equals(shown, dither.target.data)
+      }
+      if (pr >= 1) ditherTransition.finish()
+    } else {
+      const pendingBackup = ditherTransition.pendingBackupFor(scene.id)
+      if (pendingBackup) ctx.putImageData(pendingBackup, 0, 0)
+    }
+    syncDitherDebugDataset()
   }
 
   /** 调试层（将来可移入编辑器）：iso 菱形网格 + 每站立点 isBlocked(绿走/红禁) + 玩家脚点。 */
