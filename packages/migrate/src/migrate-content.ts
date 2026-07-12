@@ -1247,10 +1247,12 @@ export function mapScenesStatic(
         last = { pos: partyPosToGrid(a, b, h), at: i }
         return
       }
-      const target =
+      const rawTarget =
         (c as { op?: string; sceneId?: number }).op === 'loadScene'
           ? (c as { sceneId?: number }).sceneId
           : undefined
+      // loadScene operand 1-based → 0-based scene index(与 loadScene body / sc.sceneId 命名一致)
+      const target = typeof rawTarget === 'number' ? Math.max(0, rawTarget - 1) : undefined
       if (typeof target === 'number') {
         if (last && i - last.at <= 4) {
           const list = arrivals.get(target) ?? []

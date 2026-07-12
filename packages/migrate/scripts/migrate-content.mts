@@ -4,14 +4,12 @@
  * 纯逻辑在 ../src/migrate-content.ts(vitest golden 钉真值);本脚本只做读盘/合并/写盘/复制资产。
  * 可重复跑(全量重写 projects/pal 的 content;assets 覆盖复制)。
  */
-import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import type { ActorDef, SpriteDef } from '@type-pal/content'
 import {
   type MigrateSources,
   mapScenesStatic,
-  mergeExtras,
   migrateAll,
   type SourceCmd,
   type SourceScene,
@@ -87,45 +85,15 @@ if (DEBUG_SCENES) {
 }
 const scenesOut = mapScenesStatic(srcScenes, eventsByScene, out.sprites)
 
-// ── 与 demo 手作合并(youhun/ghost 等 demo 独有条目保留;工程底座种自 demo)──
-const demoActors = readJson<ActorDef[]>('projects/demo/content/actors.json')
-const demoSprites = readJson<SpriteDef[]>('projects/demo/content/sprites.json')
-const demoLocale = readJson<Record<string, string>>('projects/demo/content/locale.json')
-const demoSceneIds = readJson<string[]>('projects/demo/content/scenes/index.json')
-const demoScenes = demoSceneIds.map((id) =>
-  readJson<{ id: string }>(`projects/demo/content/scenes/${id}.json`),
-)
-const demoManifest = readJson<Record<string, unknown>>('projects/demo/manifest.json')
+// ── 纯 pal:内容全部来自原版提取,绝不掺 demo(鬼界民居/幽魂等 demo 示例工程内容)──
+const actors = out.actors
+const sprites = [...out.sprites, ...scenesOut.sprites]
+const locale = { ...out.localeNames, ...scenesOut.scriptLocale }
 
-const actors = mergeExtras(out.actors, demoActors)
-const sprites = mergeExtras([...out.sprites, ...scenesOut.sprites], demoSprites)
-const locale = { ...demoLocale, ...out.localeNames, ...scenesOut.scriptLocale }
-
-// ── 写 projects/pal ──
-writeJson('projects/pal/manifest.json', {
-  ...demoManifest,
-  id: 'pal',
-  name: '仙剑奇侠传·复刻(M2 迁移中)',
-  content: {
-    ...(demoManifest.content as Record<string, string>),
-    enemies: 'content/enemies.json',
-    enemyTeams: 'content/enemy-teams.json',
-  },
-  // pal 资源指向共享提取源(可再生;免拷 221 张图进仓)。demo 保持自包含范例。
-  // sounds 在提取源与 data 平级(/extracted/sounds/<id>.wav,RIFF PCM 直解)。
-  // 内容资产走库层:提取源 /extracted + bake 产物 /baked(立绘/战斗头像/物品图标,pnpm bake 再生)
-  assets: {
-    root: '/extracted/data',
-    maps: 'tilemap',
-    tilesets: 'tileset',
-    sprites: 'sprite',
-    palettes: 'palette',
-    sounds: '/extracted/sounds',
-    portraits: '/baked/portraits',
-    faces: '/baked/ui/face',
-    itemIcons: '/baked/ui/items',
-  },
-})
+// ── 写 projects/pal(只写 content;manifest 手工维护,此脚本不碰)──
+// ⚠ manifest.json 不由迁移生成:startWorld(新游戏初始队伍/技能/道具/属性)、entryScene、
+//    entryPoints、name、assets 全是手工设计、非提取产物。此脚本只重建 content;
+//    首次 bootstrap 须手工建 pal manifest(参照 projects/pal/manifest.json 现状)。
 writeJson('projects/pal/content/actors.json', actors)
 writeJson('projects/pal/content/sprites.json', sprites)
 writeJson('projects/pal/content/items.json', out.items)
@@ -133,19 +101,17 @@ writeJson('projects/pal/content/skills.json', out.skills)
 writeJson('projects/pal/content/enemies.json', out.enemies)
 writeJson('projects/pal/content/enemy-teams.json', out.enemyTeams)
 writeJson('projects/pal/content/locale.json', locale)
-// M2b per-scene:demo 底座场景 + 295 原版静态场景
-const allSceneIds = [...demoScenes.map((s) => s.id), ...scenesOut.scenes.map((s) => s.id)]
+// M2b per-scene:只写原版静态场景(纯 pal,不掺 demo 鬼界民居)
+const allSceneIds = scenesOut.scenes.map((s) => s.id)
 writeJson('projects/pal/content/scenes/index.json', allSceneIds)
-for (const sc of demoScenes) writeJson(`projects/pal/content/scenes/${sc.id}.json`, sc)
 for (const sc of scenesOut.scenes) writeJson(`projects/pal/content/scenes/${sc.id}.json`, sc)
-cpSync(resolve(repo, 'projects/demo/assets'), resolve(repo, 'projects/pal/assets'), {
-  recursive: true,
-})
+// ⚠ 不拷 assets:pal 资源指向共享提取源 /extracted + bake 产物 /baked(见手工 manifest.assets),
+//    不该有自包含 projects/pal/assets 目录(那是 demo 的自包含范例才需要)。
 
 // ── 报告 ──
 console.log(`[migrate:content] projects/pal 已生成:`)
 console.log(
-  `  actors ${actors.length}(迁移 ${out.actors.length} + demo 独有 ${actors.length - out.actors.length})`,
+  `  actors ${actors.length}(纯原版迁移)`,
 )
 console.log(
   `  sprites ${sprites.length} · items ${out.items.length} · skills ${out.skills.skills.length}(纯伤害 57 + 线性脚本 18 + 门类 5)`,

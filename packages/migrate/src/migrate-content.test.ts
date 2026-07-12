@@ -386,9 +386,10 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
       'data/extracted/events/shared.json',
     ).segments.flatMap((s) => s.commands)
   const out2 = mapScenesStatic(
-    [readScene(1), readScene(4), readScene(5)],
+    [readScene(1), readScene(3), readScene(4), readScene(5)],
     new Map([
       [1, readEvents(1)],
+      [3, readEvents(3)], // s001 loadScene→operand4 → index3 = s003(off-by-one 修复后 s001 的正确目标)
       [4, readEvents(4)],
       [5, readEvents(5)],
       [-1, readShared()], // 共享段:s005 的 autoLabel(L_35636/L_35639)在此
@@ -409,11 +410,11 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
     const e = s1.entities.find((x) => x.id === `e${firstVisible.id}`)!
     expect(e.pos).toEqual({ ...pixelToGrid(firstVisible.x, firstVisible.y), height: 0 }) // 像素↔菱形格精确往返
   })
-  test('s004:from-s001 入口 = setPartyPos(49,94) 精确落格;musicId=49(链头 playMusic)', () => {
-    const s4 = byId.get('s004')!
-    expect(s4.musicId).toBe(49)
-    expect(s4.entries?.['from-s001']?.pos).toEqual({ ...pixelToGrid(49 * 32, 94 * 16), height: 0 })
-    expect(s4.entry.pos).toEqual(Object.values(s4.entries!)[0]!.pos) // entry 兜底 = 首个已知入口
+  test('s003:from-s001 入口 = setPartyPos(49,94) 精确落格(loadScene off-by-one 修复:operand4→index3=s003)', () => {
+    // loadScene operand 1-based:s001 的 loadScene→operand4 = 0-based index3 = s003(修复前错落 s004)
+    const s3 = byId.get('s003')!
+    expect(s3.entries?.['from-s001']?.pos).toEqual({ ...pixelToGrid(49 * 32, 94 * 16), height: 0 })
+    expect(s3.entry.pos).toEqual(Object.values(s3.entries!)[0]!.pos) // entry 兜底 = 首个已知入口
   })
   test('实体语义映射:hidden=sState0 / collide=sState≥2 / facing=direction 表 / zBias=sLayer', () => {
     const src1 = readScene(1)

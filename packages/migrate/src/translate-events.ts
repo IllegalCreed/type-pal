@@ -115,7 +115,7 @@ const STYLE_SLOT: Record<string, DialogueLine['slot'] | undefined> = {
   setDialogStyleBottom: undefined, // bottom = 缺省,不写字段
   setDialogStyleTop: 'top',
   setDialogStyleNarration: 'narration',
-  setDialogStyleCenter: 'narration', // 居中文本 M3a 并入叙述窗;视觉差异 M3b 细分
+  setDialogStyleCenter: 'center', // M3b:原版居中窗(开场独白偏上大字),独立 center slot(≠底部叙述窗)
 }
 
 /** 说话人行:以全角/半角冒号结尾(原版约定;DialogueLine 显式 speaker 字段的来源)。 */
@@ -342,7 +342,8 @@ function walkBody(
     }
     if (op === 'loadScene') {
       flush()
-      body.push({ kind: 'loadScene', scene: sceneSlug(c.sceneId ?? 0) })
+      // loadScene operand 1-based(sdlpal rgScene[wNumScene-1])→ 0-based scene index,对齐 sceneSlug/sc.sceneId 命名
+      body.push({ kind: 'loadScene', scene: sceneSlug(Math.max(0, (c.sceneId ?? 1) - 1)) })
       at = { cmds: at.cmds, idx: at.idx + 1 }
       continue
     }
