@@ -692,10 +692,15 @@ N/A
   s001 的异色帧，再恢复正常 s001，异色过程与 s000 无关。
 - **第四版结论: accept**（2026-07-13,用户原话"codex做到了,完美实现了效果"）——target-only
   `falseColor(s001 target) -> normal target` 异色帧过渡经四轮返工后视觉验收通过。
-- 收尾: 全部工作区改动已按白名单分组提交(c059e4b1 content 控制码 / 9320b5c7 reforge 对话三修 /
-  fcc64071 e2e 调试口 / 5a250289 migrate 根治 / 124ff80a pal 产物×295 / f8768cc7 e2e README;
-  实现主体 a9333fdb+bfaaf2ae 由 Codex 先行提交);`pnpm check` 全绿后提交;001 损坏存档已删待重落。
-  李大娘退场两段式演出已随产物落地并有 pal-project.test 钉子。
+- 收尾: 全部工作区改动已按白名单分组提交并推送 origin/main(c059e4b1 content 控制码 /
+  9320b5c7 reforge 对话三修 / fcc64071 e2e 调试口 / 5a250289 migrate 根治 / **749c1ce3** pal 产物×295 /
+  727a2fe2 e2e README / f2e83348 本卡 done / 003918d5 对白锚点;实现主体 a9333fdb+bfaaf2ae 由 Codex
+  先行提交);`pnpm check` 全绿(退出码 0)后推送;001 损坏存档已删待重落。李大娘退场两段式演出已随
+  产物落地并有 pal-project.test 钉子。
+- 推送手术(2026-07-13): 首推被 GitHub 拒(s019 173MB/s176 157MB 超 100MB 限)——迁移器把巡逻
+  NPC 的随机游走循环按 depth-6 臂内联指数展开(单场景 55 万 stepEntity)。产物提交原地重写
+  (124ff80a→749c1ce3):3 文件 34 个爆炸实体移植 origin 版巡逻树,后续提交 cherry-pick 保留;
+  根治另开卡 [M3-wander-arm-explosion.md](M3-wander-arm-explosion.md)。
 
 ## 交接日志
 
