@@ -1,6 +1,6 @@
 # X3/M3 - 通用 0x73 逐像素过渡、开场恢复与 opcode 迁移语义修复
 
-Status: rework
+Status: done
 Phase: phase2
 Capability: X3（标题/流程/开场演出）+ M3（脚本迁移）
 Coding Owner: Codex（用户否决第三版 source-L bridge；第四版设计待三签，暂停实现）
@@ -690,8 +690,12 @@ N/A
   原版“目标色系 + 旧帧明暗”的首趟假色桥接，动态结构不对。
 - 第三次结论: **reject source-L bridge**（2026-07-13）；仍像简单渐变。用户澄清正确结构是先得到
   s001 的异色帧，再恢复正常 s001，异色过程与 s000 无关。
-- 当前状态: 第四版 target-only `falseColor(s001 target) -> normal target` 待三方设计签字；未三签前
-  不得实现。李大娘停步脚本尚未重写，仍属本卡范围外的后续演出任务。
+- **第四版结论: accept**（2026-07-13,用户原话"codex做到了,完美实现了效果"）——target-only
+  `falseColor(s001 target) -> normal target` 异色帧过渡经四轮返工后视觉验收通过。
+- 收尾: 全部工作区改动已按白名单分组提交(c059e4b1 content 控制码 / 9320b5c7 reforge 对话三修 /
+  fcc64071 e2e 调试口 / 5a250289 migrate 根治 / 124ff80a pal 产物×295 / f8768cc7 e2e README;
+  实现主体 a9333fdb+bfaaf2ae 由 Codex 先行提交);`pnpm check` 全绿后提交;001 损坏存档已删待重落。
+  李大娘退场两段式演出已随产物落地并有 pal-project.test 钉子。
 
 ## 交接日志
 

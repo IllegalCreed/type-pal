@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| X3/M3 | 通用 0x73 dither + 开场/opcode 迁移修复 | rework / 四版设计 | GLM 复核 profile/迁移/T1-T7 | 四版 target-only:**Codex+Opus agree，待 GLM**。PAL 走 Route A；`manifest.content.ditherFalseColorProfile` 显式引用工程内 v1 RGB→RGB 表，由 migrate bake 生成，command schema 不变；无 profile 才走 Route B。runtime bridge API 无 source 入参、alpha 取 target。T3 已收窄为 ramp1/5/13 精确字节锚。三签未齐不得实现。任务卡:[X3-opening-dither-speaker-inheritance.md](tasks/X3-opening-dither-speaker-inheritance.md) |
+| X3/M3 | 通用 0x73 dither + 开场/opcode 迁移修复 | **done(用户验收通过)** | 归档 | 四版 target-only 异色帧**用户验收 accept**("完美实现了效果")。实现 a9333fdb+bfaaf2ae(Codex);工作区全量白名单分组提交 c059e4b1..f8768cc7(Opus,pnpm check 全绿):content 控制码/对话三修/e2e 调试口/migrate 根治/pal 产物×295/e2e README。任务卡:[X3-opening-dither-speaker-inheritance.md](tasks/X3-opening-dither-speaker-inheritance.md) |
 
 ## 阻塞
 
