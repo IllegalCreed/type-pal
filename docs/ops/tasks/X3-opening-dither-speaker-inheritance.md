@@ -183,10 +183,27 @@ s000→s001 只是其中一个跨场景用例。同时修复梦话 speaker 继�
   `target 高 nibble | source 低 nibble`，即目标色系/几何与旧帧明暗的桥接。提议保持纯 RGBA：
   首次访问像素时跳到“目标色相/色度 + 旧帧感知亮度”的 bridge，后 11 趟再离散逼近 target）
 - Opus: **agree**（2026-07-12 三审;bridge 模型正确模拟 `(target高nibble|source低nibble)` 的结构本质——hue/chroma 承接原版"高 nibble=色系"、感知 lightness 承接"低 nibble=明暗",全屏假色态时序 step6=180ms 与原版 speed2 精确吻合;visits 公式经程序验算:边界(s=0 全 source/s=1 rank0 首访/s=6 全屏 bridge/s=7 rank0 二访/s=72 全 12)、单调不减、每 step 恰一相位 +1 全部成立;中性/近黑退化与 gamut map 方向正确;预计算一次 + 复用 output 性能可行;拒绝 palette 重量化路径符合铁律 4/6。附 R1-R4 build 要求(单测边界/特例三件套/预计算成本测量/两处有意近似文档化),详见第三版主审立场）
-- GLM: pending
-- counter / 分歧处理: Opus 无 counter;R1-R4 为 build 时必须落的要求(非设计阻塞)。请 GLM 复核:bridge 预计算/收敛均为 reforge 运行时,迁移语义零变化;测试矩阵新增项(step 0/1/6/7/36/72 + 4×4 + 11 级收敛 + R1/R2)完整性。
+- GLM: **agree**（三次，2026-07-12）。第三版假色桥接算法（OKLCH bridge + visits 收敛）对迁移层零影响，未否决部分沿用，测试矩阵含 R1/R2 完整性确认。逐项：
+
+  **迁移零影响**：bridge 预计算 + visits 收敛 + gammaLerp 全是 reforge 运行时纯函数（dither-transition.ts）。迁移器照常产 `ditherScreen{ms}`——Command schema/语义不变，运行时用什么算法（linear/gamma/OKLCH bridge）画 backup→target 不归迁移管。✅ 零影响。
+
+  **未否决部分沿用**：backup 两路来源（跨场景 loadScene 窄前瞻 / 独立站点命令内快照）、2160ms 时长、M2 对话时序、统一收尾、迁移四修（0x73 全站点 / 0x49 e-1 归零 / 0x50-0x51 ms×600 / speaker 继承）——**三次设计修订只改视觉算法（dither-transition.ts 的渐变公式），不改 backup/时序/收口/迁移**。三次签字里 GLM 第一/二次核过的迁移四修 + dry-run 数据（ditherScreen 110 处 / e-1=0 / fade 缺 ms=0）全部继续有效。✅
+
+  **测试矩阵（含 R1/R2 完整性）**：
+  - R1（visits 边界）：step 0 全 0(source) / step 1 rank0 首访(bridge) / step 6 全屏 bridge / step 7 rank0 二访 / step 67-72 全 12(target) + step6 全屏 bridge 断言 → **完整覆盖 visits 公式边界。** ✅
+  - R2（特例三件套）：近中性 target 退化中性灰 / 近黑 source·target / gamut 极值（高饱和 target × 异亮度 source）→ **覆盖 palette→OKLCH 映射的退化路径。** ✅
+  - 11 级收敛单调（bridge→target gamma-correct 离散步，visits 2..12）✅
+  - 4×4 物理块共享逻辑 visits/level ✅
+  - 0/72 端点精确等于 source/target ✅
+  - alpha 线性不进色彩空间 ✅
+  - R3（预计算成本实测）+ R4（两处近似注释文档化）→ build 时必落，非设计阻塞 ✅
+  **测试矩阵完整，R1/R2 无遗漏。**
+
+  **不采用精确兼容路径的评估**：Codex 拒绝"重新量化回 palette 0 + nibble 算法"路径正确——它会重新侵入 RGBA 壳层（铁律 4/6）。OKLCH bridge 是在不恢复 palette 数据模型前提下最忠实的近似。✅ 符合铁律。
+
+- counter / 分歧处理: 无设计层 counter。三签齐（Codex agree + Opus agree + GLM agree）。
 - 缺签豁免: N/A
-- build 准入结论: **blocked（Codex+Opus agree,待 GLM;三签齐后 build,R1-R4 纳入 build 范围）**
+- build 准入结论: **三签齐，build allowed**。build 范围含 OKLCH bridge 预计算 + visits 收敛 + R1-R4 + s001→s003 黑屏定位。
 
 ### 进入 done 前：审查签字
 
