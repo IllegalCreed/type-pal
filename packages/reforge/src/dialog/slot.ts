@@ -8,7 +8,7 @@
  */
 import type { DialogueLine } from '@type-pal/content'
 
-export type SlotId = 'top' | 'bottom' | 'narration'
+export type SlotId = 'top' | 'bottom' | 'narration' | 'center'
 
 export interface SlotEntry {
   lineIdx: number // 该槽当前显示的是第几段话
@@ -18,6 +18,7 @@ export interface SlotState {
   top?: SlotEntry
   bottom?: SlotEntry
   narration?: SlotEntry
+  center?: SlotEntry
   activeSlot: SlotId
 }
 

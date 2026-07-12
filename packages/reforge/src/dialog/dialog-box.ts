@@ -3,7 +3,13 @@
  * 逐段推进 + top/bottom 多槽:同槽覆盖、异槽共存。位置真值 GLM spec §3。
  * 每段话在它的 slot 内自动折行(layoutLines)+ 按 4 显示行/页分页,翻页只翻活跃槽。
  */
-import { type Locale, lookupText, parseRichText, type TextSpan } from '@type-pal/content'
+import {
+  type Locale,
+  lookupText,
+  parseDialogControlCodes,
+  parseRichText,
+  type TextSpan,
+} from '@type-pal/content'
 import type { RleFrame } from '@type-pal/shared'
 import { advanceLine, type DialogueState } from '../dialogue.js'
 import { type BoxTiles, drawScroll } from '../menu/menu-box.js'
@@ -42,6 +48,14 @@ const POS = {
     titleWithPortrait: { x: 60, y: 72 },
     portrait: { x: -100, y: -100 }, // 叙述窗无头像
   },
+  // 居中窗(原版 setDialogStyleCenter:开场独白/剧情大字,偏上)。≠底部叙述窗;一阶段 center={80,40}。
+  center: {
+    text: { x: 80, y: 40 },
+    title: { x: 80, y: 24 },
+    textWithPortrait: { x: 80, y: 40 },
+    titleWithPortrait: { x: 80, y: 24 },
+    portrait: { x: -100, y: -100 }, // 居中窗无头像
+  },
 } as const
 const MAX_RIGHT = 308 // 正文右边距 → 每行可用 264px(无头像)
 const CURSOR_RESERVE = 12 // 末行末尾给光标留位,防顶出屏幕
@@ -52,6 +66,10 @@ interface SlotRender {
   /** narration 单行卷轴使用未折行的富文本。 */
   singleLineSpans: TextSpan[]
   pageStart: number
+  /** 该段话打字速度(ms/字):显式 line.speed > 原版 $NN 控制码 > DEFAULT_SPEED_MS。 */
+  speed: number
+  /** 尾停顿自动推进(ms):显式 line.autoAdvance > 原版 ~NN;非 undefined = 自动推进、无光标。 */
+  autoAdvance?: number
 }
 
 export class DialogBox {
@@ -77,7 +95,6 @@ export class DialogBox {
     return this.state !== null
   }
 
-
   /** 把第 idx 段话排版进它的 slot,返回该 slot 的渲染态。有头像时正文 x 缩进 + 右边界给头像让位(spec §3)。 */
   private layoutLineInto(lineIdx: number): { slot: SlotId; render: SlotRender } {
     const line = this.state?.dialogue.lines[lineIdx]
@@ -93,17 +110,25 @@ export class DialogBox {
       // bottom 头像在右(portrait.x=270),正文右边收到头像左边界
       maxRight = POS[slot].portrait.x - portraitImg.width / 2 - 4
     }
-    const resolved = lookupText(line.text, this.locale)
+    const resolved = parseDialogControlCodes(lookupText(line.text, this.locale)).text
     const displayLines = layoutLines(
       [line],
       this.glyphs,
-      () => resolved,
+      () => resolved, // 剥离 $NN/~NN 等控制码
       maxRight,
       startX,
     ).map((dl) => ({ ...dl, srcLineIdx: lineIdx }))
+    // 控制码 → 行级属性:显式字段优先,原版 $NN(速度)/~NN(尾停顿自动推进)次之。
+    const codes = parseDialogControlCodes(lookupText(line.text, this.locale))
     return {
       slot,
-      render: { displayLines, singleLineSpans: parseRichText(resolved), pageStart: 0 },
+      render: {
+        displayLines,
+        singleLineSpans: parseRichText(resolved),
+        pageStart: 0,
+        speed: slot === 'narration' ? 0 : (line.speed ?? codes.speed ?? DEFAULT_SPEED_MS),
+        autoAdvance: line.autoAdvance ?? codes.autoAdvance,
+      },
     }
   }
 
@@ -175,18 +200,9 @@ export class DialogBox {
     this.renders = {}
   }
 
-  /** 活跃槽当前段话的 DialogueLine(取 speed/autoAdvance 用)。 */
-  private activeLine() {
-    if (!this.state) return undefined
-    const r = this.renders[this.slots.activeSlot]
-    if (!r) return undefined
-    const lastDl = r.displayLines[r.displayLines.length - 1]
-    return this.state.dialogue.lines[lastDl?.srcLineIdx ?? 0]
-  }
-
   /** 活跃槽当前段话的 autoAdvance(undefined = 无,等键)。 */
   private activeAutoAdvance(): number | undefined {
-    return this.activeLine()?.autoAdvance
+    return this.renders[this.slots.activeSlot]?.autoAdvance
   }
 
   /** autoAdvance:活跃槽该段话翻完 + 有 autoAdvance + 过尾停顿 → 自动推进下一段。 */
@@ -195,21 +211,20 @@ export class DialogBox {
     const active = this.slots.activeSlot
     const r = this.renders[active]
     if (!r) return
-    const line = this.activeLine()
-    const auto = line?.autoAdvance
+    const auto = r.autoAdvance
     if (auto === undefined) return
     // 活跃段话整页打字耗时 + autoAdvanceMs(此 slot 该段话,逐显示行串行)
     const page = r.displayLines.slice(r.pageStart, r.pageStart + LINES_PER_PAGE)
     const totalChars = page.reduce((sum, dl) => sum + countChars(dl.spans), 0)
-    const speed = line?.speed ?? DEFAULT_SPEED_MS
-    const doneAt = totalChars * speed + auto
+    const doneAt = totalChars * r.speed + auto
     if (nowMs - this.lineStartMs >= doneAt) this.advanceToNextLine(nowMs)
   }
 
   render(nowMs: number): void {
     if (!this.state) return
-    // narration 是横向单行卷轴，仍在普通上下对话槽之后绘制。
-    for (const slotId of ['bottom', 'top', 'narration'] as const) {
+    // 画四个 slot；narration 走横向卷轴，center 才是无框居中大字。
+    // narration 最后画 = 叠在最上层(原版 0x3E 中央窗;dlg.0 婶婶画外音、宝箱拾取旁白走此槽)。
+    for (const slotId of ['bottom', 'top', 'narration', 'center'] as const) {
       const entry = this.slots[slotId]
       const r = this.renders[slotId]
       if (!entry || !r) continue
@@ -258,7 +273,7 @@ export class DialogBox {
     }
 
     let ty = pos.text.y
-    const speed = line?.speed ?? DEFAULT_SPEED_MS // 该段话打字速度(变速)
+    const speed = r.speed // 该段话打字速度(变速;含原版 $NN)
     const elapsed = isActive ? nowMs - this.lineStartMs : Number.POSITIVE_INFINITY // 留显槽全字
     let charsBefore = 0
     let allDone = true
@@ -283,7 +298,7 @@ export class DialogBox {
     // 光标:仅活跃槽 + 全显 + 非 autoAdvance,末显示行末尾。形态取该段 cursorFrame(默认 0)。
     const lastDl = page[page.length - 1]
     const lastLine = state.dialogue.lines[lastDl?.srcLineIdx ?? 0]
-    if (isActive && this.pageDone && lastLine?.autoAdvance === undefined && lastDl) {
+    if (isActive && this.pageDone && r.autoAdvance === undefined && lastDl) {
       this.drawCursor(
         nowMs,
         lastDl.spans,
