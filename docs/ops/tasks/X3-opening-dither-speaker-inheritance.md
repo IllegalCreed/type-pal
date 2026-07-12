@@ -207,14 +207,20 @@ s000→s001 只是其中一个跨场景用例。同时修复梦话 speaker 继�
 
 ### 第四次进入 build 前：target-only 异色帧修订签字
 
-- Codex: pending（已确认产品事实：前六相位应迅速切到完全由 s001 target 生成的异色帧，后 11 趟
-  从该异色帧恢复正常 s001；bridge 不得读取 s000/source 的逐像素亮度。`falseColor(target)` 的
-  精确定义与运行时承载尚未定案，不以调 OKLab 常数冒充设计完成）
+- Codex: **agree**（2026-07-13 四审定案；接受 Route A 为 PAL 主路径、Route B 仅作无 profile
+  fallback。profile 定为工程级单个 v1 RGB→RGB 内容表，由
+  `manifest.content.ditherFalseColorProfile` 显式引用
+  `content/transitions/dither-false-color.json`；不改 `ditherScreen` command schema。生成逻辑放
+  `@type-pal/migrate` 资产 bake，绝不改 pal-extract。runtime 精确 RGB 哈希优先，miss 按 OKLab
+  最近邻并按目标 RGB memoize；无 profile 才走 Opus 公式。bridge 构造 API 删除 source 入参，alpha
+  取 target，从类型/调用层钉死 target-only。完整形态与 T3 修订见 Codex 定案段）
 - Opus: **agree**（2026-07-13 四审;基于 palette 0 实测数据交付落地方案——**Route A(主,PAL 内容)**:烘焙期把 `pal[i]→pal[i&0xF0]` 生成 256 对通用 RGB→RGB 过渡 profile 资产,runtime 哈希精确命中+最近邻容差,**精确复刻原版异色帧**;**Route B(fallback,非 PAL 工程)**:`f_c=round(48·(t_c/M)^3)`(对全 ramp 拟合,均差 26.2 —— 同类深色浓彩但逊于 LUT,故仅无 profile 时用);bridge=纯 target 函数,visits/时序/端点沿用 v3 已验数学;ramp 知识只进烘焙脚本,schema 触点(profile 引用形态)标**三方必审**。附 T1-T7 测试(含 T3 反 v3 回归锚:98% 黑 source 下 bridge 均 max≥32)。详见第四版主审立场。**并记录我 v3 误判**:曾签"近黑 source→bridge≈黑 ✓"为等价——实测 ramp[0] 是深色高饱和族色([52,0,0]/[0,0,60]/[0,24,93]),黑≠族 0 档,该"✓"错误,是 v3 放行的根因之一）
 - GLM: pending
-- counter / 分歧处理: Opus 无 counter,交付双路方案;**schema/资产管线触点(profile 资产格式 + manifest/约定路径引用)= 三方必审项,build 前 Codex/GLM 须对形态签字**。请 GLM 复核:profile 烘焙对迁移主链零影响、T1-T7 完整性、Route B 常数拟合方法。
+- counter / 分歧处理: Codex 接受 Opus 双路方案并把引用形态定为显式 content manifest 字段；T3
+  “所有 bridge max≥32”因部分合法 ramp 0 档低于 32 而收窄为 ramp1/5/13 精确字节锚，不构成
+  路线 counter。请 GLM 复核 profile 烘焙对迁移主链零影响、T1-T7、Route B 拟合指标和具体形态。
 - 缺签豁免: N/A
-- build 准入结论: **blocked（Opus agree;待 Codex 定案签字 + GLM 复核;三签齐且 profile 形态定案后方可 build）**
+- build 准入结论: **blocked（Codex + Opus agree；待 GLM 复核；三签齐前不得 build）**
 
 ### 进入 done 前：审查签字
 
@@ -295,6 +301,61 @@ s000→s001 只是其中一个跨场景用例。同时修复梦话 speaker 继�
   - T6 端点/visits 边界(v3 R1 沿用)/4×4 同步/11 级收敛单调。
   - T7 6051 证据:step 0/1/6/7/36/72 截图;step6 帧与 falseColor buffer 逐像素比对;与 6002 并排
     交用户终裁。
+
+### 第四版 Codex 定案（2026-07-13，选路 + profile 精确形态）
+
+- **C1 选路**：接受 Opus 双路设计。PAL 工程必须使用 Route A 精确 profile；Route B 只在工程未声明
+  profile 时启用，不允许 PAL 因加载失败静默退回近似。声明了 profile 但文件缺失/校验失败应在工程
+  加载阶段明确报错。
+- **C2 manifest 与文件路径**：采用显式内容引用，不用约定路径自动发现，也不把 profile id 写入
+  `ditherScreen` 命令。`projects/pal/manifest.json` 增加：
+
+  ```json
+  "content": {
+    "ditherFalseColorProfile": "content/transitions/dither-false-color.json"
+  }
+  ```
+
+  文件为 `projects/pal/content/transitions/dither-false-color.json`，随工程提交/FSA 复制，不放引擎
+  `public` 或共享 `/baked`，避免本地工程脱离仓库后丢失。v1 JSON 形态：
+
+  ```json
+  {
+    "version": 1,
+    "id": "pal-default-dither-false-color",
+    "entries": [
+      { "input": [0, 0, 0], "output": [0, 0, 0] },
+      { "input": [24, 24, 24], "output": [0, 0, 0] }
+    ]
+  }
+  ```
+
+  `input/output` 都是 0..255 整数 RGB 三元组；格式不含 palette/ramp/index/nibble 术语。content 包新增
+  `DitherFalseColorProfileV1` + validator：`version===1`、非空稳定 id、entries 非空、通道范围、input
+  唯一。格式允许任意条目数；PAL 生成器单测另钉 256 条。palette 0 已实测 256 RGB 全唯一、零冲突，
+  可无损编译为精确哈希表。
+- **C3 生成归属**：不改 `pal-extract`。在 `packages/migrate/src/` 增加纯生成函数，输入 palette RGB
+  数组，输出 `pal[i] -> pal[i & 0xF0]` 的通用 profile；由
+  `packages/migrate/scripts/bake-assets.mts` 调用并稳定格式化写入上述工程内容路径。生成结果属于可审查
+  的第二阶段迁移产物并提交；单测验证确定性、256 唯一 input 与 ramp1/5/13 字节真值。
+- **C4 loader/runtime 接入**：`loadProjectFrom` 通过现有 `FileSource` 按可选
+  `manifest.content.ditherFalseColorProfile` 读取并校验，挂为工程级单 profile；未声明才使用 Route B。
+  profile 编译时建立 packed RGB 精确 Map，并预转 entries 的 OKLab。目标 RGB miss 时只做一次 OKLab
+  最近邻扫描，结果按 packed target RGB memoize；相同像素色后续 O(1)，同距离按 entries 顺序稳定
+  决胜。开场中性氛围应全部精确命中。
+- **C5 target-only 类型约束**：把 v3 `buildDitherBridge(source,target,...)` 替换为不接收 source 的
+  `buildFalseColorBridge(target,bridge,pixelCount,transform)`；bridge RGB 只由 target/profile 或 Route B
+  产生，alpha 直接复制 target。`applyDitherGradient` 仍仅在 `visits=0` 显示 source，`visits=1`
+  显示 bridge，后 11 级收敛；controller、backup、时序、收口与 command schema 全不动。
+- **C6 范围边界**：本轮一个工程只允许一个默认 profile，覆盖当前 reforge 盘 0 内容。多 profile、
+  场景级选择和未来多盘另开 schema 卡，不提前把 profile id 扩散到 ScriptCommand。
+- **C7 测试修订**：沿用 T1/T2/T4-T7；T3 改为黑 source + target 循环
+  `pal[0x1F]/pal[0x5F]/pal[0xDF]` 时，step6 必须逐字节等于
+  `pal[0x10]/pal[0x50]/pal[0xD0]`，且两份不同 source 得到相同 bridge。原“所有输出 max>=32”会误杀
+  ramp4/8/12/15 等合法低档，删除。Route B 拟合指标明确为 15 个彩色 ramp × level 4/8/12 的
+  **RGB 欧氏距离均值 26.157**（每通道绝对误差均值 12.570，最大单通道误差 45），由 GLM 复算。
+- **Codex 结论**：`agree`。该形态把 PAL 知识封死在 migrate 生成器，profile/runtime 只认识通用
+  RGB 变换；显式 content 引用兼顾 HTTP/FSA 和缺失报错，也没有改变 0x73 迁移命令语义。
 
 ### 用户视觉裁决：覆盖第二次设计
 
@@ -657,17 +718,25 @@ N/A
   `falseColor(s001 target)`、不得读取 source；精确 LUT/profile 与通用公式路线待架构审查。Evidence:
   Draft“用户第三次视觉裁决”与 palette0 index 16/80/144。Next: Opus 审第四版架构选路，不得实现。
 - 2026-07-13 Opus: 第四版 target-only 设计签 **agree 并交付落地方案**。palette 0 全表实测:16 ramp 0 档 = 深色高饱和族色(max 16-93,仅灰阶族为黑),坐实原版对黑 source 的 bridge = "逐像素目标族 0 档" = s001 深色浓彩异色帧。**自我修正**:我三审签过"近黑 source→bridge≈黑 ✓"——该等价错误(黑≠族 0 档),是 v3 放行根因之一,本轮已数据化归档。方案:**Route A(主)**=烘焙期 `pal[i]→pal[i&0xF0]` 生成 256 对通用 RGB→RGB profile 资产(格式零 palette 语义,ramp 知识只进烘焙脚本),runtime 哈希+最近邻,精确复刻;**Route B(fallback)**=`f_c=round(48·(t_c/M)^3)`(全 ramp 拟合均差 26.2,仅无 profile 工程用);visits/时序/端点沿用 v3 已验数学,bridge 改纯 target 函数;**schema 触点(profile 引用形态)标三方必审**;T1-T7 测试含 T3 反 v3 回归锚(98% 黑 source 下 bridge 均 max≥32,v3 必挂)。Evidence: 第四版主审立场(数据+拟合脚本输出)。Next: Codex 定案签字(选路确认+profile 形态提案)→ GLM 复核(烘焙对迁移零影响/T1-T7/拟合方法)→ 三签齐 build。未改任何实现文件。
+- 2026-07-13 Codex: 第四版定案签 **agree**。确认 PAL Route A / 无 profile Route B；profile 采用
+  `manifest.content.ditherFalseColorProfile -> content/transitions/dither-false-color.json` 的工程级单表，
+  v1 为 `{version,id,entries:[{input RGB,output RGB}]}`，显式校验、input 唯一。生成器归
+  `@type-pal/migrate` bake，产物随工程提交/FSA 复制，不改 pal-extract/ScriptCommand。runtime 精确
+  packed-RGB map，miss 用 memoized OKLab 最近邻；bridge API 删除 source 入参且 alpha 取 target。
+  实测 palette0 256 RGB 全唯一。修订 T3 为 ramp1/5/13 精确字节锚；复算 Route B 指标为 RGB
+  欧氏距离均值 26.157、每通道绝对误差均值 12.570。Evidence: “第四版 Codex 定案”C1-C7。
+  Next: GLM 复核 profile 形态、migrate 主链零影响、T1-T7 与拟合方法；不得实现。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务:X3/M3 第四版 target-only 异色帧设计定案（Codex）
+接手任务:X3/M3 第四版 target-only 异色帧覆盖复核（GLM）
 任务卡:docs/ops/tasks/X3-opening-dither-speaker-inheritance.md
-当前状态:rework；第四版 Opus agree(已交付双路落地方案),Codex/GLM pending;build blocked
-你的角色:Codex,对 Opus 交付的方案定案签字(选路确认 + profile 资产形态提案);只写设计文档,不改实现文件
-先读:任务卡“第四版 Opus 设计审查(2026-07-13,palette 0 实测数据 + 落地方案)”全段(D1-D5 + T1-T7)、“用户第三次视觉裁决”、data/extracted/data/palette/0.json
-Opus 已交付:Route A(主,PAL)=烘焙期 `pal[i]→pal[i&0xF0]` 生成 256 对通用 RGB→RGB profile 资产(格式零 palette 语义,ramp 知识只进烘焙脚本),runtime 哈希精确+最近邻容差,精确复刻原版异色帧;Route B(fallback,非 PAL)=`M=max(t);M≤8→t;否则 f_c=round(48·(t_c/M)^3)`(全 ramp 拟合均差 26.2);bridge=纯 target 函数,visits/时序/端点沿用 v3 已验数学;T1-T7 测试含 T3 反 v3 回归锚
-请你做:(1)确认或 counter 双路选路;(2)提案 profile 资产的具体形态——文件路径/JSON schema/manifest 字段 vs 约定路径自动发现/烘焙脚本挂在 migrate 资产步还是 pal-extract——此为 **schema 触点三方必审项**,你的提案 + Opus/GLM 复核缺一不可;(3)确认 bridge 预计算的 runtime 接入点(现有 falseColor buffer 位替换,controller/收口不动);(4)在“第四次进入 build 前”Codex 行签字,更新交接日志,写交 GLM 的复核提示词(GLM 审:烘焙对迁移主链零影响/T1-T7 完整性/Route B 拟合方法/profile 形态)
-不要做:不改实现文件;三签未齐不得 build;不把 paletteId/nibble/index 放进资产格式、runtime 或 schema;不重翻已通过的 backup/时序/收口/迁移四修
-输出要求:明确 agree/counter、profile 形态提案(精确到文件路径与 JSON 结构)、提交 hash;三签齐且 profile 形态三方过目后方可进 build(build 范围=falseColor 双路 + 烘焙脚本 + T1-T7 + 6051/6002 证据)
+当前状态:rework；第四版 Codex+Opus agree、GLM pending；build blocked
+你的角色:GLM，覆盖/迁移/测试矩阵与 profile schema 复核；只审设计，不改实现文件
+先读:任务卡“用户第三次视觉裁决”“第四版 Opus 设计审查(D1-D5/T1-T7)”“第四版 Codex 定案(C1-C7)”和第四次签字表；参考 packages/content/src/character.ts、packages/reforge/src/loader.ts、packages/migrate/scripts/bake-assets.mts
+已定提案:PAL Route A；无 profile 才 Route B。manifest.content.ditherFalseColorProfile 显式指向项目内 content/transitions/dither-false-color.json；v1={version:1,id,entries:[{input:[r,g,b],output:[r,g,b]}]}；content validator 钉通道范围/input唯一，PAL generator 钉256条。生成归 migrate bake，不改 pal-extract。loader 经 FileSource 可选加载；声明但损坏必须报错。runtime 精确 RGB Map，miss 用 memoized OKLab 最近邻；buildFalseColorBridge API 无 source、alpha取target；command schema/controller/backup不变
+请复核:1)该 content manifest 形态是否兼容 HTTP/FSA/编辑器工程复制且未把 paletteId/index/nibble 带回 schema/runtime；2)生成器只增加资产 bake，不影响 translate-events/migrate-content/ditherScreen 命令主链；3)T1-T7 是否完整，特别 T3 修订为黑 source + pal[1F/5F/DF] target 时精确得到 pal[10/50/D0]，两 source bridge相同；4)复算 Route B：15彩 ramp×level4/8/12，RGB欧氏距离均值应26.157、每通道绝对误差均值12.570、最大单通道45；5)一个工程单 profile/multi-profile另卡是否范围合理
+不要做:不改实现文件；三签未齐不得 build；不重翻已通过的 backup/时序/收口/迁移四修；不把 fallback 用于已声明 profile 的 PAL 工程
+输出要求:在“第四次进入 build 前”GLM 行签 agree/counter并写理由，更新 Draft/交接日志/看板并提交文档；若 agree即三签齐，但必须再次确认 profile 形态已三方过目后才把 build 准入改 allowed，并写可直接复制给 Codex 的 build 提示词（范围=falseColor profile+generator/loader+双路runtime+T1-T7+6051证据）
 ```

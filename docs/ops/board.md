@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| X3/M3 | 通用 0x73 dither + 开场/opcode 迁移修复 | rework / 四版设计 | Codex 定案(选路+profile 形态),随后 GLM | 四版 target-only:**Opus agree 并交付双路方案**——Route A(主)=烘焙 `pal[i]→pal[i&0xF0]` 256 对 RGB→RGB profile 资产精确复刻异色帧(ramp 知识只进烘焙脚本);Route B(fallback)=`48·(t_c/M)^3`(拟合均差 26.2,仅非 PAL);T1-T7 含反 v3 回归锚。schema 触点(profile 引用形态)三方必审;三签未齐不得实现。任务卡:[X3-opening-dither-speaker-inheritance.md](tasks/X3-opening-dither-speaker-inheritance.md) |
+| X3/M3 | 通用 0x73 dither + 开场/opcode 迁移修复 | rework / 四版设计 | GLM 复核 profile/迁移/T1-T7 | 四版 target-only:**Codex+Opus agree，待 GLM**。PAL 走 Route A；`manifest.content.ditherFalseColorProfile` 显式引用工程内 v1 RGB→RGB 表，由 migrate bake 生成，command schema 不变；无 profile 才走 Route B。runtime bridge API 无 source 入参、alpha 取 target。T3 已收窄为 ramp1/5/13 精确字节锚。三签未齐不得实现。任务卡:[X3-opening-dither-speaker-inheritance.md](tasks/X3-opening-dither-speaker-inheritance.md) |
 
 ## 阻塞
 
