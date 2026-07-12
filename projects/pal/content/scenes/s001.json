@@ -27486,7 +27486,7 @@
           "entity": "e10",
           "to": {
             "col": 60,
-            "row": -17,
+            "row": -18.5,
             "height": 0
           },
           "speed": "normal"
@@ -27523,6 +27523,16 @@
         {
           "kind": "wait",
           "ms": 160
+        },
+        {
+          "kind": "moveEntity",
+          "entity": "e10",
+          "to": {
+            "col": 60,
+            "row": -17,
+            "height": 0
+          },
+          "speed": "normal"
         },
         {
           "kind": "setEntityFacing",
