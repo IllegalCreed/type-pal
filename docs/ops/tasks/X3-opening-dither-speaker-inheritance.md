@@ -215,12 +215,41 @@ s000→s001 只是其中一个跨场景用例。同时修复梦话 speaker 继�
   最近邻并按目标 RGB memoize；无 profile 才走 Opus 公式。bridge 构造 API 删除 source 入参，alpha
   取 target，从类型/调用层钉死 target-only。完整形态与 T3 修订见 Codex 定案段）
 - Opus: **agree**（2026-07-13 四审;基于 palette 0 实测数据交付落地方案——**Route A(主,PAL 内容)**:烘焙期把 `pal[i]→pal[i&0xF0]` 生成 256 对通用 RGB→RGB 过渡 profile 资产,runtime 哈希精确命中+最近邻容差,**精确复刻原版异色帧**;**Route B(fallback,非 PAL 工程)**:`f_c=round(48·(t_c/M)^3)`(对全 ramp 拟合,均差 26.2 —— 同类深色浓彩但逊于 LUT,故仅无 profile 时用);bridge=纯 target 函数,visits/时序/端点沿用 v3 已验数学;ramp 知识只进烘焙脚本,schema 触点(profile 引用形态)标**三方必审**。附 T1-T7 测试(含 T3 反 v3 回归锚:98% 黑 source 下 bridge 均 max≥32)。详见第四版主审立场。**并记录我 v3 误判**:曾签"近黑 source→bridge≈黑 ✓"为等价——实测 ramp[0] 是深色高饱和族色([52,0,0]/[0,0,60]/[0,24,93]),黑≠族 0 档,该"✓"错误,是 v3 放行的根因之一）
-- GLM: pending
-- counter / 分歧处理: Codex 接受 Opus 双路方案并把引用形态定为显式 content manifest 字段；T3
-  “所有 bridge max≥32”因部分合法 ramp 0 档低于 32 而收窄为 ramp1/5/13 精确字节锚，不构成
-  路线 counter。请 GLM 复核 profile 烘焙对迁移主链零影响、T1-T7、Route B 拟合指标和具体形态。
+- GLM: **agree**（四次，2026-07-13）。target-only 异色帧覆盖 + Route A/B 双路 + profile v1 形态全部复核通过。逐项：
+
+  **(1) HTTP/FSA/编辑器工程复制兼容性 + 未带回 paletteId/index/nibble**：
+  - profile 走 `manifest.content.ditherFalseColorProfile` 显式 content 引用 → 经 FileSource 读 → HTTP/FSA/编辑器工程复制天然一致（跟其他 content JSON 一样随工程走）。✅
+  - v1 格式 `{version,id,entries:[{input:[r,g,b],output:[r,g,b]}]}` — 纯 RGB→RGB 映射表，**零 palette/ramp/index/nibble 术语**。schema 触点仅 manifest 引用 + content 校验（version/id 非空/entries 非空/通道范围/input 唯一）。✅ 不带回头概念。
+  - loader 声明了 profile 但缺失/校验失败 → 工程加载阶段报错（不静默退回 Route B）。✅ 明确报错。
+
+  **(2) 生成器不影响 translate-events / migrate-content / ditherScreen 主链**：
+  - 生成器在 `packages/migrate/src/`（纯函数：palette RGB 数组 → profile JSON），由 `scripts/bake-assets.mts` 调用写 `content/transitions/dither-false-color.json`。**不改 translate-events.ts 的 opcode 翻译逻辑**（0x73 照常产 `ditherScreen{ms}`）。✅ 迁移主链零影响。
+  - 不改 pal-extract。✅ 阶段隔离。
+  - profile 是工程内容资产，不是引擎/编辑器代码依赖。✅
+
+  **(3) T1-T7 完整性 + T3 精确字节锚**：
+  - T1（纯度）：同 target 两 source → bridge 字节相同（target-only）。✅
+  - T2（step6 全屏逐像素 == falseColor）。✅
+  - T3（修订版）：黑 source + target pal[0x1F/0x5F/0xDF] → bridge 逐字节 == pal[0x10/0x50/0xD0]。**数学验证**：`i & 0xF0` = `0x1F&0xF0=0x10` / `0x5F&0xF0=0x50` / `0xDF&0xF0=0xD0` ✓。与 source 无关（target-only）。✅ 原版 `target高nibble | source低nibble` 在黑 source（低 nibble=0）时 = `pal[i&0xF0]`，精确。T3 修订正确。
+  - T4（Route A 采样命中/miss/无 profile）。✅
+  - T5（Route B 族向/拟合常数/passthrough/alpha）。✅
+  - T6（端点/visits/4×4/收敛单调）沿用 v3 R1。✅
+  - T7（6051 证据 + step6 逐像素比对 + 6002 并排）。✅
+  **T1-T7 完整，T3 精确字节锚正确且与 source 无关。**
+
+  **(4) Route B 拟合指标复核**：
+  - 公式 `f_c = round(48·(t_c/M)^3)` 经我验算：深色 target（如 60,0,0）→ 48,0,0 dist=12（贴近）；亮色 target（如 180,0,0）→ 48,0,0 dist=132（偏离大但族向正确——这是”假色”不是”精确复刻”，偏离大是预期的）。✅
+  - Opus 报告的 15 ramp × level 4/8/12 均值 26.157 / 通道 12.570 / 最大 45 — 我无法在没有 palette 0 实际数据的环境下逐条复算，但公式数学结构正确、深色近亮色远的趋势与”族向正确但逊于 LUT”的定性一致。**采纳 Opus 的实测数据，标”待 build 时用真实 palette 0 数据回归锚住”。** ✅
+
+  **(5) 单工程单 profile + 多 profile 另开任务**：
+  - reforge 当前锁盘 0（W7a-3 退役 paletteId）→ 单 profile 覆盖全部 PAL 内容。✅
+  - 多 palette / 场景级选择 / 自有 RGBA 工程 = 另开 schema 卡。不提前把 profile id 扩散到 ScriptCommand。✅ YAGNI。
+
+  **未否决部分沿用确认**：backup 两路 / 2160ms / M2 对话时序 / 统一收尾 / 迁移四修 — 四版修订只换 bridge 算法（v3 OKLCH → v4 Route A profile/Route B 公式），不改 backup/时序/收口/迁移。✅
+
+- counter / 分歧处理: 无设计层 counter。三签齐（Codex agree + Opus agree + GLM agree）。
 - 缺签豁免: N/A
-- build 准入结论: **blocked（Codex + Opus agree；待 GLM 复核；三签齐前不得 build）**
+- build 准入结论: **三签齐，build allowed**。build 范围含 Route A profile 生成 + Route B 公式 + T1-T7 单测 + R3/R4（build 时落）+ s001→s003 黑屏定位。
 
 ### 进入 done 前：审查签字
 
