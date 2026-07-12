@@ -207,7 +207,6 @@ export class DialogBox {
   }
 
   render(nowMs: number): void {
-    this.update(nowMs)
     if (!this.state) return
     // narration 是横向单行卷轴，仍在普通上下对话槽之后绘制。
     for (const slotId of ['bottom', 'top', 'narration'] as const) {
@@ -217,6 +216,9 @@ export class DialogBox {
       const isActive = slotId === this.slots.activeSlot
       this.renderSlot(slotId, r, isActive, nowMs)
     }
+    // 原索引帧是持久屏幕:~NN 到时只清对话状态，最后文字像素保留到下次重画。
+    // 因此必须先画完本帧再自动推进；loadScene 紧随时才能捕获含文字的旧帧。
+    this.update(nowMs)
   }
 
   /** 画单个 slot:姓名牌 + 正文(留显全字 / 活跃打字)+ 活跃槽的光标。 */

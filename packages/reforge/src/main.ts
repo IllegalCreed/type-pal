@@ -110,10 +110,9 @@ import { Canvas2DRenderer, type CellRect, type SpriteDraw } from './render.js'
 import { renderSceneFrame } from './render-scene.js'
 import { resolveSceneFacing } from './scene-transition.js'
 import {
-  applyDitherGradient,
-  buildDitherBridge,
+  applyDitherPaletteTransition,
+  buildDitherPalettePlan,
   DITHER_TOTAL_STEPS,
-  type DitherColorSpace,
   DitherTransitionController,
   hasEarlyDitherScreen,
 } from './dither-transition.js'
@@ -208,8 +207,6 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   const DEBUG_COLLISION = new URLSearchParams(location.search).has('collision')
   document.title = `${project.manifest.name} · reforge` // 标题随工程(index.html 只是加载占位)
   const params = new URLSearchParams(location.search)
-  const ditherColorSpace: DitherColorSpace =
-    import.meta.env.DEV && params.get('dither-srgb') === '1' ? 'srgb' : 'linear-light'
   const sfx = new SfxPlayer(project.assetBase.sounds) // 应用级单例(解码缓存跨战斗复用)
   const bgm = createBgmPlayer(project.assetBase.music) // W5/X2:场景 BGM(懒初始化,首曲才拉 soundfont)
   // autoplay 解锁:BGM 随 boot 场景起播,彼时多半无手势 → ctx suspended;首个手势补播。
@@ -483,10 +480,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         pr,
         step: active.lastStep,
         hasTarget: !!active.target,
-        hasBridge: !!active.bridge,
-        bridgeBuildMs: active.bridgeBuildMs,
+        hasPlan: !!active.plan,
+        prepareMs: active.prepareMs,
         source: active.source,
-        colorSpace: ditherColorSpace,
+        algorithm: 'source-level-target-band',
         ...zeroFrame,
       }
     }
@@ -499,7 +496,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           step: -1,
           hasTarget: false,
           targetSceneId,
-          colorSpace: ditherColorSpace,
+          algorithm: 'source-level-target-band',
           ...zeroFrame,
         }
       : {
@@ -508,7 +505,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           pr: 0,
           step: -1,
           hasTarget: false,
-          colorSpace: ditherColorSpace,
+          algorithm: 'source-level-target-band',
           ...zeroFrame,
         }
   }
@@ -713,6 +710,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     ctx.restore()
   }
   let scriptDialogResolve: (() => void) | null = null
+  // ~NN 自动收尾时保留最后已呈现帧一拍。若下一条立即 loadScene，它会在重画前取走该帧。
+  let preserveClosedDialogFrame = false
   // ── 商店/当铺(openShop 阻塞脚本至关店;UI 态 + 关店 resolve)──
   let shop: { ui: ShopUiState; resolve: () => void } | null = null
   const entityFrameOverride = new Map<string, number>() // setEntityFrame 演出帧覆盖(切场景清)
@@ -785,10 +784,14 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   const host: ScriptHost = {
     dialog: (line: DialogueLine) =>
       new Promise((resolve) => {
+        preserveClosedDialogFrame = false
         dialogBox.open(startDialogue({ id: '__script', lines: [line] }), nowMs)
         scriptDialogResolve = resolve // tick 检测 dialogBox 关闭时兑现
       }),
-    clearDialog: () => dialogBox.close(),
+    clearDialog: () => {
+      preserveClosedDialogFrame = false
+      dialogBox.close()
+    },
     fade: (dir, ms, color) => hostFade(dir, ms, color),
     // ── B8 野外遇敌 ──
     chaseStep: async (entityId, range, speed, floating) => {
@@ -853,6 +856,11 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       updateCamera()
     },
     loadScene: async (sceneId, pos, fc) => {
+      // 只消费“紧随自动对话收尾”的旧帧；其他 loadScene 继续现场快照。
+      const closedDialogFrame = preserveClosedDialogFrame
+        ? ctx.getImageData(0, 0, canvas.width, canvas.height)
+        : null
+      preserveClosedDialogFrame = false
       const fromSceneId = scene.id
       markSceneLoad(fromSceneId, sceneId, 'preflight')
       ditherTransition.cancel()
@@ -870,7 +878,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         ditherZeroFrameDiffersFromTarget = null
         ditherTransition.arm(
           sceneId,
-          ctx.getImageData(0, 0, canvas.width, canvas.height),
+          closedDialogFrame ?? ctx.getImageData(0, 0, canvas.width, canvas.height),
         )
       } else {
         await hostFade('out', 260)
@@ -2010,6 +2018,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     runner = null
     scriptAbort = null
     pendingOnEnter = null
+    preserveClosedDialogFrame = false
     if (dialogBox.active) dialogBox.close()
     const r = scriptDialogResolve
     scriptDialogResolve = null
@@ -2198,6 +2207,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   }
 
   function render(): void {
+    // 对话状态已结束，但持久屏幕的最后文字像素须留给紧随的 loadScene 快照。
+    if (preserveClosedDialogFrame) return
     updateCamera() // 相机跟随玩家
     // trail 推进(离开方向语义,拐弯甩尾忠实原版 —— 见 pushTrail 文档)
     pushTrail(trail, player.pos, facing)
@@ -2464,25 +2475,20 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       const isZeroFrame = !dither.target
       if (!dither.target) {
         dither.target = ctx.getImageData(0, 0, canvas.width, canvas.height)
-        dither.bridge = new ImageData(
-          new Uint8ClampedArray(dither.target.data.length),
-          dither.target.width,
-          dither.target.height,
-        )
         dither.output = new ImageData(
           dither.backup.data.slice(),
           dither.backup.width,
           dither.backup.height,
         )
-        const bridgeStartedAt = performance.now()
-        buildDitherBridge(
+        const prepareStartedAt = performance.now()
+        dither.plan = buildDitherPalettePlan(
           dither.backup.data,
           dither.target.data,
-          dither.bridge.data,
+          palette.colors,
           canvas.width * canvas.height,
         )
-        dither.bridgeBuildMs = performance.now() - bridgeStartedAt
-        // bridge 预计算期间屏幕仍保持 backup；从计算完成后起算，不能吞掉首趟 180ms 假色阶段。
+        dither.prepareMs = performance.now() - prepareStartedAt
+        // 索引计划预计算期间屏幕仍保持 backup；从计算完成后起算，不吞掉首趟错相替换。
         dither.startedAt = performance.now()
       } else {
         pr =
@@ -2491,16 +2497,15 @@ export async function bootGame(project: LoadedProject): Promise<void> {
             : Math.max(0, Math.min(1, (nowMs - dither.startedAt!) / dither.durationMs))
       }
       const step = Math.floor(pr * DITHER_TOTAL_STEPS)
-      if (dither.bridge && dither.output && dither.lastStep !== step) {
-        applyDitherGradient(
+      if (dither.plan && dither.output && dither.lastStep !== step) {
+        applyDitherPaletteTransition(
           dither.backup.data,
-          dither.bridge.data,
           dither.target.data,
           dither.output.data,
           step,
           canvas.width * canvas.height,
+          dither.plan,
           { width: canvas.width, pixelScale: WORLD_SCALE },
-          ditherColorSpace,
         )
         dither.lastStep = step
       }
@@ -2653,7 +2658,12 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     if (!dialogBox.active && scriptDialogResolve) {
       const r = scriptDialogResolve
       scriptDialogResolve = null
+      preserveClosedDialogFrame = true
       r()
+      // Promise 续执行优先消费；下一条不是 loadScene 时当即失效，不泄漏到后续切场。
+      queueMicrotask(() => {
+        preserveClosedDialogFrame = false
+      })
     }
     advanceMoves(dt) // M3b 走位驱动(实体巡逻/剧情走位;与输入无关,菜单/对话期照走)
     deriveMounts() // E7:挂载派生最后跑(位置=父+偏移,覆写一切 = 契约最高权威)
