@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| - | - | - | - | 当前无进行中任务。连闭:C3/B10/W6/A4(+A4c)/A5/E2/E9(商店当铺,作者点题+原版截图三轮校)+ X5 试玩修复。用户手动验收攒着:E2E-1 FSA 烟测、C3 装备手感、W6 夜色、A4/A4c 上传→保存→试玩全环、A5 导出解包比对。另存为丢素材债已修(整树拷贝)。 |
+| X3/M3 | 通用 0x73 dither + 开场/opcode 迁移修复 | draft | Opus 复核 M1/M2/M3 | Codex 已落实跨场景 loadScene 一次性交接、独立站点命令内快照及 0% 纯旧帧锚；Codex/GLM agree，待 Opus counter 改签后进 build。任务卡:[X3-opening-dither-speaker-inheritance.md](tasks/X3-opening-dither-speaker-inheritance.md) |
 
 ## 阻塞
 
