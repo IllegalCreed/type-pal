@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| X3/M3 | 通用 0x73 dither + 开场/opcode 迁移修复 | rework / 四版设计 | Opus 审 target-only 架构，随后 GLM | 用户否决第三版：正确过程是 `s001 异色 -> 正常 s001`，与 s000 无关；`bdd35ff6` 的 source-L bridge 因 s000 约 98.3% 暗而退化成普通渐亮，Codex accept 已撤。第四版钉死 `bridge=falseColor(target)`，精确 LUT/profile 与通用公式路线待三签，未齐不得实现。任务卡:[X3-opening-dither-speaker-inheritance.md](tasks/X3-opening-dither-speaker-inheritance.md) |
+| X3/M3 | 通用 0x73 dither + 开场/opcode 迁移修复 | rework / 四版设计 | Codex 定案(选路+profile 形态),随后 GLM | 四版 target-only:**Opus agree 并交付双路方案**——Route A(主)=烘焙 `pal[i]→pal[i&0xF0]` 256 对 RGB→RGB profile 资产精确复刻异色帧(ramp 知识只进烘焙脚本);Route B(fallback)=`48·(t_c/M)^3`(拟合均差 26.2,仅非 PAL);T1-T7 含反 v3 回归锚。schema 触点(profile 引用形态)三方必审;三签未齐不得实现。任务卡:[X3-opening-dither-speaker-inheritance.md](tasks/X3-opening-dither-speaker-inheritance.md) |
 
 ## 阻塞
 
