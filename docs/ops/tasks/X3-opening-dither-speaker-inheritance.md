@@ -152,10 +152,29 @@ s000→s001 只是其中一个跨场景用例。同时修复梦话 speaker 继�
 
 - Codex: **agree**（2026-07-12；复核一阶段 `packages/game/src/present/dither-fade.ts:29-42` 后确认：旧实现错误地只移植空间相位、把每个像素改成旧色/新色硬替换，丢失了像素低 nibble 逐趟逼近目标的核心观感。提议在不恢复 palette 的前提下，以 320×200 逻辑像素、`RG_INDEX` 六相位错峰、每像素 12 级离散 RGBA 插值复刻动态特征；0%/100% 精确等于旧/新帧）
 - Opus: **agree**（2026-07-12 二次;12 级离散 RGBA 插值数学核对正确,恢复“每像素逐级变色”核心动态。附 3 复验重点:①颜色空间——sRGB 直接插值中间色可能偏暗,6051 中间帧复验亮度,已定 gamma-correct 退路(纯 RGBA、不恢复 palette);②“首趟高位跳”细节丢失,6051 与一阶段录屏并排比节奏;③浏览器取样补 25/50/75% 中间帧亮度数值。1 独立阻塞:s001→s003 黑屏 done 前必解。详见二次主审立场逐条结论）
-- GLM: pending
-- counter / 分歧处理: 无设计层 counter;Opus 3 复验重点均在 6051 视觉阶段落地,普通出口黑屏是独立阻塞项(与视觉算法正交)。请 GLM 复核:视觉算法重写对迁移无影响、12 级单调/端点/4×4 测试矩阵、迁移四修(0x73 全站点/0x49 e-1 归零/0x50-51 边界/speaker)沿用。
+- GLM: **agree**（二次，2026-07-12）。视觉算法重写对迁移层零影响，迁移四修沿用，测试矩阵完整。逐项：
+
+  **视觉重写对迁移零影响**：12 级离散 RGBA 插值是 reforge 运行时纯函数（dither-transition.ts），不改迁移器产出的 Command schema/语义。迁移器照常产 `ditherScreen{ms}`，运行时怎么画 backup→target 渐变不归迁移管。✅ 零影响确认。
+
+  **迁移四修沿用（二次复核）**：第一次签字已核过的四项（0x73 全站点 73 条 / 0x49 e-1 归零 / 0x50-0x51 ms×600 / speaker 继承）**不被视觉算法重写触及**——迁移器代码不变，只换运行时 helper。Codex Build 段 dry-run 实测：`ditherScreen` 110 处（含内联展开）、`entity:"e-1"` 0、fade 缺 ms 0。✅ 全部沿用有效。
+
+  **12 级测试矩阵评估**：
+  - phase rank 顺序（RG_INDEX={0,3,1,5,2,4} × outer/inner 组合）✅
+  - 12 级单像素单调逼近（level=clamp(outer+...,0,12)）✅
+  - 0/72 端点精确等于 old/target ✅
+  - 4×4 物理块共享逻辑 level ✅
+  - 非累积（每帧从不可变 old/target 重算）✅
+  - 浏览器同逻辑像素跨帧取样出现离散中间色 ✅
+  - Opus 补的 25/50/75% 中间帧亮度数值记录（sRGB vs gamma-correct 裁决量化依据）✅ 纳入验收
+  **测试矩阵完整，无遗漏。**
+
+  **gamma 退路评估**：sRGB 直接插值（`round((old*(12-level)+target*level)/12)`）作为起点 + gamma-correct 退路（`round((...)**(1/2.2)*255)` 纯 RGBA）——**两条公式都是 reforge 运行时纯函数，不引入 palette/index/nibble**。符合铁律（不恢复 palette 数据模型）。✅ 退路纯 reforge 确认。
+
+  **Opus 3 复验重点 + 1 独立阻塞**：均在 6051 视觉阶段落地（① sRGB 中间帧亮度 ② 首趟高位跳节奏对比 ③ 浏览器取样中间帧 + s001→s003 黑屏定位）——不涉及迁移层，GLM 无异议。
+
+- counter / 分歧处理: 无设计层 counter。三签齐（Codex agree + Opus agree + GLM agree）。
 - 缺签豁免: N/A
-- build 准入结论: **blocked —— Opus 二次 agree,待 GLM 二次 agree;三签齐后方可 build（含 gamma 退路两条公式与黑屏定位纳入 build 范围）。**
+- build 准入结论: **三签齐，build allowed**。build 范围含 sRGB + gamma-correct 两路公式、s001→s003 黑屏定位。
 
 ### 进入 done 前：审查签字
 
