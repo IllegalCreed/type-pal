@@ -1,9 +1,9 @@
 # X3/M3 - 通用 0x73 逐像素过渡、开场恢复与 opcode 迁移语义修复
 
-Status: review
+Status: rework
 Phase: phase2
 Capability: X3（标题/流程/开场演出）+ M3（脚本迁移）
-Coding Owner: Codex（第三版 build 已完成并自验；等待 Opus / GLM review）
+Coding Owner: Codex（用户否决第三版 source-L bridge；第四版设计待三签，暂停实现）
 Generation Owner: N/A
 Reviewer: Opus + GLM
 Visual Verification Owner: Codex 自验；Opus 复验
@@ -205,19 +205,54 @@ s000→s001 只是其中一个跨场景用例。同时修复梦话 speaker 继�
 - 缺签豁免: N/A
 - build 准入结论: **三签齐，build allowed**。build 范围含 OKLCH bridge 预计算 + visits 收敛 + R1-R4 + s001→s003 黑屏定位。
 
+### 第四次进入 build 前：target-only 异色帧修订签字
+
+- Codex: pending（已确认产品事实：前六相位应迅速切到完全由 s001 target 生成的异色帧，后 11 趟
+  从该异色帧恢复正常 s001；bridge 不得读取 s000/source 的逐像素亮度。`falseColor(target)` 的
+  精确定义与运行时承载尚未定案，不以调 OKLab 常数冒充设计完成）
+- Opus: pending
+- GLM: pending
+- counter / 分歧处理: pending
+- 缺签豁免: N/A
+- build 准入结论: **blocked**（第四版三签未齐；不得修改视觉实现）
+
 ### 进入 done 前：审查签字
 
-- Codex: **accept**（2026-07-12；第三版实现提交 `bdd35ff6`。OKLab/OKLCH bridge 预计算、visits
-  首访跳转与后 11 级收敛、gamut map、alpha、4×4 同步和 R1-R4 已落地；定向 15 tests、reforge
-  35 files / 316 tests、全仓 `pnpm check` 全绿。6051 实测 bridge 仅构建一次 16.4-16.9ms，
-  step 6 约 180ms、active 约 2.16s、零帧双锚为 true；视觉终裁仍归用户）
-- Opus: pending（第三版实现/数学/动态视觉主审）
-- GLM: pending（Opus 后复核测试矩阵、性能证据和白名单）
-- counter / 返工处理: 第二版用户 counter 已由第三版三签设计和 `bdd35ff6` 实现处理；当前无新 counter。
+- Codex: **counter / accept 已撤销**（2026-07-13；用户澄清异色帧只属于 s001，与 s000 无关；
+  `bdd35ff6` 用 source 绝对亮度构造 bridge，产品模型根本错误。其测试/性能只证明错误方案按设计运行，
+  不再构成 done 准入）
+- Opus: pending（第三版实现审查停止，先审第四版 target-only 设计）
+- GLM: pending（第四版实现完成前不进入 done 复核）
+- counter / 返工处理: 用户第三次视觉 counter；第三版视觉实现退回 rework。未变化的 backup、时序、
+  生命周期和迁移四修结论继续有效。
 - 缺签豁免: N/A
-- done 准入结论: blocked（待 Opus / GLM accept + 用户第三版视觉终裁）
+- done 准入结论: blocked（第四版尚未设计三签/build/review/用户验收）
 
 ## Draft: 设计与风险
+
+### 用户第三次视觉裁决：异色帧只属于 s001
+
+- **用户澄清**（2026-07-13）：正确观感是先切换成 s001 的异色版本，再从异色恢复正常 s001；
+  这段异色恢复与 s000 没有关系。第三版仍像简单渐变，判定 `counter`。
+- **Codex 根因复核**：第三版把 bridge 定义成 `target hue/chroma + source absolute L`。开场 s000
+  最终截图约 98.3% 为暗像素，生成的 bridge 约 99.2% 仍为暗像素；source L=0 时 gamut map 会把
+  任意 target chroma 压回纯黑。因此 s001 的颜色/结构只能在 bridge -> target 的后 11 趟逐渐出现，
+  视觉必然退化成黑到 s001 的普通渐亮。
+- **与原色坡的关键差异**：palette 0 各 16 色坡的第 0 档并不统一为黑，例如 index 16
+  `[52,0,0]`、80 `[0,0,60]`、144 `[93,40,24]`。原版目标高 nibble 即使配低档 0，仍保留
+  s001 的异色结构；“source RGB 黑 -> bridge 绝对黑”不是等价映射。
+- **第二个退化原因**：第三版 bridge 与 target 共用同一 target hue/chroma，后 11 趟主要只改变
+  lightness；连续 OKLCH + gamma 插值进一步抹平了原离散色坡的非线性色偏，所以即便非黑区域也更像
+  调亮，而不是明显的异色归位。
+- **第四版不可变产品约束**：`visits=0` 可显示切换前帧；`visits=1` 必须写
+  `falseColor(target)`，且该异色像素只依赖 s001 target；`visits=2..12` 才从 falseColor 收敛到
+  normal target。前六相位约 180ms 完成 s000 -> s001 异色帧的快速替换，主观主体是后续 s001
+  异色 -> 正常，而不是 source/target crossfade。
+- **待三方定案，不得先写代码**：
+  1. 精确内容路径：把 PAL 色坡烘成隔离的“目标 RGB -> 异色 RGB”过渡 LUT/profile，reforge 壳层
+     只消费通用颜色变换资源，不在世界/schema 恢复 paletteId/nibble；需审资产管线与多 palette 覆盖。
+  2. 通用近似路径：纯 RGBA 的 target-only false-color 公式；必须先用一阶段动态帧验证公式，不再凭
+     OKLab 常数猜测。若无法同时满足忠实观感与通用性，应优先把 PAL profile 隔离在内容适配层。
 
 ### 用户视觉裁决：覆盖第二次设计
 
@@ -506,23 +541,25 @@ N/A
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: **pending**。第三版 `bdd35ff6` 已由 Codex 自验 accept；先交 Opus 复核 bridge
-  数学/实现/6051 动态，再交 GLM 复核 R1-R4 测试矩阵、性能证据和提交白名单。
+- 审查结论: **rework**。用户澄清异色帧应完全由 s001 target 生成，与 s000/source 无关；第三版
+  `bdd35ff6` 的 source-L bridge 产品模型错误，停止实现 review，先走第四版 target-only 设计三签。
 - Opus 非阻塞观察(O1-O5,不构成返工):
   - **O1(留用户终裁)**: 6002 一阶段动态节奏并排复验未完成——dev server 热重载不稳定 + 截图链路延迟(~1-2s)大于 2.16s 窗口,Opus 两次尝试与 Codex 同样未取得可重复中间帧;"首趟 palette 高位跳"观感差异与默认 linear-light(与 Opus 二次审"sRGB 起步"建议相反,但双套 25/50/75% 证据+亮度数值齐全,`?dither-srgb=1` 可切)一并交用户视觉终裁(铁律 8)。
   - **O2(已声明的债)**: 产物仅 s001 含 ditherScreen(最小手工同步);其余 63 场景 0x73 站点仍是旧 alpha fade 形态,dry-run 已核对新迁移器出 110 处——须在未来全量重迁卡还清。
   - **O3(已知差异)**: dither 期间 autoRunners 未冻结(一阶段 fade-screen 冻 autoScript)——s001 开场无 auto 走位 NPC 无可见影响;通用站点若有巡逻 NPC,dither 结束瞬间可能小跳变;用户验收若见跳变再单开卡。
   - **O4(非本卡)**: `projects/pal/e2e-checkpoints/001-opening.save.json` 文件损坏(字符数组垃圾,旧会话产物);?e2e-load 对该文件回退默认新局。顺带报告,归 e2e checkpoint 任务修。
   - **O5(小瑕疵)**: 跨场景 handoff 若捕获时有对话框,switch 异步窗内活画面对话会先消失几帧、冻帧回来才含对话(s000→s001 该点无对话,不可见);通用站点理论可见,与 O3 同级观察。
-- Accept / rework: pending（Codex accept；Opus / GLM / 用户 pending）
+- Accept / rework: **rework（用户 counter，Codex accept 已撤销）**
 
 ## 用户验收
 
 - 历史结论: **reject 旧二值视觉算法**（2026-07-12）；时机和对应帧基本正确，但逐像素硬切观感不对。
 - 第二次结论: **reject RGB crossfade 视觉算法**（2026-07-12）；它虽有 12 级和 gamma-correct，仍缺
   原版“目标色系 + 旧帧明暗”的首趟假色桥接，动态结构不对。
-- 当前状态: 第三版 bridge -> target 已在 `bdd35ff6` 实现并通过 Codex 自验，等待 Opus / GLM review
-  与用户现场视觉终裁。李大娘停步脚本尚未重写，仍属本卡范围外的后续演出任务。
+- 第三次结论: **reject source-L bridge**（2026-07-13）；仍像简单渐变。用户澄清正确结构是先得到
+  s001 的异色帧，再恢复正常 s001，异色过程与 s000 无关。
+- 当前状态: 第四版 target-only `falseColor(s001 target) -> normal target` 待三方设计签字；未三签前
+  不得实现。李大娘停步脚本尚未重写，仍属本卡范围外的后续演出任务。
 
 ## 交接日志
 
@@ -569,18 +606,26 @@ N/A
   step6≈180ms、active≈2160ms、零帧双锚 true；截图/时间线见第三版视觉记录。`main.ts` E2E 脏 hunk
   未入提交。Evidence: Build/视觉验证段与 `/tmp/type-pal-x3-v3-evidence/`。Next: Opus 做第三版实现与
   动态视觉主审；不得标 done，Opus 后交 GLM 复核。
+- 2026-07-13 User: 第三版视觉终裁 **counter**。效果仍是简单渐变；进一步澄清正确过程为“先切到
+  s001 的异色帧，再由异色恢复正常 s001”，异色阶段与 s000 无关。Evidence: 用户现场观察与明确
+  语义纠正。Next: 停止第三版 review，任务退回 rework。
+- 2026-07-13 Codex: 承认第三版模型理解错误并量化根因：s000 终帧约 98.3% 暗，source-L bridge
+  约 99.2% 暗；L=0 把 target chroma gamut-map 回纯黑，而 palette0 各色坡低档并非统一黑色，故
+  `bdd35ff6` 必然退化为黑 -> s001 渐亮。已撤 Codex accept，钉死第四版 bridge 只能是
+  `falseColor(s001 target)`、不得读取 source；精确 LUT/profile 与通用公式路线待架构审查。Evidence:
+  Draft“用户第三次视觉裁决”与 palette0 index 16/80/144。Next: Opus 审第四版架构选路，不得实现。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务:X3/M3 第三版“假色桥接”实现与动态视觉主审（Opus）
+接手任务:X3/M3 第四版 target-only 异色帧设计审查（Opus）
 任务卡:docs/ops/tasks/X3-opening-dither-speaker-inheritance.md
-当前状态:review；第三版设计三签齐，Codex 已在 bdd35ff6 完成 build 并自验 accept；Opus/GLM done 签字 pending
-你的角色:Claude Opus，第三版实现/数学/性能与 6051 动态视觉主审；只审查，不改实现文件
-先读:AGENTS.md、docs/phase2/READ-FIRST.md、任务卡“第三版 Opus 设计审查”“第三次 build”“第三版假色桥接自验”，并审 bdd35ff6 的三个文件
-实现摘要:dither-transition.ts 预计算 bridge=target hue/chroma + source OKLab L，超 gamut 二分压 C；visits=0 source、1 bridge、2..12 用11级 gamma 收敛 target；main.ts 只算一次 bridge，算完才 startedAt；DEV 暴露 hasBridge/bridgeBuildMs。R4 两处近似已写头注释
-验证证据:定向 15 tests；reforge 35 files/316 tests；全仓 pnpm check 全绿。1280x800 典型预计算 17.35/17.51/17.56ms，随机百万色对压力 1057.67ms；6051 两轮真实 16.9/16.4ms。活体时间线 step0/6/36/完成，零帧双锚 true，证据在 /tmp/type-pal-x3-v3-evidence/
-请重点复核:1)OKLab/OKLCH 公式、neutral 阈值、保持 L/h 压 C 的 gamut map 与色对缓存 key 是否正确；2)visits 首访/11级/step72 数学和 alpha/4x；3)startedAt 放在预计算后是否完整保留 180ms；4)6051 首趟深色假色 bridge 是否符合签字方案，尤其 s000 大面积黑导致 bridge 很暗这一已知近似，给用户清晰视觉意见；5)确认 bdd35ff6 未夹带 main.ts 底部 E2E 脏 hunk
-不要做:不改实现文件；不要重审未变化且已通过的 backup/迁移四修；不得自行标 done；发现问题签 counter 并列 file:line + 返工项
-输出要求:在“进入 done 前：审查签字”Opus 行签 accept/counter，更新 Review/交接日志并提交文档；若 accept，提供可直接复制给 GLM 的 R1-R4/性能/白名单复核提示词。GLM accept 后仍须用户视觉终裁
+当前状态:rework；用户第三次视觉 counter，第三版 Codex accept 已撤；第四版设计三签均 pending，build blocked
+你的角色:Claude Opus，第四版架构/视觉机制压力测试；只审设计，不改实现文件
+先读:AGENTS.md、docs/phase2/READ-FIRST.md、任务卡“用户第三次视觉裁决：异色帧只属于 s001”“第四次进入 build 前签字”，以及 packages/game/src/present/dither-fade.ts、data/extracted/data/palette/0.json、bdd35ff6
+用户钉死事实:正确过程是先切到 s001 的异色帧，再由异色恢复正常 s001；异色 bridge 与 s000 无关。visits=0 可仍显示切换前帧，但 visits=1 必须是 falseColor(s001 target)，visits=2..12 才恢复 normal target
+失败根因:第三版用了 target hue/chroma + source absolute L；s000 约98.3%暗，bridge约99.2%暗，source L=0 会把颜色压成黑，后段自然退化为黑->s001渐亮。palette0 色坡第0档并非统一黑(index16=[52,0,0]、80=[0,0,60]、144=[93,40,24])，所以 source RGB 绝对亮度不是原色坡档位
+请审并给可落地方案:1)优先评估内容适配层的 target RGB->异色 RGB 过渡 LUT/profile，能否隔离 PAL 色坡知识且不把 paletteId/nibble 带回 world/schema；2)多 palette/非 PAL RGBA 内容如何选择 profile 或 fallback；3)若主张纯 RGBA 通用公式，必须明确 falseColor(target) 公式并证明能产生明显异色归位，禁止再读取 source 或靠调亮度下限猜测；4)测试须钉 bridge 对 source 不变、step6 全屏等于 falseColor(target)、异色与 normal target 有显著色差、后11级收敛和端点/4x
+不要做:不改实现文件；不继续 review bdd35ff6；第四版三签未齐不得 build；不重翻已通过的 backup/时序/迁移四修
+输出要求:给出 agree/counter + 推荐架构和精确数据结构/公式；写回“第四次进入 build 前”Opus 行、Draft/交接日志并提交文档。若方案触碰 asset pipeline/schema，明确标三方必审，并提供交给 GLM 的覆盖/迁移审查提示词
 ```
