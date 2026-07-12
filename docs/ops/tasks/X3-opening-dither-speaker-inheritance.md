@@ -318,6 +318,7 @@ s000→s001 只是其中一个跨场景用例。同时修复梦话 speaker 继�
 ## Build: 实现与自测
 
 - Coding Owner: Codex（build 完成，已转 review）
+- 实现提交: `bede6b14`（仅 X3/M3 白名单 hunk；其余工作区脏改未纳入）
 - 实现范围:
   - `packages/reforge/src/dither-transition.ts`：删除二值 hard replacement/Bayer 阈值，改为不可变
     source/target/output 三缓冲；按 `RG_INDEX={0,3,1,5,2,4}` 六相位错峰、每像素 12 级重新计算。
@@ -419,7 +420,7 @@ N/A
   `pnpm check` 全绿；dry-run 为 295 scenes / ditherScreen 110 / e-1 0 / fade missing ms 0。
   6051 的 0%/100% 锚、2160ms、对白时序通过；普通 s001→s003 所谓黑屏定位为错误测试落点，
   真实出口 `(141,51)` 回归通过。Evidence: Build/视觉验证段与 `/tmp/type-pal-x3-evidence/compare.png`。
-  Next: Opus 做实现/视觉主审，不得标 done；Opus 后交 GLM 复核迁移覆盖和测试矩阵。
+  Commit: `bede6b14`。Next: Opus 做实现/视觉主审，不得标 done；Opus 后交 GLM 复核迁移覆盖和测试矩阵。
 
 ## 下一位 Agent 提示词
 
@@ -430,7 +431,7 @@ N/A
 你的角色:Claude Opus，架构/代码/视觉主审；默认只审查，不改实现文件。发现问题签 counter 并列出返工项
 先读:AGENTS.md、docs/phase2/READ-FIRST.md、任务卡“上下文锚点/二次设计/Build/视觉验证/Review”，再读 packages/game/src/present/dither-fade.ts:13-42 与任务白名单 diff
 重点代码:packages/reforge/src/dither-transition.ts、dither-transition.test.ts、main.ts、script-runner.ts/test.ts；packages/content/src/script.ts；packages/migrate/src/translate-events.ts/test.ts；packages/editor/src/core/playback.ts、ui/ScriptTree.tsx、ui/CommandForm.tsx；s000.json/s001.json 只审本任务相关 hunk
-已完成:删除二值 hard dissolve/Bayer，改为不可变 source/target/output 三缓冲，RG_INDEX 六相位错峰、每像素 12 级；同时实现 sRGB 与 gamma 2.2 linear-light，6051 量化后默认 gamma，DEV `?dither-srgb=1` 可对照。跨场景 handoff/独立 snapshot、0% 像素锚、2160ms、对白完成后出现、abort/读档/再换场收口均已接通。迁移四修与 editor 联合类型接线已补齐
+已完成:实现提交 `bede6b14`。删除二值 hard dissolve/Bayer，改为不可变 source/target/output 三缓冲，RG_INDEX 六相位错峰、每像素 12 级；同时实现 sRGB 与 gamma 2.2 linear-light，6051 量化后默认 gamma，DEV `?dither-srgb=1` 可对照。跨场景 handoff/独立 snapshot、0% 像素锚、2160ms、对白完成后出现、abort/读档/再换场收口均已接通。迁移四修与 editor 联合类型接线已补齐
 验证证据:定向 34 tests；content 159、migrate 92、reforge 306、editor 118；全仓 pnpm check 全绿；dry-run 295 scenes / ditherScreen 110 / e-1 0 / fade missing ms 0。截图在 /tmp/type-pal-x3-evidence/，并排图 compare.png。普通 s001→s003 用真实出口落点(141,51)复验通过；此前黑屏是误用空白默认落点(86,9)
 请你复验:1)12 级公式、gamma LUT 端点/性能/alpha 是否正确，是否还存在像素硬切；2)main.ts 窄前瞻只劫持早期 dither 的目标 stage，普通 loadScene 不受影响；3)active/pending Promise 在正常/abort/读档/再切场景全部收口；4)6051 观察 0/25/50/75/100%、对白时序与普通出口；5)尽量用 6002 对照一阶段动态节奏，特别是首趟 palette 高位跳。Codex 未取得可重复的 6002 完整转场录像，不得把该项误记为已验；RGBA 数值无需等同 palette
 红线:不跑会写工作区的 pnpm migrate:content；工作区有大量其他 Agent 脏文件，禁止回退或整批提交；review 阶段默认不得修改实现文件；三方 accept 未齐不得标 done
