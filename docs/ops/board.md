@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| X3/M3 | 通用 0x73 dither + 开场/opcode 迁移修复 | review | Opus 主审，随后 GLM 复核 | Codex build/自验完成并签 accept：12 级逐像素渐变默认 gamma-correct；全仓门禁、迁移 dry-run、6051 开场与普通换场回归通过。等待 Opus/GLM done 前签字。任务卡:[X3-opening-dither-speaker-inheritance.md](tasks/X3-opening-dither-speaker-inheritance.md) |
+| X3/M3 | 通用 0x73 dither + 开场/opcode 迁移修复 | review | GLM 复核,随后用户终裁 | **Codex accept + Opus 主审 accept**(基线 bede6b14):代码/数学/收口全过,6051 活体 M3 零帧锚×2 + handoff 捕获 + 对白后置 + 普通出口 s001→s003 亲测(黑屏回归证实已修);O1-O5 非阻塞观察落卡。待 GLM 签字后交用户终裁(O1 动态观感/默认 linear-light)。任务卡:[X3-opening-dither-speaker-inheritance.md](tasks/X3-opening-dither-speaker-inheritance.md) |
 
 ## 阻塞
 

@@ -181,11 +181,11 @@ s000→s001 只是其中一个跨场景用例。同时修复梦话 speaker 继�
 - Codex: **accept**（2026-07-12；12 级离散 RGBA 渐变、gamma-correct 默认路径、两路 backup、
   生命周期收口和迁移四修均已实现。定向测试、四个受影响包测试、全仓 `pnpm check`、迁移 dry-run
   与 6051 开场/普通换场视觉回归通过；6002 未取得可重复的完整动态录屏，已如实列为 Opus 复验重点）
-- Opus: pending
+- Opus: **accept**（2026-07-12；架构/代码/视觉主审全项通过——helper 数学(端点 early-return 精确/相位推进序=RG_INDEX/12 级单调/4×4 同级/gamma LUT 16-bit 仅暗部 ±1/alpha 不做 gamma/别名防护/非累积)、main.ts 接线(窄前瞻 arm 于 switchScene 前+`{targetSceneId,backup}` 原子 take+cancel/finally/abort/error 四收口)、runner/content/editor 接线、迁移四修对齐 sdlpal 真值、s000/s001 hunk 极小无夹带。**活体复验**:M3 零帧锚 `zeroFrameMatchesBackup=true`+`DiffersFromTarget=true` 两轮复现;pending handoff `targetSceneId:'s001'` 在 switch 前活体捕获;对白严格 dither 后出现;**普通出口 s001→s003 亲测**——(60,-24) 走到 e3 触发 `fade-out→switch→fade-in` 普通路径,s003 正常渲染,黑屏回归已修。定向 34+32 tests 本地重跑全绿。5 项非阻塞观察见 Review 段）
 - GLM: pending
-- counter / 返工处理:
+- counter / 返工处理: 无返工项;Opus 5 项非阻塞观察(O1-O5)记录于 Review 段,其中 O1(6002 动态并排/默认 linear-light)留用户终裁。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: blocked（待 GLM 复核 + 用户对新动态效果最终验收）
 
 ## Draft: 设计与风险
 
@@ -380,14 +380,24 @@ N/A
 - 未完成项：6002 可进入一阶段梦境场景，但本轮没有取得可重复触发的完整 s000→s001 动态录屏，
   因此“首趟 palette 高位跳”的并排动态节奏仍需 Opus 或用户复验。任务验收只要求一阶段确认顺序与
   姓名、RGBA 数值无需等同 palette；这一未验项不伪装成已通过。
+- Opus 复验（2026-07-12,基线 bede6b14）:
+  - `__rfDither` 活体两轮:`zeroFrameMatchesBackup=true` + `zeroFrameDiffersFromTarget=true`(M3 运行时逐像素断言复现)、`colorSpace:'linear-light'`、完成后 pending/active 双清零。
+  - pending handoff 活体捕获:`{pending:true, targetSceneId:'s001'}` 于 scene 仍为 s000 时观测到(窄前瞻 arm 早于 switchScene 铁证)。
+  - 对白时序:截图确认李大娘叫醒对白仅在 dither 完成后出现;`rfSceneLoad` 终态 `{from:s000,to:s001,step:done}`,全程 `fadeBlack=0`(handoff 路径未走黑场)。
+  - **普通出口亲测**:开场跑完后自 (60,-24) 走至 e3(60,-12) 触发 s001→s003,`rfSceneLoad` 依次 `fade-out→switch→fade-in`(普通路径,非 handoff),s003 正常渲染无黑屏/冻结/残帧——此前"黑屏停留"回归确认已修。
+  - 6002 动态并排:Opus 两次尝试同样受 dev server 热重载与截图延迟所限未取得中间帧,维持"未验"如实记录,交用户终裁。
 
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: Codex 自验 `accept`；等待 Opus 做架构/视觉主审，再由 GLM 做迁移覆盖/测试矩阵复核。
-- 复验重点: 12 级错峰渐变是否真正消除旧 hard dissolve 的生硬感；gamma 默认方案是否自然；
-  0%/100% 锚、对白时序、普通换场与 abort/读档收口；任务白名单是否夹带无关脏改。
-- Accept / rework: review pending
+- 审查结论: Codex 自验 `accept`；**Opus 主审 accept**（2026-07-12,基线 bede6b14):代码逐文件审 + 定向测试本地重跑(34+32 绿)+ 6051 三轮活体复验(M3 零帧锚×2 / pending handoff 活体捕获 / 对白后置 / **普通出口 s001→s003 亲测走通**,黑屏回归已修)。待 GLM 迁移覆盖/测试矩阵复核。
+- Opus 非阻塞观察(O1-O5,不构成返工):
+  - **O1(留用户终裁)**: 6002 一阶段动态节奏并排复验未完成——dev server 热重载不稳定 + 截图链路延迟(~1-2s)大于 2.16s 窗口,Opus 两次尝试与 Codex 同样未取得可重复中间帧;"首趟 palette 高位跳"观感差异与默认 linear-light(与 Opus 二次审"sRGB 起步"建议相反,但双套 25/50/75% 证据+亮度数值齐全,`?dither-srgb=1` 可切)一并交用户视觉终裁(铁律 8)。
+  - **O2(已声明的债)**: 产物仅 s001 含 ditherScreen(最小手工同步);其余 63 场景 0x73 站点仍是旧 alpha fade 形态,dry-run 已核对新迁移器出 110 处——须在未来全量重迁卡还清。
+  - **O3(已知差异)**: dither 期间 autoRunners 未冻结(一阶段 fade-screen 冻 autoScript)——s001 开场无 auto 走位 NPC 无可见影响;通用站点若有巡逻 NPC,dither 结束瞬间可能小跳变;用户验收若见跳变再单开卡。
+  - **O4(非本卡)**: `projects/pal/e2e-checkpoints/001-opening.save.json` 文件损坏(字符数组垃圾,旧会话产物);?e2e-load 对该文件回退默认新局。顺带报告,归 e2e checkpoint 任务修。
+  - **O5(小瑕疵)**: 跨场景 handoff 若捕获时有对话框,switch 异步窗内活画面对话会先消失几帧、冻帧回来才含对话(s000→s001 该点无对话,不可见);通用站点理论可见,与 O3 同级观察。
+- Accept / rework: **Opus accept**;GLM pending;用户验收 pending
 
 ## 用户验收
 
@@ -421,19 +431,18 @@ N/A
   6051 的 0%/100% 锚、2160ms、对白时序通过；普通 s001→s003 所谓黑屏定位为错误测试落点，
   真实出口 `(141,51)` 回归通过。Evidence: Build/视觉验证段与 `/tmp/type-pal-x3-evidence/compare.png`。
   Commit: `bede6b14`。Next: Opus 做实现/视觉主审，不得标 done；Opus 后交 GLM 复核迁移覆盖和测试矩阵。
+- 2026-07-12 Opus: 实现/视觉主审签 **accept**(基线 bede6b14)。逐文件审:helper 数学全对(端点 early-return 精确/相位序=RG_INDEX/12 级单调/4×4 同级/gamma LUT 量化仅暗部 ±1/alpha 无 gamma/别名 throw/非累积);main.ts 四收口齐(入口 cancel/switch 异常 cancel/脚本 finally clearPendingFor/abort cancel,begin 先 finish 防孤儿);迁移四修对齐 sdlpal(0x50 `(op0||1)*600`/0x51 int16>0/0x73 `(speed+1)*720`/0x49 flush-不-push/speaker walkBody+样式切换清);s000/s001 hunk 极小无夹带;editor 接线合理。定向测试本地重跑 34+32 绿。**6051 活体**:M3 零帧锚两轮复现(`zeroFrameMatchesBackup=true`+`DiffersFromTarget=true`);pending handoff 于 scene=s000 时活体捕获(arm 早于 switch 铁证);对白严格 dither 后;**普通出口亲测**(60,-24)→e3→`fade-out→switch→fade-in`→s003 正常渲染,黑屏回归证实已修。5 项非阻塞观察 O1-O5 落 Review 段(O1 6002 动态并排两次尝试未果、同 Codex,留用户终裁;O2 63 场景 0x73 旧形态债;O3 dither 期 autoRunners 未冻;O4 e2e save 损坏非本卡;O5 handoff 含对话时的几帧消失)。Evidence: Review/视觉验证 Opus 复验段。Next: GLM 复核迁移覆盖/测试矩阵/白名单;GLM accept 后交用户对动态观感终裁,方可 done。未改任何实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务:X3/M3 通用 0x73 逐像素过渡实现与视觉主审
+接手任务:X3/M3 通用 0x73 逐像素过渡 done 前复核（GLM,迁移覆盖/测试矩阵）
 任务卡:docs/ops/tasks/X3-opening-dither-speaker-inheritance.md
-当前状态:review；二次设计三签齐，Codex build/自验完成并签 accept；Opus、GLM done 前审查签字 pending
-你的角色:Claude Opus，架构/代码/视觉主审；默认只审查，不改实现文件。发现问题签 counter 并列出返工项
-先读:AGENTS.md、docs/phase2/READ-FIRST.md、任务卡“上下文锚点/二次设计/Build/视觉验证/Review”，再读 packages/game/src/present/dither-fade.ts:13-42 与任务白名单 diff
-重点代码:packages/reforge/src/dither-transition.ts、dither-transition.test.ts、main.ts、script-runner.ts/test.ts；packages/content/src/script.ts；packages/migrate/src/translate-events.ts/test.ts；packages/editor/src/core/playback.ts、ui/ScriptTree.tsx、ui/CommandForm.tsx；s000.json/s001.json 只审本任务相关 hunk
-已完成:实现提交 `bede6b14`。删除二值 hard dissolve/Bayer，改为不可变 source/target/output 三缓冲，RG_INDEX 六相位错峰、每像素 12 级；同时实现 sRGB 与 gamma 2.2 linear-light，6051 量化后默认 gamma，DEV `?dither-srgb=1` 可对照。跨场景 handoff/独立 snapshot、0% 像素锚、2160ms、对白完成后出现、abort/读档/再换场收口均已接通。迁移四修与 editor 联合类型接线已补齐
-验证证据:定向 34 tests；content 159、migrate 92、reforge 306、editor 118；全仓 pnpm check 全绿；dry-run 295 scenes / ditherScreen 110 / e-1 0 / fade missing ms 0。截图在 /tmp/type-pal-x3-evidence/，并排图 compare.png。普通 s001→s003 用真实出口落点(141,51)复验通过；此前黑屏是误用空白默认落点(86,9)
-请你复验:1)12 级公式、gamma LUT 端点/性能/alpha 是否正确，是否还存在像素硬切；2)main.ts 窄前瞻只劫持早期 dither 的目标 stage，普通 loadScene 不受影响；3)active/pending Promise 在正常/abort/读档/再切场景全部收口；4)6051 观察 0/25/50/75/100%、对白时序与普通出口；5)尽量用 6002 对照一阶段动态节奏，特别是首趟 palette 高位跳。Codex 未取得可重复的 6002 完整转场录像，不得把该项误记为已验；RGBA 数值无需等同 palette
-红线:不跑会写工作区的 pnpm migrate:content；工作区有大量其他 Agent 脏文件，禁止回退或整批提交；review 阶段默认不得修改实现文件；三方 accept 未齐不得标 done
-输出要求:在任务卡“进入 done 前：审查签字”Opus 行和 Review/交接日志写 accept，或签 counter 并给精确 file:line/复现步骤/返工项；提交仅文档审查记录。若 accept，必须在任务卡写一段可直接复制给 GLM 的下一位提示词，要求其复核迁移覆盖、测试矩阵与白名单后签 accept/counter
+当前状态:review；Codex 自验 accept + Opus 主审 accept(基线 bede6b14);GLM done 前签字 pending;done 仍 blocked(GLM + 用户终裁)
+你的角色:GLM,迁移覆盖与测试矩阵复核;只审查,不改实现文件;发现问题签 counter + 精确 file:line + 返工项
+先读:AGENTS.md、docs/phase2/READ-FIRST.md、任务卡"Build/视觉验证(含 Opus 复验段)/Review(Opus accept + O1-O5 观察)/交接日志"
+已完成:Opus 主审 accept——helper 数学/收口路径/迁移四修/白名单逐项过;6051 活体:M3 零帧锚两轮(`zeroFrameMatchesBackup=true`)、pending handoff 于 s000 时捕获、对白严格 dither 后、普通出口 s001→s003 亲测走通(黑屏系 Codex 误用落点(86,9),真实出口(141,51)+Opus 独立路径均通过);O1-O5 非阻塞观察已记录
+请你复核:(1)迁移覆盖终验——0x73 dry-run 110 处与 canonical 69+shared 4 的去重关系是否自洽、`entity:"e-1"`==0、fade missing ms==0(不落盘 dry-run);(2)测试矩阵实质性——translate-events.test 的 0x49/0x50/0x51/0x73/speaker 断言是否钉住语义(非表面覆盖),dither-transition.test 12 级/相位/端点/4×4/别名是否与验收逐条对应;(3)白名单——bede6b14 的 15 文件是否全在任务范围、s000/s001 hunk 无夹带;(4)O2 债务确认——仅 s001 产物含 ditherScreen,其余 63 场景 0x73 旧形态留全量重迁卡,判断是否需要立即开后续卡。在"进入 done 前:审查签字"GLM 行签 accept/counter,更新 Review 与交接日志
+不要做:不改实现文件;不跑会写工作区的 pnpm migrate:content(dry-run 只准临时目录);不碰工作区其他 Agent 脏文件;GLM accept 后 done 仍需用户对动态观感终裁(O1:6002 并排 + linear-light vs sRGB 默认),不得自行标 done
+输出要求:明确 accept/counter、迁移覆盖终验数据、测试矩阵评估、提交 hash;accept 时在任务卡写"待用户终裁项"清单(O1 动态观感 + 默认色彩空间),交接给用户验收
 ```
