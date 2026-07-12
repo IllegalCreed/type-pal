@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| X3/M3 | 通用 0x73 dither + 开场/opcode 迁移修复 | review | GLM 复核,随后用户终裁 | **Codex accept + Opus 主审 accept**(基线 bede6b14):代码/数学/收口全过,6051 活体 M3 零帧锚×2 + handoff 捕获 + 对白后置 + 普通出口 s001→s003 亲测(黑屏回归证实已修);O1-O5 非阻塞观察落卡。待 GLM 签字后交用户终裁(O1 动态观感/默认 linear-light)。任务卡:[X3-opening-dither-speaker-inheritance.md](tasks/X3-opening-dither-speaker-inheritance.md) |
+| X3/M3 | 通用 0x73 dither + 开场/opcode 迁移修复 | rework | Opus 审第三版假色桥接设计，随后 GLM | 用户否决第二版 RGB crossfade：原版不是 palette1→0，而是 palette0 内首趟 `target 高 nibble + source 低 nibble`，约 180ms 进入目标假色态，再用 11 趟恢复正常。Codex 已提纯 RGBA 的 source-lightness + target-chroma bridge 方案；第三版三签未齐，不得实现。任务卡:[X3-opening-dither-speaker-inheritance.md](tasks/X3-opening-dither-speaker-inheritance.md) |
 
 ## 阻塞
 

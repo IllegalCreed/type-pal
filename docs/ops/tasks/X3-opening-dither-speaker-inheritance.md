@@ -1,9 +1,9 @@
 # X3/M3 - 通用 0x73 逐像素过渡、开场恢复与 opcode 迁移语义修复
 
-Status: review
+Status: rework
 Phase: phase2
 Capability: X3（标题/流程/开场演出）+ M3（脚本迁移）
-Coding Owner: Codex（build 已完成；等待 Opus / GLM review）
+Coding Owner: Codex（用户否决第二版视觉；第三版设计待三签，暂停实现）
 Generation Owner: N/A
 Reviewer: Opus + GLM
 Visual Verification Owner: Codex 自验；Opus 复验
@@ -176,18 +176,61 @@ s000→s001 只是其中一个跨场景用例。同时修复梦话 speaker 继�
 - 缺签豁免: N/A
 - build 准入结论: **三签齐，build allowed**。build 范围含 sRGB + gamma-correct 两路公式、s001→s003 黑屏定位。
 
+### 第三次进入 build 前：假色桥接算法修订签字
+
+- Codex: **agree**（2026-07-12；用户指出原版观感是“旧场景快速切到目标场景的近似反色/假色态，
+  再从假色恢复正常”。本地复核确认开场未切 palette 1，仍使用 palette 0；关键是首趟
+  `target 高 nibble | source 低 nibble`，即目标色系/几何与旧帧明暗的桥接。提议保持纯 RGBA：
+  首次访问像素时跳到“目标色相/色度 + 旧帧感知亮度”的 bridge，后 11 趟再离散逼近 target）
+- Opus: pending
+- GLM: pending
+- counter / 分歧处理: pending
+- 缺签豁免: N/A
+- build 准入结论: **blocked**（第三版三签未齐；不得修改视觉实现）
+
 ### 进入 done 前：审查签字
 
-- Codex: **accept**（2026-07-12；12 级离散 RGBA 渐变、gamma-correct 默认路径、两路 backup、
-  生命周期收口和迁移四修均已实现。定向测试、四个受影响包测试、全仓 `pnpm check`、迁移 dry-run
-  与 6051 开场/普通换场视觉回归通过；6002 未取得可重复的完整动态录屏，已如实列为 Opus 复验重点）
-- Opus: **accept**（2026-07-12；架构/代码/视觉主审全项通过——helper 数学(端点 early-return 精确/相位推进序=RG_INDEX/12 级单调/4×4 同级/gamma LUT 16-bit 仅暗部 ±1/alpha 不做 gamma/别名防护/非累积)、main.ts 接线(窄前瞻 arm 于 switchScene 前+`{targetSceneId,backup}` 原子 take+cancel/finally/abort/error 四收口)、runner/content/editor 接线、迁移四修对齐 sdlpal 真值、s000/s001 hunk 极小无夹带。**活体复验**:M3 零帧锚 `zeroFrameMatchesBackup=true`+`DiffersFromTarget=true` 两轮复现;pending handoff `targetSceneId:'s001'` 在 switch 前活体捕获;对白严格 dither 后出现;**普通出口 s001→s003 亲测**——(60,-24) 走到 e3 触发 `fade-out→switch→fade-in` 普通路径,s003 正常渲染,黑屏回归已修。定向 34+32 tests 本地重跑全绿。5 项非阻塞观察见 Review 段）
-- GLM: pending
-- counter / 返工处理: 无返工项;Opus 5 项非阻塞观察(O1-O5)记录于 Review 段,其中 O1(6002 动态并排/默认 linear-light)留用户终裁。
+- Codex: **counter / accept 已撤销**（2026-07-12；用户视觉终裁否决第二版 old/target RGB 插值，缺失首趟
+  target 高 nibble 假色跳转。此前 accept 只作历史验证记录，不再构成 done 准入）
+- Opus: **历史 accept 已被用户 counter 覆盖**（2026-07-12；代码/收口/迁移审查仍有效，视觉算法结论失效）
+- GLM: pending（第三版实现完成前不进入 done 复核）
+- counter / 返工处理: 用户视觉 counter；视觉 helper 退回第三版设计。Opus O1“首趟 palette 高位跳未验”由
+  非阻塞观察升级为阻塞事实；其余 O2-O5 与非视觉实现结论保留。
 - 缺签豁免: N/A
-- done 准入结论: blocked（待 GLM 复核 + 用户对新动态效果最终验收）
+- done 准入结论: blocked（第三版尚未 build/review/用户验收）
 
 ## Draft: 设计与风险
+
+### 用户视觉裁决：覆盖第二次设计
+
+- **用户观感**（2026-07-12）：当前效果近似透明度/crossfade；原版更像“场景 0 很快切到场景 1 的
+  反色/假色形态，再从假色恢复成正常场景 1”。该观感否决第二版 RGB 线性/linear-light 插值。
+- **不是 palette 1 -> palette 0**：开场 extracted 链为 `playMusic(0x43) -> battle config(0x45) ->
+  teleport(0x46) -> fadeScreen(0x73)`，前面没有 `setPalette(0x8B)`；新局 `numPalette` 仍为 0。
+  palette 1 是 DOS splash 等独立用途，不参与这次 s000 -> s001。
+- **原版两段式真值**：palette 0 的 256 色按 16×16 ramp 排列，高 nibble 选色系/色坡，低 nibble 选
+  该色坡内的明暗级。`packages/game/src/present/dither-fade.ts` 每个像素第一次被相位访问时直接写
+  `(target & 0xF0) | (source & 0x0F)`：目标色系立即替换、旧帧明暗仍在，形成目标场景的强烈假色态；
+  后续 outer 1..11 才让低 nibble 每趟向目标 ±1。speed=2 时前 6 相位约 180ms 完成全屏假色切换，
+  剩余约 1980ms 从假色逐级恢复正常。用户描述与源码完全一致。
+- **第二版为何仍错**：`applyDitherGradient` 从 source RGB 直接插值到 target RGB，gamma-correct 只改变
+  中间亮度，仍然是一条 crossfade 色线；它没有“目标色系 + 旧明暗”的中间桥，因而动态结构不对。
+- **第三版 clean RGBA 适配（Codex 提案）**：
+  1. 保留 step 0 逐像素等于 source、step 72 逐像素等于 target、六相位与 4×4 逻辑像素同步。
+  2. 为每个目标像素预计算 `bridge`：在 OKLCH/OKLab 中取 target 的 hue/chroma，取 source 的感知
+     lightness；色度做 sRGB gamut map。目标近中性时退化为 source lightness 的中性色。它模拟
+     `targetHigh | sourceLow`，但不把 palette/index/nibble 带回 schema 或运行时模型。
+  3. 某像素访问次数 `visits = step > phaseRank ? floor((step - 1 - phaseRank) / 6) + 1 : 0`。
+     `visits=0` 显示 source；`visits=1` 立即显示 bridge；`visits=2..12` 用 11 个离散级从 bridge
+     gamma-correct 逼近 target；`visits=12` 强制精确 target。
+  4. bridge 只在 target 捕获后预计算一次并持有一个额外 RGBA buffer；每个离散 step 继续复用 output，
+     不在 72 帧里反复做 OKLab 转换。alpha 不做色彩空间变换，端点精确。
+- **不采用的精确兼容路径**：把旧/新画面重新量化回 palette 0，再原样跑 nibble 算法，虽更接近 PAL，
+  但会把 palette/index 兼容机制重新侵入通用 RGBA 壳层，也无法服务自有 RGBA 工程；除非用户另行
+  推翻第二阶段架构铁律，否则不选。
+- **第三版新增验收**：记录 step 0/1/6/7/36/72；step 6 必须全屏进入 bridge 假色态，不能仍是
+  source/target crossfade；对同一逻辑像素验证第一次访问发生 hue/chroma 跳转，随后 11 趟亮度/色阶
+  单调收敛；6051 与 6002 动态并排后由用户终裁。
 
 ### 用户视觉裁决：覆盖第一次设计
 
@@ -390,20 +433,23 @@ N/A
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: Codex 自验 `accept`；**Opus 主审 accept**（2026-07-12,基线 bede6b14):代码逐文件审 + 定向测试本地重跑(34+32 绿)+ 6051 三轮活体复验(M3 零帧锚×2 / pending handoff 活体捕获 / 对白后置 / **普通出口 s001→s003 亲测走通**,黑屏回归已修)。待 GLM 迁移覆盖/测试矩阵复核。
+- 审查结论: **rework**。Codex/Opus 对基线 `bede6b14` 的非视觉代码审查仍有效，但用户视觉终裁确认
+  第二版缺失首趟假色桥接；不得继续交 GLM 做原版 done 复核，先走第三版设计三签。
 - Opus 非阻塞观察(O1-O5,不构成返工):
   - **O1(留用户终裁)**: 6002 一阶段动态节奏并排复验未完成——dev server 热重载不稳定 + 截图链路延迟(~1-2s)大于 2.16s 窗口,Opus 两次尝试与 Codex 同样未取得可重复中间帧;"首趟 palette 高位跳"观感差异与默认 linear-light(与 Opus 二次审"sRGB 起步"建议相反,但双套 25/50/75% 证据+亮度数值齐全,`?dither-srgb=1` 可切)一并交用户视觉终裁(铁律 8)。
   - **O2(已声明的债)**: 产物仅 s001 含 ditherScreen(最小手工同步);其余 63 场景 0x73 站点仍是旧 alpha fade 形态,dry-run 已核对新迁移器出 110 处——须在未来全量重迁卡还清。
   - **O3(已知差异)**: dither 期间 autoRunners 未冻结(一阶段 fade-screen 冻 autoScript)——s001 开场无 auto 走位 NPC 无可见影响;通用站点若有巡逻 NPC,dither 结束瞬间可能小跳变;用户验收若见跳变再单开卡。
   - **O4(非本卡)**: `projects/pal/e2e-checkpoints/001-opening.save.json` 文件损坏(字符数组垃圾,旧会话产物);?e2e-load 对该文件回退默认新局。顺带报告,归 e2e checkpoint 任务修。
   - **O5(小瑕疵)**: 跨场景 handoff 若捕获时有对话框,switch 异步窗内活画面对话会先消失几帧、冻帧回来才含对话(s000→s001 该点无对话,不可见);通用站点理论可见,与 O3 同级观察。
-- Accept / rework: **Opus accept**;GLM pending;用户验收 pending
+- Accept / rework: **rework（用户 counter）**
 
 ## 用户验收
 
 - 历史结论: **reject 旧二值视觉算法**（2026-07-12）；时机和对应帧基本正确，但逐像素硬切观感不对。
-- 当前状态: 已按二次三签方案改为 12 级逐像素渐变并默认 gamma-correct，等待 Opus/GLM review 与
-  用户对新动态效果的最终验收。李大娘停步脚本尚未重写，仍属本卡范围外的后续演出任务。
+- 第二次结论: **reject RGB crossfade 视觉算法**（2026-07-12）；它虽有 12 级和 gamma-correct，仍缺
+  原版“目标色系 + 旧帧明暗”的首趟假色桥接，动态结构不对。
+- 当前状态: 第三版 bridge -> target 设计待 Opus/GLM 签字；未三签前不得实现。李大娘停步脚本尚未
+  重写，仍属本卡范围外的后续演出任务。
 
 ## 交接日志
 
@@ -432,17 +478,26 @@ N/A
   真实出口 `(141,51)` 回归通过。Evidence: Build/视觉验证段与 `/tmp/type-pal-x3-evidence/compare.png`。
   Commit: `bede6b14`。Next: Opus 做实现/视觉主审，不得标 done；Opus 后交 GLM 复核迁移覆盖和测试矩阵。
 - 2026-07-12 Opus: 实现/视觉主审签 **accept**(基线 bede6b14)。逐文件审:helper 数学全对(端点 early-return 精确/相位序=RG_INDEX/12 级单调/4×4 同级/gamma LUT 量化仅暗部 ±1/alpha 无 gamma/别名 throw/非累积);main.ts 四收口齐(入口 cancel/switch 异常 cancel/脚本 finally clearPendingFor/abort cancel,begin 先 finish 防孤儿);迁移四修对齐 sdlpal(0x50 `(op0||1)*600`/0x51 int16>0/0x73 `(speed+1)*720`/0x49 flush-不-push/speaker walkBody+样式切换清);s000/s001 hunk 极小无夹带;editor 接线合理。定向测试本地重跑 34+32 绿。**6051 活体**:M3 零帧锚两轮复现(`zeroFrameMatchesBackup=true`+`DiffersFromTarget=true`);pending handoff 于 scene=s000 时活体捕获(arm 早于 switch 铁证);对白严格 dither 后;**普通出口亲测**(60,-24)→e3→`fade-out→switch→fade-in`→s003 正常渲染,黑屏回归证实已修。5 项非阻塞观察 O1-O5 落 Review 段(O1 6002 动态并排两次尝试未果、同 Codex,留用户终裁;O2 63 场景 0x73 旧形态债;O3 dither 期 autoRunners 未冻;O4 e2e save 损坏非本卡;O5 handoff 含对话时的几帧消失)。Evidence: Review/视觉验证 Opus 复验段。Next: GLM 复核迁移覆盖/测试矩阵/白名单;GLM accept 后交用户对动态观感终裁,方可 done。未改任何实现文件。
+- 2026-07-12 User: 视觉终裁 **counter** 第二版。当前观感像透明度/crossfade；原版观感是场景 0
+  很快进入场景 1 的反色/假色形态，再从假色恢复正常。Evidence: 用户现场观察。Next: 停止 GLM done
+  复核，任务退回 rework，先审第三版视觉设计。
+- 2026-07-12 Codex: 复核一阶段 nibble 算法与开场 opcode 链，确认用户观感准确：开场无 0x8B，
+  palette 始终为 0；首趟执行 `(target & 0xF0) | (source & 0x0F)`，约 180ms 把全屏切成“目标色系
+  + 旧明暗”假色态，后 11 趟才收敛。第二版 gamma RGB 插值无法产生该桥接。已提纯 RGBA 的
+  OKLab/OKLCH bridge 方案并签 agree；原 Opus/Codex accept 被用户 counter 覆盖。Evidence: Draft 第三版
+  与 `packages/game/src/present/dither-fade.ts:1-51`。Next: Opus 审第三版可行性；不得实现。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务:X3/M3 通用 0x73 逐像素过渡 done 前复核（GLM,迁移覆盖/测试矩阵）
+接手任务:X3/M3 逐像素过渡第三版“假色桥接”设计审查
 任务卡:docs/ops/tasks/X3-opening-dither-speaker-inheritance.md
-当前状态:review；Codex 自验 accept + Opus 主审 accept(基线 bede6b14);GLM done 前签字 pending;done 仍 blocked(GLM + 用户终裁)
-你的角色:GLM,迁移覆盖与测试矩阵复核;只审查,不改实现文件;发现问题签 counter + 精确 file:line + 返工项
-先读:AGENTS.md、docs/phase2/READ-FIRST.md、任务卡"Build/视觉验证(含 Opus 复验段)/Review(Opus accept + O1-O5 观察)/交接日志"
-已完成:Opus 主审 accept——helper 数学/收口路径/迁移四修/白名单逐项过;6051 活体:M3 零帧锚两轮(`zeroFrameMatchesBackup=true`)、pending handoff 于 s000 时捕获、对白严格 dither 后、普通出口 s001→s003 亲测走通(黑屏系 Codex 误用落点(86,9),真实出口(141,51)+Opus 独立路径均通过);O1-O5 非阻塞观察已记录
-请你复核:(1)迁移覆盖终验——0x73 dry-run 110 处与 canonical 69+shared 4 的去重关系是否自洽、`entity:"e-1"`==0、fade missing ms==0(不落盘 dry-run);(2)测试矩阵实质性——translate-events.test 的 0x49/0x50/0x51/0x73/speaker 断言是否钉住语义(非表面覆盖),dither-transition.test 12 级/相位/端点/4×4/别名是否与验收逐条对应;(3)白名单——bede6b14 的 15 文件是否全在任务范围、s000/s001 hunk 无夹带;(4)O2 债务确认——仅 s001 产物含 ditherScreen,其余 63 场景 0x73 旧形态留全量重迁卡,判断是否需要立即开后续卡。在"进入 done 前:审查签字"GLM 行签 accept/counter,更新 Review 与交接日志
-不要做:不改实现文件;不跑会写工作区的 pnpm migrate:content(dry-run 只准临时目录);不碰工作区其他 Agent 脏文件;GLM accept 后 done 仍需用户对动态观感终裁(O1:6002 并排 + linear-light vs sRGB 默认),不得自行标 done
-输出要求:明确 accept/counter、迁移覆盖终验数据、测试矩阵评估、提交 hash;accept 时在任务卡写"待用户终裁项"清单(O1 动态观感 + 默认色彩空间),交接给用户验收
+当前状态:rework；用户视觉 counter 第二版 RGB crossfade；第三版签字 Codex agree、Opus/GLM pending；build blocked
+你的角色:Claude Opus，第三版视觉算法架构/数学/性能主审；只审设计，不修改实现文件
+先读:AGENTS.md、docs/phase2/READ-FIRST.md、任务卡“用户视觉裁决：覆盖第二次设计”“三次进入 build 前签字”，以及 packages/game/src/present/dither-fade.ts:1-51、packages/reforge/src/dither-transition.ts/test.ts
+已确认事实:开场不是 palette1→palette0；opcode 链没有 0x8B，palette 仍为0。原版首趟按六相位把每像素写成 `(target高nibble | source低nibble)`，speed=2 前6步约180ms形成目标色系+旧明暗的假色桥，后11趟低nibble才逼近目标。第二版直接 source→target RGB/gamma 插值没有这段结构，用户已否决；你此前 O1“首趟高位跳未验”现升级为阻塞事实
+Codex 提案:保持纯 RGBA；预计算 bridge=target hue/chroma + source perceptual lightness（OKLab/OKLCH + gamut map）；每像素 visits=0 显 source、visits=1 跳 bridge、visits=2..12 用11级从 bridge gamma-correct 收敛 target；step0/72 精确，六相位/4×4/backup/时序/收口/迁移四修不变。bridge 只算一次，多一个 RGBA buffer，禁止 palette/index/nibble 进入 schema/runtime 模型
+请你审:1)上述 bridge 是否抓住原版动态而非另一种 crossfade；2)OKLCH 取 target hue/chroma + source L 的中性像素、近黑 target、超色域、alpha 边界如何定义；3)visits 公式是否严格对应首趟不动 low nibble + 后11趟；4)预计算 bridge 的性能/内存是否可接受；5)测试矩阵是否应补 step1/6/7、单像素首次 hue 跳、11级收敛、端点和4×4。给出 agree 或 counter+可落地替代公式
+不要做:不改实现文件；第三版三签未齐不得 build；不复审已通过且未被用户否决的 backup/普通换场/opcode 迁移；不建议把 palette0/index buffer 带回 reforge，除非明确提出需要用户推翻阶段铁律
+输出要求:在“第三次进入 build 前：假色桥接算法修订签字”Opus 行签 agree/counter，更新 Review/交接日志并提交文档；若 agree，写可直接复制给 GLM 的覆盖/测试矩阵复核提示词。三签齐后才交 Codex build
 ```
