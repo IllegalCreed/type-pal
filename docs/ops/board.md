@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| X3/M3 | 通用 0x73 dither + 开场/opcode 迁移修复 | rework | Opus 审第三版假色桥接设计，随后 GLM | 用户否决第二版 RGB crossfade：原版不是 palette1→0，而是 palette0 内首趟 `target 高 nibble + source 低 nibble`，约 180ms 进入目标假色态，再用 11 趟恢复正常。Codex 已提纯 RGBA 的 source-lightness + target-chroma bridge 方案；第三版三签未齐，不得实现。任务卡:[X3-opening-dither-speaker-inheritance.md](tasks/X3-opening-dither-speaker-inheritance.md) |
+| X3/M3 | 通用 0x73 dither + 开场/opcode 迁移修复 | rework / 三版设计签字 | GLM 复核 | 第三版假色桥接:**Codex+Opus agree,待 GLM**。Opus 数学验算全过(visits 边界/单调/step6 全屏 bridge=180ms 精确吻合原版;bridge=target 色相色度×source 感知亮度,正确保留 `(tgtHi\|srcLo)` 结构),附 R1-R4 build 要求;三签齐后 Codex build。任务卡:[X3-opening-dither-speaker-inheritance.md](tasks/X3-opening-dither-speaker-inheritance.md) |
 
 ## 阻塞
 

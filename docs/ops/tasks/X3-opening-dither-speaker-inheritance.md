@@ -182,11 +182,11 @@ s000→s001 只是其中一个跨场景用例。同时修复梦话 speaker 继�
   再从假色恢复正常”。本地复核确认开场未切 palette 1，仍使用 palette 0；关键是首趟
   `target 高 nibble | source 低 nibble`，即目标色系/几何与旧帧明暗的桥接。提议保持纯 RGBA：
   首次访问像素时跳到“目标色相/色度 + 旧帧感知亮度”的 bridge，后 11 趟再离散逼近 target）
-- Opus: pending
+- Opus: **agree**（2026-07-12 三审;bridge 模型正确模拟 `(target高nibble|source低nibble)` 的结构本质——hue/chroma 承接原版"高 nibble=色系"、感知 lightness 承接"低 nibble=明暗",全屏假色态时序 step6=180ms 与原版 speed2 精确吻合;visits 公式经程序验算:边界(s=0 全 source/s=1 rank0 首访/s=6 全屏 bridge/s=7 rank0 二访/s=72 全 12)、单调不减、每 step 恰一相位 +1 全部成立;中性/近黑退化与 gamut map 方向正确;预计算一次 + 复用 output 性能可行;拒绝 palette 重量化路径符合铁律 4/6。附 R1-R4 build 要求(单测边界/特例三件套/预计算成本测量/两处有意近似文档化),详见第三版主审立场）
 - GLM: pending
-- counter / 分歧处理: pending
+- counter / 分歧处理: Opus 无 counter;R1-R4 为 build 时必须落的要求(非设计阻塞)。请 GLM 复核:bridge 预计算/收敛均为 reforge 运行时,迁移语义零变化;测试矩阵新增项(step 0/1/6/7/36/72 + 4×4 + 11 级收敛 + R1/R2)完整性。
 - 缺签豁免: N/A
-- build 准入结论: **blocked**（第三版三签未齐；不得修改视觉实现）
+- build 准入结论: **blocked（Codex+Opus agree,待 GLM;三签齐后 build,R1-R4 纳入 build 范围）**
 
 ### 进入 done 前：审查签字
 
@@ -231,6 +231,21 @@ s000→s001 只是其中一个跨场景用例。同时修复梦话 speaker 继�
 - **第三版新增验收**：记录 step 0/1/6/7/36/72；step 6 必须全屏进入 bridge 假色态，不能仍是
   source/target crossfade；对同一逻辑像素验证第一次访问发生 hue/chroma 跳转，随后 11 趟亮度/色阶
   单调收敛；6051 与 6002 动态并排后由用户终裁。
+
+### 第三版 Opus 设计审查（2026-07-12,数学核对）
+
+- **结构映射正确**：原版假色态 = target 的**色系形状**(高 nibble 随 target 图像) × source 的**明暗分布**(低 nibble 随旧帧)。OKLCH bridge(target hue/chroma + source 感知 L)保留同一结构:目标场景的色相几何被旧帧亮度调制 —— 这正是用户描述的"场景 1 的假色形态";随后 11 级收敛 = 原版 outer 1..11 低 nibble ±1 的感知等价。
+- **visits 公式程序验算全过**：`visits = step>p ? floor((step-1-p)/6)+1 : 0` —— s=0 全 0(source)/s=1 仅 rank0=1/**s=6 全屏 visits=1(bridge)**/s=7 rank0=2 开始收敛/s=67 rank0 达 12/s=72 全 12(强制 target);单调不减;每 step 恰一个相位 +1(=原版每 inner 处理一条 stride-6 组)。**step6=180ms**(2160/72×6)与原版 speed2 前 6 相位 180ms 精确吻合。
+- **特例处理方向正确**：近中性 target(chroma≈0,hue 未定义)退化为 source L 的中性灰 —— 与原版"target 在灰 ramp → bridge=灰 ramp 的 source 档位"同构;近黑 source → bridge≈黑(原版 srcLo=0 → 目标 ramp 最暗档 ✓);gamut 越界持 L/h 压 C 是对的取舍(bridge 的本质是亮度结构,牺牲色度不牺牲明暗);alpha 线性覆盖率不做色彩变换,沿用二版。
+- **性能可行**:bridge 仅 target 捕获后预计算一次(1280×800 OKLab 往返 ~1-2 亿次浮点,JS 预估 100-300ms 一次性),被冻帧遮蔽(该帧屏幕本就静止);72 步内零 OKLab 重算,每离散 step 只做 gammaLerp(bridge,target)。内存 +1 RGBA buffer(~4MB)。
+- **两处有意近似(R4 要求文档化,防下轮忠实性翻案)**:
+  1. bridge 亮度 = source **绝对**感知 L;原版 = 目标 ramp 在 source **明暗下标**处的亮度 —— 两 ramp 亮度范围不同时有偏差。绝对 L 是更干净的感知模型,且不引入 palette 知识(铁律)。
+  2. v=12 强制精确 target;原版 11 趟 ±1 在 |srcLo−tgtLo|>11 时**有残留**(如 15→0 剩 4),靠 fade 完成后下一真实帧掩盖。强制精确是更优终态,验收 step72=target 依赖它。
+- **build 要求 R1-R4**(非设计阻塞,build 必落):
+  - R1: visits 边界单测(s=p+1 首访/s=p+6 仍 1/s=p+7 二访/s=67..72 全 12)+ step6 全屏 bridge 断言。
+  - R2: 特例三件套单测:近中性 target 退化、近黑 source/target、gamut 极值(高饱和 target × 异亮度 source)。
+  - R3: bridge 预计算一次性成本实测并记录(>150ms 亦可接受,冻帧遮蔽;禁止任何 per-step OKLab 重算)。
+  - R4: 上述两处近似写进 dither-transition.ts 头注释。
 
 ### 用户视觉裁决：覆盖第一次设计
 
@@ -486,18 +501,18 @@ N/A
   + 旧明暗”假色态，后 11 趟才收敛。第二版 gamma RGB 插值无法产生该桥接。已提纯 RGBA 的
   OKLab/OKLCH bridge 方案并签 agree；原 Opus/Codex accept 被用户 counter 覆盖。Evidence: Draft 第三版
   与 `packages/game/src/present/dither-fade.ts:1-51`。Next: Opus 审第三版可行性；不得实现。
+- 2026-07-12 Opus: 第三版假色桥接设计签 **agree**。数学核对(程序验算):visits 公式边界全过(s=0 全 source/s=1 rank0 首访/**s=6 全屏 bridge**/s=7 二访/s=72 全 12)、单调不减、每 step 恰一相位 +1、step6=180ms 与原版 speed2 精确吻合;bridge 模型(target hue-chroma × source 感知 L)正确保留原版 `(tgtHi|srcLo)` 的"目标色系形状 × 旧帧明暗分布"结构;特例(中性/近黑/gamut/alpha)方向全对;预计算一次+复用 output 性能可行(一次性 ~100-300ms 被冻帧遮蔽);拒绝 palette 重量化符合铁律 4/6。附 R1-R4 build 要求(visits 边界单测/特例三件套/预计算成本实测/两处有意近似写头注释——①bridge 用绝对 L 非 ramp 下标亮度 ②v=12 强制精确 target 而原版 ±1×11 可残留)。**自我修正记录**:我二审曾把"首趟高位跳缺失"标为非阻塞观察 O1 留用户终裁——用户否决证明视觉本质恰在此处,升级为阻塞是正确的;三审据此把结构映射当第一审查项。Evidence: 第三版主审立场(数学核对)段。Next: GLM 复核(迁移零影响/测试矩阵含 R1-R2);三签齐后 Codex build(R1-R4 纳入范围)。未改任何实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务:X3/M3 逐像素过渡第三版“假色桥接”设计审查
+接手任务:X3/M3 逐像素过渡第三版“假色桥接”设计复核（GLM）
 任务卡:docs/ops/tasks/X3-opening-dither-speaker-inheritance.md
-当前状态:rework；用户视觉 counter 第二版 RGB crossfade；第三版签字 Codex agree、Opus/GLM pending；build blocked
-你的角色:Claude Opus，第三版视觉算法架构/数学/性能主审；只审设计，不修改实现文件
-先读:AGENTS.md、docs/phase2/READ-FIRST.md、任务卡“用户视觉裁决：覆盖第二次设计”“三次进入 build 前签字”，以及 packages/game/src/present/dither-fade.ts:1-51、packages/reforge/src/dither-transition.ts/test.ts
-已确认事实:开场不是 palette1→palette0；opcode 链没有 0x8B，palette 仍为0。原版首趟按六相位把每像素写成 `(target高nibble | source低nibble)`，speed=2 前6步约180ms形成目标色系+旧明暗的假色桥，后11趟低nibble才逼近目标。第二版直接 source→target RGB/gamma 插值没有这段结构，用户已否决；你此前 O1“首趟高位跳未验”现升级为阻塞事实
-Codex 提案:保持纯 RGBA；预计算 bridge=target hue/chroma + source perceptual lightness（OKLab/OKLCH + gamut map）；每像素 visits=0 显 source、visits=1 跳 bridge、visits=2..12 用11级从 bridge gamma-correct 收敛 target；step0/72 精确，六相位/4×4/backup/时序/收口/迁移四修不变。bridge 只算一次，多一个 RGBA buffer，禁止 palette/index/nibble 进入 schema/runtime 模型
-请你审:1)上述 bridge 是否抓住原版动态而非另一种 crossfade；2)OKLCH 取 target hue/chroma + source L 的中性像素、近黑 target、超色域、alpha 边界如何定义；3)visits 公式是否严格对应首趟不动 low nibble + 后11趟；4)预计算 bridge 的性能/内存是否可接受；5)测试矩阵是否应补 step1/6/7、单像素首次 hue 跳、11级收敛、端点和4×4。给出 agree 或 counter+可落地替代公式
-不要做:不改实现文件；第三版三签未齐不得 build；不复审已通过且未被用户否决的 backup/普通换场/opcode 迁移；不建议把 palette0/index buffer 带回 reforge，除非明确提出需要用户推翻阶段铁律
-输出要求:在“第三次进入 build 前：假色桥接算法修订签字”Opus 行签 agree/counter，更新 Review/交接日志并提交文档；若 agree，写可直接复制给 GLM 的覆盖/测试矩阵复核提示词。三签齐后才交 Codex build
+当前状态:rework；第三版签字 Codex agree + Opus agree、GLM pending；build blocked（三签未齐）
+你的角色:GLM，第三版复核（迁移零影响 / 测试矩阵完整性）；只审设计，不修改实现文件
+先读:AGENTS.md、docs/phase2/READ-FIRST.md、任务卡“用户视觉裁决：覆盖第二次设计”“第三版 Opus 设计审查(数学核对)”“第三次进入 build 前签字”
+已确认:Opus 三审 agree——visits 公式程序验算全过(s=6 全屏 bridge=180ms 与原版 speed2 精确吻合/单调/每 step 恰一相位 +1)、bridge 模型(target hue-chroma × source 感知 L)正确保留原版 `(tgtHi|srcLo)` 结构、特例(中性/近黑/gamut/alpha)方向正确、预计算一次性成本被冻帧遮蔽;附 R1-R4 build 要求(visits 边界单测/特例三件套/预计算成本实测/两处有意近似写头注释)
+请你复核:(1)第三版仅改 reforge 视觉 helper(dither-transition.ts 的 bridge 预计算+收敛),对迁移语义/产物/ditherScreen 命令 schema 零影响——确认无须动 migrate;(2)测试矩阵完整性——第三版新增验收(step 0/1/6/7/36/72 记录、step6 全屏 bridge 断言、单像素首访 hue/chroma 跳转、11 级单调收敛、4×4 同步)+ Opus R1(visits 边界)/R2(中性退化/近黑/gamut 极值)是否覆盖无遗漏;(3)backup 两路/时序/收口/迁移四修等未被用户否决部分沿用先前 agree,不重翻。在“第三次进入 build 前”GLM 行签 agree 或 counter+理由,更新交接日志
+不要做:不改实现文件;三签未齐不得 build;不跑会写工作区的 pnpm migrate:content;不建议 palette/index 进 reforge
+输出要求:明确 agree/counter、测试矩阵评估、提交 hash;agree 即三签齐,写可直接复制给 Codex 的 build 提示词(实现范围=第三版 bridge 算法替换 + R1-R4 + 第三版新增验收证据,其余勿动)
 ```
