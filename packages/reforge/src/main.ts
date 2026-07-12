@@ -3033,6 +3033,61 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     requestAnimationFrame(tick)
   }
   void refreshSaveMetas() // 预载已有存档 metas + 缩略图(浏览界面首开即有内容)
+  // e2e checkpoint 导出:evaluate 里 `window.__tpE2e.dumpSave()` 取当前世界 SavePayload(JSON)→ 落 e2e-checkpoints/
+  if (import.meta.env.DEV) {
+    ;(window as unknown as { __tpE2e: unknown }).__tpE2e = {
+      dumpSave: () =>
+        buildPayload(
+          world,
+          { sceneId: scene.id, pos: player.pos, facing },
+          project.manifest.id,
+          project.manifest.contentVersion,
+        ),
+    }
+  }
+  // ?e2e-load=<save.json url>:从文件恢复 SavePayload(注入 world + 跳场景、跳过 onEnter 演出),秒进碎片起点(复用 doLoad 逻辑)
+  const e2eLoadUrl = params.get('e2e-load')
+  if (e2eLoadUrl) {
+    try {
+      const p = normalizePayload(await fetch(e2eLoadUrl).then((r) => r.json()))
+      world = p.world
+      world.script ??= emptyWorldScriptState()
+      for (const c of world.party) {
+        c.poisons = undefined
+        c.extraStatuses = undefined
+        c.extraPoisonRes = undefined
+      }
+      syncAmbience()
+      await switchScene(p.position.sceneId, { pos: p.position.pos, facing: p.position.facing })
+      applyWorldToScene()
+      const savedMusic = world.script.vars['sys:music']
+      if (typeof savedMusic === 'number') bgm.play(savedMusic)
+      startAutoRunners()
+      const e2eLoadScene = params.get('e2e-load-scene')
+      if (import.meta.env.DEV && e2eLoadScene && project.sceneIds.includes(e2eLoadScene)) {
+        const e2eLoadPosRaw = params.get('e2e-load-pos')?.split(',').map(Number)
+        const e2eLoadPos =
+          e2eLoadPosRaw?.length === 2 && e2eLoadPosRaw.every(Number.isFinite)
+            ? { col: e2eLoadPosRaw[0]!, row: e2eLoadPosRaw[1]!, height: 0 }
+            : undefined
+        startScript('__e2e:loadScene', [
+          {
+            body: [
+              {
+                kind: 'loadScene',
+                scene: e2eLoadScene,
+                ...(e2eLoadPos ? { pos: e2eLoadPos } : {}),
+              },
+            ],
+          },
+        ])
+      }
+      requestAnimationFrame(tick)
+      return
+    } catch (err) {
+      console.warn('[e2e-load] 恢复失败,落回默认新局:', err)
+    }
+  }
   // 主菜单「读取进度」开局:doLoad 还原存档世界 + 落存档场景,跳过 onEnter 开场演出 + dev 参数后即入主循环。
   if (bootLoadSlot) {
     if (!(await doLoad(bootLoadSlot))) {
