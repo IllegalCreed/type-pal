@@ -3,20 +3,47 @@
   "map": {
     "reuseOriginalMap": 162
   },
-  "battleFieldId": 11,
   "entries": {
+    "from-s179": {
+      "pos": {
+        "col": 122,
+        "row": 7,
+        "height": 0
+      }
+    },
+    "from-s214": {
+      "pos": {
+        "col": 152,
+        "row": 41,
+        "height": 0
+      }
+    },
     "from-shared": {
       "pos": {
-        "col": 109,
-        "row": 92,
+        "col": 71,
+        "row": 47,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 120,
+        "row": 98,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 80,
+        "row": 14,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 109,
-      "row": 92,
+      "col": 122,
+      "row": 7,
       "height": 0
     },
     "facing": "down"
@@ -40,7 +67,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s180",
+                    "scene": "s179",
                     "pos": {
                       "col": 119,
                       "row": 10,
@@ -72,7 +99,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s207",
+                    "scene": "s206",
                     "pos": {
                       "col": 120,
                       "row": 98,
@@ -104,7 +131,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s215",
+                    "scene": "s214",
                     "pos": {
                       "col": 35,
                       "row": -12,
@@ -685,7 +712,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.10261",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -716,7 +743,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.10261",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -747,7 +774,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.10261",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -778,7 +805,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.10261",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -809,7 +836,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.10261",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -840,7 +867,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.10261",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -871,7 +898,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.10261",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -902,7 +929,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.10261",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -933,7 +960,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.10261",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -948,5 +975,6 @@
     {
       "body": []
     }
-  ]
+  ],
+  "battleFieldId": 11
 }

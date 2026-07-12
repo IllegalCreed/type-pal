@@ -6,36 +6,50 @@
   "entries": {
     "from-s024": {
       "pos": {
-        "col": 75,
+        "col": 63,
         "row": -25,
         "height": 0
       }
     },
-    "from-s024-2": {
+    "from-s032": {
       "pos": {
-        "col": 123,
-        "row": 57,
+        "col": 97,
+        "row": 11,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 75,
-        "row": -25,
+        "col": 61,
+        "row": 17,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 123,
-        "row": 57,
+        "col": 71,
+        "row": 36,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 107,
+        "row": 32,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 63,
+        "row": -25,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 75,
+      "col": 63,
       "row": -25,
       "height": 0
     },
@@ -60,7 +74,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s033",
+                    "scene": "s032",
                     "pos": {
                       "col": 97,
                       "row": 11,
@@ -493,13 +507,15 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.2297"
+                      "text": "dlg.2297",
+                      "speaker": "spk.卖吃小贩"
                     }
                   },
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.2298"
+                      "text": "dlg.2298",
+                      "speaker": "spk.卖吃小贩"
                     }
                   },
                   {
@@ -1174,6 +1190,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.2223",
+                      "speaker": "spk.路人甲",
                       "slot": "top"
                     }
                   },
@@ -1184,6 +1201,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.2226",
+                      "speaker": "spk.路人甲",
                       "slot": "top"
                     }
                   }
@@ -1403,6 +1421,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.2286",
+                          "speaker": "spk.杂货小贩",
                           "slot": "top"
                         }
                       },
@@ -1713,51 +1732,12 @@
                     "kind": "confirm",
                     "onNo": [
                       {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.2679"
-                        }
-                      },
-                      {
-                        "kind": "branch",
-                        "cond": {
-                          "kind": "not",
-                          "cond": {
-                            "kind": "hasMoney",
-                            "atLeast": 20
-                          }
-                        },
-                        "then": [
-                          {
-                            "kind": "clearDialog"
-                          },
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.2681",
-                              "speaker": "spk.小贩"
-                            }
-                          },
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
-                      },
-                      {
-                        "kind": "giveMoney",
-                        "delta": -20
-                      },
-                      {
-                        "kind": "confirm",
-                        "onNo": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
-                      },
-                      {
-                        "kind": "giveItem",
-                        "itemId": "80"
+                        "kind": "unmigrated",
+                        "opcode": 0,
+                        "operands": [
+                          7566
+                        ],
+                        "note": "分支臂不可内联"
                       },
                       {
                         "kind": "stopScript"
@@ -2154,7 +2134,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s026",
+                    "scene": "s025",
                     "pos": {
                       "col": 81,
                       "row": 21,
@@ -2186,7 +2166,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s030",
+                    "scene": "s029",
                     "pos": {
                       "col": 61,
                       "row": 17,
@@ -2218,7 +2198,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s031",
+                    "scene": "s030",
                     "pos": {
                       "col": 67,
                       "row": 15,
@@ -2250,7 +2230,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s032",
+                    "scene": "s031",
                     "pos": {
                       "col": 72,
                       "row": 20,
@@ -2282,7 +2262,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s025",
+                    "scene": "s024",
                     "pos": {
                       "col": 40,
                       "row": 17,
@@ -2314,7 +2294,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s025",
+                    "scene": "s024",
                     "pos": {
                       "col": 68,
                       "row": -9,
@@ -2346,7 +2326,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s023"
+                    "scene": "s022"
                   }
                 ]
               }
@@ -2497,598 +2477,6 @@
           }
         }
       ]
-    }
-  ],
-  "onEnter": [
-    {
-      "body": [
-        {
-          "kind": "playMusic",
-          "musicId": 50
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.2495",
-            "speaker": "spk.算命仙",
-            "slot": "top"
-          }
-        },
-        {
-          "kind": "wait",
-          "ms": 160
-        },
-        {
-          "kind": "setPartyFacing",
-          "facing": "up"
-        },
-        {
-          "kind": "wait",
-          "ms": 80
-        },
-        {
-          "kind": "setPartyFacing",
-          "facing": "up",
-          "member": 1
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.2498",
-            "speaker": "spk.李逍遥"
-          }
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.2501",
-            "speaker": "spk.算命仙",
-            "slot": "top"
-          }
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.2503",
-            "speaker": "spk.算命仙",
-            "slot": "top"
-          }
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.2506",
-            "speaker": "spk.算命仙",
-            "slot": "top"
-          }
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.2509",
-            "speaker": "spk.李逍遥"
-          }
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.2511",
-            "speaker": "spk.算命仙",
-            "slot": "top"
-          }
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.2512",
-            "portrait": {
-              "icon": 11,
-              "side": "right"
-            }
-          }
-        },
-        {
-          "kind": "wait",
-          "ms": 240
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.2514",
-            "speaker": "spk.算命仙",
-            "slot": "top"
-          }
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.2515",
-            "slot": "top"
-          }
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.2518",
-            "slot": "top"
-          }
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.2521",
-            "speaker": "spk.李逍遥"
-          }
-        },
-        {
-          "kind": "setPartyFacing",
-          "facing": "right"
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "nudgeParty",
-          "dx": 8,
-          "dy": 4
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "nudgeParty",
-          "dx": 8,
-          "dy": 4
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.2524",
-            "speaker": "spk.算命仙",
-            "slot": "top"
-          }
-        },
-        {
-          "kind": "setPartyFacing",
-          "facing": "up"
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.2526",
-            "speaker": "spk.李逍遥"
-          }
-        },
-        {
-          "kind": "setEntityAuto",
-          "entity": "e425",
-          "stages": [
-            {
-              "body": [
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "up"
-                },
-                {
-                  "kind": "wait",
-                  "ms": 80
-                },
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "up"
-                },
-                {
-                  "kind": "wait",
-                  "ms": 80
-                },
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "up"
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "up"
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "up"
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "up"
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "up"
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "up"
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "up"
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "up"
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "up"
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "up"
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "setEntityFacing",
-                  "entity": "e425",
-                  "facing": "left"
-                },
-                {
-                  "kind": "setEntityFrame",
-                  "entity": "e425",
-                  "frame": 0
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "down"
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "down"
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "down"
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "down"
-                }
-              ],
-              "next": 15
-            },
-            {
-              "body": [
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "down"
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "down"
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "down"
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "down"
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "down"
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "down"
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "down"
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "down"
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [],
-              "next": "advance"
-            },
-            {
-              "body": [],
-              "next": "advance"
-            },
-            {
-              "body": [],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "setEntityFacing",
-                  "entity": "e425",
-                  "facing": "right"
-                },
-                {
-                  "kind": "setEntityFrame",
-                  "entity": "e425",
-                  "frame": 0
-                },
-                {
-                  "kind": "branch",
-                  "cond": {
-                    "kind": "chance",
-                    "percent": 51
-                  },
-                  "then": [
-                    {
-                      "kind": "stepEntity",
-                      "entity": "e425",
-                      "dir": "up"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "kind": "stepEntity",
-                      "entity": "e425",
-                      "dir": "up"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "kind": "stepEntity",
-                      "entity": "e425",
-                      "dir": "up"
-                    },
-                    {
-                      "kind": "stopScript"
-                    }
-                  ]
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "branch",
-                  "cond": {
-                    "kind": "chance",
-                    "percent": 99
-                  },
-                  "then": [
-                    {
-                      "kind": "stopScript"
-                    }
-                  ]
-                },
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "up"
-                },
-                {
-                  "kind": "wait",
-                  "ms": 80
-                },
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "up"
-                },
-                {
-                  "kind": "wait",
-                  "ms": 80
-                },
-                {
-                  "kind": "stepEntity",
-                  "entity": "e425",
-                  "dir": "up"
-                }
-              ],
-              "next": "advance"
-            }
-          ]
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.2528",
-            "speaker": "spk.算命仙",
-            "slot": "top"
-          }
-        },
-        {
-          "kind": "setPartyFacing",
-          "facing": "right"
-        }
-      ],
-      "next": "advance"
-    },
-    {
-      "body": []
     }
   ]
 }

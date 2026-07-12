@@ -4,39 +4,25 @@
     "reuseOriginalMap": 9
   },
   "entries": {
-    "from-s016": {
+    "from-s019": {
       "pos": {
-        "col": 89,
-        "row": -25,
-        "height": 0
-      }
-    },
-    "from-s020": {
-      "pos": {
-        "col": 71,
-        "row": 7,
+        "col": 111,
+        "row": 79,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 71,
-        "row": 7,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 61,
-        "row": 42,
+        "col": 111,
+        "row": 79,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 89,
-      "row": -25,
+      "col": 111,
+      "row": 79,
       "height": 0
     },
     "facing": "down"
@@ -60,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s020",
+                    "scene": "s019",
                     "pos": {
                       "col": 71,
                       "row": 7,
@@ -169,7 +155,7 @@
                                     "kind": "dialog",
                                     "line": {
                                       "text": "dlg.609",
-                                      "slot": "narration"
+                                      "slot": "center"
                                     }
                                   }
                                 ]
@@ -310,11 +296,12 @@
                           },
                           {
                             "kind": "loadScene",
-                            "scene": "s006"
+                            "scene": "s005"
                           },
                           {
                             "kind": "fade",
-                            "dir": "out"
+                            "dir": "out",
+                            "ms": 600
                           },
                           {
                             "kind": "playMusic",
@@ -1097,9 +1084,8 @@
                     "frame": 12
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 300
+                    "kind": "ditherScreen",
+                    "ms": 720
                   },
                   {
                     "kind": "dialog",
@@ -1533,9 +1519,8 @@
                     "frame": 0
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 600
+                    "kind": "ditherScreen",
+                    "ms": 2160
                   },
                   {
                     "kind": "dialog",
@@ -1715,7 +1700,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 1800
                   },
                   {
                     "kind": "playMusic",
@@ -1801,6 +1787,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.1735",
+                      "speaker": "spk.李逍遥",
                       "portrait": {
                         "icon": 8,
                         "side": "right"
@@ -1856,6 +1843,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.1745",
+                      "speaker": "spk.李逍遥",
                       "portrait": {
                         "icon": 8,
                         "side": "right"
@@ -2188,6 +2176,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.1764",
+                      "speaker": "spk.赵灵儿低头吟唱着",
                       "slot": "top"
                     }
                   },
@@ -2267,6 +2256,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.1769",
+                      "speaker": "spk.李逍遥",
                       "portrait": {
                         "icon": 1,
                         "side": "right"
@@ -2368,7 +2358,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 1800
                   },
                   {
                     "kind": "setEntityState",
@@ -2449,7 +2440,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.1774",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -2458,7 +2449,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "in"
+                    "dir": "in",
+                    "ms": 600
                   },
                   {
                     "kind": "wait",
@@ -2469,9 +2461,8 @@
                     "facing": "down"
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 900
+                    "kind": "ditherScreen",
+                    "ms": 2880
                   },
                   {
                     "kind": "wait",
@@ -2519,7 +2510,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 1800
                   },
                   {
                     "kind": "setEntityState",
@@ -2835,6 +2827,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.1810",
+                      "speaker": "spk.李逍遥",
                       "portrait": {
                         "icon": 10,
                         "side": "right"
@@ -3072,11 +3065,12 @@
                           },
                           {
                             "kind": "loadScene",
-                            "scene": "s006"
+                            "scene": "s005"
                           },
                           {
                             "kind": "fade",
-                            "dir": "out"
+                            "dir": "out",
+                            "ms": 600
                           },
                           {
                             "kind": "playMusic",
@@ -3220,7 +3214,7 @@
                                 "kind": "dialog",
                                 "line": {
                                   "text": "dlg.13135",
-                                  "slot": "narration"
+                                  "slot": "center"
                                 }
                               },
                               {
@@ -3230,309 +3224,20 @@
                                 "kind": "stopScript"
                               }
                             ],
-                            "boss": true,
-                            "fieldId": 24,
-                            "musicId": 38,
-                            "choreography": [
-                              {
-                                "at": "turnStart",
-                                "once": true,
-                                "body": [
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13145"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13146"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13147"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13148"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13149"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13150"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13151"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13152"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13153"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13154"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13155"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13156"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13157"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13158"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13159"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13160"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13161"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13162"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13163"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13164"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13165"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13166"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13167"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13168"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13169"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13170"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13171"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13172"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13173"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13174"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13175"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13176"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13177"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13178"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13179"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13180"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13181"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13182"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13183"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13184"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13185"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13186"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13187"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13188"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13189"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13190"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13191"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13192"
-                                    }
-                                  }
-                                ]
-                              }
-                            ]
+                            "boss": true
                           },
                           {
                             "kind": "playMusic",
                             "musicId": 30
+                          },
+                          {
+                            "kind": "unmigrated",
+                            "opcode": 120,
+                            "operands": [
+                              0,
+                              0,
+                              0
+                            ]
                           },
                           {
                             "kind": "setParty",
@@ -3977,6 +3682,7 @@
                             "kind": "dialog",
                             "line": {
                               "text": "dlg.985",
+                              "speaker": "spk.李大娘",
                               "portrait": {
                                 "icon": 55,
                                 "side": "right"
@@ -3990,6 +3696,7 @@
                             "kind": "dialog",
                             "line": {
                               "text": "dlg.988",
+                              "speaker": "spk.李大娘",
                               "portrait": {
                                 "icon": 55,
                                 "side": "right"
@@ -4119,6 +3826,7 @@
                             "kind": "dialog",
                             "line": {
                               "text": "dlg.998",
+                              "speaker": "spk.李大娘",
                               "slot": "top",
                               "portrait": {
                                 "icon": 55,
@@ -4194,7 +3902,8 @@
                           },
                           {
                             "kind": "fade",
-                            "dir": "out"
+                            "dir": "out",
+                            "ms": 600
                           },
                           {
                             "kind": "nudgeEntity",
@@ -4252,16 +3961,19 @@
                                   },
                                   {
                                     "kind": "fade",
-                                    "dir": "out"
+                                    "dir": "out",
+                                    "ms": 600
                                   },
                                   {
                                     "kind": "fade",
-                                    "dir": "in"
+                                    "dir": "in",
+                                    "ms": 600
                                   },
                                   {
                                     "kind": "dialog",
                                     "line": {
                                       "text": "dlg.1031",
+                                      "speaker": "spk.李大娘",
                                       "portrait": {
                                         "icon": 55,
                                         "side": "right"
@@ -4270,16 +3982,17 @@
                                   },
                                   {
                                     "kind": "fade",
-                                    "dir": "out"
+                                    "dir": "out",
+                                    "ms": 600
                                   },
                                   {
                                     "kind": "loadScene",
-                                    "scene": "s002"
+                                    "scene": "s001"
                                   },
                                   {
                                     "kind": "setSceneStage",
                                     "scene": "s001",
-                                    "stage": 2
+                                    "stage": 0
                                   },
                                   {
                                     "kind": "setEntityState",
@@ -4311,7 +4024,7 @@
                                     "kind": "dialog",
                                     "line": {
                                       "text": "dlg.1032",
-                                      "slot": "narration"
+                                      "slot": "center"
                                     }
                                   },
                                   {
@@ -4337,7 +4050,7 @@
                                     "kind": "dialog",
                                     "line": {
                                       "text": "dlg.1036",
-                                      "slot": "narration"
+                                      "slot": "center"
                                     }
                                   }
                                 ]
@@ -4354,7 +4067,7 @@
                                     "kind": "dialog",
                                     "line": {
                                       "text": "dlg.1032",
-                                      "slot": "narration"
+                                      "slot": "center"
                                     }
                                   },
                                   {
@@ -4380,7 +4093,7 @@
                                     "kind": "dialog",
                                     "line": {
                                       "text": "dlg.1036",
-                                      "slot": "narration"
+                                      "slot": "center"
                                     }
                                   }
                                 ]
@@ -4466,11 +4179,11 @@
                           {
                             "kind": "setSceneStage",
                             "scene": "s001",
-                            "stage": 4
+                            "stage": 0
                           },
                           {
                             "kind": "loadScene",
-                            "scene": "s002"
+                            "scene": "s001"
                           },
                           {
                             "kind": "playMusic",
@@ -4504,7 +4217,7 @@
                                 "kind": "dialog",
                                 "line": {
                                   "text": "dlg.13135",
-                                  "slot": "narration"
+                                  "slot": "center"
                                 }
                               },
                               {
@@ -4514,309 +4227,20 @@
                                 "kind": "stopScript"
                               }
                             ],
-                            "boss": true,
-                            "fieldId": 24,
-                            "musicId": 38,
-                            "choreography": [
-                              {
-                                "at": "turnStart",
-                                "once": true,
-                                "body": [
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13145"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13146"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13147"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13148"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13149"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13150"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13151"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13152"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13153"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13154"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13155"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13156"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13157"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13158"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13159"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13160"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13161"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13162"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13163"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13164"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13165"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13166"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13167"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13168"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13169"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13170"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13171"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13172"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13173"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13174"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13175"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13176"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13177"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13178"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13179"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13180"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13181"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13182"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13183"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13184"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13185"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13186"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13187"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13188"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13189"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13190"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13191"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13192"
-                                    }
-                                  }
-                                ]
-                              }
-                            ]
+                            "boss": true
                           },
                           {
                             "kind": "playMusic",
                             "musicId": 30
+                          },
+                          {
+                            "kind": "unmigrated",
+                            "opcode": 120,
+                            "operands": [
+                              0,
+                              0,
+                              0
+                            ]
                           },
                           {
                             "kind": "setParty",
@@ -5261,6 +4685,7 @@
                             "kind": "dialog",
                             "line": {
                               "text": "dlg.985",
+                              "speaker": "spk.李大娘",
                               "portrait": {
                                 "icon": 55,
                                 "side": "right"
@@ -5274,6 +4699,7 @@
                             "kind": "dialog",
                             "line": {
                               "text": "dlg.988",
+                              "speaker": "spk.李大娘",
                               "portrait": {
                                 "icon": 55,
                                 "side": "right"
@@ -5403,6 +4829,7 @@
                             "kind": "dialog",
                             "line": {
                               "text": "dlg.998",
+                              "speaker": "spk.李大娘",
                               "slot": "top",
                               "portrait": {
                                 "icon": 55,
@@ -5478,7 +4905,8 @@
                           },
                           {
                             "kind": "fade",
-                            "dir": "out"
+                            "dir": "out",
+                            "ms": 600
                           },
                           {
                             "kind": "nudgeEntity",
@@ -5536,16 +4964,19 @@
                                   },
                                   {
                                     "kind": "fade",
-                                    "dir": "out"
+                                    "dir": "out",
+                                    "ms": 600
                                   },
                                   {
                                     "kind": "fade",
-                                    "dir": "in"
+                                    "dir": "in",
+                                    "ms": 600
                                   },
                                   {
                                     "kind": "dialog",
                                     "line": {
                                       "text": "dlg.1031",
+                                      "speaker": "spk.李大娘",
                                       "portrait": {
                                         "icon": 55,
                                         "side": "right"
@@ -5554,16 +4985,17 @@
                                   },
                                   {
                                     "kind": "fade",
-                                    "dir": "out"
+                                    "dir": "out",
+                                    "ms": 600
                                   },
                                   {
                                     "kind": "loadScene",
-                                    "scene": "s002"
+                                    "scene": "s001"
                                   },
                                   {
                                     "kind": "setSceneStage",
                                     "scene": "s001",
-                                    "stage": 2
+                                    "stage": 0
                                   },
                                   {
                                     "kind": "setEntityState",
@@ -5595,7 +5027,7 @@
                                     "kind": "dialog",
                                     "line": {
                                       "text": "dlg.1032",
-                                      "slot": "narration"
+                                      "slot": "center"
                                     }
                                   },
                                   {
@@ -5621,7 +5053,7 @@
                                     "kind": "dialog",
                                     "line": {
                                       "text": "dlg.1036",
-                                      "slot": "narration"
+                                      "slot": "center"
                                     }
                                   }
                                 ]
@@ -5638,7 +5070,7 @@
                                     "kind": "dialog",
                                     "line": {
                                       "text": "dlg.1032",
-                                      "slot": "narration"
+                                      "slot": "center"
                                     }
                                   },
                                   {
@@ -5664,7 +5096,7 @@
                                     "kind": "dialog",
                                     "line": {
                                       "text": "dlg.1036",
-                                      "slot": "narration"
+                                      "slot": "center"
                                     }
                                   }
                                 ]
@@ -5750,11 +5182,11 @@
                           {
                             "kind": "setSceneStage",
                             "scene": "s001",
-                            "stage": 4
+                            "stage": 0
                           },
                           {
                             "kind": "loadScene",
-                            "scene": "s002"
+                            "scene": "s001"
                           },
                           {
                             "kind": "playMusic",
@@ -5788,7 +5220,7 @@
                                 "kind": "dialog",
                                 "line": {
                                   "text": "dlg.13135",
-                                  "slot": "narration"
+                                  "slot": "center"
                                 }
                               },
                               {
@@ -5798,309 +5230,20 @@
                                 "kind": "stopScript"
                               }
                             ],
-                            "boss": true,
-                            "fieldId": 24,
-                            "musicId": 38,
-                            "choreography": [
-                              {
-                                "at": "turnStart",
-                                "once": true,
-                                "body": [
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13145"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13146"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13147"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13148"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13149"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13150"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13151"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13152"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13153"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13154"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13155"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13156"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13157"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13158"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13159"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13160"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13161"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13162"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13163"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13164"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13165"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13166"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13167"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13168"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13169"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13170"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13171"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13172"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13173"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13174"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13175"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13176"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13177"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13178"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13179"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13180"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13181"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13182"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13183"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13184"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13185"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13186"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13187"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13188"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13189"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13190"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13191"
-                                    }
-                                  },
-                                  {
-                                    "kind": "dialog",
-                                    "line": {
-                                      "text": "dlg.13192"
-                                    }
-                                  }
-                                ]
-                              }
-                            ]
+                            "boss": true
                           },
                           {
                             "kind": "playMusic",
                             "musicId": 30
+                          },
+                          {
+                            "kind": "unmigrated",
+                            "opcode": 120,
+                            "operands": [
+                              0,
+                              0,
+                              0
+                            ]
                           },
                           {
                             "kind": "setParty",
@@ -6545,6 +5688,7 @@
                             "kind": "dialog",
                             "line": {
                               "text": "dlg.985",
+                              "speaker": "spk.李大娘",
                               "portrait": {
                                 "icon": 55,
                                 "side": "right"
@@ -6558,6 +5702,7 @@
                             "kind": "dialog",
                             "line": {
                               "text": "dlg.988",
+                              "speaker": "spk.李大娘",
                               "portrait": {
                                 "icon": 55,
                                 "side": "right"
@@ -6687,6 +5832,7 @@
                             "kind": "dialog",
                             "line": {
                               "text": "dlg.998",
+                              "speaker": "spk.李大娘",
                               "slot": "top",
                               "portrait": {
                                 "icon": 55,
@@ -6762,7 +5908,8 @@
                           },
                           {
                             "kind": "fade",
-                            "dir": "out"
+                            "dir": "out",
+                            "ms": 600
                           },
                           {
                             "kind": "nudgeEntity",
@@ -6820,16 +5967,19 @@
                                   },
                                   {
                                     "kind": "fade",
-                                    "dir": "out"
+                                    "dir": "out",
+                                    "ms": 600
                                   },
                                   {
                                     "kind": "fade",
-                                    "dir": "in"
+                                    "dir": "in",
+                                    "ms": 600
                                   },
                                   {
                                     "kind": "dialog",
                                     "line": {
                                       "text": "dlg.1031",
+                                      "speaker": "spk.李大娘",
                                       "portrait": {
                                         "icon": 55,
                                         "side": "right"
@@ -6838,16 +5988,17 @@
                                   },
                                   {
                                     "kind": "fade",
-                                    "dir": "out"
+                                    "dir": "out",
+                                    "ms": 600
                                   },
                                   {
                                     "kind": "loadScene",
-                                    "scene": "s002"
+                                    "scene": "s001"
                                   },
                                   {
                                     "kind": "setSceneStage",
                                     "scene": "s001",
-                                    "stage": 2
+                                    "stage": 0
                                   },
                                   {
                                     "kind": "setEntityState",
@@ -6879,7 +6030,7 @@
                                     "kind": "dialog",
                                     "line": {
                                       "text": "dlg.1032",
-                                      "slot": "narration"
+                                      "slot": "center"
                                     }
                                   },
                                   {
@@ -6905,7 +6056,7 @@
                                     "kind": "dialog",
                                     "line": {
                                       "text": "dlg.1036",
-                                      "slot": "narration"
+                                      "slot": "center"
                                     }
                                   }
                                 ]
@@ -6922,7 +6073,7 @@
                                     "kind": "dialog",
                                     "line": {
                                       "text": "dlg.1032",
-                                      "slot": "narration"
+                                      "slot": "center"
                                     }
                                   },
                                   {
@@ -6948,7 +6099,7 @@
                                     "kind": "dialog",
                                     "line": {
                                       "text": "dlg.1036",
-                                      "slot": "narration"
+                                      "slot": "center"
                                     }
                                   }
                                 ]
@@ -7034,11 +6185,11 @@
                           {
                             "kind": "setSceneStage",
                             "scene": "s001",
-                            "stage": 4
+                            "stage": 0
                           },
                           {
                             "kind": "loadScene",
-                            "scene": "s002"
+                            "scene": "s001"
                           },
                           {
                             "kind": "playMusic",
@@ -7449,15 +6600,16 @@
                   {
                     "kind": "setSceneStage",
                     "scene": "s019",
-                    "stage": 1
+                    "stage": 0
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s020"
+                    "scene": "s019"
                   }
                 ]
               }
@@ -7738,7 +6890,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.1844",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -11839,7 +10991,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.1848",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -11870,7 +11022,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.1848",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -11901,7 +11053,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.1848",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -11932,7 +11084,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.1848",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -11963,7 +11115,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.1848",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -11994,7 +11146,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.1848",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -12163,7 +11315,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.1577",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -124967,5 +124119,7 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 24,
+  "battleMusicId": 38
 }

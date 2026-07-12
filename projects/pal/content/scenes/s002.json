@@ -6,86 +6,23 @@
   "entries": {
     "from-s003": {
       "pos": {
-        "col": 60,
-        "row": -15,
-        "height": 0
-      }
-    },
-    "from-s003-2": {
-      "pos": {
-        "col": 108,
-        "row": 30,
-        "height": 0
-      }
-    },
-    "from-s003-3": {
-      "pos": {
-        "col": 38,
+        "col": 86,
         "row": 9,
-        "height": 0
-      }
-    },
-    "from-s003-4": {
-      "pos": {
-        "col": 100,
-        "row": 59,
-        "height": 0
-      }
-    },
-    "from-s003-5": {
-      "pos": {
-        "col": 66,
-        "row": 32,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 60,
-        "row": -15,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 108,
-        "row": 30,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 38,
+        "col": 86,
         "row": 9,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 100,
-        "row": 59,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 66,
-        "row": 32,
-        "height": 0
-      }
-    },
-    "from-shared-6": {
-      "pos": {
-        "col": 57,
-        "row": -24,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 60,
-      "row": -15,
+      "col": 86,
+      "row": 9,
       "height": 0
     },
     "facing": "down"
@@ -109,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s004",
+                    "scene": "s003",
                     "pos": {
                       "col": 132,
                       "row": 51,
@@ -193,7 +130,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.136"
+                      "text": "dlg.136",
+                      "speaker": "spk.李逍遥"
                     }
                   }
                 ]
@@ -346,7 +284,8 @@
                               },
                               {
                                 "kind": "fade",
-                                "dir": "out"
+                                "dir": "out",
+                                "ms": 600
                               },
                               {
                                 "kind": "clearDialog"
@@ -389,7 +328,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   },
                   {
                     "kind": "setPartyFacing",
@@ -5150,7 +5090,7 @@
                                           },
                                           {
                                             "kind": "ride",
-                                            "entity": "e36",
+                                            "entity": "e116",
                                             "to": {
                                               "col": 124,
                                               "row": 30,
@@ -5160,7 +5100,8 @@
                                           },
                                           {
                                             "kind": "fade",
-                                            "dir": "out"
+                                            "dir": "out",
+                                            "ms": 600
                                           },
                                           {
                                             "kind": "setPartyFacing",
@@ -5176,7 +5117,7 @@
                                           },
                                           {
                                             "kind": "loadScene",
-                                            "scene": "s015"
+                                            "scene": "s014"
                                           }
                                         ]
                                       }
@@ -5966,7 +5907,7 @@
                   {
                     "kind": "setSceneStage",
                     "scene": "s004",
-                    "stage": 2
+                    "stage": 0
                   },
                   {
                     "kind": "setEntityTrigger",
@@ -6018,7 +5959,8 @@
                           },
                           {
                             "kind": "fade",
-                            "dir": "out"
+                            "dir": "out",
+                            "ms": 600
                           },
                           {
                             "kind": "teleportParty",

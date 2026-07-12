@@ -3,70 +3,33 @@
   "map": {
     "reuseOriginalMap": 4
   },
-  "battleFieldId": 12,
-  "battleMusicId": 37,
   "entries": {
-    "from-s020": {
+    "from-s007": {
       "pos": {
-        "col": 119,
-        "row": 50,
-        "height": 0
-      }
-    },
-    "from-s020-2": {
-      "pos": {
-        "col": 119,
-        "row": 50,
+        "col": 18,
+        "row": 5,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 59,
-        "row": 16,
+        "col": 175,
+        "row": 63,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 76,
-        "row": 34,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 111,
-        "row": 95,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 94,
-        "row": 56,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 119,
-        "row": 50,
-        "height": 0
-      }
-    },
-    "from-shared-6": {
-      "pos": {
-        "col": 119,
-        "row": 50,
+        "col": 18,
+        "row": 5,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 119,
-      "row": 50,
+      "col": 18,
+      "row": 5,
       "height": 0
     },
     "facing": "down"
@@ -90,7 +53,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s005",
+                    "scene": "s004",
                     "pos": {
                       "col": 93,
                       "row": 79,
@@ -122,7 +85,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s008",
+                    "scene": "s007",
                     "pos": {
                       "col": 103,
                       "row": 14,
@@ -574,11 +537,7 @@
                               "kind": "chance",
                               "percent": 41
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "wait",
@@ -622,11 +581,7 @@
                               "kind": "chance",
                               "percent": 68
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "wait",
@@ -646,11 +601,7 @@
                               "kind": "chance",
                               "percent": 31
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "playSound",
@@ -706,11 +657,7 @@
                               "kind": "chance",
                               "percent": 41
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "wait",
@@ -754,11 +701,7 @@
                               "kind": "chance",
                               "percent": 68
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "wait",
@@ -778,11 +721,7 @@
                               "kind": "chance",
                               "percent": 31
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "playSound",
@@ -883,11 +822,7 @@
                           "kind": "chance",
                           "percent": 41
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "wait",
@@ -931,11 +866,7 @@
                           "kind": "chance",
                           "percent": 68
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "wait",
@@ -955,11 +886,7 @@
                           "kind": "chance",
                           "percent": 31
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "playSound",
@@ -1015,11 +942,7 @@
                           "kind": "chance",
                           "percent": 41
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "wait",
@@ -1063,11 +986,7 @@
                           "kind": "chance",
                           "percent": 68
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "wait",
@@ -1087,11 +1006,7 @@
                           "kind": "chance",
                           "percent": 31
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "playSound",
@@ -1149,7 +1064,7 @@
       "body": [
         {
           "kind": "loadScene",
-          "scene": "s005",
+          "scene": "s004",
           "pos": {
             "col": 93,
             "row": 79,
@@ -1158,5 +1073,7 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 12,
+  "battleMusicId": 37
 }

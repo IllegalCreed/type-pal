@@ -5,32 +5,39 @@
   },
   "musicId": 10,
   "entries": {
-    "from-s070": {
+    "from-s054": {
       "pos": {
-        "col": 161,
-        "row": 55,
+        "col": 147,
+        "row": 39,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 69,
-        "row": 9,
+        "col": 87,
+        "row": 71,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 161,
-        "row": 55,
+        "col": 103,
+        "row": 39,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 131,
+        "row": 44,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 161,
-      "row": 55,
+      "col": 147,
+      "row": 39,
       "height": 0
     },
     "facing": "down"
@@ -54,7 +61,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s055",
+                    "scene": "s054",
                     "pos": {
                       "col": 47,
                       "row": 21,
@@ -86,7 +93,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s059",
+                    "scene": "s058",
                     "pos": {
                       "col": 131,
                       "row": 44,
@@ -870,11 +877,7 @@
                           "kind": "chance",
                           "percent": 41
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "wait",
@@ -1135,6 +1138,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4131",
+                      "speaker": "spk.智杖",
                       "slot": "top"
                     }
                   },

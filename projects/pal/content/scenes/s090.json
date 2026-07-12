@@ -4,25 +4,18 @@
     "reuseOriginalMap": 120
   },
   "entries": {
-    "from-s084": {
-      "pos": {
-        "col": 74,
-        "row": 40,
-        "height": 0
-      }
-    },
     "from-shared": {
       "pos": {
-        "col": 91,
-        "row": 15,
+        "col": 116,
+        "row": 12,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 74,
-      "row": 40,
+      "col": 116,
+      "row": 12,
       "height": 0
     },
     "facing": "down"
@@ -46,7 +39,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s085",
+                    "scene": "s084",
                     "pos": {
                       "col": 63,
                       "row": -5,
@@ -78,7 +71,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s093",
+                    "scene": "s092",
                     "pos": {
                       "col": 101,
                       "row": 69,
@@ -4123,9 +4116,8 @@
           "soundId": 134
         },
         {
-          "kind": "fade",
-          "dir": "in",
-          "ms": 300
+          "kind": "ditherScreen",
+          "ms": 720
         },
         {
           "kind": "setPartyFacing",

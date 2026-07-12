@@ -4,32 +4,18 @@
     "reuseOriginalMap": 152
   },
   "entries": {
-    "from-s187": {
-      "pos": {
-        "col": 95,
-        "row": 81,
-        "height": 0
-      }
-    },
     "from-shared": {
       "pos": {
-        "col": 95,
-        "row": 81,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 109,
-        "row": 33,
+        "col": 24,
+        "row": 12,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 95,
-      "row": 81,
+      "col": 24,
+      "row": 12,
       "height": 0
     },
     "facing": "down"
@@ -53,7 +39,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s193",
+                    "scene": "s192",
                     "pos": {
                       "col": 24,
                       "row": 12,
@@ -3988,11 +3974,7 @@
                               "kind": "chance",
                               "percent": 56
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "stopScript"
@@ -4037,11 +4019,7 @@
                           "kind": "chance",
                           "percent": 56
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stopScript"
@@ -4081,11 +4059,7 @@
                           "kind": "chance",
                           "percent": 31
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stopScript"
@@ -4179,11 +4153,7 @@
                                   "kind": "chance",
                                   "percent": 26
                                 },
-                                "then": [
-                                  {
-                                    "kind": "stopScript"
-                                  }
-                                ]
+                                "then": []
                               },
                               {
                                 "kind": "stopScript"
@@ -4260,11 +4230,7 @@
                               "kind": "chance",
                               "percent": 26
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "stopScript"
@@ -4309,11 +4275,7 @@
                           "kind": "chance",
                           "percent": 26
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stopScript"
@@ -5032,7 +4994,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -5056,6 +5018,15 @@
                   {
                     "kind": "giveItem",
                     "itemId": "263"
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
                   },
                   {
                     "kind": "teleportParty",
@@ -9198,6 +9169,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9248",
+                      "speaker": "spk.阿奴",
                       "slot": "top",
                       "portrait": {
                         "icon": 30,
@@ -9939,7 +9911,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9263",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -9954,7 +9926,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   },
                   {
                     "kind": "setEntityState",
@@ -9997,11 +9970,12 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 1200
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s189"
+                    "scene": "s188"
                   }
                 ],
                 "next": "advance"
@@ -19094,5 +19068,6 @@
       }
     }
   ],
-  "battleMusicId": 39
+  "battleMusicId": 39,
+  "battleFieldId": 16
 }

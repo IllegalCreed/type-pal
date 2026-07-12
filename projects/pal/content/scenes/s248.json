@@ -5,25 +5,25 @@
   },
   "musicId": 59,
   "entries": {
-    "from-s256": {
-      "pos": {
-        "col": 96,
-        "row": 39,
-        "height": 0
-      }
-    },
     "from-shared": {
       "pos": {
         "col": 120,
-        "row": 39,
+        "row": 80,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 160,
+        "row": 55,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 96,
-      "row": 39,
+      "col": 120,
+      "row": 80,
       "height": 0
     },
     "facing": "down"
@@ -47,7 +47,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s256",
+                    "scene": "s255",
                     "pos": {
                       "col": 120,
                       "row": 80,
@@ -79,7 +79,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s255",
+                    "scene": "s254",
                     "pos": {
                       "col": 68,
                       "row": 52,
@@ -455,7 +455,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.11687"
+                      "text": "dlg.11687",
+                      "speaker": "spk.士兵"
                     }
                   }
                 ]
@@ -1398,6 +1399,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11424",
+                      "speaker": "spk.拜月教主",
                       "slot": "top",
                       "portrait": {
                         "icon": 80,
@@ -1648,6 +1650,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11441",
+                      "speaker": "spk.拜月教主",
                       "slot": "top",
                       "portrait": {
                         "icon": 80,
@@ -1898,6 +1901,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11449",
+                      "speaker": "spk.拜月教主",
                       "slot": "top",
                       "portrait": {
                         "icon": 80,

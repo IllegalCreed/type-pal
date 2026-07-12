@@ -4879,32 +4879,5 @@
     "layout": {
       "kind": "static"
     }
-  },
-  {
-    "id": "ghost",
-    "spriteNum": 16,
-    "label": "游魂(占位)",
-    "layout": {
-      "kind": "directional",
-      "framesPerDir": 3
-    }
-  },
-  {
-    "id": "npc-236",
-    "spriteNum": 236,
-    "label": "原精灵 236(0x65 换装)",
-    "layout": {
-      "kind": "directional",
-      "framesPerDir": 3
-    }
-  },
-  {
-    "id": "npc-607",
-    "spriteNum": 607,
-    "label": "原精灵 607(0x65 换装)",
-    "layout": {
-      "kind": "directional",
-      "framesPerDir": 3
-    }
   }
 ]

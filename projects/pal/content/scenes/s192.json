@@ -3,84 +3,40 @@
   "map": {
     "reuseOriginalMap": 151
   },
-  "battleFieldId": 16,
-  "battleMusicId": 41,
   "entries": {
-    "from-s175": {
+    "from-s185": {
       "pos": {
-        "col": 147,
-        "row": 88,
+        "col": 38,
+        "row": 1,
         "height": 0
       }
     },
-    "from-s175-2": {
+    "from-s186": {
       "pos": {
-        "col": 126,
-        "row": 40,
-        "height": 0
-      }
-    },
-    "from-s175-3": {
-      "pos": {
-        "col": 90,
-        "row": 31,
-        "height": 0
-      }
-    },
-    "from-s175-4": {
-      "pos": {
-        "col": 78,
-        "row": -15,
-        "height": 0
-      }
-    },
-    "from-s175-5": {
-      "pos": {
-        "col": 41,
-        "row": 3,
+        "col": 142,
+        "row": 38,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 110,
-        "row": 77,
+        "col": 38,
+        "row": 1,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 108,
-        "row": 46,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 132,
-        "row": 64,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 92,
-        "row": 42,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 132,
-        "row": 46,
+        "col": 142,
+        "row": 38,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 147,
-      "row": 88,
+      "col": 38,
+      "row": 1,
       "height": 0
     },
     "facing": "down"
@@ -104,7 +60,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s187",
+                    "scene": "s186",
                     "pos": {
                       "col": 92,
                       "row": 52,
@@ -117,7 +73,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -3179,7 +3136,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s186",
+                    "scene": "s185",
                     "pos": {
                       "col": 113,
                       "row": 56,
@@ -24600,7 +24557,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9229",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -25133,11 +25090,7 @@
                               "kind": "chance",
                               "percent": 56
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "stopScript"
@@ -25182,11 +25135,7 @@
                           "kind": "chance",
                           "percent": 56
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stopScript"
@@ -25226,11 +25175,7 @@
                           "kind": "chance",
                           "percent": 31
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stopScript"
@@ -25324,11 +25269,7 @@
                                   "kind": "chance",
                                   "percent": 26
                                 },
-                                "then": [
-                                  {
-                                    "kind": "stopScript"
-                                  }
-                                ]
+                                "then": []
                               },
                               {
                                 "kind": "stopScript"
@@ -25405,11 +25346,7 @@
                               "kind": "chance",
                               "percent": 26
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "stopScript"
@@ -25454,11 +25391,7 @@
                           "kind": "chance",
                           "percent": 26
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stopScript"
@@ -25950,5 +25883,7 @@
     {
       "body": []
     }
-  ]
+  ],
+  "battleFieldId": 16,
+  "battleMusicId": 41
 }

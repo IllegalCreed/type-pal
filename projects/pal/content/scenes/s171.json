@@ -53,9 +53,8 @@
           "gesture": 16
         },
         {
-          "kind": "fade",
-          "dir": "in",
-          "ms": 1800
+          "kind": "ditherScreen",
+          "ms": 5040
         },
         {
           "kind": "setPartyFacing",
@@ -94,7 +93,7 @@
         },
         {
           "kind": "loadScene",
-          "scene": "s170"
+          "scene": "s169"
         }
       ]
     }

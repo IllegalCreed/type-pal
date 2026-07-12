@@ -3,10 +3,26 @@
   "map": {
     "reuseOriginalMap": 115
   },
+  "entries": {
+    "from-s100": {
+      "pos": {
+        "col": 125,
+        "row": 27,
+        "height": 0
+      }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 104,
+        "row": 59,
+        "height": 0
+      }
+    }
+  },
   "entry": {
     "pos": {
-      "col": 96,
-      "row": 32,
+      "col": 125,
+      "row": 27,
       "height": 0
     },
     "facing": "down"
@@ -30,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s101",
+                    "scene": "s100",
                     "pos": {
                       "col": 67,
                       "row": 8,
@@ -182,7 +198,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s129",
+                    "scene": "s128",
                     "pos": {
                       "col": 104,
                       "row": 59,
@@ -619,6 +635,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.7302",
+                      "speaker": "spk.算命仙",
                       "slot": "top"
                     }
                   },
@@ -673,6 +690,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.7316",
+                      "speaker": "spk.李逍遥",
                       "portrait": {
                         "icon": 6,
                         "side": "right"
@@ -863,7 +881,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.7381"
+                      "text": "dlg.7381",
+                      "speaker": "spk.醉汉甲"
                     }
                   },
                   {

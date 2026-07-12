@@ -4,18 +4,130 @@
     "reuseOriginalMap": 118
   },
   "entries": {
+    "from-s132": {
+      "pos": {
+        "col": 63,
+        "row": 39,
+        "height": 0
+      }
+    },
+    "from-s132-2": {
+      "pos": {
+        "col": 70,
+        "row": 39,
+        "height": 0
+      }
+    },
+    "from-s132-3": {
+      "pos": {
+        "col": 77,
+        "row": 32,
+        "height": 0
+      }
+    },
+    "from-s132-4": {
+      "pos": {
+        "col": 77,
+        "row": 25,
+        "height": 0
+      }
+    },
+    "from-s132-5": {
+      "pos": {
+        "col": 81,
+        "row": 17,
+        "height": 0
+      }
+    },
+    "from-s132-6": {
+      "pos": {
+        "col": 84,
+        "row": 16,
+        "height": 0
+      }
+    },
+    "from-s132-7": {
+      "pos": {
+        "col": 94,
+        "row": 7,
+        "height": 0
+      }
+    },
     "from-shared": {
       "pos": {
-        "col": 75,
-        "row": 15,
+        "col": 40,
+        "row": 9,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 62,
+        "row": 34,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 85,
+        "row": 56,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 108,
+        "row": 72,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 130,
+        "row": 97,
+        "height": 0
+      }
+    },
+    "from-shared-6": {
+      "pos": {
+        "col": 58,
+        "row": -13,
+        "height": 0
+      }
+    },
+    "from-shared-7": {
+      "pos": {
+        "col": 74,
+        "row": 12,
+        "height": 0
+      }
+    },
+    "from-shared-8": {
+      "pos": {
+        "col": 104,
+        "row": 35,
+        "height": 0
+      }
+    },
+    "from-shared-9": {
+      "pos": {
+        "col": 126,
+        "row": 55,
+        "height": 0
+      }
+    },
+    "from-shared-10": {
+      "pos": {
+        "col": 117,
+        "row": 35,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 75,
-      "row": 15,
+      "col": 63,
+      "row": 39,
       "height": 0
     },
     "facing": "down"
@@ -160,7 +272,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s131"
+                    "scene": "s130"
                   }
                 ]
               }
@@ -187,7 +299,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s135",
+                    "scene": "s134",
                     "pos": {
                       "col": 40,
                       "row": 9,
@@ -219,7 +331,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s133",
+                    "scene": "s132",
                     "pos": {
                       "col": 62,
                       "row": 34,
@@ -251,7 +363,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s133",
+                    "scene": "s132",
                     "pos": {
                       "col": 85,
                       "row": 56,
@@ -283,7 +395,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s133",
+                    "scene": "s132",
                     "pos": {
                       "col": 108,
                       "row": 72,
@@ -315,7 +427,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s133",
+                    "scene": "s132",
                     "pos": {
                       "col": 130,
                       "row": 97,
@@ -347,7 +459,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s133",
+                    "scene": "s132",
                     "pos": {
                       "col": 58,
                       "row": -13,
@@ -379,7 +491,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s133",
+                    "scene": "s132",
                     "pos": {
                       "col": 74,
                       "row": 12,
@@ -411,7 +523,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s133",
+                    "scene": "s132",
                     "pos": {
                       "col": 104,
                       "row": 35,
@@ -443,7 +555,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s133",
+                    "scene": "s132",
                     "pos": {
                       "col": 126,
                       "row": 55,
@@ -475,7 +587,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s133",
+                    "scene": "s132",
                     "pos": {
                       "col": 146,
                       "row": 77,
@@ -518,218 +630,12 @@
                     "kind": "confirm",
                     "onNo": [
                       {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.5488",
-                          "speaker": "spk.老鸨"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.5489"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.5493"
-                        }
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.5452",
-                          "speaker": "spk.老鸨"
-                        }
-                      },
-                      {
-                        "kind": "confirm",
-                        "onNo": [
-                          {
-                            "kind": "clearDialog"
-                          },
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.5488",
-                              "speaker": "spk.老鸨"
-                            }
-                          },
-                          {
-                            "kind": "clearDialog"
-                          },
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.5489"
-                            }
-                          },
-                          {
-                            "kind": "clearDialog"
-                          },
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.5493"
-                            }
-                          },
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "branch",
-                        "cond": {
-                          "kind": "not",
-                          "cond": {
-                            "kind": "hasMoney",
-                            "atLeast": 2000
-                          }
-                        },
-                        "then": [
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.5497",
-                              "speaker": "spk.老鸨"
-                            }
-                          },
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
-                      },
-                      {
-                        "kind": "giveMoney",
-                        "delta": -2000
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.5456",
-                          "speaker": "spk.老鸨"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.5458"
-                        }
-                      },
-                      {
-                        "kind": "fade",
-                        "dir": "out"
-                      },
-                      {
-                        "kind": "loadScene",
-                        "scene": "s134"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.5461",
-                          "speaker": "spk.老鸨"
-                        }
-                      },
-                      {
-                        "kind": "confirm",
-                        "onNo": [
-                          {
-                            "kind": "clearDialog"
-                          },
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.5467",
-                              "speaker": "spk.老鸨"
-                            }
-                          },
-                          {
-                            "kind": "clearDialog"
-                          },
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.5468"
-                            }
-                          },
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.5472",
-                              "speaker": "spk.李逍遥",
-                              "portrait": {
-                                "icon": 2,
-                                "side": "right"
-                              }
-                            }
-                          },
-                          {
-                            "kind": "clearDialog"
-                          },
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.5475",
-                              "speaker": "spk.老鸨",
-                              "slot": "top"
-                            }
-                          },
-                          {
-                            "kind": "clearDialog"
-                          },
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.5478",
-                              "slot": "top"
-                            }
-                          },
-                          {
-                            "kind": "clearDialog"
-                          },
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.5481",
-                              "speaker": "spk.李逍遥",
-                              "portrait": {
-                                "icon": 5,
-                                "side": "right"
-                              }
-                            }
-                          },
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.5464",
-                          "speaker": "spk.老鸨"
-                        }
+                        "kind": "unmigrated",
+                        "opcode": 0,
+                        "operands": [
+                          15999
+                        ],
+                        "note": "分支臂不可内联"
                       },
                       {
                         "kind": "stopScript"
@@ -778,16 +684,18 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.5458"
+                      "text": "dlg.5458",
+                      "speaker": "spk.老鸨"
                     }
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s134"
+                    "scene": "s133"
                   }
                 ],
                 "next": "advance"
@@ -805,76 +713,12 @@
                     "kind": "confirm",
                     "onNo": [
                       {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.5467",
-                          "speaker": "spk.老鸨"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.5468"
-                        }
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.5472",
-                          "speaker": "spk.李逍遥",
-                          "portrait": {
-                            "icon": 2,
-                            "side": "right"
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.5475",
-                          "speaker": "spk.老鸨",
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.5478",
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.5481",
-                          "speaker": "spk.李逍遥",
-                          "portrait": {
-                            "icon": 5,
-                            "side": "right"
-                          }
-                        }
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.5483",
-                          "speaker": "spk.老鸨"
-                        }
+                        "kind": "unmigrated",
+                        "opcode": 0,
+                        "operands": [
+                          15968
+                        ],
+                        "note": "分支臂不可内联"
                       },
                       {
                         "kind": "stopScript"
@@ -1272,375 +1116,6 @@
           }
         }
       ]
-    }
-  ],
-  "onEnter": [
-    {
-      "body": [
-        {
-          "kind": "setEntityState",
-          "entity": "e2318",
-          "state": 0
-        },
-        {
-          "kind": "moveParty",
-          "to": {
-            "col": 59,
-            "row": 40,
-            "height": 0
-          },
-          "speed": "slow"
-        },
-        {
-          "kind": "moveParty",
-          "to": {
-            "col": 59,
-            "row": 42,
-            "height": 0
-          },
-          "speed": "slow"
-        },
-        {
-          "kind": "wait",
-          "ms": 40
-        },
-        {
-          "kind": "setPartyFacing",
-          "facing": "right"
-        },
-        {
-          "kind": "wait",
-          "ms": 40
-        },
-        {
-          "kind": "setPartyFacing",
-          "facing": "up"
-        },
-        {
-          "kind": "wait",
-          "ms": 240
-        },
-        {
-          "kind": "setEntityState",
-          "entity": "e2294",
-          "state": 2
-        },
-        {
-          "kind": "wait",
-          "ms": 560
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.6187",
-            "speaker": "spk.莺莺夫人",
-            "slot": "top",
-            "portrait": {
-              "icon": 56,
-              "side": "left"
-            }
-          }
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.6188",
-            "portrait": {
-              "icon": 1,
-              "side": "right"
-            }
-          }
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.6190",
-            "speaker": "spk.莺莺夫人",
-            "slot": "top",
-            "portrait": {
-              "icon": 56,
-              "side": "left"
-            }
-          }
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.6191",
-            "portrait": {
-              "icon": 1,
-              "side": "right"
-            }
-          }
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.6195",
-            "speaker": "spk.莺莺夫人",
-            "slot": "top",
-            "portrait": {
-              "icon": 56,
-              "side": "left"
-            }
-          }
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.6201",
-            "slot": "top",
-            "portrait": {
-              "icon": 56,
-              "side": "left"
-            }
-          }
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.6204",
-            "portrait": {
-              "icon": 1,
-              "side": "right"
-            }
-          }
-        },
-        {
-          "kind": "setEntityTrigger",
-          "entity": "e1824",
-          "stages": [
-            {
-              "body": [
-                {
-                  "kind": "dialog",
-                  "line": {
-                    "text": "dlg.6210",
-                    "speaker": "spk.李逍遥",
-                    "portrait": {
-                      "icon": 1,
-                      "side": "right"
-                    }
-                  }
-                },
-                {
-                  "kind": "clearDialog"
-                },
-                {
-                  "kind": "dialog",
-                  "line": {
-                    "text": "dlg.6213",
-                    "speaker": "spk.乞丐",
-                    "slot": "top"
-                  }
-                },
-                {
-                  "kind": "clearDialog"
-                },
-                {
-                  "kind": "dialog",
-                  "line": {
-                    "text": "dlg.6216",
-                    "speaker": "spk.李逍遥",
-                    "portrait": {
-                      "icon": 1,
-                      "side": "right"
-                    }
-                  }
-                },
-                {
-                  "kind": "clearDialog"
-                },
-                {
-                  "kind": "dialog",
-                  "line": {
-                    "text": "dlg.6220",
-                    "speaker": "spk.林月如",
-                    "portrait": {
-                      "icon": 23,
-                      "side": "right"
-                    }
-                  }
-                },
-                {
-                  "kind": "clearDialog"
-                },
-                {
-                  "kind": "dialog",
-                  "line": {
-                    "text": "dlg.6223",
-                    "speaker": "spk.乞丐",
-                    "slot": "top"
-                  }
-                },
-                {
-                  "kind": "clearDialog"
-                },
-                {
-                  "kind": "dialog",
-                  "line": {
-                    "text": "dlg.6227",
-                    "speaker": "spk.林月如",
-                    "portrait": {
-                      "icon": 22,
-                      "side": "right"
-                    }
-                  }
-                },
-                {
-                  "kind": "clearDialog"
-                },
-                {
-                  "kind": "dialog",
-                  "line": {
-                    "text": "dlg.6229",
-                    "speaker": "spk.乞丐",
-                    "slot": "top"
-                  }
-                },
-                {
-                  "kind": "clearDialog"
-                },
-                {
-                  "kind": "dialog",
-                  "line": {
-                    "text": "dlg.6232",
-                    "speaker": "spk.林月如",
-                    "portrait": {
-                      "icon": 23,
-                      "side": "right"
-                    }
-                  }
-                },
-                {
-                  "kind": "clearDialog"
-                },
-                {
-                  "kind": "dialog",
-                  "line": {
-                    "text": "dlg.6234",
-                    "speaker": "spk.乞丐",
-                    "slot": "top"
-                  }
-                },
-                {
-                  "kind": "clearDialog"
-                },
-                {
-                  "kind": "dialog",
-                  "line": {
-                    "text": "dlg.6236",
-                    "speaker": "spk.李逍遥",
-                    "portrait": {
-                      "icon": 9,
-                      "side": "right"
-                    }
-                  }
-                },
-                {
-                  "kind": "clearDialog"
-                },
-                {
-                  "kind": "dialog",
-                  "line": {
-                    "text": "dlg.6240",
-                    "speaker": "spk.林月如",
-                    "slot": "top",
-                    "portrait": {
-                      "icon": 23,
-                      "side": "left"
-                    }
-                  }
-                },
-                {
-                  "kind": "clearDialog"
-                },
-                {
-                  "kind": "dialog",
-                  "line": {
-                    "text": "dlg.6244",
-                    "speaker": "spk.李逍遥",
-                    "portrait": {
-                      "icon": 1,
-                      "side": "right"
-                    }
-                  }
-                },
-                {
-                  "kind": "dialog",
-                  "line": {
-                    "text": "dlg.6247",
-                    "speaker": "spk.林月如",
-                    "slot": "top",
-                    "portrait": {
-                      "icon": 22,
-                      "side": "left"
-                    }
-                  }
-                },
-                {
-                  "kind": "setEntityState",
-                  "entity": "e2293",
-                  "state": 0
-                },
-                {
-                  "kind": "setEntityState",
-                  "entity": "e2294",
-                  "state": 0
-                },
-                {
-                  "kind": "setEntityState",
-                  "entity": "e2319",
-                  "state": 0
-                },
-                {
-                  "kind": "setEntityState",
-                  "entity": "e2320",
-                  "state": 2
-                },
-                {
-                  "kind": "setEntityState",
-                  "entity": "e2321",
-                  "state": 2
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "dialog",
-                  "line": {
-                    "text": "dlg.6248"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "next": "advance"
-    },
-    {
-      "body": []
     }
   ]
 }

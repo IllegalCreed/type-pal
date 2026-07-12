@@ -4,32 +4,95 @@
     "reuseOriginalMap": 80
   },
   "entries": {
-    "from-s080": {
+    "from-s082": {
       "pos": {
-        "col": 114,
-        "row": 47,
+        "col": 30,
+        "row": 17,
+        "height": 0
+      }
+    },
+    "from-s096": {
+      "pos": {
+        "col": 103,
+        "row": 41,
+        "height": 0
+      }
+    },
+    "from-s099": {
+      "pos": {
+        "col": 49,
+        "row": 8,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 114,
-        "row": 47,
+        "col": 100,
+        "row": -6,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 104,
-        "row": 78,
+        "col": 30,
+        "row": 17,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 103,
+        "row": 41,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 35,
+        "row": 14,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 102,
+        "row": 51,
+        "height": 0
+      }
+    },
+    "from-shared-6": {
+      "pos": {
+        "col": 102,
+        "row": 51,
+        "height": 0
+      }
+    },
+    "from-shared-7": {
+      "pos": {
+        "col": 46,
+        "row": 12,
+        "height": 0
+      }
+    },
+    "from-shared-8": {
+      "pos": {
+        "col": 63,
+        "row": -14,
+        "height": 0
+      }
+    },
+    "from-shared-9": {
+      "pos": {
+        "col": 112,
+        "row": 84,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 114,
-      "row": 47,
+      "col": 30,
+      "row": 17,
       "height": 0
     },
     "facing": "down"
@@ -53,7 +116,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s083",
+                    "scene": "s082",
                     "pos": {
                       "col": 79,
                       "row": -28,
@@ -85,7 +148,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s083",
+                    "scene": "s082",
                     "pos": {
                       "col": 129,
                       "row": 25,
@@ -117,7 +180,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s097",
+                    "scene": "s096",
                     "pos": {
                       "col": 101,
                       "row": 24,
@@ -209,7 +272,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s089",
+                    "scene": "s088",
                     "pos": {
                       "col": 128,
                       "row": 99,
@@ -241,7 +304,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s090",
+                    "scene": "s089",
                     "pos": {
                       "col": 102,
                       "row": 51,
@@ -349,7 +412,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s087"
+                    "scene": "s086"
                   }
                 ]
               }
@@ -376,7 +439,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s100",
+                    "scene": "s099",
                     "pos": {
                       "col": 46,
                       "row": 12,
@@ -408,7 +471,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s100",
+                    "scene": "s099",
                     "pos": {
                       "col": 63,
                       "row": -14,
@@ -440,7 +503,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s106",
+                    "scene": "s105",
                     "pos": {
                       "col": 74,
                       "row": 60,
@@ -1973,7 +2036,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.4784"
+                      "text": "dlg.4784",
+                      "speaker": "spk.三姑"
                     }
                   },
                   {
@@ -2036,7 +2100,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s093",
+                    "scene": "s092",
                     "pos": {
                       "col": 35,
                       "row": 3,
@@ -2049,7 +2113,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -2321,282 +2386,6 @@
           }
         }
       ]
-    }
-  ],
-  "onEnter": [
-    {
-      "body": [
-        {
-          "kind": "setPartyFacing",
-          "facing": "right"
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.4691",
-            "speaker": "spk.李逍遥",
-            "slot": "top",
-            "portrait": {
-              "icon": 2,
-              "side": "left"
-            }
-          }
-        },
-        {
-          "kind": "setEntityFacing",
-          "entity": "e1614",
-          "facing": "left"
-        },
-        {
-          "kind": "setEntityFrame",
-          "entity": "e1614",
-          "frame": 0
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.4693",
-            "speaker": "spk.林月如",
-            "portrait": {
-              "icon": 22,
-              "side": "right"
-            }
-          }
-        },
-        {
-          "kind": "setEntityAuto",
-          "entity": "e1614",
-          "stages": [
-            {
-              "body": [
-                {
-                  "kind": "moveEntity",
-                  "entity": "e1614",
-                  "to": {
-                    "col": 64,
-                    "row": -12,
-                    "height": 0
-                  },
-                  "speed": "run"
-                },
-                {
-                  "kind": "moveEntity",
-                  "entity": "e1614",
-                  "to": {
-                    "col": 52,
-                    "row": -12,
-                    "height": 0
-                  },
-                  "speed": "run"
-                },
-                {
-                  "kind": "moveEntity",
-                  "entity": "e1614",
-                  "to": {
-                    "col": 52,
-                    "row": -8,
-                    "height": 0
-                  },
-                  "speed": "run"
-                },
-                {
-                  "kind": "moveEntity",
-                  "entity": "e1614",
-                  "to": {
-                    "col": 24,
-                    "row": -8,
-                    "height": 0
-                  },
-                  "speed": "run"
-                },
-                {
-                  "kind": "moveEntity",
-                  "entity": "e1614",
-                  "to": {
-                    "col": 24,
-                    "row": -2,
-                    "height": 0
-                  },
-                  "speed": "run"
-                },
-                {
-                  "kind": "setEntityFacing",
-                  "entity": "e1614",
-                  "facing": "up"
-                },
-                {
-                  "kind": "setEntityFrame",
-                  "entity": "e1614",
-                  "frame": 0
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "kind": "wait",
-          "ms": 320
-        },
-        {
-          "kind": "setPartyFacing",
-          "facing": "up"
-        },
-        {
-          "kind": "wait",
-          "ms": 240
-        },
-        {
-          "kind": "setPartyFacing",
-          "facing": "left"
-        }
-      ],
-      "next": "advance"
-    },
-    {
-      "body": []
-    },
-    {
-      "body": [
-        {
-          "kind": "playMusic",
-          "musicId": 0
-        },
-        {
-          "kind": "teleportParty",
-          "pos": {
-            "col": 35,
-            "row": 1,
-            "height": 0
-          }
-        },
-        {
-          "kind": "setPartyFacing",
-          "facing": "right"
-        },
-        {
-          "kind": "wait",
-          "ms": 160
-        },
-        {
-          "kind": "setPartyFacing",
-          "facing": "down"
-        },
-        {
-          "kind": "wait",
-          "ms": 200
-        },
-        {
-          "kind": "setPartyFacing",
-          "facing": "right"
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.4928",
-            "speaker": "spk.官差"
-          }
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.4930"
-          }
-        },
-        {
-          "kind": "nudgeEntity",
-          "entity": "e1593",
-          "dx": -32,
-          "dy": -16
-        },
-        {
-          "kind": "nudgeEntity",
-          "entity": "e1598",
-          "dx": 16,
-          "dy": -8
-        },
-        {
-          "kind": "setEntityAuto",
-          "entity": "e1593",
-          "stages": [
-            {
-              "body": [
-                {
-                  "kind": "setEntityFacing",
-                  "entity": "e1593",
-                  "facing": "right"
-                },
-                {
-                  "kind": "setEntityFrame",
-                  "entity": "e1593",
-                  "frame": 0
-                }
-              ],
-              "next": 0
-            }
-          ]
-        },
-        {
-          "kind": "setEntityAuto",
-          "entity": "e1598",
-          "stages": [
-            {
-              "body": [
-                {
-                  "kind": "setEntityFacing",
-                  "entity": "e1598",
-                  "facing": "down"
-                },
-                {
-                  "kind": "setEntityFrame",
-                  "entity": "e1598",
-                  "frame": 0
-                }
-              ],
-              "next": 0
-            }
-          ]
-        },
-        {
-          "kind": "setEntityState",
-          "entity": "e1594",
-          "state": 0
-        },
-        {
-          "kind": "setEntityState",
-          "entity": "e1595",
-          "state": 0
-        },
-        {
-          "kind": "setEntityState",
-          "entity": "e1596",
-          "state": 0
-        },
-        {
-          "kind": "setEntityState",
-          "entity": "e1597",
-          "state": 0
-        },
-        {
-          "kind": "loadScene",
-          "scene": "s082"
-        }
-      ],
-      "next": "advance"
-    },
-    {
-      "body": []
     }
   ]
 }

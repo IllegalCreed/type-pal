@@ -4,7 +4,6 @@
     "reuseOriginalMap": 18
   },
   "musicId": 71,
-  "battleMusicId": 37,
   "entries": {
     "start": {
       "pos": {
@@ -13,17 +12,24 @@
         "height": 0
       }
     },
-    "from-s019": {
+    "from-s005": {
       "pos": {
-        "col": 111,
-        "row": 79,
+        "col": 148,
+        "row": 63,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 111,
-        "row": 79,
+        "col": 148,
+        "row": 63,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 95,
+        "row": 67,
         "height": 0
       }
     }
@@ -55,7 +61,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s023",
+                    "scene": "s022",
                     "pos": {
                       "col": 95,
                       "row": 67,
@@ -4463,6 +4469,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.2130",
+                      "speaker": "spk.赵灵儿",
                       "slot": "top"
                     }
                   },
@@ -4482,6 +4489,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.2132",
+                      "speaker": "spk.赵灵儿",
                       "slot": "top"
                     }
                   },
@@ -4493,7 +4501,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.2133",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -4738,12 +4746,13 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.2134",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 1800
                   },
                   {
                     "kind": "setPartyFacing",
@@ -4822,6 +4831,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.2149",
+                      "speaker": "spk.赵灵儿",
                       "slot": "top",
                       "portrait": {
                         "icon": 11,
@@ -4850,6 +4860,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.2155",
+                      "speaker": "spk.李逍遥",
                       "portrait": {
                         "icon": 2,
                         "side": "right"
@@ -4883,6 +4894,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.2161",
+                      "speaker": "spk.赵灵儿",
                       "slot": "top",
                       "portrait": {
                         "icon": 15,
@@ -5305,7 +5317,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -5317,6 +5329,15 @@
                     ],
                     "boss": true,
                     "fieldId": 7
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
                   },
                   {
                     "kind": "setEntityState",
@@ -13865,7 +13886,7 @@
                                                 "kind": "dialog",
                                                 "line": {
                                                   "text": "dlg.13135",
-                                                  "slot": "narration"
+                                                  "slot": "center"
                                                 }
                                               },
                                               {
@@ -13875,53 +13896,15 @@
                                                 "kind": "stopScript"
                                               }
                                             ],
-                                            "boss": true,
-                                            "choreography": [
-                                              {
-                                                "at": "turnStart",
-                                                "once": true,
-                                                "when": {
-                                                  "kind": "firstOfKind"
-                                                },
-                                                "body": [
-                                                  {
-                                                    "kind": "dialog",
-                                                    "line": {
-                                                      "text": "dlg.13139"
-                                                    }
-                                                  },
-                                                  {
-                                                    "kind": "dialog",
-                                                    "line": {
-                                                      "text": "dlg.13140"
-                                                    }
-                                                  },
-                                                  {
-                                                    "kind": "dialog",
-                                                    "line": {
-                                                      "text": "dlg.13141"
-                                                    }
-                                                  },
-                                                  {
-                                                    "kind": "dialog",
-                                                    "line": {
-                                                      "text": "dlg.13142"
-                                                    }
-                                                  },
-                                                  {
-                                                    "kind": "dialog",
-                                                    "line": {
-                                                      "text": "dlg.13143"
-                                                    }
-                                                  },
-                                                  {
-                                                    "kind": "dialog",
-                                                    "line": {
-                                                      "text": "dlg.13144"
-                                                    }
-                                                  }
-                                                ]
-                                              }
+                                            "boss": true
+                                          },
+                                          {
+                                            "kind": "unmigrated",
+                                            "opcode": 120,
+                                            "operands": [
+                                              0,
+                                              0,
+                                              0
                                             ]
                                           },
                                           {
@@ -26517,5 +26500,6 @@
         }
       ]
     }
-  ]
+  ],
+  "battleMusicId": 37
 }

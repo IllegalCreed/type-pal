@@ -3,28 +3,47 @@
   "map": {
     "reuseOriginalMap": 59
   },
-  "battleFieldId": 12,
-  "battleMusicId": 37,
   "entries": {
-    "from-s052": {
+    "from-s049": {
+      "pos": {
+        "col": 92,
+        "row": 66,
+        "height": 0
+      }
+    },
+    "from-s061": {
+      "pos": {
+        "col": 121,
+        "row": 43,
+        "height": 0
+      }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 147,
+        "row": 39,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
       "pos": {
         "col": 95,
         "row": -5,
         "height": 0
       }
     },
-    "from-shared": {
+    "from-shared-3": {
       "pos": {
-        "col": 130,
-        "row": 64,
+        "col": 49,
+        "row": 18,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 95,
-      "row": -5,
+      "col": 92,
+      "row": 66,
       "height": 0
     },
     "facing": "down"
@@ -52,7 +71,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s050",
+                    "scene": "s049",
                     "pos": {
                       "col": 69,
                       "row": 9,
@@ -84,7 +103,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s062",
+                    "scene": "s061",
                     "pos": {
                       "col": 127,
                       "row": 45,
@@ -116,7 +135,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s056",
+                    "scene": "s055",
                     "pos": {
                       "col": 147,
                       "row": 39,
@@ -148,7 +167,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s057",
+                    "scene": "s056",
                     "pos": {
                       "col": 160,
                       "row": 68,
@@ -255,7 +274,7 @@
         },
         {
           "kind": "loadScene",
-          "scene": "s050",
+          "scene": "s049",
           "pos": {
             "col": 69,
             "row": 9,
@@ -264,5 +283,7 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 12,
+  "battleMusicId": 40
 }

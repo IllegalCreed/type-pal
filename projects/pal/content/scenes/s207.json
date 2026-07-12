@@ -4,144 +4,123 @@
     "reuseOriginalMap": 166
   },
   "entries": {
-    "from-s207": {
-      "pos": {
-        "col": 130,
-        "row": 96,
-        "height": 0
-      }
-    },
-    "from-s207-2": {
-      "pos": {
-        "col": 145,
-        "row": 43,
-        "height": 0
-      }
-    },
-    "from-s207-3": {
-      "pos": {
-        "col": 130,
-        "row": 68,
-        "height": 0
-      }
-    },
-    "from-s207-4": {
-      "pos": {
-        "col": 114,
-        "row": 97,
-        "height": 0
-      }
-    },
-    "from-s207-5": {
-      "pos": {
-        "col": 126,
-        "row": 26,
-        "height": 0
-      }
-    },
-    "from-s207-6": {
-      "pos": {
-        "col": 96,
-        "row": 70,
-        "height": 0
-      }
-    },
-    "from-s207-7": {
-      "pos": {
-        "col": 106,
-        "row": 72,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 73,
-        "row": -21,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 146,
-        "row": 53,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
+    "from-s206": {
       "pos": {
         "col": 97,
         "row": 62,
         "height": 0
       }
     },
-    "from-shared-4": {
+    "from-s206-2": {
       "pos": {
         "col": 121,
         "row": 50,
         "height": 0
       }
     },
-    "from-shared-5": {
+    "from-s206-3": {
       "pos": {
         "col": 157,
         "row": 68,
         "height": 0
       }
     },
-    "from-shared-6": {
+    "from-s206-4": {
       "pos": {
         "col": 133,
         "row": 87,
         "height": 0
       }
     },
-    "from-shared-7": {
+    "from-s206-5": {
       "pos": {
         "col": 102,
         "row": 61,
         "height": 0
       }
     },
-    "from-shared-8": {
+    "from-s206-6": {
       "pos": {
         "col": 73,
         "row": 35,
         "height": 0
       }
     },
-    "from-shared-9": {
+    "from-s206-7": {
       "pos": {
         "col": 104,
         "row": 14,
         "height": 0
       }
     },
-    "from-shared-10": {
+    "from-s206-8": {
       "pos": {
         "col": 76,
         "row": -12,
         "height": 0
       }
     },
-    "from-shared-11": {
+    "from-shared": {
       "pos": {
-        "col": 42,
-        "row": 7,
+        "col": 73,
+        "row": -17,
         "height": 0
       }
     },
-    "from-shared-12": {
+    "from-shared-2": {
       "pos": {
-        "col": 105,
-        "row": 58,
+        "col": 130,
+        "row": 96,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 145,
+        "row": 43,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 130,
+        "row": 68,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 114,
+        "row": 97,
+        "height": 0
+      }
+    },
+    "from-shared-6": {
+      "pos": {
+        "col": 126,
+        "row": 26,
+        "height": 0
+      }
+    },
+    "from-shared-7": {
+      "pos": {
+        "col": 96,
+        "row": 70,
+        "height": 0
+      }
+    },
+    "from-shared-8": {
+      "pos": {
+        "col": 106,
+        "row": 72,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 130,
-      "row": 96,
+      "col": 97,
+      "row": 62,
       "height": 0
     },
     "facing": "down"
@@ -165,7 +144,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s207",
+                    "scene": "s206",
                     "pos": {
                       "col": 130,
                       "row": 96,
@@ -197,7 +176,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s207",
+                    "scene": "s206",
                     "pos": {
                       "col": 145,
                       "row": 43,
@@ -229,7 +208,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s207",
+                    "scene": "s206",
                     "pos": {
                       "col": 130,
                       "row": 68,
@@ -261,7 +240,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s207",
+                    "scene": "s206",
                     "pos": {
                       "col": 114,
                       "row": 97,
@@ -293,7 +272,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s207",
+                    "scene": "s206",
                     "pos": {
                       "col": 126,
                       "row": 26,
@@ -325,7 +304,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s207",
+                    "scene": "s206",
                     "pos": {
                       "col": 96,
                       "row": 70,
@@ -357,7 +336,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s207",
+                    "scene": "s206",
                     "pos": {
                       "col": 106,
                       "row": 72,
@@ -389,7 +368,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s207",
+                    "scene": "s206",
                     "pos": {
                       "col": 105,
                       "row": 58,

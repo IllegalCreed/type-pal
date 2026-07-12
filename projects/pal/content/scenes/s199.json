@@ -73,6 +73,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.10217",
+            "speaker": "spk.林月如",
             "portrait": {
               "icon": 21,
               "side": "right"
@@ -85,11 +86,12 @@
         },
         {
           "kind": "fade",
-          "dir": "out"
+          "dir": "out",
+          "ms": 2400
         },
         {
           "kind": "loadScene",
-          "scene": "s175"
+          "scene": "s174"
         }
       ]
     }

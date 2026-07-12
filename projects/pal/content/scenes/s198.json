@@ -104,9 +104,8 @@
           }
         },
         {
-          "kind": "fade",
-          "dir": "in",
-          "ms": 1200
+          "kind": "ditherScreen",
+          "ms": 3600
         },
         {
           "kind": "dialog",
@@ -166,6 +165,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.10206",
+            "speaker": "spk.李逍遥",
             "slot": "top",
             "portrait": {
               "icon": 3,
@@ -373,11 +373,12 @@
         },
         {
           "kind": "fade",
-          "dir": "out"
+          "dir": "out",
+          "ms": 1200
         },
         {
           "kind": "loadScene",
-          "scene": "s200"
+          "scene": "s199"
         }
       ]
     }

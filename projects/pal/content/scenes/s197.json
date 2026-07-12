@@ -44,9 +44,8 @@
           }
         },
         {
-          "kind": "fade",
-          "dir": "in",
-          "ms": 1200
+          "kind": "ditherScreen",
+          "ms": 3600
         },
         {
           "kind": "wait",
@@ -85,6 +84,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.10195",
+            "speaker": "spk.林月如",
             "slot": "top",
             "portrait": {
               "icon": 24,
@@ -94,7 +94,7 @@
         },
         {
           "kind": "loadScene",
-          "scene": "s199"
+          "scene": "s198"
         }
       ]
     }

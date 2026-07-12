@@ -3,19 +3,10 @@
   "map": {
     "reuseOriginalMap": 74
   },
-  "entries": {
-    "from-shared": {
-      "pos": {
-        "col": 85,
-        "row": 4,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
-      "col": 85,
-      "row": 4,
+      "col": 96,
+      "row": 32,
       "height": 0
     },
     "facing": "down"
@@ -1330,6 +1321,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.8975",
+            "speaker": "spk.天鬼皇",
             "slot": "top",
             "portrait": {
               "icon": 43,
@@ -1358,6 +1350,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.8982",
+            "speaker": "spk.赵灵儿",
             "portrait": {
               "icon": 91,
               "side": "right"
@@ -1397,6 +1390,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.8991",
+            "speaker": "spk.赵灵儿",
             "portrait": {
               "icon": 91,
               "side": "right"
@@ -2141,6 +2135,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9055",
+            "speaker": "spk.天鬼皇",
             "slot": "top",
             "portrait": {
               "icon": 43,
@@ -2229,6 +2224,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9070",
+            "speaker": "spk.书中仙",
             "portrait": {
               "icon": 69,
               "side": "right"
@@ -2271,6 +2267,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9089",
+            "speaker": "spk.书中仙",
             "portrait": {
               "icon": 69,
               "side": "right"
@@ -2284,6 +2281,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9097",
+            "speaker": "spk.书中仙",
             "portrait": {
               "icon": 69,
               "side": "right"
@@ -2352,6 +2350,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9113",
+            "speaker": "spk.书中仙",
             "portrait": {
               "icon": 69,
               "side": "right"
@@ -2468,6 +2467,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9140",
+            "speaker": "spk.书中仙",
             "portrait": {
               "icon": 69,
               "side": "right"
@@ -2519,6 +2519,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9150",
+            "speaker": "spk.书中仙",
             "portrait": {
               "icon": 69,
               "side": "right"
@@ -3128,6 +3129,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9177",
+            "speaker": "spk.赵灵儿",
             "portrait": {
               "icon": 91,
               "side": "right"
@@ -3151,7 +3153,7 @@
         },
         {
           "kind": "loadScene",
-          "scene": "s153"
+          "scene": "s152"
         }
       ],
       "next": "advance"

@@ -3,35 +3,33 @@
   "map": {
     "reuseOriginalMap": 186
   },
-  "battleFieldId": 35,
-  "battleMusicId": 38,
   "entries": {
     "from-s206": {
       "pos": {
-        "col": 146,
-        "row": 53,
+        "col": 42,
+        "row": 7,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 34,
-        "row": 3,
+        "col": 106,
+        "row": 2,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 96,
-        "row": 78,
+        "col": 135,
+        "row": 27,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 146,
-      "row": 53,
+      "col": 42,
+      "row": 7,
       "height": 0
     },
     "facing": "down"
@@ -55,7 +53,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s202",
+                    "scene": "s201",
                     "pos": {
                       "col": 135,
                       "row": 27,
@@ -87,7 +85,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s207",
+                    "scene": "s206",
                     "pos": {
                       "col": 106,
                       "row": 2,
@@ -474,7 +472,7 @@
       "body": [
         {
           "kind": "loadScene",
-          "scene": "s207",
+          "scene": "s206",
           "pos": {
             "col": 106,
             "row": 2,
@@ -483,5 +481,7 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 35,
+  "battleMusicId": 38
 }

@@ -4,32 +4,53 @@
     "reuseOriginalMap": 135
   },
   "entries": {
-    "from-s159": {
+    "from-s157": {
       "pos": {
-        "col": 119,
-        "row": 45,
+        "col": 132,
+        "row": 43,
+        "height": 0
+      }
+    },
+    "from-s160": {
+      "pos": {
+        "col": 102,
+        "row": 42,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 119,
-        "row": 45,
+        "col": 132,
+        "row": 43,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 123,
-        "row": 94,
+        "col": 117,
+        "row": 76,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 116,
+        "row": 75,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 68,
+        "row": 30,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 119,
-      "row": 45,
+      "col": 132,
+      "row": 43,
       "height": 0
     },
     "facing": "down"
@@ -71,6 +92,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.8353",
+                      "speaker": "spk.李逍遥",
                       "portrait": {
                         "icon": 1,
                         "side": "right"
@@ -191,7 +213,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s158",
+                    "scene": "s157",
                     "pos": {
                       "col": 119,
                       "row": 45,
@@ -223,7 +245,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s159",
+                    "scene": "s158",
                     "pos": {
                       "col": 117,
                       "row": 76,
@@ -255,7 +277,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s161",
+                    "scene": "s160",
                     "pos": {
                       "col": 116,
                       "row": 75,
@@ -287,7 +309,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s161",
+                    "scene": "s160",
                     "pos": {
                       "col": 68,
                       "row": 30,
@@ -73163,6 +73185,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.8331",
+            "speaker": "spk.酒剑仙",
             "slot": "top",
             "portrait": {
               "icon": 37,
@@ -73177,6 +73200,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.8335",
+            "speaker": "spk.酒剑仙",
             "slot": "top",
             "portrait": {
               "icon": 37,

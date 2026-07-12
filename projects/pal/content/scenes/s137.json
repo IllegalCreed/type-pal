@@ -6,23 +6,23 @@
   "entries": {
     "from-s100": {
       "pos": {
-        "col": 42,
-        "row": 17,
+        "col": 92,
+        "row": 46,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 97,
-        "row": 9,
+        "col": 146,
+        "row": 77,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 42,
-      "row": 17,
+      "col": 92,
+      "row": 46,
       "height": 0
     },
     "facing": "down"
@@ -46,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s101",
+                    "scene": "s100",
                     "pos": {
                       "col": 51,
                       "row": 7,
@@ -90,7 +90,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.5733"
+                      "text": "dlg.5733",
+                      "speaker": "spk.宋氏"
                     }
                   }
                 ]
@@ -130,7 +131,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.5739"
+                      "text": "dlg.5739",
+                      "speaker": "spk.书生"
                     }
                   }
                 ]

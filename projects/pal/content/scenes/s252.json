@@ -3,11 +3,19 @@
   "map": {
     "reuseOriginalMap": 189
   },
-  "battleFieldId": 8,
+  "entries": {
+    "from-shared": {
+      "pos": {
+        "col": 145,
+        "row": 34,
+        "height": 0
+      }
+    }
+  },
   "entry": {
     "pos": {
-      "col": 96,
-      "row": 32,
+      "col": 145,
+      "row": 34,
       "height": 0
     },
     "facing": "down"
@@ -31,7 +39,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s251",
+                    "scene": "s250",
                     "pos": {
                       "col": 33,
                       "row": 13,
@@ -201,7 +209,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -276,9 +284,8 @@
                     "state": 1
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 300
+                    "kind": "ditherScreen",
+                    "ms": 720
                   },
                   {
                     "kind": "dialog",
@@ -304,9 +311,8 @@
                     "soundId": 212
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 600
+                    "kind": "ditherScreen",
+                    "ms": 2160
                   },
                   {
                     "kind": "setPartyFacing",
@@ -393,6 +399,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11636",
+                      "speaker": "spk.拜月教主",
                       "portrait": {
                         "icon": 80,
                         "side": "right"
@@ -409,9 +416,8 @@
                     "soundId": 217
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 600
+                    "kind": "ditherScreen",
+                    "ms": 2160
                   },
                   {
                     "kind": "startBattle",
@@ -431,7 +437,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -444,6 +450,15 @@
                     "boss": true,
                     "fieldId": 18,
                     "musicId": 45
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
                   },
                   {
                     "kind": "setPartyFacing",
@@ -549,7 +564,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -613,7 +628,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -677,7 +692,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -741,7 +756,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -805,7 +820,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -1060,5 +1075,6 @@
       ]
     }
   ],
+  "battleFieldId": 8,
   "battleMusicId": 39
 }

@@ -3,10 +3,26 @@
   "map": {
     "reuseOriginalMap": 174
   },
+  "entries": {
+    "from-s244": {
+      "pos": {
+        "col": 102,
+        "row": 60,
+        "height": 0
+      }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 102,
+        "row": 60,
+        "height": 0
+      }
+    }
+  },
   "entry": {
     "pos": {
-      "col": 96,
-      "row": 32,
+      "col": 102,
+      "row": 60,
       "height": 0
     },
     "facing": "down"
@@ -38972,7 +38988,8 @@
         },
         {
           "kind": "fade",
-          "dir": "out"
+          "dir": "out",
+          "ms": 600
         },
         {
           "kind": "playRng",
@@ -38986,7 +39003,8 @@
         },
         {
           "kind": "fade",
-          "dir": "out"
+          "dir": "out",
+          "ms": 600
         },
         {
           "kind": "setEntityState",
@@ -39088,7 +39106,7 @@
         },
         {
           "kind": "loadScene",
-          "scene": "s228"
+          "scene": "s227"
         }
       ]
     }

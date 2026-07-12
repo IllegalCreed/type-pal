@@ -3,40 +3,10 @@
   "map": {
     "reuseOriginalMap": 31
   },
-  "entries": {
-    "from-s185": {
-      "pos": {
-        "col": 38,
-        "row": 1,
-        "height": 0
-      }
-    },
-    "from-s186": {
-      "pos": {
-        "col": 142,
-        "row": 38,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 38,
-        "row": 1,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 142,
-        "row": 38,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
-      "col": 38,
-      "row": 1,
+      "col": 96,
+      "row": 32,
       "height": 0
     },
     "facing": "down"
@@ -429,11 +399,12 @@
         },
         {
           "kind": "fade",
-          "dir": "out"
+          "dir": "out",
+          "ms": 1800
         },
         {
           "kind": "loadScene",
-          "scene": "s195"
+          "scene": "s194"
         }
       ]
     }

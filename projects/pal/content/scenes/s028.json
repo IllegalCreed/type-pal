@@ -3,55 +3,19 @@
   "map": {
     "reuseOriginalMap": 27
   },
-  "battleMusicId": 37,
   "entries": {
-    "from-s025": {
-      "pos": {
-        "col": 49,
-        "row": 11,
-        "height": 0
-      }
-    },
-    "from-s025-2": {
-      "pos": {
-        "col": 75,
-        "row": -15,
-        "height": 0
-      }
-    },
-    "from-s025-3": {
-      "pos": {
-        "col": 75,
-        "row": -5,
-        "height": 0
-      }
-    },
     "from-shared": {
       "pos": {
-        "col": 49,
-        "row": 11,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 75,
-        "row": -15,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 75,
-        "row": -5,
+        "col": 88,
+        "row": 16,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 49,
-      "row": 11,
+      "col": 88,
+      "row": 16,
       "height": 0
     },
     "facing": "down"
@@ -75,7 +39,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s026",
+                    "scene": "s025",
                     "pos": {
                       "col": 60,
                       "row": 29,
@@ -147,7 +111,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -159,6 +123,15 @@
                     ],
                     "boss": true,
                     "fieldId": 24
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
                   },
                   {
                     "kind": "setMultiEntityState",
@@ -219,7 +192,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s027"
+                    "scene": "s026"
                   },
                   {
                     "kind": "playMusic",
@@ -573,5 +546,6 @@
         }
       ]
     }
-  ]
+  ],
+  "battleMusicId": 37
 }

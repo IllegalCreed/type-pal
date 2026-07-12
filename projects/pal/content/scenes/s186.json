@@ -3,20 +3,67 @@
   "map": {
     "reuseOriginalMap": 150
   },
-  "battleFieldId": 25,
-  "battleMusicId": 41,
   "entries": {
+    "from-s179": {
+      "pos": {
+        "col": 67,
+        "row": 12,
+        "height": 0
+      }
+    },
+    "from-s192": {
+      "pos": {
+        "col": 35,
+        "row": 11,
+        "height": 0
+      }
+    },
     "from-shared": {
       "pos": {
-        "col": 24,
+        "col": 108,
+        "row": 14,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 158,
+        "row": 54,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 108,
+        "row": 32,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 67,
         "row": 12,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 141,
+        "row": 48,
+        "height": 0
+      }
+    },
+    "from-shared-6": {
+      "pos": {
+        "col": 87,
+        "row": 73,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 24,
+      "col": 67,
       "row": 12,
       "height": 0
     },
@@ -41,7 +88,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s177",
+                    "scene": "s176",
                     "pos": {
                       "col": 71,
                       "row": 47,
@@ -73,7 +120,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s180",
+                    "scene": "s179",
                     "pos": {
                       "col": 142,
                       "row": 38,
@@ -86,7 +133,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -113,7 +161,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s193",
+                    "scene": "s192",
                     "pos": {
                       "col": 141,
                       "row": 48,
@@ -126,7 +174,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -153,7 +202,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s179",
+                    "scene": "s178",
                     "pos": {
                       "col": 158,
                       "row": 54,
@@ -185,7 +234,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s188",
+                    "scene": "s187",
                     "pos": {
                       "col": 108,
                       "row": 14,
@@ -361,11 +410,7 @@
                               "kind": "chance",
                               "percent": 56
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "stopScript"
@@ -410,11 +455,7 @@
                           "kind": "chance",
                           "percent": 56
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stopScript"
@@ -454,11 +495,7 @@
                           "kind": "chance",
                           "percent": 31
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stopScript"
@@ -552,11 +589,7 @@
                                   "kind": "chance",
                                   "percent": 26
                                 },
-                                "then": [
-                                  {
-                                    "kind": "stopScript"
-                                  }
-                                ]
+                                "then": []
                               },
                               {
                                 "kind": "stopScript"
@@ -633,11 +666,7 @@
                               "kind": "chance",
                               "percent": 26
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "stopScript"
@@ -682,11 +711,7 @@
                           "kind": "chance",
                           "percent": 26
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stopScript"
@@ -32004,7 +32029,7 @@
       "body": [
         {
           "kind": "loadScene",
-          "scene": "s177",
+          "scene": "s176",
           "pos": {
             "col": 71,
             "row": 47,
@@ -32013,5 +32038,7 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 25,
+  "battleMusicId": 41
 }

@@ -4,25 +4,109 @@
     "reuseOriginalMap": 10
   },
   "entries": {
-    "from-s003": {
+    "from-s001": {
       "pos": {
-        "col": 86,
-        "row": 9,
+        "col": 143,
+        "row": 45,
+        "height": 0
+      }
+    },
+    "from-s001-2": {
+      "pos": {
+        "col": 133,
+        "row": 45,
+        "height": 0
+      }
+    },
+    "from-s001-3": {
+      "pos": {
+        "col": 123,
+        "row": 45,
+        "height": 0
+      }
+    },
+    "from-s001-4": {
+      "pos": {
+        "col": 125,
+        "row": 61,
+        "height": 0
+      }
+    },
+    "from-s001-5": {
+      "pos": {
+        "col": 141,
+        "row": 51,
+        "height": 0
+      }
+    },
+    "from-s002": {
+      "pos": {
+        "col": 132,
+        "row": 51,
+        "height": 0
+      }
+    },
+    "from-s004": {
+      "pos": {
+        "col": 137,
+        "row": 71,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 86,
-        "row": 9,
+        "col": 137,
+        "row": 71,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 132,
+        "row": 51,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 143,
+        "row": 45,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 133,
+        "row": 45,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 123,
+        "row": 45,
+        "height": 0
+      }
+    },
+    "from-shared-6": {
+      "pos": {
+        "col": 125,
+        "row": 61,
+        "height": 0
+      }
+    },
+    "from-shared-7": {
+      "pos": {
+        "col": 141,
+        "row": 51,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 86,
-      "row": 9,
+      "col": 143,
+      "row": 45,
       "height": 0
     },
     "facing": "down"
@@ -46,7 +130,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s005",
+                    "scene": "s004",
                     "pos": {
                       "col": 95,
                       "row": 17,
@@ -78,7 +162,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s002",
+                    "scene": "s001",
                     "pos": {
                       "col": 66,
                       "row": 32,
@@ -391,7 +475,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.641",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -471,7 +555,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s003",
+                    "scene": "s002",
                     "pos": {
                       "col": 86,
                       "row": 9,
@@ -503,7 +587,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s002",
+                    "scene": "s001",
                     "pos": {
                       "col": 60,
                       "row": -15,
@@ -535,7 +619,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s002",
+                    "scene": "s001",
                     "pos": {
                       "col": 108,
                       "row": 30,
@@ -567,7 +651,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s002",
+                    "scene": "s001",
                     "pos": {
                       "col": 38,
                       "row": 9,
@@ -599,7 +683,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s002",
+                    "scene": "s001",
                     "pos": {
                       "col": 100,
                       "row": 59,
@@ -1222,7 +1306,8 @@
                           },
                           {
                             "kind": "fade",
-                            "dir": "out"
+                            "dir": "out",
+                            "ms": 600
                           },
                           {
                             "kind": "teleportParty",
@@ -1543,7 +1628,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.143",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]

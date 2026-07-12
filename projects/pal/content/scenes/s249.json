@@ -5,25 +5,81 @@
   },
   "musicId": 60,
   "entries": {
+    "from-s260": {
+      "pos": {
+        "col": 59,
+        "row": 5,
+        "height": 0
+      }
+    },
+    "from-s260-2": {
+      "pos": {
+        "col": 59,
+        "row": 17,
+        "height": 0
+      }
+    },
+    "from-s260-3": {
+      "pos": {
+        "col": 68,
+        "row": -5,
+        "height": 0
+      }
+    },
+    "from-s260-4": {
+      "pos": {
+        "col": 102,
+        "row": 29,
+        "height": 0
+      }
+    },
     "from-shared": {
       "pos": {
-        "col": 120,
-        "row": 80,
+        "col": 107,
+        "row": 76,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 160,
-        "row": 55,
+        "col": 149,
+        "row": 49,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 149,
+        "row": 67,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 65,
+        "row": 22,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 102,
+        "row": 29,
+        "height": 0
+      }
+    },
+    "from-shared-6": {
+      "pos": {
+        "col": 102,
+        "row": 29,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 120,
-      "row": 80,
+      "col": 59,
+      "row": 5,
       "height": 0
     },
     "facing": "down"
@@ -6799,7 +6855,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   },
                   {
                     "kind": "setEntityFacing",
@@ -6827,7 +6884,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s261",
+                    "scene": "s260",
                     "pos": {
                       "col": 149,
                       "row": 49,
@@ -6869,7 +6926,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s261",
+                    "scene": "s260",
                     "pos": {
                       "col": 149,
                       "row": 49,
@@ -6901,7 +6958,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s261",
+                    "scene": "s260",
                     "pos": {
                       "col": 149,
                       "row": 67,
@@ -6933,7 +6990,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s261",
+                    "scene": "s260",
                     "pos": {
                       "col": 65,
                       "row": 22,
@@ -6965,7 +7022,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s261",
+                    "scene": "s260",
                     "pos": {
                       "col": 102,
                       "row": 29,
@@ -6997,7 +7054,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s261",
+                    "scene": "s260",
                     "pos": {
                       "col": 102,
                       "row": 29,
@@ -26359,7 +26416,7 @@
       "body": [
         {
           "kind": "loadScene",
-          "scene": "s250",
+          "scene": "s249",
           "pos": {
             "col": 54,
             "row": 33,

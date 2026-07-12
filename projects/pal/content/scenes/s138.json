@@ -4,25 +4,18 @@
     "reuseOriginalMap": 130
   },
   "entries": {
-    "from-s100": {
-      "pos": {
-        "col": 92,
-        "row": 46,
-        "height": 0
-      }
-    },
     "from-shared": {
       "pos": {
-        "col": 146,
-        "row": 77,
+        "col": 128,
+        "row": 98,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 92,
-      "row": 46,
+      "col": 128,
+      "row": 98,
       "height": 0
     },
     "facing": "down"
@@ -46,7 +39,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s140",
+                    "scene": "s139",
                     "pos": {
                       "col": 68,
                       "row": 30,
@@ -200,6 +193,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.8040",
+                      "speaker": "spk.毒娘子",
                       "slot": "top",
                       "portrait": {
                         "icon": 53,
@@ -214,6 +208,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.8043",
+                      "speaker": "spk.毒娘子",
                       "slot": "top",
                       "portrait": {
                         "icon": 53,
@@ -228,6 +223,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.8045",
+                      "speaker": "spk.毒娘子",
                       "slot": "top",
                       "portrait": {
                         "icon": 53,
@@ -271,6 +267,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.8053",
+                      "speaker": "spk.毒娘子",
                       "slot": "top",
                       "portrait": {
                         "icon": 53,
@@ -299,6 +296,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.8059",
+                      "speaker": "spk.彩　依",
                       "portrait": {
                         "icon": 48,
                         "side": "right"
@@ -367,9 +365,8 @@
                     "soundId": 260
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 600
+                    "kind": "ditherScreen",
+                    "ms": 2160
                   },
                   {
                     "kind": "setEntityFacing",
@@ -403,6 +400,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.8075",
+                      "speaker": "spk.蜘蛛精",
                       "slot": "top",
                       "portrait": {
                         "icon": 53,
@@ -569,109 +567,20 @@
                     "team": 42,
                     "boss": true,
                     "fieldId": 42,
-                    "musicId": 38,
-                    "choreography": [
-                      {
-                        "at": "turnStart",
-                        "once": true,
-                        "body": [
-                          {
-                            "kind": "playSound",
-                            "soundId": 245
-                          },
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.13260",
-                              "speaker": "spk.蜘蛛精"
-                            }
-                          }
-                        ]
-                      },
-                      {
-                        "at": "turnStart",
-                        "once": true,
-                        "when": {
-                          "kind": "turn",
-                          "op": ">=",
-                          "value": 3
-                        },
-                        "body": [
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.13262",
-                              "speaker": "spk.蜘蛛精"
-                            }
-                          }
-                        ]
-                      },
-                      {
-                        "at": "turnStart",
-                        "once": true,
-                        "when": {
-                          "kind": "turn",
-                          "op": ">=",
-                          "value": 5
-                        },
-                        "body": [
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.13264",
-                              "speaker": "spk.蜘蛛精"
-                            }
-                          },
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.13265"
-                            }
-                          }
-                        ]
-                      },
-                      {
-                        "at": "turnStart",
-                        "once": true,
-                        "when": {
-                          "kind": "turn",
-                          "op": ">=",
-                          "value": 7
-                        },
-                        "body": [
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.13267",
-                              "speaker": "spk.蜘蛛精"
-                            }
-                          }
-                        ]
-                      },
-                      {
-                        "at": "turnStart",
-                        "once": true,
-                        "when": {
-                          "kind": "turn",
-                          "op": ">=",
-                          "value": 8
-                        },
-                        "body": [
-                          {
-                            "kind": "endBattle",
-                            "result": "terminate"
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "clearEnemyChoreo",
-                    "enemy": "enemy-435"
+                    "musicId": 38
                   },
                   {
                     "kind": "playMusic",
                     "musicId": 0
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
                   },
                   {
                     "kind": "dialog",
@@ -699,16 +608,6 @@
                     "kind": "setEntityState",
                     "entity": "e2340",
                     "state": 0
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "entity": "e-1",
-                    "state": 2
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "entity": "e-1",
-                    "state": 2
                   },
                   {
                     "kind": "cameraSnap",
@@ -765,9 +664,8 @@
                     "frame": 3
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 600
+                    "kind": "ditherScreen",
+                    "ms": 2160
                   },
                   {
                     "kind": "setEntityState",
@@ -959,11 +857,12 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s141"
+                    "scene": "s140"
                   }
                 ]
               }
@@ -5895,7 +5794,7 @@
       "body": [
         {
           "kind": "loadScene",
-          "scene": "s118",
+          "scene": "s117",
           "pos": {
             "col": 122,
             "row": 90,
@@ -5904,5 +5803,7 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 11,
+  "battleMusicId": 39
 }

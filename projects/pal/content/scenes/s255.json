@@ -4,25 +4,53 @@
     "reuseOriginalMap": 179
   },
   "entries": {
-    "from-s248": {
+    "from-s256": {
       "pos": {
-        "col": 120,
-        "row": 80,
+        "col": 143,
+        "row": 39,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 132,
-        "row": 56,
+        "col": 143,
+        "row": 70,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 64,
+        "row": 45,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 128,
+        "row": 84,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 100,
+        "row": 82,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 126,
+        "row": 81,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 120,
-      "row": 80,
+      "col": 143,
+      "row": 39,
       "height": 0
     },
     "facing": "down"
@@ -46,7 +74,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s249",
+                    "scene": "s248",
                     "pos": {
                       "col": 89,
                       "row": 9,
@@ -78,7 +106,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s259",
+                    "scene": "s258",
                     "pos": {
                       "col": 143,
                       "row": 70,
@@ -110,7 +138,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s260",
+                    "scene": "s259",
                     "pos": {
                       "col": 64,
                       "row": 45,
@@ -142,7 +170,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s257",
+                    "scene": "s256",
                     "pos": {
                       "col": 128,
                       "row": 84,
@@ -174,7 +202,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s257",
+                    "scene": "s256",
                     "pos": {
                       "col": 100,
                       "row": 82,
@@ -206,7 +234,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s258",
+                    "scene": "s257",
                     "pos": {
                       "col": 126,
                       "row": 81,
@@ -1875,7 +1903,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.11694"
+                      "text": "dlg.11694",
+                      "speaker": "spk.士兵"
                     }
                   }
                 ]

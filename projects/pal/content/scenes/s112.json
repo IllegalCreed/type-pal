@@ -4,18 +4,25 @@
     "reuseOriginalMap": 103
   },
   "entries": {
-    "from-s112": {
+    "from-shared": {
       "pos": {
-        "col": 82,
-        "row": 28,
+        "col": 78,
+        "row": 54,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 57,
+        "row": 14,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 82,
-      "row": 28,
+      "col": 78,
+      "row": 54,
       "height": 0
     },
     "facing": "down"
@@ -39,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s112"
+                    "scene": "s111"
                   }
                 ]
               }
@@ -66,7 +73,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s108",
+                    "scene": "s107",
                     "pos": {
                       "col": 82,
                       "row": 28,
@@ -1095,11 +1102,7 @@
                           "kind": "chance",
                           "percent": 71
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "setEntityFacing",
@@ -1210,11 +1213,7 @@
                               "kind": "chance",
                               "percent": 71
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "setEntityFacing",
@@ -1355,11 +1354,7 @@
                           "kind": "chance",
                           "percent": 71
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "setEntityFacing",

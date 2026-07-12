@@ -4,32 +4,25 @@
     "reuseOriginalMap": 176
   },
   "entries": {
-    "from-s211": {
+    "from-s203": {
       "pos": {
-        "col": 73,
-        "row": 45,
+        "col": 87,
+        "row": 5,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 73,
-        "row": 45,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 108,
-        "row": 78,
+        "col": 87,
+        "row": 5,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 73,
-      "row": 45,
+      "col": 87,
+      "row": 5,
       "height": 0
     },
     "facing": "down"
@@ -53,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s204",
+                    "scene": "s203",
                     "pos": {
                       "col": 128,
                       "row": 19,
@@ -708,7 +701,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11128",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -719,7 +712,7 @@
                     "line": {
                       "text": "dlg.11131",
                       "speaker": "spk.碑文记载",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -759,7 +752,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.10945"
+                      "text": "dlg.10945",
+                      "speaker": "spk.妇人"
                     }
                   }
                 ],
@@ -803,11 +797,7 @@
                           "kind": "chance",
                           "percent": 41
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "wait",

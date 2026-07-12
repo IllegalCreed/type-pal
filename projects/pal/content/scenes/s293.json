@@ -3,27 +3,40 @@
   "map": {
     "reuseOriginalMap": 192
   },
-  "battleFieldId": 54,
   "entries": {
-    "from-s291": {
+    "from-s279": {
       "pos": {
-        "col": 112,
-        "row": 97,
+        "col": 104,
+        "row": 34,
+        "height": 0
+      }
+    },
+    "from-s292": {
+      "pos": {
+        "col": 91,
+        "row": -23,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 116,
-        "row": 101,
+        "col": 91,
+        "row": -23,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 88,
+        "row": 0,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 112,
-      "row": 97,
+      "col": 104,
+      "row": 34,
       "height": 0
     },
     "facing": "down"
@@ -47,7 +60,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s293",
+                    "scene": "s292",
                     "pos": {
                       "col": 92,
                       "row": -21,
@@ -79,7 +92,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s280",
+                    "scene": "s279",
                     "pos": {
                       "col": 88,
                       "row": 0,
@@ -451,7 +464,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -515,7 +528,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -579,7 +592,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -900,5 +913,6 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 54
 }

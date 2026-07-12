@@ -4,32 +4,32 @@
     "reuseOriginalMap": 107
   },
   "entries": {
-    "from-s116": {
+    "from-s108": {
       "pos": {
-        "col": 135,
-        "row": 97,
+        "col": 66,
+        "row": 16,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 135,
-        "row": 97,
+        "col": 50,
+        "row": 28,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 55,
-        "row": 10,
+        "col": 56,
+        "row": 40,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 135,
-      "row": 97,
+      "col": 66,
+      "row": 16,
       "height": 0
     },
     "facing": "down"
@@ -53,7 +53,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s109",
+                    "scene": "s108",
                     "pos": {
                       "col": 135,
                       "row": 97,
@@ -85,7 +85,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s116",
+                    "scene": "s115",
                     "pos": {
                       "col": 56,
                       "row": 40,
@@ -165,11 +165,7 @@
                           "kind": "chance",
                           "percent": 41
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "wait",
@@ -237,29 +233,6 @@
               }
             ]
           }
-        }
-      ]
-    }
-  ],
-  "onEnter": [
-    {
-      "body": [
-        {
-          "kind": "playMusic",
-          "musicId": 32
-        }
-      ]
-    },
-    {
-      "body": [
-        {
-          "kind": "setScreenWave",
-          "level": 2,
-          "progression": 0
-        },
-        {
-          "kind": "playMusic",
-          "musicId": 32
         }
       ]
     }

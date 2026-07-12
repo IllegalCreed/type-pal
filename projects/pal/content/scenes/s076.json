@@ -3,28 +3,47 @@
   "map": {
     "reuseOriginalMap": 72
   },
-  "battleFieldId": 57,
-  "battleMusicId": 39,
   "entries": {
-    "from-s068": {
+    "from-s069": {
       "pos": {
-        "col": 87,
-        "row": 11,
+        "col": 50,
+        "row": 18,
+        "height": 0
+      }
+    },
+    "from-s069-2": {
+      "pos": {
+        "col": 148,
+        "row": 87,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 87,
-        "row": 11,
+        "col": 103,
+        "row": 60,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 148,
+        "row": 87,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 132,
+        "row": 81,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 87,
-      "row": 11,
+      "col": 50,
+      "row": 18,
       "height": 0
     },
     "facing": "down"
@@ -48,7 +67,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s070",
+                    "scene": "s069",
                     "pos": {
                       "col": 95,
                       "row": 11,
@@ -80,7 +99,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s070",
+                    "scene": "s069",
                     "pos": {
                       "col": 84,
                       "row": 11,
@@ -112,7 +131,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s068",
+                    "scene": "s067",
                     "pos": {
                       "col": 132,
                       "row": 81,
@@ -126019,7 +126038,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -126083,7 +126102,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -126147,7 +126166,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -126211,7 +126230,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -126275,7 +126294,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -126339,7 +126358,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -126403,7 +126422,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -126467,7 +126486,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -126536,7 +126555,7 @@
       "body": [
         {
           "kind": "loadScene",
-          "scene": "s070",
+          "scene": "s069",
           "pos": {
             "col": 95,
             "row": 11,
@@ -126545,5 +126564,7 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 57,
+  "battleMusicId": 39
 }

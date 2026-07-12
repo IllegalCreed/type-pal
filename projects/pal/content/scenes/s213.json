@@ -12,24 +12,17 @@
         "height": 0
       }
     },
-    "from-s206": {
+    "from-s226": {
       "pos": {
-        "col": 42,
-        "row": 7,
+        "col": 66,
+        "row": 42,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 106,
-        "row": 2,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 135,
-        "row": 27,
+        "col": 89,
+        "row": 11,
         "height": 0
       }
     }
@@ -2694,7 +2687,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -2758,7 +2751,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -2822,7 +2815,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -2886,7 +2879,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -2950,7 +2943,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -2984,7 +2977,7 @@
       "body": [
         {
           "kind": "loadScene",
-          "scene": "s216",
+          "scene": "s215",
           "pos": {
             "col": 72,
             "row": 20,

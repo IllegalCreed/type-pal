@@ -3,35 +3,19 @@
   "map": {
     "reuseOriginalMap": 54
   },
-  "battleFieldId": 43,
-  "battleMusicId": 40,
   "entries": {
-    "from-s061": {
-      "pos": {
-        "col": 63,
-        "row": -23,
-        "height": 0
-      }
-    },
     "from-shared": {
       "pos": {
-        "col": 63,
-        "row": -23,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 128,
-        "row": 102,
+        "col": 35,
+        "row": 23,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 63,
-      "row": -23,
+      "col": 35,
+      "row": 23,
       "height": 0
     },
     "facing": "down"
@@ -55,7 +39,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s064",
+                    "scene": "s063",
                     "pos": {
                       "col": 67,
                       "row": -31,
@@ -118,7 +102,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.4345",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -132,10 +116,14 @@
                     "state": 0
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 300
-                  },
+                    "kind": "ditherScreen",
+                    "ms": 720
+                  }
+                ],
+                "next": 1
+              },
+              {
+                "body": [
                   {
                     "kind": "setPartyFacing",
                     "facing": "down",
@@ -179,19 +167,12 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s061"
-                  },
-                  {
-                    "kind": "teleportParty",
+                    "scene": "s060",
                     "pos": {
                       "col": 138,
                       "row": 53,
                       "height": 0
                     }
-                  },
-                  {
-                    "kind": "fade",
-                    "dir": "out"
                   }
                 ]
               }
@@ -317,11 +298,7 @@
                               "kind": "chance",
                               "percent": 51
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "branch",
@@ -381,11 +358,7 @@
                               "kind": "chance",
                               "percent": 71
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "branch",
@@ -486,11 +459,7 @@
                           "kind": "chance",
                           "percent": 51
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "branch",
@@ -550,11 +519,7 @@
                           "kind": "chance",
                           "percent": 71
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "branch",
@@ -752,7 +717,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -817,7 +782,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -882,7 +847,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -947,7 +912,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -1012,7 +977,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -1077,7 +1042,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -1142,7 +1107,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -1207,7 +1172,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -1272,7 +1237,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -1302,7 +1267,7 @@
         },
         {
           "kind": "loadScene",
-          "scene": "s062",
+          "scene": "s061",
           "pos": {
             "col": 35,
             "row": 23,
@@ -1311,5 +1276,7 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 43,
+  "battleMusicId": 40
 }

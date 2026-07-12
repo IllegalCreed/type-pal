@@ -3,26 +3,10 @@
   "map": {
     "reuseOriginalMap": 14
   },
-  "entries": {
-    "from-s004": {
-      "pos": {
-        "col": 63,
-        "row": 3,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 63,
-        "row": 3,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
-      "col": 63,
-      "row": 3,
+      "col": 96,
+      "row": 32,
       "height": 0
     },
     "facing": "down"
@@ -68,7 +52,8 @@
                       },
                       {
                         "kind": "fade",
-                        "dir": "out"
+                        "dir": "out",
+                        "ms": 600
                       },
                       {
                         "kind": "clearDialog"
@@ -88,17 +73,9 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.719",
+                      "text": "dlg.705",
                       "speaker": "spk.洪大夫"
                     }
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "kind": "openShop",
-                    "shop": 1,
-                    "mode": "buy"
                   }
                 ]
               }
@@ -144,7 +121,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s005",
+                    "scene": "s004",
                     "pos": {
                       "col": 137,
                       "row": 59,

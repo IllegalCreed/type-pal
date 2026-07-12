@@ -7,30 +7,30 @@
   "entries": {
     "from-shared": {
       "pos": {
-        "col": 125,
-        "row": 109,
+        "col": 87,
+        "row": 48,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 66,
-        "row": 16,
+        "col": 95,
+        "row": 38,
         "height": 0
       }
     },
     "from-shared-3": {
       "pos": {
-        "col": 113,
-        "row": 70,
+        "col": 85,
+        "row": -20,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 125,
-      "row": 109,
+      "col": 87,
+      "row": 48,
       "height": 0
     },
     "facing": "down"
@@ -54,7 +54,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s108",
+                    "scene": "s107",
                     "pos": {
                       "col": 164,
                       "row": 55,
@@ -86,7 +86,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s105",
+                    "scene": "s104",
                     "pos": {
                       "col": 34,
                       "row": 14,
@@ -118,7 +118,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s111",
+                    "scene": "s110",
                     "pos": {
                       "col": 75,
                       "row": 14,
@@ -163,12 +163,13 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.5937",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   },
                   {
                     "kind": "setEntityState",
@@ -395,11 +396,12 @@
                           },
                           {
                             "kind": "fade",
-                            "dir": "out"
+                            "dir": "out",
+                            "ms": 600
                           },
                           {
                             "kind": "loadScene",
-                            "scene": "s101"
+                            "scene": "s100"
                           }
                         ]
                       }
@@ -427,6 +429,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.5942",
+                      "speaker": "spk.盖罗娇",
                       "slot": "top",
                       "portrait": {
                         "icon": 44,
@@ -568,7 +571,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   },
                   {
                     "kind": "setEntityState",
@@ -668,7 +672,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.5936",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -699,7 +703,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.5936",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -730,7 +734,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.5936",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -761,7 +765,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.5936",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -793,7 +797,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.5936",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -825,7 +829,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.5936",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -856,7 +860,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.5936",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -887,7 +891,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.5936",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -918,7 +922,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.5936",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -949,7 +953,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.5936",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -980,7 +984,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.5936",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -1011,7 +1015,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.5936",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -1042,7 +1046,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.5936",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]

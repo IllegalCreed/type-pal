@@ -3,10 +3,26 @@
   "map": {
     "reuseOriginalMap": 193
   },
+  "entries": {
+    "from-s248": {
+      "pos": {
+        "col": 120,
+        "row": 80,
+        "height": 0
+      }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 132,
+        "row": 56,
+        "height": 0
+      }
+    }
+  },
   "entry": {
     "pos": {
-      "col": 96,
-      "row": 32,
+      "col": 120,
+      "row": 80,
       "height": 0
     },
     "facing": "down"
@@ -30,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s249",
+                    "scene": "s248",
                     "pos": {
                       "col": 132,
                       "row": 56,
@@ -474,7 +490,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.11373"
+                      "text": "dlg.11373",
+                      "speaker": "spk.苗女"
                     }
                   }
                 ]
@@ -1181,6 +1198,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.11330",
+            "speaker": "spk.士兵甲",
             "slot": "top"
           }
         },

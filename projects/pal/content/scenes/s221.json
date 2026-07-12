@@ -3,34 +3,47 @@
   "map": {
     "reuseOriginalMap": 219
   },
-  "battleFieldId": 34,
   "entries": {
-    "from-s219": {
+    "from-s221": {
       "pos": {
-        "col": 70,
-        "row": 10,
+        "col": 62,
+        "row": -4,
+        "height": 0
+      }
+    },
+    "from-s223": {
+      "pos": {
+        "col": 51,
+        "row": 6,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 68,
-        "row": -10,
+        "col": 74,
+        "row": 11,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 85,
-        "row": 27,
+        "col": 65,
+        "row": 1,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 62,
+        "row": -4,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 70,
-      "row": 10,
+      "col": 62,
+      "row": -4,
       "height": 0
     },
     "facing": "down"
@@ -54,7 +67,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s222",
+                    "scene": "s221",
                     "pos": {
                       "col": 62,
                       "row": -4,
@@ -86,7 +99,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s222",
+                    "scene": "s221",
                     "pos": {
                       "col": 107,
                       "row": 92,
@@ -118,7 +131,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s226",
+                    "scene": "s225",
                     "pos": {
                       "col": 85,
                       "row": 27,
@@ -172,7 +185,7 @@
       "body": [
         {
           "kind": "loadScene",
-          "scene": "s216",
+          "scene": "s215",
           "pos": {
             "col": 72,
             "row": 20,
@@ -181,5 +194,7 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 34,
+  "battleMusicId": 37
 }

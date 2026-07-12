@@ -4,18 +4,25 @@
     "reuseOriginalMap": 82
   },
   "entries": {
+    "from-s084": {
+      "pos": {
+        "col": 74,
+        "row": 40,
+        "height": 0
+      }
+    },
     "from-shared": {
       "pos": {
-        "col": 110,
-        "row": 54,
+        "col": 91,
+        "row": 15,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 110,
-      "row": 54,
+      "col": 74,
+      "row": 40,
       "height": 0
     },
     "facing": "down"
@@ -39,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s085",
+                    "scene": "s084",
                     "pos": {
                       "col": 63,
                       "row": -5,
@@ -252,6 +259,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4644",
+                      "speaker": "spk.姬三娘",
                       "slot": "top",
                       "portrait": {
                         "icon": 42,
@@ -266,6 +274,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4647",
+                      "speaker": "spk.姬三娘",
                       "slot": "top",
                       "portrait": {
                         "icon": 42,
@@ -396,6 +405,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4672",
+                      "speaker": "spk.姬三娘",
                       "slot": "top",
                       "portrait": {
                         "icon": 42,
@@ -410,6 +420,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4674",
+                      "speaker": "spk.姬三娘",
                       "slot": "top",
                       "portrait": {
                         "icon": 42,
@@ -1045,7 +1056,7 @@
                         "body": [
                           {
                             "kind": "loadScene",
-                            "scene": "s091"
+                            "scene": "s090"
                           },
                           {
                             "kind": "teleportParty",
@@ -1057,7 +1068,8 @@
                           },
                           {
                             "kind": "fade",
-                            "dir": "out"
+                            "dir": "out",
+                            "ms": 600
                           }
                         ]
                       }
@@ -1065,7 +1077,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s091"
+                    "scene": "s090"
                   }
                 ],
                 "next": "advance"

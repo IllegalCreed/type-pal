@@ -6,23 +6,23 @@
   "entries": {
     "from-s255": {
       "pos": {
-        "col": 100,
-        "row": 82,
+        "col": 89,
+        "row": 9,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 96,
-        "row": 39,
+        "col": 89,
+        "row": 9,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 100,
-      "row": 82,
+      "col": 89,
+      "row": 9,
       "height": 0
     },
     "facing": "down"
@@ -46,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s256",
+                    "scene": "s255",
                     "pos": {
                       "col": 94,
                       "row": 62,

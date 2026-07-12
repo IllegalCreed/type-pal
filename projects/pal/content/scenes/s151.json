@@ -108,9 +108,8 @@
           "state": 1
         },
         {
-          "kind": "fade",
-          "dir": "in",
-          "ms": 300
+          "kind": "ditherScreen",
+          "ms": 720
         },
         {
           "kind": "setEntityState",
@@ -128,9 +127,8 @@
           "state": 1
         },
         {
-          "kind": "fade",
-          "dir": "in",
-          "ms": 300
+          "kind": "ditherScreen",
+          "ms": 720
         },
         {
           "kind": "setEntityFacing",
@@ -195,9 +193,8 @@
           "state": 1
         },
         {
-          "kind": "fade",
-          "dir": "in",
-          "ms": 300
+          "kind": "ditherScreen",
+          "ms": 720
         },
         {
           "kind": "setEntityFacing",
@@ -429,11 +426,12 @@
         },
         {
           "kind": "fade",
-          "dir": "out"
+          "dir": "out",
+          "ms": 1200
         },
         {
           "kind": "loadScene",
-          "scene": "s174"
+          "scene": "s173"
         }
       ]
     }

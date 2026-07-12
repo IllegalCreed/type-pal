@@ -6,93 +6,30 @@
   "entries": {
     "from-s049": {
       "pos": {
-        "col": 133,
-        "row": 79,
-        "height": 0
-      }
-    },
-    "from-s049-2": {
-      "pos": {
-        "col": 52,
-        "row": 5,
-        "height": 0
-      }
-    },
-    "from-s049-3": {
-      "pos": {
-        "col": 88,
-        "row": 47,
-        "height": 0
-      }
-    },
-    "from-s049-4": {
-      "pos": {
-        "col": 130,
-        "row": 78,
-        "height": 0
-      }
-    },
-    "from-s049-5": {
-      "pos": {
-        "col": 113,
-        "row": 12,
-        "height": 0
-      }
-    },
-    "from-s049-6": {
-      "pos": {
-        "col": 80,
-        "row": -23,
+        "col": 83,
+        "row": 32,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 127,
-        "row": 45,
+        "col": 160,
+        "row": 68,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 52,
-        "row": 5,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 88,
-        "row": 47,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 130,
-        "row": 78,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 113,
-        "row": 12,
-        "height": 0
-      }
-    },
-    "from-shared-6": {
-      "pos": {
-        "col": 80,
-        "row": -23,
+        "col": 95,
+        "row": 15,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 133,
-      "row": 79,
+      "col": 83,
+      "row": 32,
       "height": 0
     },
     "facing": "down"
@@ -116,7 +53,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s050",
+                    "scene": "s049",
                     "pos": {
                       "col": 95,
                       "row": -5,
@@ -148,7 +85,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s054",
+                    "scene": "s053",
                     "pos": {
                       "col": 95,
                       "row": 15,
@@ -819,11 +756,7 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stepEntity",
@@ -973,11 +906,7 @@
                               "kind": "chance",
                               "percent": 91
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "stepEntity",
@@ -1619,11 +1548,7 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stepEntity",
@@ -2156,11 +2081,7 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stepEntity",
@@ -2310,11 +2231,7 @@
                               "kind": "chance",
                               "percent": 91
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "stepEntity",
@@ -2956,11 +2873,7 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stepEntity",
@@ -3493,11 +3406,7 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stepEntity",
@@ -3736,11 +3645,7 @@
                               "kind": "chance",
                               "percent": 91
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "stepEntity",
@@ -4669,11 +4574,7 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stepEntity",
@@ -5404,11 +5305,7 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stepEntity",
@@ -5647,11 +5544,7 @@
                               "kind": "chance",
                               "percent": 91
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "stepEntity",
@@ -6580,11 +6473,7 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stepEntity",
@@ -7315,11 +7204,7 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stepEntity",
@@ -7558,11 +7443,7 @@
                               "kind": "chance",
                               "percent": 91
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "stepEntity",
@@ -8491,11 +8372,7 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stepEntity",

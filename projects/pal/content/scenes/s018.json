@@ -4,10 +4,17 @@
     "reuseOriginalMap": 25
   },
   "entries": {
-    "from-s015": {
+    "from-s018": {
       "pos": {
         "col": 90,
         "row": 54,
+        "height": 0
+      }
+    },
+    "from-s018-2": {
+      "pos": {
+        "col": 89,
+        "row": -25,
         "height": 0
       }
     },
@@ -15,6 +22,13 @@
       "pos": {
         "col": 90,
         "row": 54,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 89,
+        "row": -25,
         "height": 0
       }
     }
@@ -46,7 +60,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s016",
+                    "scene": "s015",
                     "pos": {
                       "col": 116,
                       "row": 4,
@@ -104,7 +118,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s017",
+                    "scene": "s016",
                     "pos": {
                       "col": 61,
                       "row": 42,
@@ -147,11 +161,12 @@
                 },
                 {
                   "kind": "loadScene",
-                  "scene": "s019"
+                  "scene": "s018"
                 },
                 {
                   "kind": "fade",
-                  "dir": "out"
+                  "dir": "out",
+                  "ms": 600
                 }
               ]
             }
@@ -162,9 +177,8 @@
           "soundId": 260
         },
         {
-          "kind": "fade",
-          "dir": "in",
-          "ms": 600
+          "kind": "ditherScreen",
+          "ms": 2160
         }
       ],
       "next": "advance"
@@ -204,7 +218,7 @@
         },
         {
           "kind": "loadScene",
-          "scene": "s017",
+          "scene": "s016",
           "pos": {
             "col": 61,
             "row": 42,

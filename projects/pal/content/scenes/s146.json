@@ -3,21 +3,10 @@
   "map": {
     "reuseOriginalMap": 141
   },
-  "battleFieldId": 40,
-  "battleMusicId": 43,
-  "entries": {
-    "from-shared": {
-      "pos": {
-        "col": 87,
-        "row": 58,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
-      "col": 87,
-      "row": 58,
+      "col": 96,
+      "row": 32,
       "height": 0
     },
     "facing": "down"
@@ -41,7 +30,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s166",
+                    "scene": "s165",
                     "pos": {
                       "col": 63,
                       "row": -27,
@@ -82,9 +71,8 @@
                     "state": 1
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 300
+                    "kind": "ditherScreen",
+                    "ms": 720
                   },
                   {
                     "kind": "nudgeParty",
@@ -159,6 +147,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.8754",
+                      "speaker": "spk.镇狱明王",
                       "slot": "top"
                     }
                   },
@@ -194,6 +183,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.8761",
+                      "speaker": "spk.镇狱明王",
                       "slot": "top"
                     }
                   },
@@ -254,6 +244,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.8775",
+                      "speaker": "spk.镇狱明王",
                       "slot": "top"
                     }
                   },
@@ -264,6 +255,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.8778",
+                      "speaker": "spk.镇狱明王",
                       "slot": "top"
                     }
                   },
@@ -276,9 +268,8 @@
                     "state": 0
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 300
+                    "kind": "ditherScreen",
+                    "ms": 720
                   }
                 ]
               }
@@ -322,5 +313,7 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 40,
+  "battleMusicId": 43
 }

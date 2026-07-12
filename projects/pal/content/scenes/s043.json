@@ -4,25 +4,25 @@
     "reuseOriginalMap": 44
   },
   "entries": {
-    "from-shared": {
+    "from-s042": {
       "pos": {
-        "col": 174,
-        "row": 60,
+        "col": 23,
+        "row": 9,
         "height": 0
       }
     },
-    "from-shared-2": {
+    "from-shared": {
       "pos": {
-        "col": 62,
-        "row": 20,
+        "col": 68,
+        "row": 18,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 174,
-      "row": 60,
+      "col": 23,
+      "row": 9,
       "height": 0
     },
     "facing": "down"
@@ -121,6 +121,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.3329",
+                      "speaker": "spk.张老头",
                       "slot": "top"
                     }
                   }
@@ -162,7 +163,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s043",
+                    "scene": "s042",
                     "pos": {
                       "col": 147,
                       "row": 36,

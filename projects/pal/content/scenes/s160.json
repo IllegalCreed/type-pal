@@ -4,53 +4,39 @@
     "reuseOriginalMap": 136
   },
   "entries": {
-    "from-s157": {
-      "pos": {
-        "col": 132,
-        "row": 43,
-        "height": 0
-      }
-    },
-    "from-s160": {
-      "pos": {
-        "col": 102,
-        "row": 42,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 132,
-        "row": 43,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
+    "from-s159": {
       "pos": {
         "col": 117,
         "row": 76,
         "height": 0
       }
     },
-    "from-shared-3": {
+    "from-s159-2": {
       "pos": {
         "col": 116,
         "row": 75,
         "height": 0
       }
     },
-    "from-shared-4": {
+    "from-shared": {
       "pos": {
-        "col": 68,
-        "row": 30,
+        "col": 110,
+        "row": 34,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 102,
+        "row": 42,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 132,
-      "row": 43,
+      "col": 117,
+      "row": 76,
       "height": 0
     },
     "facing": "down"
@@ -74,7 +60,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s160",
+                    "scene": "s159",
                     "pos": {
                       "col": 100,
                       "row": 44,
@@ -106,7 +92,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s160",
+                    "scene": "s159",
                     "pos": {
                       "col": 102,
                       "row": 42,
@@ -186,7 +172,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.8420",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -274,6 +260,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.8442",
+                      "speaker": "spk.小石头",
                       "portrait": {
                         "icon": 86,
                         "side": "right"
@@ -287,6 +274,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.8446",
+                      "speaker": "spk.小石头",
                       "portrait": {
                         "icon": 86,
                         "side": "right"
@@ -401,7 +389,7 @@
                                   },
                                   {
                                     "kind": "loadScene",
-                                    "scene": "s162"
+                                    "scene": "s161"
                                   },
                                   {
                                     "kind": "teleportParty",
@@ -413,7 +401,8 @@
                                   },
                                   {
                                     "kind": "fade",
-                                    "dir": "out"
+                                    "dir": "out",
+                                    "ms": 600
                                   }
                                 ]
                               }
@@ -525,6 +514,7 @@
                             "kind": "dialog",
                             "line": {
                               "text": "dlg.8485",
+                              "speaker": "spk.李逍遥",
                               "slot": "top",
                               "portrait": {
                                 "icon": 5,
@@ -553,6 +543,7 @@
                             "kind": "dialog",
                             "line": {
                               "text": "dlg.8491",
+                              "speaker": "spk.剑圣",
                               "portrait": {
                                 "icon": 63,
                                 "side": "right"
@@ -818,6 +809,7 @@
                             "kind": "dialog",
                             "line": {
                               "text": "dlg.8525",
+                              "speaker": "spk.酒剑仙",
                               "portrait": {
                                 "icon": 37,
                                 "side": "right"
@@ -905,7 +897,7 @@
                             "kind": "dialog",
                             "line": {
                               "text": "dlg.8553",
-                              "slot": "narration"
+                              "slot": "center"
                             }
                           },
                           {
@@ -943,6 +935,7 @@
                             "kind": "dialog",
                             "line": {
                               "text": "dlg.8556",
+                              "speaker": "spk.酒剑仙",
                               "portrait": {
                                 "icon": 37,
                                 "side": "right"
@@ -961,11 +954,12 @@
                           },
                           {
                             "kind": "loadScene",
-                            "scene": "s159"
+                            "scene": "s158"
                           },
                           {
                             "kind": "fade",
-                            "dir": "out"
+                            "dir": "out",
+                            "ms": 600
                           }
                         ]
                       }

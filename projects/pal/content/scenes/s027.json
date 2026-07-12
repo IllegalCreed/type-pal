@@ -6,51 +6,51 @@
   "entries": {
     "from-s025": {
       "pos": {
-        "col": 83,
-        "row": 20,
+        "col": 49,
+        "row": 11,
         "height": 0
       }
     },
     "from-s025-2": {
       "pos": {
-        "col": 84,
-        "row": 50,
+        "col": 75,
+        "row": -15,
         "height": 0
       }
     },
     "from-s025-3": {
       "pos": {
-        "col": 69,
-        "row": -19,
+        "col": 75,
+        "row": -5,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 72,
-        "row": 20,
+        "col": 49,
+        "row": 11,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 84,
-        "row": 50,
+        "col": 75,
+        "row": -15,
         "height": 0
       }
     },
     "from-shared-3": {
       "pos": {
-        "col": 69,
-        "row": -19,
+        "col": 75,
+        "row": -5,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 83,
-      "row": 20,
+      "col": 49,
+      "row": 11,
       "height": 0
     },
     "facing": "down"
@@ -74,7 +74,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s026",
+                    "scene": "s025",
                     "pos": {
                       "col": 53,
                       "row": 6,
@@ -106,7 +106,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s026",
+                    "scene": "s025",
                     "pos": {
                       "col": 53,
                       "row": 16,
@@ -138,7 +138,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s026",
+                    "scene": "s025",
                     "pos": {
                       "col": 53,
                       "row": 26,
@@ -260,7 +260,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.2563"
+                      "text": "dlg.2563",
+                      "speaker": "spk.刘楚香"
                     }
                   }
                 ]

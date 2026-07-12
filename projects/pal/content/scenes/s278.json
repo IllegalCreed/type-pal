@@ -6,23 +6,44 @@
   "entries": {
     "from-s281": {
       "pos": {
-        "col": 100,
-        "row": 82,
+        "col": 64,
+        "row": 45,
+        "height": 0
+      }
+    },
+    "from-s281-2": {
+      "pos": {
+        "col": 128,
+        "row": 84,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 96,
+        "col": 145,
+        "row": 65,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 143,
         "row": 39,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 67,
+        "row": 34,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 100,
-      "row": 82,
+      "col": 64,
+      "row": 45,
       "height": 0
     },
     "facing": "down"
@@ -46,7 +67,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s282",
+                    "scene": "s281",
                     "pos": {
                       "col": 143,
                       "row": 39,
@@ -78,7 +99,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s282",
+                    "scene": "s281",
                     "pos": {
                       "col": 96,
                       "row": 39,
@@ -110,7 +131,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s285",
+                    "scene": "s284",
                     "pos": {
                       "col": 67,
                       "row": 34,
@@ -287,6 +308,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12080",
+                      "speaker": "spk.巫王",
                       "portrait": {
                         "icon": 70,
                         "side": "right"
@@ -300,6 +322,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12082",
+                      "speaker": "spk.巫王",
                       "portrait": {
                         "icon": 70,
                         "side": "right"
@@ -357,6 +380,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12088",
+                      "speaker": "spk.巫王",
                       "portrait": {
                         "icon": 70,
                         "side": "right"
@@ -370,6 +394,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12091",
+                      "speaker": "spk.巫王",
                       "portrait": {
                         "icon": 70,
                         "side": "right"
@@ -526,6 +551,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12116",
+                      "speaker": "spk.拜月教主",
                       "portrait": {
                         "icon": 81,
                         "side": "right"
@@ -558,7 +584,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -575,6 +601,15 @@
                   {
                     "kind": "playMusic",
                     "musicId": 0
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
                   },
                   {
                     "kind": "setMultiEntityState",
@@ -688,7 +723,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12121",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -853,9 +888,8 @@
                     "soundId": 212
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 900
+                    "kind": "ditherScreen",
+                    "ms": 2880
                   },
                   {
                     "kind": "dialog",
@@ -878,9 +912,8 @@
                     "soundId": 217
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 600
+                    "kind": "ditherScreen",
+                    "ms": 2160
                   },
                   {
                     "kind": "setParty",
@@ -907,7 +940,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -921,6 +954,15 @@
                     "musicId": 38
                   },
                   {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
                     "kind": "playMusic",
                     "musicId": 34
                   },
@@ -928,11 +970,6 @@
                     "kind": "setEntityState",
                     "entity": "e4749",
                     "state": 2
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "entity": "e-1",
-                    "state": 0
                   },
                   {
                     "kind": "setEntityState",
@@ -1223,7 +1260,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12138",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -1233,5 +1270,6 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 48
 }

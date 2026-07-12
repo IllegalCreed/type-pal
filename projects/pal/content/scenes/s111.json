@@ -4,18 +4,18 @@
     "reuseOriginalMap": 103
   },
   "entries": {
-    "from-shared": {
+    "from-s112": {
       "pos": {
-        "col": 95,
-        "row": 38,
+        "col": 82,
+        "row": 28,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 95,
-      "row": 38,
+      "col": 82,
+      "row": 28,
       "height": 0
     },
     "facing": "down"
@@ -618,7 +618,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s113"
+                    "scene": "s112"
                   }
                 ]
               }
@@ -655,52 +655,12 @@
                     "kind": "confirm",
                     "onNo": [
                       {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.5987",
-                          "speaker": "spk.小贩"
-                        }
-                      },
-                      {
-                        "kind": "confirm",
-                        "onNo": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
-                      },
-                      {
-                        "kind": "branch",
-                        "cond": {
-                          "kind": "not",
-                          "cond": {
-                            "kind": "hasMoney",
-                            "atLeast": 30
-                          }
-                        },
-                        "then": [
-                          {
-                            "kind": "clearDialog"
-                          },
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.5989",
-                              "speaker": "spk.小贩"
-                            }
-                          },
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
-                      },
-                      {
-                        "kind": "giveMoney",
-                        "delta": -30
-                      },
-                      {
-                        "kind": "giveItem",
-                        "itemId": "80"
+                        "kind": "unmigrated",
+                        "opcode": 0,
+                        "operands": [
+                          17178
+                        ],
+                        "note": "分支臂不可内联"
                       },
                       {
                         "kind": "stopScript"

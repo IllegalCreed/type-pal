@@ -4,49 +4,40 @@
     "reuseOriginalMap": 95
   },
   "musicId": 8,
-  "battleFieldId": 7,
-  "battleMusicId": 41,
   "entries": {
-    "from-s103": {
+    "from-s113": {
       "pos": {
-        "col": 84,
-        "row": 28,
-        "height": 0
-      }
-    },
-    "from-s103-2": {
-      "pos": {
-        "col": 152,
-        "row": 68,
+        "col": 35,
+        "row": 19,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 78,
-        "row": 54,
+        "col": 131,
+        "row": 101,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 84,
-        "row": 28,
+        "col": 169,
+        "row": 67,
         "height": 0
       }
     },
     "from-shared-3": {
       "pos": {
-        "col": 76,
-        "row": 30,
+        "col": 104,
+        "row": 68,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 84,
-      "row": 28,
+      "col": 35,
+      "row": 19,
       "height": 0
     },
     "facing": "down"
@@ -70,7 +61,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s103",
+                    "scene": "s102",
                     "pos": {
                       "col": 104,
                       "row": 68,
@@ -102,7 +93,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s085",
+                    "scene": "s084",
                     "pos": {
                       "col": 81,
                       "row": -29,
@@ -134,7 +125,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s114",
+                    "scene": "s113",
                     "pos": {
                       "col": 131,
                       "row": 101,
@@ -166,7 +157,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s114",
+                    "scene": "s113",
                     "pos": {
                       "col": 169,
                       "row": 67,
@@ -190,5 +181,7 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 7,
+  "battleMusicId": 41
 }

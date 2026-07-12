@@ -39,7 +39,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s124",
+                    "scene": "s123",
                     "pos": {
                       "col": 50,
                       "row": 28,
@@ -4222,7 +4222,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.7070",
-            "slot": "narration"
+            "slot": "center"
           }
         },
         {
@@ -4252,7 +4252,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.7074",
-            "slot": "narration"
+            "slot": "center"
           }
         },
         {
@@ -4527,7 +4527,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.7083",
-            "slot": "narration"
+            "slot": "center"
           }
         },
         {
@@ -4825,7 +4825,8 @@
         {
           "kind": "dialog",
           "line": {
-            "text": "dlg.7091"
+            "text": "dlg.7091",
+            "speaker": "spk.茅山道士"
           }
         },
         {
@@ -5003,7 +5004,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.7093",
-            "slot": "narration"
+            "slot": "center"
           }
         },
         {
@@ -5242,7 +5243,7 @@
         {
           "kind": "setSceneStage",
           "scene": "s108",
-          "stage": 2
+          "stage": 0
         }
       ],
       "next": "advance"

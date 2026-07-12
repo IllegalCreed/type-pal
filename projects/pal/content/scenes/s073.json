@@ -3,42 +3,40 @@
   "map": {
     "reuseOriginalMap": 66
   },
-  "battleFieldId": 55,
-  "battleMusicId": 37,
   "entries": {
     "from-s068": {
       "pos": {
-        "col": 122,
-        "row": 16,
+        "col": 86,
+        "row": 60,
         "height": 0
       }
     },
     "from-s068-2": {
       "pos": {
-        "col": 156,
-        "row": 58,
+        "col": 111,
+        "row": 38,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 122,
-        "row": 16,
+        "col": 86,
+        "row": 60,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 156,
-        "row": 58,
+        "col": 111,
+        "row": 38,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 122,
-      "row": 16,
+      "col": 86,
+      "row": 60,
       "height": 0
     },
     "facing": "down"
@@ -62,7 +60,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s069",
+                    "scene": "s068",
                     "pos": {
                       "col": 87,
                       "row": 48,
@@ -94,7 +92,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s069",
+                    "scene": "s068",
                     "pos": {
                       "col": 63,
                       "row": 40,
@@ -235,7 +233,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -256,7 +254,7 @@
       "body": [
         {
           "kind": "loadScene",
-          "scene": "s069",
+          "scene": "s068",
           "pos": {
             "col": 87,
             "row": 48,
@@ -265,5 +263,7 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 55,
+  "battleMusicId": 37
 }

@@ -6,23 +6,30 @@
   "entries": {
     "from-s186": {
       "pos": {
-        "col": 108,
-        "row": 14,
+        "col": 158,
+        "row": 54,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 109,
-        "row": 76,
+        "col": 122,
+        "row": 7,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 38,
+        "row": 25,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 108,
-      "row": 14,
+      "col": 158,
+      "row": 54,
       "height": 0
     },
     "facing": "down"
@@ -278,7 +285,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s187",
+                    "scene": "s186",
                     "pos": {
                       "col": 122,
                       "row": 7,
@@ -291,7 +298,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -318,7 +326,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s203",
+                    "scene": "s202",
                     "pos": {
                       "col": 38,
                       "row": 25,
@@ -428,11 +436,7 @@
                               "kind": "chance",
                               "percent": 56
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "stopScript"
@@ -477,11 +481,7 @@
                           "kind": "chance",
                           "percent": 56
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stopScript"
@@ -521,11 +521,7 @@
                           "kind": "chance",
                           "percent": 31
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stopScript"
@@ -619,11 +615,7 @@
                                   "kind": "chance",
                                   "percent": 26
                                 },
-                                "then": [
-                                  {
-                                    "kind": "stopScript"
-                                  }
-                                ]
+                                "then": []
                               },
                               {
                                 "kind": "stopScript"
@@ -700,11 +692,7 @@
                               "kind": "chance",
                               "percent": 26
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "stopScript"
@@ -749,11 +737,7 @@
                           "kind": "chance",
                           "percent": 26
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stopScript"
@@ -952,7 +936,7 @@
       "body": [
         {
           "kind": "loadScene",
-          "scene": "s177",
+          "scene": "s176",
           "pos": {
             "col": 71,
             "row": 47,

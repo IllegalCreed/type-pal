@@ -3,33 +3,10 @@
   "map": {
     "reuseOriginalMap": 163
   },
-  "entries": {
-    "from-s229": {
-      "pos": {
-        "col": 42,
-        "row": 7,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 106,
-        "row": 2,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 135,
-        "row": 27,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
-      "col": 42,
-      "row": 7,
+      "col": 96,
+      "row": 32,
       "height": 0
     },
     "facing": "down"
@@ -4660,11 +4637,12 @@
         },
         {
           "kind": "fade",
-          "dir": "out"
+          "dir": "out",
+          "ms": 600
         },
         {
           "kind": "loadScene",
-          "scene": "s245"
+          "scene": "s244"
         }
       ]
     }

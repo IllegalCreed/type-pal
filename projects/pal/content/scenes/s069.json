@@ -3,118 +3,40 @@
   "map": {
     "reuseOriginalMap": 62
   },
-  "battleFieldId": 10,
   "entries": {
-    "from-s071": {
+    "from-s068": {
       "pos": {
-        "col": 117,
-        "row": 29,
-        "height": 0
-      }
-    },
-    "from-s072": {
-      "pos": {
-        "col": 131,
-        "row": 24,
-        "height": 0
-      }
-    },
-    "from-s073": {
-      "pos": {
-        "col": 87,
-        "row": 48,
-        "height": 0
-      }
-    },
-    "from-s074": {
-      "pos": {
-        "col": 101,
-        "row": 15,
+        "col": 125,
+        "row": 17,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 133,
-        "row": 98,
+        "col": 125,
+        "row": 17,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 50,
-        "row": 18,
+        "col": 135,
+        "row": 87,
         "height": 0
       }
     },
     "from-shared-3": {
       "pos": {
-        "col": 103,
-        "row": 88,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 117,
-        "row": 29,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 82,
-        "row": -8,
-        "height": 0
-      }
-    },
-    "from-shared-6": {
-      "pos": {
-        "col": 131,
-        "row": 24,
-        "height": 0
-      }
-    },
-    "from-shared-7": {
-      "pos": {
-        "col": 73,
+        "col": 95,
         "row": 11,
-        "height": 0
-      }
-    },
-    "from-shared-8": {
-      "pos": {
-        "col": 87,
-        "row": 48,
-        "height": 0
-      }
-    },
-    "from-shared-9": {
-      "pos": {
-        "col": 63,
-        "row": 40,
-        "height": 0
-      }
-    },
-    "from-shared-10": {
-      "pos": {
-        "col": 101,
-        "row": 15,
-        "height": 0
-      }
-    },
-    "from-shared-11": {
-      "pos": {
-        "col": 84,
-        "row": 28,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 117,
-      "row": 29,
+      "col": 125,
+      "row": 17,
       "height": 0
     },
     "facing": "down"
@@ -138,7 +60,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s069",
+                    "scene": "s068",
                     "pos": {
                       "col": 50,
                       "row": 18,
@@ -170,7 +92,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s077",
+                    "scene": "s076",
                     "pos": {
                       "col": 148,
                       "row": 87,
@@ -202,7 +124,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s077",
+                    "scene": "s076",
                     "pos": {
                       "col": 135,
                       "row": 87,
@@ -459,5 +381,6 @@
     {
       "body": []
     }
-  ]
+  ],
+  "battleFieldId": 10
 }

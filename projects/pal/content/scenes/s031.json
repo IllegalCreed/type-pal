@@ -6,23 +6,23 @@
   "entries": {
     "from-s023": {
       "pos": {
-        "col": 61,
-        "row": 17,
+        "col": 67,
+        "row": 15,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 87,
-        "row": 1,
+        "col": 67,
+        "row": 15,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 61,
-      "row": 17,
+      "col": 67,
+      "row": 15,
       "height": 0
     },
     "facing": "down"
@@ -46,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s024",
+                    "scene": "s023",
                     "pos": {
                       "col": 87,
                       "row": 1,
@@ -150,7 +150,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.2611"
+                      "text": "dlg.2611",
+                      "speaker": "spk.居民"
                     }
                   }
                 ],
@@ -222,7 +223,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.2598"
+                      "text": "dlg.2598",
+                      "speaker": "spk.顾客"
                     }
                   }
                 ],

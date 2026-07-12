@@ -3,41 +3,19 @@
   "map": {
     "reuseOriginalMap": 63
   },
-  "battleFieldId": 55,
   "entries": {
-    "from-s068": {
+    "from-s055": {
       "pos": {
-        "col": 125,
-        "row": 17,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 125,
-        "row": 17,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 135,
-        "row": 87,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 95,
-        "row": 11,
+        "col": 87,
+        "row": 71,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 125,
-      "row": 17,
+      "col": 87,
+      "row": 71,
       "height": 0
     },
     "facing": "down"
@@ -61,7 +39,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s069",
+                    "scene": "s068",
                     "pos": {
                       "col": 161,
                       "row": 55,
@@ -93,7 +71,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s056",
+                    "scene": "s055",
                     "pos": {
                       "col": 103,
                       "row": 88,
@@ -252,7 +230,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -316,7 +294,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -337,7 +315,7 @@
       "body": [
         {
           "kind": "loadScene",
-          "scene": "s069",
+          "scene": "s068",
           "pos": {
             "col": 161,
             "row": 55,
@@ -346,5 +324,6 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 55
 }

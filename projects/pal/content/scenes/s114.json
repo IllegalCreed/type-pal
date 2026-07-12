@@ -5,32 +5,32 @@
   },
   "musicId": 73,
   "entries": {
-    "from-s105": {
+    "from-s118": {
       "pos": {
-        "col": 131,
-        "row": 101,
+        "col": 54,
+        "row": 10,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 74,
-        "row": 60,
+        "col": 56,
+        "row": -6,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 35,
-        "row": 19,
+        "col": 33,
+        "row": 6,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 131,
-      "row": 101,
+      "col": 54,
+      "row": 10,
       "height": 0
     },
     "facing": "down"
@@ -54,7 +54,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s119",
+                    "scene": "s118",
                     "pos": {
                       "col": 75,
                       "row": 6,
@@ -86,7 +86,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s101",
+                    "scene": "s100",
                     "pos": {
                       "col": 33,
                       "row": 6,
@@ -425,7 +425,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.7266",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -456,7 +456,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.7266",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -473,35 +473,6 @@
         {
           "kind": "playMusic",
           "musicId": 73
-        }
-      ]
-    },
-    {
-      "body": [
-        {
-          "kind": "playMusic",
-          "musicId": 52
-        }
-      ]
-    },
-    {
-      "body": [
-        {
-          "kind": "playMusic",
-          "musicId": 32
-        }
-      ]
-    },
-    {
-      "body": [
-        {
-          "kind": "setScreenWave",
-          "level": 2,
-          "progression": 0
-        },
-        {
-          "kind": "playMusic",
-          "musicId": 32
         }
       ]
     }

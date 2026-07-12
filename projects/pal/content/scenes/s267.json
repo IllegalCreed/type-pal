@@ -11,24 +11,66 @@
         "height": 0
       }
     },
-    "from-s269": {
+    "from-s270": {
+      "pos": {
+        "col": 108,
+        "row": 30,
+        "height": 0
+      }
+    },
+    "from-s272": {
+      "pos": {
+        "col": 100,
+        "row": 22,
+        "height": 0
+      }
+    },
+    "from-s272-2": {
       "pos": {
         "col": 103,
-        "row": 14,
+        "row": 41,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 103,
-        "row": 14,
+        "col": 85,
+        "row": 63,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 46,
-        "row": 17,
+        "col": 137,
+        "row": 72,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 124,
+        "row": 81,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 86,
+        "row": 47,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 52,
+        "row": 10,
+        "height": 0
+      }
+    },
+    "from-shared-6": {
+      "pos": {
+        "col": 110,
+        "row": 95,
         "height": 0
       }
     }
@@ -60,7 +102,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s274",
+                    "scene": "s273",
                     "pos": {
                       "col": 110,
                       "row": 95,
@@ -92,7 +134,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s270",
+                    "scene": "s269",
                     "pos": {
                       "col": 174,
                       "row": 63,
@@ -124,7 +166,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s271",
+                    "scene": "s270",
                     "pos": {
                       "col": 137,
                       "row": 72,
@@ -156,7 +198,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s273",
+                    "scene": "s272",
                     "pos": {
                       "col": 124,
                       "row": 81,
@@ -188,7 +230,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s273",
+                    "scene": "s272",
                     "pos": {
                       "col": 86,
                       "row": 47,
@@ -220,7 +262,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s273",
+                    "scene": "s272",
                     "pos": {
                       "col": 52,
                       "row": 10,
@@ -419,6 +461,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12022",
+                      "speaker": "spk.旺财嫂",
                       "slot": "top"
                     }
                   }

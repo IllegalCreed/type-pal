@@ -3,48 +3,33 @@
   "map": {
     "reuseOriginalMap": 60
   },
-  "battleFieldId": 6,
   "entries": {
-    "from-s049": {
+    "from-s070": {
       "pos": {
-        "col": 92,
-        "row": 66,
-        "height": 0
-      }
-    },
-    "from-s061": {
-      "pos": {
-        "col": 121,
-        "row": 43,
+        "col": 161,
+        "row": 55,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 147,
-        "row": 39,
+        "col": 69,
+        "row": 9,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 95,
-        "row": -5,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 49,
-        "row": 18,
+        "col": 161,
+        "row": 55,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 92,
-      "row": 66,
+      "col": 161,
+      "row": 55,
       "height": 0
     },
     "facing": "down"
@@ -78,7 +63,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s055",
+                    "scene": "s054",
                     "pos": {
                       "col": 87,
                       "row": 71,
@@ -110,7 +95,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s071",
+                    "scene": "s070",
                     "pos": {
                       "col": 96,
                       "row": -6,
@@ -290,7 +275,7 @@
         },
         {
           "kind": "loadScene",
-          "scene": "s050",
+          "scene": "s049",
           "pos": {
             "col": 69,
             "row": 9,
@@ -299,5 +284,6 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 6
 }

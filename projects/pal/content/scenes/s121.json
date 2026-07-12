@@ -6,16 +6,16 @@
   "entries": {
     "from-shared": {
       "pos": {
-        "col": 55,
-        "row": 2,
+        "col": 59,
+        "row": 25,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 55,
-      "row": 2,
+      "col": 59,
+      "row": 25,
       "height": 0
     },
     "facing": "down"
@@ -39,7 +39,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s119",
+                    "scene": "s118",
                     "pos": {
                       "col": 55,
                       "row": 2,
@@ -160,7 +160,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.7266",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -251,27 +251,6 @@
     },
     {
       "body": []
-    },
-    {
-      "body": [
-        {
-          "kind": "playMusic",
-          "musicId": 32
-        }
-      ]
-    },
-    {
-      "body": [
-        {
-          "kind": "setScreenWave",
-          "level": 2,
-          "progression": 0
-        },
-        {
-          "kind": "playMusic",
-          "musicId": 32
-        }
-      ]
     }
   ]
 }

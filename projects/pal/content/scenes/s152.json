@@ -10,6 +10,13 @@
         "row": -27,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 85,
+        "row": 4,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -39,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s169",
+                    "scene": "s168",
                     "pos": {
                       "col": 85,
                       "row": 4,
@@ -71,7 +78,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s145"
+                    "scene": "s144"
                   }
                 ]
               }
@@ -3322,7 +3329,7 @@
               "body": [
                 {
                   "kind": "loadScene",
-                  "scene": "s153"
+                  "scene": "s152"
                 },
                 {
                   "kind": "teleportParty",
@@ -3334,7 +3341,8 @@
                 },
                 {
                   "kind": "fade",
-                  "dir": "out"
+                  "dir": "out",
+                  "ms": 600
                 }
               ]
             }

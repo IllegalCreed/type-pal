@@ -30,7 +30,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s008",
+                    "scene": "s007",
                     "pos": {
                       "col": 76,
                       "row": 12,
@@ -144,7 +144,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   },
                   {
                     "kind": "playMusic",
@@ -213,7 +214,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   },
                   {
                     "kind": "teleportParty",
@@ -273,11 +275,12 @@
                           },
                           {
                             "kind": "loadScene",
-                            "scene": "s007"
+                            "scene": "s006"
                           },
                           {
                             "kind": "fade",
-                            "dir": "out"
+                            "dir": "out",
+                            "ms": 600
                           }
                         ]
                       }
@@ -299,11 +302,12 @@
                           },
                           {
                             "kind": "loadScene",
-                            "scene": "s006"
+                            "scene": "s005"
                           },
                           {
                             "kind": "fade",
-                            "dir": "out"
+                            "dir": "out",
+                            "ms": 600
                           }
                         ]
                       }
@@ -375,9 +379,8 @@
                     "state": 0
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 600
+                    "kind": "ditherScreen",
+                    "ms": 2160
                   },
                   {
                     "kind": "setPartyFacing",
@@ -438,7 +441,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.815",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {

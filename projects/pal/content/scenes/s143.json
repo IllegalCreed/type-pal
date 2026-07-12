@@ -82,7 +82,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.8215",
-            "slot": "narration"
+            "slot": "center"
           }
         },
         {
@@ -228,6 +228,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.8225",
+            "speaker": "spk.尚书夫人",
             "slot": "top",
             "portrait": {
               "icon": 67,
@@ -248,11 +249,12 @@
         },
         {
           "kind": "fade",
-          "dir": "out"
+          "dir": "out",
+          "ms": 2400
         },
         {
           "kind": "loadScene",
-          "scene": "s141"
+          "scene": "s140"
         }
       ],
       "next": "advance"

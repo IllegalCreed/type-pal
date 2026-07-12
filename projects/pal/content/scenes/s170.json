@@ -53,9 +53,8 @@
           "gesture": 4
         },
         {
-          "kind": "fade",
-          "dir": "in",
-          "ms": 1800
+          "kind": "ditherScreen",
+          "ms": 5040
         },
         {
           "kind": "setEntityFacing",
@@ -209,7 +208,7 @@
         },
         {
           "kind": "loadScene",
-          "scene": "s172"
+          "scene": "s171"
         }
       ]
     }

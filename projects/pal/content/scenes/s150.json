@@ -9016,7 +9016,8 @@
         },
         {
           "kind": "fade",
-          "dir": "out"
+          "dir": "out",
+          "ms": 600
         },
         {
           "kind": "shakeScreen",
@@ -9047,11 +9048,12 @@
         },
         {
           "kind": "fade",
-          "dir": "out"
+          "dir": "out",
+          "ms": 1800
         },
         {
           "kind": "loadScene",
-          "scene": "s152"
+          "scene": "s151"
         }
       ]
     }

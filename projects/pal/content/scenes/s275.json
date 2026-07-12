@@ -6,23 +6,23 @@
   "entries": {
     "from-s273": {
       "pos": {
-        "col": 124,
-        "row": 21,
+        "col": 94,
+        "row": 56,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 124,
-        "row": 21,
+        "col": 125,
+        "row": 88,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 124,
-      "row": 21,
+      "col": 94,
+      "row": 56,
       "height": 0
     },
     "facing": "down"
@@ -46,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s274",
+                    "scene": "s273",
                     "pos": {
                       "col": 98,
                       "row": 58,

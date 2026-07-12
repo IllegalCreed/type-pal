@@ -3,12 +3,19 @@
   "map": {
     "reuseOriginalMap": 187
   },
-  "battleFieldId": 35,
-  "battleMusicId": 37,
+  "entries": {
+    "from-shared": {
+      "pos": {
+        "col": 109,
+        "row": 92,
+        "height": 0
+      }
+    }
+  },
   "entry": {
     "pos": {
-      "col": 96,
-      "row": 32,
+      "col": 109,
+      "row": 92,
       "height": 0
     },
     "facing": "down"
@@ -32,7 +39,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s213",
+                    "scene": "s212",
                     "pos": {
                       "col": 49,
                       "row": 8,
@@ -99,6 +106,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.10673",
+                      "speaker": "spk.阿奴",
                       "portrait": {
                         "icon": 29,
                         "side": "right"
@@ -154,7 +162,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -203,6 +211,15 @@
                     "facing": "left"
                   },
                   {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
                     "kind": "wait",
                     "ms": 160
                   },
@@ -230,9 +247,8 @@
                     "state": 2
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 600
+                    "kind": "ditherScreen",
+                    "ms": 2160
                   },
                   {
                     "kind": "dialog",
@@ -271,7 +287,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.10687"
+                      "text": "dlg.10687",
+                      "speaker": "spk.麒麟老人"
                     }
                   },
                   {
@@ -424,7 +441,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.10731"
+                      "text": "dlg.10731",
+                      "speaker": "spk.麒麟老人"
                     }
                   },
                   {
@@ -544,7 +562,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.10747"
+                      "text": "dlg.10747",
+                      "speaker": "spk.麒麟老人"
                     }
                   },
                   {
@@ -553,7 +572,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.10750"
+                      "text": "dlg.10750",
+                      "speaker": "spk.麒麟老人"
                     }
                   },
                   {
@@ -562,7 +582,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.10757"
+                      "text": "dlg.10757",
+                      "speaker": "spk.麒麟老人"
                     }
                   },
                   {
@@ -655,9 +676,8 @@
                     "state": 0
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 300
+                    "kind": "ditherScreen",
+                    "ms": 720
                   },
                   {
                     "kind": "setEntityFacing",
@@ -968,7 +988,7 @@
                                 "body": [
                                   {
                                     "kind": "loadScene",
-                                    "scene": "s203"
+                                    "scene": "s202"
                                   },
                                   {
                                     "kind": "teleportParty",
@@ -980,7 +1000,8 @@
                                   },
                                   {
                                     "kind": "fade",
-                                    "dir": "out"
+                                    "dir": "out",
+                                    "ms": 600
                                   }
                                 ]
                               }
@@ -1334,7 +1355,8 @@
                           {
                             "kind": "dialog",
                             "line": {
-                              "text": "dlg.10880"
+                              "text": "dlg.10880",
+                              "speaker": "spk.李逍遥"
                             }
                           },
                           {
@@ -1477,7 +1499,8 @@
                           },
                           {
                             "kind": "fade",
-                            "dir": "out"
+                            "dir": "out",
+                            "ms": 600
                           },
                           {
                             "kind": "setActorSprite",
@@ -1486,7 +1509,7 @@
                           },
                           {
                             "kind": "loadScene",
-                            "scene": "s201"
+                            "scene": "s200"
                           }
                         ],
                         "next": "advance"
@@ -1963,7 +1986,7 @@
       "body": [
         {
           "kind": "loadScene",
-          "scene": "s207",
+          "scene": "s206",
           "pos": {
             "col": 106,
             "row": 2,
@@ -1972,5 +1995,7 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 35,
+  "battleMusicId": 37
 }

@@ -3,69 +3,19 @@
   "map": {
     "reuseOriginalMap": 155
   },
-  "battleFieldId": 14,
   "entries": {
-    "from-s179": {
-      "pos": {
-        "col": 67,
-        "row": 12,
-        "height": 0
-      }
-    },
-    "from-s192": {
-      "pos": {
-        "col": 35,
-        "row": 11,
-        "height": 0
-      }
-    },
     "from-shared": {
       "pos": {
-        "col": 108,
-        "row": 14,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 158,
-        "row": 54,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 108,
-        "row": 32,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 67,
-        "row": 12,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 141,
-        "row": 48,
-        "height": 0
-      }
-    },
-    "from-shared-6": {
-      "pos": {
-        "col": 87,
-        "row": 73,
+        "col": 98,
+        "row": 79,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 67,
-      "row": 12,
+      "col": 98,
+      "row": 79,
       "height": 0
     },
     "facing": "down"
@@ -89,7 +39,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s187",
+                    "scene": "s186",
                     "pos": {
                       "col": 95,
                       "row": 81,
@@ -121,7 +71,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s185",
+                    "scene": "s184",
                     "pos": {
                       "col": 98,
                       "row": 79,
@@ -257,5 +207,6 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 14
 }

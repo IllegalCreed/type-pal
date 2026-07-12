@@ -3,34 +3,96 @@
   "map": {
     "reuseOriginalMap": 86
   },
-  "battleMusicId": 38,
   "entries": {
-    "from-s092": {
+    "from-s082": {
       "pos": {
-        "col": 123,
-        "row": 89,
+        "col": 92,
+        "row": 69,
+        "height": 0
+      }
+    },
+    "from-s094": {
+      "pos": {
+        "col": 48,
+        "row": 12,
+        "height": 0
+      }
+    },
+    "from-s095": {
+      "pos": {
+        "col": 64,
+        "row": 12,
+        "height": 0
+      }
+    },
+    "from-s097": {
+      "pos": {
+        "col": 83,
+        "row": 8,
+        "height": 0
+      }
+    },
+    "from-s097-2": {
+      "pos": {
+        "col": 72,
+        "row": 8,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 74,
-        "row": 42,
+        "col": 129,
+        "row": 25,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 123,
-        "row": 89,
+        "col": 48,
+        "row": 12,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 56,
+        "row": 15,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 63,
+        "row": -5,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 44,
+        "row": 19,
+        "height": 0
+      }
+    },
+    "from-shared-6": {
+      "pos": {
+        "col": 69,
+        "row": -15,
+        "height": 0
+      }
+    },
+    "from-shared-7": {
+      "pos": {
+        "col": 62,
+        "row": 8,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 123,
-      "row": 89,
+      "col": 92,
+      "row": 69,
       "height": 0
     },
     "facing": "down"
@@ -54,7 +116,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s083",
+                    "scene": "s082",
                     "pos": {
                       "col": 56,
                       "row": 12,
@@ -86,7 +148,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s086",
+                    "scene": "s085",
                     "pos": {
                       "col": 51,
                       "row": -6,
@@ -118,7 +180,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s095",
+                    "scene": "s094",
                     "pos": {
                       "col": 51,
                       "row": 10,
@@ -150,7 +212,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s096",
+                    "scene": "s095",
                     "pos": {
                       "col": 56,
                       "row": 15,
@@ -182,7 +244,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s098",
+                    "scene": "s097",
                     "pos": {
                       "col": 44,
                       "row": 19,
@@ -214,7 +276,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s098",
+                    "scene": "s097",
                     "pos": {
                       "col": 69,
                       "row": -15,
@@ -246,7 +308,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s098",
+                    "scene": "s097",
                     "pos": {
                       "col": 89,
                       "row": 69,
@@ -839,7 +901,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.4526"
+                      "text": "dlg.4526",
+                      "speaker": "spk.无赖"
                     }
                   },
                   {
@@ -848,7 +911,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.4527"
+                      "text": "dlg.4527",
+                      "speaker": "spk.无赖"
                     }
                   },
                   {
@@ -892,7 +956,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.4529"
+                      "text": "dlg.4529",
+                      "speaker": "spk.无赖"
                     }
                   },
                   {
@@ -1399,11 +1464,7 @@
                           "kind": "chance",
                           "percent": 96
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "branch",
@@ -2231,6 +2292,15 @@
                     "kind": "startBattle",
                     "team": 29,
                     "onLose": [
+                      {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
                       {
                         "kind": "setEntityState",
                         "entity": "e1758",
@@ -7202,38 +7272,15 @@
                       }
                     ],
                     "boss": true,
-                    "fieldId": 24,
-                    "choreography": [
-                      {
-                        "at": "turnStart",
-                        "once": true,
-                        "when": {
-                          "kind": "turn",
-                          "op": ">=",
-                          "value": 2
-                        },
-                        "body": [
-                          {
-                            "kind": "playSound",
-                            "soundId": 193
-                          },
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.13214"
-                            }
-                          },
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.13215"
-                            }
-                          },
-                          {
-                            "kind": "fleeBattle"
-                          }
-                        ]
-                      }
+                    "fieldId": 24
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
                     ]
                   },
                   {
@@ -12209,5 +12256,7 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 31,
+  "battleMusicId": 38
 }

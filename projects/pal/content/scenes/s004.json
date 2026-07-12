@@ -5,109 +5,102 @@
   },
   "musicId": 49,
   "entries": {
-    "from-s001": {
+    "from-s003": {
       "pos": {
-        "col": 143,
-        "row": 45,
+        "col": 95,
+        "row": 17,
         "height": 0
       }
     },
-    "from-s001-2": {
+    "from-s005": {
       "pos": {
-        "col": 133,
-        "row": 45,
+        "col": 140,
+        "row": 31,
         "height": 0
       }
     },
-    "from-s001-3": {
+    "from-s006": {
       "pos": {
-        "col": 123,
-        "row": 45,
+        "col": 93,
+        "row": 79,
         "height": 0
       }
     },
-    "from-s001-4": {
+    "from-s008": {
       "pos": {
-        "col": 125,
-        "row": 61,
+        "col": 151,
+        "row": 58,
         "height": 0
       }
     },
-    "from-s001-5": {
+    "from-s008-2": {
       "pos": {
-        "col": 141,
-        "row": 51,
+        "col": 117,
+        "row": 39,
         "height": 0
       }
     },
-    "from-s002": {
+    "from-s009": {
       "pos": {
-        "col": 132,
-        "row": 51,
-        "height": 0
-      }
-    },
-    "from-s004": {
-      "pos": {
-        "col": 137,
-        "row": 71,
+        "col": 89,
+        "row": 27,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 137,
-        "row": 71,
+        "col": 151,
+        "row": 58,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 132,
-        "row": 51,
+        "col": 140,
+        "row": 31,
         "height": 0
       }
     },
     "from-shared-3": {
       "pos": {
-        "col": 143,
-        "row": 45,
+        "col": 117,
+        "row": 39,
         "height": 0
       }
     },
     "from-shared-4": {
       "pos": {
-        "col": 133,
-        "row": 45,
+        "col": 89,
+        "row": 27,
         "height": 0
       }
     },
     "from-shared-5": {
       "pos": {
-        "col": 123,
-        "row": 45,
+        "col": 93,
+        "row": 79,
         "height": 0
       }
     },
     "from-shared-6": {
       "pos": {
-        "col": 125,
-        "row": 61,
+        "col": 95,
+        "row": 17,
         "height": 0
       }
     },
     "from-shared-7": {
       "pos": {
-        "col": 141,
-        "row": 51,
+        "col": 127,
+        "row": 65,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 143,
-      "row": 45,
+      "col": 95,
+      "row": 17,
       "height": 0
     },
     "facing": "down"
@@ -10603,11 +10596,7 @@
                           "kind": "chance",
                           "percent": 93
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stopScript"
@@ -10816,11 +10805,7 @@
                           "kind": "chance",
                           "percent": 66
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "setEntityFacing",
@@ -10940,11 +10925,7 @@
                           "kind": "chance",
                           "percent": 51
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stopScript"
@@ -10995,11 +10976,7 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stepEntity",
@@ -11051,11 +11028,7 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "wait",
@@ -11092,11 +11065,7 @@
                               "kind": "chance",
                               "percent": 91
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "stepEntity",
@@ -11153,11 +11122,7 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stepEntity",
@@ -11205,11 +11170,7 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stepEntity",
@@ -11283,11 +11244,7 @@
                           "kind": "chance",
                           "percent": 85
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stepEntity",
@@ -11359,11 +11316,7 @@
                           "kind": "chance",
                           "percent": 85
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stepEntity",
@@ -11435,11 +11388,7 @@
                           "kind": "chance",
                           "percent": 85
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stepEntity",
@@ -11511,11 +11460,7 @@
                           "kind": "chance",
                           "percent": 85
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stepEntity",
@@ -11744,11 +11689,7 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stepEntity",
@@ -11781,11 +11722,7 @@
                               "kind": "chance",
                               "percent": 91
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "stopScript"
@@ -11828,11 +11765,7 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stopScript"
@@ -11885,11 +11818,7 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "branch",
@@ -11919,11 +11848,7 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stopScript"
@@ -11969,11 +11894,7 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "branch",
@@ -12003,11 +11924,7 @@
                           "kind": "chance",
                           "percent": 91
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "stopScript"
@@ -12146,7 +12063,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s004",
+                    "scene": "s003",
                     "pos": {
                       "col": 137,
                       "row": 71,
@@ -12178,7 +12095,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s006",
+                    "scene": "s005",
                     "pos": {
                       "col": 111,
                       "row": 95,
@@ -12210,7 +12127,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s007",
+                    "scene": "s006",
                     "pos": {
                       "col": 175,
                       "row": 63,
@@ -12242,7 +12159,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s009",
+                    "scene": "s008",
                     "pos": {
                       "col": 52,
                       "row": 11,
@@ -12274,7 +12191,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s009",
+                    "scene": "s008",
                     "pos": {
                       "col": 124,
                       "row": 81,
@@ -12306,7 +12223,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s010",
+                    "scene": "s009",
                     "pos": {
                       "col": 63,
                       "row": 3,
@@ -12338,7 +12255,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s011",
+                    "scene": "s010",
                     "pos": {
                       "col": 127,
                       "row": 65,
@@ -12584,7 +12501,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12221",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -12933,11 +12850,7 @@
                           "kind": "chance",
                           "percent": 61
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "wait",
@@ -16218,498 +16131,6 @@
     }
   ],
   "onEnter": [
-    {
-      "body": [
-        {
-          "kind": "playMusic",
-          "musicId": 49
-        }
-      ],
-      "next": "advance"
-    },
-    {
-      "body": []
-    },
-    {
-      "body": [
-        {
-          "kind": "nudgeParty",
-          "dx": -8,
-          "dy": 4
-        },
-        {
-          "kind": "wait",
-          "ms": 40
-        },
-        {
-          "kind": "nudgeParty",
-          "dx": -8,
-          "dy": 4
-        },
-        {
-          "kind": "wait",
-          "ms": 40
-        },
-        {
-          "kind": "nudgeParty",
-          "dx": -8,
-          "dy": 4
-        },
-        {
-          "kind": "wait",
-          "ms": 40
-        },
-        {
-          "kind": "nudgeParty",
-          "dx": -8,
-          "dy": 4
-        },
-        {
-          "kind": "wait",
-          "ms": 40
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.1316",
-            "speaker": "spk.李逍遥"
-          }
-        },
-        {
-          "kind": "increaseHpMp",
-          "delta": 9999
-        }
-      ],
-      "next": "advance"
-    },
-    {
-      "body": []
-    },
-    {
-      "body": [
-        {
-          "kind": "setEntityPosRelParty",
-          "entity": "e83",
-          "dcol": -0.5,
-          "drow": 7.5
-        },
-        {
-          "kind": "setEntityFacing",
-          "entity": "e83",
-          "facing": "up"
-        },
-        {
-          "kind": "setEntityFrame",
-          "entity": "e83",
-          "frame": 0
-        },
-        {
-          "kind": "setEntityAuto",
-          "entity": "e83",
-          "stages": [
-            {
-              "body": [
-                {
-                  "kind": "moveEntity",
-                  "entity": "e83",
-                  "to": {
-                    "col": 140,
-                    "row": 32,
-                    "height": 0
-                  },
-                  "speed": "normal"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "kind": "setEntityTriggerMode",
-          "entity": "e83",
-          "on": "interact",
-          "range": 3
-        },
-        {
-          "kind": "wait",
-          "ms": 480
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.282",
-            "speaker": "spk.香兰",
-            "slot": "top",
-            "portrait": {
-              "icon": 52,
-              "side": "left"
-            }
-          }
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.286",
-            "speaker": "spk.李逍遥",
-            "portrait": {
-              "icon": 2,
-              "side": "right"
-            }
-          }
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "playMusic",
-          "musicId": 0
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.288",
-            "speaker": "spk.香兰",
-            "slot": "top",
-            "portrait": {
-              "icon": 52,
-              "side": "left"
-            }
-          }
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.292",
-            "speaker": "spk.李逍遥",
-            "portrait": {
-              "icon": 2,
-              "side": "right"
-            }
-          }
-        },
-        {
-          "kind": "playMusic",
-          "musicId": 87
-        },
-        {
-          "kind": "setEntityAuto",
-          "entity": "e83",
-          "stages": [
-            {
-              "body": [],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "setEntityFacing",
-                  "entity": "e83",
-                  "facing": "right"
-                },
-                {
-                  "kind": "setEntityFrame",
-                  "entity": "e83",
-                  "frame": 0
-                },
-                {
-                  "kind": "moveEntity",
-                  "entity": "e83",
-                  "to": {
-                    "col": 140,
-                    "row": 44,
-                    "height": 0
-                  },
-                  "speed": "slow"
-                },
-                {
-                  "kind": "setEntityFacing",
-                  "entity": "e83",
-                  "facing": "right"
-                },
-                {
-                  "kind": "setEntityFrame",
-                  "entity": "e83",
-                  "frame": 0
-                },
-                {
-                  "kind": "setEntityFacing",
-                  "entity": "e83",
-                  "facing": "up"
-                },
-                {
-                  "kind": "setEntityFrame",
-                  "entity": "e83",
-                  "frame": 0
-                },
-                {
-                  "kind": "wait",
-                  "ms": 1200
-                },
-                {
-                  "kind": "setEntityFacing",
-                  "entity": "e83",
-                  "facing": "down"
-                },
-                {
-                  "kind": "setEntityFrame",
-                  "entity": "e83",
-                  "frame": 0
-                },
-                {
-                  "kind": "wait",
-                  "ms": 160
-                },
-                {
-                  "kind": "moveEntity",
-                  "entity": "e83",
-                  "to": {
-                    "col": 157,
-                    "row": 44,
-                    "height": 0
-                  },
-                  "speed": "slow"
-                },
-                {
-                  "kind": "moveEntity",
-                  "entity": "e83",
-                  "to": {
-                    "col": 157,
-                    "row": 49,
-                    "height": 0
-                  },
-                  "speed": "slow"
-                },
-                {
-                  "kind": "wait",
-                  "ms": 800
-                },
-                {
-                  "kind": "moveEntity",
-                  "entity": "e83",
-                  "to": {
-                    "col": 158,
-                    "row": 49,
-                    "height": 0
-                  },
-                  "speed": "normal"
-                },
-                {
-                  "kind": "moveEntity",
-                  "entity": "e83",
-                  "to": {
-                    "col": 158,
-                    "row": 61,
-                    "height": 0
-                  },
-                  "speed": "normal"
-                }
-              ],
-              "next": 2
-            },
-            {
-              "body": [
-                {
-                  "kind": "setEntityFacing",
-                  "entity": "e83",
-                  "facing": "down"
-                },
-                {
-                  "kind": "setEntityFrame",
-                  "entity": "e83",
-                  "frame": 0
-                }
-              ],
-              "next": 2
-            }
-          ]
-        },
-        {
-          "kind": "setEntityTrigger",
-          "entity": "e83",
-          "stages": [
-            {
-              "body": [
-                {
-                  "kind": "dialog",
-                  "line": {
-                    "text": "dlg.302",
-                    "speaker": "spk.香兰",
-                    "slot": "top",
-                    "portrait": {
-                      "icon": 52,
-                      "side": "left"
-                    }
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "kind": "setEntityTrigger",
-          "entity": "e84",
-          "stages": [
-            {
-              "body": [
-                {
-                  "kind": "dialog",
-                  "line": {
-                    "text": "dlg.295",
-                    "speaker": "spk.秀兰",
-                    "slot": "top",
-                    "portrait": {
-                      "icon": 33,
-                      "side": "left"
-                    }
-                  }
-                },
-                {
-                  "kind": "clearDialog"
-                },
-                {
-                  "kind": "dialog",
-                  "line": {
-                    "text": "dlg.298",
-                    "slot": "top",
-                    "portrait": {
-                      "icon": 33,
-                      "side": "left"
-                    }
-                  }
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "dialog",
-                  "line": {
-                    "text": "dlg.300",
-                    "speaker": "spk.秀兰"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "kind": "setEntityTrigger",
-          "entity": "e86",
-          "stages": [
-            {
-              "body": [
-                {
-                  "kind": "dialog",
-                  "line": {
-                    "text": "dlg.256",
-                    "speaker": "spk.来福婶"
-                  }
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "dialog",
-                  "line": {
-                    "text": "dlg.259",
-                    "speaker": "spk.来福婶"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "kind": "setEntityState",
-          "entity": "e76",
-          "state": 0
-        },
-        {
-          "kind": "setEntityState",
-          "entity": "e36",
-          "state": 2
-        },
-        {
-          "kind": "setEntityState",
-          "entity": "e191",
-          "state": 0
-        },
-        {
-          "kind": "setEntityState",
-          "entity": "e35",
-          "state": 2
-        },
-        {
-          "kind": "setEntityState",
-          "entity": "e34",
-          "state": 1
-        },
-        {
-          "kind": "setEntityState",
-          "entity": "e19",
-          "state": 0
-        },
-        {
-          "kind": "setEntityState",
-          "entity": "e24",
-          "state": 0
-        },
-        {
-          "kind": "setEntityTrigger",
-          "entity": "e25",
-          "stages": [
-            {
-              "body": [
-                {
-                  "kind": "dialog",
-                  "line": {
-                    "text": "dlg.114",
-                    "speaker": "spk.苗人喽罗"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "kind": "setEntityTrigger",
-          "entity": "e26",
-          "stages": [
-            {
-              "body": [
-                {
-                  "kind": "dialog",
-                  "line": {
-                    "text": "dlg.119",
-                    "speaker": "spk.苗人喽啰"
-                  }
-                }
-              ],
-              "next": "advance"
-            },
-            {
-              "body": [
-                {
-                  "kind": "dialog",
-                  "line": {
-                    "text": "dlg.120"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "next": "advance"
-    },
-    {
-      "body": []
-    },
     {
       "body": [
         {

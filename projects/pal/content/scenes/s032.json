@@ -11,17 +11,10 @@
         "height": 0
       }
     },
-    "from-s023": {
-      "pos": {
-        "col": 67,
-        "row": 15,
-        "height": 0
-      }
-    },
     "from-shared": {
       "pos": {
         "col": 67,
-        "row": 15,
+        "row": -18,
         "height": 0
       }
     }
@@ -53,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s024",
+                    "scene": "s023",
                     "pos": {
                       "col": 54,
                       "row": 6,
@@ -85,7 +78,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s035",
+                    "scene": "s034",
                     "pos": {
                       "col": 131,
                       "row": 42,
@@ -147,11 +140,7 @@
                           "kind": "chance",
                           "percent": 31
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "setEntityAuto",
@@ -528,11 +517,7 @@
                           "kind": "chance",
                           "percent": 31
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "setEntityAuto",
@@ -1010,6 +995,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.2735",
+                      "speaker": "spk.李逍遥",
                       "portrait": {
                         "icon": 1,
                         "side": "right"
@@ -1078,6 +1064,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.2750",
+                      "speaker": "spk.李逍遥",
                       "portrait": {
                         "icon": 1,
                         "side": "right"
@@ -6329,7 +6316,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -6346,6 +6333,15 @@
                   {
                     "kind": "playMusic",
                     "musicId": 0
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
                   },
                   {
                     "kind": "setEntityState",
@@ -6408,7 +6404,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.2832",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -10694,7 +10690,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   },
                   {
                     "kind": "setEntityTrigger",
@@ -10704,7 +10701,7 @@
                         "body": [
                           {
                             "kind": "loadScene",
-                            "scene": "s034"
+                            "scene": "s033"
                           },
                           {
                             "kind": "teleportParty",
@@ -10716,7 +10713,8 @@
                           },
                           {
                             "kind": "fade",
-                            "dir": "out"
+                            "dir": "out",
+                            "ms": 600
                           }
                         ]
                       }
@@ -10724,7 +10722,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s035"
+                    "scene": "s034"
                   }
                 ]
               }
@@ -11596,5 +11594,6 @@
     {
       "body": []
     }
-  ]
+  ],
+  "battleMusicId": 37
 }

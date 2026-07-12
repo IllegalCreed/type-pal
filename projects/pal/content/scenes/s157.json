@@ -4,25 +4,25 @@
     "reuseOriginalMap": 133
   },
   "entries": {
-    "from-s154": {
+    "from-shared": {
       "pos": {
-        "col": 49,
-        "row": 26,
+        "col": 87,
+        "row": 58,
         "height": 0
       }
     },
-    "from-shared": {
+    "from-shared-2": {
       "pos": {
-        "col": 49,
-        "row": 26,
+        "col": 112,
+        "row": 74,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 49,
-      "row": 26,
+      "col": 87,
+      "row": 58,
       "height": 0
     },
     "facing": "down"
@@ -46,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s156",
+                    "scene": "s155",
                     "pos": {
                       "col": 132,
                       "row": 43,
@@ -78,7 +78,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s160",
+                    "scene": "s159",
                     "pos": {
                       "col": 112,
                       "row": 74,
@@ -135,7 +135,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.8404"
+                      "text": "dlg.8404",
+                      "speaker": "spk.青衣弟子"
                     }
                   }
                 ]

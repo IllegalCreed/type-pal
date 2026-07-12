@@ -3,11 +3,26 @@
   "map": {
     "reuseOriginalMap": 184
   },
-  "battleFieldId": 49,
+  "entries": {
+    "from-s256": {
+      "pos": {
+        "col": 96,
+        "row": 39,
+        "height": 0
+      }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 120,
+        "row": 39,
+        "height": 0
+      }
+    }
+  },
   "entry": {
     "pos": {
       "col": 96,
-      "row": 32,
+      "row": 39,
       "height": 0
     },
     "facing": "down"
@@ -31,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s257",
+                    "scene": "s256",
                     "pos": {
                       "col": 145,
                       "row": 34,
@@ -286,6 +301,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11511",
+                      "speaker": "spk.李逍遥",
                       "portrait": {
                         "icon": 9,
                         "side": "right"
@@ -369,6 +385,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11532",
+                      "speaker": "spk.巫后",
                       "portrait": {
                         "icon": 73,
                         "side": "right"
@@ -612,6 +629,7 @@
                             "kind": "dialog",
                             "line": {
                               "text": "dlg.11795",
+                              "speaker": "spk.石长老",
                               "slot": "top"
                             }
                           }
@@ -677,11 +695,12 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s254"
+                    "scene": "s253"
                   }
                 ]
               }
@@ -756,5 +775,6 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 49
 }

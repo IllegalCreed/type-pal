@@ -10,20 +10,6 @@
         "row": 0,
         "height": 0
       }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 129,
-        "row": 16,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 119,
-        "row": 10,
-        "height": 0
-      }
     }
   },
   "entry": {
@@ -201,6 +187,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9909",
+            "speaker": "spk.老婆婆",
             "portrait": {
               "icon": 82,
               "side": "right"
@@ -369,7 +356,8 @@
         },
         {
           "kind": "fade",
-          "dir": "out"
+          "dir": "out",
+          "ms": 600
         },
         {
           "kind": "setEntityState",
@@ -383,7 +371,7 @@
         },
         {
           "kind": "loadScene",
-          "scene": "s175"
+          "scene": "s174"
         }
       ],
       "next": "advance"

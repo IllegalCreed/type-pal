@@ -51,9 +51,8 @@
           "state": 1
         },
         {
-          "kind": "fade",
-          "dir": "in",
-          "ms": 1200
+          "kind": "ditherScreen",
+          "ms": 3600
         },
         {
           "kind": "dialog",
@@ -207,11 +206,12 @@
         },
         {
           "kind": "fade",
-          "dir": "out"
+          "dir": "out",
+          "ms": 1200
         },
         {
           "kind": "loadScene",
-          "scene": "s247"
+          "scene": "s246"
         }
       ]
     }

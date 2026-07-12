@@ -3,28 +3,10 @@
   "map": {
     "reuseOriginalMap": 177
   },
-  "battleFieldId": 13,
-  "battleMusicId": 41,
-  "entries": {
-    "from-s244": {
-      "pos": {
-        "col": 102,
-        "row": 60,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 102,
-        "row": 60,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
-      "col": 102,
-      "row": 60,
+      "col": 96,
+      "row": 32,
       "height": 0
     },
     "facing": "down"
@@ -4821,7 +4803,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -4833,6 +4815,15 @@
                     ],
                     "boss": true,
                     "fieldId": 13
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
                   },
                   {
                     "kind": "setEntityState",
@@ -4861,7 +4852,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   },
                   {
                     "kind": "setPartyFacing",
@@ -5038,6 +5030,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11269",
+                      "speaker": "spk.妇人",
                       "portrait": {
                         "icon": 75,
                         "side": "right"
@@ -5080,6 +5073,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11271",
+                      "speaker": "spk.妇人",
                       "portrait": {
                         "icon": 75,
                         "side": "right"
@@ -5197,7 +5191,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -5208,6 +5202,15 @@
                       }
                     ],
                     "boss": true
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
                   },
                   {
                     "kind": "setEntityState",
@@ -5260,6 +5263,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11280",
+                      "speaker": "spk.李逍遥",
                       "portrait": {
                         "icon": 9,
                         "side": "right"
@@ -5286,7 +5290,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   },
                   {
                     "kind": "setEntityState",
@@ -5582,11 +5587,12 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s255",
+                    "scene": "s254",
                     "pos": {
                       "col": 160,
                       "row": 55,
@@ -5659,5 +5665,7 @@
     {
       "body": []
     }
-  ]
+  ],
+  "battleFieldId": 13,
+  "battleMusicId": 37
 }

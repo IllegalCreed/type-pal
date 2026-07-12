@@ -4,25 +4,25 @@
     "reuseOriginalMap": 116
   },
   "entries": {
-    "from-s127": {
+    "from-s100": {
       "pos": {
-        "col": 67,
-        "row": 8,
+        "col": 66,
+        "row": 19,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 67,
-        "row": 8,
+        "col": 128,
+        "row": 53,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 67,
-      "row": 8,
+      "col": 66,
+      "row": 19,
       "height": 0
     },
     "facing": "down"
@@ -46,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s101",
+                    "scene": "s100",
                     "pos": {
                       "col": 128,
                       "row": 53,
@@ -581,7 +581,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.7417"
+                      "text": "dlg.7417",
+                      "speaker": "spk.澡堂女客乙"
                     }
                   }
                 ],

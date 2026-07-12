@@ -6,16 +6,23 @@
   "entries": {
     "from-shared": {
       "pos": {
-        "col": 67,
-        "row": -18,
+        "col": 97,
+        "row": 11,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 131,
+        "row": 42,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 67,
-      "row": -18,
+      "col": 97,
+      "row": 11,
       "height": 0
     },
     "facing": "down"
@@ -39,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s035",
+                    "scene": "s034",
                     "pos": {
                       "col": 131,
                       "row": 42,

@@ -4,53 +4,81 @@
     "reuseOriginalMap": 91
   },
   "entries": {
-    "from-s093": {
+    "from-s085": {
       "pos": {
-        "col": 56,
-        "row": 15,
+        "col": 54,
+        "row": 8,
         "height": 0
       }
     },
-    "from-s093-2": {
+    "from-s085-2": {
       "pos": {
-        "col": 44,
-        "row": 19,
+        "col": 53,
+        "row": 17,
         "height": 0
       }
     },
-    "from-s093-3": {
+    "from-s085-3": {
       "pos": {
-        "col": 69,
-        "row": -15,
+        "col": 74,
+        "row": -7,
+        "height": 0
+      }
+    },
+    "from-s087": {
+      "pos": {
+        "col": 45,
+        "row": 17,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 83,
-        "row": 8,
+        "col": 154,
+        "row": 67,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 72,
-        "row": 8,
+        "col": 45,
+        "row": 17,
         "height": 0
       }
     },
     "from-shared-3": {
       "pos": {
-        "col": 54,
-        "row": 8,
+        "col": 74,
+        "row": -14,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 53,
+        "row": 17,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 74,
+        "row": -7,
+        "height": 0
+      }
+    },
+    "from-shared-6": {
+      "pos": {
+        "col": 25,
+        "row": 3,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 56,
-      "row": 15,
+      "col": 54,
+      "row": 8,
       "height": 0
     },
     "facing": "down"
@@ -74,7 +102,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s088",
+                    "scene": "s087",
                     "pos": {
                       "col": 116,
                       "row": 95,
@@ -106,7 +134,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s088",
+                    "scene": "s087",
                     "pos": {
                       "col": 154,
                       "row": 67,
@@ -138,7 +166,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s086",
+                    "scene": "s085",
                     "pos": {
                       "col": 24,
                       "row": -5,
@@ -170,7 +198,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s086",
+                    "scene": "s085",
                     "pos": {
                       "col": 55,
                       "row": -26,
@@ -202,7 +230,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s086",
+                    "scene": "s085",
                     "pos": {
                       "col": 76,
                       "row": -36,
@@ -234,7 +262,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s087",
+                    "scene": "s086",
                     "pos": {
                       "col": 25,
                       "row": 3,

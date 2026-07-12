@@ -4,58 +4,16 @@
     "reuseOriginalMap": 51
   },
   "entries": {
-    "from-s034": {
-      "pos": {
-        "col": 57,
-        "row": 12,
-        "height": 0
-      }
-    },
-    "from-s038": {
-      "pos": {
-        "col": 41,
-        "row": -25,
-        "height": 0
-      }
-    },
-    "from-s038-2": {
-      "pos": {
-        "col": 57,
-        "row": -25,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 57,
-        "row": 12,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
+    "from-s035": {
       "pos": {
         "col": 96,
         "row": 71,
         "height": 0
       }
     },
-    "from-shared-3": {
+    "from-shared": {
       "pos": {
-        "col": 69,
-        "row": 36,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 41,
-        "row": -25,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 57,
+        "col": 84,
         "row": -25,
         "height": 0
       }
@@ -63,8 +21,8 @@
   },
   "entry": {
     "pos": {
-      "col": 57,
-      "row": 12,
+      "col": 96,
+      "row": 71,
       "height": 0
     },
     "facing": "down"
@@ -88,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s036",
+                    "scene": "s035",
                     "pos": {
                       "col": 69,
                       "row": 36,
@@ -373,7 +331,7 @@
                         "body": [
                           {
                             "kind": "loadScene",
-                            "scene": "s038"
+                            "scene": "s037"
                           },
                           {
                             "kind": "teleportParty",
@@ -385,7 +343,8 @@
                           },
                           {
                             "kind": "fade",
-                            "dir": "out"
+                            "dir": "out",
+                            "ms": 600
                           }
                         ]
                       }
@@ -412,11 +371,11 @@
                   {
                     "kind": "setSceneStage",
                     "scene": "s037",
-                    "stage": 2
+                    "stage": 0
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s038"
+                    "scene": "s037"
                   }
                 ]
               }
@@ -12577,7 +12536,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -12734,5 +12693,6 @@
         }
       ]
     }
-  ]
+  ],
+  "battleMusicId": 37
 }

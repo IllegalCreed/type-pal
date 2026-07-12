@@ -4,53 +4,144 @@
     "reuseOriginalMap": 70
   },
   "entries": {
-    "from-s046": {
+    "from-s040": {
       "pos": {
-        "col": 110,
-        "row": 50,
+        "col": 124,
+        "row": 87,
         "height": 0
       }
     },
-    "from-s046-2": {
+    "from-s041": {
       "pos": {
-        "col": 80,
-        "row": 0,
+        "col": 123,
+        "row": 43,
         "height": 0
       }
     },
-    "from-s046-3": {
+    "from-s041-2": {
       "pos": {
-        "col": 113,
-        "row": 71,
+        "col": 148,
+        "row": 48,
+        "height": 0
+      }
+    },
+    "from-s041-3": {
+      "pos": {
+        "col": 84,
+        "row": 44,
+        "height": 0
+      }
+    },
+    "from-s044": {
+      "pos": {
+        "col": 61,
+        "row": 31,
+        "height": 0
+      }
+    },
+    "from-s044-2": {
+      "pos": {
+        "col": 60,
+        "row": 25,
+        "height": 0
+      }
+    },
+    "from-s044-3": {
+      "pos": {
+        "col": 133,
+        "row": 39,
+        "height": 0
+      }
+    },
+    "from-s045": {
+      "pos": {
+        "col": 93,
+        "row": 6,
+        "height": 0
+      }
+    },
+    "from-s045-2": {
+      "pos": {
+        "col": 97,
+        "row": 32,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 110,
-        "row": 50,
+        "col": 60,
+        "row": 25,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 80,
-        "row": 0,
+        "col": 133,
+        "row": 39,
         "height": 0
       }
     },
     "from-shared-3": {
       "pos": {
-        "col": 113,
-        "row": 71,
+        "col": 93,
+        "row": 6,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 97,
+        "row": 32,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 127,
+        "row": 77,
+        "height": 0
+      }
+    },
+    "from-shared-6": {
+      "pos": {
+        "col": 124,
+        "row": 87,
+        "height": 0
+      }
+    },
+    "from-shared-7": {
+      "pos": {
+        "col": 158,
+        "row": 54,
+        "height": 0
+      }
+    },
+    "from-shared-8": {
+      "pos": {
+        "col": 148,
+        "row": 48,
+        "height": 0
+      }
+    },
+    "from-shared-9": {
+      "pos": {
+        "col": 84,
+        "row": 44,
+        "height": 0
+      }
+    },
+    "from-shared-10": {
+      "pos": {
+        "col": 95,
+        "row": 23,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 110,
-      "row": 50,
+      "col": 124,
+      "row": 87,
       "height": 0
     },
     "facing": "down"
@@ -74,7 +165,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s045",
+                    "scene": "s044",
                     "pos": {
                       "col": 110,
                       "row": 50,
@@ -106,7 +197,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s046",
+                    "scene": "s045",
                     "pos": {
                       "col": 99,
                       "row": 82,
@@ -138,7 +229,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s045",
+                    "scene": "s044",
                     "pos": {
                       "col": 80,
                       "row": 0,
@@ -170,7 +261,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s046",
+                    "scene": "s045",
                     "pos": {
                       "col": 129,
                       "row": 112,
@@ -202,7 +293,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s045",
+                    "scene": "s044",
                     "pos": {
                       "col": 113,
                       "row": 71,
@@ -234,7 +325,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s046",
+                    "scene": "s045",
                     "pos": {
                       "col": 59,
                       "row": -19,
@@ -266,7 +357,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s041",
+                    "scene": "s040",
                     "pos": {
                       "col": 171,
                       "row": 60,
@@ -298,7 +389,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s041",
+                    "scene": "s040",
                     "pos": {
                       "col": 79,
                       "row": 43,
@@ -330,7 +421,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s042",
+                    "scene": "s041",
                     "pos": {
                       "col": 65,
                       "row": 37,
@@ -362,7 +453,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s042",
+                    "scene": "s041",
                     "pos": {
                       "col": 100,
                       "row": 11,
@@ -394,7 +485,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s042",
+                    "scene": "s041",
                     "pos": {
                       "col": 95,
                       "row": 23,
@@ -462,7 +553,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -599,7 +690,7 @@
         },
         {
           "kind": "loadScene",
-          "scene": "s045",
+          "scene": "s044",
           "pos": {
             "col": 174,
             "row": 60,

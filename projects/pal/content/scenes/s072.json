@@ -3,42 +3,40 @@
   "map": {
     "reuseOriginalMap": 65
   },
-  "battleFieldId": 55,
-  "battleMusicId": 37,
   "entries": {
     "from-s068": {
       "pos": {
-        "col": 111,
-        "row": 14,
+        "col": 122,
+        "row": 16,
         "height": 0
       }
     },
     "from-s068-2": {
       "pos": {
-        "col": 101,
-        "row": 31,
+        "col": 156,
+        "row": 58,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 111,
-        "row": 14,
+        "col": 122,
+        "row": 16,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 101,
-        "row": 31,
+        "col": 156,
+        "row": 58,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 111,
-      "row": 14,
+      "col": 122,
+      "row": 16,
       "height": 0
     },
     "facing": "down"
@@ -62,7 +60,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s069",
+                    "scene": "s068",
                     "pos": {
                       "col": 131,
                       "row": 24,
@@ -94,7 +92,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s069",
+                    "scene": "s068",
                     "pos": {
                       "col": 73,
                       "row": 11,
@@ -254,7 +252,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -318,7 +316,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -339,7 +337,7 @@
       "body": [
         {
           "kind": "loadScene",
-          "scene": "s069",
+          "scene": "s068",
           "pos": {
             "col": 131,
             "row": 24,
@@ -348,5 +346,7 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 55,
+  "battleMusicId": 37
 }

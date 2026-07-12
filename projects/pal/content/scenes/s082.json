@@ -4,18 +4,88 @@
     "reuseOriginalMap": 79
   },
   "entries": {
+    "from-s084": {
+      "pos": {
+        "col": 79,
+        "row": -28,
+        "height": 0
+      }
+    },
+    "from-s096": {
+      "pos": {
+        "col": 84,
+        "row": 33,
+        "height": 0
+      }
+    },
+    "from-s096-2": {
+      "pos": {
+        "col": 84,
+        "row": 11,
+        "height": 0
+      }
+    },
     "from-shared": {
       "pos": {
-        "col": 74,
-        "row": 40,
+        "col": 92,
+        "row": 69,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 79,
+        "row": -28,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 82,
+        "row": 31,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 128,
+        "row": 99,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 84,
+        "row": 33,
+        "height": 0
+      }
+    },
+    "from-shared-6": {
+      "pos": {
+        "col": 84,
+        "row": 11,
+        "height": 0
+      }
+    },
+    "from-shared-7": {
+      "pos": {
+        "col": 46,
+        "row": 16,
+        "height": 0
+      }
+    },
+    "from-shared-8": {
+      "pos": {
+        "col": 64,
+        "row": 12,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 74,
-      "row": 40,
+      "col": 79,
+      "row": -28,
       "height": 0
     },
     "facing": "down"
@@ -39,7 +109,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s085",
+                    "scene": "s084",
                     "pos": {
                       "col": 30,
                       "row": 17,
@@ -71,7 +141,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s085",
+                    "scene": "s084",
                     "pos": {
                       "col": 92,
                       "row": 69,
@@ -103,7 +173,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s094",
+                    "scene": "s093",
                     "pos": {
                       "col": 82,
                       "row": 31,
@@ -135,7 +205,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s097",
+                    "scene": "s096",
                     "pos": {
                       "col": 62,
                       "row": 20,
@@ -167,7 +237,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s097",
+                    "scene": "s096",
                     "pos": {
                       "col": 88,
                       "row": -3,
@@ -199,7 +269,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s097",
+                    "scene": "s096",
                     "pos": {
                       "col": 84,
                       "row": 50,
@@ -231,7 +301,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s096",
+                    "scene": "s095",
                     "pos": {
                       "col": 61,
                       "row": 27,
@@ -263,7 +333,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s095",
+                    "scene": "s094",
                     "pos": {
                       "col": 46,
                       "row": 16,
@@ -18016,11 +18086,7 @@
                                   "kind": "chance",
                                   "percent": 76
                                 },
-                                "then": [
-                                  {
-                                    "kind": "stopScript"
-                                  }
-                                ]
+                                "then": []
                               },
                               {
                                 "kind": "wait",
@@ -18046,11 +18112,7 @@
                                   "kind": "chance",
                                   "percent": 81
                                 },
-                                "then": [
-                                  {
-                                    "kind": "stopScript"
-                                  }
-                                ]
+                                "then": []
                               },
                               {
                                 "kind": "wait",
@@ -18076,11 +18138,7 @@
                                   "kind": "chance",
                                   "percent": 85
                                 },
-                                "then": [
-                                  {
-                                    "kind": "stopScript"
-                                  }
-                                ]
+                                "then": []
                               },
                               {
                                 "kind": "setEntityTriggerMode",
@@ -18134,11 +18192,7 @@
                                   "kind": "chance",
                                   "percent": 76
                                 },
-                                "then": [
-                                  {
-                                    "kind": "stopScript"
-                                  }
-                                ]
+                                "then": []
                               },
                               {
                                 "kind": "wait",
@@ -18164,11 +18218,7 @@
                                   "kind": "chance",
                                   "percent": 81
                                 },
-                                "then": [
-                                  {
-                                    "kind": "stopScript"
-                                  }
-                                ]
+                                "then": []
                               },
                               {
                                 "kind": "wait",
@@ -18194,11 +18244,7 @@
                                   "kind": "chance",
                                   "percent": 85
                                 },
-                                "then": [
-                                  {
-                                    "kind": "stopScript"
-                                  }
-                                ]
+                                "then": []
                               },
                               {
                                 "kind": "setEntityTriggerMode",
@@ -18252,11 +18298,7 @@
                                   "kind": "chance",
                                   "percent": 76
                                 },
-                                "then": [
-                                  {
-                                    "kind": "stopScript"
-                                  }
-                                ]
+                                "then": []
                               },
                               {
                                 "kind": "wait",
@@ -18282,11 +18324,7 @@
                                   "kind": "chance",
                                   "percent": 81
                                 },
-                                "then": [
-                                  {
-                                    "kind": "stopScript"
-                                  }
-                                ]
+                                "then": []
                               },
                               {
                                 "kind": "wait",
@@ -18312,11 +18350,7 @@
                                   "kind": "chance",
                                   "percent": 85
                                 },
-                                "then": [
-                                  {
-                                    "kind": "stopScript"
-                                  }
-                                ]
+                                "then": []
                               },
                               {
                                 "kind": "setEntityTriggerMode",
@@ -18373,11 +18407,7 @@
                                   "kind": "chance",
                                   "percent": 61
                                 },
-                                "then": [
-                                  {
-                                    "kind": "stopScript"
-                                  }
-                                ]
+                                "then": []
                               },
                               {
                                 "kind": "wait",
@@ -18466,11 +18496,7 @@
                           "kind": "chance",
                           "percent": 61
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "wait",

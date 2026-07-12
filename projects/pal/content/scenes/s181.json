@@ -11,38 +11,17 @@
         "height": 0
       }
     },
-    "from-s189": {
+    "from-s190": {
       "pos": {
-        "col": 94,
-        "row": -16,
+        "col": 109,
+        "row": 92,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 148,
-        "row": 59,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 158,
-        "row": 54,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 139,
-        "row": 101,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 100,
-        "row": -11,
+        "col": 109,
+        "row": 92,
         "height": 0
       }
     }
@@ -74,7 +53,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s191",
+                    "scene": "s190",
                     "pos": {
                       "col": 104,
                       "row": -8,
@@ -203,7 +182,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9662",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -229,7 +208,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -242,6 +221,15 @@
                     "boss": true,
                     "fieldId": 14,
                     "musicId": 38
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
                   },
                   {
                     "kind": "dialog",
@@ -310,6 +298,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9672",
+                      "speaker": "spk.老村长",
                       "slot": "top"
                     }
                   },
@@ -990,11 +979,12 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 1200
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s184"
+                    "scene": "s183"
                   }
                 ]
               }
@@ -1099,5 +1089,6 @@
       "body": []
     }
   ],
-  "battleMusicId": 39
+  "battleMusicId": 39,
+  "battleFieldId": 15
 }

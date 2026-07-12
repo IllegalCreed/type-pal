@@ -4,39 +4,52 @@
     "reuseOriginalMap": 210
   },
   "musicId": 32,
-  "battleFieldId": 57,
   "entries": {
-    "from-s281": {
+    "from-s288": {
       "pos": {
-        "col": 64,
-        "row": 45,
+        "col": 88,
+        "row": 31,
         "height": 0
       }
     },
-    "from-s281-2": {
+    "from-s290": {
       "pos": {
-        "col": 128,
-        "row": 84,
+        "col": 63,
+        "row": 18,
+        "height": 0
+      }
+    },
+    "from-s293": {
+      "pos": {
+        "col": 92,
+        "row": -21,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 145,
-        "row": 65,
+        "col": 95,
+        "row": 24,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 143,
-        "row": 39,
+        "col": 73,
+        "row": 34,
         "height": 0
       }
     },
     "from-shared-3": {
       "pos": {
-        "col": 67,
+        "col": 104,
+        "row": 34,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 145,
         "row": 34,
         "height": 0
       }
@@ -44,8 +57,8 @@
   },
   "entry": {
     "pos": {
-      "col": 64,
-      "row": 45,
+      "col": 88,
+      "row": 31,
       "height": 0
     },
     "facing": "down"
@@ -69,7 +82,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s289",
+                    "scene": "s288",
                     "pos": {
                       "col": 35,
                       "row": 14,
@@ -101,7 +114,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s291",
+                    "scene": "s290",
                     "pos": {
                       "col": 73,
                       "row": 34,
@@ -133,7 +146,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s291",
+                    "scene": "s290",
                     "pos": {
                       "col": 104,
                       "row": 34,
@@ -165,7 +178,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s294",
+                    "scene": "s293",
                     "pos": {
                       "col": 27,
                       "row": 5,
@@ -36041,7 +36054,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -36105,7 +36118,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -36169,7 +36182,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -36233,7 +36246,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -36297,7 +36310,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -36317,5 +36330,6 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 57
 }

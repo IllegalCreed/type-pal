@@ -4,32 +4,46 @@
     "reuseOriginalMap": 207
   },
   "entries": {
-    "from-s261": {
+    "from-s262": {
       "pos": {
-        "col": 76,
-        "row": 13,
+        "col": 88,
+        "row": 31,
+        "height": 0
+      }
+    },
+    "from-s265": {
+      "pos": {
+        "col": 63,
+        "row": 18,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 96,
-        "row": -5,
+        "col": 95,
+        "row": 24,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 151,
-        "row": 45,
+        "col": 73,
+        "row": 34,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 104,
+        "row": 34,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 76,
-      "row": 13,
+      "col": 88,
+      "row": 31,
       "height": 0
     },
     "facing": "down"
@@ -53,7 +67,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s263",
+                    "scene": "s262",
                     "pos": {
                       "col": 35,
                       "row": 14,
@@ -85,7 +99,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s266",
+                    "scene": "s265",
                     "pos": {
                       "col": 73,
                       "row": 34,
@@ -117,7 +131,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s266",
+                    "scene": "s265",
                     "pos": {
                       "col": 104,
                       "row": 34,
@@ -35627,7 +35641,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -35691,7 +35705,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -35755,7 +35769,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -35819,7 +35833,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -35883,7 +35897,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -35947,7 +35961,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -35963,7 +35977,7 @@
       "body": [
         {
           "kind": "loadScene",
-          "scene": "s262",
+          "scene": "s261",
           "pos": {
             "col": 107,
             "row": 76,

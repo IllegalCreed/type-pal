@@ -3,76 +3,82 @@
   "map": {
     "reuseOriginalMap": 215
   },
-  "battleFieldId": 34,
   "entries": {
-    "from-s215": {
-      "pos": {
-        "col": 66,
-        "row": 42,
-        "height": 0
-      }
-    },
-    "from-s215-2": {
-      "pos": {
-        "col": 86,
-        "row": 58,
-        "height": 0
-      }
-    },
-    "from-s215-3": {
-      "pos": {
-        "col": 101,
-        "row": 59,
-        "height": 0
-      }
-    },
-    "from-s217": {
-      "pos": {
-        "col": 60,
-        "row": 26,
-        "height": 0
-      }
-    },
-    "from-shared": {
+    "from-s216": {
       "pos": {
         "col": 110,
         "row": 33,
         "height": 0
       }
     },
-    "from-shared-2": {
+    "from-s216-2": {
       "pos": {
         "col": 127,
         "row": 54,
         "height": 0
       }
     },
+    "from-s216-3": {
+      "pos": {
+        "col": 48,
+        "row": -19,
+        "height": 0
+      }
+    },
+    "from-s218": {
+      "pos": {
+        "col": 109,
+        "row": 66,
+        "height": 0
+      }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 66,
+        "row": 42,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 60,
+        "row": 26,
+        "height": 0
+      }
+    },
     "from-shared-3": {
       "pos": {
-        "col": 121,
-        "row": 24,
+        "col": 87,
+        "row": -14,
         "height": 0
       }
     },
     "from-shared-4": {
       "pos": {
-        "col": 72,
-        "row": 20,
+        "col": 65,
+        "row": 26,
         "height": 0
       }
     },
     "from-shared-5": {
       "pos": {
-        "col": 84,
-        "row": 20,
+        "col": 89,
+        "row": 47,
+        "height": 0
+      }
+    },
+    "from-shared-6": {
+      "pos": {
+        "col": 70,
+        "row": 10,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 66,
-      "row": 42,
+      "col": 110,
+      "row": 33,
       "height": 0
     },
     "facing": "down"
@@ -96,7 +102,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s217",
+                    "scene": "s216",
                     "pos": {
                       "col": 60,
                       "row": 26,
@@ -128,7 +134,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s217",
+                    "scene": "s216",
                     "pos": {
                       "col": 87,
                       "row": -14,
@@ -160,7 +166,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s219",
+                    "scene": "s218",
                     "pos": {
                       "col": 46,
                       "row": -12,
@@ -192,7 +198,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s219",
+                    "scene": "s218",
                     "pos": {
                       "col": 65,
                       "row": 26,
@@ -224,7 +230,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s219",
+                    "scene": "s218",
                     "pos": {
                       "col": 89,
                       "row": 47,
@@ -256,7 +262,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s219",
+                    "scene": "s218",
                     "pos": {
                       "col": 125,
                       "row": 27,
@@ -601,7 +607,7 @@
       "body": [
         {
           "kind": "loadScene",
-          "scene": "s216",
+          "scene": "s215",
           "pos": {
             "col": 72,
             "row": 20,
@@ -610,5 +616,7 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 34,
+  "battleMusicId": 37
 }

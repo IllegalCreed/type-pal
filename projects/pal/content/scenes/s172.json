@@ -3,10 +3,19 @@
   "map": {
     "reuseOriginalMap": 202
   },
+  "entries": {
+    "from-shared": {
+      "pos": {
+        "col": 61,
+        "row": 17,
+        "height": 0
+      }
+    }
+  },
   "entry": {
     "pos": {
-      "col": 96,
-      "row": 32,
+      "col": 61,
+      "row": 17,
       "height": 0
     },
     "facing": "down"
@@ -30,7 +39,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s177",
+                    "scene": "s176",
                     "pos": {
                       "col": 89,
                       "row": 0,
@@ -104,7 +113,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.10089",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -426,6 +435,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.10073",
+                          "speaker": "spk.老婆婆",
                           "portrait": {
                             "icon": 82,
                             "side": "right"
@@ -439,6 +449,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.10076",
+                          "speaker": "spk.老婆婆",
                           "portrait": {
                             "icon": 82,
                             "side": "right"
@@ -468,16 +479,17 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   },
                   {
                     "kind": "setSceneStage",
                     "scene": "s174",
-                    "stage": 4
+                    "stage": 0
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s175"
+                    "scene": "s174"
                   }
                 ]
               }
@@ -561,7 +573,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9931",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -593,7 +605,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.10160",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -608,6 +620,15 @@
     {
       "body": [
         {
+          "kind": "unmigrated",
+          "opcode": 109,
+          "operands": [
+            183,
+            0,
+            0
+          ]
+        },
+        {
           "kind": "setEntityTrigger",
           "entity": "e2960",
           "stages": [
@@ -615,7 +636,7 @@
               "body": [
                 {
                   "kind": "loadScene",
-                  "scene": "s183"
+                  "scene": "s182"
                 },
                 {
                   "kind": "teleportParty",
@@ -627,7 +648,8 @@
                 },
                 {
                   "kind": "fade",
-                  "dir": "out"
+                  "dir": "out",
+                  "ms": 600
                 }
               ]
             }
@@ -990,7 +1012,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.10026",
-            "slot": "narration"
+            "slot": "center"
           }
         },
         {
@@ -1015,6 +1037,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.10031",
+            "speaker": "spk.李逍遥",
             "portrait": {
               "icon": 3,
               "side": "right"
@@ -1145,7 +1168,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.10044",
-            "slot": "narration"
+            "slot": "center"
           }
         },
         {
@@ -1227,6 +1250,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.10057",
+            "speaker": "spk.老婆婆",
             "portrait": {
               "icon": 82,
               "side": "right"
@@ -1435,7 +1459,7 @@
               "body": [
                 {
                   "kind": "loadScene",
-                  "scene": "s173"
+                  "scene": "s172"
                 },
                 {
                   "kind": "teleportParty",
@@ -1447,7 +1471,8 @@
                 },
                 {
                   "kind": "fade",
-                  "dir": "out"
+                  "dir": "out",
+                  "ms": 600
                 }
               ]
             }

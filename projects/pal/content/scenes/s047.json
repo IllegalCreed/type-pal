@@ -4,144 +4,18 @@
     "reuseOriginalMap": 43
   },
   "entries": {
-    "from-s040": {
-      "pos": {
-        "col": 124,
-        "row": 87,
-        "height": 0
-      }
-    },
-    "from-s041": {
-      "pos": {
-        "col": 123,
-        "row": 43,
-        "height": 0
-      }
-    },
-    "from-s041-2": {
-      "pos": {
-        "col": 148,
-        "row": 48,
-        "height": 0
-      }
-    },
-    "from-s041-3": {
-      "pos": {
-        "col": 84,
-        "row": 44,
-        "height": 0
-      }
-    },
-    "from-s044": {
+    "from-shared": {
       "pos": {
         "col": 61,
         "row": 31,
-        "height": 0
-      }
-    },
-    "from-s044-2": {
-      "pos": {
-        "col": 60,
-        "row": 25,
-        "height": 0
-      }
-    },
-    "from-s044-3": {
-      "pos": {
-        "col": 133,
-        "row": 39,
-        "height": 0
-      }
-    },
-    "from-s045": {
-      "pos": {
-        "col": 93,
-        "row": 6,
-        "height": 0
-      }
-    },
-    "from-s045-2": {
-      "pos": {
-        "col": 97,
-        "row": 32,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 60,
-        "row": 25,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 133,
-        "row": 39,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 93,
-        "row": 6,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 97,
-        "row": 32,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 127,
-        "row": 77,
-        "height": 0
-      }
-    },
-    "from-shared-6": {
-      "pos": {
-        "col": 124,
-        "row": 87,
-        "height": 0
-      }
-    },
-    "from-shared-7": {
-      "pos": {
-        "col": 158,
-        "row": 54,
-        "height": 0
-      }
-    },
-    "from-shared-8": {
-      "pos": {
-        "col": 148,
-        "row": 48,
-        "height": 0
-      }
-    },
-    "from-shared-9": {
-      "pos": {
-        "col": 84,
-        "row": 44,
-        "height": 0
-      }
-    },
-    "from-shared-10": {
-      "pos": {
-        "col": 95,
-        "row": 23,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 124,
-      "row": 87,
+      "col": 61,
+      "row": 31,
       "height": 0
     },
     "facing": "down"
@@ -168,7 +42,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.3442",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -196,7 +70,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s049",
+                    "scene": "s048",
                     "pos": {
                       "col": 119,
                       "row": 90,
@@ -228,7 +102,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s042",
+                    "scene": "s041",
                     "pos": {
                       "col": 68,
                       "row": 18,
@@ -351,6 +225,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.3406",
+                      "speaker": "spk.妖狐女",
                       "slot": "top"
                     }
                   },
@@ -361,6 +236,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.3408",
+                      "speaker": "spk.妖狐女",
                       "slot": "top"
                     }
                   },
@@ -412,7 +288,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -436,6 +312,15 @@
                       "text": "dlg.3416",
                       "slot": "narration"
                     }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
                   },
                   {
                     "kind": "clearDialog"
@@ -514,6 +399,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.3429",
+                      "speaker": "spk.林月如",
                       "portrait": {
                         "icon": 24,
                         "side": "right"
@@ -830,7 +716,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.3362"
+                      "text": "dlg.3362",
+                      "speaker": "spk.小玉"
                     }
                   }
                 ]
@@ -1519,7 +1406,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -1583,7 +1470,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -1647,7 +1534,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -1711,7 +1598,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -1776,7 +1663,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -2104,7 +1991,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -2168,7 +2055,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -2232,7 +2119,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -2296,7 +2183,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -2433,7 +2320,7 @@
         },
         {
           "kind": "loadScene",
-          "scene": "s045",
+          "scene": "s044",
           "pos": {
             "col": 174,
             "row": 60,
@@ -2450,5 +2337,6 @@
       ]
     }
   ],
-  "battleMusicId": 40
+  "battleMusicId": 40,
+  "battleFieldId": 27
 }

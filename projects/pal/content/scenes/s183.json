@@ -4,19 +4,10 @@
     "reuseOriginalMap": 158
   },
   "musicId": 56,
-  "entries": {
-    "from-shared": {
-      "pos": {
-        "col": 49,
-        "row": 29,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
-      "col": 49,
-      "row": 29,
+      "col": 96,
+      "row": 32,
       "height": 0
     },
     "facing": "down"
@@ -412,6 +403,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9802",
+            "speaker": "spk.老村长",
             "slot": "top"
           }
         },
@@ -422,6 +414,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9805",
+            "speaker": "spk.老村长",
             "slot": "top"
           }
         },
@@ -492,6 +485,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9819",
+            "speaker": "spk.老村长",
             "slot": "top"
           }
         },
@@ -529,9 +523,8 @@
           "state": 2
         },
         {
-          "kind": "fade",
-          "dir": "in",
-          "ms": 300
+          "kind": "ditherScreen",
+          "ms": 720
         },
         {
           "kind": "setPartyFacing",
@@ -561,9 +554,8 @@
           "state": 2
         },
         {
-          "kind": "fade",
-          "dir": "in",
-          "ms": 300
+          "kind": "ditherScreen",
+          "ms": 720
         },
         {
           "kind": "setEntityFacing",
@@ -645,15 +637,14 @@
           "state": 2
         },
         {
-          "kind": "fade",
-          "dir": "in",
-          "ms": 600
+          "kind": "ditherScreen",
+          "ms": 2160
         },
         {
           "kind": "dialog",
           "line": {
             "text": "dlg.9826",
-            "slot": "narration"
+            "slot": "center"
           }
         },
         {
@@ -662,7 +653,7 @@
         },
         {
           "kind": "loadScene",
-          "scene": "s183"
+          "scene": "s182"
         }
       ]
     }

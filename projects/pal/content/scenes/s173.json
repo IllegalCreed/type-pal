@@ -4,19 +4,10 @@
     "reuseOriginalMap": 20
   },
   "musicId": 28,
-  "entries": {
-    "from-shared": {
-      "pos": {
-        "col": 61,
-        "row": 17,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
-      "col": 61,
-      "row": 17,
+      "col": 96,
+      "row": 32,
       "height": 0
     },
     "facing": "down"
@@ -116,9 +107,8 @@
           }
         },
         {
-          "kind": "fade",
-          "dir": "in",
-          "ms": 300
+          "kind": "ditherScreen",
+          "ms": 720
         },
         {
           "kind": "setEntityAuto",
@@ -3345,7 +3335,7 @@
         },
         {
           "kind": "loadScene",
-          "scene": "s175"
+          "scene": "s174"
         }
       ]
     }

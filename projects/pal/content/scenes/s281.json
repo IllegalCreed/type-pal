@@ -4,18 +4,60 @@
     "reuseOriginalMap": 194
   },
   "entries": {
+    "from-s278": {
+      "pos": {
+        "col": 143,
+        "row": 39,
+        "height": 0
+      }
+    },
     "from-shared": {
       "pos": {
-        "col": 120,
-        "row": 80,
+        "col": 78,
+        "row": 18,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 143,
+        "row": 70,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 64,
+        "row": 45,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 128,
+        "row": 84,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 100,
+        "row": 82,
+        "height": 0
+      }
+    },
+    "from-shared-6": {
+      "pos": {
+        "col": 126,
+        "row": 81,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 120,
-      "row": 80,
+      "col": 143,
+      "row": 39,
       "height": 0
     },
     "facing": "down"
@@ -39,7 +81,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s281",
+                    "scene": "s280",
                     "pos": {
                       "col": 89,
                       "row": 9,
@@ -71,7 +113,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s283",
+                    "scene": "s282",
                     "pos": {
                       "col": 143,
                       "row": 70,
@@ -103,7 +145,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s284",
+                    "scene": "s283",
                     "pos": {
                       "col": 64,
                       "row": 45,
@@ -135,7 +177,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s279",
+                    "scene": "s278",
                     "pos": {
                       "col": 128,
                       "row": 84,
@@ -167,7 +209,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s279",
+                    "scene": "s278",
                     "pos": {
                       "col": 100,
                       "row": 82,
@@ -199,7 +241,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s278",
+                    "scene": "s277",
                     "pos": {
                       "col": 126,
                       "row": 81,
@@ -341,6 +383,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12144",
+                      "speaker": "spk.拜月教主",
                       "slot": "top",
                       "portrait": {
                         "icon": 81,
@@ -355,6 +398,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12147",
+                      "speaker": "spk.拜月教主",
                       "slot": "top",
                       "portrait": {
                         "icon": 81,
@@ -383,6 +427,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12155",
+                      "speaker": "spk.阿奴",
                       "portrait": {
                         "icon": 30,
                         "side": "right"
@@ -440,6 +485,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12171",
+                      "speaker": "spk.拜月教主",
                       "slot": "top",
                       "portrait": {
                         "icon": 81,
@@ -454,6 +500,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12173",
+                      "speaker": "spk.拜月教主",
                       "slot": "top",
                       "portrait": {
                         "icon": 81,
@@ -468,6 +515,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12177",
+                      "speaker": "spk.拜月教主",
                       "slot": "top",
                       "portrait": {
                         "icon": 81,
@@ -552,9 +600,8 @@
                     "state": 1
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 600
+                    "kind": "ditherScreen",
+                    "ms": 2160
                   },
                   {
                     "kind": "dialog",
@@ -637,7 +684,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -650,6 +697,15 @@
                     "boss": true,
                     "fieldId": 48,
                     "musicId": 18
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
                   },
                   {
                     "kind": "playMusic",
@@ -830,7 +886,13 @@
                     "kind": "clearDialog"
                   },
                   {
-                    "kind": "quitToTitle"
+                    "kind": "unmigrated",
+                    "opcode": 160,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
                   }
                 ]
               }
@@ -891,5 +953,6 @@
       "sprite": "npc-2",
       "hidden": true
     }
-  ]
+  ],
+  "battleFieldId": 48
 }

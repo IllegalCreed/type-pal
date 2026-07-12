@@ -4,25 +4,32 @@
     "reuseOriginalMap": 170
   },
   "entries": {
-    "from-s203": {
+    "from-s206": {
       "pos": {
-        "col": 87,
-        "row": 5,
+        "col": 46,
+        "row": 13,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 87,
-        "row": 5,
+        "col": 46,
+        "row": 13,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 53,
+        "row": -2,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 87,
-      "row": 5,
+      "col": 46,
+      "row": 13,
       "height": 0
     },
     "facing": "down"
@@ -46,7 +53,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s207",
+                    "scene": "s206",
                     "pos": {
                       "col": 34,
                       "row": 3,
@@ -78,7 +85,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s211",
+                    "scene": "s210",
                     "pos": {
                       "col": 53,
                       "row": -2,
@@ -407,6 +414,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.10448",
+                      "speaker": "spk.唐钰",
                       "portrait": {
                         "icon": 36,
                         "side": "right"
@@ -662,6 +670,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.10498",
+                      "speaker": "spk.阿奴",
                       "portrait": {
                         "icon": 31,
                         "side": "right"
@@ -690,6 +699,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.10505",
+                      "speaker": "spk.白苗族长",
                       "slot": "top",
                       "portrait": {
                         "icon": 45,
@@ -766,6 +776,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.10522",
+                      "speaker": "spk.白苗族长",
                       "slot": "top",
                       "portrait": {
                         "icon": 45,
@@ -1367,11 +1378,11 @@
                   {
                     "kind": "setSceneStage",
                     "scene": "s206",
-                    "stage": 1
+                    "stage": 0
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s207"
+                    "scene": "s206"
                   }
                 ],
                 "next": "advance"
@@ -1853,11 +1864,11 @@
                   {
                     "kind": "setSceneStage",
                     "scene": "s206",
-                    "stage": 1
+                    "stage": 0
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s207"
+                    "scene": "s206"
                   }
                 ],
                 "next": "advance"
@@ -2445,7 +2456,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.10654"
+                      "text": "dlg.10654",
+                      "speaker": "spk.白苗长老"
                     }
                   }
                 ]

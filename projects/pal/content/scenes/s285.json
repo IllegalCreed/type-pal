@@ -4,25 +4,67 @@
     "reuseOriginalMap": 203
   },
   "entries": {
-    "from-s278": {
+    "from-s286": {
       "pos": {
-        "col": 96,
-        "row": 39,
+        "col": 59,
+        "row": 5,
+        "height": 0
+      }
+    },
+    "from-s286-2": {
+      "pos": {
+        "col": 59,
+        "row": 17,
+        "height": 0
+      }
+    },
+    "from-s286-3": {
+      "pos": {
+        "col": 68,
+        "row": -5,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 120,
-        "row": 39,
+        "col": 149,
+        "row": 49,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 149,
+        "row": 67,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 65,
+        "row": 22,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 102,
+        "row": 29,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 96,
+        "row": -5,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 96,
-      "row": 39,
+      "col": 59,
+      "row": 5,
       "height": 0
     },
     "facing": "down"
@@ -6804,7 +6846,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   },
                   {
                     "kind": "setEntityFacing",
@@ -6840,7 +6883,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s288",
+                    "scene": "s287",
                     "pos": {
                       "col": 107,
                       "row": 76,
@@ -6882,7 +6925,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s287",
+                    "scene": "s286",
                     "pos": {
                       "col": 149,
                       "row": 49,
@@ -6914,7 +6957,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s287",
+                    "scene": "s286",
                     "pos": {
                       "col": 149,
                       "row": 67,
@@ -6946,7 +6989,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s287",
+                    "scene": "s286",
                     "pos": {
                       "col": 65,
                       "row": 22,
@@ -6978,7 +7021,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s287",
+                    "scene": "s286",
                     "pos": {
                       "col": 102,
                       "row": 29,
@@ -7010,7 +7053,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s287",
+                    "scene": "s286",
                     "pos": {
                       "col": 102,
                       "row": 29,
@@ -26448,5 +26491,6 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 57
 }

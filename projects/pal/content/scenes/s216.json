@@ -4,55 +4,75 @@
     "reuseOriginalMap": 214
   },
   "musicId": 35,
-  "battleFieldId": 34,
   "entries": {
-    "from-s216": {
+    "from-s215": {
       "pos": {
-        "col": 141,
-        "row": 82,
+        "col": 66,
+        "row": 42,
         "height": 0
       }
     },
-    "from-s216-2": {
-      "pos": {
-        "col": 84,
-        "row": 20,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 65,
-        "row": -26,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
+    "from-s215-2": {
       "pos": {
         "col": 86,
         "row": 58,
         "height": 0
       }
     },
-    "from-shared-3": {
+    "from-s215-3": {
       "pos": {
         "col": 101,
         "row": 59,
         "height": 0
       }
     },
+    "from-s217": {
+      "pos": {
+        "col": 60,
+        "row": 26,
+        "height": 0
+      }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 110,
+        "row": 33,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 127,
+        "row": 54,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 121,
+        "row": 24,
+        "height": 0
+      }
+    },
     "from-shared-4": {
       "pos": {
-        "col": 86,
-        "row": 19,
+        "col": 72,
+        "row": 20,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 84,
+        "row": 20,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 141,
-      "row": 82,
+      "col": 66,
+      "row": 42,
       "height": 0
     },
     "facing": "down"
@@ -76,7 +96,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s218",
+                    "scene": "s217",
                     "pos": {
                       "col": 110,
                       "row": 33,
@@ -108,7 +128,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s218",
+                    "scene": "s217",
                     "pos": {
                       "col": 127,
                       "row": 54,
@@ -140,7 +160,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s218",
+                    "scene": "s217",
                     "pos": {
                       "col": 48,
                       "row": -19,
@@ -172,7 +192,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s218",
+                    "scene": "s217",
                     "pos": {
                       "col": 141,
                       "row": 82,
@@ -204,7 +224,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s216",
+                    "scene": "s215",
                     "pos": {
                       "col": 72,
                       "row": 20,
@@ -236,7 +256,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s216",
+                    "scene": "s215",
                     "pos": {
                       "col": 84,
                       "row": 20,
@@ -268,7 +288,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s216",
+                    "scene": "s215",
                     "pos": {
                       "col": 73,
                       "row": 9,
@@ -351,7 +371,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -377,7 +397,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -515,7 +536,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -541,7 +562,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -607,6 +629,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.10996",
+            "speaker": "spk.阿奴",
             "slot": "top",
             "portrait": {
               "icon": 27,
@@ -621,6 +644,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.10999",
+            "speaker": "spk.阿奴",
             "slot": "top",
             "portrait": {
               "icon": 27,
@@ -664,6 +688,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.11007",
+            "speaker": "spk.阿奴",
             "slot": "top",
             "portrait": {
               "icon": 27,
@@ -683,7 +708,7 @@
       "body": [
         {
           "kind": "loadScene",
-          "scene": "s216",
+          "scene": "s215",
           "pos": {
             "col": 72,
             "row": 20,
@@ -692,5 +717,7 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 34,
+  "battleMusicId": 37
 }

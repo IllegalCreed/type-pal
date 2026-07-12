@@ -4,8 +4,6 @@
     "reuseOriginalMap": 76
   },
   "musicId": 83,
-  "battleFieldId": 53,
-  "battleMusicId": 39,
   "entry": {
     "pos": {
       "col": 96,
@@ -2507,39 +2505,12 @@
                     "state": 0
                   },
                   {
-                    "kind": "setSceneOnTeleport",
-                    "scene": "s059",
-                    "stages": [
-                      {
-                        "body": [
-                          {
-                            "kind": "shakeScreen",
-                            "frames": 0,
-                            "level": 4
-                          },
-                          {
-                            "kind": "setScreenWave",
-                            "level": 0,
-                            "progression": 0
-                          },
-                          {
-                            "kind": "loadScene",
-                            "scene": "s065"
-                          },
-                          {
-                            "kind": "teleportParty",
-                            "pos": {
-                              "col": 34,
-                              "row": -4,
-                              "height": 0
-                            }
-                          },
-                          {
-                            "kind": "fade",
-                            "dir": "out"
-                          }
-                        ]
-                      }
+                    "kind": "unmigrated",
+                    "opcode": 109,
+                    "operands": [
+                      60,
+                      0,
+                      11870
                     ]
                   },
                   {
@@ -2966,7 +2937,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -2996,6 +2967,15 @@
                     "musicId": 30
                   },
                   {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
                     "kind": "clearDialog"
                   },
                   {
@@ -3009,9 +2989,8 @@
                     "level": 4
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 1500
+                    "kind": "ditherScreen",
+                    "ms": 4320
                   },
                   {
                     "kind": "dialog",
@@ -6523,7 +6502,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -6549,7 +6528,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -6626,7 +6606,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -6652,7 +6632,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -6729,7 +6710,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -6755,7 +6736,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -6908,7 +6890,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -6934,7 +6916,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -6992,7 +6975,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -7018,7 +7001,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -7114,7 +7098,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -7140,7 +7124,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -7198,7 +7183,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -7224,7 +7209,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -7282,7 +7268,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -7308,7 +7294,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -7404,7 +7391,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -7430,7 +7417,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -7507,7 +7495,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -7572,7 +7560,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -7637,7 +7625,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -7702,7 +7690,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -7767,7 +7755,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -7832,7 +7820,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -7897,7 +7885,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -130433,7 +130421,8 @@
         },
         {
           "kind": "fade",
-          "dir": "out"
+          "dir": "out",
+          "ms": 1200
         },
         {
           "kind": "setEntityState",
@@ -130628,5 +130617,7 @@
     {
       "body": []
     }
-  ]
+  ],
+  "battleFieldId": 53,
+  "battleMusicId": 39
 }

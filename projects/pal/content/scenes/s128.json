@@ -4,25 +4,25 @@
     "reuseOriginalMap": 115
   },
   "entries": {
-    "from-s100": {
+    "from-s127": {
       "pos": {
-        "col": 125,
-        "row": 27,
+        "col": 67,
+        "row": 8,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 104,
-        "row": 59,
+        "col": 67,
+        "row": 8,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 125,
-      "row": 27,
+      "col": 67,
+      "row": 8,
       "height": 0
     },
     "facing": "down"
@@ -87,7 +87,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s128",
+                    "scene": "s127",
                     "pos": {
                       "col": 57,
                       "row": 14,
@@ -816,11 +816,7 @@
                           "kind": "chance",
                           "percent": 96
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "branch",

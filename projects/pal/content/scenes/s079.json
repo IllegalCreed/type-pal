@@ -4,20 +4,26 @@
     "reuseOriginalMap": 79
   },
   "musicId": 54,
-  "battleMusicId": 38,
   "entries": {
+    "from-s083": {
+      "pos": {
+        "col": 125,
+        "row": 25,
+        "height": 0
+      }
+    },
     "from-shared": {
       "pos": {
-        "col": 48,
-        "row": 18,
+        "col": 125,
+        "row": 25,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 48,
-      "row": 18,
+      "col": 125,
+      "row": 25,
       "height": 0
     },
     "facing": "down"
@@ -41,7 +47,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s084",
+                    "scene": "s083",
                     "pos": {
                       "col": 100,
                       "row": -6,
@@ -336,7 +342,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s083"
+                    "scene": "s082"
                   }
                 ]
               }
@@ -538,5 +544,6 @@
         }
       ]
     }
-  ]
+  ],
+  "battleMusicId": 38
 }

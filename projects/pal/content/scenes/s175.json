@@ -5,25 +5,88 @@
   },
   "musicId": 56,
   "entries": {
-    "from-s176": {
+    "from-s191": {
       "pos": {
-        "col": 129,
-        "row": 16,
+        "col": 110,
+        "row": 77,
+        "height": 0
+      }
+    },
+    "from-s191-2": {
+      "pos": {
+        "col": 108,
+        "row": 46,
+        "height": 0
+      }
+    },
+    "from-s191-3": {
+      "pos": {
+        "col": 132,
+        "row": 64,
+        "height": 0
+      }
+    },
+    "from-s191-4": {
+      "pos": {
+        "col": 92,
+        "row": 42,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 89,
-        "row": 0,
+        "col": 148,
+        "row": 59,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 147,
+        "row": 88,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 104,
+        "row": -8,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 126,
+        "row": 40,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 90,
+        "row": 31,
+        "height": 0
+      }
+    },
+    "from-shared-6": {
+      "pos": {
+        "col": 78,
+        "row": -15,
+        "height": 0
+      }
+    },
+    "from-shared-7": {
+      "pos": {
+        "col": 41,
+        "row": 3,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 129,
-      "row": 16,
+      "col": 110,
+      "row": 77,
       "height": 0
     },
     "facing": "down"
@@ -47,7 +110,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s192",
+                    "scene": "s191",
                     "pos": {
                       "col": 126,
                       "row": 40,
@@ -79,7 +142,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s192",
+                    "scene": "s191",
                     "pos": {
                       "col": 90,
                       "row": 31,
@@ -111,7 +174,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s192",
+                    "scene": "s191",
                     "pos": {
                       "col": 78,
                       "row": -15,
@@ -143,7 +206,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s192",
+                    "scene": "s191",
                     "pos": {
                       "col": 41,
                       "row": 3,
@@ -175,7 +238,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s192",
+                    "scene": "s191",
                     "pos": {
                       "col": 109,
                       "row": 76,
@@ -207,7 +270,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s181",
+                    "scene": "s180",
                     "pos": {
                       "col": 62,
                       "row": 3,
@@ -239,7 +302,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s191",
+                    "scene": "s190",
                     "pos": {
                       "col": 147,
                       "row": 88,
@@ -836,7 +899,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9455",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -1028,6 +1091,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9465",
+                      "speaker": "spk.李逍遥",
                       "portrait": {
                         "icon": 6,
                         "side": "right"
@@ -1056,6 +1120,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9470",
+                      "speaker": "spk.阿桃",
                       "slot": "top",
                       "portrait": {
                         "icon": 46,
@@ -1283,7 +1348,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.9504"
+                      "text": "dlg.9504",
+                      "speaker": "spk.村人丙"
                     }
                   },
                   {
@@ -1313,7 +1379,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.9523"
+                      "text": "dlg.9523",
+                      "speaker": "spk.村人丙"
                     }
                   },
                   {

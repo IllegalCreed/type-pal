@@ -10,20 +10,6 @@
         "row": 86,
         "height": 0
       }
-    },
-    "from-s162": {
-      "pos": {
-        "col": 111,
-        "row": 2,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 111,
-        "row": 2,
-        "height": 0
-      }
     }
   },
   "entry": {
@@ -100,13 +86,12 @@
           "member": 1
         },
         {
-          "kind": "fade",
-          "dir": "in",
-          "ms": 300
+          "kind": "ditherScreen",
+          "ms": 720
         },
         {
           "kind": "loadScene",
-          "scene": "s147"
+          "scene": "s146"
         }
       ]
     }

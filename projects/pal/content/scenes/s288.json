@@ -3,27 +3,33 @@
   "map": {
     "reuseOriginalMap": 206
   },
-  "battleFieldId": 57,
   "entries": {
+    "from-s287": {
+      "pos": {
+        "col": 76,
+        "row": 13,
+        "height": 0
+      }
+    },
     "from-shared": {
       "pos": {
-        "col": 159,
-        "row": 50,
+        "col": 76,
+        "row": 13,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 148,
-        "row": 87,
+        "col": 151,
+        "row": 45,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 159,
-      "row": 50,
+      "col": 76,
+      "row": 13,
       "height": 0
     },
     "facing": "down"
@@ -47,7 +53,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s288",
+                    "scene": "s287",
                     "pos": {
                       "col": 88,
                       "row": 31,
@@ -79,7 +85,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s280",
+                    "scene": "s279",
                     "pos": {
                       "col": 151,
                       "row": 45,
@@ -32785,7 +32791,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -32849,7 +32855,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -32913,7 +32919,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -32977,7 +32983,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -33041,7 +33047,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -33105,7 +33111,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -33169,7 +33175,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -33234,7 +33240,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -33298,7 +33304,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -33362,7 +33368,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -33426,7 +33432,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -33490,7 +33496,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -33500,5 +33506,6 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 57
 }

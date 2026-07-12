@@ -4,18 +4,67 @@
     "reuseOriginalMap": 112
   },
   "entries": {
+    "from-s108": {
+      "pos": {
+        "col": 125,
+        "row": 109,
+        "height": 0
+      }
+    },
+    "from-s122": {
+      "pos": {
+        "col": 96,
+        "row": 42,
+        "height": 0
+      }
+    },
+    "from-s122-2": {
+      "pos": {
+        "col": 78,
+        "row": -12,
+        "height": 0
+      }
+    },
+    "from-s123": {
+      "pos": {
+        "col": 51,
+        "row": 6,
+        "height": 0
+      }
+    },
     "from-shared": {
       "pos": {
-        "col": 59,
-        "row": 25,
+        "col": 102,
+        "row": 33,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 96,
+        "row": 42,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 78,
+        "row": -12,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 51,
+        "row": 6,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 59,
-      "row": 25,
+      "col": 125,
+      "row": 109,
       "height": 0
     },
     "facing": "down"
@@ -39,7 +88,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s109",
+                    "scene": "s108",
                     "pos": {
                       "col": 96,
                       "row": 42,
@@ -71,7 +120,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s123",
+                    "scene": "s122",
                     "pos": {
                       "col": 78,
                       "row": -12,
@@ -103,7 +152,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s123",
+                    "scene": "s122",
                     "pos": {
                       "col": 57,
                       "row": 9,
@@ -263,7 +312,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s124"
+                    "scene": "s123"
                   }
                 ]
               }
@@ -375,27 +424,6 @@
     },
     {
       "body": []
-    },
-    {
-      "body": [
-        {
-          "kind": "playMusic",
-          "musicId": 32
-        }
-      ]
-    },
-    {
-      "body": [
-        {
-          "kind": "setScreenWave",
-          "level": 2,
-          "progression": 0
-        },
-        {
-          "kind": "playMusic",
-          "musicId": 32
-        }
-      ]
     }
   ]
 }

@@ -3,69 +3,26 @@
   "map": {
     "reuseOriginalMap": 93
   },
-  "battleFieldId": 31,
   "entries": {
-    "from-s093": {
-      "pos": {
-        "col": 56,
-        "row": 12,
-        "height": 0
-      }
-    },
     "from-s098": {
       "pos": {
-        "col": 154,
-        "row": 67,
-        "height": 0
-      }
-    },
-    "from-s098-2": {
-      "pos": {
-        "col": 24,
-        "row": -5,
-        "height": 0
-      }
-    },
-    "from-s098-3": {
-      "pos": {
-        "col": 55,
-        "row": -26,
+        "col": 76,
+        "row": -36,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 56,
-        "row": 12,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 82,
-        "row": 55,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 24,
-        "row": -5,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 55,
-        "row": -26,
+        "col": 76,
+        "row": -36,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 56,
-      "row": 12,
+      "col": 76,
+      "row": -36,
       "height": 0
     },
     "facing": "down"
@@ -89,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s099",
+                    "scene": "s098",
                     "pos": {
                       "col": 82,
                       "row": 48,
@@ -197,7 +154,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s085"
+                    "scene": "s084"
                   }
                 ]
               }
@@ -356,7 +313,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -367,39 +324,7 @@
                       }
                     ],
                     "boss": true,
-                    "musicId": 48,
-                    "choreography": [
-                      {
-                        "at": "turnStart",
-                        "once": true,
-                        "when": {
-                          "kind": "turn",
-                          "op": ">=",
-                          "value": 2
-                        },
-                        "body": [
-                          {
-                            "kind": "playSound",
-                            "soundId": 193
-                          },
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.13214"
-                            }
-                          },
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.13215"
-                            }
-                          },
-                          {
-                            "kind": "fleeBattle"
-                          }
-                        ]
-                      }
-                    ]
+                    "musicId": 48
                   },
                   {
                     "kind": "setParty",
@@ -415,6 +340,15 @@
                       "row": -23,
                       "height": 0
                     }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
                   },
                   {
                     "kind": "clearDialog"
@@ -1452,5 +1386,7 @@
     {
       "body": []
     }
-  ]
+  ],
+  "battleFieldId": 31,
+  "battleMusicId": 38
 }

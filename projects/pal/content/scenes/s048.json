@@ -4,7 +4,6 @@
     "reuseOriginalMap": 45
   },
   "musicId": 12,
-  "battleFieldId": 6,
   "entries": {
     "start": {
       "pos": {
@@ -13,10 +12,31 @@
         "height": 0
       }
     },
+    "from-s047": {
+      "pos": {
+        "col": 68,
+        "row": 18,
+        "height": 0
+      }
+    },
+    "from-s049": {
+      "pos": {
+        "col": 154,
+        "row": 58,
+        "height": 0
+      }
+    },
     "from-shared": {
       "pos": {
-        "col": 61,
-        "row": 31,
+        "col": 58,
+        "row": 9,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 120,
+        "row": 84,
         "height": 0
       }
     }
@@ -48,7 +68,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s050",
+                    "scene": "s049",
                     "pos": {
                       "col": 120,
                       "row": 84,
@@ -951,7 +971,8 @@
                               },
                               {
                                 "kind": "fade",
-                                "dir": "out"
+                                "dir": "out",
+                                "ms": 600
                               },
                               {
                                 "kind": "setEntityFacing",
@@ -5052,7 +5073,8 @@
                           },
                           {
                             "kind": "fade",
-                            "dir": "out"
+                            "dir": "out",
+                            "ms": 600
                           },
                           {
                             "kind": "setEntityFacing",
@@ -9356,7 +9378,7 @@
       "body": [
         {
           "kind": "loadScene",
-          "scene": "s050",
+          "scene": "s049",
           "pos": {
             "col": 120,
             "row": 84,
@@ -9365,5 +9387,6 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 6
 }

@@ -10,13 +10,6 @@
         "row": 24,
         "height": 0
       }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 145,
-        "row": 34,
-        "height": 0
-      }
     }
   },
   "entry": {
@@ -763,11 +756,12 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s253"
+                    "scene": "s252"
                   }
                 ]
               }
@@ -907,6 +901,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.11572",
+            "speaker": "spk.李逍遥",
             "slot": "top"
           }
         },

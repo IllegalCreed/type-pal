@@ -4,41 +4,32 @@
     "reuseOriginalMap": 5
   },
   "musicId": 59,
-  "battleFieldId": 12,
-  "battleMusicId": 37,
   "entries": {
-    "from-s263": {
+    "from-s269": {
       "pos": {
-        "col": 35,
+        "col": 103,
         "row": 14,
-        "height": 0
-      }
-    },
-    "from-s263-2": {
-      "pos": {
-        "col": 73,
-        "row": 34,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 35,
+        "col": 103,
         "row": 14,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 63,
-        "row": 18,
+        "col": 46,
+        "row": 17,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 35,
+      "col": 103,
       "row": 14,
       "height": 0
     },
@@ -63,7 +54,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s270",
+                    "scene": "s269",
                     "pos": {
                       "col": 18,
                       "row": 5,
@@ -95,7 +86,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s269",
+                    "scene": "s268",
                     "pos": {
                       "col": 46,
                       "row": 17,
@@ -8202,7 +8193,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11958",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -8551,7 +8542,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.11954"
+                      "text": "dlg.11954",
+                      "speaker": "spk.秀兰"
                     }
                   }
                 ],
@@ -8800,11 +8792,11 @@
                   {
                     "kind": "setSceneStage",
                     "scene": "s203",
-                    "stage": 1
+                    "stage": 0
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s204"
+                    "scene": "s203"
                   }
                 ]
               }
@@ -9055,5 +9047,7 @@
     {
       "body": []
     }
-  ]
+  ],
+  "battleFieldId": 12,
+  "battleMusicId": 37
 }

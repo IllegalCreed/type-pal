@@ -3,20 +3,26 @@
   "map": {
     "reuseOriginalMap": 153
   },
-  "battleFieldId": 15,
   "entries": {
+    "from-s184": {
+      "pos": {
+        "col": 90,
+        "row": 66,
+        "height": 0
+      }
+    },
     "from-shared": {
       "pos": {
-        "col": 98,
-        "row": 79,
+        "col": 90,
+        "row": 66,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 98,
-      "row": 79,
+      "col": 90,
+      "row": 66,
       "height": 0
     },
     "facing": "down"
@@ -40,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s185",
+                    "scene": "s184",
                     "pos": {
                       "col": 49,
                       "row": 29,
@@ -594,7 +600,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9273",
-            "slot": "narration"
+            "slot": "center"
           }
         },
         {
@@ -631,9 +637,8 @@
           "gesture": 23
         },
         {
-          "kind": "fade",
-          "dir": "in",
-          "ms": 1200
+          "kind": "ditherScreen",
+          "ms": 3600
         },
         {
           "kind": "dialog",
@@ -929,6 +934,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.9328",
+            "speaker": "spk.阿奴",
             "slot": "top",
             "portrait": {
               "icon": 27,
@@ -1073,6 +1079,7 @@
                   "kind": "dialog",
                   "line": {
                     "text": "dlg.10121",
+                    "speaker": "spk.老婆婆",
                     "slot": "top",
                     "portrait": {
                       "icon": 82,
@@ -1101,6 +1108,7 @@
                   "kind": "dialog",
                   "line": {
                     "text": "dlg.10126",
+                    "speaker": "spk.阿奴",
                     "portrait": {
                       "icon": 28,
                       "side": "right"
@@ -1158,6 +1166,7 @@
                   "kind": "dialog",
                   "line": {
                     "text": "dlg.10142",
+                    "speaker": "spk.老婆婆",
                     "slot": "top",
                     "portrait": {
                       "icon": 82,
@@ -1243,7 +1252,7 @@
               "body": [
                 {
                   "kind": "loadScene",
-                  "scene": "s176"
+                  "scene": "s175"
                 },
                 {
                   "kind": "teleportParty",
@@ -1255,7 +1264,8 @@
                 },
                 {
                   "kind": "fade",
-                  "dir": "out"
+                  "dir": "out",
+                  "ms": 600
                 }
               ]
             }
@@ -1263,5 +1273,6 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 15
 }

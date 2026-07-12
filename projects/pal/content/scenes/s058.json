@@ -3,20 +3,10 @@
   "map": {
     "reuseOriginalMap": 71
   },
-  "battleFieldId": 12,
-  "entries": {
-    "from-shared": {
-      "pos": {
-        "col": 160,
-        "row": 68,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
-      "col": 160,
-      "row": 68,
+      "col": 96,
+      "row": 32,
       "height": 0
     },
     "facing": "down"
@@ -40,7 +30,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s057",
+                    "scene": "s056",
                     "pos": {
                       "col": 70,
                       "row": 4,
@@ -32691,6 +32681,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4198",
+                      "speaker": "spk.智修大师",
                       "slot": "top"
                     }
                   },
@@ -32851,7 +32842,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -32896,6 +32887,15 @@
                     "kind": "setEntityFrame",
                     "entity": "e958",
                     "frame": 0
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
                   },
                   {
                     "kind": "clearDialog"
@@ -32976,9 +32976,8 @@
                     "state": 1
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 300
+                    "kind": "ditherScreen",
+                    "ms": 720
                   },
                   {
                     "kind": "clearDialog"
@@ -33022,7 +33021,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -33034,6 +33033,15 @@
                     ],
                     "boss": true,
                     "musicId": 45
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
                   },
                   {
                     "kind": "teleportParty",
@@ -33115,9 +33123,8 @@
                     "state": 2
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 300
+                    "kind": "ditherScreen",
+                    "ms": 720
                   },
                   {
                     "kind": "dialog",
@@ -33397,6 +33404,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.4305",
+                      "speaker": "spk.赵灵儿",
                       "portrait": {
                         "icon": 11,
                         "side": "right"
@@ -33439,9 +33447,8 @@
                     "state": 2
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 300
+                    "kind": "ditherScreen",
+                    "ms": 720
                   },
                   {
                     "kind": "dialog",
@@ -49811,7 +49818,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s058"
+                    "scene": "s057"
                   }
                 ]
               }
@@ -66643,5 +66650,7 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 12,
+  "battleMusicId": 40
 }

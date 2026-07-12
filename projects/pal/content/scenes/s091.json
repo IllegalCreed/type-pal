@@ -3,19 +3,10 @@
   "map": {
     "reuseOriginalMap": 83
   },
-  "entries": {
-    "from-shared": {
-      "pos": {
-        "col": 116,
-        "row": 12,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
-      "col": 116,
-      "row": 12,
+      "col": 96,
+      "row": 32,
       "height": 0
     },
     "facing": "down"
@@ -75,7 +66,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s089",
+                    "scene": "s088",
                     "pos": {
                       "col": 112,
                       "row": 84,
@@ -39424,7 +39415,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.5381"
+                      "text": "dlg.5381",
+                      "speaker": "spk.女飞贼"
                     }
                   }
                 ]
@@ -39747,7 +39739,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.5372"
+                      "text": "dlg.5372",
+                      "speaker": "spk.乞丐"
                     }
                   }
                 ],

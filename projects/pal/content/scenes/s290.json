@@ -4,25 +4,39 @@
     "reuseOriginalMap": 209
   },
   "entries": {
-    "from-s287": {
+    "from-s279": {
       "pos": {
-        "col": 159,
-        "row": 50,
+        "col": 35,
+        "row": 14,
+        "height": 0
+      }
+    },
+    "from-s279-2": {
+      "pos": {
+        "col": 73,
+        "row": 34,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 88,
-        "row": 31,
+        "col": 35,
+        "row": 14,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 63,
+        "row": 18,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 159,
-      "row": 50,
+      "col": 35,
+      "row": 14,
       "height": 0
     },
     "facing": "down"
@@ -46,7 +60,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s280",
+                    "scene": "s279",
                     "pos": {
                       "col": 63,
                       "row": 18,
@@ -78,7 +92,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s280",
+                    "scene": "s279",
                     "pos": {
                       "col": 78,
                       "row": 18,
@@ -19479,7 +19493,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -19543,7 +19557,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -19607,7 +19621,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]

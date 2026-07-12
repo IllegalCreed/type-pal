@@ -11,31 +11,10 @@
         "height": 0
       }
     },
-    "from-s054": {
-      "pos": {
-        "col": 147,
-        "row": 39,
-        "height": 0
-      }
-    },
     "from-shared": {
       "pos": {
-        "col": 87,
-        "row": 71,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 103,
-        "row": 39,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 131,
-        "row": 44,
+        "col": 160,
+        "row": 68,
         "height": 0
       }
     }
@@ -67,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s055",
+                    "scene": "s054",
                     "pos": {
                       "col": 47,
                       "row": 21,
@@ -94,9 +73,8 @@
           }
         },
         {
-          "kind": "fade",
-          "dir": "in",
-          "ms": 600
+          "kind": "ditherScreen",
+          "ms": 2160
         },
         {
           "kind": "setEntityTrigger",
@@ -106,7 +84,7 @@
               "body": [
                 {
                   "kind": "loadScene",
-                  "scene": "s058"
+                  "scene": "s057"
                 },
                 {
                   "kind": "teleportParty",
@@ -118,7 +96,8 @@
                 },
                 {
                   "kind": "fade",
-                  "dir": "out"
+                  "dir": "out",
+                  "ms": 600
                 }
               ]
             }

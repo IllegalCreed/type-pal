@@ -10,6 +10,27 @@
         "row": 62,
         "height": 0
       }
+    },
+    "from-s229": {
+      "pos": {
+        "col": 146,
+        "row": 53,
+        "height": 0
+      }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 34,
+        "row": 3,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 96,
+        "row": 78,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -39,7 +60,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s230",
+                    "scene": "s229",
                     "pos": {
                       "col": 73,
                       "row": 45,
@@ -71,7 +92,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s235",
+                    "scene": "s234",
                     "pos": {
                       "col": 96,
                       "row": 78,

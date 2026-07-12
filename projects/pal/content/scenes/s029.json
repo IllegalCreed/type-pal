@@ -4,18 +4,18 @@
     "reuseOriginalMap": 28
   },
   "entries": {
-    "from-shared": {
+    "from-s023": {
       "pos": {
-        "col": 88,
-        "row": 16,
+        "col": 81,
+        "row": 21,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 88,
-      "row": 16,
+      "col": 81,
+      "row": 21,
       "height": 0
     },
     "facing": "down"
@@ -39,7 +39,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s024",
+                    "scene": "s023",
                     "pos": {
                       "col": 81,
                       "row": 36,
@@ -226,7 +226,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.2648"
+                      "text": "dlg.2648",
+                      "speaker": "spk.赌鬼"
                     }
                   }
                 ]

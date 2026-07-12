@@ -3,117 +3,10 @@
   "map": {
     "reuseOriginalMap": 58
   },
-  "entries": {
-    "from-s051": {
-      "pos": {
-        "col": 103,
-        "row": 45,
-        "height": 0
-      }
-    },
-    "from-s051-2": {
-      "pos": {
-        "col": 103,
-        "row": 62,
-        "height": 0
-      }
-    },
-    "from-s051-3": {
-      "pos": {
-        "col": 114,
-        "row": 45,
-        "height": 0
-      }
-    },
-    "from-s051-4": {
-      "pos": {
-        "col": 114,
-        "row": 62,
-        "height": 0
-      }
-    },
-    "from-s051-5": {
-      "pos": {
-        "col": 130,
-        "row": 48,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 83,
-        "row": 32,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 81,
-        "row": 25,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 92,
-        "row": 66,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 154,
-        "row": 58,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 103,
-        "row": 45,
-        "height": 0
-      }
-    },
-    "from-shared-6": {
-      "pos": {
-        "col": 103,
-        "row": 62,
-        "height": 0
-      }
-    },
-    "from-shared-7": {
-      "pos": {
-        "col": 114,
-        "row": 45,
-        "height": 0
-      }
-    },
-    "from-shared-8": {
-      "pos": {
-        "col": 114,
-        "row": 62,
-        "height": 0
-      }
-    },
-    "from-shared-9": {
-      "pos": {
-        "col": 130,
-        "row": 48,
-        "height": 0
-      }
-    },
-    "from-shared-10": {
-      "pos": {
-        "col": 80,
-        "row": 24,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
-      "col": 103,
-      "row": 45,
+      "col": 96,
+      "row": 32,
       "height": 0
     },
     "facing": "down"
@@ -137,7 +30,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s050",
+                    "scene": "s049",
                     "pos": {
                       "col": 81,
                       "row": 25,
@@ -202,6 +95,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.3959",
+                      "speaker": "spk.李逍遥",
                       "portrait": {
                         "icon": 1,
                         "side": "right"
@@ -274,6 +168,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.3979",
+                      "speaker": "spk.骆员外",
                       "slot": "top",
                       "portrait": {
                         "icon": 66,

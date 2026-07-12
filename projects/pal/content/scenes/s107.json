@@ -7,23 +7,16 @@
   "entries": {
     "from-shared": {
       "pos": {
-        "col": 164,
-        "row": 55,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 34,
-        "row": 14,
+        "col": 146,
+        "row": 70,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 164,
-      "row": 55,
+      "col": 146,
+      "row": 70,
       "height": 0
     },
     "facing": "down"
@@ -47,7 +40,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s107",
+                    "scene": "s106",
                     "pos": {
                       "col": 78,
                       "row": 54,
@@ -79,7 +72,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s113",
+                    "scene": "s112",
                     "pos": {
                       "col": 146,
                       "row": 70,
@@ -263,7 +256,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.5431",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]

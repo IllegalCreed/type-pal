@@ -3,11 +3,19 @@
   "map": {
     "reuseOriginalMap": 144
   },
-  "battleMusicId": 39,
+  "entries": {
+    "from-shared": {
+      "pos": {
+        "col": 77,
+        "row": 13,
+        "height": 0
+      }
+    }
+  },
   "entry": {
     "pos": {
-      "col": 96,
-      "row": 32,
+      "col": 77,
+      "row": 13,
       "height": 0
     },
     "facing": "down"
@@ -31,7 +39,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s168",
+                    "scene": "s167",
                     "pos": {
                       "col": 71,
                       "row": 18,
@@ -99,7 +107,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.8607",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -164,9 +172,8 @@
                     "soundId": 212
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 600
+                    "kind": "ditherScreen",
+                    "ms": 2160
                   },
                   {
                     "kind": "dialog",
@@ -187,6 +194,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.8614",
+                      "speaker": "spk.死灵",
                       "slot": "top",
                       "portrait": {
                         "icon": 58,
@@ -201,6 +209,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.8616",
+                      "speaker": "spk.死灵",
                       "slot": "top",
                       "portrait": {
                         "icon": 58,
@@ -252,7 +261,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -269,6 +278,15 @@
                   {
                     "kind": "playMusic",
                     "musicId": 87
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
                   },
                   {
                     "kind": "teleportParty",
@@ -299,9 +317,8 @@
                     "state": 0
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 900
+                    "kind": "ditherScreen",
+                    "ms": 2880
                   },
                   {
                     "kind": "dialog",
@@ -320,9 +337,8 @@
                     "state": 1
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 300
+                    "kind": "ditherScreen",
+                    "ms": 720
                   },
                   {
                     "kind": "wait",
@@ -513,6 +529,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.8655",
+                      "speaker": "spk.姜婉儿",
                       "slot": "top",
                       "portrait": {
                         "icon": 47,
@@ -527,6 +544,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.8658",
+                      "speaker": "spk.姜婉儿",
                       "slot": "top",
                       "portrait": {
                         "icon": 47,
@@ -624,6 +642,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.8679",
+                      "speaker": "spk.姜婉儿",
                       "slot": "top",
                       "portrait": {
                         "icon": 47,
@@ -645,9 +664,8 @@
                     "soundId": 170
                   },
                   {
-                    "kind": "fade",
-                    "dir": "in",
-                    "ms": 900
+                    "kind": "ditherScreen",
+                    "ms": 2880
                   },
                   {
                     "kind": "playMusic",
@@ -769,7 +787,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -795,7 +813,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -4065,7 +4084,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -4091,7 +4110,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -4202,7 +4222,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -4228,7 +4248,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -7553,7 +7574,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -7617,7 +7638,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -7681,7 +7702,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -7745,7 +7766,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -7809,7 +7830,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -7873,7 +7894,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -7888,5 +7909,7 @@
     {
       "body": []
     }
-  ]
+  ],
+  "battleMusicId": 39,
+  "battleFieldId": 40
 }

@@ -3,26 +3,10 @@
   "map": {
     "reuseOriginalMap": 9
   },
-  "entries": {
-    "from-s156": {
-      "pos": {
-        "col": 117,
-        "row": 97,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 117,
-        "row": 97,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
-      "col": 117,
-      "row": 97,
+      "col": 96,
+      "row": 32,
       "height": 0
     },
     "facing": "down"
@@ -88,7 +72,7 @@
         },
         {
           "kind": "loadScene",
-          "scene": "s171"
+          "scene": "s170"
         }
       ],
       "next": "advance"
@@ -113,9 +97,8 @@
           "facing": "down"
         },
         {
-          "kind": "fade",
-          "dir": "in",
-          "ms": 1800
+          "kind": "ditherScreen",
+          "ms": 5040
         },
         {
           "kind": "setEntityFacing",
@@ -148,11 +131,11 @@
         {
           "kind": "setSceneStage",
           "scene": "s145",
-          "stage": 1
+          "stage": 0
         },
         {
           "kind": "loadScene",
-          "scene": "s146"
+          "scene": "s145"
         }
       ]
     }

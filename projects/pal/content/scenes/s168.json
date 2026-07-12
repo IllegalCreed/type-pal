@@ -3,21 +3,26 @@
   "map": {
     "reuseOriginalMap": 148
   },
-  "battleFieldId": 53,
-  "battleMusicId": 39,
   "entries": {
+    "from-s156": {
+      "pos": {
+        "col": 117,
+        "row": 97,
+        "height": 0
+      }
+    },
     "from-shared": {
       "pos": {
-        "col": 120,
-        "row": 25,
+        "col": 117,
+        "row": 97,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 120,
-      "row": 25,
+      "col": 117,
+      "row": 97,
       "height": 0
     },
     "facing": "down"
@@ -41,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s146",
+                    "scene": "s145",
                     "pos": {
                       "col": 87,
                       "row": 58,
@@ -108,7 +113,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -134,7 +139,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -3657,7 +3663,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -3721,7 +3727,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -3785,7 +3791,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -9875,5 +9881,7 @@
     {
       "body": []
     }
-  ]
+  ],
+  "battleFieldId": 53,
+  "battleMusicId": 37
 }

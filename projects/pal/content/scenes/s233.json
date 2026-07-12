@@ -3,33 +3,10 @@
   "map": {
     "reuseOriginalMap": 175
   },
-  "entries": {
-    "from-s229": {
-      "pos": {
-        "col": 146,
-        "row": 53,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 34,
-        "row": 3,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 96,
-        "row": 78,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
-      "col": 146,
-      "row": 53,
+      "col": 96,
+      "row": 32,
       "height": 0
     },
     "facing": "down"
@@ -194,9 +171,8 @@
           "state": 1
         },
         {
-          "kind": "fade",
-          "dir": "in",
-          "ms": 1200
+          "kind": "ditherScreen",
+          "ms": 3600
         },
         {
           "kind": "dialog",
@@ -248,9 +224,8 @@
           "frame": 1
         },
         {
-          "kind": "fade",
-          "dir": "in",
-          "ms": 900
+          "kind": "ditherScreen",
+          "ms": 2880
         },
         {
           "kind": "dialog",
@@ -265,7 +240,8 @@
         },
         {
           "kind": "fade",
-          "dir": "out"
+          "dir": "out",
+          "ms": 600
         },
         {
           "kind": "setEntityState",
@@ -510,7 +486,7 @@
         },
         {
           "kind": "loadScene",
-          "scene": "s235"
+          "scene": "s234"
         }
       ]
     }

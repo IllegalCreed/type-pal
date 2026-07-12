@@ -3,7 +3,6 @@
   "map": {
     "reuseOriginalMap": 190
   },
-  "battleFieldId": 57,
   "entries": {
     "start": {
       "pos": {
@@ -12,31 +11,10 @@
         "height": 0
       }
     },
-    "from-s279": {
-      "pos": {
-        "col": 35,
-        "row": 14,
-        "height": 0
-      }
-    },
-    "from-s279-2": {
-      "pos": {
-        "col": 73,
-        "row": 34,
-        "height": 0
-      }
-    },
     "from-shared": {
       "pos": {
-        "col": 35,
-        "row": 14,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 63,
-        "row": 18,
+        "col": 119,
+        "row": 106,
         "height": 0
       }
     }
@@ -68,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s293",
+                    "scene": "s292",
                     "pos": {
                       "col": 119,
                       "row": 106,
@@ -291,7 +269,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -317,7 +295,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -564,7 +543,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -590,7 +569,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -704,7 +684,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -768,7 +748,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -832,7 +812,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -896,7 +876,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -920,7 +900,7 @@
         },
         {
           "kind": "loadScene",
-          "scene": "s293",
+          "scene": "s292",
           "pos": {
             "col": 119,
             "row": 106,
@@ -929,5 +909,6 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 54
 }

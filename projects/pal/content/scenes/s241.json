@@ -4,25 +4,25 @@
     "reuseOriginalMap": 176
   },
   "entries": {
-    "from-s236": {
+    "from-s234": {
       "pos": {
-        "col": 34,
-        "row": 3,
+        "col": 87,
+        "row": 5,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 49,
-        "row": 8,
+        "col": 87,
+        "row": 5,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 34,
-      "row": 3,
+      "col": 87,
+      "row": 5,
       "height": 0
     },
     "facing": "down"
@@ -46,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s235",
+                    "scene": "s234",
                     "pos": {
                       "col": 128,
                       "row": 19,
@@ -80,7 +80,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11128",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -91,7 +91,7 @@
                     "line": {
                       "text": "dlg.11131",
                       "speaker": "spk.碑文记载",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -154,7 +154,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11115",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -185,7 +185,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11115",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -216,7 +216,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11115",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -247,7 +247,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11115",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -278,7 +278,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11115",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]

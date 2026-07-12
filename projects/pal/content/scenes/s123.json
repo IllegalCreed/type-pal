@@ -4,67 +4,32 @@
     "reuseOriginalMap": 113
   },
   "entries": {
-    "from-s108": {
-      "pos": {
-        "col": 125,
-        "row": 109,
-        "height": 0
-      }
-    },
     "from-s122": {
       "pos": {
-        "col": 96,
-        "row": 42,
-        "height": 0
-      }
-    },
-    "from-s122-2": {
-      "pos": {
-        "col": 78,
-        "row": -12,
-        "height": 0
-      }
-    },
-    "from-s123": {
-      "pos": {
-        "col": 51,
-        "row": 6,
+        "col": 54,
+        "row": 14,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 102,
-        "row": 33,
+        "col": 69,
+        "row": 19,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 96,
-        "row": 42,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 78,
-        "row": -12,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 51,
-        "row": 6,
+        "col": 54,
+        "row": 14,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 125,
-      "row": 109,
+      "col": 54,
+      "row": 14,
       "height": 0
     },
     "facing": "down"
@@ -217,7 +182,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s123"
+                    "scene": "s122"
                   }
                 ]
               }
@@ -244,7 +209,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s125",
+                    "scene": "s124",
                     "pos": {
                       "col": 69,
                       "row": 19,
@@ -255,145 +220,6 @@
               }
             ]
           }
-        }
-      ]
-    }
-  ],
-  "onEnter": [
-    {
-      "body": [
-        {
-          "kind": "playMusic",
-          "musicId": 32
-        }
-      ]
-    },
-    {
-      "body": [
-        {
-          "kind": "moveParty",
-          "to": {
-            "col": 53,
-            "row": 28,
-            "height": 0
-          },
-          "speed": "slow"
-        },
-        {
-          "kind": "wait",
-          "ms": 240
-        },
-        {
-          "kind": "setPartyFacing",
-          "facing": "down"
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.6410",
-            "speaker": "spk.林月如",
-            "portrait": {
-              "icon": 24,
-              "side": "right"
-            }
-          }
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.6412",
-            "speaker": "spk.李逍遥",
-            "slot": "top",
-            "portrait": {
-              "icon": 1,
-              "side": "left"
-            }
-          }
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.6414",
-            "slot": "top",
-            "portrait": {
-              "icon": 1,
-              "side": "left"
-            }
-          }
-        },
-        {
-          "kind": "setPartyFacing",
-          "facing": "left"
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.6418",
-            "speaker": "spk.林月如",
-            "portrait": {
-              "icon": 22,
-              "side": "right"
-            }
-          }
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.6421",
-            "speaker": "spk.李逍遥",
-            "slot": "top",
-            "portrait": {
-              "icon": 6,
-              "side": "left"
-            }
-          }
-        },
-        {
-          "kind": "setPartyFacing",
-          "facing": "right"
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.6424",
-            "speaker": "spk.林月如",
-            "portrait": {
-              "icon": 22,
-              "side": "right"
-            }
-          }
-        }
-      ],
-      "next": "advance"
-    },
-    {
-      "body": []
-    },
-    {
-      "body": [
-        {
-          "kind": "setScreenWave",
-          "level": 2,
-          "progression": 0
-        },
-        {
-          "kind": "playMusic",
-          "musicId": 32
         }
       ]
     }

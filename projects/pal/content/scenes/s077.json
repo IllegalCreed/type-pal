@@ -4,46 +4,18 @@
     "reuseOriginalMap": 24
   },
   "entries": {
-    "from-s069": {
-      "pos": {
-        "col": 50,
-        "row": 18,
-        "height": 0
-      }
-    },
-    "from-s069-2": {
-      "pos": {
-        "col": 148,
-        "row": 87,
-        "height": 0
-      }
-    },
     "from-shared": {
       "pos": {
-        "col": 103,
-        "row": 60,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 148,
-        "row": 87,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 132,
-        "row": 81,
+        "col": 79,
+        "row": 53,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 50,
-      "row": 18,
+      "col": 79,
+      "row": 53,
       "height": 0
     },
     "facing": "down"
@@ -67,7 +39,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s079",
+                    "scene": "s078",
                     "pos": {
                       "col": 79,
                       "row": 53,
@@ -6854,7 +6826,8 @@
         },
         {
           "kind": "fade",
-          "dir": "out"
+          "dir": "out",
+          "ms": 600
         },
         {
           "kind": "setEntityState",
@@ -6937,6 +6910,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.4482",
+            "speaker": "spk.韩医仙",
             "portrait": {
               "icon": 65,
               "side": "right"
@@ -6978,6 +6952,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.4490",
+            "speaker": "spk.韩医仙",
             "portrait": {
               "icon": 65,
               "side": "right"
@@ -7019,6 +6994,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.4496",
+            "speaker": "spk.韩医仙",
             "portrait": {
               "icon": 65,
               "side": "right"
@@ -7027,7 +7003,8 @@
         },
         {
           "kind": "fade",
-          "dir": "out"
+          "dir": "out",
+          "ms": 600
         },
         {
           "kind": "setPartyFacing",
@@ -7155,7 +7132,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.4498",
-            "slot": "narration"
+            "slot": "center"
           }
         }
       ]

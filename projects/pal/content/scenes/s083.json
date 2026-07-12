@@ -4,88 +4,32 @@
     "reuseOriginalMap": 78
   },
   "entries": {
-    "from-s084": {
+    "from-s080": {
       "pos": {
-        "col": 79,
-        "row": -28,
-        "height": 0
-      }
-    },
-    "from-s096": {
-      "pos": {
-        "col": 84,
-        "row": 33,
-        "height": 0
-      }
-    },
-    "from-s096-2": {
-      "pos": {
-        "col": 84,
-        "row": 11,
+        "col": 114,
+        "row": 47,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 92,
-        "row": 69,
+        "col": 114,
+        "row": 47,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 79,
-        "row": -28,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 82,
-        "row": 31,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 128,
-        "row": 99,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 84,
-        "row": 33,
-        "height": 0
-      }
-    },
-    "from-shared-6": {
-      "pos": {
-        "col": 84,
-        "row": 11,
-        "height": 0
-      }
-    },
-    "from-shared-7": {
-      "pos": {
-        "col": 46,
-        "row": 16,
-        "height": 0
-      }
-    },
-    "from-shared-8": {
-      "pos": {
-        "col": 64,
-        "row": 12,
+        "col": 104,
+        "row": 78,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 79,
-      "row": -28,
+      "col": 114,
+      "row": 47,
       "height": 0
     },
     "facing": "down"
@@ -109,7 +53,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s081",
+                    "scene": "s080",
                     "pos": {
                       "col": 125,
                       "row": 25,
@@ -141,7 +85,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s080",
+                    "scene": "s079",
                     "pos": {
                       "col": 104,
                       "row": 78,

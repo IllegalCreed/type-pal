@@ -3,42 +3,33 @@
   "map": {
     "reuseOriginalMap": 53
   },
-  "battleFieldId": 30,
-  "battleMusicId": 40,
   "entries": {
     "from-s061": {
       "pos": {
-        "col": 78,
-        "row": 18,
-        "height": 0
-      }
-    },
-    "from-s061-2": {
-      "pos": {
-        "col": 129,
-        "row": 71,
+        "col": 63,
+        "row": -23,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 78,
-        "row": 18,
+        "col": 63,
+        "row": -23,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 129,
-        "row": 71,
+        "col": 128,
+        "row": 102,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 78,
-      "row": 18,
+      "col": 63,
+      "row": -23,
       "height": 0
     },
     "facing": "down"
@@ -66,7 +57,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s062",
+                    "scene": "s061",
                     "pos": {
                       "col": 35,
                       "row": 23,
@@ -98,7 +89,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s065",
+                    "scene": "s064",
                     "pos": {
                       "col": 128,
                       "row": 102,
@@ -202,11 +193,7 @@
                               "kind": "chance",
                               "percent": 51
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "branch",
@@ -266,11 +253,7 @@
                               "kind": "chance",
                               "percent": 71
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "branch",
@@ -371,11 +354,7 @@
                           "kind": "chance",
                           "percent": 51
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "branch",
@@ -435,11 +414,7 @@
                           "kind": "chance",
                           "percent": 71
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "branch",
@@ -691,7 +666,7 @@
         },
         {
           "kind": "loadScene",
-          "scene": "s062",
+          "scene": "s061",
           "pos": {
             "col": 35,
             "row": 23,
@@ -700,5 +675,7 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 30,
+  "battleMusicId": 40
 }

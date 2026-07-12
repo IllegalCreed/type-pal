@@ -25,10 +25,6 @@
     {
       "body": [
         {
-          "kind": "playVideo",
-          "videoId": 1
-        },
-        {
           "kind": "teleportParty",
           "pos": {
             "col": 96,
@@ -58,7 +54,7 @@
           "kind": "dialog",
           "line": {
             "text": "dlg.0",
-            "slot": "narration"
+            "slot": "center"
           }
         },
         {
@@ -83,7 +79,7 @@
         },
         {
           "kind": "loadScene",
-          "scene": "s002"
+          "scene": "s001"
         }
       ]
     }

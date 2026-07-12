@@ -4,53 +4,46 @@
     "reuseOriginalMap": 183
   },
   "entries": {
-    "from-s256": {
-      "pos": {
-        "col": 143,
-        "row": 39,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 143,
-        "row": 70,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
+    "from-s255": {
       "pos": {
         "col": 64,
         "row": 45,
         "height": 0
       }
     },
-    "from-shared-3": {
+    "from-s255-2": {
       "pos": {
         "col": 128,
         "row": 84,
         "height": 0
       }
     },
-    "from-shared-4": {
+    "from-shared": {
       "pos": {
-        "col": 100,
-        "row": 82,
+        "col": 145,
+        "row": 65,
         "height": 0
       }
     },
-    "from-shared-5": {
+    "from-shared-2": {
       "pos": {
-        "col": 126,
-        "row": 81,
+        "col": 143,
+        "row": 39,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 69,
+        "row": 34,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 143,
-      "row": 39,
+      "col": 64,
+      "row": 45,
       "height": 0
     },
     "facing": "down"
@@ -74,7 +67,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s256",
+                    "scene": "s255",
                     "pos": {
                       "col": 143,
                       "row": 39,
@@ -106,7 +99,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s256",
+                    "scene": "s255",
                     "pos": {
                       "col": 96,
                       "row": 39,
@@ -138,7 +131,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s248",
+                    "scene": "s247",
                     "pos": {
                       "col": 69,
                       "row": 34,
@@ -183,7 +176,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.11743"
+                      "text": "dlg.11743",
+                      "speaker": "spk.王宫卫兵"
                     }
                   }
                 ]
@@ -294,7 +288,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.11762"
+                      "text": "dlg.11762",
+                      "speaker": "spk.王宫卫兵"
                     }
                   },
                   {
@@ -303,7 +298,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.11764"
+                      "text": "dlg.11764",
+                      "speaker": "spk.王宫卫兵"
                     }
                   }
                 ]

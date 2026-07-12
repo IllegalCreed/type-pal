@@ -4,81 +4,39 @@
     "reuseOriginalMap": 94
   },
   "entries": {
-    "from-s085": {
+    "from-s084": {
       "pos": {
-        "col": 54,
-        "row": 8,
+        "col": 102,
+        "row": 51,
         "height": 0
       }
     },
-    "from-s085-2": {
+    "from-s084-2": {
       "pos": {
-        "col": 53,
-        "row": 17,
-        "height": 0
-      }
-    },
-    "from-s085-3": {
-      "pos": {
-        "col": 74,
-        "row": -7,
-        "height": 0
-      }
-    },
-    "from-s087": {
-      "pos": {
-        "col": 45,
-        "row": 17,
+        "col": 46,
+        "row": 12,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 154,
-        "row": 67,
+        "col": 82,
+        "row": 48,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 45,
-        "row": 17,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 74,
-        "row": -14,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 53,
-        "row": 17,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 74,
-        "row": -7,
-        "height": 0
-      }
-    },
-    "from-shared-6": {
-      "pos": {
-        "col": 25,
-        "row": 3,
+        "col": 49,
+        "row": 8,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 54,
-      "row": 8,
+      "col": 102,
+      "row": 51,
       "height": 0
     },
     "facing": "down"
@@ -102,7 +60,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s085",
+                    "scene": "s084",
                     "pos": {
                       "col": 49,
                       "row": 8,
@@ -134,7 +92,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s085",
+                    "scene": "s084",
                     "pos": {
                       "col": 54,
                       "row": 7,

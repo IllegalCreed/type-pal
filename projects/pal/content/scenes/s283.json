@@ -6,23 +6,23 @@
   "entries": {
     "from-s281": {
       "pos": {
-        "col": 89,
-        "row": 9,
+        "col": 143,
+        "row": 70,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 89,
-        "row": 9,
+        "col": 94,
+        "row": 62,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 89,
-      "row": 9,
+      "col": 143,
+      "row": 70,
       "height": 0
     },
     "facing": "down"
@@ -46,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s282",
+                    "scene": "s281",
                     "pos": {
                       "col": 145,
                       "row": 65,

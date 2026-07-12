@@ -4,32 +4,32 @@
     "reuseOriginalMap": 106
   },
   "entries": {
-    "from-s118": {
+    "from-s116": {
       "pos": {
-        "col": 54,
-        "row": 10,
+        "col": 135,
+        "row": 97,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 56,
-        "row": -6,
+        "col": 135,
+        "row": 97,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 33,
-        "row": 6,
+        "col": 55,
+        "row": 10,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 54,
-      "row": 10,
+      "col": 135,
+      "row": 97,
       "height": 0
     },
     "facing": "down"
@@ -53,7 +53,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s117",
+                    "scene": "s116",
                     "pos": {
                       "col": 166,
                       "row": 57,
@@ -85,7 +85,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s119",
+                    "scene": "s118",
                     "pos": {
                       "col": 55,
                       "row": 10,
@@ -143,7 +143,7 @@
                             "kind": "dialog",
                             "line": {
                               "text": "dlg.7580",
-                              "slot": "narration"
+                              "slot": "center"
                             }
                           },
                           {
@@ -411,6 +411,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.7587",
+                      "speaker": "spk.酒剑仙",
                       "portrait": {
                         "icon": 37,
                         "side": "right"
@@ -428,7 +429,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.7590",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -1336,7 +1337,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.7593",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -1550,7 +1551,7 @@
                   {
                     "kind": "setSceneStage",
                     "scene": "s114",
-                    "stage": 2
+                    "stage": 0
                   },
                   {
                     "kind": "setSceneStage",
@@ -1565,27 +1566,27 @@
                   {
                     "kind": "setSceneStage",
                     "scene": "s108",
-                    "stage": 1
+                    "stage": 0
                   },
                   {
                     "kind": "setSceneStage",
                     "scene": "s118",
-                    "stage": 4
+                    "stage": 0
                   },
                   {
                     "kind": "setSceneStage",
                     "scene": "s119",
-                    "stage": 1
+                    "stage": 0
                   },
                   {
                     "kind": "setSceneStage",
                     "scene": "s121",
-                    "stage": 2
+                    "stage": 0
                   },
                   {
                     "kind": "setSceneStage",
                     "scene": "s122",
-                    "stage": 2
+                    "stage": 0
                   },
                   {
                     "kind": "setSceneStage",
@@ -1615,7 +1616,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.7611",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -1657,7 +1658,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.7266",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -1666,85 +1667,6 @@
           }
         }
       ]
-    }
-  ],
-  "onEnter": [
-    {
-      "body": [
-        {
-          "kind": "playMusic",
-          "musicId": 32
-        }
-      ]
-    },
-    {
-      "body": [
-        {
-          "kind": "setScreenWave",
-          "level": 2,
-          "progression": 0
-        },
-        {
-          "kind": "playMusic",
-          "musicId": 32
-        }
-      ]
-    },
-    {
-      "body": [
-        {
-          "kind": "setMultiEntityState",
-          "entities": [
-            "e2136",
-            "e2137",
-            "e2138",
-            "e2139",
-            "e2140",
-            "e2141",
-            "e2142",
-            "e2143",
-            "e2144"
-          ],
-          "state": 2
-        },
-        {
-          "kind": "setEntityState",
-          "entity": "e2145",
-          "state": 2
-        },
-        {
-          "kind": "setEntityState",
-          "entity": "e2146",
-          "state": 2
-        },
-        {
-          "kind": "teleportParty",
-          "pos": {
-            "col": 67,
-            "row": -2,
-            "height": 0
-          }
-        },
-        {
-          "kind": "setPartyFacing",
-          "facing": "right"
-        },
-        {
-          "kind": "setPartyFacing",
-          "facing": "right",
-          "member": 1
-        },
-        {
-          "kind": "setParty",
-          "members": [
-            "li-xiaoyao"
-          ]
-        }
-      ],
-      "next": "advance"
-    },
-    {
-      "body": []
     }
   ]
 }

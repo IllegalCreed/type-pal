@@ -3,63 +3,26 @@
   "map": {
     "reuseOriginalMap": 39
   },
-  "battleFieldId": 7,
-  "battleMusicId": 37,
   "entries": {
-    "from-s046": {
-      "pos": {
-        "col": 79,
-        "row": 43,
-        "height": 0
-      }
-    },
-    "from-s046-2": {
-      "pos": {
-        "col": 65,
-        "row": 37,
-        "height": 0
-      }
-    },
-    "from-s046-3": {
-      "pos": {
-        "col": 100,
-        "row": 11,
-        "height": 0
-      }
-    },
     "from-shared": {
       "pos": {
-        "col": 123,
-        "row": 43,
+        "col": 174,
+        "row": 60,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 79,
-        "row": 43,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 65,
-        "row": 37,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 100,
-        "row": 11,
+        "col": 62,
+        "row": 20,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 79,
-      "row": 43,
+      "col": 174,
+      "row": 60,
       "height": 0
     },
     "facing": "down"
@@ -83,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s040",
+                    "scene": "s039",
                     "pos": {
                       "col": 23,
                       "row": 9,
@@ -236,7 +199,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s045",
+                    "scene": "s044",
                     "pos": {
                       "col": 174,
                       "row": 60,
@@ -275,7 +238,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s044",
+                    "scene": "s043",
                     "pos": {
                       "col": 62,
                       "row": 20,
@@ -447,11 +410,7 @@
                           "kind": "chance",
                           "percent": 61
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "wait",
@@ -504,5 +463,7 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 7,
+  "battleMusicId": 37
 }

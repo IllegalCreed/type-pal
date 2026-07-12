@@ -177,7 +177,8 @@
         {
           "kind": "dialog",
           "line": {
-            "text": "dlg.8211"
+            "text": "dlg.8211",
+            "speaker": "spk.刘晋元"
           }
         },
         {
@@ -4317,7 +4318,7 @@
         },
         {
           "kind": "loadScene",
-          "scene": "s141"
+          "scene": "s140"
         }
       ],
       "next": "advance"

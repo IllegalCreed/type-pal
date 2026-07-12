@@ -3,27 +3,54 @@
   "map": {
     "reuseOriginalMap": 213
   },
-  "battleFieldId": 20,
   "entries": {
-    "from-s228": {
+    "from-s216": {
       "pos": {
-        "col": 119,
-        "row": 98,
+        "col": 141,
+        "row": 82,
+        "height": 0
+      }
+    },
+    "from-s216-2": {
+      "pos": {
+        "col": 84,
+        "row": 20,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 152,
-        "row": 41,
+        "col": 65,
+        "row": -26,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 86,
+        "row": 58,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 101,
+        "row": 59,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 86,
+        "row": 19,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 119,
-      "row": 98,
+      "col": 141,
+      "row": 82,
       "height": 0
     },
     "facing": "down"
@@ -47,7 +74,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s215",
+                    "scene": "s214",
                     "pos": {
                       "col": 66,
                       "row": 42,
@@ -79,7 +106,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s217",
+                    "scene": "s216",
                     "pos": {
                       "col": 86,
                       "row": 58,
@@ -111,7 +138,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s217",
+                    "scene": "s216",
                     "pos": {
                       "col": 101,
                       "row": 59,
@@ -143,7 +170,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s217",
+                    "scene": "s216",
                     "pos": {
                       "col": 86,
                       "row": 19,
@@ -183,7 +210,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11025",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -191,6 +218,15 @@
                     "team": 223,
                     "boss": true,
                     "musicId": 38
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
                   },
                   {
                     "kind": "setEntityState",
@@ -245,6 +281,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11035",
+                      "speaker": "spk.盖罗娇",
                       "slot": "top",
                       "portrait": {
                         "icon": 44,
@@ -409,6 +446,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11068",
+                      "speaker": "spk.盖罗娇",
                       "slot": "top",
                       "portrait": {
                         "icon": 44,
@@ -455,7 +493,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   },
                   {
                     "kind": "clearDialog"
@@ -509,6 +548,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11076",
+                      "speaker": "spk.阿奴",
                       "slot": "top",
                       "portrait": {
                         "icon": 27,
@@ -552,6 +592,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11082",
+                      "speaker": "spk.阿奴",
                       "slot": "top",
                       "portrait": {
                         "icon": 27,
@@ -739,7 +780,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -765,7 +806,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -839,7 +881,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -865,7 +907,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -955,7 +998,7 @@
       "body": [
         {
           "kind": "loadScene",
-          "scene": "s215",
+          "scene": "s214",
           "pos": {
             "col": 35,
             "row": -12,
@@ -965,5 +1008,6 @@
       ]
     }
   ],
+  "battleFieldId": 20,
   "battleMusicId": 37
 }

@@ -4,32 +4,32 @@
     "reuseOriginalMap": 5
   },
   "entries": {
-    "from-s007": {
+    "from-s006": {
       "pos": {
-        "col": 18,
-        "row": 5,
+        "col": 103,
+        "row": 14,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 175,
-        "row": 63,
+        "col": 103,
+        "row": 14,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 18,
-        "row": 5,
+        "col": 46,
+        "row": 17,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 18,
-      "row": 5,
+      "col": 103,
+      "row": 14,
       "height": 0
     },
     "facing": "down"
@@ -63,7 +63,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s007",
+                    "scene": "s006",
                     "pos": {
                       "col": 18,
                       "row": 5,
@@ -95,7 +95,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s012",
+                    "scene": "s011",
                     "pos": {
                       "col": 46,
                       "row": 17,
@@ -363,11 +363,7 @@
                               "kind": "chance",
                               "percent": 41
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "wait",
@@ -411,11 +407,7 @@
                               "kind": "chance",
                               "percent": 68
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "wait",
@@ -435,11 +427,7 @@
                               "kind": "chance",
                               "percent": 31
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "playSound",
@@ -495,11 +483,7 @@
                               "kind": "chance",
                               "percent": 41
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "wait",
@@ -543,11 +527,7 @@
                               "kind": "chance",
                               "percent": 68
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "wait",
@@ -567,11 +547,7 @@
                               "kind": "chance",
                               "percent": 31
                             },
-                            "then": [
-                              {
-                                "kind": "stopScript"
-                              }
-                            ]
+                            "then": []
                           },
                           {
                             "kind": "playSound",
@@ -672,11 +648,7 @@
                           "kind": "chance",
                           "percent": 41
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "wait",
@@ -720,11 +692,7 @@
                           "kind": "chance",
                           "percent": 68
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "wait",
@@ -744,11 +712,7 @@
                           "kind": "chance",
                           "percent": 31
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "playSound",
@@ -804,11 +768,7 @@
                           "kind": "chance",
                           "percent": 41
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "wait",
@@ -852,11 +812,7 @@
                           "kind": "chance",
                           "percent": 68
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "wait",
@@ -876,11 +832,7 @@
                           "kind": "chance",
                           "percent": 31
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "playSound",
@@ -933,7 +885,7 @@
       "body": [
         {
           "kind": "loadScene",
-          "scene": "s008",
+          "scene": "s007",
           "pos": {
             "col": 76,
             "row": 12,
@@ -941,42 +893,6 @@
           }
         }
       ]
-    }
-  ],
-  "onEnter": [
-    {
-      "body": [
-        {
-          "kind": "playMusic",
-          "musicId": 0
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.821",
-            "portrait": {
-              "icon": 10,
-              "side": "right"
-            }
-          }
-        },
-        {
-          "kind": "playMusic",
-          "musicId": 70
-        },
-        {
-          "kind": "setSceneStage",
-          "scene": "s004",
-          "stage": 6
-        }
-      ],
-      "next": "advance"
-    },
-    {
-      "body": []
     }
   ]
 }

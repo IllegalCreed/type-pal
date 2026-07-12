@@ -3,21 +3,159 @@
   "map": {
     "reuseOriginalMap": 57
   },
-  "battleFieldId": 30,
-  "battleMusicId": 40,
   "entries": {
+    "from-s060": {
+      "pos": {
+        "col": 111,
+        "row": 34,
+        "height": 0
+      }
+    },
+    "from-s060-2": {
+      "pos": {
+        "col": 100,
+        "row": 13,
+        "height": 0
+      }
+    },
+    "from-s060-3": {
+      "pos": {
+        "col": 101,
+        "row": -1,
+        "height": 0
+      }
+    },
+    "from-s060-4": {
+      "pos": {
+        "col": 79,
+        "row": -13,
+        "height": 0
+      }
+    },
+    "from-s060-5": {
+      "pos": {
+        "col": 63,
+        "row": -10,
+        "height": 0
+      }
+    },
+    "from-s060-6": {
+      "pos": {
+        "col": 65,
+        "row": 40,
+        "height": 0
+      }
+    },
+    "from-s060-7": {
+      "pos": {
+        "col": 79,
+        "row": 61,
+        "height": 0
+      }
+    },
+    "from-s060-8": {
+      "pos": {
+        "col": 132,
+        "row": 101,
+        "height": 0
+      }
+    },
+    "from-s060-9": {
+      "pos": {
+        "col": 127,
+        "row": 78,
+        "height": 0
+      }
+    },
+    "from-s060-10": {
+      "pos": {
+        "col": 107,
+        "row": 67,
+        "height": 0
+      }
+    },
     "from-shared": {
       "pos": {
-        "col": 35,
-        "row": 23,
+        "col": 34,
+        "row": -4,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 111,
+        "row": 34,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 100,
+        "row": 13,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 101,
+        "row": -1,
+        "height": 0
+      }
+    },
+    "from-shared-5": {
+      "pos": {
+        "col": 79,
+        "row": -13,
+        "height": 0
+      }
+    },
+    "from-shared-6": {
+      "pos": {
+        "col": 63,
+        "row": -10,
+        "height": 0
+      }
+    },
+    "from-shared-7": {
+      "pos": {
+        "col": 65,
+        "row": 40,
+        "height": 0
+      }
+    },
+    "from-shared-8": {
+      "pos": {
+        "col": 79,
+        "row": 61,
+        "height": 0
+      }
+    },
+    "from-shared-9": {
+      "pos": {
+        "col": 132,
+        "row": 101,
+        "height": 0
+      }
+    },
+    "from-shared-10": {
+      "pos": {
+        "col": 127,
+        "row": 78,
+        "height": 0
+      }
+    },
+    "from-shared-11": {
+      "pos": {
+        "col": 107,
+        "row": 67,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 35,
-      "row": 23,
+      "col": 111,
+      "row": 34,
       "height": 0
     },
     "facing": "down"
@@ -81,7 +219,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s061",
+                    "scene": "s060",
                     "pos": {
                       "col": 106,
                       "row": 18,
@@ -153,7 +291,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s061",
+                    "scene": "s060",
                     "pos": {
                       "col": 95,
                       "row": -3,
@@ -225,7 +363,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s061",
+                    "scene": "s060",
                     "pos": {
                       "col": 96,
                       "row": -17,
@@ -297,7 +435,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s061",
+                    "scene": "s060",
                     "pos": {
                       "col": 74,
                       "row": -29,
@@ -369,7 +507,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s061",
+                    "scene": "s060",
                     "pos": {
                       "col": 58,
                       "row": -26,
@@ -441,7 +579,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s061",
+                    "scene": "s060",
                     "pos": {
                       "col": 60,
                       "row": 24,
@@ -513,7 +651,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s061",
+                    "scene": "s060",
                     "pos": {
                       "col": 74,
                       "row": 45,
@@ -585,7 +723,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s061",
+                    "scene": "s060",
                     "pos": {
                       "col": 128,
                       "row": 85,
@@ -657,7 +795,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s061",
+                    "scene": "s060",
                     "pos": {
                       "col": 122,
                       "row": 62,
@@ -729,7 +867,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s061",
+                    "scene": "s060",
                     "pos": {
                       "col": 102,
                       "row": 51,
@@ -801,7 +939,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s061",
+                    "scene": "s060",
                     "pos": {
                       "col": 92,
                       "row": 18,
@@ -2987,7 +3125,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -3002,8 +3140,17 @@
                     "musicId": 45
                   },
                   {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
                     "kind": "loadScene",
-                    "scene": "s067"
+                    "scene": "s066"
                   }
                 ]
               }
@@ -3408,7 +3555,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -3472,7 +3619,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -3536,7 +3683,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -3600,7 +3747,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -3664,7 +3811,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -3728,7 +3875,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -3792,7 +3939,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -3856,7 +4003,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -3920,7 +4067,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -3984,7 +4131,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -4048,7 +4195,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -4112,7 +4259,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -4176,7 +4323,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -4240,7 +4387,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -4266,7 +4413,7 @@
         },
         {
           "kind": "loadScene",
-          "scene": "s065",
+          "scene": "s064",
           "pos": {
             "col": 34,
             "row": -4,
@@ -4275,5 +4422,7 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 39,
+  "battleMusicId": 40
 }

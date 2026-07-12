@@ -10,20 +10,6 @@
         "row": 39,
         "height": 0
       }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 71,
-        "row": 18,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 132,
-        "row": 41,
-        "height": 0
-      }
     }
   },
   "entry": {
@@ -691,7 +677,8 @@
         },
         {
           "kind": "fade",
-          "dir": "out"
+          "dir": "out",
+          "ms": 600
         },
         {
           "kind": "fade",
@@ -720,11 +707,12 @@
         },
         {
           "kind": "fade",
-          "dir": "out"
+          "dir": "out",
+          "ms": 600
         },
         {
           "kind": "loadScene",
-          "scene": "s151"
+          "scene": "s150"
         }
       ]
     }

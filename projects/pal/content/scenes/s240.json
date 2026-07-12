@@ -4,81 +4,25 @@
     "reuseOriginalMap": 172
   },
   "entries": {
-    "from-s238": {
+    "from-s236": {
       "pos": {
-        "col": 154,
-        "row": 59,
-        "height": 0
-      }
-    },
-    "from-s238-2": {
-      "pos": {
-        "col": 109,
-        "row": 65,
-        "height": 0
-      }
-    },
-    "from-s238-3": {
-      "pos": {
-        "col": 87,
-        "row": 31,
-        "height": 0
-      }
-    },
-    "from-s238-4": {
-      "pos": {
-        "col": 101,
-        "row": 17,
-        "height": 0
-      }
-    },
-    "from-s238-5": {
-      "pos": {
-        "col": 53,
-        "row": 4,
+        "col": 34,
+        "row": 3,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 86,
-        "row": 14,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 66,
-        "row": 6,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 85,
-        "row": 39,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 66,
-        "row": 24,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 81,
-        "row": 21,
+        "col": 49,
+        "row": 8,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 154,
-      "row": 59,
+      "col": 34,
+      "row": 3,
       "height": 0
     },
     "facing": "down"
@@ -102,7 +46,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s237",
+                    "scene": "s236",
                     "pos": {
                       "col": 113,
                       "row": 40,

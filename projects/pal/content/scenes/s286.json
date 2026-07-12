@@ -4,67 +4,74 @@
     "reuseOriginalMap": 204
   },
   "entries": {
-    "from-s286": {
-      "pos": {
-        "col": 59,
-        "row": 5,
-        "height": 0
-      }
-    },
-    "from-s286-2": {
-      "pos": {
-        "col": 59,
-        "row": 17,
-        "height": 0
-      }
-    },
-    "from-s286-3": {
-      "pos": {
-        "col": 68,
-        "row": -5,
-        "height": 0
-      }
-    },
-    "from-shared": {
+    "from-s285": {
       "pos": {
         "col": 149,
         "row": 49,
         "height": 0
       }
     },
-    "from-shared-2": {
+    "from-s285-2": {
       "pos": {
         "col": 149,
         "row": 67,
         "height": 0
       }
     },
-    "from-shared-3": {
+    "from-s285-3": {
       "pos": {
         "col": 65,
         "row": 22,
         "height": 0
       }
     },
-    "from-shared-4": {
+    "from-s285-4": {
       "pos": {
         "col": 102,
         "row": 29,
         "height": 0
       }
     },
+    "from-shared": {
+      "pos": {
+        "col": 122,
+        "row": 69,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 59,
+        "row": 5,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 59,
+        "row": 17,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 68,
+        "row": -5,
+        "height": 0
+      }
+    },
     "from-shared-5": {
       "pos": {
-        "col": 96,
-        "row": -5,
+        "col": 102,
+        "row": 29,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 59,
-      "row": 5,
+      "col": 149,
+      "row": 49,
       "height": 0
     },
     "facing": "down"
@@ -88,7 +95,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s286",
+                    "scene": "s285",
                     "pos": {
                       "col": 59,
                       "row": 5,
@@ -120,7 +127,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s286",
+                    "scene": "s285",
                     "pos": {
                       "col": 59,
                       "row": 17,
@@ -152,7 +159,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s286",
+                    "scene": "s285",
                     "pos": {
                       "col": 68,
                       "row": -5,
@@ -184,7 +191,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s286",
+                    "scene": "s285",
                     "pos": {
                       "col": 96,
                       "row": -5,
@@ -10134,7 +10141,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -10198,7 +10205,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -10262,7 +10269,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -10326,7 +10333,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -10390,7 +10397,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -10400,5 +10407,6 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 57
 }

@@ -4142,9 +4142,8 @@
           "state": 1
         },
         {
-          "kind": "fade",
-          "dir": "in",
-          "ms": 900
+          "kind": "ditherScreen",
+          "ms": 2880
         },
         {
           "kind": "setEntityFacing",
@@ -4258,7 +4257,7 @@
         },
         {
           "kind": "loadScene",
-          "scene": "s144"
+          "scene": "s143"
         }
       ],
       "next": "advance"

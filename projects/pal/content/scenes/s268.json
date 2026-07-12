@@ -3,75 +3,10 @@
   "map": {
     "reuseOriginalMap": 19
   },
-  "entries": {
-    "from-s270": {
-      "pos": {
-        "col": 108,
-        "row": 30,
-        "height": 0
-      }
-    },
-    "from-s272": {
-      "pos": {
-        "col": 100,
-        "row": 22,
-        "height": 0
-      }
-    },
-    "from-s272-2": {
-      "pos": {
-        "col": 103,
-        "row": 41,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 85,
-        "row": 63,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 137,
-        "row": 72,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 124,
-        "row": 81,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 86,
-        "row": 47,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 52,
-        "row": 10,
-        "height": 0
-      }
-    },
-    "from-shared-6": {
-      "pos": {
-        "col": 110,
-        "row": 95,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
-      "col": 108,
-      "row": 30,
+      "col": 96,
+      "row": 32,
       "height": 0
     },
     "facing": "down"
@@ -95,7 +30,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s267",
+                    "scene": "s266",
                     "pos": {
                       "col": 76,
                       "row": 12,
@@ -159,6 +94,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11842",
+                      "speaker": "spk.老妇人",
                       "slot": "top",
                       "portrait": {
                         "icon": 75,
@@ -206,7 +142,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.11850",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ],

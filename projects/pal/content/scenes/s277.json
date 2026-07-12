@@ -3,7 +3,6 @@
   "map": {
     "reuseOriginalMap": 182
   },
-  "battleFieldId": 48,
   "entries": {
     "start": {
       "pos": {
@@ -12,17 +11,17 @@
         "height": 0
       }
     },
-    "from-s273": {
+    "from-s281": {
       "pos": {
-        "col": 59,
-        "row": 16,
+        "col": 100,
+        "row": 82,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 98,
-        "row": 58,
+        "col": 96,
+        "row": 39,
         "height": 0
       }
     }
@@ -54,7 +53,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s282",
+                    "scene": "s281",
                     "pos": {
                       "col": 120,
                       "row": 39,
@@ -3576,5 +3575,6 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 48
 }

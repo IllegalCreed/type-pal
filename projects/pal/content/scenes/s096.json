@@ -6,37 +6,65 @@
   "entries": {
     "from-s082": {
       "pos": {
-        "col": 84,
-        "row": 50,
+        "col": 82,
+        "row": 31,
         "height": 0
       }
     },
-    "from-s093": {
+    "from-s082-2": {
       "pos": {
-        "col": 51,
-        "row": 10,
+        "col": 62,
+        "row": 20,
+        "height": 0
+      }
+    },
+    "from-s082-3": {
+      "pos": {
+        "col": 88,
+        "row": -3,
+        "height": 0
+      }
+    },
+    "from-s084": {
+      "pos": {
+        "col": 129,
+        "row": 25,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 121,
-        "row": 28,
+        "col": 51,
+        "row": -6,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 51,
-        "row": 10,
+        "col": 62,
+        "row": 20,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 88,
+        "row": -3,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 84,
+        "row": 50,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 84,
-      "row": 50,
+      "col": 82,
+      "row": 31,
       "height": 0
     },
     "facing": "down"
@@ -60,7 +88,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s083",
+                    "scene": "s082",
                     "pos": {
                       "col": 84,
                       "row": 33,
@@ -92,7 +120,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s083",
+                    "scene": "s082",
                     "pos": {
                       "col": 84,
                       "row": 11,
@@ -124,7 +152,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s083",
+                    "scene": "s082",
                     "pos": {
                       "col": 103,
                       "row": 41,
@@ -156,7 +184,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s085",
+                    "scene": "s084",
                     "pos": {
                       "col": 35,
                       "row": 14,

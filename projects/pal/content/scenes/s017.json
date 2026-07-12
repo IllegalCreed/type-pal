@@ -5,18 +5,25 @@
   },
   "musicId": 77,
   "entries": {
+    "from-s015": {
+      "pos": {
+        "col": 90,
+        "row": 54,
+        "height": 0
+      }
+    },
     "from-shared": {
       "pos": {
-        "col": 77,
-        "row": 59,
+        "col": 90,
+        "row": 54,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 77,
-      "row": 59,
+      "col": 90,
+      "row": 54,
       "height": 0
     },
     "facing": "down"
@@ -40,7 +47,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s016",
+                    "scene": "s015",
                     "pos": {
                       "col": 116,
                       "row": 4,
@@ -1814,7 +1821,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s019"
+                    "scene": "s018"
                   }
                 ]
               }
@@ -1990,7 +1997,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]

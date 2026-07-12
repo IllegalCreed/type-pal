@@ -3,69 +3,40 @@
   "map": {
     "reuseOriginalMap": 56
   },
-  "battleFieldId": 24,
   "entries": {
-    "from-s054": {
+    "from-s061": {
       "pos": {
-        "col": 160,
-        "row": 68,
+        "col": 78,
+        "row": 18,
         "height": 0
       }
     },
-    "from-s062": {
+    "from-s061-2": {
       "pos": {
-        "col": 90,
-        "row": 12,
-        "height": 0
-      }
-    },
-    "from-s062-2": {
-      "pos": {
-        "col": 72,
-        "row": 13,
+        "col": 129,
+        "row": 71,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 133,
-        "row": 79,
+        "col": 78,
+        "row": 18,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 121,
-        "row": 43,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 90,
-        "row": 12,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 72,
-        "row": 13,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 176,
-        "row": 61,
+        "col": 129,
+        "row": 71,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 160,
-      "row": 68,
+      "col": 78,
+      "row": 18,
       "height": 0
     },
     "facing": "down"
@@ -89,7 +60,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s062",
+                    "scene": "s061",
                     "pos": {
                       "col": 90,
                       "row": 12,
@@ -121,7 +92,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s062",
+                    "scene": "s061",
                     "pos": {
                       "col": 72,
                       "row": 13,
@@ -153,7 +124,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s062",
+                    "scene": "s061",
                     "pos": {
                       "col": 49,
                       "row": 18,
@@ -221,7 +192,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -285,7 +256,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -349,7 +320,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -708,5 +679,6 @@
     {
       "body": []
     }
-  ]
+  ],
+  "battleFieldId": 24
 }

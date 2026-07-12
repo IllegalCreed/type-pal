@@ -3,35 +3,33 @@
   "map": {
     "reuseOriginalMap": 97
   },
-  "battleFieldId": 9,
-  "battleMusicId": 45,
   "entries": {
-    "from-s102": {
+    "from-s105": {
       "pos": {
-        "col": 96,
-        "row": -15,
+        "col": 169,
+        "row": 67,
         "height": 0
       }
     },
     "from-shared": {
       "pos": {
-        "col": 96,
-        "row": -15,
+        "col": 41,
+        "row": -19,
         "height": 0
       }
     },
     "from-shared-2": {
       "pos": {
-        "col": 130,
-        "row": 96,
+        "col": 165,
+        "row": 53,
         "height": 0
       }
     }
   },
   "entry": {
     "pos": {
-      "col": 96,
-      "row": -15,
+      "col": 169,
+      "row": 67,
       "height": 0
     },
     "facing": "down"
@@ -55,7 +53,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s106",
+                    "scene": "s105",
                     "pos": {
                       "col": 96,
                       "row": -15,
@@ -87,7 +85,7 @@
                 "body": [
                   {
                     "kind": "loadScene",
-                    "scene": "s102",
+                    "scene": "s101",
                     "pos": {
                       "col": 165,
                       "row": 53,
@@ -168,11 +166,7 @@
                           "kind": "chance",
                           "percent": 61
                         },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
+                        "then": []
                       },
                       {
                         "kind": "branch",
@@ -258,7 +252,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.7814"
+                      "text": "dlg.7814",
+                      "speaker": "spk.秀才"
                     }
                   },
                   {
@@ -293,6 +288,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.7826",
+                      "speaker": "spk.秀才",
                       "slot": "top"
                     }
                   },
@@ -300,123 +296,12 @@
                     "kind": "confirm",
                     "onNo": [
                       {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.7835",
-                          "speaker": "spk.李逍遥",
-                          "portrait": {
-                            "icon": 9,
-                            "side": "right"
-                          }
-                        }
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.7838",
-                          "speaker": "spk.秀才",
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.7840",
-                          "speaker": "spk.秀才",
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.7844",
-                          "speaker": "spk.李逍遥",
-                          "portrait": {
-                            "icon": 1,
-                            "side": "right"
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.7849",
-                          "speaker": "spk.秀才",
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.7851",
-                          "speaker": "spk.李逍遥",
-                          "portrait": {
-                            "icon": 9,
-                            "side": "right"
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.7853",
-                          "speaker": "spk.秀才",
-                          "slot": "top"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.7855",
-                          "speaker": "spk.李逍遥",
-                          "portrait": {
-                            "icon": 1,
-                            "side": "right"
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.7856",
-                          "slot": "narration"
-                        }
-                      },
-                      {
-                        "kind": "giveMoney",
-                        "delta": 1500
-                      },
-                      {
-                        "kind": "setEntityState",
-                        "entity": "e1882",
-                        "state": 0
-                      },
-                      {
-                        "kind": "setFollowers",
-                        "sprites": [
-                          83
-                        ]
+                        "kind": "unmigrated",
+                        "opcode": 0,
+                        "operands": [
+                          21220
+                        ],
+                        "note": "分支臂不可内联"
                       },
                       {
                         "kind": "stopScript"
@@ -5395,11 +5280,6 @@
                     "ms": 240
                   },
                   {
-                    "kind": "setEntityState",
-                    "entity": "e-1",
-                    "state": 0
-                  },
-                  {
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.5685",
@@ -5646,7 +5526,8 @@
                       {
                         "kind": "dialog",
                         "line": {
-                          "text": "dlg.5727"
+                          "text": "dlg.5727",
+                          "speaker": "spk.秀才"
                         }
                       },
                       {
@@ -5655,7 +5536,8 @@
                       },
                       {
                         "kind": "fade",
-                        "dir": "out"
+                        "dir": "out",
+                        "ms": 600
                       },
                       {
                         "kind": "clearDialog"
@@ -5664,7 +5546,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.5728",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -9746,7 +9628,8 @@
                   {
                     "kind": "dialog",
                     "line": {
-                      "text": "dlg.7861"
+                      "text": "dlg.7861",
+                      "speaker": "spk.旅人"
                     }
                   }
                 ]
@@ -9912,7 +9795,7 @@
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.12222",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   }
                 ]
@@ -10035,7 +9918,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -10061,7 +9944,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -10172,7 +10056,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -10198,7 +10082,8 @@
                   },
                   {
                     "kind": "fade",
-                    "dir": "out"
+                    "dir": "out",
+                    "ms": 600
                   }
                 ]
               }
@@ -10356,5 +10241,6 @@
         }
       ]
     }
-  ]
+  ],
+  "battleFieldId": 9
 }

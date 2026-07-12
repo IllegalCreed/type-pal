@@ -3,8 +3,6 @@
   "map": {
     "reuseOriginalMap": 185
   },
-  "battleFieldId": 32,
-  "battleMusicId": 42,
   "entry": {
     "pos": {
       "col": 96,
@@ -49,7 +47,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -83,6 +81,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -95,9 +102,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -113,6 +119,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -125,9 +140,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -143,6 +157,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -155,9 +178,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -173,6 +195,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -185,9 +216,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -203,6 +233,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -215,9 +254,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -233,6 +271,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -245,9 +292,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -263,6 +309,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -275,9 +330,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -294,13 +348,22 @@
                     "musicId": 0
                   },
                   {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
                     "kind": "clearDialog"
                   },
                   {
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9192",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -399,7 +462,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s150"
+                    "scene": "s149"
                   }
                 ]
               }
@@ -443,7 +506,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -477,6 +540,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -489,9 +561,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -507,6 +578,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -519,9 +599,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -537,6 +616,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -549,9 +637,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -567,6 +654,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -579,9 +675,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -597,6 +692,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -609,9 +713,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -627,6 +730,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -639,9 +751,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -657,6 +768,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -669,9 +789,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -688,13 +807,22 @@
                     "musicId": 0
                   },
                   {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
                     "kind": "clearDialog"
                   },
                   {
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9192",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -793,7 +921,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s150"
+                    "scene": "s149"
                   }
                 ]
               }
@@ -837,7 +965,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -871,6 +999,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -883,9 +1020,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -901,6 +1037,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -913,9 +1058,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -931,6 +1075,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -943,9 +1096,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -961,6 +1113,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -973,9 +1134,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -991,6 +1151,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -1003,9 +1172,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -1021,6 +1189,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -1033,9 +1210,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -1051,6 +1227,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -1063,9 +1248,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -1082,13 +1266,22 @@
                     "musicId": 0
                   },
                   {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
                     "kind": "clearDialog"
                   },
                   {
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9192",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -1187,7 +1380,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s150"
+                    "scene": "s149"
                   }
                 ]
               }
@@ -1231,7 +1424,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -1265,6 +1458,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -1277,9 +1479,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -1295,6 +1496,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -1307,9 +1517,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -1325,6 +1534,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -1337,9 +1555,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -1355,6 +1572,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -1367,9 +1593,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -1385,6 +1610,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -1397,9 +1631,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -1415,6 +1648,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -1427,9 +1669,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -1445,6 +1686,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -1457,9 +1707,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -1476,13 +1725,22 @@
                     "musicId": 0
                   },
                   {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
                     "kind": "clearDialog"
                   },
                   {
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9192",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -1581,7 +1839,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s150"
+                    "scene": "s149"
                   }
                 ]
               }
@@ -1625,7 +1883,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -1659,6 +1917,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -1671,9 +1938,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -1689,6 +1955,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -1701,9 +1976,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -1719,6 +1993,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -1731,9 +2014,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -1749,6 +2031,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -1761,9 +2052,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -1779,6 +2069,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -1791,9 +2090,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -1809,6 +2107,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -1821,9 +2128,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -1839,6 +2145,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -1851,9 +2166,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -1870,13 +2184,22 @@
                     "musicId": 0
                   },
                   {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
                     "kind": "clearDialog"
                   },
                   {
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9192",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -1975,7 +2298,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s150"
+                    "scene": "s149"
                   }
                 ]
               }
@@ -2019,7 +2342,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -2053,6 +2376,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -2065,9 +2397,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -2083,6 +2414,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -2095,9 +2435,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -2113,6 +2452,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -2125,9 +2473,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -2143,6 +2490,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -2155,9 +2511,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -2173,6 +2528,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -2185,9 +2549,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -2203,6 +2566,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -2215,9 +2587,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -2233,6 +2604,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -2245,9 +2625,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -2264,13 +2643,22 @@
                     "musicId": 0
                   },
                   {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
                     "kind": "clearDialog"
                   },
                   {
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9192",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -2369,7 +2757,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s150"
+                    "scene": "s149"
                   }
                 ]
               }
@@ -2413,7 +2801,7 @@
                         "kind": "dialog",
                         "line": {
                           "text": "dlg.13135",
-                          "slot": "narration"
+                          "slot": "center"
                         }
                       },
                       {
@@ -2447,6 +2835,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -2459,9 +2856,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -2477,6 +2873,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -2489,9 +2894,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -2507,6 +2911,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -2519,9 +2932,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -2537,6 +2949,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -2549,9 +2970,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -2567,6 +2987,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -2579,9 +3008,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -2597,6 +3025,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -2609,9 +3046,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -2627,6 +3063,15 @@
                     },
                     "then": [
                       {
+                        "kind": "unmigrated",
+                        "opcode": 120,
+                        "operands": [
+                          0,
+                          0,
+                          0
+                        ]
+                      },
+                      {
                         "kind": "clearDialog"
                       },
                       {
@@ -2639,9 +3084,8 @@
                         "soundId": 262
                       },
                       {
-                        "kind": "fade",
-                        "dir": "in",
-                        "ms": 600
+                        "kind": "ditherScreen",
+                        "ms": 2160
                       },
                       {
                         "kind": "stopScript"
@@ -2658,13 +3102,22 @@
                     "musicId": 0
                   },
                   {
+                    "kind": "unmigrated",
+                    "opcode": 120,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
                     "kind": "clearDialog"
                   },
                   {
                     "kind": "dialog",
                     "line": {
                       "text": "dlg.9192",
-                      "slot": "narration"
+                      "slot": "center"
                     }
                   },
                   {
@@ -2763,7 +3216,7 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s150"
+                    "scene": "s149"
                   }
                 ]
               }
@@ -2832,5 +3285,7 @@
     {
       "body": []
     }
-  ]
+  ],
+  "battleFieldId": 32,
+  "battleMusicId": 42
 }
