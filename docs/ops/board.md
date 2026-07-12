@@ -10,13 +10,13 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| X3/M3 | 通用 0x73 dither + 开场/opcode 迁移修复 | build 准入 | Codex 实现 | **三签齐(Codex+GLM+Opus agree)**,M1/M2/M3 复核通过,build 准入 allow;Codex 按 Draft 设计点 1-10 实现(跨场景 loadScene 前捕获+targetSceneId 一次性交接、独立站点命令内快照、opcode 三修、统一收尾、0% 帧像素锚)。任务卡:[X3-opening-dither-speaker-inheritance.md](tasks/X3-opening-dither-speaker-inheritance.md) |
+| - | - | - | - | 当前无可直接实现的任务。 |
 
 ## 阻塞
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| - | - | - | - | 当前无阻塞任务。 |
+| X3/M3 | 通用 0x73 dither + 开场/opcode 迁移修复 | rework / 二次设计签字 | GLM 复核 | 用户否决 hard dissolve;Codex 提 12 级离散 RGBA 插值,**Codex+Opus agree,待 GLM**。Opus 附 3 复验重点(sRGB gamma 中间色偏暗→已定 gamma-correct 退路 / 首趟跳细节 / 25-75% 亮度取样);s001→s003 黑屏独立阻塞 done 前必解。二次三签未齐不得实现。任务卡:[X3-opening-dither-speaker-inheritance.md](tasks/X3-opening-dither-speaker-inheritance.md) |
 
 ## 看板规则
 
