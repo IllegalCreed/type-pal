@@ -262,12 +262,12 @@ function walkBody(
 
   const flush = () => {
     if (!batch.length) return
-    // 成组:尾冒号行更新 walkBody 级 speaker;其余行拼接为一页文本。
+    // 成组:尾冒号行更新 walkBody 级 speaker;其余 showDialog 各占原版的一条显示行。
     let parts: { msgIdx: number; text: string }[] = []
     const emit = () => {
       if (!parts.length) return
       const key = `dlg.${parts[0]!.msgIdx}`
-      ctx.locale[key] = parts.map((p) => p.text).join('')
+      ctx.locale[key] = parts.map((p) => p.text).join('\n')
       const line: DialogueLine = { text: key }
       if (activeSpeaker) {
         const sk = `spk.${activeSpeaker}`

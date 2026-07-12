@@ -35,7 +35,7 @@ export function layoutLines(
   for (let li = 0; li < lines.length; li++) {
     const src = lines[li]
     if (!src) continue
-    const spans = parseRichText(resolveText(src.text))
+    const spans = parseRichText(resolveText(src.text).replace(/\r\n?/g, '\n'))
     // 展开成字符流(带 color),逐字符测宽分组
     const chars: CharRun[] = []
     for (const span of spans) {
@@ -58,6 +58,12 @@ export function layoutLines(
     }
 
     for (const c of chars) {
+      if (c.text === '\n') {
+        // 原版每条 showDialog 都强制另起一行；迁移器用 \n 保留这条数据边界。
+        // 即使当前行为空也要落一行，连续换行不能被宽度排版吞掉。
+        flush()
+        continue
+      }
       const cp = c.text.codePointAt(0) ?? 0
       const w = glyphs.get(cp)?.width ?? 16
       if (curWidth + w > usable && curRun.length > 0) {

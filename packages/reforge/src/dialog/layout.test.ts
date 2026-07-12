@@ -35,6 +35,18 @@ describe('layoutLines', () => {
     expect(out[1]?.spans[0]?.text).toHaveLength(1) // 次行 1 字
   })
 
+  test('显式换行强制另起一行，并保留下一行缩进', () => {
+    const lines: DialogueLine[] = [{ text: '既然落在你的手里，\n  要杀要剐不用多说！' }]
+    const out = layoutLines(lines, glyphs, resolveText, MAX_RIGHT, START_X)
+
+    expect(out).toHaveLength(2)
+    expect(out.map((line) => line.spans.map((span) => span.text).join(''))).toEqual([
+      '既然落在你的手里，',
+      '  要杀要剐不用多说！',
+    ])
+    expect(out.map((line) => line.isLineStart)).toEqual([true, false])
+  })
+
   test('多个 DialogueLine → srcLineIdx 递增,各自 isLineStart=true', () => {
     const lines: DialogueLine[] = [
       { text: '甲' }, // 1 字,单行

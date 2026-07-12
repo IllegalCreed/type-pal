@@ -111,6 +111,25 @@ describe('0x50/0x51 fade delay 保真', () => {
 })
 
 describe('对话 speaker 在同一 walkBody/slot 内继承', () => {
+  test('连续正文保留原 showDialog 的硬换行与行首缩进', () => {
+    const ctx = ctxOf([
+      {
+        op: 'showDialog',
+        messageIndex: 3,
+        text: '既然落在你的手里，',
+      } as unknown as SourceCmd,
+      {
+        op: 'showDialog',
+        messageIndex: 4,
+        text: '  要杀要剐不用多说！~60',
+      } as unknown as SourceCmd,
+    ])
+    const body = bodyOf(ctx)
+
+    expect(body).toEqual([{ kind: 'dialog', line: { text: 'dlg.3' } }])
+    expect(ctx.locale['dlg.3']).toBe('既然落在你的手里，\n  要杀要剐不用多说！~60')
+  })
+
   test('跨 raw 0x05 flush 仍继承', () => {
     const body = bodyOf(
       ctxOf([
