@@ -10,6 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| MG2 | 迁移器结构化三方合并与安全重导 | draft | Opus 设计压力测试，随后 GLM 覆盖复核 | Codex 已签 agree；纯生成、完整 baseline、显式 JSON 合并策略、首次 bootstrap 和事务写盘初稿已落卡。三签未齐，不得实现。任务卡：[MG2-incremental-migration-merge.md](tasks/MG2-incremental-migration-merge.md) |
 
 ## 阻塞
 
