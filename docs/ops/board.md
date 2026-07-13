@@ -16,7 +16,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| M3 | 迁移脚本控制流去内联与体积门禁 | draft | Opus 复核全库设计 | 当前迁移脚本规范化/pretty 均约 all.json 20 倍。用户裁决所有 goto/call 必须 O(1) 引用、全库脚本 ≤10 倍；Codex 已签共享脚本库修订版 agree，build 等 Opus/GLM。任务卡:[M3-wander-arm-explosion.md](tasks/M3-wander-arm-explosion.md) |
+| M3 | 迁移脚本控制流去内联与体积门禁 | draft / 设计签字 | GLM 复核 | 全库共享脚本方案(回归原 M3 设计):scripts.json + callScript/jumpScript O(1) 引用 + 三重 10 倍门禁 + overlay。**Codex+Opus agree(附 R1-R3:尾转移让出/对话样式态跨引用保真/resolver+缺引用报错),待 GLM**;8.61x 距 10x 仅 14% 余量,超标则 self-relative 卡转必做。任务卡:[M3-wander-arm-explosion.md](tasks/M3-wander-arm-explosion.md) |
 
 ## 看板规则
 
