@@ -1,6 +1,7 @@
-import { describe, expect, it, vi } from 'vitest'
 import { gzipSync } from 'node:zlib'
 import { parseSpriteChunk } from '@type-pal/shared'
+import { describe, expect, it, vi } from 'vitest'
+import type { IndexedImage } from './png.js'
 import {
   decodeSpriteFrames,
   decodeTilesetBlob,
@@ -11,7 +12,6 @@ import {
   loadTilesetBlob,
   rleFrameToIndexedImage,
 } from './tileset-blob.js'
-import type { IndexedImage } from './png.js'
 
 function makeSimpleChunk(): Uint8Array {
   // imagecount=2, frame0 at byte 4 (1×1 0xAA), frame1 at byte 10 (1×1 0xBB)
@@ -117,7 +117,9 @@ describe('decodeSpriteFrames / loadSpriteFramesBlob (npc/battle/magic 共用)', 
   })
 
   it('loadSpriteFramesBlob:404 抛错', async () => {
-    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response('', { status: 404 }))
+    const fetchSpy = vi
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValue(new Response('', { status: 404 }))
     await expect(loadSpriteFramesBlob('/fake/missing.rle')).rejects.toThrow(/404/)
     fetchSpy.mockRestore()
   })
@@ -190,9 +192,9 @@ describe('loadTilesetBlob', () => {
     const chunk = makeSimpleChunk()
     const gzipped = gzipSync(chunk)
     // mock fetch 返回 gzipped blob
-    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(
-      new Response(gzipped, { status: 200 }),
-    )
+    const fetchSpy = vi
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValue(new Response(gzipped, { status: 200 }))
     try {
       const map = await loadTilesetBlob('/fake/tileset/1.rle')
       expect(fetchSpy).toHaveBeenCalledWith('/fake/tileset/1.rle')
@@ -205,9 +207,9 @@ describe('loadTilesetBlob', () => {
   })
 
   it('fetch 失败抛错', async () => {
-    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(
-      new Response('', { status: 404 }),
-    )
+    const fetchSpy = vi
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValue(new Response('', { status: 404 }))
     await expect(loadTilesetBlob('/fake/missing')).rejects.toThrow(/404/)
     fetchSpy.mockRestore()
   })

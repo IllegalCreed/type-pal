@@ -50,7 +50,7 @@ function dialogScript(lines: string[]): GameState {
   const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
   gs.mode = 'event'
   gs.currentDialogStyle = 'bottom'
-  const commands: Command[] = lines.map(text => ({ op: 'showDialog', messageIndex: 0, text }))
+  const commands: Command[] = lines.map((text) => ({ op: 'showDialog', messageIndex: 0, text }))
   commands.push({ op: 'end' })
   gs.eventCursor = { commands, labelMap: {}, ip: 0 }
   gs.nowMs = 1000
@@ -85,7 +85,7 @@ describe('Bug2: 按一下 Confirm → 同段后续行同 tick 连锁瞬显(fUser
     if (!ds) return // 窄化类型,避免 noNonNullAssertion
     // 三行全部瞬显:userSkip 应为 true,且页内容(已沉行 + 当前行)含 line2/line3 文本
     expect(ds.userSkip).toBe(true)
-    const allText = [...ds.shownLines.map(s => s), ds.currentLineText ?? '']
+    const allText = [...ds.shownLines.map((s) => s), ds.currentLineText ?? '']
     expect(allText.join('')).toContain(L(2))
     expect(allText.join('')).toContain(L(3))
     // 当前行(最后一行)瞬显满
@@ -109,9 +109,11 @@ describe('Bug2: 按一下 Confirm → 同段后续行同 tick 连锁瞬显(fUser
     expect(ds).toBeDefined()
     if (!ds) return // 窄化类型,避免 noNonNullAssertion
     // 前 4 行入页满;第 5 行触发翻页 → 停在 waiting-page-key(sdlpal text.c:1649)
-    const allText = [...ds.shownLines.map(s => s), ds.currentLineText ?? '']
+    const allText = [...ds.shownLines.map((s) => s), ds.currentLineText ?? '']
     // 至少前 4 行已瞬显入页
-    expect(allText.filter(t => t === L(1) || t === L(2) || t === L(3) || t === L(4)).length).toBe(4)
+    expect(allText.filter((t) => t === L(1) || t === L(2) || t === L(3) || t === L(4)).length).toBe(
+      4,
+    )
   })
 
   it('普通行连锁瞬显后,userSkip 仍 true(同段持续,直到翻页/段末才复位)', () => {

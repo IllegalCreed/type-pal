@@ -1,6 +1,7 @@
-import type { Tilemap } from '@type-pal/shared'
 import type { OwnMap } from '@type-pal/content'
+import type { Tilemap } from '@type-pal/shared'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
+import type { AssetBase } from './assets.js'
 
 // 只测分流逻辑,mock 掉 assets 层的真实 IO(gzip/parseSpriteChunk 在别处/浏览器覆盖)。
 vi.mock('./assets.js', () => ({
@@ -12,8 +13,18 @@ vi.mock('./assets.js', () => ({
 import { loadOwnMap, loadTilemap, loadTilesetByPath } from './assets.js'
 import { loadSceneMap } from './scene-map.js'
 
-// biome-ignore lint/suspicious/noExplicitAny: 测试桩,只喂 loadSceneMap 需要的字段
-const base = { root: '/proj/data', maps: 'tilemap', tilesets: 'tileset' } as any
+const base: AssetBase = {
+  root: '/proj/data',
+  maps: 'tilemap',
+  tilesets: 'tileset',
+  sprites: 'sprite',
+  palettes: 'palette',
+  sounds: 'sound',
+  music: 'music',
+  portraits: 'portrait',
+  faces: 'face',
+  itemIcons: 'item-icon',
+}
 const fakeMap: Tilemap = { width: 2, height: 2, cells: [], tileset: 'tileset/56.rle' }
 const fakeOwnMap: OwnMap = {
   version: 1,

@@ -1,8 +1,15 @@
 import type { Command } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import type { EventKind } from './minimap.js'
-import { BASE_PX, classifyTrigger, collectEventKinds, collectMinimapData, computeView, worldToThumb } from './minimap.js'
 import type { GameState, NpcState } from '../core/game-state.js'
+import type { EventKind } from './minimap.js'
+import {
+  BASE_PX,
+  classifyTrigger,
+  collectEventKinds,
+  collectMinimapData,
+  computeView,
+  worldToThumb,
+} from './minimap.js'
 
 // 变换常量(与 minimap.ts):SCALE=BASE_PX/2080,CAM_OFF=16。
 const SCALE = BASE_PX / 2080
@@ -60,17 +67,26 @@ describe('classifyTrigger', () => {
     expect(classifyTrigger(cmds(give(1), teleport(), end()), { L_0: 0 }, 'L_0').kind).toBe('item')
   })
   it('count=0 → item(sdlpal count==0 给 1 个;**绝大多数地图宝物 count=0**,如木鞋)', () => {
-    expect(classifyTrigger(cmds(give(0, '木鞋'), end()), { L_0: 0 }, 'L_0')).toEqual({ kind: 'item', name: '木鞋' })
+    expect(classifyTrigger(cmds(give(0, '木鞋'), end()), { L_0: 0 }, 'L_0')).toEqual({
+      kind: 'item',
+      name: '木鞋',
+    })
   })
   it('count<0(扣道具) → other', () => {
     expect(classifyTrigger(cmds(give(-1), end()), { L_0: 0 }, 'L_0').kind).toBe('other')
   })
   it('0x1E 加钱(正额) → item(金钱);扣钱(负额)→ other', () => {
-    expect(classifyTrigger(cmds(raw(0x1e, 500), end()), { L_0: 0 }, 'L_0')).toEqual({ kind: 'item', name: '金钱' })
+    expect(classifyTrigger(cmds(raw(0x1e, 500), end()), { L_0: 0 }, 'L_0')).toEqual({
+      kind: 'item',
+      name: '金钱',
+    })
     expect(classifyTrigger(cmds(raw(0x1e, 0xff00), end()), { L_0: 0 }, 'L_0').kind).toBe('other') // 负 i16
   })
   it('0x55 学法术 → item(法术)', () => {
-    expect(classifyTrigger(cmds(raw(0x55, 12), end()), { L_0: 0 }, 'L_0')).toEqual({ kind: 'item', name: '法术' })
+    expect(classifyTrigger(cmds(raw(0x55, 12), end()), { L_0: 0 }, 'L_0')).toEqual({
+      kind: 'item',
+      name: '法术',
+    })
   })
   it('label 缺失 → other;`L_<n>` 直解兜底(labelMap 无也能解全局 ip)', () => {
     expect(classifyTrigger(cmds(give(1)), {}, undefined).kind).toBe('other')

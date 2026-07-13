@@ -52,7 +52,11 @@ export function hideOverlay(): void {
   document.getElementById(ROOT_ID)?.remove()
 }
 
-export function renderOverlay(run: RunState, checkpoints: readonly Checkpoint[], bests: BestTimes): void {
+export function renderOverlay(
+  run: RunState,
+  checkpoints: readonly Checkpoint[],
+  bests: BestTimes,
+): void {
   if (typeof document === 'undefined') return
   const root = ensureRoot()
   root.replaceChildren()

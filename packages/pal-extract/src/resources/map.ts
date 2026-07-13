@@ -9,8 +9,9 @@
  *   - [row][col][0] = lower layer u32
  *   - [row][col][1] = upper layer u32
  */
-import { type RleFrame, parseSpriteChunk } from '@type-pal/shared'
+
 import type { TileCell, Tilemap } from '@type-pal/shared'
+import { parseSpriteChunk, type RleFrame } from '@type-pal/shared'
 
 const MAP_WIDTH_TILES = 64 // sdlpal map.c: Tiles[128][64][2]
 const MAP_HEIGHT_TILES = 128
@@ -34,9 +35,7 @@ export interface MapResult {
 export function parseMap(mapBytes: Uint8Array, gopBytes: Uint8Array): MapResult {
   const expectedSize = MAP_WIDTH_TILES * MAP_HEIGHT_TILES * 2 * 4
   if (mapBytes.byteLength !== expectedSize) {
-    throw new Error(
-      `parseMap: expected ${expectedSize} bytes, got ${mapBytes.byteLength}`,
-    )
+    throw new Error(`parseMap: expected ${expectedSize} bytes, got ${mapBytes.byteLength}`)
   }
 
   const view = new DataView(mapBytes.buffer, mapBytes.byteOffset, mapBytes.byteLength)

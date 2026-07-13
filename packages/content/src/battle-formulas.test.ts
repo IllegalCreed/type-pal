@@ -41,40 +41,82 @@ describe('calcPhysicalAttackDamage (fight.c:253-285)', () => {
 
 describe('calcMagicDamage (fight.c:174-249)', () => {
   // elemRes 补进 base(毒系用例不覆写它;GLM oracle 首版漏 → content 包 typecheck 挂)
-  const base = { magStr: 100, def: 50, poisonRes: 0, resistMult: 10, fieldEffect: ZERO, elemRes: ZERO, rngFactor: 1.0 }
+  const base = {
+    magStr: 100,
+    def: 50,
+    poisonRes: 0,
+    resistMult: 10,
+    fieldEffect: ZERO,
+    elemRes: ZERO,
+    rngFactor: 1.0,
+  }
   test('非元素 base/4+magicBase', () => {
-    expect(calcMagicDamage({ ...base, elemRes: ZERO, magicData: { baseDamage: 50, elemental: 0 } })).toBe(80)
+    expect(
+      calcMagicDamage({ ...base, elemRes: ZERO, magicData: { baseDamage: 50, elemental: 0 } }),
+    ).toBe(80)
   })
   test('元素 wind 无抗无场 → ×2', () => {
-    expect(calcMagicDamage({ ...base, elemRes: ZERO, magicData: { baseDamage: 50, elemental: 1 } })).toBe(160)
+    expect(
+      calcMagicDamage({ ...base, elemRes: ZERO, magicData: { baseDamage: 50, elemental: 1 } }),
+    ).toBe(160)
   })
   test('半抗 50 → 减半;满抗 100 → 免疫 0', () => {
-    expect(calcMagicDamage({ ...base, elemRes: { ...ZERO, wind: 50 }, magicData: { baseDamage: 50, elemental: 1 } })).toBe(80)
-    expect(calcMagicDamage({ ...base, elemRes: { ...ZERO, wind: 100 }, magicData: { baseDamage: 50, elemental: 1 } })).toBe(0)
+    expect(
+      calcMagicDamage({
+        ...base,
+        elemRes: { ...ZERO, wind: 50 },
+        magicData: { baseDamage: 50, elemental: 1 },
+      }),
+    ).toBe(80)
+    expect(
+      calcMagicDamage({
+        ...base,
+        elemRes: { ...ZERO, wind: 100 },
+        magicData: { baseDamage: 50, elemental: 1 },
+      }),
+    ).toBe(0)
   })
   test('各元素类型(thunder/water/fire/earth)无抗 → ×2(对齐 fight.c:193-201)', () => {
     // oracle: 一阶段 magic-damage.test 各元素等价(无抗无场 = ×2)
     for (let elem = 1; elem <= 5; elem++) {
-      expect(calcMagicDamage({ ...base, elemRes: ZERO, magicData: { baseDamage: 50, elemental: elem } })).toBe(160)
+      expect(
+        calcMagicDamage({ ...base, elemRes: ZERO, magicData: { baseDamage: 50, elemental: elem } }),
+      ).toBe(160)
     }
   })
   test('毒系(elem=6)走 poisonRes 非 elemRes(对齐 fight.c:189-192)', () => {
     // oracle: elem>NUM_ELEM(5) = 毒系,mult = 10 - poisonRes/resistMult
-    expect(calcMagicDamage({ ...base, poisonRes: 0, magicData: { baseDamage: 50, elemental: 6 } })).toBe(160) // 无毒抗=×2
-    expect(calcMagicDamage({ ...base, poisonRes: 50, magicData: { baseDamage: 50, elemental: 6 } })).toBe(80) // 半毒抗减半
-    expect(calcMagicDamage({ ...base, poisonRes: 100, magicData: { baseDamage: 50, elemental: 6 } })).toBe(0) // 满毒抗免疫
+    expect(
+      calcMagicDamage({ ...base, poisonRes: 0, magicData: { baseDamage: 50, elemental: 6 } }),
+    ).toBe(160) // 无毒抗=×2
+    expect(
+      calcMagicDamage({ ...base, poisonRes: 50, magicData: { baseDamage: 50, elemental: 6 } }),
+    ).toBe(80) // 半毒抗减半
+    expect(
+      calcMagicDamage({ ...base, poisonRes: 100, magicData: { baseDamage: 50, elemental: 6 } }),
+    ).toBe(0) // 满毒抗免疫
   })
   test('元素场效加成(fieldEffect.wind=5 → ×1.5,对齐 fight.c:206-213)', () => {
     // oracle: 一阶段 magic-damage.test 场效加成;field ×(10+field)/10
-    expect(calcMagicDamage({
-      ...base, elemRes: ZERO,
-      fieldEffect: { ...ZERO, wind: 5 },
-      magicData: { baseDamage: 50, elemental: 1 },
-    })).toBe(240) // 160基础 × (10+5)/10 = 240
+    expect(
+      calcMagicDamage({
+        ...base,
+        elemRes: ZERO,
+        fieldEffect: { ...ZERO, wind: 5 },
+        magicData: { baseDamage: 50, elemental: 1 },
+      }),
+    ).toBe(240) // 160基础 × (10+5)/10 = 240
   })
   test('rngFactor=0.5 法术强度折半(对齐 fight.c:182)', () => {
     // magStr=100×0.5=50;calcBaseDamage(50,50)=20(中间段 50-30+.5);20/4=5;5+50=55
-    expect(calcMagicDamage({ ...base, rngFactor: 0.5, elemRes: ZERO, magicData: { baseDamage: 50, elemental: 0 } })).toBe(55)
+    expect(
+      calcMagicDamage({
+        ...base,
+        rngFactor: 0.5,
+        elemRes: ZERO,
+        magicData: { baseDamage: 50, elemental: 0 },
+      }),
+    ).toBe(55)
   })
 })
 
@@ -133,8 +175,16 @@ describe('status (fight.c:1632-1661)', () => {
     // reforge 多一个 dualAttack,共 10 种;fight.c:1632-1638 遍历 kStatusAll 统一递减
     const s = {
       ...emptyBattleStatus(),
-      confused: 2, paralyzed: 1, sleep: 3, silence: 1, puppet: 1,
-      bravery: 5, protect: 5, haste: 5, slow: 0, dualAttack: 5,
+      confused: 2,
+      paralyzed: 1,
+      sleep: 3,
+      silence: 1,
+      puppet: 1,
+      bravery: 5,
+      protect: 5,
+      haste: 5,
+      slow: 0,
+      dualAttack: 5,
     }
     tickBattleStatus(s)
     expect(s.confused).toBe(1)
@@ -150,15 +200,21 @@ describe('status (fight.c:1632-1661)', () => {
   })
   test('sleep=3 → 2 → 1 → 0 → 0(到 0 不再衰减,一阶段 status.test 真值)', () => {
     const s = { ...emptyBattleStatus(), sleep: 3 }
-    tickBattleStatus(s); expect(s.sleep).toBe(2)
-    tickBattleStatus(s); expect(s.sleep).toBe(1)
-    tickBattleStatus(s); expect(s.sleep).toBe(0)
-    tickBattleStatus(s); expect(s.sleep).toBe(0) // 不变负
+    tickBattleStatus(s)
+    expect(s.sleep).toBe(2)
+    tickBattleStatus(s)
+    expect(s.sleep).toBe(1)
+    tickBattleStatus(s)
+    expect(s.sleep).toBe(0)
+    tickBattleStatus(s)
+    expect(s.sleep).toBe(0) // 不变负
   })
   test('paralyzed 同 sleep 衰减(一阶段 status.test 真值)', () => {
     const s = { ...emptyBattleStatus(), paralyzed: 2 }
-    tickBattleStatus(s); expect(s.paralyzed).toBe(1)
-    tickBattleStatus(s); expect(s.paralyzed).toBe(0)
+    tickBattleStatus(s)
+    expect(s.paralyzed).toBe(1)
+    tickBattleStatus(s)
+    expect(s.paralyzed).toBe(0)
   })
   test('canAct:sleep/paralyzed 阻断;canCastMagic:silence 阻断', () => {
     expect(canAct(emptyBattleStatus())).toBe(true)

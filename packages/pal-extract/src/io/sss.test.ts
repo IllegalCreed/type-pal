@@ -4,9 +4,7 @@ import { describe, expect, it } from 'vitest'
 import { parseSss } from './sss.js'
 
 describe('parseSss', () => {
-  const buf = new Uint8Array(
-    readFileSync(resolve(__dirname, '../../../../data/raw/SSS.MKF')),
-  )
+  const buf = new Uint8Array(readFileSync(resolve(__dirname, '../../../../data/raw/SSS.MKF')))
   const sss = parseSss(buf)
 
   it('字节码 chunk 非空', () => {

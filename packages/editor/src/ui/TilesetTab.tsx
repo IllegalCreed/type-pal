@@ -5,7 +5,7 @@
  * UI 文案不出现「调色板」)→ 命名/分类 → 入库(编码原版同构 .rle + gzip,保存时落盘)。
  * 预览分流:新上传未保存的条目从内存字节解码;已落盘的走 loadTilesetByPath。
  */
-import { useEffect, useMemo, useRef, useState } from 'react'
+
 import type { AssetBase, Palette, RleFrame, TilesetDef } from '@type-pal/reforge'
 import {
   bakeFrame,
@@ -18,7 +18,12 @@ import {
   quantizeToRleFrame,
   sliceAtlasGrid,
 } from '@type-pal/reforge'
-import { AddTilesetCommand, RemoveTilesetCommand, UpdateTilesetTileHeightCommand } from '../core/commands.js'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import {
+  AddTilesetCommand,
+  RemoveTilesetCommand,
+  UpdateTilesetTileHeightCommand,
+} from '../core/commands.js'
 import type { EditorState, EditSession } from '../core/edit-session.js'
 
 /** 瓦片帧网格预览(bake 后贴 canvas;量化预览与条目详情共用)。 */
@@ -37,19 +42,25 @@ function FrameGrid(props: {
   return (
     <div className="tile-grid">
       {shown.map((f, i) => (
-        <span key={`${i}:${f.width}x${f.height}`} className={`tile-pick${selectedIdx === i ? ' sel' : ''}`}>
-          <span
-            role={onPick ? 'button' : undefined}
-            onClick={onPick ? () => onPick(i) : undefined}
-            onKeyDown={onPick ? (e) => e.key === 'Enter' && onPick(i) : undefined}
-            tabIndex={onPick ? 0 : undefined}
-          >
+        <span
+          key={`${i}:${f.width}x${f.height}`}
+          className={`tile-pick${selectedIdx === i ? ' sel' : ''}`}
+        >
+          <button type="button" disabled={!onPick} onClick={() => onPick?.(i)}>
             <FrameThumb frame={f} palette={palette} idx={i} />
-          </span>
-          {badges?.has(i) && <span className="tile-badge" title="遮挡格高">{badges.get(i)}</span>}
+          </button>
+          {badges?.has(i) && (
+            <span className="tile-badge" title="遮挡格高">
+              {badges.get(i)}
+            </span>
+          )}
         </span>
       ))}
-      {frames.length > cap && <span className="hint2">…共 {frames.length} 块(预览前 {cap})</span>}
+      {frames.length > cap && (
+        <span className="hint2">
+          …共 {frames.length} 块(预览前 {cap})
+        </span>
+      )}
     </div>
   )
 }
@@ -142,7 +153,10 @@ export function TilesetTab(props: {
       ctx.drawImage(bitmap, 0, 0)
       bitmap.close()
       const data = ctx.getImageData(0, 0, cvs.width, cvs.height)
-      const base = file.name.replace(/\.[^.]*$/, '').toLowerCase().replace(/[^a-z0-9-]+/g, '-')
+      const base = file.name
+        .replace(/\.[^.]*$/, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9-]+/g, '-')
       setDraft({
         fileName: file.name,
         imgW: cvs.width,
@@ -241,7 +255,7 @@ export function TilesetTab(props: {
               套件型素材(可平铺瓦 + 过渡件)复用率最高;整图切片仅适合一次性地标。
             </p>
             <div className="field">
-              <label>图集文件</label>
+              <span className="field-label">图集文件</span>
               <input
                 ref={fileRef}
                 type="file"
@@ -255,14 +269,14 @@ export function TilesetTab(props: {
             {draft && (
               <>
                 <div className="field">
-                  <label>原图</label>
+                  <span className="field-label">原图</span>
                   <span className="mono">
                     {draft.fileName} · {draft.imgW}×{draft.imgH}
                   </span>
                 </div>
                 <img src={draft.srcUrl} alt="原图预览" className="atlas-preview" />
                 <div className="field">
-                  <label>切片尺寸</label>
+                  <span className="field-label">切片尺寸</span>
                   <span className="size-edit">
                     <input
                       className="in mono"
@@ -289,14 +303,14 @@ export function TilesetTab(props: {
                 {palette && quantized.length > 0 && (
                   <>
                     <div className="field">
-                      <label>入库预览</label>
+                      <span className="field-label">入库预览</span>
                       <span className="hint2">已贴合工程主色(所见即入库)</span>
                     </div>
                     <FrameGrid frames={quantized} palette={palette} />
                   </>
                 )}
                 <div className="field">
-                  <label>ID</label>
+                  <span className="field-label">ID</span>
                   <input
                     className="in mono"
                     value={newId}
@@ -305,11 +319,15 @@ export function TilesetTab(props: {
                   />
                 </div>
                 <div className="field">
-                  <label>名称</label>
-                  <input className="in" value={newName} onChange={(e) => setNewName(e.target.value)} />
+                  <span className="field-label">名称</span>
+                  <input
+                    className="in"
+                    value={newName}
+                    onChange={(e) => setNewName(e.target.value)}
+                  />
                 </div>
                 <div className="field">
-                  <label>分类</label>
+                  <span className="field-label">分类</span>
                   <input
                     className="in"
                     value={newCategory}
@@ -391,24 +409,26 @@ function TilesetDetail(props: {
     <div className="dscroll">
       <h3>{def.name}</h3>
       <div className="field">
-        <label>ID</label>
+        <span className="field-label">ID</span>
         <span className="mono">{def.id}</span>
       </div>
       <div className="field">
-        <label>分类</label>
+        <span className="field-label">分类</span>
         <span className="mono">{def.category}</span>
       </div>
       <div className="field">
-        <label>文件</label>
+        <span className="field-label">文件</span>
         <span className="mono map-file">{def.path}</span>
       </div>
       {blob && <p className="hint2">(新上传,保存工程后落盘)</p>}
       {frames ? (
         <>
           <div className="field">
-            <label>瓦片</label>
+            <span className="field-label">瓦片</span>
             <span className="mono">{frames.length} 块</span>
-            <span className="hint2">点瓦标遮挡高度,单位=半格8px(一格高家具=2;三格高墙:墙脚2/墙身4/墙顶6;0=纯地面不遮挡;不标=1)</span>
+            <span className="hint2">
+              点瓦标遮挡高度,单位=半格8px(一格高家具=2;三格高墙:墙脚2/墙身4/墙顶6;0=纯地面不遮挡;不标=1)
+            </span>
           </div>
           <FrameGrid
             frames={frames}
@@ -419,7 +439,7 @@ function TilesetDetail(props: {
           />
           {selIdx !== null && (
             <div className="field">
-              <label>#{selIdx} 高度</label>
+              <span className="field-label">#{selIdx} 高度</span>
               <input
                 key={`h:${selIdx}:${heights.get(selIdx) ?? ''}`}
                 className="in mono"
@@ -430,7 +450,8 @@ function TilesetDetail(props: {
                 defaultValue={heights.get(selIdx) ?? ''}
                 onBlur={(e) => {
                   const raw = e.target.value.trim()
-                  const v = raw === '' ? undefined : Math.max(0, Math.min(15, Math.floor(Number(raw))))
+                  const v =
+                    raw === '' ? undefined : Math.max(0, Math.min(15, Math.floor(Number(raw))))
                   if (v !== heights.get(selIdx))
                     session.dispatch(new UpdateTilesetTileHeightCommand(def.id, selIdx, v))
                 }}

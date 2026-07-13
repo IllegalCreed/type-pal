@@ -54,7 +54,8 @@ function idbAvailable(): boolean {
 
 export const Save = {
   async saveSlot(slot: number, gs: GameState): Promise<void> {
-    if (slot < 1 || slot > MAX_SAVE_SLOTS) throw new Error(`Save.saveSlot: slot ${slot} 超 1-${MAX_SAVE_SLOTS}`)
+    if (slot < 1 || slot > MAX_SAVE_SLOTS)
+      throw new Error(`Save.saveSlot: slot ${slot} 超 1-${MAX_SAVE_SLOTS}`)
     const meta = extractMeta(gs)
     if (idbAvailable()) {
       await IndexedDbSave.saveSlot(slot, deepClone(gs), meta)

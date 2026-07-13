@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import type { IndexedImage } from '../../../assets/png.js'
 import { FloatingNumsLayer } from '../draw-battle-num.js'
 
@@ -23,9 +23,11 @@ function mkUiSpriteFrames(): IndexedImage[] {
   const frames: IndexedImage[] = []
   for (let i = 0; i < 66; i++) {
     let fill = 1
-    if (i >= 19 && i <= 28) fill = 0xAA // yellow
-    else if (i >= 29 && i <= 38) fill = 0xBB // blue
-    else if (i >= 56 && i <= 65) fill = 0xCC // cyan
+    if (i >= 19 && i <= 28)
+      fill = 0xaa // yellow
+    else if (i >= 29 && i <= 38)
+      fill = 0xbb // blue
+    else if (i >= 56 && i <= 65) fill = 0xcc // cyan
     frames.push({
       width: 6,
       height: 8,
@@ -105,8 +107,8 @@ describe('FloatingNumsLayer', () => {
     const bIdx = draw('blue')
     const cIdx = draw('cyan')
     // 各色用各自 base frame → palette index 各异
-    expect(yIdx).toEqual(new Set([0xAA]))
-    expect(bIdx).toEqual(new Set([0xBB]))
-    expect(cIdx).toEqual(new Set([0xCC]))
+    expect(yIdx).toEqual(new Set([0xaa]))
+    expect(bIdx).toEqual(new Set([0xbb]))
+    expect(cIdx).toEqual(new Set([0xcc]))
   })
 })

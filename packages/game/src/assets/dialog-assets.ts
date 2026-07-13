@@ -43,7 +43,7 @@ const BASE = '/extracted'
 async function loadPortraits(): Promise<Map<number, DialogSprite>> {
   const res = await fetch(`${BASE}/data/portraits.json`)
   if (!res.ok) throw new Error(`dialog-assets: portraits.json fetch failed (${res.status})`)
-  const manifest = await res.json() as PortraitsManifest
+  const manifest = (await res.json()) as PortraitsManifest
   const map = new Map<number, DialogSprite>()
   await Promise.all(
     manifest.portraits.map(async (entry) => {
@@ -59,8 +59,7 @@ async function loadPortraits(): Promise<Map<number, DialogSprite>> {
           indices: png.indices,
           opaque: png.opaque,
         })
-      }
-      catch (err) {
+      } catch (err) {
         console.warn(`dialog-assets: portrait ${entry.chunkIndex} load failed, skip:`, err)
       }
     }),
@@ -75,7 +74,7 @@ async function loadPortraits(): Promise<Map<number, DialogSprite>> {
 async function loadDialogIcons(): Promise<Map<number, DialogSprite>> {
   const res = await fetch(`${BASE}/data/dialog-icons-raw.json`)
   if (!res.ok) throw new Error(`dialog-assets: dialog-icons-raw.json fetch failed (${res.status})`)
-  const entry = await res.json() as DialogIconsRaw
+  const entry = (await res.json()) as DialogIconsRaw
   const buf = base64ToBytes(entry.base64)
   const frames = parseSpriteChunk(buf)
   const map = new Map<number, DialogSprite>()
@@ -112,8 +111,7 @@ export async function loadDialogAssets(): Promise<DialogAssets> {
       }),
     ])
     return { portraitFrames, iconFrames }
-  }
-  catch (err) {
+  } catch (err) {
     console.warn('[dialog-assets] all assets failed:', err)
     return { portraitFrames: new Map(), iconFrames: new Map() }
   }

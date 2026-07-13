@@ -1,11 +1,10 @@
-import { describe, it, expect, beforeEach } from 'vitest'
-import type { InputSnapshot, AbstractKey, Item, Magic, PlayerRoles, Spell } from '@type-pal/shared'
+import type { AbstractKey, InputSnapshot, Item, Magic, PlayerRoles, Spell } from '@type-pal/shared'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { createCommandBus } from '../command-bus.js'
 import { createInitialGameState } from '../game-state.js'
-import { createInGameMenu } from './in-game-menu.js'
-import { createSystemMenu } from './in-game-menu.js'
+import { createInGameMenu, createSystemMenu } from './in-game-menu.js'
 import { setMenuCatalogs } from './menu-driver.js'
-import { tickMenu, openMenu, closeTopMenu } from './menu-mode.js'
+import { closeTopMenu, openMenu, tickMenu } from './menu-mode.js'
 
 const MOCK_CATALOGS = {
   items: [] as Item[],

@@ -10,7 +10,14 @@
 
 import type { SceneDef, SceneMap } from '@type-pal/content'
 import { gridToPixel, isReuseMap, resolveTilesetPath, sceneMapKey } from '@type-pal/content'
-import type { AssetBase, LoadedSprite, OwnMap, Palette, SceneMapAssets, TilesetDef } from '@type-pal/reforge'
+import type {
+  AssetBase,
+  LoadedSprite,
+  OwnMap,
+  Palette,
+  SceneMapAssets,
+  TilesetDef,
+} from '@type-pal/reforge'
 import {
   buildIsBlocked,
   Canvas2DRenderer,
@@ -71,8 +78,21 @@ export function useSceneAssets(opts: {
   tilesetBlobs?: Record<string, ArrayBuffer>
   /** A4 自有上传精灵源(num → path/未保存字节);缺省全走原版号约定。 */
   spriteSources?: ReadonlyMap<number, { path?: string; blob?: ArrayBuffer }>
-}): { status: 'loading' | 'ready' | 'error'; err: string; loadedRef: RefObject<StageAssets | null> } {
-  const { canvasRef, assetBase, sceneMap, spriteNums, ownMaps, tilesets, tilesetBlobs, spriteSources } = opts
+}): {
+  status: 'loading' | 'ready' | 'error'
+  err: string
+  loadedRef: RefObject<StageAssets | null>
+} {
+  const {
+    canvasRef,
+    assetBase,
+    sceneMap,
+    spriteNums,
+    ownMaps,
+    tilesets,
+    tilesetBlobs,
+    spriteSources,
+  } = opts
   const loadedRef = useRef<StageAssets | null>(null)
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
   const [err, setErr] = useState('')
@@ -111,7 +131,14 @@ export function useSceneAssets(opts: {
               // 上传未保存:内存字节优先(磁盘尚无此文件;W7B tileset 同理)
               const frames = parseSpriteChunk(await decompressGzip(new Blob([src.blob])))
               const first = frames[0]
-              return [n, { frames, anchorX: first ? Math.floor(first.width / 2) : 0, anchorY: first?.height ?? 0 }] as const
+              return [
+                n,
+                {
+                  frames,
+                  anchorX: first ? Math.floor(first.width / 2) : 0,
+                  anchorY: first?.height ?? 0,
+                },
+              ] as const
             }
             return [n, await loadSprite(assetBase, n, src?.path)] as const
           }),

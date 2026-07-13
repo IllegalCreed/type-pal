@@ -11,7 +11,8 @@ export interface SpeedrunSettings {
 }
 export type BestTimes = Record<string, number | null>
 
-const ls = (): Storage | undefined => (typeof localStorage !== 'undefined' ? localStorage : undefined)
+const ls = (): Storage | undefined =>
+  typeof localStorage !== 'undefined' ? localStorage : undefined
 
 export function loadSettings(): SpeedrunSettings {
   const s = ls()
@@ -22,7 +23,11 @@ export function loadSettings(): SpeedrunSettings {
   }
 }
 
-const SETTING_KEY: Record<keyof SpeedrunSettings, string> = { enabled: K_ENABLED, show: K_SHOW, banana: K_BANANA }
+const SETTING_KEY: Record<keyof SpeedrunSettings, string> = {
+  enabled: K_ENABLED,
+  show: K_SHOW,
+  banana: K_BANANA,
+}
 export function saveSetting(key: keyof SpeedrunSettings, val: boolean): void {
   ls()?.setItem(SETTING_KEY[key], val ? '1' : '0')
 }

@@ -15,11 +15,11 @@
 
 import type { Item } from '@type-pal/shared'
 import {
-  type SelectionMenuState,
   createSelectionMenu,
   getSelected,
   moveSelectionDown,
   moveSelectionUp,
+  type SelectionMenuState,
 } from './primitives.js'
 
 export type ShopMode = 'buy' | 'sell'

@@ -5,22 +5,43 @@
  *   - fixture-levelup(lv1 + 1000 经验 vs 灯笼):gs.Exp 设上 + runtime hydrate(打赢触发升级演出)。
  */
 
-import type { Enemy, EnemyObject, EnemyTeam, BattleField, InputSnapshot, PlayerRole } from '@type-pal/shared'
-import { describe, expect, it } from 'vitest'
-import fixturesData from './fixtures/battle-fixtures.json' with { type: 'json' }
-import { createCommandBus } from '../core/command-bus.js'
-import { createInitialGameState, projectRuntimeToBattleRoles } from '../core/game-state.js'
-import { tickBattle, type BattleResources } from '../core/battle/battle-system.js'
-import { confirmCaster, createInGameMagicMenu } from '../core/menu/in-game-magic-menu.js'
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { applyAutoBattleT37, applyBossBattle, applyCustomBattle, applyFixture, BOSS_ROSTER, buildCustomEnemyTeam, computeMagicGrantsByRole, CUSTOM_BATTLE_TEAM_ID, roleMagicsAtLevel, togglePartyMembership, type BattleFixture, type DevPanelDeps } from './dev-panel.js'
+import type {
+  BattleField,
+  Enemy,
+  EnemyObject,
+  EnemyTeam,
+  InputSnapshot,
+  PlayerRole,
+} from '@type-pal/shared'
+import { describe, expect, it } from 'vitest'
+import { type BattleResources, tickBattle } from '../core/battle/battle-system.js'
+import { createCommandBus } from '../core/command-bus.js'
+import { createInitialGameState, projectRuntimeToBattleRoles } from '../core/game-state.js'
+import { confirmCaster, createInGameMagicMenu } from '../core/menu/in-game-magic-menu.js'
+import {
+  applyAutoBattleT37,
+  applyBossBattle,
+  applyCustomBattle,
+  applyFixture,
+  type BattleFixture,
+  BOSS_ROSTER,
+  buildCustomEnemyTeam,
+  CUSTOM_BATTLE_TEAM_ID,
+  computeMagicGrantsByRole,
+  type DevPanelDeps,
+  roleMagicsAtLevel,
+  togglePartyMembership,
+} from './dev-panel.js'
+import fixturesData from './fixtures/battle-fixtures.json' with { type: 'json' }
 
 // REPO_ROOT:src/dev/ → 上 4 级到仓库根(同 baseline.test.ts pattern,运行时 fs 读 extracted 真值,
 //   避免跨 rootDir import json)。data/extracted 缺(没跑 pnpm extract)→ 该 describe skip。
 const HERE = dirname(fileURLToPath(import.meta.url))
 const DATA_DIR = resolve(HERE, '../../../../data/extracted/data')
+
 import type { Command, LevelUpMagicEntry, PlayerRoles } from '@type-pal/shared'
 
 // 真值(level-up-magic.json / spells.json / player-roles.json):
@@ -28,53 +49,144 @@ import type { Command, LevelUpMagicEntry, PlayerRoles } from '@type-pal/shared'
 //   lv10 学凝神归元(298, usableOutsideBattle)。用于验「升级学的大世界法术经 runtime 投影后菜单可见」。
 const R0_BASE_MAGIC = [296]
 const SPELLS_FIX = [
-  { id: 296, _name: '气疗术', magicNumber: 50, scriptOnUse: 0, scriptOnSuccess: 0, scriptDesc: 0, flags: { usableOutsideBattle: true, usableInBattle: true, usableToEnemy: false, applyToAll: false } },
-  { id: 298, _name: '凝神归元', magicNumber: 52, scriptOnUse: 0, scriptOnSuccess: 0, scriptDesc: 0, flags: { usableOutsideBattle: true, usableInBattle: true, usableToEnemy: false, applyToAll: false } },
-  { id: 349, _name: '天师符法', magicNumber: 54, scriptOnUse: 0, scriptOnSuccess: 0, scriptDesc: 0, flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: false } },
+  {
+    id: 296,
+    _name: '气疗术',
+    magicNumber: 50,
+    scriptOnUse: 0,
+    scriptOnSuccess: 0,
+    scriptDesc: 0,
+    flags: {
+      usableOutsideBattle: true,
+      usableInBattle: true,
+      usableToEnemy: false,
+      applyToAll: false,
+    },
+  },
+  {
+    id: 298,
+    _name: '凝神归元',
+    magicNumber: 52,
+    scriptOnUse: 0,
+    scriptOnSuccess: 0,
+    scriptDesc: 0,
+    flags: {
+      usableOutsideBattle: true,
+      usableInBattle: true,
+      usableToEnemy: false,
+      applyToAll: false,
+    },
+  },
+  {
+    id: 349,
+    _name: '天师符法',
+    magicNumber: 54,
+    scriptOnUse: 0,
+    scriptOnSuccess: 0,
+    scriptDesc: 0,
+    flags: {
+      usableOutsideBattle: false,
+      usableInBattle: true,
+      usableToEnemy: true,
+      applyToAll: false,
+    },
+  },
 ]
 const MAGICS_FIX = [
-  { id: 50, costMP: 5 }, { id: 52, costMP: 10 }, { id: 54, costMP: 8 },
+  { id: 50, costMP: 5 },
+  { id: 52, costMP: 10 },
+  { id: 54, costMP: 8 },
 ]
 // levelUpMagic[j][roleId] = {level, magic};只填 role0(inner idx 0)列
-const LEVELUP_MAGIC_FIX = [
-  [{ level: 7, magic: 349 }],
-  [{ level: 10, magic: 298 }],
-]
+const LEVELUP_MAGIC_FIX = [[{ level: 7, magic: 349 }], [{ level: 10, magic: 298 }]]
 // 真 DATA.MKF chunk 14 rgLevelUpExp 前 14 项(够升到 lv12)
 const LEVELUP_EXP_FIX = [0, 15, 40, 90, 165, 265, 390, 540, 715, 915, 1140, 1390, 1665, 1965]
 
 function minimalEnemy(id: number, over: Partial<Enemy> = {}): Enemy {
-  return { id, _name: `e${id}`, health: 30, exp: 1, level: 1, attackStrength: 0, defense: 0, dexterity: 10, physicalResistance: 1, elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 }, yPosOffset: 0, ...over } as any as Enemy
+  return {
+    id,
+    _name: `e${id}`,
+    health: 30,
+    exp: 1,
+    level: 1,
+    attackStrength: 0,
+    defense: 0,
+    dexterity: 10,
+    physicalResistance: 1,
+    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    yPosOffset: 0,
+    ...over,
+  } as any as Enemy
 }
 function minimalRole(id: number): PlayerRole {
-  return { id, _name: `r${id}`, level: 1, hp: 100, maxHP: 100, mp: 30, maxMP: 30, attackStrength: 5, magicStrength: 5, defense: 5, dexterity: 5, fleeRate: 5, poisonResistance: 0, name: 0, avatar: 0, spriteNumInBattle: id, spriteNum: 0, attackAll: 0, walkFrames: 0, elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } } as any as PlayerRole
+  return {
+    id,
+    _name: `r${id}`,
+    level: 1,
+    hp: 100,
+    maxHP: 100,
+    mp: 30,
+    maxMP: 30,
+    attackStrength: 5,
+    magicStrength: 5,
+    defense: 5,
+    dexterity: 5,
+    fleeRate: 5,
+    poisonResistance: 0,
+    name: 0,
+    avatar: 0,
+    spriteNumInBattle: id,
+    spriteNum: 0,
+    attackAll: 0,
+    walkFrames: 0,
+    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+  } as any as PlayerRole
 }
 
 function makeDeps(): DevPanelDeps {
   const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
   const enemyObjects: EnemyObject[] = [
     // 林月如一(enemyId 82):scriptOnTurnStart=41368(真值,decode 出"让开！！"等嘲讽)
-    { objectIndex: 480, enemyId: 82, scriptOnTurnStart: 41368, scriptOnReady: 0, scriptOnBattleEnd: 0, resistanceToSorcery: 0 } as any,
+    {
+      objectIndex: 480,
+      enemyId: 82,
+      scriptOnTurnStart: 41368,
+      scriptOnReady: 0,
+      scriptOnBattleEnd: 0,
+      resistanceToSorcery: 0,
+    } as any,
   ]
   const enemyTeams: EnemyTeam[] = [
-    { id: 1, enemies: [2, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF] }, // 灯笼
-    { id: 21, enemies: [82, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF] }, // 林月如一
+    { id: 1, enemies: [2, 0xffff, 0xffff, 0xffff, 0xffff] }, // 灯笼
+    { id: 21, enemies: [82, 0xffff, 0xffff, 0xffff, 0xffff] }, // 林月如一
   ]
-  const field: BattleField = { id: 7, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } }
+  const field: BattleField = {
+    id: 7,
+    screenWave: 0,
+    magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+  }
   return {
     gs,
     fixtures: { fixtures: [] } as any,
     sceneJumps: { jumps: [] } as any,
     sceneAssetsCache: {} as any,
     resources: {
-      enemies: [minimalEnemy(2, { _name: '灯笼', health: 30, exp: 1 }), minimalEnemy(82, { _name: '林月如一', health: 600, exp: 200, level: 5 })],
+      enemies: [
+        minimalEnemy(2, { _name: '灯笼', health: 30, exp: 1 }),
+        minimalEnemy(82, { _name: '林月如一', health: 600, exp: 200, level: 5 }),
+      ],
       enemyObjects,
       enemyTeams,
       battleFields: [field],
       playerRoles: { roles: [{ ...minimalRole(0), magic: R0_BASE_MAGIC } as any] },
       levelUpExp: LEVELUP_EXP_FIX,
       levelUpMagic: LEVELUP_MAGIC_FIX as any,
-      items: [], spells: SPELLS_FIX as any, magics: MAGICS_FIX as any, objectMagics: [], objectPoisons: [], objectPlayers: [],
+      items: [],
+      spells: SPELLS_FIX as any,
+      magics: MAGICS_FIX as any,
+      objectMagics: [],
+      objectPoisons: [],
+      objectPlayers: [],
       commands: [{ op: 'end' }],
       // enemyPos undefined → createBattleState 走 fallback 位置表(测试不验位置)
       enemyPos: undefined as any,
@@ -84,11 +196,19 @@ function makeDeps(): DevPanelDeps {
   }
 }
 
-const dialogFixture = fixturesData.fixtures.find(f => f.id === 'fixture-dialog')! as unknown as BattleFixture
-const levelupFixture = fixturesData.fixtures.find(f => f.id === 'fixture-levelup')! as unknown as BattleFixture
+const dialogFixture = fixturesData.fixtures.find(
+  (f) => f.id === 'fixture-dialog',
+)! as unknown as BattleFixture
+const levelupFixture = fixturesData.fixtures.find(
+  (f) => f.id === 'fixture-levelup',
+)! as unknown as BattleFixture
 
 /** 推进战斗到 explore:D11b 胜利结算演出 active 时按 Confirm 快速翻屏,其余阶段空输入。 */
-function driveToExplore(gs: ReturnType<typeof createInitialGameState>, bus: ReturnType<typeof createCommandBus>, max = 400): void {
+function driveToExplore(
+  gs: ReturnType<typeof createInitialGameState>,
+  bus: ReturnType<typeof createCommandBus>,
+  max = 400,
+): void {
   const empty: InputSnapshot = { held: new Set(), pressed: new Set(), frameNum: 0 }
   const advance: InputSnapshot = { held: new Set(), pressed: new Set(['Confirm']), frameNum: 0 }
   let safety = max
@@ -180,7 +300,13 @@ describe('roleMagicsAtLevel(仙术按等级:起手 + 升级习得 entry.level<=l
   })
   it('去重:起手与授予同 id 不重复', () => {
     const g = new Map<number, Set<number>>([[0, new Set([296])]]) // 授予 296 = 起手已有
-    const m = roleMagicsAtLevel({ playerRoles, levelUpMagic: [], grantsByRole: g, roleId: 0, level: 1 })
+    const m = roleMagicsAtLevel({
+      playerRoles,
+      levelUpMagic: [],
+      grantsByRole: g,
+      roleId: 0,
+      level: 1,
+    })
     expect(m).toEqual([296])
   })
 })
@@ -198,7 +324,11 @@ describe('applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全
     expect(deps.gs.battleState?.enemies.map((e) => e.e.id).sort((a, b) => a - b)).toEqual([2, 82])
     // role0 level=7 override + 仙术按等级(起手 296 + lv7 学 349;lv10 的 298 未到)
     expect(deps.resources.playerRoles.roles[0]!.level).toBe(7)
-    expect((deps.resources.playerRoles.roles[0] as unknown as { magic: number[] }).magic.sort((a, b) => a - b)).toEqual([296, 349])
+    expect(
+      (deps.resources.playerRoles.roles[0] as unknown as { magic: number[] }).magic.sort(
+        (a, b) => a - b,
+      ),
+    ).toEqual([296, 349])
     // 等级不只写静态表:runtime / Exp / 真战斗投影角色都同步,且按等级补出成长属性。
     expect(deps.gs.PlayerRolesRuntime.rgwLevel[0]).toBe(7)
     expect(deps.gs.Exp.rgPrimaryExp[0]).toMatchObject({ wExp: 0, wLevel: 7 })
@@ -208,8 +338,15 @@ describe('applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全
     expect(deps.gs.PlayerRolesRuntime.rgwHP[0]).toBe(181)
     expect(deps.gs.PlayerRolesRuntime.rgwAttackStrength[0]).toBe(32)
     expect(deps.gs.PlayerRolesRuntime.rgwDefense[0]).toBe(20)
-    const battleRole = (deps.gs as unknown as { __battleResources?: BattleResources }).__battleResources?.playerRoles.roles[0]
-    expect(battleRole).toMatchObject({ level: 7, hp: 181, maxHP: 181, attackStrength: 32, defense: 20 })
+    const battleRole = (deps.gs as unknown as { __battleResources?: BattleResources })
+      .__battleResources?.playerRoles.roles[0]
+    expect(battleRole).toMatchObject({
+      level: 7,
+      hp: 181,
+      maxHP: 181,
+      attackStrength: 32,
+      defense: 20,
+    })
     // 全道具 ×99
     expect(deps.gs.inventory.map((e) => ({ itemId: e.itemId, count: e.count }))).toEqual([
       { itemId: 10, count: 99 },
@@ -239,7 +376,8 @@ describe('applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全
     expect(deps.gs.Exp.rgPrimaryExp[0]).toMatchObject({ wExp: 0, wLevel: 3 })
     expect(deps.gs.PlayerRolesRuntime.rgwMaxHP[0]).toBe(123)
     expect(deps.gs.PlayerRolesRuntime.rgwAttackStrength[0]).toBe(14)
-    const battleRole = (deps.gs as unknown as { __battleResources?: BattleResources }).__battleResources?.playerRoles.roles[0]
+    const battleRole = (deps.gs as unknown as { __battleResources?: BattleResources })
+      .__battleResources?.playerRoles.roles[0]
     expect(battleRole).toMatchObject({ level: 3, hp: 123, maxHP: 123, attackStrength: 14 })
   })
 
@@ -252,7 +390,11 @@ describe('applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全
 
   it('重复敌人 → 战斗含多个同种怪实例(user 2026-06-05:5 个同种怪)', () => {
     const deps = makeDeps()
-    applyCustomBattle(deps, { enemyIds: [82, 82, 82], partyMembers: [0], level: 1, allItems: false }, 42)
+    applyCustomBattle(
+      deps,
+      { enemyIds: [82, 82, 82], partyMembers: [0], level: 1, allItems: false },
+      42,
+    )
     expect(deps.gs.mode).toBe('battle')
     expect(deps.gs.battleState?.enemies.map((e) => e.e.id)).toEqual([82, 82, 82]) // 3 个独立同种实例
   })
@@ -261,7 +403,11 @@ describe('applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全
   //   user 2026-06-05 求 devpanel 用例试自动战斗。createBattleState 从 gs.fAutoBattle seed(battle-state.ts:685)。
   it('autoBattle=true → gs.fAutoBattle 置位 + 战斗 fAutoBattle 生效(AI 控我方)', () => {
     const deps = makeDeps()
-    applyCustomBattle(deps, { enemyIds: [82], partyMembers: [0], level: 99, allItems: false, autoBattle: true }, 42)
+    applyCustomBattle(
+      deps,
+      { enemyIds: [82], partyMembers: [0], level: 99, allItems: false, autoBattle: true },
+      42,
+    )
     expect(deps.gs.fAutoBattle).toBe(true)
     expect(deps.gs.battleState?.fAutoBattle).toBe(true)
   })
@@ -274,27 +420,34 @@ describe('applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全
 
 // BOSS_ROSTER 数据接地回归:每个 boss 的 teamId/enemyId 必须对得上真 enemy-teams.json / enemies.json,
 //   防未来手改 roster 引入 typo(2026-06-05 byte-level 核过当时全 18 条;此测固化)。extracted 缺 → skip。
-const hasExtracted = existsSync(resolve(DATA_DIR, 'enemy-teams.json')) && existsSync(resolve(DATA_DIR, 'enemies.json'))
-;(hasExtracted ? describe : describe.skip)('BOSS_ROSTER 数据接地(enemy-teams.json / enemies.json 真值核对)', () => {
-  const teams: any[] = JSON.parse(readFileSync(resolve(DATA_DIR, 'enemy-teams.json'), 'utf-8'))
-  const enemies: any[] = JSON.parse(readFileSync(resolve(DATA_DIR, 'enemies.json'), 'utf-8'))
+const hasExtracted =
+  existsSync(resolve(DATA_DIR, 'enemy-teams.json')) && existsSync(resolve(DATA_DIR, 'enemies.json'))
+;(hasExtracted ? describe : describe.skip)(
+  'BOSS_ROSTER 数据接地(enemy-teams.json / enemies.json 真值核对)',
+  () => {
+    const teams: any[] = JSON.parse(readFileSync(resolve(DATA_DIR, 'enemy-teams.json'), 'utf-8'))
+    const enemies: any[] = JSON.parse(readFileSync(resolve(DATA_DIR, 'enemies.json'), 'utf-8'))
 
-  it('每条 boss:teamId 存在 / enemyId 有名字 / 代表敌人确在该 team 内', () => {
-    for (const boss of BOSS_ROSTER) {
-      const team = teams.find((t) => t.id === boss.teamId)
-      expect(team, `teamId ${boss.teamId}(${boss.label})不存在于 enemy-teams.json`).toBeDefined()
-      const enemy = enemies.find((e) => e.id === boss.enemyId)
-      expect(enemy?._name, `enemyId ${boss.enemyId}(${boss.label})无名字`).toBeTruthy()
-      // 代表敌人必须确在该 team 的 slot 里(防 teamId/enemyId 配错对)
-      expect(team.enemies.includes(boss.enemyId), `${boss.label}:enemy ${boss.enemyId} 不在 team ${boss.teamId} 内`).toBe(true)
-    }
-  })
+    it('每条 boss:teamId 存在 / enemyId 有名字 / 代表敌人确在该 team 内', () => {
+      for (const boss of BOSS_ROSTER) {
+        const team = teams.find((t) => t.id === boss.teamId)
+        expect(team, `teamId ${boss.teamId}(${boss.label})不存在于 enemy-teams.json`).toBeDefined()
+        const enemy = enemies.find((e) => e.id === boss.enemyId)
+        expect(enemy?._name, `enemyId ${boss.enemyId}(${boss.label})无名字`).toBeTruthy()
+        // 代表敌人必须确在该 team 的 slot 里(防 teamId/enemyId 配错对)
+        expect(
+          team.enemies.includes(boss.enemyId),
+          `${boss.label}:enemy ${boss.enemyId} 不在 team ${boss.teamId} 内`,
+        ).toBe(true)
+      }
+    })
 
-  it('teamId 不重复(同一战不列两次)', () => {
-    const ids = BOSS_ROSTER.map((b) => b.teamId)
-    expect(new Set(ids).size).toBe(ids.length)
-  })
-})
+    it('teamId 不重复(同一战不列两次)', () => {
+      const ids = BOSS_ROSTER.map((b) => b.teamId)
+      expect(new Set(ids).size).toBe(ids.length)
+    })
+  },
+)
 
 describe('applyAutoBattleT37(过场自动战斗 1:1:盖罗娇+苗女 vs 石长老)', () => {
   it('party=[4,5,4] + fAutoBattle + 真 team37(石长老)+ 战场23,不 god-mode override', () => {
@@ -303,7 +456,11 @@ describe('applyAutoBattleT37(过场自动战斗 1:1:盖罗娇+苗女 vs 石长�
     deps.resources.playerRoles = { roles: [0, 1, 2, 3, 4, 5].map((id) => minimalRole(id)) } as any
     deps.resources.enemies.push(minimalEnemy(119, { _name: '石长老', health: 9000, level: 36 }))
     deps.resources.enemyTeams.push({ id: 37, enemies: [119, 0xffff, 0xffff, 0xffff, 0xffff] })
-    deps.resources.battleFields.push({ id: 23, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } })
+    deps.resources.battleFields.push({
+      id: 23,
+      screenWave: 0,
+      magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    })
     applyAutoBattleT37(deps, 42)
     expect(deps.gs.mode).toBe('battle')
     expect(deps.gs.fAutoBattle).toBe(true)
@@ -326,7 +483,11 @@ describe('applyBossBattle(剧情 boss 战:真 boss team + god-mode 队伍)', () 
     expect(deps.resources.enemyTeams.some((t) => t.id === CUSTOM_BATTLE_TEAM_ID)).toBe(false) // 不建临时 team
     // god-mode:level 99 + 全仙术(起手 296 + 升级 349/298 全学)+ 全道具
     expect(deps.resources.playerRoles.roles[0]!.level).toBe(99)
-    expect((deps.resources.playerRoles.roles[0] as unknown as { magic: number[] }).magic.sort((a, b) => a - b)).toEqual([296, 298, 349])
+    expect(
+      (deps.resources.playerRoles.roles[0] as unknown as { magic: number[] }).magic.sort(
+        (a, b) => a - b,
+      ),
+    ).toEqual([296, 298, 349])
     expect(deps.gs.inventory.map((e) => e.itemId)).toEqual([10])
   })
 })
@@ -405,7 +566,12 @@ describe('applyFixture —— 对话 / 升级 fixture 数据级验证', () => {
     const projected = projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, deps.resources.playerRoles)
     // L41:此 fixture 单人队伍([0])→ createInGameMagicMenu 直接进 pick-spell 并建好 spellMenu(需传 magics);
     //   confirmCaster 在 pick-spell phase 为 noop,spellMenu 已在 create 时建好。
-    const magicMenu = createInGameMagicMenu(projected, gs.partyMembers, deps.resources.spells, deps.resources.magics)
+    const magicMenu = createInGameMagicMenu(
+      projected,
+      gs.partyMembers,
+      deps.resources.spells,
+      deps.resources.magics,
+    )
     expect(magicMenu.casterMenu.items[0]?.disabled).toBe(false) // 有大世界法术 → caster 可选
     confirmCaster(magicMenu, projected, deps.resources.spells, deps.resources.magics)
     const ids = magicMenu.spellMenu!.items.map((i) => i.id)

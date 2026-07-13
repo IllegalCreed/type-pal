@@ -46,7 +46,9 @@ export async function saveHandle(
 }
 
 export async function loadHandle(id: string): Promise<FileSystemDirectoryHandle | null> {
-  const rec = (await tx<HandleRec | undefined>('readonly', (s) => s.get(id))) as HandleRec | undefined
+  const rec = (await tx<HandleRec | undefined>('readonly', (s) => s.get(id))) as
+    | HandleRec
+    | undefined
   return rec?.handle ?? null
 }
 

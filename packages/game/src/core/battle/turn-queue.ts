@@ -80,8 +80,7 @@ export function buildActionQueue(input: BuildActionQueueInput): ActionQueueItem[
         if (e.dex2 <= e.dex) second.fIsSecond = true
         else first.fIsSecond = true
         items.push(second)
-      }
-      else {
+      } else {
         items.push({ isEnemy: true, idx: e.idx, dex: e.dex - 1, fIsSecond: true })
       }
     }

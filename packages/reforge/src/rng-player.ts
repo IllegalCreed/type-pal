@@ -13,7 +13,7 @@
  * clean 版对齐一阶段 UX(全屏黑底 + 跳过键),但用 canvas 上色而非一阶段的索引 framebuffer。
  * palette 由调用方按过场指定(原版 PAL_SetPalette 在 PAL_RNGPlay 前设);frameDelayMs = 1000/iSpeed。
  */
-import { RNG_HEIGHT, RNG_WIDTH, decodeRngFrames, type Palette } from '@type-pal/shared'
+import { decodeRngFrames, type Palette, RNG_HEIGHT, RNG_WIDTH } from '@type-pal/shared'
 import { decompressGzip } from './assets.js'
 
 /**
@@ -25,10 +25,6 @@ import { decompressGzip } from './assets.js'
 export const RNG_PALETTE: Readonly<Record<number, number>> = { 3: 2, 6: 3, 7: 6 }
 export function rngPaletteId(chunkIdx: number): number {
   return RNG_PALETTE[chunkIdx] ?? 0
-}
-
-interface RngManifest {
-  chunks: Array<{ chunkIndex: number; frameCount: number; frames: Array<{ index: number }> }>
 }
 
 export interface PlayRngOptions {
@@ -46,7 +42,9 @@ export interface PlayRngOptions {
   skipKeys?: string[]
   containerEl?: HTMLElement
   /** 测试注入:替换 chunk 加载(免真 fetch)。 */
-  loadChunk?: (chunkIdx: number) => Promise<{ frameCount: number; framesByIndex: Map<number, Uint8Array> }>
+  loadChunk?: (
+    chunkIdx: number,
+  ) => Promise<{ frameCount: number; framesByIndex: Map<number, Uint8Array> }>
 }
 
 async function defaultLoadChunk(

@@ -80,7 +80,7 @@ export function buildDitherPalettePlan(
     colors[offset] = color[0]
     colors[offset + 1] = color[1]
     colors[offset + 2] = color[2]
-    const key = packRgb(colors[offset]!, colors[offset + 1]!, colors[offset + 2]!)
+    const key = packRgb(colors[offset] ?? 0, colors[offset + 1] ?? 0, colors[offset + 2] ?? 0)
     if (!exact.has(key)) exact.set(key, index)
   }
   const resolved = new Map<number, number>(exact)
@@ -92,9 +92,9 @@ export function buildDitherPalettePlan(
     let nearestDistance = Number.POSITIVE_INFINITY
     for (let index = 0; index < 256; index++) {
       const offset = index * 3
-      const dr = red - colors[offset]!
-      const dg = green - colors[offset + 1]!
-      const db = blue - colors[offset + 2]!
+      const dr = red - (colors[offset] ?? 0)
+      const dg = green - (colors[offset + 1] ?? 0)
+      const db = blue - (colors[offset + 2] ?? 0)
       const distance = dr * dr + dg * dg + db * db
       if (distance < nearestDistance) {
         nearestDistance = distance

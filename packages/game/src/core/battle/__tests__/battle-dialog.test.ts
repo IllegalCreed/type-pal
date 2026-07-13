@@ -28,7 +28,13 @@ function input(keys: string[] = []): InputSnapshot {
 }
 
 /** 驱动 tickBattleDialog 直到条件满足或超 limit(防死循环),返回实际 tick 数。 */
-function driveUntil(state: BattleState, gs: GameState, cond: () => boolean, keys: string[] = [], limit = 200): number {
+function driveUntil(
+  state: BattleState,
+  gs: GameState,
+  cond: () => boolean,
+  keys: string[] = [],
+  limit = 200,
+): number {
   let n = 0
   while (!cond() && n < limit) {
     tickBattleDialog(state, gs, input(keys))
@@ -222,5 +228,4 @@ describe('tickBattleDialog —— 战斗内对话 hold', () => {
     expect(gs.dialogBox?.style).toBe('narration')
     expect(state.battleDialogQueue?.length).toBe(0)
   })
-
 })

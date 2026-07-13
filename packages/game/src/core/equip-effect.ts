@@ -16,7 +16,15 @@
  */
 
 import type { Item, PlayerRole } from '@type-pal/shared'
-import { addItemToInventory, addPoisonForPlayer, consumeItemFromInventory, getGlobalCommands, getGlobalLabelMap, removePoisonLevel99, runPlayerPoisonEntrySync } from './event-system.js'
+import {
+  addItemToInventory,
+  addPoisonForPlayer,
+  consumeItemFromInventory,
+  getGlobalCommands,
+  getGlobalLabelMap,
+  removePoisonLevel99,
+  runPlayerPoisonEntrySync,
+} from './event-system.js'
 import { createInitialEquipmentEffect, type GameState } from './game-state.js'
 
 const MAX_PLAYER_ROLES = 6
@@ -94,7 +102,11 @@ export function getPlayerPoisonResistance(gs: GameState, roleId: number): number
  * runtime);从 runtime 回灌会抹掉战内伤害。派生数值经 effective getter(base + Σ
  * rgEquipmentEffect[0..6] 含 Extra 槽),故 0x30 临时 buff(梦蛇 攻/身法 +100%)不被清。
  */
-export function resyncBattleRoleStatsFromRuntime(role: PlayerRole, gs: GameState, roleId: number): void {
+export function resyncBattleRoleStatsFromRuntime(
+  role: PlayerRole,
+  gs: GameState,
+  roleId: number,
+): void {
   const rt = gs.PlayerRolesRuntime
   // maxHP/maxMP/level 投影时不吃装备(projectRuntimeToBattleRoles game-state.ts:1539-1541)→ 直接取 runtime base
   role.level = rt.rgwLevel[roleId] ?? role.level
@@ -131,16 +143,23 @@ export const PLAYERROLES_ROW = {
   MAX_MP: 8,
   HP: 9,
   MP: 10,
-  EQUIPMENT_0: 11, EQUIPMENT_1: 12, EQUIPMENT_2: 13,
-  EQUIPMENT_3: 14, EQUIPMENT_4: 15, EQUIPMENT_5: 16,
+  EQUIPMENT_0: 11,
+  EQUIPMENT_1: 12,
+  EQUIPMENT_2: 13,
+  EQUIPMENT_3: 14,
+  EQUIPMENT_4: 15,
+  EQUIPMENT_5: 16,
   ATTACK_STRENGTH: 17,
   MAGIC_STRENGTH: 18,
   DEFENSE: 19,
   DEXTERITY: 20,
   FLEE_RATE: 21,
   POISON_RESISTANCE: 22,
-  ELEM_RESIST_0: 23, ELEM_RESIST_1: 24, ELEM_RESIST_2: 25,
-  ELEM_RESIST_3: 26, ELEM_RESIST_4: 27,
+  ELEM_RESIST_0: 23,
+  ELEM_RESIST_1: 24,
+  ELEM_RESIST_2: 25,
+  ELEM_RESIST_3: 26,
+  ELEM_RESIST_4: 27,
   COVERED_BY: 31,
   // row 32-63 = rgwMagic[32][6]
   WALK_FRAMES: 64,
@@ -160,20 +179,48 @@ export function writeEquipmentEffectField(
   if (!eff) return
   switch (rowIdx) {
     // 装备 override 类(sdlpal flat WORD row;长鞭 sprite=6/attackAll=1、圣灵珠 coopMagic=351)
-    case PLAYERROLES_ROW.SPRITE_NUM_IN_BATTLE: eff.rgwSpriteNumInBattle[roleId] = value; break
-    case PLAYERROLES_ROW.ATTACK_ALL: eff.rgwAttackAll[roleId] = value; break
-    case PLAYERROLES_ROW.COOPERATIVE_MAGIC: eff.rgwCooperativeMagic[roleId] = value; break
-    case PLAYERROLES_ROW.LEVEL: eff.rgwLevel[roleId] = value; break
-    case PLAYERROLES_ROW.MAX_HP: eff.rgwMaxHP[roleId] = value; break
-    case PLAYERROLES_ROW.MAX_MP: eff.rgwMaxMP[roleId] = value; break
-    case PLAYERROLES_ROW.HP: eff.rgwHP[roleId] = value; break
-    case PLAYERROLES_ROW.MP: eff.rgwMP[roleId] = value; break
-    case PLAYERROLES_ROW.ATTACK_STRENGTH: eff.rgwAttackStrength[roleId] = value; break
-    case PLAYERROLES_ROW.MAGIC_STRENGTH: eff.rgwMagicStrength[roleId] = value; break
-    case PLAYERROLES_ROW.DEFENSE: eff.rgwDefense[roleId] = value; break
-    case PLAYERROLES_ROW.DEXTERITY: eff.rgwDexterity[roleId] = value; break
-    case PLAYERROLES_ROW.FLEE_RATE: eff.rgwFleeRate[roleId] = value; break
-    case PLAYERROLES_ROW.POISON_RESISTANCE: eff.rgwPoisonResistance[roleId] = value; break
+    case PLAYERROLES_ROW.SPRITE_NUM_IN_BATTLE:
+      eff.rgwSpriteNumInBattle[roleId] = value
+      break
+    case PLAYERROLES_ROW.ATTACK_ALL:
+      eff.rgwAttackAll[roleId] = value
+      break
+    case PLAYERROLES_ROW.COOPERATIVE_MAGIC:
+      eff.rgwCooperativeMagic[roleId] = value
+      break
+    case PLAYERROLES_ROW.LEVEL:
+      eff.rgwLevel[roleId] = value
+      break
+    case PLAYERROLES_ROW.MAX_HP:
+      eff.rgwMaxHP[roleId] = value
+      break
+    case PLAYERROLES_ROW.MAX_MP:
+      eff.rgwMaxMP[roleId] = value
+      break
+    case PLAYERROLES_ROW.HP:
+      eff.rgwHP[roleId] = value
+      break
+    case PLAYERROLES_ROW.MP:
+      eff.rgwMP[roleId] = value
+      break
+    case PLAYERROLES_ROW.ATTACK_STRENGTH:
+      eff.rgwAttackStrength[roleId] = value
+      break
+    case PLAYERROLES_ROW.MAGIC_STRENGTH:
+      eff.rgwMagicStrength[roleId] = value
+      break
+    case PLAYERROLES_ROW.DEFENSE:
+      eff.rgwDefense[roleId] = value
+      break
+    case PLAYERROLES_ROW.DEXTERITY:
+      eff.rgwDexterity[roleId] = value
+      break
+    case PLAYERROLES_ROW.FLEE_RATE:
+      eff.rgwFleeRate[roleId] = value
+      break
+    case PLAYERROLES_ROW.POISON_RESISTANCE:
+      eff.rgwPoisonResistance[roleId] = value
+      break
     case PLAYERROLES_ROW.ELEM_RESIST_0:
     case PLAYERROLES_ROW.ELEM_RESIST_1:
     case PLAYERROLES_ROW.ELEM_RESIST_2:
@@ -184,35 +231,71 @@ export function writeEquipmentEffectField(
       if (row) row[roleId] = value
       break
     }
-    case PLAYERROLES_ROW.COVERED_BY: eff.rgwCoveredBy[roleId] = value; break
+    case PLAYERROLES_ROW.COVERED_BY:
+      eff.rgwCoveredBy[roleId] = value
+      break
     default:
       console.warn(`writeEquipmentEffectField: row ${rowIdx} 未支持(装备 effect 真值)`)
   }
 }
 
 /** Helper:给 PlayerRolesRuntime 某 row 给 role 加上 delta(sdlpal opcode 0x19)。 */
-export function addPlayerStatRow(gs: GameState, rowIdx: number, roleId: number, delta: number): void {
+export function addPlayerStatRow(
+  gs: GameState,
+  rowIdx: number,
+  roleId: number,
+  delta: number,
+): void {
   const r = gs.PlayerRolesRuntime
   switch (rowIdx) {
-    case PLAYERROLES_ROW.LEVEL: r.rgwLevel[roleId] = (r.rgwLevel[roleId] ?? 0) + delta; break
-    case PLAYERROLES_ROW.MAX_HP: r.rgwMaxHP[roleId] = (r.rgwMaxHP[roleId] ?? 0) + delta; break
-    case PLAYERROLES_ROW.MAX_MP: r.rgwMaxMP[roleId] = (r.rgwMaxMP[roleId] ?? 0) + delta; break
-    case PLAYERROLES_ROW.HP: r.rgwHP[roleId] = (r.rgwHP[roleId] ?? 0) + delta; break
-    case PLAYERROLES_ROW.MP: r.rgwMP[roleId] = (r.rgwMP[roleId] ?? 0) + delta; break
-    case PLAYERROLES_ROW.ATTACK_STRENGTH: r.rgwAttackStrength[roleId] = (r.rgwAttackStrength[roleId] ?? 0) + delta; break
-    case PLAYERROLES_ROW.MAGIC_STRENGTH: r.rgwMagicStrength[roleId] = (r.rgwMagicStrength[roleId] ?? 0) + delta; break
-    case PLAYERROLES_ROW.DEFENSE: r.rgwDefense[roleId] = (r.rgwDefense[roleId] ?? 0) + delta; break
-    case PLAYERROLES_ROW.DEXTERITY: r.rgwDexterity[roleId] = (r.rgwDexterity[roleId] ?? 0) + delta; break
-    case PLAYERROLES_ROW.FLEE_RATE: r.rgwFleeRate[roleId] = (r.rgwFleeRate[roleId] ?? 0) + delta; break
-    case PLAYERROLES_ROW.POISON_RESISTANCE: r.rgwPoisonResistance[roleId] = (r.rgwPoisonResistance[roleId] ?? 0) + delta; break
-    case PLAYERROLES_ROW.COVERED_BY: r.rgwCoveredBy[roleId] = (r.rgwCoveredBy[roleId] ?? 0) + delta; break
+    case PLAYERROLES_ROW.LEVEL:
+      r.rgwLevel[roleId] = (r.rgwLevel[roleId] ?? 0) + delta
+      break
+    case PLAYERROLES_ROW.MAX_HP:
+      r.rgwMaxHP[roleId] = (r.rgwMaxHP[roleId] ?? 0) + delta
+      break
+    case PLAYERROLES_ROW.MAX_MP:
+      r.rgwMaxMP[roleId] = (r.rgwMaxMP[roleId] ?? 0) + delta
+      break
+    case PLAYERROLES_ROW.HP:
+      r.rgwHP[roleId] = (r.rgwHP[roleId] ?? 0) + delta
+      break
+    case PLAYERROLES_ROW.MP:
+      r.rgwMP[roleId] = (r.rgwMP[roleId] ?? 0) + delta
+      break
+    case PLAYERROLES_ROW.ATTACK_STRENGTH:
+      r.rgwAttackStrength[roleId] = (r.rgwAttackStrength[roleId] ?? 0) + delta
+      break
+    case PLAYERROLES_ROW.MAGIC_STRENGTH:
+      r.rgwMagicStrength[roleId] = (r.rgwMagicStrength[roleId] ?? 0) + delta
+      break
+    case PLAYERROLES_ROW.DEFENSE:
+      r.rgwDefense[roleId] = (r.rgwDefense[roleId] ?? 0) + delta
+      break
+    case PLAYERROLES_ROW.DEXTERITY:
+      r.rgwDexterity[roleId] = (r.rgwDexterity[roleId] ?? 0) + delta
+      break
+    case PLAYERROLES_ROW.FLEE_RATE:
+      r.rgwFleeRate[roleId] = (r.rgwFleeRate[roleId] ?? 0) + delta
+      break
+    case PLAYERROLES_ROW.POISON_RESISTANCE:
+      r.rgwPoisonResistance[roleId] = (r.rgwPoisonResistance[roleId] ?? 0) + delta
+      break
+    case PLAYERROLES_ROW.COVERED_BY:
+      r.rgwCoveredBy[roleId] = (r.rgwCoveredBy[roleId] ?? 0) + delta
+      break
     default:
       console.warn(`addPlayerStatRow: row ${rowIdx} 未支持`)
   }
 }
 
 /** Helper:set PlayerRolesRuntime 某 row 给 role(sdlpal opcode 0x1A,script.c:834-865)。 */
-export function setPlayerStatRow(gs: GameState, rowIdx: number, roleId: number, value: number): void {
+export function setPlayerStatRow(
+  gs: GameState,
+  rowIdx: number,
+  roleId: number,
+  value: number,
+): void {
   // sdlpal script.c:838-847:装备进行中(g_iCurEquipPart != -1)→ 写 rgEquipmentEffect[part] 覆盖层而非 base。
   // 装备脚本(scriptOnEquip)的 0x1A 把 stat 加进可卸下的效果层;卸装时 removeEquipmentEffect 清掉。
   // 关键:脚本结束必须 reset iCurEquipPart=-1(event-system trigger-end / runEquipScriptSync 末尾),
@@ -223,26 +306,62 @@ export function setPlayerStatRow(gs: GameState, rowIdx: number, roleId: number, 
   }
   const r = gs.PlayerRolesRuntime
   switch (rowIdx) {
-    case PLAYERROLES_ROW.LEVEL: r.rgwLevel[roleId] = value; break
-    case PLAYERROLES_ROW.MAX_HP: r.rgwMaxHP[roleId] = value; break
-    case PLAYERROLES_ROW.MAX_MP: r.rgwMaxMP[roleId] = value; break
-    case PLAYERROLES_ROW.HP: r.rgwHP[roleId] = value; break
-    case PLAYERROLES_ROW.MP: r.rgwMP[roleId] = value; break
-    case PLAYERROLES_ROW.ATTACK_STRENGTH: r.rgwAttackStrength[roleId] = value; break
-    case PLAYERROLES_ROW.MAGIC_STRENGTH: r.rgwMagicStrength[roleId] = value; break
-    case PLAYERROLES_ROW.DEFENSE: r.rgwDefense[roleId] = value; break
-    case PLAYERROLES_ROW.DEXTERITY: r.rgwDexterity[roleId] = value; break
-    case PLAYERROLES_ROW.FLEE_RATE: r.rgwFleeRate[roleId] = value; break
-    case PLAYERROLES_ROW.POISON_RESISTANCE: r.rgwPoisonResistance[roleId] = value; break
-    case PLAYERROLES_ROW.COVERED_BY: r.rgwCoveredBy[roleId] = value; break
+    case PLAYERROLES_ROW.LEVEL:
+      r.rgwLevel[roleId] = value
+      break
+    case PLAYERROLES_ROW.MAX_HP:
+      r.rgwMaxHP[roleId] = value
+      break
+    case PLAYERROLES_ROW.MAX_MP:
+      r.rgwMaxMP[roleId] = value
+      break
+    case PLAYERROLES_ROW.HP:
+      r.rgwHP[roleId] = value
+      break
+    case PLAYERROLES_ROW.MP:
+      r.rgwMP[roleId] = value
+      break
+    case PLAYERROLES_ROW.ATTACK_STRENGTH:
+      r.rgwAttackStrength[roleId] = value
+      break
+    case PLAYERROLES_ROW.MAGIC_STRENGTH:
+      r.rgwMagicStrength[roleId] = value
+      break
+    case PLAYERROLES_ROW.DEFENSE:
+      r.rgwDefense[roleId] = value
+      break
+    case PLAYERROLES_ROW.DEXTERITY:
+      r.rgwDexterity[roleId] = value
+      break
+    case PLAYERROLES_ROW.FLEE_RATE:
+      r.rgwFleeRate[roleId] = value
+      break
+    case PLAYERROLES_ROW.POISON_RESISTANCE:
+      r.rgwPoisonResistance[roleId] = value
+      break
+    case PLAYERROLES_ROW.COVERED_BY:
+      r.rgwCoveredBy[roleId] = value
+      break
     // M2(2026-06-07 sdlpal 审查):0x1A 剧情变身写造型 row(原先落 default no-op → 变身造型不更新)。
     //   sprite/coop 本有 runtime 字段、只是没路由;avatar/battleSprite/attackAll/walkFrames 本次补字段。
-    case PLAYERROLES_ROW.AVATAR: r.rgwAvatar[roleId] = value; break
-    case PLAYERROLES_ROW.SPRITE_NUM_IN_BATTLE: r.rgwSpriteNumInBattle[roleId] = value; break
-    case PLAYERROLES_ROW.SPRITE_NUM: r.rgwSpriteNum[roleId] = value; break
-    case PLAYERROLES_ROW.ATTACK_ALL: r.rgwAttackAll[roleId] = value; break
-    case PLAYERROLES_ROW.WALK_FRAMES: r.rgwWalkFrames[roleId] = value; break
-    case PLAYERROLES_ROW.COOPERATIVE_MAGIC: r.rgwCooperativeMagic[roleId] = value; break
+    case PLAYERROLES_ROW.AVATAR:
+      r.rgwAvatar[roleId] = value
+      break
+    case PLAYERROLES_ROW.SPRITE_NUM_IN_BATTLE:
+      r.rgwSpriteNumInBattle[roleId] = value
+      break
+    case PLAYERROLES_ROW.SPRITE_NUM:
+      r.rgwSpriteNum[roleId] = value
+      break
+    case PLAYERROLES_ROW.ATTACK_ALL:
+      r.rgwAttackAll[roleId] = value
+      break
+    case PLAYERROLES_ROW.WALK_FRAMES:
+      r.rgwWalkFrames[roleId] = value
+      break
+    case PLAYERROLES_ROW.COOPERATIVE_MAGIC:
+      r.rgwCooperativeMagic[roleId] = value
+      break
     default:
       console.warn(`setPlayerStatRow: row ${rowIdx} 未支持`)
   }
@@ -299,7 +418,7 @@ export function removeEquipmentEffect(gs: GameState, roleId: number, partIdx: nu
 
 /** SHORT signed 16-bit cast(sdlpal `(SHORT)operand[N]` 真值)。 */
 function signExtendI16(u: number): number {
-  return (u & 0x8000) ? u - 0x10000 : u
+  return u & 0x8000 ? u - 0x10000 : u
 }
 
 // kStatus(CLASSIC,global.h:42-55)
@@ -313,7 +432,12 @@ const K_STATUS_DUAL_ATTACK = 8
  *  - Puppet(4):仅死人 + set-if-longer(global.c:2244)
  *  - good(Bravery5/Protect6/Haste7/DualAttack8):HP!=0 && cur<rounds(global.c:2264)
  */
-function setPersistentPlayerStatus(gs: GameState, roleId: number, statusId: number, rounds: number): void {
+function setPersistentPlayerStatus(
+  gs: GameState,
+  roleId: number,
+  statusId: number,
+  rounds: number,
+): void {
   const arr = gs.rgPlayerStatus[roleId]
   if (!arr) return
   const hp = gs.PlayerRolesRuntime.rgwHP[roleId] ?? 0
@@ -356,11 +480,7 @@ function setPersistentPlayerStatus(gs: GameState, roleId: number, statusId: numb
  *
  * 注:0x2D set player status / 0x29 (待 identify):scriptOnEquip 占 5/2 次,留 follow-up。
  */
-function runEquipScriptSync(
-  gs: GameState,
-  scriptOnEquip: number,
-  roleId: number,
-): void {
+function runEquipScriptSync(gs: GameState, scriptOnEquip: number, roleId: number): void {
   if (scriptOnEquip === 0) return
   // P2#5:装备脚本是全局 entry → 全局数组 + 全局 labelMap(identity)。
   const commands = getGlobalCommands()
@@ -376,112 +496,110 @@ function runEquipScriptSync(
   // sdlpal PAL_RunTriggerScript 末尾(script.c:3476)`g_iCurEquipPart = -1` — 0x18 设的 part 不泄漏到
   // 后续脚本(否则后续无关 0x1A 误写 rgEquipmentEffect 覆盖层)。try/finally 保证各出口都 reset。
   try {
-  while (step++ < SCRIPT_TICK_LIMIT) {
-    if (ip < 0 || ip >= commands.length) {
-      console.warn(`runEquipScriptSync: ip ${ip} 越界`)
-      return
-    }
-    const cmd = commands[ip]!
-
-    if (cmd.op === 'end') return
-    if (cmd.op === 'goto') {
-      const target = labelMap[cmd.to]
-      if (target === undefined) {
-        console.warn(`runEquipScriptSync: goto label ${cmd.to} 不在 labelMap`)
+    while (step++ < SCRIPT_TICK_LIMIT) {
+      if (ip < 0 || ip >= commands.length) {
+        console.warn(`runEquipScriptSync: ip ${ip} 越界`)
         return
       }
-      ip = target
-      continue
-    }
-    if (cmd.op !== 'raw') {
-      // 已具名 opcode 转 raw 处理:数据 opcode 实测不会 hit(showDialog/setDialogStyle 等都不在 scriptOnEquip)
-      console.warn(`runEquipScriptSync: 撞到 non-raw op '${cmd.op}',skip + ip++`)
-      ip++
-      continue
-    }
+      const cmd = commands[ip]!
 
-    const [a, b, c] = cmd.operands as [number, number, number]
+      if (cmd.op === 'end') return
+      if (cmd.op === 'goto') {
+        const target = labelMap[cmd.to]
+        if (target === undefined) {
+          console.warn(`runEquipScriptSync: goto label ${cmd.to} 不在 labelMap`)
+          return
+        }
+        ip = target
+        continue
+      }
+      if (cmd.op !== 'raw') {
+        // 已具名 opcode 转 raw 处理:数据 opcode 实测不会 hit(showDialog/setDialogStyle 等都不在 scriptOnEquip)
+        console.warn(`runEquipScriptSync: 撞到 non-raw op '${cmd.op}',skip + ip++`)
+        ip++
+        continue
+      }
 
-    switch (cmd.opcode) {
-      case 0x17: {
-        // sdlpal script.c:752-766 真值:p[op[1] * MAX + role] = SHORT(op[2]); i = op[0] - 0xB
-        const partIdx = (a ?? 0) - 0x0B
-        writeEquipmentEffectField(gs, partIdx, b ?? 0, roleId, signExtendI16(c ?? 0))
-        break
-      }
-      case 0x18: {
-        // sdlpal script.c:768-811 真值:i=op0-0xB(装备部位);iCurEquipPart=i;removeEquipmentEffect。
-        //   **若该槽当前装备 != op1**(新装备未装在此槽)→ 真换装:
-        //     - rgwEquipment[i][role] = op1
-        //     - inventory swap:移除新装备 1、旧装备入包 1
-        //     - wLastUnequippedItem = 旧装备
-        //   此条件同时服务两上下文:updateAllEquipments(已装着自己 → 相等 → 不 swap,只重算 effect);
-        //   装备菜单(未装 → 不等 → 真换)。之前 ts 无条件跳 swap,导致"换不了装备"。
-        const partIdx = (a ?? 0) - 0x0B
-        const newItem = b ?? 0
-        gs.iCurEquipPart = partIdx
-        removeEquipmentEffect(gs, roleId, partIdx)
-        const rgwEquipment = gs.PlayerRolesRuntime.rgwEquipment
-        const cur = rgwEquipment[partIdx]?.[roleId] ?? 0
-        if (cur !== newItem) {
-          if (rgwEquipment[partIdx]) rgwEquipment[partIdx]![roleId] = newItem
-          // DL11:新件库存恰 1 件且身上旧件不在背包 → `rgInventory[i].wItem = w` **原位替换**
-          //   (script.c:784-805 "instead of removing items and adding them at the end")——
-          //   换下的旧装备保持原列表槽位,不掉到末尾。
-          const newEntry = gs.inventory.find((e) => e.itemId === newItem)
-          const oldInInv = cur !== 0 && gs.inventory.some((e) => e.itemId === cur)
-          if (newEntry && newEntry.count === 1 && cur !== 0 && !oldInInv) {
-            newEntry.itemId = cur
-          }
-          else {
-            consumeItemFromInventory(gs, newItem) // 移除新装备 1
-            if (cur !== 0) addItemToInventory(gs, cur, 1) // 旧装备入包
-          }
-          gs.wLastUnequippedItem = cur
+      const [a, b, c] = cmd.operands as [number, number, number]
+
+      switch (cmd.opcode) {
+        case 0x17: {
+          // sdlpal script.c:752-766 真值:p[op[1] * MAX + role] = SHORT(op[2]); i = op[0] - 0xB
+          const partIdx = (a ?? 0) - 0x0b
+          writeEquipmentEffectField(gs, partIdx, b ?? 0, roleId, signExtendI16(c ?? 0))
+          break
         }
-        break
-      }
-      case 0x19: {
-        // sdlpal script.c:813-832:p[op[0] * MAX + role] += SHORT(op[1]);role override by op[2]
-        const targetRole = (c ?? 0) === 0 ? roleId : ((c ?? 0) - 1)
-        addPlayerStatRow(gs, a ?? 0, targetRole, signExtendI16(b ?? 0))
-        break
-      }
-      case 0x1A: {
-        // sdlpal script.c:834-865:p[op[0] * MAX + role] = SHORT(op[1])
-        const targetRole = (c ?? 0) === 0 ? roleId : ((c ?? 0) - 1)
-        setPlayerStatRow(gs, a ?? 0, targetRole, signExtendI16(b ?? 0))
-        break
-      }
-      case 0x2d: {
-        // sdlpal script.c:1367 PAL_SetPlayerStatus(wEventObjectID=role, op0=statusId, op1=rounds)
-        //   装备授状态(仙女剑等 5 把 Hand 武器授 DualAttack=32760)。写持久 gs.rgPlayerStatus。
-        setPersistentPlayerStatus(gs, roleId, a ?? 0, b ?? 0)
-        break
-      }
-      case 0x29: {
-        // sdlpal script.c:1257 apply poison to player(寿葫芦 Wear 授 level-99 正面"毒":
-        //   毒 563=+20HP/回合 / 564=+20MP/回合)。op0=applyAll, op1=poisonId。
-        //   gate:RandomLong(1,100) > poisonResistance(script.c:1280;五毒珠 resist=100 → 永不中)。
-        const applyAll = (a ?? 0) !== 0
-        const poisonId = b ?? 0
-        const targets = applyAll ? gs.partyMembers : [roleId]
-        for (const r of targets) {
-          if (Math.floor(Math.random() * 100) + 1 > getPlayerPoisonResistance(gs, r)) {
-            addPoisonForPlayer(gs, r, poisonId, ip => runPlayerPoisonEntrySync(gs, r, ip))
+        case 0x18: {
+          // sdlpal script.c:768-811 真值:i=op0-0xB(装备部位);iCurEquipPart=i;removeEquipmentEffect。
+          //   **若该槽当前装备 != op1**(新装备未装在此槽)→ 真换装:
+          //     - rgwEquipment[i][role] = op1
+          //     - inventory swap:移除新装备 1、旧装备入包 1
+          //     - wLastUnequippedItem = 旧装备
+          //   此条件同时服务两上下文:updateAllEquipments(已装着自己 → 相等 → 不 swap,只重算 effect);
+          //   装备菜单(未装 → 不等 → 真换)。之前 ts 无条件跳 swap,导致"换不了装备"。
+          const partIdx = (a ?? 0) - 0x0b
+          const newItem = b ?? 0
+          gs.iCurEquipPart = partIdx
+          removeEquipmentEffect(gs, roleId, partIdx)
+          const rgwEquipment = gs.PlayerRolesRuntime.rgwEquipment
+          const cur = rgwEquipment[partIdx]?.[roleId] ?? 0
+          if (cur !== newItem) {
+            if (rgwEquipment[partIdx]) rgwEquipment[partIdx]![roleId] = newItem
+            // DL11:新件库存恰 1 件且身上旧件不在背包 → `rgInventory[i].wItem = w` **原位替换**
+            //   (script.c:784-805 "instead of removing items and adding them at the end")——
+            //   换下的旧装备保持原列表槽位,不掉到末尾。
+            const newEntry = gs.inventory.find((e) => e.itemId === newItem)
+            const oldInInv = cur !== 0 && gs.inventory.some((e) => e.itemId === cur)
+            if (newEntry && newEntry.count === 1 && cur !== 0 && !oldInInv) {
+              newEntry.itemId = cur
+            } else {
+              consumeItemFromInventory(gs, newItem) // 移除新装备 1
+              if (cur !== 0) addItemToInventory(gs, cur, 1) // 旧装备入包
+            }
+            gs.wLastUnequippedItem = cur
           }
+          break
         }
-        break
-      }
-      default:
+        case 0x19: {
+          // sdlpal script.c:813-832:p[op[0] * MAX + role] += SHORT(op[1]);role override by op[2]
+          const targetRole = (c ?? 0) === 0 ? roleId : (c ?? 0) - 1
+          addPlayerStatRow(gs, a ?? 0, targetRole, signExtendI16(b ?? 0))
+          break
+        }
+        case 0x1a: {
+          // sdlpal script.c:834-865:p[op[0] * MAX + role] = SHORT(op[1])
+          const targetRole = (c ?? 0) === 0 ? roleId : (c ?? 0) - 1
+          setPlayerStatRow(gs, a ?? 0, targetRole, signExtendI16(b ?? 0))
+          break
+        }
+        case 0x2d: {
+          // sdlpal script.c:1367 PAL_SetPlayerStatus(wEventObjectID=role, op0=statusId, op1=rounds)
+          //   装备授状态(仙女剑等 5 把 Hand 武器授 DualAttack=32760)。写持久 gs.rgPlayerStatus。
+          setPersistentPlayerStatus(gs, roleId, a ?? 0, b ?? 0)
+          break
+        }
+        case 0x29: {
+          // sdlpal script.c:1257 apply poison to player(寿葫芦 Wear 授 level-99 正面"毒":
+          //   毒 563=+20HP/回合 / 564=+20MP/回合)。op0=applyAll, op1=poisonId。
+          //   gate:RandomLong(1,100) > poisonResistance(script.c:1280;五毒珠 resist=100 → 永不中)。
+          const applyAll = (a ?? 0) !== 0
+          const poisonId = b ?? 0
+          const targets = applyAll ? gs.partyMembers : [roleId]
+          for (const r of targets) {
+            if (Math.floor(Math.random() * 100) + 1 > getPlayerPoisonResistance(gs, r)) {
+              addPoisonForPlayer(gs, r, poisonId, (ip) => runPlayerPoisonEntrySync(gs, r, ip))
+            }
+          }
+          break
+        }
+        default:
         // scriptOnEquip 实测 opcode 已全覆盖(0x17/0x18/0x19/0x1A/0x2D/0x29);其它意外 op 记日志
-    }
+      }
 
-    ip++
-  }
-  console.warn(`runEquipScriptSync: SCRIPT_TICK_LIMIT ${SCRIPT_TICK_LIMIT} 超出 — 死循环?`)
-  }
-  finally {
+      ip++
+    }
+    console.warn(`runEquipScriptSync: SCRIPT_TICK_LIMIT ${SCRIPT_TICK_LIMIT} 超出 — 死循环?`)
+  } finally {
     gs.iCurEquipPart = -1
   }
 }

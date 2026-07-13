@@ -26,14 +26,14 @@ import type { BattleAction } from './battle-state.js'
 export interface DecideEnemyActionInput {
   enemy: Enemy
   /** 活着的队员列表(idx = BattleState.players 索引,hp 用于未来扩展)。 */
-  alivePlayers: Array<{ idx: number, hp: number }>
+  alivePlayers: Array<{ idx: number; hp: number }>
   rng: SeedableRng
   /**
    * 敌方战斗状态(sdlpal `g_Battle.rgEnemy[i].rgwStatus`)。
    * B2 c1:sleep/paralyzed → do-nothing(pass);silence → 不出魔法(强制物理);
    * confused → 打友敌(c1b)。省略 → 无状态(向后兼容旧 caller)。
    */
-  status?: { sleep?: number, paralyzed?: number, silence?: number, confused?: number }
+  status?: { sleep?: number; paralyzed?: number; silence?: number; confused?: number }
   /** 本敌自身 idx(state.enemies 索引)—— confused 选中自己时 pass(fight.c:4594)。 */
   selfIdx?: number
   /** 活着的敌人列表(含自己)—— confused 从中随机选打击目标(fight.c:4593 SelectEnemyTargetIndex)。 */
@@ -45,13 +45,13 @@ export interface DecideEnemyActionInput {
    * sdlpal 两拒绝条件之并。有死/空槽时多抽,RNG 流逐抽对齐(同玩家目标 party 路径,c10)。省略 → 回退
    * aliveEnemies 预过滤池单抽(分布相同 RNG 流不同,旧 fixture 向后兼容)。
    */
-  enemySlots?: Array<{ idx: number, hp: number }>
+  enemySlots?: Array<{ idx: number; hp: number }>
   /**
    * 全 party(含死者,idx = state.players 索引)—— D9 RNG 对拍(c10):传入则用 sdlpal 真值选目标
    * `RandomLong(0, maxPartyIdx) + while(HP==0) 重摇`(fight.c:4540-4545),RNG 流逐抽对齐;
    * 省略 → 回退 `range over alivePlayers`(旧路径,分布相同 RNG 流不同)。
    */
-  party?: Array<{ idx: number, hp: number }>
+  party?: Array<{ idx: number; hp: number }>
 }
 
 /** sdlpal `wMagic == 0xFFFF` 哨兵:进魔法分支即 goto end 什么不做(fight.c:4663)。 */
@@ -79,7 +79,10 @@ export function decideEnemyAction(input: DecideEnemyActionInput): BattleAction {
     let guard = 0
     while ((party[pi]?.hp ?? 0) === 0 && guard++ < 64) pi = rng.rangeInclusive(0, party.length - 1)
     // 兜底(rng 越界/异常,sdlpal 靠"战斗未结束⇒至少一活者"规避无限循环):取首个活者
-    target = (party[pi]?.hp ?? 0) > 0 ? party[pi]!.idx : (party.find((p) => p.hp > 0)?.idx ?? party[0]!.idx)
+    target =
+      (party[pi]?.hp ?? 0) > 0
+        ? party[pi]!.idx
+        : (party.find((p) => p.hp > 0)?.idx ?? party[0]!.idx)
   } else {
     target = alivePlayers[rng.range(0, alivePlayers.length)]!.idx
   }
@@ -115,11 +118,7 @@ export function decideEnemyAction(input: DecideEnemyActionInput): BattleAction {
 
   // sdlpal fight.c:4656-4658 魔法门:wMagic!=0 && RandomLong(0,9)<magicRate && silence==0
   // DL7:短路序与 C 一致(fight.c:4656-4658),被沉默敌**仍先消耗**一次掷骰(原前置短路不耗,RNG 流偏移)。
-  if (
-    enemy.magic !== 0
-    && rng.range(0, 10) < enemy.magicRate
-    && (status?.silence ?? 0) === 0
-  ) {
+  if (enemy.magic !== 0 && rng.range(0, 10) < enemy.magicRate && (status?.silence ?? 0) === 0) {
     // fight.c:4663:wMagic==0xFFFF 进魔法分支即 goto end(什么不做)→ pass
     if (enemy.magic === MAGIC_SENTINEL_NOOP) {
       return { type: 'pass', target }

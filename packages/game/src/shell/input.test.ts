@@ -1,9 +1,9 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import {
-  KeyboardInputSource,
-  ReplayInputSource,
-  RecordingInputSource,
   codeToAbstractKey,
+  KeyboardInputSource,
+  RecordingInputSource,
+  ReplayInputSource,
 } from './input.js'
 
 describe('codeToAbstractKey', () => {
@@ -17,9 +17,9 @@ describe('codeToAbstractKey', () => {
   // user 2026-05-31 决策"以原版为准":WASD 还原 sdlpal input.c:84-90 原义,**不再**当方向键。
   it('WASD = sdlpal 原义(input.c:84-90),不是方向', () => {
     expect(codeToAbstractKey('KeyW')).toBe('ThrowItem') // input.c:87
-    expect(codeToAbstractKey('KeyA')).toBe('Auto')      // input.c:84
-    expect(codeToAbstractKey('KeyS')).toBe('Status')    // input.c:90
-    expect(codeToAbstractKey('KeyD')).toBe('Defend')    // input.c:85
+    expect(codeToAbstractKey('KeyA')).toBe('Auto') // input.c:84
+    expect(codeToAbstractKey('KeyS')).toBe('Status') // input.c:90
+    expect(codeToAbstractKey('KeyD')).toBe('Defend') // input.c:85
   })
 
   it('确认 / 菜单(sdlpal input.c:66-74 真值)', () => {
@@ -54,14 +54,14 @@ describe('codeToAbstractKey', () => {
   })
 
   it('战斗 / 大世界专用键(sdlpal input.c:83-90)', () => {
-    expect(codeToAbstractKey('KeyR')).toBe('Repeat')   // input.c:83
-    expect(codeToAbstractKey('KeyA')).toBe('Auto')     // input.c:84
-    expect(codeToAbstractKey('KeyD')).toBe('Defend')   // input.c:85
-    expect(codeToAbstractKey('KeyE')).toBe('UseItem')  // input.c:86
-    expect(codeToAbstractKey('KeyW')).toBe('ThrowItem')// input.c:87
-    expect(codeToAbstractKey('KeyQ')).toBe('Flee')     // input.c:88
-    expect(codeToAbstractKey('KeyF')).toBe('Force')    // input.c:89
-    expect(codeToAbstractKey('KeyS')).toBe('Status')   // input.c:90
+    expect(codeToAbstractKey('KeyR')).toBe('Repeat') // input.c:83
+    expect(codeToAbstractKey('KeyA')).toBe('Auto') // input.c:84
+    expect(codeToAbstractKey('KeyD')).toBe('Defend') // input.c:85
+    expect(codeToAbstractKey('KeyE')).toBe('UseItem') // input.c:86
+    expect(codeToAbstractKey('KeyW')).toBe('ThrowItem') // input.c:87
+    expect(codeToAbstractKey('KeyQ')).toBe('Flee') // input.c:88
+    expect(codeToAbstractKey('KeyF')).toBe('Force') // input.c:89
+    expect(codeToAbstractKey('KeyS')).toBe('Status') // input.c:90
   })
 
   it('未知键 → null', () => {
@@ -99,7 +99,7 @@ describe('KeyboardInputSource', () => {
       src.clearPressed()
       const s = src.nextSnapshot(0)
       expect(s.pressed.has('Confirm')).toBe(false) // 残留 Space 被清 → 菜单首帧不会误确认
-      expect(s.held.has('Confirm')).toBe(true)      // held(物理按住态)保留,由 keyup 自然配对
+      expect(s.held.has('Confirm')).toBe(true) // held(物理按住态)保留,由 keyup 自然配对
     } finally {
       src.detach()
     }

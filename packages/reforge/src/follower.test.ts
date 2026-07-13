@@ -1,12 +1,26 @@
 import { describe, expect, test } from 'vitest'
-import { computeFollowerPos, type FollowerPosState, pushTrail, type TrailEntry } from './follower.js'
+import {
+  computeFollowerPos,
+  type FollowerPosState,
+  pushTrail,
+  type TrailEntry,
+} from './follower.js'
 
 const g = (col: number, row: number) => ({ col, row, height: 0 })
 const walkable = () => true
 
 /** 造一条直线行走轨迹:队长在 head,沿 dir 反向铺 n 个历史格(trail[0]=最新)。 */
-function straightTrail(head: { col: number; row: number }, dir: 'left' | 'right' | 'up' | 'down', n = 6): TrailEntry[] {
-  const back = { left: { c: 1, r: 0 }, right: { c: -1, r: 0 }, up: { c: 0, r: 1 }, down: { c: 0, r: -1 } }[dir]
+function straightTrail(
+  head: { col: number; row: number },
+  dir: 'left' | 'right' | 'up' | 'down',
+  n = 6,
+): TrailEntry[] {
+  const back = {
+    left: { c: 1, r: 0 },
+    right: { c: -1, r: 0 },
+    up: { c: 0, r: 1 },
+    down: { c: 0, r: -1 },
+  }[dir]
   return Array.from({ length: n }, (_, i) => ({
     pos: g(head.col + back.c * i, head.row + back.r * i),
     dir,

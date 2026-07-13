@@ -10,8 +10,8 @@ import type {
   ActorDef,
   EntryPoint,
   ItemData,
-  Locale,
   LoadedManifest,
+  Locale,
   SceneDef,
   SkillData,
   StartWorld,
@@ -140,7 +140,12 @@ export function EntryPointTab(props: {
           <button type="button" className="btn" onClick={addEntry}>
             + 加入口
           </button>
-          <button type="button" className="btn" onClick={removeEntry} disabled={entryPoints.length <= 1}>
+          <button
+            type="button"
+            className="btn"
+            onClick={removeEntry}
+            disabled={entryPoints.length <= 1}
+          >
             删除
           </button>
         </div>
@@ -170,7 +175,9 @@ export function EntryPointTab(props: {
                   value={sel.scene}
                   onChange={(e) => patchSel({ scene: e.target.value })}
                 >
-                  {!sceneIds.includes(sel.scene) && <option value={sel.scene}>{sel.scene}(缺)</option>}
+                  {!sceneIds.includes(sel.scene) && (
+                    <option value={sel.scene}>{sel.scene}(缺)</option>
+                  )}
                   {sceneIds.map((id) => (
                     <option key={id} value={id}>
                       {id}
@@ -232,7 +239,6 @@ export function EntryPointTab(props: {
                     </span>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                       {inv().map((row, idx) => (
-                        // biome-ignore lint/suspicious/noArrayIndexKey: 行无稳定 id,列表随 session 全量重渲染
                         <div key={idx} className="row" style={{ gap: 4 }}>
                           <select
                             className="in"
@@ -256,10 +262,16 @@ export function EntryPointTab(props: {
                             min={1}
                             value={row.count}
                             onChange={(e) =>
-                              patchInventory(idx, { count: Math.max(1, Number(e.target.value) || 1) })
+                              patchInventory(idx, {
+                                count: Math.max(1, Number(e.target.value) || 1),
+                              })
                             }
                           />
-                          <button type="button" className="btn" onClick={() => removeInventory(idx)}>
+                          <button
+                            type="button"
+                            className="btn"
+                            onClick={() => removeInventory(idx)}
+                          >
                             ✕
                           </button>
                         </div>
@@ -294,7 +306,6 @@ export function EntryPointTab(props: {
                               {actor ? lookupText(actor.name, locale) : memberId}
                             </span>
                             {skillsOf(memberId).map((sid, idx) => (
-                              // biome-ignore lint/suspicious/noArrayIndexKey: 行无稳定 id,列表随 session 全量重渲染
                               <div key={idx} className="row" style={{ gap: 4, paddingLeft: 12 }}>
                                 <select
                                   className="in"

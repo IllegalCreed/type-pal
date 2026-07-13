@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
-import { encodeRleFrame, encodeSpriteChunk } from './rle-encode.js'
 import { decodeRle, parseSpriteChunk, type RleFrame } from './rle.js'
+import { encodeRleFrame, encodeSpriteChunk } from './rle-encode.js'
 
 /** 帧语义等价:w/h/opaque 全等;pixels 仅比 opaque=1 位(透明位是占位)。 */
 function expectFrameEqual(a: RleFrame, b: RleFrame): void {

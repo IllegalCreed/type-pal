@@ -6,6 +6,7 @@
  * (一阶段三类坑的架构性消解)。host 由 main.ts 注入(渲染/输入/存档的具体实现),
  * 本文件零 DOM 依赖,可用 fake host 单测。
  */
+
 import type {
   Command,
   DialogueLine,
@@ -18,6 +19,7 @@ import type {
   WorldScriptState,
 } from '@type-pal/content'
 import { applyStageNext, pixelToGrid, stageIndexFor } from '@type-pal/content'
+import { expectDefined } from './defined.js'
 import type { ResolvedScript, ScriptResolver } from './script-chunk-store.js'
 
 export type ScriptBinding = ScriptStage[] | ScriptRef
@@ -52,7 +54,10 @@ export interface ScriptHost {
   /** 0x65:换角色大世界精灵(异步:精灵可能需加载)。持续到下一次显式切换。 */
   setActorSprite(actor: string, sprite: string): Promise<void>
   /** 0x1A:持久改角色形象(写 CharacterInstance.appearance,随存档;成年灵儿)。缺 = 该 host 不支持。 */
-  setActorAppearance?(actor: string, patch: { spriteId?: string; portrait?: number; battleSprite?: number }): Promise<void>
+  setActorAppearance?(
+    actor: string,
+    patch: { spriteId?: string; portrait?: number; battleSprite?: number },
+  ): Promise<void>
   /** 战斗演出:敌逃离战场(choreography 专用;大世界 host 打日志跳过)。 */
   fleeBattle(): void
   setEntityState(entity: string, state: number): void
@@ -264,9 +269,12 @@ export class ScriptRunner {
     private readonly resolver?: ScriptResolver,
   ) {}
 
-  private async runBody(body: readonly Command[], path: readonly (number | string)[]): Promise<void> {
+  private async runBody(
+    body: readonly Command[],
+    path: readonly (number | string)[],
+  ): Promise<void> {
     for (let i = 0; i < body.length; i++) {
-      const cmd = body[i]!
+      const cmd = expectDefined(body[i])
       throwIfAborted(this.signal)
       if (this.gate) {
         await this.gate()
@@ -346,7 +354,11 @@ export class ScriptRunner {
     }
   }
 
-  private async callScript(ref: ScriptRef, selfId: string | undefined, path: readonly (number | string)[]): Promise<void> {
+  private async callScript(
+    ref: ScriptRef,
+    selfId: string | undefined,
+    path: readonly (number | string)[],
+  ): Promise<void> {
     if (this.callDepth >= ScriptRunner.MAX_CALL_DEPTH)
       throw new Error(
         `ScriptRunner: callScript 调用深度超过 ${ScriptRunner.MAX_CALL_DEPTH}(目标 ${ref.chunk}:${ref.id})`,
@@ -436,7 +448,8 @@ export class ScriptRunner {
       // ── 批 4:runLegacyOp 兜底 op 具名化(逻辑同 runLegacyOp,退役双解释器)──
       case 'setEntityPos': {
         // 0x13 实体绝对定位:持久写 entityPos + 活体生效(host)
-        ;(this.world.entityPos ??= {})[cmd.entity] = {
+        this.world.entityPos ??= {}
+        this.world.entityPos[cmd.entity] = {
           col: cmd.pos.col,
           row: cmd.pos.row,
           height: cmd.pos.height ?? 0,
@@ -454,7 +467,8 @@ export class ScriptRunner {
         this.world.vars['sys:waveProgression'] = cmd.progression
         return
       case 'setEntityLayer':
-        ;(this.world.entityLayer ??= {})[cmd.entity] = cmd.layer
+        this.world.entityLayer ??= {}
+        this.world.entityLayer[cmd.entity] = cmd.layer
         return
       case 'increaseHpMp':
         h.increaseHpMp?.(cmd.delta)
@@ -477,10 +491,14 @@ export class ScriptRunner {
       case 'setMapOverride':
         if (cmd.scene === undefined) {
           const cur = h.query.sceneId?.()
-          if (cur) (this.world.mapOverride ??= {})[cur] = cmd.mapNum
+          if (cur) {
+            this.world.mapOverride ??= {}
+            this.world.mapOverride[cur] = cmd.mapNum
+          }
           return h.reloadMap?.(cmd.mapNum)
         }
-        ;(this.world.mapOverride ??= {})[cmd.scene] = cmd.mapNum
+        this.world.mapOverride ??= {}
+        this.world.mapOverride[cmd.scene] = cmd.mapNum
         return
       case 'halveMoney': {
         const money = h.query.money()
@@ -588,7 +606,8 @@ export class ScriptRunner {
         return h.setEntityAuto(cmd.entity, cmd.script ?? cmd.stages)
       case 'setSceneOnTeleport':
         // 0x6D op2:运行时装场景传送出口 → 持久写 world(teleportOut/引路蜂菜单读覆写优先)
-        ;(this.world.onTeleport ??= {})[cmd.scene] = cmd.script ?? cmd.stages
+        this.world.onTeleport ??= {}
+        this.world.onTeleport[cmd.scene] = cmd.script ?? cmd.stages
         return
       case 'setEntityTrigger':
         return h.setEntityTrigger(cmd.entity, cmd.script ?? cmd.stages)
@@ -697,10 +716,14 @@ export class ScriptRunner {
         const mapNum = b
         if (a === 0xffff) {
           const cur = h.query.sceneId?.()
-          if (cur) (this.world.mapOverride ??= {})[cur] = mapNum
+          if (cur) {
+            this.world.mapOverride ??= {}
+            this.world.mapOverride[cur] = mapNum
+          }
           await h.reloadMap?.(mapNum)
         } else {
-          ;(this.world.mapOverride ??= {})[`s${String(a - 1).padStart(3, '0')}`] = mapNum
+          this.world.mapOverride ??= {}
+          this.world.mapOverride[`s${String(a - 1).padStart(3, '0')}`] = mapNum
         }
         return
       }
@@ -724,7 +747,10 @@ export class ScriptRunner {
         // 实体图层(一阶段 OP_SET_OBJECT_LAYER:sLayer=int16(op1),**只进深度排序键** +8px/层)。
         // 写 world.script.entityLayer,render 每帧直读(跨场景/存档天然持久)
         const ent = a === 0 || a === 0xffff ? this.selfId : `e${a - 1}`
-        if (ent) (this.world.entityLayer ??= {})[ent] = i16(b)
+        if (ent) {
+          this.world.entityLayer ??= {}
+          this.world.entityLayer[ent] = i16(b)
+        }
         return
       }
       case 0x8f: {

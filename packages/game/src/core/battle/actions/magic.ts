@@ -35,7 +35,12 @@ import {
 } from '../anim-timeline.js'
 import { playerRestFrame, startBattleAnim } from '../battle-anim-driver.js'
 import type { BattleAnimFrame, BattleState } from '../battle-state.js'
-import { applyEnemyMagicDamage, applyMagicDamage, magicForcesAllTarget, rollAutoDefend } from '../magic-damage.js'
+import {
+  applyEnemyMagicDamage,
+  applyMagicDamage,
+  magicForcesAllTarget,
+  rollAutoDefend,
+} from '../magic-damage.js'
 import { explainMagicObjectResolution, resolveMagicObject } from '../magic-object.js'
 
 /** 注入的 runScript 函数(T17 free function `runScript`,测试可 mock)。 */
@@ -123,11 +128,17 @@ export interface PerformMagicInput {
 export function performMagic(input: PerformMagicInput): void {
   const resolved = resolveMagicObject(input.spellId, input.spells, input.magics, input.objectMagics)
   if (!resolved) {
-    const miss = explainMagicObjectResolution(input.spellId, input.spells, input.magics, input.objectMagics)
+    const miss = explainMagicObjectResolution(
+      input.spellId,
+      input.spells,
+      input.magics,
+      input.objectMagics,
+    )
     if (miss?.reason === 'magicNotFound')
-      console.warn(`[magic] magic ${miss.magicNumber} (spell ${input.spellId}) not found in Magic table`)
-    else
-      console.warn(`[magic] spell id ${input.spellId} not found`)
+      console.warn(
+        `[magic] magic ${miss.magicNumber} (spell ${input.spellId}) not found in Magic table`,
+      )
+    else console.warn(`[magic] spell id ${input.spellId} not found`)
     return
   }
   const { spell, magic } = resolved
@@ -165,7 +176,8 @@ export function performMagic(input: PerformMagicInput): void {
   if (input.gs) {
     if (!input.casterIsEnemy) {
       const casterRoleId = input.state.players[input.casterIdx]?.roleId
-      pendingCastSound = casterRoleId !== undefined ? (input.playerRoles.roles[casterRoleId]?.magicSound ?? 0) : 0
+      pendingCastSound =
+        casterRoleId !== undefined ? (input.playerRoles.roles[casterRoleId]?.magicSound ?? 0) : 0
     } else {
       // DL10:敌施法音在前移两步滑步(各 Delay(1))**之后**播(fight.c:4680-4695)——建链路径
       //   挂 intro 帧同步(见 buildAndStartEnemyMagicAnim);此处仅记下,未建链(旧 fixture)回落即时播。
@@ -202,8 +214,7 @@ export function performMagic(input: PerformMagicInput): void {
   const pendingNums: PendingDamageNums = []
   const pendingScreenShake: { time: number; level: number } = { time: 0, level: 0 }
   const runMagicScript = (scriptId: number): void => {
-    if (scriptId === 0)
-      return // scriptOnUse / scriptOnSuccess = 0 → 无脚本,skip(sdlpal RunTriggerScript(0) 即返回)
+    if (scriptId === 0) return // scriptOnUse / scriptOnSuccess = 0 → 无脚本,skip(sdlpal RunTriggerScript(0) 即返回)
     input.runScript({
       commands: input.commands,
       ip: scriptId,
@@ -235,12 +246,12 @@ export function performMagic(input: PerformMagicInput): void {
   //   复合法术先把玩家催眠再结算时,不剥夺 1/3 概率减伤资格,RNG 抽取序也对齐 C。
   let preRolledAutoDefend: Map<number, boolean> | undefined
   if (input.casterIsEnemy && asShort(magic.baseDamage) > 0) {
-    const adTarget: number | 'all' = magic.type === 'normal' ? (typeof input.targetIdx === 'number' ? input.targetIdx : 0) : 'all'
+    const adTarget: number | 'all' =
+      magic.type === 'normal' ? (typeof input.targetIdx === 'number' ? input.targetIdx : 0) : 'all'
     const adIdxs: number[] = adTarget === 'all' ? input.state.players.map((_, i) => i) : [adTarget]
     preRolledAutoDefend = rollAutoDefend(input.state, input.playerRoles, adTarget, adIdxs)
   }
-  if (input.gs)
-    input.gs.fScriptSuccess = true
+  if (input.gs) input.gs.fScriptSuccess = true
   runMagicScript(spell.scriptOnUse)
   const scriptUseSuccess = input.gs ? input.gs.fScriptSuccess : true
 
@@ -251,9 +262,13 @@ export function performMagic(input: PerformMagicInput): void {
   if (!scriptUseSuccess) {
     // fizzle(道具/钱不足):sdlpal 前摇动画+施法音已在 scriptOnUse 之前播(fight.c:4184 vs 4215),故仍播施法音
     //   (保持忠实 sdlpal;user 选"只改略快、fizzle 仍播")。ts 此时无前摇动画可挂 → 即时播。
-    if (pendingCastSound > 0 && input.gs) (input.gs.pendingSounds ??= []).push(pendingCastSound)
+    if (pendingCastSound > 0 && input.gs) {
+      input.gs.pendingSounds ??= []
+      input.gs.pendingSounds.push(pendingCastSound)
+    }
     // scriptOnUse 阶段若已 collect 数字(罕见)→ 无后续动画可挂,即时 emit(不丢)。
-    for (const dn of pendingNums) input.bus.emit({ op: 'showDamageNum', target: dn.target, value: dn.value, color: dn.color })
+    for (const dn of pendingNums)
+      input.bus.emit({ op: 'showDamageNum', target: dn.target, value: dn.value, color: dn.color })
     return
   }
 
@@ -270,16 +285,17 @@ export function performMagic(input: PerformMagicInput): void {
   //   此处不再 cast 起手立即 push(那样比效果动画提前,user 2026-06-03 报"音效没对齐")。其余类型在派发后即时 push。
   // 每次 PAL_RunTriggerScript 入口重置 g_fScriptSuccess=TRUE(script.c:3187)——
   // scriptOnSuccess 的成功旗子独立于 scriptOnUse 结果。
-  const tranceSpriteBefore = (!input.casterIsEnemy && magic.type === 'trance')
-    ? input.state.players[input.casterIdx]?.spriteNumOverride
-    : undefined
-  if (input.gs)
-    input.gs.fScriptSuccess = true
+  const tranceSpriteBefore =
+    !input.casterIsEnemy && magic.type === 'trance'
+      ? input.state.players[input.casterIdx]?.spriteNumOverride
+      : undefined
+  if (input.gs) input.gs.fScriptSuccess = true
   runMagicScript(spell.scriptOnSuccess)
   const scriptSuccess = input.gs ? input.gs.fScriptSuccess : true
-  const tranceSpriteAfter = (!input.casterIsEnemy && magic.type === 'trance')
-    ? input.state.players[input.casterIdx]?.spriteNumOverride
-    : undefined
+  const tranceSpriteAfter =
+    !input.casterIsEnemy && magic.type === 'trance'
+      ? input.state.players[input.casterIdx]?.spriteNumOverride
+      : undefined
 
   // —— E1:inline 攻击法术伤害结算(player→enemy) ——
   // sdlpal `fight.c:4245-4318`(PAL_BattleCommitAction kBattleActionMagic offensive 分支):
@@ -301,7 +317,12 @@ export function performMagic(input: PerformMagicInput): void {
   // 敌方法术受伤的队员 idx(受击动画 fight.c:4861-4899 用;E2 填)。
   const hitPlayerIdxs: number[] = []
   const autoDefendIdxs: number[] = [] // L16:被动格挡的队员(敌魔法特效期间摆防御姿 frame3)
-  let dmgResults: ReadonlyArray<{ enemyIdx: number; hpBefore: number; hpAfter: number; damage: number }> = []
+  let dmgResults: ReadonlyArray<{
+    enemyIdx: number
+    hpBefore: number
+    hpAfter: number
+    damage: number
+  }> = []
   if (
     !input.casterIsEnemy &&
     !DEFENSIVE_MAGIC_TYPES.has(magic.type) &&
@@ -327,7 +348,11 @@ export function performMagic(input: PerformMagicInput): void {
     //   fight.c:4805,见下方 enemy 分支。)延迟到魔法特效播完才 emit(见 pendingNums 注释)。
     for (const r of dmgResults) {
       if (r.hpAfter < r.hpBefore) {
-        pendingNums.push({ target: { kind: 'enemy', idx: r.enemyIdx }, value: r.damage, color: 'blue' })
+        pendingNums.push({
+          target: { kind: 'enemy', idx: r.enemyIdx },
+          value: r.damage,
+          color: 'blue',
+        })
       }
     }
   }
@@ -340,10 +365,7 @@ export function performMagic(input: PerformMagicInput): void {
   //   忠实 sdlpal fight.c:4772 —— 只看 baseDamage,不限 magic.type;治疗类 baseDamage<=0 自然排除,
   //   summon 类 baseDamage>0 也结算)。target:`type==normal → 单体`,否则全体队员(fight.c:4719
   //   `if (type != kMagicTypeNormal) sTarget=-1`)。之前敌方攻击魔法只播动画不结算伤害 → 本块补齐。
-  if (
-    input.casterIsEnemy &&
-    asShort(magic.baseDamage) > 0
-  ) {
+  if (input.casterIsEnemy && asShort(magic.baseDamage) > 0) {
     const target: number | 'all' = magic.type === 'normal' ? input.targetIdx : 'all'
     // L20:rngFactor 由 applyEnemyMagicDamage **循环内逐队员掷**(sdlpal fight.c:4793 逐队员调),不再共用。
     const enemyDmg = applyEnemyMagicDamage({
@@ -357,7 +379,11 @@ export function performMagic(input: PerformMagicInput): void {
     // 掉血 → blue(sdlpal PAL_BattleDisplayStatChange);用钳后真实 delta。延迟到特效播完、受击反应开始时 emit。
     for (const r of enemyDmg) {
       if (r.hpAfter < r.hpBefore) {
-        pendingNums.push({ target: { kind: 'player', idx: r.playerIdx }, value: r.hpBefore - r.hpAfter, color: 'blue' })
+        pendingNums.push({
+          target: { kind: 'player', idx: r.playerIdx },
+          value: r.hpBefore - r.hpAfter,
+          color: 'blue',
+        })
         hitPlayerIdxs.push(r.playerIdx) // 受伤队员 → 受击动画(fight.c:4861-4899)
       }
       if (r.autoDefend) autoDefendIdxs.push(r.playerIdx) // L16:被动格挡 → 防御姿 frame3
@@ -379,16 +405,25 @@ export function performMagic(input: PerformMagicInput): void {
     } else if (magic.type === 'applyToPlayer' || magic.type === 'applyToParty') {
       built = buildAndStartDefMagicAnim(input, magic, pendingNums)
     } else if (magic.type === 'trance') {
-      built = scriptSuccess && buildAndStartTranceAnim(input, pendingNums, {
-        spriteBefore: tranceSpriteBefore,
-        spriteAfter: tranceSpriteAfter,
-      })
+      built =
+        scriptSuccess &&
+        buildAndStartTranceAnim(input, pendingNums, {
+          spriteBefore: tranceSpriteBefore,
+          spriteAfter: tranceSpriteAfter,
+        })
     } else if (magic.type === 'summon') {
       // 召唤魔法(火神/雷神/武神/剑神/酒神…):变亮→召唤神出场动画→二次法术效果。伤害走上方 inline 路径。
       built = buildAndStartSummonAnim(input, magic, dmgResults, pendingNums)
     }
   } else if (OFF_MAGIC_TYPES.has(magic.type)) {
-    built = buildAndStartEnemyMagicAnim(input, magic, pendingNums, hitPlayerIdxs, pendingScreenShake, autoDefendIdxs)
+    built = buildAndStartEnemyMagicAnim(
+      input,
+      magic,
+      pendingNums,
+      hitPlayerIdxs,
+      pendingScreenShake,
+      autoDefendIdxs,
+    )
   }
 
   // M6 玩家施法音 pendingCastSound:OffMagic/Summon/Trance 成功建链 → 已在前摇"施法姿"帧帧同步
@@ -396,14 +431,19 @@ export function performMagic(input: PerformMagicInput): void {
   //   放在效果音之前 push(施法音先于效果音,顺序对齐 sdlpal)。
   // DM14 起 DefMagic 两路径也带 PreMagic 前摇(castSound 已帧同步),并入名单防双响。
   // DL10:敌方 OffMagic 建链时施法音挂 intro 滑步第 2 步帧 —— 同样并入防双响。
-  const castFrameSynced = built && (
-    (!input.casterIsEnemy && (
-      OFF_MAGIC_TYPES.has(magic.type) || magic.type === 'summon' || magic.type === 'trance'
-      || magic.type === 'applyToPlayer' || magic.type === 'applyToParty'
-    ))
-    || (input.casterIsEnemy && OFF_MAGIC_TYPES.has(magic.type))
-  )
-  if (pendingCastSound > 0 && input.gs && !castFrameSynced) (input.gs.pendingSounds ??= []).push(pendingCastSound)
+  const castFrameSynced =
+    built &&
+    ((!input.casterIsEnemy &&
+      (OFF_MAGIC_TYPES.has(magic.type) ||
+        magic.type === 'summon' ||
+        magic.type === 'trance' ||
+        magic.type === 'applyToPlayer' ||
+        magic.type === 'applyToParty')) ||
+      (input.casterIsEnemy && OFF_MAGIC_TYPES.has(magic.type)))
+  if (pendingCastSound > 0 && input.gs && !castFrameSynced) {
+    input.gs.pendingSounds ??= []
+    input.gs.pendingSounds.push(pendingCastSound)
+  }
 
   // M6 法术效果音 magic.sound:建链成功的全部路径均已挂帧同步(WIN95 式声画同步,特效首帧 i==0),
   //   **不在此 push**;仅未建链(旧 fixture / 无 sprite 资源)回落即时 push 到 gs.pendingSounds(同 0x47 通道)。
@@ -412,18 +452,22 @@ export function performMagic(input: PerformMagicInput): void {
   //   - player DefMagic(applyToPlayer/applyToParty):特效首帧(fight.c:2497-2502)
   //   - enemy OffMagic:特效首帧(fight.c:2925-2930;e.wMagicSound<0 → builder 收 0 → 整段静音,WIN95 gate)
   //   旧版 DefMagic/敌方在 dispatch 即播 → 先闻其声后见前摇(user 2026-06-13 报草妖风咒/气疗术)。
-  const soundFrameSynced = built && (
-    (!input.casterIsEnemy && (
-      OFF_MAGIC_TYPES.has(magic.type) || magic.type === 'summon'
-      || magic.type === 'applyToPlayer' || magic.type === 'applyToParty'
-    ))
-    || (input.casterIsEnemy && OFF_MAGIC_TYPES.has(magic.type))
-  )
+  const soundFrameSynced =
+    built &&
+    ((!input.casterIsEnemy &&
+      (OFF_MAGIC_TYPES.has(magic.type) ||
+        magic.type === 'summon' ||
+        magic.type === 'applyToPlayer' ||
+        magic.type === 'applyToParty')) ||
+      (input.casterIsEnemy && OFF_MAGIC_TYPES.has(magic.type)))
   // trance(变身,梦蛇 magic47 effect=0xFFFF):原版走 DefMagicAnim,但 effect 无 FIRE 资源 → l<=0 早退
   //   (fight.c:2480-2484),AUDIO_PlaySound(2501)执行不到 → magic.sound 根本不播。我们跳过 DefMagicAnim
   //   直接 colorShift 变身,故须显式不 push,否则变身时多一声 335。
   const defMagicEarlyOut = magic.type === 'trance'
-  if (magic.sound > 0 && input.gs && !soundFrameSynced && !defMagicEarlyOut) (input.gs.pendingSounds ??= []).push(magic.sound)
+  if (magic.sound > 0 && input.gs && !soundFrameSynced && !defMagicEarlyOut) {
+    input.gs.pendingSounds ??= []
+    input.gs.pendingSounds.push(magic.sound)
+  }
 
   // 未建动画链(旧 fixture / 无 sprite 资源 / 非 OFF 类型)→ 立即 emit 伤害数字(向后兼容;
   //   无动画可挂,只能即时显示)。建了链 → 由各动画分支挂到正确帧或链末。
@@ -450,7 +494,10 @@ type PendingDamageNums = NonNullable<NonNullable<BattleState['battleAnim']>['pen
  * PAL_BattleShowPostMagicAnim。因此攻击法术数字应挂在 PostMagic 第一帧,而不是整条
  * battleAnim 播完后。
  */
-function attachDamageNumsToFirstFrame(frames: BattleAnimFrame[], pendingNums: PendingDamageNums): boolean {
+function attachDamageNumsToFirstFrame(
+  frames: BattleAnimFrame[],
+  pendingNums: PendingDamageNums,
+): boolean {
   if (pendingNums.length === 0) return true
   const first = frames[0]
   if (!first) return false
@@ -566,7 +613,12 @@ function buildAndStartMagicAnim(
 
   // DM12:攻击法术收尾停顿 PAL_BattleDelay(5,0,TRUE)(fight.c:4322-4324,PostMagic 后)——
   //   数字弹出后停 ~200ms 再进下一动作。
-  const chain: BattleAnimFrame[] = [...preFrames, ...offFrames, ...postFrames, { durationMs: 5 * BATTLE_FRAME_TIME }]
+  const chain: BattleAnimFrame[] = [
+    ...preFrames,
+    ...offFrames,
+    ...postFrames,
+    { durationMs: 5 * BATTLE_FRAME_TIME },
+  ]
   startBattleAnim(input.state, chain, input.bus, numsAttached ? undefined : pendingNums)
   return true
 }
@@ -597,7 +649,10 @@ function buildAndStartSummonAnim(
 
   // PreMagic(fSummon=TRUE):上移 4 帧 + 施法姿,跳过 10 帧施法特效(fight.c:2380)。
   const preFrames = buildPreMagicTimeline({
-    casterPos: caster.posOriginal, casterIdx: input.casterIdx, castEffectFrameBase: 0, isSummon: true,
+    casterPos: caster.posOriginal,
+    casterIdx: input.casterIdx,
+    castEffectFrameBase: 0,
+    isSummon: true,
     castSound: input.playerRoles.roles[caster.roleId]?.magicSound ?? 0, // M6 施法音帧同步(修"略快")
   })
   // 全员变亮 iColorShift 1..10(fight.c:3120-3128)。
@@ -617,14 +672,21 @@ function buildAndStartSummonAnim(
       offMagicFrames = buildPlayerOffMagicTimeline({
         casterIdx: -1,
         magic: {
-          effect: secondary.effect, type: secondary.type as OffMagicType, speed: secondary.speed,
+          effect: secondary.effect,
+          type: secondary.type as OffMagicType,
+          speed: secondary.speed,
           special: secondary.special, // DM9:sLayerOffset(z 排序)—— 漏传致召唤二次法术 layerOffset 落 0
-          fireDelay: secondary.fireDelay, effectTimes: secondary.effectTimes, shake: secondary.shake,
-          xOffset: secondary.xOffset, yOffset: secondary.yOffset,
+          fireDelay: secondary.fireDelay,
+          effectTimes: secondary.effectTimes,
+          shake: secondary.shake,
+          xOffset: secondary.xOffset,
+          yOffset: secondary.yOffset,
           wave: secondary.wave,
           keepEffect: secondary.keepEffect,
         },
-        n: sn, targetIdx: -1, iBlow: input.state.iBlow,
+        n: sn,
+        targetIdx: -1,
+        iBlow: input.state.iBlow,
         baseScreenWave: input.state.field.screenWave, // L17:普通召唤 secondary 也需按战场基础屏波判定 keepEffect<9。
       })
     }
@@ -652,14 +714,18 @@ function buildAndStartSummonAnim(
   //   与 resetFightersAfterAction 同源)。挂 fadeOut 首帧 → crossfade 目标 = 复位后的正常主角,而非残留的
   //   PreMagic 施法帧(currentFrame=5)+ brighten 高亮(iColorShift=10)+ 上移 pos(user 2026-06-17 报)。
   //   防御者 sdlpal 不复位 pos(fight.c:944)。
-  const resetFighters: NonNullable<BattleAnimFrame['fighters']> = input.state.players.map((p, idx) => {
-    const d: NonNullable<BattleAnimFrame['fighters']>[number] = {
-      side: 'player', idx, iColorShift: 0,
-      currentFrame: playerRestFrame(p, input.playerRoles.roles[p.roleId]),
-    }
-    if (!p.defending && p.posOriginal) d.pos = { x: p.posOriginal.x, y: p.posOriginal.y }
-    return d
-  })
+  const resetFighters: NonNullable<BattleAnimFrame['fighters']> = input.state.players.map(
+    (p, idx) => {
+      const d: NonNullable<BattleAnimFrame['fighters']>[number] = {
+        side: 'player',
+        idx,
+        iColorShift: 0,
+        currentFrame: playerRestFrame(p, input.playerRoles.roles[p.roleId]),
+      }
+      if (!p.defending && p.posOriginal) d.pos = { x: p.posOriginal.x, y: p.posOriginal.y }
+      return d
+    },
+  )
 
   const godFrames = buildSummonGodSequence({
     spriteKey: `player-${summonChunk}`,
@@ -672,7 +738,12 @@ function buildAndStartSummonAnim(
     resetFighters,
   })
 
-  startBattleAnim(input.state, [...preFrames, ...brightenFrames, ...godFrames], input.bus, numsAttached ? undefined : pendingNums)
+  startBattleAnim(
+    input.state,
+    [...preFrames, ...brightenFrames, ...godFrames],
+    input.bus,
+    numsAttached ? undefined : pendingNums,
+  )
   if (input.state.battleAnim) input.state.battleAnim.hasSummonFade = true // present 据此在非 fade 帧快照场景
   return true
 }
@@ -685,13 +756,11 @@ function buildAndStartSummonAnim(
 function buildAndStartTranceAnim(
   input: PerformMagicInput,
   pendingNums: PendingDamageNums,
-  opts: { spriteBefore: number | undefined, spriteAfter: number | undefined },
+  opts: { spriteBefore: number | undefined; spriteAfter: number | undefined },
 ): boolean {
   const player = input.state.players[input.casterIdx]
-  if (!player)
-    return false
-  if (!player.posOriginal)
-    return false
+  if (!player) return false
+  if (!player.posOriginal) return false
   if (opts.spriteBefore === undefined) delete player.spriteNumOverride
   else player.spriteNumOverride = opts.spriteBefore
 
@@ -723,8 +792,17 @@ function buildAndStartTranceAnim(
   for (let s = 0; s < SUMMON_FADE_STEPS; s++) {
     frames.push({
       durationMs: SUMMON_FADE_STEP_MS,
-      fighters: [{ side: 'player', idx: input.casterIdx, iColorShift: 0, spriteNumOverride: newSprite }],
-      summon: { spriteKey: '', frame: 0, pos: casterPos, bgColorShift: 0, fadeStep: s, fadeDir: 'out' },
+      fighters: [
+        { side: 'player', idx: input.casterIdx, iColorShift: 0, spriteNumOverride: newSprite },
+      ],
+      summon: {
+        spriteKey: '',
+        frame: 0,
+        pos: casterPos,
+        bgColorShift: 0,
+        fadeStep: s,
+        fadeDir: 'out',
+      },
     })
   }
   startBattleAnim(input.state, [...preFrames, ...frames], input.bus, pendingNums)
@@ -877,8 +955,15 @@ function buildAndStartEnemyMagicAnim(
   const introTailIdx = introFrames.length - 1
   const introTail = introFrames[introTailIdx]
   if (autoDefendIdxs.length > 0 && introTail) {
-    const guardPoses: NonNullable<BattleAnimFrame['fighters']> = autoDefendIdxs.map((idx) => ({ side: 'player' as const, idx, currentFrame: 3 }))
-    introFrames[introTailIdx] = { ...introTail, fighters: [...(introTail.fighters ?? []), ...guardPoses] }
+    const guardPoses: NonNullable<BattleAnimFrame['fighters']> = autoDefendIdxs.map((idx) => ({
+      side: 'player' as const,
+      idx,
+      currentFrame: 3,
+    }))
+    introFrames[introTailIdx] = {
+      ...introTail,
+      fighters: [...(introTail.fighters ?? []), ...guardPoses],
+    }
   }
   // DL10a:敌施法音挂滑步第 2 步帧(fight.c:4680-4695 两步 Delay(1) 后 AUDIO_PlaySound(wMagicSound))。
   //   wMagicSound 是 SHORT,负值合法(enemies.json 实有 -503..-1)—— C 无条件调用且 AUDIO_PlaySound
@@ -890,7 +975,13 @@ function buildAndStartEnemyMagicAnim(
   // 特效前 snap 回原位(fight.c:2842 PAL_BattleShowEnemyMagicAnim 起手把全敌 pos 复位 posOriginal)。
   const posResetFrame: BattleAnimFrame = {
     durationMs: 0,
-    fighters: [{ side: 'enemy', idx: input.casterIdx, pos: { x: caster.posOriginal.x, y: caster.posOriginal.y } }],
+    fighters: [
+      {
+        side: 'enemy',
+        idx: input.casterIdx,
+        pos: { x: caster.posOriginal.x, y: caster.posOriginal.y },
+      },
+    ],
   }
   const effectFrames = buildEnemyMagicTimeline({
     enemyCasterIdx: input.casterIdx,
@@ -932,9 +1023,8 @@ function buildAndStartEnemyMagicAnim(
   })
   // 队员受击动画(fight.c:4861-4899):受伤队员 frame4 + 红闪 + 递减击退,接在特效之后。
   //   单体('normal')→ 该 target;AoE → E2 结算出的受伤队员(hitPlayerIdxs)。各取 posOriginal 复位锚。
-  const affectedIdxs = offType === 'normal'
-    ? (targetPlayerIdx >= 0 ? [targetPlayerIdx] : [])
-    : hitPlayerIdxs
+  const affectedIdxs =
+    offType === 'normal' ? (targetPlayerIdx >= 0 ? [targetPlayerIdx] : []) : hitPlayerIdxs
   const affected = affectedIdxs
     .map((idx) => ({ idx, pos: input.state.players[idx]?.posOriginal }))
     .filter((a): a is { idx: number; pos: { x: number; y: number } } => a.pos != null)
@@ -949,7 +1039,14 @@ function buildAndStartEnemyMagicAnim(
   const finaleFrames: BattleAnimFrame[] = [
     {
       durationMs: BATTLE_FRAME_TIME, // 敌复位 + Delay(1)(fight.c:4901-4903)
-      fighters: [{ side: 'enemy', idx: input.casterIdx, currentFrame: 0, pos: { x: caster.posOriginal.x, y: caster.posOriginal.y } }],
+      fighters: [
+        {
+          side: 'enemy',
+          idx: input.casterIdx,
+          currentFrame: 0,
+          pos: { x: caster.posOriginal.x, y: caster.posOriginal.y },
+        },
+      ],
     },
     {
       durationMs: 8 * BATTLE_FRAME_TIME, // UpdateFighters → Delay(8, 0, TRUE)(fight.c:4906-4908)

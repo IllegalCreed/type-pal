@@ -89,7 +89,11 @@ export function playAvi(options: PlayAviOptions): Promise<void> {
       window.removeEventListener('keydown', onKey, true)
       video.removeEventListener('ended', onEnded)
       video.removeEventListener('error', onError)
-      try { video.pause() } catch { /* ignore */ }
+      try {
+        video.pause()
+      } catch {
+        /* ignore */
+      }
       if (curVideoEl === video) curVideoEl = undefined // 解除跟踪,后续 setVideoVolume 不再触及已移除元素
       removeClickOverlay()
       if (video.parentElement) video.parentElement.removeChild(video)
@@ -126,28 +130,43 @@ export function playAvi(options: PlayAviOptions): Promise<void> {
      * 第一次成功后整个 browser session 解锁,后续 AVI 不再走 overlay 路径。
      */
     const tryPlay = (): void => {
-      void video.play().then(() => {
-        removeClickOverlay()
-      }).catch((err: unknown) => {
-        console.warn(`[avi-player] play() rejected (autoplay policy?): ${String(err)}`)
-        if (settled || clickOverlay) return
-        clickOverlay = document.createElement('div')
-        clickOverlay.textContent = '点击屏幕开始 / Click to start'
-        clickOverlay.style.cssText = [
-          'position:fixed', 'top:0', 'left:0',
-          'width:100vw', 'height:100vh',
-          'background:rgba(0,0,0,0.85)', 'color:#fff',
-          'display:flex', 'align-items:center', 'justify-content:center',
-          'font-family:sans-serif', 'font-size:24px',
-          'cursor:pointer', 'z-index:10002',
-          'user-select:none',
-        ].join(';')
-        clickOverlay.addEventListener('click', () => {
-          // user gesture 解锁后重试 — 第一次成功后整 session OK
-          tryPlay()
-        }, { once: true })
-        container.appendChild(clickOverlay)
-      })
+      void video
+        .play()
+        .then(() => {
+          removeClickOverlay()
+        })
+        .catch((err: unknown) => {
+          console.warn(`[avi-player] play() rejected (autoplay policy?): ${String(err)}`)
+          if (settled || clickOverlay) return
+          clickOverlay = document.createElement('div')
+          clickOverlay.textContent = '点击屏幕开始 / Click to start'
+          clickOverlay.style.cssText = [
+            'position:fixed',
+            'top:0',
+            'left:0',
+            'width:100vw',
+            'height:100vh',
+            'background:rgba(0,0,0,0.85)',
+            'color:#fff',
+            'display:flex',
+            'align-items:center',
+            'justify-content:center',
+            'font-family:sans-serif',
+            'font-size:24px',
+            'cursor:pointer',
+            'z-index:10002',
+            'user-select:none',
+          ].join(';')
+          clickOverlay.addEventListener(
+            'click',
+            () => {
+              // user gesture 解锁后重试 — 第一次成功后整 session OK
+              tryPlay()
+            },
+            { once: true },
+          )
+          container.appendChild(clickOverlay)
+        })
     }
 
     tryPlay()

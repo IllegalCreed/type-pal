@@ -27,7 +27,7 @@ export function resetScreenWavePhase(): void {
  */
 export function applyScreenWave(
   indices: Uint8Array,
-  gs: { wScreenWave: number, sWaveProgression: number },
+  gs: { wScreenWave: number; sWaveProgression: number },
   // DM32:false = fade-only 补帧——计数(累加/相位)不推进,只按当前值扭曲。
   advance = true,
 ): void {

@@ -131,6 +131,7 @@ export function MapMode(props: {
   }, [liveMap, activeLayerId])
 
   useEffect(() => {
+    void ownPath
     setHiddenLayerIds(new Set())
     strokeRef.current.clear()
   }, [ownPath])
@@ -153,6 +154,9 @@ export function MapMode(props: {
   }, [status, size, scene.map, loadedRef, setView])
 
   useEffect(() => {
+    // size 与 paintTick 是命令式 canvas 的显式重绘触发器。
+    void size
+    void paintTick
     if (status !== 'ready') return
     const loaded = loadedRef.current
     const ctx = canvasRef.current?.getContext('2d')
@@ -687,7 +691,7 @@ export function MapMode(props: {
           {own ? (
             <>
               <div className="field">
-                <label>尺寸</label>
+                <span className="field-label">尺寸</span>
                 {/* 左上锚定裁剪/扩展;失焦或回车提交,一次 = 一步撤销(缩图裁掉的内容 undo 可回) */}
                 <span className="size-edit">
                   <input
@@ -728,15 +732,15 @@ export function MapMode(props: {
                 </span>
               </div>
               <div className="field">
-                <label>图层</label>
+                <span className="field-label">图层</span>
                 <span className="mono">{liveMap?.layers.length ?? 0}</span>
               </div>
               <div className="field">
-                <label>文件</label>
+                <span className="field-label">文件</span>
                 <span className="mono map-file">{ownPath}</span>
               </div>
               <div className="field">
-                <label>瓦片集</label>
+                <span className="field-label">瓦片集</span>
                 <select
                   className="in"
                   title="换本图用的瓦片集(库条目;换绑不重映射瓦片索引)"
@@ -760,7 +764,7 @@ export function MapMode(props: {
                 <>
                   <h4>选中图层</h4>
                   <div className="field">
-                    <label>名称</label>
+                    <span className="field-label">名称</span>
                     <input
                       key={`${activeLayer.id}:${activeLayer.name}`}
                       className="in"
@@ -778,7 +782,7 @@ export function MapMode(props: {
                     />
                   </div>
                   <div className="field">
-                    <label>ID</label>
+                    <span className="field-label">ID</span>
                     <span className="mono">{activeLayer.id}</span>
                   </div>
                   <label className="check-row">
@@ -801,7 +805,7 @@ export function MapMode(props: {
           ) : (
             <>
               <div className="field">
-                <label>类型</label>
+                <span className="field-label">类型</span>
                 <span className="mono">复用原版 {reuseMapNum(scene.map)}(只读)</span>
               </div>
               <button type="button" className="tool" onClick={createOwnMap}>

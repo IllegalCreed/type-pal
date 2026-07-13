@@ -17,11 +17,12 @@
  * data/raw 与 data/extracted 是 gitignored —— clean checkout 时 skip + warn,不 block pnpm check
  * (同 D29 tilemap-baseline.test.ts 套路)。
  */
-import { describe, it, expect } from 'vitest'
+
 import { existsSync, readFileSync } from 'node:fs'
-import { resolve, dirname } from 'node:path'
+import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseSpriteChunk } from '@type-pal/shared'
+import { describe, expect, it } from 'vitest'
 import { decompressGzip } from './tileset-blob.js'
 
 const HERE = dirname(fileURLToPath(import.meta.url))

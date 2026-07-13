@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { applyDitherSteps, DITHER_TOTAL_STEPS } from './dither-fade.js'
 
 // sdlpal nibble-dither(video.c:1130 / battle.c:609):高 nibble 立即取 target,低 nibble 逐 outer 趟 ±1。

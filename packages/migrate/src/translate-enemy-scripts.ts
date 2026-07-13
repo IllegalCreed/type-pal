@@ -23,6 +23,7 @@ const NAME_WORD_TO_SLUG: Record<number, string> = {
   40: 'wu-hou',
   41: 'gai-luojiao',
 }
+
 import type { SourceCmd } from './source-facts.js'
 import type { TranslateCtx } from './translate-events.js'
 import { translateStages } from './translate-events.js'

@@ -25,10 +25,10 @@ import { castOverworldMagic, runMagicScriptSync } from './magic-script.js'
 
 const FIXTURE_COMMANDS: Command[] = [
   // L_43016 气疗术 scriptOnSuccess(idx 0)
-  { op: 'raw', opcode: 0x1B, operands: [0, 75, 0], label: 'L_43016' },
+  { op: 'raw', opcode: 0x1b, operands: [0, 75, 0], label: 'L_43016' },
   { op: 'end' },
   // L_39554 五气朝元 scriptOnSuccess(idx 2)
-  { op: 'raw', opcode: 0x1B, operands: [1, 300, 0], label: 'L_39554' },
+  { op: 'raw', opcode: 0x1b, operands: [1, 300, 0], label: 'L_39554' },
   { op: 'end' },
   // L_43024 还魂咒 scriptOnSuccess(idx 4)
   { op: 'raw', opcode: 0x22, operands: [0, 1, 0], label: 'L_43024' },
@@ -37,27 +37,33 @@ const FIXTURE_COMMANDS: Command[] = [
   { op: 'raw', opcode: 0x22, operands: [0, 3, 0], label: 'L_43026' },
   { op: 'end' },
   // L_500 MP-only test(idx 8)— OP_INCREASE_MP +20
-  { op: 'raw', opcode: 0x1C, operands: [0, 20, 0], label: 'L_500' },
+  { op: 'raw', opcode: 0x1c, operands: [0, 20, 0], label: 'L_500' },
   { op: 'end' },
   // L_501 HP+MP test(idx 10)— OP_INCREASE_HP_MP +10
-  { op: 'raw', opcode: 0x1D, operands: [0, 10, 0], label: 'L_501' },
+  { op: 'raw', opcode: 0x1d, operands: [0, 10, 0], label: 'L_501' },
   { op: 'end' },
   // L_502 multi-op chain(idx 12)— HP-50(0xFFCE = -50 as SHORT)→ revive 10% → end
   // 注:pal-extract dump 真值 operand 是 unsigned WORD(0..65535),signExtendI16
   // 在 runner 内做 (SHORT)cast。fixture 必须用 unsigned 表达 — `-50` 直接传会被
   // JS 32-bit bitwise 误判;65486 = 65536 - 50 = 0xFFCE = -50 的 WORD 表示。
-  { op: 'raw', opcode: 0x1B, operands: [0, 65486, 0], label: 'L_502' },
+  { op: 'raw', opcode: 0x1b, operands: [0, 65486, 0], label: 'L_502' },
   { op: 'raw', opcode: 0x22, operands: [0, 1, 0] },
   { op: 'end' },
   // L_503 unknown opcode skip(idx 15)
-  { op: 'raw', opcode: 0xFE, operands: [0, 0, 0], label: 'L_503' },
-  { op: 'raw', opcode: 0x1B, operands: [0, 5, 0] },
+  { op: 'raw', opcode: 0xfe, operands: [0, 0, 0], label: 'L_503' },
+  { op: 'raw', opcode: 0x1b, operands: [0, 5, 0] },
   { op: 'end' },
 ] as Command[]
 
 const FIXTURE_LABELS: Record<string, number> = {
-  L_43016: 0, L_39554: 2, L_43024: 4, L_43026: 6,
-  L_500: 8, L_501: 10, L_502: 12, L_503: 15,
+  L_43016: 0,
+  L_39554: 2,
+  L_43024: 4,
+  L_43026: 6,
+  L_500: 8,
+  L_501: 10,
+  L_502: 12,
+  L_503: 15,
 }
 
 function mkGs() {
@@ -114,7 +120,7 @@ describe('runMagicScriptSync - opcode 0x1B OP_INCREASE_HP', () => {
 
   it('五气朝元 chain (HP+300 applyToAll) → 全队活着的 +300 clamp', () => {
     const gs = mkGs()
-    const ok = runMagicScriptSync(gs, 39554, 0xFFFF)
+    const ok = runMagicScriptSync(gs, 39554, 0xffff)
     expect(ok).toBe(true)
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(200) // 50+300=350 clamp 200
     expect(gs.PlayerRolesRuntime.rgwHP[1]).toBe(200) // 100+300 clamp
@@ -124,7 +130,7 @@ describe('runMagicScriptSync - opcode 0x1B OP_INCREASE_HP', () => {
   it('applyToAll skip dead role(sdlpal applyHPMPDeltaAll 真值)', () => {
     const gs = mkGs()
     gs.PlayerRolesRuntime.rgwHP[1] = 0 // role 1 dead
-    runMagicScriptSync(gs, 39554, 0xFFFF)
+    runMagicScriptSync(gs, 39554, 0xffff)
     expect(gs.PlayerRolesRuntime.rgwHP[1]).toBe(0) // 死不复活(0x1B 真值跳过 HP==0)
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(200)
     expect(gs.PlayerRolesRuntime.rgwHP[2]).toBe(200)
@@ -132,7 +138,7 @@ describe('runMagicScriptSync - opcode 0x1B OP_INCREASE_HP', () => {
 
   it('single target=0xFFFF 但 applyAll=false → skip(防越界)', () => {
     const gs = mkGs()
-    runMagicScriptSync(gs, 43016, 0xFFFF) // 真值需要 role id,0xFFFF 跳过
+    runMagicScriptSync(gs, 43016, 0xffff) // 真值需要 role id,0xFFFF 跳过
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(50) // unchanged
   })
 
@@ -256,7 +262,7 @@ describe('runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER', () => {
 
   it('revive applyToAll 全活 → runner return false', () => {
     const gs = mkGs() // 全活
-    const ok = runMagicScriptSync(gs, 39554, 0xFFFF) // 用 39554 fixture? — 是 0x1B,不对
+    const ok = runMagicScriptSync(gs, 39554, 0xffff) // 用 39554 fixture? — 是 0x1B,不对
     // 改用 L_500 之外的真 revive applyToAll 测,新加 fixture L_504
     void ok
   })
@@ -266,28 +272,24 @@ describe('runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER', () => {
 describe('runMagicScriptSync - revive applyToAll g_fScriptSuccess', () => {
   it('revive applyToAll 全活 → return false', () => {
     // P2#5:label 'L_77777' 在全局数组 idx 0 → setGlobalEvents 由 label 字段建 map(L_77777 → 0)。
-    setGlobalEvents(
-      [
-        { op: 'raw', opcode: 0x22, operands: [1, 1, 0], label: 'L_77777' },
-        { op: 'end' },
-      ] as Command[],
-    )
+    setGlobalEvents([
+      { op: 'raw', opcode: 0x22, operands: [1, 1, 0], label: 'L_77777' },
+      { op: 'end' },
+    ] as Command[])
     const gs = mkGs() // 全活
-    const ok = runMagicScriptSync(gs, 77777, 0xFFFF)
+    const ok = runMagicScriptSync(gs, 77777, 0xffff)
     expect(ok).toBe(false) // 全活
     setGlobalEvents([])
   })
 
   it('revive applyToAll 至少 1 死 → return true', () => {
-    setGlobalEvents(
-      [
-        { op: 'raw', opcode: 0x22, operands: [1, 1, 0], label: 'L_77778' },
-        { op: 'end' },
-      ] as Command[],
-    )
+    setGlobalEvents([
+      { op: 'raw', opcode: 0x22, operands: [1, 1, 0], label: 'L_77778' },
+      { op: 'end' },
+    ] as Command[])
     const gs = mkGs()
     gs.PlayerRolesRuntime.rgwHP[1] = 0 // role 1 dead
-    const ok = runMagicScriptSync(gs, 77778, 0xFFFF)
+    const ok = runMagicScriptSync(gs, 77778, 0xffff)
     expect(ok).toBe(true)
     expect(gs.PlayerRolesRuntime.rgwHP[1]).toBe(20) // 200 * 1/10
     setGlobalEvents([])
@@ -347,8 +349,15 @@ describe('castOverworldMagic - 双层 script', () => {
     return {
       id: 0,
       magicNumber: 33,
-      scriptOnUse, scriptOnSuccess, scriptDesc: 0,
-      flags: { usableOutsideBattle: true, usableInBattle: false, usableToEnemy: false, applyToAll: false },
+      scriptOnUse,
+      scriptOnSuccess,
+      scriptDesc: 0,
+      flags: {
+        usableOutsideBattle: true,
+        usableInBattle: false,
+        usableToEnemy: false,
+        applyToAll: false,
+      },
       _name: 'test',
     } as unknown as Spell
   }

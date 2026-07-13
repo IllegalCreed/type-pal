@@ -44,21 +44,21 @@ const SCENE_FIELDS = SCENE_SIZE / 2 // = 4 u16 slots
 
 export interface EventObject {
   // 字段顺序对应 sdlpal global.h tagEVENTOBJECT [0..15]
-  vanishTime: number             // [0]  sVanishTime           signed i16
-  x: number                      // [1]  x                     u16
-  y: number                      // [2]  y                     u16
-  layer: number                  // [3]  sLayer                signed i16
-  triggerScript: number          // [4]  wTriggerScript        u16
-  autoScript: number             // [5]  wAutoScript           u16
-  state: number                  // [6]  sState                signed i16
-  triggerMode: number            // [7]  wTriggerMode          u16
-  spriteNum: number              // [8]  wSpriteNum            u16
-  nSpriteFrames: number          // [9]  nSpriteFrames         u16
-  direction: number              // [10] wDirection            u16
-  currentFrameNum: number        // [11] wCurrentFrameNum      u16
-  scriptIdleFrame: number        // [12] nScriptIdleFrame      u16
-  spritePtrOffset: number        // [13] wSpritePtrOffset      u16 (runtime)
-  nSpriteFramesAuto: number      // [14] nSpriteFramesAuto     u16
+  vanishTime: number // [0]  sVanishTime           signed i16
+  x: number // [1]  x                     u16
+  y: number // [2]  y                     u16
+  layer: number // [3]  sLayer                signed i16
+  triggerScript: number // [4]  wTriggerScript        u16
+  autoScript: number // [5]  wAutoScript           u16
+  state: number // [6]  sState                signed i16
+  triggerMode: number // [7]  wTriggerMode          u16
+  spriteNum: number // [8]  wSpriteNum            u16
+  nSpriteFrames: number // [9]  nSpriteFrames         u16
+  direction: number // [10] wDirection            u16
+  currentFrameNum: number // [11] wCurrentFrameNum      u16
+  scriptIdleFrame: number // [12] nScriptIdleFrame      u16
+  spritePtrOffset: number // [13] wSpritePtrOffset      u16 (runtime)
+  nSpriteFramesAuto: number // [14] nSpriteFramesAuto     u16
   scriptIdleFrameCountAuto: number // [15] wScriptIdleFrameCountAuto u16
   raw: Uint16Array
 }
@@ -108,21 +108,21 @@ function parseEventObjects(chunk: Uint8Array): EventObject[] {
     }
 
     result.push({
-      vanishTime:    readI16(view, base + 0),   // [0]  sVanishTime           signed
-      x:             readU16(view, base + 2),   // [1]  x
-      y:             readU16(view, base + 4),   // [2]  y
-      layer:         readI16(view, base + 6),   // [3]  sLayer                signed
-      triggerScript: readU16(view, base + 8),   // [4]  wTriggerScript
-      autoScript:    readU16(view, base + 10),  // [5]  wAutoScript
-      state:         readI16(view, base + 12),  // [6]  sState                signed
-      triggerMode:   readU16(view, base + 14),  // [7]  wTriggerMode
-      spriteNum:     readU16(view, base + 16),  // [8]  wSpriteNum
-      nSpriteFrames:    readU16(view, base + 18), // [9]  nSpriteFrames
-      direction:        readU16(view, base + 20), // [10] wDirection
-      currentFrameNum:  readU16(view, base + 22), // [11] wCurrentFrameNum
-      scriptIdleFrame:  readU16(view, base + 24), // [12] nScriptIdleFrame
-      spritePtrOffset:  readU16(view, base + 26), // [13] wSpritePtrOffset (runtime ptr)
-      nSpriteFramesAuto:        readU16(view, base + 28), // [14] nSpriteFramesAuto
+      vanishTime: readI16(view, base + 0), // [0]  sVanishTime           signed
+      x: readU16(view, base + 2), // [1]  x
+      y: readU16(view, base + 4), // [2]  y
+      layer: readI16(view, base + 6), // [3]  sLayer                signed
+      triggerScript: readU16(view, base + 8), // [4]  wTriggerScript
+      autoScript: readU16(view, base + 10), // [5]  wAutoScript
+      state: readI16(view, base + 12), // [6]  sState                signed
+      triggerMode: readU16(view, base + 14), // [7]  wTriggerMode
+      spriteNum: readU16(view, base + 16), // [8]  wSpriteNum
+      nSpriteFrames: readU16(view, base + 18), // [9]  nSpriteFrames
+      direction: readU16(view, base + 20), // [10] wDirection
+      currentFrameNum: readU16(view, base + 22), // [11] wCurrentFrameNum
+      scriptIdleFrame: readU16(view, base + 24), // [12] nScriptIdleFrame
+      spritePtrOffset: readU16(view, base + 26), // [13] wSpritePtrOffset (runtime ptr)
+      nSpriteFramesAuto: readU16(view, base + 28), // [14] nSpriteFramesAuto
       scriptIdleFrameCountAuto: readU16(view, base + 30), // [15] wScriptIdleFrameCountAuto
       raw,
     })
@@ -151,10 +151,10 @@ function parseScenes(chunk: Uint8Array): Scene[] {
     }
 
     result.push({
-      mapNum:            readU16(view, base + 0), // [0] wMapNum
-      scriptOnEnter:     readU16(view, base + 2), // [1] wScriptOnEnter
-      scriptOnTeleport:  readU16(view, base + 4), // [2] wScriptOnTeleport
-      eventObjectIndex:  readU16(view, base + 6), // [3] wEventObjectIndex
+      mapNum: readU16(view, base + 0), // [0] wMapNum
+      scriptOnEnter: readU16(view, base + 2), // [1] wScriptOnEnter
+      scriptOnTeleport: readU16(view, base + 4), // [2] wScriptOnTeleport
+      eventObjectIndex: readU16(view, base + 6), // [3] wEventObjectIndex
       raw,
     })
   }
@@ -192,10 +192,10 @@ export function parseSss(buf: Uint8Array): Sss {
   const chunk4 = readChunk(mkf, 4)
 
   return {
-    eventObjects:   parseEventObjects(chunk0),
-    scenes:         parseScenes(chunk1),
-    objects:        parseObjects(chunk2),
+    eventObjects: parseEventObjects(chunk0),
+    scenes: parseScenes(chunk1),
+    objects: parseObjects(chunk2),
     messageOffsets: parseMessageOffsets(chunk3),
-    bytecode:       chunk4,
+    bytecode: chunk4,
   }
 }

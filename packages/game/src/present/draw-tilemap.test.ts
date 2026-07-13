@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest'
 import type { Tilemap } from '@type-pal/shared'
-import { createFramebuffer } from './framebuffer.js'
+import { describe, expect, it } from 'vitest'
 import { drawTilemap, repairTilemapSeams, type TileImages } from './draw-tilemap.js'
+import { createFramebuffer } from './framebuffer.js'
 
 describe('drawTilemap', () => {
   it('lower (h=0) 画在 (-16,-8) 子行;upper (h=1) 画在 col/row baseline', () => {
@@ -23,7 +23,8 @@ describe('drawTilemap', () => {
       },
     }
     const map: Tilemap = {
-      width: 1, height: 1,
+      width: 1,
+      height: 1,
       cells: [[{ lower: 1, upper: 2 }]],
       tileset: 'fake',
     }
@@ -47,14 +48,15 @@ describe('drawTilemap', () => {
       },
     }
     const map: Tilemap = {
-      width: 1, height: 1,
+      width: 1,
+      height: 1,
       cells: [[{ lower: 5, upper: 0 }]],
       tileset: 'fake',
     }
     drawTilemap(fb, map, tiles, { x: 0, y: 0 }, 0)
     // 中心格 lower id 5 + fence 8 圈每圈 lower+upper 都 fenceFill=5。
     // 调用次数远 > 1 即证明 fence 触发(无 fence 时 layer 0 只会拿 1 次 id 5)。
-    expect((callCounts.get(5) ?? 0)).toBeGreaterThan(1)
+    expect(callCounts.get(5) ?? 0).toBeGreaterThan(1)
   })
 
   it('±1 fence:layer 1 fence 位置 fallback = -1,fence 不调 tiles.get', () => {
@@ -65,10 +67,14 @@ describe('drawTilemap', () => {
     const fb = createFramebuffer()
     const calls: number[] = []
     const tiles: TileImages = {
-      get(idx) { calls.push(idx); return undefined },
+      get(idx) {
+        calls.push(idx)
+        return undefined
+      },
     }
     const map: Tilemap = {
-      width: 1, height: 1,
+      width: 1,
+      height: 1,
       cells: [[{ lower: 0, upper: 0xff0000 }]],
       tileset: 'fake',
     }
@@ -82,11 +88,15 @@ describe('drawTilemap', () => {
     const fb = createFramebuffer()
     const captured: number[] = []
     const tiles: TileImages = {
-      get(idx) { captured.push(idx); return undefined },
+      get(idx) {
+        captured.push(idx)
+        return undefined
+      },
     }
     // d=0x1010 → low8=0x10, (d>>4)&0x100=0x100 → id=0x110
     const map: Tilemap = {
-      width: 1, height: 1,
+      width: 1,
+      height: 1,
       cells: [[{ lower: 0x1010, upper: 0 }]],
       tileset: 'fake',
     }
@@ -98,13 +108,17 @@ describe('drawTilemap', () => {
     const fb = createFramebuffer()
     const captured: number[] = []
     const tiles: TileImages = {
-      get(idx) { captured.push(idx); return undefined },
+      get(idx) {
+        captured.push(idx)
+        return undefined
+      },
     }
     // d=0x10100000:高 16 = 0x1010 → 同上算 id 0x110,再 -1 = 0x10F
     const cellWithTop = { lower: 0x10100000, upper: 0 }
     const cellNoTop = { lower: 0x10, upper: 0 } // 高 16 = 0 → id = -1 skip
     const map: Tilemap = {
-      width: 2, height: 1,
+      width: 2,
+      height: 1,
       cells: [[cellWithTop, cellNoTop]],
       tileset: 'fake',
     }
@@ -119,12 +133,19 @@ describe('drawTilemap', () => {
     const fb = createFramebuffer()
     const tiles: TileImages = {
       get(idx) {
-        if (idx === 1) return { width: 4, height: 4, indices: new Uint8Array(16).fill(1), opaque: new Uint8Array(16).fill(1) }
+        if (idx === 1)
+          return {
+            width: 4,
+            height: 4,
+            indices: new Uint8Array(16).fill(1),
+            opaque: new Uint8Array(16).fill(1),
+          }
         return undefined
       },
     }
     const map: Tilemap = {
-      width: 1, height: 1,
+      width: 1,
+      height: 1,
       cells: [[{ lower: 1, upper: 0 }]],
       tileset: 'fake',
     }
@@ -132,7 +153,7 @@ describe('drawTilemap', () => {
     // camera=(-160,-112) → cell(0,0) lower(h=0) 落 (144,104),4×4 不透明 tile 1。
     drawTilemap(fb, map, tiles, { x: -160, y: -112 }, 0, coverage)
     expect(coverage[104 * 320 + 144]).toBe(1) // 画过 → 标记
-    expect(coverage[0]).toBe(0)               // 远处未画 → 不标记
+    expect(coverage[0]).toBe(0) // 远处未画 → 不标记
   })
 })
 
@@ -154,8 +175,10 @@ describe('repairTilemapSeams(瓦片接缝漏黑修复——血池"黑色三角"�
   it('已覆盖像素保持不变,即使其值为 0(合法的不透明 index-0,不能当漏黑)', () => {
     const fb = createFramebuffer(2, 1)
     const coverage = new Uint8Array(2)
-    fb.writePixel(0, 0, 0); coverage[0] = 1 // 瓦片真画的 opaque index-0
-    fb.writePixel(1, 0, 9); coverage[1] = 1
+    fb.writePixel(0, 0, 0)
+    coverage[0] = 1 // 瓦片真画的 opaque index-0
+    fb.writePixel(1, 0, 9)
+    coverage[1] = 1
     repairTilemapSeams(fb, coverage)
     expect(fb.indices[0]).toBe(0) // 不被邻居 9 污染
     expect(fb.indices[1]).toBe(9)
@@ -165,8 +188,10 @@ describe('repairTilemapSeams(瓦片接缝漏黑修复——血池"黑色三角"�
     // 5×1:两端覆盖(值 3),中间 3 px 未覆盖 → 需多趟扩散填满。
     const fb = createFramebuffer(5, 1)
     const coverage = new Uint8Array(5)
-    fb.writePixel(0, 0, 3); coverage[0] = 1
-    fb.writePixel(4, 0, 3); coverage[4] = 1
+    fb.writePixel(0, 0, 3)
+    coverage[0] = 1
+    fb.writePixel(4, 0, 3)
+    coverage[4] = 1
     repairTilemapSeams(fb, coverage)
     expect([...fb.indices]).toEqual([3, 3, 3, 3, 3])
   })

@@ -8,9 +8,7 @@ import { decodeGbk } from '../utils/gbk.js'
 export function parseMessages(msg: Uint8Array, offsets: Uint32Array): string[] {
   const out: string[] = []
   for (let i = 0; i < offsets.length - 1; i++) {
-    // biome-ignore lint/style/noNonNullAssertion: loop bounds guarantee both reads are valid
     const start = offsets[i]!
-    // biome-ignore lint/style/noNonNullAssertion: loop bounds guarantee both reads are valid
     const end = offsets[i + 1]!
     out.push(decodeGbk(msg.subarray(start, end)))
   }

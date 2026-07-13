@@ -73,7 +73,10 @@ export interface ActivePoison {
 }
 
 /** cure 力(maxTier)能否解掉某毒(可解度秩 ≤ cure 秩)。 */
-export function poisonCurableBy(def: Pick<PoisonDef, 'curability'>, maxTier: PoisonCurability): boolean {
+export function poisonCurableBy(
+  def: Pick<PoisonDef, 'curability'>,
+  maxTier: PoisonCurability,
+): boolean {
   return POISON_CURE_RANK[def.curability] <= POISON_CURE_RANK[maxTier]
 }
 
@@ -87,7 +90,8 @@ export function applyPoisonSelf(
   poisonId: number,
   poisonDefs?: Record<number, PoisonDef>,
 ): 'cured' | 'lethal' | 'applied' {
-  const list = (host.poisons ??= [])
+  host.poisons ??= []
+  const list = host.poisons
   const def = poisonDefs?.[poisonId]
   if (def?.counters !== undefined && list.some((ap) => ap.poisonId === def.counters)) {
     host.poisons = list.filter((ap) => ap.poisonId !== def.counters)

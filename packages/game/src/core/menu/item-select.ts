@@ -8,8 +8,8 @@
  * 渲染层 draw-item-select.ts 后续接入。
  */
 
-import type { InventoryEntry } from '../game-state.js'
 import type { Item } from '@type-pal/shared'
+import type { InventoryEntry } from '../game-state.js'
 import type { SelectionMenuState } from './primitives.js'
 import { createSelectionMenu } from './primitives.js'
 
@@ -39,18 +39,24 @@ export function matchesFilter(item: Item, filter: ItemFilter): boolean {
   if (filter === 'all') return true
   const f = item.flags
   switch (filter) {
-    case 'equip': return f.equipable
-    case 'potion': return f.usable && !f.equipable && !f.throwable
-    case 'battle': return f.throwable || (f.usable && f.consuming)
+    case 'equip':
+      return f.equipable
+    case 'potion':
+      return f.usable && !f.equipable && !f.throwable
+    case 'battle':
+      return f.throwable || (f.usable && f.consuming)
     // sdlpal `kItemFlagImportant` 实际是非 sellable + 非 consuming + 非 equipable
     // 等的间接判断(M5 简版按 sellable=false 近似)。
-    case 'important': return !f.sellable && !f.equipable
+    case 'important':
+      return !f.sellable && !f.equipable
     // sdlpal play.c:266 `PAL_ItemSelectMenu(NULL, kItemFlagUsable)` 真值 — PAL_GameUseItem
     // 入口的 filter,直接按 item.flags.usable 标志。
-    case 'usable': return f.usable
+    case 'usable':
+      return f.usable
     // sdlpal uigame.c:1777 `PAL_ItemSelectMenu(PAL_SellMenu_OnItemChange, kItemFlagSellable)` —
     // PAL_SellMenu 入口 filter,只列可卖物品(kItemFlagSellable)。
-    case 'sellable': return f.sellable
+    case 'sellable':
+      return f.sellable
   }
 }
 

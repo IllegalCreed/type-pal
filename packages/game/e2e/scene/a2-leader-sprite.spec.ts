@@ -1,7 +1,7 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { bootstrap } from '../helpers/bootstrap.js'
+import { baselinePathFor, pixelDiff } from '../helpers/pixel-diff.js'
 import { snapshotCanvas } from '../helpers/snapshot.js'
-import { pixelDiff, baselinePathFor } from '../helpers/pixel-diff.js'
 
 test('a2 队长 sprite — 初始(facing=down)', async ({ page }) => {
   await bootstrap(page)

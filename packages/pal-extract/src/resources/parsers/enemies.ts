@@ -61,11 +61,7 @@ const ENEMY_SIZE = 70
  * @param objBuf   可选;SSS.MKF chunk 2 原始字节,用于反向填 `_name`
  * @param words    可选;parseWordDat 解出的名称表
  */
-export function parseEnemies(
-  enemyBuf: Uint8Array,
-  objBuf?: Uint8Array,
-  words?: Words,
-): Enemy[] {
+export function parseEnemies(enemyBuf: Uint8Array, objBuf?: Uint8Array, words?: Words): Enemy[] {
   if (enemyBuf.byteLength % ENEMY_SIZE !== 0) {
     throw new Error(
       `parseEnemies: DATA.MKF chunk 1 size ${enemyBuf.byteLength} 不能被 ENEMY_SIZE=${ENEMY_SIZE} 整除`,
@@ -173,7 +169,9 @@ export interface EnemyObject {
 export function parseEnemyObjects(objBuf: Uint8Array, words?: Words): EnemyObject[] {
   const need = (ENEMY_OBJ_START + ENEMY_OBJ_COUNT) * OBJ_SIZE
   if (objBuf.byteLength < need) {
-    throw new Error(`parseEnemyObjects: SSS chunk 2 byte length ${objBuf.byteLength} < required ${need}`)
+    throw new Error(
+      `parseEnemyObjects: SSS chunk 2 byte length ${objBuf.byteLength} < required ${need}`,
+    )
   }
   const view = new DataView(objBuf.buffer, objBuf.byteOffset, objBuf.byteLength)
   const out: EnemyObject[] = []

@@ -1,10 +1,10 @@
-import { describe, it, expect } from 'vitest'
 import type { AbstractKey, Command, InputSnapshot, Tilemap } from '@type-pal/shared'
-import { createInitialGameState, npcFromEventObject } from './core/game-state.js'
+import { describe, expect, it } from 'vitest'
 import { createCommandBus } from './core/command-bus.js'
 import { buildLabelMap } from './core/event-system.js'
+import { createInitialGameState, npcFromEventObject } from './core/game-state.js'
 import { ReplayInputSource } from './shell/input.js'
-import { tickN, type LoopContext } from './shell/main-loop.js'
+import { type LoopContext, tickN } from './shell/main-loop.js'
 
 function flatMap(w: number, h: number): Tilemap {
   const cells = Array.from({ length: h }, () =>
@@ -31,7 +31,8 @@ describe('M2 e2e:右 3 步 → Confirm → Confirm', () => {
     gs.npcs = [
       npcFromEventObject({
         id: 1,
-        x: 320, y: 160,
+        x: 320,
+        y: 160,
         spriteNum: 78,
         triggerLabel: 'L_2',
         triggerMode: 0,
@@ -51,16 +52,19 @@ describe('M2 e2e:右 3 步 → Confirm → Confirm', () => {
       snap(['Right'], [], 1), // tick 1:右
       snap(['Right'], [], 2), // tick 2:右
       snap([], ['Confirm'], 3), // tick 3:Confirm — SceneSystem 触发 NPC + 切 mode=event
-      snap([], [], 4),           // tick 4:event 模式跑 showDialog → waiting + typing
+      snap([], [], 4), // tick 4:event 模式跑 showDialog → waiting + typing
       snap([], ['Confirm'], 5), // tick 5:Confirm — typing 中 → skip-typing + line-done auto ip++ → end → setWaitingEndKey
       snap([], ['Confirm'], 6), // tick 6:Confirm — waiting-end-key → dialog-end → 清 + end → mode=explore
     ])
 
     const bus = createCommandBus()
     const ctx: LoopContext = {
-      gs, bus, input,
+      gs,
+      bus,
+      input,
       tilemap: flatMap(20, 20),
-      eventCommands: commands, labelMap,
+      eventCommands: commands,
+      labelMap,
       onPresent: () => {},
     }
 

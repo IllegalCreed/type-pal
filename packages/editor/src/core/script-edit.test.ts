@@ -5,15 +5,15 @@
 import type { Command, ScriptStage } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
+  addStageAfter,
   getCommandAt,
   insertAfterAt,
   moveAt,
   parsePath,
   removeAt,
-  updateCommandAt,
-  addStageAfter,
   removeStage,
   setStageNext,
+  updateCommandAt,
 } from './script-edit.js'
 
 const dlg = (t: string): Command => ({ kind: 'dialog', line: { text: t } })

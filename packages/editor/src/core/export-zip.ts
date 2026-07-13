@@ -8,9 +8,11 @@ import { buildZip, type ZipEntry } from './zip.js'
 async function collectDir(dir: FileSystemDirectoryHandle, prefix = ''): Promise<ZipEntry[]> {
   const out: ZipEntry[] = []
   // entries() 是 FSA 标准异步迭代器(TS lib 未收录 → 局部窄化)
-  const iter = (dir as unknown as {
-    entries(): AsyncIterable<[string, FileSystemDirectoryHandle | FileSystemFileHandle]>
-  }).entries()
+  const iter = (
+    dir as unknown as {
+      entries(): AsyncIterable<[string, FileSystemDirectoryHandle | FileSystemFileHandle]>
+    }
+  ).entries()
   for await (const [name, handle] of iter) {
     if (handle.kind === 'file') {
       const file = await (handle as FileSystemFileHandle).getFile()

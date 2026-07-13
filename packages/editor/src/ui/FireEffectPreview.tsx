@@ -65,11 +65,9 @@ export function FireEffectPreview(props: { assetBase: AssetBase; anim: SkillAnim
     let idx = 0
     let disposed = false
     const soundUrl =
-      anim.sound !== undefined && anim.sound > 0
-        ? `${assetBase.sounds}/${anim.sound}.wav`
-        : null
+      anim.sound !== undefined && anim.sound > 0 ? `${assetBase.sounds}/${anim.sound}.wav` : null
     // 单实例音效(防循环点叠加轰炸 = 作者报「音量大/不同步」的根因):重播前复位
-    if (soundUrl && (!audioRef.current || !audioRef.current.src.endsWith(`/${anim.sound}.wav`)))
+    if (soundUrl && !audioRef.current?.src.endsWith(`/${anim.sound}.wav`))
       audioRef.current = new Audio(soundUrl)
     const draw = (): void => {
       const img = frames[idx]!
@@ -111,10 +109,20 @@ export function FireEffectPreview(props: { assetBase: AssetBase; anim: SkillAnim
       {Array.isArray(frames) && (
         <>
           <div className="fp-controls">
-            <button type="button" className="mini" title={playing ? '暂停' : '播放'} onClick={() => setPlaying(!playing)}>
+            <button
+              type="button"
+              className="mini"
+              title={playing ? '暂停' : '播放'}
+              onClick={() => setPlaying(!playing)}
+            >
               {playing ? '⏸' : '▶'}
             </button>
-            <select className="in fp-rate" title="预览倍速(引擎实速 = 1×)" value={String(rate)} onChange={(e) => setRate(Number(e.target.value))}>
+            <select
+              className="in fp-rate"
+              title="预览倍速(引擎实速 = 1×)"
+              value={String(rate)}
+              onChange={(e) => setRate(Number(e.target.value))}
+            >
               <option value="0.25">0.25×</option>
               <option value="0.5">0.5×</option>
               <option value="1">1×</option>

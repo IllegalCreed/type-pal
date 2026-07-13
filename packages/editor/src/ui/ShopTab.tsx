@@ -83,12 +83,44 @@ export function ShopTab(props: {
                       </small>
                     </span>
                     <span className="ef-ops">
-                      <button type="button" className="mini" title="上移" disabled={i === 0}
-                        onClick={() => { const a = [...shop.items]; const t = a[i - 1]!; a[i - 1] = a[i]!; a[i] = t; setItems(a) }}>↑</button>
-                      <button type="button" className="mini" title="下移" disabled={i === shop.items.length - 1}
-                        onClick={() => { const a = [...shop.items]; const t = a[i + 1]!; a[i + 1] = a[i]!; a[i] = t; setItems(a) }}>↓</button>
-                      <button type="button" className="mini" title="下架"
-                        onClick={() => setItems(shop.items.filter((_, j) => j !== i))}>✕</button>
+                      <button
+                        type="button"
+                        className="mini"
+                        title="上移"
+                        disabled={i === 0}
+                        onClick={() => {
+                          const a = [...shop.items]
+                          const t = a[i - 1]!
+                          a[i - 1] = a[i]!
+                          a[i] = t
+                          setItems(a)
+                        }}
+                      >
+                        ↑
+                      </button>
+                      <button
+                        type="button"
+                        className="mini"
+                        title="下移"
+                        disabled={i === shop.items.length - 1}
+                        onClick={() => {
+                          const a = [...shop.items]
+                          const t = a[i + 1]!
+                          a[i + 1] = a[i]!
+                          a[i] = t
+                          setItems(a)
+                        }}
+                      >
+                        ↓
+                      </button>
+                      <button
+                        type="button"
+                        className="mini"
+                        title="下架"
+                        onClick={() => setItems(shop.items.filter((_, j) => j !== i))}
+                      >
+                        ✕
+                      </button>
                     </span>
                   </div>
                 )
@@ -131,9 +163,8 @@ export function ShopTab(props: {
           <span className="t">商店 · 编辑</span>
         </div>
         <div className="insp-hint">
-          货单即改即生效(⌘Z 可回)。买价 = 物品表 buyPrice(物品页改);当铺(卖)不需要
-          配置 —— 收购一切 sellable 物品,按 sellPrice。把「商店」指令(买/卖模式)插进
-          掌柜 NPC 的触发脚本即开店。
+          货单即改即生效(⌘Z 可回)。买价 = 物品表 buyPrice(物品页改);当铺(卖)不需要 配置 —— 收购一切
+          sellable 物品,按 sellPrice。把「商店」指令(买/卖模式)插进 掌柜 NPC 的触发脚本即开店。
         </div>
       </div>
     </>

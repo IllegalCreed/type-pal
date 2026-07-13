@@ -3,8 +3,10 @@
  * 背景 = FBP 真彩 RGBA(drawImage 铺底);精灵 = indexed RLE 帧经 bakeFrame 着色。
  * M4b-1 静态渲染;动画时间线/renderIdx 拍频 = M4b-3。
  */
+
 import type { Palette } from '@type-pal/shared'
 import type { LoadedSprite } from '../assets.js'
+import { expectDefined } from '../defined.js'
 import { bakeFrame } from '../render.js'
 
 /** 一个战斗单位的渲染项(精灵 + 底锚位置 + 当前帧下标)。 */
@@ -54,8 +56,7 @@ function getDissolvePatterns(ctx: CanvasRenderingContext2D): CanvasPattern[] | n
     const tctx = tile.getContext('2d')
     if (!tctx) return null
     for (let y = 0; y < 3; y++)
-      for (let x = 0; x < 6; x++)
-        if ((x + 2 * y) % 6 === c) tctx.fillRect(x, y, 1, 1)
+      for (let x = 0; x < 6; x++) if ((x + 2 * y) % 6 === c) tctx.fillRect(x, y, 1, 1)
     const p = ctx.createPattern(tile, 'repeat')
     if (!p) return null
     pats.push(p)
@@ -95,12 +96,12 @@ export function drawDissolved(
   const waves = p * 6
   const full = Math.floor(waves)
   for (let j = 0; j < full && j < 6; j++) {
-    octx.fillStyle = pats[DISSOLVE_ORDER[j]!]!
+    octx.fillStyle = expectDefined(pats[expectDefined(DISSOLVE_ORDER[j])])
     octx.fillRect(0, 0, img.width, img.height)
   }
   if (full < 6) {
     octx.globalAlpha = waves - full // 波内线性余量
-    octx.fillStyle = pats[DISSOLVE_ORDER[full]!]!
+    octx.fillStyle = expectDefined(pats[expectDefined(DISSOLVE_ORDER[full])])
     octx.fillRect(0, 0, img.width, img.height)
   }
   octx.restore()

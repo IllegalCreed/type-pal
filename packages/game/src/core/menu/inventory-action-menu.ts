@@ -25,15 +25,19 @@
  * 作为 1 级子菜单(2 项 装备/使用),Confirm 后再开对应全屏 list / equip menu。
  */
 
+import { getWord } from '../word-lookup.js'
 import type { SelectionMenuState } from './primitives.js'
 import { createSelectionMenu, moveSelectionDown, moveSelectionUp } from './primitives.js'
-import { getWord } from '../word-lookup.js'
 
 export type InventoryActionChoice = 'equip' | 'use'
 
 // sdlpal ui.h:80-81 INVMENU_LABEL_EQUIP=22 / USE=23(真 WORD id,EQUIP 在上 USE 在下,uigame.c:901-902)。
 //   文案 getWord(id) 取(WORD.DAT 单一源),fallback byte-level 核 flat[id]。
-const INVENTORY_ACTION_LABELS: ReadonlyArray<{ id: number; choice: InventoryActionChoice; fallback: string }> = [
+const INVENTORY_ACTION_LABELS: ReadonlyArray<{
+  id: number
+  choice: InventoryActionChoice
+  fallback: string
+}> = [
   { id: 22, choice: 'equip', fallback: '装备' },
   { id: 23, choice: 'use', fallback: '使用' },
 ]
@@ -58,7 +62,9 @@ export function createInventoryActionMenu(defaultCursor = 0): InventoryActionMen
   return { selection }
 }
 
-export function inventoryActionChoice(s: InventoryActionMenuState): InventoryActionChoice | undefined {
+export function inventoryActionChoice(
+  s: InventoryActionMenuState,
+): InventoryActionChoice | undefined {
   const sel = s.selection.items[s.selection.cursor]
   if (!sel) return undefined
   return INVENTORY_ACTION_LABELS.find((l) => l.id === sel.id)?.choice

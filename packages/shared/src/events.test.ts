@@ -1,12 +1,12 @@
-import { describe, it, expect, expectTypeOf } from 'vitest'
+import { describe, expect, expectTypeOf, it } from 'vitest'
 import type {
   Command,
-  RawCommand,
-  GotoCommand,
-  ShowDialogCommand,
   DialogBoxStyle,
+  GotoCommand,
   LoadSceneCommand,
+  RawCommand,
   SetDialogStyleTopCommand,
+  ShowDialogCommand,
 } from './events.js'
 
 describe('Command 联合类型', () => {

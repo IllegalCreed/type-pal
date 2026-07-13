@@ -6,14 +6,22 @@ import type { ProgressSnapshot } from './snapshot.js'
 import { SpeedrunTimer } from './timer.js'
 
 const snap = (o: Partial<ProgressSnapshot>): ProgressSnapshot => ({
-  scene: 0, canMove: true, partyX: 0, partyY: 0, music: 0, inventory: new Set(), battle: null, ...o,
+  scene: 0,
+  canMove: true,
+  partyX: 0,
+  partyY: 0,
+  music: 0,
+  inventory: new Set(),
+  battle: null,
+  ...o,
 })
 const CPS: Checkpoint[] = [
   { id: 'a', name: 'A', defaultBestMs: 1000, detector: enterScene(2) },
   { id: 'b', name: 'B', defaultBestMs: 2000, detector: enterScene(3) },
 ]
 const BAN: BananaConfig = { scene: 177, cells: [[10, 10]], tolX: 0, tolY: 0, itemId: 291 }
-const mk = (bests = { a: 1000, b: 2000 }): SpeedrunTimer => new SpeedrunTimer(CPS, BAN, { ...bests })
+const mk = (bests = { a: 1000, b: 2000 }): SpeedrunTimer =>
+  new SpeedrunTimer(CPS, BAN, { ...bests })
 
 describe('SpeedrunTimer 起表与打点', () => {
   it('scene>0 且可移动才起表,之后按 wall-clock 累加', () => {
@@ -114,7 +122,9 @@ describe('SpeedrunTimer 香蕉暂停 + 拿到直接恢复(无倒计时)', () => 
     const before = t.getRun().elapsedMs
     t.tick(snap({ scene: 177, partyX: 10, partyY: 10 }), 2000, { bananaEnabled: true }) // 暂停期不走时
     expect(t.getRun().elapsedMs).toBe(before)
-    t.tick(snap({ scene: 177, partyX: 10, partyY: 10, inventory: new Set([291]) }), 3000, { bananaEnabled: true }) // 拿香蕉 → 直接恢复
+    t.tick(snap({ scene: 177, partyX: 10, partyY: 10, inventory: new Set([291]) }), 3000, {
+      bananaEnabled: true,
+    }) // 拿香蕉 → 直接恢复
     expect(t.getRun().bananaPaused).toBe(false)
     expect(t.getCountdownRemainingSec()).toBeNull() // 香蕉无倒计时
     expect(t.consumeJustResumed()).toBe(true)

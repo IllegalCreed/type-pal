@@ -8,9 +8,9 @@
  * shadowOffset 默认 6(sdlpal `PAL_CreateBox` wrapper 真值)。
  */
 
-import type { Framebuffer } from '../framebuffer.js'
 import type { IndexedImage } from '../../assets/png.js'
-import { measureText, type GlyphTable } from '../font.js'
+import { type GlyphTable, measureText } from '../font.js'
+import type { Framebuffer } from '../framebuffer.js'
 
 /**
  * port sdlpal `PAL_MenuTextMaxWidth` - 1(ui.c:762-794 + 797-833 PAL_WordMaxWidth):
@@ -39,7 +39,7 @@ export function menuTextMaxCols(texts: readonly string[], glyphs?: GlyphTable): 
 // 视觉上原色稍变暗,像半透明黑色 overlay。
 // 我之前 hardcode 0x0F 是错(palette index 0x0F 通常是亮色,显示纯白阴影)— user 怒怼。
 function palCalcShadowColor(srcColor: number): number {
-  return (srcColor & 0xF0) | ((srcColor & 0x0F) >> 1)
+  return (srcColor & 0xf0) | ((srcColor & 0x0f) >> 1)
 }
 
 export interface DrawBoxInput {
@@ -126,12 +126,7 @@ function blitOpaque(fb: Framebuffer, img: IndexedImage, dstX: number, dstY: numb
  * 视觉效果:原 fb pixel 被替换成"低 4 位除 2"的同色调 darker 版本 — 像半透明黑色
  * overlay 落在 box 周围的 scene 像素上。
  */
-function blitShadowMask(
-  fb: Framebuffer,
-  img: IndexedImage,
-  dstX: number,
-  dstY: number,
-): void {
+function blitShadowMask(fb: Framebuffer, img: IndexedImage, dstX: number, dstY: number): void {
   for (let y = 0; y < img.height; y++) {
     for (let x = 0; x < img.width; x++) {
       const off = y * img.width + x

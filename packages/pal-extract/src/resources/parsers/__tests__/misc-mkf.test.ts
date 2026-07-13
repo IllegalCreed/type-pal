@@ -87,7 +87,7 @@ describe('decodeRgmPortrait', () => {
 
 describe('decodeBallIcon', () => {
   it('empty chunk(0 byte)→ null', () => {
-    expect(decodeBallIcon(0, new Uint8Array(0))) .toBe(null)
+    expect(decodeBallIcon(0, new Uint8Array(0))).toBe(null)
   })
 
   it('real BALL.MKF — 252 chunks 多数解码出 width/height/png', () => {

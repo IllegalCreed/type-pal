@@ -472,10 +472,12 @@ describe('blitFrameDeathFade — 死亡淡出 crossfade(D17,battle.c:650-662)', 
 
   it('6 帧节奏:同一外层 i 内(jr..jr+5)低 nibble 不动,+6 才推进 1 格(battle.c:634-650)', () => {
     // residue 0(jr=0):diff=9-2=7。step=5 → nudges=0(仅高换 bg);step=6 → nudges=1。
-    const fb0 = createFramebuffer(); fb0.writePixel(12, 0, 0x09)
+    const fb0 = createFramebuffer()
+    fb0.writePixel(12, 0, 0x09)
     blitFrameDeathFade(fb0, mkFrame([0x02]), 12, 1, 5)
     expect(fb0.indices[0 * 320 + 12]).toBe(0x02) // low 未移(仍 2),high=0
-    const fb1 = createFramebuffer(); fb1.writePixel(12, 0, 0x09)
+    const fb1 = createFramebuffer()
+    fb1.writePixel(12, 0, 0x09)
     blitFrameDeathFade(fb1, mkFrame([0x02]), 12, 1, 6)
     expect(fb1.indices[0 * 320 + 12]).toBe(0x03) // nudges=1 → low=3
   })
@@ -691,7 +693,10 @@ describe('enemyTargetHighlightShift(敌方目标 ColorShift 高亮,sdlpal uibatt
 
 describe('computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984)', () => {
   const P = (s: Partial<{ sleep: number; puppet: number }>, defending = false) =>
-    ({ status: { sleep: 0, puppet: 0, ...s }, defending }) as { status: { sleep: number; puppet: number }; defending: boolean }
+    ({ status: { sleep: 0, puppet: 0, ...s }, defending }) as {
+      status: { sleep: number; puppet: number }
+      defending: boolean
+    }
   const R = (hp: number, maxHP = 200) => ({ hp, maxHP })
 
   // sdlpal fight.c:948-957:hp==0 非傀儡 → 帧2(倒下死姿);傀儡(死后仍可动)→ 帧0 站立。死帧优先于眠/濒死/防御。

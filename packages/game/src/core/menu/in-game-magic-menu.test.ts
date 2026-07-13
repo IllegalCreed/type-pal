@@ -34,13 +34,26 @@ import {
 
 function mkRole(id: number, name: string, mp: number, magic: number[]) {
   return {
-    id, _name: name, hp: 100, maxHP: 200, mp, maxMP: 100,
-    level: 5, dexterity: 30, fleeRate: 10,
-    attackStrength: 50, magicStrength: 30, defense: 20, poisonResistance: 0,
+    id,
+    _name: name,
+    hp: 100,
+    maxHP: 200,
+    mp,
+    maxMP: 100,
+    level: 5,
+    dexterity: 30,
+    fleeRate: 10,
+    attackStrength: 50,
+    magicStrength: 30,
+    defense: 20,
+    poisonResistance: 0,
     equipment: [0, 0, 0, 0, 0, 0],
     magic,
-    avatar: 0, spriteNum: 0, spriteNumInBattle: 0,
-    coveredBy: 0, attackAll: 0,
+    avatar: 0,
+    spriteNum: 0,
+    spriteNumInBattle: 0,
+    coveredBy: 0,
+    attackAll: 0,
     cooperativeMagic: 0,
     elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
   } as unknown as PlayerRoles['roles'][number]
@@ -51,27 +64,99 @@ const PLAYER_ROLES: PlayerRoles = {
     // role.magic 真值是 sdlpal `rgwMagic[32][role]` = spell wObjectID(296..397)。
     // 2026-05-29 id 体系统一:spells.json id 也是 wObjectID,createMagicSelectMenu /
     // hasOutsideMagic 用 spells.find(s => s.id === sid) 反查。
-    mkRole(0, '李逍遥', 80, [296, 297, 298, ...Array(29).fill(0)]),  // 气疗 / 观音 / 凝神
+    mkRole(0, '李逍遥', 80, [296, 297, 298, ...Array(29).fill(0)]), // 气疗 / 观音 / 凝神
     mkRole(1, '赵灵儿', 100, [296, 299, 300, ...Array(29).fill(0)]), // 气疗 / 五气 / 还魂
-    mkRole(2, '林月如', 30, []),                                      // 0 spell
+    mkRole(2, '林月如', 30, []), // 0 spell
   ],
 } as unknown as PlayerRoles
 
 const SPELLS: Spell[] = [
   // id = spell wObjectID(296..397);magicNumber = MAGIC 表独立 index(不变)
-  { id: 296, magicNumber: 33, scriptOnUse: 0, scriptOnSuccess: 43016, scriptDesc: 0,
-    flags: { usableOutsideBattle: true, usableInBattle: true, usableToEnemy: false, applyToAll: false }, _name: '气疗术' },
-  { id: 297, magicNumber: 35, scriptOnUse: 0, scriptOnSuccess: 43018, scriptDesc: 0,
-    flags: { usableOutsideBattle: true, usableInBattle: true, usableToEnemy: false, applyToAll: false }, _name: '观音咒' },
-  { id: 298, magicNumber: 34, scriptOnUse: 0, scriptOnSuccess: 43020, scriptDesc: 0,
-    flags: { usableOutsideBattle: true, usableInBattle: true, usableToEnemy: false, applyToAll: false }, _name: '凝神归元' },
-  { id: 299, magicNumber: 46, scriptOnUse: 0, scriptOnSuccess: 39554, scriptDesc: 0,
-    flags: { usableOutsideBattle: true, usableInBattle: true, usableToEnemy: false, applyToAll: true }, _name: '五气朝元' },
-  { id: 300, magicNumber: 36, scriptOnUse: 0, scriptOnSuccess: 43024, scriptDesc: 0,
-    flags: { usableOutsideBattle: true, usableInBattle: true, usableToEnemy: false, applyToAll: false }, _name: '还魂咒' },
+  {
+    id: 296,
+    magicNumber: 33,
+    scriptOnUse: 0,
+    scriptOnSuccess: 43016,
+    scriptDesc: 0,
+    flags: {
+      usableOutsideBattle: true,
+      usableInBattle: true,
+      usableToEnemy: false,
+      applyToAll: false,
+    },
+    _name: '气疗术',
+  },
+  {
+    id: 297,
+    magicNumber: 35,
+    scriptOnUse: 0,
+    scriptOnSuccess: 43018,
+    scriptDesc: 0,
+    flags: {
+      usableOutsideBattle: true,
+      usableInBattle: true,
+      usableToEnemy: false,
+      applyToAll: false,
+    },
+    _name: '观音咒',
+  },
+  {
+    id: 298,
+    magicNumber: 34,
+    scriptOnUse: 0,
+    scriptOnSuccess: 43020,
+    scriptDesc: 0,
+    flags: {
+      usableOutsideBattle: true,
+      usableInBattle: true,
+      usableToEnemy: false,
+      applyToAll: false,
+    },
+    _name: '凝神归元',
+  },
+  {
+    id: 299,
+    magicNumber: 46,
+    scriptOnUse: 0,
+    scriptOnSuccess: 39554,
+    scriptDesc: 0,
+    flags: {
+      usableOutsideBattle: true,
+      usableInBattle: true,
+      usableToEnemy: false,
+      applyToAll: true,
+    },
+    _name: '五气朝元',
+  },
+  {
+    id: 300,
+    magicNumber: 36,
+    scriptOnUse: 0,
+    scriptOnSuccess: 43024,
+    scriptDesc: 0,
+    flags: {
+      usableOutsideBattle: true,
+      usableInBattle: true,
+      usableToEnemy: false,
+      applyToAll: false,
+    },
+    _name: '还魂咒',
+  },
   // battle-only(不该出现在 outside picker)
-  { id: 305, magicNumber: 60, scriptOnUse: 0, scriptOnSuccess: 0, scriptDesc: 0,
-    flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: false }, _name: '飞龙探云手' },
+  {
+    id: 305,
+    magicNumber: 60,
+    scriptOnUse: 0,
+    scriptOnSuccess: 0,
+    scriptDesc: 0,
+    flags: {
+      usableOutsideBattle: false,
+      usableInBattle: true,
+      usableToEnemy: true,
+      applyToAll: false,
+    },
+    _name: '飞龙探云手',
+  },
 ] as unknown as Spell[]
 
 const MAGICS: Magic[] = [
@@ -191,7 +276,7 @@ describe('confirmSpell', () => {
     const s = mkPickedSpellState()
     // 李逍遥 MP=80;气疗术 MP 6 ✓;凝神 MP 8 ✓;观音 MP 10 ✓ — 让其中一个超 MP
     // 改 MAGICS:凝神 100 MP → 超 80 disabled
-    const overpriced = MAGICS.map((m) => m.id === 34 ? { ...m, costMP: 100 } : m)
+    const overpriced = MAGICS.map((m) => (m.id === 34 ? { ...m, costMP: 100 } : m))
     s.spellMenu = createInGameMagicMenu(PLAYER_ROLES, [0, 1, 2], SPELLS).spellMenu
     // re-build with overpriced
     refreshSpellMenu(s, PLAYER_ROLES, SPELLS, overpriced, 80)

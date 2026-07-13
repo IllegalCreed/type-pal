@@ -10,9 +10,11 @@ export async function copyDirRecursive(
 ): Promise<number> {
   let n = 0
   // entries() 是 FSA 标准异步迭代器(TS lib 未收录 → 局部窄化;同 export-zip)
-  const iter = (src as unknown as {
-    entries(): AsyncIterable<[string, FileSystemDirectoryHandle | FileSystemFileHandle]>
-  }).entries()
+  const iter = (
+    src as unknown as {
+      entries(): AsyncIterable<[string, FileSystemDirectoryHandle | FileSystemFileHandle]>
+    }
+  ).entries()
   for await (const [name, handle] of iter) {
     if (handle.kind === 'file') {
       const file = await (handle as FileSystemFileHandle).getFile()

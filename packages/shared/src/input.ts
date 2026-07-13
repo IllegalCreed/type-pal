@@ -16,11 +16,25 @@
  *  - 'Cancel' 仍保留(M5 battle 用作回退键,与 sdlpal kKeyMenu 在菜单 context 等价但 ts 显式分两键)
  */
 export type AbstractKey =
-  | 'Up' | 'Down' | 'Left' | 'Right'
-  | 'Confirm' | 'Cancel' | 'Menu'
-  | 'PgUp' | 'PgDn' | 'Home' | 'End'
-  | 'Repeat' | 'Auto' | 'Defend'
-  | 'UseItem' | 'ThrowItem' | 'Flee' | 'Force' | 'Status'
+  | 'Up'
+  | 'Down'
+  | 'Left'
+  | 'Right'
+  | 'Confirm'
+  | 'Cancel'
+  | 'Menu'
+  | 'PgUp'
+  | 'PgDn'
+  | 'Home'
+  | 'End'
+  | 'Repeat'
+  | 'Auto'
+  | 'Defend'
+  | 'UseItem'
+  | 'ThrowItem'
+  | 'Flee'
+  | 'Force'
+  | 'Status'
 
 /** 一帧的输入快照。 */
 export interface InputSnapshot {

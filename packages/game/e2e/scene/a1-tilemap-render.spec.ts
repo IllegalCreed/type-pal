@@ -1,7 +1,7 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { bootstrap, openDevPicker, selectSceneJump } from '../helpers/bootstrap.js'
+import { baselinePathFor, pixelDiff } from '../helpers/pixel-diff.js'
 import { snapshotCanvas } from '../helpers/snapshot.js'
-import { pixelDiff, baselinePathFor } from '../helpers/pixel-diff.js'
 
 // 5 个 scene 真 ID(scene-jumps.json,M3.5 T16):scene 1 客栈 / 仙灵岛入口 / 通道 1 / 通道 2 / 迷宫
 const SCENES = [

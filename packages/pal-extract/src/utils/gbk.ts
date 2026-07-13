@@ -31,12 +31,14 @@ const PUA_HI = 0xf8ff
  * 原串码点用数组写(避免源码内不可见 PUA 字符);由 GBK 解码确定且稳定。BIG5 重解结果见注释。
  */
 const FULL_LINE_FIXUP = new Map<string, string>(
-  ([
-    [[0xe16c, 0xe4cf], '哼！'], //                                  BIG5「哼！」
-    [[0xe4ca, 0x7448, 0x7310, 0xe5e7], '流氓乙'], //                BIG5「．流氓乙」(去前导．,敌名)
-    [[0xe4ca, 0x7448, 0x7310, 0x30d2], '流氓甲'], //                BIG5「．流氓甲」
-    [[0x82ac, 0x888d, 0xe019, 0xe7b4, 0xe19d, 0x3043, 0xec], '炼蛊的材料不足'], // BIG5「煉蠱的材料不足」
-  ] as [number[], string][]).map(([cps, v]) => [String.fromCodePoint(...cps), v]),
+  (
+    [
+      [[0xe16c, 0xe4cf], '哼！'], //                                  BIG5「哼！」
+      [[0xe4ca, 0x7448, 0x7310, 0xe5e7], '流氓乙'], //                BIG5「．流氓乙」(去前导．,敌名)
+      [[0xe4ca, 0x7448, 0x7310, 0x30d2], '流氓甲'], //                BIG5「．流氓甲」
+      [[0x82ac, 0x888d, 0xe019, 0xe7b4, 0xe19d, 0x3043, 0xec], '炼蛊的材料不足'], // BIG5「煉蠱的材料不足」
+    ] as [number[], string][]
+  ).map(([cps, v]) => [String.fromCodePoint(...cps), v]),
 )
 
 /**

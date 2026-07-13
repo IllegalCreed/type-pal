@@ -34,7 +34,10 @@ function delayMs(frames: number): number {
   return frames * BATTLE_FRAME_TIME
 }
 
-function timedScriptShake(i: number, scriptShake: { time: number; level: number } | undefined): BattleAnimFrame['shake'] {
+function timedScriptShake(
+  i: number,
+  scriptShake: { time: number; level: number } | undefined,
+): BattleAnimFrame['shake'] {
   if (!scriptShake || scriptShake.time <= 0) return undefined
   if (i >= scriptShake.time) return undefined
   return { time: scriptShake.time - i, level: scriptShake.level }
@@ -46,7 +49,10 @@ function timedScriptShake(i: number, scriptShake: { time: number; level: number 
  *   末帧同步显示 BATTLE_LABEL_ESCAPEFAIL(WORD 31 "逃跑失败")。
  * startPos = 失败队员 posOriginal(站立锚)。
  */
-export function buildFleeFailTimeline(playerIdx: number, startPos: { x: number, y: number }): BattleAnimFrame[] {
+export function buildFleeFailTimeline(
+  playerIdx: number,
+  startPos: { x: number; y: number },
+): BattleAnimFrame[] {
   const frames: BattleAnimFrame[] = []
   let x = startPos.x
   let y = startPos.y
@@ -73,24 +79,36 @@ export function buildFleeFailTimeline(playerIdx: number, startPos: { x: number, 
  *   5 步逼近:每步 x-=(i+8) y-=4,第 5 步(i==4)敌 iColorShift=6 闪白,各 Delay(1);
  *   收尾:敌 iColorShift=0,x--,Delay(3)。enemyPos = 目标敌 posOriginal(底锚)。
  */
-export function buildStealTimeline(playerIdx: number, targetEnemyIdx: number, enemyPos: { x: number, y: number }): BattleAnimFrame[] {
+export function buildStealTimeline(
+  playerIdx: number,
+  targetEnemyIdx: number,
+  enemyPos: { x: number; y: number },
+): BattleAnimFrame[] {
   const offset = (targetEnemyIdx - playerIdx) * 8
   let x = enemyPos.x + 64 - offset
   let y = enemyPos.y + 22 + offset
   const frames: BattleAnimFrame[] = [
-    { durationMs: delayMs(1), fighters: [{ side: 'player', idx: playerIdx, currentFrame: 10, pos: { x, y } }] },
+    {
+      durationMs: delayMs(1),
+      fighters: [{ side: 'player', idx: playerIdx, currentFrame: 10, pos: { x, y } }],
+    },
   ]
   for (let i = 0; i < 5; i++) {
     x -= i + 8
     y -= 4
-    const fighters: FighterDelta[] = [{ side: 'player', idx: playerIdx, currentFrame: 10, pos: { x, y } }]
+    const fighters: FighterDelta[] = [
+      { side: 'player', idx: playerIdx, currentFrame: 10, pos: { x, y } },
+    ]
     if (i === 4) fighters.push({ side: 'enemy', idx: targetEnemyIdx, iColorShift: 6 }) // 敌闪白
     frames.push({ durationMs: delayMs(1), fighters })
   }
   x -= 1
   frames.push({
     durationMs: delayMs(3),
-    fighters: [{ side: 'player', idx: playerIdx, pos: { x, y } }, { side: 'enemy', idx: targetEnemyIdx, iColorShift: 0 }],
+    fighters: [
+      { side: 'player', idx: playerIdx, pos: { x, y } },
+      { side: 'enemy', idx: targetEnemyIdx, iColorShift: 0 },
+    ],
   })
   return frames
 }
@@ -104,7 +122,12 @@ export function buildStealTimeline(playerIdx: number, targetEnemyIdx: number, en
  * 之后由 caller 接 OffMagic 特效(0x42 PAL_BattleSimulateMagic → ShowPlayerOffMagicAnim,fight.c:5340)。
  * startPos = 投掷队员 posOriginal(站立锚);magicSound=0 → frame5 不带 sound。
  */
-export function buildThrowWindupTimeline(playerIdx: number, startPos: { x: number, y: number }, magicSound: number, itemName?: string): BattleAnimFrame[] {
+export function buildThrowWindupTimeline(
+  playerIdx: number,
+  startPos: { x: number; y: number },
+  magicSound: number,
+  itemName?: string,
+): BattleAnimFrame[] {
   const frames: BattleAnimFrame[] = []
   let x = startPos.x
   let y = startPos.y
@@ -112,13 +135,18 @@ export function buildThrowWindupTimeline(playerIdx: number, startPos: { x: numbe
   for (let i = 0; i < 4; i++) {
     x -= 4 - i
     y -= Math.trunc((4 - i) / 2)
-    frames.push({ durationMs: delayMs(1), fighters: [{ side: 'player', idx: playerIdx, pos: { x, y } }] })
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [{ side: 'player', idx: playerIdx, pos: { x, y } }],
+    })
   }
   // —— Delay(2) hold(fight.c:4348 PAL_BattleDelay(2,wObject) 起在 (210,50) 显示所投物品名,
   //    L15:贯穿挥臂 hold(2)+frame5(8)+frame6(2)=12 帧)——
   frames.push({
     durationMs: delayMs(2),
-    ...(itemName ? { battleMessage: { text: itemName, durationMs: delayMs(12), pos: { x: 210, y: 50 } } } : {}),
+    ...(itemName
+      ? { battleMessage: { text: itemName, durationMs: delayMs(12), pos: { x: 210, y: 50 } } }
+      : {}),
   })
   // —— frame5(投掷姿)+ magicSound,Delay(8)(fight.c:4350-4353)——
   frames.push({
@@ -127,7 +155,10 @@ export function buildThrowWindupTimeline(playerIdx: number, startPos: { x: numbe
     ...(magicSound > 0 ? { sound: magicSound } : {}),
   })
   // —— frame6,Delay(2)(fight.c:4355-4356)——
-  frames.push({ durationMs: delayMs(2), fighters: [{ side: 'player', idx: playerIdx, currentFrame: 6 }] })
+  frames.push({
+    durationMs: delayMs(2),
+    fighters: [{ side: 'player', idx: playerIdx, currentFrame: 6 }],
+  })
   return frames
 }
 
@@ -179,7 +210,9 @@ export function buildUseItemTimeline(input: {
       fighters,
       ...(i === 0 ? { sound: 28 } : {}),
       // L15:i==0 起在 (210,50) 显示物品名,贯穿两个 colorShift 循环 7+6=13 帧(fight.c:2316/2333)
-      ...(i === 0 && itemName ? { battleMessage: { text: itemName, durationMs: delayMs(13), pos: { x: 210, y: 50 } } } : {}),
+      ...(i === 0 && itemName
+        ? { battleMessage: { text: itemName, durationMs: delayMs(13), pos: { x: 210, y: 50 } } }
+        : {}),
     })
   }
 
@@ -215,30 +248,51 @@ export function buildAttackMateTimeline(input: {
   const frames: BattleAnimFrame[] = []
   // windup frame8/0 ×2(fight.c:3791-3798)
   for (let j = 0; j < 2; j++) {
-    frames.push({ durationMs: delayMs(1), fighters: [{ side: 'player', idx: casterIdx, currentFrame: 8 }] })
-    frames.push({ durationMs: delayMs(1), fighters: [{ side: 'player', idx: casterIdx, currentFrame: 0 }] })
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [{ side: 'player', idx: casterIdx, currentFrame: 8 }],
+    })
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [{ side: 'player', idx: casterIdx, currentFrame: 0 }],
+    })
   }
   frames.push({ durationMs: delayMs(2) }) // Delay(2)(fight.c:3800)
   // 走到 target+(30,12) frame8 Delay(5)(fight.c:3802-3807)
   const lungeX = targetPos.x + 30
   const lungeY = targetPos.y + 12
-  frames.push({ durationMs: delayMs(5), fighters: [{ side: 'player', idx: casterIdx, currentFrame: 8, pos: { x: lungeX, y: lungeY } }] })
+  frames.push({
+    durationMs: delayMs(5),
+    fighters: [{ side: 'player', idx: casterIdx, currentFrame: 8, pos: { x: lungeX, y: lungeY } }],
+  })
   // frame9(武器音 M6)+ 友军击退 pos-(12,6)(fight.c:3809-3840)
   const knockX = targetPos.x - 12
   const knockY = targetPos.y - 6
-  frames.push({ durationMs: delayMs(1), fighters: [
-    { side: 'player', idx: casterIdx, currentFrame: 9, pos: { x: lungeX, y: lungeY } },
-    { side: 'player', idx: targetIdx, pos: { x: knockX, y: knockY } },
-  ] })
+  frames.push({
+    durationMs: delayMs(1),
+    fighters: [
+      { side: 'player', idx: casterIdx, currentFrame: 9, pos: { x: lungeX, y: lungeY } },
+      { side: 'player', idx: targetIdx, pos: { x: knockX, y: knockY } },
+    ],
+  })
   // 友军 iColorShift 6 闪白 Delay(1)(fight.c:3842-3843)
-  frames.push({ durationMs: delayMs(1), fighters: [{ side: 'player', idx: targetIdx, iColorShift: 6, pos: { x: knockX, y: knockY } }] })
+  frames.push({
+    durationMs: delayMs(1),
+    fighters: [{ side: 'player', idx: targetIdx, iColorShift: 6, pos: { x: knockX, y: knockY } }],
+  })
   // 友军 iColorShift 0 Delay(4)(fight.c:3847-3848)
-  frames.push({ durationMs: delayMs(4), fighters: [{ side: 'player', idx: targetIdx, iColorShift: 0, pos: { x: knockX, y: knockY } }] })
+  frames.push({
+    durationMs: delayMs(4),
+    fighters: [{ side: 'player', idx: targetIdx, iColorShift: 0, pos: { x: knockX, y: knockY } }],
+  })
   // UpdateFighters 复位 caster+target Delay(4)(fight.c:3850-3851)
-  frames.push({ durationMs: delayMs(4), fighters: [
-    { side: 'player', idx: casterIdx, currentFrame: 0, pos: casterPos },
-    { side: 'player', idx: targetIdx, currentFrame: 0, pos: targetPos },
-  ] })
+  frames.push({
+    durationMs: delayMs(4),
+    fighters: [
+      { side: 'player', idx: casterIdx, currentFrame: 0, pos: casterPos },
+      { side: 'player', idx: targetIdx, currentFrame: 0, pos: targetPos },
+    ],
+  })
   return frames
 }
 
@@ -334,7 +388,14 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
   if (windup) {
     frames.push({
       durationMs: delayMs(4),
-      fighters: [{ side: 'player', idx: attackerIdx, currentFrame: 7, pos: { x: attackerPos.x, y: attackerPos.y } }],
+      fighters: [
+        {
+          side: 'player',
+          idx: attackerIdx,
+          currentFrame: 7,
+          pos: { x: attackerPos.x, y: attackerPos.y },
+        },
+      ],
     })
   }
 
@@ -469,7 +530,14 @@ export interface BuildEnemyPhysicalInput {
   /** 目标队员 idx(players[])。 */
   targetIdx: number
   /** 敌人精灵帧参数(enemies.json[id])+ M6 攻击中段/命中音(actionSound/callSound,fight.c:5003/5084)。 */
-  enemy: { magicFrames: number; attackFrames: number; actWaitFrames: number; idleFrames: number; actionSound: number; callSound: number }
+  enemy: {
+    magicFrames: number
+    attackFrames: number
+    actWaitFrames: number
+    idleFrames: number
+    actionSound: number
+    callSound: number
+  }
   /** 钳后真实掉血(damageNum value)。 */
   damage: number
   /** 命中后队员是否死亡(hp→0)。 */
@@ -518,7 +586,12 @@ export function buildEnemyPhysicalTimeline(input: BuildEnemyPhysicalInput): Batt
   const blockPose = autoDefend
     ? [
         cover
-          ? { side: 'player' as const, idx: cover.idx, currentFrame: 3, pos: { x: targetPlayerPos.x - 24, y: targetPlayerPos.y - 12 } }
+          ? {
+              side: 'player' as const,
+              idx: cover.idx,
+              currentFrame: 3,
+              pos: { x: targetPlayerPos.x - 24, y: targetPlayerPos.y - 12 },
+            }
           : { side: 'player' as const, idx: targetIdx, currentFrame: 3 },
       ]
     : []
@@ -590,13 +663,17 @@ export function buildEnemyPhysicalTimeline(input: BuildEnemyPhysicalInput): Batt
       durationMs: delayMs(1),
       fighters: [
         cover
-          ? { side: 'player', idx: cover.idx, currentFrame: 3, pos: { x: targetPlayerPos.x - 24, y: targetPlayerPos.y - 12 } }
+          ? {
+              side: 'player',
+              idx: cover.idx,
+              currentFrame: 3,
+              pos: { x: targetPlayerPos.x - 24, y: targetPlayerPos.y - 12 },
+            }
           : { side: 'player', idx: targetIdx, currentFrame: 3 },
       ],
       ...(coverSound > 0 ? { sound: coverSound } : {}),
     })
-  }
-  else {
+  } else {
     // 命中:target.currentFrame=4,iColorShift=6 + damageNum + callSound,Delay(1)(fight.c:5052-5086)。
     //   callSound(iSound=enemy.wCallSound,fight.c:5010/5084)在命中帧播(classic 即使 0 也播,ts 0 跳过)。
     frames.push({
@@ -616,11 +693,14 @@ export function buildEnemyPhysicalTimeline(input: BuildEnemyPhysicalInput): Batt
       durationMs: delayMs(1),
       fighters: [
         { side: 'enemy', idx: enemyIdx, pos: { x: chargeX - 10, y: chargeY - 8 } },
-        { side: 'player', idx: cover.idx, pos: { x: targetPlayerPos.x - 20, y: targetPlayerPos.y - 10 } },
+        {
+          side: 'player',
+          idx: cover.idx,
+          pos: { x: targetPlayerPos.x - 20, y: targetPlayerPos.y - 10 },
+        },
       ],
     })
-  }
-  else {
+  } else {
     frames.push({
       durationMs: delayMs(1),
       fighters: [{ side: 'player', idx: targetIdx, iColorShift: 0, pos: { x: knockX, y: knockY } }],
@@ -636,7 +716,13 @@ export function buildEnemyPhysicalTimeline(input: BuildEnemyPhysicalInput): Batt
   else if (targetDying) frameBak = 1
   frames.push({
     durationMs: delayMs(3),
-    ...(cover ? {} : { fighters: [{ side: 'player' as const, idx: targetIdx, pos: { x: knockX + 2, y: knockY + 1 } }] }),
+    ...(cover
+      ? {}
+      : {
+          fighters: [
+            { side: 'player' as const, idx: targetIdx, pos: { x: knockX + 2, y: knockY + 1 } },
+          ],
+        }),
   })
 
   // —— enemy.pos=posOriginal,currentFrame=0,Delay(1)(fight.c:5127-5130)——
@@ -659,8 +745,15 @@ export function buildEnemyPhysicalTimeline(input: BuildEnemyPhysicalInput): Batt
   frames.push({
     durationMs: delayMs(1),
     fighters: [
-      { side: 'player', idx: targetIdx, currentFrame: frameBak, pos: { x: targetPlayerPos.x, y: targetPlayerPos.y } },
-      ...(cover ? [{ side: 'player' as const, idx: cover.idx, pos: { x: cover.pos.x, y: cover.pos.y } }] : []),
+      {
+        side: 'player',
+        idx: targetIdx,
+        currentFrame: frameBak,
+        pos: { x: targetPlayerPos.x, y: targetPlayerPos.y },
+      },
+      ...(cover
+        ? [{ side: 'player' as const, idx: cover.idx, pos: { x: cover.pos.x, y: cover.pos.y } }]
+        : []),
     ],
     updateGesture: true,
   })
@@ -769,9 +862,17 @@ export interface BuildShowMagicAnimInput {
  */
 export function buildShowMagicAnimTimeline(input: BuildShowMagicAnimInput): BattleAnimFrame[] {
   const { casterPos, casterIdx, castEffectFrameBase, partyIndices } = input
-  const frames = buildPreMagicTimeline({ casterPos, casterIdx, castEffectFrameBase, isSummon: false })
+  const frames = buildPreMagicTimeline({
+    casterPos,
+    casterIdx,
+    castEffectFrameBase,
+    isSummon: false,
+  })
   // script.c:2646:施法者 wCurrentFrame=6
-  frames.push({ durationMs: delayMs(1), fighters: [{ side: 'player', idx: casterIdx, currentFrame: 6 }] })
+  frames.push({
+    durationMs: delayMs(1),
+    fighters: [{ side: 'player', idx: casterIdx, currentFrame: 6 }],
+  })
   // script.c:2649-2656:全队 5 步 iColorShift=i*2(0/2/4/6/8)
   for (let i = 0; i < 5; i++) {
     frames.push({
@@ -864,7 +965,20 @@ export interface BuildOffMagicInput {
 export function buildPlayerOffMagicTimeline(input: BuildOffMagicInput): BattleAnimFrame[] {
   // targetIdx 透传供调用方语义对齐;落点由 magic.type + targetEnemyPos 决定,本体不直接读 targetIdx。
   const { casterIdx, magic, n, targetEnemyPos, iBlow, blowTargets, rng, baseScreenWave } = input
-  const { effect, type, speed, fireDelay, effectTimes, shake, scriptShake, xOffset, yOffset, wave, keepEffect, sound } = magic
+  const {
+    effect,
+    type,
+    speed,
+    fireDelay,
+    effectTimes,
+    shake,
+    scriptShake,
+    xOffset,
+    yOffset,
+    wave,
+    keepEffect,
+    sound,
+  } = magic
   // DM9:sLayerOffset(= MAGIC.special 的非 summon 语义,SHORT)—— 法术精灵与敌我精灵统一按
   //   PAL_Y+sLayerOffset 排序(fight.c:2735/battle.c:441-442);99≈恒最上,负值(地面型)画单位身后。
   const layerOffset = asShortLocal((magic as { special?: number }).special ?? 0)
@@ -955,8 +1069,14 @@ export function buildPlayerOffMagicTimeline(input: BuildOffMagicInput): BattleAn
       const blow = iBlow! > 0 ? rng!.rangeInclusive(0, iBlow!) : rng!.rangeInclusive(iBlow!, 0)
       const isLast = i === l - 1
       for (const t of blowAcc) {
-        if (isLast) { t.x = t.pos.x; t.y = t.pos.y } // 末帧复位 posOriginal
-        else { t.x += blow; t.y += Math.trunc(blow / 2) }
+        if (isLast) {
+          t.x = t.pos.x
+          t.y = t.pos.y
+        } // 末帧复位 posOriginal
+        else {
+          t.x += blow
+          t.y += Math.trunc(blow / 2)
+        }
         fighters.push({ side: t.side, idx: t.idx, pos: { x: t.x, y: t.y } })
       }
     }
@@ -972,7 +1092,8 @@ export function buildPlayerOffMagicTimeline(input: BuildOffMagicInput): BattleAn
     if (wave && wave > 0) frame.screenWave = wave
     // W4 keepEffect:末帧 + wKeepEffect==0xFFFF + wScreenWave<9 → 烙背景(fight.c:2757-2762)。
     //   L17:wScreenWave = 战场基础屏波(battle.c:1563)+ magic.wWave(fight.c:2666-2667),非只 wWave。
-    if (i === l - 1 && keepEffect === 0xffff && (baseScreenWave ?? 0) + (wave ?? 0) < 9) frame.keepEffect = true
+    if (i === l - 1 && keepEffect === 0xffff && (baseScreenWave ?? 0) + (wave ?? 0) < 9)
+      frame.keepEffect = true
     // M6 法术效果音(user 2026-06-05 选 WIN95 式):在 OffMagic **起手帧 i==0** 播一次 magic.wSound
     //   (sdlpal WIN95 fight.c:2669-2672 `if (fIsWIN95 && !fSummon && wSound) AUDIO_PlaySound` 在帧循环前)。
     //   CLASSIC 真值本是 `(i-fireDelay)%n==0` 命中帧才播(fight.c:2713,!fIsWIN95)→ user 反馈万剑诀声音比剑
@@ -1069,7 +1190,9 @@ export interface BuildEnemyConfusedAttackInput {
  *       数字挂 PostMagic 首帧(fight.c:4647-4648)
  *   - Delay(5) 停顿,复位 attacker.pos=posOriginal,Delay(2)(fight.c:4649-4652)
  */
-export function buildEnemyConfusedAttackTimeline(input: BuildEnemyConfusedAttackInput): BattleAnimFrame[] {
+export function buildEnemyConfusedAttackTimeline(
+  input: BuildEnemyConfusedAttackInput,
+): BattleAnimFrame[] {
   const { attackerIdx, attackerPos, targetIdx, targetPos, targetHeight, damage } = input
   const frames: BattleAnimFrame[] = []
 
@@ -1117,7 +1240,11 @@ export function buildEnemyConfusedAttackTimeline(input: BuildEnemyConfusedAttack
 }
 
 /** 协力合击聚拢队形(sdlpal fight.c:3602 `rgwCoopPos[3][2]`):发起者→[0],其余贡献者按队序→[1][2]。 */
-const COOP_POS: ReadonlyArray<readonly [number, number]> = [[208, 157], [234, 170], [260, 183]]
+const COOP_POS: ReadonlyArray<readonly [number, number]> = [
+  [208, 157],
+  [234, 170],
+  [260, 183],
+]
 
 export interface BuildCoopMagicInput {
   /** 发起者 slot 索引(state.players)。 */
@@ -1161,16 +1288,35 @@ export interface BuildCoopMagicInput {
  *    判定+发起者跳过之后自增)—— 与 Phase1 的 t 语义不同(sdlpal 原样,非对称,如实复刻)。
  */
 export function buildCoopMagicTimeline(input: BuildCoopMagicInput): BattleAnimFrame[] {
-  const { casterIdx, partySize, contributorIdxs, originalPositions, magic, n, targetIdx, targetEnemyPos, iBlow, hurtEnemies, damageNums, baseScreenWave } = input
+  const {
+    casterIdx,
+    partySize,
+    contributorIdxs,
+    originalPositions,
+    magic,
+    n,
+    targetIdx,
+    targetEnemyPos,
+    iBlow,
+    hurtEnemies,
+    damageNums,
+    baseScreenWave,
+  } = input
   const isContrib = (j: number): boolean => contributorIdxs.includes(j)
   const frames: BattleAnimFrame[] = []
-  const lerp = (orig: number, coop: number, num: number): number => Math.trunc((orig * (6 - num) + coop * num) / 6)
+  const lerp = (orig: number, coop: number, num: number): number =>
+    Math.trunc((orig * (6 - num) + coop * num) / 6)
 
   // —— Phase1 聚拢(i=1..6,fight.c:3877-3925)——
   for (let i = 1; i <= 6; i++) {
     const fighters: FighterDelta[] = []
     const oc = originalPositions[casterIdx]
-    if (oc) fighters.push({ side: 'player', idx: casterIdx, pos: { x: lerp(oc.x, COOP_POS[0]![0], i), y: lerp(oc.y, COOP_POS[0]![1], i) } })
+    if (oc)
+      fighters.push({
+        side: 'player',
+        idx: casterIdx,
+        pos: { x: lerp(oc.x, COOP_POS[0]![0], i), y: lerp(oc.y, COOP_POS[0]![1], i) },
+      })
     let t = 0
     for (let j = 0; j < partySize; j++) {
       if (j === casterIdx) continue
@@ -1179,7 +1325,11 @@ export function buildCoopMagicTimeline(input: BuildCoopMagicInput): BattleAnimFr
       const oj = originalPositions[j]
       const cp = COOP_POS[t]
       if (!oj || !cp) continue
-      fighters.push({ side: 'player', idx: j, pos: { x: lerp(oj.x, cp[0], i), y: lerp(oj.y, cp[1], i) } })
+      fighters.push({
+        side: 'player',
+        idx: j,
+        pos: { x: lerp(oj.x, cp[0], i), y: lerp(oj.y, cp[1], i) },
+      })
     }
     frames.push({ durationMs: delayMs(1), fighters })
   }
@@ -1191,12 +1341,28 @@ export function buildCoopMagicTimeline(input: BuildCoopMagicInput): BattleAnimFr
   }
 
   // —— Phase3 发起者闪白(fight.c:3943-3945)——
-  frames.push({ durationMs: delayMs(5), fighters: [{ side: 'player', idx: casterIdx, iColorShift: 6, currentFrame: 5 }] })
+  frames.push({
+    durationMs: delayMs(5),
+    fighters: [{ side: 'player', idx: casterIdx, iColorShift: 6, currentFrame: 5 }],
+  })
   // —— Phase4 发起者出招(fight.c:3947-3949)——
-  frames.push({ durationMs: delayMs(3), fighters: [{ side: 'player', idx: casterIdx, currentFrame: 6, iColorShift: 0 }] })
+  frames.push({
+    durationMs: delayMs(3),
+    fighters: [{ side: 'player', idx: casterIdx, currentFrame: 6, iColorShift: 0 }],
+  })
 
   // —— Phase5 OffMagic(fight.c:3951,casterIdx=-1)——
-  frames.push(...buildPlayerOffMagicTimeline({ casterIdx: -1, magic, n, targetIdx, targetEnemyPos, iBlow, baseScreenWave }))
+  frames.push(
+    ...buildPlayerOffMagicTimeline({
+      casterIdx: -1,
+      magic,
+      n,
+      targetIdx,
+      targetEnemyPos,
+      iBlow,
+      baseScreenWave,
+    }),
+  )
 
   // —— Phase6 PostMagic(fight.c:4046)。数字在 PostMagic 第一帧显示,不是滑回结束后。——
   const postFrames = buildPostMagicTimeline({ hurtEnemies })
@@ -1209,7 +1375,16 @@ export function buildCoopMagicTimeline(input: BuildCoopMagicInput): BattleAnimFr
     const fighters: FighterDelta[] = []
     const oc = originalPositions[casterIdx]
     // 回位 pos =(posOriginal*i + coopPos*(6-i))/ 6 = lerp(coopPos, posOriginal, i) 的对称(用 lerp(orig,coop,6-i) 不对,显式算)。
-    if (oc) fighters.push({ side: 'player', idx: casterIdx, currentFrame: 0, pos: { x: Math.trunc((oc.x * i + COOP_POS[0]![0] * (6 - i)) / 6), y: Math.trunc((oc.y * i + COOP_POS[0]![1] * (6 - i)) / 6) } })
+    if (oc)
+      fighters.push({
+        side: 'player',
+        idx: casterIdx,
+        currentFrame: 0,
+        pos: {
+          x: Math.trunc((oc.x * i + COOP_POS[0]![0] * (6 - i)) / 6),
+          y: Math.trunc((oc.y * i + COOP_POS[0]![1] * (6 - i)) / 6),
+        },
+      })
     let t = 0
     for (let j = 0; j < partySize; j++) {
       if (!isContrib(j)) continue
@@ -1218,7 +1393,15 @@ export function buildCoopMagicTimeline(input: BuildCoopMagicInput): BattleAnimFr
       const oj = originalPositions[j]
       const cp = COOP_POS[t]
       if (!oj || !cp) continue
-      fighters.push({ side: 'player', idx: j, currentFrame: 0, pos: { x: Math.trunc((oj.x * i + cp[0] * (6 - i)) / 6), y: Math.trunc((oj.y * i + cp[1] * (6 - i)) / 6) } })
+      fighters.push({
+        side: 'player',
+        idx: j,
+        currentFrame: 0,
+        pos: {
+          x: Math.trunc((oj.x * i + cp[0] * (6 - i)) / 6),
+          y: Math.trunc((oj.y * i + cp[1] * (6 - i)) / 6),
+        },
+      })
     }
     frames.push({ durationMs: delayMs(1), fighters })
   }
@@ -1288,13 +1471,24 @@ export interface BuildSummonInput {
  * (in/loop,神在场仍画敌)还是"队员场景"(out),并 dither crossfade 对侧快照。
  */
 export function buildSummonGodSequence(input: BuildSummonInput): BattleAnimFrame[] {
-  const { spriteKey, pos, bgColorShift, totalFrames, frameTimeMs, offMagicFrames, postMagicFrames } = input
+  const {
+    spriteKey,
+    pos,
+    bgColorShift,
+    totalFrames,
+    frameTimeMs,
+    offMagicFrames,
+    postMagicFrames,
+  } = input
   const frames: BattleAnimFrame[] = []
   const lastFrame = Math.max(0, totalFrames - 1)
 
   // —— fadeIn:召唤神 frame0,72 步 crossfade(队员→召唤神)——
   for (let s = 0; s < SUMMON_FADE_STEPS; s++) {
-    frames.push({ durationMs: SUMMON_FADE_STEP_MS, summon: { spriteKey, frame: 0, pos, bgColorShift, fadeStep: s, fadeDir: 'in' } })
+    frames.push({
+      durationMs: SUMMON_FADE_STEP_MS,
+      summon: { spriteKey, frame: 0, pos, bgColorShift, fadeStep: s, fadeDir: 'in' },
+    })
   }
   // —— loop:塌缩成**单一时间线帧**(durationMs = loop 总时长),present 每 rAF 按 wall-clock 细分 iSummonFrame
   //   (stepSummonLoopRender),绕开 40ms 逻辑 tick 对 frameTimeMs(天剑 50ms)的拍频离散 —— 否则 frame0 在
@@ -1319,8 +1513,12 @@ export function buildSummonGodSequence(input: BuildSummonInput): BattleAnimFrame
   //   `PAL_BattleUpdateFighters()` 在 :911 `PAL_BattleFadeScene()` 之前调)→ crossfade 目标场景 = 复位后的
   //   正常主角(站立帧/iColorShift=0/原位),而非残留的施法帧+高亮+上移。applyAnimFrame 累积保持,后续帧不必重复。——
   for (let s = 0; s < SUMMON_FADE_STEPS; s++) {
-    const frame: BattleAnimFrame = { durationMs: SUMMON_FADE_STEP_MS, summon: { spriteKey, frame: lastFrame, pos, bgColorShift, fadeStep: s, fadeDir: 'out' } }
-    if (s === 0 && input.resetFighters && input.resetFighters.length > 0) frame.fighters = input.resetFighters
+    const frame: BattleAnimFrame = {
+      durationMs: SUMMON_FADE_STEP_MS,
+      summon: { spriteKey, frame: lastFrame, pos, bgColorShift, fadeStep: s, fadeDir: 'out' },
+    }
+    if (s === 0 && input.resetFighters && input.resetFighters.length > 0)
+      frame.fighters = input.resetFighters
     frames.push(frame)
   }
   return frames
@@ -1523,7 +1721,15 @@ export interface BuildEnemyMagicIntroInput {
  * 即靠 fireDelay==0 分支动:frame 0→1→2→3→4,并前移两步。
  */
 export function buildEnemyMagicCastIntro(input: BuildEnemyMagicIntroInput): BattleAnimFrame[] {
-  const { enemyCasterIdx, enemyPos, idleFrames, magicFrames, attackFrames, actWaitFrames, fireDelay } = input
+  const {
+    enemyCasterIdx,
+    enemyPos,
+    idleFrames,
+    magicFrames,
+    attackFrames,
+    actWaitFrames,
+    fireDelay,
+  } = input
   const frames: BattleAnimFrame[] = []
   let ex = enemyPos.x
   let ey = enemyPos.y
@@ -1531,10 +1737,16 @@ export function buildEnemyMagicCastIntro(input: BuildEnemyMagicIntroInput): Batt
   // 前移 2 帧(fight.c:4683-4693)
   ex += 12
   ey += 6
-  frames.push({ durationMs: delayMs(1), fighters: [{ side: 'enemy', idx: enemyCasterIdx, pos: { x: ex, y: ey } }] })
+  frames.push({
+    durationMs: delayMs(1),
+    fighters: [{ side: 'enemy', idx: enemyCasterIdx, pos: { x: ex, y: ey } }],
+  })
   ex += 4
   ey += 2
-  frames.push({ durationMs: delayMs(1), fighters: [{ side: 'enemy', idx: enemyCasterIdx, pos: { x: ex, y: ey } }] })
+  frames.push({
+    durationMs: delayMs(1),
+    fighters: [{ side: 'enemy', idx: enemyCasterIdx, pos: { x: ex, y: ey } }],
+  })
 
   // magicFrames 施法手势(fight.c:4697-4702)
   for (let i = 0; i < magicFrames; i++) {
@@ -1544,15 +1756,16 @@ export function buildEnemyMagicCastIntro(input: BuildEnemyMagicIntroInput): Batt
     })
   }
   // magicFrames==0 → 补 1 帧停顿(fight.c:4704-4707)
-  if (magicFrames === 0)
-    frames.push({ durationMs: delayMs(1) })
+  if (magicFrames === 0) frames.push({ durationMs: delayMs(1) })
 
   // fireDelay==0 → attackFrames(+1)帧手势(fight.c:4709-4717)
   if (fireDelay === 0) {
     for (let i = 0; i <= attackFrames; i++) {
       frames.push({
         durationMs: delayMs(actWaitFrames),
-        fighters: [{ side: 'enemy', idx: enemyCasterIdx, currentFrame: i - 1 + idleFrames + magicFrames }],
+        fighters: [
+          { side: 'enemy', idx: enemyCasterIdx, currentFrame: i - 1 + idleFrames + magicFrames },
+        ],
       })
     }
   }
@@ -1578,14 +1791,16 @@ export function buildEnemySummonTimeline(input: {
   for (let i = 0; i < input.caster.magicFrames; i++) {
     frames.push({
       durationMs: delayMs(input.caster.actWaitFrames),
-      fighters: [{ side: 'enemy', idx: input.casterIdx, currentFrame: input.caster.idleFrames + i }],
+      fighters: [
+        { side: 'enemy', idx: input.casterIdx, currentFrame: input.caster.idleFrames + i },
+      ],
     })
   }
 
   if (input.summonedIdxs.length > 0) {
     frames.push({
       durationMs: delayMs(1),
-      fighters: input.summonedIdxs.map(idx => ({ side: 'enemy' as const, idx, iColorShift: 8 })),
+      fighters: input.summonedIdxs.map((idx) => ({ side: 'enemy' as const, idx, iColorShift: 8 })),
       sound: 212,
     })
     frames.push({ durationMs: delayMs(2) })
@@ -1593,7 +1808,7 @@ export function buildEnemySummonTimeline(input: {
 
   frames.push({
     durationMs: delayMs(1),
-    fighters: input.activeEnemyIdxs.map(idx => ({ side: 'enemy' as const, idx, iColorShift: 0 })),
+    fighters: input.activeEnemyIdxs.map((idx) => ({ side: 'enemy' as const, idx, iColorShift: 0 })),
   })
   return frames
 }
@@ -1626,7 +1841,9 @@ export function buildEnemyDivisionTimeline(input: {
 }): BattleAnimFrame[] {
   const frames: BattleAnimFrame[] = []
   // 各敌当前 pos —— 初始全叠在 startPos(sdlpal 把所有副本 pos 设成原敌 pos)。
-  const cur = new Map(input.targets.map((t) => [t.idx, { x: input.startPos.x, y: input.startPos.y }]))
+  const cur = new Map(
+    input.targets.map((t) => [t.idx, { x: input.startPos.x, y: input.startPos.y }]),
+  )
   for (let step = 0; step < 10; step++) {
     const fighters: FighterDelta[] = input.targets.map((t) => {
       const c = cur.get(t.idx)!
@@ -1639,7 +1856,11 @@ export function buildEnemyDivisionTimeline(input: {
   // 末帧归位 posOriginal(PAL_BattleUpdateFighters)。
   frames.push({
     durationMs: delayMs(1),
-    fighters: input.targets.map((t) => ({ side: 'enemy' as const, idx: t.idx, pos: { x: t.pos.x, y: t.pos.y } })),
+    fighters: input.targets.map((t) => ({
+      side: 'enemy' as const,
+      idx: t.idx,
+      pos: { x: t.pos.x, y: t.pos.y },
+    })),
   })
   return frames
 }
@@ -1666,8 +1887,30 @@ export function buildEnemyDivisionTimeline(input: {
  */
 export function buildEnemyMagicTimeline(input: BuildEnemyMagicInput): BattleAnimFrame[] {
   // targetPlayerIdx 透传供调用方语义对齐;落点由 magic.type + targetPlayerPos 决定,本体不直接读 idx。
-  const { enemyCasterIdx, magic, n, enemy, targetPlayerPos, iBlow, blowTargets, rng, baseScreenWave } = input
-  const { effect, type, speed, fireDelay, effectTimes, shake, scriptShake, xOffset, yOffset, wave, keepEffect } = magic
+  const {
+    enemyCasterIdx,
+    magic,
+    n,
+    enemy,
+    targetPlayerPos,
+    iBlow,
+    blowTargets,
+    rng,
+    baseScreenWave,
+  } = input
+  const {
+    effect,
+    type,
+    speed,
+    fireDelay,
+    effectTimes,
+    shake,
+    scriptShake,
+    xOffset,
+    yOffset,
+    wave,
+    keepEffect,
+  } = magic
   const layerOffset = asShortLocal((magic as { special?: number }).special ?? 0) // DM9:sLayerOffset
   const { idleFrames, magicFrames, attackFrames } = enemy
   // W4 iBlow:吹飞累加态(per target 运行 x/y),仅 iBlow!=0 + 有 targets + rng 时启用。镜像 OffMagic,吹**全体队员**。
@@ -1755,8 +1998,14 @@ export function buildEnemyMagicTimeline(input: BuildEnemyMagicInput): BattleAnim
       const blow = iBlow! > 0 ? rng!.rangeInclusive(0, iBlow!) : rng!.rangeInclusive(iBlow!, 0)
       const isLast = i === l - 1
       for (const t of blowAcc) {
-        if (isLast) { t.x = t.pos.x; t.y = t.pos.y } // 末帧复位 posOriginal
-        else { t.x += blow; t.y += Math.trunc(blow / 2) }
+        if (isLast) {
+          t.x = t.pos.x
+          t.y = t.pos.y
+        } // 末帧复位 posOriginal
+        else {
+          t.x += blow
+          t.y += Math.trunc(blow / 2)
+        }
         fighters.push({ side: t.side, idx: t.idx, pos: { x: t.x, y: t.y } })
       }
     }
@@ -1769,7 +2018,8 @@ export function buildEnemyMagicTimeline(input: BuildEnemyMagicInput): BattleAnim
     if (effectiveShake) frame.shake = effectiveShake
     if (wave && wave > 0) frame.screenWave = wave // W4 屏波(fight.c:2895)
     // L17:keepEffect 的 wScreenWave<9 判定 = 战场基础屏波 + magic.wWave(fight.c:2895/2983,battle.c:1563)。
-    if (i === l - 1 && keepEffect === 0xffff && (baseScreenWave ?? 0) + (wave ?? 0) < 9) frame.keepEffect = true // W4 烙背景(fight.c:2983)
+    if (i === l - 1 && keepEffect === 0xffff && (baseScreenWave ?? 0) + (wave ?? 0) < 9)
+      frame.keepEffect = true // W4 烙背景(fight.c:2983)
     frames.push(frame)
   }
 

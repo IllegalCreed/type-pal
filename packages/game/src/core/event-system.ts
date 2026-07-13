@@ -24,74 +24,94 @@
  *    等真撞到 raw + console.debug 看到 opcode 号再补。
  */
 
-import type { Command, DialogBoxStyle, Enemy, EnemyObject, EnemyPosTable, InputSnapshot, Item, Magic, ObjectMagicView, ObjectPoisonView, Palette, PlayerRoles } from '@type-pal/shared'
+import type {
+  Command,
+  DialogBoxStyle,
+  Enemy,
+  EnemyObject,
+  EnemyPosTable,
+  InputSnapshot,
+  Item,
+  Magic,
+  ObjectMagicView,
+  ObjectPoisonView,
+  Palette,
+  PlayerRoles,
+} from '@type-pal/shared'
 import { FPS_EXPLORE } from '@type-pal/shared'
+import {
+  appendDialogLine,
+  confirmDialog,
+  parseDialogText,
+  resetDialogBody,
+  setWaitingEndKey,
+  setWaitingPageKey,
+  shouldWaitPageKey,
+  startDialogLine,
+  tickDialog,
+} from '../present/dialog-box.js'
+import { dispatchBattleOpcode } from './battle/battle-opcodes.js'
 import type { BattleState } from './battle/battle-state.js'
 import type { CommandBus } from './command-bus.js'
-import type { GameState, NpcState, EventCursor, DialogBoxState } from './game-state.js'
-import { PARTYOFFSET_X, PARTYOFFSET_Y } from './game-state.js'
 import { pushDialogHistory } from './dialog-history.js'
-import { getCurrentMapNum } from './scene-system.js'
-import { dispatchBattleOpcode } from './battle/battle-opcodes.js'
-import { getWord } from './word-lookup.js'
-import { addPlayerStatRow, getPlayerPoisonResistance, removeEquipmentEffect, resyncBattleRoleStatsFromRuntime, setPlayerStatRow, writeEquipmentEffectField } from './equip-effect.js'
 import {
-  buildFadeOut,
-  buildFadeIn,
-  buildSceneFade,
-  buildPaletteFade,
+  addPlayerStatRow,
+  getPlayerPoisonResistance,
+  removeEquipmentEffect,
+  resyncBattleRoleStatsFromRuntime,
+  setPlayerStatRow,
+  writeEquipmentEffectField,
+} from './equip-effect.js'
+import type { DialogBoxState, EventCursor, GameState, NpcState } from './game-state.js'
+import { PARTYOFFSET_X, PARTYOFFSET_Y } from './game-state.js'
+import {
+  blackColors,
   buildColorFade,
+  buildFadeIn,
+  buildFadeOut,
   buildFadeToRed,
+  buildPaletteFade,
+  buildSceneFade,
   finalizePaletteFade,
   makeWorkingPalette,
-  blackColors,
-  resolveNightColors,
   type PaletteFadeState,
+  resolveNightColors,
 } from './palette-fade.js'
-import {
-  startDialogLine,
-  appendDialogLine,
-  parseDialogText,
-  shouldWaitPageKey,
-  setWaitingPageKey,
-  setWaitingEndKey,
-  resetDialogBody,
-  tickDialog,
-  confirmDialog,
-} from '../present/dialog-box.js'
+import { getCurrentMapNum } from './scene-system.js'
+import { getWord } from './word-lookup.js'
 
 // ── P0.e: wScriptOnEnter / 战斗触发 opcode 真值(grep sdlpal reference/sdlpal/script.c) ──
 // case 0x0007(7):   Start battle
 //   operand[0]=enemyTeamId
 //   operand[1]=wScriptEntry on Lose(0 = default game-over)
 //   operand[2]=wScriptEntry on Flee(also: !operand[2] → fIsBoss / no-flee 标志)
-export const OP_START_BATTLE = 0x0007           // 7
+export const OP_START_BATTLE = 0x0007 // 7
 // case 0x0046(70):  Set the party position on the map
 //   operand[0]=col, operand[1]=row, operand[2]=h → x=col*32+h*16, y=row*16+h*8
-export const OP_SET_PARTY_POS = 0x0046          // 70
+export const OP_SET_PARTY_POS = 0x0046 // 70
 // case 0x0015(21):  Set the direction and gesture for a party member (sdlpal script.c:732-739)
 //   operand[0] = wPartyDirection(0=South/down, 1=West/left, 2=North/up, 3=East/right)
 //   operand[1] = wFrame offset(0/1/2 — 加到 dir*3 上)
 //   operand[2] = party member index(M5 简版 = 0 主角)
 // **fix3:** 之前只读 operand[0]/dir;真值还要写 partyScriptedFrame[op[2]] = dir*3 + op[1]
-export const OP_SET_PARTY_DIRECTION = 0x0015    // 21(实际 setPartyDirectionAndFrame)
+export const OP_SET_PARTY_DIRECTION = 0x0015 // 21(实际 setPartyDirectionAndFrame)
 // case 0x007F(127): Move the viewport(set camera)
 //   operand[2]=0xFFFF → absolute set(col, row → pixel); operand[0..1]=0 → center on party
-export const OP_SET_CAMERA = 0x007F             // 127
+export const OP_SET_CAMERA = 0x007f // 127
 // same opcode — centerCameraOnParty is 0x007F with operand[0]=0, operand[1]=0
-export const OP_CENTER_CAMERA_ON_PARTY = 0x007F // 127 (operand[0]=0, operand[1]=0 変体)
+export const OP_CENTER_CAMERA_ON_PARTY = 0x007f // 127 (operand[0]=0, operand[1]=0 変体)
 // case 0x0043(67):  Set background music
 //   operand[0]=musicId → gs.wNumMusic; shell AudioManager 轮询播放
-export const OP_PLAY_MUSIC = 0x0043             // 67
+export const OP_PLAY_MUSIC = 0x0043 // 67
 // case 0x0045(69):  Set battle music(sdlpal script.c:1658)
 //   operand[0]=musicId → gs.wNumBattleMusic(进战斗时由 shell AudioManager 播)
-export const OP_SET_BATTLE_MUSIC = 0x0045       // 69
+export const OP_SET_BATTLE_MUSIC = 0x0045 // 69
 // case 0x0077(119): Stop current playing music(sdlpal script.c:2215)
 //   AUDIO_PlayMusic(0,FALSE,op0==0?2.0:op0*3) + gpGlobals->wNumMusic=0(fade 出后停)
-export const OP_STOP_MUSIC = 0x0077             // 119
+export const OP_STOP_MUSIC = 0x0077 // 119
 // case 0x00A3(163): Play CD music, RIX fallback(sdlpal script.c:3023)
 //   gpGlobals->wNumMusic=op1;CD 可用 → PlayCDTrack(op0,-1→-2)失败回 RIX;否则 PlayMusic(op1)
-export const OP_PLAY_CD_MUSIC = 0x00A3          // 163
+export const OP_PLAY_CD_MUSIC = 0x00a3 // 163
 // case 0x0049(73):  Set state of current event object
 //   operand[0]=condition(non-zero → execute), operand[1]=newState
 export const OP_SET_SCENE_OBJECT_STATE = 0x0049 // 73
@@ -99,62 +119,62 @@ export const OP_SET_SCENE_OBJECT_STATE = 0x0049 // 73
 //   operand[0] = signed amount;若 < 0 且 dwCash 不够 → 跳 operand[1] label。
 //   我们简版:cash 不够时也加(让 negative)+ 不跳 — 注释标注但不做 goto fallback
 //   (chest 用 add positive 主要 case;dec 多在 buy 用走 menu 路径)。
-export const OP_ADD_CASH = 0x001E               // 30
+export const OP_ADD_CASH = 0x001e // 30
 // case 0x001F(31):  Add item to inventory(sdlpal script.c:970-975)
 //   operand[0] = itemId, operand[1] = qty(signed,负值 = remove)。
-export const OP_ADD_ITEM = 0x001F               // 31
+export const OP_ADD_ITEM = 0x001f // 31
 // case 0x0020(32):  Remove item from inventory(sdlpal script.c:977-...)
 //   operand[0] = itemId, operand[1] = qty(0 → 1), operand[2] = consumeEquipped flag。
 //   简版:只从 inventory remove;equipment 不消费(M5 装备表未真做)。
-export const OP_REMOVE_ITEM = 0x0020            // 32
+export const OP_REMOVE_ITEM = 0x0020 // 32
 // case 0x0047(71):  Play sound effect(sdlpal script.c:1704-1709)
 //   operand[0] = soundId → gs.pendingSounds; shell AudioManager drain 播放。
-export const OP_PLAY_SOUND = 0x0047             // 71
+export const OP_PLAY_SOUND = 0x0047 // 71
 // case 0x0012(18):  Set position of event object relative to party(script.c:706-714)
 //   pCurrent.x = operand[1] + viewport.x + partyoffset.x = operand[1] + party.x(world)
 //   pCurrent.y = operand[2] + viewport.y + partyoffset.y = operand[2] + party.y
 //   (我们 gs.party.x/y 直接是 world,viewport+partyoffset 等价于 party world)
-export const OP_SET_OBJECT_POS_REL_PARTY = 0x0012  // 18
+export const OP_SET_OBJECT_POS_REL_PARTY = 0x0012 // 18
 // case 0x0024(36):  Set autoscript entry for event object(script.c:相关)
 //   if (operand[0] != 0) pCurrent.wAutoScript = operand[1]
 //   operand[1] 是 raw commands index ip — 我们 npc.autoCursor.ip 同义。
-export const OP_SET_AUTO_SCRIPT = 0x0024        // 36
+export const OP_SET_AUTO_SCRIPT = 0x0024 // 36
 // case 0x0035(53):  Shake screen(script.c:1521-1535)
 //   time=operand[0];level=operand[1];if(level==0)level=4;VIDEO_ShakeScreen(time,level);
 //   if(operand[0]==0) 立即 UpdateScreen 复位(关抖)。VIDEO_ShakeScreen 只写 static
 //   g_wShakeTime/g_wShakeLevel(video.c:59-60,非存档)。真抖在 present 层 applyScreenShake
 //   (video.c:571-616)逐帧奇偶交替 ±level 垂直跳动 + 黑条,末尾自减。
-export const OP_SHAKE_SCREEN = 0x0035           // 53
+export const OP_SHAKE_SCREEN = 0x0035 // 53
 // case 0x0034(52): Transform collected enemies into items(script.c:1452,妖魔转化)
 //   wCollectValue>0 → i=RandomLong(1,collectValue) cap 9(PAL_CLASSIC);collectValue-=i;i--;
 //   AddItem(store[0].rgwItems[i],1) + 物品框 dialog。else(collectValue==0)→ jump op0。
-export const OP_TRANSFORM_COLLECTED = 0x0034     // 52
+export const OP_TRANSFORM_COLLECTED = 0x0034 // 52
 // case 0x0038(56): Teleport the party out of the scene(script.c:1554,归隐符/瞬移)
 //   !fInBattle && scene.wScriptOnTeleport != 0 → 跑 teleport 脚本;else 失败 → fScriptSuccess=FALSE + jump op0。
-export const OP_TELEPORT_OUT = 0x0038            // 56
+export const OP_TELEPORT_OUT = 0x0038 // 56
 // case 0x0026(38): Buy menu(sdlpal script.c:1157)— PAL_BuyMenu(operand[0]=shop id)
 //   显示购买菜单,operand[0] 是 shop OBJECT id;阻塞等用户选完。
 // M-w3.a 简版:event-system stub console.debug + ip++(真做接 dev panel BuyMenu)。
-export const OP_BUY_MENU = 0x0026                // 38
+export const OP_BUY_MENU = 0x0026 // 38
 // case 0x0027(39): Sell menu(script.c:1166)— PAL_SellMenu(),无 operand。
-export const OP_SELL_MENU = 0x0027               // 39
+export const OP_SELL_MENU = 0x0027 // 39
 // case 0x000B-0x000E (11-14): NPC walk one step + 自动设方向(script.c:652-661)
 //   dir = wOperation - 0x000B(0=S, 1=W, 2=N, 3=E,palcommon.h kDir*)
 //   走一步 = 像素位移按方向(scene.c:804-805:S→(-16,+8) W→(-16,-8) N→(+16,-8) E→(+16,+8))
-export const OP_NPC_WALK_ONE_STEP_SOUTH = 0x000B  // 11
-export const OP_NPC_WALK_ONE_STEP_WEST  = 0x000C  // 12
-export const OP_NPC_WALK_ONE_STEP_NORTH = 0x000D  // 13
-export const OP_NPC_WALK_ONE_STEP_EAST  = 0x000E  // 14
+export const OP_NPC_WALK_ONE_STEP_SOUTH = 0x000b // 11
+export const OP_NPC_WALK_ONE_STEP_WEST = 0x000c // 12
+export const OP_NPC_WALK_ONE_STEP_NORTH = 0x000d // 13
+export const OP_NPC_WALK_ONE_STEP_EAST = 0x000e // 14
 // case 0x004A(74):  Set the current battlefield
 //   operand[0] = battlefield id → gs.wNumBattleField(sdlpal script.c:1719,global.h:536)
 //   scene 15 wScriptOnEnter `[10, 0, 0]` → 草妖通道用 battlefield 10
-export const OP_SET_BATTLE_FIELD = 0x004A       // 74
+export const OP_SET_BATTLE_FIELD = 0x004a // 74
 // case 0x008A(138): Enable auto-battle for next battle(sdlpal script.c:2564 `fAutoBattle = TRUE`)。
 //   战斗开始前的**事件脚本**里设(石长老vs盖罗娇 all.json ci16680:0x8A → 0x4a set-battlefield →
 //   0x07 startBattle team37);startBattle → createBattleState 从 gs.fAutoBattle seed 进战斗,整场
 //   AI 自动选行动。battle 侧 dispatchBattleOpcode 亦有同 handler(battle-opcodes OP_ENABLE_AUTO_BATTLE);
 //   事件侧此前漏 → 该类剧情自动战斗退化成玩家手动(user 2026-06-14 报)。
-export const OP_ENABLE_AUTO_BATTLE = 0x008A     // 138
+export const OP_ENABLE_AUTO_BATTLE = 0x008a // 138
 
 // ── Sync.2 fix3: 5 个 cutscene opcode(scene 1 onEnter 高频用)─────────────
 // case 0x0005(5):   Redraw screen / PAL_ClearDialog(TRUE) — sdlpal script.c:3267-3297
@@ -163,110 +183,110 @@ export const OP_ENABLE_AUTO_BATTLE = 0x008A     // 138
 //   无 dialog → 直接 ip++(no-op)
 // 注:operand[1] = delay 倍数 60(UTIL_Delay),operand[2] != 0 → PAL_UpdatePartyGestures(FALSE)
 //     M5 简版:delay / gesture update 暂不实现(playback 节奏由 typing + frame-wait 覆盖)
-export const OP_REDRAW_SCREEN = 0x0005          // 5
+export const OP_REDRAW_SCREEN = 0x0005 // 5
 // case 0x0008(8):   Advance entry and keep running(sdlpal PAL_RunTriggerScript script.c:3335-3341)
 //   `wScriptEntry++; wNextScriptEntry = wScriptEntry;` — 推进 ip **且继续跑**,把持久化 resume 点
 //   设到 0x08 之后(mid-script checkpoint)。后续 0x01/0x02 收尾覆盖;0x00 plain 不覆盖 → checkpoint
 //   保留 → 重触发从 0x08 后续跑(跳过已播内容,如商店对话只播一次)。69 处用(scene-30 药铺等)。
-export const OP_CHECKPOINT_ADVANCE = 0x0008     // 8
+export const OP_CHECKPOINT_ADVANCE = 0x0008 // 8
 // case 0x0009(9):   Wait for N frames(sdlpal script.c:3593-3604)
 //   operand[0] = frame count;cursor 卡 N frame 再 ip++
-export const OP_WAIT_FRAMES = 0x0009            // 9
+export const OP_WAIT_FRAMES = 0x0009 // 9
 // case 0x0013(19):  Set the position of the event object(script.c:716-722)
 //   self.x = operand[1], self.y = operand[2](operand[0] unused;always pCurrent / wCurEventObjectID)
-export const OP_SET_OBJECT_POS = 0x0013         // 19
+export const OP_SET_OBJECT_POS = 0x0013 // 19
 // case 0x0014(20):  Set the gesture of the event object(script.c:724-730)
 //   pCurrent.wCurrentFrameNum = operand[0]; pCurrent.wDirection = kDirSouth(强制朝南)
 // 这是 pose opcode 核心 — 设 NPC 当前帧 + 朝南。
-export const OP_SET_OBJECT_GESTURE = 0x0014     // 20
+export const OP_SET_OBJECT_GESTURE = 0x0014 // 20
 // case 0x0016(22):  Set direction AND gesture for an event object(script.c:741-750)
 //   operand[0] != 0 → pCurrent.wDirection = operand[1], pCurrent.wCurrentFrameNum = operand[2]
 //   operand[0] == 0 → no-op
 // **fix3 真值修:** 之前误把 operand[1]=dir + 漏 operand[2]=frame;真值如上。
-export const OP_SET_EVENT_OBJECT_DIR_AND_FRAME = 0x0016  // 22
+export const OP_SET_EVENT_OBJECT_DIR_AND_FRAME = 0x0016 // 22
 /** @deprecated 改名 → OP_SET_EVENT_OBJECT_DIR_AND_FRAME */
 export const OP_SET_EVENT_OBJECT_DIR = OP_SET_EVENT_OBJECT_DIR_AND_FRAME
 // case 0x000F(15):  Set direction and/or gesture for event object (sdlpal script.c:663-675)
 //   operand[0] != 0xFFFF → pEvtObj.wDirection = operand[0]
 //   operand[1] != 0xFFFF → pEvtObj.wCurrentFrameNum = operand[1]
 // 注:**与 0x000E walkOneStep 是兩個独立 opcode** — 0x000F 不真 walk,只是 dir/frame setter。
-export const OP_SET_EVENT_OBJECT_DIR_OR_FRAME = 0x000F  // 15
+export const OP_SET_EVENT_OBJECT_DIR_OR_FRAME = 0x000f // 15
 // case 0x0010(16): Walk straight to position(sdlpal script.c:677-686)
 //   PAL_NPCWalkTo(wEventObjectID, op0, op1, op2, speed=3)
 //   未到达时 sdlpal `wScriptEntry--` → 下一帧 retry 同条 ip → 阻塞 trigger script 到达目标。
 //   trigger 触发的 wEventObjectID = currentEventObjectId(我们 npc.id 0-based)。
 //   target 像素 = (op0 * 32 + op2 * 16, op1 * 16 + op2 * 8) — col/row/h 转 pixel(sdlpal map.h)
-export const OP_NPC_WALK_TO_SPEED_3 = 0x0010    // 16
+export const OP_NPC_WALK_TO_SPEED_3 = 0x0010 // 16
 // case 0x0011(17): NPCWalkTo,speed=2,每隔帧才走(sdlpal script.c:688-704)
 //   `if ((wEventObjectID & 1) ^ (dwFrameNum & 1))` 即奇偶搭配走 → 实际是慢速 walk
-export const OP_NPC_WALK_TO_SPEED_2 = 0x0011    // 17
+export const OP_NPC_WALK_TO_SPEED_2 = 0x0011 // 17
 // case 0x0082(130): NPCWalkTo,speed=8(快走,script.c:2437-2446)
-export const OP_NPC_WALK_TO_SPEED_8 = 0x0082    // 130
+export const OP_NPC_WALK_TO_SPEED_8 = 0x0082 // 130
 // case 0x0070(112): Walk the party to position(sdlpal script.c:2125-2130)
 //   PAL_PartyWalkTo(op0, op1, op2, speed=2) — 主角同步走到 (col=op0, row=op1, h=op2)。
 //   每 tick 1 step,trail unshift + 改 wPartyDirection + UpdatePartyGestures。
-export const OP_PARTY_WALK_TO = 0x0070          // 112
+export const OP_PARTY_WALK_TO = 0x0070 // 112
 // case 0x006C(108): Walk the NPC in one step(script.c:2056-2063)
 //   pCurrent.x += SHORT(operand[1]), pCurrent.y += SHORT(operand[2])
 //   PAL_NPCWalkOneStep(wCurEventObjectID, 0)  // speed=0,只更新 wCurrentFrameNum
-export const OP_NPC_WALK_ONE_STEP = 0x006C      // 108
+export const OP_NPC_WALK_ONE_STEP = 0x006c // 108
 
 // ── B 类移动 opcode ──────────────────────────────────────────────────────────
-export const OP_PARTY_WALK_TO_4 = 0x007A        // 122 walk party speed 4
-export const OP_PARTY_WALK_TO_8 = 0x007B        // 123 walk party speed 8
-export const OP_NPC_WALK_TO_4 = 0x007C          // 124 NPC walk straight speed 4(隔帧)
-export const OP_MOVE_OBJECT = 0x007D            // 125 pCurrent.x+=op1, y+=op2
-export const OP_SET_OBJECT_LAYER = 0x007E       // 126 pCurrent.sLayer = op1
-export const OP_ANIMATE_OBJECT = 0x0087         // 135 NPCWalkOneStep(id,0):仅推进动画帧
-export const OP_NULLIFY_OBJECT = 0x004B         // 75  pEvtObj.sVanishTime = -15
-export const OP_HIDE_OBJECT = 0x0052            // 82  pEvtObj.sState*=-1 + sVanishTime=op0?op0:800
-export const OP_CHASE_PAUSE = 0x0062            // 98  wChasespeedChangeCycles=op0, wChaseRange=0
-export const OP_CHASE_SPEEDUP = 0x0063          // 99  wChasespeedChangeCycles=op0, wChaseRange=3
-export const OP_RIDE_OBJECT_2 = 0x003F          // 63  PartyRideEventObject speed 2
-export const OP_RIDE_OBJECT_4 = 0x0044          // 68  PartyRideEventObject speed 4
-export const OP_RIDE_OBJECT_8 = 0x0097          // 151 PartyRideEventObject speed 8
-export const OP_MONSTER_CHASE = 0x004C          // 76  MonsterChasePlayer(id, speed, maxDist, floating)
+export const OP_PARTY_WALK_TO_4 = 0x007a // 122 walk party speed 4
+export const OP_PARTY_WALK_TO_8 = 0x007b // 123 walk party speed 8
+export const OP_NPC_WALK_TO_4 = 0x007c // 124 NPC walk straight speed 4(隔帧)
+export const OP_MOVE_OBJECT = 0x007d // 125 pCurrent.x+=op1, y+=op2
+export const OP_SET_OBJECT_LAYER = 0x007e // 126 pCurrent.sLayer = op1
+export const OP_ANIMATE_OBJECT = 0x0087 // 135 NPCWalkOneStep(id,0):仅推进动画帧
+export const OP_NULLIFY_OBJECT = 0x004b // 75  pEvtObj.sVanishTime = -15
+export const OP_HIDE_OBJECT = 0x0052 // 82  pEvtObj.sState*=-1 + sVanishTime=op0?op0:800
+export const OP_CHASE_PAUSE = 0x0062 // 98  wChasespeedChangeCycles=op0, wChaseRange=0
+export const OP_CHASE_SPEEDUP = 0x0063 // 99  wChasespeedChangeCycles=op0, wChaseRange=3
+export const OP_RIDE_OBJECT_2 = 0x003f // 63  PartyRideEventObject speed 2
+export const OP_RIDE_OBJECT_4 = 0x0044 // 68  PartyRideEventObject speed 4
+export const OP_RIDE_OBJECT_8 = 0x0097 // 151 PartyRideEventObject speed 8
+export const OP_MONSTER_CHASE = 0x004c // 76  MonsterChasePlayer(id, speed, maxDist, floating)
 // case 0x006E(110): Move the player to specified offset in one step(script.c:2091-2113)
 //   trail unshift + party.x += SHORT(operand[0]), party.y += SHORT(operand[1])
 //   wLayer = operand[2] * 8
-export const OP_PLAYER_WALK_ONE_STEP = 0x006E   // 110
-export const OP_SYNC_OBJ_STATE = 0x006F         // 111 if pCurrent.sState==op1 → pEvtObj.sState=op1
+export const OP_PLAYER_WALK_ONE_STEP = 0x006e // 110
+export const OP_SYNC_OBJ_STATE = 0x006f // 111 if pCurrent.sState==op1 → pEvtObj.sState=op1
 // case 0x0065(101): Set player sprite(script.c:1999-2004)
 //   PlayerRoles.rgwSpriteNum[operand[0]] = operand[1]
 //   operand[2] != 0 → PAL_LoadResources。ts 写 PlayerRolesRuntime.rgwSpriteNum;bootstrap 负责预取精灵。
 // 用于剧情切换角色大世界 sprite(主角 pose / 队友造型等)。
-export const OP_SET_PLAYER_SPRITE = 0x0065      // 101
+export const OP_SET_PLAYER_SPRITE = 0x0065 // 101
 // case 0x0073(115): Fade screen — VIDEO_FadeScreen(operand[0])(script.c:3267-3297 类似的 IO 模式)
 //   sdlpal 真值:VIDEO_BackupScreen + PAL_MakeScene + VIDEO_FadeScreen(speed)
 //   速度越大越慢:12 outer × 6 inner = 72 步 palette-bit blending
 // M5 简版:writeState fadeState + cursor.waiting='fade-screen' 等淡完;present.ts 画黑色 alpha overlay
-export const OP_FADE_SCREEN = 0x0073            // 115
+export const OP_FADE_SCREEN = 0x0073 // 115
 // 特效 A(2026-05-29):调色板 ramp fade(sdlpal palette.c + script.c case)。全 'raw'(disasm 未具名)。
 //   handler 在 tickEventSystem 'raw' case 内联(需 return 设 waiting,applyRawOpcode 无法控制主循环)。
-export const OP_FADE_TO_RED = 0x004f            //  79 — PAL_FadeToRed(game over,script.c:1768)
-export const OP_FADE_OUT = 0x0050               //  80 — PAL_FadeOut(屏幕淡黑,script.c:1775)
-export const OP_FADE_IN = 0x0051                //  81 — PAL_FadeIn(屏幕淡回,script.c:1784)
-export const OP_PALETTE_FADE = 0x0080           // 128 — 昼夜 toggle + PAL_PaletteFade(script.c:2381)
-export const OP_COLOR_FADE = 0x008c             // 140 — PAL_ColorFade(from/to 纯色,script.c:2582)
-export const OP_SCENE_FADE = 0x0093             // 147 — PAL_SceneFade(边淡边更新场景,script.c:2664)
-export const OP_FADE_TO_SCENE = 0x009b          // 155 — VIDEO_FadeScreen(2)(dither,复用 fadeState,script.c:2766)
+export const OP_FADE_TO_RED = 0x004f //  79 — PAL_FadeToRed(game over,script.c:1768)
+export const OP_FADE_OUT = 0x0050 //  80 — PAL_FadeOut(屏幕淡黑,script.c:1775)
+export const OP_FADE_IN = 0x0051 //  81 — PAL_FadeIn(屏幕淡回,script.c:1784)
+export const OP_PALETTE_FADE = 0x0080 // 128 — 昼夜 toggle + PAL_PaletteFade(script.c:2381)
+export const OP_COLOR_FADE = 0x008c // 140 — PAL_ColorFade(from/to 纯色,script.c:2582)
+export const OP_SCENE_FADE = 0x0093 // 147 — PAL_SceneFade(边淡边更新场景,script.c:2664)
+export const OP_FADE_TO_SCENE = 0x009b // 155 — VIDEO_FadeScreen(2)(dither,复用 fadeState,script.c:2766)
 // 特效 A(2026-05-29):昼夜调色板 flag(sdlpal script.c:1802/1809 case 0x53/0x54 设 fNightPalette)。
 //   instant 非阻塞;视觉在下次 fade-in / scene-load 选调色板 ramp 时生效(sdlpal 当帧不重绘)。
-export const OP_SET_DAY_PALETTE = 0x0053        // 83 — fNightPalette = FALSE
-export const OP_SET_NIGHT_PALETTE = 0x0054      // 84 — fNightPalette = TRUE
+export const OP_SET_DAY_PALETTE = 0x0053 // 83 — fNightPalette = FALSE
+export const OP_SET_NIGHT_PALETTE = 0x0054 // 84 — fNightPalette = TRUE
 // 特效 B/C(2026-05-29):RNG 动画 + 屏幕波动。
-export const OP_SET_RNG = 0x0036                // 54 — iCurPlayingRNG = op0(script.c:1537,instant)
-export const OP_PLAY_RNG = 0x0037               // 55 — PAL_RNGPlay(script.c:1544,阻塞 modal,handler 注入)
-export const OP_WAVE_SCREEN = 0x0071            // 113 — wScreenWave/sWaveProgression(script.c:2132,present 层消费)
-export const OP_SHOW_FBP = 0x0076               // 118 — PAL_ShowFBP(全屏图,script.c:2199;WIN95 黑屏/DOS 真显)
-export const OP_SCROLL_FBP = 0x00A4             // 164 — PAL_ScrollFBP(下滑卷入,script.c:3038;DOS-only,0 用)
-export const OP_SHOW_FBP_EFFECT = 0x00A5        // 165 — PAL_ShowFBP+effect sprite(script.c:3055;DOS-only,0 用)
-export const OP_ENDING_ANIMATION = 0x0096       // 150 — PAL_EndingAnimation(结局 400 帧,script.c:2693;DOS-only,0 用)
+export const OP_SET_RNG = 0x0036 // 54 — iCurPlayingRNG = op0(script.c:1537,instant)
+export const OP_PLAY_RNG = 0x0037 // 55 — PAL_RNGPlay(script.c:1544,阻塞 modal,handler 注入)
+export const OP_WAVE_SCREEN = 0x0071 // 113 — wScreenWave/sWaveProgression(script.c:2132,present 层消费)
+export const OP_SHOW_FBP = 0x0076 // 118 — PAL_ShowFBP(全屏图,script.c:2199;WIN95 黑屏/DOS 真显)
+export const OP_SCROLL_FBP = 0x00a4 // 164 — PAL_ScrollFBP(下滑卷入,script.c:3038;DOS-only,0 用)
+export const OP_SHOW_FBP_EFFECT = 0x00a5 // 165 — PAL_ShowFBP+effect sprite(script.c:3055;DOS-only,0 用)
+export const OP_ENDING_ANIMATION = 0x0096 // 150 — PAL_EndingAnimation(结局 400 帧,script.c:2693;DOS-only,0 用)
 // case 0x008E(142): Restore the screen(sdlpal script.c:3428-3436)
 //   PAL_ClearDialog(TRUE) + VIDEO_RestoreScreen + VIDEO_UpdateScreen
 //   真值:restore backup buffer(含 title+portrait 像素)→ 视觉 title/portrait 持久,body 空。
 //   我们 state-driven:trigger partialClear → page-advance 保 titleText + portraitIcon,清 body。
-export const OP_RESTORE_SCREEN = 0x008E         // 142
+export const OP_RESTORE_SCREEN = 0x008e // 142
 
 // ── M5.6 session 3:item.scriptOnUse / scriptOnEquip 真值 opcode(sdlpal script.c:867-1404)
 //
@@ -276,18 +296,18 @@ export const OP_RESTORE_SCREEN = 0x008E         // 142
 
 // case 0x0006(6):  Jump to specified address by rate(script.c:3299-3312)
 //   if (RandomLong(1, 100) >= operand[0]) → wScriptEntry = operand[1];else ip++
-export const OP_JUMP_BY_RATE = 0x0006              // 6
+export const OP_JUMP_BY_RATE = 0x0006 // 6
 
 // case 0x0017(23): Set player extra attribute(equipment effect — script.c:752-766)
 //   i = operand[0] - 0xB → equipmentEffect[i].field[operand[1]][role] = SHORT(operand[2])
 //   ts:写 rgEquipmentEffect(part,row,role),row 真值见 equip-effect.ts PLAYERROLES_ROW。
-export const OP_SET_PLAYER_EXTRA_ATTR = 0x0017     // 23
+export const OP_SET_PLAYER_EXTRA_ATTR = 0x0017 // 23
 
 // case 0x0018(24): Equip selected item(script.c:768-811)
 //   i = operand[0] - 0xB(equipment slot);writes rgwEquipment[i][role]=operand[1];
 //   inventory swap:remove new item -1,if old != 0 add old +1
 //   sdlpal `g_iCurEquipPart = i` 全局后续 0x1A 写 equipmentEffect 用 — ts 持久到 gs.iCurEquipPart。
-export const OP_EQUIP_ITEM = 0x0018                // 24
+export const OP_EQUIP_ITEM = 0x0018 // 24
 
 // case 0x0019(25): Increase/decrease player attribute(script.c:813-832)
 //   p[operand[0] * MAX_PLAYER_ROLES + role] += SHORT(operand[1])
@@ -297,171 +317,171 @@ export const OP_EQUIP_ITEM = 0x0018                // 24
 //     6=Level / 7=MaxHP / 8=MaxMP / 9=HP / 10=MP / 17=AttackStrength / 18=MagicStrength
 //     19=Defense / 20=Dexterity / 21=FleeRate / 22=PoisonResistance / 31=CoveredBy
 //   (行号唯一来源 = equip-effect.ts PLAYERROLES_ROW;handler 走 addPlayerStatRow/setPlayerStatRow)
-export const OP_INCREASE_PLAYER_ATTR = 0x0019      // 25
+export const OP_INCREASE_PLAYER_ATTR = 0x0019 // 25
 
 // case 0x001A(26): Set player stat(script.c:834-865)
 //   p[operand[0] * MAX_PLAYER_ROLES + role] = SHORT(operand[1])
 //   role 同 0x0019
 //   注:g_iCurEquipPart != -1 时改写 equipmentEffect(equip 时)— ts 不持久,fallback PlayerRoles
-export const OP_SET_PLAYER_STAT = 0x001A           // 26
+export const OP_SET_PLAYER_STAT = 0x001a // 26
 
 // case 0x001B(27): HP delta(script.c:867-894)
 //   operand[0]=applyToAll;operand[1]=signed delta;wEventObjectID=target role(when not all)
 //   PAL_IncreaseHPMP clamp [0, maxHP]
-export const OP_INCREASE_HP = 0x001B               // 27
+export const OP_INCREASE_HP = 0x001b // 27
 
 // case 0x001C(28): MP delta(script.c:896-921)— 同上
-export const OP_INCREASE_MP = 0x001C               // 28
+export const OP_INCREASE_MP = 0x001c // 28
 
 // case 0x001D(29): HP+MP 双 delta(script.c:923-950)— 同上
-export const OP_INCREASE_HP_MP = 0x001D            // 29
+export const OP_INCREASE_HP_MP = 0x001d // 29
 
 // case 0x0021(33): Inflict damage to enemy(script.c:1026-1050)— 战斗 only
 //   battle context;overworld script 不触发 — log skip + 不阻流
-export const OP_DAMAGE_ENEMY = 0x0021              // 33
+export const OP_DAMAGE_ENEMY = 0x0021 // 33
 
 // case 0x0022(34): Revive player(script.c:1052-1102)
 //   if HP == 0:HP = maxHP * operand[1] / 10 + cure poison level 3 + clear all status
 //   operand[0]=applyToAll
-export const OP_REVIVE_PLAYER = 0x0022             // 34
+export const OP_REVIVE_PLAYER = 0x0022 // 34
 
 // case 0x0023(35): Remove equipment(script.c:1104-1135)
 //   operand[0]=role id;operand[1]==0 → 全槽 / != 0 → 槽 (operand[1]-1)
 //   removed item → inventory +1
-export const OP_REMOVE_EQUIPMENT = 0x0023          // 35
+export const OP_REMOVE_EQUIPMENT = 0x0023 // 35
 
 // case 0x0025(37): Set trigger script for NPC(script.c:1147-1155)
 //   if operand[0] != 0:pCurrent.wTriggerScript = operand[1]
 //   NPC trigger 上下文 — overworld item script 罕用
-export const OP_SET_TRIGGER_SCRIPT = 0x0025        // 37
+export const OP_SET_TRIGGER_SCRIPT = 0x0025 // 37
 
 // case 0x0040(64): Set trigger method for event object(script.c:1613-1621)
 //   if operand[0] != 0 → pCurrent.wTriggerMode = operand[1]
-export const OP_SET_TRIGGER_METHOD = 0x0040        // 64
+export const OP_SET_TRIGGER_METHOD = 0x0040 // 64
 // case 0x0041(65): Mark the script as failed(script.c:1623-1627)— g_fScriptSuccess = FALSE。
 //   调用方按上下文解释:大世界 item/magic 用 success gate;战斗 magic 只 gate 动画/success 脚本,MP 已先扣;
 //   战斗 UseItem 按 fight.c:4387-4400 不看 success gate,只看 consuming。
-export const OP_MARK_SCRIPT_FAILED = 0x0041        // 65
+export const OP_MARK_SCRIPT_FAILED = 0x0041 // 65
 
 // case 0x0055(85): Add magic to player(script.c:1816-1830 → global.c:2084 PAL_AddMagic)
 //   role = operand[1]==0 ? eventObjId : operand[1]-1;spell wObjectID = operand[0]
 //   已学则 no-op,否则填第一个空槽
-export const OP_ADD_MAGIC = 0x0055                 // 85
+export const OP_ADD_MAGIC = 0x0055 // 85
 
 // case 0x0056(86): Remove magic from player(script.c:1832-1846 → global.c:2139 PAL_RemoveMagic)
-export const OP_REMOVE_MAGIC = 0x0056              // 86
+export const OP_REMOVE_MAGIC = 0x0056 // 86
 
 // case 0x009A(154): Set state for multiple event objects(script.c:2756-2764)
 //   for id in [operand[0], operand[1]] → eventObject[id-1].sState = operand[2]
-export const OP_SET_MULTI_OBJECT_STATE = 0x009A    // 154
+export const OP_SET_MULTI_OBJECT_STATE = 0x009a // 154
 
 // ── A2 条件跳转(大世界,无 battle 前置)。跳转目标由 disasm/slice JUMP_TARGET_OPERAND 打标签 ──
-export const OP_JUMP_IF_ITEM_LESS = 0x0058         // 88  if itemAmount(op0)<op1 → jump op2
-export const OP_JUMP_IF_NOT_POISON_KIND = 0x005D   // 93  if !poisonedByKind(role,op0) → jump op1
-export const OP_JUMP_IF_NOT_POISONED = 0x0061      // 97  if !poisoned(role) → jump op0
-export const OP_JUMP_IF_NOT_ALL_FULL_HP = 0x0074   // 116 if 任一队员 HP<MaxHP → jump op0
-export const OP_JUMP_IF_PLAYER_IN_PARTY = 0x0079   // 121 if 队伍含 name==op0 → jump op1
-export const OP_JUMP_IF_NOT_FACING = 0x0081        // 129 几何:party 不面对 obj op0 → jump op2
-export const OP_JUMP_IF_OBJ_NOT_IN_ZONE = 0x0083   // 131 几何:obj op0 不在 zone → jump op2
-export const OP_PLACE_USED_ITEM = 0x0084           // 132 把 obj op0 放 party 正前方 + sState=op1;挡→jump op2
-export const OP_JUMP_IF_NOT_EQUIPPED = 0x0086      // 134 if 装备 op0 数量<op1 → jump op2
-export const OP_JUMP_IF_OBJ_STATE = 0x0094         // 148 if pCurrent.sState==op1 → jump op2
-export const OP_JUMP_IF_SCENE = 0x0095             // 149 if wNumScene==op0 → jump op1
-export const OP_RANDOM_JUMP = 0x00A2               // 162 cursor.ip += RandomLong(0,op0-1)
+export const OP_JUMP_IF_ITEM_LESS = 0x0058 // 88  if itemAmount(op0)<op1 → jump op2
+export const OP_JUMP_IF_NOT_POISON_KIND = 0x005d // 93  if !poisonedByKind(role,op0) → jump op1
+export const OP_JUMP_IF_NOT_POISONED = 0x0061 // 97  if !poisoned(role) → jump op0
+export const OP_JUMP_IF_NOT_ALL_FULL_HP = 0x0074 // 116 if 任一队员 HP<MaxHP → jump op0
+export const OP_JUMP_IF_PLAYER_IN_PARTY = 0x0079 // 121 if 队伍含 name==op0 → jump op1
+export const OP_JUMP_IF_NOT_FACING = 0x0081 // 129 几何:party 不面对 obj op0 → jump op2
+export const OP_JUMP_IF_OBJ_NOT_IN_ZONE = 0x0083 // 131 几何:obj op0 不在 zone → jump op2
+export const OP_PLACE_USED_ITEM = 0x0084 // 132 把 obj op0 放 party 正前方 + sState=op1;挡→jump op2
+export const OP_JUMP_IF_NOT_EQUIPPED = 0x0086 // 134 if 装备 op0 数量<op1 → jump op2
+export const OP_JUMP_IF_OBJ_STATE = 0x0094 // 148 if pCurrent.sState==op1 → jump op2
+export const OP_JUMP_IF_SCENE = 0x0095 // 149 if wNumScene==op0 → jump op1
+export const OP_RANDOM_JUMP = 0x00a2 // 162 cursor.ip += RandomLong(0,op0-1)
 
 // ── A3 数据/状态 opcode ──────────────────────────────────────────────────────
-export const OP_CALL_SCRIPT = 0x0004               // 4   调用子脚本 op0(op1=eventObjId 覆盖),返回后续跑
-export const OP_SET_SCENE_SCRIPTS = 0x006D         // 109 设 scene op0 的 onEnter(op1)/teleport(op2)脚本
-export const OP_SET_PARTY = 0x0075                 // 117 operand[0..2]=roleId+1 → partyMembers
-export const OP_SET_OBJECT_SCRIPT = 0x0090         // 144 rgObject[op0].rgwData[2+op2]=op1
-export const OP_SET_FOLLOWER = 0x0098              // 152 operand[0..1]=follower roleId → gs.followers
-export const OP_CHANGE_MAP = 0x0099                // 153 op0==0xFFFF 当前换图+reload;else 设 scene op0 mapNum
+export const OP_CALL_SCRIPT = 0x0004 // 4   调用子脚本 op0(op1=eventObjId 覆盖),返回后续跑
+export const OP_SET_SCENE_SCRIPTS = 0x006d // 109 设 scene op0 的 onEnter(op1)/teleport(op2)脚本
+export const OP_SET_PARTY = 0x0075 // 117 operand[0..2]=roleId+1 → partyMembers
+export const OP_SET_OBJECT_SCRIPT = 0x0090 // 144 rgObject[op0].rgwData[2+op2]=op1
+export const OP_SET_FOLLOWER = 0x0098 // 152 operand[0..1]=follower roleId → gs.followers
+export const OP_CHANGE_MAP = 0x0099 // 153 op0==0xFFFF 当前换图+reload;else 设 scene op0 mapNum
 // case 0x0085(133): Delay for a period(script.c:2511-2516)— UTIL_Delay(operand[0]*80)实时阻塞延迟,
 //   期间不调 PAL_GameUpdate(autoScript 暂停)。ts:time-based waiting='delay'(仿 0x73 fade-screen)。
-export const OP_DELAY = 0x0085                     // 133
+export const OP_DELAY = 0x0085 // 133
 // case 0x008D(141): Increase player level(script.c:2591-2595 → global.c:2347 PAL_PlayerLevelUp)
 //   role = wEventObjectID(=currentEventObjectId);operand[0]=升的级数。stat 按固定+RandomLong 增长,
 //   clamp 999,level clamp MAX_LEVELS(99),重置 rgPrimaryExp.wExp=0 / wLevel=新等级。
-export const OP_INCREASE_PLAYER_LEVEL = 0x008D     // 141
+export const OP_INCREASE_PLAYER_LEVEL = 0x008d // 141
 // case 0x008F(143): Halve the cash amount(script.c:2598-2603)— dwCash /= 2。
-export const OP_HALVE_CASH = 0x008F                // 143
+export const OP_HALVE_CASH = 0x008f // 143
 // case 0x00A1(161): Set positions of all party members = first(script.c:2998-3014)
 //   rgTrail[0..MAX_PLAYABLE-1] 全 = 队首世界坐标 + wPartyDirection → follower 渲染贴队首 = 全队聚拢。
-export const OP_SET_ALL_PARTY_POS = 0x00A1         // 161
+export const OP_SET_ALL_PARTY_POS = 0x00a1 // 161
 // case 0x0078(120): sdlpal 标 `// FIXME: ???` 的字面 no-op(script.c:2224-2228 `case 0x0078: break;`)。
 //   本游戏 35 处用(byte-level 验 all.json),全部空操作 —— 显式 no-op,去掉 default 的 skip debug spam。
-export const OP_FIXME_78 = 0x0078                  // 120
+export const OP_FIXME_78 = 0x0078 // 120
 // case 0x00A6(166): backup screen — VIDEO_BackupScreen(gpScreen)(script.c:3069-3074)。本游戏 0 调用
 //   (0x73 fadeScreen 内部已含 VIDEO_BackupScreen);独立 opcode 当 no-op(ts present 自管 fade backup)。
-export const OP_BACKUP_SCREEN = 0x00A6             // 166
+export const OP_BACKUP_SCREEN = 0x00a6 // 166
 // case 0x00A7(167): PAL_RunAutoScript 专用显式 no-op(script.c:3639-3641)。本游戏 590 用,多为物品描述脚本前缀。
-export const OP_NOOP_A7 = 0x00A7                   // 167
+export const OP_NOOP_A7 = 0x00a7 // 167
 // case 0x004D(77): wait for any key — PAL_WaitForKey(0)(script.c:1753-1758)。
 //   = PAL_WaitForKeyInternal(0, FALSE)(play.c:602-638):**永久等**,只认 kKeySearch|kKeyMenu。
 //   本游戏 0 用(为完整性);设 waiting='wait-key' 阻塞,Confirm/Menu/Cancel 解除。
-export const OP_WAIT_FOR_KEY = 0x004D              // 77
+export const OP_WAIT_FOR_KEY = 0x004d // 77
 // case 0x004E(78): load the last saved game — script.c:1760-1766
 //   `PAL_FadeOut(1); PAL_ReloadInNextTick(gpGlobals->bCurrentSaveSlot); return 0;`
 //   淡黑(600ms,同 0x50)→ 重载当前存档槽 → **return 0 终止脚本**(不 break)。本游戏 1 用。
-export const OP_LOAD_LAST_SAVE = 0x004E            // 78
+export const OP_LOAD_LAST_SAVE = 0x004e // 78
 // case 0x00A0(160): quit game — script.c:2988-2996
 //   `if (fIsWIN95) PAL_EndingScreen(); PAL_AdditionalCredits(); PAL_Shutdown(0);`
 //   WIN95 播结局 AVI(4/5/6);DOS 结局已由前序 opcode 跑完。**用户决策:跳过 PAL_AdditionalCredits**
 //   (SDLPAL 引擎 GNU GPL 版权页,非游戏内容)→ 直接回标题。本游戏 1 用(scene-281 结局,global ip 35621)。
-export const OP_QUIT = 0x00A0                      // 160
+export const OP_QUIT = 0x00a0 // 160
 // case 0x000A(10): goto address if player selected no — script.c:3373-3387
 //   `PAL_ClearDialog(FALSE); if (!PAL_ConfirmMenu()) wScriptEntry=operand[0]; else wScriptEntry++;`
 //   PAL_ConfirmMenu(uigame.c:342-365)= PAL_SelectionMenu(2, 0, {否=WORD19, 是=WORD20})阻塞确认框,
 //   默认 否(nDefault=0);返回 否(index0)/cancel → FALSE → goto operand[0],是(index1)→ TRUE → ip++。
 //   本游戏 26 用(yes/no 剧情分支:水果贩"要不要来几个"/居民"想听故事吗"等)。
-export const OP_GOTO_IF_NO = 0x000A                // 10
+export const OP_GOTO_IF_NO = 0x000a // 10
 
 // case 0x0028(40): Apply poison to enemy(script.c:1175-1255)— 战斗 only,log skip
-export const OP_POISON_ENEMY = 0x0028              // 40
+export const OP_POISON_ENEMY = 0x0028 // 40
 
 // case 0x0029(41): Apply poison to player(script.c:1257-1285)
 //   if RandomLong(1,100) > PAL_GetPlayerPoisonResistance(role) → AddPoisonForPlayer(role, operand[1])
 //   operand[0]=applyToAll
 //   ts:gs.rgPoisonStatus[`${slot}_${playerIdx}`] = { wPoisonID, wPoisonScript }
-export const OP_POISON_PLAYER = 0x0029             // 41
+export const OP_POISON_PLAYER = 0x0029 // 41
 
 // case 0x002A(42): Cure poison enemy(script.c:1287-1329)— 战斗 only,log skip
-export const OP_CURE_ENEMY_POISON_KIND = 0x002A    // 42
+export const OP_CURE_ENEMY_POISON_KIND = 0x002a // 42
 
 // case 0x002B(43): Cure player poison by kind(script.c:1331-1347)
 //   遍历 rgPoisonStatus,wPoisonID == operand[1] 清 0
-export const OP_CURE_PLAYER_POISON_KIND = 0x002B   // 43
+export const OP_CURE_PLAYER_POISON_KIND = 0x002b // 43
 
 // case 0x002C(44): Cure player poison by level(script.c:1349-1365)
 //   遍历 rgPoisonStatus,items[wPoisonID].poison.wPoisonLevel <= operand[1] 清 0
 //   ts:items.poison 字段未完整 plumb — fallback 全清(简化,等 M5.5 poison plumb 真做)
-export const OP_CURE_PLAYER_POISON_LEVEL = 0x002C  // 44
+export const OP_CURE_PLAYER_POISON_LEVEL = 0x002c // 44
 
 // case 0x002D(45): Set player status(script.c:1367-1375)
 //   PAL_SetPlayerStatus(role, statusId, duration)
 //   ts:无大世界 player status 模型(battle-only)— log skip(M6 大世界 status 真做时补)
-export const OP_SET_PLAYER_STATUS = 0x002D         // 45
+export const OP_SET_PLAYER_STATUS = 0x002d // 45
 
 // case 0x002E(46): Set enemy status — 战斗 only,log skip
-export const OP_SET_ENEMY_STATUS = 0x002E          // 46
+export const OP_SET_ENEMY_STATUS = 0x002e // 46
 
 // case 0x002F(47): Remove player status(script.c:1399-1404)— 同 0x002D 模型问题,log skip
-export const OP_REMOVE_PLAYER_STATUS = 0x002F      // 47
+export const OP_REMOVE_PLAYER_STATUS = 0x002f // 47
 
 /** sdlpal palcommon.h enum kDir → our Facing 字面量映射 */
 const SDLPAL_DIR_TO_FACING: Record<number, 'down' | 'left' | 'up' | 'right'> = {
-  0: 'down',   // kDirSouth
-  1: 'left',   // kDirWest
-  2: 'up',     // kDirNorth
-  3: 'right',  // kDirEast
+  0: 'down', // kDirSouth
+  1: 'left', // kDirWest
+  2: 'up', // kDirNorth
+  3: 'right', // kDirEast
 }
 
 // 反向:facing → sdlpal kDir 数值(0x4C 驱魔香原地打转 wDirection++ 循环用)
 const FACING_TO_SDLPAL_DIR: Record<'down' | 'left' | 'up' | 'right', number> = {
-  down: 0,   // kDirSouth
-  left: 1,   // kDirWest
-  up: 2,     // kDirNorth
-  right: 3,  // kDirEast
+  down: 0, // kDirSouth
+  left: 1, // kDirWest
+  up: 2, // kDirNorth
+  right: 3, // kDirEast
 }
 
 /**
@@ -509,27 +529,29 @@ const NARRATION_AUTO_DISMISS_FRAMES = Math.round(1.4 * FPS_EXPLORE)
  *  - goto / end:goto 跳转不显示动作;end 自己 close dialog
  */
 function isDialogContinuationOp(cmd: Command): boolean {
-  return cmd.op === 'showDialog'
-    || cmd.op === 'setDialogStyleTop'
-    || cmd.op === 'setDialogStyleCenter'
-    || cmd.op === 'setDialogStyleBottom'
-    || cmd.op === 'setDialogStyleNarration'
-    || cmd.op === 'goto'
-    || cmd.op === 'end'
+  return (
+    cmd.op === 'showDialog' ||
+    cmd.op === 'setDialogStyleTop' ||
+    cmd.op === 'setDialogStyleCenter' ||
+    cmd.op === 'setDialogStyleBottom' ||
+    cmd.op === 'setDialogStyleNarration' ||
+    cmd.op === 'goto' ||
+    cmd.op === 'end' ||
     // loadScene:sdlpal 真值 dialog **跟着** scene 渐变(后续 fadeScreen backup 含 dialog) —
     // dispatch 前不能清 dialogBox,否则 backup buffer 不含 dialog,fade 视觉不对。
-    || cmd.op === 'loadScene'
-    || (cmd.op === 'raw' && cmd.opcode === OP_REDRAW_SCREEN)
+    cmd.op === 'loadScene' ||
+    (cmd.op === 'raw' && cmd.opcode === OP_REDRAW_SCREEN) ||
     // opcode 0x73 fadeScreen 内部 sdlpal `VIDEO_BackupScreen` 已含 dialog text;dispatch 前
     // **不**触发 auto pre-op clear,否则 backup 不含 dialog → 渐变 dialog 不跟。
-    || (cmd.op === 'raw' && cmd.opcode === OP_FADE_SCREEN)
+    (cmd.op === 'raw' && cmd.opcode === OP_FADE_SCREEN) ||
     // opcode 0x0A goto-if-no:sdlpal case 用 `PAL_ClearDialog(FALSE)`(script.c:3377)—— **不**等键
     //   (区别于 default 的 PAL_ClearDialog(TRUE) 会 PAL_DialogWaitForKey)。豁免 default 的 Space-wait
     //   pre-op clear:问句保持可见,确认框直接弹出,选完才由 confirm 派发清 dialogBox。
-    || (cmd.op === 'raw' && cmd.opcode === OP_GOTO_IF_NO)
+    (cmd.op === 'raw' && cmd.opcode === OP_GOTO_IF_NO) ||
     // DM19:0x07 startBattle 是外层 switch 显式 case,**无** pre-op ClearDialog(script.c:3314-3333)
     //   —— 战前喊话(天鬼皇 idx23538/黑苗 idx32723)不等键直接开战,台词随入场渐变淡出。
-    || (cmd.op === 'raw' && cmd.opcode === OP_START_BATTLE)
+    (cmd.op === 'raw' && cmd.opcode === OP_START_BATTLE)
+  )
 }
 
 /** fetchPalette 注入(M4 P3.T2)—— 模式与 setSceneContext 一致,保持 tickEventSystem 同步签名。 */
@@ -602,10 +624,8 @@ function startFadeOutEffect(gs: GameState, delayOperand: number, cursor?: EventC
   const curColors = (gs.palette ?? gs.basePalette)?.colors ?? blackColors()
   const delay = delayOperand || 1
   const pf = buildFadeOut(curColors, delay * 600, now)
-  if (cursor)
-    startPaletteFade(gs, cursor, pf, false, false)
-  else
-    setPaletteFadeCursorless(gs, pf)
+  if (cursor) startPaletteFade(gs, cursor, pf, false, false)
+  else setPaletteFadeCursorless(gs, pf)
   gs.needToFadeIn = true
 }
 
@@ -613,15 +633,23 @@ function isEventCursorAtMakeSceneStep(cursor: EventCursor | undefined): boolean 
   if (!cursor || cursor.waiting !== undefined) return false
   const cmd = getCmds(cursor)[cursor.ip]
   if (!cmd || cmd.op !== 'raw') return false
-  if (cmd.opcode === OP_PARTY_WALK_TO || cmd.opcode === OP_PARTY_WALK_TO_4 || cmd.opcode === OP_PARTY_WALK_TO_8) {
+  if (
+    cmd.opcode === OP_PARTY_WALK_TO ||
+    cmd.opcode === OP_PARTY_WALK_TO_4 ||
+    cmd.opcode === OP_PARTY_WALK_TO_8
+  ) {
     return true
   }
-  if (cmd.opcode === OP_RIDE_OBJECT_2 || cmd.opcode === OP_RIDE_OBJECT_4 || cmd.opcode === OP_RIDE_OBJECT_8) {
+  if (
+    cmd.opcode === OP_RIDE_OBJECT_2 ||
+    cmd.opcode === OP_RIDE_OBJECT_4 ||
+    cmd.opcode === OP_RIDE_OBJECT_8
+  ) {
     return true
   }
   if (cmd.opcode === OP_SET_CAMERA) {
     const [cx, cy, flag] = cmd.operands
-    const isPan = !((cx ?? 0) === 0 && (cy ?? 0) === 0) && flag !== 0xFFFF
+    const isPan = !((cx ?? 0) === 0 && (cy ?? 0) === 0) && flag !== 0xffff
     return isPan && Math.max(cmd.operands[2] ?? 0, 1) > 1
   }
   return false
@@ -649,13 +677,17 @@ export function tickSceneAutoFadeIn(gs: GameState): void {
   //   脚本续跑点,原版仍在 PAL_RunTriggerScript 调用栈里,不会先 PAL_MakeScene。
   const w = gs.eventCursor?.waiting
   const palGameUpdateRuns =
-    gs.mode === 'explore'
+    gs.mode === 'explore' ||
     // 'camera-pan' 执行态须显式列:0x7F 多帧 pan 是唯一"逐帧 PAL_MakeScene 推进却用独立 waiting"的 op,
     //   isEventCursorAtMakeSceneStep 只认"即将执行"(waiting===undefined + ip 停在该 op)态 → 漏掉 pan
     //   执行中的全程 → 锁妖塔 scene164 进塔运镜在 FadeOut 黑屏下空扫(user 2026-06-17)。与 mode.ts:42
     //   autoScript 白名单的 'camera-pan' 同源(sdlpal 0x7F do-while 每帧 PAL_GameUpdate→PAL_MakeScene→
     //   if(fNeedToFadeIn)PAL_FadeIn,script.c:2364-2366)—— 两白名单必须同步,否则补一处漏一处复发。
-    || (gs.mode === 'event' && (w === 'frame-wait' || w === 'scene-fade' || w === 'camera-pan' || isEventCursorAtMakeSceneStep(gs.eventCursor)))
+    (gs.mode === 'event' &&
+      (w === 'frame-wait' ||
+        w === 'scene-fade' ||
+        w === 'camera-pan' ||
+        isEventCursorAtMakeSceneStep(gs.eventCursor)))
   if (!palGameUpdateRuns || gs.sceneLoading) return
   if (gs.paletteFadeState || gs.fadeState) return // fade 进行中(present 自清 explore fade)
   if (!gs.needToFadeIn) return
@@ -876,13 +908,25 @@ export function setRefreshEquipmentsHandler(fn: ((gs: GameState) => void) | null
 // ── 毒 OBJECT 表注入(0x29 apply-player 取 wPlayerScript / cure-by-level 取真 level)──
 //   ObjectPoisonView{id,level,color,playerScript,enemyScript};id→数据。applyRawOpcode(大世界 + 战斗
 //   fall-through)的 0x29 / curePlayerPoisonByLevel 用。未注入(旧测试)→ 空 Map,playerScript=0/level=0 退化。
-let _objectPoisons = new Map<number, { level: number; color: number; playerScript: number; enemyScript: number }>()
+let _objectPoisons = new Map<
+  number,
+  { level: number; color: number; playerScript: number; enemyScript: number }
+>()
 
 export function setObjectPoisons(
-  poisons: ReadonlyArray<{ id: number; level: number; color: number; playerScript: number; enemyScript: number }>,
+  poisons: ReadonlyArray<{
+    id: number
+    level: number
+    color: number
+    playerScript: number
+    enemyScript: number
+  }>,
 ): void {
   _objectPoisons = new Map(
-    poisons.map((p) => [p.id, { level: p.level, color: p.color, playerScript: p.playerScript, enemyScript: p.enemyScript }]),
+    poisons.map((p) => [
+      p.id,
+      { level: p.level, color: p.color, playerScript: p.playerScript, enemyScript: p.enemyScript },
+    ]),
   )
 }
 
@@ -1004,8 +1048,8 @@ export type RuntimeMode = 'explore' | 'battle'
  */
 export interface BattleCtx {
   state: BattleState
-  caster?: { type: 'player' | 'enemy', idx: number }
-  target?: { type: 'player' | 'enemy', idx: number }
+  caster?: { type: 'player' | 'enemy'; idx: number }
+  target?: { type: 'player' | 'enemy'; idx: number }
   /**
    * Present 命令通道 —— D17b:HP-mutate opcode(0x21/0x5B/0x39/0x5A/0x5F/0x60/0x69)
    * 结算后 emit `showDamageNum`(对照 sdlpal `PAL_BattleDisplayStatChange` 在每次行动后
@@ -1019,7 +1063,11 @@ export interface BattleCtx {
    * 进它;不存在(item/throw/敌回合毒 tick 等无动画上下文)→ 即时 bus.emit(向后兼容)。对照 sdlpal
    * PAL_BattleDisplayStatChange 在 ShowOffMagic/DefMagicAnim **之后**(fight.c:4322)。
    */
-  pendingDamageNums?: Array<{ target: { kind: 'enemy' | 'player', idx: number }, value: number, color: 'blue' | 'yellow' | 'cyan' }>
+  pendingDamageNums?: Array<{
+    target: { kind: 'enemy' | 'player'; idx: number }
+    value: number
+    color: 'blue' | 'yellow' | 'cyan'
+  }>
   /**
    * 投掷物 OffMagic 特效帧缓冲(performThrowItem 注入,2026-06-05)。0x42/0x66 SimulateMagic 在场则把
    * PAL_BattleShowPlayerOffMagicAnim 的 FIRE 特效帧(buildPlayerOffMagicTimeline casterIdx=-1)push 进它,
@@ -1040,7 +1088,7 @@ export interface BattleCtx {
    * 再 magics 取 baseDamage/elemental。由 performThrowItem(及未来 0x66 caller)注入;
    * 不注入时 0x42 走 no-op(consumed,防御)。
    */
-  magicTables?: { magics: Magic[], objectMagics: ObjectMagicView[] }
+  magicTables?: { magics: Magic[]; objectMagics: ObjectMagicView[] }
   /** 0x28 apply poison 解析 poison 的 wEnemyScript —— performThrowItem 注入。 */
   objectPoisons?: ObjectPoisonView[]
   /** 0x88 set magic damage by money 需 `gpGlobals->dwCash` —— performMagic 注入。 */
@@ -1061,7 +1109,7 @@ export interface BattleCtx {
    * enemyObjects(enemy-objects.json,按 objectIndex 解 op0 → enemyId/scripts/抗性)。
    * 由 enemy scriptOnReady 的 runScript 注入(battle-system tickPerformAction)。
    */
-  summonTables?: { enemies: Enemy[], enemyObjects: EnemyObject[] }
+  summonTables?: { enemies: Enemy[]; enemyObjects: EnemyObject[] }
   /**
    * ENEMYPOS(DATA.MKF chunk 13)—— 0x9C/0x9E/0x9F 动态改变敌方阵容后,
    * 需按当前敌人数重算 g_Battle.rgEnemy[].posOriginal(同 PAL_BattleMakeScene)。
@@ -1110,7 +1158,9 @@ function isVerticalDialogSwap(a: DialogBoxStyle, b: DialogBoxStyle): boolean {
 }
 
 function hasVisibleDialogContent(state: DialogBoxState): boolean {
-  return state.shownLines.length > 0 || state.currentLineText !== null || state.titleText !== undefined
+  return (
+    state.shownLines.length > 0 || state.currentLineText !== null || state.titleText !== undefined
+  )
 }
 
 function cloneDialogBoxForKeep(state: DialogBoxState): DialogBoxState {
@@ -1121,9 +1171,10 @@ function cloneDialogBoxForKeep(state: DialogBoxState): DialogBoxState {
     shownLineColors: state.shownLineColors?.map((colors) => [...colors]),
     currentLineColors: state.currentLineColors ? [...state.currentLineColors] : undefined,
     currentLineRevealAt: state.currentLineRevealAt ? [...state.currentLineRevealAt] : undefined,
-    charsRevealed: state.currentLineText === null
-      ? state.charsRevealed
-      : Math.max(state.charsRevealed, currentLineLen),
+    charsRevealed:
+      state.currentLineText === null
+        ? state.charsRevealed
+        : Math.max(state.charsRevealed, currentLineLen),
     keyIconBlink: state.phase === 'waiting-page-key' || state.phase === 'waiting-end-key',
     pendingStyle: undefined,
     pendingFullClear: undefined,
@@ -1132,11 +1183,14 @@ function cloneDialogBoxForKeep(state: DialogBoxState): DialogBoxState {
   }
 }
 
-function keepDialogForStyleSwitch(gs: GameState, state: DialogBoxState, nextStyle: DialogBoxStyle): void {
+function keepDialogForStyleSwitch(
+  gs: GameState,
+  state: DialogBoxState,
+  nextStyle: DialogBoxStyle,
+): void {
   if (hasVisibleDialogContent(state) && isVerticalDialogSwap(state.style, nextStyle)) {
     gs.dialogBoxKept = cloneDialogBoxForKeep(state)
-  }
-  else {
+  } else {
     gs.dialogBoxKept = undefined
   }
 }
@@ -1150,7 +1204,7 @@ function clearDialogBoxes(gs: GameState): void {
   //   青色姓名牌、石碑碑文 idx32077 应 title+4 行一页)。narration(CenterWindow)不在此复位(C 同)。
   if (gs.currentDialogStyle === 'center') {
     gs.currentDialogStyle = 'top'
-    gs.currentDialogFontColor = 0x4F // bCurrentFontColor = DEFAULT
+    gs.currentDialogFontColor = 0x4f // bCurrentFontColor = DEFAULT
   }
 }
 
@@ -1186,7 +1240,11 @@ export function buildLabelMap(commands: Command[]): Record<string, number> {
  *     重绘大世界 + RNG 调色板(setPalette 6)花屏(user 报"求雨说话漏出大世界、调色盘还是 RNG 的")。
  * 清除走 reset(场景重载/读档/op160 quit)/ loadScene。
  */
-function maybeEnterDialogRNG(gs: GameState, arg2: number | undefined, arg0: number | undefined): void {
+function maybeEnterDialogRNG(
+  gs: GameState,
+  arg2: number | undefined,
+  arg0: number | undefined,
+): void {
   if (((arg2 ?? 0) !== 0 && (arg0 ?? 0) !== 0) || gs.rngFrameActive) gs.dialogPlayingRNG = true
 }
 
@@ -1257,15 +1315,16 @@ export function tickAutoScripts(gs: GameState): void {
     //   walk 也跳了 → 她原地等 14 帧后被隐藏("缺少移动,原地消失",2026-06-05 user 报 水月宫)。
     // ⚠ waiting===undefined 分支行为不变:party-walk/滚屏/ride(张四划船等)期 owner 仍按原状跳,零回归。
     if (
-      gs.eventCursor?.triggerOwnerId !== undefined
-      && npc.id === gs.eventCursor.triggerOwnerId
-      && gs.eventCursor.waiting === undefined
+      gs.eventCursor?.triggerOwnerId !== undefined &&
+      npc.id === gs.eventCursor.triggerOwnerId &&
+      gs.eventCursor.waiting === undefined &&
       // DM16:间隙窗收窄到"触发后首条 op 步进前"。脚本一旦开跑(startedExecution),即使
       // ride/party-walk 这类"同 ip 重跑 + waiting 恒 undefined"的多帧 op 期间,owner 的
       // autoScript 也照常推进(对齐 play.c:172-191 无 owner 排除;修莲叶/船乘坐全程动画冻结,
       // 数据面 42 个自带 autoLabel 的 trigger 对象脚本内含 ride/party-walk)。
-      && !gs.eventCursor.startedExecution
-    ) continue
+      !gs.eventCursor.startedExecution
+    )
+      continue
     if (!npc.autoCursor) {
       // scene-load 切片解析(game-state.sliceSceneEventObjects / npcFromEventObject)只查
       // sceneLabelMap;**入口在全局数组**(events/all.json 高位 entry,如丁大伯挥锄 autoScript
@@ -1289,7 +1348,7 @@ function runOneAutoOp(gs: GameState, npc: NpcState, gotoDepth = 0): void {
   // P2#5:cursor.ip 是全局下标,默认读单一全局数组(getCmds/getLabels);不再按 scene 切片填充。
   const cmds = getCmds(cursor)
   if (cursor.ip < 0 || cursor.ip >= cmds.length) {
-    npc.autoCursor = undefined  // ip 越界 → 停
+    npc.autoCursor = undefined // ip 越界 → 停
     return
   }
   const cmd = cmds[cursor.ip]!
@@ -1317,17 +1376,14 @@ function runOneAutoOp(gs: GameState, npc: NpcState, gotoDepth = 0): void {
       if (cmd.reset) {
         const idleFrames = cmd.idleFrames ?? 0
         // sdlpal `rgwOperand[1] == 0 || ++count < rgwOperand[1]`(idleFrames=0 时不累加,恒跳)
-        if (
-          idleFrames === 0
-          || (cursor.idleFrameCount = (cursor.idleFrameCount ?? 0) + 1) < idleFrames
-        ) {
+        if (idleFrames !== 0) cursor.idleFrameCount = (cursor.idleFrameCount ?? 0) + 1
+        if (idleFrames === 0 || (cursor.idleFrameCount ?? 0) < idleFrames) {
           // P2#5:resetTo 是全局 entry 号,直接经 getLabels(默认全局 labelMap)→ 全局 ip。
           const target =
             cmd.resetTo !== undefined ? getLabels(cursor)[`L_${cmd.resetTo}`] : undefined
           if (target !== undefined) cursor.ip = target
           else npc.autoCursor = undefined // resetTo 不在全局数组 → 停(异常)
-        }
-        else {
+        } else {
           cursor.idleFrameCount = 0
           cursor.ip++
         }
@@ -1347,7 +1403,8 @@ function runOneAutoOp(gs: GameState, npc: NpcState, gotoDepth = 0): void {
       //   且计数满后**仍跳转**(永不 fall-through)→ 循环体(如 L_5572 落体 0x7D move)每 N 帧才跑 1 次
       //   + 无限循环不落地/不减速。修正为 sdlpal 真值:count<delay 跳转跑循环体,满则 fall-through。
       const frameDelay = cmd.frameDelay ?? 0
-      if (frameDelay !== 0 && (cursor.idleFrameCount = (cursor.idleFrameCount ?? 0) + 1) >= frameDelay) {
+      if (frameDelay !== 0) cursor.idleFrameCount = (cursor.idleFrameCount ?? 0) + 1
+      if (frameDelay !== 0 && (cursor.idleFrameCount ?? 0) >= frameDelay) {
         // 第 frameDelay 次命中:复位计数 + fall-through 到下一条(不跳转)。
         cursor.idleFrameCount = 0
         cursor.ip++
@@ -1356,7 +1413,7 @@ function runOneAutoOp(gs: GameState, npc: NpcState, gotoDepth = 0): void {
       // 跳转分支(frameDelay==0 恒跳,或 count<frameDelay)。
       const target = resolveLabelIp(cursor, cmd.to) // P2#5:含 shared# 剥前缀 → 全局 ip
       if (target === undefined) {
-        npc.autoCursor = undefined  // 目标不在全局数组 → 停(异常)
+        npc.autoCursor = undefined // 目标不在全局数组 → 停(异常)
         return
       }
       cursor.ip = target
@@ -1425,13 +1482,19 @@ function runOneAutoOp(gs: GameState, npc: NpcState, gotoDepth = 0): void {
       //   完成时退化为逐帧推进(防御)。
       if (cmd.opcode === OP_CALL_SCRIPT) {
         applyRawOpcode(
-          gs, cmd.opcode, cmd.operands,
+          gs,
+          cmd.opcode,
+          cmd.operands,
           cursor.currentEventObjectId ?? npc.id,
           cursor as ScriptCursor,
         )
         cursor.ip++
         let guard = 0
-        while ((cursor.callStack?.length ?? 0) > 0 && npc.autoCursor && guard++ < SINGLE_TICK_LIMIT) {
+        while (
+          (cursor.callStack?.length ?? 0) > 0 &&
+          npc.autoCursor &&
+          guard++ < SINGLE_TICK_LIMIT
+        ) {
           const beforeIp = cursor.ip
           const beforeDepth = cursor.callStack?.length ?? 0
           runOneAutoOp(gs, npc, gotoDepth + 1)
@@ -1442,25 +1505,27 @@ function runOneAutoOp(gs: GameState, npc: NpcState, gotoDepth = 0): void {
       }
 
       // opcode 0x10/0x11/0x7C/0x82 NPCWalkTo — autoScript 自走目标(NPC 是 autoCursor owner)
-      if (cmd.opcode === OP_NPC_WALK_TO_SPEED_3
-        || cmd.opcode === OP_NPC_WALK_TO_SPEED_2
-        || cmd.opcode === OP_NPC_WALK_TO_4
-        || cmd.opcode === OP_NPC_WALK_TO_SPEED_8) {
+      if (
+        cmd.opcode === OP_NPC_WALK_TO_SPEED_3 ||
+        cmd.opcode === OP_NPC_WALK_TO_SPEED_2 ||
+        cmd.opcode === OP_NPC_WALK_TO_4 ||
+        cmd.opcode === OP_NPC_WALK_TO_SPEED_8
+      ) {
         // sdlpal 0x11(script.c:692)/ 0x7C(script.c:2263)有隔帧 stagger gate
         //   `(wEventObjectID & 1) ^ (dwFrameNum & 1)` — gate FALSE → wScriptEntry--(本帧不走,下帧重试)。
         //   wEventObjectID 1-based = npc.id + 1。0x10 / 0x82 无 gate。
-        const staggered
-          = cmd.opcode === OP_NPC_WALK_TO_SPEED_2 || cmd.opcode === OP_NPC_WALK_TO_4
-        if (staggered && ((((npc.id + 1) & 1) ^ (gs.frameNum & 1)) === 0)) {
-          return  // 隔帧:本 tick 跳过移动 + 重试
+        const staggered = cmd.opcode === OP_NPC_WALK_TO_SPEED_2 || cmd.opcode === OP_NPC_WALK_TO_4
+        if (staggered && (((npc.id + 1) & 1) ^ (gs.frameNum & 1)) === 0) {
+          return // 隔帧:本 tick 跳过移动 + 重试
         }
-        const speed = cmd.opcode === OP_NPC_WALK_TO_SPEED_3
-          ? 3
-          : cmd.opcode === OP_NPC_WALK_TO_SPEED_8
-            ? 8
-            : cmd.opcode === OP_NPC_WALK_TO_4
-              ? 4
-              : 2
+        const speed =
+          cmd.opcode === OP_NPC_WALK_TO_SPEED_3
+            ? 3
+            : cmd.opcode === OP_NPC_WALK_TO_SPEED_8
+              ? 8
+              : cmd.opcode === OP_NPC_WALK_TO_4
+                ? 4
+                : 2
         const arrived = npcWalkTo(
           npc,
           cmd.operands[0] ?? 0,
@@ -1478,7 +1543,9 @@ function runOneAutoOp(gs: GameState, npc: NpcState, gotoDepth = 0): void {
       // call/jump 改写 cursor.ip 后,下面 cursor.ip++ 抵消 sdlpal `target-1` 偏移(同主 while)。
       // cursor as ScriptCursor:commands/labelMap 已在函数起手填妥(类型层 optional,运行时必有)。
       applyRawOpcode(
-        gs, cmd.opcode, cmd.operands,
+        gs,
+        cmd.opcode,
+        cmd.operands,
         cursor.currentEventObjectId ?? npc.id,
         cursor as ScriptCursor,
       )
@@ -1493,11 +1560,7 @@ function runOneAutoOp(gs: GameState, npc: NpcState, gotoDepth = 0): void {
   }
 }
 
-export function tickEventSystem(
-  gs: GameState,
-  input: InputSnapshot,
-  bus: CommandBus,
-): void {
+export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: CommandBus): void {
   const cursor = gs.eventCursor
   if (!cursor) {
     gs.mode = 'explore'
@@ -1546,12 +1609,11 @@ export function tickEventSystem(
   //   raf 帧率(60Hz / 20Hz 都行)不影响实际时长 — 1:1 还原 sdlpal video.c wall-clock 节拍。
   if (cursor.waiting === 'fade-screen') {
     if (!gs.fadeState) {
-      cursor.waiting = undefined  // 防御:无 fadeState 不应等
-    }
-    else {
+      cursor.waiting = undefined // 防御:无 fadeState 不应等
+    } else {
       const elapsed = performance.now() - gs.fadeState.startTimeMs
       if (elapsed < gs.fadeState.totalMs) {
-        return  // 仍在 fade,present.ts 按 elapsed/totalMs 应用对应数量 sdlpal step
+        return // 仍在 fade,present.ts 按 elapsed/totalMs 应用对应数量 sdlpal step
       }
       gs.fadeState = undefined
       cursor.waiting = undefined
@@ -1567,12 +1629,11 @@ export function tickEventSystem(
   if (cursor.waiting === 'palette-fade' || cursor.waiting === 'scene-fade') {
     const pf = gs.paletteFadeState
     if (!pf) {
-      cursor.waiting = undefined  // 防御:无 paletteFadeState 不应等
-    }
-    else {
+      cursor.waiting = undefined // 防御:无 paletteFadeState 不应等
+    } else {
       const elapsed = performance.now() - pf.startTimeMs
       if (elapsed < pf.totalMs) {
-        return  // 仍在 fade
+        return // 仍在 fade
       }
       // 收尾:把工作调色板精确设为 target(present 最后一帧 progress<1 可能差 1 步,这里补齐)。
       if (gs.palette) finalizePaletteFade(gs.palette.colors, pf)
@@ -1582,7 +1643,7 @@ export function tickEventSystem(
       if (cursor.reloadSlotAfterFade !== undefined) {
         const slot = cursor.reloadSlotAfterFade
         cursor.reloadSlotAfterFade = undefined
-        gs.eventCursor = undefined  // 停脚本(对齐 return 0;reload handler 会替换 gs 全字段)
+        gs.eventCursor = undefined // 停脚本(对齐 return 0;reload handler 会替换 gs 全字段)
         if (_loadLastSaveHandler) _loadLastSaveHandler(slot)
         return
       }
@@ -1596,7 +1657,7 @@ export function tickEventSystem(
   //   callback 完成前每 tick 仍读到旧 cursor.waiting='scene-load' → 直接 return 不步进。
   //   完成后 gs.eventCursor 被替换为新 cursor(无 waiting),下一 tick 从新 ip 继续。
   if (cursor.waiting === 'scene-load') {
-    return  // 等 callback 替换 gs.eventCursor
+    return // 等 callback 替换 gs.eventCursor
   }
 
   // 1a'''') waiting 处理:shop(opcode 0x26/0x27)— 脚本开商店菜单后阻塞。
@@ -1637,8 +1698,7 @@ export function tickEventSystem(
       cursor.waiting = undefined
       cursor.ip++
       // fall through to main while loop
-    }
-    else {
+    } else {
       return
     }
   }
@@ -1651,8 +1711,10 @@ export function tickEventSystem(
   //   提交清 gs.dialogBox:对齐 PAL_ClearDialog 收尾(问句消失;后续 0x05 因 nCurrentDialogLine=0 不再等键)。
   if (cursor.waiting === 'confirm') {
     if (
-      input.pressed.has('Up') || input.pressed.has('Down')
-      || input.pressed.has('Left') || input.pressed.has('Right')
+      input.pressed.has('Up') ||
+      input.pressed.has('Down') ||
+      input.pressed.has('Left') ||
+      input.pressed.has('Right')
     ) {
       cursor.confirmYes = !cursor.confirmYes
     }
@@ -1664,13 +1726,11 @@ export function tickEventSystem(
       cursor.confirmYes = undefined
       if (yes) {
         cursor.ip++ // sdlpal wScriptEntry++;fall through 主 while 同帧跑下条 op
-      }
-      else if (!resolveConfirmGoto(gs, cursor, cmd0a)) {
+      } else if (!resolveConfirmGoto(gs, cursor, cmd0a)) {
         return // 否→goto;目标越界已终止脚本
       }
       // fall through to main while loop
-    }
-    else if (input.pressed.has('Cancel') || input.pressed.has('Menu')) {
+    } else if (input.pressed.has('Cancel') || input.pressed.has('Menu')) {
       const cmd0a = getCmds(cursor)[cursor.ip]
       clearDialogBoxes(gs)
       cursor.waiting = undefined
@@ -1679,8 +1739,7 @@ export function tickEventSystem(
         return // 终止
       }
       // fall through to main while loop(cancel = 否 = goto)
-    }
-    else {
+    } else {
       return // 等输入(冻全场,autoScript 不跑)
     }
   }
@@ -1696,7 +1755,7 @@ export function tickEventSystem(
   //   frame-wait → 不跑),对齐 sdlpal UTIL_Delay 不调 PAL_GameUpdate 的真值。
   if (cursor.waiting === 'delay') {
     if (performance.now() < (cursor.delayUntilMs ?? 0)) {
-      return  // 仍在延迟
+      return // 仍在延迟
     }
     cursor.delayUntilMs = undefined
     cursor.waiting = undefined
@@ -1715,8 +1774,7 @@ export function tickEventSystem(
     if (!gs.dialogBox) {
       // 防御:waiting=dialog 但 dialogBox 不存在 → 清状态退出 waiting,继续步进
       cursor.waiting = undefined
-    }
-    else if (gs.dialogBox.style === 'narration' || gs.dialogBox.style === 'item-box') {
+    } else if (gs.dialogBox.style === 'narration' || gs.dialogBox.style === 'item-box') {
       // sdlpal text.c:1663-1710 kDialogCenterWindow(物品提示 "得到XX" / 'item-box' 炼丹物品框):全文瞬显 +
       // PAL_DialogWaitForKeyWithMaximumSeconds(1.4)→ 最多 1.4s(NARRATION_AUTO_DISMISS_FRAMES 帧)
       // 自动消失 / 按键提前 → PAL_DeleteBox + PAL_EndDialog(nCurrentDialogLine=0)。
@@ -1732,12 +1790,10 @@ export function tickEventSystem(
         clearDialogBoxes(gs)
         cursor.waiting = undefined
         cursor.ip++ // 推进过 showDialog;fall through 主 while 跑后续 opcode
-      }
-      else {
+      } else {
         return // 继续显示,等 1.4s timer / 按键
       }
-    }
-    else {
+    } else {
       tickDialog(gs.dialogBox, gs.nowMs)
       const ds = gs.dialogBox
 
@@ -1745,14 +1801,19 @@ export function tickEventSystem(
       //   (text.c:1433 `dwKeyPress != 0`:方向/ESC/PgUp 均可翻页推进,连打方向键过对话的原版
       //   习惯);打字中跳字 = kKeySearch|kKeyMenu(text.c:1602)→ Confirm/Menu。旧码全部只认
       //   Confirm。
-      const dialogKey = ds.phase === 'typing'
-        ? (input.pressed.has('Confirm') || input.pressed.has('Menu'))
-        : input.pressed.size > 0
+      const dialogKey =
+        ds.phase === 'typing'
+          ? input.pressed.has('Confirm') || input.pressed.has('Menu')
+          : input.pressed.size > 0
       if (dialogKey) {
-        const pendingStyleToKeep = ds.phase === 'waiting-page-key' ? ds.pendingStyle?.style : undefined
-        const keptDialog = pendingStyleToKeep && hasVisibleDialogContent(ds) && isVerticalDialogSwap(ds.style, pendingStyleToKeep)
-          ? cloneDialogBoxForKeep(ds)
-          : undefined
+        const pendingStyleToKeep =
+          ds.phase === 'waiting-page-key' ? ds.pendingStyle?.style : undefined
+        const keptDialog =
+          pendingStyleToKeep &&
+          hasVisibleDialogContent(ds) &&
+          isVerticalDialogSwap(ds.style, pendingStyleToKeep)
+            ? cloneDialogBoxForKeep(ds)
+            : undefined
         const result = confirmDialog(ds, gs.nowMs) // Bug3:传 wall-clock,`~` 跳字对齐 sdlpal text.c:1551
         if (result === 'skip-typing') {
           // Bug2 fix(2026-06-26):sdlpal PAL_ShowDialogText 是**同步阻塞**(text.c:1616 + script.c:3463-3464)
@@ -1765,8 +1826,7 @@ export function tickEventSystem(
           //   appendDialogLine 见 userSkip=true 设满该行,showDialog 末尾据 userSkip 续链 → 同 tick 整段瞬显。
           //   满行帧渲染由 lineDoneRenderPending + pre-op clear 兜底,不靠此 return。
           // → fall-through 到「自动推进」段
-        }
-        else if (result === 'page-advance') {
+        } else if (result === 'page-advance') {
           // 清屏完成。检查 pendingStyle / pendingFullClear / pendingPreOpClear:
           //  - pendingStyle 有(setDialogStyleX 触发)→ apply gs.currentDialog*,清 dialogBox
           //  - pendingFullClear 有(Sync.2 fix8:0x05 ClearDialog 触发)→ 不切 style,但仍清 dialogBox
@@ -1782,16 +1842,14 @@ export function tickEventSystem(
             gs.currentDialogPortraitLayout = pending.portraitLayout
             gs.currentDialogFontColor = pending.fontColor
             gs.dialogBox = undefined
-          }
-          else if (ds.pendingPartialClear) {
+          } else if (ds.pendingPartialClear) {
             // Sync.2 fix18:0x8E RestoreScreen 特殊路径 — sdlpal 真值是 VIDEO_RestoreScreen
             // restore backup buffer(含 title + portrait 像素)→ 视觉 title/portrait 持久。
             // 我们 state-driven:partialClear 保留 titleText + portraitIcon,只清 body 内容。
             // (content 已在 confirmDialog page-advance 内 reset)
             ds.pendingPartialClear = undefined
             ds.pendingPreOpClear = undefined
-          }
-          else if (ds.pendingFullClear) {
+          } else if (ds.pendingFullClear) {
             // Sync.2 真值:0x05 ClearDialog + PAL_MakeScene 重画 scene 覆盖 dialog 区像素
             // (含 portrait + title)→ 视觉消失。auto pre-op clear 同理(后面 NPC 动画 opcode
             // 由 PAL_MakeScene 覆盖屏幕)。
@@ -1808,8 +1866,7 @@ export function tickEventSystem(
           if (!preOp) cursor.ip++
           // fall through 到下面 while 循环:本 tick 继续跑下条 opcode(preOp 时 ip 不变,跑原 opcode;
           // 非 preOp 时 ip 已 ++,跑下一条)
-        }
-        else if (result === 'dialog-end') {
+        } else if (result === 'dialog-end') {
           // 关 dialog,推进到 end 之后(此时 cursor.ip 已在 end opcode 上,end handler 处理退出)
           clearDialogBoxes(gs)
           cursor.waiting = undefined
@@ -1828,8 +1885,7 @@ export function tickEventSystem(
         cursor.waiting = undefined
         cursor.ip++
         // 继续 fall-through 进入主 while 跑下条 opcode
-      }
-      else if (gs.dialogBox && cursor.waiting === 'dialog') {
+      } else if (gs.dialogBox && cursor.waiting === 'dialog') {
         // 仍在 typing / waiting-page-key / waiting-end-key → 本 tick 不动 cursor
         return
       }
@@ -1851,8 +1907,8 @@ export function tickEventSystem(
       gs.eventCursor = undefined
       gs.dialogIDelayFrames = undefined // DM21:脚本结束复位打字速度(= RunTriggerScript 入口重置 3)
       clearDialogBoxes(gs)
-      consumePendingItem(gs)  // item.scriptOnUse 跑完 → 按 g_fScriptSuccess gate 扣物品
-      gs.iCurEquipPart = -1   // sdlpal PAL_RunTriggerScript 末尾(script.c:3476)reset — 0x18 设的 part 不泄漏
+      consumePendingItem(gs) // item.scriptOnUse 跑完 → 按 g_fScriptSuccess gate 扣物品
+      gs.iCurEquipPart = -1 // sdlpal PAL_RunTriggerScript 末尾(script.c:3476)reset — 0x18 设的 part 不泄漏
       restoreModeAfterScript(gs) // applyToAll → 关菜单回 explore;否则 menuStack 非空回 menu(INNER 循环)
       triggerPendingSceneLoad(gs) // loadScene 续跑的脚本 ip 越界结束 → 触发延迟 reload
       return
@@ -1874,10 +1930,10 @@ export function tickEventSystem(
     // + waiting='dialog' return,等用户 Space 后真清 dialogBox,下一帧再跑该 opcode。
     // 这样 NPC 动画 / wait / 角色 pose 切换等播放期间,先前的对话框不再遮挡画面。
     if (
-      gs.dialogBox
-      && gs.dialogBox.phase === 'line-done'
-      && (gs.dialogBox.shownLines.length > 0 || gs.dialogBox.currentLineText !== null)
-      && !isDialogContinuationOp(cmd)
+      gs.dialogBox &&
+      gs.dialogBox.phase === 'line-done' &&
+      (gs.dialogBox.shownLines.length > 0 || gs.dialogBox.currentLineText !== null) &&
+      !isDialogContinuationOp(cmd)
     ) {
       // Sync.2 fix18:区分 ClearDialog 触发源(sdlpal scene.c:472 真值 — PAL_MakeScene 每帧
       // rect={0,0,320,200} 全屏重画 → portrait/title 像素被覆盖 → 视觉消失。**例外** 0x8E
@@ -1894,9 +1950,9 @@ export function tickEventSystem(
         setWaitingPageKey(
           gs.dialogBox,
           undefined,
-          !isRestoreScreen,  // fullClear:非 0x8E 都 true
-          true,              // preOpClear:opcode 尚未消费
-          isRestoreScreen,   // partialClear:仅 0x8E true
+          !isRestoreScreen, // fullClear:非 0x8E 都 true
+          true, // preOpClear:opcode 尚未消费
+          isRestoreScreen, // partialClear:仅 0x8E true
         )
         cursor.waiting = 'dialog'
         return
@@ -1955,14 +2011,13 @@ export function tickEventSystem(
         //   0x01 advance → 续跑下一条;0x02 reset → resetTo;0x00 plain → 原点(triggerResume 清空,可重触发)。
         //   否则 0x01 收尾的 cutscene 每次接触都重播(2026-05-28 客栈李大娘苗人演出重播根因)。
         if (cursor.triggerOwnerId !== undefined) {
-          const owner = gs.npcs.find((n) => n.id === cursor.triggerOwnerId)
-            ?? gs.allEventObjects?.[cursor.triggerOwnerId]
+          const owner =
+            gs.npcs.find((n) => n.id === cursor.triggerOwnerId) ??
+            gs.allEventObjects?.[cursor.triggerOwnerId]
           if (owner) {
             if (cmd.advance) {
               owner.triggerResume = { ip: cursor.ip + 1 } // P2#5:全局 ip,默认读全局数组
-            }
-
-            else if (cmd.reset && cmd.resetTo !== undefined) {
+            } else if (cmd.reset && cmd.resetTo !== undefined) {
               // DL17:0x02-end 带 operand[1](idleFrames):`op1==0 || ++count < op1` → 结束并跳 resetTo;
               //   满次 → 计数清零 + **wScriptEntry++ 继续本次运行**(script.c:3219-3237 fall-through;
               //   "触发 N 次后进展"类机关)。计数挂 owner 跨运行累计(= pEvtObj->nScriptIdleFrame)。
@@ -2001,8 +2056,8 @@ export function tickEventSystem(
         // sdlpal play.c:264-323 PAL_GameUseItem:非 applyToAll item 在 INNER while 循环里反复用
         //   (用完回 ItemUseMenu,user 反馈"没用完可以继续使用");applyToAll item `return` 退出 →
         //   关菜单回 explore(让脚本设的世界 trigger 触发,如桂花酒酒剑仙)。NPC trigger / onEnter 同 else 支。
-        consumePendingItem(gs)  // item.scriptOnUse 'end' 收尾 → 按 g_fScriptSuccess gate 扣物品
-        gs.iCurEquipPart = -1   // sdlpal PAL_RunTriggerScript 末尾(script.c:3476)reset
+        consumePendingItem(gs) // item.scriptOnUse 'end' 收尾 → 按 g_fScriptSuccess gate 扣物品
+        gs.iCurEquipPart = -1 // sdlpal PAL_RunTriggerScript 末尾(script.c:3476)reset
         // DLh:对话末连按的第二下 Confirm 不再立即重开同段对话 —— C 在 Search 脚本后
         //   UTIL_Delay(50)+PAL_ClearKeyState(play.c:504-505),且 explore 帧首每帧清 dwKeyPress
         //   (game.c:70);ts pressed 跨快照累积 → 脚本结束标记清一次(main-loop 消费)。
@@ -2067,8 +2122,7 @@ export function tickEventSystem(
                 iDelayFrames: gs.dialogIDelayFrames,
                 now: gs.nowMs, // Bug1 fix:wall-clock 打字锚点
               })
-            }
-            else {
+            } else {
               appendDialogLine(gs.dialogBox, '', gs.nowMs)
             }
             cursor.ip++
@@ -2087,14 +2141,12 @@ export function tickEventSystem(
             iDelayFrames: gs.dialogIDelayFrames, // DM21:脚本级速度($NN 跨段持续,text.c:1538)
             now: gs.nowMs, // Bug1 fix:wall-clock 打字锚点
           })
-        }
-        else if (shouldWaitPageKey(gs.dialogBox)) {
+        } else if (shouldWaitPageKey(gs.dialogBox)) {
           // 不消费本 showDialog — 设 wait 状态,Confirm 后 cursor.ip++ 才会回到此 case append
           setWaitingPageKey(gs.dialogBox)
           cursor.waiting = 'dialog'
           return
-        }
-        else {
+        } else {
           appendDialogLine(gs.dialogBox, cmd.text, gs.nowMs)
         }
         // 历史对话捕获(生产工具面板用,会话态):提交**可见文本**(parseDialogText 剥控制符)入环形缓冲。
@@ -2102,7 +2154,12 @@ export function tickEventSystem(
         //   「蛋．．．这．．(」末尾露出半角 `(`,sdlpal text.c:1564 是「等待图标」控制符,主对话框走
         //   parseDialogText 已剥、历史这条曾直传 cmd.text)。空/纯控制符行 → parsed.text 空 → trim 跳过兜底;
         //   连续同 map 同 text 去重防多 tick re-commit。维度按 mapNum 而非 wNumScene(同 map 多场景共享地名更稳)。
-        pushDialogHistory(gs.dialogHistory ?? (gs.dialogHistory = []), getCurrentMapNum(), parseDialogText(cmd.text, 0, true).text)
+        gs.dialogHistory ??= []
+        pushDialogHistory(
+          gs.dialogHistory,
+          getCurrentMapNum(),
+          parseDialogText(cmd.text, 0, true).text,
+        )
         // DM21:行内 $NN 改速后同步回脚本级(C iDelayTime 是全局,任何 $ 都写它)。
         if (gs.dialogBox.iDelayState !== undefined) gs.dialogIDelayFrames = gs.dialogBox.iDelayState
         // Bug2 fix(2026-06-26):userSkip = fUserSkip 跨行瞬显中(confirmDialog 跳字置位、appendDialogLine 把
@@ -2150,32 +2207,43 @@ export function tickEventSystem(
       case 'setDialogStyleTop': {
         // sdlpal script.c:3404 PAL_ClearDialog(TRUE) + PAL_StartDialog(kDialogUpper, op[1]=fontColor, op[0]=numCharFace, op[2]=fPlayingRNG)
         maybeEnterDialogRNG(gs, cmd.arg2, cmd.arg0)
-        if (applySetDialogStyle(gs, cursor, 'top',
-          cmd.arg0 ? cmd.arg0 : undefined,
-          cmd.arg1 ? cmd.arg1 : 0x4F)) return
+        if (
+          applySetDialogStyle(
+            gs,
+            cursor,
+            'top',
+            cmd.arg0 ? cmd.arg0 : undefined,
+            cmd.arg1 ? cmd.arg1 : 0x4f,
+          )
+        )
+          return
         break
       }
       case 'setDialogStyleCenter': {
         // sdlpal script.c:3394 PAL_ClearDialog(TRUE) + PAL_StartDialog(kDialogCenter, op[0], 0, ...)
         //   numCharFace 恒 0(无头像)→ sdlpal `fPlayingRNG && iNumCharFace` 永假,不进 RNG 对话态。
-        if (applySetDialogStyle(gs, cursor, 'center',
-          undefined,
-          cmd.arg0 ? cmd.arg0 : 0x4F)) return
+        if (applySetDialogStyle(gs, cursor, 'center', undefined, cmd.arg0 ? cmd.arg0 : 0x4f)) return
         break
       }
       case 'setDialogStyleBottom': {
         // sdlpal script.c:3414 PAL_ClearDialog(TRUE) + PAL_StartDialog(kDialogLower, op[1]=fontColor, op[0]=numCharFace, op[2]=fPlayingRNG)
         maybeEnterDialogRNG(gs, cmd.arg2, cmd.arg0)
-        if (applySetDialogStyle(gs, cursor, 'bottom',
-          cmd.arg0 ? cmd.arg0 : undefined,
-          cmd.arg1 ? cmd.arg1 : 0x4F)) return
+        if (
+          applySetDialogStyle(
+            gs,
+            cursor,
+            'bottom',
+            cmd.arg0 ? cmd.arg0 : undefined,
+            cmd.arg1 ? cmd.arg1 : 0x4f,
+          )
+        )
+          return
         break
       }
       case 'setDialogStyleNarration': {
         // sdlpal script.c:3424 PAL_ClearDialog(TRUE) + PAL_StartDialog(kDialogCenterWindow, op[0], 0, FALSE)
-        if (applySetDialogStyle(gs, cursor, 'narration',
-          undefined,
-          cmd.arg0 ? cmd.arg0 : 0x4F)) return
+        if (applySetDialogStyle(gs, cursor, 'narration', undefined, cmd.arg0 ? cmd.arg0 : 0x4f))
+          return
         break
       }
 
@@ -2196,8 +2264,9 @@ export function tickEventSystem(
         if (cmd.opcode === OP_CHECKPOINT_ADVANCE) {
           const resumeIp = cursor.ip + 1
           if (cursor.triggerOwnerId !== undefined) {
-            const owner = gs.npcs.find((n) => n.id === cursor.triggerOwnerId)
-              ?? gs.allEventObjects?.[cursor.triggerOwnerId]
+            const owner =
+              gs.npcs.find((n) => n.id === cursor.triggerOwnerId) ??
+              gs.allEventObjects?.[cursor.triggerOwnerId]
             if (owner) {
               owner.triggerResume = { ip: resumeIp } // P2#5:全局 ip,默认读全局数组
             }
@@ -2253,7 +2322,14 @@ export function tickEventSystem(
               gs.needToFadeIn = false
               gs.blackScreenHold = false
             }
-            _rngPlayHandler({ gs, chunkIdx: gs.iCurPlayingRNG, startFrame, endFrame, speed, fadeIn })
+            _rngPlayHandler({
+              gs,
+              chunkIdx: gs.iCurPlayingRNG,
+              startFrame,
+              endFrame,
+              speed,
+              fadeIn,
+            })
             cursor.waiting = 'rng-play'
             cursor.ip++
             return
@@ -2399,11 +2475,11 @@ export function tickEventSystem(
           //   (text + 立绘)。同 0x09:须清整个**持久态** dialogBox(只清 currentDialogPortraitIcon 不够,残留
           //   box 的 portraitIcon 会被后续无 setDialogStyle 的 showDialog append 复用)。scene-145 idx45
           //   0x7F[0,0,0] 回正即触发,先于 0x09 擦赵灵儿对话框。layout 缩进 metrics 保留(clearDialogBoxes 不动)。
-          if (!((cx ?? 0) === 0 && (cy ?? 0) === 0 && flag === 0xFFFF)) {
+          if (!((cx ?? 0) === 0 && (cy ?? 0) === 0 && flag === 0xffff)) {
             if (gs.dialogBox || gs.dialogBoxKept) clearDialogBoxes(gs)
             gs.currentDialogPortraitIcon = undefined
           }
-          const isPan = !((cx ?? 0) === 0 && (cy ?? 0) === 0) && flag !== 0xFFFF
+          const isPan = !((cx ?? 0) === 0 && (cy ?? 0) === 0) && flag !== 0xffff
           if (isPan) {
             if (gs.sceneLoading) gs.sceneLoading = false
             const dx = toInt16(cx ?? 0)
@@ -2420,8 +2496,7 @@ export function tickEventSystem(
               cursor.cameraPanFramesRemaining = frames - 1
               cursor.cameraPanDx = dx
               cursor.cameraPanDy = dy
-            }
-            else {
+            } else {
               // 单帧(op2=0/1):移一次即足,仅再 yield 1 帧让本步动画渲染(不再移)。否则
               //   `0x6E+0x7F` 走步序列全压进一 tick = 李逍遥瞬移出场(user 2026-06-08 报)。
               cursor.cameraPanFramesRemaining = 1
@@ -2451,9 +2526,9 @@ export function tickEventSystem(
           // sdlpal script.c:3271 PAL_ClearDialog(TRUE):仅 nCurrentDialogLine>0 才 PAL_DialogWaitForKey
           //   (text.c:1770)等键 + 画箭头;随后 script.c:3290 PAL_MakeScene 重画覆盖对话区。
           if (gs.dialogBox && gs.dialogBox.dialogLineCount > 0) {
-            setWaitingPageKey(gs.dialogBox, undefined, true)  // fullClear=true(0x05 = PAL_ClearDialog(TRUE))
+            setWaitingPageKey(gs.dialogBox, undefined, true) // fullClear=true(0x05 = PAL_ClearDialog(TRUE))
             cursor.waiting = 'dialog'
-            return  // 等下次 tick Confirm,page-advance 后 dialogBox=undefined + ip++ + 继续
+            return // 等下次 tick Confirm,page-advance 后 dialogBox=undefined + ip++ + 继续
           }
           // dialogLineCount==0(`~` 收尾梦境句):不等键。残留对话框被 PAL_MakeScene 重画覆盖等价清掉。
           if (gs.dialogBox || gs.dialogBoxKept) clearDialogBoxes(gs)
@@ -2466,16 +2541,22 @@ export function tickEventSystem(
           //   → 靠岸对话浮在黑屏,对话跑完才淡入(用户报"过场黑屏卡死")。修:0x05 对齐 PAL_MakeScene,
           //   needToFadeIn 时在此触发淡入(对话前岛就显出),结构性补回 0x05 的重绘/淡入职责。
           gs.blackScreenHold = false
-          gs.sceneLoading = false  // PAL_MakeScene 重绘 = 解冻渲染(scene 已 load,setPartyPos 已定位 camera)
+          gs.sceneLoading = false // PAL_MakeScene 重绘 = 解冻渲染(scene 已 load,setPartyPos 已定位 camera)
           if (gs.needToFadeIn && !gs.paletteFadeState && !gs.fadeState) {
             if (!gs.palette) {
               const src = gs.basePalette ?? { colors: blackColors(), cycles: [] }
               gs.palette = makeWorkingPalette(src)
             }
             const baseColors = resolveNightColors(gs.basePalette ?? gs.palette, gs.nightPalette)
-            startPaletteFade(gs, cursor, buildFadeIn(baseColors, 600, performance.now()), false, true)
+            startPaletteFade(
+              gs,
+              cursor,
+              buildFadeIn(baseColors, 600, performance.now()),
+              false,
+              true,
+            )
             gs.needToFadeIn = false
-            return  // 阻塞等淡入完(对齐 sdlpal PAL_FadeIn);palette-fade 分支完成时 ip++ 到下一条
+            return // 阻塞等淡入完(对齐 sdlpal PAL_FadeIn);palette-fade 分支完成时 ip++ 到下一条
           }
           // 无 dialog 且无 pending 淡入 → sdlpal 0x05 真值(script.c:3290-3293,非 RNG/battle):
           //   PAL_MakeScene + VIDEO_UpdateScreen + **UTIL_Delay((operand[1]==0)?60:operand[1]*60) ms**。
@@ -2487,7 +2568,7 @@ export function tickEventSystem(
           const redrawDelayMs = (cmd.operands[1] ?? 0) === 0 ? 60 : (cmd.operands[1] ?? 0) * 60
           cursor.delayUntilMs = performance.now() + redrawDelayMs
           cursor.waiting = 'delay'
-          return  // 等延时完('delay' 等待 handler 到时清 waiting + ip++)
+          return // 等延时完('delay' 等待 handler 到时清 waiting + ip++)
         }
 
         // Sync.2 fix9: opcode 0x73 fadeScreen — sdlpal script.c:3271 + video.c:1130 VIDEO_FadeScreen
@@ -2519,9 +2600,9 @@ export function tickEventSystem(
           // backupPixels 已含上一帧冻结的 dialog 像素 → fade 视觉 dialog 渐隐(title + body 一起)。
           clearDialogBoxes(gs)
           gs.currentDialogPortraitIcon = undefined
-          gs.currentDialogFontColor = 0x4F
+          gs.currentDialogFontColor = 0x4f
           cursor.waiting = 'fade-screen'
-          return  // 等 fade 完
+          return // 等 fade 完
         }
 
         // ── 特效 A(2026-05-29):调色板 ramp fade(sdlpal palette.c FadeOut/FadeIn/SceneFade/
@@ -2529,12 +2610,12 @@ export function tickEventSystem(
         //    gs.basePalette(稳定场景色);builder 深拷快照进 paletteFadeState;present.ts stepPaletteFade
         //    每帧 ramp gs.palette.colors。waiting 由 startPaletteFade 设(冻 'palette-fade' / 放行 'scene-fade')。
         if (
-          cmd.opcode === OP_FADE_OUT
-          || cmd.opcode === OP_FADE_IN
-          || cmd.opcode === OP_SCENE_FADE
-          || cmd.opcode === OP_PALETTE_FADE
-          || cmd.opcode === OP_COLOR_FADE
-          || cmd.opcode === OP_FADE_TO_RED
+          cmd.opcode === OP_FADE_OUT ||
+          cmd.opcode === OP_FADE_IN ||
+          cmd.opcode === OP_SCENE_FADE ||
+          cmd.opcode === OP_PALETTE_FADE ||
+          cmd.opcode === OP_COLOR_FADE ||
+          cmd.opcode === OP_FADE_TO_RED
         ) {
           const now = performance.now()
           const curColors = (gs.palette ?? gs.basePalette)?.colors ?? blackColors()
@@ -2559,7 +2640,7 @@ export function tickEventSystem(
             //   **FadeIn → 字幕(无 setDialogStyle)**:旧码这里清 blackScreenHold → 字幕前就露场景背景(user 报);
             //   "一夜过去"(FadeIn 在字幕后)则靠后续 0x73 fadeScreen 揭场景,改后更忠实(不再 0x51 提前露 + 0x73 再淡)。
             startPaletteFade(gs, cursor, buildFadeIn(baseColors, delay * 600, now), false)
-            gs.needToFadeIn = false  // sdlpal script.c:1791
+            gs.needToFadeIn = false // sdlpal script.c:1791
             return
           }
           if (cmd.opcode === OP_SCENE_FADE) {
@@ -2570,8 +2651,13 @@ export function tickEventSystem(
             const absStep = Math.abs(step)
             const fadeIn = step > 0
             const totalMs = Math.ceil(64 / absStep) * 100
-            startPaletteFade(gs, cursor, buildSceneFade(curColors, baseColors, fadeIn, totalMs, now), true)
-            gs.needToFadeIn = step < 0  // sdlpal script.c:2670
+            startPaletteFade(
+              gs,
+              cursor,
+              buildSceneFade(curColors, baseColors, fadeIn, totalMs, now),
+              true,
+            )
+            gs.needToFadeIn = step < 0 // sdlpal script.c:2670
             return
           }
           if (cmd.opcode === OP_PALETTE_FADE) {
@@ -2583,7 +2669,12 @@ export function tickEventSystem(
             // target = PAL_GetPalette(numPalette, **toggled** night)。在 toggle 之后重新按新 flag 选色
             //   (baseColors 是 toggle 前算的,不能直接用)。#0/#5 有夜间半 → 真切夜色。
             const targetColors = resolveNightColors(gs.basePalette ?? gs.palette, gs.nightPalette)
-            startPaletteFade(gs, cursor, buildPaletteFade(curColors, targetColors, totalMs, now), fUpdateScene)
+            startPaletteFade(
+              gs,
+              cursor,
+              buildPaletteFade(curColors, targetColors, totalMs, now),
+              fUpdateScene,
+            )
             return
           }
           if (cmd.opcode === OP_COLOR_FADE) {
@@ -2594,8 +2685,13 @@ export function tickEventSystem(
             const fFrom = (cmd.operands[2] ?? 0) !== 0
             const perStep = delay * 10 || 10
             const totalMs = 64 * perStep
-            startPaletteFade(gs, cursor, buildColorFade(baseColors, color, fFrom, totalMs, now), false)
-            gs.needToFadeIn = false  // sdlpal script.c:2588
+            startPaletteFade(
+              gs,
+              cursor,
+              buildColorFade(baseColors, color, fFrom, totalMs, now),
+              false,
+            )
+            gs.needToFadeIn = false // sdlpal script.c:2588
             return
           }
           // OP_FADE_TO_RED(0x4F)— sdlpal script.c:1772 `PAL_FadeToRed()`(game over)。
@@ -2616,13 +2712,13 @@ export function tickEventSystem(
         //   backupPixels 快照),**不**用 paletteFadeState。
         if (cmd.opcode === OP_FADE_TO_SCENE) {
           const speed = 2
-          const totalMs = (speed + 1) * 10 * 72  // 2160ms,同 0x73 真值
+          const totalMs = (speed + 1) * 10 * 72 // 2160ms,同 0x73 真值
           gs.fadeState = { speed, totalMs, startTimeMs: performance.now(), appliedSteps: 0 }
           gs.blackScreenHold = false
           gs.sceneLoading = false
           clearDialogBoxes(gs)
           gs.currentDialogPortraitIcon = undefined
-          gs.currentDialogFontColor = 0x4F
+          gs.currentDialogFontColor = 0x4f
           cursor.waiting = 'fade-screen'
           return
         }
@@ -2633,23 +2729,22 @@ export function tickEventSystem(
           const delayMs = (cmd.operands[0] ?? 0) * 80
           if (delayMs <= 0) {
             cursor.ip++
-            break  // 本 tick 继续跑下条
+            break // 本 tick 继续跑下条
           }
           cursor.delayUntilMs = performance.now() + delayMs
           cursor.waiting = 'delay'
-          return  // 等延迟完
+          return // 等延迟完
         }
         // Sync.2 fix20:opcode 0x70/0x7A/0x7B PartyWalkTo — 主角阻塞走到目标。
         //   0x70 speed 2(script.c:2125)/ 0x7A speed 4(script.c:2249)/ 0x7B speed 8(script.c:2256)。
         //   每 tick 走 1 step,arrived 才 ip++。trigger 中常见用法 "主角走到密道" 等。
-        if (cmd.opcode === OP_PARTY_WALK_TO
-          || cmd.opcode === OP_PARTY_WALK_TO_4
-          || cmd.opcode === OP_PARTY_WALK_TO_8) {
-          const speed = cmd.opcode === OP_PARTY_WALK_TO_8
-            ? 8
-            : cmd.opcode === OP_PARTY_WALK_TO_4
-              ? 4
-              : 2
+        if (
+          cmd.opcode === OP_PARTY_WALK_TO ||
+          cmd.opcode === OP_PARTY_WALK_TO_4 ||
+          cmd.opcode === OP_PARTY_WALK_TO_8
+        ) {
+          const speed =
+            cmd.opcode === OP_PARTY_WALK_TO_8 ? 8 : cmd.opcode === OP_PARTY_WALK_TO_4 ? 4 : 2
           const arrived = partyWalkTo(
             gs,
             cmd.operands[0] ?? 0,
@@ -2675,10 +2770,12 @@ export function tickEventSystem(
         // Sync.2 fix19:opcode 0x10 / 0x11 / 0x7C / 0x82 NPCWalkTo — 阻塞 trigger script,
         // 每 tick 走 1 步,arrived 才 ip++(对应 sdlpal `wScriptEntry--` 下帧 retry 真值)。
         // self = currentEventObjectId(trigger 当前 NPC,scene-system 进入 trigger 时设)。
-        if (cmd.opcode === OP_NPC_WALK_TO_SPEED_3
-          || cmd.opcode === OP_NPC_WALK_TO_SPEED_2
-          || cmd.opcode === OP_NPC_WALK_TO_4
-          || cmd.opcode === OP_NPC_WALK_TO_SPEED_8) {
+        if (
+          cmd.opcode === OP_NPC_WALK_TO_SPEED_3 ||
+          cmd.opcode === OP_NPC_WALK_TO_SPEED_2 ||
+          cmd.opcode === OP_NPC_WALK_TO_4 ||
+          cmd.opcode === OP_NPC_WALK_TO_SPEED_8
+        ) {
           const npc = getSelfNpc(gs, cursor.currentEventObjectId, 'npcWalkTo')
           if (!npc) {
             // 无 self(从 onEnter 跑无 trigger NPC)→ skip + ip++
@@ -2692,19 +2789,19 @@ export function tickEventSystem(
           // sdlpal 0x11(script.c:692)/ 0x7C(script.c:2263)有隔帧 stagger gate
           //   `(wEventObjectID & 1) ^ (dwFrameNum & 1)` — gate FALSE → wScriptEntry--(本帧不走重试)。
           //   wEventObjectID 1-based = npc.id + 1。0x10 / 0x82 无 gate。
-          const staggered
-            = cmd.opcode === OP_NPC_WALK_TO_SPEED_2 || cmd.opcode === OP_NPC_WALK_TO_4
-          if (staggered && ((((npc.id + 1) & 1) ^ (gs.frameNum & 1)) === 0)) {
-            return  // 隔帧:本 tick 跳过移动 + 重试
+          const staggered = cmd.opcode === OP_NPC_WALK_TO_SPEED_2 || cmd.opcode === OP_NPC_WALK_TO_4
+          if (staggered && (((npc.id + 1) & 1) ^ (gs.frameNum & 1)) === 0) {
+            return // 隔帧:本 tick 跳过移动 + 重试
           }
           // sdlpal 四档速度:0x10=3, 0x11=2(隔帧), 0x7C=4(隔帧), 0x82=8
-          const speed = cmd.opcode === OP_NPC_WALK_TO_SPEED_3
-            ? 3
-            : cmd.opcode === OP_NPC_WALK_TO_SPEED_8
-              ? 8
-              : cmd.opcode === OP_NPC_WALK_TO_4
-                ? 4
-                : 2
+          const speed =
+            cmd.opcode === OP_NPC_WALK_TO_SPEED_3
+              ? 3
+              : cmd.opcode === OP_NPC_WALK_TO_SPEED_8
+                ? 8
+                : cmd.opcode === OP_NPC_WALK_TO_4
+                  ? 4
+                  : 2
           const arrived = npcWalkTo(
             npc,
             cmd.operands[0] ?? 0,
@@ -2714,27 +2811,26 @@ export function tickEventSystem(
           )
           if (arrived) {
             cursor.ip++
-            break  // fall through 跑下条
+            break // fall through 跑下条
           }
-          return  // 未到 → 下 tick 再跑同条
+          return // 未到 → 下 tick 再跑同条
         }
 
         // opcode 0x3F/0x44/0x97 PartyRideEventObject — party 骑乘对象阻塞移动到目标。
         //   0x3F speed 2(script.c:1609)/ 0x44 speed 4(script.c:1654)/ 0x97 speed 8(script.c:2705)。
         //   骑乘对象 = wEventObjectID(self)。每 tick 走 1 step,arrived 才 ip++(同 walk-to retry)。
-        if (cmd.opcode === OP_RIDE_OBJECT_2
-          || cmd.opcode === OP_RIDE_OBJECT_4
-          || cmd.opcode === OP_RIDE_OBJECT_8) {
+        if (
+          cmd.opcode === OP_RIDE_OBJECT_2 ||
+          cmd.opcode === OP_RIDE_OBJECT_4 ||
+          cmd.opcode === OP_RIDE_OBJECT_8
+        ) {
           const npc = getSelfNpc(gs, cursor.currentEventObjectId, 'rideObject')
           if (!npc) {
             cursor.ip++
             break
           }
-          const speed = cmd.opcode === OP_RIDE_OBJECT_8
-            ? 8
-            : cmd.opcode === OP_RIDE_OBJECT_4
-              ? 4
-              : 2
+          const speed =
+            cmd.opcode === OP_RIDE_OBJECT_8 ? 8 : cmd.opcode === OP_RIDE_OBJECT_4 ? 4 : 2
           const arrived = partyRideEventObject(
             gs,
             npc,
@@ -2841,12 +2937,11 @@ export function tickEventSystem(
         gs.numPalette = paletteIdx
         const synced = _getPalette?.(paletteIdx)
         if (synced) {
-          gs.basePalette = makeWorkingPalette(synced)  // pristine 独立副本(target 参照)
+          gs.basePalette = makeWorkingPalette(synced) // pristine 独立副本(target 参照)
           if (!gs.needToFadeIn) {
-            gs.palette = makeWorkingPalette(synced)  // sdlpal `if (!fNeedToFadeIn) PAL_SetPalette`
+            gs.palette = makeWorkingPalette(synced) // sdlpal `if (!fNeedToFadeIn) PAL_SetPalette`
           }
-        }
-        else if (_fetchPalette) {
+        } else if (_fetchPalette) {
           // 冷缓存 / 越界 / 未预载 → 回退异步 fetch(渲染层下一帧自愈;非同帧消费场景仍正确)。
           const gsRef = gs
           _fetchPalette(paletteIdx)
@@ -2859,8 +2954,7 @@ export function tickEventSystem(
             .catch((err: unknown) => {
               console.warn(`event-system: fetchPalette(${paletteIdx}) failed:`, err)
             })
-        }
-        else {
+        } else {
           // 两个注入都没有(测试 / 非 bootstrap 路径)→ 诊断 skip(非正常游玩噪声)。
           console.debug(
             `event-system: setPalette paletteIndex=${paletteIdx} ip=${cursor.ip}(palette 源未注入)`,
@@ -2908,8 +3002,7 @@ export function runScript(opts: RunScriptOptions): number {
   }
 
   // D17b:让 battle opcode 拿到 bus emit showDamageNum(caller 未塞则默认 = opts.bus)。
-  if (battleCtx && battleCtx.bus === undefined)
-    battleCtx.bus = bus
+  if (battleCtx && battleCtx.bus === undefined) battleCtx.bus = bus
 
   const logPrefix = runtimeMode === 'battle' ? '[event-system battle]' : '[event-system explore]'
 
@@ -2980,7 +3073,8 @@ export function runScript(opts: RunScriptOptions): number {
           const bs = battleCtx?.state
           if (bs) {
             const st = bs.battleDialogStyle
-            ;(bs.battleDialogQueue ??= []).push({
+            bs.battleDialogQueue ??= []
+            bs.battleDialogQueue.push({
               text: cmd.text,
               style: st?.style ?? 'bottom',
               portrait: st?.portrait,
@@ -3007,14 +3101,17 @@ export function runScript(opts: RunScriptOptions): number {
         const bs = runtimeMode === 'battle' ? battleCtx?.state : undefined
         if (bs) {
           const style: import('@type-pal/shared').DialogBoxStyle =
-            cmd.op === 'setDialogStyleTop' ? 'top'
-              : cmd.op === 'setDialogStyleCenter' ? 'center'
-                : cmd.op === 'setDialogStyleNarration' ? 'narration'
+            cmd.op === 'setDialogStyleTop'
+              ? 'top'
+              : cmd.op === 'setDialogStyleCenter'
+                ? 'center'
+                : cmd.op === 'setDialogStyleNarration'
+                  ? 'narration'
                   : 'bottom'
           bs.battleDialogStyle = {
             style,
             portrait: cmd.arg0 ? cmd.arg0 : undefined,
-            fontColor: cmd.arg1 ? cmd.arg1 : 0x4F,
+            fontColor: cmd.arg1 ? cmd.arg1 : 0x4f,
           }
         }
         // explore mode 不该走 runScript(同 showDialog);no-op skip
@@ -3032,7 +3129,10 @@ export function runScript(opts: RunScriptOptions): number {
           //   队列空(无前置对话)→ 不 defer,照旧立即跑(0x69 → narration 顺序天然对)。
           const bs = battleCtx.state
           if (cmd.opcode === 0x69 && (bs.battleDialogQueue?.length ?? 0) > 0) {
-            ;(bs.battleDialogQueue ??= []).push({ effect: { opcode: cmd.opcode, operands: cmd.operands } })
+            bs.battleDialogQueue ??= []
+            bs.battleDialogQueue.push({
+              effect: { opcode: cmd.opcode, operands: cmd.operands },
+            })
             // 敌逃 = sdlpal kBattleResultTerminated:标记"战斗将终止"。供 runEnemyTurnStartScripts 在本回合
             //   后续敌人的 turn-start 脚本前 break(对齐 sdlpal:逃跑即退出主循环,后续敌 turn-start 不跑),
             //   及 finalize 归 outcome='terminated'。
@@ -3042,7 +3142,7 @@ export function runScript(opts: RunScriptOptions): number {
           }
           const r = dispatchBattleOpcode(cmd.opcode, cmd.operands, battleCtx)
           if (r.consumed) {
-            ip = r.newIp !== undefined ? r.newIp : (ip + 1)
+            ip = r.newIp !== undefined ? r.newIp : ip + 1
             break
           }
           // dispatchBattleOpcode 未消费(非战斗特定 opcode)→ fall 到大世界统一解释器 applyRawOpcode
@@ -3080,8 +3180,8 @@ export function runScript(opts: RunScriptOptions): number {
             //   生效(镇狱明王力量觉醒:此前加成战内无效 + 后续 0x1D 治疗封顶旧 maxHP + 菜单/战斗对不上)。
             //   resync 全队(读 runtime+装备 authoritative,未变 role 是 no-op;省去 op2==0 角色解析)。
             if (
-              (cmd.opcode === OP_INCREASE_PLAYER_ATTR || cmd.opcode === OP_SET_PLAYER_STAT)
-              && battleCtx.playerRoles
+              (cmd.opcode === OP_INCREASE_PLAYER_ATTR || cmd.opcode === OP_SET_PLAYER_STAT) &&
+              battleCtx.playerRoles
             ) {
               for (const p of battleCtx.state.players) {
                 const role = battleCtx.playerRoles.roles[p.roleId]
@@ -3107,8 +3207,7 @@ export function runScript(opts: RunScriptOptions): number {
         //   count=0 → addItemToInventory 内当 1(sdlpal global.c:1094-1097)。
         if (runtimeMode === 'battle' && battleCtx?.gs) {
           addItemToInventory(battleCtx.gs, cmd.itemId, cmd.count)
-        }
-        else {
+        } else {
           // explore mode 不走 runScript(走 stepEvent 的 giveItem);此处仅 battle 缺 gs 兜底
         }
         ip++
@@ -3144,7 +3243,11 @@ export function runScript(opts: RunScriptOptions): number {
   }
 }
 
-export function runPlayerPoisonEntrySync(gs: GameState, roleId: number, playerScriptIp: number): number {
+export function runPlayerPoisonEntrySync(
+  gs: GameState,
+  roleId: number,
+  playerScriptIp: number,
+): number {
   const commands = getGlobalCommands()
   const labelMap = getGlobalLabelMap()
   const startIp = labelMap[`L_${playerScriptIp}`] ?? playerScriptIp
@@ -3211,7 +3314,11 @@ export function runPlayerPoisonEntrySync(gs: GameState, roleId: number, playerSc
  * 胜 → wonIp(0x07 后下一条);负 → op[1];逃 → op[2](op[1]/op[2] = 全局 entry,经 cursor.labelMap 解析)。
  * 战末 finalizeBattleCleanup → resumePostBattleScript 接回。修"打完怪不消失"(0x52 隐藏怪此前永不跑)。
  */
-function savePostBattleResume(gs: GameState, cursor: EventCursor, operands: readonly number[]): void {
+function savePostBattleResume(
+  gs: GameState,
+  cursor: EventCursor,
+  operands: readonly number[],
+): void {
   const resolve = (entry: number): number | undefined =>
     entry !== 0 ? (cursor.labelMap?.[`L_${entry}`] ?? entry) : undefined
   gs.postBattleResume = {
@@ -3232,12 +3339,12 @@ function savePostBattleResume(gs: GameState, cursor: EventCursor, operands: read
 function tryStartBattle(gs: GameState, enemyTeamId: number, fleeArg: number): void {
   if (!_startBattleHandler) {
     console.warn(
-      `event-system: opcode 7 startBattle handler 未注入,跳过 (enemyTeamId=${enemyTeamId})。`
-      + ' 测试外 bootstrap 应 setStartBattleHandler。',
+      `event-system: opcode 7 startBattle handler 未注入,跳过 (enemyTeamId=${enemyTeamId})。` +
+        ' 测试外 bootstrap 应 setStartBattleHandler。',
     )
     return
   }
-  const isBoss = fleeArg === 0  // sdlpal !operand[2]:operand[2]==0 → isBoss true
+  const isBoss = fleeArg === 0 // sdlpal !operand[2]:operand[2]==0 → isBoss true
   // 战斗背景 = gs.wNumBattleField(0x4A setBattlefield 设;持久全局,scene enter 脚本逐场设)。
   _startBattleHandler({ gs, enemyTeamId, isBoss })
 }
@@ -3300,7 +3407,7 @@ export function startOverworldItemScript(
   gs: GameState,
   itemId: number,
   scriptOnUse: number,
-  targetRoleIdOrAll: number | 0xFFFF,
+  targetRoleIdOrAll: number | 0xffff,
   consuming: boolean,
 ): boolean {
   if (scriptOnUse === 0) {
@@ -3321,7 +3428,7 @@ export function startOverworldItemScript(
   gs.pendingItemConsume = consuming ? itemId : undefined
   // applyToAll 物品(targetRoleIdOrAll=0xFFFF):sdlpal play.c:305-322 用完 `return` 退出 PAL_GameUseItem
   // → 脚本结束关物品菜单回 explore(让脚本设的世界 trigger 触发,如桂花酒酒剑仙)。非 applyToAll 留菜单。
-  gs.itemUseApplyToAll = targetRoleIdOrAll === 0xFFFF
+  gs.itemUseApplyToAll = targetRoleIdOrAll === 0xffff
   gs.eventCursor = {
     ip, // P2#5:全局 ip,默认读全局数组(不内嵌 commands/labelMap)
     // sdlpal `script.c:3140 wEventObjectID` 参数 — items 上下文里是 wPlayer(0-based role id)或
@@ -3341,8 +3448,7 @@ function consumePendingItem(gs: GameState): void {
   if (gs.pendingItemConsume === undefined) return
   if (gs.fScriptSuccess) {
     addItemToInventory(gs, gs.pendingItemConsume, -1)
-  }
-  else {
+  } else {
   }
   gs.pendingItemConsume = undefined
 }
@@ -3446,7 +3552,11 @@ function jumpToGlobalIp(gs: GameState, cursor: ScriptCursor | null, globalIp: nu
  * 跑目标 op(无 ip++,对齐 sdlpal in-fn cursor steer 无帧 yield,区别于 jumpToGlobalIp 的 -1+applyRawOpcode++)。
  * 返回 true=已设 ip 续跑;false=目标越界已终止脚本(同 goto 越界路径,清 cursor 回 explore/menu)。
  */
-function resolveConfirmGoto(gs: GameState, cursor: EventCursor, cmd0a: Command | undefined): boolean {
+function resolveConfirmGoto(
+  gs: GameState,
+  cursor: EventCursor,
+  cmd0a: Command | undefined,
+): boolean {
   const entry = (cmd0a?.op === 'raw' ? cmd0a.operands[0] : undefined) ?? 0
   const target = cursor.labelMap ? cursor.labelMap[`L_${entry}`] : entry
   if (target === undefined || target < 0) {
@@ -3610,8 +3720,8 @@ function applyRawOpcode(
       //   退一格),朝向 = wPartyDirection。→ 进场景队员 / 0x98 跟随者立刻排好(否则 trail 残留旧场景坐标
       //   或为空 → 跟随者要走几步把 trail 铺满才定位)。xOffset=(西/南?16:-16)、yOffset=(西/北?8:-8)。
       const dir = gs.party.facing
-      const xOff = (dir === 'left' || dir === 'down') ? 16 : -16
-      const yOff = (dir === 'left' || dir === 'up') ? 8 : -8
+      const xOff = dir === 'left' || dir === 'down' ? 16 : -16
+      const yOff = dir === 'left' || dir === 'up' ? 8 : -8
       gs.trail = [0, 1, 2, 3, 4].map((i) => ({ x: px + i * xOff, y: py + i * yOff, dir }))
       gs.followerFrozenOffset = [] // trail 重填 → 清冻结偏移,静止时回退新 trail(present follower-pos)
       break
@@ -3659,12 +3769,10 @@ function applyRawOpcode(
       if ((cx ?? 0) === 0 && (cy ?? 0) === 0) {
         gs.camera.x = gs.party.x - PARTYOFFSET_X
         gs.camera.y = gs.party.y - PARTYOFFSET_Y
-      }
-      else if (flag === 0xFFFF) {
+      } else if (flag === 0xffff) {
         gs.camera.x = (cx ?? 0) * 32 - PARTYOFFSET_X
         gs.camera.y = (cy ?? 0) * 16 - PARTYOFFSET_Y
-      }
-      else {
+      } else {
         gs.camera.x += toInt16(cx ?? 0)
         gs.camera.y += toInt16(cy ?? 0)
       }
@@ -3714,7 +3822,12 @@ function applyRawOpcode(
       if ((operands[0] ?? 0) === 0) {
         break
       }
-      const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'setSceneObjectState')
+      const npc = resolveTargetNpc(
+        gs,
+        operands[0] ?? 0,
+        currentEventObjectId,
+        'setSceneObjectState',
+      )
       if (npc) {
         npc.sState = signExtendI16(operands[1] ?? 0)
       }
@@ -3762,7 +3875,7 @@ function applyRawOpcode(
       // sdlpal script.c:2591-2595 → global.c:2347 PAL_PlayerLevelUp(wEventObjectID, operand[0])。
       //   role = wEventObjectID(=currentEventObjectId,item/特殊脚本上下文里是 role id)。
       const role = currentEventObjectId
-      if (role === undefined || role === 0xFFFF) {
+      if (role === undefined || role === 0xffff) {
         console.warn('event-system: increasePlayerLevel 无 role 上下文,跳过')
         break
       }
@@ -3796,7 +3909,8 @@ function applyRawOpcode(
         if (remaining > 0) {
           // 库存不足 → 从装备槽补足(撤装备效果 + 清槽),遍历全队 × 6 槽
           outer: for (const roleId of gs.partyMembers) {
-            for (let slot = 0; slot < 6; slot++) { // MAX_PLAYER_EQUIPMENTS=6(同 0x23)
+            for (let slot = 0; slot < 6; slot++) {
+              // MAX_PLAYER_EQUIPMENTS=6(同 0x23)
               if ((gs.PlayerRolesRuntime.rgwEquipment[slot]?.[roleId] ?? 0) === itemId) {
                 removeEquipmentEffect(gs, roleId, slot)
                 gs.PlayerRolesRuntime.rgwEquipment[slot]![roleId] = 0
@@ -3816,7 +3930,8 @@ function applyRawOpcode(
     case OP_PLAY_SOUND: {
       // sdlpal script.c:1704-1709:AUDIO_PlaySound(operand[0])。M6:push 进 gs.pendingSounds 队列,
       //   shell AudioManager 每帧 drain → Web Audio 播 SOUNDS.MKF chunk。
-      ;(gs.pendingSounds ??= []).push(operands[0] ?? 0)
+      gs.pendingSounds ??= []
+      gs.pendingSounds.push(operands[0] ?? 0)
       break
     }
 
@@ -3824,7 +3939,12 @@ function applyRawOpcode(
       // sdlpal script.c:706-714 真值:pCurrent.x = operand[1] + viewport.x + partyoffset.x
       //   = operand[1] + party.x(因为 party.world = viewport + partyoffset)。
       //   pCurrent 由 operand[0] 选(非 self)—— 旧 bug 写死 0(self),op0 选别的对象时错。
-      const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'setObjectPosRelParty')
+      const npc = resolveTargetNpc(
+        gs,
+        operands[0] ?? 0,
+        currentEventObjectId,
+        'setObjectPosRelParty',
+      )
       if (npc) {
         // sdlpal pCurrent->x/y 是 SHORT:`operand + viewport + offset`(int)赋给 SHORT 自动 wrap 16-bit 有符号。
         //   operand 常是负偏移(如 0xFF80=-128,香兰报信 cutscene script.c idx 903 摆她到队首左侧)。
@@ -3861,8 +3981,7 @@ function applyRawOpcode(
         if (entry === 0) {
           npc.autoLabel = undefined
           npc.autoCursor = undefined
-        }
-        else {
+        } else {
           // P2#5:operand[1] 是全局 script entry → resolveScriptLabel 解全局 ip(L_<n>→n 恒等)。
           // autoCursor 只存全局 ip,默认读单一全局数组(_globalCommands),不再按 scene 切片重排。
           const label = `L_${entry}`
@@ -3870,8 +3989,7 @@ function applyRawOpcode(
           const r = resolveScriptLabel(gs, label)
           if (r) {
             npc.autoCursor = { ip: r.ip }
-          }
-          else {
+          } else {
             npc.autoCursor = undefined
             console.warn(`event-system: setAutoScript id=${npc.id} ${label} 不在全局 labelMap`)
           }
@@ -3962,7 +4080,8 @@ function applyRawOpcode(
       //   teleport 脚本(scene 163/226 = loadScene+setPartyPos+fade;scene 41 = dialog cutscene)走异步
       //   cursor 全 opcode 支持;loadScene 延迟 reload(到脚本全 end)→ callStack 返回帧不丢。
       const inBattle = gs.battleState !== undefined // sdlpal !fInBattle gate
-      const teleportEntry = gs.sceneOnTeleportOverride?.[gs.wNumScene] ?? gs.sceneOnTeleportEntry ?? 0
+      const teleportEntry =
+        gs.sceneOnTeleportOverride?.[gs.wNumScene] ?? gs.sceneOnTeleportEntry ?? 0
       if (!inBattle && teleportEntry !== 0 && cursor) {
         // PAL_RunTriggerScript(teleportEntry, 0xFFFF):labelMap 缺(生产 / L_<n>→n 恒等)→ 直接当全局 ip。
         const subIp = cursor.labelMap?.[`L_${teleportEntry}`] ?? teleportEntry
@@ -3977,8 +4096,7 @@ function applyRawOpcode(
         //   不引用 pCurrent,故 currentEventObjectId 不变(保持 caller 的)。
         cursor.ip = subIp - 1 // caller raw-case ip++ → subIp
         // 成功:g_fScriptSuccess 不置 false。
-      }
-      else {
+      } else {
         gs.fScriptSuccess = false
         jumpToGlobalIp(gs, cursor, operands[0] ?? 0)
       }
@@ -4010,9 +4128,14 @@ function applyRawOpcode(
       //   旧值 4× 过大 → 苗人 autoScript(0xc 走步)移动飞快 + 冲进墙(2026-05-28 user 发现)。
       const npc = resolveTargetNpc(gs, 0, currentEventObjectId, 'npcWalkOneStepDir')
       if (npc) {
-        const dirCode = opcode - 0x000B  // 0..3
+        const dirCode = opcode - 0x000b // 0..3
         const FACINGS = ['down', 'left', 'up', 'right'] as const
-        const DELTAS = [[-4, 2], [-4, -2], [4, -2], [4, 2]] as const
+        const DELTAS = [
+          [-4, 2],
+          [-4, -2],
+          [4, -2],
+          [4, 2],
+        ] as const
         npc.facing = FACINGS[dirCode]
         const delta = DELTAS[dirCode]
         if (delta) {
@@ -4020,7 +4143,11 @@ function applyRawOpcode(
           npc.y += delta[1]
         }
         // 同 0x6C handler:推进 scriptedFrame mod 4 — 走路帧循环
-        npc.scriptedFrame = walkFrameMod((npc.scriptedFrame ?? -1) + 1, npc.nSpriteFrames, npc.nSpriteFramesAuto)
+        npc.scriptedFrame = walkFrameMod(
+          (npc.scriptedFrame ?? -1) + 1,
+          npc.nSpriteFrames,
+          npc.nSpriteFramesAuto,
+        )
       }
       break
     }
@@ -4072,7 +4199,7 @@ function applyRawOpcode(
       const npc = getSelfNpc(gs, currentEventObjectId, 'setObjectGesture')
       if (npc) {
         npc.scriptedFrame = operands[0] ?? 0
-        npc.facing = 'down'  // sdlpal 强制 kDirSouth
+        npc.facing = 'down' // sdlpal 强制 kDirSouth
       }
       break
     }
@@ -4087,7 +4214,12 @@ function applyRawOpcode(
       if ((operands[0] ?? 0) === 0) {
         break
       }
-      const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'setEventObjectDirAndFrame')
+      const npc = resolveTargetNpc(
+        gs,
+        operands[0] ?? 0,
+        currentEventObjectId,
+        'setEventObjectDirAndFrame',
+      )
       if (npc) {
         const dirCode = operands[1] ?? 0
         const frame = operands[2] ?? 0
@@ -4104,11 +4236,11 @@ function applyRawOpcode(
       // **pEvtObj 类:operand[0]/[1] 是数据(dir / frame),不是 NPC id**;只能作用 self。
       const npc = getSelfNpc(gs, currentEventObjectId, 'setEventObjectDirOrFrame')
       if (npc) {
-        if (operands[0] !== 0xFFFF) {
+        if (operands[0] !== 0xffff) {
           const dirCode = operands[0] ?? 0
           npc.facing = SDLPAL_DIR_TO_FACING[dirCode] ?? 'down'
         }
-        if (operands[1] !== 0xFFFF) {
+        if (operands[1] !== 0xffff) {
           npc.scriptedFrame = operands[1] ?? 0
         }
       }
@@ -4132,7 +4264,11 @@ function applyRawOpcode(
         // M5 简版:从 undefined 起始 0,循环 mod 4(NPC sprite 通常 4 帧 = 4 dirs × 1 / 或 4 步动画)
         //         真 nSpriteFrames 由渲染层从 ctx.npcSpriteFrames 反查;event-system 拿不到 ctx,
         //         默认 mod 4 已足以让"走 5 步动画 0→1→2→3→0→1"循环视觉。
-        npc.scriptedFrame = walkFrameMod((npc.scriptedFrame ?? -1) + 1, npc.nSpriteFrames, npc.nSpriteFramesAuto)
+        npc.scriptedFrame = walkFrameMod(
+          (npc.scriptedFrame ?? -1) + 1,
+          npc.nSpriteFrames,
+          npc.nSpriteFramesAuto,
+        )
       }
       break
     }
@@ -4162,7 +4298,11 @@ function applyRawOpcode(
       // iSpeed=0 → 仅推进动画帧(scene.c:893-902),不位移。wCurEventObjectID = operand[0] 选。
       const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'animateObject')
       if (npc) {
-        npc.scriptedFrame = walkFrameMod((npc.scriptedFrame ?? -1) + 1, npc.nSpriteFrames, npc.nSpriteFramesAuto)
+        npc.scriptedFrame = walkFrameMod(
+          (npc.scriptedFrame ?? -1) + 1,
+          npc.nSpriteFrames,
+          npc.nSpriteFramesAuto,
+        )
       }
       break
     }
@@ -4278,11 +4418,11 @@ function applyRawOpcode(
       //   p = (WORD*)&gpGlobals->rgEquipmentEffect[i];
       //   p[op[1] * MAX_PLAYER_ROLES + role] = SHORT(op[2])
       // op[1] 是 sdlpal global.h tagPLAYERROLES row index — 真值见 equip-effect.ts PLAYERROLES_ROW。
-      const partIdx = (operands[0] ?? 0) - 0x0B
+      const partIdx = (operands[0] ?? 0) - 0x0b
       const rowIdx = operands[1] ?? 0
       const value = signExtendI16(operands[2] ?? 0)
       const roleId = currentEventObjectId
-      if (roleId === undefined || roleId === 0xFFFF) {
+      if (roleId === undefined || roleId === 0xffff) {
         console.warn(`event-system: setPlayerExtraAttr no role context`)
         break
       }
@@ -4295,10 +4435,10 @@ function applyRawOpcode(
       //   i = op[0] - 0xB; g_iCurEquipPart = i; PAL_RemoveEquipmentEffect(role, i);
       //   if (rgwEquipment[i][role] != op[1])
       //     swap inventory + rgwEquipment[i][role] = op[1] + wLastUnequippedItem = old
-      const slot = (operands[0] ?? 0) - 0x0B
+      const slot = (operands[0] ?? 0) - 0x0b
       const newItem = operands[1] ?? 0
       const roleId = currentEventObjectId
-      if (roleId === undefined || roleId === 0xFFFF) {
+      if (roleId === undefined || roleId === 0xffff) {
         console.warn(`event-system: equipItem no role context`)
         break
       }
@@ -4319,8 +4459,7 @@ function applyRawOpcode(
         const oldInInv = oldItem !== 0 && gs.inventory.some((e) => e.itemId === oldItem)
         if (newEntry && newEntry.count === 1 && oldItem !== 0 && !oldInInv) {
           newEntry.itemId = oldItem
-        }
-        else {
+        } else {
           addItemToInventory(gs, newItem, -1)
           if (oldItem !== 0) addItemToInventory(gs, oldItem, 1)
         }
@@ -4335,10 +4474,8 @@ function applyRawOpcode(
       // role = (op[2] == 0) ? wEventObjectID : op[2] - 1
       const fieldIdx = operands[0] ?? 0
       const delta = signExtendI16(operands[1] ?? 0)
-      const roleId = (operands[2] ?? 0) === 0
-        ? currentEventObjectId
-        : ((operands[2] ?? 0) - 1)
-      if (roleId === undefined || roleId === 0xFFFF) {
+      const roleId = (operands[2] ?? 0) === 0 ? currentEventObjectId : (operands[2] ?? 0) - 1
+      if (roleId === undefined || roleId === 0xffff) {
         console.warn(`event-system: increasePlayerAttr no role context`)
         break
       }
@@ -4352,10 +4489,8 @@ function applyRawOpcode(
       // sdlpal script.c:834-865:p[op[0] * MAX_PLAYER_ROLES + role] = SHORT(op[1])
       const fieldIdx = operands[0] ?? 0
       const newVal = signExtendI16(operands[1] ?? 0)
-      const roleId = (operands[2] ?? 0) === 0
-        ? currentEventObjectId
-        : ((operands[2] ?? 0) - 1)
-      if (roleId === undefined || roleId === 0xFFFF) {
+      const roleId = (operands[2] ?? 0) === 0 ? currentEventObjectId : (operands[2] ?? 0) - 1
+      if (roleId === undefined || roleId === 0xffff) {
         console.warn(`event-system: setPlayerStat no role context`)
         break
       }
@@ -4367,7 +4502,13 @@ function applyRawOpcode(
     case OP_INCREASE_HP: {
       // sdlpal script.c:867-894:HP delta。g_fScriptSuccess:applyAll→覆写 anyChanged(873/881);
       //   单体→仅 !changed 时 FALSE(889-892)。
-      const { applyAll, anyChanged } = applyHPMPDelta(gs, currentEventObjectId, operands, /*hp*/ true, /*mp*/ false)
+      const { applyAll, anyChanged } = applyHPMPDelta(
+        gs,
+        currentEventObjectId,
+        operands,
+        /*hp*/ true,
+        /*mp*/ false,
+      )
       if (applyAll) gs.fScriptSuccess = anyChanged
       else if (!anyChanged) gs.fScriptSuccess = false
       break
@@ -4375,14 +4516,26 @@ function applyRawOpcode(
 
     case OP_INCREASE_MP: {
       // sdlpal script.c:896-921:MP delta。g_fScriptSuccess:仅单体 !changed → FALSE(918);applyAll 不动。
-      const { applyAll, anyChanged } = applyHPMPDelta(gs, currentEventObjectId, operands, /*hp*/ false, /*mp*/ true)
+      const { applyAll, anyChanged } = applyHPMPDelta(
+        gs,
+        currentEventObjectId,
+        operands,
+        /*hp*/ false,
+        /*mp*/ true,
+      )
       if (!applyAll && !anyChanged) gs.fScriptSuccess = false
       break
     }
 
     case OP_INCREASE_HP_MP: {
       // sdlpal script.c:923-950:HP & MP 双 delta。g_fScriptSuccess:仅单体 !changed → FALSE(947);applyAll 不动。
-      const { applyAll, anyChanged } = applyHPMPDelta(gs, currentEventObjectId, operands, /*hp*/ true, /*mp*/ true)
+      const { applyAll, anyChanged } = applyHPMPDelta(
+        gs,
+        currentEventObjectId,
+        operands,
+        /*hp*/ true,
+        /*mp*/ true,
+      )
       if (!applyAll && !anyChanged) gs.fScriptSuccess = false
       break
     }
@@ -4398,17 +4551,17 @@ function applyRawOpcode(
       // (用复活药在活人身上 → 不消耗物品。)
       const applyAll = (operands[0] ?? 0) !== 0
       const ratioTenths = operands[1] ?? 0
-      const targets = applyAll ? gs.partyMembers : (
-        currentEventObjectId !== undefined && currentEventObjectId !== 0xFFFF
+      const targets = applyAll
+        ? gs.partyMembers
+        : currentEventObjectId !== undefined && currentEventObjectId !== 0xffff
           ? [currentEventObjectId]
           : []
-      )
       let revivedAny = false
       for (const roleId of targets) {
         const curHP = gs.PlayerRolesRuntime.rgwHP[roleId] ?? 0
         const maxHP = gs.PlayerRolesRuntime.rgwMaxHP[roleId] ?? 0
         if (curHP === 0) {
-          gs.PlayerRolesRuntime.rgwHP[roleId] = Math.floor(maxHP * ratioTenths / 10)
+          gs.PlayerRolesRuntime.rgwHP[roleId] = Math.floor((maxHP * ratioTenths) / 10)
           curePlayerPoisonByLevel(gs, roleId, 3)
           revivedAny = true
           // sdlpal script.c:1072-1075:复活同时清全状态(for x<kStatusAll rgPlayerStatus[role][x]=0)。
@@ -4425,7 +4578,7 @@ function applyRawOpcode(
     case OP_REMOVE_EQUIPMENT: {
       // sdlpal script.c:1104-1135
       const roleId = operands[0] ?? 0
-      const slotPlus1 = operands[1] ?? 0  // 0 = 全部 / 非 0 = slot-1
+      const slotPlus1 = operands[1] ?? 0 // 0 = 全部 / 非 0 = slot-1
       const eq = gs.PlayerRolesRuntime.rgwEquipment
       if (slotPlus1 === 0) {
         // 全移(sdlpal script.c:1110-1126):每槽 if(w!=0){回包+清};然后**无条件** RemoveEquipmentEffect(role,i)。
@@ -4437,8 +4590,7 @@ function applyRawOpcode(
           }
           removeEquipmentEffect(gs, roleId, s) // 无条件(空槽 no-op,1:1 sdlpal)
         }
-      }
-      else {
+      } else {
         // 单移(sdlpal script.c:1128-1134):仅 w!=0 时先 RemoveEquipmentEffect 再回包+清。
         const slot = slotPlus1 - 1
         const w = eq[slot]?.[roleId] ?? 0
@@ -4478,17 +4630,17 @@ function applyRawOpcode(
       // sdlpal script.c:1257-1285:if RandomLong(1,100) > poisonResist → addPoison
       const applyAll = (operands[0] ?? 0) !== 0
       const poisonId = operands[1] ?? 0
-      const targets = applyAll ? gs.partyMembers : (
-        currentEventObjectId !== undefined && currentEventObjectId !== 0xFFFF
+      const targets = applyAll
+        ? gs.partyMembers
+        : currentEventObjectId !== undefined && currentEventObjectId !== 0xffff
           ? [currentEventObjectId]
           : []
-      )
       // sdlpal script.c:1257-1285 + PAL_AddPoisonForPlayer(global.c:1459):
       //   仅当 RandomLong(1,100) > poisonResistance(0-100)才中毒;add 逻辑见 addPoisonForPlayer。
       for (const roleId of targets) {
         // 抗性突破判定(玩家 0-100,> 而非 >=,区别于敌人 0x28 的 0-10 >=)
         if (Math.floor(Math.random() * 100) + 1 <= getPlayerPoisonResistance(gs, roleId)) continue
-        addPoisonForPlayer(gs, roleId, poisonId, ip => runPlayerPoisonEntrySync(gs, roleId, ip))
+        addPoisonForPlayer(gs, roleId, poisonId, (ip) => runPlayerPoisonEntrySync(gs, roleId, ip))
       }
       break
     }
@@ -4497,11 +4649,11 @@ function applyRawOpcode(
       // sdlpal script.c:1331-1347:遍历 rgPoisonStatus,wPoisonID == op[1] 清 0
       const applyAll = (operands[0] ?? 0) !== 0
       const poisonId = operands[1] ?? 0
-      const targets = applyAll ? gs.partyMembers : (
-        currentEventObjectId !== undefined && currentEventObjectId !== 0xFFFF
+      const targets = applyAll
+        ? gs.partyMembers
+        : currentEventObjectId !== undefined && currentEventObjectId !== 0xffff
           ? [currentEventObjectId]
           : []
-      )
       for (const roleId of targets) {
         curePlayerPoisonByKind(gs, roleId, poisonId)
       }
@@ -4513,11 +4665,11 @@ function applyRawOpcode(
       // ts:items.poison 字段未完整 plumb — 简版按 level cap = 99 视为全清(等价 cure all)
       const applyAll = (operands[0] ?? 0) !== 0
       const maxLevel = operands[1] ?? 0
-      const targets = applyAll ? gs.partyMembers : (
-        currentEventObjectId !== undefined && currentEventObjectId !== 0xFFFF
+      const targets = applyAll
+        ? gs.partyMembers
+        : currentEventObjectId !== undefined && currentEventObjectId !== 0xffff
           ? [currentEventObjectId]
           : []
-      )
       for (const roleId of targets) {
         curePlayerPoisonByLevel(gs, roleId, maxLevel)
       }
@@ -4533,20 +4685,25 @@ function applyRawOpcode(
       //   活人→fScriptSuccess=FALSE;good(5-8 Bravery/Protect/Haste/DualAttack):活人且更久。金刚符63/黑狗血85。
       const statusId = operands[0] ?? 0
       const numRound = operands[1] ?? 0
-      const stTargets = (currentEventObjectId === undefined || currentEventObjectId === 0xFFFF) ? gs.partyMembers : [currentEventObjectId]
+      const stTargets =
+        currentEventObjectId === undefined || currentEventObjectId === 0xffff
+          ? gs.partyMembers
+          : [currentEventObjectId]
       for (const roleId of stTargets) {
         const row = gs.rgPlayerStatus[roleId]
         if (!row || statusId >= row.length) continue
         const cur = row[statusId] ?? 0
         const hp = gs.PlayerRolesRuntime.rgwHP[roleId] ?? 0
-        if (statusId <= 3) { // bad:已有则不刷新
+        if (statusId <= 3) {
+          // bad:已有则不刷新
           if (cur === 0) row[statusId] = numRound
-        }
-        else if (statusId === 4) { // puppet:仅死人,且更久才设;活人 → 失败
-          if (hp === 0) { if (cur < numRound) row[statusId] = numRound }
-          else gs.fScriptSuccess = false
-        }
-        else { // good 5-8:活人且更久
+        } else if (statusId === 4) {
+          // puppet:仅死人,且更久才设;活人 → 失败
+          if (hp === 0) {
+            if (cur < numRound) row[statusId] = numRound
+          } else gs.fScriptSuccess = false
+        } else {
+          // good 5-8:活人且更久
           if (hp !== 0 && cur < numRound) row[statusId] = numRound
         }
       }
@@ -4557,7 +4714,10 @@ function applyRawOpcode(
       // sdlpal global.c:2304 PAL_RemovePlayerStatus:status<=999 才清(>999 = 装备永久效果不清,对齐 D14)。
       //   灵心符65/银针255 大世界解负面状态。
       const statusId = operands[0] ?? 0
-      const rmTargets = (currentEventObjectId === undefined || currentEventObjectId === 0xFFFF) ? gs.partyMembers : [currentEventObjectId]
+      const rmTargets =
+        currentEventObjectId === undefined || currentEventObjectId === 0xffff
+          ? gs.partyMembers
+          : [currentEventObjectId]
       for (const roleId of rmTargets) {
         const row = gs.rgPlayerStatus[roleId]
         if (row && statusId < row.length && (row[statusId] ?? 0) <= 999) row[statusId] = 0
@@ -4591,14 +4751,14 @@ function applyRawOpcode(
     case OP_ADD_MAGIC: {
       // sdlpal script.c:1816-1830 → global.c:2084 PAL_AddMagic
       //   role = operand[1]==0 ? eventObjId : operand[1]-1;spell wObjectID = operand[0]
-      const roleId = (operands[1] ?? 0) === 0 ? (currentEventObjectId ?? 0) : ((operands[1] ?? 0) - 1)
+      const roleId = (operands[1] ?? 0) === 0 ? (currentEventObjectId ?? 0) : (operands[1] ?? 0) - 1
       addMagicToRole(gs, roleId, operands[0] ?? 0)
       break
     }
 
     case OP_REMOVE_MAGIC: {
       // sdlpal script.c:1832-1846 → global.c:2139 PAL_RemoveMagic
-      const roleId = (operands[1] ?? 0) === 0 ? (currentEventObjectId ?? 0) : ((operands[1] ?? 0) - 1)
+      const roleId = (operands[1] ?? 0) === 0 ? (currentEventObjectId ?? 0) : (operands[1] ?? 0) - 1
       removeMagicFromRole(gs, roleId, operands[0] ?? 0)
       break
     }
@@ -4697,7 +4857,12 @@ function applyRawOpcode(
     case OP_JUMP_IF_OBJ_NOT_IN_ZONE: {
       // sdlpal script.c:2448-2471:op0 obj 不在当前 scene → jump op2;否则
       //   x=triggerObj.x-op0obj.x, y=同; |x|+|2y| >= op1*32+16 → jump op2(不在 zone)。
-      const pCurrent = resolveInSceneNpc(gs, operands[0] ?? 0, currentEventObjectId, 'jumpIfNotInZone') // DM17:仅当前场景
+      const pCurrent = resolveInSceneNpc(
+        gs,
+        operands[0] ?? 0,
+        currentEventObjectId,
+        'jumpIfNotInZone',
+      ) // DM17:仅当前场景
       const pEvt = gs.npcs.find((n) => n.id === currentEventObjectId)
       if (!pCurrent || !pEvt) {
         // op0 obj 不在当前 scene → 跳(sdlpal g_fScriptSuccess=FALSE)
@@ -4716,20 +4881,24 @@ function applyRawOpcode(
     case OP_PLACE_USED_ITEM: {
       // sdlpal script.c:2473-2509:把 pCurrent(op0 选)放 party 正前方一格 + sState=op1;
       //   该格有障碍(只查 tilemap)→ jump op2。前方格 = party + facing offset(±16/±8)。
-      const pCurrent = resolveInSceneNpc(gs, operands[0] ?? 0, currentEventObjectId, 'placeUsedItem') // DM17:仅当前场景
+      const pCurrent = resolveInSceneNpc(
+        gs,
+        operands[0] ?? 0,
+        currentEventObjectId,
+        'placeUsedItem',
+      ) // DM17:仅当前场景
       if (!pCurrent) {
         gs.fScriptSuccess = false
         jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
         break
       }
       const dir = gs.party.facing
-      const fx = gs.party.x + ((dir === 'left' || dir === 'down') ? -16 : 16)
-      const fy = gs.party.y + ((dir === 'left' || dir === 'up') ? -8 : 8)
+      const fx = gs.party.x + (dir === 'left' || dir === 'down' ? -16 : 16)
+      const fy = gs.party.y + (dir === 'left' || dir === 'up' ? -8 : 8)
       if (isObstacle(fx, fy, false, 0)) {
         gs.fScriptSuccess = false
         jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
-      }
-      else {
+      } else {
         pCurrent.x = fx
         pCurrent.y = fy
         pCurrent.sState = signExtendI16(operands[1] ?? 0)
@@ -4797,7 +4966,15 @@ function applyRawOpcode(
         const eo = _enemyObjectsTable?.find((o) => o.objectIndex === objId)
         st = {
           rgwData: eo
-            ? [eo.enemyId, eo.resistanceToSorcery, eo.scriptOnTurnStart, eo.scriptOnBattleEnd, eo.scriptOnReady, 0, 0]
+            ? [
+                eo.enemyId,
+                eo.resistanceToSorcery,
+                eo.scriptOnTurnStart,
+                eo.scriptOnBattleEnd,
+                eo.scriptOnReady,
+                0,
+                0,
+              ]
             : Array<number>(7).fill(0),
         }
         gs.rgObject[objId] = st
@@ -4851,8 +5028,7 @@ function applyRawOpcode(
       if (op0 === 0xffff) {
         gs.sceneMapNumOverride[gs.wNumScene] = newMapNum
         if (_mapReloader) void _mapReloader(newMapNum) // 异步换 tilemap,不动 cursor/npcs
-      }
-      else {
+      } else {
         gs.sceneMapNumOverride[op0] = newMapNum
       }
       break
@@ -4862,7 +5038,12 @@ function applyRawOpcode(
       // sdlpal script.c:2390-2435:op0 obj 不在当前 scene → jump op2;否则算 party 朝向前方
       //   一格的屏幕相对位置,在 op0 obj 范围内(op1*32+16)且 sState>0 → 设触发模式(不跳);
       //   否则 jump op2。
-      const pCurrent = resolveInSceneNpc(gs, operands[0] ?? 0, currentEventObjectId, 'jumpIfNotFacing') // DM17:仅当前场景
+      const pCurrent = resolveInSceneNpc(
+        gs,
+        operands[0] ?? 0,
+        currentEventObjectId,
+        'jumpIfNotFacing',
+      ) // DM17:仅当前场景
       if (!pCurrent) {
         gs.fScriptSuccess = false
         jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
@@ -4886,8 +5067,7 @@ function applyRawOpcode(
         if (op1 > 0) {
           pCurrent.triggerMode = 5 + op1
         }
-      }
-      else {
+      } else {
         gs.fScriptSuccess = false
         jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
       }
@@ -4908,7 +5088,10 @@ function applyRawOpcode(
 
     default:
       // D26 兜底:未实现 opcode 诊断 skip(仅未实现时触发,非正常游玩噪声),便于开发期发现缺口。
-      console.debug(`event-system: skip raw opcode=0x${opcode.toString(16).padStart(4, '0')}`, operands)
+      console.debug(
+        `event-system: skip raw opcode=0x${opcode.toString(16).padStart(4, '0')}`,
+        operands,
+      )
       break
   }
 }
@@ -4925,14 +5108,16 @@ function applyHPMPDelta(
   operands: [number, number, number],
   hp: boolean,
   mp: boolean,
-): { applyAll: boolean, anyChanged: boolean } {
+): { applyAll: boolean; anyChanged: boolean } {
   const applyAll = (operands[0] ?? 0) !== 0
   const delta = signExtendI16(operands[1] ?? 0)
-  const targets = applyAll ? gs.partyMembers : (
-    currentEventObjectId !== undefined && currentEventObjectId !== 0xFFFF
+  const targets = applyAll
+    ? gs.partyMembers
+    : currentEventObjectId !== undefined && currentEventObjectId !== 0xffff
       ? [currentEventObjectId]
-      : (currentEventObjectId === 0xFFFF ? gs.partyMembers : [])
-  )
+      : currentEventObjectId === 0xffff
+        ? gs.partyMembers
+        : []
   // sdlpal PAL_IncreaseHPMP 返回是否真改了 HP/MP(死人 / 已到 max·min → 不变 → FALSE)。
   // anyChanged = 任一 target 的 HP 或 MP 实际发生变化(供 g_fScriptSuccess gate 用)。
   let anyChanged = false
@@ -4995,7 +5180,15 @@ function playerLevelUp(gs: GameState, role: number, numLevels: number): void {
     r.rgwDexterity[role] = (r.rgwDexterity[role] ?? 0) + 2 + randInclusive(1)
     r.rgwFleeRate[role] = (r.rgwFleeRate[role] ?? 0) + 2
   }
-  for (const arr of [r.rgwMaxHP, r.rgwMaxMP, r.rgwAttackStrength, r.rgwMagicStrength, r.rgwDefense, r.rgwDexterity, r.rgwFleeRate]) {
+  for (const arr of [
+    r.rgwMaxHP,
+    r.rgwMaxMP,
+    r.rgwAttackStrength,
+    r.rgwMagicStrength,
+    r.rgwDefense,
+    r.rgwDexterity,
+    r.rgwFleeRate,
+  ]) {
     if ((arr[role] ?? 0) > STAT_CAP) arr[role] = STAT_CAP
   }
   const exp = gs.Exp.rgPrimaryExp[role]
@@ -5123,7 +5316,7 @@ function resolveInSceneNpc(
   currentEventObjectId: number | undefined,
   opName: string,
 ): GameState['npcs'][number] | null {
-  if (operand0 === 0 || operand0 === 0xFFFF) {
+  if (operand0 === 0 || operand0 === 0xffff) {
     return getSelfNpc(gs, currentEventObjectId, opName)
   }
   const targetId = operand0 - 1
@@ -5137,7 +5330,7 @@ function resolveTargetNpc(
   opName: string,
 ): GameState['npcs'][number] | null {
   // operand[0] = 0 或 0xFFFF → self
-  if (operand0 === 0 || operand0 === 0xFFFF) {
+  if (operand0 === 0 || operand0 === 0xffff) {
     return getSelfNpc(gs, currentEventObjectId, opName)
   }
   // 其它 → lprgEventObject[operand0-1](1-based 全局 NPC id),经唯一全局解析器。
@@ -5165,7 +5358,9 @@ function resolveGlobalEventObject(
   if (npc) return npc
   const global = gs.allEventObjects?.[targetId]
   if (global && global.id === targetId) return global
-  console.warn(`event-system: ${opName} id(1-based)=${oneBasedId} → idx=${targetId} 不在当前 scene 也不在全局表,跳过`)
+  console.warn(
+    `event-system: ${opName} id(1-based)=${oneBasedId} → idx=${targetId} 不在当前 scene 也不在全局表,跳过`,
+  )
   return null
 }
 
@@ -5199,8 +5394,7 @@ function npcWalkTo(
   // sdlpal scene.c:72-79 真值方向选(全角符号 dy<0 north/west;dy>=0 south/east)
   if (dy < 0) {
     npc.facing = dx < 0 ? 'left' : 'up'
-  }
-  else {
+  } else {
     npc.facing = dx < 0 ? 'down' : 'right'
   }
 
@@ -5208,23 +5402,26 @@ function npcWalkTo(
     // snap 到目标
     npc.x = tx
     npc.y = ty
-  }
-  else {
+  } else {
     // PAL_NPCWalkOneStep(id, speed) — scene.c:887-902
-    const stepX = (npc.facing === 'left' || npc.facing === 'down') ? -2 : 2
-    const stepY = (npc.facing === 'left' || npc.facing === 'up') ? -1 : 1
+    const stepX = npc.facing === 'left' || npc.facing === 'down' ? -2 : 2
+    const stepY = npc.facing === 'left' || npc.facing === 'up' ? -1 : 1
     npc.x += stepX * speed
     npc.y += stepY * speed
     // wCurrentFrameNum++ mod 4(sdlpal scene.c:893-896 真值)
     // **重要**:sdlpal 结构体 zero-init,wCurrentFrameNum 初始 = 0。我们 scriptedFrame
     // undefined 时也应当 0(不是 -1),否则差一帧 — 12 步后 sdlpal frame=0(stand),
     // 我们错算成 frame=3(foot2),停在抬腿姿势。
-    const next = walkFrameMod((npc.scriptedFrame ?? 0) + 1, npc.nSpriteFrames, npc.nSpriteFramesAuto)
+    const next = walkFrameMod(
+      (npc.scriptedFrame ?? 0) + 1,
+      npc.nSpriteFrames,
+      npc.nSpriteFramesAuto,
+    )
     npc.scriptedFrame = next
   }
 
   if (npc.x === tx && npc.y === ty) {
-    npc.scriptedFrame = 0  // sdlpal 真值:到达 wCurrentFrameNum=0(站立)
+    npc.scriptedFrame = 0 // sdlpal 真值:到达 wCurrentFrameNum=0(站立)
     return true
   }
   return false
@@ -5273,8 +5470,7 @@ function partyWalkTo(
   // sdlpal scene.c:155-162 真值:facing 同 NPC
   if (dy < 0) {
     gs.party.facing = dx < 0 ? 'left' : 'up'
-  }
-  else {
+  } else {
     gs.party.facing = dx < 0 ? 'down' : 'right'
   }
 
@@ -5287,8 +5483,8 @@ function partyWalkTo(
   if (gs.trail.length > 5) gs.trail.length = 5
 
   // sdlpal step:|d| <= speed*2(或 speed)→ snap remainder;否则 ±speed*2(或 ±speed)
-  const stepX = Math.abs(dx) <= speed * 2 ? dx : (dx < 0 ? -speed * 2 : speed * 2)
-  const stepY = Math.abs(dy) <= speed ? dy : (dy < 0 ? -speed : speed)
+  const stepX = Math.abs(dx) <= speed * 2 ? dx : dx < 0 ? -speed * 2 : speed * 2
+  const stepY = Math.abs(dy) <= speed ? dy : dy < 0 ? -speed : speed
   gs.party.x += stepX
   gs.party.y += stepY
   // sdlpal PAL_PartyWalkTo(script.c:185-188)移的是 **viewport**(camera),partyoffset 不变 —— 相对
@@ -5305,7 +5501,7 @@ function partyWalkTo(
   gs.walkingFrame.stepFrame = (gs.walkingFrame.stepFrame + 1) % 4
 
   if (gs.party.x === tx && gs.party.y === ty) {
-    gs.walkingFrame.walking = false  // PAL_UpdatePartyGestures(FALSE) — 站立
+    gs.walkingFrame.walking = false // PAL_UpdatePartyGestures(FALSE) — 站立
     // DL26:走位循环结束调 UpdatePartyGestures(FALSE)(script.c:199)→ scene.c:773-774
     //   `stepFrame &= 2; ^= 2` 相位复位 —— 紧接下一段走路起步左右脚与 C 同拍。
     gs.walkingFrame.stepFrame = (gs.walkingFrame.stepFrame & 2) ^ 2
@@ -5344,8 +5540,7 @@ function partyRideEventObject(
   // facing(sdlpal script.c:252-259,同 NPC 方向选)
   if (yOffset < 0) {
     gs.party.facing = xOffset < 0 ? 'left' : 'up'
-  }
-  else {
+  } else {
     gs.party.facing = xOffset < 0 ? 'down' : 'right'
   }
 
@@ -5426,15 +5621,13 @@ function monsterChasePlayer(
     let l = 0
     if (i + j * 2 >= 16) {
       if (i + j * 2 >= 48) {
-        prevx++; prevy++
-      }
-      else if (32 - i + j * 2 < 16) {
         prevx++
-      }
-      else if (32 - i + j * 2 < 48) {
+        prevy++
+      } else if (32 - i + j * 2 < 16) {
+        prevx++
+      } else if (32 - i + j * 2 < 48) {
         l = 1
-      }
-      else {
+      } else {
         prevy++
       }
     }
@@ -5445,10 +5638,9 @@ function monsterChasePlayer(
     if (Math.abs(x) + Math.abs(y) * 2 < wMaxDist * 32 * gs.wChaseRange) {
       // 朝 party 方向(script.c:395-416)
       if (x < 0) {
-        npc.facing = y < 0 ? 'left' : 'down'   // West / South
-      }
-      else {
-        npc.facing = y < 0 ? 'up' : 'right'    // North / East
+        npc.facing = y < 0 ? 'left' : 'down' // West / South
+      } else {
+        npc.facing = y < 0 ? 'up' : 'right' // North / East
       }
 
       const cx = x !== 0 ? npc.x + (x < 0 ? -1 : 1) * 16 : npc.x
@@ -5456,22 +5648,29 @@ function monsterChasePlayer(
 
       if (fFloating) {
         wMonsterSpeed = wSpeed
-      }
-      else {
+      } else {
         // PAL_CheckObstacle(cx,cy,TRUE,self):无障碍 → 可走;有障碍 → 回弹 prev
         if (!isObstacle(cx, cy, true, npc.id)) {
           wMonsterSpeed = wSpeed
-        }
-        else {
+        } else {
           npc.x = prevx
           npc.y = prevy
         }
         // 4-向微调避障(script.c:452-482):每个偏移落到障碍就回弹
         for (let k = 0; k < 4; k++) {
-          if (k === 0) { npc.x -= 4; npc.y += 2 }
-          else if (k === 1) { npc.x -= 4; npc.y -= 2 }
-          else if (k === 2) { npc.x += 4; npc.y -= 2 }
-          else { npc.x += 4; npc.y += 2 }
+          if (k === 0) {
+            npc.x -= 4
+            npc.y += 2
+          } else if (k === 1) {
+            npc.x -= 4
+            npc.y -= 2
+          } else if (k === 2) {
+            npc.x += 4
+            npc.y -= 2
+          } else {
+            npc.x += 4
+            npc.y += 2
+          }
           if (isObstacle(npc.x, npc.y, false, 0)) {
             npc.x = prevx
             npc.y = prevy
@@ -5479,8 +5678,7 @@ function monsterChasePlayer(
         }
       }
     }
-  }
-  else {
+  } else {
     // 驱魔香:wChaseRange==0 原地打转,每 2 帧换向(script.c:486-498)
     if (gs.frameNum & 1) {
       const dirIdx = (FACING_TO_SDLPAL_DIR[npc.facing ?? 'down'] + 1) % 4
@@ -5489,11 +5687,15 @@ function monsterChasePlayer(
   }
 
   // PAL_NPCWalkOneStep(id, wMonsterSpeed)(scene.c:887-902):按 facing 走 + 推进动画帧
-  const stepX = (npc.facing === 'left' || npc.facing === 'down') ? -2 : 2
-  const stepY = (npc.facing === 'left' || npc.facing === 'up') ? -1 : 1
+  const stepX = npc.facing === 'left' || npc.facing === 'down' ? -2 : 2
+  const stepY = npc.facing === 'left' || npc.facing === 'up' ? -1 : 1
   npc.x += stepX * wMonsterSpeed
   npc.y += stepY * wMonsterSpeed
-  npc.scriptedFrame = walkFrameMod((npc.scriptedFrame ?? 0) + 1, npc.nSpriteFrames, npc.nSpriteFramesAuto)
+  npc.scriptedFrame = walkFrameMod(
+    (npc.scriptedFrame ?? 0) + 1,
+    npc.nSpriteFrames,
+    npc.nSpriteFramesAuto,
+  )
 }
 
 /** PAL_CheckObstacle 真值(via 注入 hook);未注入(测试/无 tilemap)视为无障碍。 */
@@ -5546,8 +5748,7 @@ export function runEnterScript(
         if (cmd.advance) nextEntry = cursor.ip + 1
         else if (cmd.reset && cmd.resetTo !== undefined) {
           nextEntry = getLabels(cursor)[`L_${cmd.resetTo}`] ?? startIp
-        }
-        else nextEntry = resumeCheckpoint ?? startIp
+        } else nextEntry = resumeCheckpoint ?? startIp
         gs.sceneOnEnterIp[sceneId] = nextEntry
       }
       return

@@ -16,7 +16,11 @@ import type {
 import { lookupText } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { useMemo, useState } from 'react'
-import { UpdateActorCommand, UpdateStartSkillsCommand, SetActorBattleSpriteCommand } from '../core/commands.js'
+import {
+  SetActorBattleSpriteCommand,
+  UpdateActorCommand,
+  UpdateStartSkillsCommand,
+} from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { BattleSpriteUploader } from './BattleSpriteUploader.js'
 import { LevelCurveEditor } from './LevelCurveEditor.js'
@@ -82,6 +86,7 @@ export function ActorMode(props: {
         <div className="actor-list">
           {actors.map((a) => (
             <button
+              type="button"
               key={a.id}
               className={`arow${a.id === selId ? ' sel' : ''}`}
               onClick={() => setSelId(a.id)}
@@ -133,25 +138,21 @@ export function ActorMode(props: {
             <div className="section">
               <h4>身份</h4>
               <div className="field">
-                <label>名字</label>
+                <span className="field-label">名字</span>
                 <div className="in pick">
                   <span>{nm(actor.name)}</span>
                   <span className="meta">{actor.name}</span>
                 </div>
               </div>
               <div className="field">
-                <label>精灵</label>
+                <span className="field-label">精灵</span>
                 <div className="in pick">
                   <span>{sprite?.label ?? actor.spriteId}</span>
                   <span className="meta">#{sprite?.spriteNum ?? '?'}</span>
                 </div>
               </div>
             </div>
-            <PortraitEditor
-              actor={actor}
-              session={session}
-              portraitBase={assetBase.portraits}
-            />
+            <PortraitEditor actor={actor} session={session} portraitBase={assetBase.portraits} />
             {actor.battler ? (
               <>
                 <div className="section">

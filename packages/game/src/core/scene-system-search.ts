@@ -30,16 +30,23 @@ const _DIR_WEST = 1
 const DIR_NORTH = 2
 const DIR_EAST = 3
 
-export interface SearchCell { x: number; y: number }
+export interface SearchCell {
+  x: number
+  y: number
+}
 
 /**
  * sdlpal play.c:362-419 真值 — 返回 party 朝向前方 13 个 grid 检查点。
  */
-export function getSearchTriggerRange(facing: Facing, partyX: number, partyY: number): SearchCell[] {
+export function getSearchTriggerRange(
+  facing: Facing,
+  partyX: number,
+  partyY: number,
+): SearchCell[] {
   const dir = FACING_TO_DIR[facing]
   // sdlpal play.c:390-406:xOffset/yOffset 由 partyDirection 决定
-  const xOffset = (dir === DIR_NORTH || dir === DIR_EAST) ? 16 : -16
-  const yOffset = (dir === DIR_EAST || dir === DIR_SOUTH) ? 8 : -8
+  const xOffset = dir === DIR_NORTH || dir === DIR_EAST ? 16 : -16
+  const yOffset = dir === DIR_EAST || dir === DIR_SOUTH ? 8 : -8
 
   const cells: SearchCell[] = []
   cells.push({ x: partyX, y: partyY }) // rgPos[0]
@@ -73,7 +80,7 @@ export function findSearchableNpc(
     const cell = cells[i]!
     const dx = Math.floor(cell.x / 32)
     const dy = Math.floor(cell.y / 16)
-    const dh = (cell.x % 32) ? 1 : 0
+    const dh = cell.x % 32 ? 1 : 0
     for (const npc of npcs) {
       // sdlpal play.c:464-468 过滤
       if ((npc.sState ?? 1) <= 0) continue
@@ -83,7 +90,7 @@ export function findSearchableNpc(
       if (mode * 6 - 4 < i) continue
       const ex = Math.floor(npc.x / 32)
       const ey = Math.floor(npc.y / 16)
-      const eh = (npc.x % 32) ? 1 : 0
+      const eh = npc.x % 32 ? 1 : 0
       if (dx !== ex || dy !== ey || dh !== eh) continue
       return npc
     }

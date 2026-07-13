@@ -21,7 +21,7 @@ export function waveTable(w: number): number[] {
     b -= 8
     a += b
     wave[i] = Math.trunc((a * w) / 256)
-    wave[i + 16] = WAVE_SCREEN_W - wave[i]!
+    wave[i + 16] = WAVE_SCREEN_W - (wave[i] ?? 0)
   }
   return wave
 }
@@ -32,7 +32,7 @@ export function waveTable(w: number): number[] {
  * 返回推进后的波幅(0 = 本帧不卷)。
  */
 export function advanceWave(vars: Record<string, number>): number {
-  let w = (vars['sys:screenWave'] ?? 0) + (vars['sys:waveProgression'] ?? 0)
+  const w = (vars['sys:screenWave'] ?? 0) + (vars['sys:waveProgression'] ?? 0)
   if (w === 0 || w >= 256) {
     if (vars['sys:screenWave'] !== undefined || w !== 0) {
       vars['sys:screenWave'] = 0
@@ -59,7 +59,7 @@ export class WorldWaveRenderer {
     const devW = WAVE_SCREEN_W * worldScale
     let ai = this.waveIndex
     for (let y = 0; y < WAVE_SCREEN_H; y++) {
-      const shift = wave[ai]!
+      const shift = wave[ai] ?? 0
       const sy = y * worldScale
       if (shift > 0 && shift < WAVE_SCREEN_W) {
         const sw = shift * worldScale

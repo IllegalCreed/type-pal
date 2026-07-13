@@ -12,9 +12,15 @@ export function showCountdown(text: string | null): void {
     el = document.createElement('div')
     el.id = ID
     el.style.cssText = [
-      'position:fixed', 'top:64px', 'left:50%', 'transform:translateX(-50%)',
-      'z-index:41', 'pointer-events:none', 'user-select:none',
-      'font:700 64px/1 "Songti SC","SimSun",serif', 'color:#f0e0b0',
+      'position:fixed',
+      'top:64px',
+      'left:50%',
+      'transform:translateX(-50%)',
+      'z-index:41',
+      'pointer-events:none',
+      'user-select:none',
+      'font:700 64px/1 "Songti SC","SimSun",serif',
+      'color:#f0e0b0',
       'text-shadow:0 0 18px rgba(160,30,30,0.7),0 2px 6px rgba(0,0,0,0.8)',
     ].join(';')
     document.body.appendChild(el)

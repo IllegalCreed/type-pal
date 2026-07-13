@@ -56,16 +56,19 @@ function makeEnemy(opts: Partial<Enemy> = {}): Enemy {
   }
 }
 
-function makeState(enemies: Partial<Enemy>[], fieldEffect?: BattleField['magicEffect']): BattleState {
+function makeState(
+  enemies: Partial<Enemy>[],
+  fieldEffect?: BattleField['magicEffect'],
+): BattleState {
   const field: BattleField = {
     id: 0,
     screenWave: 0,
     magicEffect: fieldEffect ?? { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
   }
-  const battleEnemies: BattleEnemy[] = enemies.map(e => ({
+  const battleEnemies: BattleEnemy[] = enemies.map((e) => ({
     e: makeEnemy(e),
     status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-    prevHp: (makeEnemy(e)).health,
+    prevHp: makeEnemy(e).health,
     scriptOnTurnStart: 0,
     scriptOnBattleEnd: 0,
     scriptOnReady: 0,
@@ -99,7 +102,14 @@ describe('applyMagicDamage', () => {
     // def = 30 + (5+6)*4 = 74
     // calcBaseDamage(64,74)= trunc(64 - 74*0.6 + 0.5)=trunc(20.1)=20; /4=5; +45=50
     // elem1(wind): *(10-5/1)=*5 → 250; /5=50; field0: *(10+0)/10=50
-    const state = makeState([{ health: 100, defense: 30, level: 5, elemResistance: { wind: 5, thunder: 0, water: 0, fire: 0, earth: 0 } }])
+    const state = makeState([
+      {
+        health: 100,
+        defense: 30,
+        level: 5,
+        elemResistance: { wind: 5, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
+    ])
     const results = applyMagicDamage({
       state,
       target: 0,
@@ -113,8 +123,18 @@ describe('applyMagicDamage', () => {
 
   it('全体 target="all":每个敌人都吃伤害', () => {
     const state = makeState([
-      { health: 100, defense: 30, level: 5, elemResistance: { wind: 5, thunder: 0, water: 0, fire: 0, earth: 0 } },
-      { health: 80, defense: 30, level: 5, elemResistance: { wind: 5, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      {
+        health: 100,
+        defense: 30,
+        level: 5,
+        elemResistance: { wind: 5, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
+      {
+        health: 80,
+        defense: 30,
+        level: 5,
+        elemResistance: { wind: 5, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
     ])
     const results = applyMagicDamage({
       state,
@@ -160,7 +180,14 @@ describe('applyMagicDamage', () => {
   })
 
   it('health 落地 clamp≥0(不变负)', () => {
-    const state = makeState([{ health: 10, defense: 30, level: 5, elemResistance: { wind: 5, thunder: 0, water: 0, fire: 0, earth: 0 } }])
+    const state = makeState([
+      {
+        health: 10,
+        defense: 30,
+        level: 5,
+        elemResistance: { wind: 5, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
+    ])
     applyMagicDamage({
       state,
       target: 0,
@@ -196,9 +223,42 @@ describe('applyMagicDamage', () => {
 
 describe('resolveObjectMagic', () => {
   const objMagics: ObjectMagicView[] = [
-    { id: 0, magicNumber: 0, scriptOnSuccess: 0, scriptOnUse: 0, flags: { usableOutsideBattle: false, usableInBattle: false, usableToEnemy: false, applyToAll: false } },
-    { id: 24, magicNumber: 96, scriptOnSuccess: 0, scriptOnUse: 0, flags: { usableOutsideBattle: false, usableInBattle: false, usableToEnemy: false, applyToAll: false } },
-    { id: 349, magicNumber: 54, scriptOnSuccess: 0, scriptOnUse: 0, flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: false } },
+    {
+      id: 0,
+      magicNumber: 0,
+      scriptOnSuccess: 0,
+      scriptOnUse: 0,
+      flags: {
+        usableOutsideBattle: false,
+        usableInBattle: false,
+        usableToEnemy: false,
+        applyToAll: false,
+      },
+    },
+    {
+      id: 24,
+      magicNumber: 96,
+      scriptOnSuccess: 0,
+      scriptOnUse: 0,
+      flags: {
+        usableOutsideBattle: false,
+        usableInBattle: false,
+        usableToEnemy: false,
+        applyToAll: false,
+      },
+    },
+    {
+      id: 349,
+      magicNumber: 54,
+      scriptOnSuccess: 0,
+      scriptOnUse: 0,
+      flags: {
+        usableOutsideBattle: false,
+        usableInBattle: true,
+        usableToEnemy: true,
+        applyToAll: false,
+      },
+    },
   ]
 
   it('按 object id 解析 magic-union 视图', () => {
@@ -223,16 +283,16 @@ interface PRoleCfg {
   level?: number
   poisonResistance?: number
   windRes?: number
-  status?: { sleep?: number, paralyzed?: number, confused?: number, protect?: number }
+  status?: { sleep?: number; paralyzed?: number; confused?: number; protect?: number }
   defending?: boolean
 }
 
 /** 建带队员 + 单敌(施法者)的 state + playerRoles。rangeVal 控 autoDefend(range(0,3)==0 → 自卫)。 */
 function makeEnemyMagicState(
-  caster: { magicStrength: number, level: number },
+  caster: { magicStrength: number; level: number },
   players: PRoleCfg[],
   rangeVal = 1, // 默认 !=0 → 不自卫
-): { state: BattleState, playerRoles: PlayerRoles } {
+): { state: BattleState; playerRoles: PlayerRoles } {
   const state = makeState([{ magicStrength: caster.magicStrength, level: caster.level }])
   state.players = players.map((p, i) => ({
     roleId: i,
@@ -250,14 +310,17 @@ function makeEnemyMagicState(
   }))
   // next:()=>0 → rngFactor 固定 1.0(逐队员掷,值恒定);range 控 autoDefend。
   state.rng = { ...createSeedableRng(1), next: () => 0, range: () => rangeVal }
-  const roles: PlayerRole[] = players.map((p, i) => ({
-    id: i,
-    hp: p.hp,
-    defense: p.defense ?? 0,
-    level: p.level ?? 0,
-    poisonResistance: p.poisonResistance ?? 0,
-    elemResistance: { wind: p.windRes ?? 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-  } as any as PlayerRole))
+  const roles: PlayerRole[] = players.map(
+    (p, i) =>
+      ({
+        id: i,
+        hp: p.hp,
+        defense: p.defense ?? 0,
+        level: p.level ?? 0,
+        poisonResistance: p.poisonResistance ?? 0,
+        elemResistance: { wind: p.windRes ?? 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      }) as any as PlayerRole,
+  )
   return { state, playerRoles: { roles } }
 }
 
@@ -271,8 +334,11 @@ describe('applyEnemyMagicDamage', () => {
         { hp: 9999, defense: 30, level: lvl, windRes: 0 },
       ])
       return applyEnemyMagicDamage({
-        state, casterEnemyIdx: 0, target: 0,
-        magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
+        state,
+        casterEnemyIdx: 0,
+        target: 0,
+        magicData: { baseDamage: 45, elemental: 1 },
+        playerRoles,
       })[0]!.damage
     }
     expect(dmgAt(5)).toBe(dmgAt(99)) // def=role.defense(30),与 level 无关
@@ -286,8 +352,11 @@ describe('applyEnemyMagicDamage', () => {
       { hp: 100, defense: 30, level: 5, windRes: 0 },
     ])
     const r = applyEnemyMagicDamage({
-      state, casterEnemyIdx: 0, target: 0,
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
+      state,
+      casterEnemyIdx: 0,
+      target: 0,
+      magicData: { baseDamage: 45, elemental: 1 },
+      playerRoles,
     })
     expect(r).toEqual([{ playerIdx: 0, damage: 65, hpBefore: 100, hpAfter: 35, autoDefend: false }])
     expect(playerRoles.roles[0]!.hp).toBe(35)
@@ -299,8 +368,11 @@ describe('applyEnemyMagicDamage', () => {
       { hp: 80, defense: 30, level: 5 },
     ])
     const r = applyEnemyMagicDamage({
-      state, casterEnemyIdx: 0, target: 'all',
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
+      state,
+      casterEnemyIdx: 0,
+      target: 'all',
+      magicData: { baseDamage: 45, elemental: 1 },
+      playerRoles,
     })
     expect(r).toEqual([
       { playerIdx: 0, damage: 65, hpBefore: 100, hpAfter: 35, autoDefend: false },
@@ -313,8 +385,11 @@ describe('applyEnemyMagicDamage', () => {
       { hp: 100, defense: 30, level: 5, defending: true },
     ])
     const r = applyEnemyMagicDamage({
-      state, casterEnemyIdx: 0, target: 0,
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
+      state,
+      casterEnemyIdx: 0,
+      target: 0,
+      magicData: { baseDamage: 45, elemental: 1 },
+      playerRoles,
     })
     expect(r[0]!.damage).toBe(32) // trunc(65/((2*1)+0))=32
   })
@@ -324,8 +399,11 @@ describe('applyEnemyMagicDamage', () => {
       { hp: 100, defense: 30, level: 5, status: { protect: 1 } },
     ])
     const r = applyEnemyMagicDamage({
-      state, casterEnemyIdx: 0, target: 0,
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
+      state,
+      casterEnemyIdx: 0,
+      target: 0,
+      magicData: { baseDamage: 45, elemental: 1 },
+      playerRoles,
     })
     expect(r[0]!.damage).toBe(32) // trunc(65/((1*2)+0))=32
   })
@@ -335,42 +413,60 @@ describe('applyEnemyMagicDamage', () => {
       { hp: 100, defense: 30, level: 5, defending: true, status: { protect: 1 } },
     ])
     const r = applyEnemyMagicDamage({
-      state, casterEnemyIdx: 0, target: 0,
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
+      state,
+      casterEnemyIdx: 0,
+      target: 0,
+      magicData: { baseDamage: 45, elemental: 1 },
+      playerRoles,
     })
     expect(r[0]!.damage).toBe(16) // trunc(65/((2*2)+0))=16
   })
 
   it('autoDefend(range(0,3)==0)→ 除因子 +1(65→32)', () => {
-    const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
-      { hp: 100, defense: 30, level: 5 },
-    ], /* rangeVal */ 0)
+    const { state, playerRoles } = makeEnemyMagicState(
+      { magicStrength: 28, level: 0 },
+      [{ hp: 100, defense: 30, level: 5 }],
+      /* rangeVal */ 0,
+    )
     const r = applyEnemyMagicDamage({
-      state, casterEnemyIdx: 0, target: 0,
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
+      state,
+      casterEnemyIdx: 0,
+      target: 0,
+      magicData: { baseDamage: 45, elemental: 1 },
+      playerRoles,
     })
     expect(r[0]!.damage).toBe(32) // trunc(65/((1*1)+1))=32
     expect(r[0]!.autoDefend).toBe(true) // L16:被动格挡标志外传(供动画摆防御姿 frame3)
   })
 
   it('defending + autoDefend → 除 3(trunc 65/3=21)', () => {
-    const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
-      { hp: 100, defense: 30, level: 5, defending: true },
-    ], 0)
+    const { state, playerRoles } = makeEnemyMagicState(
+      { magicStrength: 28, level: 0 },
+      [{ hp: 100, defense: 30, level: 5, defending: true }],
+      0,
+    )
     const r = applyEnemyMagicDamage({
-      state, casterEnemyIdx: 0, target: 0,
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
+      state,
+      casterEnemyIdx: 0,
+      target: 0,
+      magicData: { baseDamage: 45, elemental: 1 },
+      playerRoles,
     })
     expect(r[0]!.damage).toBe(21) // trunc(65/((2*1)+1))=21
   })
 
   it('sleep 队员不触发 autoDefend(range==0 也不自卫)→ 满伤 65', () => {
-    const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
-      { hp: 100, defense: 30, level: 5, status: { sleep: 3 } },
-    ], 0)
+    const { state, playerRoles } = makeEnemyMagicState(
+      { magicStrength: 28, level: 0 },
+      [{ hp: 100, defense: 30, level: 5, status: { sleep: 3 } }],
+      0,
+    )
     const r = applyEnemyMagicDamage({
-      state, casterEnemyIdx: 0, target: 0,
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
+      state,
+      casterEnemyIdx: 0,
+      target: 0,
+      magicData: { baseDamage: 45, elemental: 1 },
+      playerRoles,
     })
     expect(r[0]!.damage).toBe(65) // 睡眠 → canAutoDefend=false → 除因子 1
   })
@@ -380,8 +476,11 @@ describe('applyEnemyMagicDamage', () => {
       { hp: 30, defense: 30, level: 5 },
     ])
     const r = applyEnemyMagicDamage({
-      state, casterEnemyIdx: 0, target: 0,
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
+      state,
+      casterEnemyIdx: 0,
+      target: 0,
+      magicData: { baseDamage: 45, elemental: 1 },
+      playerRoles,
     })
     expect(r[0]!.damage).toBe(30)
     expect(playerRoles.roles[0]!.hp).toBe(0)
@@ -393,10 +492,13 @@ describe('applyEnemyMagicDamage', () => {
       { hp: 100, defense: 30, level: 5 },
     ])
     const r = applyEnemyMagicDamage({
-      state, casterEnemyIdx: 0, target: 'all',
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
+      state,
+      casterEnemyIdx: 0,
+      target: 'all',
+      magicData: { baseDamage: 45, elemental: 1 },
+      playerRoles,
     })
-    expect(r.map(x => x.playerIdx)).toEqual([1]) // idx0 死 → 跳过
+    expect(r.map((x) => x.playerIdx)).toEqual([1]) // idx0 死 → 跳过
     expect(playerRoles.roles[0]!.hp).toBe(0)
   })
 
@@ -406,8 +508,11 @@ describe('applyEnemyMagicDamage', () => {
       { hp: 100, defense: 30, level: 5, windRes: 200 },
     ])
     const r = applyEnemyMagicDamage({
-      state, casterEnemyIdx: 0, target: 0,
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
+      state,
+      casterEnemyIdx: 0,
+      target: 0,
+      magicData: { baseDamage: 45, elemental: 1 },
+      playerRoles,
     })
     expect(r[0]!.damage).toBe(0) // 倍率 0 → 0 伤害(非负)
     expect(playerRoles.roles[0]!.hp).toBe(100) // 不回血(clamp 前会 >100)
@@ -424,8 +529,11 @@ describe('applyEnemyMagicDamage', () => {
     ]) // 默认 range:()=>1 → 不自卫;next 计数序列覆盖
     state.rng = { ...state.rng, next: () => seq[calls++] ?? 0 }
     const r = applyEnemyMagicDamage({
-      state, casterEnemyIdx: 0, target: 'all',
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
+      state,
+      casterEnemyIdx: 0,
+      target: 'all',
+      magicData: { baseDamage: 45, elemental: 1 },
+      playerRoles,
     })
     expect(calls).toBe(2) // 每个存活队员各掷一次(非全队共用一次)
     expect(r[0]!.damage).not.toBe(r[1]!.damage) // 独立 rngFactor → 相同队员伤害不同
@@ -448,8 +556,11 @@ describe('applyEnemyMagicDamage', () => {
       },
     }
     applyEnemyMagicDamage({
-      state, casterEnemyIdx: 0, target: 0,
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
+      state,
+      casterEnemyIdx: 0,
+      target: 0,
+      magicData: { baseDamage: 45, elemental: 1 },
+      playerRoles,
     })
     expect(calls).toEqual(['auto', 'damage'])
   })
@@ -473,10 +584,13 @@ describe('applyEnemyMagicDamage', () => {
       },
     }
     const r = applyEnemyMagicDamage({
-      state, casterEnemyIdx: 0, target: 'all',
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
+      state,
+      casterEnemyIdx: 0,
+      target: 'all',
+      magicData: { baseDamage: 45, elemental: 1 },
+      playerRoles,
     })
-    expect(r.map(x => x.playerIdx)).toEqual([0, 2])
+    expect(r.map((x) => x.playerIdx)).toEqual([0, 2])
     expect(calls).toEqual(['auto', 'auto', 'auto', 'damage', 'damage'])
   })
 })

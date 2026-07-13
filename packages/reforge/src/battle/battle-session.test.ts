@@ -68,7 +68,10 @@ const stubGlyphs = { has: () => false, get: () => undefined } as unknown as Glyp
 function makeSession(
   enemy: EnemyDef,
   playerOverrides: Partial<BattlePlayerState> = {},
-  extraOpts: { auto?: boolean; encounterChoreo?: import('@type-pal/content').BattleChoreography[] } = {},
+  extraOpts: {
+    auto?: boolean
+    encounterChoreo?: import('@type-pal/content').BattleChoreography[]
+  } = {},
 ) {
   const plays: number[] = []
   const sfx = { play: (id: number) => plays.push(id) } as unknown as SfxPlayer
@@ -119,9 +122,13 @@ describe('M4d-3/M4d-2 战斗音效接线(时间线帧挂载)', () => {
 
   test('遭遇 choreography playSound → 直接播(encounter 绑定,非敌种)', () => {
     const enemy = mkEnemy('bard', { health: 999, defense: 999 })
-    const { session, plays } = makeSession(enemy, { attackStrength: 1 }, {
-      encounterChoreo: [{ at: 'battleStart', body: [{ kind: 'playSound', soundId: 77 }] }],
-    })
+    const { session, plays } = makeSession(
+      enemy,
+      { attackStrength: 1 },
+      {
+        encounterChoreo: [{ at: 'battleStart', body: [{ kind: 'playSound', soundId: 77 }] }],
+      },
+    )
     session.tick(16, new Set()) // battleStart 演出:collect + pump(playSound 无横幅,直接消费)
     expect(plays).toContain(77)
   })
@@ -131,16 +138,20 @@ describe('B9 特殊战斗形态', () => {
   test('endBattle terminate:choreography 撑到 turn → 战斗终止无奖励(林天南 7 回合)', async () => {
     // 打不死的敌 + turn≥2 触发 endBattle terminate;不主动攻击也会终止
     const enemy = mkEnemy('lin', { health: 99999, defense: 99999, attackStrength: 0 })
-    const { session } = makeSession(enemy, { attackStrength: 0, defense: 9999 }, {
-      encounterChoreo: [
-        {
-          at: 'turnStart',
-          once: true,
-          when: { kind: 'turn', op: '>=', value: 2 },
-          body: [{ kind: 'endBattle', result: 'terminate' }],
-        },
-      ],
-    })
+    const { session } = makeSession(
+      enemy,
+      { attackStrength: 0, defense: 9999 },
+      {
+        encounterChoreo: [
+          {
+            at: 'turnStart',
+            once: true,
+            when: { kind: 'turn', op: '>=', value: 2 },
+            body: [{ kind: 'endBattle', result: 'terminate' }],
+          },
+        ],
+      },
+    )
     // 回合 1:防御推进(攻 0 杀不死);回合 2 起手 → endBattle
     let guard = 0
     const result = await Promise.race([

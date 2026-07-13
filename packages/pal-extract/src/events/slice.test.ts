@@ -1,10 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { sliceByScene } from './slice.js'
 
-function makeScene(
-  scriptOnEnter: number,
-  eventObjectIndex: number,
-): import('../io/sss.js').Scene {
+function makeScene(scriptOnEnter: number, eventObjectIndex: number): import('../io/sss.js').Scene {
   return {
     mapNum: 0,
     scriptOnEnter,
@@ -53,12 +50,12 @@ describe('sliceByScene', () => {
       [],
     )
     expect(result.shared.segments[0]!.commands).toContainEqual({ label: 'L_3', op: 'end' })
-    expect(
-      (result.scenes[0]!.segments[0]!.commands[0] as { op: string; to: string }).to,
-    ).toBe('shared#L_3')
-    expect(
-      (result.scenes[1]!.segments[0]!.commands[0] as { op: string; to: string }).to,
-    ).toBe('shared#L_3')
+    expect((result.scenes[0]!.segments[0]!.commands[0] as { op: string; to: string }).to).toBe(
+      'shared#L_3',
+    )
+    expect((result.scenes[1]!.segments[0]!.commands[0] as { op: string; to: string }).to).toBe(
+      'shared#L_3',
+    )
   })
 
   it('goto 目标在同一场景内不改写', () => {
@@ -68,9 +65,9 @@ describe('sliceByScene', () => {
       [makeScene(1, 0)],
       [],
     )
-    expect(
-      (result.scenes[0]!.segments[0]!.commands[0] as { op: string; to: string }).to,
-    ).toBe('L_2')
+    expect((result.scenes[0]!.segments[0]!.commands[0] as { op: string; to: string }).to).toBe(
+      'L_2',
+    )
     expect(result.scenes[0]!.segments[0]!.commands).toHaveLength(2)
   })
 
@@ -198,8 +195,19 @@ describe('sliceByScene', () => {
   //   0x91@2633(op0) 0x9C@2798(op1) 0x9E@2905(op2)。
   it('L29:13 个条件跳转 opcode 的跳转目标被 BFS 收集(script.c wScriptEntry=rgwOperand[N])', () => {
     const cases: Array<[number, number]> = [
-      [0x06, 1], [0x1e, 1], [0x20, 2], [0x2e, 2], [0x33, 0], [0x34, 0], [0x38, 0],
-      [0x3a, 0], [0x68, 0], [0x84, 2], [0x91, 0], [0x9c, 1], [0x9e, 2],
+      [0x06, 1],
+      [0x1e, 1],
+      [0x20, 2],
+      [0x2e, 2],
+      [0x33, 0],
+      [0x34, 0],
+      [0x38, 0],
+      [0x3a, 0],
+      [0x68, 0],
+      [0x84, 2],
+      [0x91, 0],
+      [0x9c, 1],
+      [0x9e, 2],
     ]
     for (const [opcode, tgtIdx] of cases) {
       const operands: [number, number, number] = [0, 0, 0]
@@ -215,8 +223,11 @@ describe('sliceByScene', () => {
         [],
       )
       const cmds = result.scenes[0]!.segments[0]!.commands
-      expect(cmds, `opcode 0x${opcode.toString(16)} 跳转目标应被收集`)
-        .toContainEqual({ op: 'raw', opcode: 0x35, operands: [opcode, 0, 0] })
+      expect(cmds, `opcode 0x${opcode.toString(16)} 跳转目标应被收集`).toContainEqual({
+        op: 'raw',
+        opcode: 0x35,
+        operands: [opcode, 0, 0],
+      })
     }
   })
 })

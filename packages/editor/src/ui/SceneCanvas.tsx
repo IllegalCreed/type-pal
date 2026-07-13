@@ -8,7 +8,15 @@
  */
 
 import type { ActorDef, SceneDef, SpriteDef } from '@type-pal/content'
-import { gridToPixel, isReuseMap as sceneIsReuse, mapRoom, pixelToGrid, resolveEntitySpriteId, spriteScreenY, tileHeightsOf } from '@type-pal/content'
+import {
+  gridToPixel,
+  mapRoom,
+  pixelToGrid,
+  resolveEntitySpriteId,
+  isReuseMap as sceneIsReuse,
+  spriteScreenY,
+  tileHeightsOf,
+} from '@type-pal/content'
 import type { AssetBase, OwnMap, SpriteDraw } from '@type-pal/reforge'
 import { idleFrameIndex, renderSceneFrame, spriteBlitRect } from '@type-pal/reforge'
 import { useEffect, useRef, useState } from 'react'
@@ -158,6 +166,7 @@ export function SceneCanvas(props: {
     spriteSources,
   })
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: canvas 重绘由列出的状态触发；ref 与派生值始终读取当前值。
   useEffect(() => {
     if (status !== 'ready') return
     const loaded = loadedRef.current
@@ -216,7 +225,14 @@ export function SceneCanvas(props: {
       })
       hits.push({
         id: ENTRY_HIT_ID,
-        ...physRect(ep.x, spriteScreenY(entryCell), Math.floor(pf.width / 2), pf.height, pf.width, pf.height),
+        ...physRect(
+          ep.x,
+          spriteScreenY(entryCell),
+          Math.floor(pf.width / 2),
+          pf.height,
+          pf.width,
+          pf.height,
+        ),
       })
     }
     // 各实体(站立帧 = layout × facing)+ 记命中盒;实体图层关 → 不画不可点
@@ -258,15 +274,28 @@ export function SceneCanvas(props: {
       layers: {
         skipBase: !layers.base,
         skipCover: !layers.cover,
-        ...(!sceneIsReuse(scene.map) ? { ownTileHeights: tileHeightsOf(tilesets, (map as import('@type-pal/reforge').OwnMap).tileset) } : {}),
+        ...(!sceneIsReuse(scene.map)
+          ? {
+              ownTileHeights: tileHeightsOf(
+                tilesets,
+                (map as import('@type-pal/reforge').OwnMap).tileset,
+              ),
+            }
+          : {}),
       },
     })
 
     // 叠加层:网格/禁入(共享层;预览/W7 同一套)
-    drawGridBlocked(ctx, map, room, { zoom, panX, panY }, {
-      grid: layers.grid,
-      blocked: layers.blocked,
-    })
+    drawGridBlocked(
+      ctx,
+      map,
+      room,
+      { zoom, panX, panY },
+      {
+        grid: layers.grid,
+        blocked: layers.blocked,
+      },
+    )
     // 进场点标记环:金菱形 + 朝向短箭头 —— 它是数据标记不是实体(半透明人形只是身高参照)
     {
       const sx = (ep.x - panX) * zoom
@@ -307,7 +336,19 @@ export function SceneCanvas(props: {
       ctx.restore()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, scene, selectedId, entrySelected, drag, actorsById, leaderSpriteId, view, size, layers, tilesets])
+  }, [
+    status,
+    scene,
+    selectedId,
+    entrySelected,
+    drag,
+    actorsById,
+    leaderSpriteId,
+    view,
+    size,
+    layers,
+    tilesets,
+  ])
 
   // —— 坐标 + 命中 ——（画布像素 = CSS 像素 1:1;world = screen/zoom + pan）
   const screenToCell = (clientX: number, clientY: number): { col: number; row: number } => {
@@ -398,7 +439,7 @@ export function SceneCanvas(props: {
       return
     }
     const d = downRef.current
-    if (!d || !d.entityId) return
+    if (!d?.entityId) return
     const cell = screenToCell(e.clientX, e.clientY)
     d.moved = true
     setDrag({ id: d.entityId, col: cell.col + d.grabDcol, row: cell.row + d.grabDrow })
@@ -425,6 +466,7 @@ export function SceneCanvas(props: {
   // 平移居中 + 提到 ≥1.5×。隐藏实体多停在房间外虚空(原版把待出场 NPC 藏场景外),
   // 没有这条根本找不到它们(作者:不能直观在地图上看到)。
   const pickFromCanvasRef = useRef(false)
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 只在外部选中变化时定位，视口或尺寸变化不能抢回用户镜头。
   useEffect(() => {
     const fromCanvas = pickFromCanvasRef.current
     pickFromCanvasRef.current = false
@@ -444,15 +486,14 @@ export function SceneCanvas(props: {
       const nz = Math.max(zoom, 1.5)
       setView({ zoom: nz, panX: p.x - size.w / nz / 2, panY: p.y - size.h / nz / 2 })
     }
-    // biome-ignore lint/correctness/useExhaustiveDependencies: 仅在选中变化时定位(view/size 变不触发)
   }, [selectedId])
 
   // fit 整图:首次就绪 / 切场景 / 容器尺寸变 → 重新 fit(用户缩放平移不触发)。
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 场景和容器尺寸是刻意的 fit 触发器，ref 读取当前载入结果。
   useEffect(() => {
     if (status !== 'ready') return
     const loaded = loadedRef.current
     if (loaded) fitView(loaded.map)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, scene.id, size.w, size.h])
 
   return (

@@ -31,7 +31,10 @@ export class MemoryScriptResolver implements ScriptResolver {
       const body = chunk.scripts[ref.id]
       if (body) return { body, ref: { chunk: chunkId, id: ref.id }, release() {} }
     }
-    if (!foundChunk) throw new Error(`MemoryScriptResolver: chunk 不存在(ref=${ref.chunk}, derived=${derived ?? 'none'})`)
+    if (!foundChunk)
+      throw new Error(
+        `MemoryScriptResolver: chunk 不存在(ref=${ref.chunk}, derived=${derived ?? 'none'})`,
+      )
     throw new Error(`MemoryScriptResolver: script id 不存在 "${ref.id}"`)
   }
 }
@@ -75,11 +78,20 @@ export class ScriptChunkStore implements ScriptResolver {
     }
     const meta = this.index.chunks[chunkId]
     if (!meta) throw new Error(`ScriptChunkStore: chunk 不存在 "${chunkId}"`)
-    const json = await this.source.readJson<ScriptChunkV1>(joinPath(this.baseDir, meta.path), signal)
+    const json = await this.source.readJson<ScriptChunkV1>(
+      joinPath(this.baseDir, meta.path),
+      signal,
+    )
     if (signal.aborted) throw new DOMException('script chunk load aborted', 'AbortError')
-    if (json.version !== 1 || json.id !== chunkId || typeof json.scripts !== 'object' || json.scripts === null)
+    if (
+      json.version !== 1 ||
+      json.id !== chunkId ||
+      typeof json.scripts !== 'object' ||
+      json.scripts === null
+    )
       throw new Error(`ScriptChunkStore: chunk "${chunkId}" 形状或 id 不符`)
-    for (const [id, body] of Object.entries(json.scripts)) checkCommands(body, `scripts/${chunkId}/${id}`)
+    for (const [id, body] of Object.entries(json.scripts))
+      checkCommands(body, `scripts/${chunkId}/${id}`)
     // 多个 auto runner 首拍可能并发读同一 chunk；后完成者复用先完成者，避免 residentBytes 重复记账。
     const raced = this.cache.get(chunkId)
     if (raced) {
@@ -124,8 +136,12 @@ export class ScriptChunkStore implements ScriptResolver {
       }
     }
     if (!foundChunk)
-      throw new Error(`ScriptChunkStore: chunk 不存在(ref=${ref.chunk}, id=${ref.id}, derived=${derived ?? 'none'})`)
-    throw new Error(`ScriptChunkStore: script id 不存在 "${ref.id}"(hint=${ref.chunk}, derived=${derived ?? 'none'})`)
+      throw new Error(
+        `ScriptChunkStore: chunk 不存在(ref=${ref.chunk}, id=${ref.id}, derived=${derived ?? 'none'})`,
+      )
+    throw new Error(
+      `ScriptChunkStore: script id 不存在 "${ref.id}"(hint=${ref.chunk}, derived=${derived ?? 'none'})`,
+    )
   }
 
   async prefetch(chunkId: string, signal: AbortSignal, seen = new Set<string>()): Promise<void> {

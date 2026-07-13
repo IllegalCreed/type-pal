@@ -5,22 +5,32 @@
  * BattleState 通过 makeState helper 最小构造,与 battle-state.test.ts 风格对齐。
  */
 
-import type { BattleField, Command, Enemy, Item, Magic, ObjectMagicView, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
+import type {
+  BattleField,
+  Command,
+  Enemy,
+  Item,
+  Magic,
+  ObjectMagicView,
+  PlayerRole,
+  PlayerRoles,
+  Spell,
+} from '@type-pal/shared'
 import { describe, expect, it, vi } from 'vitest'
 import { type CommandBus, createCommandBus } from '../../command-bus.js'
+import { type BattleCtx, runScript, setObjectPoisons } from '../../event-system.js'
 import { createInitialGameState, type GameState, type InventoryEntry } from '../../game-state.js'
 import { createSeedableRng } from '../../rng.js'
-import { SUMMON_FADE_STEPS } from '../anim-timeline.js'
 import { performAttack, performEnemyConfusedAttack } from '../actions/attack.js'
 import { performDefend } from '../actions/defend.js'
 import { performFlee } from '../actions/flee.js'
 import { performItem } from '../actions/item.js'
 import { performMagic, type RunScriptFn } from '../actions/magic.js'
-import { type BattleCtx, runScript, setObjectPoisons } from '../../event-system.js'
+import { SUMMON_FADE_STEPS } from '../anim-timeline.js'
 import { dispatchBattleOpcode } from '../battle-opcodes.js'
+import type { BattleState, BattleStatus } from '../battle-state.js'
 import { getPlayerActualDexterity } from '../formulas.js'
 import { tickStatusEffects } from '../status.js'
-import type { BattleState, BattleStatus } from '../battle-state.js'
 import type { ActionQueueItem } from '../turn-queue.js'
 
 // ============================================================================
@@ -120,30 +130,33 @@ function makeState(opts: MakeStateOpts = {}): {
   gs: GameState
 } {
   const role = makeRole(opts.role)
-  const enemies = (opts.enemies ?? [makeEnemy()]).map(e => makeEnemy(e))
+  const enemies = (opts.enemies ?? [makeEnemy()]).map((e) => makeEnemy(e))
   const field: BattleField = {
     id: 0,
     screenWave: 0,
     magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
   }
   const baseRng = createSeedableRng(opts.rngSeed ?? 42)
-  const rng = (opts.forceRoll !== undefined || opts.forceFloat !== undefined)
-    ? {
-        ...baseRng,
-        ...(opts.forceRoll !== undefined ? { rangeInclusive: () => opts.forceRoll! } : {}),
-        ...(opts.forceFloat !== undefined ? { rangeFloat: () => opts.forceFloat! } : {}),
-      }
-    : baseRng
+  const rng =
+    opts.forceRoll !== undefined || opts.forceFloat !== undefined
+      ? {
+          ...baseRng,
+          ...(opts.forceRoll !== undefined ? { rangeInclusive: () => opts.forceRoll! } : {}),
+          ...(opts.forceFloat !== undefined ? { rangeFloat: () => opts.forceFloat! } : {}),
+        }
+      : baseRng
 
   const state: BattleState = {
-    players: [{
-      roleId: 0,
-      prevHp: role.hp,
-      prevMp: role.mp,
-      defending: opts.defending ?? false,
-      status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0, ...opts.playerStatus },
-    }],
-    enemies: enemies.map(e => ({
+    players: [
+      {
+        roleId: 0,
+        prevHp: role.hp,
+        prevMp: role.mp,
+        defending: opts.defending ?? false,
+        status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0, ...opts.playerStatus },
+      },
+    ],
+    enemies: enemies.map((e) => ({
       e: { ...e },
       status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
       prevHp: e.health,
@@ -175,8 +188,7 @@ function makeState(opts: MakeStateOpts = {}): {
   //   seed runtime base = role.fleeRate(等价旧 raw 行为),equipFleeRate 写装备槽 0。
   const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
   gs.PlayerRolesRuntime.rgwFleeRate[0] = role.fleeRate
-  if (opts.equipFleeRate !== undefined)
-    gs.rgEquipmentEffect[0]!.rgwFleeRate[0] = opts.equipFleeRate
+  if (opts.equipFleeRate !== undefined) gs.rgEquipmentEffect[0]!.rgwFleeRate[0] = opts.equipFleeRate
   return { state, playerRoles, bus: createCommandBus(), gs }
 }
 
@@ -212,7 +224,8 @@ describe('performAttack', () => {
       const { state, playerRoles, bus } = makeState({
         role: { level: lvl, attackStrength: 200 },
         enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 99999 }],
-        forceRoll: 1, forceFloat: 1, // 固定 +1 / 不暴击 / jitter=1,隔离 str 变量
+        forceRoll: 1,
+        forceFloat: 1, // 固定 +1 / 不暴击 / jitter=1,隔离 str 变量
       })
       const before = state.enemies[0]!.e.health
       performAttack(state, playerActor, 0, bus, playerRoles)
@@ -234,7 +247,11 @@ describe('performAttack', () => {
     const cmds = bus.drain()
     expect(cmds[0]!.cmd).toEqual({ op: 'playPlayerAttack', playerIdx: 0, targetEnemyIdx: 0 })
     // D17b:敌人掉血 → blue(sdlpal fight.c:648-651,sDamage<0);target={kind:'enemy',idx:0}
-    expect(cmds[1]!.cmd).toMatchObject({ op: 'showDamageNum', color: 'blue', target: { kind: 'enemy', idx: 0 } })
+    expect(cmds[1]!.cmd).toMatchObject({
+      op: 'showDamageNum',
+      color: 'blue',
+      target: { kind: 'enemy', idx: 0 },
+    })
     expect((cmds[1]!.cmd as { value: number }).value).toBeGreaterThan(0)
   })
 
@@ -245,12 +262,15 @@ describe('performAttack', () => {
     const { state, playerRoles, bus } = makeState({
       role: { level: 10, attackStrength: 200 },
       enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 100 }],
-      forceRoll: 1, forceFloat: 1, // base+1 / 不暴击 / 不李逍遥 / jitter×1 → 完整伤害 = 314+1 = 315
+      forceRoll: 1,
+      forceFloat: 1, // base+1 / 不暴击 / 不李逍遥 / jitter×1 → 完整伤害 = 314+1 = 315
     })
     performAttack(state, playerActor, 0, bus, playerRoles)
     expect(state.enemies[0]!.e.health).toBe(0) // 315 > 100 → 击杀
     const cmds = bus.drain()
-    const dmg = cmds.find(c => (c.cmd as { op: string }).op === 'showDamageNum')!.cmd as { value: number }
+    const dmg = cmds.find((c) => (c.cmd as { op: string }).op === 'showDamageNum')!.cmd as {
+      value: number
+    }
     expect(dmg.value).toBe(315) // 完整伤害 315,非剩余血 100
   })
 
@@ -264,7 +284,9 @@ describe('performAttack', () => {
     performAttack(state, playerActor, -1, bus, playerRoles) // targetIdx<0 = attackAll 群攻
     expect(state.enemies[0]!.e.health).toBe(0) // 314 > 50 → 击杀
     const cmds = bus.drain()
-    const dmg = cmds.find(c => (c.cmd as { op: string }).op === 'showDamageNum')!.cmd as { value: number }
+    const dmg = cmds.find((c) => (c.cmd as { op: string }).op === 'showDamageNum')!.cmd as {
+      value: number
+    }
     expect(dmg.value).toBe(314) // 完整伤害 314(群攻无 +1/jitter),非剩余血 50
   })
 
@@ -273,13 +295,17 @@ describe('performAttack', () => {
   //   ts 经 bus {op:'playSound'} → bootstrap audio.playSound。命中"武器声"weaponSound 仍由 playPlayerAttack 接。
   it('M6 出招声:玩家物攻起手 emit playSound(非暴击=attackSound,暴击=criticalSound)', () => {
     const drainSounds = (bus: CommandBus): number[] =>
-      bus.drain().filter(c => c.cmd.op === 'playSound').map(c => (c.cmd as { soundId: number }).soundId)
+      bus
+        .drain()
+        .filter((c) => c.cmd.op === 'playSound')
+        .map((c) => (c.cmd as { soundId: number }).soundId)
     // 非暴击(forceRoll=1 → crit roll≠0)→ attackSound(37)
     {
       const { state, playerRoles, bus } = makeState({
         role: { level: 10, attackStrength: 200, attackSound: 37, criticalSound: 5 },
         enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 100 }],
-        forceRoll: 1, forceFloat: 1,
+        forceRoll: 1,
+        forceFloat: 1,
       })
       performAttack(state, playerActor, 0, bus, playerRoles)
       expect(drainSounds(bus)).toEqual([37])
@@ -289,7 +315,8 @@ describe('performAttack', () => {
       const { state, playerRoles, bus } = makeState({
         role: { level: 10, attackStrength: 200, attackSound: 37, criticalSound: 5 },
         enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 100 }],
-        forceRoll: 0, forceFloat: 1,
+        forceRoll: 0,
+        forceFloat: 1,
       })
       performAttack(state, playerActor, 0, bus, playerRoles)
       expect(drainSounds(bus)).toEqual([5])
@@ -310,8 +337,8 @@ describe('performAttack', () => {
     //   → slot0 后打(division2,314/2=157)。trunc(600-x)。
     expect(state.enemies[1]!.e.health).toBe(286) // 600-314(满额,先打)
     expect(state.enemies[0]!.e.health).toBe(443) // 600-157(半额,后打)
-    const ops = bus.drain().map(c => c.cmd.op)
-    expect(ops.filter(o => o === 'showDamageNum')).toHaveLength(2) // 2 敌 2 个伤害数字
+    const ops = bus.drain().map((c) => c.cmd.op)
+    expect(ops.filter((o) => o === 'showDamageNum')).toHaveLength(2) // 2 敌 2 个伤害数字
     expect(ops).toContain('playPlayerAttack')
   })
 
@@ -339,13 +366,13 @@ describe('performAttack', () => {
       role: { level: 10, attackStrength: 200 },
       enemies: [
         { level: 5, defense: 10, physicalResistance: 1, health: 600 }, // slot0:HIT_ORDER {2,1,0} 后打
-        { level: 5, defense: 10, physicalResistance: 1, health: 0 },   // slot1:health=0 但未 defeated(sweep 间打死),先打
+        { level: 5, defense: 10, physicalResistance: 1, health: 0 }, // slot1:health=0 但未 defeated(sweep 间打死),先打
       ],
       forceRoll: 1, // 不暴击
     })
     performAttack(state, playerActor, -1, bus, playerRoles)
     // slot1(health0 非 defeated)先打 → division*=2;slot0 后打 division2 → 314/2=157
-    expect(state.enemies[1]!.e.health).toBe(0)         // 钳 0(C 是 WORD 下溢,不可观测;damage 不依赖 health)
+    expect(state.enemies[1]!.e.health).toBe(0) // 钳 0(C 是 WORD 下溢,不可观测;damage 不依赖 health)
     expect(state.enemies[0]!.e.health).toBe(600 - 157) // slot0 半额;改前跳 slot1 → slot0 全额=286
   })
 
@@ -355,7 +382,16 @@ describe('performAttack', () => {
   it('敌→我 被动格挡(forceRoll=10 强制 fAutoDefend)→ 建格挡动画时间线 + 不掉血', () => {
     const { state, playerRoles, bus } = makeState({
       role: { hp: 500, maxHP: 500, defense: 10 },
-      enemies: [{ level: 5, attackStrength: 100, defense: 10, physicalResistance: 1, health: 100, attackSound: 39 }],
+      enemies: [
+        {
+          level: 5,
+          attackStrength: 100,
+          defense: 10,
+          physicalResistance: 1,
+          health: 100,
+          attackSound: 39,
+        },
+      ],
       forceRoll: 10, // rangeInclusive 恒 10 → fAutoDefend = (10>=10) = true
     })
     // buildEnemyPhysicalTimeline 需 posOriginal(否则退化无时间线)
@@ -371,7 +407,9 @@ describe('performAttack', () => {
     expect(playerRoles.roles[0]!.hp).toBe(hpBefore)
     // 时间线含玩家格挡姿 frame 3,且全程无 damageNum(无受击数字)
     const frames = state.battleAnim!.frames
-    expect(frames.some((f) => f.fighters?.some((d) => d.side === 'player' && d.currentFrame === 3))).toBe(true)
+    expect(
+      frames.some((f) => f.fighters?.some((d) => d.side === 'player' && d.currentFrame === 3)),
+    ).toBe(true)
     expect(frames.every((f) => f.damageNum === undefined)).toBe(true)
   })
 
@@ -416,7 +454,7 @@ describe('performAttack', () => {
     })
     performAttack(state, playerActor, 0, bus, playerRoles)
     expect(state.enemies[0]!.e.health).toBe(3000 - 315 * 2) // 两次各 315 = 630
-    const dmgNums = bus.drain().filter(c => c.cmd.op === 'showDamageNum')
+    const dmgNums = bus.drain().filter((c) => c.cmd.op === 'showDamageNum')
     expect(dmgNums).toHaveLength(2) // 两次攻击 → 两个伤害数字
   })
 
@@ -429,17 +467,18 @@ describe('performAttack', () => {
       role: { level: 10, attackStrength: 200, attackSound: 37, weaponSound: 88 },
       enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 3000 }],
       playerStatus: { dualAttack: 1 },
-      forceRoll: 1, forceFloat: 1, // 不暴击 → 出招声=attackSound(37)
+      forceRoll: 1,
+      forceFloat: 1, // 不暴击 → 出招声=attackSound(37)
     })
     state.players[0]!.posOriginal = { x: 240, y: 170 }
     state.enemies[0]!.posOriginal = { x: 160, y: 80 }
     performAttack(state, playerActor, 0, bus, playerRoles)
     const frames = state.battleAnim!.frames
     // 两段挥砍各 frame0 挂出招声(37)→ 共 2;各 currentFrame=9 特效 i==0 帧挂武器声(88)→ 共 2
-    expect(frames.filter(f => f.sound === 37)).toHaveLength(2)
-    expect(frames.filter(f => f.sound === 88)).toHaveLength(2)
+    expect(frames.filter((f) => f.sound === 37)).toHaveLength(2)
+    expect(frames.filter((f) => f.sound === 88)).toHaveLength(2)
     // 武器声不再走 playPlayerAttack 同步命令(已改帧同步,避免双击同 tick 重叠)
-    expect(bus.drain().filter(c => c.cmd.op === 'playPlayerAttack')).toHaveLength(0)
+    expect(bus.drain().filter((c) => c.cmd.op === 'playPlayerAttack')).toHaveLength(0)
   })
 
   it('D3:无 DualAttack → 单体只攻击一次(对照)', () => {
@@ -451,7 +490,7 @@ describe('performAttack', () => {
     })
     performAttack(state, playerActor, 0, bus, playerRoles)
     expect(state.enemies[0]!.e.health).toBe(3000 - 315) // 一次 315
-    const dmgNums = bus.drain().filter(c => c.cmd.op === 'showDamageNum')
+    const dmgNums = bus.drain().filter((c) => c.cmd.op === 'showDamageNum')
     expect(dmgNums).toHaveLength(1)
   })
 
@@ -465,7 +504,7 @@ describe('performAttack', () => {
     performAttack(state, playerActor, -1, bus, playerRoles)
     // 两 sweep,每 sweep division 重置 1 → 单敌各全额 314 → 共 628
     expect(state.enemies[0]!.e.health).toBe(5000 - 314 * 2)
-    const dmgNums = bus.drain().filter(c => c.cmd.op === 'showDamageNum')
+    const dmgNums = bus.drain().filter((c) => c.cmd.op === 'showDamageNum')
     // sdlpal 每 sweep 各调一次 ShowPlayerAttackAnim → 各 sweep i==0 弹自己的数字(PAL_BattleBackupStat 每 swing
     //   后重置 wPrevHP,fight.c:2210/588)→ **两个数字各 314**,非一个总和 628(旧测试"一个总 delta"假设不忠实)。
     expect(dmgNums).toHaveLength(2)
@@ -495,15 +534,17 @@ describe('performAttack', () => {
     expect(numFrames[1]!.damageNums![0]!.value).toBe(314)
     // 两个完整挥砍段 → 两个命中特效 i==0 帧(currentFrame=9 起手)
     const swingStarts = state.battleAnim!.frames.filter(
-      (f) => f.overlay?.kind === 'effect' && f.fighters?.some((d) => d.side === 'player' && d.currentFrame === 9),
+      (f) =>
+        f.overlay?.kind === 'effect' &&
+        f.fighters?.some((d) => d.side === 'player' && d.currentFrame === 9),
     )
     expect(swingStarts, '两次挥砍各一个起手帧').toHaveLength(2)
     // 出招声(37)挂各 sweep frame0、武器声(88)挂各 sweep currentFrame=9 帧 → 时间线各两帧(逐 tick 播,不重叠)
     const frames = state.battleAnim!.frames
-    expect(frames.filter(f => f.sound === 37)).toHaveLength(2)
-    expect(frames.filter(f => f.sound === 88)).toHaveLength(2)
+    expect(frames.filter((f) => f.sound === 37)).toHaveLength(2)
+    expect(frames.filter((f) => f.sound === 88)).toHaveLength(2)
     // 武器声不再走 playPlayerAttack 同步命令
-    expect(bus.drain().filter(c => c.cmd.op === 'playPlayerAttack')).toHaveLength(0)
+    expect(bus.drain().filter((c) => c.cmd.op === 'playPlayerAttack')).toHaveLength(0)
   })
 
   // M6/D17a 群攻挥砍动画(林月如等 attackAll 鞭武器):此前群攻**完全无动画**(只即时弹数字),
@@ -646,7 +687,11 @@ describe('performAttack', () => {
     const cmds = bus.drain()
     expect(cmds[0]!.cmd).toEqual({ op: 'playEnemyAttack', enemyIdx: 0, targetPlayerIdx: 0 })
     // D17b:player 掉血 → blue,target={kind:'player',idx:0};value=钳后 delta=200(被打死)
-    expect(cmds[1]!.cmd).toMatchObject({ op: 'showDamageNum', color: 'blue', target: { kind: 'player', idx: 0 } })
+    expect(cmds[1]!.cmd).toMatchObject({
+      op: 'showDamageNum',
+      color: 'blue',
+      target: { kind: 'player', idx: 0 },
+    })
     expect((cmds[1]!.cmd as { value: number }).value).toBe(200)
   })
 
@@ -883,7 +928,10 @@ describe('performAttack', () => {
       ...base,
       rangeInclusive: (lo: number, hi: number) => {
         if (lo === 0 && hi === 16) return 0 // fAutoDefend = 0>=10 = false → 命中(非自卫,进 equiv block)
-        if (lo === 1 && hi === 10) { equivRolls++; return 5 }
+        if (lo === 1 && hi === 10) {
+          equivRolls++
+          return 5
+        }
         return base.rangeInclusive(lo, hi)
       },
     }
@@ -1010,7 +1058,10 @@ describe('performFlee', () => {
     const calls: Array<[number, number]> = []
     state.rng = {
       ...state.rng,
-      rangeInclusive: (a: number, b: number) => { calls.push([a, b]); return 0 },
+      rangeInclusive: (a: number, b: number) => {
+        calls.push([a, b])
+        return 0
+      },
     }
     performFlee(state, gs, 0, playerRoles)
     // def = 敌吉运 36 + (1+6)*4 = 64;dexterity 9999 不计入(原版 bug 行为是 9999+28)
@@ -1060,8 +1111,11 @@ describe('performFlee', () => {
     performFlee(state, gs, 0, playerRoles, bus)
     expect(state.fleeAnim).toBeUndefined() // 未成功(无逃离动画)
     expect(state.battleAnim).toBeDefined() // 起了失败动画时间线(per-player 3步+帧1)
-    expect(bus.drain().filter(c => c.cmd.op === 'showBattleMessage')).toHaveLength(0) // 文字不早于失败动作
-    expect(state.battleAnim?.frames.at(-1)?.battleMessage).toEqual({ text: '逃跑失败', durationMs: 320 })
+    expect(bus.drain().filter((c) => c.cmd.op === 'showBattleMessage')).toHaveLength(0) // 文字不早于失败动作
+    expect(state.battleAnim?.frames.at(-1)?.battleMessage).toEqual({
+      text: '逃跑失败',
+      durationMs: 320,
+    })
   })
 
   // ── D12(2026-06-01 W1):装备逃跑率加成生效(sdlpal global.c:1868-1897 PAL_GetPlayerFleeRate)──
@@ -1088,7 +1142,10 @@ describe('performFlee', () => {
     })
     state.enemies[1]!.defeated = true
     let capturedHi = -1
-    ;(state.rng as { rangeInclusive: (lo: number, hi: number) => number }).rangeInclusive = (_lo, hi) => {
+    ;(state.rng as { rangeInclusive: (lo: number, hi: number) => number }).rangeInclusive = (
+      _lo,
+      hi,
+    ) => {
       capturedHi = hi
       return 0
     }
@@ -1240,13 +1297,23 @@ describe('performMagic', () => {
   it('M6 法术音:队员施法 push 本角色 magicSound + 效果音;敌方施法播 enemy.magicSound', () => {
     // 队员施法 → [role.magicSound(9), 55(magic.sound 效果)]
     {
-      const { state, playerRoles, bus, gs } = makeState({ role: { mp: 30, maxMP: 30, magicSound: 9 } })
+      const { state, playerRoles, bus, gs } = makeState({
+        role: { mp: 30, maxMP: 30, magicSound: 9 },
+      })
       performMagic({
-        state, casterIsEnemy: false, casterIdx: 0, spellId: 7,
-        targetIsEnemy: true, targetIdx: 0,
+        state,
+        casterIsEnemy: false,
+        casterIdx: 0,
+        spellId: 7,
+        targetIsEnemy: true,
+        targetIdx: 0,
         spells: [makeSpell({ id: 7, magicNumber: 3, scriptOnUse: 0 })],
         magics: [makeMagic({ id: 3, costMP: 8, baseDamage: 0, sound: 55 })],
-        playerRoles, bus, commands: [{ op: 'end' }], runScript: vi.fn(), gs,
+        playerRoles,
+        bus,
+        commands: [{ op: 'end' }],
+        runScript: vi.fn(),
+        gs,
       })
       expect(gs.pendingSounds).toEqual([9, 55])
     }
@@ -1257,11 +1324,19 @@ describe('performMagic', () => {
         enemies: [{ magicSound: 62 }],
       })
       performMagic({
-        state, casterIsEnemy: true, casterIdx: 0, spellId: 7,
-        targetIsEnemy: false, targetIdx: 0,
+        state,
+        casterIsEnemy: true,
+        casterIdx: 0,
+        spellId: 7,
+        targetIsEnemy: false,
+        targetIdx: 0,
         spells: [makeSpell({ id: 7, magicNumber: 3, scriptOnUse: 0 })],
         magics: [makeMagic({ id: 3, costMP: 8, baseDamage: 0, sound: 55 })],
-        playerRoles, bus, commands: [{ op: 'end' }], runScript: vi.fn(), gs,
+        playerRoles,
+        bus,
+        commands: [{ op: 'end' }],
+        runScript: vi.fn(),
+        gs,
       })
       expect(gs.pendingSounds ?? []).toEqual([62, 55]) // 敌 cast 音 62 + 效果音 55
     }
@@ -1271,19 +1346,38 @@ describe('performMagic', () => {
   //   fight.c:2497-2502 / 敌方 fight.c:2925-2930),不在演出 dispatch 时。之前 DefMagic/敌方即时
   //   push → 先闻其声后见前摇(user 2026-06-13 报草妖风咒/气疗术)。未建链(上个用例)仍即时播。
   it('玩家 DefMagic 建链:效果音挂特效首帧,不即时 push(气疗术类)', () => {
-    const { state, playerRoles, bus, gs } = makeState({ role: { mp: 30, maxMP: 30, magicSound: 9 } })
+    const { state, playerRoles, bus, gs } = makeState({
+      role: { mp: 30, maxMP: 30, magicSound: 9 },
+    })
     state.players[0]!.posOriginal = { x: 240, y: 170 }
     performMagic({
-      state, casterIsEnemy: false, casterIdx: 0, spellId: 7,
-      targetIsEnemy: false, targetIdx: 0,
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: false,
+      targetIdx: 0,
       spells: [makeSpell({ id: 7, magicNumber: 3, scriptOnUse: 0 })],
-      magics: [makeMagic({ id: 3, costMP: 8, baseDamage: 0, type: 'applyToPlayer', effect: 15, sound: 335 })],
-      playerRoles, bus, commands: [{ op: 'end' }], runScript: vi.fn(), gs,
+      magics: [
+        makeMagic({
+          id: 3,
+          costMP: 8,
+          baseDamage: 0,
+          type: 'applyToPlayer',
+          effect: 15,
+          sound: 335,
+        }),
+      ],
+      playerRoles,
+      bus,
+      commands: [{ op: 'end' }],
+      runScript: vi.fn(),
+      gs,
       magicSpriteFrameCounts: new Map([[15, 5]]), // effect 15 有帧 → 建 DefMagic 链
     })
     expect(gs.pendingSounds ?? []).not.toContain(335) // 不即时 push(防双响/提前)
     const frames = state.battleAnim?.frames ?? []
-    const sndFrames = frames.filter(f => f.sound === 335)
+    const sndFrames = frames.filter((f) => f.sound === 335)
     expect(sndFrames).toHaveLength(1) // 恰一帧
     // 挂在特效首帧(带 magic overlay frameIdx=0),而非 PreMagic 前摇
     expect(sndFrames[0]!.overlays).toMatchObject([{ kind: 'magic', frameIdx: 0 }])
@@ -1299,17 +1393,27 @@ describe('performMagic', () => {
       state.enemies[0]!.posOriginal = { x: 160, y: 80 }
       state.players[0]!.posOriginal = { x: 240, y: 170 }
       performMagic({
-        state, casterIsEnemy: true, casterIdx: 0, spellId: 7,
-        targetIsEnemy: false, targetIdx: 0,
+        state,
+        casterIsEnemy: true,
+        casterIdx: 0,
+        spellId: 7,
+        targetIsEnemy: false,
+        targetIdx: 0,
         spells: [makeSpell({ id: 7, magicNumber: 3, scriptOnUse: 0 })],
-        magics: [makeMagic({ id: 3, costMP: 8, baseDamage: 0, type: 'normal', effect: 12, sound: 55 })],
-        playerRoles, bus, commands: [{ op: 'end' }], runScript: vi.fn(), gs,
+        magics: [
+          makeMagic({ id: 3, costMP: 8, baseDamage: 0, type: 'normal', effect: 12, sound: 55 }),
+        ],
+        playerRoles,
+        bus,
+        commands: [{ op: 'end' }],
+        runScript: vi.fn(),
+        gs,
         magicSpriteFrameCounts: new Map([[12, 8]]),
       })
       expect(gs.pendingSounds ?? []).not.toContain(55)
       const frames = state.battleAnim?.frames ?? []
-      expect(frames.filter(f => f.sound === 62)).toHaveLength(1) // 施法音挂 intro
-      const sndFrames = frames.filter(f => f.sound === 55)
+      expect(frames.filter((f) => f.sound === 62)).toHaveLength(1) // 施法音挂 intro
+      const sndFrames = frames.filter((f) => f.sound === 55)
       expect(sndFrames).toHaveLength(1)
       expect(sndFrames[0]!.overlays).toMatchObject([{ kind: 'magic', frameIdx: 0 }])
     }
@@ -1322,17 +1426,27 @@ describe('performMagic', () => {
       state.enemies[0]!.posOriginal = { x: 160, y: 80 }
       state.players[0]!.posOriginal = { x: 240, y: 170 }
       performMagic({
-        state, casterIsEnemy: true, casterIdx: 0, spellId: 7,
-        targetIsEnemy: false, targetIdx: 0,
+        state,
+        casterIsEnemy: true,
+        casterIdx: 0,
+        spellId: 7,
+        targetIsEnemy: false,
+        targetIdx: 0,
         spells: [makeSpell({ id: 7, magicNumber: 3, scriptOnUse: 0 })],
-        magics: [makeMagic({ id: 3, costMP: 8, baseDamage: 0, type: 'normal', effect: 12, sound: 55 })],
-        playerRoles, bus, commands: [{ op: 'end' }], runScript: vi.fn(), gs,
+        magics: [
+          makeMagic({ id: 3, costMP: 8, baseDamage: 0, type: 'normal', effect: 12, sound: 55 }),
+        ],
+        playerRoles,
+        bus,
+        commands: [{ op: 'end' }],
+        runScript: vi.fn(),
+        gs,
         magicSpriteFrameCounts: new Map([[12, 8]]),
       })
       const frames = state.battleAnim?.frames ?? []
-      expect(frames.every(f => f.sound !== 55)).toBe(true) // 效果音静音
+      expect(frames.every((f) => f.sound !== 55)).toBe(true) // 效果音静音
       expect(gs.pendingSounds ?? []).not.toContain(55)
-      expect(frames.filter(f => f.sound === 62)).toHaveLength(1) // 施法音取 abs 照播
+      expect(frames.filter((f) => f.sound === 62)).toHaveLength(1) // 施法音取 abs 照播
     }
   })
 
@@ -1348,11 +1462,21 @@ describe('performMagic', () => {
     state.enemies[0]!.posOriginal = { x: 160, y: 80 }
     state.players[0]!.posOriginal = { x: 240, y: 170 }
     performMagic({
-      state, casterIsEnemy: true, casterIdx: 0, spellId: 7,
-      targetIsEnemy: false, targetIdx: 0,
+      state,
+      casterIsEnemy: true,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: false,
+      targetIdx: 0,
       spells: [makeSpell({ id: 7, magicNumber: 3, scriptOnUse: 0 })],
-      magics: [makeMagic({ id: 3, costMP: 8, baseDamage: 60, type: 'normal', effect: 12, sound: 55 })],
-      playerRoles, bus, commands: [{ op: 'end' }], runScript: vi.fn(), gs,
+      magics: [
+        makeMagic({ id: 3, costMP: 8, baseDamage: 60, type: 'normal', effect: 12, sound: 55 }),
+      ],
+      playerRoles,
+      bus,
+      commands: [{ op: 'end' }],
+      runScript: vi.fn(),
+      gs,
       magicSpriteFrameCounts: new Map([[12, 8]]),
     })
     const frames = state.battleAnim?.frames ?? []
@@ -1385,23 +1509,41 @@ describe('performMagic', () => {
     state.players[0]!.posOriginal = { x: 240, y: 170 }
     state.enemies[0]!.posOriginal = { x: 160, y: 80 }
     // scriptOnSuccess @ip1 = 0x60 秒杀目标敌(ctx.target);baseDamage SHORT -999 哨兵 → 无 inline 伤害,只 KO 数字
-    const commands: Command[] = [{ op: 'end' }, { op: 'raw', opcode: 0x60, operands: [0xFFFF, 0, 0] }, { op: 'end' }]
+    const commands: Command[] = [
+      { op: 'end' },
+      { op: 'raw', opcode: 0x60, operands: [0xffff, 0, 0] },
+      { op: 'end' },
+    ]
     const spell = makeSpell({ id: 9, magicNumber: 5, scriptOnUse: 0, scriptOnSuccess: 1 })
     const magic = makeMagic({ id: 5, effect: 7, type: 'normal', baseDamage: 64537 })
     performMagic({
-      state, casterIsEnemy: false, casterIdx: 0, spellId: 9, targetIsEnemy: true, targetIdx: 0,
-      spells: [spell], magics: [magic], playerRoles, bus, commands, runScript,
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 9,
+      targetIsEnemy: true,
+      targetIdx: 0,
+      spells: [spell],
+      magics: [magic],
+      playerRoles,
+      bus,
+      commands,
+      runScript,
       magicSpriteFrameCounts: new Map([[7, 4]]), // effect 7 有 4 帧 → 建 OffMagic 时间线
     })
     expect(state.enemies[0]!.e.health).toBe(0) // 秒杀生效(逻辑同步)
     // 关键:秒杀数字不即时 emit,而挂到 PostMagic 第一帧(敌人开始受击时),不再等整条时间线播完。
-    expect(bus.drain().filter(c => c.cmd.op === 'showDamageNum')).toHaveLength(0)
+    expect(bus.drain().filter((c) => c.cmd.op === 'showDamageNum')).toHaveLength(0)
     expect(state.battleAnim?.pendingDamageNums ?? []).toHaveLength(0)
     const frames = state.battleAnim?.frames ?? []
-    const numIdx = frames.findIndex(f => (f.damageNums?.length ?? 0) > 0)
-    const firstPostIdx = frames.findIndex(f => f.fighters?.some(d => d.side === 'enemy' && d.idx === 0))
+    const numIdx = frames.findIndex((f) => (f.damageNums?.length ?? 0) > 0)
+    const firstPostIdx = frames.findIndex((f) =>
+      f.fighters?.some((d) => d.side === 'enemy' && d.idx === 0),
+    )
     expect(numIdx).toBe(firstPostIdx)
-    expect(frames[numIdx]!.damageNums).toEqual([{ target: { kind: 'enemy', idx: 0 }, value: 100, color: 'blue' }])
+    expect(frames[numIdx]!.damageNums).toEqual([
+      { target: { kind: 'enemy', idx: 0 }, value: 100, color: 'blue' },
+    ])
   })
 
   it('武神/召唤法术:伤害数字在召唤神淡出前的 PostMagic 第一帧显示', () => {
@@ -1442,9 +1584,18 @@ describe('performMagic', () => {
       spellId: 351,
       targetIsEnemy: true,
       targetIdx: 'all',
-      spells: [makeSpell({ id: 351, magicNumber: 19, flags: {
-        usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: true,
-      } })],
+      spells: [
+        makeSpell({
+          id: 351,
+          magicNumber: 19,
+          flags: {
+            usableOutsideBattle: false,
+            usableInBattle: true,
+            usableToEnemy: true,
+            applyToAll: true,
+          },
+        }),
+      ],
       magics: [wuShen, wuShenSecondary],
       playerRoles,
       bus,
@@ -1454,15 +1605,15 @@ describe('performMagic', () => {
       summonSpriteFrameCounts: new Map([[10, 4]]),
     })
 
-    expect(bus.drain().filter(c => c.cmd.op === 'showDamageNum')).toHaveLength(0)
+    expect(bus.drain().filter((c) => c.cmd.op === 'showDamageNum')).toHaveLength(0)
     expect(state.battleAnim?.pendingDamageNums ?? []).toHaveLength(0)
     const frames = state.battleAnim?.frames ?? []
-    const numIdx = frames.findIndex(f => (f.damageNums?.length ?? 0) > 0)
-    const firstFadeOutIdx = frames.findIndex(f => f.summon?.fadeDir === 'out')
+    const numIdx = frames.findIndex((f) => (f.damageNums?.length ?? 0) > 0)
+    const firstFadeOutIdx = frames.findIndex((f) => f.summon?.fadeDir === 'out')
     expect(numIdx).toBeGreaterThan(0)
     expect(firstFadeOutIdx).toBeGreaterThan(numIdx)
     expect(frames[numIdx]!.summon?.spriteKey).toBe('player-10')
-    expect(frames[numIdx]!.fighters?.some(d => d.side === 'enemy' && d.idx === 0)).toBe(true)
+    expect(frames[numIdx]!.fighters?.some((d) => d.side === 'enemy' && d.idx === 0)).toBe(true)
     expect(frames[numIdx]!.damageNums).toEqual([
       { target: { kind: 'enemy', idx: 0 }, value: expect.any(Number), color: 'blue' },
     ])
@@ -1481,11 +1632,20 @@ describe('performMagic', () => {
     state.enemies[0]!.posOriginal = { x: 160, y: 80 }
 
     const huoShen = makeMagic({
-      id: 94, type: 'summon', special: 8, effect: 17, baseDamage: 250, sound: 304,
+      id: 94,
+      type: 'summon',
+      special: 8,
+      effect: 17,
+      baseDamage: 250,
+      sound: 304,
     })
     // 火神二次 magic 17:attackAll,special=99(sLayerOffset 恒最上)。
     const huoShenSecondary = makeMagic({
-      id: 17, type: 'attackAll', effect: 12, special: 99, speed: 1,
+      id: 17,
+      type: 'attackAll',
+      effect: 12,
+      special: 99,
+      speed: 1,
     })
 
     performMagic({
@@ -1495,9 +1655,18 @@ describe('performMagic', () => {
       spellId: 389,
       targetIsEnemy: true,
       targetIdx: 'all',
-      spells: [makeSpell({ id: 389, magicNumber: 94, flags: {
-        usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: true,
-      } })],
+      spells: [
+        makeSpell({
+          id: 389,
+          magicNumber: 94,
+          flags: {
+            usableOutsideBattle: false,
+            usableInBattle: true,
+            usableToEnemy: true,
+            applyToAll: true,
+          },
+        }),
+      ],
       magics: [huoShen, huoShenSecondary],
       playerRoles,
       bus,
@@ -1508,7 +1677,9 @@ describe('performMagic', () => {
     })
 
     const frames = state.battleAnim?.frames ?? []
-    const magicOverlays = frames.flatMap(f => (f.overlays ?? []).filter(o => o.kind === 'magic'))
+    const magicOverlays = frames.flatMap((f) =>
+      (f.overlays ?? []).filter((o) => o.kind === 'magic'),
+    )
     // 二次法术效果确实喷发(有 magic overlay),且每个都带 special=99(非默认 0)。
     expect(magicOverlays.length).toBeGreaterThan(0)
     for (const ov of magicOverlays) expect(ov.layerOffset).toBe(99)
@@ -1518,7 +1689,7 @@ describe('performMagic', () => {
     const { state, playerRoles, bus, gs } = makeState({ role: { mp: 99, maxMP: 99 } })
     const commands: Command[] = [
       { op: 'end' },
-      { op: 'raw', opcode: 0x3A, operands: [43072, 0, 0] },
+      { op: 'raw', opcode: 0x3a, operands: [43072, 0, 0] },
       { op: 'end' },
     ]
     performMagic({
@@ -1528,12 +1699,19 @@ describe('performMagic', () => {
       spellId: 392,
       targetIsEnemy: false,
       targetIdx: 'all',
-      spells: [makeSpell({
-        id: 392,
-        magicNumber: 99,
-        scriptOnUse: 1,
-        flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: false, applyToAll: true },
-      })],
+      spells: [
+        makeSpell({
+          id: 392,
+          magicNumber: 99,
+          scriptOnUse: 1,
+          flags: {
+            usableOutsideBattle: false,
+            usableInBattle: true,
+            usableToEnemy: false,
+            applyToAll: true,
+          },
+        }),
+      ],
       magics: [makeMagic({ id: 99, costMP: 33, baseDamage: 0, effect: 0xffff, sound: 0 })],
       playerRoles,
       bus,
@@ -1554,7 +1732,7 @@ describe('performMagic', () => {
     state.rng.rangeInclusive = () => 0
     const commands: Command[] = [
       { op: 'end' },
-      { op: 'raw', opcode: 0x2E, operands: [0, 0, 3] },
+      { op: 'raw', opcode: 0x2e, operands: [0, 0, 3] },
       { op: 'end' },
       { op: 'setDialogStyleNarration' },
       { op: 'showDialog', messageIndex: 13364, text: '失败　没有效果' },
@@ -1576,8 +1754,11 @@ describe('performMagic', () => {
       gs,
     })
 
-    expect(state.battleDialogQueue?.[0]).toMatchObject({ text: '失败　没有效果', style: 'narration' })
-    expect(bus.drain().some(c => c.cmd.op === 'showBattleMessage')).toBe(false)
+    expect(state.battleDialogQueue?.[0]).toMatchObject({
+      text: '失败　没有效果',
+      style: 'narration',
+    })
+    expect(bus.drain().some((c) => c.cmd.op === 'showBattleMessage')).toBe(false)
   })
 
   it('夺魂成功:巫抗 0、掷 0 也命中(0x2E 用 >= 跟进原版后期修复,旧 > 会上限 90% 失败)', () => {
@@ -1586,7 +1767,7 @@ describe('performMagic', () => {
     state.rng.rangeInclusive = () => 0 // 掷出最小值 0
     const commands: Command[] = [
       { op: 'end' },
-      { op: 'raw', opcode: 0x2E, operands: [0, 4, 3] }, // 命中→设status;抵抗→跳 ip3 失败分支
+      { op: 'raw', opcode: 0x2e, operands: [0, 4, 3] }, // 命中→设status;抵抗→跳 ip3 失败分支
       { op: 'end' },
       { op: 'setDialogStyleNarration' },
       { op: 'showDialog', messageIndex: 13364, text: '失败　没有效果' },
@@ -1621,8 +1802,19 @@ describe('performMagic', () => {
       if (opts.ip === 42) gs.fScriptSuccess = false
     })
     performMagic({
-      state, casterIsEnemy: false, casterIdx: 0, spellId: 7, targetIsEnemy: true, targetIdx: 0,
-      spells: [spell], magics: [magic], playerRoles, bus, commands: [{ op: 'end' }], runScript, gs,
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: true,
+      targetIdx: 0,
+      spells: [spell],
+      magics: [magic],
+      playerRoles,
+      bus,
+      commands: [{ op: 'end' }],
+      runScript,
+      gs,
     })
     expect(playerRoles.roles[0]!.mp).toBe(22) // MP 仍扣(sdlpal fight.c:4190 总扣)
     expect(bus.drain().filter((c) => c.cmd.op === 'playMagicAnim')).toHaveLength(0) // 失败 → 无效果动画
@@ -1658,9 +1850,7 @@ describe('performMagic', () => {
     expect(playerRoles.roles[0]!.mp).toBe(3) // 不扣
     expect(bus.drain()).toEqual([]) // 不 emit
     expect(runScript).not.toHaveBeenCalled()
-    expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining('not enough MP'),
-    )
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('not enough MP'))
     warnSpy.mockRestore()
   })
 
@@ -1727,8 +1917,12 @@ describe('performMagic', () => {
       runScript: () => {},
     })
     expect(playerRoles.roles[0]!.hp).toBeLessThan(500) // 敌方魔法真扣血(autoDefend rng 浮动,断言掉血即可)
-    const dmgCmd = bus.drain().find(c => c.cmd.op === 'showDamageNum')
-    expect(dmgCmd?.cmd).toMatchObject({ op: 'showDamageNum', target: { kind: 'player', idx: 0 }, color: 'blue' })
+    const dmgCmd = bus.drain().find((c) => c.cmd.op === 'showDamageNum')
+    expect(dmgCmd?.cmd).toMatchObject({
+      op: 'showDamageNum',
+      target: { kind: 'player', idx: 0 },
+      color: 'blue',
+    })
   })
 
   it('敌人非攻击 type(summon)但 baseDamage>0 → 仍结算伤害(E2 gate type-agnostic,sdlpal fight.c:4772)', () => {
@@ -1778,9 +1972,7 @@ describe('performMagic', () => {
 
     expect(bus.drain()).toEqual([])
     expect(runScript).not.toHaveBeenCalled()
-    expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining('spell id 999 not found'),
-    )
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('spell id 999 not found'))
     warnSpy.mockRestore()
   })
 
@@ -1806,13 +1998,11 @@ describe('performMagic', () => {
 
     expect(bus.drain()).toEqual([])
     expect(runScript).not.toHaveBeenCalled()
-    expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining('magic 99'),
-    )
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('magic 99'))
     warnSpy.mockRestore()
   })
 
-  it('target=\'all\' → battleCtx.target=undefined,仍 emit + 仍 runScript', () => {
+  it("target='all' → battleCtx.target=undefined,仍 emit + 仍 runScript", () => {
     const { state, playerRoles, bus } = makeState({
       role: { mp: 30 },
       enemies: [{}, {}, {}],
@@ -1884,8 +2074,7 @@ describe('performMagic', () => {
     state.players[0]!.pos = { x: 240, y: 170 }
     state.players[0]!.spriteNumOverride = 1
     const runScript: RunScriptFn = vi.fn((opts) => {
-      if (opts.ip === 10)
-        state.players[0]!.spriteNumOverride = 295
+      if (opts.ip === 10) state.players[0]!.spriteNumOverride = 295
     })
 
     performMagic({
@@ -1910,21 +2099,26 @@ describe('performMagic', () => {
     expect((runScript as ReturnType<typeof vi.fn>).mock.calls[0]![0].ip).toBe(10)
     expect(state.players[0]!.spriteNumOverride).toBe(1) // 闪色阶段仍用旧 sprite
     expect(state.battleAnim?.frames.length).toBeGreaterThan(7)
-    expect(state.battleAnim?.frames.some(f => f.sound === 9)).toBe(true)
+    expect(state.battleAnim?.frames.some((f) => f.sound === 9)).toBe(true)
     expect(gs.pendingSounds ?? []).not.toContain(335) // trance:原版 DefMagicAnim effect=0xFFFF 早退,magic.sound 335 不播(fight.c:2480-2484/2501)
     // L19:闪色 6 帧(旧精灵 iColorShift 渐变)后,**不再硬切**,而是接 72 步 dither crossfade
     //   (fight.c:4234-4240 VIDEO_BackupScreen→LoadBattleSprites→iColorShift=0→MakeScene→FadeScene)。
     const fr = state.battleAnim!.frames
     const flashStart = fr.length - SUMMON_FADE_STEPS - 6
-    expect(fr.slice(flashStart, flashStart + 6).map(f => f.fighters?.[0]?.iColorShift)).toEqual([0, 2, 4, 6, 8, 10])
+    expect(fr.slice(flashStart, flashStart + 6).map((f) => f.fighters?.[0]?.iColorShift)).toEqual([
+      0, 2, 4, 6, 8, 10,
+    ])
     // fade 段:72 帧,每帧已切到新精灵 295 + iColorShift=0,复用 summon crossfade 引擎(fadeDir='out' 不画神/不隐队员)。
     const fadeFrames = fr.slice(-SUMMON_FADE_STEPS)
     expect(fadeFrames.length).toBe(SUMMON_FADE_STEPS)
-    expect(fadeFrames.every(f =>
-      f.summon?.fadeDir === 'out'
-      && f.fighters?.[0]?.iColorShift === 0
-      && f.fighters?.[0]?.spriteNumOverride === 295,
-    )).toBe(true)
+    expect(
+      fadeFrames.every(
+        (f) =>
+          f.summon?.fadeDir === 'out' &&
+          f.fighters?.[0]?.iColorShift === 0 &&
+          f.fighters?.[0]?.spriteNumOverride === 295,
+      ),
+    ).toBe(true)
     expect(fadeFrames[0]!.summon?.fadeStep).toBe(0)
     expect(fadeFrames.at(-1)!.summon?.fadeStep).toBe(SUMMON_FADE_STEPS - 1)
     expect(state.battleAnim?.hasSummonFade).toBe(true) // present 据此在非 fade 帧(闪色)快照 from
@@ -1934,14 +2128,21 @@ describe('performMagic', () => {
       iColorShift: 0,
       spriteNumOverride: 295,
     })
-    expect(bus.drain().map(c => c.cmd).filter(c => c.op === 'playMagicAnim')).toEqual([{
-      op: 'playMagicAnim',
-      magicId: 47,
-      casterType: 'player',
-      casterIdx: 0,
-      targetType: 'player',
-      targetIdx: 'all',
-    }])
+    expect(
+      bus
+        .drain()
+        .map((c) => c.cmd)
+        .filter((c) => c.op === 'playMagicAnim'),
+    ).toEqual([
+      {
+        op: 'playMagicAnim',
+        magicId: 47,
+        casterType: 'player',
+        casterIdx: 0,
+        targetType: 'player',
+        targetIdx: 'all',
+      },
+    ])
   })
 
   it('斩龙诀式 scriptOnUse 0x35:振屏挂到 OffMagic 起始,不提前写全局 gs.shakeTime', () => {
@@ -1963,13 +2164,33 @@ describe('performMagic', () => {
       spellId: 342,
       targetIsEnemy: true,
       targetIdx: 'all',
-      spells: [makeSpell({ id: 342, magicNumber: 16, scriptOnUse: 43111, flags: {
-        usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: true,
-      } })],
-      magics: [makeMagic({
-        id: 16, effect: 11, type: 'attackWhole', xOffset: 0, yOffset: 44,
-        speed: 0, fireDelay: 0, effectTimes: 0, shake: 0, baseDamage: 280,
-      })],
+      spells: [
+        makeSpell({
+          id: 342,
+          magicNumber: 16,
+          scriptOnUse: 43111,
+          flags: {
+            usableOutsideBattle: false,
+            usableInBattle: true,
+            usableToEnemy: true,
+            applyToAll: true,
+          },
+        }),
+      ],
+      magics: [
+        makeMagic({
+          id: 16,
+          effect: 11,
+          type: 'attackWhole',
+          xOffset: 0,
+          yOffset: 44,
+          speed: 0,
+          fireDelay: 0,
+          effectTimes: 0,
+          shake: 0,
+          baseDamage: 280,
+        }),
+      ],
       playerRoles,
       bus,
       commands: [{ op: 'end' }],
@@ -1980,9 +2201,11 @@ describe('performMagic', () => {
 
     expect(gs.shakeTime).toBe(0)
     const frames = state.battleAnim?.frames ?? []
-    const firstMagicIdx = frames.findIndex(f => f.overlays?.some(o => o.kind === 'magic' && o.spriteChunk === 11))
+    const firstMagicIdx = frames.findIndex((f) =>
+      f.overlays?.some((o) => o.kind === 'magic' && o.spriteChunk === 11),
+    )
     expect(firstMagicIdx).toBeGreaterThan(0)
-    expect(frames.slice(0, firstMagicIdx).some(f => f.shake)).toBe(false)
+    expect(frames.slice(0, firstMagicIdx).some((f) => f.shake)).toBe(false)
     expect(frames[firstMagicIdx]?.shake).toEqual({ time: 14, level: 4 })
   })
 })
@@ -2065,7 +2288,11 @@ describe('performItem', () => {
   it('队员 use,非 consuming 物品 → 跑脚本但不扣库存', () => {
     const { state, playerRoles, bus } = makeState()
     const gs = makeGameState([{ itemId: 7, count: 3 }])
-    const item = makeItem({ id: 7, scriptOnUse: 42, flags: { ...makeItem().flags, consuming: false } })
+    const item = makeItem({
+      id: 7,
+      scriptOnUse: 42,
+      flags: { ...makeItem().flags, consuming: false },
+    })
     const runScript: RunScriptFn = vi.fn()
 
     performItem({
@@ -2111,9 +2338,7 @@ describe('performItem', () => {
 
     expect(gs.inventory[0]!.count).toBe(0) // 不动
     expect(runScript).not.toHaveBeenCalled()
-    expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining('no inventory for item 3'),
-    )
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('no inventory for item 3'))
     warnSpy.mockRestore()
   })
 
@@ -2141,9 +2366,7 @@ describe('performItem', () => {
 
     expect(gs.inventory[0]!.count).toBe(5) // 不动
     expect(runScript).not.toHaveBeenCalled()
-    expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining('no inventory for item 3'),
-    )
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('no inventory for item 3'))
     warnSpy.mockRestore()
   })
 
@@ -2195,13 +2418,11 @@ describe('performItem', () => {
 
     expect(gs.inventory[0]!.count).toBe(5)
     expect(runScript).not.toHaveBeenCalled()
-    expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining('item id 999 not found'),
-    )
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('item id 999 not found'))
     warnSpy.mockRestore()
   })
 
-  it('target=\'all\' → battleCtx.target=undefined,仍按 consuming 扣 inventory + 仍 runScript', () => {
+  it("target='all' → battleCtx.target=undefined,仍按 consuming 扣 inventory + 仍 runScript", () => {
     const { state, playerRoles, bus } = makeState()
     const gs = makeGameState([{ itemId: 5, count: 2 }])
     const item = makeItem({ id: 5, scriptOnUse: 50 })
@@ -2270,21 +2491,28 @@ describe('performItem', () => {
 // ============================================================================
 describe('buff 端到端(0x2D 施 buff → status → 战斗效果;user 2026-06-05 求证)', () => {
   const buffCtx = (s: { state: BattleState; playerRoles: PlayerRoles; gs: GameState }): BattleCtx =>
-    ({ state: s.state, target: { type: 'player', idx: 0 }, playerRoles: s.playerRoles, gs: s.gs } as BattleCtx)
+    ({
+      state: s.state,
+      target: { type: 'player', idx: 0 },
+      playerRoles: s.playerRoles,
+      gs: s.gs,
+    }) as BattleCtx
 
   it('天罡战气 → 0x2D[5,3] 置 bravery=3 → 单体物攻必暴击 ×3(对照无 buff;fight.c:3640)', () => {
-    const mk = () => makeState({
-      role: { level: 10, attackStrength: 200 },
-      enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 99999 }],
-      forceRoll: 1, forceFloat: 1, // crit roll≠0(无 buff 不暴击);jitter=1
-    })
+    const mk = () =>
+      makeState({
+        role: { level: 10, attackStrength: 200 },
+        enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 99999 }],
+        forceRoll: 1,
+        forceFloat: 1, // crit roll≠0(无 buff 不暴击);jitter=1
+      })
     // 对照:无 buff
     const a = mk()
     performAttack(a.state, playerActor, 0, a.bus, a.playerRoles)
     const dmgNoBuff = 99999 - a.state.enemies[0]!.e.health
     // 真 0x2D opcode 施 buff
     const b = mk()
-    const r = dispatchBattleOpcode(0x2D, [5, 3, 0], buffCtx(b))
+    const r = dispatchBattleOpcode(0x2d, [5, 3, 0], buffCtx(b))
     expect(r.consumed).toBe(true)
     expect(b.state.players[0]!.status.bravery).toBe(3) // status 置位
     performAttack(b.state, playerActor, 0, b.bus, b.playerRoles)
@@ -2293,16 +2521,19 @@ describe('buff 端到端(0x2D 施 buff → status → 战斗效果;user 2026-06-
   })
 
   it('金刚咒 → 0x2D[6,3] 置 protect=3 → 敌物攻伤害减半(attack.ts:335;fight.c:5059)', () => {
-    const mk = () => makeState({
-      role: { hp: 500, maxHP: 500, defense: 10 },
-      enemies: [{ level: 5, attackStrength: 100, defense: 10, physicalResistance: 1, health: 100 }],
-      forceRoll: 1, // 固定 rng:str+1 / +1;fAutoDefend=(1>=10)=false
-    })
+    const mk = () =>
+      makeState({
+        role: { hp: 500, maxHP: 500, defense: 10 },
+        enemies: [
+          { level: 5, attackStrength: 100, defense: 10, physicalResistance: 1, health: 100 },
+        ],
+        forceRoll: 1, // 固定 rng:str+1 / +1;fAutoDefend=(1>=10)=false
+      })
     const a = mk()
     performAttack(a.state, enemyActor, 0, a.bus, a.playerRoles)
     const dmgNoBuff = 500 - a.playerRoles.roles[0]!.hp
     const b = mk()
-    dispatchBattleOpcode(0x2D, [6, 3, 0], buffCtx(b))
+    dispatchBattleOpcode(0x2d, [6, 3, 0], buffCtx(b))
     expect(b.state.players[0]!.status.protect).toBe(3)
     performAttack(b.state, enemyActor, 0, b.bus, b.playerRoles)
     const dmgBuff = 500 - b.playerRoles.roles[0]!.hp
@@ -2313,7 +2544,7 @@ describe('buff 端到端(0x2D 施 buff → status → 战斗效果;user 2026-06-
 
   it('仙风云体术 → 0x2D[7,3] 置 haste=3 → 行动 dexterity ×3(battle-system.ts:620→formulas.ts:209)', () => {
     const b = makeState({ role: { dexterity: 30 } })
-    dispatchBattleOpcode(0x2D, [7, 3, 0], buffCtx(b))
+    dispatchBattleOpcode(0x2d, [7, 3, 0], buffCtx(b))
     expect(b.state.players[0]!.status.haste).toBe(3)
     // 真 turn-order 消费点读 status.haste>0 → getPlayerActualDexterity ×3(battle-system.ts:620-624)
     const hasted = b.state.players[0]!.status.haste > 0
@@ -2324,9 +2555,10 @@ describe('buff 端到端(0x2D 施 buff → status → 战斗效果;user 2026-06-
     const b = makeState({
       role: { level: 10, attackStrength: 200 },
       enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 99999 }],
-      forceRoll: 1, forceFloat: 1,
+      forceRoll: 1,
+      forceFloat: 1,
     })
-    dispatchBattleOpcode(0x2D, [5, 3, 0], buffCtx(b))
+    dispatchBattleOpcode(0x2d, [5, 3, 0], buffCtx(b))
     expect(b.state.players[0]!.status.bravery).toBe(3)
     // 本回合物攻仍吃 bravery(行动不动 status)→ 证明未在使用前清零
     performAttack(b.state, playerActor, 0, b.bus, b.playerRoles)

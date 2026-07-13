@@ -131,7 +131,7 @@ describe('decideEnemyAction', () => {
 
   it('B2:wMagic==0xFFFF + 必出魔法 → pass(哨兵,fight.c:4663 goto end 什么不做)', () => {
     const action = decideEnemyAction({
-      enemy: minimalEnemy({ magic: 0xFFFF, magicRate: 10 }),
+      enemy: minimalEnemy({ magic: 0xffff, magicRate: 10 }),
       alivePlayers: [{ idx: 0, hp: 100 }],
       rng: createSeedableRng(1),
     })
@@ -146,7 +146,10 @@ describe('decideEnemyAction', () => {
     const action = decideEnemyAction({
       enemy: minimalEnemy({ magic: 0, magicRate: 0 }),
       alivePlayers: [{ idx: 1, hp: 50 }],
-      party: [{ idx: 0, hp: 0 }, { idx: 1, hp: 50 }], // idx0 死
+      party: [
+        { idx: 0, hp: 0 },
+        { idx: 1, hp: 50 },
+      ], // idx0 死
       rng: { ...createSeedableRng(1), rangeInclusive: () => seq[k++] ?? 1 },
     })
     expect(action.target).toBe(1) // 跳过死者 idx0,重摇命中活者 idx1
@@ -179,7 +182,11 @@ describe('decideEnemyAction', () => {
       rng: { ...createSeedableRng(1), rangeInclusive: () => seq[k++] ?? 2 },
       status: { confused: 1 },
       selfIdx: 9, // 不选中自己
-      enemySlots: [{ idx: 0, hp: 0 }, { idx: 1, hp: 0 }, { idx: 2, hp: 50 }],
+      enemySlots: [
+        { idx: 0, hp: 0 },
+        { idx: 1, hp: 0 },
+        { idx: 2, hp: 50 },
+      ],
     })
     expect(action.type).toBe('attack-mate')
     expect(action.target).toBe(2) // 跳过死 idx0 + 空 idx1,重摇命中活 idx2
@@ -189,7 +196,10 @@ describe('decideEnemyAction', () => {
   it('B2:敌 confused 选中自己 → pass(fight.c:4594 iTarget==self goto end)', () => {
     const action = decideEnemyAction({
       enemy: minimalEnemy(),
-      alivePlayers: [{ idx: 0, hp: 100 }, { idx: 1, hp: 100 }], // 2 个防 range()=>1 越界
+      alivePlayers: [
+        { idx: 0, hp: 100 },
+        { idx: 1, hp: 100 },
+      ], // 2 个防 range()=>1 越界
       rng: { ...createSeedableRng(1), range: () => 1 }, // 选 aliveEnemies[1]=self
       status: { confused: 1 },
       selfIdx: 1,
@@ -201,12 +211,20 @@ describe('decideEnemyAction', () => {
   it('同 seed 决策稳定(确定性 — T23 baseline 对拍前提)', () => {
     const a1 = decideEnemyAction({
       enemy: minimalEnemy({ magic: 50, magicRate: 5 }),
-      alivePlayers: [{ idx: 0, hp: 100 }, { idx: 1, hp: 50 }, { idx: 2, hp: 80 }],
+      alivePlayers: [
+        { idx: 0, hp: 100 },
+        { idx: 1, hp: 50 },
+        { idx: 2, hp: 80 },
+      ],
       rng: createSeedableRng(42),
     })
     const a2 = decideEnemyAction({
       enemy: minimalEnemy({ magic: 50, magicRate: 5 }),
-      alivePlayers: [{ idx: 0, hp: 100 }, { idx: 1, hp: 50 }, { idx: 2, hp: 80 }],
+      alivePlayers: [
+        { idx: 0, hp: 100 },
+        { idx: 1, hp: 50 },
+        { idx: 2, hp: 80 },
+      ],
       rng: createSeedableRng(42),
     })
     expect(a1).toEqual(a2)

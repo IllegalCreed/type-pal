@@ -22,10 +22,10 @@ export interface Tilemap {
 }
 
 export interface PaletteCycle {
-  start: number          // 起始下标(参与循环的色块在调色板中的位置)
-  length: number         // 段长
-  step: number           // 每帧前进步数
-  frameInterval: number  // 多少帧推进一次
+  start: number // 起始下标(参与循环的色块在调色板中的位置)
+  length: number // 段长
+  step: number // 每帧前进步数
+  frameInterval: number // 多少帧推进一次
 }
 
 export interface Palette {
@@ -44,9 +44,9 @@ export interface Palette {
 export interface SpriteFrame {
   width: number
   height: number
-  anchorX: number   // 原版精灵的"脚下中心点"
+  anchorX: number // 原版精灵的"脚下中心点"
   anchorY: number
-  image: string     // 对应 PNG 文件名
+  image: string // 对应 PNG 文件名
 }
 
 export interface SpriteSet {
@@ -121,7 +121,10 @@ export interface EventObjectsFile {
 }
 
 /** 像素坐标(M5 P0.0 起:party / npcs / camera 统一用像素,不再用 cell)。 */
-export interface PixelPos { x: number; y: number }
+export interface PixelPos {
+  x: number
+  y: number
+}
 
 /** ENEMYPOS table(M3.5,DATA.MKF chunk 13)
  *
@@ -136,5 +139,5 @@ export interface PixelPos { x: number; y: number }
  * 运行时 `layouts[state.enemies.length - 1][i]` 取第 i 个 enemy 位置。
  */
 export interface EnemyPosTable {
-  layouts: ReadonlyArray<ReadonlyArray<{ x: number, y: number }>>
+  layouts: ReadonlyArray<ReadonlyArray<{ x: number; y: number }>>
 }

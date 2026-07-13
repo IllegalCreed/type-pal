@@ -54,9 +54,7 @@ export function createSelectionMenu(
 ): SelectionMenuState {
   // sdlpal PAL_ReadMenu / MagicSelectionMenuInit:初始 cursor 按 default item,
   // 不因 disabled/fEnabled=FALSE 改跳到第一个可选项。
-  const cursor = items.length === 0
-    ? 0
-    : Math.min(Math.max(0, defaultCursor), items.length - 1)
+  const cursor = items.length === 0 ? 0 : Math.min(Math.max(0, defaultCursor), items.length - 1)
   const state = {
     items,
     cursor,
@@ -152,7 +150,7 @@ export function createTripleMenu(
 }
 
 export function moveTripleUp(s: TripleMenuState): void {
-  s.selection = (((s.selection - 1) + 3) % 3) as 0 | 1 | 2
+  s.selection = ((s.selection - 1 + 3) % 3) as 0 | 1 | 2
 }
 
 export function moveTripleDown(s: TripleMenuState): void {

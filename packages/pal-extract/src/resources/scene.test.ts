@@ -44,9 +44,27 @@ describe('dumpScene', () => {
   ]
 
   const fakeScenes: Scene[] = [
-    { mapNum: 0, scriptOnEnter: 0, scriptOnTeleport: 0, eventObjectIndex: 0, raw: new Uint16Array(4) },
-    { mapNum: 12, scriptOnEnter: 5, scriptOnTeleport: 0, eventObjectIndex: 0, raw: new Uint16Array(4) },
-    { mapNum: 13, scriptOnEnter: 0, scriptOnTeleport: 0, eventObjectIndex: 2, raw: new Uint16Array(4) },
+    {
+      mapNum: 0,
+      scriptOnEnter: 0,
+      scriptOnTeleport: 0,
+      eventObjectIndex: 0,
+      raw: new Uint16Array(4),
+    },
+    {
+      mapNum: 12,
+      scriptOnEnter: 5,
+      scriptOnTeleport: 0,
+      eventObjectIndex: 0,
+      raw: new Uint16Array(4),
+    },
+    {
+      mapNum: 13,
+      scriptOnEnter: 0,
+      scriptOnTeleport: 0,
+      eventObjectIndex: 2,
+      raw: new Uint16Array(4),
+    },
   ]
 
   it('scene 1 含两个 NPC', () => {
@@ -79,9 +97,7 @@ describe('dumpScene', () => {
   })
 
   it('triggerScript=0 → triggerLabel undefined', () => {
-    const eos: EventObject[] = [
-      { ...fakeEventObjects[0]!, triggerScript: 0, autoScript: 0 },
-    ]
+    const eos: EventObject[] = [{ ...fakeEventObjects[0]!, triggerScript: 0, autoScript: 0 }]
     const result = dumpScene(1, fakeScenes, eos)
     expect(result.eventObjects[0]?.triggerLabel).toBeUndefined()
     expect(result.eventObjects[0]?.autoLabel).toBeUndefined()
@@ -98,9 +114,27 @@ describe('dumpScene', () => {
 
 describe('dumpScene triggerMode 字段(M3.5)', () => {
   const fakeScenes: Scene[] = [
-    { mapNum: 0, scriptOnEnter: 0, scriptOnTeleport: 0, eventObjectIndex: 0, raw: new Uint16Array(4) },
-    { mapNum: 12, scriptOnEnter: 0, scriptOnTeleport: 0, eventObjectIndex: 0, raw: new Uint16Array(4) },
-    { mapNum: 13, scriptOnEnter: 0, scriptOnTeleport: 0, eventObjectIndex: 1, raw: new Uint16Array(4) },
+    {
+      mapNum: 0,
+      scriptOnEnter: 0,
+      scriptOnTeleport: 0,
+      eventObjectIndex: 0,
+      raw: new Uint16Array(4),
+    },
+    {
+      mapNum: 12,
+      scriptOnEnter: 0,
+      scriptOnTeleport: 0,
+      eventObjectIndex: 0,
+      raw: new Uint16Array(4),
+    },
+    {
+      mapNum: 13,
+      scriptOnEnter: 0,
+      scriptOnTeleport: 0,
+      eventObjectIndex: 1,
+      raw: new Uint16Array(4),
+    },
   ]
 
   it('SceneEventObject dump 含 triggerMode raw u16', () => {

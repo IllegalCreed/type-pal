@@ -17,18 +17,18 @@
  */
 
 import type { Item } from '@type-pal/shared'
+import type { IndexedImage } from '../../assets/png.js'
 import type { GameState } from '../../core/game-state.js'
 import type { ShopMenuState } from '../../core/menu/shop-menu.js'
-import type { IndexedImage } from '../../assets/png.js'
+import { drawNumber } from '../draw-number.js'
+import { type GlyphTable, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
-import { renderText, type GlyphTable } from '../font.js'
 import { drawBox, drawSingleLineBox } from './draw-box.js'
 import { drawConfirmBox } from './draw-confirm.js'
-import { drawNumber } from '../draw-number.js'
 
 // sdlpal ui.h 真值色
-const MENUITEM_COLOR = 0x4F
-const MENUITEM_COLOR_SELECTED_FIRST = 0xF9
+const MENUITEM_COLOR = 0x4f
+const MENUITEM_COLOR_SELECTED_FIRST = 0xf9
 const MENUITEM_COLOR_SELECTED_TOTAL = 6
 const SPRITENUM_ITEMBOX = 70 // ui.h:110
 
@@ -43,7 +43,9 @@ const OWNED_BOX = { x: 20, y: 100, len: 5 }
 const CASH_BOX = { x: 20, y: 141, len: 5 }
 
 function selectedColor(): number {
-  return MENUITEM_COLOR_SELECTED_FIRST + Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL
+  return (
+    MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
+  )
 }
 
 /** opaque blit(同 draw-inventory)。 */
@@ -66,7 +68,7 @@ function blitSpriteShadow(fb: Framebuffer, frame: IndexedImage, dstX: number, ds
       const fbY = dstY + y
       if (fbX < 0 || fbX >= fb.width || fbY < 0 || fbY >= fb.height) continue
       const cur = fb.indices[fbY * fb.width + fbX]!
-      fb.writePixel(fbX, fbY, (cur & 0xF0) | ((cur & 0x0F) >> 1))
+      fb.writePixel(fbX, fbY, (cur & 0xf0) | ((cur & 0x0f) >> 1))
     }
   }
 }
@@ -100,8 +102,12 @@ export function drawShopMenu(input: DrawShopInput): void {
 
   // 1. 列表 box(sdlpal PAL_CreateBox(PAL_XY(122,8), 8, 8, 1, FALSE))
   drawBox({
-    fb, x: LIST_BOX.x, y: LIST_BOX.y,
-    rows: LIST_BOX.rows, cols: LIST_BOX.cols, style: 1,
+    fb,
+    x: LIST_BOX.x,
+    y: LIST_BOX.y,
+    rows: LIST_BOX.rows,
+    cols: LIST_BOX.cols,
+    style: 1,
     uiSpriteFrames,
   })
 
@@ -112,9 +118,13 @@ export function drawShopMenu(input: DrawShopInput): void {
     renderText(fb, it.label, ITEM_NAME.x, y, color, glyphs, true)
     const price = Number(it.rightText ?? '0')
     drawNumber(
-      fb, price, 6,
+      fb,
+      price,
+      6,
       { x: ITEM_PRICE_X, y: ITEM_PRICE_Y_BASE + i * ITEM_NAME.lineH },
-      'yellow', 'right', uiSpriteFrames,
+      'yellow',
+      'right',
+      uiSpriteFrames,
     )
   })
 
@@ -138,12 +148,28 @@ export function drawShopMenu(input: DrawShopInput): void {
   drawSingleLineBox({ fb, x: OWNED_BOX.x, y: OWNED_BOX.y, len: OWNED_BOX.len, uiSpriteFrames })
   renderText(fb, '现有', OWNED_BOX.x + 10, OWNED_BOX.y + 10, 0, glyphs, false)
   const owned = selItem ? ownedCount(gs, selItem.id) : 0
-  drawNumber(fb, owned, 6, { x: OWNED_BOX.x + 49, y: OWNED_BOX.y + 15 }, 'yellow', 'right', uiSpriteFrames)
+  drawNumber(
+    fb,
+    owned,
+    6,
+    { x: OWNED_BOX.x + 49, y: OWNED_BOX.y + 15 },
+    'yellow',
+    'right',
+    uiSpriteFrames,
+  )
 
   // "金钱" 框 + dwCash(CASH_LABEL=21 WORD.DAT="金钱")
   drawSingleLineBox({ fb, x: CASH_BOX.x, y: CASH_BOX.y, len: CASH_BOX.len, uiSpriteFrames })
   renderText(fb, '金钱', CASH_BOX.x + 10, CASH_BOX.y + 10, 0, glyphs, false)
-  drawNumber(fb, gs.dwCash, 6, { x: CASH_BOX.x + 49, y: CASH_BOX.y + 15 }, 'yellow', 'right', uiSpriteFrames)
+  drawNumber(
+    fb,
+    gs.dwCash,
+    6,
+    { x: CASH_BOX.x + 49, y: CASH_BOX.y + 15 },
+    'yellow',
+    'right',
+    uiSpriteFrames,
+  )
 
   // 4. confirm 阶段:yes/no 框(sdlpal PAL_ConfirmMenu = PAL_SelectionMenu(2, 0, {否,是}))
   //    两 SingleLineBox 在 (130,100) / (205,100),文字 (145,110) / (220,110),默认 No。
@@ -154,8 +180,8 @@ export function drawShopMenu(input: DrawShopInput): void {
 
 // ── 卖菜单 overlay(sdlpal uigame.c:1709-1752 PAL_SellMenu_OnItemChange)─────────────
 // 全屏 picker(draw-inventory.ts noDesc=true)之上叠两个单行框:金钱 @(100,150) + 售价 @(224,150)。
-const SELL_CASH_BOX = { x: 100, y: 150, len: 5 }   // PAL_CreateSingleLineBoxWithShadow(PAL_XY(100,150),5,...)
-const SELL_PRICE_BOX = { x: 224, y: 150, len: 5 }  // x += 124 → 224
+const SELL_CASH_BOX = { x: 100, y: 150, len: 5 } // PAL_CreateSingleLineBoxWithShadow(PAL_XY(100,150),5,...)
+const SELL_PRICE_BOX = { x: 224, y: 150, len: 5 } // x += 124 → 224
 
 export interface DrawSellOverlayInput {
   fb: Framebuffer
@@ -172,18 +198,43 @@ export function drawSellOverlay(input: DrawSellOverlayInput): void {
   const { fb, gs, items, cursorItemId, uiSpriteFrames, glyphs } = input
 
   // 金钱框 @(100,150)(uigame.c:1735-1737):CASH_LABEL=21 "金钱" color0 无影 + dwCash yellow right 6
-  drawSingleLineBox({ fb, x: SELL_CASH_BOX.x, y: SELL_CASH_BOX.y, len: SELL_CASH_BOX.len, uiSpriteFrames })
+  drawSingleLineBox({
+    fb,
+    x: SELL_CASH_BOX.x,
+    y: SELL_CASH_BOX.y,
+    len: SELL_CASH_BOX.len,
+    uiSpriteFrames,
+  })
   renderText(fb, '金钱', SELL_CASH_BOX.x + 10, SELL_CASH_BOX.y + 10, 0, glyphs, false)
-  drawNumber(fb, gs.dwCash, 6, { x: SELL_CASH_BOX.x + 48, y: SELL_CASH_BOX.y + 15 }, 'yellow', 'right', uiSpriteFrames)
+  drawNumber(
+    fb,
+    gs.dwCash,
+    6,
+    { x: SELL_CASH_BOX.x + 48, y: SELL_CASH_BOX.y + 15 },
+    'yellow',
+    'right',
+    uiSpriteFrames,
+  )
 
   // 售价框 @(224,150)(uigame.c:1744-1751):框无条件画;sellable 时 SELLMENU_LABEL_PRICE=25 "售价" + price/2
-  drawSingleLineBox({ fb, x: SELL_PRICE_BOX.x, y: SELL_PRICE_BOX.y, len: SELL_PRICE_BOX.len, uiSpriteFrames })
+  drawSingleLineBox({
+    fb,
+    x: SELL_PRICE_BOX.x,
+    y: SELL_PRICE_BOX.y,
+    len: SELL_PRICE_BOX.len,
+    uiSpriteFrames,
+  })
   const item = cursorItemId !== undefined ? items.find((it) => it.id === cursorItemId) : undefined
   if (item?.flags.sellable) {
     renderText(fb, '售价', SELL_PRICE_BOX.x + 10, SELL_PRICE_BOX.y + 10, 0, glyphs, false)
     drawNumber(
-      fb, Math.floor(item.price / 2), 6,
-      { x: SELL_PRICE_BOX.x + 48, y: SELL_PRICE_BOX.y + 15 }, 'yellow', 'right', uiSpriteFrames,
+      fb,
+      Math.floor(item.price / 2),
+      6,
+      { x: SELL_PRICE_BOX.x + 48, y: SELL_PRICE_BOX.y + 15 },
+      'yellow',
+      'right',
+      uiSpriteFrames,
     )
   }
 }

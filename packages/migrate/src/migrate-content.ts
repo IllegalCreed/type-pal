@@ -1830,7 +1830,8 @@ export function resolveSceneStagePatches(scenes: SceneDef[], tctx: TranslateCtx)
             (tctx.report.unmigrated[`0x6d 目标不可译 ${cmd.scene}:${cmd._addr}`] ?? 0) + 1
           idx = 0
         } else {
-          const arr = (tgt.onEnter ??= [])
+          tgt.onEnter ??= []
+          const arr = tgt.onEnter
           idx = arr.length
           for (const st of folded) {
             // 数字 next 是链内相对下标 → 平移到追加基址;'advance' 相对推进保持
@@ -1920,7 +1921,10 @@ export function propagateBattleFieldDefaults(
     if (o.kind === 'startBattle') hasBattle.add(sid)
     if (o.kind === 'loadScene' && typeof o.scene === 'string') {
       let set = loads.get(sid)
-      if (!set) loads.set(sid, (set = new Set()))
+      if (!set) {
+        set = new Set()
+        loads.set(sid, set)
+      }
       set.add(o.scene)
     }
     if ((o.kind === 'callScript' || o.kind === 'jumpScript') && o.ref && registry) {
@@ -1942,7 +1946,10 @@ export function propagateBattleFieldDefaults(
   for (const [src, tgts] of loads)
     for (const t of tgts) {
       let set = preds.get(t)
-      if (!set) preds.set(t, (set = new Set()))
+      if (!set) {
+        set = new Set()
+        preds.set(t, set)
+      }
       set.add(src)
     }
   const fill = (key: 'battleFieldId' | 'battleMusicId'): string[] => {
@@ -1972,7 +1979,8 @@ export function propagateBattleFieldDefaults(
         s[key] = v
         filled.push(`${s.id}←${v}`)
       } else if (key === 'battleFieldId') {
-        ;(report.battleFieldUnresolved ??= []).push(s.id)
+        report.battleFieldUnresolved ??= []
+        report.battleFieldUnresolved.push(s.id)
       }
     }
     return filled

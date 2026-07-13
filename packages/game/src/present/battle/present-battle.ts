@@ -28,20 +28,26 @@
 
 import type { EnemyPosTable, Item, PlayerRoles, Spell } from '@type-pal/shared'
 import type { IndexedImage } from '../../assets/png.js'
-import type { BattleState, SummonFrameState } from '../../core/battle/battle-state.js'
-import { getBattleLiveRoles, stepDeathFadeRender, stepSummonLoopRender } from '../../core/battle/battle-system.js'
 import { stepBattleAnimRender } from '../../core/battle/battle-anim-driver.js'
-import { stepPaletteFade } from '../../core/palette-fade.js'
+import type { BattleState, SummonFrameState } from '../../core/battle/battle-state.js'
+import {
+  getBattleLiveRoles,
+  stepDeathFadeRender,
+  stepSummonLoopRender,
+} from '../../core/battle/battle-system.js'
 import type { BusEntry } from '../../core/command-bus.js'
 import type { GameState } from '../../core/game-state.js'
-import type { GlyphTable } from '../font.js'
-import type { Framebuffer } from '../framebuffer.js'
-import { type BattleBgAsset, drawBattleBg } from './draw-battle-bg.js'
-import { applyScreenWave } from '../screen-wave.js'
-import { applyScreenShake } from '../screen-shake.js'
+import { stepPaletteFade } from '../../core/palette-fade.js'
 import { type DialogBoxDrawCtx, drawDialogBox } from '../dialog-box.js'
+import type { GlyphTable } from '../font.js'
+import { renderText } from '../font.js'
+import type { Framebuffer } from '../framebuffer.js'
+import { applyScreenShake } from '../screen-shake.js'
+import { applyScreenWave } from '../screen-wave.js'
+import { type BattleBgAsset, drawBattleBg } from './draw-battle-bg.js'
 import { drawBattleEffectOverlay, drawBattleMagicOverlay } from './draw-battle-effect.js'
 import { FloatingNumsLayer } from './draw-battle-num.js'
+import { drawBattleSettlement } from './draw-battle-settlement.js'
 import {
   blitFrame,
   computeEnemyAnchor,
@@ -50,8 +56,6 @@ import {
   type SpriteAsset,
 } from './draw-battle-sprites.js'
 import { drawBattleUI } from './draw-battle-ui.js'
-import { drawBattleSettlement } from './draw-battle-settlement.js'
-import { renderText } from '../font.js'
 
 export interface BattleAssets {
   /** sprite key 规约见 draw-battle-sprites:`player-${spriteNumInBattle}` / `enemy-${enemy.id}`。 */
@@ -104,7 +108,9 @@ export interface BattleAssets {
 export class BattlePresent {
   private readonly floatingNums = new FloatingNumsLayer()
   /** 战斗单行消息条(逃跑失败等);currentFrame >= expiryFrame 时消失。 */
-  private battleMsg: { text: string, expiryFrame: number, pos?: { x: number, y: number } } | undefined
+  private battleMsg:
+    | { text: string; expiryFrame: number; pos?: { x: number; y: number } }
+    | undefined
   /** 召唤 crossfade(PAL_BattleFadeScene)用:上一帧渲染快照(fade 起手 = 对侧"from"场景)。 */
   private lastFrameBuf: Uint8Array | undefined
 
@@ -156,7 +162,9 @@ export class BattlePresent {
     // D19 入场 fade:首帧(introFade 激活 + 尚无 backup)快照入场前 fb(= 上一帧大世界,fb 跨帧保留)作 dither
     //   backup;无 introFade(已进战斗)→ 清。须在任何 fb 绘制前快照。
     if (state.introFade) {
-      if (!this.introBackup) { this.introBackup = new Uint8Array(fb.indices) }
+      if (!this.introBackup) {
+        this.introBackup = new Uint8Array(fb.indices)
+      }
     } else {
       this.introBackup = undefined
     }
@@ -182,8 +190,7 @@ export class BattlePresent {
           const y = Math.max(anchor.y - yOff, 10)
           this.floatingNums.emit({ x, y, value: cmd.value, color: cmd.color, currentFrame })
         }
-      }
-      else if (cmd.op === 'showBattleMessage') {
+      } else if (cmd.op === 'showBattleMessage') {
         // 战斗单行消息条(逃跑失败等);显示 durationMs(缺省 800ms,battle tick 40ms/帧)。
         const frames = Math.ceil((cmd.durationMs ?? 800) / 40)
         this.battleMsg = { text: cmd.text, expiryFrame: currentFrame + frames, pos: cmd.pos }
@@ -230,7 +237,8 @@ export class BattlePresent {
 
     // DM9:kind='magic' overlay 与敌我精灵统一 z 排序(battle.c:441-442 PAL_Y+sLayerOffset);
     //   kind='effect'(物理命中特效)C 为 scene 后直接 blit gpScreen 恒最上,保持 3.5 区单独画。
-    const magicOverlayEntries: Array<{ x: number; sortY: number; draw: (f: Framebuffer) => void }> = []
+    const magicOverlayEntries: Array<{ x: number; sortY: number; draw: (f: Framebuffer) => void }> =
+      []
     const collectMagicOv = (ov: NonNullable<BattleState['battleAnim']>['overlay']): void => {
       if (!ov || ov.kind !== 'magic') return
       magicOverlayEntries.push({
@@ -302,17 +310,33 @@ export class BattlePresent {
 
     // 5. UI overlay(4 图标主菜单 / 杂项盒 / 物品二级 / 法术物品网格 / target 箭头 / HP/MP 状态栏)
     drawBattleUI(
-      fb, state, liveRoles, assets.spells, assets.items, gs, assets.glyphs,
-      assets.uiSpriteFrames, assets.enemyPos, assets.objectPoisons, assets.itemIcons,
+      fb,
+      state,
+      liveRoles,
+      assets.spells,
+      assets.items,
+      gs,
+      assets.glyphs,
+      assets.uiSpriteFrames,
+      assets.enemyPos,
+      assets.objectPoisons,
+      assets.itemIcons,
     )
 
     // 5.5 战斗单行消息条 —— sdlpal 逃跑失败 label 31 @(130,75)、投掷/用物品名 @(210,50),均色15。
     //   pos 缺省回落逃跑失败位(130,75);currentFrame 过期自动消失。
     if (this.battleMsg) {
       if (currentFrame < this.battleMsg.expiryFrame && assets.glyphs)
-        renderText(fb, this.battleMsg.text, this.battleMsg.pos?.x ?? 130, this.battleMsg.pos?.y ?? 75, 15, assets.glyphs, true)
-      else if (currentFrame >= this.battleMsg.expiryFrame)
-        this.battleMsg = undefined
+        renderText(
+          fb,
+          this.battleMsg.text,
+          this.battleMsg.pos?.x ?? 130,
+          this.battleMsg.pos?.y ?? 75,
+          15,
+          assets.glyphs,
+          true,
+        )
+      else if (currentFrame >= this.battleMsg.expiryFrame) this.battleMsg = undefined
     }
 
     // 6. 战斗内对话框(scriptOnReady / scriptOnTurnStart 0xFFFF showDialog)——
@@ -352,7 +376,8 @@ export class BattlePresent {
     if (gs.shakeTime !== 0) {
       applyScreenShake(fb.indices, gs)
     } else {
-      const fshake = state.battleAnim?.frames[state.battleAnim.renderIdx ?? state.battleAnim.idx]?.shake
+      const fshake =
+        state.battleAnim?.frames[state.battleAnim.renderIdx ?? state.battleAnim.idx]?.shake
       if (fshake && fshake.level > 0) {
         applyScreenShake(fb.indices, { shakeTime: fshake.time, shakeLevel: fshake.level })
       }
@@ -364,12 +389,17 @@ export class BattlePresent {
    * fade 起手快照"from"场景(上一帧),逐步把低 nibble dither 逼近本帧渲染的"to"场景,显示累积态。
    * 高 nibble(调色板块)立即切换,低 nibble(亮度)渐变 → PAL 特征淡变。
    */
-  private applySummonFade(fb: Framebuffer, summon: SummonFrameState | undefined, hasSummonFade: boolean): void {
+  private applySummonFade(
+    fb: Framebuffer,
+    summon: SummonFrameState | undefined,
+    hasSummonFade: boolean,
+  ): void {
     const current = fb.indices as Uint8Array
     if (!summon || summon.fadeStep === undefined) {
       // 非 fade 帧:仅召唤动画期快照本帧场景(下次 fade 起手的 "from");非召唤动画不快照(省 64KB/帧 memcpy)。
       if (hasSummonFade) {
-        if (!this.lastFrameBuf || this.lastFrameBuf.length !== current.length) this.lastFrameBuf = new Uint8Array(current.length)
+        if (!this.lastFrameBuf || this.lastFrameBuf.length !== current.length)
+          this.lastFrameBuf = new Uint8Array(current.length)
         this.lastFrameBuf.set(current)
       }
       this.summonFadeBuf = undefined
@@ -378,8 +408,16 @@ export class BattlePresent {
     }
     const rgIndex = [0, 3, 1, 5, 2, 4] as const
     // fade 起手:morphing buf = 上一帧快照("from")。
-    if (summon.fadeStep === 0 || !this.summonFadeBuf || this.summonFadeBuf.length !== current.length) {
-      this.summonFadeBuf = new Uint8Array(this.lastFrameBuf && this.lastFrameBuf.length === current.length ? this.lastFrameBuf : current)
+    if (
+      summon.fadeStep === 0 ||
+      !this.summonFadeBuf ||
+      this.summonFadeBuf.length !== current.length
+    ) {
+      this.summonFadeBuf = new Uint8Array(
+        this.lastFrameBuf && this.lastFrameBuf.length === current.length
+          ? this.lastFrameBuf
+          : current,
+      )
       this.summonFadeApplied = -1
     }
     const buf = this.summonFadeBuf
@@ -391,12 +429,12 @@ export class BattlePresent {
         const a = current[k]!
         let b = buf[k]!
         if (outerI > 0) {
-          const aLow = a & 0x0F
-          const bLow = b & 0x0F
+          const aLow = a & 0x0f
+          const bLow = b & 0x0f
           if (aLow > bLow) b++
           else if (aLow < bLow) b--
         }
-        buf[k] = ((a & 0xF0) | (b & 0x0F)) & 0xFF
+        buf[k] = ((a & 0xf0) | (b & 0x0f)) & 0xff
       }
     }
     this.summonFadeApplied = summon.fadeStep

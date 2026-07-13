@@ -36,8 +36,8 @@ ENDFONT`
     expect(glyphs[0]!.height).toBe(16)
     expect(glyphs[0]!.bitmap).toHaveLength(32) // 16 row × 2 byte
     expect(glyphs[0]!.bitmap[0]).toBe(0x00)
-    expect(glyphs[0]!.bitmap[4]).toBe(0x0F)
-    expect(glyphs[0]!.bitmap[5]).toBe(0xF0)
+    expect(glyphs[0]!.bitmap[4]).toBe(0x0f)
+    expect(glyphs[0]!.bitmap[5]).toBe(0xf0)
   })
 
   it('parses ASCII 8-wide glyph', () => {

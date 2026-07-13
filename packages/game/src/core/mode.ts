@@ -7,8 +7,13 @@
 import type { InputSnapshot } from '@type-pal/shared'
 import { tickBattle } from './battle/battle-system.js'
 import type { CommandBus } from './command-bus.js'
+import {
+  tickAutoScripts,
+  tickChaseTimer,
+  tickEventSystem,
+  tickSceneAutoFadeIn,
+} from './event-system.js'
 import type { GameState } from './game-state.js'
-import { tickAutoScripts, tickChaseTimer, tickEventSystem, tickSceneAutoFadeIn } from './event-system.js'
 import { tickMenu } from './menu/menu-mode.js'
 import { tickSceneSystem } from './scene-system.js'
 
@@ -37,9 +42,9 @@ export function tickByMode(gs: GameState, input: InputSnapshot, bus: CommandBus)
   //   追逐 timer 不冻(否则边平移边走的 NPC 会在 pan 那几帧静止)。
   const w = gs.eventCursor?.waiting
   const shouldRunAutoScripts =
-    !gs.sceneLoading
-    && gs.mode === 'event'
-    && (w === undefined || w === 'frame-wait' || w === 'scene-fade' || w === 'camera-pan')
+    !gs.sceneLoading &&
+    gs.mode === 'event' &&
+    (w === undefined || w === 'frame-wait' || w === 'scene-fade' || w === 'camera-pan')
   if (shouldRunAutoScripts) {
     tickAutoScripts(gs)
     // sdlpal play.c:235-238 PAL_GameUpdate 体内每帧:追逐 timer 自减(0x62 驱魔香/0x63 十里香 到期复位 wChaseRange)。

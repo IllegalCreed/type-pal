@@ -4,9 +4,7 @@ import { createFramebuffer } from '../present/framebuffer.js'
 import { playTrademarkFallback } from './trademark-fallback.js'
 
 const MOCK_MANIFEST = {
-  chunks: [
-    { chunkIndex: 6, frameCount: 2, frames: [{ index: 0 }, { index: 1 }] },
-  ],
+  chunks: [{ chunkIndex: 6, frameCount: 2, frames: [{ index: 0 }, { index: 1 }] }],
 }
 
 function mockFrame(fill: number): IndexedImage {

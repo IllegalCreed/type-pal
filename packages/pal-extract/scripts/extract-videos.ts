@@ -67,15 +67,24 @@ async function convertOne(id: number): Promise<ConvertResult> {
   // -y 覆盖已存在;-loglevel error 静音冗余信息;只在出错时输出
   const args = [
     '-y',
-    '-loglevel', 'error',
-    '-i', rawPath,
-    '-c:v', 'libx264',
-    '-preset', 'slow',
-    '-crf', '18',
-    '-pix_fmt', 'yuv420p', // 浏览器最广兼容
-    '-c:a', 'aac',
-    '-b:a', '96k',
-    '-movflags', '+faststart', // mp4 metadata 前置,允许流式开始播
+    '-loglevel',
+    'error',
+    '-i',
+    rawPath,
+    '-c:v',
+    'libx264',
+    '-preset',
+    'slow',
+    '-crf',
+    '18',
+    '-pix_fmt',
+    'yuv420p', // 浏览器最广兼容
+    '-c:a',
+    'aac',
+    '-b:a',
+    '96k',
+    '-movflags',
+    '+faststart', // mp4 metadata 前置,允许流式开始播
     mp4Path,
   ]
   await execFileP('ffmpeg', args)
@@ -93,8 +102,7 @@ async function main(): Promise<void> {
   // ffmpeg 必须在 PATH;预 check 给清晰错误
   try {
     await execFileP('ffmpeg', ['-version'])
-  }
-  catch {
+  } catch {
     console.error('[extract-videos] ERROR: ffmpeg 不在 PATH。')
     console.error('  macOS: brew install ffmpeg')
     console.error('  其他: 见 https://ffmpeg.org/download.html')
@@ -107,10 +115,11 @@ async function main(): Promise<void> {
     results.push(r)
     if (r.skipped) {
       console.log(`[extract-videos] ${id}.avi → ${id}.mp4 (skipped, ${r.mp4Size}B 已最新)`)
-    }
-    else {
+    } else {
       const ratio = ((r.mp4Size / r.rawSize) * 100).toFixed(1)
-      console.log(`[extract-videos] ${id}.avi (${r.rawSize}B) → ${id}.mp4 (${r.mp4Size}B, ${ratio}%)`)
+      console.log(
+        `[extract-videos] ${id}.avi (${r.rawSize}B) → ${id}.mp4 (${r.mp4Size}B, ${ratio}%)`,
+      )
     }
   }
 

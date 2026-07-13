@@ -1,9 +1,8 @@
-import { describe, expect, it } from 'vitest'
 import { existsSync, readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { dirname } from 'node:path'
-import { openMkf, readChunk, chunkCount } from '../../io/mkf.js'
+import { describe, expect, it } from 'vitest'
+import { chunkCount, openMkf, readChunk } from '../../io/mkf.js'
 import { decodeRngAnim, rngBlitDelta } from './rng-frames.js'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
@@ -25,12 +24,12 @@ describe('rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值', () => {
 
   it('0x02 skip 2 bytes(dst 推进,surface 不改)', () => {
     const surface = new Uint8Array(10)
-    rngBlitDelta(new Uint8Array([0x02, 0x06, 0xAA, 0xBB, 0x00]), surface)
+    rngBlitDelta(new Uint8Array([0x02, 0x06, 0xaa, 0xbb, 0x00]), surface)
     // skip 2 bytes 后 dst=2,0x06 写 1 pair = surface[2,3] = AA,BB
     expect(surface[0]).toBe(0)
     expect(surface[1]).toBe(0)
-    expect(surface[2]).toBe(0xAA)
-    expect(surface[3]).toBe(0xBB)
+    expect(surface[2]).toBe(0xaa)
+    expect(surface[3]).toBe(0xbb)
   })
 
   it('0x03 + n=2 skip (2+1)*2 = 6 bytes', () => {
@@ -43,7 +42,7 @@ describe('rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值', () => {
   it('0x06-0x0a fall-through 写 (op-0x05) 个 2-byte pair', () => {
     const surface = new Uint8Array(20)
     // 0x0a: 5 个 pair = 10 字节
-    rngBlitDelta(new Uint8Array([0x0a, 1,2,3,4,5,6,7,8,9,10, 0x00]), surface)
+    rngBlitDelta(new Uint8Array([0x0a, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0x00]), surface)
     for (let i = 0; i < 10; i++) {
       expect(surface[i]).toBe(i + 1)
     }
@@ -51,32 +50,32 @@ describe('rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值', () => {
 
   it('0x0b + n=2 写 (2+1)=3 个 pair', () => {
     const surface = new Uint8Array(10)
-    rngBlitDelta(new Uint8Array([0x0b, 0x02, 1,2,3,4,5,6, 0x00]), surface)
+    rngBlitDelta(new Uint8Array([0x0b, 0x02, 1, 2, 3, 4, 5, 6, 0x00]), surface)
     expect(Array.from(surface.subarray(0, 6))).toEqual([1, 2, 3, 4, 5, 6])
   })
 
   it('0x0c + w=1 写 (1+1)=2 个 pair', () => {
     const surface = new Uint8Array(10)
-    rngBlitDelta(new Uint8Array([0x0c, 0x01, 0x00, 1,2,3,4, 0x00]), surface)
+    rngBlitDelta(new Uint8Array([0x0c, 0x01, 0x00, 1, 2, 3, 4, 0x00]), surface)
     expect(Array.from(surface.subarray(0, 4))).toEqual([1, 2, 3, 4])
   })
 
   it('0x0d-0x10 重复同 2-byte (op-0x0b) 次', () => {
     const surface = new Uint8Array(20)
     // 0x10 = 重复 5 次,共 10 字节
-    rngBlitDelta(new Uint8Array([0x10, 0xAB, 0xCD, 0x00]), surface)
+    rngBlitDelta(new Uint8Array([0x10, 0xab, 0xcd, 0x00]), surface)
     for (let i = 0; i < 5; i++) {
-      expect(surface[i * 2]).toBe(0xAB)
-      expect(surface[i * 2 + 1]).toBe(0xCD)
+      expect(surface[i * 2]).toBe(0xab)
+      expect(surface[i * 2 + 1]).toBe(0xcd)
     }
   })
 
   it('0x11 + n=3 写同 2-byte (3+1)=4 次', () => {
     const surface = new Uint8Array(20)
-    rngBlitDelta(new Uint8Array([0x11, 0x03, 0xEF, 0xFE, 0x00]), surface)
+    rngBlitDelta(new Uint8Array([0x11, 0x03, 0xef, 0xfe, 0x00]), surface)
     for (let i = 0; i < 4; i++) {
-      expect(surface[i * 2]).toBe(0xEF)
-      expect(surface[i * 2 + 1]).toBe(0xFE)
+      expect(surface[i * 2]).toBe(0xef)
+      expect(surface[i * 2 + 1]).toBe(0xfe)
     }
   })
 
@@ -99,9 +98,7 @@ describe('rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值', () => {
 describe.skipIf(!existsSync(RNG_PATH))(
   'decodeRngAnim — 真 RNG.MKF chunk 6(PAL_TrademarkScreen fallback)',
   () => {
-    const rngBuf = existsSync(RNG_PATH)
-      ? new Uint8Array(readFileSync(RNG_PATH))
-      : new Uint8Array()
+    const rngBuf = existsSync(RNG_PATH) ? new Uint8Array(readFileSync(RNG_PATH)) : new Uint8Array()
 
     it('chunk 6 解出 N>0 帧 + 每帧 320×200 PNG', () => {
       const rngMkf = openMkf(rngBuf)
@@ -120,7 +117,7 @@ describe.skipIf(!existsSync(RNG_PATH))(
         // PNG signature: 89 50 4E 47 0D 0A 1A 0A
         expect(f.pngBytes[0]).toBe(0x89)
         expect(f.pngBytes[1]).toBe(0x50)
-        expect(f.pngBytes[2]).toBe(0x4E)
+        expect(f.pngBytes[2]).toBe(0x4e)
         expect(f.pngBytes[3]).toBe(0x47)
       }
     })

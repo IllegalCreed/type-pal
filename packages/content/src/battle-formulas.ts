@@ -34,7 +34,11 @@ export function calcBaseDamage(atk: number, def: number): number {
  * 物理伤害（应用物理 resist）。fight.c:253-285 PAL_CalcPhysicalAttackDamage。
  * resist != 0 → base /= resist；resist == 0 不除（防 div-by-zero）。
  */
-export function calcPhysicalAttackDamage(atk: number, def: number, physicalResistance: number): number {
+export function calcPhysicalAttackDamage(
+  atk: number,
+  def: number,
+  physicalResistance: number,
+): number {
   let damage = calcBaseDamage(atk, def)
   if (physicalResistance !== 0) damage = asShort(Math.trunc(damage / physicalResistance))
   return damage
@@ -90,14 +94,26 @@ export function calcMagicDamage(input: MagicDamageInput): number {
     if (elem > NUM_ELEM) {
       mult = 10 - input.poisonRes / input.resistMult
     } else {
-      const arr = [input.elemRes.wind, input.elemRes.thunder, input.elemRes.water, input.elemRes.fire, input.elemRes.earth]
-      mult = 10 - arr[elem - 1]! / input.resistMult
+      const arr = [
+        input.elemRes.wind,
+        input.elemRes.thunder,
+        input.elemRes.water,
+        input.elemRes.fire,
+        input.elemRes.earth,
+      ]
+      mult = 10 - (arr[elem - 1] ?? 0) / input.resistMult
     }
     damage = asShort(Math.trunc(damage * mult))
     damage = asShort(Math.trunc(damage / 5))
     if (elem <= NUM_ELEM) {
-      const field = [input.fieldEffect.wind, input.fieldEffect.thunder, input.fieldEffect.water, input.fieldEffect.fire, input.fieldEffect.earth]
-      damage = asShort(damage * (10 + field[elem - 1]!))
+      const field = [
+        input.fieldEffect.wind,
+        input.fieldEffect.thunder,
+        input.fieldEffect.water,
+        input.fieldEffect.fire,
+        input.fieldEffect.earth,
+      ]
+      damage = asShort(damage * (10 + (field[elem - 1] ?? 0)))
       damage = asShort(Math.trunc(damage / 10))
     }
   }
@@ -177,7 +193,10 @@ export interface ActionQueueItem {
  *   2. 队员塞队列
  *   3. dex 降序稳定排序（同 dex 保填充序 = 敌人先于队员）
  */
-export function buildActionQueue(players: readonly PlayerSlot[], enemies: readonly EnemySlot[]): ActionQueueItem[] {
+export function buildActionQueue(
+  players: readonly PlayerSlot[],
+  enemies: readonly EnemySlot[],
+): ActionQueueItem[] {
   const items: ActionQueueItem[] = []
   for (const e of enemies) {
     const first: ActionQueueItem = { isEnemy: true, idx: e.idx, dex: e.dex, fIsSecond: false }
@@ -220,11 +239,31 @@ export interface BattleStatus {
 }
 
 export function emptyBattleStatus(): BattleStatus {
-  return { confused: 0, paralyzed: 0, sleep: 0, silence: 0, puppet: 0, bravery: 0, protect: 0, haste: 0, slow: 0, dualAttack: 0 }
+  return {
+    confused: 0,
+    paralyzed: 0,
+    sleep: 0,
+    silence: 0,
+    puppet: 0,
+    bravery: 0,
+    protect: 0,
+    haste: 0,
+    slow: 0,
+    dualAttack: 0,
+  }
 }
 
 const STATUS_KEYS = [
-  'confused', 'paralyzed', 'sleep', 'silence', 'puppet', 'bravery', 'protect', 'haste', 'slow', 'dualAttack',
+  'confused',
+  'paralyzed',
+  'sleep',
+  'silence',
+  'puppet',
+  'bravery',
+  'protect',
+  'haste',
+  'slow',
+  'dualAttack',
 ] as const satisfies readonly (keyof BattleStatus)[]
 
 /** 回合末对一个战斗单位全 status 计数器 -1（fight.c:1632-1638 遍历 kStatusAll）。原地改。 */

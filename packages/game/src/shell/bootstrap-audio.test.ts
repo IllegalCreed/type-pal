@@ -1,6 +1,6 @@
-import type { AudioManager } from './audio.js'
 import { describe, expect, it } from 'vitest'
 import { createInitialGameState } from '../core/game-state.js'
+import type { AudioManager } from './audio.js'
 import { syncShellAudio } from './bootstrap.js'
 
 function makeAudioSpy(): AudioManager & { calls: string[] } {

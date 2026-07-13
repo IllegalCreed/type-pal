@@ -1,5 +1,10 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { initBootLoading, finishBootLoading, failBootLoading, setBootLoadingNote } from './boot-loading.js'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import {
+  failBootLoading,
+  finishBootLoading,
+  initBootLoading,
+  setBootLoadingNote,
+} from './boot-loading.js'
 
 /** 注入 index.html 同款 overlay 骨架(id 必须与 boot-loading.ts 约定一致)。 */
 function mountOverlay(): void {
@@ -55,7 +60,10 @@ describe('boot-loading(启动加载覆盖层)', () => {
     expect(fill.style.width).toBe('99%')
     // 第二波:再发起 4 项未完成(挂着的 fetch 抬高分母)→ raw = 4/8 = 50,显示不回退仍 99
     underlying.mockImplementation(() => new Promise<Response>(() => {})) // 永不 resolve
-    void fetch('/5'); void fetch('/6'); void fetch('/7'); void fetch('/8')
+    void fetch('/5')
+    void fetch('/6')
+    void fetch('/7')
+    void fetch('/8')
     await flushRender()
     expect(fill.style.width).toBe('99%')
   })

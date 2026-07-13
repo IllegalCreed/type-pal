@@ -2,8 +2,9 @@
  * 精灵 chunk 解析与索引位图 PNG 编码。
  * 参考 reference/sdlpal/sprite.c::PAL_LoadSprite。
  */
-import { PNG } from 'pngjs'
+
 import { parseSpriteChunk, type RleFrame } from '@type-pal/shared'
+import { PNG } from 'pngjs'
 
 // `parseSpriteChunk` 已搬到 @type-pal/shared(extractor 与 runtime 共用,见
 // tileset 资源管线优化 S1)。本文件 re-export,保持 extractor 内部调用点不变。
@@ -30,12 +31,10 @@ export function encodeIndexedPng(
 ): Uint8Array {
   const png = new PNG({ width, height })
   for (let i = 0; i < width * height; i++) {
-    // biome-ignore lint/style/noNonNullAssertion: pixels length = width * height, index always in bounds
     const v = pixels[i]!
     png.data[i * 4] = v
     png.data[i * 4 + 1] = v
     png.data[i * 4 + 2] = v
-    // biome-ignore lint/style/noNonNullAssertion: opaque length matches pixels when provided
     png.data[i * 4 + 3] = opaque ? (opaque[i]! ? 255 : 0) : 255
   }
   return new Uint8Array(PNG.sync.write(png))

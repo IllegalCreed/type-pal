@@ -53,8 +53,8 @@ export function AmbienceTab(props: {
           <span className="k">{ambiences.length} 条</span>
         </div>
         <div className="insp-empty" style={{ marginTop: 8 }}>
-          全局昼夜色调(全帧乘法滤镜):脚本「切氛围」指令引用这里的 id,跨场景持续、随存档。
-          白 = 不染;夜晚缺省值拟合自原版夜盘。改色即改玩家看到的夜(引擎试玩验)。
+          全局昼夜色调(全帧乘法滤镜):脚本「切氛围」指令引用这里的 id,跨场景持续、随存档。 白 =
+          不染;夜晚缺省值拟合自原版夜盘。改色即改玩家看到的夜(引擎试玩验)。
         </div>
         <button
           type="button"

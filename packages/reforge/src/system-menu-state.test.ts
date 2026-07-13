@@ -47,7 +47,10 @@ describe('系统菜单状态机', () => {
     expect(systemConfirm({ ...s, cursor: 2 }).state.confirmYes).toBe(true)
   })
   test('switch 阶段:四方向 toggle 关/开;commit 落定 set-music/set-sound 并关菜单(回 hub)', () => {
-    const s = systemConfirm({ ...openSystemMenu(), cursor: 2 }, { musicOn: true, soundOn: true }).state
+    const s = systemConfirm(
+      { ...openSystemMenu(), cursor: 2 },
+      { musicOn: true, soundOn: true },
+    ).state
     expect(systemToggleConfirm(s).confirmYes).toBe(false) // 开 → 关
     const off = systemSwitchCommit({ ...s, confirmYes: false })
     expect(off.action).toEqual({ kind: 'set-music', on: false })

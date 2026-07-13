@@ -40,12 +40,10 @@ export function tickMenu(gs: GameState, input: InputSnapshot, bus: CommandBus): 
 function resumeAfterMenusClosed(gs: GameState): void {
   if (gs.battleState) {
     gs.mode = 'battle'
-  }
-  else if (gs.eventCursor?.waiting === 'shop') {
+  } else if (gs.eventCursor?.waiting === 'shop') {
     gs.eventCursor.waiting = undefined
     gs.mode = 'event'
-  }
-  else {
+  } else {
     gs.mode = 'explore'
   }
 }

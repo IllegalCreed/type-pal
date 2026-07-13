@@ -2,7 +2,13 @@
 //   底图复用 renderMapThumbnail(64×128 地图 → 96×96 缩略图,见 bootstrap);叠加主角/NPC/宝物
 //   定位点 + 可视区白框。坐标:实体世界像素 → 缩略图像素,与缩略图同一 camera(-16,-16)/降采样变换。
 import type { Command } from '@type-pal/shared'
-import { getGlobalCommands, getGlobalLabelMap, OP_ADD_CASH, OP_ADD_ITEM, OP_ADD_MAGIC } from '../core/event-system.js'
+import {
+  getGlobalCommands,
+  getGlobalLabelMap,
+  OP_ADD_CASH,
+  OP_ADD_ITEM,
+  OP_ADD_MAGIC,
+} from '../core/event-system.js'
 import type { GameState, NpcState } from '../core/game-state.js'
 import { getCurrentMapNum } from '../core/scene-system.js'
 
@@ -58,7 +64,10 @@ export const DOT_COLORS = {
 export type EventKind = 'item' | 'teleport' | 'other'
 
 /** triggerLabel → 全局命令下标:优先 labelMap,缺则按 `L_<n>` 直解(identity,n 即全局 ip)。 */
-function resolveLabelIp(labelMap: Readonly<Record<string, number>>, label: string | undefined): number | undefined {
+function resolveLabelIp(
+  labelMap: Readonly<Record<string, number>>,
+  label: string | undefined,
+): number | undefined {
   if (!label) return undefined
   const mapped = labelMap[label]
   if (mapped !== undefined) return mapped
@@ -106,7 +115,8 @@ export function collectEventKinds(
   labelMap: Readonly<Record<string, number>>,
 ): Map<number, { kind: EventKind; name?: string }> {
   const out = new Map<number, { kind: EventKind; name?: string }>()
-  for (const npc of gs.npcs ?? []) out.set(npc.id, classifyTrigger(commands, labelMap, npc.triggerLabel))
+  for (const npc of gs.npcs ?? [])
+    out.set(npc.id, classifyTrigger(commands, labelMap, npc.triggerLabel))
   return out
 }
 
@@ -134,7 +144,8 @@ export function collectMinimapData(
     if (!npcVisible(npc)) continue
     const k = kinds.get(npc.id)
     if (k?.kind === 'teleport') continue // 传送门不标
-    if (k?.kind === 'item') items.push({ x: npc.x, y: npc.y, name: k.name }) // 宝物(含无 sprite 的走过即拾)
+    if (k?.kind === 'item')
+      items.push({ x: npc.x, y: npc.y, name: k.name }) // 宝物(含无 sprite 的走过即拾)
     else if (npc.spriteNum > 0) npcs.push({ x: npc.x, y: npc.y }) // NPC:可见且有 sprite
   }
   return {
@@ -248,7 +259,10 @@ export interface MinimapController {
 }
 
 const clampZoom = (i: number): number =>
-  Math.max(0, Math.min(ZOOM_WORLD_WIDTHS.length - 1, Number.isFinite(i) ? Math.round(i) : DEFAULT_ZOOM_INDEX))
+  Math.max(
+    0,
+    Math.min(ZOOM_WORLD_WIDTHS.length - 1, Number.isFinite(i) ? Math.round(i) : DEFAULT_ZOOM_INDEX),
+  )
 
 export function setupMinimap(deps: MinimapDeps): MinimapController {
   let showNpc = localStorage.getItem(LS_NPC) !== '0'
@@ -312,14 +326,26 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
   /** 场景 tab:全图视图。 */
   const drawScene = (canvas: HTMLCanvasElement): void => {
     const gs = deps.getGs()
-    drawMinimap(canvas, getBase(getCurrentMapNum()), collectMinimapData(gs, currentKinds(gs)), toggles(), WHOLE_VIEW)
+    drawMinimap(
+      canvas,
+      getBase(getCurrentMapNum()),
+      collectMinimapData(gs, currentKinds(gs)),
+      toggles(),
+      WHOLE_VIEW,
+    )
   }
   /** widget:以主角为中心、按缩放档裁剪的视图(固定世界px档位,全图皆 64×128)。 */
   const drawWidget = (canvas: HTMLCanvasElement): void => {
     const gs = deps.getGs()
     const data = collectMinimapData(gs, currentKinds(gs))
     const target = ZOOM_WORLD_WIDTHS[widgetZoom] ?? ZOOM_WORLD_WIDTHS[DEFAULT_ZOOM_INDEX]!
-    drawMinimap(canvas, getBase(getCurrentMapNum()), data, toggles(), computeView(target, data.player.x, data.player.y))
+    drawMinimap(
+      canvas,
+      getBase(getCurrentMapNum()),
+      data,
+      toggles(),
+      computeView(target, data.player.x, data.player.y),
+    )
   }
   const redrawScene = (): void => {
     if (sceneCanvas?.isConnected) drawScene(sceneCanvas)
@@ -394,7 +420,8 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
     if (isActive()) rafId = requestAnimationFrame(loop)
   }
   const ensureLoop = (): void => {
-    if (!rafId && isActive() && typeof requestAnimationFrame === 'function') rafId = requestAnimationFrame(loop)
+    if (!rafId && isActive() && typeof requestAnimationFrame === 'function')
+      rafId = requestAnimationFrame(loop)
   }
 
   // 快捷键 -/= 缩放 widget(仅 widget 启用 + 焦点不在输入框时;游戏不消费这俩键)。

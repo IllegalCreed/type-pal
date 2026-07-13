@@ -97,8 +97,8 @@ describe('playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port
       fb,
       canvasCtx: mockCanvasCtx,
       palette: mockPalette,
-      bitmapUp: mockBitmap(320, 200, 0xAA),
-      bitmapDown: mockBitmap(320, 200, 0xBB),
+      bitmapUp: mockBitmap(320, 200, 0xaa),
+      bitmapDown: mockBitmap(320, 200, 0xbb),
       craneSprite: mockCraneSprite(),
       titleFrame: mockBitmap(64, 32, 0x44),
       nowFn: () => Date.now(),
@@ -107,8 +107,8 @@ describe('playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port
     window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))
     await promise
     // fb 至少含 0xAA(up)或 0xBB(down)或仙鹤 0x0A-0x11 或 title 0x44
-    const hasContent = fb.indices.some((v) =>
-      v === 0xAA || v === 0xBB || (v >= 0x0A && v <= 0x11) || v === 0x44,
+    const hasContent = fb.indices.some(
+      (v) => v === 0xaa || v === 0xbb || (v >= 0x0a && v <= 0x11) || v === 0x44,
     )
     expect(hasContent).toBe(true)
   }, 10_000)

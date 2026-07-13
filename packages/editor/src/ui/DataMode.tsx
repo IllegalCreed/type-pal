@@ -21,21 +21,21 @@ import { useMemo, useState } from 'react'
 import { UpdateSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { buildRefIndex } from '../core/ref-index.js'
+import { AmbienceTab } from './AmbienceTab.js'
 import { BattleFieldTab } from './BattleFieldTab.js'
 import { CutsceneTab } from './CutsceneTab.js'
-import { EntryPointTab } from './EntryPointTab.js'
 import { EnemyTab } from './EnemyTab.js'
+import { EntryPointTab } from './EntryPointTab.js'
 import { EventLibTab } from './EventLibTab.js'
 import { ItemTab } from './ItemTab.js'
 import { MusicTab } from './MusicTab.js'
-import { AmbienceTab } from './AmbienceTab.js'
 import { PoisonTab } from './PoisonTab.js'
 import { SharedScriptTab } from './SharedScriptTab.js'
 import { ShopTab } from './ShopTab.js'
-import { TilesetTab } from './TilesetTab.js'
 import { SkillTab } from './SkillTab.js'
 import { SpriteFrames } from './SpriteFrames.js'
 import { SpriteUploadWizard } from './SpriteUploadWizard.js'
+import { TilesetTab } from './TilesetTab.js'
 import { VarsTab } from './VarsTab.js'
 
 export type DataTab =
@@ -228,7 +228,15 @@ export function DataMode(props: {
   }
 
   if (tab === 'skill') {
-    return <SkillTab skills={skillList} session={session} assetBase={assetBase} projectId={manifest.id} tabBar={tabBar} />
+    return (
+      <SkillTab
+        skills={skillList}
+        session={session}
+        assetBase={assetBase}
+        projectId={manifest.id}
+        tabBar={tabBar}
+      />
+    )
   }
 
   if (tab === 'poison') {
@@ -255,9 +263,7 @@ export function DataMode(props: {
     )
   }
   if (tab === 'music') {
-    return (
-      <MusicTab music={music} musicBase={assetBase.music} session={session} tabBar={tabBar} />
-    )
+    return <MusicTab music={music} musicBase={assetBase.music} session={session} tabBar={tabBar} />
   }
 
   if (tab === 'cutscene') {
@@ -354,6 +360,7 @@ export function DataMode(props: {
             <div className="kind-filter">
               {(['all', 'directional', 'static', 'loop'] as const).map((k) => (
                 <button
+                  type="button"
                   key={k}
                   className={`kchip${kindFilter === k ? ' on' : ''}`}
                   onClick={() => setKindFilter(k)}
@@ -365,6 +372,7 @@ export function DataMode(props: {
             <div className="sprite-list">
               {shown.map((s) => (
                 <button
+                  type="button"
                   key={s.id}
                   className={`arow${s.id === selId ? ' sel' : ''}`}
                   onClick={() => setSelId(s.id)}
@@ -431,13 +439,13 @@ export function DataMode(props: {
             <div className="section">
               <h4>登记</h4>
               <div className="field">
-                <label>id</label>
+                <span className="field-label">id</span>
                 <div className="in mono pick">
                   <span>{sprite.id}</span>
                 </div>
               </div>
               <div className="field">
-                <label>精灵号</label>
+                <span className="field-label">精灵号</span>
                 <div className="in mono">#{sprite.spriteNum}</div>
               </div>
             </div>
@@ -446,7 +454,7 @@ export function DataMode(props: {
                 帧布局 <span className="hint2">可改 · 火把/流水标循环</span>
               </h4>
               <div className="field">
-                <label>类型</label>
+                <span className="field-label">类型</span>
                 <select
                   className="in"
                   value={sprite.layout.kind}
@@ -468,7 +476,7 @@ export function DataMode(props: {
               </div>
               {sprite.layout.kind === 'directional' ? (
                 <div className="field">
-                  <label>每向帧数</label>
+                  <span className="field-label">每向帧数</span>
                   <input
                     className="in mono"
                     type="number"
@@ -490,7 +498,7 @@ export function DataMode(props: {
                 </div>
               ) : sprite.layout.kind === 'loop' ? (
                 <div className="field">
-                  <label>循环帧数</label>
+                  <span className="field-label">循环帧数</span>
                   <input
                     className="in mono"
                     type="number"

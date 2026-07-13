@@ -172,7 +172,6 @@ describe('hasEarlyDitherScreen', () => {
     expect(
       hasEarlyDitherScreen({
         body: [
-          // biome-ignore lint/suspicious/noThenProperty: ScriptCommand 的固定 schema 字段。
           { kind: 'branch', cond: { kind: 'flag', flag: 'x', is: true }, then: [] },
           { kind: 'ditherScreen' },
         ],

@@ -85,8 +85,8 @@ export function CutsceneTab(props: { assetBase: AssetBase; tabBar?: React.ReactN
         <div className="insp-empty" style={{ marginTop: 8 }}>
           脚本里用 <span className="mono">playVideo(视频号)</span> /{' '}
           <span className="mono">playRng(RNG号)</span> 引用一段过场。视频/RNG 本体是只读提取资产,
-          本页只浏览 + 预览(空格/Esc 跳过)。RNG 上色用引擎内定死的正确调色盘,**不用你选**。
-          RNG 创作(排帧成新序列)另属动画编辑页(待做)。
+          本页只浏览 + 预览(空格/Esc 跳过)。RNG 上色用引擎内定死的正确调色盘,**不用你选**。 RNG
+          创作(排帧成新序列)另属动画编辑页(待做)。
         </div>
       </div>
       <div className="canvas-wrap data-body">
@@ -105,7 +105,12 @@ export function CutsceneTab(props: { assetBase: AssetBase; tabBar?: React.ReactN
                   <td className="mono">{v.id}</td>
                   <td>{v.note}</td>
                   <td>
-                    <button type="button" className="btn" disabled={busy} onClick={() => previewVideo(v.id)}>
+                    <button
+                      type="button"
+                      className="btn"
+                      disabled={busy}
+                      onClick={() => previewVideo(v.id)}
+                    >
                       ▶
                     </button>
                   </td>

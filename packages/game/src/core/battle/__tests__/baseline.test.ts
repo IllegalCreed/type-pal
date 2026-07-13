@@ -370,7 +370,7 @@ interface BaselineRunReport {
   deviations: string[]
   /** M5.B-w0.4: 战后采集 ts 端 final state 对照 sdlpal post_battle 段 */
   finalCash: number
-  finalPrimaryExp: number[]   // index = roleId
+  finalPrimaryExp: number[] // index = roleId
 }
 
 /**

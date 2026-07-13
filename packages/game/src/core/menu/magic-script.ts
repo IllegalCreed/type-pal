@@ -26,15 +26,15 @@
  */
 
 import type { Spell } from '@type-pal/shared'
-import type { GameState } from '../game-state.js'
 import { curePlayerPoisonByLevel, getGlobalCommands, getGlobalLabelMap } from '../event-system.js'
+import type { GameState } from '../game-state.js'
 
 const MAX_PLAYER_ROLES = 6
 const SCRIPT_TICK_LIMIT = 256
 
 /** SHORT signed 16-bit cast(sdlpal `(SHORT)operand[N]` 真值)。 */
 function signExtendI16(u: number): number {
-  return (u & 0x8000) ? u - 0x10000 : u
+  return u & 0x8000 ? u - 0x10000 : u
 }
 
 // ── opcode 0x1B / 0x1C / 0x1D 真值(sdlpal script.c:867-950)──────────────────
@@ -49,7 +49,10 @@ function signExtendI16(u: number): number {
 //   - clamp [0, max] 后 origHP==newHP && origMP==newMP → false("Avoid over treatment",global.c:1324)。
 //   上层据此设 g_fScriptSuccess,决定是否扣 MP(满血/死人施法不扣 MP)。
 function applyHPMPDeltaSingle(
-  gs: GameState, roleId: number, hpDelta: number, mpDelta: number,
+  gs: GameState,
+  roleId: number,
+  hpDelta: number,
+  mpDelta: number,
 ): boolean {
   const r = gs.PlayerRolesRuntime
   if ((r.rgwHP[roleId] ?? 0) <= 0) return false // 仅活人
@@ -67,9 +70,7 @@ function applyHPMPDeltaSingle(
 }
 
 /** 遍历队伍逐个调 applyHPMPDeltaSingle(已含仅活人);返回是否至少一个真变化。 */
-function applyHPMPDeltaAll(
-  gs: GameState, hpDelta: number, mpDelta: number,
-): boolean {
+function applyHPMPDeltaAll(gs: GameState, hpDelta: number, mpDelta: number): boolean {
   let any = false
   for (const role of gs.partyMembers) {
     if (applyHPMPDeltaSingle(gs, role, hpDelta, mpDelta)) any = true
@@ -91,7 +92,7 @@ function revivePlayerSingle(gs: GameState, roleId: number, ratioTenths: number):
   const cur = gs.PlayerRolesRuntime.rgwHP[roleId] ?? 0
   const maxHP = gs.PlayerRolesRuntime.rgwMaxHP[roleId] ?? 0
   if (cur === 0) {
-    gs.PlayerRolesRuntime.rgwHP[roleId] = Math.floor(maxHP * ratioTenths / 10)
+    gs.PlayerRolesRuntime.rgwHP[roleId] = Math.floor((maxHP * ratioTenths) / 10)
     curePlayerPoisonByLevel(gs, roleId, 3)
     return true
   }
@@ -164,30 +165,30 @@ export function runMagicScriptSync(
     const delta = signExtendI16(b ?? 0)
 
     switch (cmd.opcode) {
-      case 0x1B: {
+      case 0x1b: {
         // OP_INCREASE_HP — sdlpal script.c:867-894
         // all 分支(C:871-883):g_fScriptSuccess=FALSE 起,任一 PAL_IncreaseHPMP 成功 → TRUE。
         // single 分支(C:889-892):失败(死人/无变化)→ g_fScriptSuccess=FALSE。
         if (applyAll) scriptSuccess = applyHPMPDeltaAll(gs, delta, 0)
-        else if (targetRoleIdOrAll !== 0xFFFF) {
+        else if (targetRoleIdOrAll !== 0xffff) {
           if (!applyHPMPDeltaSingle(gs, targetRoleIdOrAll, delta, 0)) scriptSuccess = false
         }
         break
       }
-      case 0x1C: {
+      case 0x1c: {
         // OP_INCREASE_MP — sdlpal script.c:896-921
         // all 分支(C:900-910)**不碰** g_fScriptSuccess;single 分支(C:916-919)失败 → FALSE。
         if (applyAll) applyHPMPDeltaAll(gs, 0, delta)
-        else if (targetRoleIdOrAll !== 0xFFFF) {
+        else if (targetRoleIdOrAll !== 0xffff) {
           if (!applyHPMPDeltaSingle(gs, targetRoleIdOrAll, 0, delta)) scriptSuccess = false
         }
         break
       }
-      case 0x1D: {
+      case 0x1d: {
         // OP_INCREASE_HP_MP — sdlpal script.c:923-950(HP+MP 同 delta)
         // all 分支(C:927-938)**不碰** g_fScriptSuccess;single 分支(C:944-947)失败 → FALSE。
         if (applyAll) applyHPMPDeltaAll(gs, delta, delta)
-        else if (targetRoleIdOrAll !== 0xFFFF) {
+        else if (targetRoleIdOrAll !== 0xffff) {
           if (!applyHPMPDeltaSingle(gs, targetRoleIdOrAll, delta, delta)) scriptSuccess = false
         }
         break
@@ -203,14 +204,15 @@ export function runMagicScriptSync(
         const ratioTenths = b ?? 0
         let revivedAny: boolean
         if (applyAll) revivedAny = revivePlayerAll(gs, ratioTenths)
-        else if (targetRoleIdOrAll !== 0xFFFF) revivedAny = revivePlayerSingle(gs, targetRoleIdOrAll, ratioTenths)
+        else if (targetRoleIdOrAll !== 0xffff)
+          revivedAny = revivePlayerSingle(gs, targetRoleIdOrAll, ratioTenths)
         else revivedAny = false
         if (!revivedAny) scriptSuccess = false
         break
       }
       default:
-        // 其它 opcode(eg 0x17 等装备 effect、0x19/0x1A 等永久 stat 改)
-        // outside-battle spell 真值实测不 hit 这些;log skip
+      // 其它 opcode(eg 0x17 等装备 effect、0x19/0x1A 等永久 stat 改)
+      // outside-battle spell 真值实测不 hit 这些;log skip
     }
 
     ip++

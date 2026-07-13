@@ -27,7 +27,12 @@ describe('save ops（纯）', () => {
   })
   test('normalizePayload:结构补默认(旧档缺容器字段/新增 luck)不动既有值', () => {
     const w = makeTestWorld()
-    const p = buildPayload(w, { sceneId: 's', pos: { col: 1, row: 2, height: 0 }, facing: 'down' }, 'demo', 1)
+    const p = buildPayload(
+      w,
+      { sceneId: 's', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
+      'demo',
+      1,
+    )
     // 模拟"引擎加字段前的旧档":抹掉后加字段(结构演进,非数值污染)
     const c = p.world.party[0]! as unknown as Record<string, unknown>
     delete c.hiddenExp
@@ -42,7 +47,12 @@ describe('save ops（纯）', () => {
   })
   test('normalizePayload:格式新于引擎 → 抛(宁拒不猜)', () => {
     const w = makeTestWorld()
-    const p = buildPayload(w, { sceneId: 's', pos: { col: 1, row: 2, height: 0 }, facing: 'down' }, 'demo', 1)
+    const p = buildPayload(
+      w,
+      { sceneId: 's', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
+      'demo',
+      1,
+    )
     p.version = SAVE_VERSION + 1
     expect(() => normalizePayload(p)).toThrow(/新于引擎/)
   })

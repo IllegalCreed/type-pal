@@ -1,7 +1,7 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { bootstrap, openDevPicker, selectSceneJump, walk } from '../helpers/bootstrap.js'
+import { baselinePathFor, pixelDiff } from '../helpers/pixel-diff.js'
 import { snapshotCanvas } from '../helpers/snapshot.js'
-import { pixelDiff, baselinePathFor } from '../helpers/pixel-diff.js'
 
 // M5 P0.0:party/npc 改像素坐标(X_STEP=16/Y_STEP=8)。
 type Npc = { id: number; x: number; y: number; triggerMode?: number }
@@ -28,18 +28,22 @@ const TRIGGER_CONTACT_MIN = 4 // sdlpal global.h kTriggerTouchNear..Farthest
  *   Down (South): (-16,+8) 左下;Up   (North): (+16,-8) 右上
  */
 function pickKey(
-  px: number, py: number, tx: number, ty: number,
+  px: number,
+  py: number,
+  tx: number,
+  ty: number,
 ): 'ArrowLeft' | 'ArrowRight' | 'ArrowUp' | 'ArrowDown' | null {
-  const candidates: Array<['ArrowLeft' | 'ArrowRight' | 'ArrowUp' | 'ArrowDown', number, number]> = [
-    ['ArrowRight', 16, 8],
-    ['ArrowLeft', -16, -8],
-    ['ArrowDown', -16, 8],
-    ['ArrowUp', 16, -8],
-  ]
+  const candidates: Array<['ArrowLeft' | 'ArrowRight' | 'ArrowUp' | 'ArrowDown', number, number]> =
+    [
+      ['ArrowRight', 16, 8],
+      ['ArrowLeft', -16, -8],
+      ['ArrowDown', -16, 8],
+      ['ArrowUp', 16, -8],
+    ]
   const dist = (ax: number, ay: number) => Math.abs(ax - tx) + Math.abs(ay - ty)
   const cur = dist(px, py)
   if (cur === 0) return null
-  let best: typeof candidates[0] | null = null
+  let best: (typeof candidates)[0] | null = null
   let bestGain = -Infinity
   for (const c of candidates) {
     const gain = cur - dist(px + c[1], py + c[2])
@@ -75,9 +79,7 @@ test('a9 明雷遇怪 — 跳 scene 15 草妖通道 → 走到 contact → opcod
     const w = window as unknown as Probe
     return { party: w.__game.gs.party, npcs: w.__game.gs.npcs }
   })
-  const contactNpcs = initialState.npcs.filter(
-    (n) => (n.triggerMode ?? 0) >= TRIGGER_CONTACT_MIN,
-  )
+  const contactNpcs = initialState.npcs.filter((n) => (n.triggerMode ?? 0) >= TRIGGER_CONTACT_MIN)
   expect(contactNpcs.length).toBeGreaterThan(0)
 
   // 截图初始 scene 15(visual baseline,party 在 NPC-anchored BFS center)
@@ -93,10 +95,14 @@ test('a9 明雷遇怪 — 跳 scene 15 草妖通道 → 走到 contact → opcod
 
   // 选最近的草妖作 target
   let target = contactNpcs[0]!
-  let minDist = Math.abs(target.x - initialState.party.x) + Math.abs(target.y - initialState.party.y) * 2
+  let minDist =
+    Math.abs(target.x - initialState.party.x) + Math.abs(target.y - initialState.party.y) * 2
   for (const n of contactNpcs) {
     const d = Math.abs(n.x - initialState.party.x) + Math.abs(n.y - initialState.party.y) * 2
-    if (d < minDist) { minDist = d; target = n }
+    if (d < minDist) {
+      minDist = d
+      target = n
+    }
   }
 
   // greedy walk:每 seg 选最逼近 target 的方向键 hold 1 walk 时长。
@@ -104,17 +110,15 @@ test('a9 明雷遇怪 — 跳 scene 15 草妖通道 → 走到 contact → opcod
   // P0.e 简化版:battle 可能瞬间 finalize(空 partyMembers / 资源缺等场景),
   // 用 __battleStartCount 累积观察 — opcode 7 handler 执行即 +1。
   for (let seg = 0; seg < 60; seg++) {
-    const probe = await page.evaluate(
-      () => {
-        const w = window as unknown as Probe
-        return {
-          party: w.__game.gs.party,
-          mode: w.__game.gs.mode,
-          battleStarts: w.__battleStartCount ?? 0,
-        }
-      },
-    )
-    if (probe.battleStarts > 0) break  // opcode 7 已触发 startBattle handler
+    const probe = await page.evaluate(() => {
+      const w = window as unknown as Probe
+      return {
+        party: w.__game.gs.party,
+        mode: w.__game.gs.mode,
+        battleStarts: w.__battleStartCount ?? 0,
+      }
+    })
+    if (probe.battleStarts > 0) break // opcode 7 已触发 startBattle handler
     if (probe.mode === 'event') {
       // 等 event-system 跑 opcode 7;空 walk 推进 tick
       await walk(page, 'ArrowDown', 50)
@@ -126,15 +130,13 @@ test('a9 明雷遇怪 — 跳 scene 15 草妖通道 → 走到 contact → opcod
   }
 
   // 期望:opcode 7 startBattle handler 至少触发一次 + enemyTeamId 是草妖一员(15/16/40)
-  const final = await page.evaluate(
-    () => {
-      const w = window as unknown as Probe
-      return {
-        battleStarts: w.__battleStartCount ?? 0,
-        lastEnemyTeam: w.__lastBattleEnemyTeam,
-      }
-    },
-  )
+  const final = await page.evaluate(() => {
+    const w = window as unknown as Probe
+    return {
+      battleStarts: w.__battleStartCount ?? 0,
+      lastEnemyTeam: w.__lastBattleEnemyTeam,
+    }
+  })
   expect(final.battleStarts).toBeGreaterThan(0)
   // 草妖 trigger script 真值 (scene-015 ip=6/10/14): enemyTeamId ∈ {15, 16, 40}
   expect([15, 16, 40]).toContain(final.lastEnemyTeam)

@@ -13,7 +13,5 @@ export function entityAtCell(
   entities: readonly EntityDef[],
   cell: { col: number; row: number },
 ): EntityDef | null {
-  return (
-    entities.find((e) => e.pos.col === cell.col && e.pos.row === cell.row) ?? null
-  )
+  return entities.find((e) => e.pos.col === cell.col && e.pos.row === cell.row) ?? null
 }

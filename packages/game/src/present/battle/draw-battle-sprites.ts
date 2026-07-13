@@ -217,7 +217,11 @@ function battleSelectBlinkOn(): boolean {
  *
  * 纯函数(blinkOn 作参数 → 可确定性单测)。返回 7 = 高亮,0 = 不高亮。
  */
-export function enemyTargetHighlightShift(state: BattleState, enemyIdx: number, blinkOn: boolean): number {
+export function enemyTargetHighlightShift(
+  state: BattleState,
+  enemyIdx: number,
+  blinkOn: boolean,
+): number {
   if (!blinkOn) return 0
   if ((state.enemies[enemyIdx]?.e.health ?? 0) <= 0) return 0
   if (state.uiState === 'selectTargetEnemy') return enemyIdx === state.uiCursor ? 7 : 0
@@ -327,55 +331,72 @@ export function drawBattleSprites(
     // 敌方 target 选择高亮(sdlpal uibattle.c:1495-1510,ColorShift 7,无箭头)优先于受击闪白。
     const highlight = enemyTargetHighlightShift(state, i, targetBlinkOn)
     // 混乱抖动:X 轴 ±1px(sdlpal battle.c:114-121,confused>0 && !sleep && !paralyzed;淡出中不抖)。
-    const enemyShakeX = (!isFading && enemy.status.confused > 0
-      && enemy.status.sleep <= 0 && enemy.status.paralyzed <= 0)
-      ? confusedShakeDelta(Math.random())
-      : 0
+    const enemyShakeX =
+      !isFading &&
+      enemy.status.confused > 0 &&
+      enemy.status.sleep <= 0 &&
+      enemy.status.paralyzed <= 0
+        ? confusedShakeDelta(Math.random())
+        : 0
     items.push({
       x: pos.x + enemyShakeX,
       y: pos.y,
       frame,
       // 淡出中 iColorShift 归 0(crossfade 自带渐隐);target 高亮 7 优先;否则 render-state(受击闪白 6)。
-      iColorShift: isFading ? 0 : (highlight !== 0 ? highlight : (enemy.iColorShift ?? 0)),
+      iColorShift: isFading ? 0 : highlight !== 0 ? highlight : (enemy.iColorShift ?? 0),
       fadeStep: isFading ? fadeStep : -1,
     })
   })
 
   // 队员(召唤演出期隐藏 → 改画召唤神)
-  if (!hidePlayers) state.players.forEach((p, i) => {
-    const role = playerRoles.roles[p.roleId]
-    // sdlpal fight.c:948-957:死员(hp==0)**照画**倒下帧 2(非傀儡)/ 站立帧 0(傀儡),**不**跳过。
-    //   旧版 `hp<=0 return` 让死员凭空消失 + 死亡定格露站立姿(user 报"起立");此处删 skip 改画死帧。
-    //   (注:本函数须收到**战斗 live roles**,非 static 满血基线 —— present-battle 传 getBattleResources().playerRoles。)
-    if (!role) return
-    // DM10:隐身(0x5C 仙风云体类)期间不画队员 —— battle.c:202-211 `else if (iHidingTime == 0)`
-    //   才 blit;colorShift≠0 例外(解除隐身的渐显演出仍画)。
-    if ((state.iHidingTime ?? 0) > 0 && (p.iColorShift ?? 0) === 0) return
-    const pos = p.pos ?? computePlayerAnchor(state, i)
-    if (!pos) return
-    // D17 0x31:spriteNumOverride(梦蛇295 变身)优先于 role.spriteNumInBattle。
-    const sprite = battleSprites.get(`player-${p.spriteNumOverride ?? role.spriteNumInBattle}`)
-    if (!sprite?.frames[0]) return
-    // 帧号:动画 / 逃跑期间用 render-state currentFrame(攻击 8,9 / 受击 4 / 逃跑站立 0 / 死帧 2 由 anim-driver 写);
-    //   空闲(无 battleAnim/fleeAnim)据 status 算(sdlpal PAL_BattleUpdateFighters fight.c:948-984):
-    //   死(hp==0)→ 2/0 傀儡 / sleep 或濒死 → 1 / 防御 → 3 / else → 0(confused 无特殊帧)。
-    const frameIdx = (state.battleAnim || state.fleeAnim)
-      ? (p.currentFrame ?? 0)
-      : computePlayerBattleIdleFrame(p, role)
-    const frame = sprite.frames[frameIdx] ?? sprite.frames[0]
-    // 混乱抖动:Y 轴 ±1px(sdlpal battle.c:187-196,confused && !sleep && !paralyzed && hp>0 && !濒死)。
-    const playerShakeY = (p.status.confused > 0 && p.status.sleep <= 0 && p.status.paralyzed <= 0
-      && !isPlayerDyingFrame(role.hp, role.maxHP))
-      ? confusedShakeDelta(Math.random())
-      : 0
-    items.push({ x: pos.x, y: pos.y + playerShakeY, frame, iColorShift: p.iColorShift ?? 0, fadeStep: -1 })
-  })
+  if (!hidePlayers)
+    state.players.forEach((p, i) => {
+      const role = playerRoles.roles[p.roleId]
+      // sdlpal fight.c:948-957:死员(hp==0)**照画**倒下帧 2(非傀儡)/ 站立帧 0(傀儡),**不**跳过。
+      //   旧版 `hp<=0 return` 让死员凭空消失 + 死亡定格露站立姿(user 报"起立");此处删 skip 改画死帧。
+      //   (注:本函数须收到**战斗 live roles**,非 static 满血基线 —— present-battle 传 getBattleResources().playerRoles。)
+      if (!role) return
+      // DM10:隐身(0x5C 仙风云体类)期间不画队员 —— battle.c:202-211 `else if (iHidingTime == 0)`
+      //   才 blit;colorShift≠0 例外(解除隐身的渐显演出仍画)。
+      if ((state.iHidingTime ?? 0) > 0 && (p.iColorShift ?? 0) === 0) return
+      const pos = p.pos ?? computePlayerAnchor(state, i)
+      if (!pos) return
+      // D17 0x31:spriteNumOverride(梦蛇295 变身)优先于 role.spriteNumInBattle。
+      const sprite = battleSprites.get(`player-${p.spriteNumOverride ?? role.spriteNumInBattle}`)
+      if (!sprite?.frames[0]) return
+      // 帧号:动画 / 逃跑期间用 render-state currentFrame(攻击 8,9 / 受击 4 / 逃跑站立 0 / 死帧 2 由 anim-driver 写);
+      //   空闲(无 battleAnim/fleeAnim)据 status 算(sdlpal PAL_BattleUpdateFighters fight.c:948-984):
+      //   死(hp==0)→ 2/0 傀儡 / sleep 或濒死 → 1 / 防御 → 3 / else → 0(confused 无特殊帧)。
+      const frameIdx =
+        state.battleAnim || state.fleeAnim
+          ? (p.currentFrame ?? 0)
+          : computePlayerBattleIdleFrame(p, role)
+      const frame = sprite.frames[frameIdx] ?? sprite.frames[0]
+      // 混乱抖动:Y 轴 ±1px(sdlpal battle.c:187-196,confused && !sleep && !paralyzed && hp>0 && !濒死)。
+      const playerShakeY =
+        p.status.confused > 0 &&
+        p.status.sleep <= 0 &&
+        p.status.paralyzed <= 0 &&
+        !isPlayerDyingFrame(role.hp, role.maxHP)
+          ? confusedShakeDelta(Math.random())
+          : 0
+      items.push({
+        x: pos.x,
+        y: pos.y + playerShakeY,
+        frame,
+        iColorShift: p.iColorShift ?? 0,
+        fadeStep: -1,
+      })
+    })
 
   // Y 升序;平局 X 降序(battle.c:444-466)
   items.sort((a, b) => (a.y !== b.y ? a.y - b.y : b.x - a.x))
 
   for (const it of items) {
-    if (it.drawFn) { it.drawFn(fb); continue } // DM9:法术 overlay
+    if (it.drawFn) {
+      it.drawFn(fb)
+      continue
+    } // DM9:法术 overlay
     if (!it.frame) continue
     // D17:死亡淡出像素走 crossfade(读 fb 背景逼近);普通精灵走 iColorShift blit。
     if (it.fadeStep >= 0) blitFrameDeathFade(fb, it.frame, it.x, it.y, it.fadeStep)

@@ -55,17 +55,17 @@ export type Mode = 'explore' | 'event' | 'battle' | 'menu'
  * 战斗内菜单(item-select / magic-select)仍走 battle-system 自有 uiState,不进 menuStack。
  */
 export type ActiveMenuKind =
-  | 'opening'         // M5.6 T17:启动后第一个菜单(新游戏/读档)— sdlpal uigame.c:42-167
-  | 'in-game'        // ESC 弹出的主菜单 hub(物品/法术/状态/系统)
-  | 'system'          // 进系统设置(存档/读档/设置/退出)
-  | 'save-slot'       // 存档列表(5 slot)
+  | 'opening' // M5.6 T17:启动后第一个菜单(新游戏/读档)— sdlpal uigame.c:42-167
+  | 'in-game' // ESC 弹出的主菜单 hub(物品/法术/状态/系统)
+  | 'system' // 进系统设置(存档/读档/设置/退出)
+  | 'save-slot' // 存档列表(5 slot)
   | 'inventory-action' // M5.6 T10b 修:sdlpal `uigame.c:878-919 PAL_InventoryMenu` 一级子菜单(装备/使用 2 项 box)
-  | 'inventory'       // 物品 fullscreen list(use/equip filter,sdlpal `itemmenu.c PAL_ItemSelectMenu`)
-  | 'equip'           // 装备
-  | 'in-game-magic'   // 大世界法术(选角色 → 选法术 → 选目标)
-  | 'player-status'   // 角色状态(stat + 装备)
-  | 'shop-buy'        // 商店买
-  | 'shop-sell'       // 商店卖
+  | 'inventory' // 物品 fullscreen list(use/equip filter,sdlpal `itemmenu.c PAL_ItemSelectMenu`)
+  | 'equip' // 装备
+  | 'in-game-magic' // 大世界法术(选角色 → 选法术 → 选目标)
+  | 'player-status' // 角色状态(stat + 装备)
+  | 'shop-buy' // 商店买
+  | 'shop-sell' // 商店卖
 
 /** 当前 active menu — `state` 由具体 menu state machine fn 创建,unknown 让 dispatcher 转型。 */
 export interface ActiveMenuEntry {
@@ -264,7 +264,23 @@ export interface EventCursor {
    *                  → autoScript 不跑)。Up/Down/Left/Right 切换(confirmYes);Confirm 提交:是→ip++,
    *                  否→goto operand[0];Cancel/Menu(= sdlpal MENUITEM_VALUE_CANCELLED → FALSE)等价否→goto。
    */
-  waiting?: 'dialog' | 'frame-wait' | 'fade-screen' | 'scene-load' | 'delay' | 'shop' | 'palette-fade' | 'scene-fade' | 'rng-play' | 'show-fbp' | 'scroll-fbp' | 'ending-anim' | 'wait-key' | 'quit' | 'confirm' | 'camera-pan'
+  waiting?:
+    | 'dialog'
+    | 'frame-wait'
+    | 'fade-screen'
+    | 'scene-load'
+    | 'delay'
+    | 'shop'
+    | 'palette-fade'
+    | 'scene-fade'
+    | 'rng-play'
+    | 'show-fbp'
+    | 'scroll-fbp'
+    | 'ending-anim'
+    | 'wait-key'
+    | 'quit'
+    | 'confirm'
+    | 'camera-pan'
   /** 'confirm' 用(opcode 0x0A):当前 否/是 选择。sdlpal 默认 否(false);Up/Down/Left/Right 切换。 */
   confirmYes?: boolean
   /** 'frame-wait' 用:剩余帧数,每 tick 自减,归 0 时 ip++ + clear waiting。 */
@@ -504,9 +520,9 @@ export interface DialogBoxState {
  * wReserved(恒 0)不建模。
  */
 export interface ExpEntry {
-  wExp: number     // 当前累积经验
-  wLevel: number   // 等级
-  wCount?: number  // 本场战斗累积计数(E04 隐藏属性经验;缺省 0,旧档反序列化 ?? 0)
+  wExp: number // 当前累积经验
+  wLevel: number // 等级
+  wCount?: number // 本场战斗累积计数(E04 隐藏属性经验;缺省 0,旧档反序列化 ?? 0)
 }
 
 /**
@@ -515,14 +531,14 @@ export interface ExpEntry {
  * 用数组 index 对应 roleId(同 rgwHP 等 PLAYERS 数组惯例)。
  */
 export interface AllExperience {
-  rgPrimaryExp: ExpEntry[]      // 主经验
-  rgHealthExp: ExpEntry[]       // HP 经验
-  rgMagicExp: ExpEntry[]        // MP 经验
-  rgAttackExp: ExpEntry[]       // 攻击经验
-  rgMagicPowerExp: ExpEntry[]   // 法力经验
-  rgDefenseExp: ExpEntry[]      // 防御经验
-  rgDexterityExp: ExpEntry[]    // 速度经验
-  rgFleeExp: ExpEntry[]         // 逃跑经验
+  rgPrimaryExp: ExpEntry[] // 主经验
+  rgHealthExp: ExpEntry[] // HP 经验
+  rgMagicExp: ExpEntry[] // MP 经验
+  rgAttackExp: ExpEntry[] // 攻击经验
+  rgMagicPowerExp: ExpEntry[] // 法力经验
+  rgDefenseExp: ExpEntry[] // 防御经验
+  rgDexterityExp: ExpEntry[] // 速度经验
+  rgFleeExp: ExpEntry[] // 逃跑经验
 }
 
 /**
@@ -534,29 +550,29 @@ export interface AllExperience {
  * 数组长度 = MAX_PLAYER_ROLES (6),index = roleId。
  */
 export interface PlayerRolesRuntime {
-  rgwSpriteNum: number[]           // 大世界精灵(MGO.MKF chunk),script 0x65 可改
-  rgwName: number[]               // 角色名 WORD 下标(sdlpal rgwName;opcode 0x79 按 name 判队伍用)
-  rgwLevel: number[]              // 等级
-  rgwMaxHP: number[]              // 最大 HP
-  rgwMaxMP: number[]              // 最大 MP
-  rgwHP: number[]                 // 当前 HP
-  rgwMP: number[]                 // 当前 MP
-  rgwEquipment: number[][]        // [slotIdx][roleId] 装备 item id;MAX_PLAYER_EQUIPMENTS(6) × MAX_PLAYER_ROLES(6)
-  rgwAttackStrength: number[]     // 当前攻击力(含装备加成后)
-  rgwMagicStrength: number[]      // 当前法力攻击力
-  rgwDefense: number[]            // 当前防御
-  rgwDexterity: number[]          // 当前速度
-  rgwFleeRate: number[]           // 逃跑率
-  rgwPoisonResistance: number[]   // 毒抗性
+  rgwSpriteNum: number[] // 大世界精灵(MGO.MKF chunk),script 0x65 可改
+  rgwName: number[] // 角色名 WORD 下标(sdlpal rgwName;opcode 0x79 按 name 判队伍用)
+  rgwLevel: number[] // 等级
+  rgwMaxHP: number[] // 最大 HP
+  rgwMaxMP: number[] // 最大 MP
+  rgwHP: number[] // 当前 HP
+  rgwMP: number[] // 当前 MP
+  rgwEquipment: number[][] // [slotIdx][roleId] 装备 item id;MAX_PLAYER_EQUIPMENTS(6) × MAX_PLAYER_ROLES(6)
+  rgwAttackStrength: number[] // 当前攻击力(含装备加成后)
+  rgwMagicStrength: number[] // 当前法力攻击力
+  rgwDefense: number[] // 当前防御
+  rgwDexterity: number[] // 当前速度
+  rgwFleeRate: number[] // 逃跑率
+  rgwPoisonResistance: number[] // 毒抗性
   rgwElementalResistance: number[][] // [elemIdx][roleId] 元素抗性;NUM_MAGIC_ELEMENTAL(5) × MAX_PLAYER_ROLES(6)
-  rgwCoveredBy: number[]          // HP 危险时谁会护着我
-  rgwMagic: number[][]            // [magicSlot][roleId] 已学魔法;MAX_PLAYER_MAGICS(32) × MAX_PLAYER_ROLES(6)
-  rgwCooperativeMagic: number[]   // 合体魔法编号
+  rgwCoveredBy: number[] // HP 危险时谁会护着我
+  rgwMagic: number[][] // [magicSlot][roleId] 已学魔法;MAX_PLAYER_MAGICS(32) × MAX_PLAYER_ROLES(6)
+  rgwCooperativeMagic: number[] // 合体魔法编号
   // M2(2026-06-07 sdlpal 审查):0x1A 剧情变身可写的造型 row,runtime 化(原先无字段 → 写入 no-op)
-  rgwAvatar: number[]             // row0 状态头像(RGM chunk)
-  rgwSpriteNumInBattle: number[]  // row1 战斗精灵(F.MKF chunk)
-  rgwAttackAll: number[]          // row4 是否群攻
-  rgwWalkFrames: number[]         // row64 行走动画帧数
+  rgwAvatar: number[] // row0 状态头像(RGM chunk)
+  rgwSpriteNumInBattle: number[] // row1 战斗精灵(F.MKF chunk)
+  rgwAttackAll: number[] // row4 是否群攻
+  rgwWalkFrames: number[] // row64 行走动画帧数
 }
 
 /**
@@ -564,8 +580,8 @@ export interface PlayerRolesRuntime {
  * rgPoisonStatus[poisonSlot][playerIdx]:sparse 存,用 Record 减少空间。
  */
 export interface PoisonStatus {
-  wPoisonID: number      // 0 = 无毒,非 0 = poison item id
-  wPoisonScript: number  // 每回合执行的 script offset
+  wPoisonID: number // 0 = 无毒,非 0 = poison item id
+  wPoisonScript: number // 每回合执行的 script offset
 }
 
 /**
@@ -587,22 +603,22 @@ export interface PoisonStatus {
  * 见 [equip-effect.ts](./equip-effect.ts) 6 个 getter(`getPlayerAttackStrength` 等)。
  */
 export interface EquipmentEffectRoles {
-  rgwSpriteNumInBattle: number[]  // sdlpal global.h:302 row 1(装备换战斗精灵;长鞭 0x1A[1,6,0])
-  rgwAttackAll: number[]          // row 4(装备授群攻;长鞭 0x1A[4,1,0]→PAL_PlayerCanAttackAll)
-  rgwLevel: number[]              // sdlpal global.h:307 row 6
-  rgwMaxHP: number[]              // row 7
-  rgwMaxMP: number[]              // row 8
-  rgwHP: number[]                 // row 9
-  rgwMP: number[]                 // row 10
-  rgwAttackStrength: number[]     // row 17
-  rgwMagicStrength: number[]      // row 18
-  rgwDefense: number[]            // row 19
-  rgwDexterity: number[]          // row 20
-  rgwFleeRate: number[]           // row 21
-  rgwPoisonResistance: number[]   // row 22
+  rgwSpriteNumInBattle: number[] // sdlpal global.h:302 row 1(装备换战斗精灵;长鞭 0x1A[1,6,0])
+  rgwAttackAll: number[] // row 4(装备授群攻;长鞭 0x1A[4,1,0]→PAL_PlayerCanAttackAll)
+  rgwLevel: number[] // sdlpal global.h:307 row 6
+  rgwMaxHP: number[] // row 7
+  rgwMaxMP: number[] // row 8
+  rgwHP: number[] // row 9
+  rgwMP: number[] // row 10
+  rgwAttackStrength: number[] // row 17
+  rgwMagicStrength: number[] // row 18
+  rgwDefense: number[] // row 19
+  rgwDexterity: number[] // row 20
+  rgwFleeRate: number[] // row 21
+  rgwPoisonResistance: number[] // row 22
   rgwElementalResistance: number[][] // row 23-27 (5 elem × 6 roles)
-  rgwCoveredBy: number[]          // row 31
-  rgwCooperativeMagic: number[]   // row 65(装备改合击;圣灵珠 0x1A[65,351,0]→PAL_GetPlayerCooperativeMagic)
+  rgwCoveredBy: number[] // row 31
+  rgwCooperativeMagic: number[] // row 65(装备改合击;圣灵珠 0x1A[65,351,0]→PAL_GetPlayerCooperativeMagic)
 }
 
 /**
@@ -612,10 +628,10 @@ export interface EquipmentEffectRoles {
  * 稀疏存:只存被 script 改过的 event object。
  */
 export interface EventObjectStateMutable {
-  sState: number          // sdlpal global.h:77 kObjStateHidden=0 / Normal=1 / Blocker=2 / Message=3 ...(负数也算 hidden)
-  x: number               // 像素坐标(可被 script 移动)
+  sState: number // sdlpal global.h:77 kObjStateHidden=0 / Normal=1 / Blocker=2 / Message=3 ...(负数也算 hidden)
+  x: number // 像素坐标(可被 script 移动)
   y: number
-  sLayer: number          // layer value
+  sLayer: number // layer value
   wTriggerScript: number
   wAutoScript: number
   wTriggerMode: number
@@ -636,7 +652,7 @@ export interface EventObjectStateMutable {
  */
 export interface SceneStateMutable {
   wMapNum: number
-  wScriptOnEnter: number       // 可被 script 改写
+  wScriptOnEnter: number // 可被 script 改写
   wScriptOnTeleport: number
   wEventObjectIndex: number
 }
@@ -647,7 +663,7 @@ export interface SceneStateMutable {
  * 稀疏存:只存被 script 改写过的 object。
  */
 export interface ObjectStateMutable {
-  rgwData: number[]  // 7 个 WORD,按 OBJECT union 的 C 布局存
+  rgwData: number[] // 7 个 WORD,按 OBJECT union 的 C 布局存
 }
 
 // ── GameState ────────────────────────────────────────────────────────────────
@@ -1126,9 +1142,9 @@ export interface GameState {
   deathHoldActive?: boolean
 
   postBattleResume?: {
-    wonIp: number             // 胜(或负/逃无对应分支)→ resume 此 ip(= 0x07 后下一条)
-    lostIp?: number           // 负 → op[1](已解析为全局 ip;0/无 → undefined → 用 wonIp)
-    fledIp?: number           // 逃 → op[2]
+    wonIp: number // 胜(或负/逃无对应分支)→ resume 此 ip(= 0x07 后下一条)
+    lostIp?: number // 负 → op[1](已解析为全局 ip;0/无 → undefined → 用 wonIp)
+    fledIp?: number // 逃 → op[2]
     commands?: import('@type-pal/shared').Command[]
     labelMap?: Record<string, number>
     currentEventObjectId?: number
@@ -1311,8 +1327,13 @@ function makeExpEntry(): ExpEntry {
  */
 export function clearHiddenExpCounts(gs: GameState): void {
   const pools = [
-    gs.Exp.rgHealthExp, gs.Exp.rgMagicExp, gs.Exp.rgAttackExp, gs.Exp.rgMagicPowerExp,
-    gs.Exp.rgDefenseExp, gs.Exp.rgDexterityExp, gs.Exp.rgFleeExp,
+    gs.Exp.rgHealthExp,
+    gs.Exp.rgMagicExp,
+    gs.Exp.rgAttackExp,
+    gs.Exp.rgMagicPowerExp,
+    gs.Exp.rgDefenseExp,
+    gs.Exp.rgDexterityExp,
+    gs.Exp.rgFleeExp,
   ]
   for (const pool of pools) for (const e of pool) e.wCount = 0
 }
@@ -1341,8 +1362,14 @@ function createEmptyExp(): AllExperience {
  */
 export function initExpLevelsFromLevels(exp: AllExperience, rgwLevel: number[]): void {
   const cats = [
-    exp.rgPrimaryExp, exp.rgHealthExp, exp.rgMagicExp, exp.rgAttackExp,
-    exp.rgMagicPowerExp, exp.rgDefenseExp, exp.rgDexterityExp, exp.rgFleeExp,
+    exp.rgPrimaryExp,
+    exp.rgHealthExp,
+    exp.rgMagicExp,
+    exp.rgAttackExp,
+    exp.rgMagicPowerExp,
+    exp.rgDefenseExp,
+    exp.rgDexterityExp,
+    exp.rgFleeExp,
   ]
   const n = exp.rgPrimaryExp.length // = MAX_PLAYER_ROLES(6),避免魔法常量
   for (let i = 0; i < n; i++) {
@@ -1553,7 +1580,10 @@ export function projectRuntimeToBattleRoles(
   equipmentEffect?: EquipmentEffectRoles[],
 ): import('@type-pal/shared').PlayerRoles {
   // sdlpal getter:base + Σ_{slot=0..MAX_PLAYER_EQUIPMENTS(=6,含 Extra)} rgEquipmentEffect[slot].field[role]
-  const sumEff = (field: keyof Omit<EquipmentEffectRoles, 'rgwElementalResistance'>, i: number): number => {
+  const sumEff = (
+    field: keyof Omit<EquipmentEffectRoles, 'rgwElementalResistance'>,
+    i: number,
+  ): number => {
     if (!equipmentEffect) return 0
     let s = 0
     for (let slot = 0; slot <= 6; slot++) {
@@ -1575,10 +1605,14 @@ export function projectRuntimeToBattleRoles(
   //   PAL_GetPlayerBattleSprite(2009)/ PAL_GetPlayerCooperativeMagic(2044):末个非 0 槽 override base。
   const anyEquip = (field: 'rgwAttackAll', i: number): boolean => {
     if (!equipmentEffect) return false
-    for (let slot = 0; slot <= 6; slot++) if ((equipmentEffect[slot]?.[field][i] ?? 0) !== 0) return true
+    for (let slot = 0; slot <= 6; slot++)
+      if ((equipmentEffect[slot]?.[field][i] ?? 0) !== 0) return true
     return false
   }
-  const lastNonzeroEquip = (field: 'rgwSpriteNumInBattle' | 'rgwCooperativeMagic', i: number): number => {
+  const lastNonzeroEquip = (
+    field: 'rgwSpriteNumInBattle' | 'rgwCooperativeMagic',
+    i: number,
+  ): number => {
     if (!equipmentEffect) return 0
     let w = 0
     for (let slot = 0; slot <= 6; slot++) {
@@ -1610,17 +1644,26 @@ export function projectRuntimeToBattleRoles(
       walkFrames: runtime.rgwWalkFrames[i] || base.walkFrames,
       // 装备 override(sdlpal getter):长鞭 attackAll/sprite、圣灵珠 coopMagic。装备授群攻 → role.attackAll=1
       //   (battle-system 读此判全体攻);sprite/coopMagic 末非 0 槽 override base(coopMagic 执行待 P2)。
-      attackAll: anyEquip('rgwAttackAll', i) ? 1 : (runtime.rgwAttackAll[i] || base.attackAll),
-      spriteNumInBattle: lastNonzeroEquip('rgwSpriteNumInBattle', i) || runtime.rgwSpriteNumInBattle[i] || base.spriteNumInBattle,
-      cooperativeMagic: lastNonzeroEquip('rgwCooperativeMagic', i)
-        || (runtime.rgwCooperativeMagic[i] ?? base.cooperativeMagic ?? 0),
+      attackAll: anyEquip('rgwAttackAll', i) ? 1 : runtime.rgwAttackAll[i] || base.attackAll,
+      spriteNumInBattle:
+        lastNonzeroEquip('rgwSpriteNumInBattle', i) ||
+        runtime.rgwSpriteNumInBattle[i] ||
+        base.spriteNumInBattle,
+      cooperativeMagic:
+        lastNonzeroEquip('rgwCooperativeMagic', i) ||
+        (runtime.rgwCooperativeMagic[i] ?? base.cooperativeMagic ?? 0),
       // effective = base + Σ 装备 effect(含 Extra),mirror sdlpal PAL_GetPlayerXxx getter
-      attackStrength: (runtime.rgwAttackStrength[i] ?? base.attackStrength) + sumEff('rgwAttackStrength', i),
-      magicStrength: (runtime.rgwMagicStrength[i] ?? base.magicStrength) + sumEff('rgwMagicStrength', i),
+      attackStrength:
+        (runtime.rgwAttackStrength[i] ?? base.attackStrength) + sumEff('rgwAttackStrength', i),
+      magicStrength:
+        (runtime.rgwMagicStrength[i] ?? base.magicStrength) + sumEff('rgwMagicStrength', i),
       defense: (runtime.rgwDefense[i] ?? base.defense) + sumEff('rgwDefense', i),
       dexterity: (runtime.rgwDexterity[i] ?? base.dexterity) + sumEff('rgwDexterity', i),
       fleeRate: (runtime.rgwFleeRate[i] ?? base.fleeRate) + sumEff('rgwFleeRate', i),
-      poisonResistance: clamp100((runtime.rgwPoisonResistance[i] ?? base.poisonResistance) + sumEff('rgwPoisonResistance', i)),
+      poisonResistance: clamp100(
+        (runtime.rgwPoisonResistance[i] ?? base.poisonResistance) +
+          sumEff('rgwPoisonResistance', i),
+      ),
       coveredBy: runtime.rgwCoveredBy[i] ?? base.coveredBy,
       // 装备 6 槽 / 法术 32 槽:runtime[slot][i] → role 数组(完整 hydrate 逆;battle magic 菜单已接此 role.magic 真值,见 buildBattleMagicSelect)
       equipment: runtime.rgwEquipment.map((slot) => slot[i] ?? 0),
@@ -1767,7 +1810,7 @@ function createInitialPlayerRolesRuntime(): PlayerRolesRuntime {
     rgwMaxMP: zeros(),
     rgwHP: zeros(),
     rgwMP: zeros(),
-    rgwEquipment: mat(6),   // MAX_PLAYER_EQUIPMENTS=6 slots × 6 roles
+    rgwEquipment: mat(6), // MAX_PLAYER_EQUIPMENTS=6 slots × 6 roles
     rgwAttackStrength: zeros(),
     rgwMagicStrength: zeros(),
     rgwDefense: zeros(),
@@ -1835,9 +1878,11 @@ export function createInitialPlayerStatus(): number[][] {
   return Array.from({ length: 6 }, () => Array<number>(9).fill(0))
 }
 
-export function createInitialGameState(
-  partyStart: { x: number; y: number; facing: Facing },
-): GameState {
+export function createInitialGameState(partyStart: {
+  x: number
+  y: number
+  facing: Facing
+}): GameState {
   return {
     // ── 既有字段 ──
     party: { x: partyStart.x, y: partyStart.y, facing: partyStart.facing },
@@ -1849,10 +1894,10 @@ export function createInitialGameState(
     mode: 'explore',
     menuStack: [],
     dialogHistory: [],
-    currentDialogStyle: 'top',  // sdlpal PAL_InitText / PAL_EndDialog 默认 kDialogUpper(top)
-    currentDialogPortraitLayout: false,  // 无立绘缩进(top 默认 iNumCharFace=0)
+    currentDialogStyle: 'top', // sdlpal PAL_InitText / PAL_EndDialog 默认 kDialogUpper(top)
+    currentDialogPortraitLayout: false, // 无立绘缩进(top 默认 iNumCharFace=0)
     // sdlpal text.c:29 FONT_COLOR_DEFAULT = 0x4F(palette idx 79,亮黄/浅米)
-    currentDialogFontColor: 0x4F,
+    currentDialogFontColor: 0x4f,
     frameNum: 0,
     nowMs: 0,
     walkingFrame: { stepFrame: 0, walking: false },
@@ -1861,31 +1906,31 @@ export function createInitialGameState(
 
     // ── M5 Sync.1: SAVEDGAME_WIN 平铺杂项 ──
     wSavedTimes: 0,
-    currentSaveSlot: 1,  // sdlpal bCurrentSaveSlot 默认槽;save/load 时更新(opcode 0x4E 重载它)
+    currentSaveSlot: 1, // sdlpal bCurrentSaveSlot 默认槽;save/load 时更新(opcode 0x4E 重载它)
     wNumScene: 0,
     wPaletteOffset: 0,
     wNumMusic: 0,
     wNumBattleMusic: 0,
     wNumBattleField: 0,
     wScreenWave: 0,
-    wBattleSpeed: 2,      // sdlpal global.c:765 default = 2
-    iCurMainMenuItem: 0,  // M5.6 T6:菜单 cursor 默认 0
+    wBattleSpeed: 2, // sdlpal global.c:765 default = 2
+    iCurMainMenuItem: 0, // M5.6 T6:菜单 cursor 默认 0
     iCurSystemMenuItem: 0,
     iCurInvMenuItem: 0,
-    iCurInvActionMenuItem: 0,  // M5.6 T10b 修:sdlpal uigame.c:896 static w=0
+    iCurInvActionMenuItem: 0, // M5.6 T10b 修:sdlpal uigame.c:896 static w=0
     wCollectValue: 0,
     wLayer: 0,
-    wChaseRange: 1,       // sdlpal default 追击范围 1
+    wChaseRange: 1, // sdlpal default 追击范围 1
     wChasespeedChangeCycles: 0,
     nFollower: 0,
     dwCash: 0,
     fAutoBattle: false,
-    numPalette: 0,        // 特效 A:当前调色板索引(sdlpal wNumPalette)
-    nightPalette: false,  // 特效 A:昼夜 flag(sdlpal fNightPalette,默认白天)
-    iCurPlayingRNG: 0,    // 特效 C:当前 RNG 动画编号(sdlpal iCurPlayingRNG)
-    sWaveProgression: 0,  // 特效 B:屏幕波动每帧增量(sdlpal sWaveProgression)
-    shakeTime: 0,         // G9:屏幕摇晃剩余帧(sdlpal static g_wShakeTime,video.c:59,瞬态非存档)
-    shakeLevel: 0,        // G9:屏幕摇晃等级=垂直偏移行数(sdlpal static g_wShakeLevel,video.c:60,瞬态)
+    numPalette: 0, // 特效 A:当前调色板索引(sdlpal wNumPalette)
+    nightPalette: false, // 特效 A:昼夜 flag(sdlpal fNightPalette,默认白天)
+    iCurPlayingRNG: 0, // 特效 C:当前 RNG 动画编号(sdlpal iCurPlayingRNG)
+    sWaveProgression: 0, // 特效 B:屏幕波动每帧增量(sdlpal sWaveProgression)
+    shakeTime: 0, // G9:屏幕摇晃剩余帧(sdlpal static g_wShakeTime,video.c:59,瞬态非存档)
+    shakeLevel: 0, // G9:屏幕摇晃等级=垂直偏移行数(sdlpal static g_wShakeLevel,video.c:60,瞬态)
     blackScreenHold: false, // 0x76 ShowFBP(0xFFFF) 后黑屏保持,直到下一次 PAL_MakeScene(loadScene 自动淡入/0x05/0x73/0x9B);0x51 FadeIn **不**清(只 ramp 调色板,内容仍黑)
 
     // ── M5 Sync.1: 嵌套 struct ──
@@ -2014,10 +2059,7 @@ export function setSpriteFrameCountProvider(
  * 例外:nSpriteFramesAuto 是**覆盖式**回填(C 每次 kLoadScene 重算,res.c:295-298)——
  * 0x17 换 sprite 后帧数会变,残留旧值会让 0x87/0x4C 动画取错模。
  */
-export function hydrateNpcStaticDefaults(
-  npcs: NpcState[],
-  eventObjects: SceneEventObject[],
-): void {
+export function hydrateNpcStaticDefaults(npcs: NpcState[], eventObjects: SceneEventObject[]): void {
   const defaultsById = new Map(eventObjects.map((eo) => [eo.id, eo]))
   for (const npc of npcs) {
     const eo = defaultsById.get(npc.id)

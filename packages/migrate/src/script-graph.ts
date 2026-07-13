@@ -89,7 +89,12 @@ function addressOf(label: string | undefined): number | undefined {
 export function extractScriptEdges(commands: readonly SourceCmd[]): ScriptEdge[] {
   const edges: ScriptEdge[] = []
   const seen = new Set<string>()
-  const add = (from: number, to: number | undefined, kind: ScriptEdgeKind, reason: string): void => {
+  const add = (
+    from: number,
+    to: number | undefined,
+    kind: ScriptEdgeKind,
+    reason: string,
+  ): void => {
     if (to === undefined || to < 0 || to >= commands.length) return
     const key = `${from}:${to}:${kind}:${reason}`
     if (seen.has(key)) return
@@ -137,7 +142,12 @@ export function extractScriptEdges(commands: readonly SourceCmd[]): ScriptEdge[]
         const kind: ScriptEdgeKind = opcode === 0x24 || opcode === 0x25 ? 'binding' : 'execution'
         const rawTarget = operands[operand]
         // auto 0x06 的 op1=0 是原地重掷；显式自环，不能误当“无目标”。
-        add(index, opcode === 0x06 && rawTarget === 0 ? index : rawTarget, kind, `0x${opcode.toString(16)}`)
+        add(
+          index,
+          opcode === 0x06 && rawTarget === 0 ? index : rawTarget,
+          kind,
+          `0x${opcode.toString(16)}`,
+        )
       }
     }
     add(index, index + 1, 'execution', 'fallthrough')
@@ -145,7 +155,10 @@ export function extractScriptEdges(commands: readonly SourceCmd[]): ScriptEdge[]
   return edges
 }
 
-function tarjan(size: number, edges: readonly ScriptEdge[]): { components: number[][]; componentOf: number[] } {
+function tarjan(
+  size: number,
+  edges: readonly ScriptEdge[],
+): { components: number[][]; componentOf: number[] } {
   const graph = Array.from({ length: size }, () => [] as number[])
   for (const edge of edges) if (edge.kind !== 'binding') graph[edge.from]!.push(edge.to)
   const at = new Array(size).fill(-1)
@@ -177,11 +190,18 @@ function tarjan(size: number, edges: readonly ScriptEdge[]): { components: numbe
   }
   for (let node = 0; node < size; node++) if (at[node] === -1) visit(node)
   const componentOf = new Array<number>(size)
-  components.forEach((component, id) => component.forEach((node) => { componentOf[node] = id }))
+  components.forEach((component, id) => {
+    component.forEach((node) => {
+      componentOf[node] = id
+    })
+  })
   return { components, componentOf }
 }
 
-export function analyzeScriptGraph(commands: readonly SourceCmd[], roots: readonly ScriptRoot[]): ScriptGraphAnalysis {
+export function analyzeScriptGraph(
+  commands: readonly SourceCmd[],
+  roots: readonly ScriptRoot[],
+): ScriptGraphAnalysis {
   const edges = extractScriptEdges(commands)
   const outgoing = Array.from({ length: commands.length }, () => [] as number[])
   for (const edge of edges) if (edge.kind !== 'binding') outgoing[edge.from]!.push(edge.to)
@@ -198,6 +218,6 @@ export function analyzeScriptGraph(commands: readonly SourceCmd[], roots: readon
     }
   }
   const { components, componentOf } = tarjan(commands.length, edges)
-  const unreachable = owners.flatMap((set, index) => set.size ? [] : [index])
+  const unreachable = owners.flatMap((set, index) => (set.size ? [] : [index]))
   return { edges, components, componentOf, owners, unreachable }
 }

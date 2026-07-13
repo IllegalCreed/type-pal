@@ -2,7 +2,11 @@
 import type { ProgressSnapshot } from './snapshot.js'
 
 export type DetectorMem = Record<string, unknown>
-export type Detector = (cur: ProgressSnapshot, prev: ProgressSnapshot | null, mem: DetectorMem) => boolean
+export type Detector = (
+  cur: ProgressSnapshot,
+  prev: ProgressSnapshot | null,
+  mem: DetectorMem,
+) => boolean
 
 /** 进入场景 N(仅进入那一帧)。 */
 export function enterScene(n: number): Detector {
@@ -22,19 +26,28 @@ export function enterAnyScene(ns: readonly number[]): Detector {
 
 /** 在场景 scene 内,队首落在 (x,y) 的 ±tolX/±tolY 矩形容差内。 */
 export function atSpot(scene: number, x: number, y: number, tolX = 48, tolY = 24): Detector {
-  return (cur) => cur.scene === scene && Math.abs(cur.partyX - x) <= tolX && Math.abs(cur.partyY - y) <= tolY
+  return (cur) =>
+    cur.scene === scene && Math.abs(cur.partyX - x) <= tolX && Math.abs(cur.partyY - y) <= tolY
 }
 
 /** atSpot 的多点版:任一格命中即真(见石碑两点)。 */
-export function atAnySpot(scene: number, cells: ReadonlyArray<readonly [number, number]>, tolX = 48, tolY = 24): Detector {
+export function atAnySpot(
+  scene: number,
+  cells: ReadonlyArray<readonly [number, number]>,
+  tolX = 48,
+  tolY = 24,
+): Detector {
   return (cur) =>
-    cur.scene === scene && cells.some(([x, y]) => Math.abs(cur.partyX - x) <= tolX && Math.abs(cur.partyY - y) <= tolY)
+    cur.scene === scene &&
+    cells.some(([x, y]) => Math.abs(cur.partyX - x) <= tolX && Math.abs(cur.partyY - y) <= tolY)
 }
 
 /** 当前战斗含 boss 且全场敌人血≤0(镜像 PalTimer BossID==X && BattleTotalBlood<=0)。 */
 export function bossWon(enemyId: number): Detector {
-  // biome-ignore lint/complexity/useOptionalChain: `!= null &&` 保返回值是 boolean;`?.` 会变 boolean|undefined,破 Detector 类型
-  return (cur) => cur.battle != null && cur.battle.enemyIds.has(enemyId) && cur.battle.totalEnemyHp <= 0
+  return (cur) => {
+    const battle = cur.battle
+    return battle ? battle.enemyIds.has(enemyId) && battle.totalEnemyHp <= 0 : false
+  }
 }
 
 /** 背包持有某物品(count>0,已在 snapshot 过滤)。 */

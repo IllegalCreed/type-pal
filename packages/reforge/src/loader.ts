@@ -13,29 +13,29 @@ import type {
   EnemyDef,
   EnemyTeamDef,
   ItemDataMap,
-  PoisonDef,
-  ShopDef,
   LevelUpSkill,
   LoadedManifest,
   Locale,
   OwnMap,
+  PoisonDef,
   SceneDef,
-  ScriptIndexV1,
   ScriptChunkV1,
+  ScriptIndexV1,
+  ShopDef,
   SkillDataMap,
   SpriteDef,
   TilesetDef,
 } from '@type-pal/content'
 import {
+  checkScriptIndex,
   isReuseMap,
-  validateTilesets,
   validateActors,
   validateItems,
   validateLocale,
   validateScenes,
   validateSkills,
   validateSprites,
-  checkScriptIndex,
+  validateTilesets,
 } from '@type-pal/content'
 import type { AssetBase } from './assets.js'
 import { loadOwnMap } from './assets.js'
@@ -149,10 +149,13 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
   for (const p of poisonList) poisonsById[p.id] = p
   const ambiences = Array.isArray(jsons.ambiences) ? (jsons.ambiences as AmbienceDef[]) : []
   const shops = Array.isArray(jsons.shops) ? (jsons.shops as ShopDef[]) : []
-  const scriptIndex = jsons.scripts === undefined ? undefined : (() => {
-    checkScriptIndex(jsons.scripts)
-    return jsons.scripts
-  })()
+  const scriptIndex =
+    jsons.scripts === undefined
+      ? undefined
+      : (() => {
+          checkScriptIndex(jsons.scripts)
+          return jsons.scripts
+        })()
 
   if (!entryScene || entryScene.id !== manifest.entryScene)
     throw new Error(
@@ -226,24 +229,39 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
   const content = manifest.content
   const dir = scenesDir(manifest)
   const scriptDir = scriptsDir(manifest)
-  const [actors, sceneIds, entryScene, skills, items, locale, sprites, enemies, enemyTeams, battleFields, poisons, ambiences, shops, tilesets, scripts] =
-    await Promise.all([
-      source.readJson(content.actors as string),
-      source.readJson(`${dir}index.json`),
-      source.readJson(`${dir}${manifest.entryScene}.json`),
-      source.readJson(content.skills as string),
-      source.readJson(content.items as string),
-      source.readJson(content.locale as string),
-      content.sprites ? source.readJson(content.sprites) : Promise.resolve(undefined),
-      content.enemies ? source.readJson(content.enemies) : Promise.resolve(undefined),
-      content.enemyTeams ? source.readJson(content.enemyTeams) : Promise.resolve(undefined),
-      content.battleFields ? source.readJson(content.battleFields) : Promise.resolve(undefined),
-      content.poisons ? source.readJson(content.poisons) : Promise.resolve(undefined),
-      content.ambiences ? source.readJson(content.ambiences) : Promise.resolve(undefined),
-      content.shops ? source.readJson(content.shops) : Promise.resolve(undefined),
-      content.tilesets ? source.readJson(content.tilesets) : Promise.resolve(undefined),
-      scriptDir ? source.readJson(`${scriptDir}index.json`) : Promise.resolve(undefined),
-    ])
+  const [
+    actors,
+    sceneIds,
+    entryScene,
+    skills,
+    items,
+    locale,
+    sprites,
+    enemies,
+    enemyTeams,
+    battleFields,
+    poisons,
+    ambiences,
+    shops,
+    tilesets,
+    scripts,
+  ] = await Promise.all([
+    source.readJson(content.actors as string),
+    source.readJson(`${dir}index.json`),
+    source.readJson(`${dir}${manifest.entryScene}.json`),
+    source.readJson(content.skills as string),
+    source.readJson(content.items as string),
+    source.readJson(content.locale as string),
+    content.sprites ? source.readJson(content.sprites) : Promise.resolve(undefined),
+    content.enemies ? source.readJson(content.enemies) : Promise.resolve(undefined),
+    content.enemyTeams ? source.readJson(content.enemyTeams) : Promise.resolve(undefined),
+    content.battleFields ? source.readJson(content.battleFields) : Promise.resolve(undefined),
+    content.poisons ? source.readJson(content.poisons) : Promise.resolve(undefined),
+    content.ambiences ? source.readJson(content.ambiences) : Promise.resolve(undefined),
+    content.shops ? source.readJson(content.shops) : Promise.resolve(undefined),
+    content.tilesets ? source.readJson(content.tilesets) : Promise.resolve(undefined),
+    scriptDir ? source.readJson(`${scriptDir}index.json`) : Promise.resolve(undefined),
+  ])
   const core = assembleProject(manifest, {
     actors,
     sceneIds,
@@ -292,14 +310,21 @@ export async function loadAllScenes(project: LoadedProject): Promise<SceneDef[]>
 }
 
 /** 编辑器 round-trip 路径：显式读取全部 chunk；游戏运行时绝不调用。 */
-export async function loadAllScriptChunks(project: LoadedProject): Promise<Record<string, ScriptChunkV1>> {
+export async function loadAllScriptChunks(
+  project: LoadedProject,
+): Promise<Record<string, ScriptChunkV1>> {
   const index = project.scriptIndex
   const dir = scriptsDir(project.manifest)
   if (!index || !dir) return {}
   const entries = await Promise.all(
     Object.entries(index.chunks).map(async ([id, meta]) => {
       const chunk = await project.source.readJson<ScriptChunkV1>(`${dir}${meta.path}`)
-      if (chunk.version !== 1 || chunk.id !== id || typeof chunk.scripts !== 'object' || chunk.scripts === null)
+      if (
+        chunk.version !== 1 ||
+        chunk.id !== id ||
+        typeof chunk.scripts !== 'object' ||
+        chunk.scripts === null
+      )
         throw new Error(`loadAllScriptChunks: chunk "${id}" 形状或 id 不符`)
       return [id, chunk] as const
     }),

@@ -1,10 +1,10 @@
-import { describe, it, expect, vi } from 'vitest'
-import type { Tilemap, AbstractKey, InputSnapshot } from '@type-pal/shared'
-import { tickN, advanceRafFrame, logicIntervalMs, type LoopContext } from './main-loop.js'
+import type { AbstractKey, InputSnapshot, Tilemap } from '@type-pal/shared'
 import { FRAME_MS_BATTLE, FRAME_MS_EXPLORE } from '@type-pal/shared'
-import { ReplayInputSource } from './input.js'
-import { createInitialGameState } from '../core/game-state.js'
+import { describe, expect, it, vi } from 'vitest'
 import { createCommandBus } from '../core/command-bus.js'
+import { createInitialGameState } from '../core/game-state.js'
+import { ReplayInputSource } from './input.js'
+import { advanceRafFrame, type LoopContext, logicIntervalMs, tickN } from './main-loop.js'
 
 function flat(w: number, h: number): Tilemap {
   const cells = Array.from({ length: h }, () =>
@@ -23,10 +23,12 @@ describe('tickN', () => {
     const bus = createCommandBus()
     const presentFn = vi.fn()
     const ctx: LoopContext = {
-      gs, bus,
+      gs,
+      bus,
       input: new ReplayInputSource([]),
       tilemap: flat(10, 10),
-      eventCommands: [], labelMap: {},
+      eventCommands: [],
+      labelMap: {},
       onPresent: presentFn,
     }
     tickN(3, ctx)
@@ -39,14 +41,12 @@ describe('tickN', () => {
     const gs = createInitialGameState({ x: 16 * 16, y: 16 * 8, facing: 'down' })
     const bus = createCommandBus()
     const ctx: LoopContext = {
-      gs, bus,
-      input: new ReplayInputSource([
-        snap(['Right'], 0),
-        snap(['Right'], 1),
-        snap(['Right'], 2),
-      ]),
+      gs,
+      bus,
+      input: new ReplayInputSource([snap(['Right'], 0), snap(['Right'], 1), snap(['Right'], 2)]),
       tilemap: flat(20, 20),
-      eventCommands: [], labelMap: {},
+      eventCommands: [],
+      labelMap: {},
       onPresent: () => {},
     }
     tickN(3, ctx)
@@ -57,8 +57,19 @@ describe('tickN', () => {
 })
 
 describe('advanceRafFrame / logicIntervalMs(M1 三不变量)', () => {
-  function mkCtx(gs: ReturnType<typeof createInitialGameState>, onPresent: () => void): LoopContext {
-    return { gs, bus: createCommandBus(), input: new ReplayInputSource([]), tilemap: flat(10, 10), eventCommands: [], labelMap: {}, onPresent }
+  function mkCtx(
+    gs: ReturnType<typeof createInitialGameState>,
+    onPresent: () => void,
+  ): LoopContext {
+    return {
+      gs,
+      bus: createCommandBus(),
+      input: new ReplayInputSource([]),
+      tilemap: flat(10, 10),
+      eventCommands: [],
+      labelMap: {},
+      onPresent,
+    }
   }
 
   it('① logicIntervalMs:battle 40 / 否则 100', () => {
@@ -74,7 +85,10 @@ describe('advanceRafFrame / logicIntervalMs(M1 三不变量)', () => {
     let ticks = 0
     const ctx = mkCtx(gs, () => {})
     const orig = ctx.input.nextSnapshot.bind(ctx.input)
-    ;(ctx.input as any).nextSnapshot = (fn: number) => { ticks++; return orig(fn) }
+    ;(ctx.input as any).nextSnapshot = (fn: number) => {
+      ticks++
+      return orig(fn)
+    }
     const state = { lastTickTime: 0, accumulator: 0 }
     advanceRafFrame(state, 1000, ctx) // dt=1000 = 10×interval → clamp 到 100 → 跑 1 tick(非 10)
     expect(ticks).toBe(1)
@@ -131,7 +145,10 @@ describe('advanceRafFrame / logicIntervalMs(M1 三不变量)', () => {
     let ticks = 0
     const ctx = mkCtx(gs, () => {})
     const orig = ctx.input.nextSnapshot.bind(ctx.input)
-    ;(ctx.input as any).nextSnapshot = (fn: number) => { ticks++; return orig(fn) }
+    ;(ctx.input as any).nextSnapshot = (fn: number) => {
+      ticks++
+      return orig(fn)
+    }
     const state = { lastTickTime: 0, accumulator: 0 }
     const r = advanceRafFrame(state, 1000, ctx, undefined, true) // dt=1000≥interval,但 frozen
     expect(ticks).toBe(0)
@@ -163,7 +180,8 @@ describe('渐变吞键仅限 scene-fade(palette.c 真值边界)', () => {
       bus: createCommandBus(),
       input: { nextSnapshot: () => snap(), suppressHeldForFade: suppress },
       tilemap: flat(10, 10),
-      eventCommands: [], labelMap: {},
+      eventCommands: [],
+      labelMap: {},
       onPresent: () => {},
     }
     advanceRafFrame({ lastTickTime: 0, accumulator: 0 }, 10, ctx)

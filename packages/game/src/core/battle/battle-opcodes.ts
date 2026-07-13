@@ -15,12 +15,30 @@
  *  - 返回 -1:opcode 消费但不改 ip(caller 应 ip++,等价于默认)
  */
 
-import { type BattleCtx, addPoisonForPlayer, curePlayerPoisonByKind, curePlayerPoisonByLevel } from '../event-system.js'
-import type { BattleStatus } from './battle-state.js'
-import { getPlayerAttackStrength, getPlayerDefense, getPlayerDexterity, getPlayerMagicStrength, getPlayerPoisonResistance } from '../equip-effect.js'
-import { buildEnemyDivisionTimeline, buildEnemySummonTimeline, buildEnemyTransformTimeline, buildPlayerOffMagicTimeline, buildShowMagicAnimTimeline, buildStealTimeline } from './anim-timeline.js'
+import {
+  getPlayerAttackStrength,
+  getPlayerDefense,
+  getPlayerDexterity,
+  getPlayerMagicStrength,
+  getPlayerPoisonResistance,
+} from '../equip-effect.js'
+import {
+  addPoisonForPlayer,
+  type BattleCtx,
+  curePlayerPoisonByKind,
+  curePlayerPoisonByLevel,
+} from '../event-system.js'
+import {
+  buildEnemyDivisionTimeline,
+  buildEnemySummonTimeline,
+  buildEnemyTransformTimeline,
+  buildPlayerOffMagicTimeline,
+  buildShowMagicAnimTimeline,
+  buildStealTimeline,
+} from './anim-timeline.js'
 import { playerRestFrame, startBattleAnim } from './battle-anim-driver.js'
 import { getEnemyBasePos } from './battle-positions.js'
+import type { BattleStatus } from './battle-state.js'
 import { resolveObjectMagic, simulateMagic } from './magic-damage.js'
 
 /** SHORT cast(同 formulas.ts 私函)。 */
@@ -58,7 +76,10 @@ function isAliveEnemy(enemy: BattleCtx['state']['enemies'][number] | undefined):
 
 function resetEnemySlot(
   slot: BattleCtx['state']['enemies'][number],
-  init: Omit<BattleCtx['state']['enemies'][number], 'pos' | 'posOriginal' | 'currentFrame' | 'iColorShift' | 'deathFadeStep'>,
+  init: Omit<
+    BattleCtx['state']['enemies'][number],
+    'pos' | 'posOriginal' | 'currentFrame' | 'iColorShift' | 'deathFadeStep'
+  >,
 ): void {
   slot.e = init.e
   slot.status = init.status
@@ -99,17 +120,14 @@ function emitDamageNum(
   /** 掉血时优先显示的完整算出伤害(玩家打敌人 WORD 下溢);省略 → 用钳后 delta(回血/敌打玩家)。 */
   fullDamage?: number,
 ): void {
-  if (after === before)
-    return
+  if (after === before) return
   const color = after < before ? 'blue' : 'yellow'
   const value = after < before ? (fullDamage ?? before - after) : after - before
   // 顺序修(2026-06-05):有 pendingDamageNums 缓冲(performMagic 施法注入)→ push 进动作缓冲,
   //   由 action 决定挂 PostMagic 第一帧或链末 fallback;无缓冲(item/throw/敌回合毒 tick)→ 即时 emit。
   //   对照 sdlpal DisplayStatChange 在动画后、PostMagic 前/开始(fight.c:4322-4323)。
-  if (ctx.pendingDamageNums)
-    ctx.pendingDamageNums.push({ target: { kind, idx }, value, color })
-  else
-    ctx.bus?.emit({ op: 'showDamageNum', target: { kind, idx }, value, color })
+  if (ctx.pendingDamageNums) ctx.pendingDamageNums.push({ target: { kind, idx }, value, color })
+  else ctx.bus?.emit({ op: 'showDamageNum', target: { kind, idx }, value, color })
 }
 
 /**
@@ -118,41 +136,48 @@ function emitDamageNum(
  * (casterIdx=-1,无 caster 帧切换;magic.sound 已挂特效起手帧)push 进缓冲,performThrowItem 接挥臂后一起播。
  * 否则(无投掷动画上下文 / 无 sprite 帧数)→ 把 magic.sound 即时 push pendingSounds(向后兼容,旧行为)。
  */
-function pushThrowOffMagicAnim(ctx: BattleCtx, magicObjId: number, targetIdx: number | undefined): void {
+function pushThrowOffMagicAnim(
+  ctx: BattleCtx,
+  magicObjId: number,
+  targetIdx: number | undefined,
+): void {
   const tables = ctx.magicTables
   if (!tables) return
   const om = resolveObjectMagic(magicObjId, tables.objectMagics)
-  const mg = om ? tables.magics.find(m => m.id === om.magicNumber) : undefined
+  const mg = om ? tables.magics.find((m) => m.id === om.magicNumber) : undefined
   if (!mg) return
   const n = ctx.magicSpriteFrameCounts?.get(mg.effect)
   if (ctx.pendingAnimFrames && n !== undefined && n > 0) {
     // OffMagic FIRE 特效帧(magic.sound 由 builder 挂特效起手帧 → 不再 push pendingSounds 防双响)。
-    const targetEnemyPos = targetIdx !== undefined ? ctx.state.enemies[targetIdx]?.posOriginal : undefined
-    ctx.pendingAnimFrames.push(...buildPlayerOffMagicTimeline({
-      casterIdx: -1,
-      magic: {
-        effect: mg.effect,
-        type: mg.type as 'normal' | 'attackAll' | 'attackWhole' | 'attackField',
-        speed: mg.speed,
-        special: mg.special, // DM9:sLayerOffset(z 排序)—— 漏传致投掷魔法物品 OffMagic layerOffset 落 0 被敌人遮挡
-        fireDelay: mg.fireDelay,
-        effectTimes: mg.effectTimes,
-        shake: mg.shake,
-        xOffset: mg.xOffset,
-        yOffset: mg.yOffset,
-        wave: mg.wave,
-        keepEffect: mg.keepEffect,
-        sound: mg.sound,
-      },
-      n,
-      targetIdx: targetIdx ?? -1,
-      targetEnemyPos,
-      baseScreenWave: ctx.state.field.screenWave, // L17:战场基础屏波 + magic.wWave 决定 keepEffect<9(battle.c:1563)
-    }))
-  }
-  else if (mg.sound > 0 && ctx.gs) {
+    const targetEnemyPos =
+      targetIdx !== undefined ? ctx.state.enemies[targetIdx]?.posOriginal : undefined
+    ctx.pendingAnimFrames.push(
+      ...buildPlayerOffMagicTimeline({
+        casterIdx: -1,
+        magic: {
+          effect: mg.effect,
+          type: mg.type as 'normal' | 'attackAll' | 'attackWhole' | 'attackField',
+          speed: mg.speed,
+          special: mg.special, // DM9:sLayerOffset(z 排序)—— 漏传致投掷魔法物品 OffMagic layerOffset 落 0 被敌人遮挡
+          fireDelay: mg.fireDelay,
+          effectTimes: mg.effectTimes,
+          shake: mg.shake,
+          xOffset: mg.xOffset,
+          yOffset: mg.yOffset,
+          wave: mg.wave,
+          keepEffect: mg.keepEffect,
+          sound: mg.sound,
+        },
+        n,
+        targetIdx: targetIdx ?? -1,
+        targetEnemyPos,
+        baseScreenWave: ctx.state.field.screenWave, // L17:战场基础屏波 + magic.wWave 决定 keepEffect<9(battle.c:1563)
+      }),
+    )
+  } else if (mg.sound > 0 && ctx.gs) {
     // 无投掷动画上下文 → magic.sound 即时(旧行为)。
-    (ctx.gs.pendingSounds ??= []).push(mg.sound)
+    ctx.gs.pendingSounds ??= []
+    ctx.gs.pendingSounds.push(mg.sound)
   }
 }
 
@@ -170,8 +195,7 @@ function increaseBattleHPMP(
   sHP: number,
   sMP: number,
 ): boolean {
-  if (role.hp <= 0)
-    return false // 仅活人(global.c:1290)
+  if (role.hp <= 0) return false // 仅活人(global.c:1290)
   const origHP = role.hp
   const origMP = role.mp
   role.hp = Math.max(0, Math.min(role.maxHP, role.hp + sHP))
@@ -191,19 +215,19 @@ const OP_INFLICT_DAMAGE = 0x0021
 /** sdlpal `script.c:0028` 0x0028:apply poison to enemy(抗性判定 + 去重,op1=poison id)。 */
 const OP_APPLY_POISON = 0x0028
 /** sdlpal `script.c:1287-1329` 0x002A:战斗 cure enemy poison by kind(op0!=0 全敌 / 否则单敌;清 poisonId==op1)。 */
-const OP_CURE_ENEMY_POISON_KIND = 0x002A
+const OP_CURE_ENEMY_POISON_KIND = 0x002a
 /** sdlpal `script.c:1257-1285` 0x0029:apply poison to PLAYER(op0!=0 全队 / 否则 ctx.target;抗性 rng(1,100)>resist 才中)。 */
 const OP_POISON_PLAYER = 0x0029
 /** sdlpal `script.c:1331-1347` 0x002B:cure PLAYER poison by kind(清 wPoisonID==op1)。 */
-const OP_CURE_PLAYER_POISON_KIND = 0x002B
+const OP_CURE_PLAYER_POISON_KIND = 0x002b
 /** sdlpal `script.c:1349-1365` 0x002C:cure PLAYER poison by level(清 level<=op1 的毒,level==99 装备毒不清)。 */
-const OP_CURE_PLAYER_POISON_LEVEL = 0x002C
+const OP_CURE_PLAYER_POISON_LEVEL = 0x002c
 /** sdlpal `script.c:002D` 0x002D:PAL_SetPlayerStatus(role, op0=statusId, op1=duration)。 */
-const OP_SET_PLAYER_STATUS = 0x002D
+const OP_SET_PLAYER_STATUS = 0x002d
 /** sdlpal `script.c:002E` 0x002E:set enemy status(RandomLong(0,9)>resist → rgwStatus[op0]=op1;else jump op2)。 */
-const OP_SET_ENEMY_STATUS = 0x002E
+const OP_SET_ENEMY_STATUS = 0x002e
 /** sdlpal `script.c:002F` 0x002F:PAL_RemovePlayerStatus(role, op0)。 */
-const OP_REMOVE_PLAYER_STATUS = 0x002F
+const OP_REMOVE_PLAYER_STATUS = 0x002f
 
 /**
  * kStatus 索引(**PAL_CLASSIC** global.h:40-56)→ ts BattleStatus key。
@@ -211,7 +235,15 @@ const OP_REMOVE_PLAYER_STATUS = 0x002F
  * (注:CLASSIC index 1 = Paralyzed,**非** Slow;Slow 是 #ifndef PAL_CLASSIC 的 index 1,本 build 无。)
  */
 const KSTATUS_KEY: readonly (keyof BattleStatus | undefined)[] = [
-  'confused', 'paralyzed', 'sleep', 'silence', 'puppet', 'bravery', 'protect', 'haste', 'dualAttack',
+  'confused',
+  'paralyzed',
+  'sleep',
+  'silence',
+  'puppet',
+  'bravery',
+  'protect',
+  'haste',
+  'dualAttack',
 ]
 /** "坏"状态(confused/paralyzed/sleep/silence):已有(>0)则不刷新(PAL_SetPlayerStatus global.c)。 */
 const BAD_STATUS = new Set<keyof BattleStatus>(['confused', 'paralyzed', 'sleep', 'silence'])
@@ -223,40 +255,40 @@ const OP_SET_MAGIC_DAMAGE_BY_MP = 0x0057
 const OP_SET_MAGIC_DAMAGE_BY_MONEY = 0x0088
 
 /** sdlpal `script.c:005E` 0x005E:jump if enemy 无 op0 种毒 → op1。 */
-const OP_JUMP_IF_NO_POISON = 0x005E
+const OP_JUMP_IF_NO_POISON = 0x005e
 
 /** sdlpal `MAX_POISONS`(每敌最多同时中毒槽数)。 */
 const MAX_POISONS = 16
 
 /** sdlpal `script.c:009E` 0x009E:enemy summon(召唤敌人到空槽)。 */
-const OP_ENEMY_SUMMON = 0x009E
+const OP_ENEMY_SUMMON = 0x009e
 
 /** sdlpal `palcommon.h:60` MAX_ENEMIES_IN_TEAM —— 战斗最多 5 敌(0x9E 召唤房间上限)。 */
 const MAX_ENEMIES_IN_TEAM = 5
 
 /** sdlpal `script.c:009C` 0x009C:enemy division(仅 1 活敌时分裂)。 */
-const OP_ENEMY_DIVISION = 0x009C
+const OP_ENEMY_DIVISION = 0x009c
 
 /** sdlpal `script.c:009F` 0x009F:enemy transform into another(保留 health)。 */
-const OP_ENEMY_TRANSFORM = 0x009F
+const OP_ENEMY_TRANSFORM = 0x009f
 
 /** sdlpal `script.c:005B` 0x005B:halve enemy HP(w=health/2+1,cap op0)。 */
-const OP_HALVE_ENEMY_HP = 0x005B
+const OP_HALVE_ENEMY_HP = 0x005b
 
 /** sdlpal `script.c:0039` 0x0039:drain HP from enemy → caster player(clamp maxHP)。 */
 const OP_DRAIN_HP = 0x0039
 
 /** sdlpal `script.c:005A` 0x005A:halve player HP(wEventObjectID = 目标队员 role)。 */
-const OP_HALVE_PLAYER_HP = 0x005A
+const OP_HALVE_PLAYER_HP = 0x005a
 
 /** sdlpal `script.c:001B` 0x001B:player HP delta(治疗术 scriptOnSuccess;global.c:1254 PAL_IncreaseHPMP)。 */
-const OP_INCREASE_HP = 0x001B
+const OP_INCREASE_HP = 0x001b
 
 /** sdlpal `script.c:001C` 0x001C:player MP delta(凝神归元 等)。 */
-const OP_INCREASE_MP = 0x001C
+const OP_INCREASE_MP = 0x001c
 
 /** sdlpal `script.c:001D` 0x001D:player HP+MP 双 delta(同 operand[1])。 */
-const OP_INCREASE_HP_MP = 0x001D
+const OP_INCREASE_HP_MP = 0x001d
 
 /** sdlpal `script.c:0022` 0x0022:revive dead player(HP=maxHP*op1/10 + 清状态/毒;还魂咒/赎魂)。 */
 const OP_REVIVE_PLAYER = 0x0022
@@ -265,28 +297,28 @@ const OP_REVIVE_PLAYER = 0x0022
 const OP_REDRAW_SCREEN = 0x0005
 
 /** sdlpal `script.c:3428` 0x8E:Restore screen — PAL_ClearDialog(TRUE)(结束/清当前对话框)。 */
-const OP_RESTORE_SCREEN = 0x008E
+const OP_RESTORE_SCREEN = 0x008e
 
 /** sdlpal `script.c:005F` 0x005F:kill player immediately(rgwHP[eventObject]=0)。 */
-const OP_KILL_PLAYER = 0x005F
+const OP_KILL_PLAYER = 0x005f
 
 /** sdlpal `script.c:005C` 0x005C:hide party(iHidingTime = -op0)。 */
-const OP_HIDE_PARTY = 0x005C
+const OP_HIDE_PARTY = 0x005c
 
 /** sdlpal `script.c:006B` 0x006B:blow away enemies(iBlow = (SHORT)op0)。 */
-const OP_BLOW_AWAY = 0x006B
+const OP_BLOW_AWAY = 0x006b
 
 /** sdlpal `script.c:0089` 0x0089:set battle result(BattleResult = op0)。 */
 const OP_SET_BATTLE_RESULT = 0x0089
 
 /** sdlpal `script.c:008A` 0x008A:enable auto-battle for next battle(fAutoBattle=TRUE)。 */
-const OP_ENABLE_AUTO_BATTLE = 0x008A
+const OP_ENABLE_AUTO_BATTLE = 0x008a
 
 /** sdlpal `script.c:0033` 0x0033:collect enemy for items(wCollectValue += enemy.collectValue,否则 jump op0)。 */
 const OP_COLLECT_ENEMY = 0x0033
 
 /** sdlpal `script.c:003A` 0x003A:player flee(boss → jump op0,否则 PlayerEscape)。 */
-const OP_PLAYER_FLEE = 0x003A
+const OP_PLAYER_FLEE = 0x003a
 
 /** sdlpal `script.c:0030` 0x0030:temp +op1% 某 stat(op0=row,梦蛇 等)。 */
 const OP_BUFF_PLAYER_STAT_PCT = 0x0030
@@ -298,7 +330,7 @@ const OP_CHANGE_BATTLE_SPRITE = 0x0031
 const OP_SHOW_MAGIC_ANIM = 0x0092
 
 /** sdlpal `script.c:006A` 0x006A:PAL_BattleStealFromEnemy(target, op0=stealRate)。 */
-const OP_STEAL_FROM_ENEMY = 0x006A
+const OP_STEAL_FROM_ENEMY = 0x006a
 
 /**
  * 0x30 op0(PlayerRoles 结构 WORD row,= PLAYERROLES_ROW)→ stat 三件套:
@@ -353,8 +385,13 @@ interface DispatchResult {
  */
 function resolvePlayerPoisonTargets(ctx: BattleCtx, op0: number): number[] {
   const players = ctx.state.players
-  if (op0 !== 0) return players.map(p => p.roleId)
-  const sel = ctx.target?.type === 'player' ? ctx.target : ctx.caster?.type === 'player' ? ctx.caster : undefined
+  if (op0 !== 0) return players.map((p) => p.roleId)
+  const sel =
+    ctx.target?.type === 'player'
+      ? ctx.target
+      : ctx.caster?.type === 'player'
+        ? ctx.caster
+        : undefined
   const idx = sel?.idx
   return idx !== undefined && players[idx] ? [players[idx]!.roleId] : []
 }
@@ -373,8 +410,7 @@ export function dispatchBattleOpcode(
       //   op2 = target+1(`i = (SHORT)op2 - 1; if (i<0) i = wEventObjectID`)。
       // 主要由投掷物 scriptOnThrow 用(符/镖/卵/蛊)。
       const tables = ctx.magicTables
-      if (!tables)
-        return { consumed: true } // 未注入 magic 表 → no-op(防御,避免静默错算)
+      if (!tables) return { consumed: true } // 未注入 magic 表 → no-op(防御,避免静默错算)
 
       const op2 = operands[2] ?? 0
       const i = asShort(op2) - 1
@@ -404,16 +440,14 @@ export function dispatchBattleOpcode(
       //   PAL_BattleSimulateMagic((SHORT)wEventObjectID, op0, w)。
       // 32 个可投掷武器(长鞭/木剑/铁剑/仙女剑/越女剑…)的 scriptOnThrow 用。
       const tables = ctx.magicTables
-      if (!tables)
-        return { consumed: true }
+      if (!tables) return { consumed: true }
 
       // attackStrength = PAL_GetPlayerAttackStrength(movingPlayer = caster);ctx.playerRoles 已是战斗入口投影后的 effective 值。
       let attackStr = 0
       if (ctx.caster?.type === 'player' && ctx.playerRoles) {
         const roleId = state.players[ctx.caster.idx]?.roleId
         const role = roleId !== undefined ? ctx.playerRoles.roles[roleId] : undefined
-        if (role)
-          attackStr = asShort(role.attackStrength)
+        if (role) attackStr = asShort(role.attackStrength)
       }
       const w = (operands[1] ?? 0) * 5 + attackStr * state.rng.rangeInclusive(0, 3)
 
@@ -444,8 +478,7 @@ export function dispatchBattleOpcode(
           e.e.health = Math.max(0, e.e.health - dmg)
           emitDamageNum(ctx, 'enemy', i, before, e.e.health, dmg) // 投掷暗器打敌:显示完整 dmg(超杀下溢)
         })
-      }
-      else {
+      } else {
         const idx = ctx.target?.idx
         const enemy = idx !== undefined ? state.enemies[idx] : undefined
         if (isActiveEnemy(enemy)) {
@@ -472,16 +505,13 @@ export function dispatchBattleOpcode(
       //   wEventObjectID(script.c:1213),非循环 i,故入口首条 0x21 即时伤害集中砸投掷目标。
       const applyTo = (enemyIdx: number, scriptSelfIdx: number): void => {
         const enemy = state.enemies[enemyIdx]
-        if (!isActiveEnemy(enemy))
-          return
+        if (!isActiveEnemy(enemy)) return
         // 抗性:RandomLong(0,9) >= resistanceToSorcery 才中毒(resist 0 → 总中)
-        if (state.rng.rangeInclusive(0, 9) < (enemy.resistanceToSorcery ?? 0))
-          return
-        const poisons = (enemy.poisons ??= [])
-        if (poisons.some(p => p.poisonId === poisonId))
-          return // 已中同毒(去重)
-        if (poisons.length >= MAX_POISONS)
-          return // 槽满
+        if (state.rng.rangeInclusive(0, 9) < (enemy.resistanceToSorcery ?? 0)) return
+        enemy.poisons ??= []
+        const poisons = enemy.poisons
+        if (poisons.some((p) => p.poisonId === poisonId)) return // 已中同毒(去重)
+        if (poisons.length >= MAX_POISONS) return // 槽满
         // 施毒跑一次入口(sdlpal script.c:1213)。需 bus(脚本内 0x21 等 emit 伤害数字)。
         let entry = scriptEntry
         if (scriptEntry > 0 && ctx.commands && ctx.runScript && ctx.bus) {
@@ -518,8 +548,7 @@ export function dispatchBattleOpcode(
         state.enemies.forEach((enemy, i) => {
           if (isActiveEnemy(enemy)) applyTo(i, selfIdx ?? i)
         })
-      }
-      else if (ctx.target?.idx !== undefined) {
+      } else if (ctx.target?.idx !== undefined) {
         applyTo(ctx.target.idx, ctx.target.idx)
       }
       return { consumed: true }
@@ -532,9 +561,10 @@ export function dispatchBattleOpcode(
         const enemy = state.enemies[enemyIdx]
         if (enemy?.poisons) enemy.poisons = enemy.poisons.filter((p) => p.poisonId !== poisonId)
       }
-      if ((operands[0] ?? 0) !== 0) state.enemies.forEach((enemy, i) => {
-        if (isActiveEnemy(enemy)) cure(i)
-      })
+      if ((operands[0] ?? 0) !== 0)
+        state.enemies.forEach((enemy, i) => {
+          if (isActiveEnemy(enemy)) cure(i)
+        })
       else if (ctx.target?.type === 'enemy' && ctx.target.idx !== undefined) cure(ctx.target.idx)
       return { consumed: true }
     }
@@ -606,7 +636,12 @@ export function dispatchBattleOpcode(
       //   坏状态(confused/paralyzed/sleep/silence):已有(>0)不刷新;puppet:仅死人(HP==0)设且更久,
       //   否则 fSuccess=FALSE → g_fScriptSuccess=FALSE;好状态(bravery/protect/dualAttack/haste):仅活人 + 更久。
       //   wEventObjectID = 目标队员:ctx.target(player)优先,否则 ctx.caster(自 buff)。
-      const sel = ctx.target?.type === 'player' ? ctx.target : ctx.caster?.type === 'player' ? ctx.caster : undefined
+      const sel =
+        ctx.target?.type === 'player'
+          ? ctx.target
+          : ctx.caster?.type === 'player'
+            ? ctx.caster
+            : undefined
       const player = sel ? state.players[sel.idx] : undefined
       const key = KSTATUS_KEY[operands[0] ?? 0]
       if (player && key) {
@@ -616,9 +651,11 @@ export function dispatchBattleOpcode(
         if (BAD_STATUS.has(key)) {
           if (cur === 0) player.status[key] = dur
         } else if (key === 'puppet') {
-          if (hp === 0) { if (cur < dur) player.status[key] = dur }
-          else if (ctx.gs) ctx.gs.fScriptSuccess = false // 活人上 puppet 失败
-        } else { // bravery/protect/dualAttack/haste(好状态)
+          if (hp === 0) {
+            if (cur < dur) player.status[key] = dur
+          } else if (ctx.gs) ctx.gs.fScriptSuccess = false // 活人上 puppet 失败
+        } else {
+          // bravery/protect/dualAttack/haste(好状态)
           if (hp !== 0 && cur < dur) player.status[key] = dur
         }
       }
@@ -630,7 +667,12 @@ export function dispatchBattleOpcode(
       //   巫抗 0 时掷 0 也算抵抗 → 成功率永远封顶 90%(本应 100%)。原版后期已改为 `>=`(巫抗 0→100% 命中,
       //   满值 10 才免疫),此处跟进原版后期修复 → 用 `>=`(故意偏离 sdlpal,sdlpal 这处仍 `>`)。
       //   下毒 0x28 本就是 `>=`,无此问题。详见 docs/phase1/game-mechanics.md「巫术命中判定」。失败 → jump op2。
-      const sel = ctx.target?.type === 'enemy' ? ctx.target : ctx.caster?.type === 'enemy' ? ctx.caster : undefined
+      const sel =
+        ctx.target?.type === 'enemy'
+          ? ctx.target
+          : ctx.caster?.type === 'enemy'
+            ? ctx.caster
+            : undefined
       const enemy = sel ? state.enemies[sel.idx] : undefined
       const key = KSTATUS_KEY[operands[0] ?? 0]
       if (!enemy || !key) return { consumed: true }
@@ -644,7 +686,12 @@ export function dispatchBattleOpcode(
     case OP_REMOVE_PLAYER_STATUS: {
       // sdlpal script.c:002F → PAL_RemovePlayerStatus(role, op0)(global.c:2304):status<=999 才清(>=1000
       //   装备永久效果不清;战斗内 status 计数都 <999)。wEventObjectID = ctx.target(player)优先,否则 caster。
-      const sel = ctx.target?.type === 'player' ? ctx.target : ctx.caster?.type === 'player' ? ctx.caster : undefined
+      const sel =
+        ctx.target?.type === 'player'
+          ? ctx.target
+          : ctx.caster?.type === 'player'
+            ? ctx.caster
+            : undefined
       const player = sel ? state.players[sel.idx] : undefined
       const key = KSTATUS_KEY[operands[0] ?? 0]
       if (player && key && (player.status[key] ?? 0) <= 999) player.status[key] = 0
@@ -656,9 +703,8 @@ export function dispatchBattleOpcode(
       // wEventObjectID = 被作用敌人:throw 时 ctx.target;敌人自身脚本/毒 tick 时 caster。
       const idx = ctx.target?.idx ?? (ctx.caster?.type === 'enemy' ? ctx.caster.idx : undefined)
       const enemy = idx !== undefined ? state.enemies[idx] : undefined
-      const has = enemy?.poisons?.some(p => p.poisonId === (operands[0] ?? 0)) ?? false
-      if (!has)
-        return { consumed: true, newIp: operands[1] ?? 0 }
+      const has = enemy?.poisons?.some((p) => p.poisonId === (operands[0] ?? 0)) ?? false
+      if (!has) return { consumed: true, newIp: operands[1] ?? 0 }
       return { consumed: true }
     }
 
@@ -667,19 +713,19 @@ export function dispatchBattleOpcode(
       //   = casterMP * i; casterMP = 0。caster = wEventObjectID = 施法队员。酒神 scriptOnUse。
       // 之后 performMagic 的 E1 inline 伤害读这个新 baseDamage 结算。
       const tables = ctx.magicTables
-      const objMagic = tables ? resolveObjectMagic(operands[0] ?? 0, tables.objectMagics) : undefined
-      const magic = objMagic ? tables!.magics.find(m => m.id === objMagic.magicNumber) : undefined
-      if (!magic)
-        return { consumed: true }
+      const objMagic = tables
+        ? resolveObjectMagic(operands[0] ?? 0, tables.objectMagics)
+        : undefined
+      const magic = objMagic ? tables!.magics.find((m) => m.id === objMagic.magicNumber) : undefined
+      if (!magic) return { consumed: true }
       const i = (operands[1] ?? 0) === 0 ? 8 : (operands[1] ?? 0)
-      let role
+      let role: NonNullable<typeof ctx.playerRoles>['roles'][number] | undefined
       if (ctx.caster?.type === 'player' && ctx.playerRoles) {
         const roleId = state.players[ctx.caster.idx]?.roleId
         role = roleId !== undefined ? ctx.playerRoles.roles[roleId] : undefined
       }
       magic.baseDamage = (role?.mp ?? 0) * i
-      if (role)
-        role.mp = 0
+      if (role) role.mp = 0
       return { consumed: true }
     }
 
@@ -687,10 +733,11 @@ export function dispatchBattleOpcode(
       // sdlpal `script.c:0088`:i = min(dwCash, 5000); dwCash -= i;
       //   magic[..].wBaseDamage = i * 2 / 5。乾坤一掷 scriptOnUse。之后 E1 读新 baseDamage。
       const tables = ctx.magicTables
-      const objMagic = tables ? resolveObjectMagic(operands[0] ?? 0, tables.objectMagics) : undefined
-      const magic = objMagic ? tables!.magics.find(m => m.id === objMagic.magicNumber) : undefined
-      if (!magic || !ctx.gs)
-        return { consumed: true }
+      const objMagic = tables
+        ? resolveObjectMagic(operands[0] ?? 0, tables.objectMagics)
+        : undefined
+      const magic = objMagic ? tables!.magics.find((m) => m.id === objMagic.magicNumber) : undefined
+      if (!magic || !ctx.gs) return { consumed: true }
       const i = Math.min(ctx.gs.dwCash, 5000)
       ctx.gs.dwCash -= i
       magic.baseDamage = Math.floor((i * 2) / 5)
@@ -701,15 +748,12 @@ export function dispatchBattleOpcode(
       // sdlpal `script.c:005B`:w = enemy.wHealth/2 + 1; if (w > op0) w = op0; wHealth -= w。
       // 无影毒 scriptOnThrow:wEventObjectID = 被掷敌人 = ctx.target。
       const idx = ctx.target?.idx
-      if (idx === undefined)
-        return { consumed: true }
+      if (idx === undefined) return { consumed: true }
       const enemy = state.enemies[idx]
-      if (!enemy)
-        return { consumed: true }
+      if (!enemy) return { consumed: true }
       let w = Math.floor(enemy.e.health / 2) + 1
       const cap = operands[0] ?? 0
-      if (w > cap)
-        w = cap
+      if (w > cap) w = cap
       const before = enemy.e.health
       enemy.e.health = Math.max(0, enemy.e.health - w)
       emitDamageNum(ctx, 'enemy', idx, before, enemy.e.health)
@@ -718,9 +762,12 @@ export function dispatchBattleOpcode(
 
     case OP_KILL_PLAYER: {
       // sdlpal `script.c:005F`:rgwHP[wEventObjectID] = 0。target 队员(退回 caster)。
-      const sel = ctx.target?.type === 'player'
-        ? ctx.target
-        : (ctx.caster?.type === 'player' ? ctx.caster : undefined)
+      const sel =
+        ctx.target?.type === 'player'
+          ? ctx.target
+          : ctx.caster?.type === 'player'
+            ? ctx.caster
+            : undefined
       if (sel && ctx.playerRoles) {
         const roleId = state.players[sel.idx]?.roleId
         const role = roleId !== undefined ? ctx.playerRoles.roles[roleId] : undefined
@@ -751,19 +798,16 @@ export function dispatchBattleOpcode(
       const r = operands[0] ?? 0
       if (r === 3) {
         state.phase = 'won'
-      }
-      else if (r === 1) {
+      } else if (r === 1) {
         state.phase = 'lost'
-      }
-      else if (r === 0) {
+      } else if (r === 0) {
         // DLa:Terminated(0)在 0x07 战后分支落 else → entry+1 续行(同胜利无奖励,
         //   script.c:3318-3331),**不是**玩家逃(op[2])。走 0x69 敌逃同路径:标记
         //   terminated → resumePostBattleScript 落 wonIp(当前 4 处实例 op2=0 行为
         //   恰巧相同,经通用遇敌分发表 op2≠0 入口触发时才显形——代码层对齐)。
         state.terminatedByEnemyEscape = true
         state.phase = 'fleed' // 收尾走 fleed 流(无奖励),outcome 经 terminated 标记改道
-      }
-      else if (r === 0xFFFF) {
+      } else if (r === 0xffff) {
         state.phase = 'fleed'
       }
       // 1000+(ongoing / pause)不改 phase
@@ -772,8 +816,7 @@ export function dispatchBattleOpcode(
 
     case OP_ENABLE_AUTO_BATTLE: {
       // sdlpal `script.c:008A`:gpGlobals->fAutoBattle = TRUE;下一场战斗 tickSelectAction 自动选动作。
-      if (ctx.gs)
-        ctx.gs.fAutoBattle = true
+      if (ctx.gs) ctx.gs.fAutoBattle = true
       return { consumed: true }
     }
 
@@ -784,8 +827,7 @@ export function dispatchBattleOpcode(
       const enemy = idx !== undefined ? state.enemies[idx] : undefined
       const cv = enemy?.e.collectValue ?? 0
       if (cv !== 0) {
-        if (ctx.gs)
-          ctx.gs.wCollectValue += cv
+        if (ctx.gs) ctx.gs.wCollectValue += cv
         return { consumed: true }
       }
       return { consumed: true, newIp: operands[0] ?? 0 }
@@ -793,10 +835,12 @@ export function dispatchBattleOpcode(
 
     case OP_PLAYER_FLEE: {
       // sdlpal `script.c:003A`:if (fIsBoss) jump op0; else PAL_BattlePlayerEscape()。
-      if (state.isBoss)
-        return { consumed: true, newIp: operands[0] ?? 0 }
+      if (state.isBoss) return { consumed: true, newIp: operands[0] ?? 0 }
       state.fleeAnim = { step: 0 }
-      if (ctx.gs) (ctx.gs.pendingSounds ??= []).push(45) // battle.c:1459 AUDIO_PlaySound(45)
+      if (ctx.gs) {
+        ctx.gs.pendingSounds ??= []
+        ctx.gs.pendingSounds.push(45) // battle.c:1459 AUDIO_PlaySound(45)
+      }
       return { consumed: true }
     }
 
@@ -815,19 +859,21 @@ export function dispatchBattleOpcode(
       if (op2 > 0) {
         roleId = op2 - 1
       } else {
-        const sel = ctx.caster?.type === 'player'
-          ? ctx.caster
-          : (ctx.target?.type === 'player' ? ctx.target : undefined)
+        const sel =
+          ctx.caster?.type === 'player'
+            ? ctx.caster
+            : ctx.target?.type === 'player'
+              ? ctx.target
+              : undefined
         roleId = sel ? state.players[sel.idx]?.roleId : undefined
       }
       const map = STAT_ROW_BUFF[(operands[0] ?? 0) as keyof typeof STAT_ROW_BUFF]
-      if (roleId === undefined || !map)
-        return { consumed: true } // 未知 row / 无 role → no-op(consumed)
+      if (roleId === undefined || !map) return { consumed: true } // 未知 row / 无 role → no-op(consumed)
       const gs = ctx.gs
       if (gs) {
         // 真值路径:写 Extra 槽(bonus = trunc(base * SHORT(op1) / 100))+ recompute snapshot
         const base = gs.PlayerRolesRuntime[map.rgw][roleId] ?? 0
-        const bonus = Math.trunc(base * asShort(operands[1] ?? 0) / 100)
+        const bonus = Math.trunc((base * asShort(operands[1] ?? 0)) / 100)
         const extra = gs.rgEquipmentEffect[6]
         if (extra) extra[map.rgw][roleId] = bonus
         const role = ctx.playerRoles?.roles[roleId]
@@ -838,7 +884,7 @@ export function dispatchBattleOpcode(
         const role = ctx.playerRoles.roles[roleId]
         if (role) {
           const b = role[map.field]
-          role[map.field] = b + Math.trunc(b * asShort(operands[1] ?? 0) / 100)
+          role[map.field] = b + Math.trunc((b * asShort(operands[1] ?? 0)) / 100)
         }
       }
       return { consumed: true }
@@ -849,7 +895,12 @@ export function dispatchBattleOpcode(
       //   —— 临时换队员战斗精灵号(梦蛇295 scriptOnUse 变身)。wEventObjectID = 用物品的队员(caster 优先)。
       //   ts:存 BattlePlayer.spriteNumOverride(per-battle;draw-battle-sprites 优先于 role.spriteNumInBattle);
       //   战末 BattleState 清 = sdlpal Extra slot 战末清,语义等价(2026-06-02 D17:此前 present-only no-op)。
-      const sel = ctx.caster?.type === 'player' ? ctx.caster : ctx.target?.type === 'player' ? ctx.target : undefined
+      const sel =
+        ctx.caster?.type === 'player'
+          ? ctx.caster
+          : ctx.target?.type === 'player'
+            ? ctx.target
+            : undefined
       const player = sel ? state.players[sel.idx] : undefined
       if (player) player.spriteNumOverride = operands[0] ?? 0
       return { consumed: true }
@@ -868,12 +919,16 @@ export function dispatchBattleOpcode(
           const role = ctx.playerRoles?.roles[caster.roleId]
           const battleSpriteId = role?.spriteNumInBattle ?? 0
           const castEffectFrameBase = (ctx.battleEffectIndex?.[battleSpriteId * 2] ?? 0) * 10 + 15
-          startBattleAnim(state, buildShowMagicAnimTimeline({
-            casterPos: caster.posOriginal,
-            casterIdx,
-            castEffectFrameBase,
-            partyIndices: state.players.map((_, idx) => idx), // 全队(sdlpal j=0..wMaxPartyMemberIndex)
-          }), ctx.bus)
+          startBattleAnim(
+            state,
+            buildShowMagicAnimTimeline({
+              casterPos: caster.posOriginal,
+              casterIdx,
+              castEffectFrameBase,
+              partyIndices: state.players.map((_, idx) => idx), // 全队(sdlpal j=0..wMaxPartyMemberIndex)
+            }),
+            ctx.bus,
+          )
         }
       }
       return { consumed: true }
@@ -889,8 +944,7 @@ export function dispatchBattleOpcode(
       //   偷得提示 dialog(PAL_ShowDialogText)是 present 层 → 跳过。
       const idx = ctx.target?.idx
       const enemy = idx !== undefined ? state.enemies[idx] : undefined
-      if (!enemy || !ctx.gs)
-        return { consumed: true }
+      if (!enemy || !ctx.gs) return { consumed: true }
       // 偷窃动画(fight.c:5218-5246):caster=偷窃队员,冲到敌前 5 步 + 敌闪白。
       const casterIdx = ctx.caster?.type === 'player' ? ctx.caster.idx : undefined
       if (ctx.bus && casterIdx !== undefined && idx !== undefined && enemy.posOriginal) {
@@ -916,21 +970,27 @@ export function dispatchBattleOpcode(
             //   c==0(剩 1 文整除得 0,如蜥蜴 stealItemCount=1)时原版不弹任何框,避免"获得 0 文钱"突兀提示。
             if (c > 0) {
               state.battleDialogQueue ??= []
-              state.battleDialogQueue.push({ text: `@获得 @${c} @文钱@`, style: 'narration', clearBefore: true })
+              state.battleDialogQueue.push({
+                text: `@获得 @${c} @文钱@`,
+                style: 'narration',
+                clearBefore: true,
+              })
             }
           } else {
             // 偷物:nStealItem--; AddItem(wStealItem,1)
             enemy.e.stealItemCount--
             const itemId = enemy.e.stealItem
             const entry = ctx.gs.inventory.find((e) => e.itemId === itemId)
-            if (entry)
-              entry.count = Math.min(99, entry.count + 1)
-            else
-              ctx.gs.inventory.push({ itemId, count: 1 })
+            if (entry) entry.count = Math.min(99, entry.count + 1)
+            else ctx.gs.inventory.push({ itemId, count: 1 })
             // 偷取成功提示居中框"获得 物品名"(同偷钱;sdlpal "%ls@%ls@" → 获得 默认色 + 物品名红)。
             const name = ctx.items?.find((it) => it.id === itemId)?._name ?? '道具'
             state.battleDialogQueue ??= []
-            state.battleDialogQueue.push({ text: `获得@${name}@`, style: 'narration', clearBefore: true })
+            state.battleDialogQueue.push({
+              text: `获得@${name}@`,
+              style: 'narration',
+              clearBefore: true,
+            })
           }
         }
       }
@@ -942,9 +1002,12 @@ export function dispatchBattleOpcode(
       // 无影毒 scriptOnUse(使用 → 目标队员 HP 减半)。target=队员;无 player target 退回 caster。
       // 注:无影毒-use 的可达性待 item **队员**目标路由(performBattleAction 现强制 item→enemy
       // 目标),handler 本身正确就绪。
-      const sel = ctx.target?.type === 'player'
-        ? ctx.target
-        : (ctx.caster?.type === 'player' ? ctx.caster : undefined)
+      const sel =
+        ctx.target?.type === 'player'
+          ? ctx.target
+          : ctx.caster?.type === 'player'
+            ? ctx.caster
+            : undefined
       if (sel && ctx.playerRoles) {
         const roleId = state.players[sel.idx]?.roleId
         const role = roleId !== undefined ? ctx.playerRoles.roles[roleId] : undefined
@@ -968,8 +1031,7 @@ export function dispatchBattleOpcode(
       // 目标(script.c:871/884):operand[0]!=0 → 全体队员;否则 wEventObjectID = target 队员
       //   (治疗 magic 的 scriptOnSuccess 用 w = action.sTarget 的 wPlayerRole → ctx.target;退回 caster)。
       // delta = (SHORT)operand[1]。仅活人 + clamp(increaseBattleHPMP)。
-      if (!ctx.playerRoles)
-        return { consumed: true }
+      if (!ctx.playerRoles) return { consumed: true }
       const applyAll = (operands[0] ?? 0) !== 0
       const delta = asShort(operands[1] ?? 0)
       const doHp = opcode === OP_INCREASE_HP || opcode === OP_INCREASE_HP_MP
@@ -977,37 +1039,39 @@ export function dispatchBattleOpcode(
       let targetPlayerIdxs: number[]
       if (applyAll) {
         targetPlayerIdxs = state.players.map((_, i) => i)
-      }
-      else {
-        const sel = ctx.target?.type === 'player'
-          ? ctx.target
-          : (ctx.caster?.type === 'player' ? ctx.caster : undefined)
+      } else {
+        const sel =
+          ctx.target?.type === 'player'
+            ? ctx.target
+            : ctx.caster?.type === 'player'
+              ? ctx.caster
+              : undefined
         targetPlayerIdxs = sel ? [sel.idx] : []
       }
       let anyChanged = false
       for (const pIdx of targetPlayerIdxs) {
         const roleId = state.players[pIdx]?.roleId
         const role = roleId !== undefined ? ctx.playerRoles.roles[roleId] : undefined
-        if (!role)
-          continue
+        if (!role) continue
         const beforeHp = role.hp
         const beforeMp = role.mp
-        if (increaseBattleHPMP(role, doHp ? delta : 0, doMp ? delta : 0))
-          anyChanged = true
+        if (increaseBattleHPMP(role, doHp ? delta : 0, doMp ? delta : 0)) anyChanged = true
         // sdlpal PAL_BattleDisplayStatChange(fight.c:602-712):HP 变化 → yellow(回)/blue(损);
         //   MP **仅增**(sDamage>0)→ cyan(704-709 "Only show MP increasing",减 MP 不画)。
-        if (doHp)
-          emitDamageNum(ctx, 'player', pIdx, beforeHp, role.hp)
+        if (doHp) emitDamageNum(ctx, 'player', pIdx, beforeHp, role.hp)
         if (doMp && role.mp > beforeMp)
-          ctx.bus?.emit({ op: 'showDamageNum', target: { kind: 'player', idx: pIdx }, value: role.mp - beforeMp, color: 'cyan' })
+          ctx.bus?.emit({
+            op: 'showDamageNum',
+            target: { kind: 'player', idx: pIdx },
+            value: role.mp - beforeMp,
+            color: 'cyan',
+          })
       }
       // g_fScriptSuccess(script.c:871-892):0x1B applyAll → = anyChanged(873 先 FALSE,880 任一改 TRUE);
       //   单体 → 仅 !changed FALSE(889)。0x1C/0x1D:applyAll 不动,单体 !changed → FALSE(916/944)。
       if (ctx.gs) {
-        if (opcode === OP_INCREASE_HP && applyAll)
-          ctx.gs.fScriptSuccess = anyChanged
-        else if (!applyAll && !anyChanged)
-          ctx.gs.fScriptSuccess = false
+        if (opcode === OP_INCREASE_HP && applyAll) ctx.gs.fScriptSuccess = anyChanged
+        else if (!applyAll && !anyChanged) ctx.gs.fScriptSuccess = false
       }
       return { consumed: true }
     }
@@ -1018,20 +1082,29 @@ export function dispatchBattleOpcode(
       //   g_fScriptSuccess:applyAll → 任一复活 TRUE(否则 1061 FALSE);单体 → 活着的 → FALSE(1099)。
       // 战斗语境:写 ctx.playerRoles.roles[roleId].hp + 清 state.players[pIdx].status(战内状态)
       //   + 清 gs.rgPoisonStatus 该 role 毒(同 C7 runner revivePlayerSingle 简版,D15 残)。
-      if (!ctx.playerRoles)
-        return { consumed: true }
+      if (!ctx.playerRoles) return { consumed: true }
       const applyAll = (operands[0] ?? 0) !== 0
       const ratioTenths = operands[1] ?? 0
       const reviveOne = (pIdx: number): boolean => {
         const roleId = state.players[pIdx]?.roleId
         const role = roleId !== undefined ? ctx.playerRoles!.roles[roleId] : undefined
-        if (!role || role.hp !== 0)
-          return false
+        if (!role || role.hp !== 0) return false
         role.hp = Math.floor((role.maxHP * ratioTenths) / 10)
         // 清战斗内状态(sdlpal script.c:1052-1102 revive 清**所有** kStatus,全 9 项)+ 毒(CurePoisonByLevel 3)。
         const p = state.players[pIdx]
         if (p) {
-          p.status = { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0, silence: 0, puppet: 0, bravery: 0, protect: 0, dualAttack: 0 }
+          p.status = {
+            sleep: 0,
+            paralyzed: 0,
+            confused: 0,
+            haste: 0,
+            slow: 0,
+            silence: 0,
+            puppet: 0,
+            bravery: 0,
+            protect: 0,
+            dualAttack: 0,
+          }
           // 复活后刷新静止帧:死员 currentFrame 停在死帧 2,复活只改 hp 不刷帧 → 后续动画期(别人行动 /
           //   结算)仍按 currentFrame=2 画倒下,直到该队员轮到行动才被 resetFightersAfterAction 复位
           //   (user 报"起来一帧又倒下,轮到他才起来")。此处与 reset 同源 playerRestFrame 立即复位为站立/濒死。
@@ -1048,19 +1121,18 @@ export function dispatchBattleOpcode(
       let anyRevived = false
       if (applyAll) {
         state.players.forEach((_, i) => {
-          if (reviveOne(i))
-            anyRevived = true
+          if (reviveOne(i)) anyRevived = true
         })
-        if (ctx.gs)
-          ctx.gs.fScriptSuccess = anyRevived
-      }
-      else {
-        const sel = ctx.target?.type === 'player'
-          ? ctx.target
-          : (ctx.caster?.type === 'player' ? ctx.caster : undefined)
+        if (ctx.gs) ctx.gs.fScriptSuccess = anyRevived
+      } else {
+        const sel =
+          ctx.target?.type === 'player'
+            ? ctx.target
+            : ctx.caster?.type === 'player'
+              ? ctx.caster
+              : undefined
         const revived = sel ? reviveOne(sel.idx) : false
-        if (ctx.gs && !revived)
-          ctx.gs.fScriptSuccess = false
+        if (ctx.gs && !revived) ctx.gs.fScriptSuccess = false
       }
       return { consumed: true }
     }
@@ -1102,8 +1174,7 @@ export function dispatchBattleOpcode(
     case OP_JUMP_IF_ENEMY_TURN: {
       // sdlpal `script.c:2025`:if (g_Battle.fEnemyMoving) wScriptEntry = op0-1。
       // fEnemyMoving ≈ 当前行动者是敌人 —— 法术 scriptOnSuccess 在敌人施法时跑则 caster=enemy。
-      if (ctx.caster?.type === 'enemy')
-        return { consumed: true, newIp: operands[0] ?? 0 }
+      if (ctx.caster?.type === 'enemy') return { consumed: true, newIp: operands[0] ?? 0 }
       return { consumed: true }
     }
 
@@ -1112,42 +1183,35 @@ export function dispatchBattleOpcode(
       // 用途:让"同种敌人组"的脚本只在**第一个**身上跑(其余 jump 到 end / 跳过)。
       // L25:同种 = 同 **objectId**(wObjectID,对象身份),非 e.id(wEnemyID)—— 同 wEnemyID 可映射多个
       //   OBJECT(如 81→478/479),C 视为不同种。objectId 缺省(旧 fixture)回退 e.id(旧行为)。
-      if (ctx.caster?.type !== 'enemy')
-        return { consumed: true }
+      if (ctx.caster?.type !== 'enemy') return { consumed: true }
       const self = state.enemies[ctx.caster.idx]
-      if (!self)
-        return { consumed: true }
+      if (!self) return { consumed: true }
       const selfKind = self.objectId ?? self.e.id
       let count = 0
       let selfPos = 0
       state.enemies.forEach((e, i) => {
         if (isActiveEnemy(e) && (e.objectId ?? e.e.id) === selfKind) {
           count++
-          if (i === ctx.caster!.idx)
-            selfPos = count
+          if (i === ctx.caster!.idx) selfPos = count
         }
       })
-      if (selfPos > 1)
-        return { consumed: true, newIp: operands[0] ?? 0 }
+      if (selfPos > 1) return { consumed: true, newIp: operands[0] ?? 0 }
       return { consumed: true }
     }
 
     case OP_ENEMY_DIVISION: {
       // sdlpal `script.c:009C`:仅当**恰 1 活敌**且 self.health>1 才分裂成 op0+1 份,
       //   各 floor((self.health + w)/(w+1));不满足 → op1≠0 jump op1。
-      if (ctx.caster?.type !== 'enemy')
-        return { consumed: true }
+      if (ctx.caster?.type !== 'enemy') return { consumed: true }
       const self = state.enemies[ctx.caster.idx]
-      if (!self)
-        return { consumed: true }
+      if (!self) return { consumed: true }
       const aliveCount = state.enemies.filter(isAliveEnemy).length
       if (aliveCount !== 1 || self.e.health <= 1) {
         const failJump = operands[1] ?? 0
         return failJump !== 0 ? { consumed: true, newIp: failJump } : { consumed: true }
       }
       let w = operands[0] ?? 0
-      if (w === 0)
-        w = 1
+      if (w === 0) w = 1
       const x = w + 1
       const newHealth = Math.floor((self.e.health + w) / x)
       const beforeHealth = self.e.health
@@ -1175,8 +1239,7 @@ export function dispatchBattleOpcode(
         if (state.enemies[i]) {
           if (!state.enemies[i]!.defeated) continue
           resetEnemySlot(state.enemies[i]!, init)
-        }
-        else {
+        } else {
           state.enemies[i] = init
         }
         copiesLeft--
@@ -1206,22 +1269,20 @@ export function dispatchBattleOpcode(
     case OP_ENEMY_TRANSFORM: {
       // sdlpal `script.c:009F`:iHidingTime<=0 且 self 非 睡眠/麻痹/混乱 → self 变身成 op0
       //   (新 enemy object 的 stats,**保留当前 health**)。否则 no-op。
-      if (ctx.caster?.type !== 'enemy')
-        return { consumed: true }
+      if (ctx.caster?.type !== 'enemy') return { consumed: true }
       const self = state.enemies[ctx.caster.idx]
       const tables = ctx.summonTables
-      if (!self || !tables)
-        return { consumed: true }
+      if (!self || !tables) return { consumed: true }
       const hiding = (state.iHidingTime ?? 0) > 0
-      const disabled = (self.status.sleep ?? 0) > 0 || (self.status.paralyzed ?? 0) > 0 || (self.status.confused ?? 0) > 0
-      if (hiding || disabled)
-        return { consumed: true }
-      const eo = tables.enemyObjects.find(o => o.objectIndex === (operands[0] ?? 0))
-      if (!eo)
-        return { consumed: true }
-      const base = tables.enemies.find(e => e.id === eo.enemyId)
-      if (!base)
-        return { consumed: true }
+      const disabled =
+        (self.status.sleep ?? 0) > 0 ||
+        (self.status.paralyzed ?? 0) > 0 ||
+        (self.status.confused ?? 0) > 0
+      if (hiding || disabled) return { consumed: true }
+      const eo = tables.enemyObjects.find((o) => o.objectIndex === (operands[0] ?? 0))
+      if (!eo) return { consumed: true }
+      const base = tables.enemies.find((e) => e.id === eo.enemyId)
+      if (!base) return { consumed: true }
       const keepHealth = self.e.health
       self.e = { ...base, health: keepHealth }
       self.defeated = false
@@ -1239,10 +1300,10 @@ export function dispatchBattleOpcode(
       refreshEnemyBattlePositions(ctx)
       if (ctx.bus) {
         startBattleAnim(state, buildEnemyTransformTimeline(ctx.caster.idx), ctx.bus)
-      }
-      else if (ctx.gs) {
+      } else if (ctx.gs) {
         // 无动画上下文时保留旧即时音 fallback。
-        (ctx.gs.pendingSounds ??= []).push(47)
+        ctx.gs.pendingSounds ??= []
+        ctx.gs.pendingSounds.push(47)
       }
       return { consumed: true }
     }
@@ -1254,20 +1315,20 @@ export function dispatchBattleOpcode(
       // 成功后等价一次 PAL_BattleMakeScene:按新敌人数刷新所有敌人的 idle 底锚,渲染层再按 enemy.e.id
       // 从预载 battleSprites(`enemy-${id}`)取 ABC.MKF 战斗精灵。
       const tables = ctx.summonTables
-      if (!tables || ctx.caster?.type !== 'enemy')
-        return { consumed: true }
+      if (!tables || ctx.caster?.type !== 'enemy') return { consumed: true }
       const self = state.enemies[ctx.caster.idx]
-      if (!self)
-        return { consumed: true }
+      if (!self) return { consumed: true }
 
       const w = operands[0] ?? 0
       let count = asShort(operands[1] ?? 0)
-      if (count <= 0)
-        count = 1
+      if (count <= 0) count = 1
       const failJump = operands[2] ?? 0
 
       const room = state.enemies.reduce((n, enemy) => n + (enemy.defeated ? 1 : 0), 0)
-      const disabled = (self.status.sleep ?? 0) > 0 || (self.status.paralyzed ?? 0) > 0 || (self.status.confused ?? 0) > 0
+      const disabled =
+        (self.status.sleep ?? 0) > 0 ||
+        (self.status.paralyzed ?? 0) > 0 ||
+        (self.status.confused ?? 0) > 0
       const hiding = (state.iHidingTime ?? 0) > 0 // sdlpal:我方隐身中不可召唤(对齐 0x9F)
       if (room < count || hiding || disabled)
         return failJump !== 0 ? { consumed: true, newIp: failJump } : { consumed: true }
@@ -1279,7 +1340,7 @@ export function dispatchBattleOpcode(
       let onBattleEnd: number
       let resist: number
       let summonObjectId: number // L25:对象身份(wObjectID),0x91 同种判定用
-      if (w === 0 || w === 0xFFFF) {
+      if (w === 0 || w === 0xffff) {
         // DM8:script.c:2885-2922 自身同种召唤,新敌脚本一律取 `rgObject[w].enemy.wScriptOn*`
         //   对象表入口(rgObject overlay 优先 = 0x90 改写后的活值,否则静态模板)——而非 self 的
         //   运行时字段(scriptOnReady 经 store-back 推进过,副本会天生带"已消费"入口,跳过起手
@@ -1287,24 +1348,21 @@ export function dispatchBattleOpcode(
         enemyId = self.e.id
         summonObjectId = self.objectId ?? self.e.id // 自身同种 → 同 wObjectID
         const ov = ctx.gs?.rgObject[summonObjectId]
-        const eo = tables.enemyObjects.find(o => o.objectIndex === summonObjectId)
+        const eo = tables.enemyObjects.find((o) => o.objectIndex === summonObjectId)
         if (ov || eo) {
           onTurnStart = ov?.rgwData[2] ?? eo?.scriptOnTurnStart ?? 0
           onBattleEnd = ov?.rgwData[3] ?? eo?.scriptOnBattleEnd ?? 0
           onReady = ov?.rgwData[4] ?? eo?.scriptOnReady ?? 0
           resist = ov?.rgwData[1] ?? eo?.resistanceToSorcery ?? 0
-        }
-        else {
+        } else {
           onTurnStart = self.scriptOnTurnStart
           onReady = self.scriptOnReady
           onBattleEnd = self.scriptOnBattleEnd
           resist = self.resistanceToSorcery ?? 0
         }
-      }
-      else {
-        const eo = tables.enemyObjects.find(o => o.objectIndex === w)
-        if (!eo)
-          return { consumed: true }
+      } else {
+        const eo = tables.enemyObjects.find((o) => o.objectIndex === w)
+        if (!eo) return { consumed: true }
         enemyId = eo.enemyId
         onTurnStart = eo.scriptOnTurnStart
         onReady = eo.scriptOnReady
@@ -1312,15 +1370,13 @@ export function dispatchBattleOpcode(
         resist = eo.resistanceToSorcery
         summonObjectId = w // 召唤的是 OBJECT 绝对 index=w 的对象
       }
-      const base = tables.enemies.find(e => e.id === enemyId)
-      if (!base)
-        return { consumed: true }
+      const base = tables.enemies.find((e) => e.id === enemyId)
+      if (!base) return { consumed: true }
 
       const summonedIdxs: number[] = []
       let left = count
       for (let i = 0; i < state.enemies.length && left > 0; i++) {
-        if (!state.enemies[i]?.defeated)
-          continue
+        if (!state.enemies[i]?.defeated) continue
         resetEnemySlot(state.enemies[i]!, {
           e: { ...base }, // 满血 base stats(sdlpal e = lprgEnemy[enemyID])
           status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
@@ -1340,25 +1396,29 @@ export function dispatchBattleOpcode(
       }
       refreshEnemyBattlePositions(ctx)
       if (ctx.bus && self.posOriginal) {
-        startBattleAnim(state, buildEnemySummonTimeline({
-          casterIdx: ctx.caster.idx,
-          casterPos: self.posOriginal,
-          caster: {
-            idleFrames: self.e.idleFrames,
-            magicFrames: self.e.magicFrames,
-            attackFrames: self.e.attackFrames,
-            actWaitFrames: self.e.actWaitFrames,
-          },
-          summonedIdxs,
-          activeEnemyIdxs: state.enemies
-            .map((enemy, idx) => ({ enemy, idx }))
-            .filter(({ enemy }) => !enemy.defeated)
-            .map(({ idx }) => idx),
-        }), ctx.bus)
-      }
-      else if (ctx.gs) {
+        startBattleAnim(
+          state,
+          buildEnemySummonTimeline({
+            casterIdx: ctx.caster.idx,
+            casterPos: self.posOriginal,
+            caster: {
+              idleFrames: self.e.idleFrames,
+              magicFrames: self.e.magicFrames,
+              attackFrames: self.e.attackFrames,
+              actWaitFrames: self.e.actWaitFrames,
+            },
+            summonedIdxs,
+            activeEnemyIdxs: state.enemies
+              .map((enemy, idx) => ({ enemy, idx }))
+              .filter(({ enemy }) => !enemy.defeated)
+              .map(({ idx }) => idx),
+          }),
+          ctx.bus,
+        )
+      } else if (ctx.gs) {
         // 无动画上下文时保留旧即时音 fallback。
-        (ctx.gs.pendingSounds ??= []).push(212)
+        ctx.gs.pendingSounds ??= []
+        ctx.gs.pendingSounds.push(212)
       }
       return { consumed: true }
     }
@@ -1367,7 +1427,12 @@ export function dispatchBattleOpcode(
       // 0x0064: wEventObjectID = 脚本上下文敌人。玩家对敌施法(灵葫咒384/夺魂 scriptOnSuccess)→ 目标敌 sTarget=ctx.target;
       //   敌自身脚本 → ctx.caster。**审计 bug(同 0x60)**:此前只认 ctx.caster==='enemy' → 玩家施法 caster 是 player →
       //   直接 return 不查 HP → 必跳过失败分支 → 灵葫咒每次必秒杀无血量限制(user 2026-06-05 报)。修:target 优先,其次 caster。
-      const sel = ctx.target?.type === 'enemy' ? ctx.target : ctx.caster?.type === 'enemy' ? ctx.caster : undefined
+      const sel =
+        ctx.target?.type === 'enemy'
+          ? ctx.target
+          : ctx.caster?.type === 'enemy'
+            ? ctx.caster
+            : undefined
       if (sel === undefined) return { consumed: true }
       const enemy = state.enemies[sel.idx]
       if (!enemy) return { consumed: true }
@@ -1399,12 +1464,20 @@ export function dispatchBattleOpcode(
       // sdlpal script.c:1957-1965:`if (!PAL_IsPlayerPoisonedByLevel(wEventObjectID, 0)) wScriptEntry = operand[0]-1`。
       //   **跳转目标 = operand[0]**(此前误用 operand[1]),且**恒跳**(此前未查毒)—— 2026-05-31 审计修。
       //   wEventObjectID = 目标队员 role:ctx.target(player)优先,否则 ctx.caster(player)。
-      const sel = ctx.target?.type === 'player' ? ctx.target : ctx.caster?.type === 'player' ? ctx.caster : undefined
+      const sel =
+        ctx.target?.type === 'player'
+          ? ctx.target
+          : ctx.caster?.type === 'player'
+            ? ctx.caster
+            : undefined
       const roleId = sel ? state.players[sel.idx]?.roleId : undefined
       let poisoned = false
       if (ctx.gs && roleId !== undefined) {
         for (let slot = 0; slot < 16; slot++) {
-          if ((ctx.gs.rgPoisonStatus[`${slot}_${roleId}`]?.wPoisonID ?? 0) !== 0) { poisoned = true; break }
+          if ((ctx.gs.rgPoisonStatus[`${slot}_${roleId}`]?.wPoisonID ?? 0) !== 0) {
+            poisoned = true
+            break
+          }
         }
       }
       // 未中毒 → jump operand[0];已中毒 → ip++(不跳)
@@ -1421,7 +1494,10 @@ export function dispatchBattleOpcode(
       //   有前置对话时 0x69 走 event-system 延后入队那条路并在那里置标记;此处覆盖队列空的即时路径。
       state.terminatedByEnemyEscape = true
       // M6 敌逃跑音(sdlpal battle.c:1397 AUDIO_PlaySound(45))→ gs.pendingSounds。
-      if (ctx.gs) (ctx.gs.pendingSounds ??= []).push(45)
+      if (ctx.gs) {
+        ctx.gs.pendingSounds ??= []
+        ctx.gs.pendingSounds.push(45)
+      }
       return { consumed: true }
     }
 
@@ -1429,7 +1505,12 @@ export function dispatchBattleOpcode(
       // sdlpal `script.c:1950`:`rgEnemy[wEventObjectID].wHealth = 0`(**无 operand**;wEventObjectID = 脚本上下文)。
       //   夺魂(304)/灵葫咒(384)scriptOnSuccess 的 wEventObjectID = 目标敌人(sTarget)→ ctx.target;
       //   敌自身脚本 → ctx.caster。**审计 bug**:此前用 operand[0](真实数据恒 0 → 恒 KO enemy[0],夺魂/灵葫咒失效)。
-      const sel = ctx.target?.type === 'enemy' ? ctx.target : ctx.caster?.type === 'enemy' ? ctx.caster : undefined
+      const sel =
+        ctx.target?.type === 'enemy'
+          ? ctx.target
+          : ctx.caster?.type === 'enemy'
+            ? ctx.caster
+            : undefined
       const targetIdx = sel?.idx
       const enemy = targetIdx !== undefined ? state.enemies[targetIdx] : undefined
       if (enemy && targetIdx !== undefined) {

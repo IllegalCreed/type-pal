@@ -101,10 +101,12 @@ export function applyHiddenExp(
   for (const k of HIDDEN_STAT_KEYS) total += counts[k] ?? 0
   if (total <= 0) return []
   const ups: HiddenUpReport[] = []
-  const pools = (c.hiddenExp ??= {})
+  c.hiddenExp ??= {}
+  const pools = c.hiddenExp
   for (const k of HIDDEN_STAT_KEYS) {
     const count = counts[k] ?? 0
-    const pool = (pools[k] ??= { exp: 0, level: c.level })
+    pools[k] ??= { exp: 0, level: c.level }
+    const pool = pools[k]
     if (pool.level > 99) pool.level = 99
     let exp = Math.trunc((expGained * count) / total) * 2 + pool.exp
     let delta = 0
@@ -168,7 +170,11 @@ export function grantBattleRewards(
       // 学新技能(battle.c:1300-1321):该 level 的 levelUp 条目
       for (const lu of levelUp[c.template] ?? []) {
         if (lu.level === c.level) {
-          const list = (learnedSkills[c.id] ??= [])
+          let list = learnedSkills[c.id]
+          if (!list) {
+            list = []
+            learnedSkills[c.id] = list
+          }
           if (!list.includes(lu.skillId)) {
             list.push(lu.skillId)
             learned.push(lu.skillId)

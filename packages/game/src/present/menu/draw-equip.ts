@@ -26,8 +26,6 @@
 
 import type { Item, PlayerRoles } from '@type-pal/shared'
 import type { IndexedImage } from '../../assets/png.js'
-import type { GameState } from '../../core/game-state.js'
-import type { EquipMenuState } from '../../core/menu/equip-menu.js'
 import {
   getPlayerAttackStrength,
   getPlayerDefense,
@@ -35,24 +33,28 @@ import {
   getPlayerFleeRate,
   getPlayerMagicStrength,
 } from '../../core/equip-effect.js'
+import type { GameState } from '../../core/game-state.js'
+import type { EquipMenuState } from '../../core/menu/equip-menu.js'
 import type { BattleBgAsset } from '../battle/draw-battle-bg.js'
 import { drawBattleBg } from '../battle/draw-battle-bg.js'
+import { drawNumber } from '../draw-number.js'
+import { type GlyphTable, renderText } from '../font.js'
+import type { Framebuffer } from '../framebuffer.js'
 import { drawBox } from './draw-box.js'
 import { drawInventoryMenu } from './draw-inventory.js'
-import { drawNumber } from '../draw-number.js'
-import { renderText, type GlyphTable } from '../font.js'
-import type { Framebuffer } from '../framebuffer.js'
 
 // ── sdlpal ui.h 真值色 ─────────────────────────────────────────────────────
-const MENUITEM_COLOR = 0x4F
+const MENUITEM_COLOR = 0x4f
 const MENUITEM_COLOR_INACTIVE = 0x18
-const MENUITEM_COLOR_SELECTED_INACTIVE = 0x1C
-const MENUITEM_COLOR_CONFIRMED = 0x2C
-const MENUITEM_COLOR_SELECTED_FIRST = 0xF9
+const MENUITEM_COLOR_SELECTED_INACTIVE = 0x1c
+const MENUITEM_COLOR_CONFIRMED = 0x2c
+const MENUITEM_COLOR_SELECTED_FIRST = 0xf9
 const MENUITEM_COLOR_SELECTED_TOTAL = 6
 
 function selectedColor(): number {
-  return MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
+  return (
+    MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
+  )
 }
 
 // ── sdlpal palcfg.c:307-331 默认 ScreenLayout 真值 ──────────────────────────
@@ -62,13 +64,20 @@ const EQUIP_ITEM_NAME = { x: 5, y: 70 }
 const EQUIP_ITEM_AMOUNT = { x: 51, y: 57 }
 // 装备名渲染位置(6 槽)。槽位 label(头戴/肩.../武术 等)在 classic 烤进 FBP 背景图,ts 不画。
 const EQUIP_NAMES = [
-  { x: 130, y: 11 }, { x: 130, y: 33 }, { x: 130, y: 55 },
-  { x: 130, y: 77 }, { x: 130, y: 99 }, { x: 130, y: 121 },
+  { x: 130, y: 11 },
+  { x: 130, y: 33 },
+  { x: 130, y: 55 },
+  { x: 130, y: 77 },
+  { x: 130, y: 99 },
+  { x: 130, y: 121 },
 ] as const
 // 5 stat 数字渲染位置(stat label 同样在 FBP 背景图,ts 只画数字值)。
 const EQUIP_STATUS_VALUES = [
-  { x: 260, y: 14 }, { x: 260, y: 36 }, { x: 260, y: 58 },
-  { x: 260, y: 80 }, { x: 260, y: 102 },
+  { x: 260, y: 14 },
+  { x: 260, y: 36 },
+  { x: 260, y: 58 },
+  { x: 260, y: 80 },
+  { x: 260, y: 102 },
 ] as const
 
 // ── sprite blit(opaque mask)── 复用 draw-inventory 模式
@@ -145,26 +154,78 @@ function drawEquipPickRole(input: DrawEquipMenuInput): void {
     if (eqItemId !== 0) {
       const eqItem = items.find((x) => x.id === eqItemId)
       const namePos = EQUIP_NAMES[slot]!
-      renderText(fb, eqItem?._name ?? `?${eqItemId}`, namePos.x, namePos.y, MENUITEM_COLOR, glyphs, true)
+      renderText(
+        fb,
+        eqItem?._name ?? `?${eqItemId}`,
+        namePos.x,
+        namePos.y,
+        MENUITEM_COLOR,
+        glyphs,
+        true,
+      )
     }
   }
 
   // 4. 5 stat 数字 cyan(装备后 effective stat 预览,sdlpal uigame.c:1911-1915)。
   //    stat label(武术/灵力/防御/身法/吉运)同样在 FBP 背景图里,ts 不画。
-  drawNumber(fb, getPlayerAttackStrength(gs, playerRoleId), 4, EQUIP_STATUS_VALUES[0]!, 'cyan', 'right', uiSpriteFrames)
-  drawNumber(fb, getPlayerMagicStrength(gs, playerRoleId),  4, EQUIP_STATUS_VALUES[1]!, 'cyan', 'right', uiSpriteFrames)
-  drawNumber(fb, getPlayerDefense(gs, playerRoleId),        4, EQUIP_STATUS_VALUES[2]!, 'cyan', 'right', uiSpriteFrames)
-  drawNumber(fb, getPlayerDexterity(gs, playerRoleId),      4, EQUIP_STATUS_VALUES[3]!, 'cyan', 'right', uiSpriteFrames)
-  drawNumber(fb, getPlayerFleeRate(gs, playerRoleId),       4, EQUIP_STATUS_VALUES[4]!, 'cyan', 'right', uiSpriteFrames)
+  drawNumber(
+    fb,
+    getPlayerAttackStrength(gs, playerRoleId),
+    4,
+    EQUIP_STATUS_VALUES[0]!,
+    'cyan',
+    'right',
+    uiSpriteFrames,
+  )
+  drawNumber(
+    fb,
+    getPlayerMagicStrength(gs, playerRoleId),
+    4,
+    EQUIP_STATUS_VALUES[1]!,
+    'cyan',
+    'right',
+    uiSpriteFrames,
+  )
+  drawNumber(
+    fb,
+    getPlayerDefense(gs, playerRoleId),
+    4,
+    EQUIP_STATUS_VALUES[2]!,
+    'cyan',
+    'right',
+    uiSpriteFrames,
+  )
+  drawNumber(
+    fb,
+    getPlayerDexterity(gs, playerRoleId),
+    4,
+    EQUIP_STATUS_VALUES[3]!,
+    'cyan',
+    'right',
+    uiSpriteFrames,
+  )
+  drawNumber(
+    fb,
+    getPlayerFleeRate(gs, playerRoleId),
+    4,
+    EQUIP_STATUS_VALUES[4]!,
+    'cyan',
+    'right',
+    uiSpriteFrames,
+  )
 
   // 5. role list box(sdlpal uigame.c:1920)+ 4 player names with 4-case color
   //    box pos = EquipRoleListBox = (2, 95);PAL_WordMaxWidth(36, 4) - 1 列宽
   drawBox({
-    fb, x: EQUIP_ROLE_LIST_BOX.x, y: EQUIP_ROLE_LIST_BOX.y,
+    fb,
+    x: EQUIP_ROLE_LIST_BOX.x,
+    y: EQUIP_ROLE_LIST_BOX.y,
     // sdlpal uigame.c:1920 真值:nColumns = PAL_WordMaxWidth(36, 4) - 1。
     // 角色名 36-39(李逍遥/赵灵儿/林月如/阿奴)最宽 3 全角字 → (3*16+8)>>4 = 3 → 3-1 = 2。
     // 之前写死 4 → 框过宽,右边框盖住装备槽文字(user 2026-05-28 发现)。
-    rows: Math.max(1, state.partyMembers.length - 1), cols: 2, style: 0,
+    rows: Math.max(1, state.partyMembers.length - 1),
+    cols: 2,
+    style: 0,
     uiSpriteFrames,
   })
   for (let i = 0; i < state.partyMembers.length; i++) {
@@ -182,15 +243,27 @@ function drawEquipPickRole(input: DrawEquipMenuInput): void {
     }
     // sdlpal uigame.c:1952-1953 真值:PAL_XY_OFFSET(EquipRoleListBox, 13, 13+18*i),fShadow=TRUE
     renderText(
-      fb, role._name ?? `role#${roleId}`,
-      EQUIP_ROLE_LIST_BOX.x + 13, EQUIP_ROLE_LIST_BOX.y + 13 + 18 * i,
-      color, glyphs, true,
+      fb,
+      role._name ?? `role#${roleId}`,
+      EQUIP_ROLE_LIST_BOX.x + 13,
+      EQUIP_ROLE_LIST_BOX.y + 13 + 18 * i,
+      color,
+      glyphs,
+      true,
     )
   }
 
   // 6. item name + amount(sdlpal uigame.c:1958-1963)
   if (wItem !== 0) {
-    renderText(fb, item._name ?? `?${wItem}`, EQUIP_ITEM_NAME.x, EQUIP_ITEM_NAME.y, MENUITEM_COLOR_CONFIRMED, glyphs, true)
+    renderText(
+      fb,
+      item._name ?? `?${wItem}`,
+      EQUIP_ITEM_NAME.x,
+      EQUIP_ITEM_NAME.y,
+      MENUITEM_COLOR_CONFIRMED,
+      glyphs,
+      true,
+    )
     const invEntry = gs.inventory.find((e) => e.itemId === wItem)
     const amount = invEntry?.count ?? 0
     if (amount > 0) {

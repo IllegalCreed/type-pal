@@ -1,5 +1,5 @@
-import { describe, it, expect, expectTypeOf } from 'vitest'
-import type { Tilemap, TileCell, Palette, SceneObjects, SceneEventObject } from './resources.js'
+import { describe, expect, expectTypeOf, it } from 'vitest'
+import type { Palette, SceneEventObject, SceneObjects, TileCell, Tilemap } from './resources.js'
 import type {
   BattleField,
   Enemy,
@@ -16,7 +16,12 @@ import type {
 
 describe('resources types', () => {
   it('Tilemap 有必要字段', () => {
-    expectTypeOf<Tilemap>().toMatchTypeOf<{ width: number; height: number; cells: TileCell[][]; tileset: string }>()
+    expectTypeOf<Tilemap>().toMatchTypeOf<{
+      width: number
+      height: number
+      cells: TileCell[][]
+      tileset: string
+    }>()
   })
   it('TileCell 有 lower 和 upper 字段', () => {
     const cell: TileCell = { lower: 0x1234, upper: 0xabcd }
@@ -396,7 +401,12 @@ describe('PlayerRole schema (M3 T8)', () => {
       magic: new Array(32).fill(0),
       cooperativeMagic: 0,
       coveredBy: 0,
-      unknown1: 0, unknown2: 0, unknown3: 0, unknown4: 0, unknown5: 0, unknown6: 0,
+      unknown1: 0,
+      unknown2: 0,
+      unknown3: 0,
+      unknown4: 0,
+      unknown5: 0,
+      unknown6: 0,
     }
     expect(role.spriteNum).toBe(2)
     expect(role.elemResistance.wind).toBe(0)
@@ -434,7 +444,12 @@ describe('PlayerRole schema (M3 T8)', () => {
       magic: new Array(32).fill(0),
       cooperativeMagic: 0,
       coveredBy: 0,
-      unknown1: 0, unknown2: 0, unknown3: 0, unknown4: 0, unknown5: 0, unknown6: 0,
+      unknown1: 0,
+      unknown2: 0,
+      unknown3: 0,
+      unknown4: 0,
+      unknown5: 0,
+      unknown6: 0,
     }
     const parsed = JSON.parse(JSON.stringify(role)) as PlayerRole
     expect(parsed.attackStrength).toBe(-2)
@@ -452,7 +467,10 @@ describe('PlayerRole schema (M3 T8)', () => {
 describe('SceneEventObject triggerMode 字段(M3.5)', () => {
   it('triggerMode 字段是 number(raw u16,运行时解读)', () => {
     const eo: SceneEventObject = {
-      id: 0, x: 10, y: 20, spriteNum: 78,
+      id: 0,
+      x: 10,
+      y: 20,
+      spriteNum: 78,
       triggerMode: 0,
     }
     expect(eo.triggerMode).toBe(0)

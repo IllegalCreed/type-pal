@@ -344,7 +344,17 @@ export function EnemyTab(props: {
   /** DataMode 的标签栏(渲染在左栏顶部,保持标签切换)。 */
   tabBar?: React.ReactNode
 }) {
-  const { enemies, enemyTeams, skills, locale, session, tabBar, assetBase, projectId = 'pal', tilesetBlobs } = props
+  const {
+    enemies,
+    enemyTeams,
+    skills,
+    locale,
+    session,
+    tabBar,
+    assetBase,
+    projectId = 'pal',
+    tilesetBlobs,
+  } = props
   const [filter, setFilter] = useState('')
   const [selId, setSelId] = useState(enemies[0]?.id ?? '')
   const [selTeam, setSelTeam] = useState<string | null>(null)
@@ -633,7 +643,10 @@ export function EnemyTab(props: {
                 className="pv-btn"
                 title="读磁盘工程:改动须先 💾 保存"
                 onClick={() =>
-                  window.open(`play.html?project=${projectId}&battle=${t.id.replace('team-', '')}`, '_blank')
+                  window.open(
+                    `play.html?project=${projectId}&battle=${t.id.replace('team-', '')}`,
+                    '_blank',
+                  )
                 }
               >
                 ⚔ 试打

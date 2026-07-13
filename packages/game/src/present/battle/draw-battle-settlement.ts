@@ -23,18 +23,22 @@
  */
 
 import type { IndexedImage } from '../../assets/png.js'
-import type { BattleSettlementScreen, HiddenExpUpScreenData, LevelUpScreenData } from '../../core/battle/battle-settlement.js'
+import type {
+  BattleSettlementScreen,
+  HiddenExpUpScreenData,
+  LevelUpScreenData,
+} from '../../core/battle/battle-settlement.js'
 import { getWord } from '../../core/word-lookup.js'
 import { drawNumber } from '../draw-number.js'
-import { renderText, type GlyphTable } from '../font.js'
+import { type GlyphTable, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { drawBox, drawSingleLineBox } from '../menu/draw-box.js'
 
 // ── sdlpal ui.h 真值 ────────────────────────────────────────────────────────
 const SPRITENUM_SLASH = 39
 const SPRITENUM_ARROW = 47
-const BATTLEWIN_LEVELUP_LABEL_COLOR = 0xBB
-const ADDMAGIC_NAME_COLOR = 0x1B // battle.c:1321 magicName 色
+const BATTLEWIN_LEVELUP_LABEL_COLOR = 0xbb
+const ADDMAGIC_NAME_COLOR = 0x1b // battle.c:1321 magicName 色
 
 // WORD.DAT 真值串
 const W_GETEXP = '获得经验值'
@@ -61,8 +65,7 @@ function blitSpriteOpaque(fb: Framebuffer, frame: IndexedImage, dstX: number, ds
   for (let y = 0; y < frame.height; y++) {
     for (let x = 0; x < frame.width; x++) {
       const off = y * frame.width + x
-      if (frame.opaque[off]! > 0)
-        fb.writePixel(dstX + x, dstY + y, frame.indices[off]!)
+      if (frame.opaque[off]! > 0) fb.writePixel(dstX + x, dstY + y, frame.indices[off]!)
     }
   }
 }
@@ -112,13 +115,17 @@ export function hiddenExpUpNumberX(maxNameWidth: number, maxPropertyWidth: numbe
 // ── E04:隐藏属性涨点 box(sdlpal CHECK_HIDDEN_EXP,battle.c:1264-1273)──────────────
 //   PAL_CreateSingleLineBox(PAL_XY(offsetX+78,60)) + "{name}{statLabel}{提升}" + 涨点数(yellow,右对齐)。
 function drawHiddenExpUpScreen(
-  fb: Framebuffer, data: HiddenExpUpScreenData, ui: IndexedImage[], glyphs?: GlyphTable,
+  fb: Framebuffer,
+  data: HiddenExpUpScreenData,
+  ui: IndexedImage[],
+  glyphs?: GlyphTable,
 ): void {
   const statLabel = getWord(data.statLabelWord, '')
   const upLabel = getWord(32, '提升') // BATTLEWIN_LEVELUP_LABEL
   // 全局 maxNameWidth / maxPropertyWidth(sdlpal rgFakeMenuItem 用全 6 角色名 + 8 状态标签)
-  const maxNameWidth = Math.max(...ROLE_NAME_WORDS.map(id => wordWidthCols(getWord(id, ''))), 1)
-  const maxPropertyWidth = Math.max(...STAT_LABEL_WORDS.map(id => wordWidthCols(getWord(id, ''))), 1) - 1
+  const maxNameWidth = Math.max(...ROLE_NAME_WORDS.map((id) => wordWidthCols(getWord(id, ''))), 1)
+  const maxPropertyWidth =
+    Math.max(...STAT_LABEL_WORDS.map((id) => wordWidthCols(getWord(id, ''))), 1) - 1
   const w1 = Math.max(wordWidthCols(data.name), 3)
   const w2 = Math.max(wordWidthCols(statLabel), 2)
   const w3 = Math.max(wordWidthCols(upLabel), 2)
@@ -130,13 +137,24 @@ function drawHiddenExpUpScreen(
   renderText(fb, data.name, 90, 70, 0, glyphs, false)
   renderText(fb, statLabel, 90 + 16 * nameW, 70, 0, glyphs, false)
   renderText(fb, upLabel, 90 + 16 * (nameW + propW), 70, 0, glyphs, false)
-  drawNumber(fb, data.delta, 5, { x: hiddenExpUpNumberX(maxNameWidth, maxPropertyWidth), y: 74 }, 'yellow', 'right', ui)
+  drawNumber(
+    fb,
+    data.delta,
+    5,
+    { x: hiddenExpUpNumberX(maxNameWidth, maxPropertyWidth), y: 74 },
+    'yellow',
+    'right',
+    ui,
+  )
 }
 
 // ── Phase A:获得经验值 / 打败敌人得 N 文钱(battle.c:1037-1045)─────────────────
 function drawExpCashScreen(
-  fb: Framebuffer, expGained: number, cashGained: number,
-  ui: IndexedImage[], glyphs?: GlyphTable,
+  fb: Framebuffer,
+  expGained: number,
+  cashGained: number,
+  ui: IndexedImage[],
+  glyphs?: GlyphTable,
 ): void {
   // ww1=0(中文 GETEXP 5 字 → w1=8)
   drawSingleLineBox({ fb, x: 83, y: 60, len: 8, uiSpriteFrames: ui })
@@ -150,7 +168,10 @@ function drawExpCashScreen(
 
 // ── Phase B:升级 box,8 属性 old→cur(battle.c:1128-1212,offsetX=0)──────────────
 function drawLevelUpScreen(
-  fb: Framebuffer, d: LevelUpScreenData, ui: IndexedImage[], glyphs?: GlyphTable,
+  fb: Framebuffer,
+  d: LevelUpScreenData,
+  ui: IndexedImage[],
+  glyphs?: GlyphTable,
 ): void {
   // 标题单行 box + 主 box(style 1 战斗)
   drawSingleLineBox({ fb, x: 80, y: 0, len: 10, uiSpriteFrames: ui })
@@ -163,7 +184,15 @@ function drawLevelUpScreen(
   const arrow = ui[SPRITENUM_ARROW]
   for (let j = 0; j < 8; j++) {
     if (arrow) blitSpriteOpaque(fb, arrow, 180, 48 + 18 * j)
-    renderText(fb, LEVELUP_LABELS[j]!, 100, 44 + 18 * j, BATTLEWIN_LEVELUP_LABEL_COLOR, glyphs, true)
+    renderText(
+      fb,
+      LEVELUP_LABELS[j]!,
+      100,
+      44 + 18 * j,
+      BATTLEWIN_LEVELUP_LABEL_COLOR,
+      glyphs,
+      true,
+    )
   }
 
   const slash = ui[SPRITENUM_SLASH]
@@ -200,7 +229,11 @@ function drawLevelUpScreen(
 
 // ── Phase D:{name} 练成 {magicName}(battle.c:1312-1321)──────────────────────
 function drawLearnMagicScreen(
-  fb: Framebuffer, name: string, magicName: string, ui: IndexedImage[], glyphs?: GlyphTable,
+  fb: Framebuffer,
+  name: string,
+  magicName: string,
+  ui: IndexedImage[],
+  glyphs?: GlyphTable,
 ): void {
   const w1 = Math.max(wordWidthCols(name), 3)
   const w2 = Math.max(wordWidthCols(W_ADDMAGIC), 2)

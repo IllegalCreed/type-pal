@@ -27,7 +27,7 @@ import type { GameState } from '../../game-state.js'
 import type { BattleState } from '../battle-state.js'
 
 /** 注入的 runScript 函数(T17 free function `runScript`,测试可 mock)。同 T20。 */
-export type RunScriptFn = (opts: RunScriptOptions) => number | void
+export type RunScriptFn = (opts: RunScriptOptions) => unknown
 
 export interface PerformItemInput {
   state: BattleState
@@ -67,16 +67,16 @@ export interface PerformItemInput {
  * item 找不到 / 队员无 inventory → console.warn + 早退(不扣 + 不 runScript)。
  */
 export function performItem(input: PerformItemInput): void {
-  const item = input.items.find(it => it.id === input.itemId)
+  const item = input.items.find((it) => it.id === input.itemId)
   if (!item) {
     console.warn(`[item] item id ${input.itemId} not found`)
     return
   }
 
   // —— 队员使用:先检查库存;原版战斗 UseItem 在脚本之后才按 consuming 扣(sdlpal fight.c:4387-4400) ——
-  let inventoryEntry: { itemId: number, count: number } | undefined
+  let inventoryEntry: { itemId: number; count: number } | undefined
   if (!input.casterIsEnemy) {
-    inventoryEntry = input.gs.inventory.find(e => e.itemId === input.itemId)
+    inventoryEntry = input.gs.inventory.find((e) => e.itemId === input.itemId)
     if (!inventoryEntry || inventoryEntry.count === 0) {
       console.warn(`[item] no inventory for item ${input.itemId}`)
       return
@@ -86,8 +86,8 @@ export function performItem(input: PerformItemInput): void {
   // —— 跑 scriptOnUse(经 runScript,battleCtx 注入 caster / target) ——
   // PAL_RunTriggerScript(0, ...) 是 no-op;战斗 UseItem 仍会继续走 consuming 扣除。
   if (item.scriptOnUse !== 0) {
-    const targetCtx
-      = input.targetIdx === 'all'
+    const targetCtx =
+      input.targetIdx === 'all'
         ? undefined // 全体目标:由 handler 自行循环 state.enemies / players
         : {
             type: input.targetIsEnemy ? ('enemy' as const) : ('player' as const),
@@ -114,6 +114,5 @@ export function performItem(input: PerformItemInput): void {
     })
   }
 
-  if (inventoryEntry && item.flags.consuming)
-    inventoryEntry.count--
+  if (inventoryEntry && item.flags.consuming) inventoryEntry.count--
 }

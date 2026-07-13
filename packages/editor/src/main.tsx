@@ -4,8 +4,8 @@
  * 生产(无 env)→ ProjectPicker 启动屏:新建(克隆/空白)/ 打开本地 / 最近工程(P4)。
  */
 import type { MusicDef } from '@type-pal/content'
-import { loadAllOwnMaps, loadAllScenes, loadAllScriptChunks, loadProject } from '@type-pal/reforge'
 import type { LoadedProject } from '@type-pal/reforge'
+import { loadAllOwnMaps, loadAllScenes, loadAllScriptChunks, loadProject } from '@type-pal/reforge'
 import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { EditSession } from './core/edit-session.js'
@@ -40,7 +40,7 @@ function Root() {
         const scenes = await loadAllScenes(project)
         const ownMaps = await loadAllOwnMaps(project, scenes)
         const scriptChunks = await loadAllScriptChunks(project)
-        const musicRel = project.manifest.content['music']
+        const musicRel = project.manifest.content.music
         const music: MusicDef[] = musicRel
           ? await fetch(`projects/${PROJECT_ID}/${musicRel}`)
               .then((r) => (r.ok ? (r.json() as Promise<MusicDef[]>) : []))
@@ -62,7 +62,9 @@ function Root() {
 
   const onOpened = (o: Opened): void => {
     setBoot({
-      session: new EditSession(toEditorState(o.project, o.scenes, o.music, o.ownMaps, o.scriptChunks)),
+      session: new EditSession(
+        toEditorState(o.project, o.scenes, o.music, o.ownMaps, o.scriptChunks),
+      ),
       project: o.project,
       dir: o.dir,
     })

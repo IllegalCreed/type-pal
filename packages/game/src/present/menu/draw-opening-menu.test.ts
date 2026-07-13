@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest'
-import { createFramebuffer } from '../framebuffer.js'
-import type { BattleBgAsset } from '../battle/draw-battle-bg.js'
+import { describe, expect, it } from 'vitest'
 import { createOpeningMenu, openingMenuDown } from '../../core/menu/opening-menu.js'
+import type { BattleBgAsset } from '../battle/draw-battle-bg.js'
+import { createFramebuffer } from '../framebuffer.js'
 import { drawOpeningMenu, openingItemX } from './draw-opening-menu.js'
 
 // ── A4:OpeningMenu 选项 x 坐标公式(sdlpal uigame.c:107-108)──
@@ -27,7 +27,7 @@ describe('openingItemX — 选项 x 公式(uigame.c:107-108)', () => {
 function mockBg(): BattleBgAsset {
   const w = 320
   const h = 200
-  const indices = new Uint8Array(w * h).fill(0xAB)
+  const indices = new Uint8Array(w * h).fill(0xab)
   return { width: w, height: h, indices }
 }
 
@@ -37,7 +37,7 @@ describe('drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染', ()
     const state = createOpeningMenu()
     drawOpeningMenu({ fb, state, bg: mockBg() })
     // 中心 (160, 100) 应该被 bg blit 写成 0xAB(无字符覆盖)
-    expect(fb.indices[100 * fb.width + 160]).toBe(0xAB)
+    expect(fb.indices[100 * fb.width + 160]).toBe(0xab)
   })
 
   it('2 个 menu item 坐标 (125,95) (125,112) 字像素被写 — 覆盖 bg', () => {
@@ -46,9 +46,9 @@ describe('drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染', ()
     // glyphs undefined → 画 TOFU_GLYPH(16×16 空心框,只有顶/底行 + 左/右列亮 pixel)
     drawOpeningMenu({ fb, state, bg: mockBg() })
     // 第一行字 顶边 (130, 95):TOFU bitmap b[0]=0xFF 顶行 bit 5 = 1 → fgColor 写入,非 bg
-    expect(fb.indices[95 * fb.width + 130]).not.toBe(0xAB)
+    expect(fb.indices[95 * fb.width + 130]).not.toBe(0xab)
     // 第二行字 顶边 (130, 112)
-    expect(fb.indices[112 * fb.width + 130]).not.toBe(0xAB)
+    expect(fb.indices[112 * fb.width + 130]).not.toBe(0xab)
   })
 
   it('bg 缺失 → 不画背景(fb 保留初始 0)+ 仍画字', () => {
@@ -66,9 +66,9 @@ describe('drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染', ()
   it('cursor=0 vs cursor=1 — 渲染不抛错且 fb 内容有差异(高亮位置不同)', () => {
     const fb1 = createFramebuffer()
     const fb2 = createFramebuffer()
-    const stateA = createOpeningMenu()              // cursor=0 new-game
+    const stateA = createOpeningMenu() // cursor=0 new-game
     const stateB = createOpeningMenu()
-    openingMenuDown(stateB)                          // cursor=1 load-game
+    openingMenuDown(stateB) // cursor=1 load-game
     drawOpeningMenu({ fb: fb1, state: stateA, bg: mockBg() })
     drawOpeningMenu({ fb: fb2, state: stateB, bg: mockBg() })
     // 两次渲染应至少在某些字坐标处颜色不同(SELECTED 闪烁色 vs 常态色)
@@ -78,6 +78,6 @@ describe('drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染', ()
     const c1Row1 = fb1.indices[95 * fb1.width + 125]
     const c2Row1 = fb2.indices[95 * fb2.width + 125]
     // 至少一个非 bg 色(被 tofu 写过)
-    expect(c1Row1 === 0xAB && c2Row1 === 0xAB).toBe(false)
+    expect(c1Row1 === 0xab && c2Row1 === 0xab).toBe(false)
   })
 })

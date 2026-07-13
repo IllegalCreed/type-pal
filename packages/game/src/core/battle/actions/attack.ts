@@ -22,13 +22,18 @@ import type { Command, Enemy, Item, PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
 import { getPlayerPoisonResistance } from '../../equip-effect.js'
 import type { GameState } from '../../game-state.js'
-import { BATTLE_FRAME_TIME, buildEnemyConfusedAttackTimeline, buildEnemyPhysicalTimeline, buildPlayerAttackTimeline } from '../anim-timeline.js'
+import type { SeedableRng } from '../../rng.js'
+import {
+  BATTLE_FRAME_TIME,
+  buildEnemyConfusedAttackTimeline,
+  buildEnemyPhysicalTimeline,
+  buildPlayerAttackTimeline,
+} from '../anim-timeline.js'
 import { startBattleAnim } from '../battle-anim-driver.js'
 import type { BattleAnimFrame, BattleState } from '../battle-state.js'
 import { calcBaseDamage, calcPhysicalAttackDamage } from '../formulas.js'
-import type { SeedableRng } from '../../rng.js'
-import type { RunScriptFn } from './magic.js'
 import type { ActionQueueItem } from '../turn-queue.js'
+import type { RunScriptFn } from './magic.js'
 
 /**
  * 敌人普攻附带等价物品中毒所需上下文(sdlpal fight.c:5139-5146 wAttackEquivItem)。
@@ -189,7 +194,8 @@ export function performAttack(
         const hpAfterUnclamped = Math.trunc(hpBeforeHit - damage)
         be.e.health = Math.max(0, hpAfterUnclamped)
         const dealt = hpBeforeHit - hpAfterUnclamped
-        if (dealt > 0) sweepNums.push({ target: { kind: 'enemy', idx: slot }, value: dealt, color: 'blue' })
+        if (dealt > 0)
+          sweepNums.push({ target: { kind: 'enemy', idx: slot }, value: dealt, color: 'blue' })
         division *= 2 // fight.c:3729 命中一个活敌后翻倍
       }
       // M6/D17a:每 sweep 一次挥砍动画 —— sTarget==-1 挥向固定中心 (150,100)(fight.c:2050-2055)。
@@ -207,7 +213,10 @@ export function performAttack(
           targetEnemyPos: { x: 150, y: 100 },
           targetIdx: -1, // 群攻无单体目标 → 染色/收势走 groupEnemies 全敌路径
           targetEnemyHeight: 0,
-          effectFrameBase: playerEffectFrameBase(battleEffectIndex, voiceRole?.spriteNumInBattle ?? 0),
+          effectFrameBase: playerEffectFrameBase(
+            battleEffectIndex,
+            voiceRole?.spriteNumInBattle ?? 0,
+          ),
           damage: 0,
           groupDamageNums: sweepNums,
           attackVoice: voice, // 出招声挂 swing frame0(fight.c:2061-2071)
@@ -286,7 +295,12 @@ export function performAttack(
         // legacy(无 posOriginal):无时间线帧承载声音 → 保留同步 emit(出招声 + 武器声 playPlayerAttack)+ 即时数字
         if (voice && voice > 0) bus.emit({ op: 'playSound', soundId: voice })
         bus.emit({ op: 'playPlayerAttack', playerIdx: actor.idx, targetEnemyIdx: targetIdx })
-        bus.emit({ op: 'showDamageNum', target: { kind: 'enemy', idx: targetIdx }, value: damage, color: 'blue' })
+        bus.emit({
+          op: 'showDamageNum',
+          target: { kind: 'enemy', idx: targetIdx },
+          value: damage,
+          color: 'blue',
+        })
       }
     }
     if (segments.length > 0) {
@@ -309,8 +323,10 @@ export function performAttack(
   //   (5052 !fAutoDefend gate 罩住整个伤害块)。
   let fAutoDefend = state.rng.rangeInclusive(0, 16) >= 10 // fight.c:4938 7/17
   const targetDying = isPlayerDying(targetRole.hp, targetRole.maxHP)
-  const targetBad = (targetStatus.confused ?? 0) > 0 || (targetStatus.sleep ?? 0) > 0
-    || (targetStatus.paralyzed ?? 0) > 0
+  const targetBad =
+    (targetStatus.confused ?? 0) > 0 ||
+    (targetStatus.sleep ?? 0) > 0 ||
+    (targetStatus.paralyzed ?? 0) > 0
   // c3b cover(fight.c:4943-4968):坏状态/濒死目标 + fAutoDefend → 查 coveredBy 找健康替挡者
   let iCoverIndex = -1
   if ((targetDying || targetBad) && fAutoDefend) {
@@ -324,8 +340,10 @@ export function performAttack(
       const cRole = playerRoles.roles[coverer.roleId]
       const cs = coverer.status
       if (
-        isPlayerDying(cRole?.hp ?? 0, cRole?.maxHP ?? 0)
-        || (cs.confused ?? 0) > 0 || (cs.sleep ?? 0) > 0 || (cs.paralyzed ?? 0) > 0
+        isPlayerDying(cRole?.hp ?? 0, cRole?.maxHP ?? 0) ||
+        (cs.confused ?? 0) > 0 ||
+        (cs.sleep ?? 0) > 0 ||
+        (cs.paralyzed ?? 0) > 0
       ) {
         iCoverIndex = -1
       }
@@ -342,11 +360,20 @@ export function performAttack(
     const coverer = iCoverIndex >= 0 ? state.players[iCoverIndex] : undefined
     const coverRole = coverer ? playerRoles.roles[coverer.roleId] : undefined
     const built = buildAttackTimeline({
-      state, actor, targetIdx, isPlayerTarget: true, damage: 0,
-      battleEffectIndex, playerRoles,
-      autoDefend: iCoverIndex >= 0 && coverer?.posOriginal
-        ? { coverSound: coverRole?.coverSound ?? 0, cover: { idx: iCoverIndex, pos: coverer.posOriginal } }
-        : { coverSound: targetRole.coverSound ?? 0 },
+      state,
+      actor,
+      targetIdx,
+      isPlayerTarget: true,
+      damage: 0,
+      battleEffectIndex,
+      playerRoles,
+      autoDefend:
+        iCoverIndex >= 0 && coverer?.posOriginal
+          ? {
+              coverSound: coverRole?.coverSound ?? 0,
+              cover: { idx: iCoverIndex, pos: coverer.posOriginal },
+            }
+          : { coverSound: targetRole.coverSound ?? 0 },
     })
     if (built) {
       startBattleAnim(state, built, bus)
@@ -388,8 +415,8 @@ export function performAttack(
     //   不再加 `equivId!==0` 前置(rate=0 的普通敌 `0>=1..10` 恒假,消费后短路;equivId=0 → 下方 find 不到
     //   物品 → scriptOnUse 0 不跑,等价 C 跑 rgObject[0] 空脚本,无实际中毒)。
     if (
-      rate >= state.rng.rangeInclusive(1, 10)
-      && getPlayerPoisonResistance(equivPoison.gs, roleId) < state.rng.rangeInclusive(1, 100)
+      rate >= state.rng.rangeInclusive(1, 10) &&
+      getPlayerPoisonResistance(equivPoison.gs, roleId) < state.rng.rangeInclusive(1, 100)
     ) {
       const scriptOnUse = equivPoison.items.find((it) => it.id === equivId)?.scriptOnUse ?? 0
       if (scriptOnUse > 0) {
@@ -460,7 +487,8 @@ export function performEnemyConfusedAttack(
   const str = asShort(attacker.attackStrength) + (attacker.level + 6) * 6
   const def = asShort(target.e.defense) + (target.e.level + 6) * 4
   const base2 = calcBaseDamage(str, def) * 2
-  let damage = target.e.physicalResistance !== 0 ? Math.trunc(base2 / target.e.physicalResistance) : base2
+  let damage =
+    target.e.physicalResistance !== 0 ? Math.trunc(base2 / target.e.physicalResistance) : base2
   if (damage <= 0) damage = 1
 
   const before = target.e.health
@@ -553,8 +581,13 @@ function buildAttackTimeline(input: {
     return buildEnemyPhysicalTimeline({
       // DL32:攻击前目标帧快照(wFrameBak,fight.c:4915)——动画态 currentFrame 优先,
       //   idle 态取 per-enemy idleFrame… 目标是**玩家**,玩家帧:currentFrame ?? 按状态(睡 1/防 3/站 0)。
-      targetFrameBak: state.players[targetIdx]?.currentFrame
-        ?? ((state.players[targetIdx]?.status.sleep ?? 0) > 0 ? 1 : (state.players[targetIdx]?.defending ? 3 : 0)),
+      targetFrameBak:
+        state.players[targetIdx]?.currentFrame ??
+        ((state.players[targetIdx]?.status.sleep ?? 0) > 0
+          ? 1
+          : state.players[targetIdx]?.defending
+            ? 3
+            : 0),
       enemyPos: enemyFighter.posOriginal,
       enemyIdx: actor.idx,
       targetPlayerPos: targetPlayer.posOriginal,

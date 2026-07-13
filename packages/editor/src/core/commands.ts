@@ -25,9 +25,9 @@ import type {
   SceneDef,
   SceneMap,
   Command as ScriptCommand,
-  SkillData,
   ScriptStage,
   SharedScriptMetaV1,
+  SkillData,
   SpriteDef,
 } from '@type-pal/content'
 import {
@@ -38,7 +38,13 @@ import {
   removeAuthoredScript,
   upsertAuthoredScript,
 } from '@type-pal/content'
-import type { OwnMap, OwnMapCollisionEdit, OwnMapLayer, OwnMapTileEdit, TilesetDef } from '@type-pal/reforge'
+import type {
+  OwnMap,
+  OwnMapCollisionEdit,
+  OwnMapLayer,
+  OwnMapTileEdit,
+  TilesetDef,
+} from '@type-pal/reforge'
 import {
   insertOwnMapLayer,
   moveOwnMapLayer,
@@ -1276,7 +1282,9 @@ function withBattleField(state: EditorState, fieldId: number, next: BattleFieldD
 }
 
 /** UpdateBattleField 的 patch 范围(id 不可改 —— 数字稳定身份被场景/脚本引用)。 */
-export type BattleFieldPatch = Partial<Pick<BattleFieldDef, 'name' | 'bg' | 'screenWave' | 'magicEffect'>>
+export type BattleFieldPatch = Partial<
+  Pick<BattleFieldDef, 'name' | 'bg' | 'screenWave' | 'magicEffect'>
+>
 
 /** 改战场字段(D24 战场页)。语义同 UpdateItemCommand:首次 apply 捕获旧值,invert 还原。 */
 export class UpdateBattleFieldCommand implements Command {
@@ -1571,7 +1579,8 @@ export class CreateScriptSourceCommand implements Command {
     if (getScriptStages(scene, this.ref)) return state // 已存在 → no-op
     this.created = true
     const empty: ScriptStage[] = [{ body: [] }]
-    if (this.ref.kind === 'onEnter') return withScene(state, this.sceneId, { ...scene, onEnter: empty })
+    if (this.ref.kind === 'onEnter')
+      return withScene(state, this.sceneId, { ...scene, onEnter: empty })
     if (this.ref.kind === 'onTeleport')
       return withScene(state, this.sceneId, { ...scene, onTeleport: empty })
     const entityId = this.ref.entityId
@@ -1765,7 +1774,17 @@ export class AddSkillCommand implements Command {
       usableOutsideBattle: false,
       target: 'oneEnemy',
       effects: [{ kind: 'damage', power: 20, elemental: 0 }],
-      animation: { effectSprite: 0, placement: 'normal', xOffset: 0, yOffset: 0, speed: 0, fireDelay: 0, effectTimes: 0, shake: 0, sound: 0 },
+      animation: {
+        effectSprite: 0,
+        placement: 'normal',
+        xOffset: 0,
+        yOffset: 0,
+        speed: 0,
+        fireDelay: 0,
+        effectTimes: 0,
+        shake: 0,
+        sound: 0,
+      },
     }
   }
 
@@ -1865,7 +1884,9 @@ export class SetEntryPointsCommand implements Command {
 
   apply(state: EditorState): EditorState {
     if (!this.captured) {
-      this.old = state.manifest.entryPoints ? structuredClone(state.manifest.entryPoints) : undefined
+      this.old = state.manifest.entryPoints
+        ? structuredClone(state.manifest.entryPoints)
+        : undefined
       this.captured = true
     }
     return { ...state, manifest: { ...state.manifest, entryPoints: structuredClone(this.next) } }
@@ -1980,7 +2001,12 @@ export class AppendSpriteFramesCommand implements Command {
   private readonly prev: ArrayBuffer | undefined
   private readonly next: ArrayBuffer
 
-  constructor(path: string, prev: ArrayBuffer | undefined, next: ArrayBuffer, label = '追加精灵帧') {
+  constructor(
+    path: string,
+    prev: ArrayBuffer | undefined,
+    next: ArrayBuffer,
+    label = '追加精灵帧',
+  ) {
     this.label = label
     this.path = path
     this.prev = prev
@@ -2066,7 +2092,9 @@ export class UpdateShopCommand implements Command {
     }
     return {
       ...state,
-      shops: (state.shops ?? []).map((x) => (x.id === this.shopId ? { ...x, items: [...this.items] } : x)),
+      shops: (state.shops ?? []).map((x) =>
+        x.id === this.shopId ? { ...x, items: [...this.items] } : x,
+      ),
     }
   }
 

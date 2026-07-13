@@ -1,6 +1,6 @@
 import type { IndexedImage } from '../../assets/png.js'
-import type { Framebuffer } from '../framebuffer.js'
 import { drawNumber, type NumColor } from '../draw-number.js'
+import type { Framebuffer } from '../framebuffer.js'
 
 interface FloatingNum {
   x: number
@@ -31,13 +31,7 @@ const NLENGTH = 5 // sdlpal PAL_BattleUIUpdate:PAL_DrawNumber(wNum, 5, ...)
 export class FloatingNumsLayer {
   private nums: FloatingNum[] = []
 
-  emit(opts: {
-    x: number
-    y: number
-    value: number
-    color: NumColor
-    currentFrame: number
-  }): void {
+  emit(opts: { x: number; y: number; value: number; color: NumColor; currentFrame: number }): void {
     this.nums.push({
       x: opts.x,
       y: opts.y,
@@ -56,9 +50,8 @@ export class FloatingNumsLayer {
    */
   draw(fb: Framebuffer, currentFrame: number, uiSpriteFrames?: IndexedImage[]): void {
     // sdlpal age>10 清除 → age ∈ [0,10] 显示;age = currentFrame - startFrame
-    this.nums = this.nums.filter(n => currentFrame - n.startFrame < LIFETIME_FRAMES)
-    if (!uiSpriteFrames)
-      return
+    this.nums = this.nums.filter((n) => currentFrame - n.startFrame < LIFETIME_FRAMES)
+    if (!uiSpriteFrames) return
     for (const n of this.nums) {
       const age = currentFrame - n.startFrame
       // sdlpal `uibattle.c:1760`:y = pos.y - age(每帧上移 1px)

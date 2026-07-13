@@ -51,9 +51,7 @@ export function decodeRle(buf: Uint8Array, opts?: { skipFilePrefix?: boolean }):
     offset = 4
   }
 
-  // biome-ignore lint/style/noNonNullAssertion: buf bounds guaranteed by RLE frame structure
   const width = buf[offset]! | (buf[offset + 1]! << 8)
-  // biome-ignore lint/style/noNonNullAssertion: buf bounds guaranteed by RLE frame structure
   const height = buf[offset + 2]! | (buf[offset + 3]! << 8)
   offset += 4
 
@@ -63,7 +61,6 @@ export function decodeRle(buf: Uint8Array, opts?: { skipFilePrefix?: boolean }):
 
   let dst = 0
   while (dst < total) {
-    // biome-ignore lint/style/noNonNullAssertion: within-frame read
     const b = buf[offset++]!
     if (b >= 0x80) {
       // 跳过 b-0x80 个像素(opaque 保持 0,pixels 保持 0)
@@ -71,7 +68,6 @@ export function decodeRle(buf: Uint8Array, opts?: { skipFilePrefix?: boolean }):
     } else {
       // 接下来 b 个字节是直接像素值(opaque = 1)
       for (let k = 0; k < b; k++) {
-        // biome-ignore lint/style/noNonNullAssertion: within-frame pixel read
         pixels[dst] = buf[offset++]!
         opaque[dst] = 1
         dst++

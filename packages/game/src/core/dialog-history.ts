@@ -34,7 +34,11 @@ export function pushDialogHistory(history: DialogHistoryEntry[], map: number, te
  *  - undefined/空(老档)→ `[]`(清残留,从读档点重记);
  *  - 新档快照原样恢复,超 CAP 截断到最后 CAP 条(防旧 CAP 期存档超限)。
  */
-export function restoreDialogHistory(loaded: DialogHistoryEntry[] | undefined): DialogHistoryEntry[] {
+export function restoreDialogHistory(
+  loaded: DialogHistoryEntry[] | undefined,
+): DialogHistoryEntry[] {
   if (!loaded?.length) return []
-  return loaded.length > DIALOG_HISTORY_CAP ? loaded.slice(loaded.length - DIALOG_HISTORY_CAP) : loaded
+  return loaded.length > DIALOG_HISTORY_CAP
+    ? loaded.slice(loaded.length - DIALOG_HISTORY_CAP)
+    : loaded
 }

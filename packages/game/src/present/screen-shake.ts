@@ -27,7 +27,7 @@ const SCREEN_H = 200
  */
 export function applyScreenShake(
   indices: Uint8Array,
-  gs: { shakeTime: number, shakeLevel: number },
+  gs: { shakeTime: number; shakeLevel: number },
   // DM32:false = fade-only 补帧——shakeTime 不自减,只按当前奇偶位移。
   advance = true,
 ): void {

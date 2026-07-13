@@ -1,11 +1,13 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { bootstrap } from '../helpers/bootstrap.js'
 
 /**
  * c6 dev panel picker:DOM 浮层,validate 标题 / 3 fixture / scene jump input filter / Cancel 关。
  * M4 P3 T6:scene jump 扩 294 entries,UI 改 input + filter list(前 30)。
  */
-test('c6 dev panel picker — B 弹 + 3 fixture + scene jump input filter + Cancel 关', async ({ page }) => {
+test('c6 dev panel picker — B 弹 + 3 fixture + scene jump input filter + Cancel 关', async ({
+  page,
+}) => {
   await bootstrap(page)
 
   await page.keyboard.press('b')

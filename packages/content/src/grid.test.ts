@@ -1,5 +1,11 @@
 import { describe, expect, test } from 'vitest'
-import { type GridPos, gridToPixel, pixelDeltaToGridDelta, pixelToGrid, spriteScreenY } from './grid.js'
+import {
+  type GridPos,
+  gridToPixel,
+  pixelDeltaToGridDelta,
+  pixelToGrid,
+  spriteScreenY,
+} from './grid.js'
 
 describe('pixelDeltaToGridDelta(碎步增量,不取整)', () => {
   test('开场锅挥动 walkStep (+4,+2)px = (+0.25, 0) 格 —— round 版会吞成 0', () => {

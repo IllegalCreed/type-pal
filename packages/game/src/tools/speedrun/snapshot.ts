@@ -48,8 +48,7 @@ export function buildSnapshot(gs: GameState): ProgressSnapshot {
   return {
     scene: gs.wNumScene,
     // explore + 非加载 + 非淡入 + 非 suspendRaf(modal/boot 预载期)。见上方字段注释。
-    canMove:
-      gs.mode === 'explore' && !gs.sceneLoading && !gs.paletteFadeState && !gs.suspendRaf,
+    canMove: gs.mode === 'explore' && !gs.sceneLoading && !gs.paletteFadeState && !gs.suspendRaf,
     partyX: gs.party.x,
     partyY: gs.party.y,
     music: gs.wNumMusic,

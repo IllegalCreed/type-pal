@@ -10,8 +10,8 @@
  * 也可作 module 被 import:Task M3.3 的 baseline pixel diff 测试就是这么用。
  */
 
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
-import { resolve, dirname } from 'node:path'
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { PNG } from 'pngjs'
 import { openMkf, readChunk } from '../src/io/mkf.js'
@@ -31,12 +31,16 @@ const TILE_HALF_W = 16
 const ROW_Y_STEP = TILE_H
 const SUBROW_Y_STEP = TILE_H / 2
 
-interface Tilemap { width: number; height: number; cells: { lower: number; upper: number }[][] }
+interface Tilemap {
+  width: number
+  height: number
+  cells: { lower: number; upper: number }[][]
+}
 interface TileImage {
   width: number
   height: number
-  indices: Uint8Array  // palette index per pixel
-  opaque: Uint8Array   // 0 = transparent (RLE skip), 1 = opaque (RLE written, even if index === 0)
+  indices: Uint8Array // palette index per pixel
+  opaque: Uint8Array // 0 = transparent (RLE skip), 1 = opaque (RLE written, even if index === 0)
 }
 
 /**
@@ -50,10 +54,15 @@ interface TileImage {
  * render-tilemap 看不到这覆盖。要做严格 sdlpal pixel 对拍 → 自己解 RLE。
  */
 function decodeRleFrame(chunk: Uint8Array, frameIdx: number): TileImage | null {
-  const off = ((chunk[frameIdx * 2]! | (chunk[frameIdx * 2 + 1]! << 8)) << 1)
+  const off = (chunk[frameIdx * 2]! | (chunk[frameIdx * 2 + 1]! << 8)) << 1
   if (off === 0 || off + 4 > chunk.length) return null
   let p = off
-  if (chunk[p] === 0x02 && chunk[p + 1] === 0x00 && chunk[p + 2] === 0x00 && chunk[p + 3] === 0x00) {
+  if (
+    chunk[p] === 0x02 &&
+    chunk[p + 1] === 0x00 &&
+    chunk[p + 2] === 0x00 &&
+    chunk[p + 3] === 0x00
+  ) {
     p += 4
   }
   const width = chunk[p]! | (chunk[p + 1]! << 8)
@@ -67,7 +76,7 @@ function decodeRleFrame(chunk: Uint8Array, frameIdx: number): TileImage | null {
     const T = chunk[p++]!
     // sdlpal palcommon.c:128 —— 透明 run 只在 (T & 0x80) && T <= 0x80 + uiWidth;
     // 否则按 opaque run 长度 T 处理。run 长度可跨行。
-    if ((T & 0x80) && T <= transThreshold) {
+    if (T & 0x80 && T <= transThreshold) {
       dst += T - 0x80
     } else {
       for (let i = 0; i < T && dst < indices.length; i++) {
@@ -115,11 +124,13 @@ export function renderTilemap(opts: RenderTilemapOptions = {}): RenderTilemapRes
 
   // M4 P3.T3: scene→mapNum→tilemap 链:先读 scene JSON 拿到 mapNum,再读 tilemap by mapNum。
   // opts.mapNum 直接指定 mapNum(用于无 scene 引用的地图,如 #104/#164;跳过 scene 查找)。
-  const mapNum
-    = opts.mapNum
-    ?? (JSON.parse(
-      readFileSync(resolve(DATA, 'data/scene', `${sceneId}.json`), 'utf-8'),
-    ) as { mapNum: number }).mapNum
+  const mapNum =
+    opts.mapNum ??
+    (
+      JSON.parse(readFileSync(resolve(DATA, 'data/scene', `${sceneId}.json`), 'utf-8')) as {
+        mapNum: number
+      }
+    ).mapNum
 
   const tilemap = JSON.parse(
     readFileSync(resolve(DATA, 'data/tilemap', `${mapNum}.json`), 'utf-8'),
@@ -188,10 +199,10 @@ export function renderTilemap(opts: RenderTilemapOptions = {}): RenderTilemapRes
     // layer 0 fence fallback:cells[0][0].lower 的 layer 0 tile id(永远 h=0)
     const fenceFill = isLayer1 ? -1 : layerFn(tilemap.cells[0]![0]!.lower)
     for (let r = -1; r <= tilemap.height; r++) {
-      const row = (r >= 0 && r < tilemap.height) ? tilemap.cells[r]! : null
+      const row = r >= 0 && r < tilemap.height ? tilemap.cells[r]! : null
       // h=0 sub-row:所有 x。cell.lower → 左偏 16 / 上偏 8。
       for (let c = -1; c <= tilemap.width; c++) {
-        const cell = (row && c >= 0 && c < tilemap.width) ? row[c]! : null
+        const cell = row && c >= 0 && c < tilemap.width ? row[c]! : null
         const id = cell ? layerFn(cell.lower) : fenceFill
         if (id < 0) continue
         const img = tileImages.get(id)
@@ -199,7 +210,7 @@ export function renderTilemap(opts: RenderTilemapOptions = {}): RenderTilemapRes
       }
       // h=1 sub-row:所有 x。cell.upper → 不偏。fence fallback 仍用 cells[0][0].lower。
       for (let c = -1; c <= tilemap.width; c++) {
-        const cell = (row && c >= 0 && c < tilemap.width) ? row[c]! : null
+        const cell = row && c >= 0 && c < tilemap.width ? row[c]! : null
         const id = cell ? layerFn(cell.upper) : fenceFill
         if (id < 0) continue
         const img = tileImages.get(id)
@@ -231,7 +242,8 @@ export function renderTilemap(opts: RenderTilemapOptions = {}): RenderTilemapRes
 //   无参 → 渲染 scene 1(默认);`--map=N`(可多个)→ 按 mapNum 渲染到 build/tilemap-renders/map-N.png
 //   (用于无 scene 引用的地图,如 #104/#164;user 2026-05-29 "让我看看啥样")。
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const maps = process.argv.slice(2)
+  const maps = process.argv
+    .slice(2)
     .filter((a) => a.startsWith('--map='))
     .map((a) => Number(a.slice('--map='.length)))
   if (maps.length > 0) {
@@ -240,8 +252,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       const r = renderTilemap({ mapNum, outPath })
       console.log(`[render-tilemap] map ${mapNum} → ${r.outPath} (${r.width}×${r.height})`)
     }
-  }
-  else {
+  } else {
     const r = renderTilemap()
     console.log(`[render-tilemap] written → ${r.outPath} (${r.width}×${r.height})`)
   }

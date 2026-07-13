@@ -1,5 +1,14 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { battleVictoryTrack, createAudioManager, createOggMusicBackend, createSfxDedup, sfxUrl, musicUrl, pickMusicTrack, sfxForBattleEvent } from './audio.js'
+import {
+  battleVictoryTrack,
+  createAudioManager,
+  createOggMusicBackend,
+  createSfxDedup,
+  musicUrl,
+  pickMusicTrack,
+  sfxForBattleEvent,
+  sfxUrl,
+} from './audio.js'
 
 // 注:Web Audio(AudioContext / decodeAudioData)在 node/jsdom 测试环境不可用 → SFX 实际播放
 //   退化为 no-op(无法单测发声,归 user 真引擎听验)。此处测**可测逻辑**:url 映射 + sync 队列
@@ -71,7 +80,10 @@ describe('M6 AudioManager.sync', () => {
 })
 
 describe('M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound)', () => {
-  const enemies = [{ e: { deathSound: 51, attackSound: 50 } }, { e: { deathSound: 0, attackSound: 60 } }]
+  const enemies = [
+    { e: { deathSound: 51, attackSound: 50 } },
+    { e: { deathSound: 0, attackSound: 60 } },
+  ]
   const roles = { 0: { weaponSound: 33 }, 3: { weaponSound: 0 } }
   const party = [0, 3] // partyMembers idx → roleId
 
@@ -79,14 +91,20 @@ describe('M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle
     expect(sfxForBattleEvent({ op: 'playEnemyDeath', enemyIdx: 0 }, enemies, party, roles)).toBe(51)
   })
   it('敌攻 → enemy.attackSound', () => {
-    expect(sfxForBattleEvent({ op: 'playEnemyAttack', enemyIdx: 1 }, enemies, party, roles)).toBe(60)
+    expect(sfxForBattleEvent({ op: 'playEnemyAttack', enemyIdx: 1 }, enemies, party, roles)).toBe(
+      60,
+    )
   })
   it('我攻 → partyMembers[idx]→role.weaponSound(fight.c:2124)', () => {
-    expect(sfxForBattleEvent({ op: 'playPlayerAttack', playerIdx: 0 }, enemies, party, roles)).toBe(33)
+    expect(sfxForBattleEvent({ op: 'playPlayerAttack', playerIdx: 0 }, enemies, party, roles)).toBe(
+      33,
+    )
   })
   it('无音:deathSound=0 / weaponSound=0 / 非战斗事件 → 0(不播)', () => {
     expect(sfxForBattleEvent({ op: 'playEnemyDeath', enemyIdx: 1 }, enemies, party, roles)).toBe(0)
-    expect(sfxForBattleEvent({ op: 'playPlayerAttack', playerIdx: 1 }, enemies, party, roles)).toBe(0) // role 3 weaponSound=0
+    expect(sfxForBattleEvent({ op: 'playPlayerAttack', playerIdx: 1 }, enemies, party, roles)).toBe(
+      0,
+    ) // role 3 weaponSound=0
     expect(sfxForBattleEvent({ op: 'showDamageNum' }, enemies, party, roles)).toBe(0)
   })
 })

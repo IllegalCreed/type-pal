@@ -14,7 +14,14 @@
  * 43 个投掷物(天师符/风灵符/梅花镖/银针/各种卵·蛊·毒草)的 scriptOnThrow 都靠这条。
  */
 
-import type { Command, Item, Magic, ObjectMagicView, ObjectPoisonView, PlayerRoles } from '@type-pal/shared'
+import type {
+  Command,
+  Item,
+  Magic,
+  ObjectMagicView,
+  ObjectPoisonView,
+  PlayerRoles,
+} from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
 import type { RunScriptOptions } from '../../event-system.js'
 import type { GameState } from '../../game-state.js'
@@ -68,15 +75,15 @@ export interface PerformThrowItemInput {
  *  4. 跑完后扣 1(sdlpal 投掷物 consuming;`PAL_AddItemToInventory(-1)` 在脚本之后)。
  */
 export function performThrowItem(input: PerformThrowItemInput): void {
-  const item = input.items.find(it => it.id === input.itemId)
+  const item = input.items.find((it) => it.id === input.itemId)
   if (!item) {
     console.warn(`[throw-item] item id ${input.itemId} not found`)
     return
   }
   // —— 队员投:检查 inventory(敌人不 track) ——
-  let entry: { itemId: number, count: number } | undefined
+  let entry: { itemId: number; count: number } | undefined
   if (!input.casterIsEnemy) {
-    entry = input.gs.inventory.find(e => e.itemId === input.itemId)
+    entry = input.gs.inventory.find((e) => e.itemId === input.itemId)
     if (!entry || entry.count === 0) {
       console.warn(`[throw-item] no inventory for item ${input.itemId}`)
       return
@@ -90,13 +97,15 @@ export function performThrowItem(input: PerformThrowItemInput): void {
   const caster = input.state.players[input.casterIdx]
   const hasAnim = !input.casterIsEnemy && !!caster?.posOriginal
   const magicSound = caster ? (input.playerRoles.roles[caster.roleId]?.magicSound ?? 0) : 0
-  const windup = hasAnim ? buildThrowWindupTimeline(input.casterIdx, caster!.posOriginal!, magicSound, item._name) : []
+  const windup = hasAnim
+    ? buildThrowWindupTimeline(input.casterIdx, caster!.posOriginal!, magicSound, item._name)
+    : []
   const pendingAnimFrames: BattleAnimFrame[] = []
   const pendingDamageNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
 
   // —— 跑 scriptOnThrow(battleCtx 注入 caster / target / magicTables) ——
-  const targetCtx
-    = input.targetIdx === 'all'
+  const targetCtx =
+    input.targetIdx === 'all'
       ? undefined // 全体:由 0x42 的 applyToAll flag / 自动选敌处理
       : { type: 'enemy' as const, idx: input.targetIdx }
 
@@ -120,20 +129,30 @@ export function performThrowItem(input: PerformThrowItemInput): void {
         enemySpriteFrameHeights: input.enemySpriteFrameHeights,
         // 投掷动画:0x42/0x66 把 OffMagic 特效帧 push 进 pendingAnimFrames;HP-mutate 数字延迟进 pendingDamageNums。
         //   无动画(敌投/无 pos)→ 不传缓冲 → opcode 即时 emit + 音效即时(向后兼容)。
-        ...(hasAnim ? { pendingAnimFrames, pendingDamageNums, magicSpriteFrameCounts: input.magicSpriteFrameCounts } : {}),
+        ...(hasAnim
+          ? {
+              pendingAnimFrames,
+              pendingDamageNums,
+              magicSpriteFrameCounts: input.magicSpriteFrameCounts,
+            }
+          : {}),
       },
     })
   }
 
   // —— 消耗 1(sdlpal:脚本之后 PAL_AddItemToInventory(-1)) ——
-  if (entry)
-    entry.count--
+  if (entry) entry.count--
 
   // —— 拼挥臂 + OffMagic 特效 → startBattleAnim,伤害数字延迟到动画末(sdlpal fight.c:4369 DisplayStatChange)——
   if (hasAnim) {
     const frames = [...windup, ...pendingAnimFrames]
     if (frames.length > 0)
-      startBattleAnim(input.state, frames, input.bus, pendingDamageNums.length > 0 ? pendingDamageNums : undefined)
-      if (input.state.battleAnim) input.state.battleAnim.updateEnemyGesture = true // DM11:玩家动作链
+      startBattleAnim(
+        input.state,
+        frames,
+        input.bus,
+        pendingDamageNums.length > 0 ? pendingDamageNums : undefined,
+      )
+    if (input.state.battleAnim) input.state.battleAnim.updateEnemyGesture = true // DM11:玩家动作链
   }
 }

@@ -83,7 +83,6 @@ export interface BattleSettlementState {
 
 /** 当前屏的自动翻页超时(sdlpal `PAL_WaitForAnyKey` timeout):boss exp 屏 5.5s,其余 3s。 */
 export function settlementScreenTimeoutMs(screen: BattleSettlementScreen): number {
-  if (screen.kind === 'exp-cash')
-    return screen.isBoss ? 5500 : 3000
+  if (screen.kind === 'exp-cash') return screen.isBoss ? 5500 : 3000
   return 3000
 }

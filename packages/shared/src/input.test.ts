@@ -1,14 +1,28 @@
-import { describe, it, expect, expectTypeOf } from 'vitest'
+import { describe, expect, expectTypeOf, it } from 'vitest'
 import type { AbstractKey, InputSnapshot, InputSource } from './input.js'
 
 describe('input types', () => {
   it('AbstractKey 联合', () => {
     expectTypeOf<AbstractKey>().toEqualTypeOf<
-      'Up' | 'Down' | 'Left' | 'Right'
-      | 'Confirm' | 'Cancel' | 'Menu'
-      | 'PgUp' | 'PgDn' | 'Home' | 'End'
-      | 'Repeat' | 'Auto' | 'Defend'
-      | 'UseItem' | 'ThrowItem' | 'Flee' | 'Force' | 'Status'
+      | 'Up'
+      | 'Down'
+      | 'Left'
+      | 'Right'
+      | 'Confirm'
+      | 'Cancel'
+      | 'Menu'
+      | 'PgUp'
+      | 'PgDn'
+      | 'Home'
+      | 'End'
+      | 'Repeat'
+      | 'Auto'
+      | 'Defend'
+      | 'UseItem'
+      | 'ThrowItem'
+      | 'Flee'
+      | 'Force'
+      | 'Status'
     >()
   })
 

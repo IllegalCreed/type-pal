@@ -201,7 +201,9 @@ export class SpeedrunTimer {
   private atBananaTree(snap: ProgressSnapshot): boolean {
     if (snap.scene !== this.banana.scene) return false
     return this.banana.cells.some(
-      ([x, y]) => Math.abs(snap.partyX - x) <= this.banana.tolX && Math.abs(snap.partyY - y) <= this.banana.tolY,
+      ([x, y]) =>
+        Math.abs(snap.partyX - x) <= this.banana.tolX &&
+        Math.abs(snap.partyY - y) <= this.banana.tolY,
     )
   }
 

@@ -1,24 +1,32 @@
 // 生产增强工具面板(canvas 外 DOM,非 DEV 门;只读 + 玩家便利动作)。左上角悬浮、非模态、左竖 Tab。
 //   视觉复用 load 界面「仙剑 金/朱 暗底」配色(见 injectToolsPanelStyles)。tab 内容见 renderActiveTab。
 import type { Item, ObjectPoisonView, PlayerRoles } from '@type-pal/shared'
+import type { GameState } from '../core/game-state.js'
 import {
   collectEnemyStatusReadouts,
   collectFieldInfoReadout,
   collectPartyStatusReadouts,
 } from '../core/inspect/battle-inspect.js'
-import type { GameState } from '../core/game-state.js'
+import { getCurrentMapNum } from '../core/scene-system.js'
 import type { AudioVolumeController } from '../shell/audio-volume.js'
 import type { DisplayScaleController } from './display-scale.js'
-import { parseImportedSave, serializeSave } from './save-io.js'
-import { getCurrentMapNum } from '../core/scene-system.js'
+import { isFpsEnabled, setFpsEnabled } from './fps-overlay.js'
 import { getMapName } from './map-names.js'
 import { DOT_COLORS, type MinimapController, setupMinimap } from './minimap.js'
-import { showToast } from './toast.js'
+import { parseImportedSave, serializeSave } from './save-io.js'
 import { CHECKPOINTS } from './speedrun/checkpoints.js'
-import { clearSpeedrunBests, getSpeedrunBests, getSpeedrunRun, resetSpeedrun, setSpeedrunBest, setSpeedrunBestFromCurrent, setSpeedrunStep } from './speedrun/index.js'
+import {
+  clearSpeedrunBests,
+  getSpeedrunBests,
+  getSpeedrunRun,
+  resetSpeedrun,
+  setSpeedrunBest,
+  setSpeedrunBestFromCurrent,
+  setSpeedrunStep,
+} from './speedrun/index.js'
 import { loadSettings, saveSetting } from './speedrun/store.js'
-import { isFpsEnabled, setFpsEnabled } from './fps-overlay.js'
 import { formatHms, parseHms } from './speedrun/time-format.js'
+import { showToast } from './toast.js'
 
 export interface PanelResources {
   playerRoles: PlayerRoles
@@ -264,7 +272,12 @@ function button(parent: HTMLElement, text: string, onClick: () => void): HTMLBut
 }
 
 /** 开关行:文字(左) + 复选框(右)。 */
-function toggleRow(parent: HTMLElement, label: string, checked: boolean, onChange: (v: boolean) => void): void {
+function toggleRow(
+  parent: HTMLElement,
+  label: string,
+  checked: boolean,
+  onChange: (v: boolean) => void,
+): void {
   const r = document.createElement('label')
   r.className = 'tp-toggle'
   const span = document.createElement('span')
@@ -324,8 +337,14 @@ function minimapLegend(parent: HTMLElement): void {
 
 // ── 战斗 tab 辅助:unit panel + 彩色 chip ──
 const ELEM_CLASS: Record<string, string> = {
-  风: 'e-wind', 雷: 'e-thunder', 水: 'e-water', 火: 'e-fire', 土: 'e-earth',
-  物理: 'e-phys', 毒: 'e-poison', 巫抗: 'e-sorcery',
+  风: 'e-wind',
+  雷: 'e-thunder',
+  水: 'e-water',
+  火: 'e-fire',
+  土: 'e-earth',
+  物理: 'e-phys',
+  毒: 'e-poison',
+  巫抗: 'e-sorcery',
 }
 
 function chip(parent: HTMLElement, text: string, cls: string): void {
@@ -335,7 +354,11 @@ function chip(parent: HTMLElement, text: string, cls: string): void {
   parent.appendChild(s)
 }
 
-function chipLine(parent: HTMLElement, label: string, items: { text: string; cls: string }[]): void {
+function chipLine(
+  parent: HTMLElement,
+  label: string,
+  items: { text: string; cls: string }[],
+): void {
   if (!items.length) return
   const d = document.createElement('div')
   d.className = 'tp-stat-line'
@@ -351,7 +374,12 @@ function chipLine(parent: HTMLElement, label: string, items: { text: string; cls
   parent.appendChild(d)
 }
 
-function unitPanel(parent: HTMLElement, name: string, right: string, rightCss: string): HTMLElement {
+function unitPanel(
+  parent: HTMLElement,
+  name: string,
+  right: string,
+  rightCss: string,
+): HTMLElement {
   const u = document.createElement('div')
   u.className = 'tp-unit'
   const head = document.createElement('div')
@@ -375,14 +403,18 @@ function hpCss(hp: number, maxHp: number): string {
   return `color:${ratio > 0.5 ? '#7fc88a' : ratio > 0.2 ? '#e8c060' : '#e06c5a'}`
 }
 
-function resistChips(resistances: { label: string; value: number }[]): { text: string; cls: string }[] {
+function resistChips(
+  resistances: { label: string; value: number }[],
+): { text: string; cls: string }[] {
   return resistances.map((r) => ({
     text: `${r.label}${r.value > 0 ? '+' : ''}${r.value}`,
     cls: ELEM_CLASS[r.label] ?? '',
   }))
 }
 
-function statusChips(statuses: { name: string; kind: string; rounds?: number }[]): { text: string; cls: string }[] {
+function statusChips(
+  statuses: { name: string; kind: string; rounds?: number }[],
+): { text: string; cls: string }[] {
   // buff/debuff 带剩余回合(>999 = 装备/永久效果 → 「永久」);毒无回合 → 只名。
   return statuses.map((s) => ({
     text: s.rounds && s.rounds > 0 ? `${s.name} ${s.rounds > 999 ? '永久' : s.rounds}` : s.name,
@@ -405,12 +437,23 @@ function renderBattleTab(parent: HTMLElement, gs: GameState, res: PanelResources
   kvLine(ov, '灵葫值', String(gs.wCollectValue ?? 0), 'color:#b88fd6')
   sectionTitle(parent, '我方')
   const levelUpExp = res.levelUpExp ?? []
-  for (const p of collectPartyStatusReadouts(gs, res.playerRoles, res.objectPoisons, res.items, levelUpExp)) {
+  for (const p of collectPartyStatusReadouts(
+    gs,
+    res.playerRoles,
+    res.objectPoisons,
+    res.items,
+    levelUpExp,
+  )) {
     // 头:角色名 + 修行(等级)。经验单独成行。
     //   我方体力/真气**不显示**:本面板读持久 PlayerRolesRuntime,战斗中当前血/蓝由战斗工作副本
     //   持有、仅在边界回写,会滞后误导(战斗框才是 live 值)。敌方 HP 读 battleState 故保留。
     const u = unitPanel(parent, p.roleName, `修行 ${p.level}`, 'color:var(--tp-gold)')
-    kvLine(u, '经验', p.nextExp > 0 ? `${p.curExp} / ${p.nextExp}` : String(p.curExp), 'color:var(--tp-text)')
+    kvLine(
+      u,
+      '经验',
+      p.nextExp > 0 ? `${p.curExp} / ${p.nextExp}` : String(p.curExp),
+      'color:var(--tp-text)',
+    )
     // 6 属性(= 游戏内状态框,含装备加成):修行(头)+ 武术/灵力/防御/身法/吉运。
     chipLine(u, '属性', [
       { text: `武术 ${p.attack}`, cls: '' },
@@ -441,14 +484,24 @@ function renderBattleTab(parent: HTMLElement, gs: GameState, res: PanelResources
     )
     // 属性:全战斗属性(隐藏 法术id 调试项);经验/金钱单独成「战利」行。
     const combat = e.stats.filter((s) => !['法术id', '经验', '金钱'].includes(s.label))
-    chipLine(u, '属性', combat.map((s) => ({ text: `${s.label}${s.value}`, cls: '' })))
+    chipLine(
+      u,
+      '属性',
+      combat.map((s) => ({ text: `${s.label}${s.value}`, cls: '' })),
+    )
     const drops = e.stats.filter((s) => s.label === '经验' || s.label === '金钱')
-    chipLine(u, '战利', drops.map((s) => ({ text: `${s.label}${s.value}`, cls: '' })))
+    chipLine(
+      u,
+      '战利',
+      drops.map((s) => ({ text: `${s.label}${s.value}`, cls: '' })),
+    )
     chipLine(u, '抗性', resistChips(e.resistances))
     chipLine(u, '状态', statusChips(e.statuses)) // 含中毒
     chipLine(u, '偷取', [{ text: e.steal, cls: 's-steal' }]) // 始终显示(可偷物/金钱 或「不可偷」)
     // 灵葫值:>0 = 灵葫咒可收(秒掉时并入全局灵葫值供炼丹);=0 → 灵葫咒永远收不掉,显「无」提示。始终显示。
-    chipLine(u, '灵葫', [{ text: e.collectValue > 0 ? String(e.collectValue) : '无', cls: 's-collect' }])
+    chipLine(u, '灵葫', [
+      { text: e.collectValue > 0 ? String(e.collectValue) : '无', cls: 's-collect' },
+    ])
     // 普攻毒:敌普攻命中按 rate/10 概率附该道具(全 0x29 单体毒)效果;无此机制(equiv 或 rate 为 0)→ null 不显示。
     // label 取 3 字(「普攻附毒」4 字会在 label 列换行)。
     if (e.attackEquivPoison) chipLine(u, '普攻毒', [{ text: e.attackEquivPoison, cls: 's-poison' }])
@@ -465,7 +518,10 @@ function renderBattleTab(parent: HTMLElement, gs: GameState, res: PanelResources
     chipLine(
       u,
       '场效',
-      field.elements.map((s) => ({ text: `${s.label}${s.value > 0 ? '+' : ''}${s.value}`, cls: ELEM_CLASS[s.label] ?? '' })),
+      field.elements.map((s) => ({
+        text: `${s.label}${s.value > 0 ? '+' : ''}${s.value}`,
+        cls: ELEM_CLASS[s.label] ?? '',
+      })),
     )
   }
 }
@@ -527,7 +583,11 @@ function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
   // ── 音频(音乐 BGM / 音效 SFX / 视频 mp4 各自独立音量;静音为一键覆盖三路的主开关) ──
   sectionTitle(parent, '音频')
   const addVolRow = (label: string, ctrl: AudioVolumeController): void => {
-    const { slider, val } = sliderRow(parent, label, { min: 0, max: 100, value: Math.round(ctrl.getVolume() * 100) })
+    const { slider, val } = sliderRow(parent, label, {
+      min: 0,
+      max: 100,
+      value: Math.round(ctrl.getVolume() * 100),
+    })
     const sync = (): void => {
       val.textContent = `${slider.value}%`
     }
@@ -591,7 +651,9 @@ function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
             await deps.saveSlot(slot, parseImportedSave(String(reader.result)))
             showToast(`已导入到存档位 ${slot}`, { type: 'success' })
           } catch (err) {
-            showToast(`导入失败:${err instanceof Error ? err.message : String(err)}`, { type: 'error' })
+            showToast(`导入失败:${err instanceof Error ? err.message : String(err)}`, {
+              type: 'error',
+            })
           }
         })()
       }
@@ -787,7 +849,12 @@ function renderKeysTab(parent: HTMLElement): void {
   muted(parent, '仅在「计时器」tab 启用计时器后生效')
 }
 
-function renderActiveTab(body: HTMLElement, active: TabKey, deps: ToolsPanelDeps, minimap: MinimapController): void {
+function renderActiveTab(
+  body: HTMLElement,
+  active: TabKey,
+  deps: ToolsPanelDeps,
+  minimap: MinimapController,
+): void {
   const gs = deps.getGs()
   if (active === 'battle') renderBattleTab(body, gs, deps.getResources())
   else if (active === 'scene') renderSceneTab(body, gs, minimap)
@@ -811,9 +878,15 @@ function battleSig(gs: GameState): string {
       .map(([k, v]) => `${k}${v}`)
       .join('')
   const party = gs.partyMembers.map((id) => `${rt.rgwHP[id] ?? 0}/${rt.rgwMP[id] ?? 0}`).join(',')
-  const enemies = bs.enemies.map((e) => `${e.e.health}:${e.defeated ? 1 : 0}:${(e.poisons ?? []).length}`).join(',')
-  const pStatus = bs.players.map((p) => statusOf(p.status as unknown as Record<string, number>)).join('|')
-  const eStatus = bs.enemies.map((e) => statusOf(e.status as unknown as Record<string, number>)).join('|')
+  const enemies = bs.enemies
+    .map((e) => `${e.e.health}:${e.defeated ? 1 : 0}:${(e.poisons ?? []).length}`)
+    .join(',')
+  const pStatus = bs.players
+    .map((p) => statusOf(p.status as unknown as Record<string, number>))
+    .join('|')
+  const eStatus = bs.enemies
+    .map((e) => statusOf(e.status as unknown as Record<string, number>))
+    .join('|')
   const poison = Object.values(gs.rgPoisonStatus ?? {}).filter((p) => p && p.wPoisonID > 0).length
   // 隐藏经验本场累积(5 属性池 wCount 和)+ 回合 + 灵葫值:战斗中变化即触发战斗 tab 重渲染。
   const hidden = gs.partyMembers

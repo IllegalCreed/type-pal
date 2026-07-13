@@ -16,7 +16,11 @@ describe('checkpoints', () => {
   it('香蕉配置(照抄 PalTimer 3 精确格 + PARTYOFFSET,零容差)', () => {
     expect(BANANA.scene).toBe(177)
     expect(BANANA.itemId).toBe(291)
-    expect(BANANA.cells).toEqual([[1248, 720], [1280, 720], [1280, 704]])
+    expect(BANANA.cells).toEqual([
+      [1248, 720],
+      [1280, 720],
+      [1280, 704],
+    ])
     expect(BANANA.tolX).toBe(0)
     expect(BANANA.tolY).toBe(0)
   })

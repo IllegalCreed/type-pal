@@ -6,7 +6,7 @@
  * runtime 解码,见 cli.ts / game rng-player.ts)。本文件只在共享解码结果上加 PNG 编码,
  * 供历史 / 测试用(cli 主流程已改走 gzip blob,不再逐帧写 PNG)。
  */
-import { RNG_HEIGHT, RNG_WIDTH, decodeRngFrames, rngBlitDelta } from '@type-pal/shared'
+import { decodeRngFrames, RNG_HEIGHT, RNG_WIDTH, rngBlitDelta } from '@type-pal/shared'
 import { encodeIndexedPng } from '../sprite.js'
 
 // rngBlitDelta 经本文件 re-export,保持既有测试 `import { rngBlitDelta } from './rng-frames.js'`。

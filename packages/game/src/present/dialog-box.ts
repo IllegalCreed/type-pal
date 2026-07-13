@@ -25,11 +25,11 @@
  */
 
 import { type DialogBoxStyle, FRAME_MS_EXPLORE } from '@type-pal/shared'
-import type { Framebuffer } from './framebuffer.js'
-import { renderText, renderColoredText, measureText, type GlyphTable } from './font.js'
-import type { DialogBoxState, } from '../core/game-state.js'
-import { drawSingleLineBox } from './menu/draw-box.js'
+import type { DialogBoxState } from '../core/game-state.js'
 import { drawNumber } from './draw-number.js'
+import { type GlyphTable, measureText, renderColoredText, renderText } from './font.js'
+import type { Framebuffer } from './framebuffer.js'
+import { drawSingleLineBox } from './menu/draw-box.js'
 
 // ── 常量 ──────────────────────────────────────────────────────────────────────
 
@@ -37,13 +37,13 @@ export const FRAMES_PER_CHAR = 1
 
 // ── sdlpal text.c:29-34 FONT_COLOR_* 真值(palette index)──────────────────────
 /** 默认对话字体色 0x4F(palette idx 79)。普通对话(isDialog=FALSE)DEFAULT 即此;narration DEFAULT→0。 */
-export const FONT_COLOR_DEFAULT = 0x4F
+export const FONT_COLOR_DEFAULT = 0x4f
 /** `"` toggle 黄(text.c:30)。普通对话生效;narration(isDialog=TRUE)被 `!isDialog` 屏蔽。 */
-export const FONT_COLOR_YELLOW = 0x2D
+export const FONT_COLOR_YELLOW = 0x2d
 /** `'` toggle 红(text.c:31)。 */
-export const FONT_COLOR_RED = 0x1A
+export const FONT_COLOR_RED = 0x1a
 /** `-` toggle 青(text.c:32)。 */
-export const FONT_COLOR_CYAN = 0x8D
+export const FONT_COLOR_CYAN = 0x8d
 /** `@` toggle 红 alt(text.c:34)。 */
 export const FONT_COLOR_RED_ALT = 0x17
 
@@ -118,30 +118,65 @@ export function parseDialogText(
   for (let i = 0; i < chars.length; i++) {
     const ch = chars[i]!
     switch (ch) {
-      case '-': color = color === FONT_COLOR_CYAN ? FONT_COLOR_DEFAULT : FONT_COLOR_CYAN; break
-      case '\'': color = color === FONT_COLOR_RED ? FONT_COLOR_DEFAULT : FONT_COLOR_RED; break
-      case '@': color = color === FONT_COLOR_RED_ALT ? FONT_COLOR_DEFAULT : FONT_COLOR_RED_ALT; break
+      case '-':
+        color = color === FONT_COLOR_CYAN ? FONT_COLOR_DEFAULT : FONT_COLOR_CYAN
+        break
+      case "'":
+        color = color === FONT_COLOR_RED ? FONT_COLOR_DEFAULT : FONT_COLOR_RED
+        break
+      case '@':
+        color = color === FONT_COLOR_RED_ALT ? FONT_COLOR_DEFAULT : FONT_COLOR_RED_ALT
+        break
       case '"':
         if (!isDialog) color = color === FONT_COLOR_YELLOW ? FONT_COLOR_DEFAULT : FONT_COLOR_YELLOW
         break // `"` 总消费(text.c:1531 lpszText++ 在 if 外)
-      case '$': { // text.c:1538-1539 iDelayTime = NN*10/7;lpszText+=3(消费 $ + 2 位)
+      case '$': {
+        // text.c:1538-1539 iDelayTime = NN*10/7;lpszText+=3(消费 $ + 2 位)
         const nn = Number.parseInt((chars[i + 1] ?? '') + (chars[i + 2] ?? ''), 10)
         if (!Number.isNaN(nn)) iDelay = Math.floor((nn * 10) / 7)
         i += 2
         break
       }
-      case '~': { // text.c:1551-1554 UTIL_Delay(NN*80/7) + return(本行止,尾暂停)
+      case '~': {
+        // text.c:1551-1554 UTIL_Delay(NN*80/7) + return(本行止,尾暂停)
         const nn = Number.parseInt((chars[i + 1] ?? '') + (chars[i + 2] ?? ''), 10)
         const endDelay = Number.isNaN(nn) ? 0 : Math.floor((nn * 80) / 7)
-        return { text: out.join(''), colors, revealAt, doneAt: cum + endDelay, endColor: color, endIDelay: iDelay, icon, endedWithTilde: true }
+        return {
+          text: out.join(''),
+          colors,
+          revealAt,
+          doneAt: cum + endDelay,
+          endColor: color,
+          endIDelay: iDelay,
+          icon,
+          endedWithTilde: true,
+        }
       }
-      case ')': icon = 1; break
-      case '(': icon = 2; break
-      case '\\': { const nx = chars[++i]; if (nx !== undefined) emit(nx); break } // 转义:画下一字符字面
-      default: emit(ch)
+      case ')':
+        icon = 1
+        break
+      case '(':
+        icon = 2
+        break
+      case '\\': {
+        const nx = chars[++i]
+        if (nx !== undefined) emit(nx)
+        break
+      } // 转义:画下一字符字面
+      default:
+        emit(ch)
     }
   }
-  return { text: out.join(''), colors, revealAt, doneAt: cum, endColor: color, endIDelay: iDelay, icon, endedWithTilde: false }
+  return {
+    text: out.join(''),
+    colors,
+    revealAt,
+    doneAt: cum,
+    endColor: color,
+    endIDelay: iDelay,
+    icon,
+    endedWithTilde: false,
+  }
 }
 
 /** sdlpal text.c:1661 `y + nCurrentDialogLine * 18`:行间距 18 px */
@@ -179,7 +214,7 @@ export function getDialogTitlePos(style: DialogBoxStyle, hasPortrait: boolean): 
     case 'top':
       return { x: hasPortrait ? 80 : 12, y: 8 }
     case 'center':
-      return { x: 12, y: 8 }  // sdlpal default,center 一般不用 title
+      return { x: 12, y: 8 } // sdlpal default,center 一般不用 title
     case 'bottom':
     case 'narration':
       return { x: hasPortrait ? 4 : 12, y: 108 }
@@ -202,12 +237,16 @@ export function isCharacterNameLine(text: string): boolean {
  *(bDialogPosition != kDialogCenter ⇔ style != 'center')+ 末字冒号。M1/L1(2026-06-07 审查):
  * 原先只判末字 → 段中续行冒号句被误当姓名牌(从正文丢失)、center 独白被错画成左上角姓名牌。
  */
-function shouldRenderAsTitle(text: string, dialogLineCount: number, style: DialogBoxStyle): boolean {
+function shouldRenderAsTitle(
+  text: string,
+  dialogLineCount: number,
+  style: DialogBoxStyle,
+): boolean {
   return dialogLineCount === 0 && style !== 'center' && isCharacterNameLine(text)
 }
 
 /** sdlpal text.c:33 真值 `#define FONT_COLOR_CYAN_ALT 0x8C` — 姓名 title 渲染色。 */
-export const FONT_COLOR_CYAN_ALT = 0x8C
+export const FONT_COLOR_CYAN_ALT = 0x8c
 
 // ── 头像位置(sdlpal text.c:1289-1310 真值) ───────────────────────────────────
 
@@ -216,11 +255,7 @@ interface PortraitPos {
   y: number
 }
 
-function getPortraitPos(
-  style: DialogBoxStyle,
-  width: number,
-  height: number,
-): PortraitPos | null {
+function getPortraitPos(style: DialogBoxStyle, width: number, height: number): PortraitPos | null {
   switch (style) {
     case 'top':
       return { x: 48 - Math.floor(width / 2), y: 55 - Math.floor(height / 2) }
@@ -243,9 +278,9 @@ export interface BoxRect {
 }
 
 const STYLE_RECTS: Record<DialogBoxStyle, BoxRect> = {
-  top:       { x: 8, y: 8,   w: 304, h: 48 },
-  center:    { x: 8, y: 80,  w: 304, h: 48 },
-  bottom:    { x: 8, y: 144, w: 304, h: 48 },
+  top: { x: 8, y: 8, w: 304, h: 48 },
+  center: { x: 8, y: 80, w: 304, h: 48 },
+  bottom: { x: 8, y: 144, w: 304, h: 48 },
   narration: { x: 8, y: 144, w: 304, h: 48 },
   'item-box': { x: 8, y: 80, w: 304, h: 48 }, // 物品框实际居中动态画(drawItemBoxDialog),此 rect 仅占位/测试
 }
@@ -285,7 +320,12 @@ export function startDialogLine(
   const style = opts.style ?? 'bottom'
   const startColor = opts.fontColor ?? FONT_COLOR_DEFAULT
   const isDialog = style === 'narration' // sdlpal isDialog:普通对话=FALSE,narration(居中小窗)=TRUE
-  const parsed = parseDialogText(rawText, startColor, isDialog, opts.iDelayFrames ?? DIALOG_IDELAY_DEFAULT)
+  const parsed = parseDialogText(
+    rawText,
+    startColor,
+    isDialog,
+    opts.iDelayFrames ?? DIALOG_IDELAY_DEFAULT,
+  )
   // sdlpal text.c:1715-1727 真值:`:` 结尾的字符串 = 姓名 title,画独立位置(CYAN_ALT,PAL_DrawText 不过
   //   控制符 state machine,不改 bCurrentFontColor),不计入 line。在剥码后的可见文本上判定。
   const isTitle = shouldRenderAsTitle(parsed.text, 0, style)
@@ -307,8 +347,8 @@ export function startDialogLine(
     charsRevealed: 0,
     // sdlpal nCurrentDialogLine:PAL_StartDialog 置 0(text.c:1262)→ 本行 PAL_ShowDialogText 后:
     //   title 不 ++(0);`~` 收尾 -1→++→0;普通正文 ++→1。
-    dialogLineCount: isTitle ? 0 : (parsed.endedWithTilde ? 0 : 1),
-    phase: isTitle ? 'line-done' : 'typing',  // title 即出完,让 event-system 立即 ip++ 下条
+    dialogLineCount: isTitle ? 0 : parsed.endedWithTilde ? 0 : 1,
+    phase: isTitle ? 'line-done' : 'typing', // title 即出完,让 event-system 立即 ip++ 下条
     style,
     portraitIcon: opts.portraitIcon,
     portraitLayout: opts.portraitLayout,
@@ -343,7 +383,8 @@ export function appendDialogLine(state: DialogBoxState, rawText: string, now?: n
   // 把"上次 line-done 的 currentLineText"沉入 shownLines(连同其逐字符色)
   if (state.currentLineText !== null) {
     state.shownLines.push(state.currentLineText)
-    ;(state.shownLineColors ??= []).push(state.currentLineColors ?? [])
+    state.shownLineColors ??= []
+    state.shownLineColors.push(state.currentLineColors ?? [])
   }
   state.currentLineText = parsed.text
   state.currentLineColors = parsed.colors
@@ -365,8 +406,7 @@ export function appendDialogLine(state: DialogBoxState, rawText: string, now?: n
     state.charsRevealed = parsed.text.length // 整行瞬显
     state.phase = 'line-done'
     if (parsed.endedWithTilde) state.userSkip = false // `~` 段末复位(text.c:1553),下一段重新逐字
-  }
-  else {
+  } else {
     state.charsRevealed = 0
     state.phase = 'typing'
   }
@@ -381,8 +421,9 @@ export function appendDialogLine(state: DialogBoxState, rawText: string, now?: n
  */
 export function shouldWaitPageKey(state: DialogBoxState): boolean {
   // currentLineText 若已 typing 完,逻辑上算 1 行;还没沉 shownLines 因为 append 才沉
-  const effectiveLines = state.shownLines.length
-    + (state.currentLineText !== null && state.phase === 'line-done' ? 1 : 0)
+  const effectiveLines =
+    state.shownLines.length +
+    (state.currentLineText !== null && state.phase === 'line-done' ? 1 : 0)
   return effectiveLines >= MAX_LINES_PER_PAGE
 }
 
@@ -471,9 +512,10 @@ export function tickDialog(state: DialogBoxState, now?: number): void {
     const revealAt = state.currentLineRevealAt
     if (revealAt) {
       // Bug1 fix:wall-clock 优先;缺省 now 时回退 tick 驱动(旧行为)。
-      const elapsed = now !== undefined && state.lineStartMs !== undefined
-        ? now - state.lineStartMs
-        : state.typingFrames * FRAME_MS_EXPLORE
+      const elapsed =
+        now !== undefined && state.lineStartMs !== undefined
+          ? now - state.lineStartMs
+          : state.typingFrames * FRAME_MS_EXPLORE
       let shown = 0
       while (shown < len && (revealAt[shown] ?? 0) <= elapsed) shown++
       state.charsRevealed = shown
@@ -483,8 +525,7 @@ export function tickDialog(state: DialogBoxState, now?: number): void {
         state.phase = 'line-done'
         if (state.currentLineEndedWithTilde) state.lineDoneRenderPending = true
       }
-    }
-    else {
+    } else {
       // fallback(无 revealAt 的手搭 state / 旧测试):恒速 FRAMES_PER_CHAR。
       const want = Math.floor(state.typingFrames / FRAMES_PER_CHAR)
       state.charsRevealed = Math.min(want, len)
@@ -614,9 +655,8 @@ export function drawDialogBox(
   //
   // 注:currentLineText 非 null 但 charsRevealed=0(startDialogLine 后第 0 tick)
   //    仍 draw — portrait + text 框已"准备好显示",玩家会看到 portrait 先于文字。
-  const hasActiveContent = state.shownLines.length > 0
-    || state.currentLineText !== null
-    || state.titleText !== undefined
+  const hasActiveContent =
+    state.shownLines.length > 0 || state.currentLineText !== null || state.titleText !== undefined
   if (!hasActiveContent) return
 
   // T14:narration style(kDialogCenterWindow)— sdlpal text.c:1663-1710 真值。
@@ -642,7 +682,7 @@ export function drawDialogBox(
   //   (iNumCharFace>0)设的持久 metrics;立绘图被 PAL_MakeScene(0x05 redraw)擦掉后位置仍缩进 →
   //   其后无 PAL_StartDialog 的 showDialog 文本缩进但无图(扬州师爷"大人息怒")。portraitLayout 缺省
   //   回退 (portraitIcon !== undefined) 兼容旧存档 / 战斗对话(不带 layout)。
-  const hasPortrait = state.portraitLayout ?? (state.portraitIcon !== undefined)
+  const hasPortrait = state.portraitLayout ?? state.portraitIcon !== undefined
 
   // 2a. title(姓名,以 `:` 结尾 — sdlpal text.c:1725 真值 FONT_COLOR_CYAN_ALT,独立位置)
   if (state.titleText !== undefined) {
@@ -656,8 +696,14 @@ export function drawDialogBox(
   for (let i = 0; i < state.shownLines.length; i++) {
     const line = state.shownLines[i]!
     drawTextLine(
-      fb, line, basePos.x, basePos.y + i * LINE_HEIGHT_PX, state, glyphs,
-      undefined, state.shownLineColors?.[i],
+      fb,
+      line,
+      basePos.x,
+      basePos.y + i * LINE_HEIGHT_PX,
+      state,
+      glyphs,
+      undefined,
+      state.shownLineColors?.[i],
     )
   }
 
@@ -666,8 +712,14 @@ export function drawDialogBox(
     const lineIdx = state.shownLines.length
     const visible = state.currentLineText.slice(0, state.charsRevealed)
     drawTextLine(
-      fb, visible, basePos.x, basePos.y + lineIdx * LINE_HEIGHT_PX, state, glyphs,
-      undefined, state.currentLineColors?.slice(0, state.charsRevealed),
+      fb,
+      visible,
+      basePos.x,
+      basePos.y + lineIdx * LINE_HEIGHT_PX,
+      state,
+      glyphs,
+      undefined,
+      state.currentLineColors?.slice(0, state.charsRevealed),
     )
   }
 
@@ -682,12 +734,14 @@ export function drawDialogBox(
     const iconSprite = ctx?.iconFrames?.get(state.iconKind ?? KEY_ICON_FRAME)
     if (iconSprite) {
       // 最后一行:正在显示的 currentLineText(若有)或最后一条 shownLine。
-      const lineIdx = state.currentLineText !== null
-        ? state.shownLines.length
-        : Math.max(0, state.shownLines.length - 1)
-      const lastLineText = state.currentLineText !== null
-        ? state.currentLineText
-        : (state.shownLines[state.shownLines.length - 1] ?? '')
+      const lineIdx =
+        state.currentLineText !== null
+          ? state.shownLines.length
+          : Math.max(0, state.shownLines.length - 1)
+      const lastLineText =
+        state.currentLineText !== null
+          ? state.currentLineText
+          : (state.shownLines[state.shownLines.length - 1] ?? '')
       const iconX = basePos.x + measureText(lastLineText, glyphs)
       const iconY = basePos.y + lineIdx * LINE_HEIGHT_PX
       blitSprite(fb, iconSprite, iconX, iconY)
@@ -726,23 +780,16 @@ function drawTextLine(
   //   逐字符上色;再否则 fallback 单色(state.fontColor)。
   if (colorOverride !== undefined) {
     renderText(fb, text, x, y, colorOverride, glyphs, true)
-  }
-  else if (colors) {
+  } else if (colors) {
     renderColoredText(fb, text, colors, x, y, glyphs, true)
-  }
-  else {
+  } else {
     renderText(fb, text, x, y, state.fontColor, glyphs, true)
   }
 }
 
 // ── 内部 blit ─────────────────────────────────────────────────────────────────
 
-function blitSprite(
-  fb: Framebuffer,
-  sprite: DialogSprite,
-  x: number,
-  y: number,
-): void {
+function blitSprite(fb: Framebuffer, sprite: DialogSprite, x: number, y: number): void {
   const { width, height, indices, opaque } = sprite
   for (let dy = 0; dy < height; dy++) {
     for (let dx = 0; dx < width; dx++) {
@@ -798,7 +845,11 @@ function drawNarrationDialog(
   // 画 box(若 uiSpriteFrames 缺失则只画文字,debug 防御)
   if (ctx?.uiSpriteFrames) {
     drawSingleLineBox({
-      fb, x: boxX, y: boxY, len: boxLen, uiSpriteFrames: ctx.uiSpriteFrames,
+      fb,
+      x: boxX,
+      y: boxY,
+      len: boxLen,
+      uiSpriteFrames: ctx.uiSpriteFrames,
       // M13(2026-06-07 sdlpal 审查):narration 框 iDialogShadow 默认 0(无阴影,text.c:1687)——
       //   g_TextLib BSS 零初始化、PAL_InitText 不设;仅紫金葫芦炼丹临时置 5。原默认 6px 投影与原版
       //   不符(拾取 / 购买 / 施法等高频提示框右下角多出灰影)。
@@ -826,8 +877,7 @@ function drawNarrationDialog(
       const digit = ch.charCodeAt(0) - 0x30
       drawNumber(fb, digit, 1, { x: cursorX, y: textY + 4 }, 'yellow', 'left', ctx.uiSpriteFrames)
       cursorX += 8 // L33:游标步进用 PAL_CharWidth=8(font_width>>1,text.c:1595/font.c:628);digit sprite 仍 6px(上行)→ 数字间留 2px 间隙
-    }
-    else {
+    } else {
       // sdlpal text.c:1594 PAL_DrawTextUnescape(text, ..., color, fShadow=FALSE);color 由 parseDialogText
       //   逐字符给(narration DEFAULT→0;`-`青/`'``@`红)。text.c:1595 x += PAL_CharWidth:半角 8 / 全角 16。
       const color = colors?.[ci] ?? 0

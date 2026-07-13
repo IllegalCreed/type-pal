@@ -36,12 +36,7 @@ export function toSpriteImages(
   }))
 }
 
-export function drawSprite(
-  fb: Framebuffer,
-  sprite: SpriteImage,
-  cx: number,
-  cy: number,
-): void {
+export function drawSprite(fb: Framebuffer, sprite: SpriteImage, cx: number, cy: number): void {
   const dstX = cx - sprite.anchorX
   const dstY = cy - sprite.anchorY
   for (let y = 0; y < sprite.height; y++) {

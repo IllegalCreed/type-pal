@@ -1,7 +1,7 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { bootstrap } from '../helpers/bootstrap.js'
+import { baselinePathFor, pixelDiff } from '../helpers/pixel-diff.js'
 import { snapshotCanvas } from '../helpers/snapshot.js'
-import { pixelDiff, baselinePathFor } from '../helpers/pixel-diff.js'
 
 test('a3 NPC sprite 渲染 — scene 1 含 NPC count > 0 + pixel diff', async ({ page }) => {
   await bootstrap(page)
@@ -9,7 +9,8 @@ test('a3 NPC sprite 渲染 — scene 1 含 NPC count > 0 + pixel diff', async ({
 
   // GameState NPC 列表非空(scene 1 客栈本身有几个 NPC)
   const npcCount = await page.evaluate(
-    () => ((window as unknown as { __game: { gs: { npcs: unknown[] } } }).__game?.gs?.npcs?.length) ?? 0,
+    () =>
+      (window as unknown as { __game: { gs: { npcs: unknown[] } } }).__game?.gs?.npcs?.length ?? 0,
   )
   expect(npcCount).toBeGreaterThan(0)
 

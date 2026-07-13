@@ -19,9 +19,7 @@ describe('validateScenes · 实体 actor ⊕ sprite(C0)', () => {
     expect(() =>
       validateScenes([mkScene({ entities: [mkEnt({ actor: 'youhun' })] })]),
     ).not.toThrow()
-    expect(() =>
-      validateScenes([mkScene({ entities: [mkEnt({ sprite: 'vase' })] })]),
-    ).not.toThrow()
+    expect(() => validateScenes([mkScene({ entities: [mkEnt({ sprite: 'vase' })] })])).not.toThrow()
   })
   test('两者都有 → throw(M3a:恰一 actor/sprite/zone)', () => {
     expect(() =>

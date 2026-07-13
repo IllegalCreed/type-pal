@@ -13,7 +13,6 @@
 import type { Item, PlayerRoles } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import { createInitialGameState } from '../game-state.js'
-import { matchesFilter, type ItemFilter } from './item-select.js'
 import {
   cancelInventoryMenu,
   confirmInventoryItem,
@@ -33,6 +32,7 @@ import {
   MENUITEM_COLOR_SELECTED_INACTIVE,
   pickItemRowColor,
 } from './inventory-menu.js'
+import { type ItemFilter, matchesFilter } from './item-select.js'
 
 // ── fixtures ────────────────────────────────────────────────────────────────
 function mkItem(id: number, name: string, flagsPart: Partial<Item['flags']>): Item {
@@ -62,7 +62,10 @@ const ITEMS: Item[] = [
   mkItem(105, '木剑', { equipable: true, equipableBy: [true, false, true, false, false, false] }),
   mkItem(106, '短刀', { equipable: true, equipableBy: [true, false, true, false, false, false] }),
   mkItem(200, '观音符', { usable: true, applyToAll: true, consuming: true }),
-  mkItem(201, '玉佛珠', { equipable: true, equipableBy: [false, true, false, false, false, false] }),
+  mkItem(201, '玉佛珠', {
+    equipable: true,
+    equipableBy: [false, true, false, false, false, false],
+  }),
   mkItem(202, '风灵珠', { usable: true, equipable: true, applyToAll: true }),
 ]
 
@@ -73,45 +76,79 @@ describe('pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值', () => {
   const tick0 = 0
 
   it('selected + usable + non-equipped → SELECTED_FIRST 闪烁起始', () => {
-    expect(pickItemRowColor({ isSelected: true, isUsable: true, isEquipped: false, selectedFlashTickMs: tick0 }))
-      .toBe(MENUITEM_COLOR_SELECTED_FIRST)
+    expect(
+      pickItemRowColor({
+        isSelected: true,
+        isUsable: true,
+        isEquipped: false,
+        selectedFlashTickMs: tick0,
+      }),
+    ).toBe(MENUITEM_COLOR_SELECTED_FIRST)
   })
 
   it('selected + usable + equipped → EQUIPPEDITEM 0xC8', () => {
-    expect(pickItemRowColor({ isSelected: true, isUsable: true, isEquipped: true, selectedFlashTickMs: tick0 }))
-      .toBe(MENUITEM_COLOR_EQUIPPEDITEM)
+    expect(
+      pickItemRowColor({
+        isSelected: true,
+        isUsable: true,
+        isEquipped: true,
+        selectedFlashTickMs: tick0,
+      }),
+    ).toBe(MENUITEM_COLOR_EQUIPPEDITEM)
   })
 
   it('selected + !usable(filter 不命中)→ SELECTED_INACTIVE 0x1C', () => {
-    expect(pickItemRowColor({ isSelected: true, isUsable: false, isEquipped: false }))
-      .toBe(MENUITEM_COLOR_SELECTED_INACTIVE)
+    expect(pickItemRowColor({ isSelected: true, isUsable: false, isEquipped: false })).toBe(
+      MENUITEM_COLOR_SELECTED_INACTIVE,
+    )
   })
 
   it('!selected + usable + non-equipped → MENUITEM_COLOR 0x4F', () => {
-    expect(pickItemRowColor({ isSelected: false, isUsable: true, isEquipped: false }))
-      .toBe(MENUITEM_COLOR)
+    expect(pickItemRowColor({ isSelected: false, isUsable: true, isEquipped: false })).toBe(
+      MENUITEM_COLOR,
+    )
   })
 
   it('!selected + usable + equipped → EQUIPPEDITEM 0xC8', () => {
-    expect(pickItemRowColor({ isSelected: false, isUsable: true, isEquipped: true }))
-      .toBe(MENUITEM_COLOR_EQUIPPEDITEM)
+    expect(pickItemRowColor({ isSelected: false, isUsable: true, isEquipped: true })).toBe(
+      MENUITEM_COLOR_EQUIPPEDITEM,
+    )
   })
 
   it('!selected + !usable(filter 不命中)→ INACTIVE 0x18(防 EquipMenu 装备类全红 bug)', () => {
     // 2026-05-29 user 怒怼场景:EquipMenu 复用 drawInventoryMenu 时 isUsable 取 flags.usable
     // 错误判定,equipable item 被当 "不可选" → INACTIVE 红色。修后用 matchesFilter 判命中。
-    expect(pickItemRowColor({ isSelected: false, isUsable: false, isEquipped: false }))
-      .toBe(MENUITEM_COLOR_INACTIVE)
+    expect(pickItemRowColor({ isSelected: false, isUsable: false, isEquipped: false })).toBe(
+      MENUITEM_COLOR_INACTIVE,
+    )
   })
 
   it('selected + flash tick 推进 → cycle 0xF9..0xFE', () => {
-    expect(pickItemRowColor({ isSelected: true, isUsable: true, isEquipped: false, selectedFlashTickMs: 100 }))
-      .toBe(MENUITEM_COLOR_SELECTED_FIRST + 1)
-    expect(pickItemRowColor({ isSelected: true, isUsable: true, isEquipped: false, selectedFlashTickMs: 500 }))
-      .toBe(MENUITEM_COLOR_SELECTED_FIRST + 5)
+    expect(
+      pickItemRowColor({
+        isSelected: true,
+        isUsable: true,
+        isEquipped: false,
+        selectedFlashTickMs: 100,
+      }),
+    ).toBe(MENUITEM_COLOR_SELECTED_FIRST + 1)
+    expect(
+      pickItemRowColor({
+        isSelected: true,
+        isUsable: true,
+        isEquipped: false,
+        selectedFlashTickMs: 500,
+      }),
+    ).toBe(MENUITEM_COLOR_SELECTED_FIRST + 5)
     // cycle 回 0
-    expect(pickItemRowColor({ isSelected: true, isUsable: true, isEquipped: false, selectedFlashTickMs: 600 }))
-      .toBe(MENUITEM_COLOR_SELECTED_FIRST + 0)
+    expect(
+      pickItemRowColor({
+        isSelected: true,
+        isUsable: true,
+        isEquipped: false,
+        selectedFlashTickMs: 600,
+      }),
+    ).toBe(MENUITEM_COLOR_SELECTED_FIRST + 0)
   })
 })
 
@@ -119,7 +156,7 @@ describe('pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值', () => {
 
 describe('matchesFilter — sdlpal kItemFlag* 真值', () => {
   const wooden = ITEMS[0]! // 木剑 equipable only
-  const charm = ITEMS[2]!  // 观音符 usable only
+  const charm = ITEMS[2]! // 观音符 usable only
   const lingZhu = ITEMS[4]! // 风灵珠 usable + equipable
 
   it("filter='equip' 命中 equipable item", () => {
@@ -150,10 +187,20 @@ describe('matchesFilter — sdlpal kItemFlag* 真值', () => {
 
 describe('createInventoryMenu — sdlpal itemmenu.c:331-377 全库存入列,不按 flag 过滤', () => {
   // 渲染层颜色判定复刻(draw-inventory.ts:276 真值):isUsable = filter 命中 + 可用数量>0。
-  function rowColor(item: Item, slot: { count: number; inUse?: number }, filter: ItemFilter, isSelected: boolean) {
+  function rowColor(
+    item: Item,
+    slot: { count: number; inUse?: number },
+    filter: ItemFilter,
+    isSelected: boolean,
+  ) {
     const diff = slot.count - (slot.inUse ?? 0)
     const isUsable = diff > 0 && matchesFilter(item, filter)
-    return pickItemRowColor({ isSelected, isUsable, isEquipped: slot.count === 0, selectedFlashTickMs: 0 })
+    return pickItemRowColor({
+      isSelected,
+      isUsable,
+      isEquipped: slot.count === 0,
+      selectedFlashTickMs: 0,
+    })
   }
 
   it("filter='equip':非可装备项(观音符)仍入列表,不被剔除", () => {
@@ -182,7 +229,9 @@ describe('createInventoryMenu — sdlpal itemmenu.c:331-377 全库存入列,不�
     expect(rowColor(ITEMS[0]!, state.inventory[0]!, 'usable', false)).toBe(MENUITEM_COLOR_INACTIVE)
     expect(rowColor(ITEMS[2]!, state.inventory[1]!, 'usable', false)).toBe(MENUITEM_COLOR)
     // 非可用 + 光标停其上 → SELECTED_INACTIVE 0x1C 橙红
-    expect(rowColor(ITEMS[0]!, state.inventory[0]!, 'usable', true)).toBe(MENUITEM_COLOR_SELECTED_INACTIVE)
+    expect(rowColor(ITEMS[0]!, state.inventory[0]!, 'usable', true)).toBe(
+      MENUITEM_COLOR_SELECTED_INACTIVE,
+    )
   })
 
   it("L39:filter='usable' 追加全队装备槽里 usable 的已装备物(itemmenu.c:352-376)", () => {

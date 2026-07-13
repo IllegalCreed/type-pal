@@ -39,16 +39,16 @@ import {
   UpdateSceneCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
-import { serializeProject, writeProject } from '../core/project-io.js'
-import { saveHandle } from '../core/handle-store.js'
 import { exportProjectZip } from '../core/export-zip.js'
+import { saveHandle } from '../core/handle-store.js'
 import { type Opened, openExistingProject, saveProjectAs } from '../core/open-actions.js'
+import { serializeProject, writeProject } from '../core/project-io.js'
 import { ActorMode } from './ActorMode.js'
 import { DataMode, type DataTab } from './DataMode.js'
 import { MapMode } from './MapMode.js'
-import { ScriptDrawer } from './ScriptDrawer.js'
 import { MusicPicker } from './MusicPicker.js'
 import { SceneCanvas, type Tool } from './SceneCanvas.js'
+import { ScriptDrawer } from './ScriptDrawer.js'
 import { SpriteThumb } from './SpriteThumb.js'
 
 const SCENE_NODE = '__scene__'
@@ -140,6 +140,7 @@ export function App(props: {
     [state.actors],
   )
   const leaderSpriteId = actorsById[state.manifest.startWorld.party[0] ?? '']?.spriteId
+  const [projMenu, setProjMenu] = useState(false)
 
   const selEntity = scene?.entities.find((e) => e.id === selected)
 
@@ -227,7 +228,6 @@ export function App(props: {
   }
 
   // 「工程」菜单(P4 native-app 手感:新建 / 打开别的 / 另存为)。切工程 → 上抛 main 重建 session。
-  const [projMenu, setProjMenu] = useState(false)
   const runProj = async (fn: () => Promise<Opened | null>): Promise<void> => {
     setProjMenu(false)
     try {
@@ -243,23 +243,43 @@ export function App(props: {
     <div className="editor">
       <div className="topbar">
         <div className="proj-menu-wrap">
-          <button type="button" className="tbtn" onClick={() => setProjMenu((v) => !v)} title="工程">
+          <button
+            type="button"
+            className="tbtn"
+            onClick={() => setProjMenu((v) => !v)}
+            title="工程"
+          >
             📁 工程 ▾
           </button>
           {projMenu && (
             <>
-              <div className="proj-menu-scrim" onClick={() => setProjMenu(false)} />
+              <button
+                type="button"
+                className="proj-menu-scrim"
+                aria-label="关闭工程菜单"
+                onClick={() => setProjMenu(false)}
+              />
               <div className="proj-menu">
-                <button type="button" onClick={() => { setProjMenu(false); props.onBackToPicker?.() }}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setProjMenu(false)
+                    props.onBackToPicker?.()
+                  }}
+                >
                   ✨ 新建工程…
                 </button>
-                <button type="button" onClick={() => void runProj(openExistingProject)}>📂 打开工程…</button>
+                <button type="button" onClick={() => void runProj(openExistingProject)}>
+                  📂 打开工程…
+                </button>
                 <button
                   type="button"
                   onClick={() => {
                     setProjMenu(false)
                     const cur = state.manifest.name
-                    const next = window.prompt('工程名称(标题显示名;文件夹与 id 不变):', cur)?.trim()
+                    const next = window
+                      .prompt('工程名称(标题显示名;文件夹与 id 不变):', cur)
+                      ?.trim()
                     if (next && next !== cur) session.dispatch(new RenameProjectCommand(next))
                   }}
                 >
@@ -267,7 +287,14 @@ export function App(props: {
                 </button>
                 <button
                   type="button"
-                  onClick={() => void runProj(() => saveProjectAs(serializeProject(session.getState()), dirHandleRef.current ?? undefined))}
+                  onClick={() =>
+                    void runProj(() =>
+                      saveProjectAs(
+                        serializeProject(session.getState()),
+                        dirHandleRef.current ?? undefined,
+                      ),
+                    )
+                  }
                 >
                   📦 另存为…
                 </button>
@@ -285,7 +312,9 @@ export function App(props: {
                     if (!dir) return
                     if (
                       session.isDirty() &&
-                      !window.confirm('有未保存改动 —— 导出读的是磁盘,这些改动不会进 zip。仍要导出吗?(建议先 💾 保存)')
+                      !window.confirm(
+                        '有未保存改动 —— 导出读的是磁盘,这些改动不会进 zip。仍要导出吗?(建议先 💾 保存)',
+                      )
                     )
                       return
                     setExporting(true)
@@ -307,6 +336,7 @@ export function App(props: {
         </div>
         <div className="spacer" />
         <button
+          type="button"
           className="tbtn"
           disabled={!session.canUndo()}
           onClick={() => session.undo()}
@@ -315,6 +345,7 @@ export function App(props: {
           ↺ 撤销
         </button>
         <button
+          type="button"
           className="tbtn"
           disabled={!session.canRedo()}
           onClick={() => session.redo()}
@@ -323,6 +354,7 @@ export function App(props: {
           ↻ 重做
         </button>
         <button
+          type="button"
           className="save"
           disabled={!session.isDirty()}
           onClick={() => void save()}
@@ -335,6 +367,7 @@ export function App(props: {
       <div className="body">
         <div className="rail">
           <button
+            type="button"
             className={`mode${mode === 'place' ? ' active' : ''}`}
             onClick={() => switchMode('place')}
           >
@@ -342,6 +375,7 @@ export function App(props: {
             <span className="lbl">场景</span>
           </button>
           <button
+            type="button"
             className={`mode${mode === 'actor' ? ' active' : ''}`}
             onClick={() => switchMode('actor')}
           >
@@ -349,6 +383,7 @@ export function App(props: {
             <span className="lbl">角色</span>
           </button>
           <button
+            type="button"
             className={`mode${mode === 'map' ? ' active' : ''}`}
             onClick={() => switchMode('map')}
           >
@@ -356,13 +391,13 @@ export function App(props: {
             <span className="lbl">地图</span>
           </button>
           <button
+            type="button"
             className={`mode${mode === 'data' ? ' active' : ''}`}
             onClick={() => switchMode('data')}
           >
             <span className="ico">📊</span>
             <span className="lbl">数据</span>
           </button>
-
         </div>
 
         {mode === 'map' ? (
@@ -421,6 +456,7 @@ export function App(props: {
                 <span className="t">场景</span>
                 <span className="spacer" />
                 <button
+                  type="button"
                   className="mini"
                   title="在进场点添加实体"
                   onClick={() => addAt({ col: scene.entry.pos.col, row: scene.entry.pos.row })}
@@ -462,6 +498,7 @@ export function App(props: {
               </button>
               <div className="tree">
                 <button
+                  type="button"
                   className={`node${selected === SCENE_NODE ? ' sel' : ''}`}
                   onClick={() => setSelected(SCENE_NODE)}
                 >
@@ -469,6 +506,7 @@ export function App(props: {
                   <span>{scene.id}</span>
                 </button>
                 <button
+                  type="button"
                   className={`node child${selected === ENTRY_NODE ? ' sel' : ''}`}
                   onClick={() => setSelected(ENTRY_NODE)}
                 >
@@ -477,6 +515,7 @@ export function App(props: {
                 </button>
                 {scene.entities.map((e) => (
                   <button
+                    type="button"
                     key={e.id}
                     className={`node child${selected === e.id ? ' sel' : ''}`}
                     onClick={() => setSelected(e.id)}
@@ -487,9 +526,9 @@ export function App(props: {
                     <span>{e.id}</span>
                     <span className="k">
                       {isActorEntity(e)
-                        ? (actorsById[e.actor]
-                            ? lookupText(actorsById[e.actor]!.name, state.locale)
-                            : e.actor)
+                        ? actorsById[e.actor]
+                          ? lookupText(actorsById[e.actor]!.name, state.locale)
+                          : e.actor
                         : 'sprite' in e
                           ? e.sprite
                           : 'zone'}
@@ -525,7 +564,10 @@ export function App(props: {
                   />{' '}
                   实体
                 </label>
-                <label className="lrow" title="初始隐藏的实体(剧情后期才出场)画成半透明幽灵,可点选编排;游戏内不渲染">
+                <label
+                  className="lrow"
+                  title="初始隐藏的实体(剧情后期才出场)画成半透明幽灵,可点选编排;游戏内不渲染"
+                >
                   <input
                     type="checkbox"
                     checked={canvasLayers.ghosts}
@@ -539,6 +581,7 @@ export function App(props: {
             <div className="center">
               <div className="toolbar">
                 <button
+                  type="button"
                   className={`tool${tool === 'select' ? ' active' : ''}`}
                   onClick={() => setTool('select')}
                   disabled={drawer.open}
@@ -547,6 +590,7 @@ export function App(props: {
                   ↖ 选择/移动
                 </button>
                 <button
+                  type="button"
                   className={`tool${tool === 'add' ? ' active' : ''}`}
                   onClick={() => setTool('add')}
                   disabled={drawer.open}
@@ -555,6 +599,7 @@ export function App(props: {
                   ＋ 添加实体
                 </button>
                 <button
+                  type="button"
                   className="tool"
                   onClick={deleteSelected}
                   disabled={!selEntity}
@@ -583,6 +628,7 @@ export function App(props: {
                 </label>
                 <span className="sep" />
                 <button
+                  type="button"
                   className={`tool${drawer.open ? ' active' : ''}`}
                   onClick={() => setDrawer((d) => ({ open: !d.open, src: d.src }))}
                   title="底部脚本抽屉:本场景 onEnter/实体触发/巡逻 就地编 + 预览"
@@ -595,34 +641,34 @@ export function App(props: {
                 </span>
               </div>
               {!drawer.open ? (
-              <SceneCanvas
-                scene={scene}
-                sprites={state.sprites}
-                actorsById={actorsById}
-                leaderSpriteId={leaderSpriteId}
-                assetBase={project.assetBase}
-                ownMaps={state.maps}
-                tilesets={state.tilesets ?? []}
-                tilesetBlobs={state.tilesetBlobs}
-                selectedId={selEntity ? selected : null}
-                entrySelected={selected === ENTRY_NODE}
-                tool={tool}
-                layers={canvasLayers}
-                onSelect={(id) => setSelected(id ?? SCENE_NODE)}
-                onMoveEntity={moveEntity}
-                onSelectEntry={() => setSelected(ENTRY_NODE)}
-                onMoveEntry={(cell) =>
-                  session.dispatch(
-                    new UpdateSceneCommand(scene.id, {
-                      entry: {
-                        pos: { ...cell, height: scene.entry.pos.height ?? 0 },
-                        facing: scene.entry.facing,
-                      },
-                    }),
-                  )
-                }
-                onAddAt={addAt}
-              />
+                <SceneCanvas
+                  scene={scene}
+                  sprites={state.sprites}
+                  actorsById={actorsById}
+                  leaderSpriteId={leaderSpriteId}
+                  assetBase={project.assetBase}
+                  ownMaps={state.maps}
+                  tilesets={state.tilesets ?? []}
+                  tilesetBlobs={state.tilesetBlobs}
+                  selectedId={selEntity ? selected : null}
+                  entrySelected={selected === ENTRY_NODE}
+                  tool={tool}
+                  layers={canvasLayers}
+                  onSelect={(id) => setSelected(id ?? SCENE_NODE)}
+                  onMoveEntity={moveEntity}
+                  onSelectEntry={() => setSelected(ENTRY_NODE)}
+                  onMoveEntry={(cell) =>
+                    session.dispatch(
+                      new UpdateSceneCommand(scene.id, {
+                        entry: {
+                          pos: { ...cell, height: scene.entry.pos.height ?? 0 },
+                          facing: scene.entry.facing,
+                        },
+                      }),
+                    )
+                  }
+                  onAddAt={addAt}
+                />
               ) : (
                 <ScriptDrawer
                   scene={scene}
@@ -842,7 +888,7 @@ function EntityInspector(props: {
         {/* C0:实体引用只读展示(actor⊕sprite);切换引用/朝向编辑 = C1 角色模式一并做 */}
         {isActorEntity(entity) ? (
           <div className="field">
-            <label>角色</label>
+            <span className="field-label">角色</span>
             <div className="in pick">
               <span>{actorName ?? entity.actor}</span>
               <span className="meta">→ {spriteId ?? '(未解析)'}</span>
@@ -850,7 +896,7 @@ function EntityInspector(props: {
           </div>
         ) : 'sprite' in entity ? (
           <div className="field">
-            <label>精灵</label>
+            <span className="field-label">精灵</span>
             <select
               className="in"
               value={entity.sprite}
@@ -870,7 +916,7 @@ function EntityInspector(props: {
           </div>
         ) : (
           <div className="field">
-            <label>触发区</label>
+            <span className="field-label">触发区</span>
             <div className="in pick">
               <span>zone</span>
               <span className="meta">隐形(门/脚本锚)</span>
@@ -878,14 +924,14 @@ function EntityInspector(props: {
           </div>
         )}
         <div className="field">
-          <label>朝向</label>
+          <span className="field-label">朝向</span>
           <div className="in pick">
             <span>{entity.facing ?? 'down'}</span>
             <span className="meta">C1 可编</span>
           </div>
         </div>
         <div className="field">
-          <label>碰撞</label>
+          <span className="field-label">碰撞</span>
           <div>
             <input
               type="checkbox"
@@ -900,7 +946,7 @@ function EntityInspector(props: {
           </div>
         </div>
         <div className="field">
-          <label>初始显隐</label>
+          <span className="field-label">初始显隐</span>
           <div title="隐藏 = 游戏里初始不出现(剧情脚本 setEntityState 可显形);编辑器「隐藏实体(透视)」图层仍半透明可见">
             <input
               type="checkbox"
@@ -963,16 +1009,14 @@ function EntityInspector(props: {
           敌对行为<span className="b2"> · B9 数据驱动</span>
         </h4>
         <div className="field">
-          <label>敌对</label>
+          <span className="field-label">敌对</span>
           <div>
             <input
               type="checkbox"
               checked={!!entity.hostile}
               onChange={(e) =>
                 dispatchHostile(
-                  e.target.checked
-                    ? { team: parseTeamNum(enemyTeams[0]?.id) ?? 1 }
-                    : undefined,
+                  e.target.checked ? { team: parseTeamNum(enemyTeams[0]?.id) ?? 1 } : undefined,
                 )
               }
             />{' '}
@@ -982,7 +1026,7 @@ function EntityInspector(props: {
         {entity.hostile && (
           <>
             <div className="field">
-              <label>敌队</label>
+              <span className="field-label">敌队</span>
               <select
                 className="in"
                 value={String(entity.hostile.team)}
@@ -1005,7 +1049,7 @@ function EntityInspector(props: {
               </select>
             </div>
             <div className="field">
-              <label>追逐</label>
+              <span className="field-label">追逐</span>
               <div>
                 <input
                   type="checkbox"
@@ -1064,7 +1108,7 @@ function EntityInspector(props: {
               </div>
             )}
             <div className="field">
-              <label>重生秒</label>
+              <span className="field-label">重生秒</span>
               <input
                 className="in mono"
                 type="number"
@@ -1080,7 +1124,7 @@ function EntityInspector(props: {
               />
             </div>
             <div className="field">
-              <label>战败</label>
+              <span className="field-label">战败</span>
               <select
                 className="in"
                 value={Array.isArray(entity.hostile.onLose) ? 'custom' : ''}
@@ -1144,7 +1188,7 @@ function EntityInspector(props: {
         </div>
       </div>
       <div className="section" style={{ borderBottom: 0 }}>
-        <button className="tool" style={{ color: 'var(--err)' }} onClick={onDelete}>
+        <button type="button" className="tool" style={{ color: 'var(--err)' }} onClick={onDelete}>
           🗑 删除此实体
         </button>
       </div>
@@ -1161,7 +1205,9 @@ function EntityInspector(props: {
 function EntryInspector(props: { scene: SceneDef; session: EditSession }) {
   const { scene, session } = props
   const facings: SceneDef['entry']['facing'][] = ['down', 'up', 'left', 'right']
-  const patch = (next: Partial<{ col: number; row: number; facing: SceneDef['entry']['facing'] }>): void => {
+  const patch = (
+    next: Partial<{ col: number; row: number; facing: SceneDef['entry']['facing'] }>,
+  ): void => {
     session.dispatch(
       new UpdateSceneCommand(scene.id, {
         entry: {
@@ -1186,7 +1232,7 @@ function EntryInspector(props: { scene: SceneDef; session: EditSession }) {
           进场点 <span className="hint2">队伍走进本场景的出生格 + 朝向</span>
         </h4>
         <div className="field">
-          <label>坐标</label>
+          <span className="field-label">坐标</span>
           <div className="row" style={{ gap: 6 }}>
             <input
               className="in mono entry-n"
@@ -1209,7 +1255,7 @@ function EntryInspector(props: { scene: SceneDef; session: EditSession }) {
           </div>
         </div>
         <div className="field">
-          <label>朝向</label>
+          <span className="field-label">朝向</span>
           <select
             className="in"
             value={scene.entry.facing}
@@ -1248,7 +1294,7 @@ function SceneInspector(props: {
       <div className="section">
         <h4>场景</h4>
         <div className="field">
-          <label>地图</label>
+          <span className="field-label">地图</span>
           {isReuseMap(scene.map) ? (
             <input
               className="in mono"
@@ -1272,7 +1318,7 @@ function SceneInspector(props: {
           )}
         </div>
         <div className="field">
-          <label>音乐</label>
+          <span className="field-label">音乐</span>
           <MusicPicker
             value={scene.musicId}
             onChange={(v) => session.dispatch(new UpdateSceneCommand(scene.id, { musicId: v }))}

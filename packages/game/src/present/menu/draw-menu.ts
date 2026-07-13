@@ -12,60 +12,58 @@
 
 import type { Item, PlayerRoles } from '@type-pal/shared'
 import type { IndexedImage } from '../../assets/png.js'
-import type {
-  ActiveMenuEntry,
-  ActiveMenuKind,
-  GameState,
-} from '../../core/game-state.js'
+import type { ActiveMenuEntry, ActiveMenuKind, GameState } from '../../core/game-state.js'
 import type { EquipMenuState } from '../../core/menu/equip-menu.js'
 import type { InGameMagicMenuState } from '../../core/menu/in-game-magic-menu.js'
 import type { InGameMenuState, SystemMenuState } from '../../core/menu/in-game-menu.js'
 import type { InventoryActionMenuState } from '../../core/menu/inventory-action-menu.js'
 import type { InventoryMenuState } from '../../core/menu/inventory-menu.js'
-import type { PlayerStatusState } from '../../core/menu/player-status.js'
 import type { OpeningMenuState } from '../../core/menu/opening-menu.js'
-import type { SaveSlotMenuState } from '../../core/menu/save-slot-menu.js'
+import type { PlayerStatusState } from '../../core/menu/player-status.js'
 import type { SelectionMenuState } from '../../core/menu/primitives.js'
-import type { BattleBgAsset } from '../battle/draw-battle-bg.js'
-import type { Framebuffer } from '../framebuffer.js'
-import { renderText, type GlyphTable } from '../font.js'
+import type { SaveSlotMenuState } from '../../core/menu/save-slot-menu.js'
+import type { SellMenuState } from '../../core/menu/sell-menu.js'
+import type { ShopMenuState } from '../../core/menu/shop-menu.js'
 import { getWord } from '../../core/word-lookup.js'
-import { drawConfirmBox } from './draw-confirm.js'
-import { drawBox, drawSingleLineBox, menuTextMaxCols } from './draw-box.js'
+import type { BattleBgAsset } from '../battle/draw-battle-bg.js'
 import { drawNumber } from '../draw-number.js'
+import { type GlyphTable, renderText } from '../font.js'
+import type { Framebuffer } from '../framebuffer.js'
+import { drawBox, drawSingleLineBox, menuTextMaxCols } from './draw-box.js'
+import { drawConfirmBox } from './draw-confirm.js'
 import { drawEquipMenu } from './draw-equip.js'
 import { drawInventoryMenu } from './draw-inventory.js'
 import { drawInGameMagicMenu } from './draw-magic.js'
 import { drawOpeningMenu } from './draw-opening-menu.js'
 import { drawPlayerStatus } from './draw-player-status.js'
 import { drawSellOverlay, drawShopMenu } from './draw-shop.js'
-import type { ShopMenuState } from '../../core/menu/shop-menu.js'
-import type { SellMenuState } from '../../core/menu/sell-menu.js'
 
 // ── sdlpal ui.h / text.c 真值色 ──────────────────────────────────────────────
-const MENUITEM_COLOR = 0x4F            // ui.h:29
-const MENUITEM_COLOR_SELECTED_FIRST = 0xF9 // ui.h:33
-const MENUITEM_COLOR_SELECTED_TOTAL = 6    // ui.h:34
-const _FONT_COLOR_YELLOW = 0x2D         // text.c:30 — cash 数字
+const MENUITEM_COLOR = 0x4f // ui.h:29
+const MENUITEM_COLOR_SELECTED_FIRST = 0xf9 // ui.h:33
+const MENUITEM_COLOR_SELECTED_TOTAL = 6 // ui.h:34
+const _FONT_COLOR_YELLOW = 0x2d // text.c:30 — cash 数字
 
 // ── sdlpal uigame.c 真值坐标 ──────────────────────────────────────────────────
-const IN_GAME_MENU_BOX = { x: 3, y: 37, rows: 3 }      // uigame.c:990 PAL_CreateBox(PAL_XY(3, 37), 3, ...)
-const IN_GAME_MENU_ITEM_START = { x: 16, y: 50 }       // uigame.c:961-966 PAL_XY(16, 50+i*18)
-const SYSTEM_MENU_BOX = { x: 40, y: 60 }               // uigame.c:559 PAL_CreateBox(PAL_XY(40, 60), ...)
-const SYSTEM_MENU_ITEM_START = { x: 53, y: 72 }        // uigame.c:543-552 PAL_XY(53, 72+i*18)
-const LINE_HEIGHT = 18                                  // sdlpal 真值菜单项 y 间距
+const IN_GAME_MENU_BOX = { x: 3, y: 37, rows: 3 } // uigame.c:990 PAL_CreateBox(PAL_XY(3, 37), 3, ...)
+const IN_GAME_MENU_ITEM_START = { x: 16, y: 50 } // uigame.c:961-966 PAL_XY(16, 50+i*18)
+const SYSTEM_MENU_BOX = { x: 40, y: 60 } // uigame.c:559 PAL_CreateBox(PAL_XY(40, 60), ...)
+const SYSTEM_MENU_ITEM_START = { x: 53, y: 72 } // uigame.c:543-552 PAL_XY(53, 72+i*18)
+const LINE_HEIGHT = 18 // sdlpal 真值菜单项 y 间距
 
 // cash 框 — uigame.c:475 PAL_CreateSingleLineBox(PAL_XY(0, 0), 5, TRUE)
 const CASH_BOX = { x: 0, y: 0, len: 5 }
-const CASH_LABEL_POS = { x: 10, y: 10 }       // uigame.c:485 PAL_DrawText label
-const CASH_NUMBER_RIGHT = { x: 49, y: 14 }     // uigame.c:490 PAL_DrawNumber right-align
+const CASH_LABEL_POS = { x: 10, y: 10 } // uigame.c:485 PAL_DrawText label
+const CASH_NUMBER_RIGHT = { x: 49, y: 14 } // uigame.c:490 PAL_DrawNumber right-align
 
 /**
  * sdlpal ui.h:36-39 真值:`MENUITEM_COLOR_SELECTED_FIRST + tick/100 % 6` 闪烁。
  * SDL_GetTicks ms → ts 用 Date.now() 等价。
  */
 function selectedColor(): number {
-  return MENUITEM_COLOR_SELECTED_FIRST + Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL
+  return (
+    MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
+  )
 }
 
 // 菜单文案列表 box 宽统一走 draw-box.ts 的 menuTextMaxCols(port PAL_MenuTextMaxWidth - 1)。
@@ -174,8 +172,7 @@ function drawMenuEntry(
           levelUpExp: extra.levelUpExp,
           objectPoisons: extra.objectPoisons,
         })
-      }
-      else {
+      } else {
         drawPlaceholderTodo(fb, entry.kind, uiSpriteFrames, glyphs)
       }
       break
@@ -193,8 +190,7 @@ function drawMenuEntry(
           equipBg: extra.equipBg,
           itemIcons: extra.itemIcons,
         })
-      }
-      else {
+      } else {
         drawPlaceholderTodo(fb, entry.kind, uiSpriteFrames, glyphs)
       }
       break
@@ -211,8 +207,7 @@ function drawMenuEntry(
           uiSpriteFrames,
           glyphs,
         })
-      }
-      else {
+      } else {
         drawPlaceholderTodo(fb, entry.kind, uiSpriteFrames, glyphs)
       }
       break
@@ -268,8 +263,12 @@ function drawInGameMenu(
   // sdlpal uigame.c:990 真值:cols = PAL_MenuTextMaxWidth - 1
   const cols = menuTextMaxCols(labels, glyphs)
   drawBox({
-    fb, x: IN_GAME_MENU_BOX.x, y: IN_GAME_MENU_BOX.y,
-    rows: IN_GAME_MENU_BOX.rows, cols, style: 0,
+    fb,
+    x: IN_GAME_MENU_BOX.x,
+    y: IN_GAME_MENU_BOX.y,
+    rows: IN_GAME_MENU_BOX.rows,
+    cols,
+    style: 0,
     uiSpriteFrames,
   })
   items.forEach((item, i) => {
@@ -295,8 +294,12 @@ function drawSystemMenu(
   // sdlpal uigame.c:559:rows = nSystemMenuItem - 1(5 items → rows 4)
   const rows = Math.max(1, items.length - 1)
   drawBox({
-    fb, x: SYSTEM_MENU_BOX.x, y: SYSTEM_MENU_BOX.y,
-    rows, cols, style: 0,
+    fb,
+    x: SYSTEM_MENU_BOX.x,
+    y: SYSTEM_MENU_BOX.y,
+    rows,
+    cols,
+    style: 0,
     uiSpriteFrames,
   })
   items.forEach((item, i) => {
@@ -338,8 +341,12 @@ function drawInventoryActionMenu(
   // sdlpal uigame.c:905:cols = PAL_MenuTextMaxWidth - 1
   const cols = menuTextMaxCols(labels, glyphs)
   drawBox({
-    fb, x: INVENTORY_ACTION_BOX.x, y: INVENTORY_ACTION_BOX.y,
-    rows: 1, cols, style: 0,
+    fb,
+    x: INVENTORY_ACTION_BOX.x,
+    y: INVENTORY_ACTION_BOX.y,
+    rows: 1,
+    cols,
+    style: 0,
     uiSpriteFrames,
   })
   items.forEach((item, i) => {
@@ -358,7 +365,11 @@ function drawCashBox(
   glyphs?: GlyphTable,
 ): void {
   drawSingleLineBox({
-    fb, x: CASH_BOX.x, y: CASH_BOX.y, len: CASH_BOX.len, uiSpriteFrames,
+    fb,
+    x: CASH_BOX.x,
+    y: CASH_BOX.y,
+    len: CASH_BOX.len,
+    uiSpriteFrames,
   })
   // sdlpal uigame.c:483 真值:PAL_DrawText(PAL_GetWord(CASH_LABEL), PAL_XY(10, 10), 0, FALSE, ...)
   //   CASH_LABEL=21(ui.h:56)→ getWord(21)="金钱";color=0(黑) + fShadow=FALSE(无阴影)。
@@ -395,10 +406,13 @@ function drawSaveSlotMenu(
     const color = i === state.selection.cursor ? selectedColor() : MENUITEM_COLOR
     // sdlpal ui.c:458 PAL_ReadMenu 真值 fShadow=TRUE
     renderText(
-      fb, item.label,
+      fb,
+      item.label,
       SAVE_SLOT_BOX_X + SAVE_SLOT_LABEL_OFFSET.x,
       boxY + SAVE_SLOT_LABEL_OFFSET.y,
-      color, glyphs, true,
+      color,
+      glyphs,
+      true,
     )
     // sdlpal uigame.c:218 真值:PAL_DrawNumber(GetSavedTimes(i), 4, PAL_XY(270, 38*i-17), kNumColorYellow, kNumAlignRight)
     // C8(2026-05-29):真接通 IndexedDB SlotMeta.savedTimes(cross-slot counter)。
@@ -406,9 +420,13 @@ function drawSaveSlotMenu(
     const meta = state.slotMetas.get(item.id)
     const savedTimes = meta?.savedTimes ?? 0
     drawNumber(
-      fb, savedTimes, 4,
+      fb,
+      savedTimes,
+      4,
       { x: SAVE_SLOT_NUMBER_X_RIGHT, y: 21 + 38 * i },
-      'yellow', 'right', uiSpriteFrames,
+      'yellow',
+      'right',
+      uiSpriteFrames,
     )
     // sdlpal SaveSlotMenu 原版无 "Lv X / $Y" 副标 — 之前擅自加被 user 怼,删。
   }

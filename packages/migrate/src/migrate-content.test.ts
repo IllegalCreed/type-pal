@@ -19,8 +19,8 @@ import {
   buildLabelIndex,
   type MigrateSources,
   mapScenesStatic,
-  mergeSceneScriptBindings,
   mergeExtras,
+  mergeSceneScriptBindings,
   migrateAll,
   type SourceCmd,
   type SourceScene,
@@ -32,13 +32,8 @@ const root = fileURLToPath(new URL('../../../', import.meta.url))
 const readJson = <T>(rel: string): T => JSON.parse(readFileSync(root + rel, 'utf8')) as T
 
 /** 测试观察器：沿 ref 展开行为视图，不改变真实迁移产物的去内联结构。 */
-function materializeScenes(
-  scenes: SceneDef[],
-  chunks: Record<string, ScriptChunkV1>,
-): SceneDef[] {
-  const scripts = new Map(
-    Object.values(chunks).flatMap((chunk) => Object.entries(chunk.scripts)),
-  )
+function materializeScenes(scenes: SceneDef[], chunks: Record<string, ScriptChunkV1>): SceneDef[] {
+  const scripts = new Map(Object.values(chunks).flatMap((chunk) => Object.entries(chunk.scripts)))
   const expand = (body: readonly Command[], stack = new Set<string>()): Command[] =>
     body.flatMap((cmd): Command[] => {
       if (cmd.kind === 'callScript' || cmd.kind === 'jumpScript') {
@@ -47,7 +42,13 @@ function materializeScenes(
         return expand(target, new Set([...stack, cmd.ref.id]))
       }
       if (cmd.kind === 'branch')
-        return [{ ...cmd, then: expand(cmd.then, stack), ...(cmd.else ? { else: expand(cmd.else, stack) } : {}) }]
+        return [
+          {
+            ...cmd,
+            then: expand(cmd.then, stack),
+            ...(cmd.else ? { else: expand(cmd.else, stack) } : {}),
+          },
+        ]
       return [cmd]
     })
   const stages = (value: SceneDef['onEnter']): SceneDef['onEnter'] =>
@@ -60,7 +61,9 @@ function materializeScenes(
       ...entity,
       pages: entity.pages?.map((page) => ({
         ...page,
-        trigger: page.trigger ? { ...page.trigger, stages: stages(page.trigger.stages)! } : undefined,
+        trigger: page.trigger
+          ? { ...page.trigger, stages: stages(page.trigger.stages)! }
+          : undefined,
         auto: page.auto ? { stages: stages(page.auto.stages)! } : undefined,
       })),
     })),
@@ -310,7 +313,11 @@ describe('M1a+M1c · 技能(纯表 57 + 线性脚本 18 + 门类 5)', () => {
   })
   test('有损点登记:0x68 敌方分支(回梦/夺魂/鬼降)+ 飞龙 0x47 音效;三尸三连双脚本 → 正确 pending', () => {
     expect(out.report.lossySkills.map((l) => l.id).sort((a, b) => a - b)).toEqual([
-      303, 304, 305, 370, 377, // 370 = 酒神(summon 动态伤害直译占位,2026-07-05)
+      303,
+      304,
+      305,
+      370,
+      377, // 370 = 酒神(summon 动态伤害直译占位,2026-07-05)
     ])
     const dual = out.report.pendingSkills.filter((p) => [352, 372, 373].includes(p.id))
     expect(dual).toHaveLength(3)
@@ -635,38 +642,47 @@ describe('M3 写盘白名单', () => {
       id: 's001',
       map: { reuseOriginalMap: 1 },
       entry: { pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
-      entities: [{
-        id: 'e1',
-        pos: { col: 3, row: 4, height: 0 },
-        zone: true,
-        collide: true,
-        pages: [{
-          state: 7,
-          trigger: {
-            on: 'interact',
-            range: 3,
-            stages: [{ body: [{ kind: 'playSound', soundId: 1 }] }],
-          },
-          auto: { stages: [{ body: [{ kind: 'wait', ms: 100 }] }] },
-        }, {
-          state: 9,
-          trigger: { on: 'touch', stages: [{ body: [{ kind: 'playSound', soundId: 9 }] }] },
-        }],
-      }],
+      entities: [
+        {
+          id: 'e1',
+          pos: { col: 3, row: 4, height: 0 },
+          zone: true,
+          collide: true,
+          pages: [
+            {
+              state: 7,
+              trigger: {
+                on: 'interact',
+                range: 3,
+                stages: [{ body: [{ kind: 'playSound', soundId: 1 }] }],
+              },
+              auto: { stages: [{ body: [{ kind: 'wait', ms: 100 }] }] },
+            },
+            {
+              state: 9,
+              trigger: { on: 'touch', stages: [{ body: [{ kind: 'playSound', soundId: 9 }] }] },
+            },
+          ],
+        },
+      ],
       onEnter: [{ body: [{ kind: 'playSound', soundId: 2 }] }],
     }
     const ref = { chunk: 'scene/s001', id: 'scene/s001/root' }
     const fresh: SceneDef = {
       ...disk,
       map: { reuseOriginalMap: 99 },
-      entities: [{
-        id: 'e1',
-        pos: { col: 99, row: 99, height: 0 },
-        zone: true,
-        pages: [{
-          trigger: { on: 'touch', range: 0, stages: [{ body: [{ kind: 'callScript', ref }] }] },
-        }],
-      }],
+      entities: [
+        {
+          id: 'e1',
+          pos: { col: 99, row: 99, height: 0 },
+          zone: true,
+          pages: [
+            {
+              trigger: { on: 'touch', range: 0, stages: [{ body: [{ kind: 'callScript', ref }] }] },
+            },
+          ],
+        },
+      ],
       onEnter: [{ body: [{ kind: 'callScript', ref }] }],
     }
 

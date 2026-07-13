@@ -13,7 +13,10 @@ import type { GameState } from '../core/game-state.js'
 
 /** sdlpal `palcommon.h`:kDirSouth=0 / kDirWest=1 / kDirNorth=2 / kDirEast=3。 */
 const FACING_TO_DIR: Record<'down' | 'left' | 'up' | 'right', number> = {
-  down: 0, left: 1, up: 2, right: 3,
+  down: 0,
+  left: 1,
+  up: 2,
+  right: 3,
 }
 
 /** 计算 leader wFrame —— 跟 present.ts 同一逻辑,只是不渲染只取数字。 */
@@ -31,9 +34,10 @@ function computeLeaderWFrame(gs: GameState, walkFrames: number): number {
 
 export function dumpFrameJson(gs: GameState, frame: number, walkFrames: number): string {
   const leaderRole = gs.partyMembers[0] ?? 0
-  const sprite = gs.PlayerRolesRuntime.rgwSpriteNum?.[leaderRole]
-    ?? (leaderRole === 0 ? gs.partyLeaderSpriteId : undefined)
-    ?? 0
+  const sprite =
+    gs.PlayerRolesRuntime.rgwSpriteNum?.[leaderRole] ??
+    (leaderRole === 0 ? gs.partyLeaderSpriteId : undefined) ??
+    0
   const obj = {
     frame,
     scene: gs.wNumScene,
@@ -47,7 +51,10 @@ export function dumpFrameJson(gs: GameState, frame: number, walkFrames: number):
       sprite,
       members: gs.partyMembers.map((role) => ({
         role,
-        sprite: gs.PlayerRolesRuntime.rgwSpriteNum?.[role] ?? (role === 0 ? gs.partyLeaderSpriteId : undefined) ?? 0,
+        sprite:
+          gs.PlayerRolesRuntime.rgwSpriteNum?.[role] ??
+          (role === 0 ? gs.partyLeaderSpriteId : undefined) ??
+          0,
       })),
     },
     npcs: gs.npcs.map((n) => ({
@@ -70,6 +77,11 @@ interface DumpController {
   enabled: boolean
 }
 
+type StateDumpWindow = Window & {
+  __tpDumpBuffer?: string[]
+  __tpDumpDownload?: () => void
+}
+
 /** 初始化 dump controller。URL `?tp_dump=1` 启用 + 暴露 window.__tpDumpDownload()。 */
 export function initStateDump(): DumpController {
   if (typeof window === 'undefined') {
@@ -82,8 +94,7 @@ export function initStateDump(): DumpController {
   const buffer: string[] = []
   let frameCount = 0
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const w = window as any
+  const w = window as StateDumpWindow
   w.__tpDumpBuffer = buffer
   w.__tpDumpDownload = () => {
     const blob = new Blob([`${buffer.join('\n')}\n`], { type: 'application/x-ndjson' })

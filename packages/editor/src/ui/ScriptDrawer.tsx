@@ -11,14 +11,14 @@ import type {
   AmbienceDef,
   Command,
   Facing,
-  ShopDef,
   Locale,
   MusicDef,
   SceneDef,
   ScriptStage,
+  ShopDef,
   SpriteDef,
 } from '@type-pal/content'
-import { MemoryScriptResolver, type AssetBase, type OwnMap } from '@type-pal/reforge'
+import { type AssetBase, MemoryScriptResolver, type OwnMap } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   CreateScriptSourceCommand,
@@ -220,7 +220,12 @@ const INSERT_GROUPS: {
           const self = selfOf(c)
           const p = c.scene.entities.find((e) => e.id === c.ownerId)?.pos ?? c.scene.entry.pos
           return [
-            { kind: 'moveEntity', entity: self, to: { col: p.col + 4, row: p.row, height: p.height }, speed: 'slow' },
+            {
+              kind: 'moveEntity',
+              entity: self,
+              to: { col: p.col + 4, row: p.row, height: p.height },
+              speed: 'slow',
+            },
             { kind: 'wait', ms: 400 },
             { kind: 'moveEntity', entity: self, to: { ...p }, speed: 'slow' },
             { kind: 'wait', ms: 400 },
@@ -233,7 +238,11 @@ const INSERT_GROUPS: {
         make: (c) => {
           const self = selfOf(c)
           const p = c.scene.entities.find((e) => e.id === c.ownerId)?.pos ?? c.scene.entry.pos
-          const pt = (dc: number, dr: number) => ({ col: p.col + dc, row: p.row + dr, height: p.height })
+          const pt = (dc: number, dr: number) => ({
+            col: p.col + dc,
+            row: p.row + dr,
+            height: p.height,
+          })
           return [
             { kind: 'moveEntity', entity: self, to: pt(4, 0), speed: 'slow' },
             { kind: 'moveEntity', entity: self, to: pt(4, 4), speed: 'slow' },
@@ -429,8 +438,7 @@ export function ScriptDrawer(props: {
   useEffect(() => {
     if (srcKey && sources.some((s) => s.key === srcKey)) return
     setSrcKey(sources[0]?.key ?? null)
-    // biome-ignore lint/correctness/useExhaustiveDependencies: 仅在选中范围变化时收敛
-  }, [sources])
+  }, [sources, srcKey])
   const active = sources.find((s) => s.key === srcKey) ?? sources[0]
 
   // 演出预览控制器:随场景重建;切场景/切源/卸载时停播丢弃演出态
@@ -568,331 +576,338 @@ export function ScriptDrawer(props: {
         />
       </div>
       <div className="script-drawer">
-      <div className="drawer-head">
-        <span
-          className="t"
-          style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', minWidth: 40 }}
-        >
-          📜 {scene.id}
-          {selectedEntityId ? ` · ${selectedEntityId}` : ''}
-        </span>
-        {/* 源页签(作者:源列一栏冗余 → 收进头部):有则切换,缺则就地创建 */}
-        <span className="drawer-tabs">
-          {sources.map((s) => (
-            <button
-              key={s.key}
-              type="button"
-              className={`mini-txt${active?.key === s.key ? ' sel' : ''}`}
-              title={s.sub}
-              onClick={() => setSrcKey(s.key)}
-            >
-              {ICON[s.kind]} {KIND_LABEL[s.kind]}
-            </button>
-          ))}
-          {selectedEntityId ? (
-            <>
-              {!scene.entities.find((e) => e.id === selectedEntityId)?.pages?.[0]?.trigger && (
-                <button
-                  type="button"
-                  className="mini-txt"
-                  title="给选中实体创建交互触发脚本"
-                  onClick={() => {
-                    session.dispatch(
-                      new CreateScriptSourceCommand(scene.id, {
-                        kind: 'trigger',
-                        entityId: selectedEntityId,
-                      }),
-                    )
-                    setSrcKey(`${selectedEntityId}:trigger`)
-                  }}
-                >
-                  ＋触发
-                </button>
-              )}
-              {!scene.entities.find((e) => e.id === selectedEntityId)?.pages?.[0]?.auto && (
-                <button
-                  type="button"
-                  className="mini-txt"
-                  title="给选中实体创建巡逻/自动脚本"
-                  onClick={() => {
-                    session.dispatch(
-                      new CreateScriptSourceCommand(scene.id, {
-                        kind: 'auto',
-                        entityId: selectedEntityId,
-                      }),
-                    )
-                    setSrcKey(`${selectedEntityId}:auto`)
-                  }}
-                >
-                  ＋巡逻
-                </button>
-              )}
-            </>
-          ) : (
-            <>
-              {!scene.onEnter?.length && (
-                <button
-                  type="button"
-                  className="mini-txt"
-                  title="创建进场脚本"
-                  onClick={() => {
-                    session.dispatch(new CreateScriptSourceCommand(scene.id, { kind: 'onEnter' }))
-                    setSrcKey('__onEnter__')
-                  }}
-                >
-                  ＋进场脚本
-                </button>
-              )}
-              {!scene.onTeleport?.length && (
-                <button
-                  type="button"
-                  className="mini-txt"
-                  title="创建传送出口脚本(引路蜂/土灵珠用它把队伍送出本场景;通常淡出+loadScene 回洞口)"
-                  onClick={() => {
-                    session.dispatch(new CreateScriptSourceCommand(scene.id, { kind: 'onTeleport' }))
-                    setSrcKey('__onTeleport__')
-                  }}
-                >
-                  ＋传送出口
-                </button>
-              )}
-            </>
-          )}
-        </span>
-        {active?.kind === 'trigger' && selectedEntityId
-          ? (() => {
-              const trig = scene.entities.find((e) => e.id === selectedEntityId)?.pages?.[0]
-                ?.trigger
-              if (!trig) return null
-              return (
-                <span className="drawer-tabs" title="触发方式与距离(格)">
-                  <span style={{ color: 'var(--faint)', fontSize: 11, alignSelf: 'center' }}>
-                    方式
-                  </span>
-                  <select
-                    className="in"
-                    style={{ height: 22, fontSize: 12, width: 104, flex: 'none' }}
-                    value={trig.on ?? 'interact'}
-                    onChange={(e) =>
-                      session.dispatch(
-                        new UpdateTriggerModeCommand(
-                          scene.id,
-                          selectedEntityId,
-                          e.target.value as 'interact' | 'touch',
-                          trig.range,
-                        ),
-                      )
-                    }
-                  >
-                    <option value="interact">交互(空格)</option>
-                    <option value="touch">触碰即发</option>
-                  </select>
-                  <span style={{ color: 'var(--faint)', fontSize: 11, alignSelf: 'center' }}>
-                    距离
-                  </span>
-                  <input
-                    className="in"
-                    type="number"
-                    min={0}
-                    style={{ width: 48, height: 22, fontSize: 12 }}
-                    title="触发距离(格;交互缺省 1,触碰缺省 0)"
-                    value={trig.range ?? (trig.on === 'touch' ? 0 : 1)}
-                    onChange={(e) =>
-                      session.dispatch(
-                        new UpdateTriggerModeCommand(
-                          scene.id,
-                          selectedEntityId,
-                          trig.on ?? 'interact',
-                          Math.max(0, Number(e.target.value) || 0),
-                        ),
-                      )
-                    }
-                  />
-                </span>
-              )
-            })()
-          : null}
-        {active ? (
-          <button
-            type="button"
-            className="mini-txt"
-            style={{ marginLeft: 10, color: 'var(--err)' }}
-            title="删除当前脚本源(可 ↶ 撤销)"
-            onClick={() => {
-              session.dispatch(new DeleteScriptSourceCommand(scene.id, refOf(active.key)))
-              setSrcKey(null)
+        <div className="drawer-head">
+          <span
+            className="t"
+            style={{
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              minWidth: 40,
             }}
           >
-            🗑 删此脚本
-          </button>
-        ) : null}
-        <span className="spacer" />
-        <span
-          style={{
-            color: 'var(--faint)',
-            fontSize: 11,
-            marginRight: 8,
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            minWidth: 0,
-            flex: '0 1 auto',
-          }}
-          title="改动即入 undo(↺/↻);▶ 预览是临时副本,不改数据"
-        >
-          改动即入 undo · ▶ 预览不改数据
-        </span>
-        <button type="button" className="mini-txt" onClick={onClose} title="收起抽屉">
-          ▾ 收起
-        </button>
-      </div>
-      <div className="drawer-body">
-        {/* 中:指令树(播放跟随高亮) */}
-        <div className="drawer-tree">
-          {active ? (
-            <ScriptTree
-              stages={active.stages}
-              locale={locale}
-              activePath={playback.activePath ?? null}
-              selectedPath={selPath}
-              onSelect={(path) => {
-                setSelPath(path)
-                setInsertFor(null)
-              }}
-              onRowAction={onRowAction}
-              onStageAction={(i, a) => {
-                if (!active) return
-                const next =
-                  a.kind === 'addAfter'
-                    ? addStageAfter(active.stages, i)
-                    : a.kind === 'remove'
-                      ? removeStage(active.stages, i)
-                      : setStageNext(active.stages, i, a.next)
-                if (next !== active.stages) {
-                  dispatchStages(next)
-                  setSelPath(null)
-                }
-              }}
-            />
-          ) : (
-            <div className="insp-empty">
-              {selectedEntityId
-                ? `${selectedEntityId} 还没有脚本 —— 顶部「＋触发 / ＋巡逻」创建。`
-                : '选中实体编它的脚本;或顶部创建场景进场脚本。'}
-            </div>
-          )}
-        </div>
-
-        {/* 右:演出预览(上)+ 表单/插入/日志(下滚动) */}
-        <div className="drawer-side">
-          <div className="drawer-form">
-            {insertFor && active ? (
-              <div className="section">
-                <h4>插入(到选中行之后)</h4>
-                {authoredScripts.length ? (
-                  <div>
-                    <div className="cf-group">调用共享脚本</div>
-                    <div className="cf-insert">
-                      {authoredScripts.map(([id, meta]) => (
-                        <button
-                          key={id}
-                          type="button"
-                          className="pv-btn"
-                          onClick={() => {
-                            if (!scriptIndex) return
-                            insertCommands([createAuthoredScriptCall(scriptIndex, id)])
-                          }}
-                        >
-                          ↪ {meta.name}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                ) : null}
-                {INSERT_GROUPS.map((g) => (
-                  <div key={g.title}>
-                    <div className="cf-group">{g.title}</div>
-                    <div className="cf-insert">
-                      {g.items.map((t) => (
-                        <button
-                          key={t.label}
-                          type="button"
-                          className="pv-btn"
-                          onClick={() => {
-                            const ref = refOf(active.key)
-                            const ctx: InsertCtx = {
-                              scene,
-                              ownerId:
-                                ref.kind === 'onEnter' || ref.kind === 'onTeleport'
-                                  ? undefined
-                                  : ref.entityId,
-                            }
-                            insertCommands(t.make(ctx))
-                          }}
-                        >
-                          {t.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-                <div className="cf-insert" style={{ marginTop: 6 }}>
-                  <button type="button" className="pv-btn" onClick={() => setInsertFor(null)}>
-                    取消
+            📜 {scene.id}
+            {selectedEntityId ? ` · ${selectedEntityId}` : ''}
+          </span>
+          {/* 源页签(作者:源列一栏冗余 → 收进头部):有则切换,缺则就地创建 */}
+          <span className="drawer-tabs">
+            {sources.map((s) => (
+              <button
+                key={s.key}
+                type="button"
+                className={`mini-txt${active?.key === s.key ? ' sel' : ''}`}
+                title={s.sub}
+                onClick={() => setSrcKey(s.key)}
+              >
+                {ICON[s.kind]} {KIND_LABEL[s.kind]}
+              </button>
+            ))}
+            {selectedEntityId ? (
+              <>
+                {!scene.entities.find((e) => e.id === selectedEntityId)?.pages?.[0]?.trigger && (
+                  <button
+                    type="button"
+                    className="mini-txt"
+                    title="给选中实体创建交互触发脚本"
+                    onClick={() => {
+                      session.dispatch(
+                        new CreateScriptSourceCommand(scene.id, {
+                          kind: 'trigger',
+                          entityId: selectedEntityId,
+                        }),
+                      )
+                      setSrcKey(`${selectedEntityId}:trigger`)
+                    }}
+                  >
+                    ＋触发
                   </button>
-                </div>
+                )}
+                {!scene.entities.find((e) => e.id === selectedEntityId)?.pages?.[0]?.auto && (
+                  <button
+                    type="button"
+                    className="mini-txt"
+                    title="给选中实体创建巡逻/自动脚本"
+                    onClick={() => {
+                      session.dispatch(
+                        new CreateScriptSourceCommand(scene.id, {
+                          kind: 'auto',
+                          entityId: selectedEntityId,
+                        }),
+                      )
+                      setSrcKey(`${selectedEntityId}:auto`)
+                    }}
+                  >
+                    ＋巡逻
+                  </button>
+                )}
+              </>
+            ) : (
+              <>
+                {!scene.onEnter?.length && (
+                  <button
+                    type="button"
+                    className="mini-txt"
+                    title="创建进场脚本"
+                    onClick={() => {
+                      session.dispatch(new CreateScriptSourceCommand(scene.id, { kind: 'onEnter' }))
+                      setSrcKey('__onEnter__')
+                    }}
+                  >
+                    ＋进场脚本
+                  </button>
+                )}
+                {!scene.onTeleport?.length && (
+                  <button
+                    type="button"
+                    className="mini-txt"
+                    title="创建传送出口脚本(引路蜂/土灵珠用它把队伍送出本场景;通常淡出+loadScene 回洞口)"
+                    onClick={() => {
+                      session.dispatch(
+                        new CreateScriptSourceCommand(scene.id, { kind: 'onTeleport' }),
+                      )
+                      setSrcKey('__onTeleport__')
+                    }}
+                  >
+                    ＋传送出口
+                  </button>
+                )}
+              </>
+            )}
+          </span>
+          {active?.kind === 'trigger' && selectedEntityId
+            ? (() => {
+                const trig = scene.entities.find((e) => e.id === selectedEntityId)?.pages?.[0]
+                  ?.trigger
+                if (!trig) return null
+                return (
+                  <span className="drawer-tabs" title="触发方式与距离(格)">
+                    <span style={{ color: 'var(--faint)', fontSize: 11, alignSelf: 'center' }}>
+                      方式
+                    </span>
+                    <select
+                      className="in"
+                      style={{ height: 22, fontSize: 12, width: 104, flex: 'none' }}
+                      value={trig.on ?? 'interact'}
+                      onChange={(e) =>
+                        session.dispatch(
+                          new UpdateTriggerModeCommand(
+                            scene.id,
+                            selectedEntityId,
+                            e.target.value as 'interact' | 'touch',
+                            trig.range,
+                          ),
+                        )
+                      }
+                    >
+                      <option value="interact">交互(空格)</option>
+                      <option value="touch">触碰即发</option>
+                    </select>
+                    <span style={{ color: 'var(--faint)', fontSize: 11, alignSelf: 'center' }}>
+                      距离
+                    </span>
+                    <input
+                      className="in"
+                      type="number"
+                      min={0}
+                      style={{ width: 48, height: 22, fontSize: 12 }}
+                      title="触发距离(格;交互缺省 1,触碰缺省 0)"
+                      value={trig.range ?? (trig.on === 'touch' ? 0 : 1)}
+                      onChange={(e) =>
+                        session.dispatch(
+                          new UpdateTriggerModeCommand(
+                            scene.id,
+                            selectedEntityId,
+                            trig.on ?? 'interact',
+                            Math.max(0, Number(e.target.value) || 0),
+                          ),
+                        )
+                      }
+                    />
+                  </span>
+                )
+              })()
+            : null}
+          {active ? (
+            <button
+              type="button"
+              className="mini-txt"
+              style={{ marginLeft: 10, color: 'var(--err)' }}
+              title="删除当前脚本源(可 ↶ 撤销)"
+              onClick={() => {
+                session.dispatch(new DeleteScriptSourceCommand(scene.id, refOf(active.key)))
+                setSrcKey(null)
+              }}
+            >
+              🗑 删此脚本
+            </button>
+          ) : null}
+          <span className="spacer" />
+          <span
+            style={{
+              color: 'var(--faint)',
+              fontSize: 11,
+              marginRight: 8,
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              minWidth: 0,
+              flex: '0 1 auto',
+            }}
+            title="改动即入 undo(↺/↻);▶ 预览是临时副本,不改数据"
+          >
+            改动即入 undo · ▶ 预览不改数据
+          </span>
+          <button type="button" className="mini-txt" onClick={onClose} title="收起抽屉">
+            ▾ 收起
+          </button>
+        </div>
+        <div className="drawer-body">
+          {/* 中:指令树(播放跟随高亮) */}
+          <div className="drawer-tree">
+            {active ? (
+              <ScriptTree
+                stages={active.stages}
+                locale={locale}
+                activePath={playback.activePath ?? null}
+                selectedPath={selPath}
+                onSelect={(path) => {
+                  setSelPath(path)
+                  setInsertFor(null)
+                }}
+                onRowAction={onRowAction}
+                onStageAction={(i, a) => {
+                  if (!active) return
+                  const next =
+                    a.kind === 'addAfter'
+                      ? addStageAfter(active.stages, i)
+                      : a.kind === 'remove'
+                        ? removeStage(active.stages, i)
+                        : setStageNext(active.stages, i, a.next)
+                  if (next !== active.stages) {
+                    dispatchStages(next)
+                    setSelPath(null)
+                  }
+                }}
+              />
+            ) : (
+              <div className="insp-empty">
+                {selectedEntityId
+                  ? `${selectedEntityId} 还没有脚本 —— 顶部「＋触发 / ＋巡逻」创建。`
+                  : '选中实体编它的脚本;或顶部创建场景进场脚本。'}
               </div>
-            ) : null}
-            {selCmd && active && selPath ? (
-              <div className="section">
-                <h4>
-                  编辑指令 <span className="cf-path">{selPath}</span>
-                </h4>
-                <CommandForm
-                  actors={actorsById}
-                  cmd={selCmd}
-                  scene={scene}
-                  locale={locale}
-                  music={music}
-                  musicBase={assetBase.music}
-                  scenes={scenes}
-                  assetBase={assetBase}
-                  ambiences={ambiences}
-                  shops={shops}
-                  scriptIndex={scriptIndex}
-                  hasImplicitSelf={active.kind === 'trigger' || active.kind === 'auto'}
-                  onOpenScript={onOpenScript}
-                  onChange={(next) => {
-                    const out = updateCommandAt(active.stages, parsePath(selPath), next)
-                    if (out !== active.stages) dispatchStages(out)
-                  }}
-                />
-              </div>
-            ) : null}
-            {playback.view.logs.length > 0 ? (
-              <div className="section">
-                <h4>演出日志(桩指令)</h4>
-                <div className="pv-logs">
-                  {playback.view.logs.slice(-40).map((l, i) => (
-                    <div key={i} className="pv-log">
-                      {l}
+            )}
+          </div>
+
+          {/* 右:演出预览(上)+ 表单/插入/日志(下滚动) */}
+          <div className="drawer-side">
+            <div className="drawer-form">
+              {insertFor && active ? (
+                <div className="section">
+                  <h4>插入(到选中行之后)</h4>
+                  {authoredScripts.length ? (
+                    <div>
+                      <div className="cf-group">调用共享脚本</div>
+                      <div className="cf-insert">
+                        {authoredScripts.map(([id, meta]) => (
+                          <button
+                            key={id}
+                            type="button"
+                            className="pv-btn"
+                            onClick={() => {
+                              if (!scriptIndex) return
+                              insertCommands([createAuthoredScriptCall(scriptIndex, id)])
+                            }}
+                          >
+                            ↪ {meta.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
+                  {INSERT_GROUPS.map((g) => (
+                    <div key={g.title}>
+                      <div className="cf-group">{g.title}</div>
+                      <div className="cf-insert">
+                        {g.items.map((t) => (
+                          <button
+                            key={t.label}
+                            type="button"
+                            className="pv-btn"
+                            onClick={() => {
+                              const ref = refOf(active.key)
+                              const ctx: InsertCtx = {
+                                scene,
+                                ownerId:
+                                  ref.kind === 'onEnter' || ref.kind === 'onTeleport'
+                                    ? undefined
+                                    : ref.entityId,
+                              }
+                              insertCommands(t.make(ctx))
+                            }}
+                          >
+                            {t.label}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   ))}
+                  <div className="cf-insert" style={{ marginTop: 6 }}>
+                    <button type="button" className="pv-btn" onClick={() => setInsertFor(null)}>
+                      取消
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ) : null}
-            {!selCmd && !insertFor ? (
-              <div className="section">
-                <h4>就地写脚本</h4>
-                <p className="hint">
-                  点树中指令行 → 此处编辑;行悬停 ＋/↑/↓/🗑。▶ 从头播;⏭ 单步(树中高亮)。
-                  <span className="warn-inline">⚠ 黄色</span> = 未翻译逃生口。
-                </p>
-              </div>
-            ) : null}
+              ) : null}
+              {selCmd && active && selPath ? (
+                <div className="section">
+                  <h4>
+                    编辑指令 <span className="cf-path">{selPath}</span>
+                  </h4>
+                  <CommandForm
+                    actors={actorsById}
+                    cmd={selCmd}
+                    scene={scene}
+                    locale={locale}
+                    music={music}
+                    musicBase={assetBase.music}
+                    scenes={scenes}
+                    assetBase={assetBase}
+                    ambiences={ambiences}
+                    shops={shops}
+                    scriptIndex={scriptIndex}
+                    hasImplicitSelf={active.kind === 'trigger' || active.kind === 'auto'}
+                    onOpenScript={onOpenScript}
+                    onChange={(next) => {
+                      const out = updateCommandAt(active.stages, parsePath(selPath), next)
+                      if (out !== active.stages) dispatchStages(out)
+                    }}
+                  />
+                </div>
+              ) : null}
+              {playback.view.logs.length > 0 ? (
+                <div className="section">
+                  <h4>演出日志(桩指令)</h4>
+                  <div className="pv-logs">
+                    {playback.view.logs.slice(-40).map((l, i) => (
+                      <div key={i} className="pv-log">
+                        {l}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+              {!selCmd && !insertFor ? (
+                <div className="section">
+                  <h4>就地写脚本</h4>
+                  <p className="hint">
+                    点树中指令行 → 此处编辑;行悬停 ＋/↑/↓/🗑。▶ 从头播;⏭ 单步(树中高亮)。
+                    <span className="warn-inline">⚠ 黄色</span> = 未翻译逃生口。
+                  </p>
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
-      </div>
       </div>
     </div>
   )

@@ -1,4 +1,5 @@
 import type { Facing, GridPos } from '@type-pal/content'
+import { expectDefined } from './defined.js'
 
 /**
  * 跟随者定位 —— 1:1 移植一阶段 [follower-pos.ts](../../game/src/present/follower-pos.ts)
@@ -72,7 +73,7 @@ export function computeFollowerPos(
   isWalkable: (col: number, row: number) => boolean,
 ): { pos: GridPos; dir: Facing } | null {
   if (s.trail.length <= 1) return null
-  const baseTrail = s.trail[Math.min(BASE_SLOT, s.trail.length - 1)]!
+  const baseTrail = expectDefined(s.trail[Math.min(BASE_SLOT, s.trail.length - 1)])
   const baseDir = baseTrail.dir
   // 朝向源(sdlpal:rgTrail[基点+1].wDirection = 比位置晚一步;不足回退基点 dir)
   const curDir = s.trail[BASE_SLOT + 1]?.dir ?? baseDir
@@ -86,7 +87,7 @@ export function computeFollowerPos(
       }
     }
     // 未捕获冻结快照(0x46 摆位/刚进场景):落 trail[m×BASE_SLOT](每员退一平铺 tile=2 格),不做障碍回退。
-    const frozen = s.trail[m * BASE_SLOT] ?? s.trail[s.trail.length - 1]!
+    const frozen = s.trail[m * BASE_SLOT] ?? expectDefined(s.trail[s.trail.length - 1])
     return { pos: { ...frozen.pos }, dir: curDir }
   }
 
@@ -100,10 +101,22 @@ export function computeFollowerPos(
   } else {
     // m===1,3,4:与 m===2 反侧
     switch (baseDir) {
-      case 'left':  offCol = 1; offRow = 0; break
-      case 'right': offCol = -1; offRow = 0; break
-      case 'up':    offCol = 0; offRow = 1; break
-      default:      offCol = 0; offRow = -1; break // down
+      case 'left':
+        offCol = 1
+        offRow = 0
+        break
+      case 'right':
+        offCol = -1
+        offRow = 0
+        break
+      case 'up':
+        offCol = 0
+        offRow = 1
+        break
+      default:
+        offCol = 0
+        offRow = -1
+        break // down
     }
   }
   let col = baseTrail.pos.col + offCol

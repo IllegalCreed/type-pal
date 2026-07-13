@@ -22,24 +22,50 @@ import type { BattlePlayer, BattleState } from '../battle-state.js'
 
 function makeRole(opts: Partial<PlayerRole> = {}): PlayerRole {
   return {
-    id: 0, _name: 'R', avatar: 0, spriteNumInBattle: 0, spriteNum: 0, name: 0, attackAll: 0,
-    level: 10, maxHP: 200, maxMP: 30, hp: 200, mp: 30,
-    attackStrength: 96, magicStrength: 0, defense: 64, dexterity: 30, fleeRate: 5,
-    poisonResistance: 0, elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-    walkFrames: 0, attackSound: 0, weaponSound: 0, criticalSound: 0, magicSound: 0, deathSound: 0,
+    id: 0,
+    _name: 'R',
+    avatar: 0,
+    spriteNumInBattle: 0,
+    spriteNum: 0,
+    name: 0,
+    attackAll: 0,
+    level: 10,
+    maxHP: 200,
+    maxMP: 30,
+    hp: 200,
+    mp: 30,
+    attackStrength: 96,
+    magicStrength: 0,
+    defense: 64,
+    dexterity: 30,
+    fleeRate: 5,
+    poisonResistance: 0,
+    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    walkFrames: 0,
+    attackSound: 0,
+    weaponSound: 0,
+    criticalSound: 0,
+    magicSound: 0,
+    deathSound: 0,
     ...opts,
   }
 }
 
 function makePlayer(roleId: number, defending = false): BattlePlayer {
   return {
-    roleId, prevHp: 0, prevMp: 0, defending,
+    roleId,
+    prevHp: 0,
+    prevMp: 0,
+    defending,
     status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
   }
 }
 
 /** 3 队员 state + roles;rng 可注入固定 rangeInclusive 序列。 */
-function makeState(roles: PlayerRole[], rngSeq?: number[]): { state: BattleState; playerRoles: PlayerRoles; bus: CommandBus } {
+function makeState(
+  roles: PlayerRole[],
+  rngSeq?: number[],
+): { state: BattleState; playerRoles: PlayerRoles; bus: CommandBus } {
   let i = 0
   const rng: SeedableRng = rngSeq
     ? { ...createSeedableRng(1), rangeInclusive: () => rngSeq[i++ % rngSeq.length]! }
@@ -68,13 +94,16 @@ describe('B1 AttackMate(混乱攻随机友军,fight.c:3760-3853)', () => {
     const roles = [makeRole({ id: 0, weaponSound: 2 }), makeRole({ id: 1 })]
     const { state, playerRoles, bus } = makeState(roles, [1])
     performAttackMate(state, 0, bus, playerRoles)
-    const sounds = bus.drain().filter(c => c.cmd.op === 'playSound').map(c => (c.cmd as { soundId: number }).soundId)
+    const sounds = bus
+      .drain()
+      .filter((c) => c.cmd.op === 'playSound')
+      .map((c) => (c.cmd as { soundId: number }).soundId)
     expect(sounds).toEqual([2])
     // weaponSound=0 → 不 emit
     const roles0 = [makeRole({ id: 0, weaponSound: 0 }), makeRole({ id: 1 })]
     const s0 = makeState(roles0, [1])
     performAttackMate(s0.state, 0, s0.bus, s0.playerRoles)
-    expect(s0.bus.drain().filter(c => c.cmd.op === 'playSound')).toHaveLength(0)
+    expect(s0.bus.drain().filter((c) => c.cmd.op === 'playSound')).toHaveLength(0)
   })
 
   it('目标有 Protect → 伤害减半(45→22)', () => {

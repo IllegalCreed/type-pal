@@ -419,7 +419,9 @@ export function useItem(
           // 纯更新(新数组 + 新条目):同状态刷新回合数,否则追加。
           const prev = next.extraStatuses ?? []
           next.extraStatuses = prev.some((s) => s.status === eff.status)
-            ? prev.map((s) => (s.status === eff.status ? { status: s.status, turns: eff.turns } : s))
+            ? prev.map((s) =>
+                s.status === eff.status ? { status: s.status, turns: eff.turns } : s,
+              )
             : [...prev, { status: eff.status, turns: eff.turns }]
           changed = true
           break

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { bootstrap } from '../helpers/bootstrap.js'
 
 // M5 P0.0:party/npc 改像素坐标(X_STEP=16/Y_STEP=8)。
@@ -12,7 +12,10 @@ function pixelDist(ax: number, ay: number, bx: number, by: number): number {
 
 /** 选朝向 target(tx,ty) 移动的方向键(4 向菱形,优先减少主轴距离)。 */
 function pickKey(
-  px: number, py: number, tx: number, ty: number,
+  px: number,
+  py: number,
+  tx: number,
+  ty: number,
 ): 'ArrowLeft' | 'ArrowRight' | 'ArrowUp' | 'ArrowDown' | null {
   const dx = tx - px
   const dy = ty - py
@@ -21,13 +24,14 @@ function pickKey(
   //   Right(East): (+16,+8) 右下;Left(West): (-16,-8) 左上
   //   Down (South): (-16,+8) 左下;Up   (North): (+16,-8) 右上
   // 选使距离减小最多的键
-  const candidates: Array<['ArrowLeft' | 'ArrowRight' | 'ArrowUp' | 'ArrowDown', number, number]> = [
-    ['ArrowRight', 16, 8],
-    ['ArrowLeft', -16, -8],
-    ['ArrowDown', -16, 8],
-    ['ArrowUp', 16, -8],
-  ]
-  let best: typeof candidates[0] | null = null
+  const candidates: Array<['ArrowLeft' | 'ArrowRight' | 'ArrowUp' | 'ArrowDown', number, number]> =
+    [
+      ['ArrowRight', 16, 8],
+      ['ArrowLeft', -16, -8],
+      ['ArrowDown', -16, 8],
+      ['ArrowUp', 16, -8],
+    ]
+  let best: (typeof candidates)[0] | null = null
   let bestGain = -Infinity
   for (const [key, ddx, ddy] of candidates) {
     const gain = pixelDist(px, py, tx, ty) - pixelDist(px + ddx, py + ddy, tx, ty)
@@ -66,9 +70,15 @@ test('a6 撞 NPC 阻挡 — party 走向最近 NPC → 停在 NPC 前一格(不�
     const p = await page.evaluate(() => (window as unknown as Probe).__game.gs.party)
     const key = pickKey(p.x, p.y, target.x, target.y)
     if (!key) break
-    await page.keyboard.press(key === 'ArrowLeft' ? 'ArrowLeft'
-      : key === 'ArrowRight' ? 'ArrowRight'
-      : key === 'ArrowDown' ? 'ArrowDown' : 'ArrowUp')
+    await page.keyboard.press(
+      key === 'ArrowLeft'
+        ? 'ArrowLeft'
+        : key === 'ArrowRight'
+          ? 'ArrowRight'
+          : key === 'ArrowDown'
+            ? 'ArrowDown'
+            : 'ArrowUp',
+    )
     await page.waitForTimeout(100)
   }
 

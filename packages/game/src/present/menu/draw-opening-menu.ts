@@ -13,18 +13,17 @@ import type { OpeningMenuState } from '../../core/menu/opening-menu.js'
 import { openingMenuLabels } from '../../core/menu/opening-menu.js'
 import type { BattleBgAsset } from '../battle/draw-battle-bg.js'
 import { drawBattleBg } from '../battle/draw-battle-bg.js'
+import { type GlyphTable, palWordWidth, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
-import { renderText, palWordWidth, type GlyphTable } from '../font.js'
 
 // sdlpal ui.h:29 / 33-34
-const MENUITEM_COLOR = 0x4F
-const MENUITEM_COLOR_SELECTED_FIRST = 0xF9
+const MENUITEM_COLOR = 0x4f
+const MENUITEM_COLOR_SELECTED_FIRST = 0xf9
 const MENUITEM_COLOR_SELECTED_TOTAL = 6
 
 function selectedColor(): number {
   return (
-    MENUITEM_COLOR_SELECTED_FIRST
-    + (Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
+    MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
   )
 }
 

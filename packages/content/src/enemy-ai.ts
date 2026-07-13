@@ -68,7 +68,14 @@ export interface AiBattleView {
   /** 场上活敌数(含自己)。 */
   allyCount: number
   /** 活队员(索引 = 战斗槽;role = 角色模板 id,playerInParty 门用)。 */
-  players: { index: number; hpPercent: number; hp: number; mp: number; attack: number; role: string }[]
+  players: {
+    index: number
+    hpPercent: number
+    hp: number
+    mp: number
+    attack: number
+    role: string
+  }[]
 }
 
 export function evalAiCond(cond: AiCond, view: AiBattleView, rng: () => number): boolean {
@@ -119,7 +126,8 @@ export function decideByRules(
   fired: ReadonlySet<number>,
 ): AiDecision | null {
   for (let i = 0; i < rules.length; i++) {
-    const r = rules[i]!
+    const r = rules[i]
+    if (!r) continue
     if (r.at !== 'act') continue
     if (r.once && fired.has(i)) continue
     if (view.self.silenced && r.do.kind === 'cast') continue
@@ -135,8 +143,10 @@ export function pickAiTarget(
   players: AiBattleView['players'],
   rng: () => number,
 ): number {
+  const first = players[0]
+  if (!first) throw new Error('pickAiTarget: players must not be empty')
   const s = strategy ?? 'random'
-  if (s === 'random') return players[Math.floor(rng() * players.length)]!.index
+  if (s === 'random') return (players[Math.floor(rng() * players.length)] ?? first).index
   const by: Record<Exclude<AiTarget, 'random'>, (p: AiBattleView['players'][number]) => number> = {
     lowestHp: (p) => p.hp,
     highestHp: (p) => -p.hp,
@@ -144,7 +154,7 @@ export function pickAiTarget(
     strongest: (p) => -p.attack,
   }
   const key = by[s]
-  let best = players[0]!
+  let best = first
   for (const p of players) if (key(p) < key(best)) best = p
   return best.index
 }

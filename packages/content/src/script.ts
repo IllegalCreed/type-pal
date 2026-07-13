@@ -91,7 +91,13 @@ export type Command =
   | { kind: 'setActorSprite'; actor: string; sprite: string }
   // 0x1A:持久改角色形象(原版 PlayerRoles SoA 字段:成年灵儿换头像/精灵/战斗精灵,随存档)。
   // 一条命令改一个维度(migrate 按 SoA 字段号分流);spriteId 已解析成 id,portrait/battleSprite 是号。
-  | { kind: 'setActorAppearance'; actor: string; spriteId?: string; portrait?: number; battleSprite?: number }
+  | {
+      kind: 'setActorAppearance'
+      actor: string
+      spriteId?: string
+      portrait?: number
+      battleSprite?: number
+    }
   // 0x69:敌人逃离战场(战斗演出 choreography 专用;终止战斗无奖励)。大世界 host 打日志跳过。
   | { kind: 'fleeBattle' }
   // 0x89:脚本终止战斗(choreography 专用)。result:terminate 无奖励干净退(林天南撑 7 回合)/
@@ -256,12 +262,12 @@ export function applyStageNext(
 function checkRef(value: unknown, path: string): void {
   const ref = value as { chunk?: unknown; id?: unknown } | null
   if (
-    typeof ref !== 'object'
-    || ref === null
-    || typeof ref.chunk !== 'string'
-    || ref.chunk.length === 0
-    || typeof ref.id !== 'string'
-    || ref.id.length === 0
+    typeof ref !== 'object' ||
+    ref === null ||
+    typeof ref.chunk !== 'string' ||
+    ref.chunk.length === 0 ||
+    typeof ref.id !== 'string' ||
+    ref.id.length === 0
   )
     throw new Error(`${path}: 期望 {chunk,id} ScriptRef`)
 }
@@ -279,11 +285,13 @@ export function checkCommands(cmds: unknown, path: string): void {
       const el = (c as { else?: unknown }).else
       if (el !== undefined) checkCommands(el, `${path}[${i}].else`)
     }
-    if (k === 'callScript' || k === 'jumpScript') checkRef((c as { ref?: unknown }).ref, `${path}[${i}].ref`)
+    if (k === 'callScript' || k === 'jumpScript')
+      checkRef((c as { ref?: unknown }).ref, `${path}[${i}].ref`)
     if (k === 'setEntityAuto' || k === 'setEntityTrigger' || k === 'setSceneOnTeleport') {
       const binding = c as { stages?: unknown; script?: unknown }
       if (binding.script !== undefined) {
-        if (binding.stages !== undefined) throw new Error(`${path}[${i}]: stages 与 script 不能同时存在`)
+        if (binding.stages !== undefined)
+          throw new Error(`${path}[${i}]: stages 与 script 不能同时存在`)
         checkRef(binding.script, `${path}[${i}].script`)
       } else {
         // 动态换页的 [] 是既有“停用”语义；普通 stage 根仍要求非空。

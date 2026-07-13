@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import type { NpcState } from './game-state.js'
 import { findSearchableNpc, getSearchTriggerRange } from './scene-system-search.js'
 

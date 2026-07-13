@@ -21,9 +21,15 @@ function sourceOf(chunks: Record<string, ScriptChunkV1>, reads: string[] = []): 
       if (!value) throw new Error(`404 ${rel}`)
       return value as T
     },
-    async readText() { throw new Error('not used') },
-    async readBytes() { throw new Error('not used') },
-    async urlFor(rel) { return rel },
+    async readText() {
+      throw new Error('not used')
+    },
+    async readBytes() {
+      throw new Error('not used')
+    },
+    async urlFor(rel) {
+      return rel
+    },
   }
 }
 
@@ -35,28 +41,35 @@ describe('ScriptChunkStore', () => {
       ...index,
       library: { [authorId]: { name: '开门', self: 'none' } },
     }
-    const store = new ScriptChunkStore(sourceOf({
-      'content/scripts/chunks/scene/s001.json': {
-        version: 1,
-        id: 'scene/s001',
-        imports: ['shared/c00'],
-        scripts: {
-          'scene/s001/on-enter/0': [
-            { kind: 'callScript', ref: { chunk: 'shared/c00', id: authorId } },
-          ],
+    const store = new ScriptChunkStore(
+      sourceOf(
+        {
+          'content/scripts/chunks/scene/s001.json': {
+            version: 1,
+            id: 'scene/s001',
+            imports: ['shared/c00'],
+            scripts: {
+              'scene/s001/on-enter/0': [
+                { kind: 'callScript', ref: { chunk: 'shared/c00', id: authorId } },
+              ],
+            },
+          },
+          'content/scripts/chunks/shared/c00.json': {
+            version: 1,
+            id: 'shared/c00',
+            scripts: { [authorId]: [{ kind: 'playSound', soundId: 2 }] },
+          },
+          'content/scripts/chunks/shared/c01.json': {
+            version: 1,
+            id: 'shared/c01',
+            scripts: { 'shared/unused': [{ kind: 'playSound', soundId: 99 }] },
+          },
         },
-      },
-      'content/scripts/chunks/shared/c00.json': {
-        version: 1,
-        id: 'shared/c00',
-        scripts: { [authorId]: [{ kind: 'playSound', soundId: 2 }] },
-      },
-      'content/scripts/chunks/shared/c01.json': {
-        version: 1,
-        id: 'shared/c01',
-        scripts: { 'shared/unused': [{ kind: 'playSound', soundId: 99 }] },
-      },
-    }, reads), 'content/scripts', authorIndex)
+        reads,
+      ),
+      'content/scripts',
+      authorIndex,
+    )
 
     await store.prefetch('scene/s001', new AbortController().signal)
     expect(reads).toEqual([
@@ -69,14 +82,21 @@ describe('ScriptChunkStore', () => {
   test('ref.chunk 只是提示：错误提示下按稳定 id 重推导并命中', async () => {
     const id = 'scene/s001/on-enter/0'
     const reads: string[] = []
-    const store = new ScriptChunkStore(sourceOf({
-      'content/scripts/chunks/scene/s001.json': {
-        version: 1,
-        id: 'scene/s001',
-        scripts: { [id]: [{ kind: 'playSound', soundId: 1 }] },
-      },
-      'content/scripts/chunks/shared/c00.json': { version: 1, id: 'shared/c00', scripts: {} },
-    }, reads), 'content/scripts', index)
+    const store = new ScriptChunkStore(
+      sourceOf(
+        {
+          'content/scripts/chunks/scene/s001.json': {
+            version: 1,
+            id: 'scene/s001',
+            scripts: { [id]: [{ kind: 'playSound', soundId: 1 }] },
+          },
+          'content/scripts/chunks/shared/c00.json': { version: 1, id: 'shared/c00', scripts: {} },
+        },
+        reads,
+      ),
+      'content/scripts',
+      index,
+    )
     const lease = await store.resolve({ chunk: 'shared/c00', id }, new AbortController().signal)
     expect(lease.ref.chunk).toBe('scene/s001')
     expect(lease.body).toEqual([{ kind: 'playSound', soundId: 1 }])
@@ -88,17 +108,22 @@ describe('ScriptChunkStore', () => {
   })
 
   test('chunk 缺失与 script id 缺失分别给出显式诊断', async () => {
-    const store = new ScriptChunkStore(sourceOf({
-      'content/scripts/chunks/scene/s001.json': { version: 1, id: 'scene/s001', scripts: {} },
-    }), 'content/scripts', index)
-    await expect(store.resolve(
-      { chunk: 'missing', id: 'unknown/id' },
-      new AbortController().signal,
-    )).rejects.toThrow(/chunk 不存在/)
-    await expect(store.resolve(
-      { chunk: 'scene/s001', id: 'scene/s001/missing' },
-      new AbortController().signal,
-    )).rejects.toThrow(/script id 不存在/)
+    const store = new ScriptChunkStore(
+      sourceOf({
+        'content/scripts/chunks/scene/s001.json': { version: 1, id: 'scene/s001', scripts: {} },
+      }),
+      'content/scripts',
+      index,
+    )
+    await expect(
+      store.resolve({ chunk: 'missing', id: 'unknown/id' }, new AbortController().signal),
+    ).rejects.toThrow(/chunk 不存在/)
+    await expect(
+      store.resolve(
+        { chunk: 'scene/s001', id: 'scene/s001/missing' },
+        new AbortController().signal,
+      ),
+    ).rejects.toThrow(/script id 不存在/)
   })
 
   test('abort 会取消未完成读取，且不会回填缓存', async () => {
@@ -107,19 +132,26 @@ describe('ScriptChunkStore', () => {
       async readJson<T>(_rel: string, signal?: AbortSignal): Promise<T> {
         started = true
         return new Promise<T>((_resolve, reject) => {
-          signal?.addEventListener('abort', () => reject(new DOMException('aborted', 'AbortError')), { once: true })
+          signal?.addEventListener(
+            'abort',
+            () => reject(new DOMException('aborted', 'AbortError')),
+            { once: true },
+          )
         })
       },
-      async readText() { throw new Error('not used') },
-      async readBytes() { throw new Error('not used') },
-      async urlFor(rel) { return rel },
+      async readText() {
+        throw new Error('not used')
+      },
+      async readBytes() {
+        throw new Error('not used')
+      },
+      async urlFor(rel) {
+        return rel
+      },
     }
     const store = new ScriptChunkStore(source, 'content/scripts', index)
     const ac = new AbortController()
-    const loading = store.resolve(
-      { chunk: 'scene/s001', id: 'scene/s001/on-enter/0' },
-      ac.signal,
-    )
+    const loading = store.resolve({ chunk: 'scene/s001', id: 'scene/s001/on-enter/0' }, ac.signal)
     await Promise.resolve()
     expect(started).toBe(true)
     ac.abort()
@@ -142,9 +174,15 @@ describe('ScriptChunkStore', () => {
         await Promise.resolve()
         return chunk as T
       },
-      async readText() { throw new Error('not used') },
-      async readBytes() { throw new Error('not used') },
-      async urlFor(rel) { return rel },
+      async readText() {
+        throw new Error('not used')
+      },
+      async readBytes() {
+        throw new Error('not used')
+      },
+      async urlFor(rel) {
+        return rel
+      },
     }
     const store = new ScriptChunkStore(source, 'content/scripts', index)
     const signal = new AbortController().signal

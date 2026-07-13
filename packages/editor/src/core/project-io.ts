@@ -12,9 +12,9 @@
  *
  * 见 docs/phase2/editor/editor-b1-logic-plan.md(契约 + L3)。
  */
-import type { LoadedProjectCore } from '@type-pal/reforge'
+
 import type { MusicDef, SceneDef, ScriptChunkV1 } from '@type-pal/content'
-import type { OwnMap } from '@type-pal/reforge'
+import type { LoadedProjectCore, OwnMap } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 import { assertScriptProjectValid } from './script-references.js'
 
@@ -210,7 +210,10 @@ export async function writeProject(
   }
   const snapshot = new Map<string, string>()
   for (const [rel, value] of Object.entries(files)) {
-    snapshot.set(rel, value instanceof ArrayBuffer ? ` bin:${value.byteLength}` : serializeOne(value))
+    snapshot.set(
+      rel,
+      value instanceof ArrayBuffer ? ` bin:${value.byteLength}` : serializeOne(value),
+    )
   }
   return snapshot
 }

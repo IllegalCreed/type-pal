@@ -1,6 +1,6 @@
 // src/tools/save-io.test.ts
 import { describe, expect, it } from 'vitest'
-import { serializeSave, parseImportedSave } from './save-io.js'
+import { parseImportedSave, serializeSave } from './save-io.js'
 
 describe('save-io', () => {
   it('serializeSave:gs → 带版本头的 JSON 字符串', () => {

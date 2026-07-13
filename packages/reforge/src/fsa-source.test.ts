@@ -57,6 +57,8 @@ describe('fsaSource', () => {
   test('已取消读取立即抛 AbortError', async () => {
     const ac = new AbortController()
     ac.abort()
-    await expect(fsaSource(dir).readJson('manifest.json', ac.signal)).rejects.toMatchObject({ name: 'AbortError' })
+    await expect(fsaSource(dir).readJson('manifest.json', ac.signal)).rejects.toMatchObject({
+      name: 'AbortError',
+    })
   })
 })

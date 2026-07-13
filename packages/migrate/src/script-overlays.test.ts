@@ -9,23 +9,32 @@ describe('PAL 脚本 overlay', () => {
       map: { reuseOriginalMap: 1 },
       entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
       entities: [],
-      onEnter: [{
-        body: [
-          { kind: 'setEntityState', entity: 'e10', state: 2 },
-          { kind: 'wait', ms: 1 },
-          { kind: 'dialog', line: { text: 'dlg.1369' } },
-          { kind: 'wait', ms: 1 },
-          { kind: 'setEntityFacing', entity: 'e10', facing: 'up' },
-          { kind: 'dialog', line: { text: 'dlg.1371' } },
-          { kind: 'wait', ms: 1 },
-          { kind: 'moveParty', to: { col: 1, row: 1, height: 0 }, speed: 'slow' },
-        ],
-      }],
+      onEnter: [
+        {
+          body: [
+            { kind: 'setEntityState', entity: 'e10', state: 2 },
+            { kind: 'wait', ms: 1 },
+            { kind: 'dialog', line: { text: 'dlg.1369' } },
+            { kind: 'wait', ms: 1 },
+            { kind: 'setEntityFacing', entity: 'e10', facing: 'up' },
+            { kind: 'dialog', line: { text: 'dlg.1371' } },
+            { kind: 'wait', ms: 1 },
+            { kind: 'moveParty', to: { col: 1, row: 1, height: 0 }, speed: 'slow' },
+          ],
+        },
+      ],
     }
     const body = applyPalScriptOverlays([scene])[0]!.onEnter![0]!.body
     expect(body.filter((command) => command.kind === 'moveEntity')).toHaveLength(3)
-    expect(body.some((command) => command.kind === 'setEntityState' && command.entity === 'e3')).toBe(true)
-    expect(body.some((command) => command.kind === 'setEntityState' && command.entity === 'e10' && command.state === 0)).toBe(true)
+    expect(
+      body.some((command) => command.kind === 'setEntityState' && command.entity === 'e3'),
+    ).toBe(true)
+    expect(
+      body.some(
+        (command) =>
+          command.kind === 'setEntityState' && command.entity === 'e10' && command.state === 0,
+      ),
+    ).toBe(true)
     expect(scene.onEnter![0]!.body).toHaveLength(8)
   })
 })

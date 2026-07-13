@@ -10,17 +10,19 @@
  *  - 默认 否(nDefault=0):confirmYes=false 时 否 高亮闪烁。
  */
 import type { IndexedImage } from '../../assets/png.js'
+import { type GlyphTable, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
-import { renderText, type GlyphTable } from '../font.js'
 import { drawSingleLineBox } from './draw-box.js'
 
-const MENUITEM_COLOR = 0x4F                  // ui.h:29
-const MENUITEM_COLOR_SELECTED_FIRST = 0xF9   // ui.h:39
+const MENUITEM_COLOR = 0x4f // ui.h:29
+const MENUITEM_COLOR_SELECTED_FIRST = 0xf9 // ui.h:39
 const MENUITEM_COLOR_SELECTED_TOTAL = 6
 
 /** 选中项闪烁色(sdlpal ui.h:39-40 MENUITEM_COLOR_SELECTED 动态循环 0xF9..0xFE)。 */
 function selectedColor(): number {
-  return MENUITEM_COLOR_SELECTED_FIRST + Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL
+  return (
+    MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
+  )
 }
 
 /**

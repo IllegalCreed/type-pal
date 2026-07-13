@@ -1,9 +1,25 @@
 import { describe, expect, it } from 'vitest'
-import { atSpot, bgmIs, bossWon, caiyiDetector, enterAnyScene, enterScene, hasItem, leaveScene } from './detectors.js'
+import {
+  atSpot,
+  bgmIs,
+  bossWon,
+  caiyiDetector,
+  enterAnyScene,
+  enterScene,
+  hasItem,
+  leaveScene,
+} from './detectors.js'
 import type { ProgressSnapshot } from './snapshot.js'
 
 const snap = (o: Partial<ProgressSnapshot>): ProgressSnapshot => ({
-  scene: 0, canMove: true, partyX: 0, partyY: 0, music: 0, inventory: new Set(), battle: null, ...o,
+  scene: 0,
+  canMove: true,
+  partyX: 0,
+  partyY: 0,
+  music: 0,
+  inventory: new Set(),
+  battle: null,
+  ...o,
 })
 
 describe('detectors', () => {
@@ -46,7 +62,9 @@ describe('detectors', () => {
     // 战前:不触发,也不置位
     expect(d(snap({ battle: null }), null, mem)).toBe(false)
     // 71 入场:置位但不触发
-    expect(d(snap({ battle: { enemyIds: new Set([71]), totalEnemyHp: 100 } }), null, mem)).toBe(false)
+    expect(d(snap({ battle: { enemyIds: new Set([71]), totalEnemyHp: 100 } }), null, mem)).toBe(
+      false,
+    )
     // 71 还在但血清空:触发
     expect(d(snap({ battle: { enemyIds: new Set([71]), totalEnemyHp: 0 } }), null, mem)).toBe(true)
   })

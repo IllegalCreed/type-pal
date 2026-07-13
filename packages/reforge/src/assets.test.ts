@@ -1,6 +1,14 @@
 import { describe, expect, test, vi } from 'vitest'
 import type { AssetBase } from './assets.js'
-import { compressGzip, loadBattleSprite, loadOwnMap, loadPalette, loadSprite, loadTilemap, loadTilesetByPath } from './assets.js'
+import {
+  compressGzip,
+  loadBattleSprite,
+  loadOwnMap,
+  loadPalette,
+  loadSprite,
+  loadTilemap,
+  loadTilesetByPath,
+} from './assets.js'
 import type { FileSource } from './file-source.js'
 
 const base = (source?: FileSource): AssetBase => ({

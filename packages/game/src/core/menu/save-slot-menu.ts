@@ -10,7 +10,12 @@
 
 import type { SlotMeta } from '../save/api.js'
 import { Save } from '../save/api.js'
-import { createSelectionMenu, moveSelectionDown, moveSelectionUp, type SelectionMenuState } from './primitives.js'
+import {
+  createSelectionMenu,
+  moveSelectionDown,
+  moveSelectionUp,
+  type SelectionMenuState,
+} from './primitives.js'
 
 export type SaveSlotMode = 'save' | 'load'
 
@@ -38,10 +43,13 @@ export function createSaveSlotMenu(
   /** DM24:默认选中槽号(1-based;uigame.c:582/605 PAL_SaveSlotMenu(bCurrentSaveSlot) → :225 cursor=slot-1)。 */
   defaultSlot?: number,
 ): SaveSlotMenuState {
-  const items = (slotMeta ?? [1, 2, 3, 4, 5].map((slot) => ({
-    slot,
-    label: SAVE_SLOT_LABELS[slot - 1] ?? `进度${slot}`,
-  }))).map((s) => ({
+  const items = (
+    slotMeta ??
+    [1, 2, 3, 4, 5].map((slot) => ({
+      slot,
+      label: SAVE_SLOT_LABELS[slot - 1] ?? `进度${slot}`,
+    }))
+  ).map((s) => ({
     id: s.slot,
     label: s.label,
   }))
@@ -60,17 +68,23 @@ export function createSaveSlotMenu(
  * 注:state mutate 后,因 draw 每帧重新读 state.slotMetas,UI 自动刷新 — 无需 trigger。
  */
 export function fetchSlotMetas(state: SaveSlotMenuState): Promise<void> {
-  return Save.listSlots().then((slots) => {
-    for (const { id, meta } of slots) {
-      state.slotMetas.set(id, meta)
-    }
-  }).catch((err) => {
-    console.warn('[save-slot-menu] fetchSlotMetas failed:', err)
-  })
+  return Save.listSlots()
+    .then((slots) => {
+      for (const { id, meta } of slots) {
+        state.slotMetas.set(id, meta)
+      }
+    })
+    .catch((err) => {
+      console.warn('[save-slot-menu] fetchSlotMetas failed:', err)
+    })
 }
 
-export function saveSlotMenuUp(s: SaveSlotMenuState): void { moveSelectionUp(s.selection) }
-export function saveSlotMenuDown(s: SaveSlotMenuState): void { moveSelectionDown(s.selection) }
+export function saveSlotMenuUp(s: SaveSlotMenuState): void {
+  moveSelectionUp(s.selection)
+}
+export function saveSlotMenuDown(s: SaveSlotMenuState): void {
+  moveSelectionDown(s.selection)
+}
 
 /** 当前光标对应 slot 号(1..5);items 空时 undefined。 */
 export function saveSlotMenuCurrent(s: SaveSlotMenuState): number | undefined {

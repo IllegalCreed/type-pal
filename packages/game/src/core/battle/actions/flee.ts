@@ -22,8 +22,8 @@
 
 import type { PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
-import type { GameState } from '../../game-state.js'
 import { getPlayerFleeRate } from '../../equip-effect.js'
+import type { GameState } from '../../game-state.js'
 import { buildFleeFailTimeline } from '../anim-timeline.js'
 import { startBattleAnim } from '../battle-anim-driver.js'
 import type { BattleState } from '../battle-state.js'
@@ -33,7 +33,13 @@ function asShort(n: number): number {
   return (n << 16) >> 16
 }
 
-export function performFlee(state: BattleState, gs: GameState, playerIdx: number, _playerRoles: PlayerRoles, bus?: CommandBus): void {
+export function performFlee(
+  state: BattleState,
+  gs: GameState,
+  playerIdx: number,
+  _playerRoles: PlayerRoles,
+  bus?: CommandBus,
+): void {
   const roleId = state.players[playerIdx]!.roleId
   // D12(2026-06-01 W1):str = PAL_GetPlayerFleeRate(role)(global.c:1868-1897)= runtime base
   //   + Σ rgEquipmentEffect[i].rgwFleeRate[role]。原 M3 简化用 role.fleeRate raw 漏装备加成。
@@ -47,8 +53,7 @@ export function performFlee(state: BattleState, gs: GameState, playerIdx: number
     def += asShort(be.e.fleeRate)
     def += (be.e.level + 6) * 4
   }
-  if (asShort(def) < 0)
-    def = 0
+  if (asShort(def) < 0) def = 0
 
   // RandomLong(0, def) sdlpal 语义 = 闭区间 0..def(def+1 个值)。
   // DM5:fight.c:4143 `if (str >= RandomLong(0,def) && !fIsBoss)` —— 掷骰为 && 左操作数**恒消费**;
@@ -59,9 +64,9 @@ export function performFlee(state: BattleState, gs: GameState, playerIdx: number
     //   动画放完(tickBattleFleeAnim)才 phase='fleed' → finalize。不直接设 fleed(原跳过整段动画)。
     state.fleeAnim = { step: 0 }
     // M6 逃跑音(sdlpal battle.c:1459 AUDIO_PlaySound(45))→ gs.pendingSounds,shell AudioManager 播。
-    ;(gs.pendingSounds ??= []).push(45)
-  }
-  else {
+    gs.pendingSounds ??= []
+    gs.pendingSounds.push(45)
+  } else {
     // 失败 → 逃跑失败动画(sdlpal fight.c:4155-4168):该队员 3 步右下挪 + 帧1 濒死姿。
     //   走 battleAnim 时间线(per-player),末帧同步显示 BATTLE_LABEL_ESCAPEFAIL,播完后推进队列。
     const p = state.players[playerIdx]

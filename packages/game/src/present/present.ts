@@ -1,16 +1,14 @@
 import type { Palette, PlayerRoles, Tilemap } from '@type-pal/shared'
-import { applyDitherSteps, DITHER_TOTAL_STEPS } from './dither-fade.js'
 import type { IndexedImage } from '../assets/png.js'
 import type { BusEntry } from '../core/command-bus.js'
 import type { GameState } from '../core/game-state.js'
 import { getOverworldSpriteNum, projectRuntimeToBattleRoles } from '../core/game-state.js'
-import type { BattlePresent, BattleAssets } from './battle/present-battle.js'
-import { type Framebuffer, SCREEN_W, SCREEN_H } from './framebuffer.js'
-import { drawTilemap, repairTilemapSeams, addCoverTileEntries, type TileImages, type DrawEntry } from './draw-tilemap.js'
-import { drawSprite, type SpriteImage } from './draw-sprite.js'
-import { applyScreenWave } from './screen-wave.js'
-import { applyScreenShake } from './screen-shake.js'
+import { stepPaletteFade } from '../core/palette-fade.js'
+import { isWalkable } from '../core/scene-system.js'
+import type { BattleBgAsset } from './battle/draw-battle-bg.js'
+import type { BattleAssets, BattlePresent } from './battle/present-battle.js'
 import {
+  type DialogBoxDrawCtx,
   drawDialogBox,
   FONT_COLOR_CYAN,
   FONT_COLOR_CYAN_ALT,
@@ -18,16 +16,24 @@ import {
   FONT_COLOR_RED,
   FONT_COLOR_RED_ALT,
   FONT_COLOR_YELLOW,
-  type DialogBoxDrawCtx,
 } from './dialog-box.js'
-import { drawMenuStack } from './menu/draw-menu.js'
-import { drawConfirmBox } from './menu/draw-confirm.js'
-import { computeFollowerRenderItems } from './follower-render.js'
+import { applyDitherSteps, DITHER_TOTAL_STEPS } from './dither-fade.js'
+import { drawSprite, type SpriteImage } from './draw-sprite.js'
+import {
+  addCoverTileEntries,
+  type DrawEntry,
+  drawTilemap,
+  repairTilemapSeams,
+  type TileImages,
+} from './draw-tilemap.js'
 import { computeFollowerWorldPos } from './follower-pos.js'
-import type { BattleBgAsset } from './battle/draw-battle-bg.js'
+import { computeFollowerRenderItems } from './follower-render.js'
 import type { GlyphTable } from './font.js'
-import { isWalkable } from '../core/scene-system.js'
-import { stepPaletteFade } from '../core/palette-fade.js'
+import { type Framebuffer, SCREEN_H, SCREEN_W } from './framebuffer.js'
+import { drawConfirmBox } from './menu/draw-confirm.js'
+import { drawMenuStack } from './menu/draw-menu.js'
+import { applyScreenShake } from './screen-shake.js'
+import { applyScreenWave } from './screen-wave.js'
 
 export interface PresentContext {
   tilemap: Tilemap
@@ -98,7 +104,10 @@ export interface PresentContext {
 
 /** sdlpal `palcommon.h`:kDirSouth=0 / kDirWest=1 / kDirNorth=2 / kDirEast=3。 */
 const FACING_TO_DIRECTION: Record<'down' | 'left' | 'up' | 'right', number> = {
-  down: 0, left: 1, up: 2, right: 3,
+  down: 0,
+  left: 1,
+  up: 2,
+  right: 3,
 }
 
 function getPartyWalkFrames(gs: GameState, roleId: number, ctx: PresentContext): number {
@@ -107,10 +116,19 @@ function getPartyWalkFrames(gs: GameState, roleId: number, ctx: PresentContext):
   const fromCtx = ctx.partyWalkFrames
   return runtime && runtime > 0
     ? runtime
-    : (fromStatic && fromStatic > 0 ? fromStatic : (fromCtx > 0 ? fromCtx : 3))
+    : fromStatic && fromStatic > 0
+      ? fromStatic
+      : fromCtx > 0
+        ? fromCtx
+        : 3
 }
 
-function partyFrameIndex(direction: number, walkFrames: number, walking: boolean, stepFrame: number): number {
+function partyFrameIndex(
+  direction: number,
+  walkFrames: number,
+  walking: boolean,
+  stepFrame: number,
+): number {
   if (!walking) return direction * walkFrames
   if (walkFrames === 4) return direction * 4 + stepFrame
   const iStepFrameLeader = [0, 1, 0, 2][stepFrame] ?? 0
@@ -314,8 +332,7 @@ export function presentFrame(
   // (剧情固定姿势 — 捂头/倒地等);再 fallback 站立帧 direction*walkFrames。
   if (gs.walkingFrame.walking) {
     frameIdx = partyFrameIndex(direction, walkFrames, true, gs.walkingFrame.stepFrame)
-  }
-  else {
+  } else {
     const partyLeaderScriptedFrame = gs.partyScriptedFrame[0]
     if (partyLeaderScriptedFrame !== undefined) {
       frameIdx = partyLeaderScriptedFrame
@@ -366,7 +383,7 @@ export function presentFrame(
       capturedFrame.height,
       gs.camera,
       'party',
-      gs.wLayer + 6,               // iLayer = wLayer + 6(scene.c:226)
+      gs.wLayer + 6, // iLayer = wLayer + 6(scene.c:226)
     )
   }
 
@@ -408,8 +425,7 @@ export function presentFrame(
       let followerFrameIdx: number
       if (!gs.walkingFrame.walking && followerScriptedFrame !== undefined) {
         followerFrameIdx = followerScriptedFrame
-      }
-      else {
+      } else {
         followerFrameIdx = partyFrameIndex(
           FACING_TO_DIRECTION[fpos.dir],
           followerWalkFrames,
@@ -424,12 +440,11 @@ export function presentFrame(
       // 每个 follower 用自己角色的 sprite(rgwSpriteNum[role] → npcSpriteFrames)。
       // 取不到时跳过本帧,不能回退 leader partyFrames,否则切场景/入队资源竞态会把队员画成李逍遥。
       const spriteNum = getOverworldSpriteNum(gs, roleId, ctx.playerRoles)
-      const roleFrames = (spriteNum !== undefined && ctx.npcSpriteFrames)
-        ? ctx.npcSpriteFrames.get(spriteNum)
-        : undefined
-      const frames = (spriteNum !== undefined && ctx.npcSpriteFrames)
-        ? roleFrames
-        : ctx.partyFrames
+      const roleFrames =
+        spriteNum !== undefined && ctx.npcSpriteFrames
+          ? ctx.npcSpriteFrames.get(spriteNum)
+          : undefined
+      const frames = spriteNum !== undefined && ctx.npcSpriteFrames ? roleFrames : ctx.partyFrames
       if (!frames || frames.length === 0) continue
       const followerFrame = frames[followerFrameIdx] ?? frames[0]
       if (!followerFrame) continue
@@ -454,7 +469,7 @@ export function presentFrame(
         capturedFrame.height,
         gs.camera,
         id,
-        gs.wLayer + 6,         // follower iLayer = wLayer + 6,同 party
+        gs.wLayer + 6, // follower iLayer = wLayer + 6,同 party
       )
     }
   }
@@ -462,7 +477,10 @@ export function presentFrame(
   // --- 0x98 额外跟随者(sdlpal rgParty[maxIdx+i] @ rgTrail[2+i],scene.c:210-226 + 732-743/767-771)---
   //   与队员同 z-sort 队列;位置直取 trail[3+k](无偏移/无障碍回退),恒 3 帧步,各用自己角色 sprite。
   for (const it of computeFollowerRenderItems(
-    gs.trail, gs.followers, gs.walkingFrame.walking, gs.walkingFrame.stepFrame,
+    gs.trail,
+    gs.followers,
+    gs.walkingFrame.walking,
+    gs.walkingFrame.stepFrame,
   )) {
     // sprite:跟随者 sprite num = 0x98 operand **直接当 MGO chunk**(res.c:340 follower 路径,
     //   **不**走队员 rgwSpriteNum[role] 查表)→ ctx.npcSpriteFrames.get(chunk)。临时同行 NPC
@@ -484,8 +502,16 @@ export function presentFrame(
       id,
     })
     addCoverTileEntries(
-      entries, ctx.tilemap, ctx.tileImages, it.worldX, it.worldY + gs.wLayer + 10,
-      capFrame.width, capFrame.height, gs.camera, id, gs.wLayer + 6,
+      entries,
+      ctx.tilemap,
+      ctx.tileImages,
+      it.worldX,
+      it.worldY + gs.wLayer + 10,
+      capFrame.width,
+      capFrame.height,
+      gs.camera,
+      id,
+      gs.wLayer + 6,
     )
   }
 
@@ -520,8 +546,9 @@ export function presentFrame(
         const dir = npc.facing ? FACING_TO_DIRECTION[npc.facing] : 0
         // nSpriteFrames 用 dump 真值(sdlpal EventObject.nSpriteFrames);为 0 = 非方向性 sprite
         //   → idx = iFrame(忽略方向),躺地醉汉 / 装饰物转向不变帧。dump 缺则回退 frames.length 推断。
-        const nSpriteFrames = npc.nSpriteFrames ?? (frames.length === 1 ? 0
-          : (frames.length % 4 === 0 ? frames.length / 4 : 1))
+        const nSpriteFrames =
+          npc.nSpriteFrames ??
+          (frames.length === 1 ? 0 : frames.length % 4 === 0 ? frames.length / 4 : 1)
         let iFrame = npc.scriptedFrame ?? 0
         // sdlpal scene.c:268-276 真值 nSpriteFrames==3 时 2/3 重映射
         if (nSpriteFrames === 3) {
@@ -594,7 +621,7 @@ export function presentFrame(
   //     注:sdlpal 是 fade 起始一次性 remap(其间无 PAL_MakeScene 重画);我们每帧重画 → 每帧 remap(等价)。
   if (gs.paletteFadeState?.remap) {
     const { from, to } = gs.paletteFadeState.remap
-    const px = fb.indices  // Uint8Array 内容可变(只读的是引用,非元素);全缓冲扫描天然越界安全。
+    const px = fb.indices // Uint8Array 内容可变(只读的是引用,非元素);全缓冲扫描天然越界安全。
     for (let i = 0; i < px.length; i++) {
       if (px[i] === from) px[i] = to
     }
@@ -699,8 +726,8 @@ export function flushToCanvas(
 //     t = pal[0xF9]; for i in 0xF9..0xFD: pal[i]=pal[i+1]; pal[0xFE]=t;
 //   箭头像素索引落在 0xF8(描边,固定)/0xF9(内部)→ 随轮转循环显示这 6 槽色,产生色彩流动。
 //   整圈 6×100ms = 600ms。按键后 PAL_SetPalette 复原(text.c:1442)。
-const DLG_ICON_ROT_LO = 0xf9   // 轮转区间 [0xF9, 0xFE]
-const DLG_ICON_ROT_LEN = 6     // 共 6 槽
+const DLG_ICON_ROT_LO = 0xf9 // 轮转区间 [0xF9, 0xFE]
+const DLG_ICON_ROT_LEN = 6 // 共 6 槽
 const BLACK_SCREEN_DIALOG_TEXT_COLORS = [
   FONT_COLOR_DEFAULT,
   FONT_COLOR_YELLOW,

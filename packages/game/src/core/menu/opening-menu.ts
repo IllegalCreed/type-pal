@@ -12,9 +12,9 @@
  * menu-driver.ts / bootstrap.ts)做。
  */
 
+import { getWord } from '../word-lookup.js'
 import type { SelectionMenuState } from './primitives.js'
 import { createSelectionMenu, moveSelectionDown, moveSelectionUp } from './primitives.js'
-import { getWord } from '../word-lookup.js'
 
 export type OpeningMenuChoice = 'new-game' | 'load-game'
 
@@ -66,5 +66,9 @@ export function openingMenuChoice(s: OpeningMenuState): OpeningMenuChoice | unde
   return OPENING_LABELS.find((l) => l.id === sel.id)?.choice
 }
 
-export function openingMenuUp(s: OpeningMenuState): void { moveSelectionUp(s.selection) }
-export function openingMenuDown(s: OpeningMenuState): void { moveSelectionDown(s.selection) }
+export function openingMenuUp(s: OpeningMenuState): void {
+  moveSelectionUp(s.selection)
+}
+export function openingMenuDown(s: OpeningMenuState): void {
+  moveSelectionDown(s.selection)
+}

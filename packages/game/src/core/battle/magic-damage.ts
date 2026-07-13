@@ -24,8 +24,8 @@
  */
 
 import type { Magic, ObjectMagicView, PlayerRoles } from '@type-pal/shared'
-import { calcMagicDamage } from './formulas.js'
 import type { BattleState } from './battle-state.js'
+import { calcMagicDamage } from './formulas.js'
 
 /** SHORT cast(同 formulas.ts 私函)。 */
 function asShort(n: number): number {
@@ -39,7 +39,11 @@ function asShort(n: number): number {
  * —— 二者会不一致(如 血魔神功 attackWhole 但 applyToAll=False)。
  */
 const ALL_TARGET_MAGIC_TYPES: ReadonlySet<Magic['type']> = new Set([
-  'attackAll', 'attackWhole', 'attackField', 'applyToParty', 'summon',
+  'attackAll',
+  'attackWhole',
+  'attackField',
+  'applyToParty',
+  'summon',
 ])
 
 /** 该 magic.type 是否强制全体目标(战斗菜单跳过选目标 + 伤害打全体)。 */
@@ -55,7 +59,7 @@ export interface ApplyMagicDamageInput {
   /** 攻击方魔法强度(inline=PAL_GetPlayerMagicStrength;SimulateMagic=op1 操作数)。 */
   magStr: number
   /** 解析后的 magic 详细。`baseDamage` 保留 u16 原值(内部 asShort 处理 SHORT 语义)。 */
-  magicData: { baseDamage: number, elemental: number }
+  magicData: { baseDamage: number; elemental: number }
   /** sDamage 下限:inline=1,SimulateMagic=0。`dmg = max(dmg, minDamage)`。 */
   minDamage: number
 }
@@ -81,21 +85,16 @@ export function applyMagicDamage(input: ApplyMagicDamageInput): MagicDamageResul
   const { state, target, magStr, magicData, minDamage } = input
   const field = state.field.magicEffect
 
-  const targetIdxs: number[]
-    = target === 'all'
-      ? state.enemies.map((_, i) => i)
-      : [target]
+  const targetIdxs: number[] = target === 'all' ? state.enemies.map((_, i) => i) : [target]
 
   const results: MagicDamageResult[] = []
   for (const idx of targetIdxs) {
     const enemy = state.enemies[idx]
-    if (!enemy || enemy.defeated)
-      continue
+    if (!enemy || enemy.defeated) continue
 
     // sdlpal: def = (SHORT)enemy.wDefense + (wLevel+6)*4; if (def<0) def=0
     let def = asShort(enemy.e.defense) + (enemy.e.level + 6) * 4
-    if (def < 0)
-      def = 0
+    if (def < 0) def = 0
 
     // L18/L20:RandomFloat(10,11) 在 PAL_CalcMagicDamage 函数体内(fight.c:215),群攻 for 循环
     //   逐敌调用(fight.c:4288/4015)→ **每个敌人各掷一次**独立倍率,不是全目标共用一次。
@@ -113,8 +112,7 @@ export function applyMagicDamage(input: ApplyMagicDamageInput): MagicDamageResul
 
     // inline: if(sDamage<=0) sDamage=1  ==  max(dmg,1)
     // SimulateMagic: if(sDamage<0) sDamage=0  ==  max(dmg,0)
-    if (dmg < minDamage)
-      dmg = minDamage
+    if (dmg < minDamage) dmg = minDamage
 
     const hpBefore = enemy.e.health
     enemy.e.health = Math.max(0, enemy.e.health - dmg)
@@ -140,7 +138,7 @@ export interface ApplyEnemyMagicDamageInput {
   /** 目标:单体 player idx;或 'all'(magic.type != normal AoE)。 */
   target: number | 'all'
   /** 解析后的 magic(`baseDamage` 保 u16 原值,内部 asShort;`elemental`)。 */
-  magicData: { baseDamage: number, elemental: number }
+  magicData: { baseDamage: number; elemental: number }
   /** 玩家角色表(取 def / 抗性 / HP,直接 mutate role.hp)。 */
   playerRoles: PlayerRoles
   /** DM6:scriptOnUse 之前的预掷结果(magic.ts);缺省内部掷(旧 fixture)。 */
@@ -177,16 +175,17 @@ export function rollAutoDefend(
   for (const pIdx of targetIdxs) {
     const slot = state.players[pIdx]
     const role = slot ? playerRoles.roles[slot.roleId] : undefined
-    if (!slot || !role)
-      continue
-    const canAutoDefend = (slot.status.sleep ?? 0) === 0
-      && (slot.status.paralyzed ?? 0) === 0
-      && (slot.status.confused ?? 0) === 0
-    const autoDefend = target === 'all'
-      // AoE: sdlpal 4727-4735 先 RandomLong(0,2),再检查 HP != 0。
-      ? canAutoDefend && state.rng.range(0, 3) === 0 && role.hp !== 0
-      // 单体: sdlpal 4746-4753 在 PAL_CalcMagicDamage 前判定 autoDefend。
-      : canAutoDefend && state.rng.range(0, 3) === 0
+    if (!slot || !role) continue
+    const canAutoDefend =
+      (slot.status.sleep ?? 0) === 0 &&
+      (slot.status.paralyzed ?? 0) === 0 &&
+      (slot.status.confused ?? 0) === 0
+    const autoDefend =
+      target === 'all'
+        ? // AoE: sdlpal 4727-4735 先 RandomLong(0,2),再检查 HP != 0。
+          canAutoDefend && state.rng.range(0, 3) === 0 && role.hp !== 0
+        : // 单体: sdlpal 4746-4753 在 PAL_CalcMagicDamage 前判定 autoDefend。
+          canAutoDefend && state.rng.range(0, 3) === 0
     m.set(pIdx, autoDefend)
   }
   return m
@@ -195,34 +194,29 @@ export function rollAutoDefend(
 export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyMagicDamageResult[] {
   const { state, casterEnemyIdx, target, magicData, playerRoles } = input
   const caster = state.enemies[casterEnemyIdx]
-  if (!caster)
-    return []
+  if (!caster) return []
   let magStr = asShort(caster.e.magicStrength) + (caster.e.level + 6) * 6
-  if (magStr < 0)
-    magStr = 0
+  if (magStr < 0) magStr = 0
   const field = state.field.magicEffect
 
-  const targetIdxs: number[] = target === 'all'
-    ? state.players.map((_, i) => i)
-    : [target]
+  const targetIdxs: number[] = target === 'all' ? state.players.map((_, i) => i) : [target]
 
   // DM6:预掷优先(magic.ts 在 scriptOnUse **之前**掷,fight.c:4723-4757 在 4761 脚本之前)——
   //   脚本先施加睡眠/麻痹再结算时不剥夺玩家 1/3 减伤资格;无预掷(旧 fixture/直调)回退此处掷。
-  const autoDefendByPlayerIdx = input.preRolledAutoDefend ?? rollAutoDefend(state, playerRoles, target, targetIdxs)
+  const autoDefendByPlayerIdx =
+    input.preRolledAutoDefend ?? rollAutoDefend(state, playerRoles, target, targetIdxs)
 
   const results: EnemyMagicDamageResult[] = []
   for (const pIdx of targetIdxs) {
     const slot = state.players[pIdx]
     const role = slot ? playerRoles.roles[slot.roleId] : undefined
-    if (!slot || !role || role.hp <= 0)
-      continue // 跳过越界 / 已死队员(sdlpal 4782)
+    if (!slot || !role || role.hp <= 0) continue // 跳过越界 / 已死队员(sdlpal 4782)
 
     // def = PAL_GetPlayerDefense(global.c:1800-1828)= rgwDefense + Σ装备,**无 level 项**(等级项是敌方被打才有,
     //   fight.c:4012)。role.defense 已 = base + Σ装备(projectRuntimeToBattleRoles game-state.ts:1281)→ 直接用,
     //   绝不再加 (level+6)*4(那是 M3 把敌方公式误套玩家的 bug,2026-06-02 审计核源订正)。
     let def = asShort(role.defense)
-    if (def < 0)
-      def = 0 // 兜底(getter 返 WORD 不为负;防投影负值)
+    if (def < 0) def = 0 // 兜底(getter 返 WORD 不为负;防投影负值)
 
     // 玩家元素抗 / 毒抗 = 100 + min(100, mod)(sdlpal 4794/4830 调 PAL_GetPlayer*Resistance,
     //   global.c:1969-1971 `if (w>100) w=100` 上限 100 → 倍率 10-(100+w)/20 永 >=5,绝不变负伤)。
@@ -256,12 +250,11 @@ export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyM
     // 除因子(sdlpal fight.c:4801-4803 / 4836-4838):((defending?2:1) * (Protect>0?2:1)) + (autoDefend?1:0)
     const autoDefend = autoDefendByPlayerIdx.get(pIdx) ?? false
     const protectFactor = (slot.status.protect ?? 0) > 0 ? 2 : 1 // B2 c4:护体减半
-    const divisor = ((slot.defending ? 2 : 1) * protectFactor) + (autoDefend ? 1 : 0)
+    const divisor = (slot.defending ? 2 : 1) * protectFactor + (autoDefend ? 1 : 0)
     dmg = Math.trunc(dmg / divisor)
 
     // clamp:if (sDamage>hp) sDamage=hp(不钳最小 1)
-    if (dmg > role.hp)
-      dmg = role.hp
+    if (dmg > role.hp) dmg = role.hp
     const hpBefore = role.hp
     role.hp = Math.max(0, role.hp - dmg)
     results.push({ playerIdx: pIdx, damage: dmg, hpBefore, hpAfter: role.hp, autoDefend })
@@ -303,26 +296,21 @@ export interface SimulateMagicInput {
  */
 export function simulateMagic(input: SimulateMagicInput): MagicDamageResult[] {
   const objMagic = resolveObjectMagic(input.magicObjId, input.objectMagics)
-  if (!objMagic)
-    return []
-  const magic = input.magics.find(m => m.id === objMagic.magicNumber)
-  if (!magic)
-    return []
+  if (!objMagic) return []
+  const magic = input.magics.find((m) => m.id === objMagic.magicNumber)
+  if (!magic) return []
   // sdlpal `if (lprgMagic[..].wBaseDamage > 0 || wBaseDamage > 0)` —— 无符号 WORD 比较
-  if (!(magic.baseDamage > 0 || input.magStr > 0))
-    return []
+  if (!(magic.baseDamage > 0 || input.magStr > 0)) return []
 
   let target: number | 'all'
   if (objMagic.flags.applyToAll) {
     target = 'all'
-  }
-  else {
+  } else {
     let i = input.targetIdx ?? -1
     if (i < 0) {
       // PAL_BattleSelectAutoTargetFrom:首个活敌
-      i = input.state.enemies.findIndex(e => !e.defeated && e.e.health > 0)
-      if (i < 0)
-        i = 0
+      i = input.state.enemies.findIndex((e) => !e.defeated && e.e.health > 0)
+      if (i < 0) i = 0
     }
     target = i
   }
@@ -351,7 +339,6 @@ export function resolveObjectMagic(
 ): ObjectMagicView | undefined {
   // object-magics.json id === 数组绝对 index(dense),优先 O(1) 索引 + id 校验
   const direct = objectMagics[objId]
-  if (direct && direct.id === objId)
-    return direct
-  return objectMagics.find(o => o.id === objId)
+  if (direct && direct.id === objId) return direct
+  return objectMagics.find((o) => o.id === objId)
 }

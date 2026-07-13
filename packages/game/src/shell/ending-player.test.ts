@@ -1,7 +1,12 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { createFramebuffer } from '../present/framebuffer.js'
-import { colorFadeBlocking, fadeInBlocking, fadeOutBlocking, playEndingAnimation } from './ending-player.js'
 import type { IndexedImage } from '../assets/png.js'
+import { createFramebuffer } from '../present/framebuffer.js'
+import {
+  colorFadeBlocking,
+  fadeInBlocking,
+  fadeOutBlocking,
+  playEndingAnimation,
+} from './ending-player.js'
 
 const mockPalette = {
   colors: Array.from({ length: 256 }, () => [0, 0, 0]),
@@ -10,7 +15,12 @@ const mockPalette = {
 const mockCanvasCtx = { putImageData: vi.fn() } as unknown as CanvasRenderingContext2D
 
 function frame(w: number, h: number, val: number): IndexedImage {
-  return { width: w, height: h, indices: new Uint8Array(w * h).fill(val), opaque: new Uint8Array(w * h).fill(1) }
+  return {
+    width: w,
+    height: h,
+    indices: new Uint8Array(w * h).fill(val),
+    opaque: new Uint8Array(w * h).fill(1),
+  }
 }
 
 describe('结局 ending-player playEndingAnimation(PAL_EndingAnimation port)', () => {
@@ -66,11 +76,14 @@ describe('结局 阻塞 fade 助手(suspendRaf 期间不走 present 驱动)', ()
       cycles: [],
     } as unknown as import('@type-pal/shared').Palette
     const p1 = fadeOutBlocking(fb, mockCanvasCtx, pal, 100)
-    await vi.runAllTimersAsync(); await p1
+    await vi.runAllTimersAsync()
+    await p1
     const p2 = fadeInBlocking(fb, mockCanvasCtx, pal, 100)
-    await vi.runAllTimersAsync(); await p2
+    await vi.runAllTimersAsync()
+    await p2
     const p3 = colorFadeBlocking(fb, mockCanvasCtx, pal, 15, 100)
-    await vi.runAllTimersAsync(); await p3
+    await vi.runAllTimersAsync()
+    await p3
     expect(mockCanvasCtx.putImageData).toHaveBeenCalled()
     vi.useRealTimers()
   })

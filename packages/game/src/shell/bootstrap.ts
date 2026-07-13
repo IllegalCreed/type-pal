@@ -17,7 +17,7 @@ import {
 } from '../assets/loader.js'
 import type { IndexedImage } from '../assets/png.js'
 import { loadSpriteFramesBlob, loadTilesetBlob } from '../assets/tileset-blob.js'
-import { startBattle, INTRO_FADE_TICKS } from '../core/battle/battle-system.js'
+import { INTRO_FADE_TICKS, startBattle } from '../core/battle/battle-system.js'
 import { createCommandBus } from '../core/command-bus.js'
 import { restoreDialogHistory } from '../core/dialog-history.js'
 import { updateAllEquipments } from '../core/equip-effect.js'
@@ -30,16 +30,16 @@ import {
   setEnemyObjectsTable,
   setFetchPalette,
   setGlobalEvents,
-  setObjectPoisons,
   setLoadLastSaveHandler,
   setMapReloader,
+  setObjectPoisons,
   setObstacleChecker,
   setPaletteSource,
   setQuitHandler,
+  setRefreshEquipmentsHandler,
   setRngPlayHandler,
   setSceneLoader,
   setScrollFbpHandler,
-  setRefreshEquipmentsHandler,
   setShopMenuHandler,
   setShowFbpHandler,
   setStartBattleHandler,
@@ -49,15 +49,15 @@ import {
   createInitialGameState,
   createInitialPlayerStatus,
   type GameState,
-  hydrateNpcStaticDefaults,
-  setSpriteFrameCountProvider,
   getOverworldSpriteNum,
+  hydrateNpcStaticDefaults,
   loadDefaultGame,
   normalizePlayerRolesRuntime,
-  projectRuntimeToBattleRoles,
   npcFromEventObject,
+  projectRuntimeToBattleRoles,
   resetPresentationTransients,
   resetSceneRuntimeForNewGame,
+  setSpriteFrameCountProvider,
   sliceSceneEventObjects,
 } from '../core/game-state.js'
 import {
@@ -67,19 +67,26 @@ import {
   setSystemQuitHandler,
 } from '../core/menu/menu-driver.js'
 import { openMenu } from '../core/menu/menu-mode.js'
-import { setWordTable } from '../core/word-lookup.js'
 import { createOpeningMenu } from '../core/menu/opening-menu.js'
-import { createBuyMenu } from '../core/menu/shop-menu.js'
 import { createSellMenu } from '../core/menu/sell-menu.js'
+import { createBuyMenu } from '../core/menu/shop-menu.js'
 import { makeWorkingPalette } from '../core/palette-fade.js'
 import { Save } from '../core/save/api.js'
 import { isWalkable, setCurrentMapNum, setSceneContext } from '../core/scene-system.js'
+import { setWordTable } from '../core/word-lookup.js'
+import {
+  type BattleFixturesData,
+  type SceneJumpsData,
+  type SceneNamesData,
+  setupDevPanel,
+} from '../dev/dev-panel.js'
 import battleFixturesRaw from '../dev/fixtures/battle-fixtures.json' with { type: 'json' }
 import sceneJumpsRaw from '../dev/fixtures/scene-jumps.json' with { type: 'json' }
 import sceneNamesRaw from '../dev/fixtures/scene-names.json' with { type: 'json' }
 import type { SpriteAsset } from '../present/battle/draw-battle-sprites.js'
 import { type BattleAssets, BattlePresent } from '../present/battle/present-battle.js'
 import { toSpriteImages } from '../present/draw-sprite.js'
+import { drawTilemap } from '../present/draw-tilemap.js'
 import { loadGlyphs, renderText } from '../present/font.js'
 import { createFramebuffer } from '../present/framebuffer.js'
 import {
@@ -89,21 +96,23 @@ import {
   presentBattleFrame,
   presentFrame,
 } from '../present/present.js'
-import { battleVictoryTrack, createAudioManager, pickMusicTrack, setOggVolumeScale, setSfxVolume, sfxForBattleEvent, type AudioManager } from './audio.js'
-import { createSpessaSynthBackend, setBgmVolume } from './audio-midi.js'
-import { createAudioVolumeController } from './audio-volume.js'
 import { createDisplayScaleController } from '../tools/display-scale.js'
 import { setupQuickSave } from '../tools/quick-save.js'
 import { setupSpeedrunHotkeys } from '../tools/speedrun/index.js'
 import { setupToolsPanel } from '../tools/tools-panel.js'
-import { playAvi, setVideoVolume } from './avi-player.js'
 import {
-  type BattleFixturesData,
-  type SceneJumpsData,
-  type SceneNamesData,
-  setupDevPanel,
-} from '../dev/dev-panel.js'
-import { drawTilemap } from '../present/draw-tilemap.js'
+  type AudioManager,
+  battleVictoryTrack,
+  createAudioManager,
+  pickMusicTrack,
+  setOggVolumeScale,
+  setSfxVolume,
+  sfxForBattleEvent,
+} from './audio.js'
+import { createSpessaSynthBackend, setBgmVolume } from './audio-midi.js'
+import { createAudioVolumeController } from './audio-volume.js'
+import { playAvi, setVideoVolume } from './avi-player.js'
+import { finishBootLoading, setBootLoadingNote } from './boot-loading.js'
 import {
   colorFadeBlocking,
   fadeInBlocking,
@@ -114,7 +123,6 @@ import {
 import { scrollFbp, showFbp } from './fbp-player.js'
 import { KeyboardInputSource } from './input.js'
 import { type LoopContext, startRafLoop } from './main-loop.js'
-import { finishBootLoading, setBootLoadingNote } from './boot-loading.js'
 import { pausePrecache, resumePrecache } from './precache-client.js'
 import { playRng } from './rng-player.js'
 import { playSplashFallback } from './splash-fallback.js'
@@ -170,7 +178,9 @@ export function makeBlackScreenPalette(src: Palette): Palette {
 export function syncShellAudio(
   audio: AudioManager,
   gs: GameState,
-  drained: ReadonlyArray<{ cmd: { op: string; soundId?: number; enemyIdx?: number; playerIdx?: number } }>,
+  drained: ReadonlyArray<{
+    cmd: { op: string; soundId?: number; enemyIdx?: number; playerIdx?: number }
+  }>,
   playerRoles: PlayerRoles,
 ): void {
   const inBattle = gs.battleState !== undefined
@@ -182,8 +192,11 @@ export function syncShellAudio(
   const victoryTrack = battleVictoryTrack(gs.battleState)
   const battleIntroActive = gs.battleState?.introFade !== undefined // DM29:揭场未完 → 静默
   audio.sync(gs.pendingSounds, {
-    track: victoryTrack > 0 ? victoryTrack : pickMusicTrack(inBattle, gs.wNumMusic, gs.wNumBattleMusic, battleIntroActive),
-    loop: victoryTrack > 0 ? false : (inBattle ? true : (gs.musicLoop ?? true)),
+    track:
+      victoryTrack > 0
+        ? victoryTrack
+        : pickMusicTrack(inBattle, gs.wNumMusic, gs.wNumBattleMusic, battleIntroActive),
+    loop: victoryTrack > 0 ? false : inBattle ? true : (gs.musicLoop ?? true),
   })
   // M6 战斗 SFX:扫本帧 bus 视觉事件 → per-单位声(敌死 deathSound / 敌攻 attackSound /
   //   我攻 role.weaponSound,fight.c/battle.c AUDIO_PlaySound)。explore SFX 走 gs.pendingSounds。
@@ -227,7 +240,10 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     if (!r.ok) throw new Error(`soundfont HTTP ${r.status}`)
     return r.arrayBuffer()
   })
-  const soundfontSettled = soundfontData.then(() => {}, () => {})
+  const soundfontSettled = soundfontData.then(
+    () => {},
+    () => {},
+  )
   // M4 P4.T3: loadGlyphs 与 loadAll 并行加载(glyphs.json 7.8MB,不阻塞 tiles/sprites)。
   // glyphs 加载失败则 warn + 继续(所有文字退化为 tofu 占位,不影响游戏可运行性)。
   // M5 Sync.2: dialog 资产(portrait RGM 92 + DATA chunk 12 icon sprite group)并行加载。
@@ -458,12 +474,14 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   const audio = createAudioManager('/extracted')
   // BGM 后端:SpessaSynth 运行时 MIDI 合成(直接播 Musics/{NNN}.mid,开箱即响)。
   //   public/soundfont.sf3 已随仓库提供;缺失则 BGM 静默 + warn,见 audio-midi.ts。worklet 已 vendored 到 public/。
-  audio.setMusicBackend(createSpessaSynthBackend({
-    baseUrl: '/extracted',
-    workletUrl: '/spessasynth_processor.min.js',
-    soundfontUrl: '/soundfont.sf3',
-    soundfontData, // bootstrap 顶部预取(boot 进度条覆盖),init 不再二次 fetch 32MB
-  }))
+  audio.setMusicBackend(
+    createSpessaSynthBackend({
+      baseUrl: '/extracted',
+      workletUrl: '/spessasynth_processor.min.js',
+      soundfontUrl: '/soundfont.sf3',
+      soundfontData, // bootstrap 顶部预取(boot 进度条覆盖),init 不再二次 fetch 32MB
+    }),
+  )
   // autoplay 解锁:浏览器要求 AudioContext 在用户手势后 resume。**不能用 { once:true } 只听首个
   //   keydown** —— 若首个手势是鼠标点击(如点 devpanel 触发战斗/BGM)keydown 不触发,ctx 永久挂起
   //   → BGM/SFX 全哑(user 2026-06-03 实测控制台 "AudioContext was not allowed to start")。改:
@@ -1191,7 +1209,11 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
         // 架构边界:用 runtime 当前属性(等级/HP/MP/攻防 等)投影战斗 roles,使战斗吃上升级后属性
         //   (原直接传 playerRoles 静态 1 级基线)。staticRoles=playerRoles 供不可变字段(精灵/音效/名字)。
         // D14:第 3 参 gs.rgEquipmentEffect → 战斗 stat = effective(base + 装备 + Extra),mirror sdlpal getter。
-        playerRoles: projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, playerRoles, gs.rgEquipmentEffect),
+        playerRoles: projectRuntimeToBattleRoles(
+          gs.PlayerRolesRuntime,
+          playerRoles,
+          gs.rgEquipmentEffect,
+        ),
         items,
         spells,
         magics,
@@ -1453,7 +1475,16 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     await fadeOutBlocking(fb, ctx, pal0, 1200) // FadeOut(2)
     const pal8 = await pget(8)
     // DL28:fNeedToFadeIn(ending.c:459)→ RNG 首帧 600ms 淡入(rng-player initialFadeInMs)。
-    await playRng({ chunkIdx: 10, startFrame: 0, endFrame: -1, frameDelayMs: 1000 / 6, fb, canvasCtx: ctx, palette: pal8, initialFadeInMs: 600 })
+    await playRng({
+      chunkIdx: 10,
+      startFrame: 0,
+      endFrame: -1,
+      frameDelayMs: 1000 / 6,
+      fb,
+      canvasCtx: ctx,
+      palette: pal8,
+      initialFadeInMs: 600,
+    })
     await fbp(77, 10, pal8) // EndingSetEffectSprite(0) → 无叠加
     // EndingSetEffectSprite(0x27b=635):76/73/72/71/68@7 全 sticky 叠这只 21 帧 MGO 精灵(ending.c:467-475)
     const fx635 = await fetchMgoSprite(635).catch(() => [] as IndexedImage[])
@@ -1861,7 +1892,10 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     //   roleId 顺序 = [李逍遥0,赵灵儿1,林月如2,巫后3,阿奴4,盖罗娇5]。
     const devPartyParam = new URLSearchParams(window.location.search).get('dev-party')
     if (devPartyParam) {
-      const ids = devPartyParam.split(',').map(Number).filter((n) => Number.isInteger(n) && n >= 0)
+      const ids = devPartyParam
+        .split(',')
+        .map(Number)
+        .filter((n) => Number.isInteger(n) && n >= 0)
       if (ids.length > 0) {
         gs.partyMembers = ids
         const spriteIds = ids

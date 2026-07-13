@@ -1,6 +1,10 @@
 import type { Command, SceneDef } from '@type-pal/content'
 
-function insertAfter(body: Command[], predicate: (command: Command) => boolean, commands: Command[]): void {
+function insertAfter(
+  body: Command[],
+  predicate: (command: Command) => boolean,
+  commands: Command[],
+): void {
   const index = body.findIndex(predicate)
   if (index < 0) throw new Error('PAL script overlay: 语义锚点不存在')
   body.splice(index + 1, 0, ...commands)
@@ -21,22 +25,26 @@ export function applyPalScriptOverlays(scenes: SceneDef[]): SceneDef[] {
 
     insertAfter(
       body,
-      (command) => command.kind === 'setEntityState' && command.entity === 'e10' && command.state === 2,
-      [{
-        kind: 'moveEntity',
-        entity: 'e10',
-        to: { col: 60, row: -18.5, height: 0 },
-        speed: 'normal',
-      }],
+      (command) =>
+        command.kind === 'setEntityState' && command.entity === 'e10' && command.state === 2,
+      [
+        {
+          kind: 'moveEntity',
+          entity: 'e10',
+          to: { col: 60, row: -18.5, height: 0 },
+          speed: 'normal',
+        },
+      ],
     )
     const question = body.findIndex(
       (command) => command.kind === 'dialog' && command.line.text === 'dlg.1369',
     )
     const turn = body.findIndex(
-      (command, index) => index > question
-        && command.kind === 'setEntityFacing'
-        && command.entity === 'e10'
-        && command.facing === 'up',
+      (command, index) =>
+        index > question &&
+        command.kind === 'setEntityFacing' &&
+        command.entity === 'e10' &&
+        command.facing === 'up',
     )
     if (question < 0 || turn < 0) throw new Error('PAL script overlay: 李大娘回头锚点不存在')
     body.splice(turn, 0, {

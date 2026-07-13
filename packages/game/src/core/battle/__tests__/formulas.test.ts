@@ -189,16 +189,17 @@ describe('calcMagicDamage (fight.c:174-249)', () => {
   })
 
   it('elem 1-5 对应 wind/thunder/water/fire/earth 索引', () => {
-    const make = (elemental: number, elemRes: typeof ZERO_ELEM) => calcMagicDamage({
-      magStr: 100,
-      def: 50,
-      elemRes,
-      poisonRes: 0,
-      resistMult: 10,
-      magicData: { baseDamage: 50, elemental },
-      fieldEffect: ZERO_ELEM,
-      rngFactor: 1.0,
-    })
+    const make = (elemental: number, elemRes: typeof ZERO_ELEM) =>
+      calcMagicDamage({
+        magStr: 100,
+        def: 50,
+        elemRes,
+        poisonRes: 0,
+        resistMult: 10,
+        magicData: { baseDamage: 50, elemental },
+        fieldEffect: ZERO_ELEM,
+        rngFactor: 1.0,
+      })
     // 给 thunder (索引 1) 一个高 resist,只有 elem=2 受影响
     const resThunder = { ...ZERO_ELEM, thunder: 100 }
     expect(make(2, resThunder)).toBe(0)

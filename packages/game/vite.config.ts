@@ -19,16 +19,32 @@ function serveDir(urlPrefix: string, fsDir: string): Plugin {
   // dev + preview 同款中间件:dev 服务源码、preview 服务 dist(本地验 SW/离线);两者都要把 /extracted 映射到仓库根。
   const mw = (req: { url?: string }, res: NodeJS.WritableStream, next: () => void): void => {
     const url = req.url ?? ''
-    if (!url.startsWith(urlPrefix)) return next()
+    if (!url.startsWith(urlPrefix)) {
+      next()
+      return
+    }
     // ⚠ 去前导斜杠:urlPrefix 无尾斜杠 → slice 余 '/data/…';resolve(fsDir,'/abs') 会当绝对路径丢弃 fsDir
-    const rel = decodeURIComponent(url.slice(urlPrefix.length).split('?')[0] ?? '').replace(/^\/+/, '')
-    if (rel.includes('..')) return next()
+    const rel = decodeURIComponent(url.slice(urlPrefix.length).split('?')[0] ?? '').replace(
+      /^\/+/,
+      '',
+    )
+    if (rel.includes('..')) {
+      next()
+      return
+    }
     const file = resolve(fsDir, rel)
-    if (!file.startsWith(fsDir)) return next() // 防越界
+    if (!file.startsWith(fsDir)) {
+      next()
+      return
+    }
     try {
-      if (!statSync(file).isFile()) return next()
+      if (!statSync(file).isFile()) {
+        next()
+        return
+      }
     } catch {
-      return next()
+      next()
+      return
     }
     createReadStream(file).pipe(res)
   }

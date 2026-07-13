@@ -464,7 +464,7 @@ body {
   gap: 8px;
   margin-bottom: 7px;
 }
-.field label {
+.field .field-label {
   color: var(--dim);
   font-size: 12px;
 }
@@ -857,6 +857,11 @@ body {
   align-items: center;
   padding: 4px;
   position: relative;
+  color: inherit;
+  font: inherit;
+}
+.fcell:disabled {
+  opacity: 1;
 }
 .fcell .fidx {
   position: absolute;
@@ -2454,8 +2459,8 @@ body {
 }
 
 /* N6 共享脚本：左库 / 中预览+命令编辑 / 右元数据与引用。 */
-.shared-script-main {
-  display: grid !important;
+.canvas-wrap.data-body.shared-script-main {
+  display: grid;
   grid-template-rows: auto minmax(180px, 46%) minmax(180px, 1fr);
   background: #090b10;
 }
@@ -2735,6 +2740,9 @@ body {
   position: fixed;
   inset: 0;
   z-index: 40;
+  padding: 0;
+  border: 0;
+  background: transparent;
 }
 .proj-menu {
   position: absolute;
@@ -2855,6 +2863,13 @@ body {
 .tile-pick.sel {
   outline: 2px solid var(--acc);
   outline-offset: 1px;
+}
+.tile-pick > button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
 }
 .tile-badge {
   position: absolute;

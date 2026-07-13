@@ -68,8 +68,8 @@ describe('parseItems', () => {
   })
 
   it('id = wObjectID(61..294;295=梦蛇是法术,已排除归 spells.json)', () => {
-    expect(items[0]!.id).toBe(61)     // ITEM_OBJ_START
-    expect(items[233]!.id).toBe(294)  // 末位真物品(61 + 233)
+    expect(items[0]!.id).toBe(61) // ITEM_OBJ_START
+    expect(items[233]!.id).toBe(294) // 末位真物品(61 + 233)
     expect(items.some((it) => it.id === 295)).toBe(false) // 梦蛇不在 items.json
   })
 
@@ -151,7 +151,7 @@ describe('parseSpells (M3 T6)', () => {
   })
 
   it('id = wObjectID(296..397,2026-05-29 id 体系统一)', () => {
-    expect(spells[0]!.id).toBe(296)   // SPELL_OBJ_START
+    expect(spells[0]!.id).toBe(296) // SPELL_OBJ_START
     expect(spells[101]!.id).toBe(397) // 296 + 101
   })
 
@@ -518,9 +518,7 @@ describe('parseEnemyTeams (M3 T7)', () => {
 
   it('至少有一条 team 第一槽位非空(指向 OBJECT_ENEMY 段,398-550)', () => {
     // OBJECT_ENEMY 段:398-550(ENEMY_OBJ_START=398, ENEMY_OBJ_COUNT=153)
-    const anyEnemy = teams.some(
-      (t) => t.enemies[0] !== 0 && t.enemies[0] !== 0xffff,
-    )
+    const anyEnemy = teams.some((t) => t.enemies[0] !== 0 && t.enemies[0] !== 0xffff)
     expect(anyEnemy).toBe(true)
   })
 

@@ -45,7 +45,10 @@ describe('annotate', () => {
     expect(out1[0]).toEqual({ op: 'raw', opcode: 0x59, operands: [0, 0, 0] })
 
     // 真 LoadSceneCommand(M3.5 起具名),annotation 仅来自 symbols:
-    const loadSceneCmd: import('@type-pal/shared').LoadSceneCommand = { op: 'loadScene', sceneId: 0 }
+    const loadSceneCmd: import('@type-pal/shared').LoadSceneCommand = {
+      op: 'loadScene',
+      sceneId: 0,
+    }
     const out2 = annotate([loadSceneCmd], words, { scene: { '0': '客栈' } })
     expect((out2[0] as { _scene?: string })._scene).toBe('客栈')
 
@@ -76,7 +79,11 @@ describe('annotate', () => {
       words,
       {},
     )
-    const ifCmd = out[0] as { op: 'if'; then: Array<{ _item?: string }>; else?: Array<{ _item?: string }> }
+    const ifCmd = out[0] as {
+      op: 'if'
+      then: Array<{ _item?: string }>
+      else?: Array<{ _item?: string }>
+    }
     expect(ifCmd.then[0]!._item).toBe('止血草')
     expect(ifCmd.else![0]!._item).toBe('灵葫芦')
   })
@@ -85,7 +92,9 @@ describe('annotate', () => {
     // 修前 bug:用 w.enemies[teamId] 把 team 号当敌人名索引(命名空间彻底错)。
     const noSym = annotate([{ op: 'startBattle', enemyTeamId: 1 }], words, {})
     expect((noSym[0] as { _enemyTeam?: string })._enemyTeam).toBeUndefined()
-    const withSym = annotate([{ op: 'startBattle', enemyTeamId: 1 }], words, { enemy: { '1': '蝙蝠群' } })
+    const withSym = annotate([{ op: 'startBattle', enemyTeamId: 1 }], words, {
+      enemy: { '1': '蝙蝠群' },
+    })
     expect((withSym[0] as { _enemyTeam?: string })._enemyTeam).toBe('蝙蝠群')
   })
 

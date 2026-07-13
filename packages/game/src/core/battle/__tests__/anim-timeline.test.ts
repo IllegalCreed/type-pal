@@ -11,16 +11,14 @@ import {
   BATTLE_FRAME_TIME,
   buildAttackMateTimeline,
   buildCoopMagicTimeline,
+  buildEnemyConfusedAttackTimeline,
   buildEnemyDivisionTimeline,
+  buildEnemyMagicCastIntro,
+  buildEnemyMagicTimeline,
+  buildEnemyPhysicalTimeline,
   buildEnemySummonTimeline,
   buildEnemyTransformTimeline,
   buildFleeFailTimeline,
-  buildThrowWindupTimeline,
-  buildUseItemTimeline,
-  buildEnemyMagicCastIntro,
-  buildEnemyConfusedAttackTimeline,
-  buildEnemyMagicTimeline,
-  buildEnemyPhysicalTimeline,
   buildPlayerAttackTimeline,
   buildPlayerDefMagicTimeline,
   buildPlayerOffMagicTimeline,
@@ -29,6 +27,8 @@ import {
   buildShowMagicAnimTimeline,
   buildSummonBrightenTimeline,
   buildSummonGodSequence,
+  buildThrowWindupTimeline,
+  buildUseItemTimeline,
   EFFECT_SPRITE_CHUNK,
   SUMMON_FADE_STEPS,
 } from '../anim-timeline.js'
@@ -40,9 +40,15 @@ describe('buildFleeFailTimeline (fight.c:4155-4168)', () => {
 
   it('3 步右下挪后,末帧 frame1 显示 逃跑失败 8 帧', () => {
     expect(frames).toHaveLength(4)
-    expect(frames[0]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 0, pos: { x: 104, y: 102 } }])
-    expect(frames[1]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 0, pos: { x: 108, y: 104 } }])
-    expect(frames[2]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 0, pos: { x: 112, y: 106 } }])
+    expect(frames[0]!.fighters).toEqual([
+      { side: 'player', idx: 0, currentFrame: 0, pos: { x: 104, y: 102 } },
+    ])
+    expect(frames[1]!.fighters).toEqual([
+      { side: 'player', idx: 0, currentFrame: 0, pos: { x: 108, y: 104 } },
+    ])
+    expect(frames[2]!.fighters).toEqual([
+      { side: 'player', idx: 0, currentFrame: 0, pos: { x: 112, y: 106 } },
+    ])
     expect(frames[3]!.durationMs).toBe(8 * D)
     expect(frames[3]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 1 }])
     expect(frames[3]!.battleMessage).toEqual({ text: '逃跑失败', durationMs: 8 * D })
@@ -89,7 +95,11 @@ describe('buildThrowWindupTimeline (投掷挥臂,fight.c:4339-4356)', () => {
 
   it('L15:传 itemName → hold 帧 (210,50) 显示物品名,贯穿 12 帧(fight.c:4348)', () => {
     const f = buildThrowWindupTimeline(0, { x: 240, y: 170 }, 170, '天师符')
-    expect(f[4]!.battleMessage).toEqual({ text: '天师符', durationMs: 12 * D, pos: { x: 210, y: 50 } })
+    expect(f[4]!.battleMessage).toEqual({
+      text: '天师符',
+      durationMs: 12 * D,
+      pos: { x: 210, y: 50 },
+    })
   })
 
   it('L15:不传 itemName → hold 帧无 battleMessage(向后兼容)', () => {
@@ -99,13 +109,28 @@ describe('buildThrowWindupTimeline (投掷挥臂,fight.c:4339-4356)', () => {
 
 describe('buildUseItemTimeline L15 物品名 (fight.c:2266-2335)', () => {
   it('L15:传 itemName → colorShift i==0 帧 (210,50) 显示物品名,贯穿 13 帧(fight.c:2316/2333)', () => {
-    const f = buildUseItemTimeline({ casterIdx: 0, casterPos: { x: 240, y: 170 }, targetIdx: 1, playerCount: 2, itemName: '金创药' })
+    const f = buildUseItemTimeline({
+      casterIdx: 0,
+      casterPos: { x: 240, y: 170 },
+      targetIdx: 1,
+      playerCount: 2,
+      itemName: '金创药',
+    })
     const msgFrame = f.find((fr) => fr.battleMessage)
-    expect(msgFrame?.battleMessage).toEqual({ text: '金创药', durationMs: 13 * D, pos: { x: 210, y: 50 } })
+    expect(msgFrame?.battleMessage).toEqual({
+      text: '金创药',
+      durationMs: 13 * D,
+      pos: { x: 210, y: 50 },
+    })
   })
 
   it('L15:不传 itemName → 无 battleMessage(向后兼容)', () => {
-    const f = buildUseItemTimeline({ casterIdx: 0, casterPos: { x: 240, y: 170 }, targetIdx: 1, playerCount: 2 })
+    const f = buildUseItemTimeline({
+      casterIdx: 0,
+      casterPos: { x: 240, y: 170 },
+      targetIdx: 1,
+      playerCount: 2,
+    })
     expect(f.some((fr) => fr.battleMessage)).toBe(false)
   })
 })
@@ -128,14 +153,32 @@ describe('召唤动画 builders (fight.c:3072-3187 / 3120-3128)', () => {
       { durationMs: 100, overlays: [] },
     ]
     const seq = buildSummonGodSequence({
-      spriteKey: 'player-12', pos: { x: 240, y: 165 }, bgColorShift: 5, totalFrames: 4, frameTimeMs: 100, offMagicFrames: off,
+      spriteKey: 'player-12',
+      pos: { x: 240, y: 165 },
+      bgColorShift: 5,
+      totalFrames: 4,
+      frameTimeMs: 100,
+      offMagicFrames: off,
     })
     expect(seq.length).toBe(SUMMON_FADE_STEPS + 1 + 2 + SUMMON_FADE_STEPS) // 72 + 1(loop塌缩) + 2 + 72
     // fadeIn:召唤神 frame0,fadeStep 0..71,dir in,背景染色 5
-    expect(seq[0]!.summon).toEqual({ spriteKey: 'player-12', frame: 0, pos: { x: 240, y: 165 }, bgColorShift: 5, fadeStep: 0, fadeDir: 'in' })
+    expect(seq[0]!.summon).toEqual({
+      spriteKey: 'player-12',
+      frame: 0,
+      pos: { x: 240, y: 165 },
+      bgColorShift: 5,
+      fadeStep: 0,
+      fadeDir: 'in',
+    })
     expect(seq[71]!.summon!.fadeStep).toBe(71)
     // loop:塌缩成单帧 + wall-clock 元数据 loop{count: totalFrames-1=3, frameTimeMs},durationMs = 3×100(present 按真实时间细分 frame)
-    expect(seq[72]!.summon).toEqual({ spriteKey: 'player-12', frame: 0, pos: { x: 240, y: 165 }, bgColorShift: 5, loop: { count: 3, frameTimeMs: 100 } })
+    expect(seq[72]!.summon).toEqual({
+      spriteKey: 'player-12',
+      frame: 0,
+      pos: { x: 240, y: 165 },
+      bgColorShift: 5,
+      loop: { count: 3, frameTimeMs: 100 },
+    })
     expect(seq[72]!.durationMs).toBe(300)
     // offMagic:loop 后紧接,召唤神定格 last frame 3,overlays 保留
     expect(seq[73]!.summon!.frame).toBe(3)
@@ -152,10 +195,20 @@ describe('召唤动画 builders (fight.c:3072-3187 / 3120-3128)', () => {
   //   god sequence 内、PostMagic 之前 → 神先消失才抖敌。修:postMagicFrames 入参,裹神留场,排在 fadeOut 前。
   it('buildSummonGodSequence:postMagicFrames 在 offMagic 后、fadeOut 前,裹召唤神留场(fight.c:4323 神在场→899 淡出)', () => {
     const off = [{ durationMs: 100, overlays: [] }]
-    const post = [{ durationMs: 40, fighters: [{ side: 'enemy' as const, idx: 0, pos: { x: 1, y: 2 }, iColorShift: 6 }] }]
+    const post = [
+      {
+        durationMs: 40,
+        fighters: [{ side: 'enemy' as const, idx: 0, pos: { x: 1, y: 2 }, iColorShift: 6 }],
+      },
+    ]
     const seq = buildSummonGodSequence({
-      spriteKey: 'player-12', pos: { x: 240, y: 165 }, bgColorShift: 5, totalFrames: 3, frameTimeMs: 100,
-      offMagicFrames: off, postMagicFrames: post,
+      spriteKey: 'player-12',
+      pos: { x: 240, y: 165 },
+      bgColorShift: 5,
+      totalFrames: 3,
+      frameTimeMs: 100,
+      offMagicFrames: off,
+      postMagicFrames: post,
     })
     // 结构:fadeIn 72 + loop 1(塌缩) + offMagic 1 + postMagic 1 + fadeOut 72
     expect(seq.length).toBe(SUMMON_FADE_STEPS + 1 + 1 + 1 + SUMMON_FADE_STEPS)
@@ -165,10 +218,17 @@ describe('召唤动画 builders (fight.c:3072-3187 / 3120-3128)', () => {
     expect(firstFadeOutIdx).toBeGreaterThan(postIdx) // PostMagic 在 fadeOut 之前
     // PostMagic 帧裹召唤神留场:frame=lastFrame(=2),无 fadeDir → present summonGodMode 神在场 + 仍画敌(可见抖动)
     const postFrame = seq[postIdx]!
-    expect(postFrame.summon).toMatchObject({ spriteKey: 'player-12', frame: 2, pos: { x: 240, y: 165 }, bgColorShift: 5 })
+    expect(postFrame.summon).toMatchObject({
+      spriteKey: 'player-12',
+      frame: 2,
+      pos: { x: 240, y: 165 },
+      bgColorShift: 5,
+    })
     expect(postFrame.summon!.fadeDir).toBeUndefined()
     // 敌受击 delta 保留(裹 summon 不丢 fighters)
-    expect(postFrame.fighters).toEqual([{ side: 'enemy', idx: 0, pos: { x: 1, y: 2 }, iColorShift: 6 }])
+    expect(postFrame.fighters).toEqual([
+      { side: 'enemy', idx: 0, pos: { x: 1, y: 2 }, iColorShift: 6 },
+    ])
   })
 
   // 天剑变回来(user 2026-06-17 报):召唤淡出应 crossfade 到**复位后的正常主角**(站立帧/不高亮/原位),
@@ -181,8 +241,13 @@ describe('召唤动画 builders (fight.c:3072-3187 / 3120-3128)', () => {
       { side: 'player' as const, idx: 1, pos: { x: 80, y: 110 }, iColorShift: 0, currentFrame: 0 },
     ]
     const seq = buildSummonGodSequence({
-      spriteKey: 'player-12', pos: { x: 240, y: 165 }, bgColorShift: 5, totalFrames: 3, frameTimeMs: 100,
-      offMagicFrames: off, resetFighters: reset,
+      spriteKey: 'player-12',
+      pos: { x: 240, y: 165 },
+      bgColorShift: 5,
+      totalFrames: 3,
+      frameTimeMs: 100,
+      offMagicFrames: off,
+      resetFighters: reset,
     })
     const firstFadeOutIdx = seq.findIndex((f) => f.summon?.fadeDir === 'out')
     expect(firstFadeOutIdx).toBeGreaterThanOrEqual(0)
@@ -194,7 +259,11 @@ describe('召唤动画 builders (fight.c:3072-3187 / 3120-3128)', () => {
 
   it('buildSummonGodSequence:无 postMagicFrames(默认 [])→ 结构不变,末帧仍是 fadeOut', () => {
     const seq = buildSummonGodSequence({
-      spriteKey: 'player-12', pos: { x: 240, y: 165 }, bgColorShift: 0, totalFrames: 3, frameTimeMs: 100,
+      spriteKey: 'player-12',
+      pos: { x: 240, y: 165 },
+      bgColorShift: 0,
+      totalFrames: 3,
+      frameTimeMs: 100,
       offMagicFrames: [{ durationMs: 100, overlays: [] }],
     })
     expect(seq.length).toBe(SUMMON_FADE_STEPS + 1 + 1 + SUMMON_FADE_STEPS) // loop 塌缩单帧 + offMagic 1,无 postMagic
@@ -216,7 +285,7 @@ describe('enemy summon/transform opcode timelines (script.c:009E/009F)', () => {
     //   不复用敌人放普通魔法的前移起手(fight.c:4683 +12,6/+4,2),故 frames[0] 是手势帧、无 pos 位移。
     expect(frames[0]!.fighters).toEqual([{ side: 'enemy', idx: 0, currentFrame: 1 }])
     expect(frames[1]!.fighters).toEqual([{ side: 'enemy', idx: 0, currentFrame: 2 }])
-    const summonFrame = frames.find(f => f.sound === 212)!
+    const summonFrame = frames.find((f) => f.sound === 212)!
     expect(summonFrame.fighters).toEqual([
       { side: 'enemy', idx: 1, iColorShift: 8 },
       { side: 'enemy', idx: 2, iColorShift: 8 },
@@ -230,7 +299,7 @@ describe('enemy summon/transform opcode timelines (script.c:009E/009F)', () => {
 
   it('buildEnemyTransformTimeline:0..5 闪色后复位并在末帧播 47', () => {
     const frames = buildEnemyTransformTimeline(2)
-    expect(frames.slice(0, 6).map(f => f.fighters?.[0])).toEqual([
+    expect(frames.slice(0, 6).map((f) => f.fighters?.[0])).toEqual([
       { side: 'enemy', idx: 2, iColorShift: 0 },
       { side: 'enemy', idx: 2, iColorShift: 1 },
       { side: 'enemy', idx: 2, iColorShift: 2 },
@@ -270,13 +339,24 @@ describe('buildCoopMagicTimeline (协力合击,fight.c:3856-4107 CLASSIC)', () =
   // 3 人队全 healthy,casterIdx=0;原位 caster(240,170)/p1(280,150)/p2(300,130)。
   // magic: effect chunk 5,type normal,target enemy idx0 pos(160,80);n=8。
   const coopMagic = {
-    effect: 5, type: 'normal' as const, speed: 5, fireDelay: 2, effectTimes: 1, shake: 0, xOffset: 0, yOffset: 0,
+    effect: 5,
+    type: 'normal' as const,
+    speed: 5,
+    fireDelay: 2,
+    effectTimes: 1,
+    shake: 0,
+    xOffset: 0,
+    yOffset: 0,
   }
   const frames = buildCoopMagicTimeline({
     casterIdx: 0,
     partySize: 3,
     contributorIdxs: [0, 1, 2],
-    originalPositions: [{ x: 240, y: 170 }, { x: 280, y: 150 }, { x: 300, y: 130 }],
+    originalPositions: [
+      { x: 240, y: 170 },
+      { x: 280, y: 150 },
+      { x: 300, y: 130 },
+    ],
     magic: coopMagic,
     n: 8,
     targetIdx: 0,
@@ -289,11 +369,11 @@ describe('buildCoopMagicTimeline (协力合击,fight.c:3856-4107 CLASSIC)', () =
     // 第 6 帧(index 5,i=6):caster→COOP_POS[0]=(208,157),p1→[1]=(234,170),p2→[2]=(260,183)。
     const f6 = frames[5]!
     expect(f6.durationMs).toBe(D) // Delay(1)
-    const caster = f6.fighters!.find(d => d.idx === 0 && d.side === 'player')!
+    const caster = f6.fighters!.find((d) => d.idx === 0 && d.side === 'player')!
     expect(caster.pos).toEqual({ x: 208, y: 157 })
-    const p1 = f6.fighters!.find(d => d.idx === 1)!
+    const p1 = f6.fighters!.find((d) => d.idx === 1)!
     expect(p1.pos).toEqual({ x: 234, y: 170 })
-    const p2 = f6.fighters!.find(d => d.idx === 2)!
+    const p2 = f6.fighters!.find((d) => d.idx === 2)!
     expect(p2.pos).toEqual({ x: 260, y: 183 })
   })
 
@@ -316,11 +396,17 @@ describe('buildCoopMagicTimeline (协力合击,fight.c:3856-4107 CLASSIC)', () =
   })
 
   it('Phase6 PostMagic 第一帧带伤害数字,不等 Phase7 滑回结束', () => {
-    const numIdx = frames.findIndex(f => (f.damageNums?.length ?? 0) > 0)
-    const postIdx = frames.findIndex(f => f.fighters?.some(d => d.side === 'enemy' && d.idx === 0))
+    const numIdx = frames.findIndex((f) => (f.damageNums?.length ?? 0) > 0)
+    const postIdx = frames.findIndex((f) =>
+      f.fighters?.some((d) => d.side === 'enemy' && d.idx === 0),
+    )
     expect(numIdx).toBe(postIdx)
-    expect(frames[numIdx]!.damageNums).toEqual([{ target: { kind: 'enemy', idx: 0 }, value: 123, color: 'blue' }])
-    const slideBackIdx = frames.findIndex(f => f.fighters?.some(d => d.side === 'player' && d.currentFrame === 0))
+    expect(frames[numIdx]!.damageNums).toEqual([
+      { target: { kind: 'enemy', idx: 0 }, value: 123, color: 'blue' },
+    ])
+    const slideBackIdx = frames.findIndex((f) =>
+      f.fighters?.some((d) => d.side === 'player' && d.currentFrame === 0),
+    )
     expect(slideBackIdx).toBeGreaterThan(numIdx)
   })
 
@@ -340,7 +426,7 @@ describe('buildCoopMagicTimeline (协力合击,fight.c:3856-4107 CLASSIC)', () =
   it('Phase7 滑回:末 6 帧贡献者回原位 frame0,最后一帧 caster 回 (240,170)', () => {
     const last = frames[frames.length - 1]!
     expect(last.durationMs).toBe(D)
-    const caster = last.fighters!.find(d => d.idx === 0)!
+    const caster = last.fighters!.find((d) => d.idx === 0)!
     expect(caster.currentFrame).toBe(0)
     expect(caster.pos).toEqual({ x: 240, y: 170 }) // i=6 → 全回原位
   })
@@ -507,7 +593,9 @@ describe('buildPlayerAttackTimeline (fight.c:2008-2263)', () => {
     ])
     expect(fr[2]!.sound).toBe(88)
     // 其余帧无 sound
-    fr.forEach((f, i) => { if (i !== 0 && i !== 2) expect(f.sound).toBeUndefined() })
+    fr.forEach((f, i) => {
+      if (i !== 0 && i !== 2) expect(f.sound).toBeUndefined()
+    })
   })
 
   it('attackVoice/weaponSound 缺省或 0 → 无帧带 sound', () => {
@@ -522,7 +610,7 @@ describe('buildPlayerAttackTimeline (fight.c:2008-2263)', () => {
       attackVoice: 0,
       weaponSound: 0,
     })
-    expect(fr.every(f => f.sound === undefined)).toBe(true)
+    expect(fr.every((f) => f.sound === undefined)).toBe(true)
   })
 })
 
@@ -573,14 +661,14 @@ describe('buildEnemyPhysicalTimeline (fight.c:4910-5149)', () => {
   it('M6 actionSound 落接近帧、callSound 落命中帧(与 damageNum 同帧)', () => {
     const frames = build({ actionSound: 39, callSound: 90 })
     // actionSound 帧 = 接近 Delay(1)(无 fighters/damageNum,仅 sound)
-    const actionFrame = frames.find(f => f.sound === 39)
+    const actionFrame = frames.find((f) => f.sound === 39)
     expect(actionFrame).toBeDefined()
     expect(actionFrame!.fighters).toBeUndefined()
     // callSound 帧 = 命中帧(有 damageNum + iColorShift=6)
-    const hitFrame = frames.find(f => f.damageNum)
+    const hitFrame = frames.find((f) => f.damageNum)
     expect(hitFrame!.sound).toBe(90)
     // 0 音 → 不设 sound(无音帧)
-    expect(build({ actionSound: 0, callSound: 0 }).every(f => f.sound === undefined)).toBe(true)
+    expect(build({ actionSound: 0, callSound: 0 }).every((f) => f.sound === undefined)).toBe(true)
   })
 
   it('magicFrames=2:前 2 帧 currentFrame=idleFrames+i,只 1 帧前移', () => {
@@ -637,19 +725,25 @@ describe('buildEnemyPhysicalTimeline (fight.c:4910-5149)', () => {
     const frames = build({ targetDied: true })
     // 倒数第二帧 = target.currentFrame = frameBak;最后一帧 = Delay(4) 空帧
     const last2 = frames[frames.length - 2]!
-    expect(last2.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 2, pos: { x: 240, y: 170 } }])
+    expect(last2.fighters).toEqual([
+      { side: 'player', idx: 0, currentFrame: 2, pos: { x: 240, y: 170 } },
+    ])
   })
 
   it('濒死(非死):target frameBak=1 + 坐标同帧归位', () => {
     const frames = build({ targetDying: true })
     const last2 = frames[frames.length - 2]!
-    expect(last2.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 1, pos: { x: 240, y: 170 } }])
+    expect(last2.fighters).toEqual([
+      { side: 'player', idx: 0, currentFrame: 1, pos: { x: 240, y: 170 } },
+    ])
   })
 
   it('未死未濒死:target frameBak=0(站立)+ 坐标同帧归位', () => {
     const frames = build()
     const last2 = frames[frames.length - 2]!
-    expect(last2.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 0, pos: { x: 240, y: 170 } }])
+    expect(last2.fighters).toEqual([
+      { side: 'player', idx: 0, currentFrame: 0, pos: { x: 240, y: 170 } },
+    ])
   })
 
   it('复位帧:enemy.pos=posOriginal(160,80) + currentFrame=0', () => {
@@ -685,13 +779,26 @@ describe('buildEnemyPhysicalTimeline (fight.c:4910-5149)', () => {
   //   无 frame 4 受击闪烁),敌人 lunge 攻击动画照常(5029-5050)。此前 attack.ts autoDefend 分支只 emit
   //   playEnemyAttack(经 audio 播敌攻击音)+ return 不建时间线 → 有声无动画。
   it('autoDefend(格挡):玩家 frame 3 格挡姿 + coverSound,无 damageNum/frame4 受击,敌 lunge 照常', () => {
-    const frames = build({ attackFrames: 2, actWaitFrames: 1, magicFrames: 0, idleFrames: 4, callSound: 90 })
+    const frames = build({
+      attackFrames: 2,
+      actWaitFrames: 1,
+      magicFrames: 0,
+      idleFrames: 4,
+      callSound: 90,
+    })
     const blockFrames = buildEnemyPhysicalTimeline({
       enemyPos: { x: 160, y: 80 },
       enemyIdx: 0,
       targetPlayerPos: { x: 240, y: 170 },
       targetIdx: 0,
-      enemy: { magicFrames: 0, attackFrames: 2, actWaitFrames: 1, idleFrames: 4, actionSound: 0, callSound: 90 },
+      enemy: {
+        magicFrames: 0,
+        attackFrames: 2,
+        actWaitFrames: 1,
+        idleFrames: 4,
+        actionSound: 0,
+        callSound: 90,
+      },
       damage: 0,
       targetDied: false,
       targetDying: false,
@@ -701,13 +808,23 @@ describe('buildEnemyPhysicalTimeline (fight.c:4910-5149)', () => {
     // 格挡不掉血 → 全程无 damageNum
     expect(blockFrames.every((f) => f.damageNum === undefined)).toBe(true)
     // 玩家显格挡姿 frame 3(非受击 frame 4)
-    expect(blockFrames.some((f) => f.fighters?.some((d) => d.side === 'player' && d.currentFrame === 3))).toBe(true)
-    expect(blockFrames.some((f) => f.fighters?.some((d) => d.side === 'player' && d.currentFrame === 4 && d.iColorShift === 6))).toBe(false)
+    expect(
+      blockFrames.some((f) => f.fighters?.some((d) => d.side === 'player' && d.currentFrame === 3)),
+    ).toBe(true)
+    expect(
+      blockFrames.some((f) =>
+        f.fighters?.some((d) => d.side === 'player' && d.currentFrame === 4 && d.iColorShift === 6),
+      ),
+    ).toBe(false)
     // 播 coverSound(47),不播 callSound(90,命中音格挡路不响)
     expect(blockFrames.some((f) => f.sound === 47)).toBe(true)
     expect(blockFrames.some((f) => f.sound === 90)).toBe(false)
     // 敌人 lunge 攻击动画照常(冲到 player.x-44=196 / y-16=154,与命中路相同)
-    expect(blockFrames.some((f) => f.fighters?.some((d) => d.side === 'enemy' && d.pos?.x === 196 && d.pos?.y === 154))).toBe(true)
+    expect(
+      blockFrames.some((f) =>
+        f.fighters?.some((d) => d.side === 'enemy' && d.pos?.x === 196 && d.pos?.y === 154),
+      ),
+    ).toBe(true)
     // 对照:命中路确有 damageNum + frame4(证明差异)
     expect(frames.some((f) => f.damageNum !== undefined)).toBe(true)
   })
@@ -718,7 +835,14 @@ describe('buildEnemyPhysicalTimeline (fight.c:4910-5149)', () => {
       enemyIdx: 0,
       targetPlayerPos: { x: 240, y: 170 },
       targetIdx: 0,
-      enemy: { magicFrames: 0, attackFrames: 2, actWaitFrames: 1, idleFrames: 4, actionSound: 0, callSound: 90 },
+      enemy: {
+        magicFrames: 0,
+        attackFrames: 2,
+        actWaitFrames: 1,
+        idleFrames: 4,
+        actionSound: 0,
+        callSound: 90,
+      },
       damage: 0,
       targetDied: false,
       targetDying: false,
@@ -729,21 +853,44 @@ describe('buildEnemyPhysicalTimeline (fight.c:4910-5149)', () => {
     expect(frames.every((f) => f.damageNum === undefined)).toBe(true)
     expect(frames.some((f) => f.sound === 47)).toBe(true)
     expect(frames.some((f) => f.sound === 90)).toBe(false)
-    expect(frames.some((f) => f.fighters?.some(
-      (d) => d.side === 'player' && d.idx === 1 && d.currentFrame === 3 && d.pos?.x === 216 && d.pos?.y === 158,
-    ))).toBe(true)
-    expect(frames.some((f) => f.fighters?.some(
-      (d) => d.side === 'enemy' && d.idx === 0 && d.pos?.x === 186 && d.pos?.y === 146,
-    ))).toBe(true)
-    expect(frames.some((f) => f.fighters?.some(
-      (d) => d.side === 'player' && d.idx === 1 && d.pos?.x === 220 && d.pos?.y === 160,
-    ))).toBe(true)
-    expect(frames.some((f) => f.fighters?.some(
-      (d) => d.side === 'player' && d.idx === 0 && d.pos?.x === 248 && d.pos?.y === 174,
-    ))).toBe(false)
-    expect(frames.some((f) => f.fighters?.some(
-      (d) => d.side === 'player' && d.idx === 0 && d.currentFrame === 4,
-    ))).toBe(false)
+    expect(
+      frames.some((f) =>
+        f.fighters?.some(
+          (d) =>
+            d.side === 'player' &&
+            d.idx === 1 &&
+            d.currentFrame === 3 &&
+            d.pos?.x === 216 &&
+            d.pos?.y === 158,
+        ),
+      ),
+    ).toBe(true)
+    expect(
+      frames.some((f) =>
+        f.fighters?.some(
+          (d) => d.side === 'enemy' && d.idx === 0 && d.pos?.x === 186 && d.pos?.y === 146,
+        ),
+      ),
+    ).toBe(true)
+    expect(
+      frames.some((f) =>
+        f.fighters?.some(
+          (d) => d.side === 'player' && d.idx === 1 && d.pos?.x === 220 && d.pos?.y === 160,
+        ),
+      ),
+    ).toBe(true)
+    expect(
+      frames.some((f) =>
+        f.fighters?.some(
+          (d) => d.side === 'player' && d.idx === 0 && d.pos?.x === 248 && d.pos?.y === 174,
+        ),
+      ),
+    ).toBe(false)
+    expect(
+      frames.some((f) =>
+        f.fighters?.some((d) => d.side === 'player' && d.idx === 0 && d.currentFrame === 4),
+      ),
+    ).toBe(false)
   })
 
   // C 物攻收尾 Delay 第三参(fight.c:5133/5135 = TRUE,其余全 FALSE):TRUE 段敌人 idle 呼吸动画
@@ -753,7 +900,9 @@ describe('buildEnemyPhysicalTimeline (fight.c:4910-5149)', () => {
     const frames = build()
     expect(frames[frames.length - 1]!.updateGesture).toBe(true) // Delay(4, 0, TRUE)
     expect(frames[frames.length - 2]!.updateGesture).toBe(true) // frameBak Delay(1, 0, TRUE)
-    frames.slice(0, -2).forEach((f) => expect(f.updateGesture).toBeUndefined())
+    frames.slice(0, -2).forEach((f) => {
+      expect(f.updateGesture).toBeUndefined()
+    })
   })
 })
 
@@ -790,7 +939,13 @@ describe('buildPreMagicTimeline (fight.c:2337-2445)', () => {
 
   // M6 施法音帧同步:castSound 挂在施法姿帧(frame5,前摇 4 移动 + Delay(2) 之后),修"略快"(不在 cast 起手播)。
   it('castSound>0 → 仅 frame5(施法姿)带 sound;前摇移动帧不带', () => {
-    const f = buildPreMagicTimeline({ casterPos: { x: 240, y: 170 }, casterIdx: 0, castEffectFrameBase: 35, isSummon: false, castSound: 9 })
+    const f = buildPreMagicTimeline({
+      casterPos: { x: 240, y: 170 },
+      casterIdx: 0,
+      castEffectFrameBase: 35,
+      isSummon: false,
+      castSound: 9,
+    })
     expect(f[5]!.sound).toBe(9) // 施法姿帧
     expect(f.filter((fr, i) => i !== 5 && fr.sound !== undefined)).toHaveLength(0) // 其余帧无 sound
     // castSound=0/缺 → 不挂
@@ -876,10 +1031,10 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
   //   故按其选择统一改 WIN95 起手播(声画同步)。**召唤二次 OffMagic 不传 sound → 不受影响**。
   it('M6 效果音(WIN95):sound 只挂 OffMagic 起手帧 i==0(fight.c:2669)', () => {
     const f = buildNormal({ sound: 55 }) // l = (8-2)*1 + 8 + 0 = 14
-    const soundFrames = f.map((fr, i) => (fr.sound === 55 ? i : -1)).filter(i => i >= 0)
+    const soundFrames = f.map((fr, i) => (fr.sound === 55 ? i : -1)).filter((i) => i >= 0)
     expect(soundFrames).toEqual([1]) // 仅起手帧(WIN95);frames[0] 是 L14 前置 Delay(1)(无 sound)
     // sound=0/缺 → 不挂任何帧
-    expect(buildNormal({ sound: 0 }).every(fr => fr.sound === undefined)).toBe(true)
+    expect(buildNormal({ sound: 0 }).every((fr) => fr.sound === undefined)).toBe(true)
   })
 
   it('scriptOnUse 0x35:scriptShake 从 OffMagic 起手帧递减', () => {
@@ -911,7 +1066,9 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
     const kf = buildNormal({ keepEffect: 0xffff })
     expect(kf[kf.length - 1]!.keepEffect).toBe(true) // 末帧烙背景
     expect(kf.slice(0, -1).every((f) => f.keepEffect === undefined)).toBe(true) // 仅末帧
-    expect(buildNormal({ keepEffect: 0xffff, wave: 9 }).every((f) => f.keepEffect === undefined)).toBe(true) // wave>=9 不烙
+    expect(
+      buildNormal({ keepEffect: 0xffff, wave: 9 }).every((f) => f.keepEffect === undefined),
+    ).toBe(true) // wave>=9 不烙
     expect(buildNormal({ keepEffect: 0 }).every((f) => f.keepEffect === undefined)).toBe(true) // 非 0xFFFF 不烙
     expect(buildNormal().every((f) => f.keepEffect === undefined)).toBe(true) // 缺省不烙
   })
@@ -923,9 +1080,17 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
     const burn = buildNormal({ keepEffect: 0xffff, baseScreenWave: 0 })
     expect(burn[burn.length - 1]!.keepEffect).toBe(true)
     // base=128(field 32)→ (128+0)>=9 → 不烙(原 TS 只看 wave=0 恒烙,与 C 相反)
-    expect(buildNormal({ keepEffect: 0xffff, baseScreenWave: 128 }).every((f) => f.keepEffect === undefined)).toBe(true)
+    expect(
+      buildNormal({ keepEffect: 0xffff, baseScreenWave: 128 }).every(
+        (f) => f.keepEffect === undefined,
+      ),
+    ).toBe(true)
     // 跨 9 边界:base=5 + wWave=5 = 10 >=9 → 不烙;base=5 + wWave=3 = 8 <9 → 烙
-    expect(buildNormal({ keepEffect: 0xffff, baseScreenWave: 5, wave: 5 }).every((f) => f.keepEffect === undefined)).toBe(true)
+    expect(
+      buildNormal({ keepEffect: 0xffff, baseScreenWave: 5, wave: 5 }).every(
+        (f) => f.keepEffect === undefined,
+      ),
+    ).toBe(true)
     const edge = buildNormal({ keepEffect: 0xffff, baseScreenWave: 5, wave: 3 })
     expect(edge[edge.length - 1]!.keepEffect).toBe(true)
   })
@@ -933,8 +1098,19 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
   it('W4 iBlow:iBlow!=0 → 全体活敌逐帧累加 (blow, trunc(blow/2)),末帧复位 posOriginal(fight.c:2681-2694)', () => {
     const frames = buildPlayerOffMagicTimeline({
       casterIdx: 0,
-      magic: { effect: 12, type: 'normal', speed: 2, fireDelay: 2, effectTimes: 1, shake: 0, xOffset: 0, yOffset: 0 },
-      n: 8, targetIdx: 1, targetEnemyPos: { x: 160, y: 80 },
+      magic: {
+        effect: 12,
+        type: 'normal',
+        speed: 2,
+        fireDelay: 2,
+        effectTimes: 1,
+        shake: 0,
+        xOffset: 0,
+        yOffset: 0,
+      },
+      n: 8,
+      targetIdx: 1,
+      targetEnemyPos: { x: 160, y: 80 },
       iBlow: 4,
       blowTargets: [{ side: 'enemy', idx: 0, pos: { x: 100, y: 50 } }],
       rng: { rangeInclusive: (_a: number, _b: number) => 2 }, // blow 恒 2 → 每帧 +2 / +1
@@ -951,11 +1127,27 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
     let calls = 0
     const frames = buildPlayerOffMagicTimeline({
       casterIdx: 0,
-      magic: { effect: 12, type: 'normal', speed: 2, fireDelay: 2, effectTimes: 1, shake: 0, xOffset: 0, yOffset: 0 },
-      n: 8, targetIdx: 1, targetEnemyPos: { x: 160, y: 80 },
+      magic: {
+        effect: 12,
+        type: 'normal',
+        speed: 2,
+        fireDelay: 2,
+        effectTimes: 1,
+        shake: 0,
+        xOffset: 0,
+        yOffset: 0,
+      },
+      n: 8,
+      targetIdx: 1,
+      targetEnemyPos: { x: 160, y: 80 },
       iBlow: 0,
       blowTargets: [{ side: 'enemy', idx: 0, pos: { x: 100, y: 50 } }],
-      rng: { rangeInclusive: () => { calls++; return 2 } },
+      rng: {
+        rangeInclusive: () => {
+          calls++
+          return 2
+        },
+      },
     })
     expect(calls).toBe(0) // iBlow=0 → 不摇 blow rng
     expect(frames[0]!.fighters?.find((f) => f.side === 'enemy')).toBeUndefined() // 无吹飞位移
@@ -1024,7 +1216,9 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
 
   it('normal 落点 = enemy.pos + (xOff,yOff) = (164,74),overlay kind=magic chunk=effect', () => {
     const f = buildNormal()
-    expect(f[1]!.overlays).toMatchObject([{ kind: 'magic', spriteChunk: 12, frameIdx: 0, x: 164, y: 74 }]) // frames[0] 是 L14 前置 Delay(1)
+    expect(f[1]!.overlays).toMatchObject([
+      { kind: 'magic', spriteChunk: 12, frameIdx: 0, x: 164, y: 74 },
+    ]) // frames[0] 是 L14 前置 Delay(1)
   })
 
   it('attackAll:三落点 {70,140}{100,110}{160,100} 各 +off → overlays[3] 同帧', () => {
@@ -1043,7 +1237,8 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
       n: 4,
       targetIdx: -1,
     })
-    expect(f[1]!.overlays).toMatchObject([ // frames[0] 是 L14 前置 Delay(1)
+    expect(f[1]!.overlays).toMatchObject([
+      // frames[0] 是 L14 前置 Delay(1)
       { kind: 'magic', spriteChunk: 20, frameIdx: 0, x: 75, y: 150 },
       { kind: 'magic', spriteChunk: 20, frameIdx: 0, x: 105, y: 120 },
       { kind: 'magic', spriteChunk: 20, frameIdx: 0, x: 165, y: 110 },
@@ -1066,7 +1261,8 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
       n: 4,
       targetIdx: -1,
     })
-    expect(fw[1]!.overlays).toMatchObject([ // frames[0] 是 L14 前置 Delay(1)
+    expect(fw[1]!.overlays).toMatchObject([
+      // frames[0] 是 L14 前置 Delay(1)
       { kind: 'magic', spriteChunk: 30, frameIdx: 0, x: 120, y: 100 },
     ])
     const ff = buildPlayerOffMagicTimeline({
@@ -1084,7 +1280,8 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
       n: 4,
       targetIdx: -1,
     })
-    expect(ff[1]!.overlays).toMatchObject([ // frames[0] 是 L14 前置 Delay(1)
+    expect(ff[1]!.overlays).toMatchObject([
+      // frames[0] 是 L14 前置 Delay(1)
       { kind: 'magic', spriteChunk: 31, frameIdx: 0, x: 160, y: 200 },
     ])
   })
@@ -1173,13 +1370,27 @@ describe('buildEnemyConfusedAttackTimeline (M8, fight.c:4596-4654)', () => {
     expect(frames[1]!.fighters).toEqual([{ side: 'enemy', idx: 0, pos: { x: 175, y: 145 } }])
     expect(frames[2]!.fighters).toEqual([{ side: 'enemy', idx: 0, pos: { x: 187, y: 152 } }]) // trunc(375/2),trunc(305/2)
     // —— 火花 3 帧:effectSprite 9/10/11,中点 x=(187+200)/2=193,y=160-0+10=170(fight.c:4614-4632)——
-    expect(frames[3]!.overlay).toMatchObject({ kind: 'effect', spriteChunk: EFFECT_SPRITE_CHUNK, frameIdx: 9, x: 193, y: 170 })
+    expect(frames[3]!.overlay).toMatchObject({
+      kind: 'effect',
+      spriteChunk: EFFECT_SPRITE_CHUNK,
+      frameIdx: 9,
+      x: 193,
+      y: 170,
+    })
     expect(frames[4]!.overlay).toMatchObject({ frameIdx: 10, x: 193, y: 170 })
     expect(frames[5]!.overlay).toMatchObject({ frameIdx: 11 })
     // —— 受击:target 抖动(PostMagic)+ 伤害数字挂首帧(fight.c:4647-4648 DisplayStatChange→PostMagic)——
-    expect(frames[6]!.damageNum).toEqual({ target: { kind: 'enemy', idx: 1 }, value: 50, color: 'blue' })
-    expect(frames[6]!.fighters).toEqual([{ side: 'enemy', idx: 1, pos: { x: 192, y: 160 }, iColorShift: 0 }]) // 200-8
-    expect(frames[7]!.fighters).toEqual([{ side: 'enemy', idx: 1, pos: { x: 196, y: 160 }, iColorShift: 6 }]) // i1 -(-4)
+    expect(frames[6]!.damageNum).toEqual({
+      target: { kind: 'enemy', idx: 1 },
+      value: 50,
+      color: 'blue',
+    })
+    expect(frames[6]!.fighters).toEqual([
+      { side: 'enemy', idx: 1, pos: { x: 192, y: 160 }, iColorShift: 0 },
+    ]) // 200-8
+    expect(frames[7]!.fighters).toEqual([
+      { side: 'enemy', idx: 1, pos: { x: 196, y: 160 }, iColorShift: 6 },
+    ]) // i1 -(-4)
     // —— 复位 attacker:末帧回 posOriginal,Delay(2)(fight.c:4651-4652)——
     const last = frames[frames.length - 1]!
     expect(last.fighters).toEqual([{ side: 'enemy', idx: 0, pos: { x: 100, y: 100 } }])
@@ -1250,11 +1461,13 @@ describe('buildPlayerDefMagicTimeline (fight.c:2447-2606)', () => {
     })
     expect(f[0]!.sound).toBeUndefined() // caster 帧6(循环前,fight.c:2492)不带
     expect(f[1]!.sound).toBe(335) // 特效 i==0
-    f.forEach((fr, i) => { if (i !== 1) expect(fr.sound).toBeUndefined() })
+    f.forEach((fr, i) => {
+      if (i !== 1) expect(fr.sound).toBeUndefined()
+    })
   })
 
   it('magic.sound 缺省/0 → 全帧无 sound', () => {
-    expect(buildToPlayer().every(fr => fr.sound === undefined)).toBe(true)
+    expect(buildToPlayer().every((fr) => fr.sound === undefined)).toBe(true)
   })
 
   it('applyToParty:落点对每个队员各放一份(overlays 多落点);辉光设全队员', () => {
@@ -1378,7 +1591,9 @@ describe('buildEnemyMagicTimeline (fight.c:2846-3069)', () => {
 
   it('normal 落点 = player.pos + (xOff,yOff) = (244,164),overlay kind=magic chunk=effect', () => {
     const f = buildNormal()
-    expect(f[0]!.overlays).toMatchObject([{ kind: 'magic', spriteChunk: 12, frameIdx: 0, x: 244, y: 164 }])
+    expect(f[0]!.overlays).toMatchObject([
+      { kind: 'magic', spriteChunk: 12, frameIdx: 0, x: 244, y: 164 },
+    ])
   })
 
   // 效果音声画同步(fight.c:2925-2930):WIN95 在特效帧循环 i==0 播 AUDIO_PlaySound(magic.wSound)
@@ -1388,8 +1603,15 @@ describe('buildEnemyMagicTimeline (fight.c:2846-3069)', () => {
     const f = buildEnemyMagicTimeline({
       enemyCasterIdx: 0,
       magic: {
-        effect: 12, type: 'normal', speed: 2, fireDelay: 2, effectTimes: 1, shake: 0,
-        xOffset: 4, yOffset: -6, sound: 99,
+        effect: 12,
+        type: 'normal',
+        speed: 2,
+        fireDelay: 2,
+        effectTimes: 1,
+        shake: 0,
+        xOffset: 4,
+        yOffset: -6,
+        sound: 99,
       },
       n: 8,
       enemy: { idleFrames: 4, magicFrames: 2, attackFrames: 3 },
@@ -1397,11 +1619,13 @@ describe('buildEnemyMagicTimeline (fight.c:2846-3069)', () => {
       targetPlayerPos: { x: 240, y: 170 },
     })
     expect(f[0]!.sound).toBe(99)
-    f.forEach((fr, i) => { if (i !== 0) expect(fr.sound).toBeUndefined() })
+    f.forEach((fr, i) => {
+      if (i !== 0) expect(fr.sound).toBeUndefined()
+    })
   })
 
   it('magic.sound 缺省/0 → 全帧无 sound', () => {
-    expect(buildNormal().every(fr => fr.sound === undefined)).toBe(true)
+    expect(buildNormal().every((fr) => fr.sound === undefined)).toBe(true)
   })
 
   it('attackAll:三落点 {180,180}{234,170}{270,146} 各 +off → overlays[3] 同帧(敌方坐标,异于 OffMagic)', () => {
@@ -1485,7 +1709,16 @@ describe('buildEnemyMagicTimeline (fight.c:2846-3069)', () => {
   it('W4 iBlow:iBlow!=0 → 全体队员逐帧累加 (blow, trunc(blow/2)),末帧复位 posOriginal(fight.c:2901-2909)', () => {
     const frames = buildEnemyMagicTimeline({
       enemyCasterIdx: 0,
-      magic: { effect: 12, type: 'normal', speed: 2, fireDelay: 2, effectTimes: 1, shake: 0, xOffset: 0, yOffset: 0 },
+      magic: {
+        effect: 12,
+        type: 'normal',
+        speed: 2,
+        fireDelay: 2,
+        effectTimes: 1,
+        shake: 0,
+        xOffset: 0,
+        yOffset: 0,
+      },
       n: 8,
       enemy: { idleFrames: 4, magicFrames: 2, attackFrames: 3 },
       targetPlayerIdx: 1,
@@ -1505,14 +1738,28 @@ describe('buildEnemyMagicTimeline (fight.c:2846-3069)', () => {
     let calls = 0
     const frames = buildEnemyMagicTimeline({
       enemyCasterIdx: 0,
-      magic: { effect: 12, type: 'normal', speed: 2, fireDelay: 2, effectTimes: 1, shake: 0, xOffset: 0, yOffset: 0 },
+      magic: {
+        effect: 12,
+        type: 'normal',
+        speed: 2,
+        fireDelay: 2,
+        effectTimes: 1,
+        shake: 0,
+        xOffset: 0,
+        yOffset: 0,
+      },
       n: 8,
       enemy: { idleFrames: 4, magicFrames: 2, attackFrames: 3 },
       targetPlayerIdx: 1,
       targetPlayerPos: { x: 240, y: 170 },
       iBlow: 0,
       blowTargets: [{ side: 'player', idx: 0, pos: { x: 120, y: 180 } }],
-      rng: { rangeInclusive: () => { calls++; return 2 } },
+      rng: {
+        rangeInclusive: () => {
+          calls++
+          return 2
+        },
+      },
     })
     expect(calls).toBe(0) // iBlow=0 → 不摇 blow rng
     expect(frames[0]!.fighters?.find((f) => f.side === 'player')).toBeUndefined() // 无吹飞位移
@@ -1552,8 +1799,13 @@ describe('buildEnemyMagicCastIntro (fight.c:4680-4717)', () => {
 
   it('magicFrames>0:用 magicFrames 帧手势 currentFrame=idleFrames+i,且不补停顿帧', () => {
     const g = buildEnemyMagicCastIntro({
-      enemyCasterIdx: 1, enemyPos: { x: 0, y: 0 },
-      idleFrames: 2, magicFrames: 3, attackFrames: 0, actWaitFrames: 2, fireDelay: 5,
+      enemyCasterIdx: 1,
+      enemyPos: { x: 0, y: 0 },
+      idleFrames: 2,
+      magicFrames: 3,
+      attackFrames: 0,
+      actWaitFrames: 2,
+      fireDelay: 5,
     })
     // 前移 2 帧 + magicFrames=3 手势(currentFrame 2,3,4);fireDelay=5(!=0)→ 无 attackFrames 段;magicFrames!=0 → 无停顿帧
     expect(g).toHaveLength(5)
@@ -1564,8 +1816,10 @@ describe('buildEnemyMagicCastIntro (fight.c:4680-4717)', () => {
 describe('buildAttackMateTimeline (fight.c:3791-3858 混乱攻友军走入动画)', () => {
   it('windup frame8/0×2 → 走到 target+(30,12) frame8 → frame9+友军击退 pos-(12,6) → 复位', () => {
     const frames = buildAttackMateTimeline({
-      casterIdx: 0, casterPos: { x: 100, y: 180 },
-      targetIdx: 1, targetPos: { x: 140, y: 170 },
+      casterIdx: 0,
+      casterPos: { x: 100, y: 180 },
+      targetIdx: 1,
+      targetPos: { x: 140, y: 170 },
     })
     // windup: frame 0..3 = 8/0/8/0
     expect(frames[0]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 8 }])
@@ -1576,17 +1830,36 @@ describe('buildAttackMateTimeline (fight.c:3791-3858 混乱攻友军走入动画
     expect(frames[4]!.fighters).toBeUndefined()
     expect(frames[4]!.durationMs).toBe(D * 2)
     // frame 5 = 走到 target+(30,12)=(170,182) frame8 Delay(5)
-    expect(frames[5]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 8, pos: { x: 170, y: 182 } }])
+    expect(frames[5]!.fighters).toEqual([
+      { side: 'player', idx: 0, currentFrame: 8, pos: { x: 170, y: 182 } },
+    ])
     expect(frames[5]!.durationMs).toBe(D * 5)
     // frame 6 = caster frame9 + 友军击退 target-(12,6)=(128,164)
-    expect(frames[6]!.fighters).toContainEqual({ side: 'player', idx: 0, currentFrame: 9, pos: { x: 170, y: 182 } })
+    expect(frames[6]!.fighters).toContainEqual({
+      side: 'player',
+      idx: 0,
+      currentFrame: 9,
+      pos: { x: 170, y: 182 },
+    })
     expect(frames[6]!.fighters).toContainEqual({ side: 'player', idx: 1, pos: { x: 128, y: 164 } })
     // frame 7 = 友军 iColorShift 6 闪白
-    expect(frames[7]!.fighters).toEqual([{ side: 'player', idx: 1, iColorShift: 6, pos: { x: 128, y: 164 } }])
+    expect(frames[7]!.fighters).toEqual([
+      { side: 'player', idx: 1, iColorShift: 6, pos: { x: 128, y: 164 } },
+    ])
     // 末帧 = 复位 caster(100,180) + target(140,170) frame0
     const last = frames[frames.length - 1]!.fighters!
-    expect(last).toContainEqual({ side: 'player', idx: 0, currentFrame: 0, pos: { x: 100, y: 180 } })
-    expect(last).toContainEqual({ side: 'player', idx: 1, currentFrame: 0, pos: { x: 140, y: 170 } })
+    expect(last).toContainEqual({
+      side: 'player',
+      idx: 0,
+      currentFrame: 0,
+      pos: { x: 100, y: 180 },
+    })
+    expect(last).toContainEqual({
+      side: 'player',
+      idx: 1,
+      currentFrame: 0,
+      pos: { x: 140, y: 170 },
+    })
   })
 })
 
@@ -1604,7 +1877,12 @@ describe('buildShowMagicAnimTimeline (0x92, script.c:2637-2662)', () => {
   })
 
   it('preMagic 段(前 17 帧)等同 buildPreMagicTimeline', () => {
-    const pre = buildPreMagicTimeline({ casterPos: { x: 240, y: 170 }, casterIdx: 0, castEffectFrameBase: 35, isSummon: false })
+    const pre = buildPreMagicTimeline({
+      casterPos: { x: 240, y: 170 },
+      casterIdx: 0,
+      castEffectFrameBase: 35,
+      isSummon: false,
+    })
     expect(frames.slice(0, 17)).toEqual(pre)
   })
 
@@ -1648,13 +1926,20 @@ describe('DH6 群攻全敌闪白+收势抖动(fight.c:2196-2247)', () => {
       ],
     })
     // i==0 特效帧:全敌染色 6
-    const flashFrame = frames.find((f) => f.fighters?.some((d) => d.side === 'enemy' && d.iColorShift === 6))
+    const flashFrame = frames.find((f) =>
+      f.fighters?.some((d) => d.side === 'enemy' && d.iColorShift === 6),
+    )
     expect(flashFrame).toBeDefined()
-    expect(flashFrame!.fighters!.filter((d) => d.side === 'enemy' && d.iColorShift === 6)).toHaveLength(2)
+    expect(
+      flashFrame!.fighters!.filter((d) => d.side === 'enemy' && d.iColorShift === 6),
+    ).toHaveLength(2)
     // 收势 3 帧:全敌位移(累积 -8/-4/-6),首帧带 iColorShift=0
-    const recoil = frames.filter((f) => f.fighters?.some((d) => d.side === 'enemy' && d.pos !== undefined))
+    const recoil = frames.filter((f) =>
+      f.fighters?.some((d) => d.side === 'enemy' && d.pos !== undefined),
+    )
     expect(recoil).toHaveLength(3)
-    const xsOf = (fi: number, idx: number) => recoil[fi]!.fighters!.find((d) => d.side === 'enemy' && d.idx === idx)!.pos!.x
+    const xsOf = (fi: number, idx: number) =>
+      recoil[fi]!.fighters!.find((d) => d.side === 'enemy' && d.idx === idx)!.pos!.x
     expect([xsOf(0, 0), xsOf(1, 0), xsOf(2, 0)]).toEqual([90 - 8, 90 - 4, 90 - 6])
     expect([xsOf(0, 1), xsOf(1, 1), xsOf(2, 1)]).toEqual([170 - 8, 170 - 4, 170 - 6])
     expect(recoil[0]!.fighters!.every((d) => d.iColorShift === 0)).toBe(true)

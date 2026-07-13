@@ -1,14 +1,15 @@
 import { describe, expect, it } from 'vitest'
 import type { IndexedImage } from '../assets/png.js'
-import { createFramebuffer } from './framebuffer.js'
 import { drawNumber } from './draw-number.js'
+import { createFramebuffer } from './framebuffer.js'
 
 /** mock SPRITEUI frame:每 frame 6×8 全 opaque,palette index = (base + digit)。
  *  yellow 19+0 = 19('0' digit color 19),19+1 = 20('1' digit color 20),... */
 function mockUiFrames(): IndexedImage[] {
   const frames: IndexedImage[] = []
   for (let k = 0; k < 80; k++) {
-    const w = 6, h = 8
+    const w = 6,
+      h = 8
     const indices = new Uint8Array(w * h).fill(k)
     const opaque = new Uint8Array(w * h).fill(1)
     frames.push({ width: w, height: h, indices, opaque })
@@ -23,7 +24,7 @@ describe('drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port', () => {
     // sdlpal 真值:x = 49 - 6 + 6*6 = 79,blit yellow '0' frame 19(index 19)at (79, 14)
     expect(fb.indices[14 * 320 + 79]).toBe(19) // top-left digit pixel
     expect(fb.indices[14 * 320 + 80]).toBe(19) // 紧邻
-    expect(fb.indices[14 * 320 + 78]).toBe(0)  // 79 之前应为 0
+    expect(fb.indices[14 * 320 + 78]).toBe(0) // 79 之前应为 0
   })
 
   it('num=123,nLength=6,right-align — 3 digits 末位 3 在 (79, 14),2 在 (73, 14),1 在 (67, 14)', () => {

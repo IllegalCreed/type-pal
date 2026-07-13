@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest'
-import { createFramebuffer } from './framebuffer.js'
+import { describe, expect, it } from 'vitest'
 import { drawSprite, toSpriteImages } from './draw-sprite.js'
+import { createFramebuffer } from './framebuffer.js'
 
 describe('toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归)', () => {
   const mk = (w: number, h: number) => ({
@@ -12,7 +12,15 @@ describe('toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归)', () => {
 
   it('每帧 anchorY = 自身高度,anchorX = 自身宽度/2(非整组钉死 frame0)', () => {
     // chunk193 爬行精灵真实高度剖面:frame0=31,爬帧 frame3..6=54/56/65/73
-    const sprites = toSpriteImages([mk(45, 31), mk(45, 63), mk(45, 41), mk(45, 54), mk(45, 56), mk(45, 65), mk(45, 73)])
+    const sprites = toSpriteImages([
+      mk(45, 31),
+      mk(45, 63),
+      mk(45, 41),
+      mk(45, 54),
+      mk(45, 56),
+      mk(45, 65),
+      mk(45, 73),
+    ])
     expect(sprites[0]!.anchorY).toBe(31)
     expect(sprites[6]!.anchorY).toBe(73) // ← bug 时会是 31(frame0),脚底下溢 42px
     expect(sprites[5]!.anchorY).toBe(65)
@@ -41,12 +49,7 @@ describe('drawSprite', () => {
     const fb = createFramebuffer()
     const indices = new Uint8Array([1, 2, 3, 4])
     const opaque = new Uint8Array([1, 1, 1, 1])
-    drawSprite(
-      fb,
-      { width: 2, height: 2, indices, opaque, anchorX: 1, anchorY: 2 },
-      10,
-      10,
-    )
+    drawSprite(fb, { width: 2, height: 2, indices, opaque, anchorX: 1, anchorY: 2 }, 10, 10)
     expect(fb.indices[8 * 320 + 9]).toBe(1)
     expect(fb.indices[8 * 320 + 10]).toBe(2)
     expect(fb.indices[9 * 320 + 9]).toBe(3)
@@ -58,12 +61,7 @@ describe('drawSprite', () => {
     fb.writePixel(10, 10, 99)
     const indices = new Uint8Array([0])
     const opaque = new Uint8Array([0])
-    drawSprite(
-      fb,
-      { width: 1, height: 1, indices, opaque, anchorX: 0, anchorY: 0 },
-      10,
-      10,
-    )
+    drawSprite(fb, { width: 1, height: 1, indices, opaque, anchorX: 0, anchorY: 0 }, 10, 10)
     expect(fb.indices[10 * 320 + 10]).toBe(99)
   })
 
@@ -72,12 +70,7 @@ describe('drawSprite', () => {
     fb.writePixel(10, 10, 99)
     const indices = new Uint8Array([0])
     const opaque = new Uint8Array([1])
-    drawSprite(
-      fb,
-      { width: 1, height: 1, indices, opaque, anchorX: 0, anchorY: 0 },
-      10,
-      10,
-    )
+    drawSprite(fb, { width: 1, height: 1, indices, opaque, anchorX: 0, anchorY: 0 }, 10, 10)
     expect(fb.indices[10 * 320 + 10]).toBe(0)
   })
 
@@ -86,12 +79,7 @@ describe('drawSprite', () => {
     const indices = new Uint8Array(4).fill(5)
     const opaque = new Uint8Array(4).fill(1)
     const ok = () =>
-      drawSprite(
-        fb,
-        { width: 2, height: 2, indices, opaque, anchorX: 0, anchorY: 0 },
-        -1,
-        -1,
-      )
+      drawSprite(fb, { width: 2, height: 2, indices, opaque, anchorX: 0, anchorY: 0 }, -1, -1)
     expect(ok).not.toThrow()
   })
 })

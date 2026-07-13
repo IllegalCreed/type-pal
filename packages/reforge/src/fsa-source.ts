@@ -9,7 +9,11 @@ function throwIfAborted(signal?: AbortSignal): void {
   if (signal?.aborted) throw new DOMException('file read aborted', 'AbortError')
 }
 
-async function fileOf(dir: FileSystemDirectoryHandle, rel: string, signal?: AbortSignal): Promise<File> {
+async function fileOf(
+  dir: FileSystemDirectoryHandle,
+  rel: string,
+  signal?: AbortSignal,
+): Promise<File> {
   throwIfAborted(signal)
   const parts = rel.split('/').filter(Boolean)
   const name = parts.pop()

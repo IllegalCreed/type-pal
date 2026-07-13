@@ -13,8 +13,16 @@ type StatusOwner = BattlePlayer | BattleEnemy
 
 /** BattleStatus 全部计数器字段(对齐 sdlpal kStatusAll = 9 项 + Slow 兼容)。 */
 const STATUS_KEYS = [
-  'sleep', 'paralyzed', 'confused', 'haste', 'slow',
-  'silence', 'puppet', 'bravery', 'protect', 'dualAttack',
+  'sleep',
+  'paralyzed',
+  'confused',
+  'haste',
+  'slow',
+  'silence',
+  'puppet',
+  'bravery',
+  'protect',
+  'dualAttack',
 ] as const satisfies readonly (keyof BattleStatus)[]
 
 /** 每回合 -1 衰减全部 status 计数器 — sdlpal fight.c:1632-1638 同一公式(遍历 kStatusAll)。 */

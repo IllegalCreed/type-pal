@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
 import type { Palette } from '@type-pal/shared'
+import { describe, expect, it } from 'vitest'
 import { createFramebuffer } from './framebuffer.js'
 
 describe('Framebuffer', () => {

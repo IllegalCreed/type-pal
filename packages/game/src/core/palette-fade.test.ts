@@ -1,18 +1,18 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import {
-  type RGB,
-  buildFadeOut,
-  buildFadeIn,
-  buildSceneFade,
-  buildPaletteFade,
-  buildColorFade,
-  buildFadeToRed,
-  stepPaletteFade,
-  finalizePaletteFade,
   blackColors,
+  buildColorFade,
+  buildFadeIn,
+  buildFadeOut,
+  buildFadeToRed,
+  buildPaletteFade,
+  buildSceneFade,
   cloneColors,
-  makeWorkingPalette,
   FADE_TO_RED_SKIP,
+  finalizePaletteFade,
+  makeWorkingPalette,
+  type RGB,
+  stepPaletteFade,
 } from './palette-fade.js'
 
 /** 造 256 色,全填同一色(测试用)。 */

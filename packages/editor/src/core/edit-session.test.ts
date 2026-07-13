@@ -1,4 +1,4 @@
-import { describe, expect, test, vi } from 'vitest'
+import { expect, test, vi } from 'vitest'
 import { EditSession, MoveEntityCommand } from './edit-session.js'
 
 // 最小 EditorState fixture(字段不全,as 断言 —— 测的是 command/undo 引擎,不是数据形状)。
@@ -23,7 +23,9 @@ function mkState() {
     startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
   } as never
 }
-const entPos = (s: { scenes: { entities: { pos: { col: number; row: number; height: number } }[] }[] }): {
+const entPos = (s: {
+  scenes: { entities: { pos: { col: number; row: number; height: number } }[] }[]
+}): {
   col: number
   row: number
   height: number

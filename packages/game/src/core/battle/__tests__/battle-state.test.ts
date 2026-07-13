@@ -170,7 +170,11 @@ describe('createBattleState', () => {
       gs,
       playerRoles: { roles: [minimalRole(0)] },
       enemies: [],
-      field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      field: {
+        id: 0,
+        screenWave: 0,
+        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
       isBoss: false,
       rng: createSeedableRng(1),
     })
@@ -185,7 +189,11 @@ describe('createBattleState', () => {
       gs,
       playerRoles: { roles: [minimalRole(0)] },
       enemies: [],
-      field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      field: {
+        id: 0,
+        screenWave: 0,
+        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
       isBoss: false,
       rng: createSeedableRng(1),
     })

@@ -1,15 +1,18 @@
-import { describe, it, expect, beforeEach } from 'vitest'
 import type { AbstractKey, InputSnapshot, Item, Magic, PlayerRoles, Spell } from '@type-pal/shared'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { createCommandBus } from '../command-bus.js'
 import { createInitialGameState, type GameState } from '../game-state.js'
-import { tickMenu, openMenu } from './menu-mode.js'
 import { createInGameMenu, createSystemMenu } from './in-game-menu.js'
-import { createOpeningMenu } from './opening-menu.js'
 import {
-  _resetStartGameHandlerForTest, setMenuCatalogs, setStartGameHandler,
-  setSystemQuitHandler, _resetSystemQuitHandlerForTest,
+  _resetStartGameHandlerForTest,
+  _resetSystemQuitHandlerForTest,
   type StartGameChoice,
+  setMenuCatalogs,
+  setStartGameHandler,
+  setSystemQuitHandler,
 } from './menu-driver.js'
+import { openMenu, tickMenu } from './menu-mode.js'
+import { createOpeningMenu } from './opening-menu.js'
 
 function snap(pressed: AbstractKey[] = []): InputSnapshot {
   return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }
@@ -75,7 +78,9 @@ describe('M5.6 W0.b dispatchInGameMenu hub', () => {
       tickMenu(gs, snap(['Confirm']), createCommandBus())
       if (gs.menuStack.length === 2 && gs.menuStack[1]?.kind === 'inventory-action') return
     }
-    throw new Error('Confirm "物品" 未 push inventory-action — sdlpal PAL_InventoryMenu 一级 box 子菜单缺失')
+    throw new Error(
+      'Confirm "物品" 未 push inventory-action — sdlpal PAL_InventoryMenu 一级 box 子菜单缺失',
+    )
   })
 
   it('Confirm "status" → push player-status', () => {
@@ -128,9 +133,9 @@ describe('M5.6 W0.b dispatchSystemMenu', () => {
     sys.selection.cursor = sys.selection.items.length - 1 // quit 在最后
     openMenu(gs, { kind: 'system', state: sys })
     tickMenu(gs, snap(['Confirm']), createCommandBus())
-    expect(sys.phase).toBe('confirm')      // 进确认阶段
-    expect(sys.confirmYes).toBe(false)      // 默认高亮 No(PAL_ConfirmMenu nDefault=0)
-    expect(gs.menuStack.length).toBe(1)     // 未清栈
+    expect(sys.phase).toBe('confirm') // 进确认阶段
+    expect(sys.confirmYes).toBe(false) // 默认高亮 No(PAL_ConfirmMenu nDefault=0)
+    expect(gs.menuStack.length).toBe(1) // 未清栈
   })
 
   it('confirm 阶段方向键 toggle 是/否', () => {
@@ -207,14 +212,16 @@ describe('M5.6 W0.b dispatchSystemMenu', () => {
 
   it('confirm 选 是(Confirm@Yes)→ 调 systemQuitHandler(回标题),不复用 0xA0 结局 handler', () => {
     let quitCalled = 0
-    setSystemQuitHandler(() => { quitCalled++ })
+    setSystemQuitHandler(() => {
+      quitCalled++
+    })
     const gs = mkGs()
     const sys = createSystemMenu()
     sys.selection.cursor = sys.selection.items.length - 1
     openMenu(gs, { kind: 'system', state: sys })
     tickMenu(gs, snap(['Confirm']), createCommandBus()) // 进 confirm
-    tickMenu(gs, snap(['Right']), createCommandBus())    // → Yes
-    tickMenu(gs, snap(['Confirm']), createCommandBus())  // 选 Yes
+    tickMenu(gs, snap(['Right']), createCommandBus()) // → Yes
+    tickMenu(gs, snap(['Confirm']), createCommandBus()) // 选 Yes
     expect(quitCalled).toBe(1)
     _resetSystemQuitHandlerForTest()
   })
@@ -224,12 +231,12 @@ describe('M5.6 W0.b dispatchSystemMenu', () => {
 // M5.6 T9:5 sub-menu dispatcher 单测
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { createInventoryMenu } from './inventory-menu.js'
-import { createInventoryActionMenu } from './inventory-action-menu.js'
-import { createEquipMenu } from './equip-menu.js'
-import { createInGameMagicMenu } from './in-game-magic-menu.js'
 import { setGlobalEvents } from '../event-system.js'
 import { tickByMode } from '../mode.js'
+import { createEquipMenu } from './equip-menu.js'
+import { createInGameMagicMenu } from './in-game-magic-menu.js'
+import { createInventoryActionMenu } from './inventory-action-menu.js'
+import { createInventoryMenu } from './inventory-menu.js'
 import { createPlayerStatus } from './player-status.js'
 import { createSaveSlotMenu } from './save-slot-menu.js'
 
@@ -279,9 +286,15 @@ describe('M5.6 T9 dispatchInventoryMenu', () => {
   it('Up/Down → cursor 变 + iCurInvMenuItem 写回', () => {
     const gs = mkGs()
     // 给 inventory + items 让 list 有内容
-    gs.inventory = [{ itemId: 1, count: 5 }, { itemId: 2, count: 3 }, { itemId: 3, count: 1 }]
+    gs.inventory = [
+      { itemId: 1, count: 5 },
+      { itemId: 2, count: 3 },
+      { itemId: 3, count: 1 },
+    ]
     const items = [
-      { id: 1, name: 'A' }, { id: 2, name: 'B' }, { id: 3, name: 'C' },
+      { id: 1, name: 'A' },
+      { id: 2, name: 'B' },
+      { id: 3, name: 'C' },
     ] as unknown as Item[]
     setMenuCatalogs({ ...MOCK_CATALOGS, items })
     const inv = createInventoryMenu(gs, items)
@@ -294,7 +307,10 @@ describe('M5.6 T9 dispatchInventoryMenu', () => {
   it('PgDn → 翻页', () => {
     const gs = mkGs()
     gs.inventory = Array.from({ length: 20 }, (_, i) => ({ itemId: i + 1, count: 1 }))
-    const items = gs.inventory.map((e) => ({ id: e.itemId, name: `Item${e.itemId}` })) as unknown as Item[]
+    const items = gs.inventory.map((e) => ({
+      id: e.itemId,
+      name: `Item${e.itemId}`,
+    })) as unknown as Item[]
     setMenuCatalogs({ ...MOCK_CATALOGS, items })
     const inv = createInventoryMenu(gs, items)
     openMenu(gs, { kind: 'inventory', state: inv })
@@ -326,10 +342,18 @@ describe('M5.6 T9 dispatchEquipMenu', () => {
       { op: 'raw', opcode: 0x18, operands: [14, 163, 0], label: 'L_500' },
       { op: 'end' },
     ])
-    const mkItem = (id: number, name: string, soe: number): Item => ({
-      id, _name: name, bitmap: 0, price: 0, scriptOnUse: 0, scriptOnEquip: soe,
-      scriptOnThrow: 0, flags: { equipable: true, equipableBy: { 0: true } }, equipPart: 3,
-    } as unknown as Item)
+    const mkItem = (id: number, name: string, soe: number): Item =>
+      ({
+        id,
+        _name: name,
+        bitmap: 0,
+        price: 0,
+        scriptOnUse: 0,
+        scriptOnEquip: soe,
+        scriptOnThrow: 0,
+        flags: { equipable: true, equipableBy: { 0: true } },
+        equipPart: 3,
+      }) as unknown as Item
     // 新装备 163 + 旧装备 100 都是 equipable catalog 项(回包后旧装备能进 equipable 列表)
     const items = [mkItem(163, '长鞭', 500), mkItem(100, '旧武器', 0)]
     setMenuCatalogs({ ...MOCK_CATALOGS, items, playerRoles: { roles: [{ id: 0 } as any] } as any })
@@ -347,11 +371,11 @@ describe('M5.6 T9 dispatchEquipMenu', () => {
     expect(st.selectedItemId).toBe(100) // 选中物品显示刷新为换下的旧装备(状态层已对)
     // ★核心 bug:背包此刻 = [旧装备100](新163 出包,旧100 入包)。
     //   回到 list 时 grid 应反映当前背包 —— 含 100、不含 163。
-    expect(gs.inventory.map(e => e.itemId).sort()).toEqual([100])
+    expect(gs.inventory.map((e) => e.itemId).sort()).toEqual([100])
     // 取消回 list(Menu)→ 列表应是当前背包(旧装备 100),而非装备前的旧快照(新装备 163)
     tickMenu(gs, snap(['Menu']), createCommandBus())
     expect(st.phase).toBe('list')
-    expect(st.list.inventory.map(s => s.itemId)).toEqual([100]) // 旧装备入列、新装备出列
+    expect(st.list.inventory.map((s) => s.itemId)).toEqual([100]) // 旧装备入列、新装备出列
   })
 })
 
@@ -369,21 +393,49 @@ describe('M5.6 T9 dispatchInGameMagicMenu', () => {
   it('L38:pick-spell 阶段 Right 走法术网格逐项移动', () => {
     const gs = mkGs()
     const spells = [
-      { id: 296, magicNumber: 33, scriptOnUse: 0, scriptOnSuccess: 0, scriptDesc: 0,
-        flags: { usableOutsideBattle: true, usableInBattle: true, usableToEnemy: false, applyToAll: false },
-        _name: '气疗术' },
-      { id: 297, magicNumber: 35, scriptOnUse: 0, scriptOnSuccess: 0, scriptDesc: 0,
-        flags: { usableOutsideBattle: true, usableInBattle: true, usableToEnemy: false, applyToAll: false },
-        _name: '观音咒' },
+      {
+        id: 296,
+        magicNumber: 33,
+        scriptOnUse: 0,
+        scriptOnSuccess: 0,
+        scriptDesc: 0,
+        flags: {
+          usableOutsideBattle: true,
+          usableInBattle: true,
+          usableToEnemy: false,
+          applyToAll: false,
+        },
+        _name: '气疗术',
+      },
+      {
+        id: 297,
+        magicNumber: 35,
+        scriptOnUse: 0,
+        scriptOnSuccess: 0,
+        scriptDesc: 0,
+        flags: {
+          usableOutsideBattle: true,
+          usableInBattle: true,
+          usableToEnemy: false,
+          applyToAll: false,
+        },
+        _name: '观音咒',
+      },
     ] as unknown as Spell[]
     const magics = [
       { id: 33, costMP: 6 },
       { id: 35, costMP: 10 },
     ] as unknown as Magic[]
     const playerRoles = {
-      roles: [{
-        id: 0, _name: '李逍遥', hp: 100, mp: 80, magic: [296, 297, ...Array<number>(30).fill(0)],
-      }],
+      roles: [
+        {
+          id: 0,
+          _name: '李逍遥',
+          hp: 100,
+          mp: 80,
+          magic: [296, 297, ...Array<number>(30).fill(0)],
+        },
+      ],
     } as unknown as PlayerRoles
     gs.partyMembers = [0]
     setMenuCatalogs({ ...MOCK_CATALOGS, spells, magics, playerRoles })
@@ -449,7 +501,9 @@ describe('M5.6 T17 dispatchOpeningMenu', () => {
     const gs = mkGs()
     const opening = createOpeningMenu()
     let received: StartGameChoice | undefined
-    setStartGameHandler((c) => { received = c })
+    setStartGameHandler((c) => {
+      received = c
+    })
     openMenu(gs, { kind: 'opening', state: opening })
     tickMenu(gs, snap(['Confirm']), createCommandBus())
     expect(received).toEqual({ kind: 'new-game' })
@@ -462,7 +516,9 @@ describe('M5.6 T17 dispatchOpeningMenu', () => {
     // 故意把 cursor 移到 load-game,验证 Cancel 仍按 new-game 走
     opening.selection.cursor = 1
     let received: StartGameChoice | undefined
-    setStartGameHandler((c) => { received = c })
+    setStartGameHandler((c) => {
+      received = c
+    })
     openMenu(gs, { kind: 'opening', state: opening })
     tickMenu(gs, snap(['Menu']), createCommandBus())
     expect(received).toEqual({ kind: 'new-game' })
@@ -513,8 +569,23 @@ describe('M5.6 T9 dispatchSaveSlotMenu', () => {
 describe('C4 ItemUseMenu INNER loop(play.c:288-303 revert/auto-cancel)', () => {
   function usableItem(id: number): Item {
     return {
-      id, _name: '止血草', bitmap: 0, price: 0, scriptOnUse: 500, scriptOnEquip: 0, scriptOnThrow: 0, scriptDesc: 0,
-      flags: { usable: true, consuming: true, applyToAll: false, equipable: false, throwable: false, sellable: false, equipableBy: [false, false, false, false, false, false] } as any,
+      id,
+      _name: '止血草',
+      bitmap: 0,
+      price: 0,
+      scriptOnUse: 500,
+      scriptOnEquip: 0,
+      scriptOnThrow: 0,
+      scriptDesc: 0,
+      flags: {
+        usable: true,
+        consuming: true,
+        applyToAll: false,
+        equipable: false,
+        throwable: false,
+        sellable: false,
+        equipableBy: [false, false, false, false, false, false],
+      } as any,
     } as unknown as Item
   }
 
@@ -524,7 +595,11 @@ describe('C4 ItemUseMenu INNER loop(play.c:288-303 revert/auto-cancel)', () => {
     gs.inventory = [{ itemId: 10, count: 2 }]
     const items = [usableItem(10)]
     setMenuCatalogs({ ...MOCK_CATALOGS, items })
-    setGlobalEvents([{ op: 'end' }, { op: 'raw', opcode: 0x05, operands: [0, 0, 0], label: 'L_500' }, { op: 'end' }])
+    setGlobalEvents([
+      { op: 'end' },
+      { op: 'raw', opcode: 0x05, operands: [0, 0, 0], label: 'L_500' },
+      { op: 'end' },
+    ])
     const inv = createInventoryMenu(gs, items)
     openMenu(gs, { kind: 'inventory', state: inv })
     tickMenu(gs, snap(['Confirm']), createCommandBus()) // list → 非 applyToAll → use-target
@@ -547,7 +622,11 @@ describe('C4 ItemUseMenu INNER loop(play.c:288-303 revert/auto-cancel)', () => {
     // playerRoles 须含 role 0:否则 use-target 的 targetMenu 空 → confirmInventoryTarget 返 null、startScript 不触发
     setMenuCatalogs({ ...MOCK_CATALOGS, items, playerRoles: { roles: [{ id: 0 } as any] } as any })
     // L_500 = 无演出脚本(0x19 加属性,非 waitable + end)= 试炼果/八仙石真实脚本结构(L_39229: 0x19+end)
-    setGlobalEvents([{ op: 'end' }, { op: 'raw', opcode: 0x19, operands: [18, 3, 0], label: 'L_500' }, { op: 'end' }])
+    setGlobalEvents([
+      { op: 'end' },
+      { op: 'raw', opcode: 0x19, operands: [18, 3, 0], label: 'L_500' },
+      { op: 'end' },
+    ])
     const inv = createInventoryMenu(gs, items)
     openMenu(gs, { kind: 'inventory', state: inv })
     // ① list Confirm → 非 applyToAll → use-target(仍 mode='menu',不切 event)

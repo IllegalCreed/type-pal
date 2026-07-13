@@ -21,7 +21,7 @@ beforeEach(() => {
 })
 
 // 占位 raw(explore 模式 → D26 skip + ip++);用于在 end 前制造位移,证明返回的是"起始 entry"而非"end 位置"。
-const NOOP: Command = { op: 'raw', opcode: 0x9F, operands: [0, 0, 0] }
+const NOOP: Command = { op: 'raw', opcode: 0x9f, operands: [0, 0, 0] }
 
 function run(commands: Command[], ip: number): number {
   return runScript({ commands, ip, bus: createCommandBus(), runtimeMode: 'explore' })

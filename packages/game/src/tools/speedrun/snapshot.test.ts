@@ -7,7 +7,10 @@ function fakeGs(over: Partial<GameState>): GameState {
     wNumScene: 19,
     party: { x: 100, y: 200, facing: 0 },
     wNumMusic: 86,
-    inventory: [{ itemId: 265, count: 1 }, { itemId: 9, count: 0 }],
+    inventory: [
+      { itemId: 265, count: 1 },
+      { itemId: 9, count: 0 },
+    ],
     battleState: undefined,
     ...over,
   } as unknown as GameState
@@ -26,10 +29,7 @@ describe('buildSnapshot', () => {
   })
   it('有战斗时汇总敌人 id 与总血', () => {
     const battleState = {
-      enemies: [
-        { e: { id: 75, health: 0 } },
-        { e: { id: 12, health: 30 } },
-      ],
+      enemies: [{ e: { id: 75, health: 0 } }, { e: { id: 12, health: 30 } }],
     }
     const s = buildSnapshot(fakeGs({ battleState } as unknown as Partial<GameState>))
     expect(s.battle?.enemyIds.has(75)).toBe(true)
@@ -53,6 +53,10 @@ describe('buildSnapshot.canMove(计时起表门)', () => {
     expect(buildSnapshot(fakeGs({ mode: 'explore', sceneLoading: true })).canMove).toBe(false)
   })
   it('explore 但 palette 淡入中 → 不可移动', () => {
-    expect(buildSnapshot(fakeGs({ mode: 'explore', paletteFadeState: {} } as unknown as Partial<GameState>)).canMove).toBe(false)
+    expect(
+      buildSnapshot(
+        fakeGs({ mode: 'explore', paletteFadeState: {} } as unknown as Partial<GameState>),
+      ).canMove,
+    ).toBe(false)
   })
 })

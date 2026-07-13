@@ -31,8 +31,7 @@ function pushRawJumpTargets(c: Command, i: number, queue: number[]): void {
   const tgtIdx = JUMP_TARGET_OPERAND[c.opcode]
   if (tgtIdx !== undefined) {
     queue.push(c.operands[tgtIdx]!)
-  }
-  else if (c.opcode === RANDOM_JUMP_OPCODE) {
+  } else if (c.opcode === RANDOM_JUMP_OPCODE) {
     for (let k = 1; k <= (c.operands[0] ?? 0); k++) queue.push(i + k)
   }
 }
@@ -62,8 +61,7 @@ export function sliceByScene(
 
     // 属于本场景的事件对象:下标范围 [eventObjectIndex, next.eventObjectIndex)
     const fromIdx = sc.eventObjectIndex
-    const toIdx =
-      si + 1 < scenes.length ? scenes[si + 1]!.eventObjectIndex : eventObjects.length
+    const toIdx = si + 1 < scenes.length ? scenes[si + 1]!.eventObjectIndex : eventObjects.length
     for (let eoi = fromIdx; eoi < toIdx; eoi++) {
       const eo = eventObjects[eoi]
       if (!eo) continue

@@ -1,12 +1,17 @@
 import type { Command, Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
+import { setGlobalEvents } from '../../core/event-system.js'
 import { createInitialGameState } from '../../core/game-state.js'
 import type { InGameMagicMenuState } from '../../core/menu/in-game-magic-menu.js'
-import { setGlobalEvents } from '../../core/event-system.js'
 import { createFramebuffer } from '../framebuffer.js'
 import { drawInGameMagicMenu } from './draw-magic.js'
 
-function fakeUiFrames(): Array<{ width: number; height: number; indices: Uint8Array; opaque: Uint8Array }> {
+function fakeUiFrames(): Array<{
+  width: number
+  height: number
+  indices: Uint8Array
+  opaque: Uint8Array
+}> {
   return Array.from({ length: 80 }, () => ({
     width: 4,
     height: 4,
@@ -56,43 +61,62 @@ describe('drawInGameMagicMenu', () => {
 
     const state: InGameMagicMenuState = {
       phase: 'pick-spell',
-      casterMenu: { items: [{ id: 0, label: 'Role0', disabled: false }], cursor: 0, pageSize: 1, pageOffset: 0 },
+      casterMenu: {
+        items: [{ id: 0, label: 'Role0', disabled: false }],
+        cursor: 0,
+        pageSize: 1,
+        pageOffset: 0,
+      },
       selectedCasterId: 0,
-      spellMenu: { items: [{ id: 296, label: '气疗术', rightText: 'MP 6', disabled: false }], cursor: 0, pageSize: 15, pageOffset: 0 },
+      spellMenu: {
+        items: [{ id: 296, label: '气疗术', rightText: 'MP 6', disabled: false }],
+        cursor: 0,
+        pageSize: 15,
+        pageOffset: 0,
+      },
       targetCursor: 0,
       partyMembers: [0],
     }
     const playerRoles: PlayerRoles = { roles: [role(0)] }
-    const spells: Spell[] = [{
-      id: 296,
-      _name: '气疗术',
-      magicNumber: 33,
-      scriptOnSuccess: 0,
-      scriptOnUse: 0,
-      scriptDesc: 43275,
-      flags: { usableOutsideBattle: true, usableInBattle: true, usableToEnemy: false, applyToAll: false },
-    }]
-    const magics: Magic[] = [{
-      id: 33,
-      effect: 0,
-      type: 'applyToPlayer',
-      xOffset: 0,
-      yOffset: 0,
-      special: 0,
-      speed: 0,
-      keepEffect: 0,
-      fireDelay: 0,
-      effectTimes: 0,
-      shake: 0,
-      wave: 0,
-      unknown: 0,
-      costMP: 6,
-      baseDamage: 0,
-      elemental: 0,
-      sound: 0,
-    }]
+    const spells: Spell[] = [
+      {
+        id: 296,
+        _name: '气疗术',
+        magicNumber: 33,
+        scriptOnSuccess: 0,
+        scriptOnUse: 0,
+        scriptDesc: 43275,
+        flags: {
+          usableOutsideBattle: true,
+          usableInBattle: true,
+          usableToEnemy: false,
+          applyToAll: false,
+        },
+      },
+    ]
+    const magics: Magic[] = [
+      {
+        id: 33,
+        effect: 0,
+        type: 'applyToPlayer',
+        xOffset: 0,
+        yOffset: 0,
+        special: 0,
+        speed: 0,
+        keepEffect: 0,
+        fireDelay: 0,
+        effectTimes: 0,
+        shake: 0,
+        wave: 0,
+        unknown: 0,
+        costMP: 6,
+        baseDamage: 0,
+        elemental: 0,
+        sound: 0,
+      },
+    ]
     const commands: Command[] = [
-      { op: 'raw', opcode: 0xA7, operands: [0, 0, 0], label: 'L_43275' },
+      { op: 'raw', opcode: 0xa7, operands: [0, 0, 0], label: 'L_43275' },
       { op: 'showDialog', messageIndex: 1, text: '回复少量体力。' },
       { op: 'end' },
     ]
@@ -106,7 +130,9 @@ describe('drawInGameMagicMenu', () => {
         playerRoles,
         spells,
         magics,
-        uiSpriteFrames: fakeUiFrames() as Parameters<typeof drawInGameMagicMenu>[0]['uiSpriteFrames'],
+        uiSpriteFrames: fakeUiFrames() as Parameters<
+          typeof drawInGameMagicMenu
+        >[0]['uiSpriteFrames'],
       })
     } finally {
       setGlobalEvents([])
@@ -115,7 +141,7 @@ describe('drawInGameMagicMenu', () => {
     let descriptionPixels = 0
     for (let y = 3; y < 19; y++) {
       for (let x = 102; x < 260; x++) {
-        if (fb.indices[y * 320 + x] === 0x3C) descriptionPixels++
+        if (fb.indices[y * 320 + x] === 0x3c) descriptionPixels++
       }
     }
     expect(descriptionPixels).toBeGreaterThan(0)
@@ -131,30 +157,74 @@ describe('drawInGameMagicMenu', () => {
     gs.PlayerRolesRuntime.rgwMaxMP[0] = 30
     const state: InGameMagicMenuState = {
       phase: 'pick-spell',
-      casterMenu: { items: [{ id: 0, label: 'Role0', disabled: false }], cursor: 0, pageSize: 1, pageOffset: 0 },
+      casterMenu: {
+        items: [{ id: 0, label: 'Role0', disabled: false }],
+        cursor: 0,
+        pageSize: 1,
+        pageOffset: 0,
+      },
       selectedCasterId: 0,
-      spellMenu: { items: [{ id: 296, label: '气疗术', rightText: 'MP 6', disabled: false }], cursor: 0, pageSize: 15, pageOffset: 0 },
+      spellMenu: {
+        items: [{ id: 296, label: '气疗术', rightText: 'MP 6', disabled: false }],
+        cursor: 0,
+        pageSize: 15,
+        pageOffset: 0,
+      },
       targetCursor: 0,
       partyMembers: [0],
     }
     const playerRoles: PlayerRoles = { roles: [role(0)] }
-    const spells: Spell[] = [{
-      id: 296, _name: '气疗术', magicNumber: 33, scriptOnSuccess: 0, scriptOnUse: 0, scriptDesc: 0,
-      flags: { usableOutsideBattle: true, usableInBattle: true, usableToEnemy: false, applyToAll: false },
-    }]
-    const magics: Magic[] = [{
-      id: 33, effect: 0, type: 'applyToPlayer', xOffset: 0, yOffset: 0, special: 0, speed: 0,
-      keepEffect: 0, fireDelay: 0, effectTimes: 0, shake: 0, wave: 0, unknown: 0, costMP: 6,
-      baseDamage: 0, elemental: 0, sound: 0,
-    }]
+    const spells: Spell[] = [
+      {
+        id: 296,
+        _name: '气疗术',
+        magicNumber: 33,
+        scriptOnSuccess: 0,
+        scriptOnUse: 0,
+        scriptDesc: 0,
+        flags: {
+          usableOutsideBattle: true,
+          usableInBattle: true,
+          usableToEnemy: false,
+          applyToAll: false,
+        },
+      },
+    ]
+    const magics: Magic[] = [
+      {
+        id: 33,
+        effect: 0,
+        type: 'applyToPlayer',
+        xOffset: 0,
+        yOffset: 0,
+        special: 0,
+        speed: 0,
+        keepEffect: 0,
+        fireDelay: 0,
+        effectTimes: 0,
+        shake: 0,
+        wave: 0,
+        unknown: 0,
+        costMP: 6,
+        baseDamage: 0,
+        elemental: 0,
+        sound: 0,
+      },
+    ]
     drawInGameMagicMenu({
-      fb, state, gs, playerRoles, spells, magics,
+      fb,
+      state,
+      gs,
+      playerRoles,
+      spells,
+      magics,
       uiSpriteFrames: fakeUiFrames() as Parameters<typeof drawInGameMagicMenu>[0]['uiSpriteFrames'],
     })
     // SPRITENUM_SLASH(39)=4×4 index-15 块;UI 数字 sprite 同为 index-15。
     const count15 = (x0: number, x1: number, y0: number, y1: number): number => {
       let n = 0
-      for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) if (fb.indices[y * 320 + x] === 15) n++
+      for (let y = y0; y < y1; y++)
+        for (let x = x0; x < x1; x++) if (fb.indices[y * 320 + x] === 15) n++
       return n
     }
     // 右侧 MP 区(buggy:slash@260 + current@265 + needed@230)WIN95 下应清空

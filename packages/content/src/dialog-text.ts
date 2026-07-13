@@ -25,7 +25,7 @@ export function parseDialogControlCodes(raw: string): DialogControlCodes {
   const out: string[] = []
   let iDelay: number | undefined // $NN → 显式打字速度(帧);undefined = 保持默认
   for (let i = 0; i < chars.length; i++) {
-    const ch = chars[i]!
+    const ch = chars[i] ?? ''
     switch (ch) {
       case '$': {
         // text.c:1538-1539 iDelayTime = NN*10/7;消费 `$` + 2 位数字
@@ -38,7 +38,11 @@ export function parseDialogControlCodes(raw: string): DialogControlCodes {
         // text.c:1551-1554 UTIL_Delay(NN*80/7) + return(本行止,尾停顿自动推进)
         const nn = Number.parseInt((chars[i + 1] ?? '') + (chars[i + 2] ?? ''), 10)
         const autoAdvance = Number.isNaN(nn) ? 0 : Math.floor((nn * 80) / 7)
-        return { text: out.join(''), speed: iDelay === undefined ? undefined : iDelay * 8, autoAdvance }
+        return {
+          text: out.join(''),
+          speed: iDelay === undefined ? undefined : iDelay * 8,
+          autoAdvance,
+        }
       }
       case '"':
       case '(':

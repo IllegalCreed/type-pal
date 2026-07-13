@@ -136,7 +136,11 @@ function describe(cmd: Command, locale: Locale): Described {
     case 'setEntityPos':
       return { icon: '📍', label: `${cmd.entity} 定位`, detail: `(${cmd.pos.col},${cmd.pos.row})` }
     case 'setEntityPosRelParty':
-      return { icon: '📍', label: `${cmd.entity} 相对队伍定位`, detail: `队伍±(${cmd.dcol},${cmd.drow})` }
+      return {
+        icon: '📍',
+        label: `${cmd.entity} 相对队伍定位`,
+        detail: `队伍±(${cmd.dcol},${cmd.drow})`,
+      }
     case 'shakeScreen':
       return { icon: '📳', label: `震屏 ${cmd.frames} 帧 · 幅 ${cmd.level}` }
     case 'setScreenWave':
@@ -150,11 +154,17 @@ function describe(cmd: Command, locale: Locale): Described {
     case 'learnSkill':
       return { icon: '📖', label: `角色 ${cmd.role} 习得仙术 ${cmd.skill}` }
     case 'unequip':
-      return { icon: '🔓', label: `角色 ${cmd.role} 卸装 ${cmd.slot === 'all' ? '全部' : `槽${cmd.slot}`}` }
+      return {
+        icon: '🔓',
+        label: `角色 ${cmd.role} 卸装 ${cmd.slot === 'all' ? '全部' : `槽${cmd.slot}`}`,
+      }
     case 'toggleDayNight':
       return { icon: '🌗', label: `昼夜切换(${cmd.ms}ms)` }
     case 'setFollowers':
-      return { icon: '👥', label: cmd.sprites.length ? `编外跟随者 ${cmd.sprites.join('/')}` : '清跟随者' }
+      return {
+        icon: '👥',
+        label: cmd.sprites.length ? `编外跟随者 ${cmd.sprites.join('/')}` : '清跟随者',
+      }
     case 'setMapOverride':
       return { icon: '🗺', label: `换底图 → ${cmd.mapNum}`, detail: cmd.scene ?? '当前场景' }
     case 'halveMoney':
@@ -208,7 +218,10 @@ function describe(cmd: Command, locale: Locale): Described {
     case 'playMusic':
       return { icon: '🎵', label: `音乐 ${cmd.musicId}` }
     case 'setAmbience':
-      return { icon: '🌗', label: `切氛围 ${cmd.ambience === 'night' ? '夜晚' : cmd.ambience === 'day' ? '白天' : cmd.ambience}` }
+      return {
+        icon: '🌗',
+        label: `切氛围 ${cmd.ambience === 'night' ? '夜晚' : cmd.ambience === 'day' ? '白天' : cmd.ambience}`,
+      }
     case 'moveEntity':
       return {
         icon: '🚶',
@@ -265,13 +278,21 @@ function describe(cmd: Command, locale: Locale): Described {
       return {
         icon: '🔁',
         label: `${cmd.entity} 换巡逻脚本`,
-        detail: cmd.script ? `引用 ${cmd.script.id}` : cmd.stages.length ? `${cmd.stages.length} 段` : '停用',
+        detail: cmd.script
+          ? `引用 ${cmd.script.id}`
+          : cmd.stages.length
+            ? `${cmd.stages.length} 段`
+            : '停用',
       }
     case 'setEntityTrigger':
       return {
         icon: '🔗',
         label: `${cmd.entity} 换触发脚本`,
-        detail: cmd.script ? `引用 ${cmd.script.id}` : cmd.stages.length ? `${cmd.stages.length} 段` : '停用',
+        detail: cmd.script
+          ? `引用 ${cmd.script.id}`
+          : cmd.stages.length
+            ? `${cmd.stages.length} 段`
+            : '停用',
       }
     case 'setSceneOnTeleport':
       return {
@@ -302,7 +323,10 @@ function describe(cmd: Command, locale: Locale): Described {
 /** 行级编辑操作(C-track v1)。 */
 export type RowAction = 'insert' | 'up' | 'down' | 'remove'
 /** 段级操作(多段 = 原版「再按一次继续下一段」的结构化版;宝箱防重两段等)。 */
-export type StageAction = { kind: 'addAfter' } | { kind: 'remove' } | { kind: 'next'; next: ScriptStage['next'] }
+export type StageAction =
+  | { kind: 'addAfter' }
+  | { kind: 'remove' }
+  | { kind: 'next'; next: ScriptStage['next'] }
 
 interface RowCtx {
   locale: Locale
@@ -392,7 +416,15 @@ export function ScriptTree(props: {
   onRowAction?: (path: string, action: RowAction) => void
   onStageAction?: (stageIdx: number, action: StageAction) => void
 }) {
-  const { stages, locale, activePath = null, selectedPath = null, onSelect, onRowAction, onStageAction } = props
+  const {
+    stages,
+    locale,
+    activePath = null,
+    selectedPath = null,
+    onSelect,
+    onRowAction,
+    onStageAction,
+  } = props
   const ctx: RowCtx = { locale, activePath, selectedPath, onSelect, onRowAction }
   if (stages.length === 0) return <div className="script-empty">（空脚本）</div>
   return (
@@ -407,7 +439,13 @@ export function ScriptTree(props: {
                   <span className="stage-next">→ 跑完</span>
                   <select
                     className="stage-next-sel"
-                    value={st.next === 'advance' ? 'advance' : typeof st.next === 'number' ? String(st.next) : ''}
+                    value={
+                      st.next === 'advance'
+                        ? 'advance'
+                        : typeof st.next === 'number'
+                          ? String(st.next)
+                          : ''
+                    }
                     onChange={(e) => {
                       const v = e.target.value
                       onStageAction(i, {

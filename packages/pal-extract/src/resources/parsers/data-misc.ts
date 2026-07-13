@@ -42,7 +42,10 @@ export function parseLevelUpExp(buf: Uint8Array): number[] {
  *   `WORD wLevel;` — 触发习得的等级
  *   `WORD wMagic;` — 习得的法术编号
  */
-export interface LevelUpMagicEntry { level: number; magic: number }
+export interface LevelUpMagicEntry {
+  level: number
+  magic: number
+}
 
 /**
  * 解析 DATA.MKF chunk 6 → lprgLevelUpMagic。
@@ -72,7 +75,7 @@ export function parseLevelUpMagic(buf: Uint8Array, roleCount: number): LevelUpMa
     const row: LevelUpMagicEntry[] = []
     for (let r = 0; r < roleCount; r++) {
       const off = e * entrySize + r * 4
-      const level = view.getUint16(off, true)     // wLevel
+      const level = view.getUint16(off, true) // wLevel
       const magic = view.getUint16(off + 2, true) // wMagic
       row.push({ level, magic })
     }

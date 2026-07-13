@@ -13,17 +13,34 @@ import { createCommandBus } from '../../command-bus.js'
 import { emitPlayerCasualtySounds } from '../battle-system.js'
 
 /** 最小 role(只用到 hp/maxHP/deathSound/dyingSound)。 */
-function role(opts: { hp: number; maxHP?: number; deathSound?: number; dyingSound?: number }): PlayerRole {
-  return { hp: opts.hp, maxHP: opts.maxHP ?? 100, deathSound: opts.deathSound ?? 23, dyingSound: opts.dyingSound ?? 19 } as unknown as PlayerRole
+function role(opts: {
+  hp: number
+  maxHP?: number
+  deathSound?: number
+  dyingSound?: number
+}): PlayerRole {
+  return {
+    hp: opts.hp,
+    maxHP: opts.maxHP ?? 100,
+    deathSound: opts.deathSound ?? 23,
+    dyingSound: opts.dyingSound ?? 19,
+  } as unknown as PlayerRole
 }
 
-function run(roleOpts: Parameters<typeof role>[0], prevHp: number, prePoisonHp?: number): { sounds: number[]; prevHp: number } {
+function run(
+  roleOpts: Parameters<typeof role>[0],
+  prevHp: number,
+  prePoisonHp?: number,
+): { sounds: number[]; prevHp: number } {
   const bus = createCommandBus()
   const players = [{ roleId: 0, prevHp }]
   const playerRoles: PlayerRoles = { roles: [role(roleOpts)] }
   const pre = prePoisonHp === undefined ? undefined : new Map([[0, prePoisonHp]])
   emitPlayerCasualtySounds(players, playerRoles, bus, pre)
-  const sounds = bus.drain().filter(c => c.cmd.op === 'playSound').map(c => (c.cmd as { soundId: number }).soundId)
+  const sounds = bus
+    .drain()
+    .filter((c) => c.cmd.op === 'playSound')
+    .map((c) => (c.cmd as { soundId: number }).soundId)
   return { sounds, prevHp: players[0]!.prevHp }
 }
 

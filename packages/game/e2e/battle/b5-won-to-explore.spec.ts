@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { bootstrap, openDevPicker, selectBattleFixture } from '../helpers/bootstrap.js'
 
 type Probe = { __game: { gs: { mode: string } } }
@@ -11,9 +11,7 @@ test('b5 won → mode=explore', async ({ page }) => {
   // 反复 Enter (主菜单 Confirm 攻击 → targetSelect Confirm) 直到战斗结束
   let safety = 40
   while (safety-- > 0) {
-    const mode = await page.evaluate(
-      () => (window as unknown as Probe).__game.gs.mode,
-    )
+    const mode = await page.evaluate(() => (window as unknown as Probe).__game.gs.mode)
     if (mode === 'explore') break
 
     // mainMenu Confirm 攻击 → targetSelect Confirm
@@ -23,8 +21,6 @@ test('b5 won → mode=explore', async ({ page }) => {
     await page.waitForTimeout(1200) // 等 perform + postAction round 结束
   }
 
-  const finalMode = await page.evaluate(
-    () => (window as unknown as Probe).__game.gs.mode,
-  )
+  const finalMode = await page.evaluate(() => (window as unknown as Probe).__game.gs.mode)
   expect(finalMode).toBe('explore')
 })

@@ -3,7 +3,12 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it, vi } from 'vitest'
 import { decodeRle } from '../io/rle.js'
-import { encodeIndexedPng, extractCharacterSprites, framesToOut, parseSpriteChunk } from './sprite.js'
+import {
+  encodeIndexedPng,
+  extractCharacterSprites,
+  framesToOut,
+  parseSpriteChunk,
+} from './sprite.js'
 
 describe('sprite', () => {
   it('encodeIndexedPng 产 PNG 字节流,以 PNG 魔数开头', () => {
@@ -21,8 +26,17 @@ describe('sprite', () => {
     // frame 0:byte 0..1 = imagecount = 1 → word-offset = 1 → byte offset = 2
     // RLE data 从 byte 2 起
     const buf = new Uint8Array([
-      0x01, 0x00,                                            // imagecount = 1;同时 frame[0] word-offset = 1 (=byte 2)
-      0x02, 0x00, 0x02, 0x00, 0x04, 0xaa, 0xaa, 0xaa, 0xaa,  // RLE 2×2 at byte 2
+      0x01,
+      0x00, // imagecount = 1;同时 frame[0] word-offset = 1 (=byte 2)
+      0x02,
+      0x00,
+      0x02,
+      0x00,
+      0x04,
+      0xaa,
+      0xaa,
+      0xaa,
+      0xaa, // RLE 2×2 at byte 2
     ])
     const frames = parseSpriteChunk(buf)
     expect(frames).toHaveLength(1)
@@ -35,9 +49,16 @@ describe('sprite', () => {
     //       frame 1 byte 2..3 = 0(空缺)
     // RLE for frame 0 at byte 4
     const buf = new Uint8Array([
-      0x02, 0x00,                                            // imagecount = 2 (= frame[0] word-offset = 2, byte 4)
-      0x00, 0x00,                                            // frame[1] word-offset = 0 → 空
-      0x01, 0x00, 0x01, 0x00, 0x01, 0xbb,                    // 1×1 RLE at byte 4
+      0x02,
+      0x00, // imagecount = 2 (= frame[0] word-offset = 2, byte 4)
+      0x00,
+      0x00, // frame[1] word-offset = 0 → 空
+      0x01,
+      0x00,
+      0x01,
+      0x00,
+      0x01,
+      0xbb, // 1×1 RLE at byte 4
     ])
     const frames = parseSpriteChunk(buf)
     expect(frames).toHaveLength(1) // 只有 frame 0
@@ -48,8 +69,17 @@ describe('sprite', () => {
   it('framesToOut 转 SpriteFrameOut[]', () => {
     const frames = parseSpriteChunk(
       new Uint8Array([
-        0x01, 0x00,                                            // imagecount = 1
-        0x02, 0x00, 0x02, 0x00, 0x04, 0xaa, 0xaa, 0xaa, 0xaa,  // RLE 2×2
+        0x01,
+        0x00, // imagecount = 1
+        0x02,
+        0x00,
+        0x02,
+        0x00,
+        0x04,
+        0xaa,
+        0xaa,
+        0xaa,
+        0xaa, // RLE 2×2
       ]),
     )
     const out = framesToOut(frames)

@@ -1,6 +1,6 @@
+import type { EntityDef } from '@type-pal/content'
 import { expect, test } from 'vitest'
 import { entityAtCell } from './hit-test.js'
-import type { EntityDef } from '@type-pal/content'
 
 const es: EntityDef[] = [
   { id: 'a', pos: { col: 5, row: 6, height: 0 }, sprite: 'x' },

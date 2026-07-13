@@ -75,10 +75,10 @@ export const IndexedDbSave = {
 
   async listSlots(): Promise<Array<{ id: number; meta: SlotMeta }>> {
     const db = await openDb()
-    const all = await asPromise<StoredSlot[]>(txStore(db, 'readonly').getAll() as IDBRequest<StoredSlot[]>)
-    return all
-      .map((s) => ({ id: s.id, meta: s.meta }))
-      .sort((a, b) => a.id - b.id)
+    const all = await asPromise<StoredSlot[]>(
+      txStore(db, 'readonly').getAll() as IDBRequest<StoredSlot[]>,
+    )
+    return all.map((s) => ({ id: s.id, meta: s.meta })).sort((a, b) => a.id - b.id)
   },
 
   async deleteSlot(slot: number): Promise<void> {

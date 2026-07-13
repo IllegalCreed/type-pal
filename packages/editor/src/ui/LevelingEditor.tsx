@@ -23,7 +23,10 @@ export function LevelingEditor(props: {
 
   const dispatchRows = (rows: LevelUpSkill[]): void => {
     session.dispatch(
-      new UpdateLevelUpCommand(actor.id, [...rows].sort((a, b) => a.level - b.level)),
+      new UpdateLevelUpCommand(
+        actor.id,
+        [...rows].sort((a, b) => a.level - b.level),
+      ),
     )
   }
 
@@ -47,7 +50,7 @@ export function LevelingEditor(props: {
         ▾ 升级
       </button>
       <div className="field">
-        <label>经验曲线</label>
+        <span className="field-label">经验曲线</span>
         <span className="hint2">
           {expTable.length
             ? `${expTable.length} 级 · 末级累计 ${expTable[expTable.length - 1]}`
@@ -58,7 +61,7 @@ export function LevelingEditor(props: {
         📈 编辑曲线(中区拖点)
       </button>
       <div className="field" style={{ marginTop: 6 }}>
-        <label>升级学技能</label>
+        <span className="field-label">升级学技能</span>
         <div className="hint2">升到该级自动习得(战后结算「练成」;等级线也画在曲线图上)</div>
       </div>
       {levelUpRows.map((r, i) => (

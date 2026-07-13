@@ -48,8 +48,8 @@ describe('demo 工程:真实 JSON 迁移保真 + buildWorld 端到端', () => {
     // C0:actor→sprite 链可解析(引擎玩家精灵走此路径,替代写死 2)
     expect(actorsById['li-xiaoyao']?.spriteId).toBe('li-xiaoyao')
     expect(spritesById['li-xiaoyao']?.spriteNum).toBe(2)
-    expect(spritesById['ghost']?.layout).toEqual({ kind: 'directional', framesPerDir: 3 })
-    expect(actorsById['youhun']?.battler).toBeUndefined() // NPC 无 battler
+    expect(spritesById.ghost?.layout).toEqual({ kind: 'directional', framesPerDir: 3 })
+    expect(actorsById.youhun?.battler).toBeUndefined() // NPC 无 battler
   })
 
   test('buildWorld:李逍遥实例值 = 迁移前 initialWorld() 真值', () => {

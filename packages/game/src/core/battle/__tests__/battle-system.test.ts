@@ -20,8 +20,8 @@ import type {
   Command,
   Enemy,
   EnemyObject,
-  EnemyTeam,
   EnemyPosTable,
+  EnemyTeam,
   InputSnapshot,
   Item,
   Magic,
@@ -34,15 +34,27 @@ import type {
 } from '@type-pal/shared'
 import { FPS_BATTLE } from '@type-pal/shared'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { type CommandBus, createCommandBus, } from '../../command-bus.js'
-import { createInitialGameState, type GameState } from '../../game-state.js'
-import { activateHidingEffect, applyHiddenExpGrowth, battleWonLevelUp, decrementHidingEffect, INTRO_FADE_TICKS, pickAutoMagic, selectAutoTargetFrom, startBattle, tickBattle, type BattleResources, type RunScriptFn } from '../battle-system.js'
-import { createSeedableRng } from '../../rng.js'
-import { tickByMode } from '../../mode.js'
+import { type CommandBus, createCommandBus } from '../../command-bus.js'
 import { setGlobalEvents } from '../../event-system.js'
+import { createInitialGameState, type GameState } from '../../game-state.js'
 import { tickMenu } from '../../menu/menu-mode.js'
-import type { BattleEnemy } from '../battle-state.js'
+import { tickByMode } from '../../mode.js'
+import { createSeedableRng } from '../../rng.js'
 import { dispatchBattleOpcode } from '../battle-opcodes.js'
+import type { BattleEnemy } from '../battle-state.js'
+import {
+  activateHidingEffect,
+  applyHiddenExpGrowth,
+  type BattleResources,
+  battleWonLevelUp,
+  decrementHidingEffect,
+  INTRO_FADE_TICKS,
+  pickAutoMagic,
+  type RunScriptFn,
+  selectAutoTargetFrom,
+  startBattle,
+  tickBattle,
+} from '../battle-system.js'
 
 // E04-b 隐藏属性经验分配公式(sdlpal battle.c:1226-1293 CHECK_HIDDEN_EXP)。
 describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () => {
@@ -54,7 +66,14 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
     gs.PlayerRolesRuntime.rgwMaxHP[0] = 100
     const levelUpExp = Array(100).fill(100) // 每级阈值 100
     // d = trunc(100*1/1)*2+0 = 200 → 扣 100(lv0→1,maxHP+1)→ 扣 100(lv1→2,maxHP+1)→ 余 0
-    const res = applyHiddenExpGrowth({ exp: gs.Exp, rt: gs.PlayerRolesRuntime, roleId: 0, expGained: 100, levelUpExp, rng: oneRng })
+    const res = applyHiddenExpGrowth({
+      exp: gs.Exp,
+      rt: gs.PlayerRolesRuntime,
+      roleId: 0,
+      expGained: 100,
+      levelUpExp,
+      rng: oneRng,
+    })
     expect(gs.PlayerRolesRuntime.rgwMaxHP[0]).toBe(102) // +2(两级各 R(1,2)=1)
     expect(gs.Exp.rgHealthExp[0]!.wExp).toBe(0)
     expect(gs.Exp.rgHealthExp[0]!.wLevel).toBe(2)
@@ -64,7 +83,14 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
   it('iTotalCount=0(无累积)→ 整段跳过,无属性变化,返回 []', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.PlayerRolesRuntime.rgwMaxHP[0] = 100
-    const res = applyHiddenExpGrowth({ exp: gs.Exp, rt: gs.PlayerRolesRuntime, roleId: 0, expGained: 999, levelUpExp: Array(100).fill(10), rng: oneRng })
+    const res = applyHiddenExpGrowth({
+      exp: gs.Exp,
+      rt: gs.PlayerRolesRuntime,
+      roleId: 0,
+      expGained: 999,
+      levelUpExp: Array(100).fill(10),
+      rng: oneRng,
+    })
     expect(res).toEqual([])
     expect(gs.PlayerRolesRuntime.rgwMaxHP[0]).toBe(100)
   })
@@ -77,7 +103,14 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
     gs.PlayerRolesRuntime.rgwAttackStrength[0] = 50
     const levelUpExp = Array(100).fill(100)
     // health: d=trunc(300*2/3)*2=400 → 4 级(maxHP+4);attack: d=trunc(300*1/3)*2=200 → 2 级(atk+2)
-    const res = applyHiddenExpGrowth({ exp: gs.Exp, rt: gs.PlayerRolesRuntime, roleId: 0, expGained: 300, levelUpExp, rng: oneRng })
+    const res = applyHiddenExpGrowth({
+      exp: gs.Exp,
+      rt: gs.PlayerRolesRuntime,
+      roleId: 0,
+      expGained: 300,
+      levelUpExp,
+      rng: oneRng,
+    })
     expect(gs.PlayerRolesRuntime.rgwMaxHP[0]).toBe(104)
     expect(gs.PlayerRolesRuntime.rgwAttackStrength[0]).toBe(52)
     expect(res).toEqual([
@@ -91,9 +124,12 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
     const a = bootstrap({ introFadeTicks: 3 })
     expect(a.gs.battleState!.phase).toBe('preBattle')
     expect(a.gs.battleState!.introFade).toEqual({ step: 0, total: 3 })
-    tickBattle(a.gs, a.emptyInput, createCommandBus()); expect(a.gs.battleState!.phase).toBe('preBattle') // step 1
-    tickBattle(a.gs, a.emptyInput, createCommandBus()); expect(a.gs.battleState!.phase).toBe('preBattle') // step 2
-    tickBattle(a.gs, a.emptyInput, createCommandBus()); expect(a.gs.battleState!.phase).toBe('preBattle') // step 3 (==total)
+    tickBattle(a.gs, a.emptyInput, createCommandBus())
+    expect(a.gs.battleState!.phase).toBe('preBattle') // step 1
+    tickBattle(a.gs, a.emptyInput, createCommandBus())
+    expect(a.gs.battleState!.phase).toBe('preBattle') // step 2
+    tickBattle(a.gs, a.emptyInput, createCommandBus())
+    expect(a.gs.battleState!.phase).toBe('preBattle') // step 3 (==total)
     tickBattle(a.gs, a.emptyInput, createCommandBus()) // step>=total → 进 selectAction + 清 introFade
     expect(a.gs.battleState!.phase).toBe('selectAction')
     expect(a.gs.battleState!.introFade).toBeUndefined()
@@ -129,7 +165,8 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
     state.enemyEscapeAnim = { step: 0 }
     // 飞到出屏 → 进入停顿阶段(holdTicks=0),此时未 fleed
     let guard = 50
-    while (state.enemyEscapeAnim?.holdTicks === undefined && guard-- > 0) tickBattle(gs, emptyInput, bus)
+    while (state.enemyEscapeAnim?.holdTicks === undefined && guard-- > 0)
+      tickBattle(gs, emptyInput, bus)
     expect(state.enemyEscapeAnim?.holdTicks).toBe(0)
     expect(state.phase).not.toBe('fleed') // 停顿期间不立即终止
     // 停顿满 13 帧 → fleed
@@ -162,7 +199,7 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
   it('多敌:首只 turn-start 触发敌逃 → break,后续敌人 turn-start 不跑(退下对白只一遍)', () => {
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 50 })],
-      teamSlots: [100, 100, 0xFFFF, 0xFFFF, 0xFFFF], // 两只同类敌人(如 team16 两只绿叶小妖)
+      teamSlots: [100, 100, 0xffff, 0xffff, 0xffff], // 两只同类敌人(如 team16 两只绿叶小妖)
       commands: [
         { op: 'end' }, // ip 0 占位(scriptOnTurnStart 须 >0)
         { op: 'showDialog', messageIndex: 0, text: '通通退下' }, // ip 1
@@ -222,7 +259,7 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
 
   // E04-c 集成:真战斗里玩家攻击 → wCount 累积(performBattleAction 接 fight.c:3756-3757)。
   it('集成:startBattle 清 wCount;玩家攻击 → rgAttackExp+1 / rgHealthExp+R(2,3)', () => {
-    const { gs, bus, emptyInput, resources } = bootstrap({
+    const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 99999, attackStrength: 0, dexterity: 1, level: 1 })],
       roles: [makeRole({ id: 0, hp: 9999, maxHP: 9999, dexterity: 50, attackStrength: 10 })],
     })
@@ -233,7 +270,11 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
     let guard = 40
     const confirm = { held: new Set<never>(), pressed: new Set(['Confirm'] as const), frameNum: 0 }
     while (gs.mode === 'battle' && (gs.Exp.rgAttackExp[0]!.wCount ?? 0) === 0 && guard-- > 0)
-      tickBattle(gs, gs.battleState?.settlement ? confirm as unknown as typeof emptyInput : emptyInput, bus)
+      tickBattle(
+        gs,
+        gs.battleState?.settlement ? (confirm as unknown as typeof emptyInput) : emptyInput,
+        bus,
+      )
     expect(gs.Exp.rgAttackExp[0]!.wCount).toBe(1) // 攻击 1 次 → +1
     expect(gs.Exp.rgHealthExp[0]!.wCount ?? 0).toBeGreaterThanOrEqual(2) // RandomLong(2,3)
   })
@@ -245,8 +286,12 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
     gs.PlayerRolesRuntime.rgwAttackStrength[0] = 50
     gs.Exp.rgAttackExp[0] = { wExp: 0, wLevel: 0, wCount: 1 } // 仅 attack 累积
     const res = battleWonLevelUp({
-      gs, partyMembers: [0], expGained: 500,
-      levelUpExp: Array(100).fill(100), levelUpMagic: [], rng: createSeedableRng(42),
+      gs,
+      partyMembers: [0],
+      expGained: 500,
+      levelUpExp: Array(100).fill(100),
+      levelUpMagic: [],
+      rng: createSeedableRng(42),
     })
     const r0 = res.find((r) => r.roleId === 0)
     const atkGrowth = r0?.hiddenExpGrowth?.find((g) => g.stat === 'rgwAttackStrength')
@@ -355,7 +400,7 @@ interface BootstrapOpts {
   objectPlayers?: ObjectPlayerView[]
   enemyPos?: EnemyPosTable
   commands?: Command[]
-  inventory?: { itemId: number, count: number }[]
+  inventory?: { itemId: number; count: number }[]
   /** D11:升级阈值表(稀疏)+ 学法术表;省略 → 不升级。 */
   levelUpExp?: number[]
   levelUpMagic?: import('@type-pal/shared').LevelUpMagicEntry[][]
@@ -370,11 +415,13 @@ function bootstrap(opts: BootstrapOpts = {}): {
   const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
   gs.partyMembers = opts.partyMembers ?? [0]
 
-  const roles: PlayerRole[] = opts.roles ?? gs.partyMembers.map(id => makeRole({ id }))
+  const roles: PlayerRole[] = opts.roles ?? gs.partyMembers.map((id) => makeRole({ id }))
   const playerRoles: PlayerRoles = { roles }
 
   const enemies: Enemy[] = opts.enemies ?? [makeEnemy({ id: 100 })]
-  const teamSlots = opts.teamSlots ?? ([100, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF] as [number, number, number, number, number])
+  const teamSlots =
+    opts.teamSlots ??
+    ([100, 0xffff, 0xffff, 0xffff, 0xffff] as [number, number, number, number, number])
   const enemyTeams: EnemyTeam[] = [{ id: 0, enemies: teamSlots }]
   const field: BattleField = {
     id: 0,
@@ -389,10 +436,8 @@ function bootstrap(opts: BootstrapOpts = {}): {
   const objectPoisons: ObjectPoisonView[] = opts.objectPoisons ?? []
   const objectPlayers: ObjectPlayerView[] = opts.objectPlayers ?? []
   const commands: Command[] = opts.commands ?? [{ op: 'end' }]
-  if (opts.inventory)
-    gs.inventory = opts.inventory
-  if (opts.fAutoBattle)
-    gs.fAutoBattle = true // B4(3):startBattle 前设 → createBattleState seed state.fAutoBattle
+  if (opts.inventory) gs.inventory = opts.inventory
+  if (opts.fAutoBattle) gs.fAutoBattle = true // B4(3):startBattle 前设 → createBattleState seed state.fAutoBattle
 
   const bus = createCommandBus()
 
@@ -423,7 +468,19 @@ function bootstrap(opts: BootstrapOpts = {}): {
   return {
     gs,
     bus,
-    resources: { items, spells, magics, objectMagics, objectPoisons, objectPlayers, enemies, enemyObjects: [], enemyPos: opts.enemyPos, playerRoles, commands },
+    resources: {
+      items,
+      spells,
+      magics,
+      objectMagics,
+      objectPoisons,
+      objectPlayers,
+      enemies,
+      enemyObjects: [],
+      enemyPos: opts.enemyPos,
+      playerRoles,
+      commands,
+    },
     emptyInput: { held: new Set(), pressed: new Set(), frameNum: 0 },
   }
 }
@@ -462,7 +519,7 @@ describe('开战重建装备效果(sdlpal battle.c:1754 PAL_UpdateEquipments)', 
     //   该处 0x2D 设 DualAttack(status 8)=32760。ip0 占位(scriptOnEquip=0 视为无脚本)。
     setGlobalEvents([
       { op: 'end' },
-      { op: 'raw', opcode: 0x2D, operands: [8, 32760, 0], label: 'L_1' },
+      { op: 'raw', opcode: 0x2d, operands: [8, 32760, 0], label: 'L_1' },
       { op: 'end' },
     ])
     startBattle({
@@ -471,8 +528,10 @@ describe('开战重建装备效果(sdlpal battle.c:1754 PAL_UpdateEquipments)', 
       battleFieldId: 0,
       isBoss: false,
       enemies: [makeEnemy({ id: 100 })],
-      enemyTeams: [{ id: 0, enemies: [100, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF] }],
-      battleFields: [{ id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } }],
+      enemyTeams: [{ id: 0, enemies: [100, 0xffff, 0xffff, 0xffff, 0xffff] }],
+      battleFields: [
+        { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      ],
       playerRoles: { roles: [makeRole({ id: 0 }), makeRole({ id: 1, hp: 0, maxHP: 100 })] },
       items: [{ id: WEAPON, scriptOnEquip: 1 } as unknown as Item],
       spells: [],
@@ -499,8 +558,10 @@ describe('开战重建装备效果(sdlpal battle.c:1754 PAL_UpdateEquipments)', 
       battleFieldId: 0,
       isBoss: false,
       enemies: [makeEnemy({ id: 100 })],
-      enemyTeams: [{ id: 0, enemies: [100, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF] }],
-      battleFields: [{ id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } }],
+      enemyTeams: [{ id: 0, enemies: [100, 0xffff, 0xffff, 0xffff, 0xffff] }],
+      battleFields: [
+        { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      ],
       playerRoles: { roles: [makeRole({ id: 0 }), makeRole({ id: 1, hp: 0, maxHP: 100 })] },
       items: [],
       spells: [],
@@ -518,7 +579,9 @@ describe('#311 敌方乱/定/眠 本回合不跑 wScriptOnReady(镜像 sdlpal#31
   //   (自愈/召唤/换阶段/对话)。守卫加在 battle-system tickPerformAction 跑 scriptOnReady 之前。
   //   检测信号 = action 项的 scriptReadyRan(脚本跑过即置真;被守卫跳过则保持 undefined)。
   const READY_IP = 1 // 指向 commands[1](合法且 >0;scriptOnReady>0 才触发)
-  function readyScriptRanUnderStatus(status: Partial<{ sleep: number; paralyzed: number; confused: number }>): boolean {
+  function readyScriptRanUnderStatus(
+    status: Partial<{ sleep: number; paralyzed: number; confused: number }>,
+  ): boolean {
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 50 })],
       commands: [{ op: 'end' }, { op: 'end' }],
@@ -535,9 +598,15 @@ describe('#311 敌方乱/定/眠 本回合不跑 wScriptOnReady(镜像 sdlpal#31
     return st.actionQueue[0]?.scriptReadyRan === true
   }
 
-  it('睡眠 → 不跑 scriptOnReady', () => { expect(readyScriptRanUnderStatus({ sleep: 3 })).toBe(false) })
-  it('定身 → 不跑 scriptOnReady', () => { expect(readyScriptRanUnderStatus({ paralyzed: 3 })).toBe(false) })
-  it('混乱 → 不跑 scriptOnReady', () => { expect(readyScriptRanUnderStatus({ confused: 3 })).toBe(false) })
+  it('睡眠 → 不跑 scriptOnReady', () => {
+    expect(readyScriptRanUnderStatus({ sleep: 3 })).toBe(false)
+  })
+  it('定身 → 不跑 scriptOnReady', () => {
+    expect(readyScriptRanUnderStatus({ paralyzed: 3 })).toBe(false)
+  })
+  it('混乱 → 不跑 scriptOnReady', () => {
+    expect(readyScriptRanUnderStatus({ confused: 3 })).toBe(false)
+  })
   it('无异常状态 → 正常跑 scriptOnReady(反例,防过度拦截)', () => {
     expect(readyScriptRanUnderStatus({})).toBe(true)
   })
@@ -558,7 +627,10 @@ describe('BUG-1:敌方施法不消费玩家经验掷骰 RandomLong(2,3)(RNG 确�
     const st = gs.battleState!
     let dice23 = 0 // 经验掷骰唯一签名 rangeInclusive(2,3)(另 2 处:玩家攻击已 gate、偷取 0x6A 本回合无)
     const real = st.rng.rangeInclusive.bind(st.rng)
-    st.rng.rangeInclusive = (a: number, b: number) => { if (a === 2 && b === 3) dice23++; return real(a, b) }
+    st.rng.rangeInclusive = (a: number, b: number) => {
+      if (a === 2 && b === 3) dice23++
+      return real(a, b)
+    }
     // 单独驱动敌方行动(仿 #311 手法:只放该敌入队)
     st.phase = 'performAction'
     st.actionQueue = [{ isEnemy: true, idx: 0, dex: 100, fIsSecond: false }]
@@ -581,7 +653,7 @@ describe('startBattle', () => {
   it('0xFFFF 不占槽,0 保留为 defeated 空槽(DH1,battle.c:1604/1716)', () => {
     const { gs } = bootstrap({
       enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 200 })],
-      teamSlots: [100, 0, 200, 0xFFFF, 0xFFFF],
+      teamSlots: [100, 0, 200, 0xffff, 0xffff],
     })
     // [100, 空槽, 200]:0 占槽计入 wMaxEnemyIndex,0xFFFF 被 continue
     expect(gs.battleState?.enemies).toHaveLength(3)
@@ -594,8 +666,22 @@ describe('startBattle', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [0]
     const enemyObjects: EnemyObject[] = [
-      { objectIndex: 478, enemyId: 81, resistanceToSorcery: 1, scriptOnTurnStart: 41413, scriptOnBattleEnd: 10, scriptOnReady: 20 },
-      { objectIndex: 479, enemyId: 81, resistanceToSorcery: 7, scriptOnTurnStart: 0, scriptOnBattleEnd: 30, scriptOnReady: 40 },
+      {
+        objectIndex: 478,
+        enemyId: 81,
+        resistanceToSorcery: 1,
+        scriptOnTurnStart: 41413,
+        scriptOnBattleEnd: 10,
+        scriptOnReady: 20,
+      },
+      {
+        objectIndex: 479,
+        enemyId: 81,
+        resistanceToSorcery: 7,
+        scriptOnTurnStart: 0,
+        scriptOnBattleEnd: 30,
+        scriptOnReady: 40,
+      },
     ]
     startBattle({
       gs,
@@ -604,12 +690,16 @@ describe('startBattle', () => {
       isBoss: false,
       enemies: [makeEnemy({ id: 81 })],
       enemyObjects,
-      enemyTeams: [{
-        id: 0,
-        enemies: [81, 0xffff, 0xffff, 0xffff, 0xffff],
-        enemyObjectIndexes: [479, 0xffff, 0xffff, 0xffff, 0xffff],
-      }],
-      battleFields: [{ id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } }],
+      enemyTeams: [
+        {
+          id: 0,
+          enemies: [81, 0xffff, 0xffff, 0xffff, 0xffff],
+          enemyObjectIndexes: [479, 0xffff, 0xffff, 0xffff, 0xffff],
+        },
+      ],
+      battleFields: [
+        { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      ],
       playerRoles: { roles: [makeRole({ id: 0 })] },
       items: [],
       spells: [],
@@ -641,14 +731,25 @@ describe('startBattle', () => {
       isBoss: false,
       enemies: [makeEnemy({ id: 57 })],
       enemyObjects: [
-        { objectIndex: 454, enemyId: 57, resistanceToSorcery: 3, scriptOnTurnStart: 41267, scriptOnBattleEnd: 11, scriptOnReady: 22 },
+        {
+          objectIndex: 454,
+          enemyId: 57,
+          resistanceToSorcery: 3,
+          scriptOnTurnStart: 41267,
+          scriptOnBattleEnd: 11,
+          scriptOnReady: 22,
+        },
       ],
-      enemyTeams: [{
-        id: 0,
-        enemies: [57, 0xffff, 0xffff, 0xffff, 0xffff],
-        enemyObjectIndexes: [454, 0xffff, 0xffff, 0xffff, 0xffff],
-      }],
-      battleFields: [{ id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } }],
+      enemyTeams: [
+        {
+          id: 0,
+          enemies: [57, 0xffff, 0xffff, 0xffff, 0xffff],
+          enemyObjectIndexes: [454, 0xffff, 0xffff, 0xffff, 0xffff],
+        },
+      ],
+      battleFields: [
+        { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      ],
       playerRoles: { roles: [makeRole({ id: 0 })] },
       items: [],
       spells: [],
@@ -669,65 +770,92 @@ describe('startBattle', () => {
     //   `persisted.get is not a function` 崩(user 2026-06-16:读 JSON 存档碰怪即崩)。reviveNumberKeyedMap 兜底。
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [0]
-    const loose = gs as unknown as { prevBattleActions: unknown; prevBattleActionTargetRoles: unknown }
+    const loose = gs as unknown as {
+      prevBattleActions: unknown
+      prevBattleActionTargetRoles: unknown
+    }
     loose.prevBattleActions = {} // JSON 读档后的塌陷形态(本应是 Map)
     loose.prevBattleActionTargetRoles = {}
-    expect(() => startBattle({
-      gs,
-      enemyTeamId: 0,
-      battleFieldId: 0,
-      isBoss: false,
-      enemies: [makeEnemy({ id: 81 })],
-      enemyTeams: [{ id: 0, enemies: [81, 0xffff, 0xffff, 0xffff, 0xffff], enemyObjectIndexes: [0xffff, 0xffff, 0xffff, 0xffff, 0xffff] }],
-      battleFields: [{ id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } }],
-      playerRoles: { roles: [makeRole({ id: 0 })] },
-      items: [],
-      spells: [],
-      magics: [],
-      commands: [{ op: 'end' }],
-      rngSeed: 1,
-    })).not.toThrow()
+    expect(() =>
+      startBattle({
+        gs,
+        enemyTeamId: 0,
+        battleFieldId: 0,
+        isBoss: false,
+        enemies: [makeEnemy({ id: 81 })],
+        enemyTeams: [
+          {
+            id: 0,
+            enemies: [81, 0xffff, 0xffff, 0xffff, 0xffff],
+            enemyObjectIndexes: [0xffff, 0xffff, 0xffff, 0xffff, 0xffff],
+          },
+        ],
+        battleFields: [
+          {
+            id: 0,
+            screenWave: 0,
+            magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+          },
+        ],
+        playerRoles: { roles: [makeRole({ id: 0 })] },
+        items: [],
+        spells: [],
+        magics: [],
+        commands: [{ op: 'end' }],
+        rngSeed: 1,
+      }),
+    ).not.toThrow()
     expect(gs.battleState).toBeDefined()
   })
 
   it('enemyTeam 找不到 → 抛错', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [0]
-    expect(() => startBattle({
-      gs,
-      enemyTeamId: 999,
-      battleFieldId: 0,
-      isBoss: false,
-      enemies: [],
-      enemyTeams: [],
-      battleFields: [{ id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } }],
-      playerRoles: { roles: [makeRole({ id: 0 })] },
-      items: [],
-      spells: [],
-      magics: [],
-      commands: [{ op: 'end' }],
-      rngSeed: 1,
-    })).toThrow(/enemyTeam id 999/)
+    expect(() =>
+      startBattle({
+        gs,
+        enemyTeamId: 999,
+        battleFieldId: 0,
+        isBoss: false,
+        enemies: [],
+        enemyTeams: [],
+        battleFields: [
+          {
+            id: 0,
+            screenWave: 0,
+            magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+          },
+        ],
+        playerRoles: { roles: [makeRole({ id: 0 })] },
+        items: [],
+        spells: [],
+        magics: [],
+        commands: [{ op: 'end' }],
+        rngSeed: 1,
+      }),
+    ).toThrow(/enemyTeam id 999/)
   })
 
   it('battleField 找不到 → 抛错', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [0]
-    expect(() => startBattle({
-      gs,
-      enemyTeamId: 0,
-      battleFieldId: 999,
-      isBoss: false,
-      enemies: [makeEnemy({ id: 100 })],
-      enemyTeams: [{ id: 0, enemies: [100, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF] }],
-      battleFields: [],
-      playerRoles: { roles: [makeRole({ id: 0 })] },
-      items: [],
-      spells: [],
-      magics: [],
-      commands: [{ op: 'end' }],
-      rngSeed: 1,
-    })).toThrow(/battleField id 999/)
+    expect(() =>
+      startBattle({
+        gs,
+        enemyTeamId: 0,
+        battleFieldId: 999,
+        isBoss: false,
+        enemies: [makeEnemy({ id: 100 })],
+        enemyTeams: [{ id: 0, enemies: [100, 0xffff, 0xffff, 0xffff, 0xffff] }],
+        battleFields: [],
+        playerRoles: { roles: [makeRole({ id: 0 })] },
+        items: [],
+        spells: [],
+        magics: [],
+        commands: [{ op: 'end' }],
+        rngSeed: 1,
+      }),
+    ).toThrow(/battleField id 999/)
   })
 
   it('isBoss 透传到 BattleState', () => {
@@ -739,7 +867,7 @@ describe('startBattle', () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const { gs } = bootstrap({
       enemies: [makeEnemy({ id: 100 })],
-      teamSlots: [100, 999, 0xFFFF, 0xFFFF, 0xFFFF],
+      teamSlots: [100, 999, 0xffff, 0xffff, 0xffff],
     })
     expect(gs.battleState?.enemies).toHaveLength(2)
     expect(gs.battleState?.enemies[1]!.defeated).toBe(true) // 坏数据按空槽处理,站位列数不漂移
@@ -932,7 +1060,7 @@ describe('tickBattle phase transitions', () => {
   })
 
   it('B4(3):战斗结束 → gs.fAutoBattle 清 false(sdlpal script.c:3332 单场有效)', () => {
-    const { gs, bus, emptyInput } = bootstrap({
+    const { gs, bus } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 1 })], // 必秒 → 胜利
       roles: [makeRole({ id: 0, attackStrength: 999 })],
       fAutoBattle: true,
@@ -961,15 +1089,27 @@ describe('tickBattle phase transitions', () => {
     it('回归(石长老vs盖罗娇自动战 / F键乱放法术):跳过负 baseDamage(SHORT)的特殊法术,选正常法术', () => {
       // 夺魂等 baseDamage=64537(u16)= -999(SHORT)。sdlpal `(SHORT)baseDamage<=0` 跳过这类特殊/即死法术;
       //   我们漏 asShort → 64537 当超高伤害 → power 永远碾压随机项 → F键/自动战斗疯狂选夺魂(user 2026-06-14)。
-      const r = pickAutoMagic(autoState(), rolesWith([296, 297]),
+      const r = pickAutoMagic(
+        autoState(),
+        rolesWith([296, 297]),
         [mkSpell(296), mkSpell(297)],
-        [mkMagic(296, { costMP: 5, baseDamage: 64537 }), mkMagic(297, { costMP: 5, baseDamage: 999 })], 9999)
+        [
+          mkMagic(296, { costMP: 5, baseDamage: 64537 }),
+          mkMagic(297, { costMP: 5, baseDamage: 999 }),
+        ],
+        9999,
+      )
       expect(r).toBe(297) // 夺魂(296,SHORT=-999)被跳过,选普通法术(297)
     })
 
     it('全是负 baseDamage(SHORT)法术 → 返回 0(物理攻击)', () => {
-      const r = pickAutoMagic(autoState(), rolesWith([296]),
-        [mkSpell(296)], [mkMagic(296, { costMP: 5, baseDamage: 64537 })], 9999)
+      const r = pickAutoMagic(
+        autoState(),
+        rolesWith([296]),
+        [mkSpell(296)],
+        [mkMagic(296, { costMP: 5, baseDamage: 64537 })],
+        9999,
+      )
       expect(r).toBe(0)
     })
   })
@@ -1022,7 +1162,11 @@ describe('tickBattle phase transitions', () => {
     let s2 = 60
     while (gs.dialogBox?.phase !== 'waiting-end-key' && s2-- > 0) tickBattle(gs, emptyInput, bus)
     bus.drain()
-    const confirmInput: InputSnapshot = { held: new Set(), pressed: new Set(['Confirm']), frameNum: 0 }
+    const confirmInput: InputSnapshot = {
+      held: new Set(),
+      pressed: new Set(['Confirm']),
+      frameNum: 0,
+    }
     tickBattle(gs, confirmInput, bus) // dialog-end → 关 box → 放行
     expect(gs.dialogBox).toBeUndefined()
   })
@@ -1032,7 +1176,11 @@ describe('tickBattle phase transitions', () => {
       enemies: [makeEnemy({ id: 100, health: 99999 })],
       roles: [makeRole({ id: 0, hp: 99999 })],
       // scriptOnTurnStart ip=1 → showDialog '不自量力的家伙!';ip=2 end(蜘蛛精/林月如式嘲讽)
-      commands: [{ op: 'end' }, { op: 'showDialog', messageIndex: 0, text: '不自量力的家伙!' }, { op: 'end' }],
+      commands: [
+        { op: 'end' },
+        { op: 'showDialog', messageIndex: 0, text: '不自量力的家伙!' },
+        { op: 'end' },
+      ],
     })
     gs.battleState!.enemies[0]!.scriptOnTurnStart = 1 // bootstrap enemyObjects=[] → 默认 0,手挂
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
@@ -1058,7 +1206,11 @@ describe('tickBattle phase transitions', () => {
       enemies: [makeEnemy({ id: 100, health: 99999 })],
       roles: [makeRole({ id: 0, hp: 99999 })],
       // ip1 showDialog;ip2 = 0x01 advance end → sdlpal 返回 ip2+1=3(指针前移 = show-once,fight.c:1186)
-      commands: [{ op: 'end' }, { op: 'showDialog', messageIndex: 0, text: '哼,识相的快滚!' }, { op: 'end', advance: true }],
+      commands: [
+        { op: 'end' },
+        { op: 'showDialog', messageIndex: 0, text: '哼,识相的快滚!' },
+        { op: 'end', advance: true },
+      ],
     })
     gs.battleState!.enemies[0]!.scriptOnTurnStart = 1
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
@@ -1075,13 +1227,18 @@ describe('OBJECT_PLAYER 队友死亡 / 濒死脚本(fight.c:775-885)', () => {
     const st = gs.battleState!
     const startIndex = st.currentActionIndex
     let safety = 200
-    while (gs.mode === 'battle' && st.phase === 'performAction' && st.currentActionIndex === startIndex && safety-- > 0)
+    while (
+      gs.mode === 'battle' &&
+      st.phase === 'performAction' &&
+      st.currentActionIndex === startIndex &&
+      safety-- > 0
+    )
       tickBattle(gs, input, bus)
     expect(safety).toBeGreaterThan(0)
   }
 
   it('敌方动作打死被守护队友 → 跑守护者 wScriptOnFriendDeath 并回写返回入口', () => {
-    const calls: Array<{ ip: number, eventObjectId?: number }> = []
+    const calls: Array<{ ip: number; eventObjectId?: number }> = []
     const objectPlayers: ObjectPlayerView[] = [
       { id: 36, scriptOnFriendDeath: 0, scriptOnDying: 0 },
       { id: 37, scriptOnFriendDeath: 100, scriptOnDying: 0 },
@@ -1115,7 +1272,7 @@ describe('OBJECT_PLAYER 队友死亡 / 濒死脚本(fight.c:775-885)', () => {
   })
 
   it('敌方动作把队员打入濒死 → 跑该队员 wScriptOnDying 并回写返回入口', () => {
-    const calls: Array<{ ip: number, eventObjectId?: number }> = []
+    const calls: Array<{ ip: number; eventObjectId?: number }> = []
     const objectPlayers: ObjectPlayerView[] = [
       { id: 36, scriptOnFriendDeath: 0, scriptOnDying: 200 },
       { id: 37, scriptOnFriendDeath: 0, scriptOnDying: 0 },
@@ -1204,7 +1361,10 @@ describe('tickBattle finalize', () => {
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 1 })], // 必秒 → 胜利
       roles: [makeRole({ id: 0, attackStrength: 999 })],
-      runScriptFn: (input) => { calls.push(input.ip); return input.ip }, // 记录所有 runScript 调用
+      runScriptFn: (input) => {
+        calls.push(input.ip)
+        return input.ip
+      }, // 记录所有 runScript 调用
     })
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
     gs.battleState!.enemies[0]!.scriptOnBattleEnd = 777 // boss 死后剧情脚本
@@ -1238,7 +1398,7 @@ describe('tickBattle finalize', () => {
     expect(gs.mode).toBe('battle')
     expect(gs.dialogBox?.style).toBe('narration')
     expect(gs.dialogBox?.currentLineText).toBe('获得一棵止血草')
-    expect(gs.inventory.find(i => i.itemId === 99)?.count).toBe(1)
+    expect(gs.inventory.find((i) => i.itemId === 99)?.count).toBe(1)
 
     driveBattleToExplore(gs, bus)
     expect(gs.mode).toBe('explore')
@@ -1250,7 +1410,10 @@ describe('tickBattle finalize', () => {
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 9999, attackStrength: 0 })],
       roles: [makeRole({ id: 0, hp: 1, maxHP: 1 })],
-      runScriptFn: (input) => { calls.push(input.ip); return input.ip }, // 注入才能真验证"没被调"
+      runScriptFn: (input) => {
+        calls.push(input.ip)
+        return input.ip
+      }, // 注入才能真验证"没被调"
     })
     tickBattle(gs, emptyInput, bus)
     gs.battleState!.enemies[0]!.scriptOnBattleEnd = 777
@@ -1291,7 +1454,11 @@ describe('tickBattle finalize', () => {
     })
     // 手设 runtime 基线(测试 gs 默认 runtime 全 0;升级读 runtime,需有 level/maxHP 基线)
     const rt = gs.PlayerRolesRuntime
-    rt.rgwLevel[0] = 1; rt.rgwHP[0] = 50; rt.rgwMaxHP[0] = 100; rt.rgwMP[0] = 10; rt.rgwMaxMP[0] = 30
+    rt.rgwLevel[0] = 1
+    rt.rgwHP[0] = 50
+    rt.rgwMaxHP[0] = 100
+    rt.rgwMP[0] = 10
+    rt.rgwMaxMP[0] = 30
     gs.Exp.rgPrimaryExp[0] = { wExp: 0, wLevel: 1 }
     tickBattle(gs, emptyInput, bus)
     gs.battleState!.pendingActions.set(0, { type: 'attack', target: 0 })
@@ -1338,8 +1505,7 @@ describe('tickBattle finalize', () => {
     gs.battleState!.pendingActions.set(0, { type: 'flee', target: -1 })
 
     let safety = 100
-    while (gs.mode === 'battle' && safety-- > 0)
-      tickBattle(gs, emptyInput, bus)
+    while (gs.mode === 'battle' && safety-- > 0) tickBattle(gs, emptyInput, bus)
 
     expect(gs.mode).toBe('explore')
     expect(role.hp).toBe(150) // 无 hp 改动
@@ -1352,7 +1518,12 @@ describe('tickBattle finalize', () => {
 
 describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-3853)', () => {
   /** 手工构造 perform:只放某队员入 queue(隔离敌人行动)+ 推进到 postAction。 */
-  function drivePerformPlayerOnly(gs: GameState, bus: CommandBus, empty: InputSnapshot, playerIdx: number): void {
+  function drivePerformPlayerOnly(
+    gs: GameState,
+    bus: CommandBus,
+    empty: InputSnapshot,
+    playerIdx: number,
+  ): void {
     const st = gs.battleState!
     st.phase = 'performAction'
     st.actionQueue = [{ isEnemy: false, idx: playerIdx, dex: 100, fIsSecond: false }]
@@ -1437,7 +1608,10 @@ describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-38
   it('perform:混乱队员随机命中敌方 → 普攻打敌(原版,有活队友也可能打敌)', () => {
     const { gs, bus, emptyInput } = bootstrap({
       partyMembers: [0, 1],
-      roles: [makeRole({ id: 0, hp: 200, attackStrength: 100, level: 10 }), makeRole({ id: 1, hp: 200 })],
+      roles: [
+        makeRole({ id: 0, hp: 200, attackStrength: 100, level: 10 }),
+        makeRole({ id: 1, hp: 200 }),
+      ],
       enemies: [makeEnemy({ id: 100, health: 200, defense: 0 })],
     })
     tickBattle(gs, emptyInput, bus)
@@ -1451,7 +1625,11 @@ describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-38
     const enemy = makeEnemy({ id: 100, health: 200, defense: 0 })
     const { gs, bus, emptyInput } = bootstrap({
       partyMembers: [0, 1, 2],
-      roles: [makeRole({ id: 0, hp: 200, attackStrength: 100, level: 10 }), makeRole({ id: 1, hp: 200 }), makeRole({ id: 2, hp: 200 })],
+      roles: [
+        makeRole({ id: 0, hp: 200, attackStrength: 100, level: 10 }),
+        makeRole({ id: 1, hp: 200 }),
+        makeRole({ id: 2, hp: 200 }),
+      ],
       enemies: [enemy],
     })
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction(selectingPlayerIdx=0)
@@ -1492,8 +1670,12 @@ describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-38
       partyMembers: [0], // 1 玩家(player idx 0)
       roles: [role],
       // 3 敌:enemies[0]/[1] 待会儿置死,enemies[2] 活=攻击者。玩家目标 idx=0 恰映射死敌槽 enemies[0]。
-      enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 }), makeEnemy({ id: 102, attackStrength: 10 })],
-      teamSlots: [100, 101, 102, 0xFFFF, 0xFFFF],
+      enemies: [
+        makeEnemy({ id: 100 }),
+        makeEnemy({ id: 101 }),
+        makeEnemy({ id: 102, attackStrength: 10 }),
+      ],
+      teamSlots: [100, 101, 102, 0xffff, 0xffff],
     })
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
     const st = gs.battleState!
@@ -1518,7 +1700,11 @@ describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-38
       enemies: [makeEnemy({ id: 100, health: 99999 })],
     })
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction(main menu)
-    const statusInput: InputSnapshot = { held: new Set(), pressed: new Set(['Status']), frameNum: 0 }
+    const statusInput: InputSnapshot = {
+      held: new Set(),
+      pressed: new Set(['Status']),
+      frameNum: 0,
+    }
     tickBattle(gs, statusInput, bus) // Status 键 → 开状态屏
     expect(gs.mode).toBe('menu')
     expect(gs.menuStack[gs.menuStack.length - 1]?.kind).toBe('player-status')
@@ -1537,7 +1723,9 @@ describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-38
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction(selectingPlayerIdx=0)
     const fleeInput: InputSnapshot = { held: new Set(), pressed: new Set(['Flee']), frameNum: 0 }
     tickBattle(gs, fleeInput, bus) // player 0 按 Flee → 应全队逃
-    const fleeCount = [...gs.battleState!.pendingActions.values()].filter((a) => a.type === 'flee').length
+    const fleeCount = [...gs.battleState!.pendingActions.values()].filter(
+      (a) => a.type === 'flee',
+    ).length
     expect(fleeCount).toBe(3) // 全 3 活队员都 flee(bug 时 = 1)
   })
 
@@ -1546,7 +1734,10 @@ describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-38
       partyMembers: [0, 1],
       // 出招声(attackSound=77)作每次攻击的可靠信号:挂 swing frame0,startBattleAnim 即时经 driver emit playSound
       //   (武器声/playPlayerAttack 改帧同步后不再同步 emit,旧 playPlayerAttack 代理失效,2026-06-05)。
-      roles: [makeRole({ id: 0, attackStrength: 100, hp: 200, attackSound: 77 }), makeRole({ id: 1, attackStrength: 100, hp: 200, attackSound: 77 })],
+      roles: [
+        makeRole({ id: 0, attackStrength: 100, hp: 200, attackSound: 77 }),
+        makeRole({ id: 1, attackStrength: 100, hp: 200, attackSound: 77 }),
+      ],
       enemies: [makeEnemy({ id: 100, health: 1, defense: 0 })], // 一击必死
     })
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
@@ -1564,7 +1755,9 @@ describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-38
     let safety = 300
     while (st.phase === 'performAction' && safety-- > 0) tickBattle(gs, emptyInput, bus)
     // 出招声各攻击一次(frame0 即时播)→ 只 p0 攻击 = 1 次;p1 被全敌清空中止(bug 时 = 2)
-    const attacks = bus.drain().filter((e) => e.cmd.op === 'playSound' && (e.cmd as { soundId: number }).soundId === 77)
+    const attacks = bus
+      .drain()
+      .filter((e) => e.cmd.op === 'playSound' && (e.cmd as { soundId: number }).soundId === 77)
     expect(attacks.length).toBe(1)
   })
 
@@ -1644,7 +1837,8 @@ describe('defending flag 单轮失效', () => {
       tickBattle(gs, emptyInput, bus)
       gs.battleState!.pendingActions.set(0, { type: 'attack', target: 0 })
       let guard = 20
-      while (gs.battleState?.phase === 'selectAction' && guard-- > 0) tickBattle(gs, emptyInput, bus)
+      while (gs.battleState?.phase === 'selectAction' && guard-- > 0)
+        tickBattle(gs, emptyInput, bus)
       return gs.battleState!.actionQueue[0]!.isEnemy === true
     }
     // 旧 bug:lv99 玩家 dex=10+(99+6)*4=430 > 41 会抢先(false);修复后真 dex 10 始终 < 41 → 敌先(true,与 level 无关)
@@ -1656,7 +1850,17 @@ describe('defending flag 单轮失效', () => {
     const { gs, bus, emptyInput } = bootstrap({
       // 敌人高血扛得住玩家(玩家防御不输出);弱攻击 + 玩家高防 → 玩家不死,回合能正常结束。
       // P0#2 后:玩家 base dex 无 level 项 → 用真实 dex 20 让 defend×5=100 稳压敌方(getEnemyDex{lv,dex1}≈19-22)排队首。
-      enemies: [makeEnemy({ id: 100, health: 9999, attackStrength: 1, dexterity: 1, idleFrames: 1, attackFrames: 2, actWaitFrames: 1 })],
+      enemies: [
+        makeEnemy({
+          id: 100,
+          health: 9999,
+          attackStrength: 1,
+          dexterity: 1,
+          idleFrames: 1,
+          attackFrames: 2,
+          actWaitFrames: 1,
+        }),
+      ],
       roles: [makeRole({ id: 0, hp: 9999, maxHP: 9999, defense: 999, dexterity: 20 })],
     })
     tickBattle(gs, emptyInput, bus) // → selectAction
@@ -1676,7 +1880,8 @@ describe('defending flag 单轮失效', () => {
       tickBattle(gs, emptyInput, bus)
       const p = gs.battleState?.players[0]
       if (p?.defending && p.currentFrame === 3) sawDefendPose = true
-      if ((gs.battleState?.turn ?? prevTurn) > prevTurn && gs.battleState?.phase === 'selectAction') break
+      if ((gs.battleState?.turn ?? prevTurn) > prevTurn && gs.battleState?.phase === 'selectAction')
+        break
     }
     expect(sawDefendPose).toBe(true) // 防御姿在 perform 阶段出现(执行 defend 即刻,非等下一动画 action)
     // 回合结束 → 复位:defending 清 + currentFrame 回站立 0(不把防御姿带进下一轮)
@@ -1688,8 +1893,21 @@ describe('defending flag 单轮失效', () => {
     // user 2026-05-31:和 boss 林月如战斗,连她攻击时都定格不动。enemy82 真值 idleFrames=1(静态待机正常)
     //   但 attackFrames=4 应有攻击动画。本测验证:敌人攻击时 currentFrame 推过 idle(0)外的攻击帧。
     const { gs, bus, emptyInput } = bootstrap({
-      enemies: [makeEnemy({ id: 82, health: 9999, attackStrength: 1, dexterity: 99, idleFrames: 1, magicFrames: 0, attackFrames: 4, actWaitFrames: 1, magic: 0, magicRate: 0 })],
-      teamSlots: [82, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF],
+      enemies: [
+        makeEnemy({
+          id: 82,
+          health: 9999,
+          attackStrength: 1,
+          dexterity: 99,
+          idleFrames: 1,
+          magicFrames: 0,
+          attackFrames: 4,
+          actWaitFrames: 1,
+          magic: 0,
+          magicRate: 0,
+        }),
+      ],
+      teamSlots: [82, 0xffff, 0xffff, 0xffff, 0xffff],
       roles: [makeRole({ id: 0, hp: 9999, maxHP: 9999, defense: 999, dexterity: 1 })],
     })
     tickBattle(gs, emptyInput, bus)
@@ -1748,13 +1966,17 @@ describe('finalize 清状态', () => {
     driveBattleToExplore(gs, bus)
 
     expect(gs.battleState).toBeUndefined()
-    expect((gs as unknown as { __battleResources?: BattleResources }).__battleResources).toBeUndefined()
+    expect(
+      (gs as unknown as { __battleResources?: BattleResources }).__battleResources,
+    ).toBeUndefined()
   })
 
   it('tickBattle 无 battleState → no-op', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
-    expect(() => tickBattle(gs, { held: new Set(), pressed: new Set(), frameNum: 0 }, bus)).not.toThrow()
+    expect(() =>
+      tickBattle(gs, { held: new Set(), pressed: new Set(), frameNum: 0 }, bus),
+    ).not.toThrow()
   })
 
   it('tickBattle 有 battleState 但无 resources → 强制退出 explore + error log', () => {
@@ -1778,9 +2000,25 @@ describe('finalize 清状态', () => {
 /** 新模型测试通用 snap(支持全部抽象键)。 */
 function mSnap(
   pressed: Array<
-    | 'Up' | 'Down' | 'Left' | 'Right' | 'Confirm' | 'Cancel' | 'Menu'
-    | 'Defend' | 'Force' | 'Flee' | 'UseItem' | 'ThrowItem' | 'Repeat' | 'Auto' | 'Status'
-    | 'PgUp' | 'PgDn' | 'Home' | 'End'
+    | 'Up'
+    | 'Down'
+    | 'Left'
+    | 'Right'
+    | 'Confirm'
+    | 'Cancel'
+    | 'Menu'
+    | 'Defend'
+    | 'Force'
+    | 'Flee'
+    | 'UseItem'
+    | 'ThrowItem'
+    | 'Repeat'
+    | 'Auto'
+    | 'Status'
+    | 'PgUp'
+    | 'PgDn'
+    | 'Home'
+    | 'End'
   > = [],
 ): InputSnapshot {
   return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }
@@ -1827,7 +2065,11 @@ function mkMagic(id: number, opts: Partial<Magic> = {}): Magic {
   }
 }
 
-function mkObjectMagic(id: number, magicNumber: number, flags: Partial<Spell['flags']> = {}): ObjectMagicView {
+function mkObjectMagic(
+  id: number,
+  magicNumber: number,
+  flags: Partial<Spell['flags']> = {},
+): ObjectMagicView {
   return {
     id,
     magicNumber,
@@ -1939,12 +2181,22 @@ describe('战斗主菜单 4 图标 + 方向选(uibattle.c:1027-1080)', () => {
     expect(ctx.gs.prevBattleActions?.get(0)?.actionId).toBe(296) // 战斗结束不清(持久跨场)
     // 开战斗2(同 gs):带入"上一场最后一回合"的 prevActions
     startBattle({
-      gs: ctx.gs, enemyTeamId: 0, battleFieldId: 0, isBoss: false,
+      gs: ctx.gs,
+      enemyTeamId: 0,
+      battleFieldId: 0,
+      isBoss: false,
       enemies: [makeEnemy({ id: 100 })],
-      enemyTeams: [{ id: 0, enemies: [100, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF] }],
-      battleFields: [{ id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } }],
+      enemyTeams: [{ id: 0, enemies: [100, 0xffff, 0xffff, 0xffff, 0xffff] }],
+      battleFields: [
+        { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      ],
       playerRoles: { roles: [makeRole({ id: 0 })] },
-      items: [], spells: [], magics: [], objectMagics: [], objectPoisons: [], commands: [{ op: 'end' }],
+      items: [],
+      spells: [],
+      magics: [],
+      objectMagics: [],
+      objectPoisons: [],
+      commands: [{ op: 'end' }],
     })
     expect(ctx.gs.battleState?.prevActions?.get(0)?.actionId).toBe(296) // 带入上场
   })
@@ -1960,13 +2212,21 @@ describe('战斗主菜单 4 图标 + 方向选(uibattle.c:1027-1080)', () => {
     ctx.gs.partyMembers = [1] // role1 从 slot1 移到 slot0
 
     startBattle({
-      gs: ctx.gs, enemyTeamId: 0, battleFieldId: 0, isBoss: false,
+      gs: ctx.gs,
+      enemyTeamId: 0,
+      battleFieldId: 0,
+      isBoss: false,
       enemies: [makeEnemy({ id: 101, health: 50, exp: 0, cash: 0 })],
-      enemyTeams: [{ id: 0, enemies: [101, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF] }],
-      battleFields: [{ id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } }],
+      enemyTeams: [{ id: 0, enemies: [101, 0xffff, 0xffff, 0xffff, 0xffff] }],
+      battleFields: [
+        { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      ],
       playerRoles: { roles },
-      items: [], spells: [mkSpell(296, { usableToEnemy: true })],
-      magics: [mkMagic(296, { costMP: 0 })], objectMagics: [], objectPoisons: [],
+      items: [],
+      spells: [mkSpell(296, { usableToEnemy: true })],
+      magics: [mkMagic(296, { costMP: 0 })],
+      objectMagics: [],
+      objectPoisons: [],
       commands: [{ op: 'end' }],
     })
     tickBattle(ctx.gs, ctx.emptyInput, ctx.bus)
@@ -2009,12 +2269,21 @@ describe('战斗主菜单 4 图标 + 方向选(uibattle.c:1027-1080)', () => {
     ctx.gs.partyMembers = [1]
 
     startBattle({
-      gs: ctx.gs, enemyTeamId: 0, battleFieldId: 0, isBoss: false,
+      gs: ctx.gs,
+      enemyTeamId: 0,
+      battleFieldId: 0,
+      isBoss: false,
       enemies: [makeEnemy({ id: 101 })],
-      enemyTeams: [{ id: 0, enemies: [101, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF] }],
-      battleFields: [{ id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } }],
+      enemyTeams: [{ id: 0, enemies: [101, 0xffff, 0xffff, 0xffff, 0xffff] }],
+      battleFields: [
+        { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      ],
       playerRoles: { roles },
-      items: [], spells: [], magics: [], objectMagics: [], objectPoisons: [],
+      items: [],
+      spells: [],
+      magics: [],
+      objectMagics: [],
+      objectPoisons: [],
       commands: [{ op: 'end' }],
     })
 
@@ -2036,21 +2305,39 @@ describe('战斗主菜单 4 图标 + 方向选(uibattle.c:1027-1080)', () => {
       magics: [magic],
     })
     tickBattle(ctx.gs, ctx.emptyInput, ctx.bus) // preBattle → selectAction
-    ctx.gs.battleState!.pendingActions.set(0, { type: 'magic', actionId: 296, target: 0, targetSide: 'enemy' })
+    ctx.gs.battleState!.pendingActions.set(0, {
+      type: 'magic',
+      actionId: 296,
+      target: 0,
+      targetSide: 'enemy',
+    })
     driveBattleToExplore(ctx.gs, ctx.bus)
     expect(ctx.gs.prevBattleActions?.get(0)).toMatchObject({ type: 'magic', actionId: 296 })
 
     startBattle({
-      gs: ctx.gs, enemyTeamId: 0, battleFieldId: 0, isBoss: false,
+      gs: ctx.gs,
+      enemyTeamId: 0,
+      battleFieldId: 0,
+      isBoss: false,
       enemies: [makeEnemy({ id: 101, health: 50, exp: 0, cash: 0 })],
-      enemyTeams: [{ id: 0, enemies: [101, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF] }],
-      battleFields: [{ id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } }],
+      enemyTeams: [{ id: 0, enemies: [101, 0xffff, 0xffff, 0xffff, 0xffff] }],
+      battleFields: [
+        { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      ],
       playerRoles: { roles: [makeRole({ id: 0, mp: 99, maxMP: 99 })] },
-      items: [], spells: [spell], magics: [magic], objectMagics: [], objectPoisons: [], commands: [{ op: 'end' }],
+      items: [],
+      spells: [spell],
+      magics: [magic],
+      objectMagics: [],
+      objectPoisons: [],
+      commands: [{ op: 'end' }],
     })
     tickBattle(ctx.gs, ctx.emptyInput, ctx.bus) // preBattle → selectAction
     tickBattle(ctx.gs, mSnap(['Repeat']), ctx.bus)
-    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({ type: 'magic', actionId: 296 })
+    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({
+      type: 'magic',
+      actionId: 296,
+    })
   })
 
   it('合击 commit 不覆盖失能队员(confused 队员保留 autoFill action,非 pass)', () => {
@@ -2070,24 +2357,42 @@ describe('战斗主菜单 4 图标 + 方向选(uibattle.c:1027-1080)', () => {
   })
 
   it('Confirm 攻击(无群攻)→ selectTargetEnemy + draft attack/enemy', () => {
-    const ctx = bootstrap({ enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })], teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF] })
+    const ctx = bootstrap({
+      enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })],
+      teamSlots: [100, 101, 0xffff, 0xffff, 0xffff],
+    })
     enterSelectMove(ctx)
     tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus) // selectedAction=0 攻击
     expect(ctx.gs.battleState?.uiState).toBe('selectTargetEnemy')
-    expect(ctx.gs.battleState?.pendingActionDraft).toMatchObject({ type: 'attack', targetSide: 'enemy' })
+    expect(ctx.gs.battleState?.pendingActionDraft).toMatchObject({
+      type: 'attack',
+      targetSide: 'enemy',
+    })
   })
 
   it('Confirm 攻击(群攻武器 attackAll)→ 即时提交全体目标', () => {
-    const ctx = bootstrap({ roles: [makeRole({ id: 0, attackAll: 1 })], enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })], teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF] })
+    const ctx = bootstrap({
+      roles: [makeRole({ id: 0, attackAll: 1 })],
+      enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })],
+      teamSlots: [100, 101, 0xffff, 0xffff, 0xffff],
+    })
     enterSelectMove(ctx)
     tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
-    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({ type: 'attack', target: -1, targetSide: 'enemy' })
+    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({
+      type: 'attack',
+      target: -1,
+      targetSide: 'enemy',
+    })
   })
 
   it('Confirm 法术(selectedAction=1)→ menuState=magicSelect + magicSelect 建表', () => {
     const role = makeRole({ id: 0 }) as PlayerRole & { learnedSpells: number[] }
     role.learnedSpells = [296, 297]
-    const ctx = bootstrap({ roles: [role], spells: [mkSpell(296), mkSpell(297)], magics: [mkMagic(296), mkMagic(297)] })
+    const ctx = bootstrap({
+      roles: [role],
+      spells: [mkSpell(296), mkSpell(297)],
+      magics: [mkMagic(296), mkMagic(297)],
+    })
     enterSelectMove(ctx)
     tickBattle(ctx.gs, mSnap(['Left']), ctx.bus) // → selectedAction=1
     tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
@@ -2129,7 +2434,10 @@ describe('主菜单快捷键(uibattle.c:1166-1302;WASD 还原 sdlpal 原义)', (
   })
 
   it('ThrowItem → menuState=throwItemSelect', () => {
-    const ctx = bootstrap({ items: [mkItem(1, { throwable: true })], inventory: [{ itemId: 1, count: 3 }] })
+    const ctx = bootstrap({
+      items: [mkItem(1, { throwable: true })],
+      inventory: [{ itemId: 1, count: 3 }],
+    })
     enterSelectMove(ctx)
     tickBattle(ctx.gs, mSnap(['ThrowItem']), ctx.bus)
     expect(ctx.gs.battleState?.menuState).toBe('throwItemSelect')
@@ -2254,7 +2562,10 @@ describe('物品二级 使用/投掷(uibattle.c:471-545 / 1406-1426)', () => {
   })
 
   it('Confirm 1(投掷)→ throwItemSelect', () => {
-    const ctx = bootstrap({ items: [mkItem(1, { throwable: true })], inventory: [{ itemId: 1, count: 2 }] })
+    const ctx = bootstrap({
+      items: [mkItem(1, { throwable: true })],
+      inventory: [{ itemId: 1, count: 2 }],
+    })
     enterSub(ctx)
     ctx.gs.battleState!.miscSubMenuCursor = 1
     tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
@@ -2275,7 +2586,7 @@ describe('法术选择网格(magicmenu.c:35-410)', () => {
     spells: Spell[],
     magics: Magic[],
     roleOpts: Partial<PlayerRole> = {},
-    extra: { objectMagics?: ObjectMagicView[], items?: Item[] } = {},
+    extra: { objectMagics?: ObjectMagicView[]; items?: Item[] } = {},
   ) {
     const role = makeRole({ id: 0, ...roleOpts }) as PlayerRole & { learnedSpells: number[] }
     role.learnedSpells = learned
@@ -2286,7 +2597,7 @@ describe('法术选择网格(magicmenu.c:35-410)', () => {
       objectMagics: extra.objectMagics,
       items: extra.items,
       enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })],
-      teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF],
+      teamSlots: [100, 101, 0xffff, 0xffff, 0xffff],
     })
     enterSelectMove(ctx)
     tickBattle(ctx.gs, mSnap(['Left']), ctx.bus) // selectedAction=1
@@ -2295,7 +2606,12 @@ describe('法术选择网格(magicmenu.c:35-410)', () => {
   }
 
   it('建表:MP 不足 → disabled 灰项(magicmenu.c:347-352)', () => {
-    const ctx = enterMagic([296, 297], [mkSpell(296), mkSpell(297)], [mkMagic(296, { costMP: 5 }), mkMagic(297, { costMP: 999 })], { mp: 10 })
+    const ctx = enterMagic(
+      [296, 297],
+      [mkSpell(296), mkSpell(297)],
+      [mkMagic(296, { costMP: 5 }), mkMagic(297, { costMP: 999 })],
+      { mp: 10 },
+    )
     const items = ctx.gs.battleState!.magicSelect!.items
     expect(items.find((i) => i.id === 296)?.disabled).toBe(false)
     expect(items.find((i) => i.id === 297)?.disabled).toBe(true) // MP 不够
@@ -2310,7 +2626,11 @@ describe('法术选择网格(magicmenu.c:35-410)', () => {
     const ctx = enterMagic([296], [mkSpell(296, { usableToEnemy: true })], [mkMagic(296)])
     tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
     expect(ctx.gs.battleState?.uiState).toBe('selectTargetEnemy')
-    expect(ctx.gs.battleState?.pendingActionDraft).toMatchObject({ type: 'magic', actionId: 296, targetSide: 'enemy' })
+    expect(ctx.gs.battleState?.pendingActionDraft).toMatchObject({
+      type: 'magic',
+      actionId: 296,
+      targetSide: 'enemy',
+    })
   })
 
   it('Confirm 治疗法术(非 usableToEnemy)→ 目标 player;单人队同 tick 即时 commit idx0,不停留', () => {
@@ -2319,12 +2639,21 @@ describe('法术选择网格(magicmenu.c:35-410)', () => {
     // 单人队(bootstrap 默认 partyMembers=[0]):非 usableToEnemy → 友方目标,且单人队即时 commit idx0
     // (对齐 sdlpal wMaxPartyMemberIndex==0 短路 uibattle.c:1550-1554),不在 selectTargetPlayer 停留
     // → present 不画一帧选中箭头。
-    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({ type: 'magic', actionId: 296, target: 0, targetSide: 'player' })
+    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({
+      type: 'magic',
+      actionId: 296,
+      target: 0,
+      targetSide: 'player',
+    })
     expect(ctx.gs.battleState?.uiState).not.toBe('selectTargetPlayer')
   })
 
   it('Confirm 对敌全体(usableToEnemy+applyToAll)→ selectTargetEnemyAll → 即时 commit target=-1', () => {
-    const ctx = enterMagic([296], [mkSpell(296, { usableToEnemy: true, applyToAll: true })], [mkMagic(296)])
+    const ctx = enterMagic(
+      [296],
+      [mkSpell(296, { usableToEnemy: true, applyToAll: true })],
+      [mkMagic(296)],
+    )
     tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
     expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({ type: 'magic', target: -1 })
   })
@@ -2384,14 +2713,25 @@ describe('法术选择网格(magicmenu.c:35-410)', () => {
 
 describe('物品选择网格(itemmenu.c:28-377)', () => {
   function enterUseItem(items: Item[], inventory: Array<{ itemId: number; count: number }>) {
-    const ctx = bootstrap({ items, inventory, enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })], teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF] })
+    const ctx = bootstrap({
+      items,
+      inventory,
+      enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })],
+      teamSlots: [100, 101, 0xffff, 0xffff, 0xffff],
+    })
     enterSelectMove(ctx)
     tickBattle(ctx.gs, mSnap(['UseItem']), ctx.bus)
     return ctx
   }
 
   it('建表:非 usable(useItemSelect 模式)→ disabled 灰项', () => {
-    const ctx = enterUseItem([mkItem(1, { usable: true }), mkItem(2, { usable: false })], [{ itemId: 1, count: 2 }, { itemId: 2, count: 1 }])
+    const ctx = enterUseItem(
+      [mkItem(1, { usable: true }), mkItem(2, { usable: false })],
+      [
+        { itemId: 1, count: 2 },
+        { itemId: 2, count: 1 },
+      ],
+    )
     const items = ctx.gs.battleState!.itemSelect!.items
     expect(items.find((i) => i.id === 1)?.disabled).toBe(false)
     expect(items.find((i) => i.id === 2)?.disabled).toBe(true)
@@ -2404,7 +2744,7 @@ describe('物品选择网格(itemmenu.c:28-377)', () => {
       items: [mkItem(1, { usable: true })],
       inventory: [{ itemId: 1, count: 1 }],
       enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })],
-      teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF],
+      teamSlots: [100, 101, 0xffff, 0xffff, 0xffff],
     })
     enterSelectMove(ctx)
     tickBattle(ctx.gs, mSnap(['UseItem']), ctx.bus)
@@ -2424,7 +2764,7 @@ describe('物品选择网格(itemmenu.c:28-377)', () => {
       items: [mkItem(1, { usable: true, consuming: false })],
       inventory: [{ itemId: 1, count: 1 }],
       enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })],
-      teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF],
+      teamSlots: [100, 101, 0xffff, 0xffff, 0xffff],
     })
     enterSelectMove(ctx)
     tickBattle(ctx.gs, mSnap(['UseItem']), ctx.bus)
@@ -2444,7 +2784,7 @@ describe('物品选择网格(itemmenu.c:28-377)', () => {
       items: [mkItem(1, { usable: true })],
       inventory: [{ itemId: 1, count: 1 }],
       enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })],
-      teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF],
+      teamSlots: [100, 101, 0xffff, 0xffff, 0xffff],
     })
     enterSelectMove(ctx)
     tickBattle(ctx.gs, mSnap(['UseItem']), ctx.bus)
@@ -2462,23 +2802,43 @@ describe('物品选择网格(itemmenu.c:28-377)', () => {
     const ctx = enterUseItem([mkItem(1, { usable: true })], [{ itemId: 1, count: 2 }])
     tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
     // 单人队:使用类道具 → 友方目标,单人队即时 commit idx0,不停留 selectTargetPlayer(present 不画选中箭头)。
-    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({ type: 'item', actionId: 1, target: 0, targetSide: 'player' })
+    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({
+      type: 'item',
+      actionId: 1,
+      target: 0,
+      targetSide: 'player',
+    })
     expect(ctx.gs.battleState?.uiState).not.toBe('selectTargetPlayer')
   })
 
   it('投掷类(throwItemSelect)Confirm → selectTargetEnemy + draft throw-item/enemy', () => {
-    const ctx = bootstrap({ items: [mkItem(1, { throwable: true })], inventory: [{ itemId: 1, count: 2 }], enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })], teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF] })
+    const ctx = bootstrap({
+      items: [mkItem(1, { throwable: true })],
+      inventory: [{ itemId: 1, count: 2 }],
+      enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })],
+      teamSlots: [100, 101, 0xffff, 0xffff, 0xffff],
+    })
     enterSelectMove(ctx)
     tickBattle(ctx.gs, mSnap(['ThrowItem']), ctx.bus)
     tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
     expect(ctx.gs.battleState?.uiState).toBe('selectTargetEnemy')
-    expect(ctx.gs.battleState?.pendingActionDraft).toMatchObject({ type: 'throw-item', targetSide: 'enemy' })
+    expect(ctx.gs.battleState?.pendingActionDraft).toMatchObject({
+      type: 'throw-item',
+      targetSide: 'enemy',
+    })
   })
 
   it('applyToAll 使用类 → selectTargetPlayerAll → 即时 commit target=-1 targetSide=player', () => {
-    const ctx = enterUseItem([mkItem(1, { usable: true, applyToAll: true })], [{ itemId: 1, count: 2 }])
+    const ctx = enterUseItem(
+      [mkItem(1, { usable: true, applyToAll: true })],
+      [{ itemId: 1, count: 2 }],
+    )
     tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
-    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({ type: 'item', target: -1, targetSide: 'player' })
+    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({
+      type: 'item',
+      target: -1,
+      targetSide: 'player',
+    })
   })
 
   it('Menu → 回 main + 清 itemSelect', () => {
@@ -2501,7 +2861,10 @@ describe('敌方 target picker(uibattle.c:1431-1543,PAL_CLASSIC)', () => {
   })
 
   it('多敌:Right/Up 后跳,Left/Down 前跳(跳过死敌环绕)', () => {
-    const ctx = bootstrap({ enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 }), makeEnemy({ id: 102 })], teamSlots: [100, 101, 102, 0xFFFF, 0xFFFF] })
+    const ctx = bootstrap({
+      enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 }), makeEnemy({ id: 102 })],
+      teamSlots: [100, 101, 102, 0xffff, 0xffff],
+    })
     enterSelectMove(ctx)
     tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus) // selectTargetEnemy, cursor=0
     expect(ctx.gs.battleState?.uiState).toBe('selectTargetEnemy')
@@ -2515,7 +2878,10 @@ describe('敌方 target picker(uibattle.c:1431-1543,PAL_CLASSIC)', () => {
   })
 
   it('死敌跳过:enemy[1] 死 → Right 从 0 跳到 2', () => {
-    const ctx = bootstrap({ enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 }), makeEnemy({ id: 102 })], teamSlots: [100, 101, 102, 0xFFFF, 0xFFFF] })
+    const ctx = bootstrap({
+      enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 }), makeEnemy({ id: 102 })],
+      teamSlots: [100, 101, 102, 0xffff, 0xffff],
+    })
     enterSelectMove(ctx)
     tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
     ctx.gs.battleState!.enemies[1]!.e.health = 0
@@ -2524,17 +2890,27 @@ describe('敌方 target picker(uibattle.c:1431-1543,PAL_CLASSIC)', () => {
   })
 
   it('Confirm → commit + 记 iPrevEnemyTarget', () => {
-    const ctx = bootstrap({ enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })], teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF] })
+    const ctx = bootstrap({
+      enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })],
+      teamSlots: [100, 101, 0xffff, 0xffff, 0xffff],
+    })
     enterSelectMove(ctx)
     tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
     tickBattle(ctx.gs, mSnap(['Right']), ctx.bus) // cursor=1
     tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
-    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({ type: 'attack', target: 1, targetSide: 'enemy' })
+    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({
+      type: 'attack',
+      target: 1,
+      targetSide: 'enemy',
+    })
     expect(ctx.gs.battleState?.iPrevEnemyTarget).toBe(1)
   })
 
   it('Menu → 回 selectMove + menuState=main', () => {
-    const ctx = bootstrap({ enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })], teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF] })
+    const ctx = bootstrap({
+      enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })],
+      teamSlots: [100, 101, 0xffff, 0xffff, 0xffff],
+    })
     enterSelectMove(ctx)
     tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
     tickBattle(ctx.gs, mSnap(['Menu']), ctx.bus)
@@ -2550,7 +2926,12 @@ describe('友方 target picker(uibattle.c:1545-1609,PAL_CLASSIC)', () => {
       r.learnedSpells = [296]
       return r
     })
-    const ctx = bootstrap({ partyMembers: party, roles, spells: [mkSpell(296, { usableToEnemy: false })], magics: [mkMagic(296)] })
+    const ctx = bootstrap({
+      partyMembers: party,
+      roles,
+      spells: [mkSpell(296, { usableToEnemy: false })],
+      magics: [mkMagic(296)],
+    })
     enterSelectMove(ctx)
     tickBattle(ctx.gs, mSnap(['Left']), ctx.bus) // selectedAction=1 法术
     tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus) // magicSelect
@@ -2562,7 +2943,11 @@ describe('友方 target picker(uibattle.c:1545-1609,PAL_CLASSIC)', () => {
     const ctx = enterPlayerTarget([0])
     // 单人队:选治疗法术那一 tick 内即时 commit idx0(对齐 sdlpal wMaxPartyMemberIndex==0),
     // 不在 selectTargetPlayer 停留 → present 不画一帧选中箭头(修单人队选友目标"箭头闪一下")。
-    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({ type: 'magic', target: 0, targetSide: 'player' })
+    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({
+      type: 'magic',
+      target: 0,
+      targetSide: 'player',
+    })
     expect(ctx.gs.battleState?.uiState).not.toBe('selectTargetPlayer')
   })
 
@@ -2582,7 +2967,10 @@ describe('友方 target picker(uibattle.c:1545-1609,PAL_CLASSIC)', () => {
     const ctx = enterPlayerTarget([0, 1])
     tickBattle(ctx.gs, mSnap(['Right']), ctx.bus) // cursor=1
     tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
-    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({ target: 1, targetSide: 'player' })
+    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({
+      target: 1,
+      targetSide: 'player',
+    })
   })
 
   it('Menu → 回 selectMove', () => {
@@ -2664,7 +3052,10 @@ describe('战斗对话结束键不漏进动作菜单', () => {
 
 describe('M7:R/F 整队粘滞(fight.c:1789-1796)', () => {
   it('多队员按 Force → 剩余队员也自动 commit(非只当前)', () => {
-    const { gs, bus, emptyInput } = bootstrap({ partyMembers: [0, 1], enemies: [makeEnemy({ id: 100 })] })
+    const { gs, bus, emptyInput } = bootstrap({
+      partyMembers: [0, 1],
+      enemies: [makeEnemy({ id: 100 })],
+    })
     tickBattle(gs, emptyInput, bus) // selectMove idx=0
     tickBattle(gs, mSnap(['Force']), bus) // idx0 commit force + fForce=true → advance idx1
     tickBattle(gs, emptyInput, bus) // idx1 自动 force(fForce 整队粘滞)
@@ -2673,7 +3064,10 @@ describe('M7:R/F 整队粘滞(fight.c:1789-1796)', () => {
   })
 
   it('多队员按 Repeat → 剩余队员也自动重提', () => {
-    const { gs, bus, emptyInput } = bootstrap({ partyMembers: [0, 1], enemies: [makeEnemy({ id: 100 })] })
+    const { gs, bus, emptyInput } = bootstrap({
+      partyMembers: [0, 1],
+      enemies: [makeEnemy({ id: 100 })],
+    })
     tickBattle(gs, emptyInput, bus)
     tickBattle(gs, mSnap(['Repeat']), bus) // idx0 + fRepeat=true → advance idx1
     tickBattle(gs, emptyInput, bus) // idx1 自动 repeat
@@ -2696,7 +3090,10 @@ describe('Repeat(R 键)+ 敌方目标重选(fight.c:1858-1867 / 3487-3507)', () 
   })
 
   it('Repeat prev=pass → 转物理攻击(fight.c:1862-1867)', () => {
-    const { gs, bus, emptyInput } = bootstrap({ enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })], teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF] })
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })],
+      teamSlots: [100, 101, 0xffff, 0xffff, 0xffff],
+    })
     tickBattle(gs, emptyInput, bus)
     gs.battleState!.prevActions = new Map([[0, { type: 'pass', target: -1 }]])
     tickBattle(gs, rSnap(['Repeat']), bus)
@@ -2705,7 +3102,11 @@ describe('Repeat(R 键)+ 敌方目标重选(fight.c:1858-1867 / 3487-3507)', () 
   })
 
   it('Repeat 首轮无 prev → 物理攻击(自动目标);群攻武器 target=-1', () => {
-    const { gs, bus, emptyInput } = bootstrap({ roles: [makeRole({ id: 0, attackAll: 1 })], enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })], teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF] })
+    const { gs, bus, emptyInput } = bootstrap({
+      roles: [makeRole({ id: 0, attackAll: 1 })],
+      enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })],
+      teamSlots: [100, 101, 0xffff, 0xffff, 0xffff],
+    })
     tickBattle(gs, emptyInput, bus)
     tickBattle(gs, rSnap(['Repeat']), bus)
     const act = gs.battleState?.pendingActions.get(0)
@@ -2730,13 +3131,53 @@ describe('Repeat(R 键)+ 敌方目标重选(fight.c:1858-1867 / 3487-3507)', () 
     // 2 敌;player 法术指 enemy 1。perform 前手动杀 enemy 1 → 应重选到 enemy 0(唯一活敌)。
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 50 }), makeEnemy({ id: 101, health: 50 })],
-      teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF],
-      spells: [{ id: 296, _name: 's', magicNumber: 296, scriptOnSuccess: 0, scriptOnUse: 0, scriptDesc: 0, flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: false } }],
-      magics: [{ id: 296, effect: 0, type: 'normal', xOffset: 0, yOffset: 0, special: 0, speed: 0, keepEffect: 0, fireDelay: 0, effectTimes: 0, shake: 0, wave: 0, unknown: 0, costMP: 5, baseDamage: 30, elemental: 0, sound: 0 } as Magic],
+      teamSlots: [100, 101, 0xffff, 0xffff, 0xffff],
+      spells: [
+        {
+          id: 296,
+          _name: 's',
+          magicNumber: 296,
+          scriptOnSuccess: 0,
+          scriptOnUse: 0,
+          scriptDesc: 0,
+          flags: {
+            usableOutsideBattle: false,
+            usableInBattle: true,
+            usableToEnemy: true,
+            applyToAll: false,
+          },
+        },
+      ],
+      magics: [
+        {
+          id: 296,
+          effect: 0,
+          type: 'normal',
+          xOffset: 0,
+          yOffset: 0,
+          special: 0,
+          speed: 0,
+          keepEffect: 0,
+          fireDelay: 0,
+          effectTimes: 0,
+          shake: 0,
+          wave: 0,
+          unknown: 0,
+          costMP: 5,
+          baseDamage: 30,
+          elemental: 0,
+          sound: 0,
+        } as Magic,
+      ],
     })
     tickBattle(gs, emptyInput, bus)
     // 直接落一个指向 enemy 1 的 magic action,绕过菜单
-    gs.battleState!.pendingActions.set(0, { type: 'magic', actionId: 296, target: 1, targetSide: 'enemy' })
+    gs.battleState!.pendingActions.set(0, {
+      type: 'magic',
+      actionId: 296,
+      target: 1,
+      targetSide: 'enemy',
+    })
     // 杀掉 enemy 1
     gs.battleState!.enemies[1]!.e.health = 0
     // 进 performAction
@@ -2762,13 +3203,12 @@ describe('Repeat(R 键)+ 敌方目标重选(fight.c:1858-1867 / 3487-3507)', () 
       enemies: [makeEnemy({ id: 100, health: 99999, level: 0, dexterity: 0, attackStrength: 0 })],
       spells: [{ ...mkSpell(296), scriptOnSuccess: 1 }],
       magics: [mkMagic(296, { costMP: 0, baseDamage: 0 })],
-      commands: [
-        { op: 'end' },
-        { op: 'raw', opcode: 0x50, operands: [1, 0, 0] },
-        { op: 'end' },
-      ],
+      commands: [{ op: 'end' }, { op: 'raw', opcode: 0x50, operands: [1, 0, 0] }, { op: 'end' }],
     })
-    gs.palette = { colors: Array.from({ length: 256 }, () => [200, 100, 50] as [number, number, number]), cycles: [] }
+    gs.palette = {
+      colors: Array.from({ length: 256 }, () => [200, 100, 50] as [number, number, number]),
+      cycles: [],
+    }
     tickBattle(gs, emptyInput, bus)
     const st = gs.battleState!
     st.pendingActions.set(0, { type: 'magic', actionId: 296, target: 0, targetSide: 'enemy' })
@@ -2810,7 +3250,7 @@ describe('战斗菜单端到端序列(新模型)', () => {
   it('攻击路径(多敌):Confirm → selectTargetEnemy → Right → Menu → selectMove → Confirm → Confirm → commit + performAction', () => {
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })],
-      teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF],
+      teamSlots: [100, 101, 0xffff, 0xffff, 0xffff],
     })
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
     tickBattle(gs, emptyInput, bus) // turnStart 后 → selectMove(菜单延后一 tick)
@@ -2866,17 +3306,49 @@ describe('throw-item action 派发(E2)', () => {
 
   it('投掷物 action → 跑 scriptOnThrow(0x42)→ 敌人落血 + 扣 inventory', () => {
     const throwItem: Item = {
-      id: 66, _name: '天师符', bitmap: 0, price: 0, scriptOnUse: 0, scriptOnEquip: 0, scriptOnThrow: 1, scriptDesc: 0,
-      flags: { usable: false, equipable: false, throwable: true, consuming: true, applyToAll: false, sellable: true, equipableBy: [false, false, false, false, false, false] },
+      id: 66,
+      _name: '天师符',
+      bitmap: 0,
+      price: 0,
+      scriptOnUse: 0,
+      scriptOnEquip: 0,
+      scriptOnThrow: 1,
+      scriptDesc: 0,
+      flags: {
+        usable: false,
+        equipable: false,
+        throwable: true,
+        consuming: true,
+        applyToAll: false,
+        sellable: true,
+        equipableBy: [false, false, false, false, false, false],
+      },
     }
     // ip1 = 0x42 [349,0,0](天师符法 obj349 → magic54 baseDmg140 elem0)
-    const commands: Command[] = [{ op: 'end' }, { op: 'raw', opcode: 0x42, operands: [349, 0, 0] }, { op: 'end' }]
+    const commands: Command[] = [
+      { op: 'end' },
+      { op: 'raw', opcode: 0x42, operands: [349, 0, 0] },
+      { op: 'end' },
+    ]
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 200, defense: 30, level: 5 })],
       roles: [makeRole({ id: 0, hp: 300, level: 5 })],
       items: [throwItem],
       magics: [{ id: 54, baseDamage: 140, elemental: 0, type: 'normal' } as any as Magic],
-      objectMagics: [{ id: 349, magicNumber: 54, scriptOnSuccess: 0, scriptOnUse: 0, flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: false } }],
+      objectMagics: [
+        {
+          id: 349,
+          magicNumber: 54,
+          scriptOnSuccess: 0,
+          scriptOnUse: 0,
+          flags: {
+            usableOutsideBattle: false,
+            usableInBattle: true,
+            usableToEnemy: true,
+            applyToAll: false,
+          },
+        },
+      ],
       commands,
       inventory: [{ itemId: 66, count: 2 }],
     })
@@ -2896,24 +3368,62 @@ describe('throw-item action 派发(E2)', () => {
 
   it('投掷武器(0x66)→ w=op1*5+attackStr*RandomLong → 敌人落血(playerRoles 全链注入)', () => {
     const weapon: Item = {
-      id: 163, _name: '长鞭', bitmap: 0, price: 0, scriptOnUse: 0, scriptOnEquip: 0, scriptOnThrow: 1, scriptDesc: 0,
-      flags: { usable: false, equipable: true, throwable: true, consuming: true, applyToAll: false, sellable: true, equipableBy: [false, false, false, false, false, false] },
+      id: 163,
+      _name: '长鞭',
+      bitmap: 0,
+      price: 0,
+      scriptOnUse: 0,
+      scriptOnEquip: 0,
+      scriptOnThrow: 1,
+      scriptDesc: 0,
+      flags: {
+        usable: false,
+        equipable: true,
+        throwable: true,
+        consuming: true,
+        applyToAll: false,
+        sellable: true,
+        equipableBy: [false, false, false, false, false, false],
+      },
     }
     // ip1 = 0x66 [344,10,0](obj344→magic53 base198 elem0)
-    const commands: Command[] = [{ op: 'end' }, { op: 'raw', opcode: 0x66, operands: [344, 10, 0] }, { op: 'end' }]
+    const commands: Command[] = [
+      { op: 'end' },
+      { op: 'raw', opcode: 0x66, operands: [344, 10, 0] },
+      { op: 'end' },
+    ]
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 300, defense: 30, level: 5 })],
       roles: [makeRole({ id: 0, hp: 300, level: 5, attackStrength: 30 })],
       items: [weapon],
       magics: [{ id: 53, baseDamage: 198, elemental: 0, type: 'normal' } as any as Magic],
-      objectMagics: [{ id: 344, magicNumber: 53, scriptOnSuccess: 0, scriptOnUse: 0, flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: false } }],
+      objectMagics: [
+        {
+          id: 344,
+          magicNumber: 53,
+          scriptOnSuccess: 0,
+          scriptOnUse: 0,
+          flags: {
+            usableOutsideBattle: false,
+            usableInBattle: true,
+            usableToEnemy: true,
+            applyToAll: false,
+          },
+        },
+      ],
       commands,
       inventory: [{ itemId: 163, count: 1 }],
     })
 
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
     // 固定 rng:rangeInclusive→2(RandomLong 项)、next→0(rngFactor 1.0)
-    gs.battleState!.rng = { next: () => 0, range: () => 0, rangeInclusive: () => 2, rangeFloat: (lo) => lo, getState: () => 0 }
+    gs.battleState!.rng = {
+      next: () => 0,
+      range: () => 0,
+      rangeInclusive: () => 2,
+      rangeFloat: (lo) => lo,
+      getState: () => 0,
+    }
     gs.battleState!.pendingActions.set(0, { type: 'throw-item', actionId: 163, target: 0 })
     tickBattle(gs, emptyInput, bus) // selectAction → performAction
 
@@ -2929,12 +3439,27 @@ describe('throw-item action 派发(E2)', () => {
 
   it('UseItem action → 先播用物前摇,动画后才跑 scriptOnUse + 扣 inventory(fight.c:4385-4400)', () => {
     const item: Item = {
-      id: 1, _name: '疗伤丹', bitmap: 0, price: 0, scriptOnUse: 1, scriptOnEquip: 0, scriptOnThrow: 0, scriptDesc: 0,
-      flags: { usable: true, equipable: false, throwable: false, consuming: true, applyToAll: false, sellable: true, equipableBy: [false, false, false, false, false, false] },
+      id: 1,
+      _name: '疗伤丹',
+      bitmap: 0,
+      price: 0,
+      scriptOnUse: 1,
+      scriptOnEquip: 0,
+      scriptOnThrow: 0,
+      scriptDesc: 0,
+      flags: {
+        usable: true,
+        equipable: false,
+        throwable: false,
+        consuming: true,
+        applyToAll: false,
+        sellable: true,
+        equipableBy: [false, false, false, false, false, false],
+      },
     }
     const commands: Command[] = [
       { op: 'end' },
-      { op: 'raw', opcode: 0x1B, operands: [0, 40, 0] },
+      { op: 'raw', opcode: 0x1b, operands: [0, 40, 0] },
       { op: 'end' },
     ]
     const { gs, bus, emptyInput, resources } = bootstrap({
@@ -2951,7 +3476,11 @@ describe('throw-item action 派发(E2)', () => {
     tickBattle(gs, emptyInput, bus) // selectAction → performAction
     tickBattle(gs, emptyInput, bus) // performAction 起 UseItem 前摇
 
-    expect(st.battleAnim?.afterComplete).toMatchObject({ kind: 'perform-item', actionId: 1, targetIdx: 0 })
+    expect(st.battleAnim?.afterComplete).toMatchObject({
+      kind: 'perform-item',
+      actionId: 1,
+      targetIdx: 0,
+    })
     expect(st.battleAnim?.frames).toHaveLength(15) // Delay(4)+colorShift 0..6 + 5..0 + DM12 尾 Delay(8)
     expect(st.battleAnim?.frames[1]?.sound).toBe(28)
     expect(st.players[0]!.pos).toEqual(st.players[0]!.posOriginal) // frame0 是 PAL_BattleDelay(4),尚未前移
@@ -2959,8 +3488,7 @@ describe('throw-item action 派发(E2)', () => {
     expect(resources.playerRoles.roles[0]!.hp).toBe(100)
     expect(st.currentActionIndex).toBe(0)
 
-    for (let i = 0; i < 4; i++)
-      tickBattle(gs, emptyInput, bus)
+    for (let i = 0; i < 4; i++) tickBattle(gs, emptyInput, bus)
 
     expect(st.players[0]!.pos).toEqual({
       x: st.players[0]!.posOriginal!.x - 15,
@@ -2972,27 +3500,33 @@ describe('throw-item action 派发(E2)', () => {
     expect(st.currentActionIndex).toBe(0)
 
     let guard = 40
-    while (st.battleAnim && guard-- > 0)
-      tickBattle(gs, emptyInput, bus)
+    while (st.battleAnim && guard-- > 0) tickBattle(gs, emptyInput, bus)
 
     expect(guard).toBeGreaterThan(0)
     expect(st.battleAnim).toBeUndefined()
     expect(st.currentActionIndex).toBe(1)
     expect(gs.inventory[0]!.count).toBe(1)
     expect(resources.playerRoles.roles[0]!.hp).toBe(140)
-    expect(bus.drain().map(e => e.cmd)).toContainEqual({ op: 'playSound', soundId: 28 })
+    expect(bus.drain().map((e) => e.cmd)).toContainEqual({ op: 'playSound', soundId: 28 })
   })
 
   it('0x9E summon:敌人 scriptOnReady 只复用 wMaxEnemyIndex 内死亡空槽,不扩容单敌队伍', () => {
     // ip1 = 0x9E[0,1,0](w=0 自身同种,count 1)
-    const commands: Command[] = [{ op: 'end' }, { op: 'raw', opcode: 0x9E, operands: [0, 1, 0] }, { op: 'end' }]
+    const commands: Command[] = [
+      { op: 'end' },
+      { op: 'raw', opcode: 0x9e, operands: [0, 1, 0] },
+      { op: 'end' },
+    ]
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 200, attackStrength: 0 })],
       roles: [makeRole({ id: 0, hp: 500 })],
       enemyPos: {
         layouts: [
           [{ x: 160, y: 80 }],
-          [{ x: 120, y: 80 }, { x: 220, y: 70 }],
+          [
+            { x: 120, y: 80 },
+            { x: 220, y: 70 },
+          ],
         ],
       },
       commands,
@@ -3014,7 +3548,11 @@ describe('throw-item action 派发(E2)', () => {
 
   it('毒 tick(postAction):中毒敌人每回合跑 wEnemyScript(0x21)扣血', () => {
     // commands ip1 = 0x21[0,50,0](毒 wEnemyScript,扣 50)
-    const commands: Command[] = [{ op: 'end' }, { op: 'raw', opcode: 0x21, operands: [0, 50, 0] }, { op: 'end' }]
+    const commands: Command[] = [
+      { op: 'end' },
+      { op: 'raw', opcode: 0x21, operands: [0, 50, 0] },
+      { op: 'end' },
+    ]
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 200, defense: 999, level: 99 })], // 高防免普攻干扰
       roles: [makeRole({ id: 0, hp: 300, attackStrength: 0 })],
@@ -3075,8 +3613,8 @@ describe('throw-item action 派发(E2)', () => {
     runRound() // 吸灵气 2 → 197,推进到 15
     expect(enemy().e.health).toBe(197)
     runRound() // 炼成灵蛊:giveItem(145) + 移除食妖虫附
-    expect(gs.inventory.find(e => e.itemId === 145)?.count ?? 0).toBeGreaterThanOrEqual(1)
-    expect(enemy().poisons?.some(p => p.poisonId === 561)).toBe(false)
+    expect(gs.inventory.find((e) => e.itemId === 145)?.count ?? 0).toBeGreaterThanOrEqual(1)
+    expect(enemy().poisons?.some((p) => p.poisonId === 561)).toBe(false)
     void consoleWarn
   })
 })
@@ -3087,7 +3625,7 @@ describe('throw-item action 派发(E2)', () => {
 // ============================================================================
 
 describe('selectAutoTargetFrom (fight.c:86-128)', () => {
-  const en = (health: number): BattleEnemy => ({ e: { health } as any } as BattleEnemy)
+  const en = (health: number): BattleEnemy => ({ e: { health } as any }) as BattleEnemy
 
   it('目标敌人已死 → 从 begin 起找下一个活敌(环绕)', () => {
     const enemies = [en(0), en(50), en(30)] // 敌 0 死
@@ -3209,8 +3747,7 @@ describe('战斗过渡时序(sdlpal port)', () => {
       // 战斗结束(转出 battle)的那一 tick,0x52 应已执行 → 死怪 sState 取反隐藏(<0),不残留可见帧。
       expect(gs.mode).not.toBe('battle')
       expect(gs.npcs[0]!.sState!).toBeLessThan(0)
-    }
-    finally {
+    } finally {
       setGlobalEvents([])
     }
   })
@@ -3224,7 +3761,10 @@ describe('selectAction 阶段脚本动画 hold(0x9C 分裂散开)', () => {
   const DIV_ENEMY_POS: EnemyPosTable = {
     layouts: [
       [{ x: 160, y: 80 }],
-      [{ x: 120, y: 80 }, { x: 220, y: 70 }],
+      [
+        { x: 120, y: 80 },
+        { x: 220, y: 70 },
+      ],
     ],
   }
 
@@ -3240,7 +3780,7 @@ describe('selectAction 阶段脚本动画 hold(0x9C 分裂散开)', () => {
     expect(state.phase).toBe('selectAction')
 
     // 模拟 turn-start 脚本跑到 0x9C(真 handler:分裂 + 刷阵型位 + 起散开时间线)
-    const r = dispatchBattleOpcode(0x9C, [0, 0, 0], {
+    const r = dispatchBattleOpcode(0x9c, [0, 0, 0], {
       state,
       caster: { type: 'enemy', idx: 0 },
       enemyPos: DIV_ENEMY_POS,
@@ -3273,21 +3813,39 @@ describe('selectAction 阶段脚本动画 hold(0x9C 分裂散开)', () => {
 // ============================================================================
 
 describe('DH1 敌队 0 占位槽', () => {
-  const POS_3 = [{ x: 90, y: 90 }, { x: 170, y: 80 }, { x: 250, y: 70 }]
+  const POS_3 = [
+    { x: 90, y: 90 },
+    { x: 170, y: 80 },
+    { x: 250, y: 70 },
+  ]
   const enemyPos: EnemyPosTable = {
     layouts: [
       [{ x: 160, y: 80 }],
-      [{ x: 120, y: 80 }, { x: 220, y: 70 }],
+      [
+        { x: 120, y: 80 },
+        { x: 220, y: 70 },
+      ],
       POS_3,
-      [{ x: 70, y: 92 }, { x: 130, y: 82 }, { x: 210, y: 72 }, { x: 270, y: 62 }],
-      [{ x: 50, y: 94 }, { x: 110, y: 84 }, { x: 170, y: 74 }, { x: 230, y: 64 }, { x: 290, y: 54 }],
+      [
+        { x: 70, y: 92 },
+        { x: 130, y: 82 },
+        { x: 210, y: 72 },
+        { x: 270, y: 62 },
+      ],
+      [
+        { x: 50, y: 94 },
+        { x: 110, y: 84 },
+        { x: 170, y: 74 },
+        { x: 230, y: 64 },
+        { x: 290, y: 54 },
+      ],
     ],
   }
 
   it('[0,76,0] 型敌队保留 3 槽:0 槽为 defeated 空槽,真敌站 3 列阵中位(pos[1][2])', () => {
     const { gs } = bootstrap({
       enemies: [makeEnemy({ id: 76, health: 50 })],
-      teamSlots: [0, 76, 0, 0xFFFF, 0xFFFF],
+      teamSlots: [0, 76, 0, 0xffff, 0xffff],
       enemyPos,
     })
     const st = gs.battleState!
@@ -3304,13 +3862,12 @@ describe('DH1 敌队 0 占位槽', () => {
   it('0xFFFF 不占槽(battle.c:1604 continue):[100,0xFFFF×4] 仍单槽', () => {
     const { gs } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 50 })],
-      teamSlots: [100, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF],
+      teamSlots: [100, 0xffff, 0xffff, 0xffff, 0xffff],
       enemyPos,
     })
     expect(gs.battleState!.enemies).toHaveLength(1)
     expect(gs.battleState!.enemies[0]!.defeated).toBeUndefined()
   })
-
 })
 
 // ============================================================================
@@ -3361,14 +3918,23 @@ describe('DH3 perform 期降级链', () => {
     const enemyTable = opts.enemies ?? [makeEnemy({ id: 100, health: 100, defense: 0 })]
     // teamSlots = 实际出场敌人(指向 enemyTable 的 id),补 0xFFFF 到 5 槽(EnemyTeam 固定 5-元组)。
     const teamSlots: [number, number, number, number, number] = [
-      enemyTable[0]?.id ?? 0xFFFF,
-      enemyTable[1]?.id ?? 0xFFFF,
-      enemyTable[2]?.id ?? 0xFFFF,
-      enemyTable[3]?.id ?? 0xFFFF,
-      enemyTable[4]?.id ?? 0xFFFF,
+      enemyTable[0]?.id ?? 0xffff,
+      enemyTable[1]?.id ?? 0xffff,
+      enemyTable[2]?.id ?? 0xffff,
+      enemyTable[3]?.id ?? 0xffff,
+      enemyTable[4]?.id ?? 0xffff,
     ]
     const { gs, bus, emptyInput, resources } = bootstrap({
-      roles: [makeRole({ id: 0, hp: 200, mp: opts.mp ?? 30, maxMP: 30, attackStrength: 50, attackAll: opts.roleAttackAll ?? 0 })],
+      roles: [
+        makeRole({
+          id: 0,
+          hp: 200,
+          mp: opts.mp ?? 30,
+          maxMP: 30,
+          attackStrength: 50,
+          attackAll: opts.roleAttackAll ?? 0,
+        }),
+      ],
       enemies: enemyTable,
       teamSlots,
       spells: [mkSpell(296, opts.spellFlags ?? { usableToEnemy: true })],
@@ -3422,14 +3988,16 @@ describe('DH3 perform 期降级链', () => {
       inventory: [], // 空背包
       action: { type: 'throw-item', actionId: 999, target: 0 },
     })
-    for (let i = 0; i < 400 && t.st.currentActionIndex === 0; i++) tickBattle(t.gs, t.emptyInput, t.bus)
+    for (let i = 0; i < 400 && t.st.currentActionIndex === 0; i++)
+      tickBattle(t.gs, t.emptyInput, t.bus)
     expect(t.st.enemies[0]!.e.health).toBeLessThan(100) // 降普攻
 
     const u = performSetup({
       inventory: [],
       action: { type: 'item', actionId: 999, target: 0 },
     })
-    for (let i = 0; i < 400 && u.st.currentActionIndex === 0; i++) tickBattle(u.gs, u.emptyInput, u.bus)
+    for (let i = 0; i < 400 && u.st.currentActionIndex === 0; i++)
+      tickBattle(u.gs, u.emptyInput, u.bus)
     expect(u.st.players[0]!.defending).toBe(true) // 降 Defend
     expect(u.st.enemies[0]!.e.health).toBe(100)
   })
@@ -3441,7 +4009,10 @@ describe('DH3 perform 期降级链', () => {
     const { gs, bus, emptyInput, st } = performSetup({
       silence: 3,
       spellFlags: { usableToEnemy: true, applyToAll: true },
-      enemies: [makeEnemy({ id: 100, health: 100, defense: 0 }), makeEnemy({ id: 101, health: 100, defense: 0 })],
+      enemies: [
+        makeEnemy({ id: 100, health: 100, defense: 0 }),
+        makeEnemy({ id: 101, health: 100, defense: 0 }),
+      ],
       action: { type: 'magic', actionId: 296, target: -1, targetSide: 'enemy' },
     })
     for (let i = 0; i < 400 && st.currentActionIndex === 0; i++) tickBattle(gs, emptyInput, bus)
@@ -3454,7 +4025,10 @@ describe('DH3 perform 期降级链', () => {
       silence: 3,
       roleAttackAll: 1, // 群攻武器
       spellFlags: { usableToEnemy: true }, // 单体攻击魔法
-      enemies: [makeEnemy({ id: 100, health: 100, defense: 0 }), makeEnemy({ id: 101, health: 100, defense: 0 })],
+      enemies: [
+        makeEnemy({ id: 100, health: 100, defense: 0 }),
+        makeEnemy({ id: 101, health: 100, defense: 0 }),
+      ],
       action: { type: 'magic', actionId: 296, target: 0, targetSide: 'enemy' },
     })
     for (let i = 0; i < 400 && st.currentActionIndex === 0; i++) tickBattle(gs, emptyInput, bus)
@@ -3491,10 +4065,7 @@ describe('DM7 傀儡死亡队员保留出手', () => {
   it('hp=0 无傀儡 → 仍跳过(不出手)', () => {
     const { gs, bus, emptyInput, resources } = bootstrap({
       partyMembers: [0, 1],
-      roles: [
-        makeRole({ id: 0, hp: 200, attackStrength: 50 }),
-        makeRole({ id: 1, hp: 200 }),
-      ],
+      roles: [makeRole({ id: 0, hp: 200, attackStrength: 50 }), makeRole({ id: 1, hp: 200 })],
       enemies: [makeEnemy({ id: 100, health: 100, defense: 0 })],
     })
     tickBattle(gs, emptyInput, bus)
@@ -3532,10 +4103,18 @@ describe('DH8/DM3 屏波交接', () => {
       battleFieldId: 0,
       isBoss: false,
       enemies: [makeEnemy({ id: 100, health: 1, exp: 0, cash: 0 })],
-      enemyTeams: [{ id: 0, enemies: [100, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF] }],
-      battleFields: [{ id: 0, screenWave: 128, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } }],
+      enemyTeams: [{ id: 0, enemies: [100, 0xffff, 0xffff, 0xffff, 0xffff] }],
+      battleFields: [
+        {
+          id: 0,
+          screenWave: 128,
+          magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+        },
+      ],
       playerRoles: { roles: [makeRole({ id: 0 })] },
-      items: [], spells: [], magics: [],
+      items: [],
+      spells: [],
+      magics: [],
       rngSeed: 1,
     })
     const st2 = gs.battleState!

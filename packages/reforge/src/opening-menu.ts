@@ -8,7 +8,9 @@
  *
  * 自持 rAF 渲染循环 + 键盘监听(捕获相,先于游戏输入监听挂载);选定/读档 → cleanup + resolve。
  */
+
 import type { Locale } from '@type-pal/content'
+import { expectDefined } from './defined.js'
 import type { MenuAssets } from './menu/menu-box.js'
 import { drawSaveBrowser } from './menu/save-browser-box.js'
 import {
@@ -52,9 +54,7 @@ function openingItemX(label: string): number {
 }
 
 /** 主菜单选定结果:开新局(某入口点)或读某存档槽。 */
-export type OpeningDecision =
-  | { kind: 'new'; entryId: string }
-  | { kind: 'load'; slotId: SlotId }
+export type OpeningDecision = { kind: 'new'; entryId: string } | { kind: 'load'; slotId: SlotId }
 
 export function runOpeningMenu(deps: {
   ctx: CanvasRenderingContext2D
@@ -153,7 +153,8 @@ export function runOpeningMenu(deps: {
           // x 走 uigame.c:107-108 公式(4 全宽字退化 125),y = 95 + 17i(照原版 ITEM_Y=[95,112])。
           const rgba =
             i === cursor
-              ? (CURSOR_RGBA[Math.floor(now / 100) % CURSOR_COLOR_COUNT] ?? CURSOR_RGBA[0]!)
+              ? (CURSOR_RGBA[Math.floor(now / 100) % CURSOR_COLOR_COUNT] ??
+                expectDefined(CURSOR_RGBA[0]))
               : colorRgba('default')
           renderSpans(ctx, [{ text: it.label }], openingItemX(it.label), ITEM_Y0 + i * ITEM_DY, {
             glyphs,

@@ -21,8 +21,8 @@ import type { GameState } from '../core/game-state.js'
 import { tickByMode } from '../core/mode.js'
 import { setSceneContext } from '../core/scene-system.js'
 import { initStateDump } from '../dev/state-dump.js'
-import { isSpeedrunPaused, tickSpeedrunTimer } from '../tools/speedrun/index.js'
 import { tickFps } from '../tools/fps-overlay.js'
+import { isSpeedrunPaused, tickSpeedrunTimer } from '../tools/speedrun/index.js'
 
 export interface LoopContext {
   gs: GameState
@@ -69,7 +69,7 @@ export function advanceRafFrame(
   ctx: LoopContext,
   dump?: ReturnType<typeof initStateDump>,
   frozen = false,
-): { ticked: boolean, presented: boolean } {
+): { ticked: boolean; presented: boolean } {
   const dt = now - state.lastTickTime
   state.lastTickTime = now
   state.accumulator += dt

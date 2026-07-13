@@ -1,7 +1,7 @@
-import react from '@vitejs/plugin-react'
 import { createReadStream, statSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import react from '@vitejs/plugin-react'
 import type { Plugin } from 'vite'
 
 /**
@@ -23,17 +23,33 @@ function serveDir(urlPrefix: string, fsDir: string): Plugin {
     next: () => void,
   ): void => {
     const url = req.url ?? ''
-    if (!url.startsWith(urlPrefix)) return next()
+    if (!url.startsWith(urlPrefix)) {
+      next()
+      return
+    }
     // 去前缀 + query + 前导斜杠;防路径穿越(../)。
-    const rel = decodeURIComponent(url.slice(urlPrefix.length).split('?')[0] ?? '').replace(/^\/+/, '')
-    if (rel.includes('..')) return next()
+    const rel = decodeURIComponent(url.slice(urlPrefix.length).split('?')[0] ?? '').replace(
+      /^\/+/,
+      '',
+    )
+    if (rel.includes('..')) {
+      next()
+      return
+    }
     const file = resolve(fsDir, rel)
-    if (!file.startsWith(fsDir)) return next()
+    if (!file.startsWith(fsDir)) {
+      next()
+      return
+    }
     try {
       const stat = statSync(file)
-      if (!stat.isFile()) return next()
+      if (!stat.isFile()) {
+        next()
+        return
+      }
     } catch {
-      return next()
+      next()
+      return
     }
     // .js 必须带 JS MIME:audioWorklet.addModule 严格校验 Content-Type(fetch 不挑,worklet 挑)
     if (file.endsWith('.js') || file.endsWith('.mjs'))

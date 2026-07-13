@@ -3,9 +3,8 @@
  * tileset 统一从 map.tileset 字段解析,两支汇成 {map: Tilemap | OwnMap, tiles}。
  * 引擎(main.getMapAssets)+ 编辑器(useSceneAssets)共用此分流,避免各写一遍地图加载。
  */
-import type { SceneMap, TilesetDef } from '@type-pal/content'
+import type { OwnMap, SceneMap, TilesetDef } from '@type-pal/content'
 import { isReuseMap, resolveTilesetPath } from '@type-pal/content'
-import type { OwnMap } from '@type-pal/content'
 import type { RleFrame, Tilemap } from '@type-pal/shared'
 import { type AssetBase, loadOwnMap, loadTilemap, loadTilesetByPath } from './assets.js'
 

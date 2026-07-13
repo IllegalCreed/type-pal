@@ -5,8 +5,8 @@
  */
 
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { Save } from '../save/api.js'
 import { createInitialGameState } from '../game-state.js'
+import { Save } from '../save/api.js'
 import {
   createSaveSlotMenu,
   fetchSlotMetas,
@@ -22,7 +22,11 @@ describe('createSaveSlotMenu', () => {
     expect(s.selection.items).toHaveLength(5)
     expect(s.selection.items.map((it) => it.id)).toEqual([1, 2, 3, 4, 5])
     expect(s.selection.items.map((it) => it.label)).toEqual([
-      '进度一', '进度二', '进度三', '进度四', '进度五',
+      '进度一',
+      '进度二',
+      '进度三',
+      '进度四',
+      '进度五',
     ])
   })
 
@@ -35,9 +39,7 @@ describe('createSaveSlotMenu', () => {
       { slot: 1, label: 'Slot 1 (Lv 5)' },
       { slot: 3, label: 'Slot 3 (Lv 12)' },
     ])
-    expect(s.selection.items.map((it) => it.label)).toEqual([
-      'Slot 1 (Lv 5)', 'Slot 3 (Lv 12)',
-    ])
+    expect(s.selection.items.map((it) => it.label)).toEqual(['Slot 1 (Lv 5)', 'Slot 3 (Lv 12)'])
   })
 
   it('初始 slotMetas 空 Map(fetchSlotMetas 异步填)', () => {

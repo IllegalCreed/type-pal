@@ -18,10 +18,10 @@
 
 import type { PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
-import type { BattleState } from '../battle-state.js'
-import { calcPhysicalAttackDamage } from '../formulas.js'
 import { buildAttackMateTimeline } from '../anim-timeline.js'
 import { startBattleAnim } from '../battle-anim-driver.js'
+import type { BattleState } from '../battle-state.js'
+import { calcPhysicalAttackDamage } from '../formulas.js'
 
 /** SHORT cast(同 attack.ts / formulas.ts 私函)。 */
 function asShort(n: number): number {
@@ -47,8 +47,7 @@ export function performAttackMate(
   let target: number
   if (forcedTarget !== undefined && forcedTarget !== casterIdx && hpOf(forcedTarget) > 0) {
     target = forcedTarget // 原版混乱随机目标已选定该友军
-  }
-  else {
+  } else {
     // 1. 是否有其他活友军(fight.c:3768-3779)
     let anyAlive = false
     for (let i = 0; i <= maxIdx; i++) {
@@ -91,11 +90,20 @@ export function performAttackMate(
   // DM15:伤害数字经 pendingDamageNums 延迟到演出完(fight.c:3845 DisplayStatChange 在走入 frame8 →
   //   frame9 命中 → 击退 → 闪白**之后**)——修"数字先蹦、角色才跑过去打"(5eb5050 投掷同类残留)。
   //   无动画锚(旧 fixture)→ 保留即时 emit。
-  const dmgNum = { target: { kind: 'player' as const, idx: target }, value: damage, color: 'blue' as const }
+  const dmgNum = {
+    target: { kind: 'player' as const, idx: target },
+    value: damage,
+    color: 'blue' as const,
+  }
   const casterPos = state.players[casterIdx]!.posOriginal
   const targetPos = state.players[target]!.posOriginal
   if (casterPos && targetPos) {
-    startBattleAnim(state, buildAttackMateTimeline({ casterIdx, casterPos, targetIdx: target, targetPos }), bus, [dmgNum])
+    startBattleAnim(
+      state,
+      buildAttackMateTimeline({ casterIdx, casterPos, targetIdx: target, targetPos }),
+      bus,
+      [dmgNum],
+    )
     if (state.battleAnim) state.battleAnim.updateEnemyGesture = true // DM11:玩家动作链(fight.c:3807 Delay TRUE)
   } else {
     bus.emit({ op: 'showDamageNum', ...dmgNum })

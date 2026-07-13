@@ -18,17 +18,11 @@
  */
 
 import { execFileSync } from 'node:child_process'
-import {
-  existsSync,
-  mkdirSync,
-  readdirSync,
-  readFileSync,
-  writeFileSync,
-} from 'node:fs'
-import { resolve, dirname } from 'node:path'
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { PNG } from 'pngjs'
 import pixelmatch from 'pixelmatch'
+import { PNG } from 'pngjs'
 import { renderTilemap } from './render-tilemap.js'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
@@ -69,9 +63,7 @@ const sdlpalFailedMaps = new Set<number>()
 console.log(`[M4 P3.T7] processing ${sceneFiles.length} scenes...`)
 
 for (const f of sceneFiles) {
-  const sceneJson = JSON.parse(
-    readFileSync(resolve(sceneDir, f), 'utf-8'),
-  ) as SceneJson
+  const sceneJson = JSON.parse(readFileSync(resolve(sceneDir, f), 'utf-8')) as SceneJson
   const sceneId = sceneJson.sceneId
   const mapNum = sceneJson.mapNum
 
@@ -81,15 +73,11 @@ for (const f of sceneFiles) {
   // 1. sdlpal baseline (dedupe by mapNum)
   if (!baselineCache.has(mapNum) && !sdlpalFailedMaps.has(mapNum)) {
     try {
-      execFileSync(
-        SDLPAL,
-        ['--dump-map', String(mapNum), '--out', baselinePath],
-        {
-          cwd: GAME_DATA,
-          stdio: 'pipe',
-          timeout: 30_000,
-        },
-      )
+      execFileSync(SDLPAL, ['--dump-map', String(mapNum), '--out', baselinePath], {
+        cwd: GAME_DATA,
+        stdio: 'pipe',
+        timeout: 30_000,
+      })
       baselineCache.add(mapNum)
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err)
@@ -99,7 +87,12 @@ for (const f of sceneFiles) {
     }
   } else if (sdlpalFailedMaps.has(mapNum)) {
     // sdlpal already failed for this mapNum
-    reports.push({ sceneId, mapNum, status: 'sdlpal-fail', err: 'same mapNum as prior sdlpal-fail' })
+    reports.push({
+      sceneId,
+      mapNum,
+      status: 'sdlpal-fail',
+      err: 'same mapNum as prior sdlpal-fail',
+    })
     continue
   }
 
@@ -162,10 +155,7 @@ console.log(
   `[M4 P3.T7] total ${total} | pass ${pass} (${passRate}%) | fail ${fail} | sdlpal-fail ${sdlpalFail} | render-fail ${renderFail}`,
 )
 
-writeFileSync(
-  resolve(REPO_ROOT, 'build/m4-map-diff-report.json'),
-  JSON.stringify(reports, null, 2),
-)
+writeFileSync(resolve(REPO_ROOT, 'build/m4-map-diff-report.json'), JSON.stringify(reports, null, 2))
 
 // Generate KNOWN_DEVIATIONS.md
 const failReports = reports.filter((r) => r.status !== 'pass')
@@ -201,10 +191,7 @@ const mdLines = [
   '`build/m4-map-diff-report.json`',
 ]
 
-writeFileSync(
-  resolve(REPO_ROOT, 'build/m4-map-diff.md'),
-  mdLines.join('\n'),
-)
+writeFileSync(resolve(REPO_ROOT, 'build/m4-map-diff.md'), mdLines.join('\n'))
 
 console.log(`[M4 P3.T7] failures written to build/m4-map-diff.md`)
 console.log(`[M4 P3.T7] full report at build/m4-map-diff-report.json`)

@@ -8,12 +8,18 @@
  * sdlpal `battle.h` / `fight.c` 概念对齐,但不一一映射(M3 只识别状态子集)。
  */
 
-import type { BattleField, DialogBoxStyle, Enemy, EnemyPosTable, PlayerRoles } from '@type-pal/shared'
+import type {
+  BattleField,
+  DialogBoxStyle,
+  Enemy,
+  EnemyPosTable,
+  PlayerRoles,
+} from '@type-pal/shared'
 import type { GameState } from '../game-state.js'
-import type { SeedableRng } from '../rng.js'
 import type { SelectionMenuState } from '../menu/primitives.js'
-import type { BattleSettlementState } from './battle-settlement.js'
+import type { SeedableRng } from '../rng.js'
 import { getEnemyBasePos, getPlayerBasePos } from './battle-positions.js'
+import type { BattleSettlementState } from './battle-settlement.js'
 import type { ActionQueueItem } from './turn-queue.js'
 
 /**
@@ -640,7 +646,7 @@ export interface BattleState {
   /** narration 风格自动消失帧计(复用大世界 NARRATION_AUTO_DISMISS_FRAMES,达到 → 自动翻过)。 */
   battleDialogNarrationFrames?: number
   /** setDialogStyle*(battle)累积的当前对话风格,下条 showDialog 入队时取。undefined = 默认 'bottom'。 */
-  battleDialogStyle?: { style: DialogBoxStyle, portrait?: number, fontColor?: number }
+  battleDialogStyle?: { style: DialogBoxStyle; portrait?: number; fontColor?: number }
   /** 0x05/0x8E ClearDialog 置真 → 下条 showDialog 入队标 clearBefore(另起新框),入队后清。 */
   battleDialogPendingClear?: boolean
   /**

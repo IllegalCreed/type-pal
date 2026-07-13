@@ -31,9 +31,11 @@ describe('S-w0.1 Save API stub', () => {
 
   it('listSlots:返回已存槽位 + meta', async () => {
     const gs1 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs1.dwCash = 100; gs1.wNumScene = 5
+    gs1.dwCash = 100
+    gs1.wNumScene = 5
     const gs2 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs2.dwCash = 200; gs2.wNumScene = 10
+    gs2.dwCash = 200
+    gs2.wNumScene = 10
 
     await Save.saveSlot(1, gs1)
     await Save.saveSlot(3, gs2)

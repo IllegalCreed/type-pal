@@ -4,12 +4,12 @@
  * 用户取消选夹 → 返回 null(调用方静默忽略)。
  */
 import type { MusicDef, SceneDef, ScriptChunkV1 } from '@type-pal/content'
-import { httpSource, type LoadedProject } from '@type-pal/reforge'
 import type { OwnMap } from '@type-pal/reforge'
+import { httpSource, type LoadedProject } from '@type-pal/reforge'
 import { cloneFromPal } from './clone.js'
+import { copyDirRecursive } from './fsa-copy.js'
 import { saveHandle } from './handle-store.js'
 import { openLocalProject } from './open-local.js'
-import { copyDirRecursive } from './fsa-copy.js'
 import { writeProject } from './project-io.js'
 import { buildBlankProject } from './seed.js'
 

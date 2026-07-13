@@ -77,11 +77,17 @@ describe('enumerateSeedFiles', () => {
       ...manifest,
       content: { ...manifest.content, scripts: 'content/scripts/' },
     }
-    const files = enumerateSeedFiles(withScripts, ['s1'], { files: [] }, { files: [] }, {
-      version: 1,
-      shards: { shared: 1, global: {} },
-      chunks: { 'scene/s1': { path: 'chunks/scene/s1.json', bytes: 10 } },
-    })
+    const files = enumerateSeedFiles(
+      withScripts,
+      ['s1'],
+      { files: [] },
+      { files: [] },
+      {
+        version: 1,
+        shards: { shared: 1, global: {} },
+        chunks: { 'scene/s1': { path: 'chunks/scene/s1.json', bytes: 10 } },
+      },
+    )
     expect(files.map((f) => f.rel)).toContain('content/scripts/index.json')
     expect(files.map((f) => f.rel)).toContain('content/scripts/chunks/scene/s1.json')
     expect(files.map((f) => f.rel)).not.toContain('content/scripts/')

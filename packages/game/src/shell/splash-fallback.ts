@@ -78,11 +78,14 @@ function scalePalette(base: Palette, factor: number): Palette {
   const f = Math.max(0, Math.min(1, factor))
   return {
     ...base,
-    colors: base.colors.map((c) => [
-      Math.floor(c[0] * f),
-      Math.floor(c[1] * f),
-      Math.floor(c[2] * f),
-    ] as [number, number, number]),
+    colors: base.colors.map(
+      (c) =>
+        [Math.floor(c[0] * f), Math.floor(c[1] * f), Math.floor(c[2] * f)] as [
+          number,
+          number,
+          number,
+        ],
+    ),
   }
 }
 
@@ -118,7 +121,10 @@ function blitRows(
   for (let y = 0; y < h; y++) {
     const srcOff = (srcY + y) * bitmap.width
     const dstOff = (dstY + y) * SCREEN_W
-    fb.indices.set(bitmap.indices.subarray(srcOff, srcOff + Math.min(bitmap.width, SCREEN_W)), dstOff)
+    fb.indices.set(
+      bitmap.indices.subarray(srcOff, srcOff + Math.min(bitmap.width, SCREEN_W)),
+      dstOff,
+    )
   }
 }
 
@@ -154,11 +160,7 @@ function blitSpriteAt(
 }
 
 /** 把 indexed framebuffer flush 到 canvas(用给定 palette)。 */
-function renderFrame(
-  fb: Framebuffer,
-  canvasCtx: CanvasRenderingContext2D,
-  palette: Palette,
-): void {
+function renderFrame(fb: Framebuffer, canvasCtx: CanvasRenderingContext2D, palette: Palette): void {
   flushToCanvas(fb, canvasCtx, palette)
 }
 
@@ -248,7 +250,7 @@ export async function playSplashFallback(options: PlaySplashFallbackOptions): Pr
         // 仙鹤帧动画(iCraneFrame & 1 时步进)
         c.frameIdx = (c.frameIdx + (iCraneFrame & 1)) % options.craneSprite.frames.length
         // iImgPos 奇数时向下飘 1px
-        if (iImgPos > 1 && (iImgPos & 1)) c.y += 1
+        if (iImgPos > 1 && iImgPos & 1) c.y += 1
         const frame = options.craneSprite.frames[c.frameIdx]!
         // sdlpal main.c:369-370 PAL_RLEBlitToSurface(lpFrame, PAL_XY(cranepos.x, cranepos.y)):
         //   **左上角** blit,不减 anchor(cranepos = RandomLong(300,600)/(0,80) 即左上角)。
@@ -261,8 +263,12 @@ export async function playSplashFallback(options: PlaySplashFallbackOptions): Pr
       // 4. 标题渐显(sdlpal main.c:378-389)
       if (titleVisibleHeight < titleHeight) titleVisibleHeight++
       blitSpriteAt(
-        options.fb, options.titleFrame, 0, 0,
-        TITLE_POS.x, TITLE_POS.y,
+        options.fb,
+        options.titleFrame,
+        0,
+        0,
+        TITLE_POS.x,
+        TITLE_POS.y,
         titleVisibleHeight,
       )
 
@@ -276,7 +282,15 @@ export async function playSplashFallback(options: PlaySplashFallbackOptions): Pr
         //   使跳过即显示完整标题。否则标题会冻在按键当帧的半长高度直到淡入结束。
         //   后续 fast-forward / fadeOut 都只重刷 palette、不重绘内容,故必须在此把满高标题写进 fb。
         titleVisibleHeight = titleHeight
-        blitSpriteAt(options.fb, options.titleFrame, 0, 0, TITLE_POS.x, TITLE_POS.y, titleVisibleHeight)
+        blitSpriteAt(
+          options.fb,
+          options.titleFrame,
+          0,
+          0,
+          TITLE_POS.x,
+          TITLE_POS.y,
+          titleVisibleHeight,
+        )
 
         // 补完渐变(快进 SKIP_FAST_STEP_MS 步)
         let fastTime = dwTime
@@ -299,8 +313,7 @@ export async function playSplashFallback(options: PlaySplashFallbackOptions): Pr
     // L42(sdlpal main.c:455):退出 splash 前 PAL_FadeOut(1) 600ms 淡黑,再交给 caller 建 OpeningMenu,
     //   避免满亮 splash 直接硬切到主菜单。
     await fadeOut(options.fb, options.canvasCtx, options.palette, FADE_OUT_MS, now)
-  }
-  finally {
+  } finally {
     window.removeEventListener('keydown', onKey, true)
   }
 }

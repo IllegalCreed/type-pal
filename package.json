@@ -3,10 +3,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "pnpm -r run check",
+    "check": "pnpm -r run check && pnpm lint",
     "typecheck": "pnpm -r run typecheck",
     "test": "pnpm -r run test",
-    "format": "biome format --write .",
+    "format": "biome format --write --changed --since=HEAD",
+    "format:all": "biome format --write .",
     "lint": "biome check .",
     "extract": "pnpm --filter @type-pal/pal-extract run extract",
     "extract-tilemap-baseline": "bash scripts/extract-tilemap-baseline.sh",

@@ -8,10 +8,13 @@ import { buildActionQueue } from '../turn-queue.js'
 describe('buildActionQueue (PAL_CLASSIC)', () => {
   it('按 dexterity 降序', () => {
     const queue = buildActionQueue({
-      players: [{ idx: 0, dex: 30 }, { idx: 1, dex: 50 }],
+      players: [
+        { idx: 0, dex: 30 },
+        { idx: 1, dex: 50 },
+      ],
       enemies: [{ idx: 0, dex: 40, dualMove: false }],
     })
-    expect(queue.map(q => q.dex)).toEqual([50, 40, 30])
+    expect(queue.map((q) => q.dex)).toEqual([50, 40, 30])
     expect(queue[0]).toMatchObject({ isEnemy: false, idx: 1, fIsSecond: false })
     expect(queue[1]).toMatchObject({ isEnemy: true, idx: 0, fIsSecond: false })
     expect(queue[2]).toMatchObject({ isEnemy: false, idx: 0, fIsSecond: false })
@@ -23,7 +26,7 @@ describe('buildActionQueue (PAL_CLASSIC)', () => {
       enemies: [{ idx: 0, dex: 50, dualMove: true }],
     })
     expect(queue).toHaveLength(3)
-    const enemyEntries = queue.filter(q => q.isEnemy)
+    const enemyEntries = queue.filter((q) => q.isEnemy)
     expect(enemyEntries).toHaveLength(2)
     expect(enemyEntries[0]?.fIsSecond).toBe(false)
     expect(enemyEntries[1]?.fIsSecond).toBe(true)
@@ -40,10 +43,16 @@ describe('buildActionQueue (PAL_CLASSIC)', () => {
 
   it('同 dex 的多个敌人与队员均保持原填充顺序', () => {
     const queue = buildActionQueue({
-      players: [{ idx: 0, dex: 30 }, { idx: 1, dex: 30 }],
-      enemies: [{ idx: 0, dex: 30, dualMove: false }, { idx: 1, dex: 30, dualMove: false }],
+      players: [
+        { idx: 0, dex: 30 },
+        { idx: 1, dex: 30 },
+      ],
+      enemies: [
+        { idx: 0, dex: 30, dualMove: false },
+        { idx: 1, dex: 30, dualMove: false },
+      ],
     })
-    expect(queue.map(q => [q.isEnemy, q.idx])).toEqual([
+    expect(queue.map((q) => [q.isEnemy, q.idx])).toEqual([
       [true, 0],
       [true, 1],
       [false, 0],
@@ -52,7 +61,9 @@ describe('buildActionQueue (PAL_CLASSIC)', () => {
   })
 
   it('空队伍', () => {
-    expect(buildActionQueue({ players: [], enemies: [{ idx: 0, dex: 20, dualMove: false }] })).toHaveLength(1)
+    expect(
+      buildActionQueue({ players: [], enemies: [{ idx: 0, dex: 20, dualMove: false }] }),
+    ).toHaveLength(1)
   })
 
   it('空敌方', () => {
@@ -83,10 +94,10 @@ describe('buildActionQueue (PAL_CLASSIC)', () => {
       players: [{ idx: 0, dex: 200 }],
       enemies: [{ idx: 0, dex: 60, dualMove: true, dex2: 50 }], // 二抽 50 <= 一抽 60
     })
-    const e = queue.filter(q => q.isEnemy)
+    const e = queue.filter((q) => q.isEnemy)
     expect(e).toHaveLength(2)
-    const first = e.find(q => q.dex === 60)
-    const second = e.find(q => q.dex === 50)
+    const first = e.find((q) => q.dex === 60)
+    const second = e.find((q) => q.dex === 50)
     expect(first?.fIsSecond).toBe(false)
     expect(second?.fIsSecond).toBe(true)
   })
@@ -96,10 +107,10 @@ describe('buildActionQueue (PAL_CLASSIC)', () => {
       players: [{ idx: 0, dex: 200 }],
       enemies: [{ idx: 0, dex: 50, dualMove: true, dex2: 70 }], // 二抽 70 > 一抽 50
     })
-    const e = queue.filter(q => q.isEnemy)
+    const e = queue.filter((q) => q.isEnemy)
     expect(e).toHaveLength(2)
-    const lo = e.find(q => q.dex === 50) // 更小 → 当第二动
-    const hi = e.find(q => q.dex === 70)
+    const lo = e.find((q) => q.dex === 50) // 更小 → 当第二动
+    const hi = e.find((q) => q.dex === 70)
     expect(lo?.fIsSecond).toBe(true)
     expect(hi?.fIsSecond).toBe(false)
   })

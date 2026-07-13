@@ -11,8 +11,6 @@
 
 import type { Command } from '@type-pal/shared'
 import { describe, expect, it, vi } from 'vitest'
-import { addPoisonForPlayer, setGlobalEvents, setObjectPoisons } from './event-system.js'
-import { createInitialGameState } from './game-state.js'
 import {
   getPlayerAttackStrength,
   getPlayerDefense,
@@ -26,6 +24,8 @@ import {
   setPlayerStatRow,
   writeEquipmentEffectField,
 } from './equip-effect.js'
+import { addPoisonForPlayer, setGlobalEvents, setObjectPoisons } from './event-system.js'
+import { createInitialGameState } from './game-state.js'
 
 function freshGs() {
   const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
@@ -353,7 +353,7 @@ describe('equip-effect', () => {
       const cmds: Command[] = [
         { op: 'raw', opcode: 0x29, operands: [0, 100, 0], label: 'L_520' },
         { op: 'end' },
-        { op: 'raw', opcode: 0x1B, operands: [0, 20, 0], label: 'L_555' },
+        { op: 'raw', opcode: 0x1b, operands: [0, 20, 0], label: 'L_555' },
         { op: 'end', advance: true },
       ]
       setGlobalEvents(cmds)

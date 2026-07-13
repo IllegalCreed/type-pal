@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import {
   createOpeningMenu,
+  type OpeningMenuChoice,
   openingMenuChoice,
   openingMenuDown,
   openingMenuLabels,
   openingMenuUp,
-  type OpeningMenuChoice,
 } from './opening-menu.js'
 
 describe('opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu', () => {

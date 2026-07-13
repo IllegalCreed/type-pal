@@ -18,7 +18,6 @@
 
 import type { Magic, ObjectMagicView, PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
-import type { ActionQueueItem } from '../turn-queue.js'
 import {
   buildCoopMagicTimeline,
   buildPlayerOffMagicTimeline,
@@ -29,8 +28,9 @@ import {
 } from '../anim-timeline.js'
 import { startBattleAnim } from '../battle-anim-driver.js'
 import type { BattleAnimFrame, BattleState } from '../battle-state.js'
-import { performAttack } from './attack.js'
 import { applyMagicDamage, magicForcesAllTarget, resolveObjectMagic } from '../magic-damage.js'
+import type { ActionQueueItem } from '../turn-queue.js'
+import { performAttack } from './attack.js'
 
 export interface PerformCoopMagicInput {
   /** DL6:降级普攻的隐藏 exp 写入(fight.c:3756-3757);省略 → 不积(旧 fixture)。 */
@@ -64,7 +64,10 @@ function isOffMagicType(t: Magic['type']): t is OffMagicType {
 
 type PendingDamageNums = NonNullable<NonNullable<BattleState['battleAnim']>['pendingDamageNums']>
 
-function attachDamageNumsToFirstFrame(frames: BattleAnimFrame[], pendingNums: PendingDamageNums): boolean {
+function attachDamageNumsToFirstFrame(
+  frames: BattleAnimFrame[],
+  pendingNums: PendingDamageNums,
+): boolean {
   if (pendingNums.length === 0) return true
   const first = frames[0]
   if (!first) return false
@@ -78,24 +81,52 @@ function asShort(n: number): number {
 }
 
 /** sdlpal `PAL_IsPlayerDying`(fight.c:29-48):hp < min(100, maxHP/5)。 */
-function isDying(role: { hp: number, maxHP: number }): boolean {
+function isDying(role: { hp: number; maxHP: number }): boolean {
   return role.hp > 0 && role.hp < Math.min(100, Math.floor(role.maxHP / 5))
 }
 
 /** sdlpal `PAL_IsPlayerHealthy`(fight.c:69-76):非濒死 + 无 sleep/confused/silence/paralyzed/puppet。 */
-function isHealthy(role: { hp: number, maxHP: number }, status: { sleep?: number, confused?: number, silence?: number, paralyzed?: number, puppet?: number }): boolean {
+function isHealthy(
+  role: { hp: number; maxHP: number },
+  status: {
+    sleep?: number
+    confused?: number
+    silence?: number
+    paralyzed?: number
+    puppet?: number
+  },
+): boolean {
   if (role.hp <= 0 || isDying(role)) return false
-  return (status.sleep ?? 0) === 0 && (status.confused ?? 0) === 0 && (status.silence ?? 0) === 0
-    && (status.paralyzed ?? 0) === 0 && (status.puppet ?? 0) === 0
+  return (
+    (status.sleep ?? 0) === 0 &&
+    (status.confused ?? 0) === 0 &&
+    (status.silence ?? 0) === 0 &&
+    (status.paralyzed ?? 0) === 0 &&
+    (status.puppet ?? 0) === 0
+  )
 }
 
 export function performCoopMagic(input: PerformCoopMagicInput): void {
-  const { state, casterIdx, coopObjId, targetIdx, playerRoles, magics, objectMagics, bus, actor, battleEffectIndex, magicSpriteFrameCounts, summonSpriteFrameCounts, gs } = input
+  const {
+    state,
+    casterIdx,
+    coopObjId,
+    targetIdx,
+    playerRoles,
+    magics,
+    objectMagics,
+    bus,
+    actor,
+    battleEffectIndex,
+    magicSpriteFrameCounts,
+    summonSpriteFrameCounts,
+    gs,
+  } = input
 
   // 解析合击 magic object → magicNumber → magic(sdlpal fight.c:3860-3861)。
   const objMagic = resolveObjectMagic(coopObjId, objectMagics)
   if (!objMagic) return
-  const magic = magics.find(m => m.id === objMagic.magicNumber)
+  const magic = magics.find((m) => m.id === objMagic.magicNumber)
   if (!magic) return
 
   // contributors = 所有 healthy 队员(fight.c:3367-3373 coopContributors[i] = PAL_IsPlayerHealthy)。
@@ -127,9 +158,10 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
     //   - summon 类:PAL_BattleShowPlayerPreMagicAnim(TRUE)→ CLASSIC 播 rgwMagicSound[caster](fight.c:2377);
     //   - 非 summon:AUDIO_PlaySound(29)(fight.c:3875 fixed);
     //   随后动画播 magic.wSound(效果音)。有时间线时 summon 声音挂帧同步;无资源回落即时播。
-    const casterCastSound = magic.type === 'summon'
-      ? (playerRoles.roles[state.players[casterIdx]?.roleId ?? -1]?.magicSound ?? 0)
-      : 29
+    const casterCastSound =
+      magic.type === 'summon'
+        ? (playerRoles.roles[state.players[casterIdx]?.roleId ?? -1]?.magicSound ?? 0)
+        : 29
     if (casterCastSound > 0) bus.emit({ op: 'playSound', soundId: casterCastSound })
     // M9(2026-06-07 sdlpal 审查):效果音 magic.sound **不**在此即播 —— 改随 OffMagic 起手帧同步
     //   (有动画时 buildCoopMagicTimeline 挂 i===0 帧;无动画回落时下方即时 emit)。原即播比命中特效早 ~0.7s。
@@ -152,8 +184,11 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
   str = Math.trunc(str / 4)
 
   // 目标:applyToAll(magic.type 或 object flag,fight.c:3401)→ 全体;否则单体。
-  const target: number | 'all'
-    = (targetIdx === 'all' || targetIdx === -1 || magicForcesAllTarget(magic.type) || objMagic.flags.applyToAll)
+  const target: number | 'all' =
+    targetIdx === 'all' ||
+    targetIdx === -1 ||
+    magicForcesAllTarget(magic.type) ||
+    objMagic.flags.applyToAll
       ? 'all'
       : targetIdx
 
@@ -171,7 +206,12 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
   const hurtEnemies: Array<{ idx: number; pos: { x: number; y: number } }> = []
   // 合击打敌人:wHealth WORD 下溢不钳(fight.c:638),超杀显示**完整算出伤害** r.damage,非剩余血 delta。
   for (const r of results) {
-    if (r.hpAfter < r.hpBefore) pendingNums.push({ target: { kind: 'enemy', idx: r.enemyIdx }, value: r.damage, color: 'blue' })
+    if (r.hpAfter < r.hpBefore)
+      pendingNums.push({
+        target: { kind: 'enemy', idx: r.enemyIdx },
+        value: r.damage,
+        color: 'blue',
+      })
     if (r.hpAfter !== r.hpBefore) {
       const pos = state.enemies[r.enemyIdx]?.posOriginal
       if (pos) hurtEnemies.push({ idx: r.enemyIdx, pos })
@@ -217,12 +257,19 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
       casterIdx,
       partySize: state.players.length,
       contributorIdxs: contributors,
-      originalPositions: state.players.map(p => p.posOriginal),
+      originalPositions: state.players.map((p) => p.posOriginal),
       magic: {
-        effect: magic.effect, type: offType, speed: magic.speed, fireDelay: magic.fireDelay,
+        effect: magic.effect,
+        type: offType,
+        speed: magic.speed,
+        fireDelay: magic.fireDelay,
         special: magic.special, // DM9:sLayerOffset(z 排序)—— 漏传致首次施法合击 OffMagic layerOffset 落 0 被敌人遮挡(4cf2258 漏网路径)
-        effectTimes: magic.effectTimes, shake: magic.shake, xOffset: magic.xOffset, yOffset: magic.yOffset,
-        wave: magic.wave, keepEffect: magic.keepEffect,
+        effectTimes: magic.effectTimes,
+        shake: magic.shake,
+        xOffset: magic.xOffset,
+        yOffset: magic.yOffset,
+        wave: magic.wave,
+        keepEffect: magic.keepEffect,
         sound: magic.sound, // M9:效果音随 OffMagic 起手帧同步(buildPlayerOffMagicTimeline i===0)
       },
       n,
@@ -256,7 +303,18 @@ function buildAndStartCoopSummonAnim(input: {
   magicSpriteFrameCounts?: Map<number, number>
   summonSpriteFrameCounts?: Map<number, number>
 }): boolean {
-  const { state, casterIdx, magic, magics, playerRoles, bus, pendingNums, hurtEnemies, magicSpriteFrameCounts, summonSpriteFrameCounts } = input
+  const {
+    state,
+    casterIdx,
+    magic,
+    magics,
+    playerRoles,
+    bus,
+    pendingNums,
+    hurtEnemies,
+    magicSpriteFrameCounts,
+    summonSpriteFrameCounts,
+  } = input
   if (magic.type !== 'summon') return false
 
   const summonChunk = magic.special + 10 // F.MKF chunk = wSummonEffect + 10(fight.c:3135)
@@ -278,7 +336,7 @@ function buildAndStartCoopSummonAnim(input: {
   if (magic.sound > 0 && brightenFrames.length > 0) brightenFrames[0]!.sound = magic.sound
 
   let offMagicFrames: BattleAnimFrame[] = []
-  const secondary = magics.find(m => m.id === magic.effect)
+  const secondary = magics.find((m) => m.id === magic.effect)
   if (secondary && isOffMagicType(secondary.type)) {
     const n = magicSpriteFrameCounts?.get(secondary.effect)
     if (n !== undefined && n > 0) {
@@ -318,7 +376,12 @@ function buildAndStartCoopSummonAnim(input: {
     postMagicFrames,
   })
 
-  startBattleAnim(state, [...preFrames, ...brightenFrames, ...godFrames], bus, numsAttached ? undefined : pendingNums)
+  startBattleAnim(
+    state,
+    [...preFrames, ...brightenFrames, ...godFrames],
+    bus,
+    numsAttached ? undefined : pendingNums,
+  )
   if (state.battleAnim) state.battleAnim.hasSummonFade = true
   return true
 }

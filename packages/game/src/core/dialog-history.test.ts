@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { DIALOG_HISTORY_CAP, type DialogHistoryEntry, pushDialogHistory, restoreDialogHistory } from './dialog-history.js'
+import {
+  DIALOG_HISTORY_CAP,
+  type DialogHistoryEntry,
+  pushDialogHistory,
+  restoreDialogHistory,
+} from './dialog-history.js'
 
 describe('dialog-history', () => {
   it('push 追加;空/纯空白跳过', () => {
@@ -48,7 +53,10 @@ describe('dialog-history', () => {
   })
 
   it('restoreDialogHistory:超 CAP 的存档 → 截断到最后 CAP 条(丢最旧)', () => {
-    const long: DialogHistoryEntry[] = Array.from({ length: DIALOG_HISTORY_CAP + 5 }, (_, i) => ({ map: 1, text: `l${i}` }))
+    const long: DialogHistoryEntry[] = Array.from({ length: DIALOG_HISTORY_CAP + 5 }, (_, i) => ({
+      map: 1,
+      text: `l${i}`,
+    }))
     const r = restoreDialogHistory(long)
     expect(r.length).toBe(DIALOG_HISTORY_CAP)
     expect(r[0]).toEqual({ map: 1, text: 'l5' })

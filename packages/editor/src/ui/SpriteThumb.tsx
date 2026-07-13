@@ -5,7 +5,13 @@
  * A4 自有上传:path 双轨 + 未保存字节(blob)内存解码优先(磁盘尚无此文件)。
  */
 import type { AssetBase } from '@type-pal/reforge'
-import { bakeFrame, decompressGzip, loadPalette, loadSprite, parseSpriteChunk } from '@type-pal/reforge'
+import {
+  bakeFrame,
+  decompressGzip,
+  loadPalette,
+  loadSprite,
+  parseSpriteChunk,
+} from '@type-pal/reforge'
 import { useEffect, useRef, useState } from 'react'
 
 const thumbCache = new Map<number, Promise<HTMLCanvasElement | null>>()

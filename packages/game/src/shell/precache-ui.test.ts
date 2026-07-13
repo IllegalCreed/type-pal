@@ -42,7 +42,9 @@ describe('createUnifiedProgressUi', () => {
     ui.setNecessaryProgress(0.5) // 0.5 × 12% = 6%
     const fill = document.getElementById('boot-loading-fill')!
     expect(fill.style.width).toBe('6%')
-    expect(document.getElementById('boot-loading-status')!.textContent).toContain('加载必要资源 50%')
+    expect(document.getElementById('boot-loading-status')!.textContent).toContain(
+      '加载必要资源 50%',
+    )
     ui.setNecessaryProgress(0.25) // 回退 → 不回退
     expect(fill.style.width).toBe('6%')
   })
@@ -79,7 +81,9 @@ describe('createUnifiedProgressUi', () => {
     const ui = createUnifiedProgressUi()
     ui.markPlayable(() => {})
     ui.enterGame()
-    expect(document.getElementById('boot-loading')!.classList.contains('boot-loading-done')).toBe(true)
+    expect(document.getElementById('boot-loading')!.classList.contains('boot-loading-done')).toBe(
+      true,
+    )
     expect(document.getElementById('precache-widget')).not.toBeNull()
     vi.advanceTimersByTime(600)
     expect(document.getElementById('boot-loading')).toBeNull()

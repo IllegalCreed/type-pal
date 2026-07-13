@@ -14,7 +14,9 @@ describe('playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3)', () => {
 
   afterEach(() => {
     // 清残余 video element
-    document.body.querySelectorAll('video').forEach((v) => v.remove())
+    document.body.querySelectorAll('video').forEach((v) => {
+      v.remove()
+    })
   })
 
   it('返回 Promise + 创 <video> 元素 + src 正确', async () => {
@@ -59,7 +61,9 @@ describe('playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3)', () => {
     window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyA' }))
     // promise 未 resolve
     let resolved = false
-    void p.then(() => { resolved = true })
+    void p.then(() => {
+      resolved = true
+    })
     await new Promise((r) => setTimeout(r, 10))
     expect(resolved).toBe(false)
     // cleanup
@@ -103,7 +107,9 @@ describe('playAvi — 视频音量(工具面板「视频」滑块 / 主静音)',
     setVideoVolume(1) // 复位模块级音量,避免测序依赖
   })
   afterEach(() => {
-    document.body.querySelectorAll('video').forEach((v) => v.remove())
+    document.body.querySelectorAll('video').forEach((v) => {
+      v.remove()
+    })
   })
 
   it('playAvi 建 <video> 时套用当前 videoVolume', async () => {

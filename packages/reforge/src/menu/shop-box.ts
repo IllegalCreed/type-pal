@@ -8,8 +8,10 @@
  *   金钱框@(100,150) + 售价框@(224,150);按 item.sellPrice(pal 数据 = 原版半价)。
  * - 确认 = PAL_ConfirmMenu(否/是,默认否)—— drawConfirmBox 原版坐标(130/205,100)。
  */
+
 import type { ItemData, ItemDataMap, WorldState } from '@type-pal/content'
 import { shopBuy, shopSell } from '@type-pal/content'
+import { expectDefined } from '../defined.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { renderSpans } from '../text/text-render.js'
 import { drawItemGridList } from './item-list.js'
@@ -81,7 +83,12 @@ export function shopInput(
   const confirm = pressed.has(' ') || pressed.has('Enter')
   const esc = pressed.has('Escape')
   if (s.phase === 'confirm') {
-    if (pressed.has('ArrowLeft') || pressed.has('ArrowRight') || pressed.has('ArrowUp') || pressed.has('ArrowDown'))
+    if (
+      pressed.has('ArrowLeft') ||
+      pressed.has('ArrowRight') ||
+      pressed.has('ArrowUp') ||
+      pressed.has('ArrowDown')
+    )
       s.confirmYes = !s.confirmYes
     if (esc) {
       s.phase = 'list'
@@ -123,7 +130,7 @@ export function shopInput(
     if (pressed.has('ArrowDown')) s.cursor = Math.min(s.list.length - 1, s.cursor + 3)
   }
   if (confirm && s.list.length > 0) {
-    const it = items[s.list[s.cursor]!]
+    const it = items[expectDefined(s.list[s.cursor])]
     if (!it) return
     if (s.mode === 'buy' && world.money < it.buyPrice) return // 钱不够:不进确认(原版 if price<=cash)
     s.phase = 'confirm'
@@ -155,7 +162,7 @@ export function drawShop(
     })
     drawNumber(ctx, world.money, SELL_CASH_BOX.x + 48 + 30, SELL_CASH_BOX.y + 15, assets.nums)
     drawScroll(ctx, assets.scroll, SELL_PRICE_BOX.x, SELL_PRICE_BOX.y, SELL_PRICE_BOX.len)
-    const sel = s.list[s.cursor] ? items[s.list[s.cursor]!] : undefined
+    const sel = s.list[s.cursor] ? items[expectDefined(s.list[s.cursor])] : undefined
     if (sel?.sellable) {
       renderSpans(ctx, [{ text: '售价' }], SELL_PRICE_BOX.x + 10, SELL_PRICE_BOX.y + 10, {
         glyphs,
@@ -185,7 +192,7 @@ export function drawShop(
     // 预览:itembox + 图标 + 现有/金钱框
     // ITEMBOX 带阴影(原版 itemmenu.c:196 shadow(+5,+5)+正色两笔;作者报缺影)
     drawSlicedBox(ctx, assets.itembox, PREVIEW_ITEMBOX.x, PREVIEW_ITEMBOX.y, 64, 64)
-    const sel = s.list[s.cursor] ? items[s.list[s.cursor]!] : undefined
+    const sel = s.list[s.cursor] ? items[expectDefined(s.list[s.cursor])] : undefined
     if (sel) {
       const icon = assets.itemIcons[sel.icon]
       if (icon) ctx.drawImage(icon, PREVIEW_ICON.x, PREVIEW_ICON.y)
@@ -197,7 +204,13 @@ export function drawShop(
       shadowRgba: COLOR_LABEL_SHADOW, // 单线条黑字 + 深灰影(作者裁决)
       forceRgba: COLOR_LABEL,
     })
-    drawNumber(ctx, sel ? ownedCount(world, sel.id) : 0, OWNED_BOX.x + 49 + 30, OWNED_BOX.y + 15, assets.nums)
+    drawNumber(
+      ctx,
+      sel ? ownedCount(world, sel.id) : 0,
+      OWNED_BOX.x + 49 + 30,
+      OWNED_BOX.y + 15,
+      assets.nums,
+    )
     drawScroll(ctx, assets.scroll, CASH_BOX.x, CASH_BOX.y, CASH_BOX.len)
     renderSpans(ctx, [{ text: '金钱' }], CASH_BOX.x + 10, CASH_BOX.y + 10, {
       glyphs,

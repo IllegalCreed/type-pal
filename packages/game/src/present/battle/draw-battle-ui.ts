@@ -25,11 +25,11 @@
  * 灰项 / 文字色用 sdlpal `ui.h:29-41` MENUITEM_COLOR_*;像素保真(font / palette)留 user 验。
  */
 
-import type { Item, EnemyPosTable, PlayerRoles, Spell } from '@type-pal/shared'
+import type { EnemyPosTable, Item, PlayerRoles, Spell } from '@type-pal/shared'
 import type { IndexedImage } from '../../assets/png.js'
 import { getPlayerBasePos } from '../../core/battle/battle-positions.js'
 import type { BattleState } from '../../core/battle/battle-state.js'
-import type { SelectionMenuState } from '../../core/menu/primitives.js'
+import type { GameState } from '../../core/game-state.js'
 import {
   MENUITEM_COLOR,
   MENUITEM_COLOR_INACTIVE,
@@ -37,12 +37,12 @@ import {
   MENUITEM_COLOR_SELECTED_INACTIVE,
   MENUITEM_COLOR_SELECTED_TOTAL,
 } from '../../core/menu/inventory-menu.js'
-import type { GameState } from '../../core/game-state.js'
+import type { SelectionMenuState } from '../../core/menu/primitives.js'
 import { getScriptDescLines } from '../../core/menu/script-desc.js'
-import { drawBox, menuTextMaxCols, drawSingleLineBox } from '../menu/draw-box.js'
 import { drawNumber } from '../draw-number.js'
-import { renderText, type GlyphTable } from '../font.js'
+import { type GlyphTable, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
+import { drawBox, drawSingleLineBox, menuTextMaxCols } from '../menu/draw-box.js'
 
 /** PAL 索引 1 —— 白色(底部状态栏文字)。 */
 const UI_TEXT_COLOR = 1
@@ -71,7 +71,7 @@ const PLAYERINFO_Y = 165
  */
 const MAIN_ICONS: ReadonlyArray<{ sprite: number; x: number; y: number }> = [
   { sprite: SPRITENUM_BATTLEICON_ATTACK + 0, x: 27, y: 140 }, // 攻击
-  { sprite: SPRITENUM_BATTLEICON_ATTACK + 1, x: 0, y: 155 },  // 法术
+  { sprite: SPRITENUM_BATTLEICON_ATTACK + 1, x: 0, y: 155 }, // 法术
   { sprite: SPRITENUM_BATTLEICON_ATTACK + 2, x: 54, y: 155 }, // 合击
   { sprite: SPRITENUM_BATTLEICON_ATTACK + 3, x: 27, y: 170 }, // 杂项
 ]
@@ -112,7 +112,7 @@ const MP_SLASH = { x: 45, y: 14 }
 const MP_CURRENT = { x: 50, y: 14 }
 const MAGIC_DESC_X = 102
 const MAGIC_DESC_Y = 3
-const MAGIC_DESC_COLOR = 0x3C
+const MAGIC_DESC_COLOR = 0x3c
 
 // 物品网格(itemmenu.c:51-57,CN):box(2,0) 6×17 style1;item (15,12)+k*100+j*18
 const ITEM_GRID_BOX = { x: 2, y: 0, rows: 6, cols: 17 }
@@ -127,7 +127,7 @@ const ITEM_ROWS = 7
 const ITEM_PAGE_LINE_OFFSET = Math.floor((ITEM_ROWS + 1) / 2)
 const ITEMBOX_X = 0
 const ITEMBOX_Y = 140
-const ITEM_DESC_COLOR = 0x3C
+const ITEM_DESC_COLOR = 0x3c
 
 // 底部队员状态栏(M3 文字版,PAL_PlayerInfoBox sprite 化是独立函数,非本任务范围)
 const PARTY_STATUS_BASE_X = 5
@@ -152,15 +152,17 @@ const BATTLE_STATUS_LABELS: ReadonlyArray<{
   dy: number
   color: number
 }> = [
-  { key: 'confused', char: '乱', dx: 35, dy: 19, color: 0x5F },
-  { key: 'paralyzed', char: '定', dx: 44, dy: 12, color: 0xBF },
-  { key: 'sleep', char: '眠', dx: 54, dy: 1, color: 0x0E },
-  { key: 'silence', char: '封', dx: 55, dy: 20, color: 0x3C },
+  { key: 'confused', char: '乱', dx: 35, dy: 19, color: 0x5f },
+  { key: 'paralyzed', char: '定', dx: 44, dy: 12, color: 0xbf },
+  { key: 'sleep', char: '眠', dx: 54, dy: 1, color: 0x0e },
+  { key: 'silence', char: '封', dx: 55, dy: 20, color: 0x3c },
 ]
 
 /** 闪烁选中色(sdlpal ui.h:36-39:0xF9 + SDL_GetTicks 周期)。 */
 function selectedColor(): number {
-  return MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
+  return (
+    MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
+  )
 }
 
 /** s_iFrame & 1 等价的红/常箭头闪烁(sdlpal uibattle.c:1564-1568 用 s_iFrame,这里用时钟)。 */
@@ -188,7 +190,7 @@ function blitSpriteShadow(fb: Framebuffer, frame: IndexedImage, dstX: number, ds
       const py = dstY + y
       if (px < 0 || px >= fb.width || py < 0 || py >= fb.height) continue
       const current = fb.indices[py * fb.width + px]!
-      fb.writePixel(px, py, (current & 0xF0) | ((current & 0x0F) >> 1))
+      fb.writePixel(px, py, (current & 0xf0) | ((current & 0x0f) >> 1))
     }
   }
 }
@@ -199,7 +201,12 @@ function blitSpriteShadow(fb: Framebuffer, frame: IndexedImage, dstX: number, ds
  * 战斗图标:可用 = MonoColor(0, -4)灰阶;不可用 = MonoColor(0x10, -4)更暗(uibattle.c:1070-1078)。
  */
 function blitSpriteMonoColor(
-  fb: Framebuffer, frame: IndexedImage, dstX: number, dstY: number, bColor: number, iColorShift: number,
+  fb: Framebuffer,
+  frame: IndexedImage,
+  dstX: number,
+  dstY: number,
+  bColor: number,
+  iColorShift: number,
 ): void {
   const band = bColor & 0xf0
   for (let y = 0; y < frame.height; y++) {
@@ -241,8 +248,8 @@ export function drawBattleUI(
   // 战斗内对话显示期间**整个战斗 UI 都不画**(动作菜单 + 血量信息框都隐藏)——
   //   user 2026-05-31 实测:对话时不显示战斗 UI,血量面板当然也不显示。
   //   sdlpal:PAL_ShowDialogText 同步 blocking,对话期 PAL_BattleUIUpdate 完全不刷(菜单/信息框都不画)。
-  const dialogActive = gs.dialogBox != null || gs.dialogBoxKept != null
-    || (state.battleDialogQueue?.length ?? 0) > 0
+  const dialogActive =
+    gs.dialogBox != null || gs.dialogBoxKept != null || (state.battleDialogQueue?.length ?? 0) > 0
   if (dialogActive) return
 
   // 敌人逃跑动画期间**整个战斗 UI 不画**(命令菜单 + 血量 InfoBox 全隐)——
@@ -265,9 +272,10 @@ export function drawBattleUI(
   //   置位,battle-system.ts:585)。tickPreBattle 一进 selectAction 就置 uiState='wait',但该置位要等
   //   turnStart 脚本跑完才发生 —— preBattle 转 selectAction 的过渡帧、turnStart 脚本执行中(草妖类开场
   //   逃跑永远到不了玩家回合)此值 ≠ turn → 不画 InfoBox(user 2026-06-14:草妖战我方血量面板仍闪)。
-  const showInfoBoxes = state.uiState !== 'hidden' && !state.fAutoAttack
-    && state.selectionStartedForTurn === state.turn
-  if (showInfoBoxes) drawPlayerInfoBoxes(fb, state, playerRoles, gs, objectPoisons, glyphs, uiSpriteFrames)
+  const showInfoBoxes =
+    state.uiState !== 'hidden' && !state.fAutoAttack && state.selectionStartedForTurn === state.turn
+  if (showInfoBoxes)
+    drawPlayerInfoBoxes(fb, state, playerRoles, gs, objectPoisons, glyphs, uiSpriteFrames)
 
   // 当前行动队员头顶箭头(sdlpal uibattle.c:994-1007:`state != Wait` 时无条件画,blink 68红/69)。
   //   selectMove + 所有 target 选择阶段都显示,指向 selectingPlayerIdx(= wCurPlayerIndex)。
@@ -400,7 +408,8 @@ function drawPlayerInfoBoxes(
     const face = uiSpriteFrames[SPRITENUM_PLAYERFACE_FIRST + p.roleId]
     if (face) {
       const bPoisonColor = computePlayerFaceColor(gs, p.roleId, role.hp, objectPoisons)
-      if (bPoisonColor === 0xff) blitSpriteOpaque(fb, face, x - 2, y - 4) // 满色(uibattle.c:155)
+      if (bPoisonColor === 0xff)
+        blitSpriteOpaque(fb, face, x - 2, y - 4) // 满色(uibattle.c:155)
       else blitSpriteMonoColor(fb, face, x - 2, y - 4, bPoisonColor, 0) // 中毒/死亡单色(uibattle.c:160)
     }
     // CLASSIC HP/MP(uibattle.c:210-238)
@@ -454,7 +463,11 @@ function drawMainIcons(
  *   0攻击/3杂项恒可用;1法术 → 非 silence;2合击 → 本人 healthy 且 healthy 人数 > 1。
  * 渲染层独立实现避免循环依赖 core/battle-system(只读 state,不改)。
  */
-function isBattleActionValidForDraw(state: BattleState, action: number, playerRoles: PlayerRoles): boolean {
+function isBattleActionValidForDraw(
+  state: BattleState,
+  action: number,
+  playerRoles: PlayerRoles,
+): boolean {
   const idx = state.selectingPlayerIdx
   // 无有效队员 context → 全部 invalid(镜像 battle-system isActionValid:undefined/缺 role 返回 false)。
   if (idx === undefined) return false
@@ -464,8 +477,13 @@ function isBattleActionValidForDraw(state: BattleState, action: number, playerRo
   const healthy = (p: typeof player, r: typeof role): boolean => {
     if (r.hp <= 0 || (r.hp > 0 && r.hp < Math.min(100, Math.floor(r.maxHP / 5)))) return false
     const st = p.status
-    return (st.sleep ?? 0) === 0 && (st.confused ?? 0) === 0 && (st.silence ?? 0) === 0 &&
-      (st.paralyzed ?? 0) === 0 && (st.puppet ?? 0) === 0
+    return (
+      (st.sleep ?? 0) === 0 &&
+      (st.confused ?? 0) === 0 &&
+      (st.silence ?? 0) === 0 &&
+      (st.paralyzed ?? 0) === 0 &&
+      (st.puppet ?? 0) === 0
+    )
   }
   switch (action) {
     case 1:
@@ -494,14 +512,27 @@ function drawMiscMenu(
 ): void {
   if (hasBoxFrames(uiSpriteFrames, 0)) {
     drawBox({
-      fb, x: MISC_BOX.x, y: MISC_BOX.y, rows: MISC_BOX.rows,
-      cols: menuTextMaxCols(MISC_LABELS as readonly string[], glyphs), style: 0, uiSpriteFrames: uiSpriteFrames!,
+      fb,
+      x: MISC_BOX.x,
+      y: MISC_BOX.y,
+      rows: MISC_BOX.rows,
+      cols: menuTextMaxCols(MISC_LABELS as readonly string[], glyphs),
+      style: 0,
+      uiSpriteFrames: uiSpriteFrames!,
     })
   }
   for (let i = 0; i < MISC_LABELS.length; i++) {
     // L9:fConfirmed(进二级子层)→ 当前项用 MENUITEM_COLOR_CONFIRMED=0x2C 固定绿,非闪烁选中色(uibattle.c:402-405)。
-    const color = i === state.miscMenuCursor ? (confirmed ? 0x2C : selectedColor()) : MENUITEM_COLOR
-    renderText(fb, MISC_LABELS[i]!, MISC_ITEM_X, MISC_ITEM_Y0 + i * MISC_ITEM_DY, color, glyphs, true)
+    const color = i === state.miscMenuCursor ? (confirmed ? 0x2c : selectedColor()) : MENUITEM_COLOR
+    renderText(
+      fb,
+      MISC_LABELS[i]!,
+      MISC_ITEM_X,
+      MISC_ITEM_Y0 + i * MISC_ITEM_DY,
+      color,
+      glyphs,
+      true,
+    )
   }
 }
 
@@ -514,8 +545,16 @@ function drawMiscItemSubMenu(
 ): void {
   if (hasBoxFrames(uiSpriteFrames, 0)) {
     drawBox({
-      fb, x: MISC_ITEM_SUB_BOX.x, y: MISC_ITEM_SUB_BOX.y, rows: MISC_ITEM_SUB_BOX.rows,
-      cols: menuTextMaxCols(MISC_ITEM_SUB.map((m) => m.label), glyphs), style: 0, uiSpriteFrames: uiSpriteFrames!,
+      fb,
+      x: MISC_ITEM_SUB_BOX.x,
+      y: MISC_ITEM_SUB_BOX.y,
+      rows: MISC_ITEM_SUB_BOX.rows,
+      cols: menuTextMaxCols(
+        MISC_ITEM_SUB.map((m) => m.label),
+        glyphs,
+      ),
+      style: 0,
+      uiSpriteFrames: uiSpriteFrames!,
     })
   }
   MISC_ITEM_SUB.forEach((it, i) => {
@@ -542,8 +581,14 @@ function drawMagicSelectGrid(
 
   if (hasBoxFrames(uiSpriteFrames, 1)) {
     drawBox({
-      fb, x: MAGIC_GRID_BOX.x, y: MAGIC_GRID_BOX.y, rows: MAGIC_GRID_BOX.rows, cols: MAGIC_GRID_BOX.cols,
-      style: 1, shadowOffset: 0, uiSpriteFrames: uiSpriteFrames!,
+      fb,
+      x: MAGIC_GRID_BOX.x,
+      y: MAGIC_GRID_BOX.y,
+      rows: MAGIC_GRID_BOX.rows,
+      cols: MAGIC_GRID_BOX.cols,
+      style: 1,
+      shadowOffset: 0,
+      uiSpriteFrames: uiSpriteFrames!,
     })
   }
 
@@ -555,9 +600,8 @@ function drawMagicSelectGrid(
     }
     const sel = menu.items[menu.cursor]
     const needed = parseRightNumber(sel?.rightText)
-    const role = state.selectingPlayerIdx !== undefined
-      ? state.players[state.selectingPlayerIdx]
-      : undefined
+    const role =
+      state.selectingPlayerIdx !== undefined ? state.players[state.selectingPlayerIdx] : undefined
     const currentMp = role ? (gs.PlayerRolesRuntime.rgwMP[role.roleId] ?? 0) : 0
     const slash = uiSpriteFrames[SPRITENUM_SLASH]
     if (slash) blitSpriteOpaque(fb, slash, MP_SLASH.x, MP_SLASH.y)
@@ -569,13 +613,28 @@ function drawMagicSelectGrid(
   // 0xFFFF 描述行画在 MagicDescMsgPos(102,3)+line*16,DESCTEXT_COLOR。
   const description = getScriptDescLines(selectedSpell?.scriptDesc ?? 0)
   for (let line = 0; line < description.length; line++) {
-    renderText(fb, description[line]!, MAGIC_DESC_X, MAGIC_DESC_Y + line * 16, MAGIC_DESC_COLOR, glyphs, true)
+    renderText(
+      fb,
+      description[line]!,
+      MAGIC_DESC_X,
+      MAGIC_DESC_Y + line * 16,
+      MAGIC_DESC_COLOR,
+      glyphs,
+      true,
+    )
   }
 
   drawSelectGridItems(fb, menu, glyphs, uiSpriteFrames, {
-    cols: MAGIC_COLS, rows: MAGIC_ROWS, pageLineOffset: MAGIC_PAGE_LINE_OFFSET,
-    itemX0: MAGIC_ITEM_X0, itemY0: MAGIC_ITEM_Y0, itemW: MAGIC_ITEM_W, lineDy: MAGIC_LINE_DY,
-    cursorXOff: MAGIC_CURSOR_X_OFF, cursorYOff: 10, amountXOff: undefined,
+    cols: MAGIC_COLS,
+    rows: MAGIC_ROWS,
+    pageLineOffset: MAGIC_PAGE_LINE_OFFSET,
+    itemX0: MAGIC_ITEM_X0,
+    itemY0: MAGIC_ITEM_Y0,
+    itemW: MAGIC_ITEM_W,
+    lineDy: MAGIC_LINE_DY,
+    cursorXOff: MAGIC_CURSOR_X_OFF,
+    cursorYOff: 10,
+    amountXOff: undefined,
   })
 }
 
@@ -596,19 +655,32 @@ function drawItemSelectGrid(
 
   if (hasBoxFrames(uiSpriteFrames, 1)) {
     drawBox({
-      fb, x: ITEM_GRID_BOX.x, y: ITEM_GRID_BOX.y, rows: ITEM_GRID_BOX.rows, cols: ITEM_GRID_BOX.cols,
-      style: 1, shadowOffset: 0, uiSpriteFrames: uiSpriteFrames!,
+      fb,
+      x: ITEM_GRID_BOX.x,
+      y: ITEM_GRID_BOX.y,
+      rows: ITEM_GRID_BOX.rows,
+      cols: ITEM_GRID_BOX.cols,
+      style: 1,
+      shadowOffset: 0,
+      uiSpriteFrames: uiSpriteFrames!,
     })
   }
 
   drawSelectGridItems(fb, menu, glyphs, uiSpriteFrames, {
-    cols: ITEM_COLS, rows: ITEM_ROWS, pageLineOffset: ITEM_PAGE_LINE_OFFSET,
-    itemX0: ITEM_ITEM_X0, itemY0: ITEM_ITEM_Y0, itemW: ITEM_ITEM_W, lineDy: ITEM_LINE_DY,
-    cursorXOff: ITEM_CURSOR_X_OFF, cursorYOff: 10, amountXOff: ITEM_AMOUNT_X_OFF,
+    cols: ITEM_COLS,
+    rows: ITEM_ROWS,
+    pageLineOffset: ITEM_PAGE_LINE_OFFSET,
+    itemX0: ITEM_ITEM_X0,
+    itemY0: ITEM_ITEM_Y0,
+    itemW: ITEM_ITEM_W,
+    lineDy: ITEM_LINE_DY,
+    cursorXOff: ITEM_CURSOR_X_OFF,
+    cursorYOff: 10,
+    amountXOff: ITEM_AMOUNT_X_OFF,
   })
 
   const selected = menu.items[menu.cursor]
-  const item = selected ? items.find(candidate => candidate.id === selected.id) : undefined
+  const item = selected ? items.find((candidate) => candidate.id === selected.id) : undefined
   if (!item) return
 
   const itemBox = uiSpriteFrames?.[SPRITENUM_ITEMBOX]
@@ -668,7 +740,15 @@ function drawSelectGridItems(
       if (lay.amountXOff !== undefined && uiSpriteFrames) {
         const amount = parseRightNumber(it.rightText)
         if (amount > 1) {
-          drawNumber(fb, amount, 2, { x: x + lay.amountXOff, y: y + 5 }, 'cyan', 'right', uiSpriteFrames)
+          drawNumber(
+            fb,
+            amount,
+            2,
+            { x: x + lay.amountXOff, y: y + 5 },
+            'cyan',
+            'right',
+            uiSpriteFrames,
+          )
         }
       }
       if (selected && uiSpriteFrames) {
@@ -699,9 +779,12 @@ function drawCurrentPlayerArrow(
   uiSpriteFrames: IndexedImage[] | undefined,
 ): void {
   if (!uiSpriteFrames || state.selectingPlayerIdx === undefined) return
-  const arrow = uiSpriteFrames[arrowBlinkRed()
-    ? SPRITENUM_BATTLE_ARROW_CURRENTPLAYER
-    : SPRITENUM_BATTLE_ARROW_CURRENTPLAYER_RED]
+  const arrow =
+    uiSpriteFrames[
+      arrowBlinkRed()
+        ? SPRITENUM_BATTLE_ARROW_CURRENTPLAYER
+        : SPRITENUM_BATTLE_ARROW_CURRENTPLAYER_RED
+    ]
   if (!arrow) return
   const anchor = getPlayerBasePos(state.players.length, state.selectingPlayerIdx)
   if (!anchor) return
@@ -720,9 +803,12 @@ function drawPlayerTargetArrow(
   all: boolean,
 ): void {
   if (!uiSpriteFrames) return
-  const arrow = uiSpriteFrames[arrowBlinkRed()
-    ? SPRITENUM_BATTLE_ARROW_SELECTEDPLAYER_RED
-    : SPRITENUM_BATTLE_ARROW_SELECTEDPLAYER]
+  const arrow =
+    uiSpriteFrames[
+      arrowBlinkRed()
+        ? SPRITENUM_BATTLE_ARROW_SELECTEDPLAYER_RED
+        : SPRITENUM_BATTLE_ARROW_SELECTEDPLAYER
+    ]
   if (!arrow) return
   const draw = (idx: number): void => {
     const anchor = getPlayerBasePos(state.players.length, idx)

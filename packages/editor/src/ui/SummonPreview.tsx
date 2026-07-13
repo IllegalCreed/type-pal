@@ -93,10 +93,20 @@ export function SummonPreview(props: { assetBase: AssetBase; godId: number; spee
       {Array.isArray(frames) && (
         <>
           <div className="fp-controls">
-            <button type="button" className="mini" title={playing ? '暂停' : '播放'} onClick={() => setPlaying(!playing)}>
+            <button
+              type="button"
+              className="mini"
+              title={playing ? '暂停' : '播放'}
+              onClick={() => setPlaying(!playing)}
+            >
               {playing ? '⏸' : '▶'}
             </button>
-            <select className="in fp-rate" title="预览倍速(引擎实速 = 1×)" value={String(rate)} onChange={(e) => setRate(Number(e.target.value))}>
+            <select
+              className="in fp-rate"
+              title="预览倍速(引擎实速 = 1×)"
+              value={String(rate)}
+              onChange={(e) => setRate(Number(e.target.value))}
+            >
               <option value="0.25">0.25×</option>
               <option value="0.5">0.5×</option>
               <option value="1">1×</option>

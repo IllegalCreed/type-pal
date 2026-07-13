@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { loadAll, SceneAssetsCache, type SceneAssets } from './loader.js'
+import { loadAll, type SceneAssets, SceneAssetsCache } from './loader.js'
 
 describe('loadAll', () => {
   beforeEach(() => {
@@ -19,16 +19,18 @@ describe('loadAll', () => {
 
 describe('SceneAssetsCache(M3.5)', () => {
   it('第一次 loadScene 调 fetcher,第二次 cache hit 不调', async () => {
-    const fetcher = vi.fn(async (sceneId: number): Promise<SceneAssets> => ({
-      sceneId,
-      mapNum: 0,
-      tilemap: { width: 64, height: 128, cells: [] } as any,
-      palette: { colors: [] as Array<[number, number, number]> } as any,
-      eventObjects: [],
-      npcSprites: new Map(),
-      eventCommands: [],
-      labelMap: {},
-    }))
+    const fetcher = vi.fn(
+      async (sceneId: number): Promise<SceneAssets> => ({
+        sceneId,
+        mapNum: 0,
+        tilemap: { width: 64, height: 128, cells: [] } as any,
+        palette: { colors: [] as Array<[number, number, number]> } as any,
+        eventObjects: [],
+        npcSprites: new Map(),
+        eventCommands: [],
+        labelMap: {},
+      }),
+    )
     const cache = new SceneAssetsCache(fetcher)
 
     await cache.loadScene(1)
@@ -77,7 +79,10 @@ describe('SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有
   it('超过 maxEntries → 淘汰最旧条目(重访需重 fetch)+ 触发 onEvict', async () => {
     const fetcher = makeFetcher()
     const evicted: number[] = []
-    const cache = new SceneAssetsCache(fetcher, { maxEntries: 2, onEvict: (id) => evicted.push(id) })
+    const cache = new SceneAssetsCache(fetcher, {
+      maxEntries: 2,
+      onEvict: (id) => evicted.push(id),
+    })
     await cache.loadScene(1)
     await cache.loadScene(2)
     await cache.loadScene(3) // 超 cap=2 → 淘汰最旧(1)

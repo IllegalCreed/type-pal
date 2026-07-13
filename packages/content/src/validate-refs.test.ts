@@ -1,5 +1,5 @@
-import { describe, expect, test } from 'vitest'
-import { validateReferences, type ContentBundle } from './validate-refs.js'
+import { expect, test } from 'vitest'
+import { type ContentBundle, validateReferences } from './validate-refs.js'
 
 // 深拷贝(content 是纯逻辑包,tsconfig 无 DOM lib → 不用 structuredClone;JSON 法对这些纯数据 fixture 足够)。
 const clone = <T>(x: T): T => JSON.parse(JSON.stringify(x)) as T
@@ -27,7 +27,12 @@ const base: ContentBundle = {
   locale: { 'dlg.talk.0': '…', 'name.hero': '主角' },
   sprites: [
     { id: 'ghost', spriteNum: 16, label: 'g', layout: { kind: 'directional', framesPerDir: 3 } },
-    { id: 'hero-sprite', spriteNum: 2, label: 'h', layout: { kind: 'directional', framesPerDir: 3 } },
+    {
+      id: 'hero-sprite',
+      spriteNum: 2,
+      label: 'h',
+      layout: { kind: 'directional', framesPerDir: 3 },
+    },
   ],
   startWorld: { party: ['hero'], money: 0, learnedSkills: {}, inventory: [] },
 }
@@ -44,7 +49,9 @@ test('prop 实体 sprite 不在 sprites 注册表 → 报 error', () => {
   const b = clone(base)
   ;(b.scenes[0]!.entities[0] as { sprite?: string }).sprite = 'unknown'
   expect(
-    validateReferences(b).some((i) => i.severity === 'error' && /unknown/.test(i.where + i.message)),
+    validateReferences(b).some(
+      (i) => i.severity === 'error' && /unknown/.test(i.where + i.message),
+    ),
   ).toBe(true)
 })
 test('actor 实体指向不存在角色 → 报 error(C0)', () => {
@@ -76,9 +83,7 @@ test('startWorld.party 指向不存在角色 → 报 error', () => {
   const b = clone(base)
   b.startWorld.party = ['nobody']
   expect(
-    validateReferences(b).some(
-      (i) => i.severity === 'error' && /nobody/.test(i.where + i.message),
-    ),
+    validateReferences(b).some((i) => i.severity === 'error' && /nobody/.test(i.where + i.message)),
   ).toBe(true)
 })
 test('startWorld.party 引无 battler 的 actor → 报 error(C0:入队必须可战斗)', () => {
@@ -87,7 +92,8 @@ test('startWorld.party 引无 battler 的 actor → 报 error(C0:入队必须可
   b.startWorld.party = ['villager']
   expect(
     validateReferences(b).some(
-      (i) => i.severity === 'error' && /villager.*battler|battler.*villager/.test(i.where + i.message),
+      (i) =>
+        i.severity === 'error' && /villager.*battler|battler.*villager/.test(i.where + i.message),
     ),
   ).toBe(true)
 })

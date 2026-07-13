@@ -1,5 +1,5 @@
-import { test, expect } from '@playwright/test'
 import { writeFileSync } from 'node:fs'
+import { expect, test } from '@playwright/test'
 
 /**
  * Sync.2 cutscene dump:跑 ts game 开场 cutscene,记录每 tick state-dump,

@@ -266,12 +266,21 @@ describe('濒死队员吃回血道具 — 收尾帧据回血后 HP 复位(对齐
     })
     gs.inventory.push({ itemId: 1, count: 9 })
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
-    gs.battleState!.pendingActions.set(0, { type: 'item', actionId: 1, target: 0, targetSide: 'player' })
+    gs.battleState!.pendingActions.set(0, {
+      type: 'item',
+      actionId: 1,
+      target: 0,
+      targetSide: 'player',
+    })
     tickBattle(gs, emptyInput, bus) // selectAction → performAction
 
     // 推进到玩家吃药时间线建立
     let safety = 50
-    while (safety-- > 0 && gs.battleState?.phase === 'performAction' && !gs.battleState.battleAnim) {
+    while (
+      safety-- > 0 &&
+      gs.battleState?.phase === 'performAction' &&
+      !gs.battleState.battleAnim
+    ) {
       tickBattle(gs, emptyInput, bus)
     }
     expect(gs.battleState!.battleAnim, '吃药应建治疗时间线').toBeTruthy()

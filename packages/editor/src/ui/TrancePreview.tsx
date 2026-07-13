@@ -74,7 +74,9 @@ export function TrancePreview(props: { assetBase: AssetBase; sprite: number }) {
       {frames === 'loading' && <div className="hint2">加载精灵…</div>}
       {frames === null && <div className="hint2">无战斗精灵(#{sprite})</div>}
       {Array.isArray(frames) && (
-        <div className="hint2">战斗精灵 #{sprite} · {frames.length} 帧循环</div>
+        <div className="hint2">
+          战斗精灵 #{sprite} · {frames.length} 帧循环
+        </div>
       )}
     </div>
   )

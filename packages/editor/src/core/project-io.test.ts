@@ -1,6 +1,6 @@
-import { describe, expect, test } from 'vitest'
+import { type LoadedManifest, normalizeScriptLibrary } from '@type-pal/content'
 import { assembleProject, buildBlankOwnMap, loadOwnMap } from '@type-pal/reforge'
-import { normalizeScriptLibrary, type LoadedManifest } from '@type-pal/content'
+import { describe, expect, test } from 'vitest'
 import { diffFiles, serializeProject, toEditorState } from './project-io.js'
 
 /**
@@ -22,7 +22,13 @@ const manifest: LoadedManifest = {
     sprites: 'content/sprites.json',
     battleFields: 'content/battle-fields.json',
   },
-  assets: { root: 'assets', maps: 'maps', tilesets: 'tilesets', sprites: 'sprites', palettes: 'palettes' },
+  assets: {
+    root: 'assets',
+    maps: 'maps',
+    tilesets: 'tilesets',
+    sprites: 'sprites',
+    palettes: 'palettes',
+  },
   startWorld: {
     party: ['li-xiaoyao'],
     money: 0,
@@ -90,18 +96,44 @@ const skillsJson = {
   ],
   levelUp: { 'li-xiaoyao': [{ level: 7, skillId: '349' }] },
 }
-const itemsJson = [{ id: '166', name: '木剑', desc: 'x', icon: 56, buyPrice: 50, sellPrice: 25, sellable: true }]
+const itemsJson = [
+  { id: '166', name: '木剑', desc: 'x', icon: 56, buyPrice: 50, sellPrice: 25, sellable: true },
+]
 const localeJson = { 'menu.status': '状态', 'name.li-xiaoyao': '李逍遥', 'dlg.ghost.0': '...' }
 const spritesJson = [
-  { id: 'ghost', spriteNum: 16, label: '游魂(占位)', layout: { kind: 'directional', framesPerDir: 3 } },
-  { id: 'li-xiaoyao', spriteNum: 2, label: '李逍遥(大世界)', layout: { kind: 'directional', framesPerDir: 3 } },
+  {
+    id: 'ghost',
+    spriteNum: 16,
+    label: '游魂(占位)',
+    layout: { kind: 'directional', framesPerDir: 3 },
+  },
+  {
+    id: 'li-xiaoyao',
+    spriteNum: 2,
+    label: '李逍遥(大世界)',
+    layout: { kind: 'directional', framesPerDir: 3 },
+  },
 ]
 
 const battleFieldsJson = [
-  { id: 24, name: '客栈', screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+  {
+    id: 24,
+    name: '客栈',
+    screenWave: 0,
+    magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+  },
   { id: 22, screenWave: 5, magicEffect: { wind: 0, thunder: 0, water: 3, fire: -3, earth: 0 } },
 ]
-const JSONS = { actors: actorsJson, sceneIds: scenesJson.map((s) => s.id), entryScene: scenesJson[0], skills: skillsJson, items: itemsJson, locale: localeJson, sprites: spritesJson, battleFields: battleFieldsJson }
+const JSONS = {
+  actors: actorsJson,
+  sceneIds: scenesJson.map((s) => s.id),
+  entryScene: scenesJson[0],
+  skills: skillsJson,
+  items: itemsJson,
+  locale: localeJson,
+  sprites: spritesJson,
+  battleFields: battleFieldsJson,
+}
 const SCENES = scenesJson as never[]
 
 test('round-trip:toEditorState → serializeProject 还原各 content JSON', () => {
@@ -117,7 +149,10 @@ test('round-trip:toEditorState → serializeProject 还原各 content JSON', () 
   expect(out['content/locale.json']).toEqual(localeJson)
   expect(out['content/sprites.json']).toEqual(spritesJson)
   // skills.json 是 { skills, levelUp } 包一层
-  expect(out['content/skills.json']).toEqual({ skills: skillsJson.skills, levelUp: skillsJson.levelUp })
+  expect(out['content/skills.json']).toEqual({
+    skills: skillsJson.skills,
+    levelUp: skillsJson.levelUp,
+  })
   // D24:战场表 round-trip(数组直传保序)
   expect(out['content/battle-fields.json']).toEqual(battleFieldsJson)
 
@@ -170,7 +205,9 @@ test('M3 scripts 目录 round-trip:index + chunk 路径与内容原样保留', (
   const state = toEditorState(project, SCENES, [], {}, chunks)
   const out = serializeProject(state)
   expect(out['content/scripts/index.json']).toEqual(scriptIndex)
-  expect((out['content/scripts/index.json'] as typeof scriptIndex).library).toEqual(scriptIndex.library)
+  expect((out['content/scripts/index.json'] as typeof scriptIndex).library).toEqual(
+    scriptIndex.library,
+  )
   expect(out['content/scripts/chunks/scene/guijie-minju.json']).toEqual(chunk)
   expect(out['content/scripts/chunks/shared/c00.json']).toEqual(chunks['shared/c00'])
 })
@@ -267,7 +304,17 @@ test('serializeProject:返回值为纯 JSON 值(可 JSON.stringify,无 undefined
   expect(() => JSON.stringify(out)).not.toThrow()
   // 路径键 = 表域文件 + per-scene(index + 每场景) + manifest.json
   expect(Object.keys(out).sort()).toEqual(
-    ['content/actors.json', 'content/battle-fields.json', 'content/items.json', 'content/locale.json', 'content/scenes/index.json', 'content/scenes/guijie-minju.json', 'content/skills.json', 'content/sprites.json', 'manifest.json'].sort(),
+    [
+      'content/actors.json',
+      'content/battle-fields.json',
+      'content/items.json',
+      'content/locale.json',
+      'content/scenes/index.json',
+      'content/scenes/guijie-minju.json',
+      'content/skills.json',
+      'content/sprites.json',
+      'manifest.json',
+    ].sort(),
   )
 })
 
@@ -299,7 +346,13 @@ test('B10 毒表:manifest 声明 poisons → round-trip 保原文件序(非升�
   // loader 暴露原序数组 project.poisons,toEditorState 必须用它。
   const poisonsJson = [
     { id: 551, name: '赤毒', curability: 'common', color: 16, playerTicks: [{ hpDelta: -7 }] },
-    { id: 137, name: '无影毒', curability: 'incurable', color: 0, enemyTicks: [{ halveHp: 1000, selfCure: true }] },
+    {
+      id: 137,
+      name: '无影毒',
+      curability: 'incurable',
+      color: 0,
+      enemyTicks: [{ halveHp: 1000, selfCure: true }],
+    },
     { id: 556, name: '鹤顶红', curability: 'severe', color: 160, lethalWith: 557, counters: 558 },
   ]
   const project = assembleProject(withPoisons, { ...JSONS, poisons: poisonsJson })
@@ -358,7 +411,9 @@ test('W7B tileset round-trip:注册表入 state,serializeProject 产出 tilesets
     ...manifest,
     content: { ...manifest.content, tilesets: 'content/tilesets.json' },
   } as typeof manifest
-  const reg = [{ id: 'grass', name: '草地', category: 'outdoor', path: 'assets/tilesets/grass.rle' }]
+  const reg = [
+    { id: 'grass', name: '草地', category: 'outdoor', path: 'assets/tilesets/grass.rle' },
+  ]
   const project = { ...assembleProject(withTilesets, JSONS), tilesets: reg }
   const state = toEditorState(project, SCENES)
   expect(state.tilesets).toEqual(reg)

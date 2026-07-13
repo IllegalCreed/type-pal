@@ -56,10 +56,10 @@ const PLAYER_EQUIPMENTS = 6 // MAX_PLAYER_EQUIPMENTS, palcommon.h
 const PLAYER_MAGICS = 32 // MAX_PLAYER_MAGICS, palcommon.h
 const ELEM_COUNT = 5 // NUM_MAGIC_ELEMENTAL, palcommon.h
 const PLAYER_ROLES_BYTES =
-  (32 * PLAYER_FIELD_SIZE) +
-  (PLAYER_EQUIPMENTS * PLAYER_FIELD_SIZE) +
-  (ELEM_COUNT * PLAYER_FIELD_SIZE) +
-  (PLAYER_MAGICS * PLAYER_FIELD_SIZE) // = 900
+  32 * PLAYER_FIELD_SIZE +
+  PLAYER_EQUIPMENTS * PLAYER_FIELD_SIZE +
+  ELEM_COUNT * PLAYER_FIELD_SIZE +
+  PLAYER_MAGICS * PLAYER_FIELD_SIZE // = 900
 
 /**
  * 从 DATA.MKF chunk 3 解析角色组(PLAYERROLES,M2 半解扩到 M3 战斗子集)。
@@ -103,28 +103,35 @@ export function parsePlayerRoles(dataMkfBytes: Uint8Array, words?: Words): Playe
   function readPlayers(offset: number, signed = false): number[] {
     const arr: number[] = []
     for (let i = 0; i < PLAYER_ROLES_NUM; i++) {
-      arr.push(
-        signed
-          ? view.getInt16(offset + i * 2, true)
-          : view.getUint16(offset + i * 2, true),
-      )
+      arr.push(signed ? view.getInt16(offset + i * 2, true) : view.getUint16(offset + i * 2, true))
     }
     return arr
   }
 
   // **按 sdlpal `tagPLAYERROLES` 真字段顺序** cursor(M4 全字段 dump,2025 verified):
   let cursor = 0
-  const avatar = readPlayers(cursor); cursor += PLAYER_FIELD_SIZE
-  const spriteNumInBattle = readPlayers(cursor); cursor += PLAYER_FIELD_SIZE
-  const spriteNum = readPlayers(cursor); cursor += PLAYER_FIELD_SIZE
-  const name = readPlayers(cursor); cursor += PLAYER_FIELD_SIZE
-  const attackAll = readPlayers(cursor); cursor += PLAYER_FIELD_SIZE
-  const unknown1 = readPlayers(cursor); cursor += PLAYER_FIELD_SIZE
-  const level = readPlayers(cursor); cursor += PLAYER_FIELD_SIZE
-  const maxHP = readPlayers(cursor); cursor += PLAYER_FIELD_SIZE
-  const maxMP = readPlayers(cursor); cursor += PLAYER_FIELD_SIZE
-  const hp = readPlayers(cursor); cursor += PLAYER_FIELD_SIZE
-  const mp = readPlayers(cursor); cursor += PLAYER_FIELD_SIZE
+  const avatar = readPlayers(cursor)
+  cursor += PLAYER_FIELD_SIZE
+  const spriteNumInBattle = readPlayers(cursor)
+  cursor += PLAYER_FIELD_SIZE
+  const spriteNum = readPlayers(cursor)
+  cursor += PLAYER_FIELD_SIZE
+  const name = readPlayers(cursor)
+  cursor += PLAYER_FIELD_SIZE
+  const attackAll = readPlayers(cursor)
+  cursor += PLAYER_FIELD_SIZE
+  const unknown1 = readPlayers(cursor)
+  cursor += PLAYER_FIELD_SIZE
+  const level = readPlayers(cursor)
+  cursor += PLAYER_FIELD_SIZE
+  const maxHP = readPlayers(cursor)
+  cursor += PLAYER_FIELD_SIZE
+  const maxMP = readPlayers(cursor)
+  cursor += PLAYER_FIELD_SIZE
+  const hp = readPlayers(cursor)
+  cursor += PLAYER_FIELD_SIZE
+  const mp = readPlayers(cursor)
+  cursor += PLAYER_FIELD_SIZE
 
   // rgwEquipment[MAX_PLAYER_EQUIPMENTS=6][MAX_PLAYER_ROLES=6](72 B)
   // 6 行 × 6 player。⚠ 行序真值(2026-07-02 对 role0 [196头巾,225披风,208布袍,166木剑,235草鞋,249护腕]
@@ -136,12 +143,18 @@ export function parsePlayerRoles(dataMkfBytes: Uint8Array, words?: Words): Playe
     cursor += PLAYER_FIELD_SIZE
   }
 
-  const attackStrength = readPlayers(cursor, true); cursor += PLAYER_FIELD_SIZE
-  const magicStrength = readPlayers(cursor, true); cursor += PLAYER_FIELD_SIZE
-  const defense = readPlayers(cursor, true); cursor += PLAYER_FIELD_SIZE
-  const dexterity = readPlayers(cursor, true); cursor += PLAYER_FIELD_SIZE
-  const fleeRate = readPlayers(cursor); cursor += PLAYER_FIELD_SIZE
-  const poisonResistance = readPlayers(cursor); cursor += PLAYER_FIELD_SIZE
+  const attackStrength = readPlayers(cursor, true)
+  cursor += PLAYER_FIELD_SIZE
+  const magicStrength = readPlayers(cursor, true)
+  cursor += PLAYER_FIELD_SIZE
+  const defense = readPlayers(cursor, true)
+  cursor += PLAYER_FIELD_SIZE
+  const dexterity = readPlayers(cursor, true)
+  cursor += PLAYER_FIELD_SIZE
+  const fleeRate = readPlayers(cursor)
+  cursor += PLAYER_FIELD_SIZE
+  const poisonResistance = readPlayers(cursor)
+  cursor += PLAYER_FIELD_SIZE
 
   // rgwElementalResistance[NUM_MAGIC_ELEMENTAL=5][MAX_PLAYER_ROLES=6]
   // 5 行,每行 6 player;元素顺序 wind/thunder/water/fire/earth
@@ -151,10 +164,14 @@ export function parsePlayerRoles(dataMkfBytes: Uint8Array, words?: Words): Playe
     cursor += PLAYER_FIELD_SIZE
   }
 
-  const unknown2 = readPlayers(cursor); cursor += PLAYER_FIELD_SIZE
-  const unknown3 = readPlayers(cursor); cursor += PLAYER_FIELD_SIZE
-  const unknown4 = readPlayers(cursor); cursor += PLAYER_FIELD_SIZE
-  const coveredBy = readPlayers(cursor); cursor += PLAYER_FIELD_SIZE
+  const unknown2 = readPlayers(cursor)
+  cursor += PLAYER_FIELD_SIZE
+  const unknown3 = readPlayers(cursor)
+  cursor += PLAYER_FIELD_SIZE
+  const unknown4 = readPlayers(cursor)
+  cursor += PLAYER_FIELD_SIZE
+  const coveredBy = readPlayers(cursor)
+  cursor += PLAYER_FIELD_SIZE
 
   // rgwMagic[MAX_PLAYER_MAGICS=32][MAX_PLAYER_ROLES=6](384 B)
   // 32 行 × 6 player(每个 player 已学 32 个法术槽位,0 = 空)
@@ -164,20 +181,31 @@ export function parsePlayerRoles(dataMkfBytes: Uint8Array, words?: Words): Playe
     cursor += PLAYER_FIELD_SIZE
   }
 
-  const walkFrames = readPlayers(cursor); cursor += PLAYER_FIELD_SIZE
-  const cooperativeMagic = readPlayers(cursor); cursor += PLAYER_FIELD_SIZE
-  const unknown5 = readPlayers(cursor); cursor += PLAYER_FIELD_SIZE
-  const unknown6 = readPlayers(cursor); cursor += PLAYER_FIELD_SIZE
+  const walkFrames = readPlayers(cursor)
+  cursor += PLAYER_FIELD_SIZE
+  const cooperativeMagic = readPlayers(cursor)
+  cursor += PLAYER_FIELD_SIZE
+  const unknown5 = readPlayers(cursor)
+  cursor += PLAYER_FIELD_SIZE
+  const unknown6 = readPlayers(cursor)
+  cursor += PLAYER_FIELD_SIZE
 
   // 5 个 sound 字段(sdlpal 注释为 PLAYERS,但 fight.c/sound.c 按 SHORT 处理,-1 = 无声音)
-  const deathSound = readPlayers(cursor, true); cursor += PLAYER_FIELD_SIZE
-  const attackSound = readPlayers(cursor, true); cursor += PLAYER_FIELD_SIZE
-  const weaponSound = readPlayers(cursor, true); cursor += PLAYER_FIELD_SIZE
-  const criticalSound = readPlayers(cursor, true); cursor += PLAYER_FIELD_SIZE
-  const magicSound = readPlayers(cursor, true); cursor += PLAYER_FIELD_SIZE
+  const deathSound = readPlayers(cursor, true)
+  cursor += PLAYER_FIELD_SIZE
+  const attackSound = readPlayers(cursor, true)
+  cursor += PLAYER_FIELD_SIZE
+  const weaponSound = readPlayers(cursor, true)
+  cursor += PLAYER_FIELD_SIZE
+  const criticalSound = readPlayers(cursor, true)
+  cursor += PLAYER_FIELD_SIZE
+  const magicSound = readPlayers(cursor, true)
+  cursor += PLAYER_FIELD_SIZE
 
-  const coverSound = readPlayers(cursor, true); cursor += PLAYER_FIELD_SIZE
-  const dyingSound = readPlayers(cursor, true); cursor += PLAYER_FIELD_SIZE
+  const coverSound = readPlayers(cursor, true)
+  cursor += PLAYER_FIELD_SIZE
+  const dyingSound = readPlayers(cursor, true)
+  cursor += PLAYER_FIELD_SIZE
 
   // sanity check:cursor 走法应正好等于 sizeof(PLAYERROLES)
   if (cursor !== PLAYER_ROLES_BYTES) {

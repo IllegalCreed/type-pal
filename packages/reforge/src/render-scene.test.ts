@@ -1,4 +1,4 @@
-import { describe, expect, test, vi } from 'vitest'
+import { expect, test, vi } from 'vitest'
 import { renderSceneFrame } from './render-scene.js'
 
 test('renderSceneFrame:clear → save → scale(worldScale) → renderScene(args) → restore,且关平滑', () => {

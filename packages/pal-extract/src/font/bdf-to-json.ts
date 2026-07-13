@@ -6,8 +6,8 @@
 
 export interface BdfGlyph {
   codepoint: number
-  width: number   // 8 (ASCII) or 16 (CJK)
-  height: number  // 16
+  width: number // 8 (ASCII) or 16 (CJK)
+  height: number // 16
   bitmap: Uint8Array
 }
 
@@ -31,8 +31,7 @@ export function parseBdf(text: string): BdfGlyph[] {
           const parts = l.split(/\s+/)
           width = parseInt(parts[1]!, 10)
           height = parseInt(parts[2]!, 10)
-        }
-        else if (l === 'BITMAP') {
+        } else if (l === 'BITMAP') {
           bitmapStart = i + 1
           break
         }

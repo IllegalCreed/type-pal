@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest'
-import { createFramebuffer } from '../framebuffer.js'
+import { describe, expect, it } from 'vitest'
 import type { IndexedImage } from '../../assets/png.js'
+import { createFramebuffer } from '../framebuffer.js'
 import { drawBox } from './draw-box.js'
 
 /**
@@ -11,7 +11,8 @@ import { drawBox } from './draw-box.js'
 function mockUiFrames(): IndexedImage[] {
   const frames: IndexedImage[] = []
   for (let k = 0; k < 18; k++) {
-    const w = 8, h = 8
+    const w = 8,
+      h = 8
     const indices = new Uint8Array(w * h).fill(k + 1) // 避开 0(0 在 Framebuffer 是 clear 色)
     const opaque = new Uint8Array(w * h).fill(1)
     frames.push({ width: w, height: h, indices, opaque })
@@ -43,15 +44,33 @@ describe('M5.6 W0.c drawBox', () => {
     const fb = createFramebuffer()
     const frames = mockUiFrames()
     // 起始 fb 全 0(idx 0)— shadow blit 时 PAL_CalcShadowColor(0) = (0 & 0xF0) | ((0 & 0x0F) >> 1) = 0
-    drawBox({ fb, x: 10, y: 10, rows: 1, cols: 1, style: 0, shadowOffset: 6, uiSpriteFrames: frames })
+    drawBox({
+      fb,
+      x: 10,
+      y: 10,
+      rows: 1,
+      cols: 1,
+      style: 0,
+      shadowOffset: 6,
+      uiSpriteFrames: frames,
+    })
     expect(fb.indices[10 * fb.width + 10]).toBe(1) // 正色 box 左上
     // 阴影右下 (39, 39):落在 fb 0 上 → shadow = 0,但需要测 shadow 是动态计算的
     // 改测:先 prefill fb (39,39) 为 0xAB,shadow 应改为 PAL_CalcShadowColor(0xAB) = 0xA5
     const fb2 = createFramebuffer()
-    fb2.writePixel(39, 39, 0xAB)
-    drawBox({ fb: fb2, x: 10, y: 10, rows: 1, cols: 1, style: 0, shadowOffset: 6, uiSpriteFrames: frames })
+    fb2.writePixel(39, 39, 0xab)
+    drawBox({
+      fb: fb2,
+      x: 10,
+      y: 10,
+      rows: 1,
+      cols: 1,
+      style: 0,
+      shadowOffset: 6,
+      uiSpriteFrames: frames,
+    })
     // PAL_CalcShadowColor(0xAB) = (0xAB & 0xF0) | ((0xAB & 0x0F) >> 1) = 0xA0 | (0x0B >> 1) = 0xA0 | 0x05 = 0xA5
-    expect(fb2.indices[39 * fb2.width + 39]).toBe(0xA5)
+    expect(fb2.indices[39 * fb2.width + 39]).toBe(0xa5)
   })
 
   it('style 1 → 用 frame 9-17', () => {
@@ -68,15 +87,15 @@ describe('M5.6 W0.c drawBox', () => {
     const frames = mockUiFrames()
     drawBox({ fb, x: 0, y: 0, rows: 2, cols: 4, style: 0, shadowOffset: 0, uiSpriteFrames: frames })
     // 顶边中间应该是 frame 1(idx 2);取多个 x 验证
-    expect(fb.indices[8]).toBe(2)   // 第二列顶 = m=0, n=1 = frame 1
-    expect(fb.indices[16]).toBe(2)  // 第三列顶
-    expect(fb.indices[40]).toBe(3)  // 最后列(第 6 个)顶 = m=0, n=2 = frame 2 idx 3
+    expect(fb.indices[8]).toBe(2) // 第二列顶 = m=0, n=1 = frame 1
+    expect(fb.indices[16]).toBe(2) // 第三列顶
+    expect(fb.indices[40]).toBe(3) // 最后列(第 6 个)顶 = m=0, n=2 = frame 2 idx 3
   })
 
   it('uiSpriteFrames 不足 9 个 → 抛错', () => {
     const fb = createFramebuffer()
-    expect(() => drawBox({ fb, x: 0, y: 0, rows: 1, cols: 1, style: 0, uiSpriteFrames: [] })).toThrow(
-      /uiSpriteFrames\[0\] missing/,
-    )
+    expect(() =>
+      drawBox({ fb, x: 0, y: 0, rows: 1, cols: 1, style: 0, uiSpriteFrames: [] }),
+    ).toThrow(/uiSpriteFrames\[0\] missing/)
   })
 })

@@ -86,7 +86,6 @@ describe('N6 脚本引用图', () => {
       {
         kind: 'branch',
         cond: { kind: 'chance', percent: 50 },
-        // biome-ignore lint/suspicious/noThenProperty: `then` 是 Command branch 的既定 schema 字段。
         then: [{ kind: 'callScript', ref: ref(state, targetId) }],
       },
     ])

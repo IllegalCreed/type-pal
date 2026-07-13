@@ -1,7 +1,27 @@
-import { describe, it, expect } from 'vitest'
-import { clearHiddenExpCounts, createInitialGameState, hydrateNpcStaticDefaults, hydratePlayerRolesRuntime, initExpLevelsFromLevels, loadDefaultGame, normalizePlayerRolesRuntime, npcFromEventObject, projectRuntimeToBattleRoles, resetPresentationTransients, resetSceneRuntimeForNewGame, resumePostBattleScript, scriptRunHits0x4F, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode, type NpcState } from './game-state.js'
-import { startDialogLine } from '../present/dialog-box.js'
 import type { Command, PlayerRole, SceneEventObject } from '@type-pal/shared'
+import { describe, expect, it } from 'vitest'
+import { startDialogLine } from '../present/dialog-box.js'
+import {
+  clearHiddenExpCounts,
+  createInitialGameState,
+  type Facing,
+  type GameState,
+  hydrateNpcStaticDefaults,
+  hydratePlayerRolesRuntime,
+  initExpLevelsFromLevels,
+  loadDefaultGame,
+  type Mode,
+  type NpcState,
+  normalizePlayerRolesRuntime,
+  npcFromEventObject,
+  projectRuntimeToBattleRoles,
+  resetPresentationTransients,
+  resetSceneRuntimeForNewGame,
+  resumePostBattleScript,
+  scriptRunHits0x4F,
+  sliceSceneEventObjects,
+  writeBackBattleRolesToRuntime,
+} from './game-state.js'
 
 // E04(隐藏属性经验):wCount 是 ExpEntry 第三字段(sdlpal EXPERIENCE.wCount),战前清零 7 隐藏池(非主经验)。
 describe('clearHiddenExpCounts(隐藏经验 wCount 战前清零,battle.c:1565-1586)', () => {
@@ -9,8 +29,13 @@ describe('clearHiddenExpCounts(隐藏经验 wCount 战前清零,battle.c:1565-15
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     // 预置:7 隐藏池 + 主经验都给 wCount
     const pools = [
-      gs.Exp.rgHealthExp, gs.Exp.rgMagicExp, gs.Exp.rgAttackExp, gs.Exp.rgMagicPowerExp,
-      gs.Exp.rgDefenseExp, gs.Exp.rgDexterityExp, gs.Exp.rgFleeExp,
+      gs.Exp.rgHealthExp,
+      gs.Exp.rgMagicExp,
+      gs.Exp.rgAttackExp,
+      gs.Exp.rgMagicPowerExp,
+      gs.Exp.rgDefenseExp,
+      gs.Exp.rgDexterityExp,
+      gs.Exp.rgFleeExp,
     ]
     for (const p of pools) for (const e of p) e.wCount = 5
     gs.Exp.rgPrimaryExp[0]!.wCount = 7 // 主经验不该被清
@@ -35,8 +60,14 @@ describe('initExpLevelsFromLevels(新游戏 Exp.wLevel 初始化,global.c:455-46
     const levels = [1, 5, 3, 48, 28, 40] // player-roles.json role0..5 真默认等级
     initExpLevelsFromLevels(gs.Exp, levels)
     const cats = [
-      gs.Exp.rgPrimaryExp, gs.Exp.rgHealthExp, gs.Exp.rgMagicExp, gs.Exp.rgAttackExp,
-      gs.Exp.rgMagicPowerExp, gs.Exp.rgDefenseExp, gs.Exp.rgDexterityExp, gs.Exp.rgFleeExp,
+      gs.Exp.rgPrimaryExp,
+      gs.Exp.rgHealthExp,
+      gs.Exp.rgMagicExp,
+      gs.Exp.rgAttackExp,
+      gs.Exp.rgMagicPowerExp,
+      gs.Exp.rgDefenseExp,
+      gs.Exp.rgDexterityExp,
+      gs.Exp.rgFleeExp,
     ]
     for (const cat of cats) {
       for (let i = 0; i < 6; i++) {
@@ -61,13 +92,30 @@ describe('loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465)'
   const fixtureRoles: import('@type-pal/shared').PlayerRoles = {
     roles: [
       {
-        id: 0, avatar: 0, spriteNumInBattle: 0, spriteNum: 0, name: 0, attackAll: 0,
-        level: 5, maxHP: 100, maxMP: 50, hp: 80, mp: 40,
-        attackStrength: 10, magicStrength: 5, defense: 8, dexterity: 12,
-        fleeRate: 3, poisonResistance: 0,
+        id: 0,
+        avatar: 0,
+        spriteNumInBattle: 0,
+        spriteNum: 0,
+        name: 0,
+        attackAll: 0,
+        level: 5,
+        maxHP: 100,
+        maxMP: 50,
+        hp: 80,
+        mp: 40,
+        attackStrength: 10,
+        magicStrength: 5,
+        defense: 8,
+        dexterity: 12,
+        fleeRate: 3,
+        poisonResistance: 0,
         elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
         walkFrames: 3,
-        attackSound: -1, weaponSound: -1, criticalSound: -1, magicSound: -1, deathSound: -1,
+        attackSound: -1,
+        weaponSound: -1,
+        criticalSound: -1,
+        magicSound: -1,
+        deathSound: -1,
       },
     ],
   }
@@ -219,7 +267,7 @@ describe('GameState', () => {
     expect(gs.mode).toBe('explore')
     expect(gs.dialogBox).toBeUndefined()
     expect(gs.eventCursor).toBeUndefined()
-    expect(gs.currentDialogStyle).toBe('top')  // sdlpal PAL_InitText 默认 kDialogUpper
+    expect(gs.currentDialogStyle).toBe('top') // sdlpal PAL_InitText 默认 kDialogUpper
     expect(gs.frameNum).toBe(0)
   })
 
@@ -247,10 +295,7 @@ describe('GameState', () => {
   it('GameState 可 JSON 序列化(含 eventCursor.commands)', () => {
     const gs = createInitialGameState({ x: 10 * 16, y: 20 * 8, facing: 'right' })
     gs.eventCursor = {
-      commands: [
-        { op: 'showDialog', messageIndex: 5, text: 'hi' },
-        { op: 'end' },
-      ],
+      commands: [{ op: 'showDialog', messageIndex: 5, text: 'hi' }, { op: 'end' }],
       labelMap: { L_0: 0 },
       ip: 0,
       waiting: 'dialog',
@@ -282,11 +327,21 @@ describe('Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推)', () => {
     gs.PlayerRolesRuntime.rgwHP[0] = 255
     gs.PlayerRolesRuntime.rgwLevel[0] = 5
     gs.rgEventObject[5] = {
-      sState: -1, x: 100, y: 100, sLayer: 0,
-      wTriggerScript: 0, wAutoScript: 0,
-      wTriggerMode: 0, wSpriteNum: 3, nSpriteFrames: 4,
-      wDirection: 2, wCurrentFrameNum: 0, nScriptIdleFrame: 0,
-      wSpritePtrOffset: 0, nSpriteFramesAuto: 0, wScriptIdleFrameCountAuto: 0,
+      sState: -1,
+      x: 100,
+      y: 100,
+      sLayer: 0,
+      wTriggerScript: 0,
+      wAutoScript: 0,
+      wTriggerMode: 0,
+      wSpriteNum: 3,
+      nSpriteFrames: 4,
+      wDirection: 2,
+      wCurrentFrameNum: 0,
+      nScriptIdleFrame: 0,
+      wSpritePtrOffset: 0,
+      nSpriteFramesAuto: 0,
+      wScriptIdleFrameCountAuto: 0,
       sVanishTime: 0,
     }
     gs.rgScene[15] = { wMapNum: 3, wScriptOnEnter: 42, wScriptOnTeleport: 0, wEventObjectIndex: 10 }
@@ -308,7 +363,7 @@ describe('Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推)', () => {
     expect(gs.wNumBattleMusic).toBe(0)
     expect(gs.wNumBattleField).toBe(0)
     expect(gs.wScreenWave).toBe(0)
-    expect(gs.wBattleSpeed).toBe(2)   // sdlpal global.c default
+    expect(gs.wBattleSpeed).toBe(2) // sdlpal global.c default
     expect(gs.wCollectValue).toBe(0)
     expect(gs.wLayer).toBe(0)
     expect(gs.wChaseRange).toBe(1)
@@ -319,7 +374,7 @@ describe('Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推)', () => {
     // 嵌套 struct
     expect(gs.Exp).toBeDefined()
     expect(gs.Exp.rgPrimaryExp).toBeInstanceOf(Array)
-    expect(gs.Exp.rgPrimaryExp).toHaveLength(6)   // MAX_PLAYER_ROLES
+    expect(gs.Exp.rgPrimaryExp).toHaveLength(6) // MAX_PLAYER_ROLES
     expect(gs.Exp.rgHealthExp).toHaveLength(6)
     expect(gs.Exp.rgMagicExp).toHaveLength(6)
     expect(gs.Exp.rgAttackExp).toHaveLength(6)
@@ -330,8 +385,8 @@ describe('Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推)', () => {
     expect(gs.PlayerRolesRuntime).toBeDefined()
     expect(gs.PlayerRolesRuntime.rgwHP).toHaveLength(6)
     expect(gs.PlayerRolesRuntime.rgwLevel).toHaveLength(6)
-    expect(gs.PlayerRolesRuntime.rgwEquipment).toHaveLength(6)   // MAX_PLAYER_EQUIPMENTS
-    expect(gs.PlayerRolesRuntime.rgwMagic).toHaveLength(32)      // MAX_PLAYER_MAGICS
+    expect(gs.PlayerRolesRuntime.rgwEquipment).toHaveLength(6) // MAX_PLAYER_EQUIPMENTS
+    expect(gs.PlayerRolesRuntime.rgwMagic).toHaveLength(32) // MAX_PLAYER_MAGICS
     expect(gs.PlayerRolesRuntime.rgwElementalResistance).toHaveLength(5) // NUM_MAGIC_ELEMENTAL
     expect(gs.rgPoisonStatus).toEqual({})
     expect(gs.rgScene).toEqual({})
@@ -343,11 +398,21 @@ describe('Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     expect(Object.keys(gs.rgEventObject)).toHaveLength(0)
     gs.rgEventObject[5] = {
-      sState: -1, x: 100, y: 100, sLayer: 0,
-      wTriggerScript: 0, wAutoScript: 0,
-      wTriggerMode: 0, wSpriteNum: 3, nSpriteFrames: 4,
-      wDirection: 2, wCurrentFrameNum: 0, nScriptIdleFrame: 0,
-      wSpritePtrOffset: 0, nSpriteFramesAuto: 0, wScriptIdleFrameCountAuto: 0,
+      sState: -1,
+      x: 100,
+      y: 100,
+      sLayer: 0,
+      wTriggerScript: 0,
+      wAutoScript: 0,
+      wTriggerMode: 0,
+      wSpriteNum: 3,
+      nSpriteFrames: 4,
+      wDirection: 2,
+      wCurrentFrameNum: 0,
+      nScriptIdleFrame: 0,
+      wSpritePtrOffset: 0,
+      nSpriteFramesAuto: 0,
+      wScriptIdleFrameCountAuto: 0,
       sVanishTime: 0,
     }
     expect(Object.keys(gs.rgEventObject)).toHaveLength(1)
@@ -374,16 +439,21 @@ describe('Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推)', () => {
 
   it('PlayerRolesRuntime 初始值全零', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    expect(gs.PlayerRolesRuntime.rgwHP.every(v => v === 0)).toBe(true)
-    expect(gs.PlayerRolesRuntime.rgwLevel.every(v => v === 0)).toBe(true)
-    expect(gs.PlayerRolesRuntime.rgwMagic.every(row => row.every(v => v === 0))).toBe(true)
+    expect(gs.PlayerRolesRuntime.rgwHP.every((v) => v === 0)).toBe(true)
+    expect(gs.PlayerRolesRuntime.rgwLevel.every((v) => v === 0)).toBe(true)
+    expect(gs.PlayerRolesRuntime.rgwMagic.every((row) => row.every((v) => v === 0))).toBe(true)
   })
 })
 
 describe('npcFromEventObject', () => {
   it('System A:eo.x/y 直接透传(1:1 sdlpal pixel),其它字段透传', () => {
     const eo: SceneEventObject = {
-      id: 3, x: 512, y: 800, spriteNum: 42, triggerLabel: 'L_59', triggerMode: 0,
+      id: 3,
+      x: 512,
+      y: 800,
+      spriteNum: 42,
+      triggerLabel: 'L_59',
+      triggerMode: 0,
     }
     const npc = npcFromEventObject(eo)
     expect(npc.id).toBe(3)
@@ -397,7 +467,11 @@ describe('npcFromEventObject', () => {
     // System A 1:1 透传,sdlpal scene.c:301-322 +7 锚点偏移在 present 渲染层加,
     // 不写进 logical x/y(contact 距离判断 scene.c:624 用原 eo.x/y)。
     const eo: SceneEventObject = {
-      id: 7, x: 720, y: 664, spriteNum: 0, triggerMode: 0,
+      id: 7,
+      x: 720,
+      y: 664,
+      spriteNum: 0,
+      triggerMode: 0,
     }
     const npc = npcFromEventObject(eo)
     expect(npc.x).toBe(720)
@@ -444,7 +518,13 @@ describe('npcFromEventObject', () => {
   // 多出原版没有的刷钱漏洞)。门禁靠 scene 81 只在擒贼后载入(结构性),不在此层加 flag。
   it('太守 obj 1518:Confirm-search(mode 3)→ 走近自动触发(mode >= 4)+ autoTriggerOnce', () => {
     const eo: SceneEventObject = {
-      id: 1518, x: 1616, y: 968, spriteNum: 382, triggerLabel: 'L_15293', triggerMode: 3, sState: 1,
+      id: 1518,
+      x: 1616,
+      y: 968,
+      spriteNum: 382,
+      triggerLabel: 'L_15293',
+      triggerMode: 3,
+      sState: 1,
     }
     const npc = npcFromEventObject(eo)
     expect(npc.triggerMode).toBeGreaterThanOrEqual(4) // sdlpal kTriggerTouchNear=4 起为自动触发区
@@ -456,7 +536,13 @@ describe('npcFromEventObject', () => {
 
   it('其它对象 triggerMode 3 不受补丁影响(仍是 Confirm-search,无 autoTriggerOnce)', () => {
     const eo: SceneEventObject = {
-      id: 999, x: 1616, y: 968, spriteNum: 382, triggerLabel: 'L_15293', triggerMode: 3, sState: 1,
+      id: 999,
+      x: 1616,
+      y: 968,
+      spriteNum: 382,
+      triggerLabel: 'L_15293',
+      triggerMode: 3,
+      sState: 1,
     }
     const npc = npcFromEventObject(eo)
     expect(npc.triggerMode).toBe(3)
@@ -534,10 +620,18 @@ describe('hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移)', ()
   })
 
   it('scriptedFrame 已被脚本明确设为 0 → 不用场景默认 13 覆盖', () => {
-    const npcs = [{
-      id: 346, x: 1200, y: 1176, spriteNum: 193, sState: 1,
-      nSpriteFrames: 0, scriptedFrame: 0, facing: 'right' as const,
-    }]
+    const npcs = [
+      {
+        id: 346,
+        x: 1200,
+        y: 1176,
+        spriteNum: 193,
+        sState: 1,
+        nSpriteFrames: 0,
+        scriptedFrame: 0,
+        facing: 'right' as const,
+      },
+    ]
     hydrateNpcStaticDefaults(npcs, [poseObject])
     expect(npcs[0]).toMatchObject({ nSpriteFrames: 0, scriptedFrame: 0, facing: 'right' })
   })
@@ -550,11 +644,31 @@ describe('hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移)', ()
 
 function staticRole(id: number, over: Partial<PlayerRole> = {}): PlayerRole {
   return {
-    id, _name: `role${id}`, avatar: id, spriteNumInBattle: 10 + id, spriteNum: 0, name: id, attackAll: 0,
-    level: 1, maxHP: 100, maxMP: 30, hp: 100, mp: 30,
-    attackStrength: 5, magicStrength: 5, defense: 5, dexterity: 5, fleeRate: 5,
-    poisonResistance: 0, elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-    walkFrames: 0, attackSound: 0, weaponSound: 0, criticalSound: 0, magicSound: 0, deathSound: 0,
+    id,
+    _name: `role${id}`,
+    avatar: id,
+    spriteNumInBattle: 10 + id,
+    spriteNum: 0,
+    name: id,
+    attackAll: 0,
+    level: 1,
+    maxHP: 100,
+    maxMP: 30,
+    hp: 100,
+    mp: 30,
+    attackStrength: 5,
+    magicStrength: 5,
+    defense: 5,
+    dexterity: 5,
+    fleeRate: 5,
+    poisonResistance: 0,
+    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    walkFrames: 0,
+    attackSound: 0,
+    weaponSound: 0,
+    criticalSound: 0,
+    magicSound: 0,
+    deathSound: 0,
     ...over,
   } as any as PlayerRole
 }
@@ -564,11 +678,30 @@ describe('player-roles 战斗数据模型边界', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const rt = gs.PlayerRolesRuntime
     // 模拟升级后 runtime:role0 level 50 / hp 123 / maxHP 500 / attack 99 / 风抗 60 / name 7
-    rt.rgwLevel[0] = 50; rt.rgwHP[0] = 123; rt.rgwMaxHP[0] = 500; rt.rgwMP[0] = 40; rt.rgwMaxMP[0] = 80
-    rt.rgwAttackStrength[0] = 99; rt.rgwMagicStrength[0] = 77; rt.rgwDefense[0] = 33
-    rt.rgwDexterity[0] = 44; rt.rgwFleeRate[0] = 22; rt.rgwPoisonResistance[0] = 10
-    rt.rgwElementalResistance[0]![0] = 60; rt.rgwName[0] = 7
-    const staticRoles = { roles: [staticRole(0, { _name: '李逍遥', spriteNumInBattle: 5, level: 1, hp: 100, attackStrength: 5 })] }
+    rt.rgwLevel[0] = 50
+    rt.rgwHP[0] = 123
+    rt.rgwMaxHP[0] = 500
+    rt.rgwMP[0] = 40
+    rt.rgwMaxMP[0] = 80
+    rt.rgwAttackStrength[0] = 99
+    rt.rgwMagicStrength[0] = 77
+    rt.rgwDefense[0] = 33
+    rt.rgwDexterity[0] = 44
+    rt.rgwFleeRate[0] = 22
+    rt.rgwPoisonResistance[0] = 10
+    rt.rgwElementalResistance[0]![0] = 60
+    rt.rgwName[0] = 7
+    const staticRoles = {
+      roles: [
+        staticRole(0, {
+          _name: '李逍遥',
+          spriteNumInBattle: 5,
+          level: 1,
+          hp: 100,
+          attackStrength: 5,
+        }),
+      ],
+    }
     const r = projectRuntimeToBattleRoles(rt, staticRoles).roles[0]!
     // runtime 当前属性(非静态 1 级基线)
     expect(r.level).toBe(50)
@@ -588,8 +721,12 @@ describe('player-roles 战斗数据模型边界', () => {
   it('D14:投影并入装备 effect — 战斗 stat = base + Σ rgEquipmentEffect[0..6](attack/magic/def/dex/flee/poison/elem)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const rt = gs.PlayerRolesRuntime
-    rt.rgwAttackStrength[0] = 100; rt.rgwMagicStrength[0] = 60; rt.rgwDefense[0] = 40
-    rt.rgwDexterity[0] = 20; rt.rgwFleeRate[0] = 10; rt.rgwPoisonResistance[0] = 30
+    rt.rgwAttackStrength[0] = 100
+    rt.rgwMagicStrength[0] = 60
+    rt.rgwDefense[0] = 40
+    rt.rgwDexterity[0] = 20
+    rt.rgwFleeRate[0] = 10
+    rt.rgwPoisonResistance[0] = 30
     rt.rgwElementalResistance[3]![0] = 25 // 火抗 base
     // 装备 effect:手(part 3)+15 攻 / +5 火抗;Extra(part 6,0x30 战内 buff)+30 攻
     gs.rgEquipmentEffect[3]!.rgwAttackStrength[0] = 15
@@ -600,8 +737,8 @@ describe('player-roles 战斗数据模型边界', () => {
     const staticRoles = { roles: [staticRole(0)] }
     const r = projectRuntimeToBattleRoles(rt, staticRoles, gs.rgEquipmentEffect).roles[0]!
     expect(r.attackStrength).toBe(145) // 100 + 15(手)+ 30(Extra)
-    expect(r.magicStrength).toBe(60)   // 无装备 effect
-    expect(r.defense).toBe(47)         // 40 + 7
+    expect(r.magicStrength).toBe(60) // 无装备 effect
+    expect(r.defense).toBe(47) // 40 + 7
     expect(r.dexterity).toBe(20)
     expect(r.fleeRate).toBe(10)
     expect(r.poisonResistance).toBe(100) // clamp [0,100]
@@ -612,22 +749,28 @@ describe('player-roles 战斗数据模型边界', () => {
     // sdlpal PAL_PlayerCanAttackAll(global.c:2047,任一槽 !=0)/ PAL_GetPlayerBattleSprite(2009,末非0 override)
     //   / PAL_GetPlayerCooperativeMagic(2044,末非0 override)。长鞭 attackAll=1 + sprite=6;圣灵珠 coopMagic=351。
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const staticRoles = { roles: [staticRole(0, { attackAll: 0, spriteNumInBattle: 10, cooperativeMagic: 5 })] }
-    gs.rgEquipmentEffect[3]!.rgwAttackAll[0] = 1   // 长鞭(Hand)群攻
+    const staticRoles = {
+      roles: [staticRole(0, { attackAll: 0, spriteNumInBattle: 10, cooperativeMagic: 5 })],
+    }
+    gs.rgEquipmentEffect[3]!.rgwAttackAll[0] = 1 // 长鞭(Hand)群攻
     gs.rgEquipmentEffect[3]!.rgwSpriteNumInBattle[0] = 6 // 长鞭换战斗精灵
     gs.rgEquipmentEffect[5]!.rgwCooperativeMagic[0] = 351 // 圣灵珠(Wear)改合击
-    const r = projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, staticRoles, gs.rgEquipmentEffect).roles[0]!
-    expect(r.attackAll).toBe(1)          // 装备群攻 → 战斗 role.attackAll!=0(battle-system 读此判全体攻)
-    expect(r.spriteNumInBattle).toBe(6)  // 末个非0 override 静态 10
+    const r = projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, staticRoles, gs.rgEquipmentEffect)
+      .roles[0]!
+    expect(r.attackAll).toBe(1) // 装备群攻 → 战斗 role.attackAll!=0(battle-system 读此判全体攻)
+    expect(r.spriteNumInBattle).toBe(6) // 末个非0 override 静态 10
     expect(r.cooperativeMagic).toBe(351) // 末个非0 override 静态 5
   })
 
   it('装备 override:无装备 effect → attackAll/sprite/coopMagic 退回 base(coopMagic 走 hydrate 后 runtime)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const staticRoles = { roles: [staticRole(0, { attackAll: 0, spriteNumInBattle: 10, cooperativeMagic: 5 })] }
+    const staticRoles = {
+      roles: [staticRole(0, { attackAll: 0, spriteNumInBattle: 10, cooperativeMagic: 5 })],
+    }
     hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, staticRoles) // base coopMagic 5 → runtime(真实流程)
-    const r = projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, staticRoles, gs.rgEquipmentEffect).roles[0]!
-    expect(r.attackAll).toBe(0)        // attackAll/sprite 无 runtime 行 → 直读静态 base
+    const r = projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, staticRoles, gs.rgEquipmentEffect)
+      .roles[0]!
+    expect(r.attackAll).toBe(0) // attackAll/sprite 无 runtime 行 → 直读静态 base
     expect(r.spriteNumInBattle).toBe(10)
     expect(r.cooperativeMagic).toBe(5) // hydrate 后 runtime.rgwCooperativeMagic=5
   })
@@ -635,10 +778,7 @@ describe('player-roles 战斗数据模型边界', () => {
   it('大世界 spriteNum hydrate 到 runtime,投影也读取 runtime 当前值', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const staticRoles = {
-      roles: [
-        staticRole(0, { spriteNum: 2 }),
-        staticRole(1, { spriteNum: 3 }),
-      ],
+      roles: [staticRole(0, { spriteNum: 2 }), staticRole(1, { spriteNum: 3 })],
     }
     hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, staticRoles)
     expect(gs.PlayerRolesRuntime.rgwSpriteNum[0]).toBe(2)
@@ -661,10 +801,17 @@ describe('player-roles 战斗数据模型边界', () => {
   it('回写:战斗 HP/MP 战果回写 runtime;仅 party 成员(非 party 不碰)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const rt = gs.PlayerRolesRuntime
-    rt.rgwHP[0] = 50; rt.rgwMP[0] = 10; rt.rgwHP[1] = 80; rt.rgwMP[1] = 20
+    rt.rgwHP[0] = 50
+    rt.rgwMP[0] = 10
+    rt.rgwHP[1] = 80
+    rt.rgwMP[1] = 20
     // 战后:role0 残血 30 / 扣 mp 至 5;role1 满血 200;role2(非 party)不该被碰
     const battleRoles = {
-      roles: [staticRole(0, { hp: 30, mp: 5 }), staticRole(1, { hp: 200, mp: 0 }), staticRole(2, { hp: 999, mp: 999 })],
+      roles: [
+        staticRole(0, { hp: 30, mp: 5 }),
+        staticRole(1, { hp: 200, mp: 0 }),
+        staticRole(2, { hp: 999, mp: 999 }),
+      ],
     }
     writeBackBattleRolesToRuntime(battleRoles, rt, [0, 1])
     expect(rt.rgwHP[0]).toBe(30)
@@ -677,7 +824,10 @@ describe('player-roles 战斗数据模型边界', () => {
   it('往返:残血进战斗 → 治满 → 出战斗 → runtime 反映"加满"(原打完复原的 bug 修了)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const rt = gs.PlayerRolesRuntime
-    rt.rgwHP[0] = 50; rt.rgwMaxHP[0] = 200; rt.rgwMP[0] = 10; rt.rgwMaxMP[0] = 50
+    rt.rgwHP[0] = 50
+    rt.rgwMaxHP[0] = 200
+    rt.rgwMP[0] = 10
+    rt.rgwMaxMP[0] = 50
     const staticRoles = { roles: [staticRole(0)] }
     // 进战斗:投影 → 带 runtime 残血 50
     const battle = projectRuntimeToBattleRoles(rt, staticRoles)
@@ -695,7 +845,13 @@ describe('player-roles 战斗数据模型边界', () => {
   it('resumePostBattleScript:胜→wonIp + 恢复 currentEventObjectId + mode=event(打完怪接回 0x52 隐藏)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.mode = 'explore'
-    gs.postBattleResume = { wonIp: 1, lostIp: 41075, fledIp: 41073, currentEventObjectId: 3, triggerOwnerId: 3 }
+    gs.postBattleResume = {
+      wonIp: 1,
+      lostIp: 41075,
+      fledIp: 41073,
+      currentEventObjectId: 3,
+      triggerOwnerId: 3,
+    }
     resumePostBattleScript(gs, 'won')
     expect(gs.eventCursor?.ip).toBe(1)
     expect(gs.eventCursor?.currentEventObjectId).toBe(3) // 隐藏的是开战那只怪
@@ -813,7 +969,8 @@ describe('player-roles 战斗数据模型边界', () => {
   it('往返:满血进战斗 → 受伤残血 → 出战斗 → runtime 反映伤害(伤害持久化)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const rt = gs.PlayerRolesRuntime
-    rt.rgwHP[0] = 200; rt.rgwMaxHP[0] = 200
+    rt.rgwHP[0] = 200
+    rt.rgwMaxHP[0] = 200
     const battle = projectRuntimeToBattleRoles(rt, { roles: [staticRole(0)] })
     battle.roles[0]!.hp = 45 // 战斗受伤残血
     writeBackBattleRolesToRuntime(battle, rt, [0])
@@ -851,7 +1008,9 @@ describe('normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字�
 
   it('存档已有的真实数据原样保留(归一化只补缺失键,不覆盖)', () => {
     const stale = staleRuntime()
-    stale.rgwHP[0] = 123; stale.rgwLevel[0] = 50; stale.rgwName[0] = 7
+    stale.rgwHP[0] = 123
+    stale.rgwLevel[0] = 50
+    stale.rgwName[0] = 7
     const fixed = normalizePlayerRolesRuntime(stale)
     expect(fixed.rgwHP[0]).toBe(123)
     expect(fixed.rgwLevel[0]).toBe(50)

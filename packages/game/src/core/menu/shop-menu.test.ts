@@ -2,21 +2,27 @@
  * 商店买 / 卖菜单测试 — sdlpal uigame.c:1615 PAL_BuyMenu / 1755 PAL_SellMenu 真值。
  * 含状态机单测 + opcode 0x0026 → 开菜单 → 买 → 关 → 续跑脚本 的端到端集成测试。
  */
-import type { Command, InputSnapshot, AbstractKey, Item, ItemFlags } from '@type-pal/shared'
+import type { AbstractKey, Command, InputSnapshot, Item, ItemFlags } from '@type-pal/shared'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { createCommandBus } from '../command-bus.js'
-import { createInitialGameState, type GameState } from '../game-state.js'
 import {
-  buildLabelMap, tickEventSystem, setShopMenuHandler, addItemToInventory,
+  addItemToInventory,
+  buildLabelMap,
   OP_BUY_MENU,
+  setShopMenuHandler,
+  tickEventSystem,
 } from '../event-system.js'
-import { openMenu, tickMenu } from './menu-mode.js'
+import { createInitialGameState, type GameState } from '../game-state.js'
 import { dispatchMenuInput, setMenuCatalogs } from './menu-driver.js'
+import { openMenu, tickMenu } from './menu-mode.js'
+import { createSellMenu } from './sell-menu.js'
 import {
   createBuyMenu,
-  shopCancel, shopConfirm, shopMoveDown, shopSelectItem,
+  shopCancel,
+  shopConfirm,
+  shopMoveDown,
+  shopSelectItem,
 } from './shop-menu.js'
-import { createSellMenu } from './sell-menu.js'
 
 function snap(pressed: AbstractKey[] = []): InputSnapshot {
   return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }
@@ -29,23 +35,37 @@ function loadEvent(gs: GameState, commands: Command[]): void {
 
 function flags(over: Partial<ItemFlags> = {}): ItemFlags {
   return {
-    usable: false, equipable: false, throwable: false, consuming: false,
-    applyToAll: false, sellable: false, equipableBy: [false, false, false, false, false, false],
+    usable: false,
+    equipable: false,
+    throwable: false,
+    consuming: false,
+    applyToAll: false,
+    sellable: false,
+    equipableBy: [false, false, false, false, false, false],
     ...over,
   } as ItemFlags
 }
 
 function mkItem(id: number, price: number, over: Partial<Item> = {}): Item {
   return {
-    id, _name: `item${id}`, bitmap: id, price,
-    scriptOnUse: 0, scriptOnEquip: 0, scriptOnThrow: 0, scriptDesc: 0,
-    flags: flags(), ...over,
+    id,
+    _name: `item${id}`,
+    bitmap: id,
+    price,
+    scriptOnUse: 0,
+    scriptOnEquip: 0,
+    scriptOnThrow: 0,
+    scriptDesc: 0,
+    flags: flags(),
+    ...over,
   }
 }
 
 // 曾伯 store(operand[0]=1)真值 = [87,99,105,95,90](2026-05-29 stores.json 验证)
 const CATALOG: Item[] = [
-  mkItem(87, 100), mkItem(99, 200), mkItem(105, 50, { flags: flags({ sellable: true }) }),
+  mkItem(87, 100),
+  mkItem(99, 200),
+  mkItem(105, 50, { flags: flags({ sellable: true }) }),
 ]
 
 describe('shop-menu 状态机(sdlpal uigame.c:1615/1755)', () => {
@@ -109,7 +129,7 @@ describe('shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚�
   it('0x0026 → 开 shop-buy menu + waiting=shop + mode=menu + ip 续到下条', () => {
     loadEvent(gs, [
       { op: 'raw', opcode: OP_BUY_MENU, operands: [1, 0, 0] }, // ip0
-      { op: 'raw', opcode: 0x100, operands: [0, 0, 0] },       // ip1(随便后续 op)
+      { op: 'raw', opcode: 0x100, operands: [0, 0, 0] }, // ip1(随便后续 op)
       { op: 'end' },
     ])
     tickEventSystem(gs, snap(), createCommandBus())
@@ -151,7 +171,7 @@ describe('shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚�
     dispatchMenuInput(gs, snap(['Confirm']), createCommandBus())
     const st = gs.menuStack[0]!.state as { phase: string }
     expect(st.phase).toBe('list') // 没进 confirm
-    expect(gs.dwCash).toBe(50)    // 没扣钱
+    expect(gs.dwCash).toBe(50) // 没扣钱
   })
 
   it('卖 1 个:cash += price/2 + item 出包', () => {
@@ -159,8 +179,8 @@ describe('shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚�
     addItemToInventory // (touch import)
     openMenu(gs, { kind: 'shop-sell', state: createSellMenu(gs, CATALOG) })
     dispatchMenuInput(gs, snap(['Confirm']), createCommandBus()) // 选 105
-    dispatchMenuInput(gs, snap(['Down']), createCommandBus())     // toggle Yes
-    dispatchMenuInput(gs, snap(['Confirm']), createCommandBus())  // 卖
+    dispatchMenuInput(gs, snap(['Down']), createCommandBus()) // toggle Yes
+    dispatchMenuInput(gs, snap(['Confirm']), createCommandBus()) // 卖
     expect(gs.dwCash).toBe(1025) // 1000 + 25
     expect(gs.inventory.find((e) => e.itemId === 105)?.count).toBe(1)
   })

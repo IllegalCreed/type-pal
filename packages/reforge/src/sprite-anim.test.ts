@@ -1,6 +1,6 @@
+import type { SpriteLayout } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { deriveStepCycle, idleFrameIndex, loopFrameIndex, walkFrameIndex } from './sprite-anim.js'
-import type { SpriteLayout } from '@type-pal/content'
 
 const d3: SpriteLayout = { kind: 'directional', framesPerDir: 3 }
 const d4: SpriteLayout = { kind: 'directional', framesPerDir: 4 }

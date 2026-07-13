@@ -6,6 +6,7 @@
  * 320 逻辑坐标,调用方已 ctx.scale。资产缺省时调用方走文字兜底(单测/加载失败容错)。
  */
 
+import type { Palette } from '@type-pal/shared'
 import {
   COLOR_DISABLED,
   COLOR_DISABLED_SEL,
@@ -16,7 +17,6 @@ import {
   type MenuAssets,
   SELECTED_COLORS,
 } from '../menu/menu-box.js'
-import type { Palette } from '@type-pal/shared'
 import type { GlyphTable } from '../text/glyph.js'
 import { renderSpans } from '../text/text-render.js'
 
@@ -116,20 +116,25 @@ const STATUS_WORDS: ReadonlyArray<{
 const poisonFaceCache = new Map<string, HTMLCanvasElement>()
 
 /** PAL_RLEBlitMonoColor 的 RGBA 近似:保亮度,色相/饱和取毒色(乘法调制)。 */
-function monoColorFace(face: ImageBitmap, rgb: readonly [number, number, number], key: string): HTMLCanvasElement {
+function monoColorFace(
+  face: ImageBitmap,
+  rgb: readonly [number, number, number],
+  key: string,
+): HTMLCanvasElement {
   const hit = poisonFaceCache.get(key)
   if (hit) return hit
   const cvs = document.createElement('canvas')
   cvs.width = face.width
   cvs.height = face.height
-  const c = cvs.getContext('2d')!
+  const c = cvs.getContext('2d')
+  if (!c) throw new Error('monoColorFace: 2d canvas unavailable')
   c.drawImage(face, 0, 0)
   const img = c.getImageData(0, 0, cvs.width, cvs.height)
   const d = img.data
   for (let i = 0; i < d.length; i += 4) {
     if (d[i + 3] === 0) continue
     // 亮度 × 毒色(原版 mono 色阶按调色板同色系渐变;RGBA 近似 = luma 调制)
-    const luma = (d[i]! * 0.299 + d[i + 1]! * 0.587 + d[i + 2]! * 0.114) / 255
+    const luma = ((d[i] ?? 0) * 0.299 + (d[i + 1] ?? 0) * 0.587 + (d[i + 2] ?? 0) * 0.114) / 255
     d[i] = Math.round(rgb[0] * luma)
     d[i + 1] = Math.round(rgb[1] * luma)
     d[i + 2] = Math.round(rgb[2] * luma)
@@ -259,13 +264,14 @@ function monoIcon(
   const cvs = document.createElement('canvas')
   cvs.width = img.width
   cvs.height = img.height
-  const c = cvs.getContext('2d')!
+  const c = cvs.getContext('2d')
+  if (!c) throw new Error('monoIcon: 2d canvas unavailable')
   c.drawImage(img, 0, 0)
   const im = c.getImageData(0, 0, cvs.width, cvs.height)
   const d = im.data
   for (let i = 0; i < d.length; i += 4) {
     if (d[i + 3] === 0) continue
-    const luma = 0.299 * d[i]! + 0.587 * d[i + 1]! + 0.114 * d[i + 2]!
+    const luma = 0.299 * (d[i] ?? 0) + 0.587 * (d[i + 1] ?? 0) + 0.114 * (d[i + 2] ?? 0)
     let lv = Math.round((luma / 255) * 15) + shift
     lv = lv < 0 ? 0 : lv > 15 ? 15 : lv
     const col = palette.colors[band | lv] ?? [0, 0, 0]
@@ -330,7 +336,8 @@ export function drawBattleGrid(
   outer: for (let row = 0; row < lay.rows; row++) {
     for (let col = 0; col < 3; col++) {
       if (i >= rows.length) break outer
-      const r = rows[i]!
+      const r = rows[i]
+      if (!r) continue
       const selected = i === cursor
       let color: readonly [number, number, number]
       if (selected) color = r.disabled ? COLOR_DISABLED_SEL : blink

@@ -49,7 +49,7 @@ describe('parseLevelUpMagic', () => {
     const buf = new Uint8Array(400)
     const view = new DataView(buf.buffer)
     // entry 0, role 0: wLevel=5, wMagic=100
-    view.setUint16(0, 5, true)   // wLevel
+    view.setUint16(0, 5, true) // wLevel
     view.setUint16(2, 100, true) // wMagic
     // entry 0, role 1: wLevel=10, wMagic=200
     view.setUint16(4, 10, true)
@@ -118,7 +118,7 @@ function makeFakeSpriteChunk(frameCount: number): Uint8Array {
     const wordOffset = byteOffset >> 1 // byteOffset / 2
     view.setUint16(i * 2, wordOffset, true)
     // frame data: w=1, h=1, RLE byte 0x01=run(1 pixel) then 0xaa
-    view.setUint16(byteOffset, 1, true)     // width = 1
+    view.setUint16(byteOffset, 1, true) // width = 1
     view.setUint16(byteOffset + 2, 1, true) // height = 1
     buf[byteOffset + 4] = 0x01 // RLE: 1 opaque pixel
     buf[byteOffset + 5] = 0xaa // palette index

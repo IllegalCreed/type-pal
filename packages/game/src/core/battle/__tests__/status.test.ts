@@ -2,20 +2,44 @@ import { describe, expect, it } from 'vitest'
 import type { BattleState } from '../battle-state.js'
 import { canAct, canCastMagic, tickStatusEffects } from '../status.js'
 
-function makePlayerStatus(s: Partial<BattleState['players'][number]['status']>): BattleState['players'][number]['status'] {
+function makePlayerStatus(
+  s: Partial<BattleState['players'][number]['status']>,
+): BattleState['players'][number]['status'] {
   return {
-    sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0,
+    sleep: 0,
+    paralyzed: 0,
+    confused: 0,
+    haste: 0,
+    slow: 0,
     ...s,
   }
 }
 
-function makeBattleState(opts: { sleep?: number; paralyzed?: number; enemyHealth?: number; enemySilence?: number }): BattleState {
+function makeBattleState(opts: {
+  sleep?: number
+  paralyzed?: number
+  enemyHealth?: number
+  enemySilence?: number
+}): BattleState {
   return {
     players: [
-      { roleId: 0, prevHp: 100, prevMp: 30, defending: false, status: makePlayerStatus({ sleep: opts.sleep ?? 0, paralyzed: opts.paralyzed ?? 0 }) } as any,
+      {
+        roleId: 0,
+        prevHp: 100,
+        prevMp: 30,
+        defending: false,
+        status: makePlayerStatus({ sleep: opts.sleep ?? 0, paralyzed: opts.paralyzed ?? 0 }),
+      } as any,
     ],
     enemies: [
-      { e: { health: opts.enemyHealth ?? 50 } as any, status: makePlayerStatus({ silence: opts.enemySilence ?? 0 }), prevHp: 50, scriptOnTurnStart: 0, scriptOnBattleEnd: 0, scriptOnReady: 0 } as any,
+      {
+        e: { health: opts.enemyHealth ?? 50 } as any,
+        status: makePlayerStatus({ silence: opts.enemySilence ?? 0 }),
+        prevHp: 50,
+        scriptOnTurnStart: 0,
+        scriptOnBattleEnd: 0,
+        scriptOnReady: 0,
+      } as any,
     ],
   } as unknown as BattleState
 }
@@ -30,14 +54,22 @@ describe('B-w1.a status tick', () => {
     tickStatusEffects(state)
     expect(state.players[0]?.status.sleep).toBe(0)
     tickStatusEffects(state)
-    expect(state.players[0]?.status.sleep).toBe(0)  // 不变负
+    expect(state.players[0]?.status.sleep).toBe(0) // 不变负
   })
 
   it('全部 9 种 status 逐回合 -1(含 boolean 类 haste/protect/bravery/dualAttack,对齐 fight.c:1632-1638)', () => {
     const state = makeBattleState({})
     state.players[0]!.status = makePlayerStatus({
-      confused: 2, paralyzed: 1, sleep: 3, silence: 1, puppet: 1,
-      bravery: 5, protect: 5, haste: 5, slow: 0, dualAttack: 5,
+      confused: 2,
+      paralyzed: 1,
+      sleep: 3,
+      silence: 1,
+      puppet: 1,
+      bravery: 5,
+      protect: 5,
+      haste: 5,
+      slow: 0,
+      dualAttack: 5,
     })
     tickStatusEffects(state)
     const s = state.players[0]!.status

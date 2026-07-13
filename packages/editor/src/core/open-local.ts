@@ -3,15 +3,15 @@
  * 无有效 manifest.json → 友好报错(不进编辑器)。素材经 fsaSource 从本地读 → 离线渲染。
  */
 import type { MusicDef, SceneDef, ScriptChunkV1 } from '@type-pal/content'
+import type { OwnMap } from '@type-pal/reforge'
 import {
   fsaSource,
+  type LoadedProject,
   loadAllOwnMaps,
   loadAllScenes,
   loadAllScriptChunks,
-  type LoadedProject,
   loadProjectFrom,
 } from '@type-pal/reforge'
-import type { OwnMap } from '@type-pal/reforge'
 
 export interface OpenedProject {
   project: LoadedProject
@@ -35,7 +35,7 @@ export async function openLocalProject(dir: FileSystemDirectoryHandle): Promise<
   const scenes = await loadAllScenes(project)
   const ownMaps = await loadAllOwnMaps(project, scenes)
   const scriptChunks = await loadAllScriptChunks(project)
-  const musicRel = project.manifest.content['music']
+  const musicRel = project.manifest.content.music
   const music: MusicDef[] = musicRel
     ? await source.readJson<MusicDef[]>(musicRel).catch(() => [])
     : []

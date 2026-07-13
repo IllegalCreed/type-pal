@@ -20,7 +20,12 @@ const CURABILITY_BADGE: Record<PoisonCurability, string> = {
   incurable: '无解',
 }
 
-function Num(props: { v: number | undefined; on: (n: number | undefined) => void; ph?: string; w?: number }) {
+function Num(props: {
+  v: number | undefined
+  on: (n: number | undefined) => void
+  ph?: string
+  w?: number
+}) {
   return (
     <input
       className="in mono ef-num"
@@ -91,9 +96,27 @@ function TickRow(props: {
         </label>
       </div>
       <span className="ef-ops">
-        <button type="button" className="mini" title="上移" disabled={first} onClick={() => onMove(-1)}>↑</button>
-        <button type="button" className="mini" title="下移" disabled={last} onClick={() => onMove(1)}>↓</button>
-        <button type="button" className="mini" title="删除" onClick={onRemove}>✕</button>
+        <button
+          type="button"
+          className="mini"
+          title="上移"
+          disabled={first}
+          onClick={() => onMove(-1)}
+        >
+          ↑
+        </button>
+        <button
+          type="button"
+          className="mini"
+          title="下移"
+          disabled={last}
+          onClick={() => onMove(1)}
+        >
+          ↓
+        </button>
+        <button type="button" className="mini" title="删除" onClick={onRemove}>
+          ✕
+        </button>
       </span>
     </div>
   )
@@ -205,7 +228,11 @@ function RelationOverview(props: { poisons: PoisonDef[]; onPick: (id: number) =>
               <button type="button" className="rel-poison" onClick={() => onPick(pr.b)}>
                 {nameOf(pr.b)}
               </button>
-              {!pr.symmetric && <span className="rel-warn" title="仅单向指回:另一侧 lethalWith 没指回来">⚠ 不对称</span>}
+              {!pr.symmetric && (
+                <span className="rel-warn" title="仅单向指回:另一侧 lethalWith 没指回来">
+                  ⚠ 不对称
+                </span>
+              )}
             </div>
           ))
         ) : (
@@ -227,7 +254,11 @@ function RelationOverview(props: { poisons: PoisonDef[]; onPick: (id: number) =>
                   </button>
                 </span>
               ))}
-              {c.loop && <span className="rel-op" title="首尾闭环">⟲</span>}
+              {c.loop && (
+                <span className="rel-op" title="首尾闭环">
+                  ⟲
+                </span>
+              )}
             </div>
           ))
         ) : (
@@ -248,7 +279,8 @@ export function PoisonTab(props: {
   const [filter, setFilter] = useState('')
   const [selId, setSelId] = useState<number>(poisons[0]?.id ?? 0)
   const shown = useMemo(
-    () => poisons.filter((p) => !filter || String(p.id).includes(filter) || p.name.includes(filter)),
+    () =>
+      poisons.filter((p) => !filter || String(p.id).includes(filter) || p.name.includes(filter)),
     [poisons, filter],
   )
   const poison = poisons.find((p) => p.id === selId) ?? shown[0]
@@ -320,7 +352,11 @@ export function PoisonTab(props: {
               <div className="sk-grid">
                 <label>
                   <span className="lb">名字</span>
-                  <input className="in" value={poison.name} onChange={(e) => patch({ name: e.target.value })} />
+                  <input
+                    className="in"
+                    value={poison.name}
+                    onChange={(e) => patch({ name: e.target.value })}
+                  />
                 </label>
                 <label title={CURABILITY.find((c) => c.v === poison.curability)?.hint}>
                   <span className="lb">可解度</span>
@@ -360,7 +396,10 @@ export function PoisonTab(props: {
 
             <div className="section">
               <h4>
-                关系 <span className="hint2">致死 = 投掷到已中配对毒者当场暴毙;相克 = 对己服毒解掉所克之毒</span>
+                关系{' '}
+                <span className="hint2">
+                  致死 = 投掷到已中配对毒者当场暴毙;相克 = 对己服毒解掉所克之毒
+                </span>
               </h4>
               <div className="sk-grid">
                 <label>
@@ -369,7 +408,9 @@ export function PoisonTab(props: {
                     className="in"
                     value={poison.lethalWith ?? ''}
                     onChange={(e) =>
-                      patch({ lethalWith: e.target.value === '' ? undefined : Number(e.target.value) })
+                      patch({
+                        lethalWith: e.target.value === '' ? undefined : Number(e.target.value),
+                      })
                     }
                   >
                     <option value="">(无)</option>
@@ -386,7 +427,9 @@ export function PoisonTab(props: {
                     className="in"
                     value={poison.counters ?? ''}
                     onChange={(e) =>
-                      patch({ counters: e.target.value === '' ? undefined : Number(e.target.value) })
+                      patch({
+                        counters: e.target.value === '' ? undefined : Number(e.target.value),
+                      })
                     }
                   >
                     <option value="">(无)</option>

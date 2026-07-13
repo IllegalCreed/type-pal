@@ -37,7 +37,6 @@ import type {
 import type { DialogSprite } from '../assets/dialog-assets.js'
 import type { SceneAssets, SceneAssetsCache } from '../assets/loader.js'
 import type { IndexedImage } from '../assets/png.js'
-import type { SpriteAsset } from '../present/battle/draw-battle-sprites.js'
 import { startBattle } from '../core/battle/battle-system.js'
 import {
   buildLabelMap,
@@ -70,6 +69,7 @@ import {
   collectPartyStatusReadouts,
 } from '../core/inspect/battle-inspect.js'
 import { loadScene } from '../core/scene-system.js'
+import type { SpriteAsset } from '../present/battle/draw-battle-sprites.js'
 import { getMapName, hasMapName } from '../tools/map-names.js'
 
 /** fixture JSON entry —— 与 `packages/game/src/dev/fixtures/battle-fixtures.json` 对齐。 */
@@ -151,10 +151,17 @@ const MAX_ENEMIES_IN_TEAM = 5
  * 把选中的 enemy id(≤5)pad 成临时 `EnemyTeam`(空位 0xFFFF,超 5 截断)。
  * teamId 默认 CUSTOM_BATTLE_TEAM_ID。纯函数,供自定义战斗 / 测试。
  */
-export function buildCustomEnemyTeam(enemyIds: number[], teamId = CUSTOM_BATTLE_TEAM_ID): EnemyTeam {
+export function buildCustomEnemyTeam(
+  enemyIds: number[],
+  teamId = CUSTOM_BATTLE_TEAM_ID,
+): EnemyTeam {
   const slots = enemyIds.slice(0, MAX_ENEMIES_IN_TEAM)
   const enemies = Array.from({ length: MAX_ENEMIES_IN_TEAM }, (_, i) => slots[i] ?? 0xffff) as [
-    number, number, number, number, number,
+    number,
+    number,
+    number,
+    number,
+    number,
   ]
   return { id: teamId, enemies }
 }
@@ -230,7 +237,11 @@ function capDevLevelStat(value: number): number {
   return Math.max(0, Math.min(DEV_LEVEL_STAT_CAP, Math.trunc(value)))
 }
 
-function devLevelGrowthBonus(roleId: number, fromLevel: number, toLevel: number): {
+function devLevelGrowthBonus(
+  roleId: number,
+  fromLevel: number,
+  toLevel: number,
+): {
   maxHP: number
   maxMP: number
   attackStrength: number
@@ -626,7 +637,8 @@ function buildBossBattleSection(deps: DevPanelDeps): HTMLDivElement {
     }
     const nm = document.createElement('div')
     nm.textContent = boss.label
-    nm.style.cssText = 'font-size:9px; max-width:68px; line-height:1.15; word-break:break-all; margin-top:2px'
+    nm.style.cssText =
+      'font-size:9px; max-width:68px; line-height:1.15; word-break:break-all; margin-top:2px'
     cell.appendChild(nm)
     cell.addEventListener('click', () => {
       closePicker()
@@ -698,14 +710,16 @@ function buildCustomBattleSection(deps: DevPanelDeps): HTMLDivElement {
         box.appendChild(thumbOf(id, 44, 34))
         const nm = document.createElement('div')
         nm.textContent = nameOf(id)
-        nm.style.cssText = 'font-size:8px; max-width:46px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap'
+        nm.style.cssText =
+          'font-size:8px; max-width:46px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap'
         box.appendChild(nm)
         box.addEventListener('click', () => {
           slots.splice(i, 1) // 移除该槽(compact,后面前移)
           updateSel()
         })
       } else {
-        box.style.cssText = 'width:50px; height:54px; cursor:default; border:2px dashed #555; background:#1a1a1a; color:#666; font-size:11px'
+        box.style.cssText =
+          'width:50px; height:54px; cursor:default; border:2px dashed #555; background:#1a1a1a; color:#666; font-size:11px'
         box.textContent = `空${i + 1}`
       }
       slotsRow.appendChild(box)
@@ -734,7 +748,8 @@ function buildCustomBattleSection(deps: DevPanelDeps): HTMLDivElement {
     cell.appendChild(nm)
     // ×N 计数徽章(被填进几个槽)
     const badge = document.createElement('div')
-    badge.style.cssText = 'font-size:9px; height:11px; color:#ffd700; font-weight:bold; visibility:hidden'
+    badge.style.cssText =
+      'font-size:9px; height:11px; color:#ffd700; font-weight:bold; visibility:hidden'
     cell.appendChild(badge)
     gridBadges.set(e.id, badge)
     cell.addEventListener('click', () => {
@@ -758,7 +773,8 @@ function buildCustomBattleSection(deps: DevPanelDeps): HTMLDivElement {
     const role = deps.resources.playerRoles.roles.find((r) => r.id === roleId)
     const btn = document.createElement('button')
     btn.textContent = role?._name ?? `角色${roleId}`
-    btn.style.cssText = 'padding:3px 8px; cursor:pointer; border:2px solid #555; background:#222; color:#ddd'
+    btn.style.cssText =
+      'padding:3px 8px; cursor:pointer; border:2px solid #555; background:#222; color:#ddd'
     const refresh = (): void => {
       const on = selectedParty.includes(roleId)
       btn.style.borderColor = on ? '#7fd' : '#555'
@@ -780,7 +796,8 @@ function buildCustomBattleSection(deps: DevPanelDeps): HTMLDivElement {
 
   // —— 等级(仙术按等级)+ 全道具 ——
   const optsRow = document.createElement('div')
-  optsRow.style.cssText = 'display:flex; align-items:center; gap:12px; margin-bottom:6px; font-size:12px; color:#ddd'
+  optsRow.style.cssText =
+    'display:flex; align-items:center; gap:12px; margin-bottom:6px; font-size:12px; color:#ddd'
   const lvLabel = document.createElement('label')
   lvLabel.textContent = '等级:'
   const lvInput = document.createElement('input')
@@ -1107,7 +1124,10 @@ function openPicker(deps: DevPanelDeps): void {
   teleLabel.title = '坐标传送(世界像素坐标)'
   const teleX = document.createElement('input')
   const teleY = document.createElement('input')
-  for (const [inp, ph] of [[teleX, 'x'], [teleY, 'y']] as const) {
+  for (const [inp, ph] of [
+    [teleX, 'x'],
+    [teleY, 'y'],
+  ] as const) {
     inp.type = 'number'
     inp.placeholder = ph
     inp.style.cssText = 'width:72px; padding:3px 6px; font-family:monospace; font-size:12px'
@@ -1228,7 +1248,8 @@ function openPicker(deps: DevPanelDeps): void {
       // 第一行:场景号(场景无名)。
       const sceneLine = document.createElement('div')
       sceneLine.textContent = `#${jump.sceneId}`
-      sceneLine.style.cssText = 'font-size:12px; line-height:1.2; text-align:center; width:100%; color:#ddd; font-family:monospace'
+      sceneLine.style.cssText =
+        'font-size:12px; line-height:1.2; text-align:center; width:100%; color:#ddd; font-family:monospace'
       card.appendChild(sceneLine)
 
       // 第二行:地图号 + 地图名(map-names);未起名灰色显「地图N」,方便补名。
@@ -1271,8 +1292,10 @@ function openPicker(deps: DevPanelDeps): void {
   body.appendChild(storyH)
   const yzBtn = document.createElement('button')
   yzBtn.textContent = '🏯 扬州太守领赏 (s81 抓贼后)'
-  yzBtn.title = '播抓贼后公堂 cutscene(14707;含跪地李逍遥 = dev 残留,暂接受)→ 演完走到书案前 (1600,1040) 自动领 5500'
-  yzBtn.style.cssText = 'display:block; margin:4px 0; padding:4px 8px; width:100%; text-align:left; cursor:pointer'
+  yzBtn.title =
+    '播抓贼后公堂 cutscene(14707;含跪地李逍遥 = dev 残留,暂接受)→ 演完走到书案前 (1600,1040) 自动领 5500'
+  yzBtn.style.cssText =
+    'display:block; margin:4px 0; padding:4px 8px; width:100%; text-align:left; cursor:pointer'
   yzBtn.addEventListener('click', () => {
     closePicker()
     const gs = deps.gs
@@ -1288,7 +1311,9 @@ function openPicker(deps: DevPanelDeps): void {
       labelMap: {},
     }
     gs.mode = 'event'
-    console.log('[dev-panel] 异步入场 scene82(扬州官府,抓贼后 on-enter 14707)→ 演完走到书案前 (1600,1040) 测领赏 L_15293')
+    console.log(
+      '[dev-panel] 异步入场 scene82(扬州官府,抓贼后 on-enter 14707)→ 演完走到书案前 (1600,1040) 测领赏 L_15293',
+    )
   })
   body.appendChild(yzBtn)
 
@@ -1442,7 +1467,9 @@ function openPicker(deps: DevPanelDeps): void {
           // Dev 切队后同步当前队首 runtime sprite;present 会按 partyMembers[0] 的 rgwSpriteNum 渲染。
           const leader = deps.gs.partyMembers[0]
           if (leader !== undefined) {
-            const spriteNum = deps.resources.playerRoles.roles.find((r) => r.id === leader)?.spriteNum
+            const spriteNum = deps.resources.playerRoles.roles.find(
+              (r) => r.id === leader,
+            )?.spriteNum
             if (spriteNum !== undefined) deps.gs.PlayerRolesRuntime.rgwSpriteNum[leader] = spriteNum
             if (leader === 0 && deps.gs.PlayerRolesRuntime.rgwSpriteNum[0] !== undefined) {
               deps.gs.partyLeaderSpriteId = deps.gs.PlayerRolesRuntime.rgwSpriteNum[0]
@@ -1470,7 +1497,11 @@ function openPicker(deps: DevPanelDeps): void {
     title.style.cssText = 'color:#ffcaa0; font-weight:bold; margin-bottom:4px'
     title.textContent = '敌方状态'
     enemyStatusList.appendChild(title)
-    const readouts = collectEnemyStatusReadouts(deps.gs, deps.resources.objectPoisons, deps.resources.items)
+    const readouts = collectEnemyStatusReadouts(
+      deps.gs,
+      deps.resources.objectPoisons,
+      deps.resources.items,
+    )
     if (readouts.length === 0) {
       const empty = document.createElement('div')
       empty.style.cssText = 'color:#888'
@@ -1484,8 +1515,7 @@ function openPicker(deps: DevPanelDeps): void {
       const head = document.createElement('div')
       head.style.cssText = `color:${r.defeated ? '#888' : '#ffd9b3'}; font-weight:bold`
       const ratio = r.maxHp > 0 ? Math.round((r.hp / r.maxHp) * 100) : 0
-      head.textContent =
-        `E${r.slot + 1} ${r.name}#${r.enemyId}  HP ${r.hp}/${r.maxHp}(${ratio}%)${r.defeated ? ' [已倒]' : ''}`
+      head.textContent = `E${r.slot + 1} ${r.name}#${r.enemyId}  HP ${r.hp}/${r.maxHp}(${ratio}%)${r.defeated ? ' [已倒]' : ''}`
       block.appendChild(head)
       const stats = document.createElement('div')
       stats.style.cssText = 'color:#cdbfa8'
@@ -1946,9 +1976,9 @@ async function triggerCaiyiFlyaway(deps: DevPanelDeps): Promise<void> {
   await applySceneJump(deps, { id: 'caiyi-flyaway', label: '彩依飞走', sceneId: 108 })
 
   // 找彩依事件对象:优先 cutscene owner(triggerLabel L_20784),回退飞 autoScript 持有者(L_19683)
-  const caiyi
-    = deps.gs.npcs.find((n) => n.triggerLabel === 'L_20784')
-      ?? deps.gs.npcs.find((n) => n.autoLabel === 'L_19683')
+  const caiyi =
+    deps.gs.npcs.find((n) => n.triggerLabel === 'L_20784') ??
+    deps.gs.npcs.find((n) => n.autoLabel === 'L_19683')
   if (!caiyi) {
     console.warn('[dev] 彩依飞走:scene 108 未找到彩依事件对象(L_20784/L_19683),放弃')
     return
@@ -1958,8 +1988,12 @@ async function triggerCaiyiFlyaway(deps: DevPanelDeps): Promise<void> {
   // 从全局脚本切战后飞走窗口:以独特 pan op(0x7F[10,-7,42])为锚,取前 6 ~ 后 3 条
   const global = getGlobalCommands()
   const panIdx = global.findIndex(
-    (c) => c.op === 'raw' && c.opcode === 0x7f
-      && c.operands?.[0] === 10 && c.operands?.[1] === 65529 && c.operands?.[2] === 42,
+    (c) =>
+      c.op === 'raw' &&
+      c.opcode === 0x7f &&
+      c.operands?.[0] === 10 &&
+      c.operands?.[1] === 65529 &&
+      c.operands?.[2] === 42,
   )
   if (panIdx < 0) {
     console.warn('[dev] 彩依飞走:全局脚本未找到平移 op(0x7F[10,-7,42]),放弃')
@@ -1987,7 +2021,9 @@ async function triggerCaiyiFlyaway(deps: DevPanelDeps): Promise<void> {
     startedExecution: true, // 已开跑:owner autoScript 不被"触发后首帧间隙"跳过
   }
   deps.gs.mode = 'event'
-  console.log(`[dev] 彩依飞走过场:彩依 id=${caiyi.id} @(${caiyi.x},${caiyi.y}),pan@global ${panIdx}`)
+  console.log(
+    `[dev] 彩依飞走过场:彩依 id=${caiyi.id} @(${caiyi.x},${caiyi.y}),pan@global ${panIdx}`,
+  )
 }
 
 function closePicker(): void {
@@ -2006,8 +2042,7 @@ export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture, rngSeed
     const role = deps.resources.playerRoles.roles[id]
     if (role) {
       Object.assign(role, override)
-      if (typeof override.level === 'number')
-        levelOverrides.set(id, override.level)
+      if (typeof override.level === 'number') levelOverrides.set(id, override.level)
     } else {
       console.warn(`[dev-panel] fixture ${fixture.id} override role ${id} 不存在,跳过`)
     }
@@ -2107,7 +2142,11 @@ export interface CustomBattleParams {
  *  - 道具:allItems → 全 items ×99。
  *  - 战场固定 7(沿用 fixture 惯例)。rngSeed 透传(测试确定性)。
  */
-export function applyCustomBattle(deps: DevPanelDeps, params: CustomBattleParams, rngSeed?: number): void {
+export function applyCustomBattle(
+  deps: DevPanelDeps,
+  params: CustomBattleParams,
+  rngSeed?: number,
+): void {
   const { enemyIds, partyMembers, level, allItems } = params
   const customLevel = Math.max(1, Math.min(99, Math.trunc(level)))
   // 自动战斗(0x8A fAutoBattle):applyFixture→startBattle→createBattleState 从 gs.fAutoBattle seed,故启战前置。

@@ -33,15 +33,25 @@ export function createPrecacheWidget(): PrecacheWidget {
   const el = document.createElement('div')
   el.id = 'precache-widget'
   el.style.cssText = [
-    'position:fixed', 'top:8px', 'right:8px', 'z-index:20',
-    'background:rgba(17,17,17,0.82)', 'color:#9a8a6a', 'font:11px/1.4 monospace',
-    'padding:6px 10px', 'border:1px solid #553322', 'border-radius:4px',
-    'pointer-events:none', 'user-select:none', 'transition:opacity 0.6s ease',
+    'position:fixed',
+    'top:8px',
+    'right:8px',
+    'z-index:20',
+    'background:rgba(17,17,17,0.82)',
+    'color:#9a8a6a',
+    'font:11px/1.4 monospace',
+    'padding:6px 10px',
+    'border:1px solid #553322',
+    'border-radius:4px',
+    'pointer-events:none',
+    'user-select:none',
+    'transition:opacity 0.6s ease',
   ].join(';')
   const text = document.createElement('div')
   text.textContent = '后台缓存中…' // 初始占位:enterGame 到首条 SW progress 之间不显空白框
   const bar = document.createElement('div')
-  bar.style.cssText = 'height:4px;margin-top:4px;background:#2a1515;border-radius:2px;overflow:hidden'
+  bar.style.cssText =
+    'height:4px;margin-top:4px;background:#2a1515;border-radius:2px;overflow:hidden'
   const fill = document.createElement('div')
   fill.style.cssText = 'height:100%;width:0%;background:linear-gradient(90deg,#8a2a2a,#d8b365)'
   bar.appendChild(fill)
@@ -134,7 +144,8 @@ export function createUnifiedProgressUi(opts?: { playableFraction?: number }): U
       if (doneReceived) return
       widget = createPrecacheWidget() // 复用右上角视觉
       // 用最后已知进度初始化,消除"建好到首条 progress 之间"的空白瞬间。
-      if (lastTotal > 0) widget.update({ done: 0, total: 0, bytes: lastBytes, totalBytes: lastTotal })
+      if (lastTotal > 0)
+        widget.update({ done: 0, total: 0, bytes: lastBytes, totalBytes: lastTotal })
     },
     done() {
       doneReceived = true // 进入若发生在此之后,enterGame 不再建 widget

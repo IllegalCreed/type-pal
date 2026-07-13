@@ -10,8 +10,22 @@
 import { execFileSync } from 'node:child_process'
 
 const MKFS = [
-  'DATA', 'SSS', 'MGO', 'MAP', 'GOP', 'F', 'ABC', 'FBP',
-  'PAT', 'STUFF', 'SAVE', 'RNG', 'RGM', 'BALL', 'FIRE', 'SOUNDS',
+  'DATA',
+  'SSS',
+  'MGO',
+  'MAP',
+  'GOP',
+  'F',
+  'ABC',
+  'FBP',
+  'PAT',
+  'STUFF',
+  'SAVE',
+  'RNG',
+  'RGM',
+  'BALL',
+  'FIRE',
+  'SOUNDS',
 ]
 
 const sdlpalDir = 'reference/sdlpal'
@@ -28,8 +42,7 @@ for (const mkf of MKFS) {
     console.log('```')
     console.log(hits.trim() || '(no hits)')
     console.log('```')
-  }
-  catch {
+  } catch {
     console.log('(grep no hits)')
   }
 }

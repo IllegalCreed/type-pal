@@ -36,11 +36,10 @@ export function decodeRgmPortrait(chunkIdx: number, buf: Uint8Array): RgmPortrai
   if (buf[0] === 0x02 && buf[1] === 0x00 && buf[2] === 0x00 && buf[3] === 0x00) {
     rleBuf = buf.subarray(4)
   }
-  let frame
+  let frame: ReturnType<typeof decodeRle>
   try {
     frame = decodeRle(rleBuf)
-  }
-  catch (err) {
+  } catch (err) {
     console.warn(`[rgm] chunk ${chunkIdx} RLE decode fail, skip:`, err)
     return null
   }

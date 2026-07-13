@@ -1,5 +1,7 @@
 /** 自有地图 v1 的构造与不可变编辑纯逻辑。 */
+
 import type { OwnMap, OwnMapLayer } from '@type-pal/content'
+import { expectDefined } from './defined.js'
 
 export interface LatticePos {
   col: number
@@ -283,6 +285,6 @@ export function updateOwnMapLayer(
   const index = map.layers.findIndex((layer) => layer.id === layerId)
   if (index < 0) return map
   const layers = [...map.layers]
-  layers[index] = { ...layers[index]!, ...patch }
+  layers[index] = { ...expectDefined(layers[index]), ...patch }
   return { ...map, layers }
 }

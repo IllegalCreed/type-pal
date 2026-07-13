@@ -91,9 +91,48 @@ function world(inv: { itemId: string; count: number }[], partyHp = 100, partyMp 
 
 describe('effectiveResistances(装备 live 派生;红线)', () => {
   const resItems: ItemDataMap = {
-    earthBead: { id: 'earthBead', name: '土灵珠', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, equip: { slot: 'accessory', equipableBy: ['hero'], effects: [{ kind: 'resistance', element: 'earth', percent: 50 }] } },
-    poisonBead: { id: 'poisonBead', name: '五毒珠', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, equip: { slot: 'body', equipableBy: ['hero'], effects: [{ kind: 'resistance', element: 'poison', percent: 100 }] } },
-    fireBead2: { id: 'fireBead2', name: '火珠', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, equip: { slot: 'weapon', equipableBy: ['hero'], effects: [{ kind: 'resistance', element: 'fire', percent: 80 }] } },
+    earthBead: {
+      id: 'earthBead',
+      name: '土灵珠',
+      desc: [],
+      icon: 0,
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      equip: {
+        slot: 'accessory',
+        equipableBy: ['hero'],
+        effects: [{ kind: 'resistance', element: 'earth', percent: 50 }],
+      },
+    },
+    poisonBead: {
+      id: 'poisonBead',
+      name: '五毒珠',
+      desc: [],
+      icon: 0,
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      equip: {
+        slot: 'body',
+        equipableBy: ['hero'],
+        effects: [{ kind: 'resistance', element: 'poison', percent: 100 }],
+      },
+    },
+    fireBead2: {
+      id: 'fireBead2',
+      name: '火珠',
+      desc: [],
+      icon: 0,
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      equip: {
+        slot: 'weapon',
+        equipableBy: ['hero'],
+        effects: [{ kind: 'resistance', element: 'fire', percent: 80 }],
+      },
+    },
   }
   test('单件 → 对应元素抗;毒抗分离', () => {
     const c = { ...hero(), equipment: { accessory: 'earthBead' } }
@@ -103,7 +142,10 @@ describe('effectiveResistances(装备 live 派生;红线)', () => {
     expect(r.poisonRes).toBe(0)
   })
   test('多件叠加,毒抗与五灵各累;卸装即失效(不烙)', () => {
-    const c = { ...hero(), equipment: { accessory: 'earthBead', armor: 'poisonBead', weapon: 'fireBead2' } }
+    const c = {
+      ...hero(),
+      equipment: { accessory: 'earthBead', armor: 'poisonBead', weapon: 'fireBead2' },
+    }
     const r = effectiveResistances(c, resItems)
     expect(r.elemRes.earth).toBe(50)
     expect(r.elemRes.fire).toBe(80)
@@ -114,8 +156,34 @@ describe('effectiveResistances(装备 live 派生;红线)', () => {
   })
   test('上限 100(fight.c 累加封顶)', () => {
     const twoPoison: ItemDataMap = {
-      p1: { id: 'p1', name: '', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, equip: { slot: 'accessory', equipableBy: ['hero'], effects: [{ kind: 'resistance', element: 'poison', percent: 70 }] } },
-      p2: { id: 'p2', name: '', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, equip: { slot: 'body', equipableBy: ['hero'], effects: [{ kind: 'resistance', element: 'poison', percent: 70 }] } },
+      p1: {
+        id: 'p1',
+        name: '',
+        desc: [],
+        icon: 0,
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        equip: {
+          slot: 'accessory',
+          equipableBy: ['hero'],
+          effects: [{ kind: 'resistance', element: 'poison', percent: 70 }],
+        },
+      },
+      p2: {
+        id: 'p2',
+        name: '',
+        desc: [],
+        icon: 0,
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        equip: {
+          slot: 'body',
+          equipableBy: ['hero'],
+          effects: [{ kind: 'resistance', element: 'poison', percent: 70 }],
+        },
+      },
     }
     const c = { ...hero(), equipment: { accessory: 'p1', armor: 'p2' } }
     expect(effectiveResistances(c, twoPoison).poisonRes).toBe(100) // 140 钳 100
@@ -124,7 +192,20 @@ describe('effectiveResistances(装备 live 派生;红线)', () => {
 
 describe('effectiveSkills(装备授技 live 派生;红线)', () => {
   const skItems: ItemDataMap = {
-    orb: { id: 'orb', name: '土灵珠', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, equip: { slot: 'accessory', equipableBy: ['hero'], effects: [{ kind: 'grantSkill', skillId: '336' }] } },
+    orb: {
+      id: 'orb',
+      name: '土灵珠',
+      desc: [],
+      icon: 0,
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      equip: {
+        slot: 'accessory',
+        equipableBy: ['hero'],
+        effects: [{ kind: 'grantSkill', skillId: '336' }],
+      },
+    },
   }
   test('已学 ∪ 装备授予,去重保序(学的在前)', () => {
     const c = { ...hero(), equipment: { accessory: 'orb' } }
@@ -142,26 +223,71 @@ describe('effectiveSkills(装备授技 live 派生;红线)', () => {
 
 describe('effectiveRegen(寿葫芦回血回蓝词条;正名替代 level99 伪毒 hack)', () => {
   const rItems: ItemDataMap = {
-    gourd: { id: 'gourd', name: '寿葫芦', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, equip: { slot: 'accessory', equipableBy: ['hero'], effects: [{ kind: 'regenHp', amount: 20 }, { kind: 'regenMp', amount: 20 }] } },
+    gourd: {
+      id: 'gourd',
+      name: '寿葫芦',
+      desc: [],
+      icon: 0,
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      equip: {
+        slot: 'accessory',
+        equipableBy: ['hero'],
+        effects: [
+          { kind: 'regenHp', amount: 20 },
+          { kind: 'regenMp', amount: 20 },
+        ],
+      },
+    },
   }
   test('寿葫芦 → 每回合 +20 HP / +20 MP;卸装即失效(不烙)', () => {
-    expect(effectiveRegen({ ...hero(), equipment: { accessory: 'gourd' } }, rItems)).toEqual({ hp: 20, mp: 20 })
+    expect(effectiveRegen({ ...hero(), equipment: { accessory: 'gourd' } }, rItems)).toEqual({
+      hp: 20,
+      mp: 20,
+    })
     expect(effectiveRegen({ ...hero(), equipment: {} }, rItems)).toEqual({ hp: 0, mp: 0 })
   })
 })
 
 describe('effectiveGrantedStatuses / equipGrantsAttackAll(装备特效 live 派生)', () => {
   const gItems: ItemDataMap = {
-    fairySword: { id: 'fairySword', name: '仙女剑', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, equip: { slot: 'weapon', equipableBy: ['hero'], effects: [{ kind: 'grantStatus', status: 'dualAttack' }] } },
-    whip: { id: 'whip', name: '长鞭', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, equip: { slot: 'weapon', equipableBy: ['hero'], effects: [{ kind: 'attackAll' }] } },
+    fairySword: {
+      id: 'fairySword',
+      name: '仙女剑',
+      desc: [],
+      icon: 0,
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      equip: {
+        slot: 'weapon',
+        equipableBy: ['hero'],
+        effects: [{ kind: 'grantStatus', status: 'dualAttack' }],
+      },
+    },
+    whip: {
+      id: 'whip',
+      name: '长鞭',
+      desc: [],
+      icon: 0,
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      equip: { slot: 'weapon', equipableBy: ['hero'], effects: [{ kind: 'attackAll' }] },
+    },
   }
   test('仙女剑 → 授连击 dualAttack;卸装即失效', () => {
-    expect(effectiveGrantedStatuses({ ...hero(), equipment: { weapon: 'fairySword' } }, gItems)).toEqual(['dualAttack'])
+    expect(
+      effectiveGrantedStatuses({ ...hero(), equipment: { weapon: 'fairySword' } }, gItems),
+    ).toEqual(['dualAttack'])
     expect(effectiveGrantedStatuses({ ...hero(), equipment: {} }, gItems)).toEqual([])
   })
   test('长鞭 → 攻击全体;无则否', () => {
     expect(equipGrantsAttackAll({ ...hero(), equipment: { weapon: 'whip' } }, gItems)).toBe(true)
-    expect(equipGrantsAttackAll({ ...hero(), equipment: { weapon: 'fairySword' } }, gItems)).toBe(false)
+    expect(equipGrantsAttackAll({ ...hero(), equipment: { weapon: 'fairySword' } }, gItems)).toBe(
+      false,
+    )
   })
 })
 
@@ -235,8 +361,34 @@ describe('usableItems + useItem', () => {
 
 describe('大世界自毒/解毒(useItem applyPoison/curePoison → char.poisons;毒源+携带桥)', () => {
   const poisonItems: ItemDataMap = {
-    egg: { id: 'egg', name: '毒蛇卵', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'applyPoison', poisonId: '551' }] } },
-    rice: { id: 'rice', name: '糯米', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'curePoison', curesTier: 'common' }] } },
+    egg: {
+      id: 'egg',
+      name: '毒蛇卵',
+      desc: [],
+      icon: 0,
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      use: {
+        target: 'oneAlly',
+        consuming: true,
+        effects: [{ kind: 'applyPoison', poisonId: '551' }],
+      },
+    },
+    rice: {
+      id: 'rice',
+      name: '糯米',
+      desc: [],
+      icon: 0,
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      use: {
+        target: 'oneAlly',
+        consuming: true,
+        effects: [{ kind: 'curePoison', curesTier: 'common' }],
+      },
+    },
   }
   const defs = {
     551: { id: 551, name: '赤毒', curability: 'common' as const, color: 16 },
@@ -250,7 +402,10 @@ describe('大世界自毒/解毒(useItem applyPoison/curePoison → char.poisons
   })
   test('用糯米(common)→ 解赤毒留三尸蛊(severe)', () => {
     const w0 = world([{ itemId: 'rice', count: 1 }])
-    w0.party[0]!.poisons = [{ poisonId: 551, tickIndex: 0 }, { poisonId: 555, tickIndex: 0 }]
+    w0.party[0]!.poisons = [
+      { poisonId: 551, tickIndex: 0 },
+      { poisonId: 555, tickIndex: 0 },
+    ]
     const w2 = useItem(w0, 'hero', 'rice', poisonItems, defs)
     expect(w2.party[0]?.poisons).toEqual([{ poisonId: 555, tickIndex: 0 }]) // 赤毒解,三尸蛊留
   })
@@ -258,8 +413,34 @@ describe('大世界自毒/解毒(useItem applyPoison/curePoison → char.poisons
 
 describe('大世界护体符/金刚符(useItem applyStatus → char.extraStatuses;带入战斗的源)', () => {
   const buffItems: ItemDataMap = {
-    talisman: { id: 'talisman', name: '金刚符', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'applyStatus', status: 'protect', turns: 7 }] } },
-    haste: { id: 'haste', name: '疾风符', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'applyStatus', status: 'haste', turns: 5 }] } },
+    talisman: {
+      id: 'talisman',
+      name: '金刚符',
+      desc: [],
+      icon: 0,
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      use: {
+        target: 'oneAlly',
+        consuming: true,
+        effects: [{ kind: 'applyStatus', status: 'protect', turns: 7 }],
+      },
+    },
+    haste: {
+      id: 'haste',
+      name: '疾风符',
+      desc: [],
+      icon: 0,
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      use: {
+        target: 'oneAlly',
+        consuming: true,
+        effects: [{ kind: 'applyStatus', status: 'haste', turns: 5 }],
+      },
+    },
   }
   test('用金刚符 → 队员 extraStatuses 有 protect 7(建态注入战斗的源),消耗 -1', () => {
     const w = world([{ itemId: 'talisman', count: 1 }])
@@ -268,7 +449,10 @@ describe('大世界护体符/金刚符(useItem applyStatus → char.extraStatuse
     expect(w2.inventory.find((e) => e.itemId === 'talisman')).toBeUndefined()
   })
   test('已有 protect 再用 → 刷新回合数(不重复条目);不同状态 → 追加', () => {
-    const w0 = world([{ itemId: 'talisman', count: 1 }, { itemId: 'haste', count: 1 }])
+    const w0 = world([
+      { itemId: 'talisman', count: 1 },
+      { itemId: 'haste', count: 1 },
+    ])
     w0.party[0]!.extraStatuses = [{ status: 'protect', turns: 2 }]
     const w1 = useItem(w0, 'hero', 'talisman', buffItems)
     expect(w1.party[0]?.extraStatuses).toEqual([{ status: 'protect', turns: 7 }]) // 刷新 2→7,单条
@@ -289,7 +473,20 @@ describe('大世界护体符/金刚符(useItem applyStatus → char.extraStatuse
 
 describe('大蒜临时毒抗(useItem extraPoisonRes → char.extraPoisonRes;缩敌附毒门的源)', () => {
   const garlic: ItemDataMap = {
-    garlic: { id: 'garlic', name: '大蒜', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: true, use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'extraPoisonRes', amount: 30 }] } },
+    garlic: {
+      id: 'garlic',
+      name: '大蒜',
+      desc: [],
+      icon: 0,
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: true,
+      use: {
+        target: 'oneAlly',
+        consuming: true,
+        effects: [{ kind: 'extraPoisonRes', amount: 30 }],
+      },
+    },
   }
   test('用大蒜 → extraPoisonRes=30(建态并入战斗 poisonRes 的源),消耗 -1', () => {
     const w = world([{ itemId: 'garlic', count: 1 }])

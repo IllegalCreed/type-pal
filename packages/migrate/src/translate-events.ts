@@ -16,13 +16,13 @@
 import {
   type Command,
   type DialogueLine,
+  deriveScriptChunk,
   pixelDeltaToGridDelta,
   pixelToGrid,
-  type ScriptStage,
   type ScriptChunkV1,
   type ScriptIndexV1,
   type ScriptRef,
-  deriveScriptChunk,
+  type ScriptStage,
   stableScriptHash,
 } from '@type-pal/content'
 import type { SourceCmd } from './source-facts.js'
@@ -110,7 +110,8 @@ export class ScriptRegistry {
   constructor(
     private readonly sceneFor: (label: string, owner: string | undefined) => string | undefined,
     readonly shards = { shared: 16, global: {} as Record<string, number> },
-    private readonly sharedGroupFor: (label: string) => string = (label) => label.replace(/^L_/, 'L-'),
+    private readonly sharedGroupFor: (label: string) => string = (label) =>
+      label.replace(/^L_/, 'L-'),
   ) {}
 
   private idFor(label: string, owner: string | undefined, state: DialogueEntryState): string {
@@ -289,7 +290,8 @@ export function translateStages(
   if (!start0) return undefined
   const startAt = start0 // 收窄后常量(闭包内 TS 不保 start0 非空)
   const tkey = `${startLabel}|${ownerEntity ?? ''}`
-  const inFlight = (ctx.translating ??= new Set())
+  ctx.translating ??= new Set()
+  const inFlight = ctx.translating
   if (inFlight.has(tkey)) {
     note(ctx, '链自引用截断(0x24/25 环)')
     return undefined
@@ -464,12 +466,17 @@ function walkBody(
         if (!toName) {
           body.push({ kind: 'stopScript' })
         } else {
-          const ref = ctx.registry.registerTarget(toName, owner, {
-            slot,
-            portrait,
-            activeSpeaker,
-            speakerAwaitingBody,
-          }, ctx)
+          const ref = ctx.registry.registerTarget(
+            toName,
+            owner,
+            {
+              slot,
+              portrait,
+              activeSpeaker,
+              speakerAwaitingBody,
+            },
+            ctx,
+          )
           body.push({ kind: 'jumpScript', ref, ...(owner ? { self: owner } : {}) })
         }
         return { body, term: { kind: 'cut' } }
@@ -513,10 +520,15 @@ function walkBody(
     if (op === 'giveItem') {
       // 原版数据 bug 烘焙(扬州宝物屋 3 箱:「获得X」提示后 giveItem 0 给空;一阶段修在
       // 运行时 patchGiveItemZeroBugs,reforge 无运行时 patch 层 → 翻译期按前句 MSG 下标补真 id)
-      const fix = c.itemId === 0 ? GIVEITEM_ZERO_FIXUP[batch[batch.length - 1]?.msgIdx ?? -1] : undefined
+      const fix =
+        c.itemId === 0 ? GIVEITEM_ZERO_FIXUP[batch[batch.length - 1]?.msgIdx ?? -1] : undefined
       flush()
       const cnt = c.count && c.count > 1 ? c.count : undefined
-      body.push({ kind: 'giveItem', itemId: String(fix ?? c.itemId), ...(cnt ? { count: cnt } : {}) })
+      body.push({
+        kind: 'giveItem',
+        itemId: String(fix ?? c.itemId),
+        ...(cnt ? { count: cnt } : {}),
+      })
       at = { cmds: at.cmds, idx: at.idx + 1 }
       continue
     }
@@ -544,16 +556,22 @@ function walkBody(
       const inlineArm = (addr: number | undefined): Command[] => {
         if (!addr) return [{ kind: 'stopScript' }]
         if (ctx.registry) {
-          const ref = ctx.registry.registerTarget(`L_${addr}`, owner, {
-            slot,
-            portrait,
-            activeSpeaker,
-            speakerAwaitingBody,
-          }, ctx)
+          const ref = ctx.registry.registerTarget(
+            `L_${addr}`,
+            owner,
+            {
+              slot,
+              portrait,
+              activeSpeaker,
+              speakerAwaitingBody,
+            },
+            ctx,
+          )
           return [{ kind: 'jumpScript', ref, ...(owner ? { self: owner } : {}) }]
         }
         const memoKey = `L_${addr}|${owner ?? ''}`
-        const memo = (ctx.armMemo ??= new Map())
+        ctx.armMemo ??= new Map()
+        const memo = ctx.armMemo
         const hit = memo.get(memoKey)
         if (hit) return hit
         const target = ctx.labelAt.get(`L_${addr}`)
@@ -618,22 +636,38 @@ function walkBody(
         push({ kind: 'wait', ms: (o[0] ?? 0) * 80 }) // 0x85 延时 op0×80ms(script.c:2511)
       } else if (oc === 0x8c) {
         // 0x8C 颜色渐变(script.c:2582):ms=64×(op1×10||10);fFrom(op2)=从纯色渐回场景 → fade in
-        push({ kind: 'fade', dir: (o[2] ?? 0) !== 0 ? 'in' : 'out', ms: 64 * ((o[1] ?? 0) * 10 || 10) })
+        push({
+          kind: 'fade',
+          dir: (o[2] ?? 0) !== 0 ? 'in' : 'out',
+          ms: 64 * ((o[1] ?? 0) * 10 || 10),
+        })
       } else if (oc === 0x93) {
         // 0x93 SceneFade(script.c:2664):step=int16(op0)||1;ms=ceil(64/|step|)×100;step<0=渐暗
         const step = signExtendI16(o[0] ?? 0) || 1
-        push({ kind: 'fade', dir: step < 0 ? 'out' : 'in', ms: Math.ceil(64 / Math.abs(step)) * 100 })
+        push({
+          kind: 'fade',
+          dir: step < 0 ? 'out' : 'in',
+          ms: Math.ceil(64 / Math.abs(step)) * 100,
+        })
       } else if (oc === 0x13) {
         // 0x13 实体绝对定位(script.c:716):op0 选择器,op1/op2 原版像素 → pixelToGrid
         const ent = pcRef(o[0] ?? 0)
-        if (ent) push({ kind: 'setEntityPos', entity: ent, pos: { ...pixelToGrid(o[1] ?? 0, o[2] ?? 0), height: 0 } })
+        if (ent)
+          push({
+            kind: 'setEntityPos',
+            entity: ent,
+            pos: { ...pixelToGrid(o[1] ?? 0, o[2] ?? 0), height: 0 },
+          })
         else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '0x13 无属主' })
       } else if (oc === 0x12) {
         // 0x12 相对队伍摆位(script.c:706):pCurrent = 队伍绝对像素 + op1/op2 偏移。
         // 清洁重写:偏移 → 格偏移(pixelDeltaToGridDelta 防 round 吞小位移),运行时加队伍格坐标。
         const ent = pcRef(o[0] ?? 0)
         if (ent) {
-          const { dcol, drow } = pixelDeltaToGridDelta(signExtendI16(o[1] ?? 0), signExtendI16(o[2] ?? 0))
+          const { dcol, drow } = pixelDeltaToGridDelta(
+            signExtendI16(o[1] ?? 0),
+            signExtendI16(o[2] ?? 0),
+          )
           push({ kind: 'setEntityPosRelParty', entity: ent, dcol, drow })
         } else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '0x12 无属主' })
       } else if (oc === 0x35) {
@@ -642,7 +676,8 @@ function walkBody(
         push({ kind: 'setScreenWave', level: o[0] ?? 0, progression: signExtendI16(o[1] ?? 0) }) // 0x71 屏波
       } else if (oc === 0x7e) {
         const ent = pcRef(o[0] ?? 0)
-        if (ent) push({ kind: 'setEntityLayer', entity: ent, layer: signExtendI16(o[1] ?? 0) }) // 0x7E 图层
+        if (ent)
+          push({ kind: 'setEntityLayer', entity: ent, layer: signExtendI16(o[1] ?? 0) }) // 0x7E 图层
         else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '0x7E 无属主' })
       } else if (oc === 0x1d && (o[0] ?? 0) !== 0) {
         push({ kind: 'increaseHpMp', delta: signExtendI16(o[1] ?? 0) }) // 0x1D 全队增血蓝(op0=1)
@@ -651,7 +686,11 @@ function walkBody(
       } else if (oc === 0x55 && (o[1] ?? 0) > 0) {
         push({ kind: 'learnSkill', role: (o[1] ?? 1) - 1, skill: String(o[0] ?? 0) }) // 0x55 学仙术
       } else if (oc === 0x23) {
-        push({ kind: 'unequip', role: o[0] ?? 0, slot: (o[1] ?? 0) === 0 ? 'all' : (o[1] ?? 1) - 1 }) // 0x23 卸装
+        push({
+          kind: 'unequip',
+          role: o[0] ?? 0,
+          slot: (o[1] ?? 0) === 0 ? 'all' : (o[1] ?? 1) - 1,
+        }) // 0x23 卸装
       } else if (oc === 0x80) {
         push({ kind: 'toggleDayNight', ms: (o[0] ?? 0) === 0 ? 3200 : 800 }) // 0x80 昼夜切换
       } else if (oc === 0x98) {
@@ -737,13 +776,11 @@ function walkBody(
       // 其余 → bakeAndStrip 烘成 SceneDef 默认(打完 boss 回落场景默认;无持久态)。绝不进最终 content。
       else if (oc === 0x45) push(battleCfgMarker({ musicId: o[0] ?? 0 }))
       else if (oc === 0x4a) push(battleCfgMarker({ fieldId: o[0] ?? 0 }))
-      else if (oc === 0x50)
-        push({ kind: 'fade', dir: 'out', ms: ((o[0] ?? 0) || 1) * 600 })
+      else if (oc === 0x50) push({ kind: 'fade', dir: 'out', ms: ((o[0] ?? 0) || 1) * 600 })
       else if (oc === 0x51) {
         const delay = signExtendI16(o[0] ?? 0)
         push({ kind: 'fade', dir: 'in', ms: (delay > 0 ? delay : 1) * 600 })
-      }
-      else if (oc === 0x73) {
+      } else if (oc === 0x73) {
         // VIDEO_FadeScreen 每 speed 档 10ms、每档 72 个空间步；独立站点同样必须保留。
         push({ kind: 'ditherScreen', ms: ((o[0] ?? 0) + 1) * 10 * 72 })
       } else if (oc === 0x65) {
@@ -772,7 +809,8 @@ function walkBody(
         const field = o[0] ?? -1
         const val = o[1] ?? 0
         if (actor && field === 0) push({ kind: 'setActorAppearance', actor, portrait: val })
-        else if (actor && field === 1) push({ kind: 'setActorAppearance', actor, battleSprite: val })
+        else if (actor && field === 1)
+          push({ kind: 'setActorAppearance', actor, battleSprite: val })
         else if (actor && field === 2) {
           const sprite = ctx.spriteIdForNum?.(val)
           if (sprite) push({ kind: 'setActorAppearance', actor, spriteId: sprite })
@@ -821,7 +859,8 @@ function walkBody(
         })
       } else if (oc === 0x75) {
         // SetParty(C7/D22):operand[0..2] = roleId+1(0=空)→ 角色模板 slug 有序表
-        const members = o.filter((v): v is number => typeof v === 'number' && v > 0)
+        const members = o
+          .filter((v): v is number => typeof v === 'number' && v > 0)
           .map((v) => ROLE_SLUGS[v - 1])
           .filter((m): m is (typeof ROLE_SLUGS)[number] => m !== undefined)
         push({ kind: 'setParty', members: [...members] })
@@ -841,15 +880,6 @@ function walkBody(
             speed: SPEED[sp]!,
           })
         else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '骑乘无属主' })
-      } else if (oc === 0x75) {
-        // SetParty(C7/D22):operands = roleId+1(0=空槽)→ setParty 模板 id 有序表
-        //(站位序;离队进 reserve 状态不丢)。⚠ 杜绝下标:翻成 slug 不是序号。
-        const members: string[] = []
-        for (const v of o) {
-          const slug = v > 0 ? ROLE_SLUGS[v - 1] : undefined
-          if (slug) members.push(slug)
-        }
-        push({ kind: 'setParty', members })
       } else if (oc === 0x6e) {
         push({ kind: 'nudgeParty', dx: signExtendI16(o[0] ?? 0), dy: signExtendI16(o[1] ?? 0) })
       } else if (oc === 0x7d) {
@@ -1041,7 +1071,8 @@ function walkBody(
           continue
         }
         const memoKey = `call:L_${o[0]}|${callOwner ?? ''}`
-        const memo = (ctx.armMemo ??= new Map())
+        ctx.armMemo ??= new Map()
+        const memo = ctx.armMemo
         let calleeBody = memo.get(memoKey)
         if (!calleeBody) {
           const target = ctx.labelAt.get(`L_${o[0]}`)

@@ -1,8 +1,8 @@
-import { PNG } from 'pngjs'
-import pixelmatch from 'pixelmatch'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import pixelmatch from 'pixelmatch'
+import { PNG } from 'pngjs'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
 
@@ -124,7 +124,9 @@ export async function sdlpalDiff(opts: SdlpalDiffOptions): Promise<number> {
   if (numDiff > 0) {
     const diffPath = baselinePath.replace(/\.png$/, '.diff.png')
     writeFileSync(diffPath, PNG.sync.write(diff))
-    console.warn(`[sdlpal-diff] ${numDiff} diff pixels (${(pct * 100).toFixed(2)}%), diff PNG: ${diffPath}`)
+    console.warn(
+      `[sdlpal-diff] ${numDiff} diff pixels (${(pct * 100).toFixed(2)}%), diff PNG: ${diffPath}`,
+    )
   }
 
   return pct

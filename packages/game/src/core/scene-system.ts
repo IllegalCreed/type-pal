@@ -9,11 +9,25 @@
 import type { Command, InputSnapshot, Tilemap } from '@type-pal/shared'
 import type { SceneAssetsCache } from '../assets/loader.js'
 import type { CommandBus } from './command-bus.js'
-import { hydrateNpcStaticDefaults, npcFromEventObject, PARTYOFFSET_X, PARTYOFFSET_Y, sliceSceneEventObjects, type Facing, type GameState, type NpcState } from './game-state.js'
-import { resolveScriptLabel, runEnterScript, tickAutoScripts, tickChaseTimer } from './event-system.js'
+import {
+  resolveScriptLabel,
+  runEnterScript,
+  tickAutoScripts,
+  tickChaseTimer,
+} from './event-system.js'
+import {
+  type Facing,
+  type GameState,
+  hydrateNpcStaticDefaults,
+  type NpcState,
+  npcFromEventObject,
+  PARTYOFFSET_X,
+  PARTYOFFSET_Y,
+  sliceSceneEventObjects,
+} from './game-state.js'
 import { createInGameMenu } from './menu/in-game-menu.js'
-import { openMenu } from './menu/menu-mode.js'
 import { openOverworldShortcutMenu } from './menu/menu-driver.js'
+import { openMenu } from './menu/menu-mode.js'
 import { findSearchableNpc } from './scene-system-search.js'
 
 export interface SceneContext {
@@ -68,14 +82,17 @@ const BLOCK_Y = PARTYOFFSET_Y / TILE_H // 7
 //   Right (East)  → (+16, +8) 右下
 // 之前实现把 down/up 和 left/right 反了导致按键朝向与移动方向不一致。
 const DIR_DELTA: Record<Facing, { dx: number; dy: number }> = {
-  down:  { dx: -X_STEP, dy:  Y_STEP },
-  up:    { dx:  X_STEP, dy: -Y_STEP },
-  left:  { dx: -X_STEP, dy: -Y_STEP },
-  right: { dx:  X_STEP, dy:  Y_STEP },
+  down: { dx: -X_STEP, dy: Y_STEP },
+  up: { dx: X_STEP, dy: -Y_STEP },
+  left: { dx: -X_STEP, dy: -Y_STEP },
+  right: { dx: X_STEP, dy: Y_STEP },
 }
 
 const KEY_TO_FACING: Record<'Up' | 'Down' | 'Left' | 'Right', Facing> = {
-  Up: 'up', Down: 'down', Left: 'left', Right: 'right',
+  Up: 'up',
+  Down: 'down',
+  Left: 'left',
+  Right: 'right',
 }
 const DIR_KEY_SET = new Set<'Up' | 'Down' | 'Left' | 'Right'>(['Up', 'Down', 'Left', 'Right'])
 
@@ -122,11 +139,7 @@ function _npcAt(npcs: NpcState[], x: number, y: number): NpcState | undefined {
  *
  * M5.6 W1.b 修:按 sdlpal 真值距离公式,每 mode 不同 threshold。
  */
-function _findTriggerZoneNpc(
-  npcs: NpcState[],
-  x: number,
-  y: number,
-): NpcState | undefined {
+function _findTriggerZoneNpc(npcs: NpcState[], x: number, y: number): NpcState | undefined {
   for (const n of npcs) {
     if (n.triggerMode === undefined || n.triggerMode < TRIGGER_MODE_AUTO_MIN) continue
     // sdlpal global.h:77 EventObject.sState <=0 (Hidden / Vanishing) 不参与 trigger;
@@ -160,10 +173,7 @@ function applySearchVisualEffect(gs: GameState, npc: NpcState): void {
   // sdlpal play.c:477 真值:仅 `nSpriteFrames * 4 > wCurrentFrameNum` 时调整姿势。
   // 非方向性箱子 nSpriteFrames=0,已开帧不会被再次调查重置成关闭帧。
   // undefined 是旧 fixture,保留此前会调整姿势的兼容行为。
-  if (
-    npc.nSpriteFrames !== undefined
-    && npc.nSpriteFrames * 4 <= (npc.scriptedFrame ?? 0)
-  ) {
+  if (npc.nSpriteFrames !== undefined && npc.nSpriteFrames * 4 <= (npc.scriptedFrame ?? 0)) {
     return
   }
   const partyDirNum = FACING_TO_DIR_NUM[gs.party.facing]
@@ -279,12 +289,13 @@ function pushPartyAwayFromBlockingNpcs(gs: GameState, ctx: SceneContext): void {
     if (npc.spriteNum === 0) continue
     if (Math.abs(npc.x - gs.party.x) + Math.abs(npc.y - gs.party.y) * 2 > 12) continue
 
-    let dirNum = (((npc.facing ? FACING_TO_DIR_NUM[npc.facing] : 0) + 1) % 4)
+    let dirNum = ((npc.facing ? FACING_TO_DIR_NUM[npc.facing] : 0) + 1) % 4
     for (let i = 0; i < 4; i++) {
       const { dx, dy } = dirNumDelta(dirNum)
       const x = gs.party.x + dx
       const y = gs.party.y + dy
-      if (isWalkable(ctx.tilemap, x, y, gs.npcs, 0, true)) { // DL24:推离落点也受 blockX/Y 下边界(play.c:218 fCheckRange=TRUE)
+      if (isWalkable(ctx.tilemap, x, y, gs.npcs, 0, true)) {
+        // DL24:推离落点也受 blockX/Y 下边界(play.c:218 fCheckRange=TRUE)
         gs.party.x = x
         gs.party.y = y
         gs.camera = { x: x - PARTYOFFSET_X, y: y - PARTYOFFSET_Y }
@@ -307,8 +318,7 @@ function loadEventFromNpc(gs: GameState, ctx: SceneContext, npc: NpcState): void
   // 被改写的等价)→ 不重播已跑过的 cutscene。否则按 triggerLabel 原点解析(全局 entry)。
   if (npc.triggerResume) {
     ip = npc.triggerResume.ip // 全局 ip
-  }
-  else {
+  } else {
     if (!npc.triggerLabel) return
     // P2#5:triggerLabel(L_<globalIndex>,来自 event-objects.json)→ 全局 ip(identity)。
     // sdlpal wTriggerScript 本是单一全局 offset(events.bin unified),与此一致。
@@ -385,8 +395,8 @@ export function isWalkable(
   let col = Math.floor(posX / TILE_W)
   let row = Math.floor(posY / TILE_H)
   let h: 0 | 1 = 0
-  const xr = posX % TILE_W   // 0..31
-  const yr = posY % TILE_H   // 0..15
+  const xr = posX % TILE_W // 0..31
+  const yr = posY % TILE_H // 0..15
 
   // M5:fCheckRange 下边界(sdlpal scene.c:563-567)—— 用菱形调整**前**的 col/row(C 在 569+ 菱形之前
   //   就 `if(x<blockX||y<blockY) return TRUE`)。队首走不进左上 5 列 / 上 7 行边缘带,镜头恒居中。
@@ -394,7 +404,8 @@ export function isWalkable(
 
   if (xr + yr * 2 >= 16) {
     if (xr + yr * 2 >= 48) {
-      col++; row++
+      col++
+      row++
     } else if (32 - xr + yr * 2 < 16) {
       col++
     } else if (32 - xr + yr * 2 < 48) {
@@ -498,7 +509,8 @@ export function tickSceneInput(
     const { dx, dy } = DIR_DELTA[facing]
     const nx = gs.party.x + dx
     const ny = gs.party.y + dy
-    if (isWalkable(ctx.tilemap, nx, ny, gs.npcs, 0, true)) { // M5:走路 fCheckRange=TRUE(scene.c:818)
+    if (isWalkable(ctx.tilemap, nx, ny, gs.npcs, 0, true)) {
+      // M5:走路 fCheckRange=TRUE(scene.c:818)
       // sdlpal scene.c:823-830 PAL_UpdateParty:移动前 leader pos 插入 trail 头部,截至 5 项。
       gs.trail.unshift({ x: gs.party.x, y: gs.party.y, dir: facing })
       if (gs.trail.length > 5) gs.trail.length = 5
@@ -620,8 +632,8 @@ export async function loadScene(input: LoadSceneInput): Promise<void> {
     ? (resolveScriptLabel(gs, sceneAssets.onTeleportLabel)?.ip ?? 0)
     : 0
   gs.npcs =
-    sliceSceneEventObjects(gs, wNumScene)
-    ?? sceneAssets.eventObjects.map((eo) => npcFromEventObject(eo, sceneAssets.labelMap))
+    sliceSceneEventObjects(gs, wNumScene) ??
+    sceneAssets.eventObjects.map((eo) => npcFromEventObject(eo, sceneAssets.labelMap))
   hydrateNpcStaticDefaults(gs.npcs, sceneAssets.eventObjects)
 
   // P3.T1: 切 scene 时同步更新 SceneContext 的 events + labelMap,

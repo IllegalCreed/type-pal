@@ -11,9 +11,9 @@ import type { ContentBundle, LoadedManifest, ScriptChunkV1, ScriptIndexV1 } from
 import type { OwnMap } from '@type-pal/reforge'
 import type { Command } from './commands.js'
 
+export type { Command } from './commands.js'
 // commands.ts 引 EditorState(type),本文件引 Command(type) —— 仅类型,运行期无环。
 export { MoveEntityCommand } from './commands.js'
-export type { Command } from './commands.js'
 
 /** 被编辑的内容工作副本(ContentBundle + manifest)。命令 apply/invert 收/返它(不可变)。 */
 export interface EditorState extends ContentBundle {

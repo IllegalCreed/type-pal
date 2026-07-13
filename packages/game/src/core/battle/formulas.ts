@@ -51,7 +51,11 @@ export function calcBaseDamage(atk: number, def: number): number {
  * 流程:base = calcBaseDamage(atk, def);若 resist != 0 则 base /= resist。
  * resist == 0 时不除(防 div by zero)。
  */
-export function calcPhysicalAttackDamage(atk: number, def: number, physicalResistance: number): number {
+export function calcPhysicalAttackDamage(
+  atk: number,
+  def: number,
+  physicalResistance: number,
+): number {
   let damage = calcBaseDamage(atk, def)
   if (physicalResistance !== 0) {
     damage = asShort(Math.trunc(damage / physicalResistance))
@@ -65,7 +69,7 @@ export interface MagicDamageInput {
   /** 受方防御。 */
   def: number
   /** 受方对 5 个元素的抗性。 */
-  elemRes: { wind: number, thunder: number, water: number, fire: number, earth: number }
+  elemRes: { wind: number; thunder: number; water: number; fire: number; earth: number }
   /** 受方毒抗。 */
   poisonRes: number
   /** 抗性除数(sdlpal `wResistanceMultiplier`,默认 10)。 */
@@ -77,7 +81,7 @@ export interface MagicDamageInput {
     elemental: number
   }
   /** 战场加成(每个元素 -10..+10)。 */
-  fieldEffect: { wind: number, thunder: number, water: number, fire: number, earth: number }
+  fieldEffect: { wind: number; thunder: number; water: number; fire: number; earth: number }
   /**
    * 替代 sdlpal `RandomFloat(10, 11) / 10` 的 multiplier(范围 [1.0, 1.1])。
    * 调用方喂(测试用定值,运行时用 rng);本函数不持 RNG。
@@ -128,8 +132,7 @@ export function calcMagicDamage(input: MagicDamageInput): number {
     if (elem > NUM_MAGIC_ELEMENTAL) {
       // poison
       elemMultiplier = 10 - input.poisonRes / input.resistMult
-    }
-    else {
+    } else {
       const elemArr = [
         input.elemRes.wind,
         input.elemRes.thunder,
@@ -210,7 +213,6 @@ export function getPlayerActualDexterity(baseDexterity: number, status: PlayerSt
     dex = dex * 3
   }
   // non-classic: M3 不实现 slow / dying modifier
-  if (dex > 999)
-    dex = 999
+  if (dex > 999) dex = 999
   return dex
 }

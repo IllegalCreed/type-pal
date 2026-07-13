@@ -17,9 +17,7 @@ function buildSeedMap(): OwnMap {
   const tiles: (number | null)[][] = Array.from({ length: rows }, (_, b) =>
     Array.from({ length: SEED_W }, (_, k) => ((b + k) % 2 === 0 ? 0 : 1)),
   )
-  const collision = Array.from({ length: rows }, () =>
-    Array.from({ length: SEED_W }, () => 0),
-  )
+  const collision = Array.from({ length: rows }, () => Array.from({ length: SEED_W }, () => 0))
   return {
     version: 1,
     width: SEED_W,
@@ -115,7 +113,12 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
       },
     ],
     'content/sprites.json': [
-      { id: 'hero', spriteNum: 0, label: '占位主角', layout: { kind: 'directional', framesPerDir: 3 } },
+      {
+        id: 'hero',
+        spriteNum: 0,
+        label: '占位主角',
+        layout: { kind: 'directional', framesPerDir: 3 },
+      },
     ],
     'content/tilesets.json': [
       { id: 'starter', name: '起始地形', category: 'outdoor', path: 'assets/tilesets/starter.rle' },
@@ -189,10 +192,20 @@ export function enumerateSeedFiles(
   }
   // 素材:extracted → assets/extracted/;baked → assets/baked/
   for (const f of assetManifest.files) {
-    out.push({ rel: `assets/extracted/${f.path}`, src: `/extracted/${f.path}`, kind: 'binary', size: f.size })
+    out.push({
+      rel: `assets/extracted/${f.path}`,
+      src: `/extracted/${f.path}`,
+      kind: 'binary',
+      size: f.size,
+    })
   }
   for (const f of bakedManifest.files) {
-    out.push({ rel: `assets/baked/${f.path}`, src: `/baked/${f.path}`, kind: 'binary', size: f.size })
+    out.push({
+      rel: `assets/baked/${f.path}`,
+      src: `/baked/${f.path}`,
+      kind: 'binary',
+      size: f.size,
+    })
   }
   return out
 }

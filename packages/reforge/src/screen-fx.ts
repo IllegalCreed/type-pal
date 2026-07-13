@@ -26,7 +26,7 @@ export function waveOffsets(amp: number): number[] {
     b -= 8
     a += b
     wave[i] = Math.trunc((a * amp) / 256)
-    wave[i + 16] = 320 - wave[i]!
+    wave[i + 16] = 320 - (wave[i] ?? 0)
   }
   return wave
 }
@@ -69,7 +69,7 @@ export class WavedBgCache {
     const wave = waveOffsets(amp)
     let ai = phase
     for (let y = 0; y < h; y++) {
-      const shift = wave[ai]!
+      const shift = wave[ai] ?? 0
       if (shift > 0 && shift < w) {
         // 行左卷 shift px:右段接到行首、左段卷回行尾(scene.c:429-447 memcpy 三连的等效)
         ctx.drawImage(src, shift, y, w - shift, 1, 0, y, w - shift, 1)

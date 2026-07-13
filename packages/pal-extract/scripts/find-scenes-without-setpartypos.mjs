@@ -19,8 +19,8 @@
  *   pixel y = row * 16 + h * 8
  */
 
-import { readFileSync, readdirSync, writeFileSync } from 'node:fs'
-import { join, dirname } from 'node:path'
+import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -30,7 +30,7 @@ const EVENTS_DIR = join(REPO_ROOT, 'data', 'extracted', 'events')
 const SCENE_DATA_DIR = join(REPO_ROOT, 'data', 'extracted', 'data', 'scene')
 const TILEMAP_DIR = join(REPO_ROOT, 'data', 'extracted', 'data', 'tilemap')
 
-const OP_SET_PARTY_POS = 70  // 0x46
+const OP_SET_PARTY_POS = 70 // 0x46
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 
@@ -95,8 +95,11 @@ function findPartyPosFromCallers(targetSceneId, allEventsMap) {
         if (c.op === 'loadScene' && c.sceneId !== targetSceneId) break
         if (isSetPartyPos(c) && c.operands) {
           candidatesAfter.push({
-            ops: c.operands, callerScene: Number(sceneNum),
-            ip: ahead, direction: 'after', distance: ahead - ip,
+            ops: c.operands,
+            callerScene: Number(sceneNum),
+            ip: ahead,
+            direction: 'after',
+            distance: ahead - ip,
           })
           break
         }
@@ -109,8 +112,11 @@ function findPartyPosFromCallers(targetSceneId, allEventsMap) {
         if (c.op === 'end') break
         if (isSetPartyPos(c) && c.operands) {
           candidatesBefore.push({
-            ops: c.operands, callerScene: Number(sceneNum),
-            ip: back, direction: 'before', distance: ip - back,
+            ops: c.operands,
+            callerScene: Number(sceneNum),
+            ip: back,
+            direction: 'before',
+            distance: ip - back,
           })
           break
         }
@@ -145,12 +151,19 @@ function pixelToCell(posX, posY) {
   let col = Math.floor(posX / TILE_W)
   let row = Math.floor(posY / TILE_H)
   let h = 0
-  const xr = posX % TILE_W, yr = posY % TILE_H
+  const xr = posX % TILE_W,
+    yr = posY % TILE_H
   if (xr + yr * 2 >= 16) {
-    if (xr + yr * 2 >= 48) { col++; row++ }
-    else if (32 - xr + yr * 2 < 16) { col++ }
-    else if (32 - xr + yr * 2 < 48) { h = 1 }
-    else { row++ }
+    if (xr + yr * 2 >= 48) {
+      col++
+      row++
+    } else if (32 - xr + yr * 2 < 16) {
+      col++
+    } else if (32 - xr + yr * 2 < 48) {
+      h = 1
+    } else {
+      row++
+    }
   }
   return { col, row, h }
 }
@@ -184,8 +197,10 @@ function bfsFromSeed(tilemap, sx, sy) {
   visited.add(key(sx, sy))
   const points = []
   const DIRS = [
-    [X_STEP, Y_STEP], [-X_STEP, -Y_STEP],
-    [-X_STEP, Y_STEP], [X_STEP, -Y_STEP],
+    [X_STEP, Y_STEP],
+    [-X_STEP, -Y_STEP],
+    [-X_STEP, Y_STEP],
+    [X_STEP, -Y_STEP],
   ]
   const maxX = tilemap.width * TILE_W
   const maxY = tilemap.height * TILE_H
@@ -193,7 +208,8 @@ function bfsFromSeed(tilemap, sx, sy) {
     const [cx, cy] = queue.shift()
     points.push([cx, cy])
     for (const [ddx, ddy] of DIRS) {
-      const nx = cx + ddx, ny = cy + ddy
+      const nx = cx + ddx,
+        ny = cy + ddy
       if (nx < 0 || ny < 0 || nx >= maxX || ny >= maxY) continue
       const k = key(nx, ny)
       if (visited.has(k)) continue
@@ -211,8 +227,14 @@ function bfsFromSeed(tilemap, sx, sy) {
 function bfsAnchoredOnNpc(tilemap, eventObjects) {
   for (const eo of eventObjects) {
     const { x, y } = eo
-    for (const [dx, dy] of [[X_STEP, Y_STEP], [-X_STEP, -Y_STEP], [-X_STEP, Y_STEP], [X_STEP, -Y_STEP]]) {
-      const nx = x + dx, ny = y + dy
+    for (const [dx, dy] of [
+      [X_STEP, Y_STEP],
+      [-X_STEP, -Y_STEP],
+      [-X_STEP, Y_STEP],
+      [X_STEP, -Y_STEP],
+    ]) {
+      const nx = x + dx,
+        ny = y + dy
       if (nx <= 0 || ny <= 0) continue
       if (isWalkablePixel(tilemap, nx, ny)) {
         const pts = bfsFromSeed(tilemap, nx, ny)
@@ -250,7 +272,9 @@ function bfsFindCenter(tilemap) {
 
 console.log('=== Step 1: 加载所有 scene events ===')
 const allEventsMap = {}
-const eventFiles = readdirSync(EVENTS_DIR).filter(f => f.startsWith('scene-') && f.endsWith('.json'))
+const eventFiles = readdirSync(EVENTS_DIR).filter(
+  (f) => f.startsWith('scene-') && f.endsWith('.json'),
+)
 for (const file of eventFiles) {
   const m = file.match(/scene-(\d+)\.json/)
   if (!m) continue
@@ -262,7 +286,7 @@ console.log(`加载 ${Object.keys(allEventsMap).length} scene events`)
 
 console.log('\n=== Step 2: 加载所有 scene data ===')
 const sceneDataMap = {}
-for (const file of readdirSync(SCENE_DATA_DIR).filter(f => f.endsWith('.json'))) {
+for (const file of readdirSync(SCENE_DATA_DIR).filter((f) => f.endsWith('.json'))) {
   const m = file.match(/^(\d+)\.json$/)
   if (!m) continue
   const sceneNum = Number(m[1])
@@ -277,7 +301,9 @@ console.log(`加载 ${Object.keys(sceneDataMap).length} scene data`)
 
 console.log('\n=== Step 3: 识别 onEnterLabel 不含 setPartyPos ===')
 const scenesNeedingFallback = []
-const sceneNums = Object.keys(sceneDataMap).map(Number).sort((a, b) => a - b)
+const sceneNums = Object.keys(sceneDataMap)
+  .map(Number)
+  .sort((a, b) => a - b)
 for (const sceneNum of sceneNums) {
   const { mapNum, onEnterLabel, eventObjects } = sceneDataMap[sceneNum]
   if (!onEnterLabel) continue
@@ -295,13 +321,19 @@ console.log('\n=== Step 4: 三档策略 ===')
 const tilemapCache = {}
 function getTilemap(mapNum) {
   if (mapNum in tilemapCache) return tilemapCache[mapNum]
-  try { tilemapCache[mapNum] = loadJson(join(TILEMAP_DIR, `${mapNum}.json`)) }
-  catch { tilemapCache[mapNum] = null }
+  try {
+    tilemapCache[mapNum] = loadJson(join(TILEMAP_DIR, `${mapNum}.json`))
+  } catch {
+    tilemapCache[mapNum] = null
+  }
   return tilemapCache[mapNum]
 }
 
 const results = []
-let callerCount = 0, npcAnchoredCount = 0, bareBfsCount = 0, orphanCount = 0
+let callerCount = 0,
+  npcAnchoredCount = 0,
+  bareBfsCount = 0,
+  orphanCount = 0
 let callerInvalidatedCount = 0
 
 for (const { sceneNum, mapNum, onEnterLabel, eventObjects } of scenesNeedingFallback) {
@@ -321,7 +353,9 @@ for (const { sceneNum, mapNum, onEnterLabel, eventObjects } of scenesNeedingFall
       callerCount++
     } else {
       callerInvalidatedCount++
-      console.log(`  scene-${sceneNum}: caller pixel(${px.x},${px.y}) 不可走,降级到 NPC-anchored BFS`)
+      console.log(
+        `  scene-${sceneNum}: caller pixel(${px.x},${px.y}) 不可走,降级到 NPC-anchored BFS`,
+      )
     }
   }
 
@@ -331,7 +365,14 @@ for (const { sceneNum, mapNum, onEnterLabel, eventObjects } of scenesNeedingFall
     if (tilemap) {
       const r = bfsAnchoredOnNpc(tilemap, eventObjects)
       if (r) {
-        partyStart = { x: r.x, y: r.y, facing: 'down', _source: 'npc-anchored-bfs', _anchoredOn: r.anchoredOn, _bfsSize: r.size }
+        partyStart = {
+          x: r.x,
+          y: r.y,
+          facing: 'down',
+          _source: 'npc-anchored-bfs',
+          _anchoredOn: r.anchoredOn,
+          _bfsSize: r.size,
+        }
         strategy = `NPC-anchored BFS (NPC ${r.anchoredOn}) center(${r.x},${r.y}) size=${r.size}`
         strategyKind = 'npc-bfs'
         npcAnchoredCount++
@@ -374,7 +415,7 @@ console.log(`orphan:              ${orphanCount}`)
 console.log(`total fallback:      ${results.length}`)
 
 console.log(`\n=== Scene 15 (草妖) ===`)
-const s15 = results.find(r => r.sceneNum === 15)
+const s15 = results.find((r) => r.sceneNum === 15)
 if (s15) {
   console.log(`  scene-15(map-${s15.mapNum}) [${s15.strategyKind}]`)
   console.log(`  pixel(${s15.partyStart.x}, ${s15.partyStart.y})`)

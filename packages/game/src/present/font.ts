@@ -12,8 +12,8 @@
 import type { Framebuffer } from './framebuffer.js'
 
 export interface Glyph {
-  width: number    // 8 (ASCII half-width) or 16 (CJK full-width)
-  height: number   // 16
+  width: number // 8 (ASCII half-width) or 16 (CJK full-width)
+  height: number // 16
   bitmap: Uint8Array
 }
 
@@ -27,8 +27,10 @@ export interface GlyphTable {
 const TOFU_BITMAP: Uint8Array = (() => {
   const b = new Uint8Array(32)
   // 顶行 + 底行全亮
-  b[0] = 0xFF; b[1] = 0xFE
-  b[30] = 0xFF; b[31] = 0xFE
+  b[0] = 0xff
+  b[1] = 0xfe
+  b[30] = 0xff
+  b[31] = 0xfe
   // 中间行只有最左最右各一像素
   for (let r = 1; r < 15; r++) {
     b[r * 2] = 0x80
@@ -44,7 +46,7 @@ const TOFU_GLYPH: Glyph = { width: 16, height: 16, bitmap: TOFU_BITMAP }
 export async function loadGlyphs(baseUrl = '/extracted'): Promise<GlyphTable> {
   const res = await fetch(`${baseUrl}/data/font/glyphs.json`)
   if (!res.ok) throw new Error(`font: fetch glyphs.json failed (${res.status})`)
-  const data = await res.json() as {
+  const data = (await res.json()) as {
     glyphs: { codepoint: number; width: number; height: number; bitmapBase64: string }[]
   }
   const map = new Map<number, Glyph>()
@@ -70,13 +72,7 @@ const EMPTY_GLYPH_TABLE: GlyphTable = {
 
 // ── Core blit ─────────────────────────────────────────────────────────
 
-function blitGlyph(
-  fb: Framebuffer,
-  x: number,
-  y: number,
-  glyph: Glyph,
-  fgColor: number,
-): void {
+function blitGlyph(fb: Framebuffer, x: number, y: number, glyph: Glyph, fgColor: number): void {
   const bytesPerRow = Math.ceil(glyph.width / 8)
   for (let row = 0; row < glyph.height; row++) {
     for (let col = 0; col < glyph.width; col++) {
@@ -171,10 +167,7 @@ export function renderColoredText(
  * @param glyphs  GlyphTable;省略时全字符按 16px 宽计
  * @returns       总宽度(像素)
  */
-export function measureText(
-  text: string,
-  glyphs: GlyphTable = EMPTY_GLYPH_TABLE,
-): number {
+export function measureText(text: string, glyphs: GlyphTable = EMPTY_GLYPH_TABLE): number {
   let w = 0
   for (const ch of text) {
     const cp = ch.codePointAt(0)!

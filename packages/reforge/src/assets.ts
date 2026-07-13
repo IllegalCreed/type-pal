@@ -114,7 +114,11 @@ export interface LoadedSprite {
  * - path 有值 → `assets/` 前缀 = 工程根相对(自有上传,不拼 root —— pal 的 root 是
  *   /extracted/data,拼上必 404);其余 = assets-root 相对。
  */
-export async function loadSprite(base: AssetBase, spriteNum: number, path?: string): Promise<LoadedSprite> {
+export async function loadSprite(
+  base: AssetBase,
+  spriteNum: number,
+  path?: string,
+): Promise<LoadedSprite> {
   const full = path
     ? path.startsWith('assets/')
       ? path
@@ -165,7 +169,11 @@ export async function loadEffectSprite(base: AssetBase): Promise<LoadedSprite> {
 
 /** 法术特效精灵(FIRE.MKF chunk = {root}/magic/fire-NN.rle;M4d-2b)。 */
 export async function loadFireSprite(base: AssetBase, chunk: number): Promise<LoadedSprite> {
-  const raw = await readAssetBytes(base, `${base.root}/magic/fire-${String(chunk).padStart(2, '0')}.rle`, `fire sprite ${chunk}`)
+  const raw = await readAssetBytes(
+    base,
+    `${base.root}/magic/fire-${String(chunk).padStart(2, '0')}.rle`,
+    `fire sprite ${chunk}`,
+  )
   const frames = parseSpriteChunk(await decompressGzip(new Blob([raw])))
   return { frames, anchorX: 0, anchorY: 0 }
 }
@@ -291,7 +299,11 @@ export async function tilesFromChunkBytes(gz: ArrayBuffer): Promise<Map<number, 
 export async function compressGzip(bytes: Uint8Array): Promise<Uint8Array> {
   if (typeof CompressionStream === 'undefined') throw new Error('reforge: CompressionStream 不可用')
   const cs = new CompressionStream('gzip')
-  const body = new Response(new Blob([bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer])).body
+  const body = new Response(
+    new Blob([
+      bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer,
+    ]),
+  ).body
   if (!body) throw new Error('reforge: response body 为空')
   const out = await new Response(body.pipeThrough(cs)).arrayBuffer()
   return new Uint8Array(out)

@@ -16,6 +16,5 @@ import type { BattleState } from '../battle-state.js'
 
 export function performDefend(state: BattleState, playerIdx: number): void {
   const p = state.players[playerIdx]
-  if (p)
-    p.defending = true
+  if (p) p.defending = true
 }

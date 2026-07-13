@@ -341,7 +341,7 @@ interface ScriptIndexV1 {
   - 1280、900、720 宽度检查无横向溢出、遮挡或不可操作控件；浏览器 console 无 error/warning。
 - 跳过的检查及原因:
   - 未单独保存 `6051` 网络面板抓包；HTTP/Memory resolver 只取实际 `ScriptRef` chunk 的行为由 reforge 单测覆盖，交审查方补一次独立运行时网络复验。
-  - 首轮根目录 `pnpm lint` 暴露 2026-06-27 后累计的全仓历史债；用户已要求另行全量清零，独立于 N6 功能提交处理。
+  - 首轮根目录 `pnpm lint` 暴露的全仓历史债已在后续独立提交中清零；根 `pnpm check` 现已串联 `pnpm lint`，本轮复跑 649 个受管文件零诊断。
 
 ## 视觉验证记录（如适用）
 

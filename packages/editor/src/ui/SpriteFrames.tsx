@@ -24,9 +24,7 @@ import { AppendSpriteFramesCommand, UpdateSpriteCommand } from '../core/commands
 import type { EditSession } from '../core/edit-session.js'
 
 /** 读用户选图 → RGBA(量化/切帧的公共前置)。 */
-async function fileToRgba(
-  file: File,
-): Promise<{ rgba: Uint8Array; w: number; h: number }> {
+async function fileToRgba(file: File): Promise<{ rgba: Uint8Array; w: number; h: number }> {
   const bitmap = await createImageBitmap(file)
   const cvs = document.createElement('canvas')
   cvs.width = bitmap.width
@@ -319,7 +317,11 @@ export function SpriteFrames(props: {
           <span>
             替换帧 <b>#{replaceIdx}</b>:选一张图(整图作为该帧,自动贴合工程主色)
           </span>
-          <button type="button" className="tool active" onClick={() => replaceFileRef.current?.click()}>
+          <button
+            type="button"
+            className="tool active"
+            onClick={() => replaceFileRef.current?.click()}
+          >
             选图替换…
           </button>
           <button type="button" className="tool" onClick={() => setReplaceIdx(null)}>
@@ -340,7 +342,10 @@ export function SpriteFrames(props: {
             style={{ width: 52 }}
             value={appendDraft.cols}
             onChange={(e) =>
-              setAppendDraft({ ...appendDraft, cols: Math.max(1, Math.floor(e.target.valueAsNumber) || 1) })
+              setAppendDraft({
+                ...appendDraft,
+                cols: Math.max(1, Math.floor(e.target.valueAsNumber) || 1),
+              })
             }
           />
           <span>列 ×</span>
@@ -352,7 +357,10 @@ export function SpriteFrames(props: {
             style={{ width: 52 }}
             value={appendDraft.rows}
             onChange={(e) =>
-              setAppendDraft({ ...appendDraft, rows: Math.max(1, Math.floor(e.target.valueAsNumber) || 1) })
+              setAppendDraft({
+                ...appendDraft,
+                rows: Math.max(1, Math.floor(e.target.valueAsNumber) || 1),
+              })
             }
           />
           <span>行</span>
@@ -367,7 +375,9 @@ export function SpriteFrames(props: {
           <button
             type="button"
             className="tool active"
-            disabled={appendDraft.w % appendDraft.cols !== 0 || appendDraft.h % appendDraft.rows !== 0}
+            disabled={
+              appendDraft.w % appendDraft.cols !== 0 || appendDraft.h % appendDraft.rows !== 0
+            }
             onClick={() => void doAppend()}
           >
             ✓ 追加
@@ -405,8 +415,10 @@ export function SpriteFrames(props: {
                   {Array.from({ length: fpd }, (_, fi) => {
                     const idx = di * fpd + fi
                     return (
-                      <div
+                      <button
+                        type="button"
                         key={idx}
+                        disabled={!editable}
                         className={`fcell${fi === 0 ? ' stand' : ''}`}
                         style={{
                           borderColor:
@@ -417,12 +429,12 @@ export function SpriteFrames(props: {
                           ...(replaceIdx === idx ? { outline: '2px solid var(--accent)' } : {}),
                         }}
                         title={editable ? `点击替换帧 #${idx}` : undefined}
-                        onClick={editable ? () => setReplaceIdx(idx) : undefined}
+                        onClick={() => setReplaceIdx(idx)}
                       >
                         <span className="fidx">{idx}</span>
                         <FrameCell canvas={baked[idx]} maxW={maxW} maxH={maxH} scale={2} />
                         <span className="ftag">{fi === 0 ? '站立' : `迈${fi}`}</span>
-                      </div>
+                      </button>
                     )
                   })}
                 </div>
@@ -441,19 +453,21 @@ export function SpriteFrames(props: {
                   {Array.from({ length: total - walkCount }, (_, k) => {
                     const idx = walkCount + k
                     return (
-                      <div
+                      <button
+                        type="button"
                         key={idx}
+                        disabled={!editable}
                         className="fcell"
                         style={{
                           ...(editable ? { cursor: 'pointer' } : {}),
                           ...(replaceIdx === idx ? { outline: '2px solid var(--accent)' } : {}),
                         }}
                         title={editable ? `点击替换帧 #${idx}` : undefined}
-                        onClick={editable ? () => setReplaceIdx(idx) : undefined}
+                        onClick={() => setReplaceIdx(idx)}
                       >
                         <span className="fidx">{idx}</span>
                         <FrameCell canvas={baked[idx]} maxW={maxW} maxH={maxH} scale={2} />
-                      </div>
+                      </button>
                     )
                   })}
                 </div>
@@ -481,19 +495,21 @@ export function SpriteFrames(props: {
               </div>
             )}
             {loaded.frames.map((_, idx) => (
-              <div
+              <button
+                type="button"
                 key={idx}
+                disabled={!editable}
                 className="fcell"
                 style={{
                   ...(editable ? { cursor: 'pointer' } : {}),
                   ...(replaceIdx === idx ? { outline: '2px solid var(--accent)' } : {}),
                 }}
                 title={editable ? `点击替换帧 #${idx}` : undefined}
-                onClick={editable ? () => setReplaceIdx(idx) : undefined}
+                onClick={() => setReplaceIdx(idx)}
               >
                 <span className="fidx">{idx}</span>
                 <FrameCell canvas={baked[idx]} maxW={maxW} maxH={maxH} scale={2} />
-              </div>
+              </button>
             ))}
           </div>
         )}
@@ -509,7 +525,12 @@ export function SpriteFrames(props: {
               <div key={name} className="posecard">
                 <div className="pc-head">
                   <b>{name}</b>
-                  <button className="pc-del" title="删除姿势" onClick={() => deletePose(name)}>
+                  <button
+                    type="button"
+                    className="pc-del"
+                    title="删除姿势"
+                    onClick={() => deletePose(name)}
+                  >
                     ×
                   </button>
                 </div>
@@ -540,6 +561,7 @@ export function SpriteFrames(props: {
               <span>未分配帧(点选):</span>
               {unassigned.map((i) => (
                 <button
+                  type="button"
                   key={i}
                   className={`uf${selFrames.has(i) ? ' sel' : ''}`}
                   onClick={() => toggleFrame(i)}
@@ -564,7 +586,6 @@ export function SpriteFrames(props: {
                 value={poseName}
                 onChange={(e) => setPoseName(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && createPose()}
-                autoFocus
               />
               <select
                 className="in"
@@ -574,10 +595,15 @@ export function SpriteFrames(props: {
                 <option value="static">静态</option>
                 <option value="loop">循环</option>
               </select>
-              <button className="tool active" onClick={createPose} disabled={!poseName.trim()}>
+              <button
+                type="button"
+                className="tool active"
+                onClick={createPose}
+                disabled={!poseName.trim()}
+              >
                 建姿势 · 帧 {[...selFrames].sort((a, b) => a - b).join(',')}
               </button>
-              <button className="tool" onClick={() => setSelFrames(new Set())}>
+              <button type="button" className="tool" onClick={() => setSelFrames(new Set())}>
                 取消
               </button>
             </div>

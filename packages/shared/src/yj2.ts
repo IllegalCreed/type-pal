@@ -98,7 +98,10 @@ function adjustTree(tree: Tree, value: number): void {
   while (tree.node[nodeIdx]!.value !== 0x280) {
     // 找当前 weight 段中下标最大的节点
     let tempIdx = nodeIdx + 1
-    while (tempIdx < tree.node.length && tree.node[tempIdx]!.weight === tree.node[nodeIdx]!.weight) {
+    while (
+      tempIdx < tree.node.length &&
+      tree.node[tempIdx]!.weight === tree.node[nodeIdx]!.weight
+    ) {
       tempIdx++
     }
     tempIdx--

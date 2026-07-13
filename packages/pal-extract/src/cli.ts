@@ -27,13 +27,13 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync
 import { dirname, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { gzipSync } from 'node:zlib'
-
+import { decodeRngFrames } from '@type-pal/shared'
 import type { Symbols } from './events/annotate.js'
-import { glyphsToJson, parseBdf } from './font/bdf-to-json.js'
 import { annotate } from './events/annotate.js'
 import { disasm } from './events/disasm.js'
 import { recompile } from './events/recompile.js'
 import { sliceByScene } from './events/slice.js'
+import { glyphsToJson, parseBdf } from './font/bdf-to-json.js'
 import { chunkCount, openMkf, readChunk } from './io/mkf.js'
 import { parseMessages } from './io/msg.js'
 import { parseSss } from './io/sss.js'
@@ -43,17 +43,16 @@ import { buildManifest, collectAssetEntries } from './resources/asset-manifest.j
 import { parseEnemyPos } from './resources/enemy-pos.js'
 import { parseMap } from './resources/map.js'
 import { decodePalette } from './resources/palette.js'
-import { dumpAllEventObjects, dumpScene } from './resources/scene.js'
-import { encodeIndexedPng, framesToOut, parseSpriteChunk } from './resources/sprite.js'
+import { decodeBallIcon } from './resources/parsers/ball.js'
 import {
   parseBattleEffectIndex,
   parseLevelUpExp,
   parseLevelUpMagic,
 } from './resources/parsers/data-misc.js'
-import { decodeRngFrames } from '@type-pal/shared'
 import { decodeRgmPortrait } from './resources/parsers/rgm.js'
-import { decodeBallIcon } from './resources/parsers/ball.js'
 import { dumpSoundsMetadata } from './resources/parsers/sounds.js'
+import { dumpAllEventObjects, dumpScene } from './resources/scene.js'
+import { encodeIndexedPng, framesToOut, parseSpriteChunk } from './resources/sprite.js'
 import {
   buildEnemyObjectNameMap,
   buildObjectIndexToEnemyIdMap,
@@ -76,7 +75,6 @@ const REPO_ROOT = resolve(HERE, '../../..')
 const RAW = resolve(REPO_ROOT, 'data/raw')
 const OUT = resolve(REPO_ROOT, 'data/extracted')
 const SYMBOLS_PATH = resolve(REPO_ROOT, 'data/symbols.json')
-
 
 function writeJson(path: string, data: unknown): void {
   mkdirSync(dirname(path), { recursive: true })
@@ -147,7 +145,18 @@ function magicFireBlobPath(chunkIdx: number): string {
  *
  * `'font'` subdir is forward-compat for P4 T2(BDF→JSON glyph 表),目前未使用。
  */
-function dataSubdirPath(subdir: 'tilemap' | 'scene' | 'sprite' | 'palette' | 'battle-sprite' | 'font' | 'ui-sprite' | 'magic-sprite', name: string): string {
+function dataSubdirPath(
+  subdir:
+    | 'tilemap'
+    | 'scene'
+    | 'sprite'
+    | 'palette'
+    | 'battle-sprite'
+    | 'font'
+    | 'ui-sprite'
+    | 'magic-sprite',
+  name: string,
+): string {
   return resolve(OUT, 'data', subdir, `${name}.json`)
 }
 
@@ -273,7 +282,9 @@ async function main(): Promise<void> {
   // shared 切片找不到时(跨 scene 设的脚本指针,eg. scene-3 `0x25 [20,560]` 把 scene-1 李大娘
   // trigger 设到 L_560 —— L_560 只切到 scene-3),回退全局数组解析。label = `L_<全局 entry>`,
   // 全局 labelMap 在 runtime 由索引直接建(L_<i> → i),故这里只 dump commands。
-  writeJson(resolve(OUT, 'events', 'all.json'), { segments: [{ name: 'all', commands: annotated }] })
+  writeJson(resolve(OUT, 'events', 'all.json'), {
+    segments: [{ name: 'all', commands: annotated }],
+  })
 
   console.log(
     `[pal-extract] events written: ${sliced.scenes.length} scenes + shared(含 ${globalScriptEntries.length} item/spell/enemyObj script entries)+ objects + all(${annotated.length} 全局命令)`,
@@ -344,14 +355,14 @@ async function main(): Promise<void> {
   //   LEVELUPMAGIC_ALL = { LEVELUPMAGIC m[5] }, LEVELUPMAGIC = { WORD wLevel; WORD wMagic }
   //   MAX_PLAYABLE_PLAYER_ROLES = 5
   const levelUpMagicBuf = readChunk(dataMkf, 6)
-  writeJson(
-    resolve(OUT, 'data', 'level-up-magic.json'),
-    parseLevelUpMagic(levelUpMagicBuf, 5),
-  )
+  writeJson(resolve(OUT, 'data', 'level-up-magic.json'), parseLevelUpMagic(levelUpMagicBuf, 5))
 
   // chunk 11: rgwBattleEffectIndex[10][2] = WORD × 20 = 40 字节
   const battleEffectBuf = readChunk(dataMkf, 11)
-  writeJson(resolve(OUT, 'data', 'battle-effect-index.json'), parseBattleEffectIndex(battleEffectBuf))
+  writeJson(
+    resolve(OUT, 'data', 'battle-effect-index.json'),
+    parseBattleEffectIndex(battleEffectBuf),
+  )
 
   // M4 P2 T3: DATA.MKF chunk 9 (SPRITEUI) → images/ui/frame-NN.png
   // sdlpal ui.h: CHUNKNUM_SPRITEUI = 9; PAL_MKFReadChunk(raw, no YJ2)
@@ -389,7 +400,9 @@ async function main(): Promise<void> {
     size: dialogIconsBuf.byteLength,
     base64: Buffer.from(dialogIconsBuf).toString('base64'),
   })
-  console.log(`[pal-extract] dialog-icons (DATA.MKF chunk 12) written: ${dialogIconsBuf.byteLength} bytes`)
+  console.log(
+    `[pal-extract] dialog-icons (DATA.MKF chunk 12) written: ${dialogIconsBuf.byteLength} bytes`,
+  )
 
   // chunk 7/8 空(0 字节);DATA.MKF count=15(有效 chunk 0-14),chunk 15 超出范围不抽
 
@@ -451,11 +464,17 @@ async function main(): Promise<void> {
         resolve(OUT, 'images', 'portraits', `${i.toString().padStart(2, '0')}.png`),
         portrait.pngBytes,
       )
-      manifest.push({ chunkIndex: portrait.chunkIndex, width: portrait.width, height: portrait.height })
+      manifest.push({
+        chunkIndex: portrait.chunkIndex,
+        width: portrait.width,
+        height: portrait.height,
+      })
       written++
     }
     writeJson(resolve(OUT, 'data', 'portraits.json'), { count: n, portraits: manifest })
-    console.log(`[pal-extract] RGM.MKF written: ${written} / ${n} portraits → images/portraits/{NN}.png`)
+    console.log(
+      `[pal-extract] RGM.MKF written: ${written} / ${n} portraits → images/portraits/{NN}.png`,
+    )
   }
 
   // BALL.MKF: 252 chunks, 每 chunk 是单帧 RLE bitmap 物品图标(sdlpal global.h fpBALL)。
@@ -488,7 +507,11 @@ async function main(): Promise<void> {
     const fireMkf = openMkf(loadFile('FIRE.MKF'))
     const n = chunkCount(fireMkf)
     let totalFireFrames = 0
-    const fireManifest: Array<{ chunkIndex: number; frameCount: number; frames: Array<{ index: number; width: number; height: number }> }> = []
+    const fireManifest: Array<{
+      chunkIndex: number
+      frameCount: number
+      frames: Array<{ index: number; width: number; height: number }>
+    }> = []
     for (let i = 0; i < n; i++) {
       const buf = readChunk(fireMkf, i)
       let decompressed: Uint8Array
@@ -507,7 +530,9 @@ async function main(): Promise<void> {
       totalFireFrames += frames.length
     }
     writeJson(resolve(OUT, 'data', 'fire-sprites.json'), { chunkCount: n, chunks: fireManifest })
-    console.log(`[pal-extract] FIRE.MKF blobs written (${n} chunks, ${totalFireFrames} frames total)`)
+    console.log(
+      `[pal-extract] FIRE.MKF blobs written (${n} chunks, ${totalFireFrames} frames total)`,
+    )
   }
 
   // SOUNDS.MKF 完整提取(2026-05-29 user 要求):每个非空 chunk 本身就是一个完整 RIFF/WAVE 文件
@@ -541,17 +566,24 @@ async function main(): Promise<void> {
       if (lower.endsWith('.mid')) {
         const num = Number(name.replace(/\.mid$/i, ''))
         const out = `${String(num).padStart(3, '0')}.mid`
-        writeBinary(resolve(OUT, 'music', out), new Uint8Array(readFileSync(resolve(musicsDir, name))))
+        writeBinary(
+          resolve(OUT, 'music', out),
+          new Uint8Array(readFileSync(resolve(musicsDir, name))),
+        )
         if (Number.isFinite(num)) midiNums.push(num)
-      }
-      else if (lower.endsWith('.ogg')) {
-        writeBinary(resolve(OUT, 'music', name), new Uint8Array(readFileSync(resolve(musicsDir, name))))
+      } else if (lower.endsWith('.ogg')) {
+        writeBinary(
+          resolve(OUT, 'music', name),
+          new Uint8Array(readFileSync(resolve(musicsDir, name))),
+        )
         cdTracks.push(name)
       }
     }
     midiNums.sort((a, b) => a - b)
     writeJson(resolve(OUT, 'data', 'music-manifest.json'), { midi: midiNums, cdTracks })
-    console.log(`[pal-extract] Musics: ${midiNums.length} MIDI + ${cdTracks.length} CD ogg → music/`)
+    console.log(
+      `[pal-extract] Musics: ${midiNums.length} MIDI + ${cdTracks.length} CD ogg → music/`,
+    )
   }
 
   // splash 素材:FBP.MKF chunk 3(BITMAPNUM_SPLASH_UP WIN95=0x03) +
@@ -577,7 +609,9 @@ async function main(): Promise<void> {
         continue
       }
       if (pixels.byteLength !== 320 * 200) {
-        console.warn(`[pal-extract] splash FBP chunk ${id}: 解压后 ${pixels.byteLength} bytes ≠ 64000, skip`)
+        console.warn(
+          `[pal-extract] splash FBP chunk ${id}: 解压后 ${pixels.byteLength} bytes ≠ 64000, skip`,
+        )
         continue
       }
       writeBinary(
@@ -650,7 +684,9 @@ async function main(): Promise<void> {
       })
       tilesetsWritten++
     }
-    console.log(`[pal-extract] tilesets written: ${tilesetsWritten} / ${uniqueMapNums.size} unique mapNums`)
+    console.log(
+      `[pal-extract] tilesets written: ${tilesetsWritten} / ${uniqueMapNums.size} unique mapNums`,
+    )
   }
 
   // M4 P3.T4+T5: 全 295 scene dumpScene 结果 hoisted — T5 写 JSON,T4 复用 sceneObjs 做 sprite union。
@@ -677,8 +713,8 @@ async function main(): Promise<void> {
     const allEvtObjs = dumpAllEventObjects(sss.scenes, sss.eventObjects)
     writeJson(resolve(OUT, 'data', 'event-objects.json'), allEvtObjs)
     console.log(
-      `[pal-extract] event-objects.json written: ${allEvtObjs.eventObjects.length} objects, `
-      + `${Object.keys(allEvtObjs.sceneRanges).length} scene ranges`,
+      `[pal-extract] event-objects.json written: ${allEvtObjs.eventObjects.length} objects, ` +
+        `${Object.keys(allEvtObjs.sceneRanges).length} scene ranges`,
     )
   }
 
@@ -690,10 +726,7 @@ async function main(): Promise<void> {
     const palBuf = readChunk(patMkf, i)
     if (palBuf.byteLength < 768) continue // 跳过非调色板 chunk
     // 传**整块**(不再 subarray(0,768))→ decodePalette 自动抽夜间半(1536B chunk,实测 #0/#5)。
-    writeJson(
-      dataSubdirPath('palette', String(i)),
-      decodePalette(palBuf),
-    )
+    writeJson(dataSubdirPath('palette', String(i)), decodePalette(palBuf))
     palWritten++
   }
   console.log(`[pal-extract] palette written (${palWritten} chunks)`)
@@ -719,8 +752,7 @@ async function main(): Promise<void> {
     try {
       mgoChunks.set(id, decompressYj2(raw))
       spriteIds.add(id)
-    }
-    catch (err) {
+    } catch (err) {
       console.warn(`[pal-extract] sprite ${id} YJ2 fail, skip:`, err)
     }
   }
@@ -755,7 +787,11 @@ async function main(): Promise<void> {
   const battleSpriteIds: Array<{ id: number; kind: 'enemy' | 'player' }> = []
   const battleChunks = new Map<string, Uint8Array>()
 
-  const loadBattleMkf = (kind: 'player' | 'enemy', mkf: ReturnType<typeof openMkf>, total: number): void => {
+  const loadBattleMkf = (
+    kind: 'player' | 'enemy',
+    mkf: ReturnType<typeof openMkf>,
+    total: number,
+  ): void => {
     for (let id = 0; id < total; id++) {
       const raw = readChunk(mkf, id)
       if (raw.byteLength === 0) continue // 空 chunk:对应 sdlpal `if (l <= 0) continue;`
@@ -809,22 +845,15 @@ async function main(): Promise<void> {
       continue
     }
     if (pixels.byteLength !== 320 * 200) {
-      console.warn(
-        `[pal-extract] FBP chunk ${i}: 解压后 ${pixels.byteLength} bytes ≠ 64000,skip`,
-      )
+      console.warn(`[pal-extract] FBP chunk ${i}: 解压后 ${pixels.byteLength} bytes ≠ 64000,skip`)
       continue
     }
     writeBinary(imageBattleBgPath(i), encodeIndexedPng(320, 200, pixels))
     bgIds.push(i)
   }
   // M3 T25:battle-bgs.json 直接列出所有有效 bg id —— loader 按列表加载,免 404。
-  writeJson(
-    resolve(OUT, 'data', 'battle-bgs.json'),
-    { count: fbpChunkCount, ids: bgIds },
-  )
-  console.log(
-    `[pal-extract] battle backgrounds written: ${bgIds.length} / ${fbpChunkCount} chunks`,
-  )
+  writeJson(resolve(OUT, 'data', 'battle-bgs.json'), { count: fbpChunkCount, ids: bgIds })
+  console.log(`[pal-extract] battle backgrounds written: ${bgIds.length} / ${fbpChunkCount} chunks`)
 
   // ── 战斗精灵 manifest(M3 T25 loader 用) ─────────────────────────
   // 列出 battle sprite 的 (kind, id) — loader 按 manifest 加载,避免 404 / 列目录。
@@ -832,10 +861,7 @@ async function main(): Promise<void> {
     kind: s.kind,
     id: s.id,
   }))
-  writeJson(
-    resolve(OUT, 'data', 'battle-sprites.json'),
-    { sprites: battleSpriteManifest },
-  )
+  writeJson(resolve(OUT, 'data', 'battle-sprites.json'), { sprites: battleSpriteManifest })
 
   // ── lookup ──────────────────────────────────────────────────────
   writeJson(resolve(OUT, 'lookup', 'words.json'), words)
@@ -849,16 +875,17 @@ async function main(): Promise<void> {
     const glyphs = parseBdf(bdfText)
     writeJson(resolve(OUT, 'data', 'font', 'glyphs.json'), glyphsToJson(glyphs))
     console.log(`[pal-extract] font glyphs written: ${glyphs.length}`)
-  }
-  else {
+  } else {
     console.warn('[pal-extract] unifont-cn.bdf 缺,跳过 font')
   }
 
   // 全资源清单(Service Worker 离线预缓存用)。须在所有产出写完后扫盘,排除自身。
   const manifest = buildManifest(collectAssetEntries(OUT))
   writeJson(resolve(OUT, 'asset-manifest.json'), manifest)
-  console.log(`[extract] asset-manifest.json: ${manifest.fileCount} files, ` +
-    `${(manifest.totalBytes / 1024 / 1024).toFixed(0)}MB, version=${manifest.version}`)
+  console.log(
+    `[extract] asset-manifest.json: ${manifest.fileCount} files, ` +
+      `${(manifest.totalBytes / 1024 / 1024).toFixed(0)}MB, version=${manifest.version}`,
+  )
 
   console.log(`[pal-extract] done. output → ${OUT}`)
 }

@@ -25,19 +25,7 @@
  */
 
 import type { Item, PlayerRoles } from '@type-pal/shared'
-import type { GameState } from '../../core/game-state.js'
-import type { InventoryMenuState } from '../../core/menu/inventory-menu.js'
-import {
-  INV_ITEMS_PER_LINE, INV_ITEM_TEXT_WIDTH, INV_LINES_PER_PAGE,
-  MENUITEM_COLOR, MENUITEM_COLOR_SELECTED_FIRST, MENUITEM_COLOR_SELECTED_TOTAL,
-  pickItemRowColor,
-} from '../../core/menu/inventory-menu.js'
-import { matchesFilter } from '../../core/menu/item-select.js'
 import type { IndexedImage } from '../../assets/png.js'
-import type { Framebuffer } from '../framebuffer.js'
-import { renderText, type GlyphTable } from '../font.js'
-import { drawBox } from './draw-box.js'
-import { drawNumber } from '../draw-number.js'
 import {
   getPlayerAttackStrength,
   getPlayerDefense,
@@ -45,10 +33,26 @@ import {
   getPlayerFleeRate,
   getPlayerMagicStrength,
 } from '../../core/equip-effect.js'
+import type { GameState } from '../../core/game-state.js'
+import type { InventoryMenuState } from '../../core/menu/inventory-menu.js'
+import {
+  INV_ITEM_TEXT_WIDTH,
+  INV_ITEMS_PER_LINE,
+  INV_LINES_PER_PAGE,
+  MENUITEM_COLOR,
+  MENUITEM_COLOR_SELECTED_FIRST,
+  MENUITEM_COLOR_SELECTED_TOTAL,
+  pickItemRowColor,
+} from '../../core/menu/inventory-menu.js'
+import { matchesFilter } from '../../core/menu/item-select.js'
 import { getScriptDescLines } from '../../core/menu/script-desc.js'
+import { drawNumber } from '../draw-number.js'
+import { type GlyphTable, renderText } from '../font.js'
+import type { Framebuffer } from '../framebuffer.js'
+import { drawBox } from './draw-box.js'
 
 // sdlpal ui.h 真值色 — pickItemRowColor 内部用,本文件直接 reference 仅留 DESCTEXT_COLOR
-const DESCTEXT_COLOR = 0x3C
+const DESCTEXT_COLOR = 0x3c
 
 // sdlpal ui.h:110/114
 const SPRITENUM_ITEMBOX = 70
@@ -62,9 +66,10 @@ const ITEMBOX_XBASE = 0
 const ITEMBOX_YBASE = 140
 
 function selectedColor(): number {
-  return MENUITEM_COLOR_SELECTED_FIRST + Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL
+  return (
+    MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
+  )
 }
-
 
 /** sprite blit (opaque mask)— 复用 draw-sprite 风格,直接内嵌轻量版本。 */
 function blitSpriteOpaque(fb: Framebuffer, frame: IndexedImage, dstX: number, dstY: number): void {
@@ -88,7 +93,7 @@ function blitSpriteShadow(fb: Framebuffer, frame: IndexedImage, dstX: number, ds
         const fbY = dstY + y
         if (fbX < 0 || fbX >= fb.width || fbY < 0 || fbY >= fb.height) continue
         const cur = fb.indices[fbY * fb.width + fbX]!
-        fb.writePixel(fbX, fbY, (cur & 0xF0) | ((cur & 0x0F) >> 1))
+        fb.writePixel(fbX, fbY, (cur & 0xf0) | ((cur & 0x0f) >> 1))
       }
     }
   }
@@ -115,20 +120,20 @@ export interface DrawInventoryInput {
 }
 
 // sdlpal `uigame.c:1289-1473` PAL_ItemUseMenu 真值常量
-const ITEMUSE_BOX = { x: 110, y: 2, rows: 7, cols: 9 }              // PAL_CreateBox(PAL_XY(110, 2), 7, 9, 0, FALSE)
+const ITEMUSE_BOX = { x: 110, y: 2, rows: 7, cols: 9 } // PAL_CreateBox(PAL_XY(110, 2), 7, 9, 0, FALSE)
 const ITEMUSE_STAT_LABEL_X = 200
 const ITEMUSE_STAT_VALUE_X = 240
-const ITEMUSEMENU_COLOR_STATLABEL = 0xBB                            // sdlpal ui.h:120
+const ITEMUSEMENU_COLOR_STATLABEL = 0xbb // sdlpal ui.h:120
 const ITEMUSE_NAME_X = 125
 const ITEMUSE_NAME_Y_BASE = 16
-const ITEMUSE_NAME_LINE_HEIGHT = 20                                 // PAL_XY(125, 16 + 20*i)
-const ITEMUSE_ITEMBOX_POS = { x: 120, y: 80 }                        // SPRITENUM_ITEMBOX=70
-const ITEMUSE_ITEM_ICON = { x: 127, y: 88 }                          // BALL bitmap
-const ITEMUSE_ITEM_NAME_POS = { x: 116, y: 143 }                     // PAL_GetWord(wItemToUse)
-const ITEMUSE_ITEM_AMOUNT = { x: 170, y: 133 }                       // PAL_DrawNumber(amount, 2, ..., cyan, right)
-const ITEMUSE_HP_SLASH = { x: 263, y: 38 }                           // SPRITENUM_SLASH=39 / 2 row spacing
+const ITEMUSE_NAME_LINE_HEIGHT = 20 // PAL_XY(125, 16 + 20*i)
+const ITEMUSE_ITEMBOX_POS = { x: 120, y: 80 } // SPRITENUM_ITEMBOX=70
+const ITEMUSE_ITEM_ICON = { x: 127, y: 88 } // BALL bitmap
+const ITEMUSE_ITEM_NAME_POS = { x: 116, y: 143 } // PAL_GetWord(wItemToUse)
+const ITEMUSE_ITEM_AMOUNT = { x: 170, y: 133 } // PAL_DrawNumber(amount, 2, ..., cyan, right)
+const ITEMUSE_HP_SLASH = { x: 263, y: 38 } // SPRITENUM_SLASH=39 / 2 row spacing
 const ITEMUSE_MP_SLASH = { x: 263, y: 56 }
-const STATUS_COLOR_EQUIPMENT = 0xBE                                  // sdlpal ui.h:97
+const STATUS_COLOR_EQUIPMENT = 0xbe // sdlpal ui.h:97
 const SPRITENUM_SLASH = 39
 
 /**
@@ -156,8 +161,12 @@ function drawItemUseMenu(
 
   // 1. box(sdlpal uigame.c:1328 PAL_CreateBox(PAL_XY(110, 2), 7, 9, 0, FALSE))
   drawBox({
-    fb, x: ITEMUSE_BOX.x, y: ITEMUSE_BOX.y,
-    rows: ITEMUSE_BOX.rows, cols: ITEMUSE_BOX.cols, style: 0,
+    fb,
+    x: ITEMUSE_BOX.x,
+    y: ITEMUSE_BOX.y,
+    rows: ITEMUSE_BOX.rows,
+    cols: ITEMUSE_BOX.cols,
+    style: 0,
     uiSpriteFrames,
   })
 
@@ -165,7 +174,15 @@ function drawItemUseMenu(
   //    flat[id] 真值(verify lookup/words.json):48=修行 49=体力 50=真气 51=武术 52=灵力 53=防御 54=身法 55=吉运
   const STAT_LABELS = ['修行', '体力', '真气', '武术', '灵力', '防御', '身法', '吉运'] as const
   for (let i = 0; i < STAT_LABELS.length; i++) {
-    renderText(fb, STAT_LABELS[i]!, ITEMUSE_STAT_LABEL_X, 16 + 18 * i, ITEMUSEMENU_COLOR_STATLABEL, glyphs, true)
+    renderText(
+      fb,
+      STAT_LABELS[i]!,
+      ITEMUSE_STAT_LABEL_X,
+      16 + 18 * i,
+      ITEMUSEMENU_COLOR_STATLABEL,
+      glyphs,
+      true,
+    )
   }
 
   // 3. 当前 cursor player 的 stat values(uigame.c:1350-1378)
@@ -194,18 +211,18 @@ function drawItemUseMenu(
     const slashFrame = uiSpriteFrames[SPRITENUM_SLASH]
     if (slashFrame) blitSpriteOpaque(fb, slashFrame, ITEMUSE_HP_SLASH.x, ITEMUSE_HP_SLASH.y)
     drawNumber(fb, maxHP, 4, { x: 261, y: 40 }, 'blue', 'right', uiSpriteFrames)
-    drawNumber(fb, hp,    4, { x: ITEMUSE_STAT_VALUE_X, y: 37 }, 'yellow', 'right', uiSpriteFrames)
+    drawNumber(fb, hp, 4, { x: ITEMUSE_STAT_VALUE_X, y: 37 }, 'yellow', 'right', uiSpriteFrames)
 
     // uigame.c:1362-1367:同上 MP
     if (slashFrame) blitSpriteOpaque(fb, slashFrame, ITEMUSE_MP_SLASH.x, ITEMUSE_MP_SLASH.y)
     drawNumber(fb, maxMP, 4, { x: 261, y: 58 }, 'blue', 'right', uiSpriteFrames)
-    drawNumber(fb, mp,    4, { x: ITEMUSE_STAT_VALUE_X, y: 55 }, 'yellow', 'right', uiSpriteFrames)
+    drawNumber(fb, mp, 4, { x: ITEMUSE_STAT_VALUE_X, y: 55 }, 'yellow', 'right', uiSpriteFrames)
 
     // 5 stat numbers(uigame.c:1369-1378)— PAL_XY(240, 74/92/110/128/146)
-    drawNumber(fb, atk,  4, { x: ITEMUSE_STAT_VALUE_X, y: 74  }, 'yellow', 'right', uiSpriteFrames)
-    drawNumber(fb, mag,  4, { x: ITEMUSE_STAT_VALUE_X, y: 92  }, 'yellow', 'right', uiSpriteFrames)
-    drawNumber(fb, def,  4, { x: ITEMUSE_STAT_VALUE_X, y: 110 }, 'yellow', 'right', uiSpriteFrames)
-    drawNumber(fb, dex,  4, { x: ITEMUSE_STAT_VALUE_X, y: 128 }, 'yellow', 'right', uiSpriteFrames)
+    drawNumber(fb, atk, 4, { x: ITEMUSE_STAT_VALUE_X, y: 74 }, 'yellow', 'right', uiSpriteFrames)
+    drawNumber(fb, mag, 4, { x: ITEMUSE_STAT_VALUE_X, y: 92 }, 'yellow', 'right', uiSpriteFrames)
+    drawNumber(fb, def, 4, { x: ITEMUSE_STAT_VALUE_X, y: 110 }, 'yellow', 'right', uiSpriteFrames)
+    drawNumber(fb, dex, 4, { x: ITEMUSE_STAT_VALUE_X, y: 128 }, 'yellow', 'right', uiSpriteFrames)
     drawNumber(fb, flee, 4, { x: ITEMUSE_STAT_VALUE_X, y: 146 }, 'yellow', 'right', uiSpriteFrames)
   }
 
@@ -214,7 +231,15 @@ function drawItemUseMenu(
     const role = playerRoles.roles[memberItem.id]
     const name = role?._name ?? `role#${memberItem.id}`
     const color = i === cursorIdx ? selectedColor() : MENUITEM_COLOR
-    renderText(fb, name, ITEMUSE_NAME_X, ITEMUSE_NAME_Y_BASE + ITEMUSE_NAME_LINE_HEIGHT * i, color, glyphs, true)
+    renderText(
+      fb,
+      name,
+      ITEMUSE_NAME_X,
+      ITEMUSE_NAME_Y_BASE + ITEMUSE_NAME_LINE_HEIGHT * i,
+      color,
+      glyphs,
+      true,
+    )
   })
 
   // 5. ITEMBOX sprite at (120, 80)(uigame.c:1398)
@@ -230,7 +255,15 @@ function drawItemUseMenu(
     if (icon) blitSpriteOpaque(fb, icon, ITEMUSE_ITEM_ICON.x, ITEMUSE_ITEM_ICON.y)
   }
   // 物品名 at (116, 143),color = STATUS_COLOR_EQUIPMENT 0xBE,fShadow=TRUE
-  renderText(fb, selectedItem._name ?? `?${selectedItem.id}`, ITEMUSE_ITEM_NAME_POS.x, ITEMUSE_ITEM_NAME_POS.y, STATUS_COLOR_EQUIPMENT, glyphs, true)
+  renderText(
+    fb,
+    selectedItem._name ?? `?${selectedItem.id}`,
+    ITEMUSE_ITEM_NAME_POS.x,
+    ITEMUSE_ITEM_NAME_POS.y,
+    STATUS_COLOR_EQUIPMENT,
+    glyphs,
+    true,
+  )
   // amount — sdlpal `uigame.c:1401` 真值 `i = PAL_GetItemAmount(wItemToUse)` 每帧 live 读
   // gpGlobals->rgInventory,**不用** state.inventory snapshot(否则用一次后 picker 始终显
   // 旧 amount,看起来"道具没减")。
@@ -246,16 +279,21 @@ export function drawInventoryMenu(input: DrawInventoryInput): void {
 
   // 1. Box — sdlpal itemmenu.c:117 真值 PAL_CreateBoxWithShadow(PAL_XY(2, 0), 6, 17, style=1, FALSE, 0)
   drawBox({
-    fb, x: 2, y: 0,
-    rows: INV_LINES_PER_PAGE - 1, cols: 17, style: 1,
+    fb,
+    x: 2,
+    y: 0,
+    rows: INV_LINES_PER_PAGE - 1,
+    cols: 17,
+    style: 1,
     shadowOffset: 0,
     uiSpriteFrames,
   })
 
   // 2. 计算 page 起 idx(sdlpal itemmenu.c:122-126)
   //    i = cursor / iItemsPerLine * iItemsPerLine - iItemsPerLine * iPageLineOffset
-  let pageStart = Math.floor(state.cursor / INV_ITEMS_PER_LINE) * INV_ITEMS_PER_LINE
-    - INV_ITEMS_PER_LINE * INV_PAGE_LINE_OFFSET
+  let pageStart =
+    Math.floor(state.cursor / INV_ITEMS_PER_LINE) * INV_ITEMS_PER_LINE -
+    INV_ITEMS_PER_LINE * INV_PAGE_LINE_OFFSET
   if (pageStart < 0) pageStart = 0
 
   let cursorScreenPos = { x: 15 + INV_CURSOR_X_OFFSET, y: 22 } // 默认(cursor 在第 0 行第 0 列)
@@ -306,9 +344,13 @@ export function drawInventoryMenu(input: DrawInventoryInput): void {
       // 数量(sdlpal itemmenu.c:211-215):if diff > 1,DrawNumber cyan right-align
       if (diff > 1) {
         drawNumber(
-          fb, diff, 2,
+          fb,
+          diff,
+          2,
           { x: 15 + INV_AMOUNT_X_OFFSET + k * INV_ITEM_TEXT_WIDTH, y: 17 + j * 18 },
-          'cyan', 'right', uiSpriteFrames,
+          'cyan',
+          'right',
+          uiSpriteFrames,
         )
       }
 

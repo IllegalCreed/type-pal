@@ -5,6 +5,8 @@
  * - 解码结果按 id 缓存(Promise 缓存,并发同 id 只 fetch 一次)。
  * - id<=0 = 无音效(原版 0 空槽语义);fetch/decode 失败静默(音效缺失不阻断战斗)。
  */
+import { expectDefined } from '../defined.js'
+
 export class SfxPlayer {
   private ctx: AudioContext | null = null
   private readonly cache = new Map<number, Promise<AudioBuffer | null>>()
@@ -65,7 +67,7 @@ export class SfxPlayer {
           const res = await fetch(`${this.baseUrl}/${id}.wav`)
           if (!res.ok) return null
           const raw = await res.arrayBuffer()
-          return await this.ctx!.decodeAudioData(raw)
+          return await expectDefined(this.ctx).decodeAudioData(raw)
         } catch {
           return null
         }

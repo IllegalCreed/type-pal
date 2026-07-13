@@ -88,10 +88,18 @@ export function validateReferences(b: ContentBundle): Issue[] {
       if (isActorEntity(e)) {
         // actor → actors 表(缺 = error:引擎解析精灵会 throw)
         if (!actorIds.has(e.actor))
-          issues.push({ severity: 'error', where: `${where}.actor`, message: `角色 "${e.actor}" 不在 actors 表` })
+          issues.push({
+            severity: 'error',
+            where: `${where}.actor`,
+            message: `角色 "${e.actor}" 不在 actors 表`,
+          })
       } else if ('sprite' in e && !spriteIds.has(e.sprite)) {
         // prop 的 sprite → sprites 注册表(缺 = error:引擎 loadSprite 会 throw)
-        issues.push({ severity: 'error', where: `${where}.sprite`, message: `精灵 "${e.sprite}" 不在 sprites 注册表` })
+        issues.push({
+          severity: 'error',
+          where: `${where}.sprite`,
+          message: `精灵 "${e.sprite}" 不在 sprites 注册表`,
+        })
       } // zone:true 无视觉引用,无需校验
     })
   })
@@ -102,22 +110,46 @@ export function validateReferences(b: ContentBundle): Issue[] {
     const where = `enemies[${ei}](${e.id})`
     for (const [ri, r] of (e.ai.rules ?? []).entries()) {
       if (r.do.kind === 'cast' && !skillIds.has(r.do.skillId))
-        issues.push({ severity: 'error', where: `${where}.ai.rules[${ri}]`, message: `施法技能 "${r.do.skillId}" 不在 skills` })
+        issues.push({
+          severity: 'error',
+          where: `${where}.ai.rules[${ri}]`,
+          message: `施法技能 "${r.do.skillId}" 不在 skills`,
+        })
       if (r.do.kind === 'transform' && !enemyIds.has(r.do.enemyId))
-        issues.push({ severity: 'error', where: `${where}.ai.rules[${ri}]`, message: `变身目标 "${r.do.enemyId}" 不在 enemies` })
+        issues.push({
+          severity: 'error',
+          where: `${where}.ai.rules[${ri}]`,
+          message: `变身目标 "${r.do.enemyId}" 不在 enemies`,
+        })
       if (r.do.kind === 'summon' && r.do.enemyId && !enemyIds.has(r.do.enemyId))
-        issues.push({ severity: 'error', where: `${where}.ai.rules[${ri}]`, message: `召唤目标 "${r.do.enemyId}" 不在 enemies` })
+        issues.push({
+          severity: 'error',
+          where: `${where}.ai.rules[${ri}]`,
+          message: `召唤目标 "${r.do.enemyId}" 不在 enemies`,
+        })
     }
     if (e.steal && !itemIds.has(e.steal.itemId))
-      issues.push({ severity: 'warn', where: `${where}.steal`, message: `可偷物品 "${e.steal.itemId}" 不在 items` })
+      issues.push({
+        severity: 'warn',
+        where: `${where}.steal`,
+        message: `可偷物品 "${e.steal.itemId}" 不在 items`,
+      })
   })
   ;(b.enemyTeams ?? []).forEach((t, ti) => {
     t.members.forEach((m, mi) => {
       if (!enemyIds.has(m))
-        issues.push({ severity: 'error', where: `enemyTeams[${ti}](${t.id}).members[${mi}]`, message: `敌人 "${m}" 不在 enemies` })
+        issues.push({
+          severity: 'error',
+          where: `enemyTeams[${ti}](${t.id}).members[${mi}]`,
+          message: `敌人 "${m}" 不在 enemies`,
+        })
     })
     if (t.members.length > 5)
-      issues.push({ severity: 'error', where: `enemyTeams[${ti}](${t.id})`, message: `敌队成员 ${t.members.length} 超上限 5` })
+      issues.push({
+        severity: 'error',
+        where: `enemyTeams[${ti}](${t.id})`,
+        message: `敌队成员 ${t.members.length} 超上限 5`,
+      })
   })
 
   // ── actors ──────────────────────────────────────────────
@@ -125,21 +157,37 @@ export function validateReferences(b: ContentBundle): Issue[] {
     const where = `actors[${ai}](${a.id})`
     // name → locale(缺 = warn:菜单/对话显 id)
     if (!localeKeys.has(a.name))
-      issues.push({ severity: 'warn', where: `${where}.name`, message: `角色名 id "${a.name}" 不在 locale` })
+      issues.push({
+        severity: 'warn',
+        where: `${where}.name`,
+        message: `角色名 id "${a.name}" 不在 locale`,
+      })
     // spriteId → sprites 注册表(缺 = error:引擎解析会 throw)
     if (!spriteIds.has(a.spriteId))
-      issues.push({ severity: 'error', where: `${where}.spriteId`, message: `精灵 "${a.spriteId}" 不在 sprites 注册表` })
+      issues.push({
+        severity: 'error',
+        where: `${where}.spriteId`,
+        message: `精灵 "${a.spriteId}" 不在 sprites 注册表`,
+      })
     const battler = a.battler
     if (battler) {
       // battler.initialEquipment 值 → items(缺 = warn)
       for (const [slot, itemId] of Object.entries(battler.initialEquipment)) {
         if (!itemIds.has(itemId))
-          issues.push({ severity: 'warn', where: `${where}.battler.initialEquipment[${slot}]`, message: `初始装备 "${itemId}" 不在 items` })
+          issues.push({
+            severity: 'warn',
+            where: `${where}.battler.initialEquipment[${slot}]`,
+            message: `初始装备 "${itemId}" 不在 items`,
+          })
       }
       // battler.initialMagic → skills(缺 = warn)
       battler.initialMagic.forEach((skillId, mi) => {
         if (!skillIds.has(skillId))
-          issues.push({ severity: 'warn', where: `${where}.battler.initialMagic[${mi}]`, message: `初始仙术 "${skillId}" 不在 skills` })
+          issues.push({
+            severity: 'warn',
+            where: `${where}.battler.initialMagic[${mi}]`,
+            message: `初始仙术 "${skillId}" 不在 skills`,
+          })
       })
     }
   })
@@ -147,21 +195,37 @@ export function validateReferences(b: ContentBundle): Issue[] {
   // ── startWorld ──────────────────────────────────────────
   b.startWorld.party.forEach((actorId, pi) => {
     if (!actorIds.has(actorId)) {
-      issues.push({ severity: 'error', where: `startWorld.party[${pi}]`, message: `队员 "${actorId}" 不在 actors 表` })
+      issues.push({
+        severity: 'error',
+        where: `startWorld.party[${pi}]`,
+        message: `队员 "${actorId}" 不在 actors 表`,
+      })
     } else if (!actorsById[actorId]?.battler) {
       // 入队必须可战斗(buildWorld/instantiate 会 throw)
-      issues.push({ severity: 'error', where: `startWorld.party[${pi}]`, message: `队员 "${actorId}" 无 battler(不可入队)` })
+      issues.push({
+        severity: 'error',
+        where: `startWorld.party[${pi}]`,
+        message: `队员 "${actorId}" 无 battler(不可入队)`,
+      })
     }
   })
   for (const [cid, skillIds2] of Object.entries(b.startWorld.learnedSkills)) {
     skillIds2.forEach((skillId, si) => {
       if (!skillIds.has(skillId))
-        issues.push({ severity: 'warn', where: `startWorld.learnedSkills[${cid}][${si}]`, message: `已学仙术 "${skillId}" 不在 skills` })
+        issues.push({
+          severity: 'warn',
+          where: `startWorld.learnedSkills[${cid}][${si}]`,
+          message: `已学仙术 "${skillId}" 不在 skills`,
+        })
     })
   }
   b.startWorld.inventory.forEach((entry, ii) => {
     if (!itemIds.has(entry.itemId))
-      issues.push({ severity: 'warn', where: `startWorld.inventory[${ii}].itemId`, message: `物品 "${entry.itemId}" 不在 items` })
+      issues.push({
+        severity: 'warn',
+        where: `startWorld.inventory[${ii}].itemId`,
+        message: `物品 "${entry.itemId}" 不在 items`,
+      })
   })
 
   // ── items ───────────────────────────────────────────────
@@ -172,12 +236,20 @@ export function validateReferences(b: ContentBundle): Issue[] {
       // equipableBy → actors(缺 = warn:装备菜单不显示该角色)
       equip.equipableBy.forEach((cid, ei) => {
         if (!actorIds.has(cid))
-          issues.push({ severity: 'warn', where: `${where}.equip.equipableBy[${ei}]`, message: `可装备角色 "${cid}" 不在 actors` })
+          issues.push({
+            severity: 'warn',
+            where: `${where}.equip.equipableBy[${ei}]`,
+            message: `可装备角色 "${cid}" 不在 actors`,
+          })
       })
       // effects.grantSkill.skillId → skills(缺 = warn)
       equip.effects.forEach((eff, ei) => {
         if (eff.kind === 'grantSkill' && !skillIds.has(eff.skillId))
-          issues.push({ severity: 'warn', where: `${where}.equip.effects[${ei}].grantSkill`, message: `授技 "${eff.skillId}" 不在 skills` })
+          issues.push({
+            severity: 'warn',
+            where: `${where}.equip.effects[${ei}].grantSkill`,
+            message: `授技 "${eff.skillId}" 不在 skills`,
+          })
       })
     }
   })
@@ -188,7 +260,11 @@ export function validateReferences(b: ContentBundle): Issue[] {
     // SkillCost.items[].itemId → items(缺 = warn:施法时扣不到)
     skill.cost?.items?.forEach((entry, ci) => {
       if (!itemIds.has(entry.itemId))
-        issues.push({ severity: 'warn', where: `${where}.cost.items[${ci}].itemId`, message: `消耗物品 "${entry.itemId}" 不在 items` })
+        issues.push({
+          severity: 'warn',
+          where: `${where}.cost.items[${ci}].itemId`,
+          message: `消耗物品 "${entry.itemId}" 不在 items`,
+        })
     })
   })
 
@@ -196,7 +272,11 @@ export function validateReferences(b: ContentBundle): Issue[] {
   for (const [cid, list] of Object.entries(b.levelUp)) {
     list.forEach((lu, li) => {
       if (!skillIds.has(lu.skillId))
-        issues.push({ severity: 'warn', where: `levelUp[${cid}][${li}].skillId`, message: `升级习得 "${lu.skillId}" 不在 skills` })
+        issues.push({
+          severity: 'warn',
+          where: `levelUp[${cid}][${li}].skillId`,
+          message: `升级习得 "${lu.skillId}" 不在 skills`,
+        })
     })
   }
 

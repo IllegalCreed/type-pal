@@ -1,5 +1,10 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { pausePrecache, registerPrecache, resumePrecache, startPrecache } from './precache-client.js'
+import {
+  pausePrecache,
+  registerPrecache,
+  resumePrecache,
+  startPrecache,
+} from './precache-client.js'
 
 function mockSW() {
   const sw = {
@@ -12,7 +17,9 @@ function mockSW() {
   return sw
 }
 
-afterEach(() => { vi.restoreAllMocks() })
+afterEach(() => {
+  vi.restoreAllMocks()
+})
 
 describe('registerPrecache', () => {
   it('PROD=false(dev/e2e)→ 不注册', async () => {

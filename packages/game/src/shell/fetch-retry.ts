@@ -26,14 +26,17 @@ export function installFetchRetry(opts: { retries?: number; backoffMs?: number[]
 
   globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
     const method = (
-      init?.method ?? (typeof Request !== 'undefined' && input instanceof Request ? input.method : 'GET')
+      init?.method ??
+      (typeof Request !== 'undefined' && input instanceof Request ? input.method : 'GET')
     ).toUpperCase()
     if (method !== 'GET') return orig(input, init) // 非幂等请求不重试
 
     let lastErr: unknown
     for (let attempt = 0; attempt <= retries; attempt++) {
       if (attempt > 0) {
-        await new Promise((r) => setTimeout(r, backoff[attempt - 1] ?? backoff[backoff.length - 1] ?? 1000))
+        await new Promise((r) =>
+          setTimeout(r, backoff[attempt - 1] ?? backoff[backoff.length - 1] ?? 1000),
+        )
       }
       try {
         const res = await orig(input, init)

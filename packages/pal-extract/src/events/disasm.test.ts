@@ -59,20 +59,36 @@ describe('disasm', () => {
 
   it('L29:13 个 raw 条件跳转 opcode 的目标会打 L_ 标签', () => {
     const cases: Array<[number, number]> = [
-      [0x06, 1], [0x1e, 1], [0x20, 2], [0x2e, 2], [0x33, 0], [0x34, 0], [0x38, 0],
-      [0x3a, 0], [0x68, 0], [0x84, 2], [0x91, 0], [0x9c, 1], [0x9e, 2],
+      [0x06, 1],
+      [0x1e, 1],
+      [0x20, 2],
+      [0x2e, 2],
+      [0x33, 0],
+      [0x34, 0],
+      [0x38, 0],
+      [0x3a, 0],
+      [0x68, 0],
+      [0x84, 2],
+      [0x91, 0],
+      [0x9c, 1],
+      [0x9e, 2],
     ]
     for (const [opcode, tgtIdx] of cases) {
       const operands: [number, number, number] = [0, 0, 0]
       operands[tgtIdx] = 3
-      const cmds = disasm(concat(
-        instr(opcode, operands[0], operands[1], operands[2]), // 0: raw 条件跳转
-        instr(0x0000), // 1 filler
-        instr(0x0000), // 2 filler
-        instr(0x0000), // 3 target
-      ), [])
-      expect(cmds[3], `opcode 0x${opcode.toString(16)} target should be labeled`)
-        .toEqual({ label: 'L_3', op: 'end' })
+      const cmds = disasm(
+        concat(
+          instr(opcode, operands[0], operands[1], operands[2]), // 0: raw 条件跳转
+          instr(0x0000), // 1 filler
+          instr(0x0000), // 2 filler
+          instr(0x0000), // 3 target
+        ),
+        [],
+      )
+      expect(cmds[3], `opcode 0x${opcode.toString(16)} target should be labeled`).toEqual({
+        label: 'L_3',
+        op: 'end',
+      })
     }
   })
 
@@ -95,7 +111,9 @@ describe('setDialogStyle round-trip', () => {
   function buildBytecode(opcodes: number[]): Uint8Array {
     const buf = new Uint8Array(opcodes.length * 8)
     const view = new DataView(buf.buffer)
-    opcodes.forEach((op, i) => view.setUint16(i * 8, op, true))
+    opcodes.forEach((op, i) => {
+      view.setUint16(i * 8, op, true)
+    })
     return buf
   }
 

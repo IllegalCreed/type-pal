@@ -11,9 +11,16 @@ function ensureContainer(): HTMLElement {
   const c = document.createElement('div')
   c.id = CONTAINER_ID
   c.style.cssText = [
-    'position:fixed', 'top:24px', 'left:50%', 'transform:translateX(-50%)',
-    'z-index:40', 'display:flex', 'flex-direction:column', 'gap:8px',
-    'align-items:center', 'pointer-events:none',
+    'position:fixed',
+    'top:24px',
+    'left:50%',
+    'transform:translateX(-50%)',
+    'z-index:40',
+    'display:flex',
+    'flex-direction:column',
+    'gap:8px',
+    'align-items:center',
+    'pointer-events:none',
   ].join(';')
   document.body.appendChild(c)
   return c
@@ -27,7 +34,10 @@ const ACCENT: Record<ToastType, string> = {
 const ICON: Record<ToastType, string> = { success: '✓', error: '✗', info: '·' }
 
 /** 弹一条 toast:淡入 → durationMs 停留 → 淡出移除。非阻塞;多条向下堆叠。 */
-export function showToast(message: string, opts: { type?: ToastType; durationMs?: number } = {}): void {
+export function showToast(
+  message: string,
+  opts: { type?: ToastType; durationMs?: number } = {},
+): void {
   if (typeof document === 'undefined') return
   const type = opts.type ?? 'success'
   const duration = opts.durationMs ?? 2000
@@ -37,12 +47,20 @@ export function showToast(message: string, opts: { type?: ToastType; durationMs?
   const el = document.createElement('div')
   el.className = `tp-toast tp-toast-${type}`
   el.style.cssText = [
-    'font:14px/1.4 "Songti SC","SimSun",serif', 'color:#f0e0b0',
-    'background:rgba(17,17,17,0.94)', `border:1px solid ${accent}`, 'border-radius:6px',
-    'padding:9px 18px', 'letter-spacing:1px', 'max-width:80vw',
+    'font:14px/1.4 "Songti SC","SimSun",serif',
+    'color:#f0e0b0',
+    'background:rgba(17,17,17,0.94)',
+    `border:1px solid ${accent}`,
+    'border-radius:6px',
+    'padding:9px 18px',
+    'letter-spacing:1px',
+    'max-width:80vw',
     'box-shadow:0 0 16px rgba(160,30,30,0.45),0 2px 8px rgba(0,0,0,0.5)',
-    'opacity:0', 'transform:translateY(-8px)', 'transition:opacity .2s ease,transform .2s ease',
-    'pointer-events:none', 'user-select:none',
+    'opacity:0',
+    'transform:translateY(-8px)',
+    'transition:opacity .2s ease,transform .2s ease',
+    'pointer-events:none',
+    'user-select:none',
   ].join(';')
   el.textContent = `${ICON[type]} ${message}`
   container.appendChild(el)

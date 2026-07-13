@@ -100,7 +100,9 @@ describe('cloneFromPal', () => {
     const seed = memSource({
       'manifest.json': manifest,
       'content/scenes/index.json': ['s1'],
-      '/extracted/asset-manifest.json': { files: [{ path: 'data/sprite/1.rle', size: gz.byteLength }] },
+      '/extracted/asset-manifest.json': {
+        files: [{ path: 'data/sprite/1.rle', size: gz.byteLength }],
+      },
       '/baked/baked-manifest.json': { files: [] },
       'content/actors.json': [],
       'content/scenes/s1.json': { id: 's1' },

@@ -58,7 +58,9 @@ export function encodeSpriteChunk(frames: readonly RleFrame[]): Uint8Array {
     if (at & 1) at++ // 下一帧偶数对齐
   }
   if (at > MAX_CHUNK_BYTES)
-    throw new Error(`encodeSpriteChunk: chunk ${at}B 超 u16 偏移上限 ${MAX_CHUNK_BYTES}B,请拆分图集`)
+    throw new Error(
+      `encodeSpriteChunk: chunk ${at}B 超 u16 偏移上限 ${MAX_CHUNK_BYTES}B,请拆分图集`,
+    )
   if (count > 0 && offsets[0] !== count)
     throw new Error('encodeSpriteChunk: frame0 偏移与 frameCount 双重身份不符(内部错误)')
   const out = new Uint8Array(at)

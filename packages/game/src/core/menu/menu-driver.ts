@@ -11,73 +11,121 @@
  * setSceneContext 模式,避免 tickByMode 接口侵入 deps 参数。
  */
 
-import type { InputSnapshot } from '@type-pal/shared'
-import type { Item, Magic, PlayerRoles, Spell } from '@type-pal/shared'
+import type { InputSnapshot, Item, Magic, PlayerRoles, Spell } from '@type-pal/shared'
 import type { CommandBus } from '../command-bus.js'
-import { addItemToInventory, startOverworldItemScript } from '../event-system.js'
 import { runEquipScript } from '../equip-effect.js'
-import { Save } from '../save/api.js'
+import { addItemToInventory, startOverworldItemScript } from '../event-system.js'
 import type { ActiveMenuEntry, GameState } from '../game-state.js'
 import { projectRuntimeToBattleRoles } from '../game-state.js'
-import { closeTopMenu, openMenu } from './menu-mode.js'
+import { Save } from '../save/api.js'
+import {
+  cancelEquipMenu,
+  confirmEquipItem,
+  confirmEquipRole,
+  createEquipMenu,
+  type EquipMenuState,
+  equipMoveDown,
+  equipMoveUp,
+} from './equip-menu.js'
+import {
+  cancelInGameMagic,
+  confirmCaster,
+  confirmSpell,
+  confirmTarget,
+  createInGameMagicMenu,
+  type InGameMagicMenuState,
+  inGameMagicEnd,
+  inGameMagicHome,
+  inGameMagicMoveDown,
+  inGameMagicMoveLeft,
+  inGameMagicMoveRight,
+  inGameMagicMoveUp,
+  inGameMagicPageDown,
+  inGameMagicPageUp,
+  refreshSpellMenu,
+} from './in-game-magic-menu.js'
 import {
   createSystemMenu,
+  type InGameMenuState,
   inGameMenuChoice,
   inGameMenuDown,
   inGameMenuUp,
+  type SystemMenuState,
   systemMenuChoice,
   systemMenuDown,
-  systemMenuUp,
   systemMenuEnterConfirm,
-  systemMenuToggleConfirm,
   systemMenuEnterSwitch,
-  type InGameMenuState,
-  type SystemMenuState,
+  systemMenuToggleConfirm,
+  systemMenuUp,
 } from './in-game-menu.js'
 import {
-  cancelInventoryMenu, confirmInventoryItem, confirmInventoryTarget,
-  createInventoryMenu, inventoryEnd, inventoryHome, inventoryMoveDown,
-  inventoryMoveLeft, inventoryMoveRight, inventoryMoveUp, inventoryPageDown,
-  inventoryPageUp, type InventoryMenuState,
-} from './inventory-menu.js'
-import {
-  createInventoryActionMenu, inventoryActionChoice, inventoryActionMenuDown,
-  inventoryActionMenuUp, type InventoryActionMenuState,
+  createInventoryActionMenu,
+  type InventoryActionMenuState,
+  inventoryActionChoice,
+  inventoryActionMenuDown,
+  inventoryActionMenuUp,
 } from './inventory-action-menu.js'
 import {
-  cancelEquipMenu, confirmEquipItem, confirmEquipRole,
-  createEquipMenu, equipMoveDown, equipMoveUp, type EquipMenuState,
-} from './equip-menu.js'
-import {
-  cancelInGameMagic, confirmCaster, confirmSpell, confirmTarget,
-  createInGameMagicMenu, inGameMagicEnd, inGameMagicHome, inGameMagicMoveDown,
-  inGameMagicMoveLeft, inGameMagicMoveRight, inGameMagicMoveUp,
-  inGameMagicPageDown, inGameMagicPageUp,
-  refreshSpellMenu, type InGameMagicMenuState,
-} from './in-game-magic-menu.js'
+  cancelInventoryMenu,
+  confirmInventoryItem,
+  confirmInventoryTarget,
+  createInventoryMenu,
+  type InventoryMenuState,
+  inventoryEnd,
+  inventoryHome,
+  inventoryMoveDown,
+  inventoryMoveLeft,
+  inventoryMoveRight,
+  inventoryMoveUp,
+  inventoryPageDown,
+  inventoryPageUp,
+} from './inventory-menu.js'
 import { castOverworldMagic } from './magic-script.js'
+import { closeTopMenu, openMenu } from './menu-mode.js'
 import {
-  createPlayerStatus, playerStatusCancel, playerStatusNext, playerStatusPrev,
-  type PlayerStatusState,
-} from './player-status.js'
-import {
-  createSaveSlotMenu, fetchSlotMetas,
-  saveSlotMenuCurrent, saveSlotMenuDown, saveSlotMenuUp,
-  type SaveSlotMenuState,
-} from './save-slot-menu.js'
-import {
-  openingMenuChoice, openingMenuDown, openingMenuUp,
   type OpeningMenuState,
+  openingMenuChoice,
+  openingMenuDown,
+  openingMenuUp,
 } from './opening-menu.js'
 import {
-  shopCancel, shopConfirm, shopMoveDown, shopMoveUp, shopSelectItem,
-  type ShopMenuState,
-} from './shop-menu.js'
+  createPlayerStatus,
+  type PlayerStatusState,
+  playerStatusCancel,
+  playerStatusNext,
+  playerStatusPrev,
+} from './player-status.js'
 import {
-  refreshSellGrid, sellCancel, sellConfirm, sellEnd, sellHome,
-  sellMoveDown, sellMoveLeft, sellMoveRight, sellMoveUp,
-  sellPageDown, sellPageUp, sellSelectItem, type SellMenuState,
+  createSaveSlotMenu,
+  fetchSlotMetas,
+  type SaveSlotMenuState,
+  saveSlotMenuCurrent,
+  saveSlotMenuDown,
+  saveSlotMenuUp,
+} from './save-slot-menu.js'
+import {
+  refreshSellGrid,
+  type SellMenuState,
+  sellCancel,
+  sellConfirm,
+  sellEnd,
+  sellHome,
+  sellMoveDown,
+  sellMoveLeft,
+  sellMoveRight,
+  sellMoveUp,
+  sellPageDown,
+  sellPageUp,
+  sellSelectItem,
 } from './sell-menu.js'
+import {
+  type ShopMenuState,
+  shopCancel,
+  shopConfirm,
+  shopMoveDown,
+  shopMoveUp,
+  shopSelectItem,
+} from './shop-menu.js'
 
 // ── Catalogs singleton(bootstrap 注入) ──────────────────────────────────────
 
@@ -100,7 +148,9 @@ export function setMenuCatalogs(catalogs: MenuCatalogs): void {
 
 function requireCatalogs(): MenuCatalogs {
   if (!_catalogs) {
-    throw new Error('menu-driver: setMenuCatalogs 未调用 — bootstrap 应在 setup 阶段注入 items/spells/playerRoles catalog')
+    throw new Error(
+      'menu-driver: setMenuCatalogs 未调用 — bootstrap 应在 setup 阶段注入 items/spells/playerRoles catalog',
+    )
   }
   return _catalogs
 }
@@ -132,13 +182,24 @@ export function openOverworldShortcutMenu(
 ): void {
   switch (which) {
     case 'use-item':
-      openMenu(gs, { kind: 'inventory', state: createInventoryMenu(gs, requireCatalogs().items, 'usable') })
+      openMenu(gs, {
+        kind: 'inventory',
+        state: createInventoryMenu(gs, requireCatalogs().items, 'usable'),
+      })
       break
     case 'equip':
       openMenu(gs, { kind: 'equip', state: createEquipMenu(gs, requireCatalogs().items) })
       break
     case 'magic':
-      openMenu(gs, { kind: 'in-game-magic', state: createInGameMagicMenu(menuRoles(gs), gs.partyMembers, requireCatalogs().spells, requireCatalogs().magics) })
+      openMenu(gs, {
+        kind: 'in-game-magic',
+        state: createInGameMagicMenu(
+          menuRoles(gs),
+          gs.partyMembers,
+          requireCatalogs().spells,
+          requireCatalogs().magics,
+        ),
+      })
       break
     case 'status':
       openMenu(gs, { kind: 'player-status', state: createPlayerStatus(gs.partyMembers) })
@@ -150,9 +211,7 @@ export function openOverworldShortcutMenu(
 // sdlpal `PAL_OpeningMenu` 返回 0(new-game)/ 1-5(load-game slot);ts 端 dispatcher
 // 不直接装载 scene/存档(避免 import 循环 + 跨层耦合),改 bootstrap 在 setup 阶段
 // setStartGameHandler 注入,Confirm 时 dispatcher 调它。
-export type StartGameChoice =
-  | { kind: 'new-game' }
-  | { kind: 'load-game'; slot: number }
+export type StartGameChoice = { kind: 'new-game' } | { kind: 'load-game'; slot: number }
 export type StartGameHandler = (choice: StartGameChoice) => void | Promise<void>
 
 let _startGameHandler: StartGameHandler | undefined
@@ -298,8 +357,7 @@ function applyShopTransaction(
       gs.dwCash -= item.price
       addItemToInventory(gs, item.id, 1)
     }
-  }
-  else {
+  } else {
     const had = gs.inventory.find((e) => e.itemId === item.id)
     if (had && had.count > 0) {
       addItemToInventory(gs, item.id, -1)
@@ -424,7 +482,12 @@ function dispatchInGameMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
       case 'magic':
         openMenu(gs, {
           kind: 'in-game-magic',
-          state: createInGameMagicMenu(menuRoles(gs), gs.partyMembers, catalogs.spells, catalogs.magics),
+          state: createInGameMagicMenu(
+            menuRoles(gs),
+            gs.partyMembers,
+            catalogs.spells,
+            catalogs.magics,
+          ),
         })
         break
       case 'status':
@@ -452,8 +515,12 @@ function dispatchSystemMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
   //   confirm → 写 gs.f{Music,Sound}Enabled(shell AudioManager 下帧应用);cancel(Menu)→ 保持当前态、回菜单。
   //   sdlpal PAL_SwitchMenu 返回后系统菜单 loop 继续(case break),故确认/取消都回 'menu' 不关整个菜单。
   if (s.phase === 'switch') {
-    if (input.pressed.has('Up') || input.pressed.has('Down')
-      || input.pressed.has('Left') || input.pressed.has('Right')) {
+    if (
+      input.pressed.has('Up') ||
+      input.pressed.has('Down') ||
+      input.pressed.has('Left') ||
+      input.pressed.has('Right')
+    ) {
       systemMenuToggleConfirm(s) // 复用:confirmYes 即"开(右)高亮"
     }
     if (input.pressed.has('Menu')) {
@@ -473,8 +540,12 @@ function dispatchSystemMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
   }
 
   if (s.phase === 'confirm') {
-    if (input.pressed.has('Up') || input.pressed.has('Down')
-      || input.pressed.has('Left') || input.pressed.has('Right')) {
+    if (
+      input.pressed.has('Up') ||
+      input.pressed.has('Down') ||
+      input.pressed.has('Left') ||
+      input.pressed.has('Right')
+    ) {
       systemMenuToggleConfirm(s)
     }
     if (input.pressed.has('Menu')) {
@@ -482,8 +553,9 @@ function dispatchSystemMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
       return
     }
     if (input.pressed.has('Confirm')) {
-      if (s.confirmYes) _systemQuitHandler?.() // 是 → PAL_Shutdown(0) 映射为回标题
-      else gs.menuStack = []                    // 否 → goto out 关整个菜单回 explore(sdlpal uigame.c:1031)
+      if (s.confirmYes)
+        _systemQuitHandler?.() // 是 → PAL_Shutdown(0) 映射为回标题
+      else gs.menuStack = [] // 否 → goto out 关整个菜单回 explore(sdlpal uigame.c:1031)
     }
     return
   }
@@ -566,8 +638,7 @@ function dispatchInventoryActionMenu(
       // 简版:close action + open 现有 equip menu(内含 item list + 选 role)
       closeTopMenu(gs)
       openMenu(gs, { kind: 'equip', state: createEquipMenu(gs, catalogs.items) })
-    }
-    else if (choice === 'use') {
+    } else if (choice === 'use') {
       // sdlpal play.c:266 PAL_ItemSelectMenu(usable) → ItemUseMenu;
       // 简版:close action + open inventory(filter='usable' = sdlpal kItemFlagUsable)
       closeTopMenu(gs)
@@ -597,8 +668,10 @@ function dispatchInventoryMenu(
   // sdlpal itemmenu.c:63-94 真值:8 keys grid navigation。
   // DL20:use-target 阶段 C 是 `kKeyUp|kKeyLeft` 上一人、`kKeyDown|kKeyRight` 下一人
   //   (uigame.c:1473-1488);Left/Right 不再 no-op(inventoryMoveLeft/Right 在该相位被 gate)。
-  if (input.pressed.has('Up') || (s.phase === 'use-target' && input.pressed.has('Left'))) inventoryMoveUp(s)
-  if (input.pressed.has('Down') || (s.phase === 'use-target' && input.pressed.has('Right'))) inventoryMoveDown(s)
+  if (input.pressed.has('Up') || (s.phase === 'use-target' && input.pressed.has('Left')))
+    inventoryMoveUp(s)
+  if (input.pressed.has('Down') || (s.phase === 'use-target' && input.pressed.has('Right')))
+    inventoryMoveDown(s)
   if (input.pressed.has('Left')) inventoryMoveLeft(s)
   if (input.pressed.has('Right')) inventoryMoveRight(s)
   if (input.pressed.has('PgUp')) inventoryPageUp(s)
@@ -623,7 +696,7 @@ function dispatchInventoryMenu(
   if (s.phase === 'use-target' && s.selectedItemId !== undefined) {
     const count = gs.inventory.find((e) => e.itemId === s.selectedItemId)?.count ?? 0
     if (count <= 0) {
-      cancelInventoryMenu(s)  // phase 'use-target' → 'list'(sdlpal uigame.c:1468 等价)
+      cancelInventoryMenu(s) // phase 'use-target' → 'list'(sdlpal uigame.c:1468 等价)
     }
   }
 
@@ -639,13 +712,12 @@ function dispatchInventoryMenu(
         // PAL_GameUseItem,不像非 applyToAll 在 ItemUseMenu INNER while 循环反复用)。
         // ts:startOverworldItemScript 标 itemUseApplyToAll → 脚本结束 restoreModeAfterScript 关全
         // 物品菜单回 explore,让脚本设的世界 trigger 触发(桂花酒设酒剑仙 proximity → 回 explore 即对话)。
-        startOverworldItemScript(gs, item.id, item.scriptOnUse, 0xFFFF, item.flags.consuming)
+        startOverworldItemScript(gs, item.id, item.scriptOnUse, 0xffff, item.flags.consuming)
         return
       }
       // 单 target 路径:进 use-target phase
       confirmInventoryItem(s, catalogs.items, menuRoles(gs), gs.partyMembers)
-    }
-    else if (s.phase === 'use-target') {
+    } else if (s.phase === 'use-target') {
       const picked = confirmInventoryTarget(s)
       if (picked) {
         const item = catalogs.items.find((it) => it.id === picked.itemId)
@@ -658,7 +730,11 @@ function dispatchInventoryMenu(
           // 'done',要 revert 回 'use-target' 让 picker 继续);script 跑完 event mode 切 menu
           // 恢复 picker 渲染。
           const ok = startOverworldItemScript(
-            gs, picked.itemId, item.scriptOnUse, picked.roleId, item.flags.consuming,
+            gs,
+            picked.itemId,
+            item.scriptOnUse,
+            picked.roleId,
+            item.flags.consuming,
           )
           if (ok) {
             // confirmInventoryTarget 把 phase 设了 'done',sdlpal 实际是 INNER loop 继续,
@@ -699,7 +775,8 @@ function dispatchEquipMenu(
     const wasPickRole = s.phase === 'pick-role'
     cancelEquipMenu(s)
     // pick-role → list 回退:同换装出口,grid 按当前背包重建(sdlpal 外层 while 重进 ItemSelectMenu)。
-    if (wasPickRole && s.phase === 'list') s.list = createInventoryMenuRefresh(gs, requireCatalogs().items)
+    if (wasPickRole && s.phase === 'list')
+      s.list = createInventoryMenuRefresh(gs, requireCatalogs().items)
     // DH9:PAL_GameEquipItem 返回 → PAL_InventoryMenu 返回 → goto out(uigame.c:1024-1026)
     if (s.phase === 'done') gs.menuStack = []
     return
@@ -718,8 +795,7 @@ function dispatchEquipMenu(
     if (input.pressed.has('End')) inventoryEnd(s.list)
     // sdlpal gpGlobals->iCurInvMenuItem 全局记忆同 InventoryMenu kind 共享
     gs.iCurInvMenuItem = s.list.cursor
-  }
-  else if (s.phase === 'pick-role') {
+  } else if (s.phase === 'pick-role') {
     if (input.pressed.has('Up') || input.pressed.has('Left')) equipMoveUp(s)
     if (input.pressed.has('Down') || input.pressed.has('Right')) equipMoveDown(s)
   }
@@ -732,9 +808,9 @@ function dispatchEquipMenu(
       //   重读)。0x18 只在"已穿不同款"时才改写它(script.c:780-810)—— 不写入口值的话,给已穿 X
       //   再装一件 X 时 :743 读到**上次换装残值**:面板跳成别的物品,残值已不在背包时再确认可
       //   凭空装上(consumeItem 对缺失物品 no-op = 复制链)。
-      if ((s.phase as string) === 'pick-role' && s.selectedItemId !== undefined) gs.wLastUnequippedItem = s.selectedItemId
-    }
-    else if (s.phase === 'pick-role') {
+      if ((s.phase as string) === 'pick-role' && s.selectedItemId !== undefined)
+        gs.wLastUnequippedItem = s.selectedItemId
+    } else if (s.phase === 'pick-role') {
       const picked = confirmEquipRole(s)
       if (picked) {
         const item = catalogs.items.find((it) => it.id === picked.itemId)
@@ -813,8 +889,7 @@ function dispatchInGameMagicMenu(
     const catalogs = requireCatalogs()
     if (s.phase === 'pick-caster') {
       confirmCaster(s, menuRoles(gs), catalogs.spells, catalogs.magics)
-    }
-    else if (s.phase === 'pick-spell') {
+    } else if (s.phase === 'pick-spell') {
       // sdlpal uigame.c:740-861 真值:Confirm spell →
       //  - applyToAll: 跑 scriptOnUse + scriptOnSuccess + MP 扣 → 留 pick-spell 继续选
       //  - single target: phase = pick-target → picker 阶段处理
@@ -823,21 +898,25 @@ function dispatchInGameMagicMenu(
         const spell = catalogs.spells.find((x) => x.id === sel.spellId)
         if (sel.applyToAll && spell) {
           // sdlpal uigame.c:740-760 真值
-          const success = castOverworldMagic(gs, spell, sel.costMP, sel.casterId, 0xFFFF)
+          const success = castOverworldMagic(gs, spell, sel.costMP, sel.casterId, 0xffff)
           if (success) {
             // 扣 MP — sdlpal 真值跑完 scriptOnSuccess 才扣
             const curMP = gs.PlayerRolesRuntime.rgwMP[sel.casterId] ?? 0
             gs.PlayerRolesRuntime.rgwMP[sel.casterId] = Math.max(0, curMP - sel.costMP)
             // refresh spell list disabled(MP 减后某些 spell 不可用)
-            refreshSpellMenu(s, menuRoles(gs), catalogs.spells, catalogs.magics,
-              gs.PlayerRolesRuntime.rgwMP[sel.casterId] ?? 0)
+            refreshSpellMenu(
+              s,
+              menuRoles(gs),
+              catalogs.spells,
+              catalogs.magics,
+              gs.PlayerRolesRuntime.rgwMP[sel.casterId] ?? 0,
+            )
           }
           // phase 保 'pick-spell'(sdlpal 真值 while loop 继续 PAL_MagicSelectionMenu)
         }
         // single target → confirmSpell 已切 phase='pick-target'
       }
-    }
-    else if (s.phase === 'pick-target') {
+    } else if (s.phase === 'pick-target') {
       const sel = confirmTarget(s, catalogs.spells, catalogs.magics)
       if (sel) {
         const spell = catalogs.spells.find((x) => x.id === sel.spellId)
@@ -926,21 +1005,20 @@ function dispatchSaveSlotMenu(
       //  3. Save.saveSlot 异步写 IndexedDB
       // sdlpal uigame.c:718 `bCurrentSaveSlot = iSlot`:记录当前槽(opcode 0x4E load-last-save 据此重载)。
       gs.currentSaveSlot = slot
-      void Save.listSlots().then(async (slots) => {
-        const maxSaved = slots.reduce(
-          (m, x) => Math.max(m, x.meta.savedTimes ?? 0), 0,
-        )
-        gs.wSavedTimes = maxSaved + 1
-        await Save.saveSlot(slot, gs)
-        console.log(`[save] saved to slot ${slot}(times=${gs.wSavedTimes})`)
-      }).catch((err) => {
-        console.error('[save] saveSlot failed:', err)
-      })
+      void Save.listSlots()
+        .then(async (slots) => {
+          const maxSaved = slots.reduce((m, x) => Math.max(m, x.meta.savedTimes ?? 0), 0)
+          gs.wSavedTimes = maxSaved + 1
+          await Save.saveSlot(slot, gs)
+          console.log(`[save] saved to slot ${slot}(times=${gs.wSavedTimes})`)
+        })
+        .catch((err) => {
+          console.error('[save] saveSlot failed:', err)
+        })
       // DH9:存档完成 → PAL_SystemMenu return TRUE → goto out 关**整个**菜单回大世界
       //   (uigame.c:598/650;修前回 SystemMenu 留 hub)。
       gs.menuStack = []
-    }
-    else {
+    } else {
       // sdlpal SystemMenu Load case(uigame.c:601-611)真值:
       //   iSlot = PAL_SaveSlotMenu(bCurrentSaveSlot)
       //   if iSlot != CANCELLED:
@@ -953,8 +1031,7 @@ function dispatchSaveSlotMenu(
         void Promise.resolve(_loadGameHandler(slot)).catch((err) => {
           console.error('[save] loadSlot failed:', err)
         })
-      }
-      else {
+      } else {
         console.warn('[save] loadGameHandler 未注入(bootstrap.ts setLoadGameHandler);load 跳过')
         closeTopMenu(gs)
       }

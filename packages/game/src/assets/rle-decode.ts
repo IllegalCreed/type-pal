@@ -10,7 +10,7 @@
  * sprite-group 不带前缀,parseSpriteChunk 内部 decodeRle 不跳)。单帧整-chunk(RGM/BALL)运行时
  * 已走 PNG,不再经本模块;若将来要直解整 chunk 单帧,调 `decodeRle(chunk, { skipFilePrefix: true })`。
  */
-export { type RleFrame, decodeRle, parseSpriteChunk } from '@type-pal/shared'
+export { decodeRle, parseSpriteChunk, type RleFrame } from '@type-pal/shared'
 
 /** base64 string → Uint8Array(浏览器内 atob 模式,与 font.ts loadGlyphs 同型) */
 export function base64ToBytes(b64: string): Uint8Array {

@@ -1,9 +1,9 @@
-import { describe, it, expect } from 'vitest'
-import { createFramebuffer } from '../framebuffer.js'
+import { describe, expect, it } from 'vitest'
 import type { IndexedImage } from '../../assets/png.js'
 import { createInitialGameState } from '../../core/game-state.js'
 import { createInGameMenu, createSystemMenu } from '../../core/menu/in-game-menu.js'
 import { openMenu } from '../../core/menu/menu-mode.js'
+import { createFramebuffer } from '../framebuffer.js'
 import { drawMenuStack } from './draw-menu.js'
 
 /**
@@ -13,7 +13,8 @@ import { drawMenuStack } from './draw-menu.js'
 function mockUiFrames(): IndexedImage[] {
   const frames: IndexedImage[] = []
   for (let k = 0; k < 47; k++) {
-    const w = 8, h = 8
+    const w = 8,
+      h = 8
     const indices = new Uint8Array(w * h).fill((k % 250) + 1)
     const opaque = new Uint8Array(w * h).fill(1)
     frames.push({ width: w, height: h, indices, opaque })
@@ -74,9 +75,9 @@ describe('M5.6 v2 drawMenuStack(sdlpal 真值坐标)', () => {
     openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
     openMenu(gs, { kind: 'system', state: createSystemMenu() })
     drawMenuStack(fb, gs, mockUiFrames())
-    expect(fb.indices[37 * fb.width + 3]).toBe(1)   // in-game box
-    expect(fb.indices[60 * fb.width + 40]).toBe(1)  // system box
-    expect(fb.indices[0]).toBe(45)                   // cash box left corner
+    expect(fb.indices[37 * fb.width + 3]).toBe(1) // in-game box
+    expect(fb.indices[60 * fb.width + 40]).toBe(1) // system box
+    expect(fb.indices[0]).toBe(45) // cash box left corner
   })
 
   it('uiSpriteFrames 不足 → drawSingleLineBox 先抛 frame 44-46 missing', () => {

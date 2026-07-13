@@ -25,7 +25,8 @@ export async function bootstrap(page: Page): Promise<void> {
 /** 读当前 gs.mode(via dev gate)。 */
 export async function getCurrentMode(page: Page): Promise<string> {
   return await page.evaluate(
-    () => (window as unknown as { __game?: { gs: { mode: string } } }).__game?.gs?.mode ?? 'unknown',
+    () =>
+      (window as unknown as { __game?: { gs: { mode: string } } }).__game?.gs?.mode ?? 'unknown',
   )
 }
 
@@ -68,8 +69,7 @@ export async function selectSceneJump(page: Page, jumpId: string): Promise<void>
   const exactCount = await exactLocator.count()
   if (exactCount > 0) {
     await exactLocator.first().click()
-  }
-  else {
+  } else {
     await page.locator(`button:has-text("scene-${filter} (")`).first().click()
   }
   // dev jump 是 async loadScene + applySceneAssetsToPresent,P3.T1 新增 events fetch

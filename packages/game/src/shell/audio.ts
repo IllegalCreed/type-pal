@@ -54,7 +54,10 @@ export function sfxUrl(baseUrl: string, soundId: number): string {
  * `markEnded(id)`:该声效播完(缓冲被 SOUND_FillBuffer 消费完,sound.c:930)→ 若仍是当前 lastSFX 则复位 0。
  * 语义=同一编号在上一份未播完前不能再触发;lastSFX 只记最近一个(非"在播集合")。
  */
-export function createSfxDedup(): { tryPlay: (id: number) => boolean; markEnded: (id: number) => void } {
+export function createSfxDedup(): {
+  tryPlay: (id: number) => boolean
+  markEnded: (id: number) => void
+} {
   let lastSFX = 0
   return {
     tryPlay(id) {

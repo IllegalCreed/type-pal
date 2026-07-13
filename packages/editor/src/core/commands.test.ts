@@ -262,7 +262,9 @@ describe('N6 共享脚本命令 · 原子状态 + invert', () => {
     const s2 = update.apply(s1)
     expect(getScriptBody(s2.scriptIndex!, s2.scriptChunks, id)).toEqual([{ kind: 'wait', ms: 200 }])
     const back = update.invert(s2)
-    expect(getScriptBody(back.scriptIndex!, back.scriptChunks, id)).toEqual([{ kind: 'wait', ms: 100 }])
+    expect(getScriptBody(back.scriptIndex!, back.scriptChunks, id)).toEqual([
+      { kind: 'wait', ms: 100 },
+    ])
   })
 
   test('删除有调用方时阻止并列出来源；无引用时删除且可撤销', () => {
@@ -273,7 +275,9 @@ describe('N6 共享脚本命令 · 原子状态 + invert', () => {
     const chunk = deriveScriptChunk(id, base.scriptIndex!.shards)!
     const referenced: EditorState = {
       ...base,
-      scenes: [{ ...base.scenes[0]!, onEnter: [{ body: [{ kind: 'callScript', ref: { chunk, id } }] }] }],
+      scenes: [
+        { ...base.scenes[0]!, onEnter: [{ body: [{ kind: 'callScript', ref: { chunk, id } }] }] },
+      ],
     }
     expect(() => new DeleteAuthoredScriptCommand(id).apply(referenced)).toThrow(/仍被 1 处引用/)
 
@@ -520,10 +524,23 @@ describe('A4c 战斗外观命令(patch path + blob 一步 undo)', () => {
     }
     base.tilesetBlobs = {}
     base.enemies = [
-      { id: 'slime', name: 'n.slime', spriteNum: 42, stats: {} as never, ai: {} as never, anim: {} as never, sounds: {} as never },
+      {
+        id: 'slime',
+        name: 'n.slime',
+        spriteNum: 42,
+        stats: {} as never,
+        ai: {} as never,
+        anim: {} as never,
+        sounds: {} as never,
+      },
     ]
     base.actors = [
-      { id: 'hero', name: 'n.hero', spriteId: 'hero', battler: { baseStats: {} as never, initialEquipment: {}, initialMagic: [] } },
+      {
+        id: 'hero',
+        name: 'n.hero',
+        spriteId: 'hero',
+        battler: { baseStats: {} as never, initialEquipment: {}, initialMagic: [] },
+      },
       { id: 'npc', name: 'n.npc', spriteId: 'npc' }, // 无 battler
     ]
     return base
@@ -531,7 +548,11 @@ describe('A4c 战斗外观命令(patch path + blob 一步 undo)', () => {
   test('SetEnemyBattleSprite:spritePath + blob 双写;invert 双清(原无 path)', () => {
     const s0 = stB()
     const blob = new ArrayBuffer(4)
-    const cmd = new SetEnemyBattleSpriteCommand('slime', 'assets/battle-sprites/enemy/slime.rle', blob)
+    const cmd = new SetEnemyBattleSpriteCommand(
+      'slime',
+      'assets/battle-sprites/enemy/slime.rle',
+      blob,
+    )
     const s1 = cmd.apply(s0)
     expect(s1.enemies![0]!.spritePath).toBe('assets/battle-sprites/enemy/slime.rle')
     expect(s1.tilesetBlobs['assets/battle-sprites/enemy/slime.rle']).toBe(blob)
@@ -546,7 +567,11 @@ describe('A4c 战斗外观命令(patch path + blob 一步 undo)', () => {
     s0.enemies![0]!.spritePath = 'assets/battle-sprites/enemy/slime.rle'
     s0.tilesetBlobs['assets/battle-sprites/enemy/slime.rle'] = old
     const nw = new ArrayBuffer(8)
-    const cmd = new SetEnemyBattleSpriteCommand('slime', 'assets/battle-sprites/enemy/slime.rle', nw)
+    const cmd = new SetEnemyBattleSpriteCommand(
+      'slime',
+      'assets/battle-sprites/enemy/slime.rle',
+      nw,
+    )
     const s1 = cmd.apply(s0)
     expect(s1.tilesetBlobs['assets/battle-sprites/enemy/slime.rle']).toBe(nw)
     const back = cmd.invert(s1)
@@ -556,9 +581,15 @@ describe('A4c 战斗外观命令(patch path + blob 一步 undo)', () => {
   test('SetActorBattleSprite:battler.battleSpritePath;无 battler 角色 no-op', () => {
     const s0 = stB()
     const blob = new ArrayBuffer(4)
-    const cmd = new SetActorBattleSpriteCommand('hero', 'assets/battle-sprites/player/hero.rle', blob)
+    const cmd = new SetActorBattleSpriteCommand(
+      'hero',
+      'assets/battle-sprites/player/hero.rle',
+      blob,
+    )
     const s1 = cmd.apply(s0)
-    expect(s1.actors.find((a) => a.id === 'hero')?.battler?.battleSpritePath).toBe('assets/battle-sprites/player/hero.rle')
+    expect(s1.actors.find((a) => a.id === 'hero')?.battler?.battleSpritePath).toBe(
+      'assets/battle-sprites/player/hero.rle',
+    )
     const back = cmd.invert(s1)
     expect(back.actors.find((a) => a.id === 'hero')?.battler?.battleSpritePath).toBeUndefined()
     // 无 battler → no-op 同引用
@@ -751,22 +782,22 @@ describe('C6 升级学技能命令(levelUp 表)', () => {
       { level: 10, skillId: 's2' },
     ])
     const s1 = c.apply(s0)
-    expect(s1.levelUp['li']).toHaveLength(2)
-    expect(s0.levelUp['li']).toHaveLength(1) // 源不变
-    expect(c.invert(s1).levelUp['li']).toEqual([{ level: 7, skillId: 's1' }])
+    expect(s1.levelUp.li).toHaveLength(2)
+    expect(s0.levelUp.li).toHaveLength(1) // 源不变
+    expect(c.invert(s1).levelUp.li).toEqual([{ level: 7, skillId: 's1' }])
   })
   test('空行 = 删角色键;invert 还原键', () => {
     const s0 = stLv()
     const c = new UpdateLevelUpCommand('li', [])
     const s1 = c.apply(s0)
     expect('li' in s1.levelUp).toBe(false)
-    expect(c.invert(s1).levelUp['li']).toEqual([{ level: 7, skillId: 's1' }])
+    expect(c.invert(s1).levelUp.li).toEqual([{ level: 7, skillId: 's1' }])
   })
   test('新角色键从无到有;invert 删回', () => {
     const s0 = stLv()
     const c = new UpdateLevelUpCommand('zhao', [{ level: 3, skillId: 's9' }])
     const s1 = c.apply(s0)
-    expect(s1.levelUp['zhao']).toHaveLength(1)
+    expect(s1.levelUp.zhao).toHaveLength(1)
     expect('zhao' in c.invert(s1).levelUp).toBe(false)
   })
 })

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { getWord, setWordTable } from './word-lookup.js'
 
 // sdlpal PAL_GetWord(wNumWord)(text.c)真值:从 WORD.DAT 取第 wNumWord 个词。
@@ -21,6 +21,6 @@ describe('word-lookup(getWord / setWordTable,对 sdlpal PAL_GetWord)', () => {
   it('表已载但 id 越界/为空 → 退回 fallback', () => {
     setWordTable(['', '李逍遥:'])
     expect(getWord(999, '兜底')).toBe('兜底') // 越界
-    expect(getWord(0, '兜底')).toBe('兜底')   // 空串项也退 fallback
+    expect(getWord(0, '兜底')).toBe('兜底') // 空串项也退 fallback
   })
 })

@@ -18,8 +18,8 @@
 import type { Item } from '@type-pal/shared'
 import type { GameState } from '../game-state.js'
 import {
-  type InventoryMenuState,
   createInventoryMenu,
+  type InventoryMenuState,
   inventoryEnd,
   inventoryHome,
   inventoryMoveDown,

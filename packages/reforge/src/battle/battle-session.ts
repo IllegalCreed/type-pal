@@ -5,11 +5,13 @@
  * main.ts 的 host.startBattle 创建它,主循环转发 tick/render,await done 拿结果续脚本。
  * M4b-2 指令集:攻击/防御/逃跑(仙术/物品 = M4b-3 与动画一起);渲染 = 静态帧 + 飘字。
  */
+
 import type { ActivePoison, BattleStatus, Command, EnemyDef, SkillData } from '@type-pal/content'
 import { evalAiCond, isPlayerDying, lookupText, POISON_CURE_RANK } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import { bakeBgImageData, type GlyphTable, type LoadedSprite } from '../assets.js'
 import type { SfxPlayer } from '../audio/sfx.js'
+import { expectDefined } from '../defined.js'
 import type { DialogBox } from '../dialog/dialog-box.js'
 import { startDialogue } from '../dialogue.js'
 import { drawNumber, type MenuAssets } from '../menu/menu-box.js'
@@ -29,19 +31,18 @@ import {
   buildPartyFlee,
   buildPlayerAttack,
   buildPlayerAttackAll,
-  buildSteal,
-  buildUseItem,
   buildPlayerCast,
   buildPlayerCoop,
+  buildSteal,
+  buildUseItem,
   type CastFxParams,
   type OverlayDraw,
 } from './battle-anim.js'
 import {
   type BattleAction,
-  type BattlePlayerState,
-  type CreatePlayerInput,
   type BattleState,
   buildAiView,
+  type CreatePlayerInput,
   createBattleState,
   healthyPlayerCount,
   isPlayerHealthy,
@@ -49,24 +50,23 @@ import {
   pendingItemUses,
   stepBattle,
 } from './battle-core.js'
-import { getEnemyBasePos, getPlayerBasePos } from './battle-positions.js'
+import { getPlayerBasePos } from './battle-positions.js'
 import {
   type BattleMenuRow,
   drawBattleGrid,
   drawBattleMenuBox,
   drawCurrentFinger,
-  drawPlayerTargetArrow,
   drawItemDetailBox,
   drawMainIcons,
   drawMpBox,
   drawPlayerInfoBox,
+  drawPlayerTargetArrow,
   ITEM_GRID,
   MAGIC_GRID,
 } from './battle-ui.js'
 import { type BattleScene, type BattleSpriteDraw, renderBattleScene } from './present-battle.js'
 import { drawSettlementScreen, type SettlementScreen } from './settlement.js'
 
-const VIEW_W = 320
 /** 杂项盒(一阶段 WORD.DAT 56-60):围攻/状态未实现,渲染灰显、确认无响应。 */
 const MISC_LABELS = ['围攻', '道具', '防御', '逃跑', '状态'] as const
 /** 文字兜底菜单(无 UI 资产时;单测)。 */
@@ -92,7 +92,16 @@ interface FloatNum {
   bornAt: number
 }
 
-type UiPhase = 'menu' | 'misc' | 'miscSub' | 'skill' | 'item' | 'throwItem' | 'target' | 'acting' | 'over'
+type UiPhase =
+  | 'menu'
+  | 'misc'
+  | 'miscSub'
+  | 'skill'
+  | 'item'
+  | 'throwItem'
+  | 'target'
+  | 'acting'
+  | 'over'
 
 export interface BattleSessionAssets {
   bg?: CanvasImageSource
@@ -227,7 +236,7 @@ export class BattleSession {
 
   constructor(
     players: CreatePlayerInput[],
-    private readonly enemyDefs: EnemyDef[],
+    enemyDefs: EnemyDef[],
     private readonly assets: BattleSessionAssets,
     private readonly nameOf: (roleId: string) => string,
     private readonly rng: () => number = Math.random,
@@ -375,7 +384,7 @@ export class BattleSession {
   private nextSelecting(): number | undefined {
     const s = this.state
     for (let i = 0; i < s.players.length; i++) {
-      if (needsManualSelect(s.players[i]!) && !s.pendingActions.has(i)) return i
+      if (needsManualSelect(expectDefined(s.players[i])) && !s.pendingActions.has(i)) return i
     }
     return undefined
   }
@@ -593,13 +602,12 @@ export class BattleSession {
       // 死亡溶解 hold:最后一敌的溶解播完 + 短拍(240ms)才起胜利乐/结算屏 —— 原版
       // PostActionCheck 的 FadeScene 是阻塞式(fight.c:889-894),溶解期间什么都不发生
       // (作者报「结算画面这么快?」= 此 hold 缺失)。render 清过期项,空表 = 直接过。
-      for (const t of this.deathFades.values())
-        if (this.nowMs < t + DEATH_FADE_MS + 240) return
+      for (const t of this.deathFades.values()) if (this.nowMs < t + DEATH_FADE_MS + 240) return
       // B7b 胜利结算屏:win 且非敌逃 → 构建一次(回调内写回 HP + 入账 + 升级)→ 逐屏空格推进
       if (s.phase === 'won' && !this.state.enemyFled && this.settlement === null) {
         this.settlement = this.opts.buildSettlement?.() ?? []
       }
-      if (this.settlement && this.settlement.length) {
+      if (this.settlement?.length) {
         // 逐屏:空格进下一屏;放完 → 收尾。至少停 300ms 防手滑连按跳屏。
         this.overTimer += dtMs
         if ((pressed.has(' ') || pressed.has('Enter')) && this.overTimer >= 300) {
@@ -641,7 +649,9 @@ export class BattleSession {
         const alive = this.aliveEnemyIdxs()
         s.pendingActions.set(
           sel,
-          alive.length ? { kind: 'attack', targetEnemyIdx: alive[0]! } : { kind: 'defend' },
+          alive.length
+            ? { kind: 'attack', targetEnemyIdx: expectDefined(alive[0]) }
+            : { kind: 'defend' },
         )
         return
       }
@@ -667,8 +677,14 @@ export class BattleSession {
       if (this.ui === 'menu') {
         // 战斗快捷键(一阶段 uibattle.c:1166-1302;WASD 原义还原同一阶段 input.ts)
         const key = (a: string, b: string): boolean => pressed.has(a) || pressed.has(b)
-        if (key('d', 'D')) return this.submitAnd(sel, { kind: 'defend' }) // 防御
-        if (key('q', 'Q')) return this.submitAnd(sel, { kind: 'flee' }) // 逃跑
+        if (key('d', 'D')) {
+          this.submitAnd(sel, { kind: 'defend' })
+          return
+        }
+        if (key('q', 'Q')) {
+          this.submitAnd(sel, { kind: 'flee' })
+          return
+        }
         if (key('e', 'E')) {
           // 用物品:直开使用列表(uibattle.c:1224)
           if (this.usableItems().length) {
@@ -687,19 +703,22 @@ export class BattleSession {
         }
         if (key('r', 'R')) {
           this.stickyRepeat = true // 整轮粘滞(uibattle.c:1240 fRepeat)
-          return this.submitRepeat(sel)
+          this.submitRepeat(sel)
+          return
         }
         if (key('f', 'F')) {
           this.stickyForce = true // 整轮粘滞(uibattle.c:1252 fForce)
-          return this.submitForce(sel)
+          this.submitForce(sel)
+          return
         }
         if (key('a', 'A')) {
           this.fAuto = true // 持续自动(uibattle.c:1266 fAutoAttack;Esc 取消)
-          return this.submitForce(sel)
+          this.submitForce(sel)
+          return
         }
         // Esc:回退上一个已提交队员重选(uibattle.c:1298;无可回退则无操作)
         if (pressed.has('Escape') && this.submitOrder.length) {
-          const prev = this.submitOrder.pop()!
+          const prev = expectDefined(this.submitOrder.pop())
           s.pendingActions.delete(prev)
           return
         }
@@ -721,7 +740,7 @@ export class BattleSession {
             this.skillIdx = 0
           } else if (this.menuIdx === 2) {
             // 合击:全体合体技直接提交(无目标),单体合体技进选敌
-            const p2 = s.players[sel]!
+            const p2 = expectDefined(s.players[sel])
             const coopSkill = p2.cooperativeMagicSkillId
               ? this.opts.skills?.[p2.cooperativeMagicSkillId]
               : undefined
@@ -770,7 +789,7 @@ export class BattleSession {
           this.itemIdx = 0
         }
       } else if (this.ui === 'skill') {
-        const p = s.players[sel]!
+        const p = expectDefined(s.players[sel])
         const list = p.skills
         // 3 列网格导航:左右 ±1,上下 ±3(clamp)
         if (pressed.has('ArrowLeft')) this.skillIdx = Math.max(0, this.skillIdx - 1)
@@ -779,13 +798,9 @@ export class BattleSession {
         if (pressed.has('ArrowDown')) this.skillIdx = Math.min(list.length - 1, this.skillIdx + 3)
         if (pressed.has('Escape')) this.ui = 'menu'
         if (confirm) {
-          const skillId = list[this.skillIdx % list.length]!
+          const skillId = expectDefined(list[this.skillIdx % list.length])
           const skill = this.opts.skills?.[skillId]
-          if (
-            skill &&
-            p.mp >= (skill.cost.mp ?? 0) &&
-            this.moneyNow() >= (skill.cost.money ?? 0)
-          ) {
+          if (skill && p.mp >= (skill.cost.mp ?? 0) && this.moneyNow() >= (skill.cost.money ?? 0)) {
             if (skill.target === 'oneEnemy') {
               this.pendingSkillId = skillId
               this.ui = 'target'
@@ -810,7 +825,7 @@ export class BattleSession {
         if (pressed.has('ArrowDown')) this.itemIdx = Math.min(list.length - 1, this.itemIdx + 3)
         if (pressed.has('Escape')) this.ui = 'miscSub'
         if (confirm && list.length) {
-          const it = list[this.itemIdx % list.length]!
+          const it = expectDefined(list[this.itemIdx % list.length])
           if (this.state.items[it.itemId]?.use?.target === 'oneAlly' && s.players.length > 1) {
             // oneAlly 物品(还魂香/灵心符):选队友(可选尸体 —— 复活正需要);单人队直落自己
             this.pendingItemId = it.itemId
@@ -830,7 +845,7 @@ export class BattleSession {
         if (pressed.has('Escape')) this.ui = 'miscSub'
         if (confirm && list.length) {
           // 选好投掷道具 → 进敌方目标选择(throw 打敌单体)
-          this.pendingThrowItem = list[this.itemIdx % list.length]!.itemId
+          this.pendingThrowItem = expectDefined(list[this.itemIdx % list.length]).itemId
           this.ui = 'target'
           this.targetSide = 'enemy'
           this.targetIdx = 0
@@ -857,7 +872,7 @@ export class BattleSession {
           const t = this.targetIdx % n
           const action: BattleAction = this.pendingItemId
             ? { kind: 'item', itemId: this.pendingItemId, targetAllyIdx: t }
-            : { kind: 'cast', skillId: this.pendingSkillId!, targetAllyIdx: t }
+            : { kind: 'cast', skillId: expectDefined(this.pendingSkillId), targetAllyIdx: t }
           this.pendingItemId = null
           this.pendingSkillId = null
           this.targetSide = 'enemy'
@@ -881,7 +896,7 @@ export class BattleSession {
           }
         }
         if (confirm) {
-          const t = alive[this.targetIdx % alive.length]!
+          const t = expectDefined(alive[this.targetIdx % alive.length])
           const action: BattleAction = this.pendingThrowItem
             ? { kind: 'throw', itemId: this.pendingThrowItem, targetEnemyIdx: t }
             : this.pendingCoop
@@ -926,7 +941,9 @@ export class BattleSession {
         this.itemBanner = { text: la.notice, untilMs: this.nowMs + 1200, x: 130, y: 75 }
       // 本步死亡敌(动画收尾统一开淡出 + death 音;一阶段 diedFromAttack 语义)
       this.pendingDeaths = s.enemies
-        .map((e, i) => (i < eHp.length && eHp[i]! > 0 && e.hp <= 0 && !s.enemyFled ? i : -1))
+        .map((e, i) =>
+          i < eHp.length && expectDefined(eHp[i]) > 0 && e.hp <= 0 && !s.enemyFled ? i : -1,
+        )
         .filter((i) => i >= 0)
       // 本步涨益(回血黄字/回 MP 青字,fight.c:648-708;只显增加 :105-109。演出收尾统一弹
       // = 原版 DisplayStatChange 在特效之后的时序)
@@ -965,7 +982,10 @@ export class BattleSession {
           // 震屏帧:累计活跃至帧尾(level 恒 3,fight.c:2718;合成级垂直位移)
           onScreenShake: (durMs) => {
             const until = this.nowMs + durMs
-            this.screenShake = { untilMs: Math.max(this.screenShake?.untilMs ?? 0, until), level: 3 }
+            this.screenShake = {
+              untilMs: Math.max(this.screenShake?.untilMs ?? 0, until),
+              level: 3,
+            }
           },
           // 法术屏波叠加(fight.c:2666;收尾 finishStepVisuals 还原)
           onWaveAdd: (w) => {
@@ -995,7 +1015,7 @@ export class BattleSession {
         if (snd && la.kind === 'cast') this.assets.sfx?.play(snd.magic)
       }
       s.players.forEach((p, i) => {
-        const d = pHp[i]! - p.hp
+        const d = expectDefined(pHp[i]) - p.hp
         if (d > 0) this.applyDamageFx({ side: 'player', idx: i }, d)
         const v = this.visual.players[i]
         if (v) v.displayHp = p.hp
@@ -1079,8 +1099,7 @@ export class BattleSession {
         }))
       // 召唤背景染色量 = summon 效果自己的 tint(原召唤 magic 的 wEffectTimes SHORT,
       // fight.c:3145;⚠ animation.effectTimes 是二次法术循环数,与染色无关 —— 曾混淆)
-      this.summonTintShift =
-        summonEff?.kind === 'summon' ? (summonEff.tint ?? 0) : 0
+      this.summonTintShift = summonEff?.kind === 'summon' ? (summonEff.tint ?? 0) : 0
       // 合击(非召唤):走聚拢队形演出(贡献者靠拢→后→前依次施法→放技能)。
       // 召唤类合击照原版直接播召唤动画(落入下方 buildPlayerCast summon 段,不聚拢)。
       if (la.coopContributors && !summonSprite) {
@@ -1101,7 +1120,7 @@ export class BattleSession {
         casterPos,
         // 施法吟唱音(rgwMagicSound;挂 PreMagic frame5 姿势帧,一阶段真值)
         ...(this.opts.playerSounds?.[la.idx]?.magic
-          ? { magicSound: this.opts.playerSounds[la.idx]!.magic }
+          ? { magicSound: expectDefined(this.opts.playerSounds[la.idx]).magic }
           : {}),
         // fSummon 语义(fight.c:2380):召唤跳过施法者自身前摇特效
         castEffectBase:
@@ -1124,7 +1143,8 @@ export class BattleSession {
                   ? { sound: summonEff.sound }
                   : {}),
                 // 神将段帧速 = 召唤 magic 自己的 wSpeed(effects.summon.speed);fx.speed 是二次法术的
-                frameTimeMs: (((summonEff?.kind === 'summon' ? summonEff.speed : undefined) ?? 0) + 5) * 10,
+                frameTimeMs:
+                  (((summonEff?.kind === 'summon' ? summonEff.speed : undefined) ?? 0) + 5) * 10,
                 // 一阶段真值 posSummon = (240+xOffset, 165+yOffset),底中锚语义;render 已对全部
                 // overlay 统一底中锚 blit(x−⌊w/2⌋, y−h)→ 这里传原值,每帧独立锚底(神将各帧
                 // 尺寸不同也不漂,battle.c:173-177 同义)。曾按旧左上假设预减 → 双重减锚偏左上
@@ -1204,7 +1224,10 @@ export class BattleSession {
         const alive = s.players
           .map((_, i) => i)
           .filter((i) => (pHp[i] ?? 0) > 0)
-          .map((i) => ({ idx: i, pos: getPlayerBasePos(s.players.length, i) ?? { x: 240, y: 170 } }))
+          .map((i) => ({
+            idx: i,
+            pos: getPlayerBasePos(s.players.length, i) ?? { x: 240, y: 170 },
+          }))
         if (!alive.length) return null
         this.skipNextReset = true
         return buildPartyFlee({ players: alive })
@@ -1242,7 +1265,10 @@ export class BattleSession {
         const alive = s.players
           .map((_, i) => i)
           .filter((i) => (pHp[i] ?? 0) > 0)
-          .map((i) => ({ idx: i, pos: getPlayerBasePos(s.players.length, i) ?? { x: 240, y: 170 } }))
+          .map((i) => ({
+            idx: i,
+            pos: getPlayerBasePos(s.players.length, i) ?? { x: 240, y: 170 },
+          }))
         if (!alive.length) return null
         this.skipNextReset = true
         return buildPartyFlee({ players: alive })
@@ -1289,7 +1315,8 @@ export class BattleSession {
           colorShift: 0,
           displayHp: s.enemies[si]?.hp ?? 0,
         }
-        if (!this.assets.enemySprites[si]) this.assets.enemySprites[si] = this.assets.enemySprites[la.idx]
+        if (!this.assets.enemySprites[si])
+          this.assets.enemySprites[si] = this.assets.enemySprites[la.idx]
       }
       return buildEnemyDivide({
         motherPos: mother.basePos,
@@ -1306,7 +1333,8 @@ export class BattleSession {
         const def = s.enemies[si]?.def
         if (!def) continue
         if (def.spriteNum === s.enemies[la.idx]?.def.spriteNum) {
-          if (!this.assets.enemySprites[si]) this.assets.enemySprites[si] = this.assets.enemySprites[la.idx]
+          if (!this.assets.enemySprites[si])
+            this.assets.enemySprites[si] = this.assets.enemySprites[la.idx]
         } else {
           this.opts.loadEnemySprite?.(def).then((sp) => {
             if (sp) this.assets.enemySprites[si] = sp
@@ -1364,13 +1392,15 @@ export class BattleSession {
           const pos = s.enemies[h.idx]?.basePos
           return pos ? { idx: h.idx, pos, value: h.value } : null
         })
-        .filter((x): x is { idx: number; pos: { x: number; y: number }; value: number } => x !== null)
+        .filter(
+          (x): x is { idx: number; pos: { x: number; y: number }; value: number } => x !== null,
+        )
       if (!hits.length) return null
       const snd = this.opts.playerSounds?.[la.idx]
       return buildPlayerAttackAll({
         attackerIdx: la.idx,
         attackerPos,
-        centerPos: hits[Math.floor(hits.length / 2)]!.pos, // 中心敌落点挥击
+        centerPos: expectDefined(hits[Math.floor(hits.length / 2)]).pos, // 中心敌落点挥击
         hits,
         weaponSound: snd?.weapon ?? 0,
         attackSound: (la.crit ? snd?.critical : snd?.attack) ?? 0,
@@ -1428,7 +1458,7 @@ export class BattleSession {
       // 被动格挡演出(免伤免数字+格挡姿;音 = 目标玩家自己的 coverSound)
       ...(la.blocked ? { blocked: true } : {}),
       ...(la.blocked && this.opts.playerSounds?.[t]?.cover
-        ? { coverSound: this.opts.playerSounds[t]!.cover }
+        ? { coverSound: expectDefined(this.opts.playerSounds[t]).cover }
         : {}),
       // 替挡(coveredBy):守护者顶身前接刀,音 = **守护者**的 coverSound
       ...(la.blocked && la.coverIdx !== undefined
@@ -1436,7 +1466,7 @@ export class BattleSession {
             cover: {
               idx: la.coverIdx,
               ...(this.opts.playerSounds?.[la.coverIdx]?.cover
-                ? { sound: this.opts.playerSounds[la.coverIdx]!.cover }
+                ? { sound: expectDefined(this.opts.playerSounds[la.coverIdx]).cover }
                 : {}),
             },
           }
@@ -1464,7 +1494,9 @@ export class BattleSession {
     const alive = this.aliveEnemyIdxs()
     this.submitAnd(
       sel,
-      alive.length ? { kind: 'attack', targetEnemyIdx: alive[0]! } : { kind: 'defend' },
+      alive.length
+        ? { kind: 'attack', targetEnemyIdx: expectDefined(alive[0]) }
+        : { kind: 'defend' },
     )
   }
 
@@ -1488,10 +1520,13 @@ export class BattleSession {
     if (act && 'targetEnemyIdx' in act && act.targetEnemyIdx !== undefined) {
       const alive = this.aliveEnemyIdxs()
       if (!alive.includes(act.targetEnemyIdx)) {
-        act = alive.length ? { ...act, targetEnemyIdx: alive[0]! } : undefined
+        act = alive.length ? { ...act, targetEnemyIdx: expectDefined(alive[0]) } : undefined
       }
     }
-    if (!act) return this.submitForce(sel)
+    if (!act) {
+      this.submitForce(sel)
+      return
+    }
     this.submitAnd(sel, act)
   }
 
@@ -1597,7 +1632,7 @@ export class BattleSession {
       const w = inv.find((x) => x.itemId === s.itemId)
       if (w) w.count = s.count
     }
-    for (let i = inv.length - 1; i >= 0; i--) if (inv[i]!.count <= 0) inv.splice(i, 1)
+    for (let i = inv.length - 1; i >= 0; i--) if (expectDefined(inv[i]).count <= 0) inv.splice(i, 1)
   }
 
   /** 战后把队员 HP/MP 写回 world.party(战斗内伤害/耗蓝持久;原版同,逃跑也保留伤害)。 */
@@ -1608,23 +1643,6 @@ export class BattleSession {
       c.hp = this.state.phase === 'lost' ? Math.max(p.hp, 0) : Math.max(p.hp, 1) // 胜/逃至少留 1
       c.mp = p.mp
     }
-  }
-
-  private spawnFloat(
-    side: 'player' | 'enemy',
-    idx: number,
-    text: string,
-    color: readonly [number, number, number],
-  ): void {
-    const pos =
-      side === 'player'
-        ? getPlayerBasePos(this.state.players.length, idx)
-        : this.state.enemies[idx]?.basePos
-    if (!pos) return
-    const sprite =
-      side === 'player' ? this.assets.playerSprites[idx] : this.assets.enemySprites[idx]
-    const h = sprite?.frames[0]?.height ?? 40
-    this.floats.push({ x: pos.x, y: pos.y - h - 6, text, color, bornAt: this.nowMs })
   }
 
   render(ctx: CanvasRenderingContext2D, worldScale: number): void {
@@ -1654,7 +1672,11 @@ export class BattleSession {
     // 召唤可见度 summonShow(0 = 队员全显/神全隐 … 1 = 队员全隐/神全显);相内 time-based
     const sv = this.summonVis
     const svT =
-      sv === null ? 0 : sv.phase === 'hold' ? 1 : Math.min(1, Math.max(0, (now - sv.start) / (72 * 16)))
+      sv === null
+        ? 0
+        : sv.phase === 'hold'
+          ? 1
+          : Math.min(1, Math.max(0, (now - sv.start) / (72 * 16)))
     const summonShow = sv === null ? 0 : sv.phase === 'out' ? 1 - svT : svT
     // 隐身可见度 hideVis(0 显 → 1 全隐):hidingTime 边沿触发 72×16ms 渐变
     // (原版激活/结束各走一次 PAL_BattleFadeScene 溶解,battle.c:609 12×6×16ms)
@@ -1912,7 +1934,7 @@ export class BattleSession {
 
     // 指令菜单(一阶段原版形态:4 图标 + 杂项盒 + 3 列网格)。选敌态不画(一阶段 DL30);对话期全隐。
     if (!dialogActive && sel !== undefined && ui && this.ui !== 'target' && this.ui !== 'acting') {
-      const p = s.players[sel]!
+      const p = expectDefined(s.players[sel])
       // 主菜单 4 图标(法术/物品/杂项态仍画,一阶段 selectMove 全程画)
       if (this.assets.battleIcons) {
         drawMainIcons(
@@ -1934,7 +1956,19 @@ export class BattleSession {
         // 原版 CreateBox 按 tile **实宽**平铺 —— 帽 22/轴头 33/中 16,cols=1 → 顶行 71px。
         // drawSlicedBox 的 w 是回纹主体宽(轴头自动右探 10)→ 主体 22+16+23=61;
         // 高 rows=4 → 20+18×4+20=112(五行文字全在盒内,不压边)。
-        drawBattleMenuBox(ctx, ui, g, rows, this.miscIdx, now, 2, 20, 61, 112, this.ui === 'miscSub')
+        drawBattleMenuBox(
+          ctx,
+          ui,
+          g,
+          rows,
+          this.miscIdx,
+          now,
+          2,
+          20,
+          61,
+          112,
+          this.ui === 'miscSub',
+        )
         if (this.ui === 'miscSub') {
           // 使用/投掷二级 box(30,50):cols=1 rows=1 → 主体 61 × 高 20+18+20=58
           const sub: BattleMenuRow[] = [
@@ -1986,8 +2020,7 @@ export class BattleSession {
         // 一阶段真值(uibattle.c:1753-1761):每 40ms 上移 1px,age 0..10 共 11 帧;
         // x 已在 applyDamageFx 算成个位右缘锚,直传右对齐 drawNumber
         const age = Math.floor((this.nowMs - f.bornAt) / 40)
-        const nums =
-          f.tone === 'yellow' ? ui.nums : f.tone === 'cyan' ? ui.numsCyan : ui.numsBlue
+        const nums = f.tone === 'yellow' ? ui.nums : f.tone === 'cyan' ? ui.numsCyan : ui.numsBlue
         drawNumber(ctx, f.num, f.x, f.y - age, nums)
       } else {
         const fy = f.y - t * 12

@@ -8,7 +8,15 @@
  *
  * 两个文件分别 dump,运行时 `Spell.magicNumber` 索引 Magic[]。
  */
-import type { Magic, MagicType, ObjectMagicView, ObjectPlayerView, ObjectPoisonView, Spell, SpellFlags } from '@type-pal/shared'
+import type {
+  Magic,
+  MagicType,
+  ObjectMagicView,
+  ObjectPlayerView,
+  ObjectPoisonView,
+  Spell,
+  SpellFlags,
+} from '@type-pal/shared'
 import type { Words } from '../../io/word.js'
 import {
   ITEM_OBJ_START,
@@ -235,7 +243,9 @@ const PLAYER_OFF = {
 export function parseObjectPlayers(objBuf: Uint8Array): ObjectPlayerView[] {
   const need = (PLAYER_OBJ_START + PLAYER_OBJ_COUNT) * OBJ_SIZE
   if (objBuf.byteLength < need) {
-    throw new Error(`parseObjectPlayers: SSS chunk 2 byte length ${objBuf.byteLength} < required ${need}`)
+    throw new Error(
+      `parseObjectPlayers: SSS chunk 2 byte length ${objBuf.byteLength} < required ${need}`,
+    )
   }
   const view = new DataView(objBuf.buffer, objBuf.byteOffset, objBuf.byteLength)
   const out: ObjectPlayerView[] = []

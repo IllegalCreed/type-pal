@@ -7,9 +7,9 @@
  * SaveSlotMenu)留 caller 接。
  */
 
+import { getWord } from '../word-lookup.js'
 import type { SelectionMenuState } from './primitives.js'
 import { createSelectionMenu, moveSelectionDown, moveSelectionUp } from './primitives.js'
-import { getWord } from '../word-lookup.js'
 
 /** {真 WORD id, choice, fallback文案} → SelectionMenuItem{id, label=getWord(id, fallback)}。 */
 function toItems<C>(defs: ReadonlyArray<{ id: number; choice: C; fallback: string }>) {
@@ -68,8 +68,12 @@ export function inGameMenuChoice(s: InGameMenuState): InGameMenuChoice | undefin
   return IN_GAME_LABELS.find((l) => l.id === sel.id)?.choice
 }
 
-export function inGameMenuUp(s: InGameMenuState): void { moveSelectionUp(s.selection) }
-export function inGameMenuDown(s: InGameMenuState): void { moveSelectionDown(s.selection) }
+export function inGameMenuUp(s: InGameMenuState): void {
+  moveSelectionUp(s.selection)
+}
+export function inGameMenuDown(s: InGameMenuState): void {
+  moveSelectionDown(s.selection)
+}
 
 export interface SystemMenuState {
   selection: SelectionMenuState
@@ -111,7 +115,11 @@ export function systemMenuToggleConfirm(s: SystemMenuState): void {
  * 选「音乐」/「音效」→ 进 'switch' 阶段弹关/开子选单(sdlpal PAL_SwitchMenu(fEnabled),uigame.c:618/629)。
  * PAL_SwitchMenu = PAL_SelectionMenu(2, fEnabled?1:0, {关,开}) —— 默认高亮当前态(开=confirmYes true)。
  */
-export function systemMenuEnterSwitch(s: SystemMenuState, target: 'music' | 'sound', currentOn: boolean): void {
+export function systemMenuEnterSwitch(
+  s: SystemMenuState,
+  target: 'music' | 'sound',
+  currentOn: boolean,
+): void {
   s.phase = 'switch'
   s.switchTarget = target
   s.confirmYes = currentOn // 默认高亮当前开关态(fEnabled?开:关)
@@ -125,5 +133,9 @@ export function systemMenuChoice(s: SystemMenuState): SystemMenuChoice | undefin
   return SYSTEM_LABELS.find((l) => l.id === sel.id)?.choice
 }
 
-export function systemMenuUp(s: SystemMenuState): void { moveSelectionUp(s.selection) }
-export function systemMenuDown(s: SystemMenuState): void { moveSelectionDown(s.selection) }
+export function systemMenuUp(s: SystemMenuState): void {
+  moveSelectionUp(s.selection)
+}
+export function systemMenuDown(s: SystemMenuState): void {
+  moveSelectionDown(s.selection)
+}

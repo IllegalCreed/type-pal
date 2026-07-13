@@ -1,17 +1,35 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import type { Tilemap, InputSnapshot, AbstractKey, Item, Spell, Magic, PlayerRoles } from '@type-pal/shared'
-import { setMenuCatalogs } from './menu/menu-driver.js'
-import { loadScene, tickSceneSystem, isWalkable } from './scene-system.js'
-import { createInitialGameState, npcFromEventObject, PARTYOFFSET_X, PARTYOFFSET_Y, setSpriteFrameCountProvider } from './game-state.js'
-import type { NpcState } from './game-state.js'
+import type {
+  AbstractKey,
+  InputSnapshot,
+  Item,
+  Magic,
+  PlayerRoles,
+  Spell,
+  Tilemap,
+} from '@type-pal/shared'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { type SceneAssets, SceneAssetsCache } from '../assets/loader.js'
 import { createCommandBus } from './command-bus.js'
-import { SceneAssetsCache, type SceneAssets } from '../assets/loader.js'
 import {
-  OP_SET_PARTY_POS, OP_SET_PARTY_DIRECTION,
-  OP_SET_CAMERA, OP_CENTER_CAMERA_ON_PARTY,
-  OP_PLAY_MUSIC, OP_SET_SCENE_OBJECT_STATE,
-  setGlobalEvents, tickEventSystem,
+  OP_CENTER_CAMERA_ON_PARTY,
+  OP_PLAY_MUSIC,
+  OP_SET_CAMERA,
+  OP_SET_PARTY_DIRECTION,
+  OP_SET_PARTY_POS,
+  OP_SET_SCENE_OBJECT_STATE,
+  setGlobalEvents,
+  tickEventSystem,
 } from './event-system.js'
+import type { NpcState } from './game-state.js'
+import {
+  createInitialGameState,
+  npcFromEventObject,
+  PARTYOFFSET_X,
+  PARTYOFFSET_Y,
+  setSpriteFrameCountProvider,
+} from './game-state.js'
+import { setMenuCatalogs } from './menu/menu-driver.js'
+import { isWalkable, loadScene, tickSceneSystem } from './scene-system.js'
 
 function makeFlatMap(w: number, h: number): Tilemap {
   const cells = Array.from({ length: h }, () =>
@@ -55,10 +73,10 @@ function snap(held: AbstractKey[] = [], pressed: AbstractKey[] = [], frameNum = 
 // sdlpal scene.c:804-805 真值 4 方向均 dx ≠ 0 且 dy ≠ 0。
 describe('System A 对角移动 sanity(4 方向 dx/dy 都非零)', () => {
   it.each([
-    ['Right' as const, 'right' as const, +16, +8],  // East SE
-    ['Left' as const, 'left' as const, -16, -8],    // West NW
-    ['Down' as const, 'down' as const, -16, +8],    // South SW
-    ['Up' as const, 'up' as const, +16, -8],        // North NE
+    ['Right' as const, 'right' as const, +16, +8], // East SE
+    ['Left' as const, 'left' as const, -16, -8], // West NW
+    ['Down' as const, 'down' as const, -16, +8], // South SW
+    ['Up' as const, 'up' as const, +16, -8], // North NE
   ])('press %s → facing=%s, dx=%d, dy=%d(对角非 cardinal)', (key, expectedFacing, expectedDx, expectedDy) => {
     const startX = 1000
     const startY = 1000
@@ -90,11 +108,11 @@ describe('SceneSystem 走路', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
-    gs.partyScriptedFrame = { 0: 7 }       // 0x15 设的剧情 pose
-    gs.partyLeaderSpriteId = 208           // 旧兼容镜像:0x65 给 role0 设的端酒菜 sprite
+    gs.partyScriptedFrame = { 0: 7 } // 0x15 设的剧情 pose
+    gs.partyLeaderSpriteId = 208 // 旧兼容镜像:0x65 给 role0 设的端酒菜 sprite
     tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
-    expect(gs.partyScriptedFrame[0]).toBeUndefined()   // pose 清掉(走路覆写 wFrame)
-    expect(gs.partyLeaderSpriteId).toBe(208)           // sprite override 保留(边走边端酒菜)
+    expect(gs.partyScriptedFrame[0]).toBeUndefined() // pose 清掉(走路覆写 wFrame)
+    expect(gs.partyLeaderSpriteId).toBe(208) // sprite override 保留(边走边端酒菜)
   })
 
   it('按住 Up → party.x + 16 / party.y - 8, facing=up (North 右上)', () => {
@@ -144,8 +162,8 @@ describe('SceneSystem 走路', () => {
   it('M5:fCheckRange=true 挡 col<5 / row<7 边缘带', () => {
     const map = makeFlatMap(20, 20) // 全可走
     expect(isWalkable(map, 120, 200, [], 0, true)).toBe(false) // col=3<5 → 挡
-    expect(isWalkable(map, 200, 80, [], 0, true)).toBe(false)  // row=5<7 → 挡
-    expect(isWalkable(map, 200, 200, [], 0, true)).toBe(true)  // col6/row12 合法
+    expect(isWalkable(map, 200, 80, [], 0, true)).toBe(false) // row=5<7 → 挡
+    expect(isWalkable(map, 200, 200, [], 0, true)).toBe(true) // col6/row12 合法
   })
 
   it('M5:fCheckRange=false(怪物追击/默认)不挡边缘带', () => {
@@ -162,7 +180,11 @@ describe('pickFacing 走 last-press priority(sdlpal input.c:180-189)', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
-    tickSceneSystem(gs, snap(['Up', 'Down']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    tickSceneSystem(gs, snap(['Up', 'Down']), bus, {
+      tilemap: map,
+      eventCommands: [],
+      labelMap: {},
+    })
     expect(gs.party.facing).toBe('down')
   })
 
@@ -170,7 +192,11 @@ describe('pickFacing 走 last-press priority(sdlpal input.c:180-189)', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
-    tickSceneSystem(gs, snap(['Right', 'Up', 'Left']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    tickSceneSystem(gs, snap(['Right', 'Up', 'Left']), bus, {
+      tilemap: map,
+      eventCommands: [],
+      labelMap: {},
+    })
     expect(gs.party.facing).toBe('left')
   })
 
@@ -178,7 +204,11 @@ describe('pickFacing 走 last-press priority(sdlpal input.c:180-189)', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
-    tickSceneSystem(gs, snap(['Confirm', 'Down']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    tickSceneSystem(gs, snap(['Confirm', 'Down']), bus, {
+      tilemap: map,
+      eventCommands: [],
+      labelMap: {},
+    })
     expect(gs.party.facing).toBe('down')
   })
 
@@ -186,7 +216,11 @@ describe('pickFacing 走 last-press priority(sdlpal input.c:180-189)', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
-    tickSceneSystem(gs, snap(['Up', 'Confirm']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    tickSceneSystem(gs, snap(['Up', 'Confirm']), bus, {
+      tilemap: map,
+      eventCommands: [],
+      labelMap: {},
+    })
     expect(gs.party.facing).toBe('up')
   })
 
@@ -207,7 +241,11 @@ describe('PAL_StartFrame input order(play.c:534-566)', () => {
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
 
-    tickSceneSystem(gs, snap(['Right'], ['Menu']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    tickSceneSystem(gs, snap(['Right'], ['Menu']), bus, {
+      tilemap: map,
+      eventCommands: [],
+      labelMap: {},
+    })
 
     expect(gs.party.x).toBe(17 * 16)
     expect(gs.party.y).toBe(17 * 8)
@@ -259,14 +297,28 @@ describe('SceneSystem NPC 触发', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
-    tickSceneSystem(gs, snap([], ['Confirm']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    tickSceneSystem(gs, snap([], ['Confirm']), bus, {
+      tilemap: map,
+      eventCommands: [],
+      labelMap: {},
+    })
     expect(gs.mode).toBe('explore')
   })
 
   it('面前像素有 NPC + Confirm → mode=event + eventCursor 装载', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
     // right(East): dx=+16, dy=+8 → NPC 在 (6*16, 6*8)
-    gs.npcs = [{ id: 7, x: 6 * 16, y: 6 * 8, spriteNum: 78, triggerLabel: 'L_59', triggerMode: 1, sState: 1 }]
+    gs.npcs = [
+      {
+        id: 7,
+        x: 6 * 16,
+        y: 6 * 8,
+        spriteNum: 78,
+        triggerLabel: 'L_59',
+        triggerMode: 1,
+        sState: 1,
+      },
+    ]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     const commands = [
@@ -288,18 +340,20 @@ describe('SceneSystem NPC 触发', () => {
 
   it('方向性 NPC 被触发时面向 party,并重置站立帧(sdlpal nSpriteFrames>0)', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
-    gs.npcs = [{
-      id: 7,
-      x: 6 * 16,
-      y: 6 * 8,
-      spriteNum: 78,
-      triggerLabel: 'L_59',
-      triggerMode: 1,
-      sState: 1,
-      nSpriteFrames: 3,
-      facing: 'up',
-      scriptedFrame: 2,
-    }]
+    gs.npcs = [
+      {
+        id: 7,
+        x: 6 * 16,
+        y: 6 * 8,
+        spriteNum: 78,
+        triggerLabel: 'L_59',
+        triggerMode: 1,
+        sState: 1,
+        nSpriteFrames: 3,
+        facing: 'up',
+        scriptedFrame: 2,
+      },
+    ]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     const commands = [
@@ -320,17 +374,19 @@ describe('SceneSystem NPC 触发', () => {
   it('非方向性箱子被再次调查时不重置已打开帧(水月宫苗刀箱回归)', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
     // 水月宫苗刀箱(scene 20 obj id 363):spriteNum=10,nSpriteFrames=0;开箱后 frame=1。
-    gs.npcs = [{
-      id: 363,
-      x: 6 * 16,
-      y: 6 * 8,
-      spriteNum: 10,
-      triggerLabel: 'L_5139',
-      triggerMode: 3,
-      sState: 1,
-      nSpriteFrames: 0,
-      scriptedFrame: 1,
-    }]
+    gs.npcs = [
+      {
+        id: 363,
+        x: 6 * 16,
+        y: 6 * 8,
+        spriteNum: 10,
+        triggerLabel: 'L_5139',
+        triggerMode: 3,
+        sState: 1,
+        nSpriteFrames: 0,
+        scriptedFrame: 1,
+      },
+    ]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     const commands = [
@@ -355,20 +411,38 @@ describe('SceneSystem NPC 触发', () => {
     gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78 }] // 无 triggerLabel
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
-    tickSceneSystem(gs, snap([], ['Confirm']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    tickSceneSystem(gs, snap([], ['Confirm']), bus, {
+      tilemap: map,
+      eventCommands: [],
+      labelMap: {},
+    })
     expect(gs.mode).toBe('explore')
   })
 
   it('triggerLabel 存在但不在 labelMap → warn + 不切 mode', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
     // right(East): dx=+16, dy=+8 → NPC 在 (6*16, 6*8)
-    gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78, triggerLabel: 'L_999', triggerMode: 1, sState: 1 }]
+    gs.npcs = [
+      {
+        id: 1,
+        x: 6 * 16,
+        y: 6 * 8,
+        spriteNum: 78,
+        triggerLabel: 'L_999',
+        triggerMode: 1,
+        sState: 1,
+      },
+    ]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     // P2#5:全局数组空 → resolveScriptLabel(L_999) = null → loadEventFromNpc warn + 不切 mode。
     setGlobalEvents([])
-    tickSceneSystem(gs, snap([], ['Confirm']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    tickSceneSystem(gs, snap([], ['Confirm']), bus, {
+      tilemap: map,
+      eventCommands: [],
+      labelMap: {},
+    })
     expect(gs.mode).toBe('explore')
     expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('L_999'))
     warnSpy.mockRestore()
@@ -376,7 +450,17 @@ describe('SceneSystem NPC 触发', () => {
 
   it('P2#5:triggerLabel 经全局 labelMap 解析 → 切 event,eventCursor.ip = 全局 ip', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
-    gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78, triggerLabel: 'L_38592', triggerMode: 1, sState: 1 }]
+    gs.npcs = [
+      {
+        id: 1,
+        x: 6 * 16,
+        y: 6 * 8,
+        spriteNum: 78,
+        triggerLabel: 'L_38592',
+        triggerMode: 1,
+        sState: 1,
+      },
+    ]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     // P2#5:不再分 per-scene / shared 层 — 单一全局数组。L_38592 落在 index 50。
@@ -384,7 +468,11 @@ describe('SceneSystem NPC 触发', () => {
       i === 50 ? { op: 'end' as const, label: 'L_38592' } : { op: 'end' as const },
     )
     setGlobalEvents(globalCmds)
-    tickSceneSystem(gs, snap([], ['Confirm']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    tickSceneSystem(gs, snap([], ['Confirm']), bus, {
+      tilemap: map,
+      eventCommands: [],
+      labelMap: {},
+    })
     expect(gs.mode).toBe('event')
     expect(gs.eventCursor?.ip).toBe(50)
     // P2#5:生产 cursor 不内嵌 commands/labelMap → 默认读全局数组。
@@ -394,7 +482,9 @@ describe('SceneSystem NPC 触发', () => {
 
   it('P2#5:全局 labelMap 唯一决定 triggerLabel → ip(ctx.labelMap 不再参与解析)', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
-    gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78, triggerLabel: 'L_X', triggerMode: 1, sState: 1 }]
+    gs.npcs = [
+      { id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78, triggerLabel: 'L_X', triggerMode: 1, sState: 1 },
+    ]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     // L_X 落在全局 index 10。ctx 传的 labelMap 已不再用于解析,纯渲染上下文。
@@ -427,9 +517,7 @@ describe('明雷机制(M3.5 T11 / D32)', () => {
   // 模拟「走完路后,party 与 contact NPC 同格」的状态。
   it('party 在 contact 像素(triggerMode=5)→ 自动切 event mode + ip 装载', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
-    gs.npcs = [
-      { id: 7, x: 5 * 16, y: 5 * 8, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 5 },
-    ]
+    gs.npcs = [{ id: 7, x: 5 * 16, y: 5 * 8, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 5 }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     const commands = [
@@ -449,9 +537,7 @@ describe('明雷机制(M3.5 T11 / D32)', () => {
 
   it('party 在 triggerMode=0 装饰像素 → 不触发(保持 explore)', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
-    gs.npcs = [
-      { id: 7, x: 5 * 16, y: 5 * 8, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 0 },
-    ]
+    gs.npcs = [{ id: 7, x: 5 * 16, y: 5 * 8, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 0 }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     const commands = [
@@ -469,9 +555,7 @@ describe('明雷机制(M3.5 T11 / D32)', () => {
 
   it('party 在 triggerMode=2 Confirm-search 像素 → 不自动触发(保持 explore,等 Confirm)', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
-    gs.npcs = [
-      { id: 7, x: 5 * 16, y: 5 * 8, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 2 },
-    ]
+    gs.npcs = [{ id: 7, x: 5 * 16, y: 5 * 8, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 2 }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     const commands = [
@@ -500,9 +584,7 @@ describe('明雷机制 反例 / edge case(M3.5 T12)', () => {
   it('party 同像素 NPC 无 triggerLabel(triggerMode=5)→ 不切 mode + eventCursor undefined', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     // triggerMode 已是 contact 段(>= 4),但 triggerLabel 缺失(对照原版 triggerScript=0)
-    gs.npcs = [
-      { id: 7, x: 5 * 16, y: 5 * 8, spriteNum: 468, triggerMode: 5 },
-    ]
+    gs.npcs = [{ id: 7, x: 5 * 16, y: 5 * 8, spriteNum: 468, triggerMode: 5 }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     tickSceneSystem(gs, snap(), bus, {
@@ -537,9 +619,7 @@ describe('明雷机制 反例 / edge case(M3.5 T12)', () => {
 
   it('triggerMode=3 边界(Confirm-search 段最大值)→ 不自动触发(< CONTACT_MIN)', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
-    gs.npcs = [
-      { id: 7, x: 5 * 16, y: 5 * 8, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 3 },
-    ]
+    gs.npcs = [{ id: 7, x: 5 * 16, y: 5 * 8, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 3 }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     const commands = [
@@ -557,9 +637,7 @@ describe('明雷机制 反例 / edge case(M3.5 T12)', () => {
 
   it('triggerMode=4 边界(contact 段最小值)→ 自动触发(=== CONTACT_MIN)', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
-    gs.npcs = [
-      { id: 7, x: 5 * 16, y: 5 * 8, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 4 },
-    ]
+    gs.npcs = [{ id: 7, x: 5 * 16, y: 5 * 8, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 4 }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     const commands = [
@@ -590,11 +668,18 @@ describe('明雷机制 反例 / edge case(M3.5 T12)', () => {
 describe('M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166)', () => {
   it('sVanishTime > 0 → 递减 + 不触发 trigger', () => {
     const gs = createInitialGameState({ x: 100, y: 100, facing: 'down' })
-    gs.npcs = [{
-      id: 1, x: 100, y: 100, spriteNum: 1,
-      triggerLabel: 'L_X', triggerMode: 5, sState: 1,
-      sVanishTime: 3,
-    }]
+    gs.npcs = [
+      {
+        id: 1,
+        x: 100,
+        y: 100,
+        spriteNum: 1,
+        triggerLabel: 'L_X',
+        triggerMode: 5,
+        sState: 1,
+        sVanishTime: 3,
+      },
+    ]
     const bus = createCommandBus()
     const map = makeFlatMap(20, 20)
     tickSceneSystem(gs, snap(), bus, { tilemap: map, eventCommands: [], labelMap: { L_X: 0 } })
@@ -604,11 +689,18 @@ describe('M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166)', () => {
 
   it('sVanishTime < 0 → 递增 + 不触发', () => {
     const gs = createInitialGameState({ x: 100, y: 100, facing: 'down' })
-    gs.npcs = [{
-      id: 1, x: 100, y: 100, spriteNum: 1,
-      triggerLabel: 'L_X', triggerMode: 5, sState: 1,
-      sVanishTime: -3,
-    }]
+    gs.npcs = [
+      {
+        id: 1,
+        x: 100,
+        y: 100,
+        spriteNum: 1,
+        triggerLabel: 'L_X',
+        triggerMode: 5,
+        sState: 1,
+        sVanishTime: -3,
+      },
+    ]
     const bus = createCommandBus()
     const map = makeFlatMap(20, 20)
     tickSceneSystem(gs, snap(), bus, { tilemap: map, eventCommands: [], labelMap: { L_X: 0 } })
@@ -620,10 +712,17 @@ describe('M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166)', () => {
     // gs.party (100,100) → camera = max(0, 100-160), max(0, 100-112) = (0,0);
     // viewport (0,0)..(320,320)。NPC 在 (500, 500) 完全在外 → 复活。
     const gs = createInitialGameState({ x: 100, y: 100, facing: 'down' })
-    gs.npcs = [{
-      id: 1, x: 500, y: 500, spriteNum: 1, triggerMode: 5,
-      sState: -1, scriptedFrame: 99,
-    }]
+    gs.npcs = [
+      {
+        id: 1,
+        x: 500,
+        y: 500,
+        spriteNum: 1,
+        triggerMode: 5,
+        sState: -1,
+        scriptedFrame: 99,
+      },
+    ]
     const bus = createCommandBus()
     const map = makeFlatMap(40, 40)
     tickSceneSystem(gs, snap(), bus, { tilemap: map, eventCommands: [], labelMap: {} })
@@ -637,14 +736,25 @@ describe('M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166)', () => {
     // 实际逻辑:NPC face party 的方向 — party 在 NPC 左 / 上 → NPC 朝右 / 下
     // 重读 play.c:132-139:NPC's xOffset = party.x - npc.x;NPC face this direction
     const gs = createInitialGameState({ x: 110, y: 100, facing: 'down' })
-    gs.npcs = [{
-      id: 1, x: 100, y: 100, spriteNum: 1, sState: 1,
-      triggerLabel: 'L_X', triggerMode: 5,
-    }]
+    gs.npcs = [
+      {
+        id: 1,
+        x: 100,
+        y: 100,
+        spriteNum: 1,
+        sState: 1,
+        triggerLabel: 'L_X',
+        triggerMode: 5,
+      },
+    ]
     const bus = createCommandBus()
     const map = makeFlatMap(20, 20)
     setGlobalEvents([{ op: 'end' as const, label: 'L_X' }]) // P2#5:L_X → 全局 index 0
-    tickSceneSystem(gs, snap(), bus, { tilemap: map, eventCommands: [{ op: 'end' as const }], labelMap: { L_X: 0 } })
+    tickSceneSystem(gs, snap(), bus, {
+      tilemap: map,
+      eventCommands: [{ op: 'end' as const }],
+      labelMap: { L_X: 0 },
+    })
     // xOffset = 110-100 = 10 > 0, yOffset = 100-100 = 0 → kDirNorth → ts 'up'
     expect(gs.npcs[0]?.facing).toBe('up')
     expect(gs.npcs[0]?.scriptedFrame).toBe(0) // 站立帧
@@ -653,30 +763,51 @@ describe('M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166)', () => {
 
   it('PAL_StartFrame 顺序:本帧走进 trigger zone 后下一帧才触发', () => {
     const gs = createInitialGameState({ x: 320, y: 240, facing: 'right' })
-    gs.npcs = [{
-      id: 1, x: 336, y: 248, spriteNum: 1, sState: 1,
-      triggerLabel: 'L_X', triggerMode: 4,
-    }]
+    gs.npcs = [
+      {
+        id: 1,
+        x: 336,
+        y: 248,
+        spriteNum: 1,
+        sState: 1,
+        triggerLabel: 'L_X',
+        triggerMode: 4,
+      },
+    ]
     const bus = createCommandBus()
     const map = makeFlatMap(64, 64)
     setGlobalEvents([{ op: 'end' as const, label: 'L_X' }])
 
-    tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [{ op: 'end' as const }], labelMap: { L_X: 0 } })
+    tickSceneSystem(gs, snap(['Right']), bus, {
+      tilemap: map,
+      eventCommands: [{ op: 'end' as const }],
+      labelMap: { L_X: 0 },
+    })
     expect(gs.party.x).toBe(336)
     expect(gs.party.y).toBe(248)
     expect(gs.mode).toBe('explore')
 
-    tickSceneSystem(gs, snap(), bus, { tilemap: map, eventCommands: [{ op: 'end' as const }], labelMap: { L_X: 0 } })
+    tickSceneSystem(gs, snap(), bus, {
+      tilemap: map,
+      eventCommands: [{ op: 'end' as const }],
+      labelMap: { L_X: 0 },
+    })
     expect(gs.mode).toBe('event')
     expect(gs.eventCursor?.ip).toBe(0)
   })
 
   it('阻挡 NPC 压到 party anchor → 按 NPC 朝向下一方向推离一格(play.c:197-228)', () => {
     const gs = createInitialGameState({ x: 320, y: 240, facing: 'down' })
-    gs.npcs = [{
-      id: 1, x: 320, y: 240, spriteNum: 1, sState: 2,
-      facing: 'down',
-    }]
+    gs.npcs = [
+      {
+        id: 1,
+        x: 320,
+        y: 240,
+        spriteNum: 1,
+        sState: 2,
+        facing: 'down',
+      },
+    ]
     const bus = createCommandBus()
     const map = makeFlatMap(64, 64)
 
@@ -691,14 +822,21 @@ describe('M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166)', () => {
 
   it('autoScript 先移动 blocker,NPC 压到 party 后同帧 push party(play.c:169-228)', () => {
     const gs = createInitialGameState({ x: 320, y: 240, facing: 'down' })
-    gs.npcs = [{
-      id: 1, x: 324, y: 238, spriteNum: 1, sState: 2,
-      facing: 'down', autoCursor: { ip: 0 },
-    }]
+    gs.npcs = [
+      {
+        id: 1,
+        x: 324,
+        y: 238,
+        spriteNum: 1,
+        sState: 2,
+        facing: 'down',
+        autoCursor: { ip: 0 },
+      },
+    ]
     const bus = createCommandBus()
     const map = makeFlatMap(64, 64)
     setGlobalEvents([
-      { op: 'raw' as const, opcode: 0x007D, operands: [0, 0xfffc, 2], label: 'L_0' },
+      { op: 'raw' as const, opcode: 0x007d, operands: [0, 0xfffc, 2], label: 'L_0' },
       { op: 'end' as const },
     ])
 
@@ -751,10 +889,18 @@ describe('M5.6 T8 PAL_Search 视觉效果(play.c:468-490)', () => {
     // mode 1 cells[0] = (party.x, party.y) = (100,100)同 grid;NPC 放 (100,100)同 grid
     const gs = createInitialGameState({ x: 100, y: 100, facing: 'down' })
     gs.partyMembers = [0, 1, 2]
-    gs.npcs = [{
-      id: 1, x: 100, y: 100, spriteNum: 1, sState: 1,
-      triggerLabel: 'L_X', triggerMode: 1, scriptedFrame: 99,
-    }]
+    gs.npcs = [
+      {
+        id: 1,
+        x: 100,
+        y: 100,
+        spriteNum: 1,
+        sState: 1,
+        triggerLabel: 'L_X',
+        triggerMode: 1,
+        scriptedFrame: 99,
+      },
+    ]
     const bus = createCommandBus()
     const map = makeFlatMap(20, 20)
     setGlobalEvents([{ op: 'end' as const, label: 'L_X' }]) // P2#5:L_X → 全局 index 0
@@ -772,10 +918,17 @@ describe('M5.6 T8 PAL_Search 视觉效果(play.c:468-490)', () => {
     // party facing 'right' (kDirEast=3);wFrame = 3*3 = 9
     const gs = createInitialGameState({ x: 100, y: 100, facing: 'right' })
     gs.partyMembers = [0, 1, 2] // 3 队员
-    gs.npcs = [{
-      id: 1, x: 100, y: 100, spriteNum: 1, sState: 1,
-      triggerLabel: 'L_X', triggerMode: 1,
-    }]
+    gs.npcs = [
+      {
+        id: 1,
+        x: 100,
+        y: 100,
+        spriteNum: 1,
+        sState: 1,
+        triggerLabel: 'L_X',
+        triggerMode: 1,
+      },
+    ]
     const bus = createCommandBus()
     const map = makeFlatMap(20, 20)
     tickSceneSystem(gs, snap([], ['Confirm']), bus, {
@@ -792,9 +945,7 @@ describe('M5.6 T8 PAL_Search 视觉效果(play.c:468-490)', () => {
 describe('P0.e contact 菱形距离触发(sdlpal scene.c:624)', () => {
   it('严格相等:party 与 NPC 同像素 → 触发(legacy 兼容)', () => {
     const gs = createInitialGameState({ x: 1136, y: 1304, facing: 'down' })
-    gs.npcs = [
-      { id: 7, x: 1136, y: 1304, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 5 },
-    ]
+    gs.npcs = [{ id: 7, x: 1136, y: 1304, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 5 }]
     const bus = createCommandBus()
     const map = makeFlatMap(128, 128)
     const commands = [
@@ -820,7 +971,10 @@ describe('P0.e contact 菱形距离触发(sdlpal scene.c:624)', () => {
     const map = makeFlatMap(128, 128)
     tickSceneSystem(gs, snap(), bus, {
       tilemap: map,
-      eventCommands: [{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }],
+      eventCommands: [
+        { op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' },
+        { op: 'end' as const },
+      ],
       labelMap: { L_42: 0 },
     })
     expect(gs.mode).toBe('explore') // mode 4 threshold = 16,32 ≥ 16,不触发
@@ -834,10 +988,16 @@ describe('P0.e contact 菱形距离触发(sdlpal scene.c:624)', () => {
     ]
     const bus = createCommandBus()
     const map = makeFlatMap(128, 128)
-    setGlobalEvents([{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }]) // P2#5:L_42 → 全局 index 0
+    setGlobalEvents([
+      { op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' },
+      { op: 'end' as const },
+    ]) // P2#5:L_42 → 全局 index 0
     tickSceneSystem(gs, snap(), bus, {
       tilemap: map,
-      eventCommands: [{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }],
+      eventCommands: [
+        { op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' },
+        { op: 'end' as const },
+      ],
       labelMap: { L_42: 0 },
     })
     expect(gs.mode).toBe('event') // mode 5 threshold = 48,32 < 48,触发
@@ -846,15 +1006,19 @@ describe('P0.e contact 菱形距离触发(sdlpal scene.c:624)', () => {
   it('party 在 NPC 旁 (+8, 0) → 距离 = 8 < 16,触发', () => {
     // dx=8 dy=0 → 8 + 0 = 8 < 16
     const gs = createInitialGameState({ x: 1136 + 8, y: 1304, facing: 'down' })
-    gs.npcs = [
-      { id: 7, x: 1136, y: 1304, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 5 },
-    ]
+    gs.npcs = [{ id: 7, x: 1136, y: 1304, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 5 }]
     const bus = createCommandBus()
     const map = makeFlatMap(128, 128)
-    setGlobalEvents([{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }]) // P2#5:L_42 → 全局 index 0
+    setGlobalEvents([
+      { op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' },
+      { op: 'end' as const },
+    ]) // P2#5:L_42 → 全局 index 0
     tickSceneSystem(gs, snap(), bus, {
       tilemap: map,
-      eventCommands: [{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }],
+      eventCommands: [
+        { op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' },
+        { op: 'end' as const },
+      ],
       labelMap: { L_42: 0 },
     })
     expect(gs.mode).toBe('event')
@@ -863,15 +1027,19 @@ describe('P0.e contact 菱形距离触发(sdlpal scene.c:624)', () => {
   it('party 在 NPC 旁 (0, +4) → 距离 = 0 + 8 = 8 < 16,触发', () => {
     // dx=0 dy=4 → 0 + 4*2 = 8 < 16
     const gs = createInitialGameState({ x: 1136, y: 1304 + 4, facing: 'down' })
-    gs.npcs = [
-      { id: 7, x: 1136, y: 1304, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 5 },
-    ]
+    gs.npcs = [{ id: 7, x: 1136, y: 1304, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 5 }]
     const bus = createCommandBus()
     const map = makeFlatMap(128, 128)
-    setGlobalEvents([{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }]) // P2#5:L_42 → 全局 index 0
+    setGlobalEvents([
+      { op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' },
+      { op: 'end' as const },
+    ]) // P2#5:L_42 → 全局 index 0
     tickSceneSystem(gs, snap(), bus, {
       tilemap: map,
-      eventCommands: [{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }],
+      eventCommands: [
+        { op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' },
+        { op: 'end' as const },
+      ],
       labelMap: { L_42: 0 },
     })
     expect(gs.mode).toBe('event')
@@ -887,7 +1055,10 @@ describe('P0.e contact 菱形距离触发(sdlpal scene.c:624)', () => {
     const map = makeFlatMap(128, 128)
     tickSceneSystem(gs, snap(), bus, {
       tilemap: map,
-      eventCommands: [{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }],
+      eventCommands: [
+        { op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' },
+        { op: 'end' as const },
+      ],
       labelMap: { L_42: 0 },
     })
     expect(gs.mode).toBe('explore')
@@ -895,15 +1066,19 @@ describe('P0.e contact 菱形距离触发(sdlpal scene.c:624)', () => {
 
   it('triggerMode=4 边界 + 距离 8 → 触发(契合 CONTACT_MIN 与新距离判)', () => {
     const gs = createInitialGameState({ x: 1136 + 8, y: 1304, facing: 'down' })
-    gs.npcs = [
-      { id: 7, x: 1136, y: 1304, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 4 },
-    ]
+    gs.npcs = [{ id: 7, x: 1136, y: 1304, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 4 }]
     const bus = createCommandBus()
     const map = makeFlatMap(128, 128)
-    setGlobalEvents([{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }]) // P2#5:L_42 → 全局 index 0
+    setGlobalEvents([
+      { op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' },
+      { op: 'end' as const },
+    ]) // P2#5:L_42 → 全局 index 0
     tickSceneSystem(gs, snap(), bus, {
       tilemap: map,
-      eventCommands: [{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }],
+      eventCommands: [
+        { op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' },
+        { op: 'end' as const },
+      ],
       labelMap: { L_42: 0 },
     })
     expect(gs.mode).toBe('event')
@@ -944,10 +1119,7 @@ function makeSceneAssets(
  * P2#5:loadScene 经 resolveScriptLabel(全局 _globalLabelMap)解 onEnterLabel,
  * 故在此把 commands 注册为全局数组(L_enter → 全局 index 0),scene labelMap 已不参与解析。
  */
-function makeFakeAssetsWithEnterScript(
-  sceneId: number,
-  enterCmds: any[],
-): SceneAssets {
+function makeFakeAssetsWithEnterScript(sceneId: number, enterCmds: any[]): SceneAssets {
   const commands = [
     ...enterCmds.map((c, i) => ({ ...c, label: i === 0 ? 'L_enter' : undefined })),
     { op: 'end' as const },
@@ -960,13 +1132,31 @@ function makeFakeAssetsWithEnterScript(
 describe('loadScene × nSpriteFramesAuto 回填(sdlpal res.c:295-298,血池冒泡/血柱动画根因)', () => {
   it('装载时按精灵总帧数回填 nSpriteFramesAuto;无 sprite(spriteNum=0)不回填', async () => {
     // bootstrap 注入的 provider 等价物:spriteNum → 已装帧数
-    setSpriteFrameCountProvider((spriteNum) => ({ 272: 24, 11: 11 } as Record<number, number>)[spriteNum])
+    setSpriteFrameCountProvider(
+      (spriteNum) => (({ 272: 24, 11: 11 }) as Record<number, number>)[spriteNum],
+    )
     try {
       const gs = createInitialGameState({ x: 5 * 32, y: 5 * 16, facing: 'down' })
       const cache = new SceneAssetsCache(async (id: number) =>
         makeSceneAssets(id, [
-          { id: 0, x: 0, y: 0, spriteNum: 272, triggerMode: 0, nSpriteFrames: 0, currentFrameNum: 0 },
-          { id: 1, x: 0, y: 0, spriteNum: 11, triggerMode: 0, nSpriteFrames: 0, currentFrameNum: 0 },
+          {
+            id: 0,
+            x: 0,
+            y: 0,
+            spriteNum: 272,
+            triggerMode: 0,
+            nSpriteFrames: 0,
+            currentFrameNum: 0,
+          },
+          {
+            id: 1,
+            x: 0,
+            y: 0,
+            spriteNum: 11,
+            triggerMode: 0,
+            nSpriteFrames: 0,
+            currentFrameNum: 0,
+          },
           { id: 2, x: 0, y: 0, spriteNum: 0, triggerMode: 0, nSpriteFrames: 0, currentFrameNum: 0 },
         ]),
       )
@@ -985,7 +1175,15 @@ describe('loadScene × nSpriteFramesAuto 回填(sdlpal res.c:295-298,血池冒�
       const gs = createInitialGameState({ x: 5 * 32, y: 5 * 16, facing: 'down' })
       const cache = new SceneAssetsCache(async (id: number) =>
         makeSceneAssets(id, [
-          { id: 0, x: 0, y: 0, spriteNum: 272, triggerMode: 0, nSpriteFrames: 0, currentFrameNum: 0 },
+          {
+            id: 0,
+            x: 0,
+            y: 0,
+            spriteNum: 272,
+            triggerMode: 0,
+            nSpriteFrames: 0,
+            currentFrameNum: 0,
+          },
         ]),
       )
       await loadScene({ gs, sceneId: 7, assets: cache })
@@ -1166,7 +1364,9 @@ describe('P2#5 trigger 经全局 labelMap 解析(原 P3.T1)', () => {
     // 加载 scene 1:旧模型下 L_scene2 不在 scene1 labelMap → 不触发。
     // 新模型:L_scene2 在全局 labelMap → 不论加载哪个 scene 都能触发(跨场景 trigger)。
     await loadScene({ gs, sceneId: 1, assets: cache })
-    gs.npcs = [{ id: 1, x: 5 * 16, y: 5 * 8, spriteNum: 1, triggerLabel: 'L_scene2', triggerMode: 5 }]
+    gs.npcs = [
+      { id: 1, x: 5 * 16, y: 5 * 8, spriteNum: 1, triggerLabel: 'L_scene2', triggerMode: 5 },
+    ]
     tickSceneSystem(gs, snap(), createCommandBus())
     expect(gs.mode).toBe('event') // P2#5:全局解析 → 切 event(原 gating 下是 explore)
     expect(gs.eventCursor?.ip).toBe(1) // L_scene2 全局 ip
@@ -1174,7 +1374,9 @@ describe('P2#5 trigger 经全局 labelMap 解析(原 P3.T1)', () => {
     // 切到 scene 2 后同样能解析(全局,不分 scene)。
     const gs2 = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     await loadScene({ gs: gs2, sceneId: 2, assets: cache })
-    gs2.npcs = [{ id: 2, x: 5 * 16, y: 5 * 8, spriteNum: 1, triggerLabel: 'L_scene2', triggerMode: 5 }]
+    gs2.npcs = [
+      { id: 2, x: 5 * 16, y: 5 * 8, spriteNum: 1, triggerLabel: 'L_scene2', triggerMode: 5 },
+    ]
     tickSceneSystem(gs2, snap(), createCommandBus())
     expect(gs2.mode).toBe('event')
     expect(gs2.eventCursor?.ip).toBe(1)
@@ -1269,7 +1471,7 @@ describe('P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift)', () => {
     const map = makeFlatMap(64, 32)
     tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
     tickSceneSystem(gs, snap(['Up']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
-    expect(gs.trail[0]!.dir).toBe('up')    // 第 2 步用 'up'
+    expect(gs.trail[0]!.dir).toBe('up') // 第 2 步用 'up'
     expect(gs.trail[1]!.dir).toBe('right') // 第 1 步用 'right'
   })
 })
@@ -1332,8 +1534,8 @@ describe('P0.a 菱形 isometric 碰撞', () => {
   it('越界坐标(col 或 row 超出 tilemap)→ false', () => {
     const map = makeBlockedMap(2, 2)
     // 超出边界 → tilemapIsBlocked 返回 true → isWalkable false
-    expect(isWalkable(map, 64, 0)).toBe(false)   // col=2 >= width=2
-    expect(isWalkable(map, 0, 32)).toBe(false)   // row=2 >= height=2
+    expect(isWalkable(map, 64, 0)).toBe(false) // col=2 >= width=2
+    expect(isWalkable(map, 0, 32)).toBe(false) // row=2 >= height=2
   })
 
   // ── 7. NPC 菱形曼哈顿距离 abs(dx)+abs(dy)*2 < 16 ─────────────────────────
@@ -1376,7 +1578,7 @@ describe('P0.a 菱形 isometric 碰撞', () => {
     const gs = createInitialGameState({ x: 48, y: 24, facing: 'down' })
     const bus = createCommandBus()
     tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
-    expect(gs.party.x).toBe(48)   // 没走过去
+    expect(gs.party.x).toBe(48) // 没走过去
     expect(gs.party.y).toBe(24)
     expect(gs.party.facing).toBe('right')
   })
@@ -1441,8 +1643,8 @@ describe('P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures)', 
 
     tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
     expect(gs.walkingFrame.walking).toBe(false)
-    expect(gs.party.facing).toBe('right')   // facing 改了
-    expect(gs.party.x).toBe(48)             // 没走
+    expect(gs.party.facing).toBe('right') // facing 改了
+    expect(gs.party.x).toBe(48) // 没走
     // L5/L30:撞墙不计步,但 C 仍走 PAL_UpdatePartyGestures(FALSE) → 站立分支复位 stepFrame &=2;^=2
     //   (scene.c:773-774,为下次起步设相位)。stepBefore=0 → (0&2)^2 = 2,非冻结不变。
     expect(gs.walkingFrame.stepFrame).toBe((stepBefore & 2) ^ 2)
@@ -1460,7 +1662,7 @@ describe('P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures)', 
     tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
     expect(gs.walkingFrame.walking).toBe(false)
     expect(gs.party.facing).toBe('right')
-    expect(gs.party.x).toBe(5 * 16)        // 没走
+    expect(gs.party.x).toBe(5 * 16) // 没走
     // L5/L30:NPC 阻挡同撞墙,C 走 PAL_UpdatePartyGestures(FALSE) → 复位 stepFrame(scene.c:773-774)。
     expect(gs.walkingFrame.stepFrame).toBe((stepBefore & 2) ^ 2) // 0 → 2
   })
@@ -1489,7 +1691,9 @@ describe('P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures)', 
   it('contact NPC(triggerMode >= 4)不阻挡走路 → walking=true', () => {
     const gs = createInitialGameState({ x: 16 * 16, y: 16 * 8, facing: 'down' }) // M5:起点 col8/row8(避开边缘带)
     // contact 怪:走进触发战斗但不阻挡走路
-    gs.npcs = [{ id: 7, x: 17 * 16, y: 17 * 8, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 5 }]
+    gs.npcs = [
+      { id: 7, x: 17 * 16, y: 17 * 8, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 5 },
+    ]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     const commands = [
@@ -1497,7 +1701,9 @@ describe('P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures)', 
       { op: 'end' as const },
     ]
     tickSceneSystem(gs, snap(['Right']), bus, {
-      tilemap: map, eventCommands: commands, labelMap: { L_42: 0 },
+      tilemap: map,
+      eventCommands: commands,
+      labelMap: { L_42: 0 },
     })
     // PAL_StartFrame:自动 trigger 检测在本帧走路前;走进去后一帧才触发。
     expect(gs.mode).toBe('explore')
@@ -1526,8 +1732,8 @@ describe('P0.e wScriptOnEnter 真跑', () => {
     ])
     const cache = new SceneAssetsCache(async () => assets)
     await loadScene({ gs, sceneId: 5, assets: cache })
-    expect(gs.party.x).toBe(6 * 32)   // 192
-    expect(gs.party.y).toBe(4 * 16)   // 64
+    expect(gs.party.x).toBe(6 * 32) // 192
+    expect(gs.party.y).toBe(4 * 16) // 64
     // camera = viewport = party - partyoffset(160, 112)
     expect(gs.camera.x).toBe(192 - 160)
     expect(gs.camera.y).toBe(64 - 112)
@@ -1541,8 +1747,8 @@ describe('P0.e wScriptOnEnter 真跑', () => {
     ])
     const cache = new SceneAssetsCache(async () => assets)
     await loadScene({ gs, sceneId: 1, assets: cache })
-    expect(gs.party.x).toBe(41 * 32)   // 1312
-    expect(gs.party.y).toBe(18 * 16)   // 288
+    expect(gs.party.x).toBe(41 * 32) // 1312
+    expect(gs.party.y).toBe(18 * 16) // 288
   })
 
   it('setPartyPos h=1 → 加 16/8 半 tile 偏移', async () => {
@@ -1561,7 +1767,7 @@ describe('P0.e wScriptOnEnter 真跑', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const assets = makeFakeAssetsWithEnterScript(5, [
       { op: 'raw', opcode: OP_SET_PARTY_POS, operands: [6, 4, 0] },
-      { op: 'raw', opcode: OP_SET_PARTY_DIRECTION, operands: [2, 0, 0] },  // kDirNorth=2 → up
+      { op: 'raw', opcode: OP_SET_PARTY_DIRECTION, operands: [2, 0, 0] }, // kDirNorth=2 → up
     ])
     const cache = new SceneAssetsCache(async () => assets)
     await loadScene({ gs, sceneId: 5, assets: cache })
@@ -1570,7 +1776,10 @@ describe('P0.e wScriptOnEnter 真跑', () => {
 
   it('setPartyDirection 4 方向映射: 0=down, 1=left, 2=up, 3=right', async () => {
     const mapping: [number, 'down' | 'left' | 'up' | 'right'][] = [
-      [0, 'down'], [1, 'left'], [2, 'up'], [3, 'right'],
+      [0, 'down'],
+      [1, 'left'],
+      [2, 'up'],
+      [3, 'right'],
     ]
     for (const [dir, expected] of mapping) {
       const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
@@ -1589,7 +1798,12 @@ describe('P0.e wScriptOnEnter 真跑', () => {
       { op: 'raw', opcode: OP_SET_PARTY_POS, operands: [6, 4, 0] },
     ])
     const cache = new SceneAssetsCache(async () => assets)
-    await loadScene({ gs, sceneId: 5, assets: cache, partyStart: { x: 500, y: 250, facing: 'left' } })
+    await loadScene({
+      gs,
+      sceneId: 5,
+      assets: cache,
+      partyStart: { x: 500, y: 250, facing: 'left' },
+    })
     // partyStart override 优先:enter script 的 setPartyPos 不跑
     expect(gs.party.x).toBe(500)
     expect(gs.party.y).toBe(250)
@@ -1621,7 +1835,7 @@ describe('P0.e wScriptOnEnter 真跑', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const assets = makeFakeAssetsWithEnterScript(5, [
       { op: 'raw', opcode: OP_SET_PARTY_POS, operands: [6, 4, 0] },
-      { op: 'raw', opcode: OP_SET_CAMERA, operands: [6, 4, 0xFFFF] },
+      { op: 'raw', opcode: OP_SET_CAMERA, operands: [6, 4, 0xffff] },
     ])
     const cache = new SceneAssetsCache(async () => assets)
     await loadScene({ gs, sceneId: 5, assets: cache })
@@ -1678,7 +1892,7 @@ describe('P0.e wScriptOnEnter 真跑', () => {
     // party 已被 setPartyPos 设好,showDialog 被 skip
     expect(gs.party.x).toBe(192)
     expect(gs.party.y).toBe(64)
-    expect(gs.mode).toBe('explore')  // 没切到 event 模式
+    expect(gs.mode).toBe('explore') // 没切到 event 模式
   })
 })
 
@@ -1706,7 +1920,16 @@ describe('TouchFar 自动触发脚本结束后首帧可移动(李大娘死锁回
     const gs = createInitialGameState({ x: 50 * 16, y: 50 * 8, facing: 'right' })
     gs.npcs = [
       // 李大娘等价:TouchFar(threshold 80),trigger 脚本单句对话 + plain end(不 advance → 可无限重触发)
-      { id: 56, x: 50 * 16, y: 50 * 8, spriteNum: 21, triggerLabel: 'L_100', triggerMode: 6, sState: 1, nSpriteFrames: 3 },
+      {
+        id: 56,
+        x: 50 * 16,
+        y: 50 * 8,
+        spriteNum: 21,
+        triggerLabel: 'L_100',
+        triggerMode: 6,
+        sState: 1,
+        nSpriteFrames: 3,
+      },
     ]
     const commands = [
       { op: 'end' as const },
@@ -1731,7 +1954,7 @@ describe('TouchFar 自动触发脚本结束后首帧可移动(李大娘死锁回
       runFrame(gs, snap(['Right'], ['Confirm'], f), bus, ctx)
     }
     expect(gs.party.x).toBeGreaterThan(startX) // 死锁版恒等于 startX
-    expect(gs.mode).toBe('explore')            // 逃出半径后稳定 explore,无新触发
+    expect(gs.mode).toBe('explore') // 逃出半径后稳定 explore,无新触发
     expect(gs.eventCursor).toBeUndefined()
   })
 
@@ -1758,18 +1981,14 @@ describe('TouchFar 自动触发脚本结束后首帧可移动(李大娘死锁回
 describe('DH5:blocker 阻挡只看 sState,无 triggerMode 豁免(scene.c:619-628)', () => {
   it('sState>=2 且 triggerMode=5(门卫类)阻挡走路(修前可穿行)', () => {
     const tilemap = makeFlatMap(20, 20)
-    const npcs = [
-      { id: 0, x: 200, y: 200, spriteNum: 1, sState: 2, triggerMode: 5 },
-    ]
+    const npcs = [{ id: 0, x: 200, y: 200, spriteNum: 1, sState: 2, triggerMode: 5 }]
     // 紧贴 npc(曼哈顿 |dx|+|dy|*2 < 16)→ 阻挡
     expect(isWalkable(tilemap, 204, 202, npcs as never, 99)).toBe(false)
   })
 
   it('sState=1 的明雷怪(triggerMode=4)不阻挡(本就不过 blocker 关,踩怪触发不受影响)', () => {
     const tilemap = makeFlatMap(20, 20)
-    const npcs = [
-      { id: 0, x: 200, y: 200, spriteNum: 1, sState: 1, triggerMode: 4 },
-    ]
+    const npcs = [{ id: 0, x: 200, y: 200, spriteNum: 1, sState: 1, triggerMode: 4 }]
     expect(isWalkable(tilemap, 204, 202, npcs as never, 99)).toBe(true)
   })
 })
@@ -1781,7 +2000,13 @@ describe('DH5:blocker 阻挡只看 sState,无 triggerMode 豁免(scene.c:619-628
 describe('扬州太守领赏 bug 修复(走近自动触发 + 一次性 guard)', () => {
   it('走到书案前触发判定中心(1600,1040)→ 无需 Confirm 自动触发领赏,且触发后不再复触发', () => {
     const npc = npcFromEventObject({
-      id: 1518, x: 1616, y: 968, spriteNum: 382, triggerLabel: 'L_15293', triggerMode: 3, sState: 1,
+      id: 1518,
+      x: 1616,
+      y: 968,
+      spriteNum: 382,
+      triggerLabel: 'L_15293',
+      triggerMode: 3,
+      sState: 1,
     })
     // party 站在书案前触发判定中心 (1600,1040)(autoTriggerAnchor);facing 任意(自动触发不看朝向)
     const gs = createInitialGameState({ x: 1600, y: 1040, facing: 'up' })
@@ -1812,7 +2037,13 @@ describe('扬州太守领赏 bug 修复(走近自动触发 + 一次性 guard)', 
   it('触发判定中心在书案前(非太守 sprite):party 站在太守 sprite 像素 (1616,968) → 不自动触发', () => {
     // 触发判定中心 = 书案前 (1600,1040);mode6 阈值 80。
     const npc = npcFromEventObject({
-      id: 1518, x: 1616, y: 968, spriteNum: 382, triggerLabel: 'L_15293', triggerMode: 3, sState: 1,
+      id: 1518,
+      x: 1616,
+      y: 968,
+      spriteNum: 382,
+      triggerLabel: 'L_15293',
+      triggerMode: 3,
+      sState: 1,
     })
     // party 在太守 sprite (1616,968):到判定中心 (1600,1040) 加权 16 + 144 = 160 >= 80 → 不触发
     //(证明触发点是书案前站立点而非太守本身;出发点同理在区外)。

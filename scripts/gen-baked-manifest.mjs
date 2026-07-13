@@ -30,6 +30,11 @@ for (const f of files) {
   hash.update(`${f.path}:${f.size}\n`)
   totalBytes += f.size
 }
-const manifest = { version: hash.digest('hex').slice(0, 16), totalBytes, fileCount: files.length, files }
+const manifest = {
+  version: hash.digest('hex').slice(0, 16),
+  totalBytes,
+  fileCount: files.length,
+  files,
+}
 writeFileSync(join(ROOT, SELF), JSON.stringify(manifest))
 console.log(`baked-manifest: ${files.length} 文件, ${totalBytes} 字节 → ${ROOT}/${SELF}`)

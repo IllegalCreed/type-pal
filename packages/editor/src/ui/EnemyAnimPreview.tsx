@@ -9,11 +9,17 @@
  */
 import type { EnemyDef } from '@type-pal/content'
 import type { AssetBase, LoadedSprite } from '@type-pal/reforge'
-import { bakeFrame, decompressGzip, loadBattleSprite, loadPalette, parseSpriteChunk } from '@type-pal/reforge'
+import {
+  bakeFrame,
+  decompressGzip,
+  loadBattleSprite,
+  loadPalette,
+  parseSpriteChunk,
+} from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { SetEnemyBattleSpriteCommand, UpdateEnemyCommand } from '../core/commands.js'
-import { BattleSpriteUploader } from './BattleSpriteUploader.js'
 import type { EditSession } from '../core/edit-session.js'
+import { BattleSpriteUploader } from './BattleSpriteUploader.js'
 
 type Mode = 'idle' | 'magic' | 'attack'
 const MODES: { id: Mode; label: string }[] = [
@@ -155,8 +161,17 @@ export function EnemyAnimPreview(props: {
           on={(n) => session.dispatch(new UpdateEnemyCommand(enemy.id, { spriteNum: n }))}
         />
         <span className="hint">{baked.length ? `${baked.length} 帧` : ''}</span>
-        {enemy.spritePath && <span className="hint2" title={enemy.spritePath}>自有外观{blob ? '(未保存)' : ''}</span>}
-        <button type="button" className="mini-txt" title="上传 PNG 帧带(横排逐行切),自动贴合工程主色" onClick={() => setUploading((v) => !v)}>
+        {enemy.spritePath && (
+          <span className="hint2" title={enemy.spritePath}>
+            自有外观{blob ? '(未保存)' : ''}
+          </span>
+        )}
+        <button
+          type="button"
+          className="mini-txt"
+          title="上传 PNG 帧带(横排逐行切),自动贴合工程主色"
+          onClick={() => setUploading((v) => !v)}
+        >
           ⬆ 上传外观
         </button>
       </div>
@@ -165,7 +180,11 @@ export function EnemyAnimPreview(props: {
           assetBase={assetBase}
           onApply={(buf) => {
             session.dispatch(
-              new SetEnemyBattleSpriteCommand(enemy.id, `assets/battle-sprites/enemy/${enemy.id}.rle`, buf),
+              new SetEnemyBattleSpriteCommand(
+                enemy.id,
+                `assets/battle-sprites/enemy/${enemy.id}.rle`,
+                buf,
+              ),
             )
             setUploading(false)
           }}

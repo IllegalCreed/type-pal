@@ -15,19 +15,26 @@ const buf = new Uint8Array(readFileSync('/Users/zhangxu/illegal/type-pal/data/ra
 const mkf = openMkf(buf)
 const n = chunkCount(mkf)
 console.log('DATA.MKF chunkCount =', n)
-console.log('offsets.length =', mkf.offsets.length, 'last offset =', mkf.offsets[mkf.offsets.length-1], 'fileSize =', buf.byteLength)
+console.log(
+  'offsets.length =',
+  mkf.offsets.length,
+  'last offset =',
+  mkf.offsets[mkf.offsets.length - 1],
+  'fileSize =',
+  buf.byteLength,
+)
 
 // struct sizes
-const STORE = 9*2          // 18
+const STORE = 9 * 2 // 18
 const ENEMY = 70
-const ENEMYTEAM = 5*2      // 10
+const ENEMYTEAM = 5 * 2 // 10
 const PLAYERROLES = 900
 const MAGIC = 32
 const BATTLEFIELD = 12
-const LEVELUPMAGIC_ALL = 5*4 // 20
-const ENEMYPOS = 5*5*4     // 100
-const LEVELUPEXP = 100*2   // 200
-const BATTLEEFFECTIDX = 10*2*2 // 40
+const LEVELUPMAGIC_ALL = 5 * 4 // 20
+const ENEMYPOS = 5 * 5 * 4 // 100
+const LEVELUPEXP = 100 * 2 // 200
+const BATTLEEFFECTIDX = 10 * 2 * 2 // 40
 
 const meaning = {
   0: ['STORE', STORE],
@@ -53,7 +60,9 @@ for (let i = 0; i < n; i++) {
   let recInfo = ''
   if (m[1] > 0) {
     const recs = size / m[1]
-    recInfo = `recordSize=${m[1]} → records=${size/m[1]}${Number.isInteger(recs) ? '' : ' (NOT INTEGER!)'}`
+    recInfo = `recordSize=${m[1]} → records=${size / m[1]}${Number.isInteger(recs) ? '' : ' (NOT INTEGER!)'}`
   }
-  console.log(`chunk ${String(i).padStart(2)}: size=${String(size).padStart(6)}  ${m[0].padEnd(34)} ${recInfo}`)
+  console.log(
+    `chunk ${String(i).padStart(2)}: size=${String(size).padStart(6)}  ${m[0].padEnd(34)} ${recInfo}`,
+  )
 }

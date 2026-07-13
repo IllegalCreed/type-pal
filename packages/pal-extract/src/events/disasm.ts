@@ -63,8 +63,7 @@ export function disasm(
       const tgtIdx = JUMP_TARGET_OPERAND[op]
       if (tgtIdx !== undefined) {
         labelTargets.add([o0, o1, o2][tgtIdx]!)
-      }
-      else if (op === RANDOM_JUMP_OPCODE) {
+      } else if (op === RANDOM_JUMP_OPCODE) {
         // 0xA2 随机跳:目标 = i+1..i+op0(相对)
         for (let k = 1; k <= o0; k++) labelTargets.add(i + k)
       }
@@ -75,9 +74,7 @@ export function disasm(
 
     // 收集跳转目标,供第 2 遍打 label
     for (let f = 0; f < 3; f++) {
-      // biome-ignore lint/style/noNonNullAssertion: fields has exactly 3 elements per OpcodeDef
       if (def.fields[f]!.kind === 'label') {
-        // biome-ignore lint/style/noNonNullAssertion: operands[f] always defined for f in 0..2
         labelTargets.add(operands[f]!)
       }
     }
@@ -92,7 +89,6 @@ export function disasm(
   }
   for (const target of allLabelTargets) {
     if (target >= 0 && target < commands.length) {
-      // biome-ignore lint/style/noNonNullAssertion: target < commands.length checked above
       commands[target] = { ...commands[target]!, label: `L_${target}` } as Command
     }
   }
@@ -142,9 +138,7 @@ function emitEnd(def: DefLike, operands: number[]): EndCommand {
   if (def.endAdvance) c.advance = true
   if (def.endReset) {
     c.reset = true
-    // biome-ignore lint/style/noNonNullAssertion: operands always has 3 elements
     c.resetTo = operands[0]!
-    // biome-ignore lint/style/noNonNullAssertion: operands always has 3 elements
     c.idleFrames = operands[1]!
   }
   return c
@@ -153,16 +147,13 @@ function emitEnd(def: DefLike, operands: number[]): EndCommand {
 function emitGoto(operands: number[]): GotoCommand {
   return {
     op: 'goto',
-    // biome-ignore lint/style/noNonNullAssertion: operands always has 3 elements
     to: `L_${operands[0]!}`,
-    // biome-ignore lint/style/noNonNullAssertion: operands always has 3 elements
     frameDelay: operands[1]!,
   }
 }
 
 function emitShowDialog(operands: number[], messages: string[]): ShowDialogCommand {
   // operand[0] = messageIndex;box 样式由 0x003B-0x003E 状态决定,disasm 不产出
-  // biome-ignore lint/style/noNonNullAssertion: operands always has 3 elements
   const messageIndex = operands[0]!
   return {
     op: 'showDialog',
@@ -190,11 +181,8 @@ type SetDialogStyleCommand =
  */
 function emitSetDialogStyle(op: SetDialogStyleOp, operands: number[]): SetDialogStyleCommand {
   const c: SetDialogStyleCommand = { op } as SetDialogStyleCommand
-  // biome-ignore lint/style/noNonNullAssertion: operands always has 3 elements
   if (operands[0]! !== 0) c.arg0 = operands[0]!
-  // biome-ignore lint/style/noNonNullAssertion: operands always has 3 elements
   if (operands[1]! !== 0) c.arg1 = operands[1]!
-  // biome-ignore lint/style/noNonNullAssertion: operands always has 3 elements
   if (operands[2]! !== 0) c.arg2 = operands[2]!
   return c
 }
@@ -202,9 +190,7 @@ function emitSetDialogStyle(op: SetDialogStyleOp, operands: number[]): SetDialog
 function emitGiveItem(operands: number[]): GiveItemCommand {
   return {
     op: 'giveItem',
-    // biome-ignore lint/style/noNonNullAssertion: operands always has 3 elements
     itemId: operands[0]!,
-    // biome-ignore lint/style/noNonNullAssertion: operands always has 3 elements
     count: operands[1]!,
   }
 }
@@ -216,7 +202,6 @@ function emitGiveItem(operands: number[]): GiveItemCommand {
 function emitLoadScene(operands: number[]): LoadSceneCommand {
   return {
     op: 'loadScene',
-    // biome-ignore lint/style/noNonNullAssertion: operands always has 3 elements
     sceneId: operands[0]!,
   }
 }
@@ -227,7 +212,6 @@ function emitLoadScene(operands: number[]): LoadSceneCommand {
 function emitSetPalette(operands: number[]): SetPaletteCommand {
   return {
     op: 'setPalette',
-    // biome-ignore lint/style/noNonNullAssertion: operands always has 3 elements
     paletteIndex: operands[0]!,
   }
 }

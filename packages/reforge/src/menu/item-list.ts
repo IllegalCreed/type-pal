@@ -1,7 +1,14 @@
 // 物品列表网格(装备/使用/投掷 共享):红框 3 列网格 + 数量 + 选中光标 + 底部 itembox + 图标 + 多行描述。
 // 布局取自一阶段 draw-inventory.ts / sdlpal itemmenu.c PAL_ItemSelectMenu。320 逻辑坐标,调用方已 ctx.scale。
 // items/cursor 由调用方传(装备过 equippableItems、使用过 usableItems,各自过滤)。
-import { describeEquipEffects, equippedItemIds, type ItemData, type WorldState } from '@type-pal/content'
+
+import {
+  describeEquipEffects,
+  equippedItemIds,
+  type ItemData,
+  type WorldState,
+} from '@type-pal/content'
+import { expectDefined } from '../defined.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { renderSpans } from '../text/text-render.js'
 import { drawNumber, drawSlicedBox, type MenuAssets } from './menu-box.js'
@@ -56,13 +63,15 @@ function drawDescLines(
     })
   }
   if (lines.length <= DESC_VISIBLE) {
-    lines.forEach((line, i) => draw(line, DESC_Y + i * DESC_LINE_H))
+    lines.forEach((line, i) => {
+      draw(line, DESC_Y + i * DESC_LINE_H)
+    })
     return
   }
   const visH = DESC_VISIBLE * DESC_LINE_H
   const gap = DESC_LINE_H * 2 // 一轮读完到重播的停顿间隔
   const period = lines.length * DESC_LINE_H + gap
-  const scroll = ((now / 50) % period) // 约 50ms/px 上滚
+  const scroll = (now / 50) % period // 约 50ms/px 上滚
   ctx.save()
   ctx.beginPath()
   ctx.rect(DESC_X - 2, DESC_Y - 2, DESC_RIGHT - DESC_X + 2, visH)
@@ -71,7 +80,7 @@ function drawDescLines(
     // 画两遍(相隔一个周期)→ 上滚到底时下一轮无缝接上
     for (let i = 0; i < lines.length; i++) {
       const y = DESC_Y - scroll + base + i * DESC_LINE_H
-      if (y > DESC_Y - DESC_LINE_H && y < DESC_Y + visH) draw(lines[i]!, y)
+      if (y > DESC_Y - DESC_LINE_H && y < DESC_Y + visH) draw(expectDefined(lines[i]), y)
     }
   }
   ctx.restore()

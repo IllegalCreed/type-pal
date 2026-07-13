@@ -1,7 +1,7 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { bootstrap, openDevPicker, selectSceneJump } from '../helpers/bootstrap.js'
+import { baselinePathFor, pixelDiff } from '../helpers/pixel-diff.js'
 import { snapshotCanvas } from '../helpers/snapshot.js'
-import { pixelDiff, baselinePathFor } from '../helpers/pixel-diff.js'
 
 // M5 P0.0 System A:party 坐标 = sdlpal pixel(tile 32×16)。
 type Probe = { __game: { gs: { party: { x: number; y: number; facing: string }; mode: string } } }
@@ -47,21 +47,17 @@ test('a8 scene 切换 — P0.e: wScriptOnEnter 设起点(非 hardcode partyStart
   await bootstrap(page)
 
   // 先确认 scene-1 的 enter script 把 party 放到正确位置(col=41,row=18 → x=1312,y=288)
-  const scene1Party = await page.evaluate(
-    () => (window as unknown as Probe).__game.gs.party,
-  )
+  const scene1Party = await page.evaluate(() => (window as unknown as Probe).__game.gs.party)
   expect(scene1Party.x).toBe(1312)
   expect(scene1Party.y).toBe(288)
 
   await openDevPicker(page)
   await selectSceneJump(page, 'scene-15-mob')
 
-  const gs = await page.evaluate(
-    () => {
-      const w = window as unknown as Probe
-      return { party: w.__game.gs.party, mode: w.__game.gs.mode }
-    },
-  )
+  const gs = await page.evaluate(() => {
+    const w = window as unknown as Probe
+    return { party: w.__game.gs.party, mode: w.__game.gs.mode }
+  })
   // mode 应是 explore
   expect(gs.mode).toBe('explore')
   // scene-15 wScriptOnEnter 不含 setPartyPos + 无 caller-trace → 走 NPC-anchored 4-iso BFS

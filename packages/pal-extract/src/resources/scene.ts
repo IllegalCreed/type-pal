@@ -41,7 +41,10 @@ function mapEventObject(eo: EventObject, id: number): SceneEventObject {
  * Dump 全局 event object 表(忠实 sdlpal lprgEventObject)。
  * 全部 event object(下标=全局 id)+ 各 scene 的 [start,end) 区间(键=scene 0-based index)。
  */
-export function dumpAllEventObjects(scenes: Scene[], eventObjects: EventObject[]): EventObjectsFile {
+export function dumpAllEventObjects(
+  scenes: Scene[],
+  eventObjects: EventObject[],
+): EventObjectsFile {
   const allObjs = eventObjects.map((eo, i) => mapEventObject(eo, i))
   const sceneRanges: Record<number, [number, number]> = {}
   for (let s = 0; s < scenes.length; s++) {
@@ -66,10 +69,7 @@ export function dumpScene(
 
   const fromIdx = scene.eventObjectIndex
   const toIdx =
-    sceneId + 1 < scenes.length
-      ? // biome-ignore lint/style/noNonNullAssertion: sceneId+1 < scenes.length checked above
-        scenes[sceneId + 1]!.eventObjectIndex
-      : eventObjects.length
+    sceneId + 1 < scenes.length ? scenes[sceneId + 1]!.eventObjectIndex : eventObjects.length
 
   const sceneObjects: SceneObjects = {
     sceneId,

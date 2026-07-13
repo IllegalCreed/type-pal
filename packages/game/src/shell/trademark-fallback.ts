@@ -56,11 +56,14 @@ function scalePalette(base: Palette, factor: number): Palette {
   const f = Math.max(0, Math.min(1, factor))
   return {
     ...base,
-    colors: base.colors.map((c) => [
-      Math.floor(c[0] * f),
-      Math.floor(c[1] * f),
-      Math.floor(c[2] * f),
-    ] as [number, number, number]),
+    colors: base.colors.map(
+      (c) =>
+        [Math.floor(c[0] * f), Math.floor(c[1] * f), Math.floor(c[2] * f)] as [
+          number,
+          number,
+          number,
+        ],
+    ),
   }
 }
 

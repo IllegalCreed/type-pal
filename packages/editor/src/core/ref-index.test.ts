@@ -1,5 +1,5 @@
-import { describe, expect, test } from 'vitest'
 import type { SceneDef } from '@type-pal/content'
+import { describe, expect, test } from 'vitest'
 import { buildRefIndex } from './ref-index.js'
 
 /** 最小场景 fixture(只填索引关心的字段)。 */
@@ -32,7 +32,13 @@ describe('buildRefIndex(N5 引用反向索引)', () => {
       }),
     ])
     expect(idx.flags.get('met-boss')).toEqual([
-      { sceneId: 's1', srcKey: '__onEnter__', srcLabel: '进场脚本', access: 'write', detail: '= true' },
+      {
+        sceneId: 's1',
+        srcKey: '__onEnter__',
+        srcLabel: '进场脚本',
+        access: 'write',
+        detail: '= true',
+      },
     ])
     expect(idx.vars.get('count')?.map((r) => r.detail)).toEqual(['= 3', '+= 1'])
     expect(idx.items.get('267')?.[0]).toMatchObject({ access: 'write', detail: '+2' })
@@ -61,7 +67,10 @@ describe('buildRefIndex(N5 引用反向索引)', () => {
                             kind: 'all',
                             of: [
                               { kind: 'flag', flag: 'door-open', is: false },
-                              { kind: 'not', cond: { kind: 'hasItem', itemId: 'key-1', atLeast: 1 } },
+                              {
+                                kind: 'not',
+                                cond: { kind: 'hasItem', itemId: 'key-1', atLeast: 1 },
+                              },
                             ],
                           },
                           then: [{ kind: 'setFlag', flag: 'door-open', value: true }],

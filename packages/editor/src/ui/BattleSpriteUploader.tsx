@@ -41,7 +41,9 @@ export function BattleSpriteUploader(props: {
   onCancel: () => void
 }) {
   const { assetBase, onApply, onCancel } = props
-  const [rgba, setRgba] = useState<{ data: Uint8Array; w: number; h: number; name: string } | null>(null)
+  const [rgba, setRgba] = useState<{ data: Uint8Array; w: number; h: number; name: string } | null>(
+    null,
+  )
   const [frameW, setFrameW] = useState(64)
   const [frameH, setFrameH] = useState(64)
   const [err, setErr] = useState('')
@@ -83,7 +85,12 @@ export function BattleSpriteUploader(props: {
       ctx.drawImage(bitmap, 0, 0)
       bitmap.close()
       const data = ctx.getImageData(0, 0, cvs.width, cvs.height)
-      setRgba({ data: new Uint8Array(data.data.buffer.slice(0)), w: cvs.width, h: cvs.height, name: file.name })
+      setRgba({
+        data: new Uint8Array(data.data.buffer.slice(0)),
+        w: cvs.width,
+        h: cvs.height,
+        name: file.name,
+      })
       // 缺省帧尺寸:单行猜整图高;方帧猜高
       setFrameH(cvs.height)
       setFrameW(cvs.height <= cvs.width && cvs.width % cvs.height === 0 ? cvs.height : cvs.width)
@@ -106,7 +113,7 @@ export function BattleSpriteUploader(props: {
   return (
     <div className="bsu">
       <div className="field">
-        <label>图片</label>
+        <span className="field-label">图片</span>
         <input
           type="file"
           accept="image/png,image/webp,image/gif"
@@ -119,7 +126,7 @@ export function BattleSpriteUploader(props: {
       {rgba && (
         <>
           <div className="field">
-            <label>帧尺寸</label>
+            <span className="field-label">帧尺寸</span>
             <span className="size-edit">
               <input
                 className="in mono"
@@ -153,7 +160,12 @@ export function BattleSpriteUploader(props: {
             </div>
           )}
           <div className="field">
-            <button type="button" className="tool" disabled={quantized.length === 0} onClick={() => void apply()}>
+            <button
+              type="button"
+              className="tool"
+              disabled={quantized.length === 0}
+              onClick={() => void apply()}
+            >
               ✓ 应用外观
             </button>
             <button type="button" className="tool" onClick={onCancel}>

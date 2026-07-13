@@ -44,8 +44,17 @@ describe('parseSpriteChunk', () => {
     // frame 0:byte 0..1 = imagecount = 1 → word-offset = 1 → byte offset = 2
     // RLE data 从 byte 2 起
     const buf = new Uint8Array([
-      0x01, 0x00, // imagecount = 1;同时 frame[0] word-offset = 1 (=byte 2)
-      0x02, 0x00, 0x02, 0x00, 0x04, 0xaa, 0xaa, 0xaa, 0xaa, // RLE 2×2 at byte 2
+      0x01,
+      0x00, // imagecount = 1;同时 frame[0] word-offset = 1 (=byte 2)
+      0x02,
+      0x00,
+      0x02,
+      0x00,
+      0x04,
+      0xaa,
+      0xaa,
+      0xaa,
+      0xaa, // RLE 2×2 at byte 2
     ])
     const frames = parseSpriteChunk(buf)
     expect(frames).toHaveLength(1)
@@ -58,9 +67,16 @@ describe('parseSpriteChunk', () => {
     //       frame 1 byte 2..3 = 0(空缺)
     // RLE for frame 0 at byte 4
     const buf = new Uint8Array([
-      0x02, 0x00, // imagecount = 2 (= frame[0] word-offset = 2, byte 4)
-      0x00, 0x00, // frame[1] word-offset = 0 → 空
-      0x01, 0x00, 0x01, 0x00, 0x01, 0xbb, // 1×1 RLE at byte 4
+      0x02,
+      0x00, // imagecount = 2 (= frame[0] word-offset = 2, byte 4)
+      0x00,
+      0x00, // frame[1] word-offset = 0 → 空
+      0x01,
+      0x00,
+      0x01,
+      0x00,
+      0x01,
+      0xbb, // 1×1 RLE at byte 4
     ])
     const frames = parseSpriteChunk(buf)
     expect(frames).toHaveLength(1) // 只有 frame 0
@@ -72,15 +88,28 @@ describe('parseSpriteChunk', () => {
     // 键一致性:parseSpriteChunk 返回的下标 = framesToOut 的 index
     // 空帧不占下标(continue 跳过),实帧连续排
     const buf = new Uint8Array([
-      0x03, 0x00, // imagecount = 3
+      0x03,
+      0x00, // imagecount = 3
       // frame[0] word-offset = 3 → byte 6(双身份:imagecount 3 = word 3 = byte 6)
-      0x00, 0x00, // frame[1] word-offset = 0 → 空,跳过
+      0x00,
+      0x00, // frame[1] word-offset = 0 → 空,跳过
       // frame[2] word-offset = ?  需指向有效 RLE。设 byte offset = 12 → word 6
-      0x06, 0x00, // frame[2] word-offset = 6 → byte 12
+      0x06,
+      0x00, // frame[2] word-offset = 6 → byte 12
       // byte 6: frame[0] RLE 1×1
-      0x01, 0x00, 0x01, 0x00, 0x01, 0x11, // 6 bytes (byte 6..11)
+      0x01,
+      0x00,
+      0x01,
+      0x00,
+      0x01,
+      0x11, // 6 bytes (byte 6..11)
       // byte 12: frame[2] RLE 1×1
-      0x01, 0x00, 0x01, 0x00, 0x01, 0x33, // 6 bytes (byte 12..17)
+      0x01,
+      0x00,
+      0x01,
+      0x00,
+      0x01,
+      0x33, // 6 bytes (byte 12..17)
     ])
     const frames = parseSpriteChunk(buf)
     expect(frames).toHaveLength(2)

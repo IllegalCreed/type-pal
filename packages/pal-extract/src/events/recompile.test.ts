@@ -26,15 +26,15 @@ function concat(...arrs: Uint8Array[]): Uint8Array {
 describe('recompile + round-trip', () => {
   it('end / goto / showDialog / giveItem / raw 单条往返', () => {
     const bc = concat(
-      instr(0x0000),                    // end
-      instr(0x0003, 5, 0),              // goto 5, delay 0
-      instr(0x0000),                    // filler
-      instr(0x0000),                    // filler
-      instr(0x0000),                    // filler
-      instr(0x0000),                    // i=5 (target of goto)
-      instr(0xffff, 1, 0, 0),           // showDialog msg 1
-      instr(0x001f, 100, 2, 0),         // giveItem id=100 count=2
-      instr(0x0050, 1, 2, 3),           // unnamed → raw
+      instr(0x0000), // end
+      instr(0x0003, 5, 0), // goto 5, delay 0
+      instr(0x0000), // filler
+      instr(0x0000), // filler
+      instr(0x0000), // filler
+      instr(0x0000), // i=5 (target of goto)
+      instr(0xffff, 1, 0, 0), // showDialog msg 1
+      instr(0x001f, 100, 2, 0), // giveItem id=100 count=2
+      instr(0x0050, 1, 2, 3), // unnamed → raw
     )
     const messages = ['', '你好']
     const cmds = disasm(bc, messages)

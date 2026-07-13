@@ -43,20 +43,20 @@ export interface Words {
 const WORD_LENGTH = 10
 
 // 各类别在 WORD.DAT 中的起始索引与数量（实测 1998 Win9x 版）
-const PERSONS_OFFSET = 36  // MAX_PLAYER_ROLES = 6 个角色名从此处开始
-const PERSONS_COUNT  = 6
+const PERSONS_OFFSET = 36 // MAX_PLAYER_ROLES = 6 个角色名从此处开始
+const PERSONS_COUNT = 6
 
-const ITEMS_OFFSET = 61   // 物品名紧跟战斗 UI 标签后
-const ITEMS_COUNT  = 235
+const ITEMS_OFFSET = 61 // 物品名紧跟战斗 UI 标签后
+const ITEMS_COUNT = 235
 
-const SPELLS_OFFSET = 296  // 仙术/技能名
-const SPELLS_COUNT  = 102
+const SPELLS_OFFSET = 296 // 仙术/技能名
+const SPELLS_COUNT = 102
 
-const ENEMIES_OFFSET = 398  // 敌人名
-const ENEMIES_COUNT  = 153
+const ENEMIES_OFFSET = 398 // 敌人名
+const ENEMIES_COUNT = 153
 
-const SCENES_OFFSET = 551   // 毒素/特殊条目（测试只要非空即可）
-const SCENES_COUNT  = 14
+const SCENES_OFFSET = 551 // 毒素/特殊条目（测试只要非空即可）
+const SCENES_COUNT = 14
 
 // L28:sdlpal PAL_InitText 在 GBK→宽字符转换后剥每个词条结尾的标记字符 '1'(text.c:785-786)——
 //   BIG5→GBK 不彻底简体化遗留的标记字节。在解码后(字符串层)剥,避免误剥 GBK 双字节的 trail 0x31。
@@ -77,11 +77,11 @@ function readBlock(buf: Uint8Array, offset: number, count: number): string[] {
 }
 
 // M5.6 hotfix(2026-05-27)— 系统/UI/战斗段(sdlpal source 真值)
-const SYSTEM_OFFSET = 0    // [0..35] 系统 / UI 文字 36 条
-const SYSTEM_COUNT  = 36
+const SYSTEM_OFFSET = 0 // [0..35] 系统 / UI 文字 36 条
+const SYSTEM_COUNT = 36
 // [36..41] 已在 PERSONS
 const BATTLE_UI_OFFSET = 42 // [42..60] 战斗 / UI 文字 19 条
-const BATTLE_UI_COUNT  = 19
+const BATTLE_UI_COUNT = 19
 const TOTAL_WORD_COUNT = 565 // sdlpal Win9x 版实测
 
 export function parseWordDat(buf: Uint8Array): Words {
@@ -98,12 +98,12 @@ export function parseWordDat(buf: Uint8Array): Words {
   }
   return {
     persons: readBlock(buf, PERSONS_OFFSET, PERSONS_COUNT),
-    items:   readBlock(buf, ITEMS_OFFSET,   ITEMS_COUNT),
-    spells:  readBlock(buf, SPELLS_OFFSET,  SPELLS_COUNT),
+    items: readBlock(buf, ITEMS_OFFSET, ITEMS_COUNT),
+    spells: readBlock(buf, SPELLS_OFFSET, SPELLS_COUNT),
     enemies: readBlock(buf, ENEMIES_OFFSET, ENEMIES_COUNT),
-    scenes:  readBlock(buf, SCENES_OFFSET,  SCENES_COUNT),
+    scenes: readBlock(buf, SCENES_OFFSET, SCENES_COUNT),
     flat,
-    system:   readBlock(buf, SYSTEM_OFFSET,    SYSTEM_COUNT),
+    system: readBlock(buf, SYSTEM_OFFSET, SYSTEM_COUNT),
     battleUi: readBlock(buf, BATTLE_UI_OFFSET, BATTLE_UI_COUNT),
   }
 }

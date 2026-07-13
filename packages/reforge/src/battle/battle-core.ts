@@ -9,7 +9,7 @@
  * summon/transform/divide/flee 动作与 choreography 演出 = M4c-2。
  * 公式全走 content/battle-formulas（= sdlpal fight.c）。RNG 可注入（测试定值,运行时真随机）。
  */
-import { getEnemyBasePos } from './battle-positions.js'
+
 import type {
   ActivePoison,
   AiBattleView,
@@ -25,6 +25,7 @@ import type {
 import {
   applyEnemyStatus,
   applyPlayerStatus,
+  applyPoisonSelf,
   buildActionQueue,
   calcMagicDamage,
   calcPhysicalAttackDamage,
@@ -34,12 +35,13 @@ import {
   getEnemyDexterity,
   getPlayerActualDexterity,
   isPlayerDying,
-  applyPoisonSelf,
-  poisonCurableBy,
   magicDefenseDivisor,
   pickAiTarget,
+  poisonCurableBy,
   tickBattleStatus,
 } from '@type-pal/content'
+import { expectDefined } from '../defined.js'
+import { getEnemyBasePos } from './battle-positions.js'
 
 export type BattlePhase = 'preBattle' | 'selectAction' | 'performAction' | 'won' | 'lost' | 'fled'
 
@@ -247,7 +249,8 @@ export function createBattleState(input: CreateBattleInput): BattleState {
       // 装备常驻状态(连击等):建态时置大值(PERMANENT,不在战内衰减到 0;红线 —— 每战重派生)
       for (const k of p.grantedStatuses ?? []) status[k] = 9999
       // 大世界护体符/金刚符定时状态:注入实际回合数(随战内衰减;战后 world 侧三件套清 extraStatuses)
-      for (const cs of p.carriedStatuses ?? []) status[cs.status] = Math.max(status[cs.status], cs.turns)
+      for (const cs of p.carriedStatuses ?? [])
+        status[cs.status] = Math.max(status[cs.status], cs.turns)
       return {
         ...p,
         status,
@@ -304,17 +307,16 @@ const aliveEnemies = (s: BattleState): number[] =>
 function spawnIntoSlot(s: BattleState, spawn: Omit<BattleEnemyState, 'basePos'>): number {
   const slot = s.enemies.findIndex((x) => x.hp <= 0)
   if (slot >= 0) {
-    const basePos = s.enemies[slot]!.basePos
+    const basePos = expectDefined(s.enemies[slot]).basePos
     s.enemies[slot] = { ...spawn, basePos, rewardCounted: false }
     return slot
   }
   s.enemies.push({
     ...spawn,
-    basePos:
-      getEnemyBasePos(s.enemies.length + 1, s.enemies.length, spawn.def.anim.yPosOffset) ?? {
-        x: 100,
-        y: 110,
-      },
+    basePos: getEnemyBasePos(s.enemies.length + 1, s.enemies.length, spawn.def.anim.yPosOffset) ?? {
+      x: 100,
+      y: 110,
+    },
   })
   return s.enemies.length - 1
 }
@@ -356,10 +358,11 @@ function tickPoisons(s: BattleState, host: PoisonHost, side: 'player' | 'enemy')
       survivors.push(ap) // 无数据 = 保留但本回合无效果(不吞毒)
       continue
     }
-    const tick = ticks[Math.min(ap.tickIndex, ticks.length - 1)]!
+    const tick = expectDefined(ticks[Math.min(ap.tickIndex, ticks.length - 1)])
     if (tick.hpDelta) host.hp = Math.max(0, host.hp + tick.hpDelta)
     if (tick.mpDelta && host.mp !== undefined) host.mp = Math.max(0, host.mp + tick.mpDelta)
-    if (tick.halveHp) host.hp = Math.max(0, host.hp - Math.min(tick.halveHp, Math.trunc(host.hp / 2) + 1))
+    if (tick.halveHp)
+      host.hp = Math.max(0, host.hp - Math.min(tick.halveHp, Math.trunc(host.hp / 2) + 1))
     const name = def.name || `毒${def.id}`
     if (tick.hpDelta || tick.mpDelta || tick.halveHp)
       s.log.push(`${side === 'player' ? (host as BattlePlayerState).roleId : def.id} ${name} 发作`)
@@ -371,7 +374,10 @@ function tickPoisons(s: BattleState, host: PoisonHost, side: 'player' | 'enemy')
       s.log.push(`${name} 到期化作 ${tick.grantItem}`)
     }
     if (tick.selfCure) continue // 末回合自解:不进 survivors(移除本毒)
-    survivors.push({ poisonId: ap.poisonId, tickIndex: Math.min(ap.tickIndex + 1, ticks.length - 1) })
+    survivors.push({
+      poisonId: ap.poisonId,
+      tickIndex: Math.min(ap.tickIndex + 1, ticks.length - 1),
+    })
   }
   host.poisons = survivors
 }
@@ -487,7 +493,8 @@ function applyStatBuff(
   const field = STAT_BUFF_FIELD[eff.stat]
   const delta = Math.trunc((t[field] * eff.percent) / 100)
   t[field] += delta
-  ;(t.statBuffs ??= []).push({ stat: eff.stat, delta, turnsLeft: eff.duration })
+  t.statBuffs ??= []
+  t.statBuffs.push({ stat: eff.stat, delta, turnsLeft: eff.duration })
   return delta
 }
 
@@ -514,7 +521,7 @@ export function buildAiView(s: BattleState, self: BattleEnemyState): AiBattleVie
     },
     allyCount: aliveEnemies(s).length,
     players: alivePlayers(s).map((i) => {
-      const p = s.players[i]!
+      const p = expectDefined(s.players[i])
       return {
         index: i,
         hpPercent: (p.hp / Math.max(1, p.maxHp)) * 100,
@@ -616,11 +623,17 @@ export function stepBattle(s: BattleState, rng: () => number): void {
       // 需要手选的队员都选了 → build queue,进 performAction。（headless:调用方先填 pendingActions。）
       // 眠/定/疯/死者不出菜单(needsManualSelect false),下面统一强制普攻入队。
       const alive = alivePlayers(s)
-      if (alive.some((i) => needsManualSelect(s.players[i]!) && !s.pendingActions.has(i))) return
+      if (
+        alive.some(
+          (i) => needsManualSelect(expectDefined(s.players[i])) && !s.pendingActions.has(i),
+        )
+      )
+        return
       // 不能选招的队员强制普攻(fight.c:1504-1527):眠/定/死排 dex 0,同轮恢复/复活才真出手
       // (perform 守卫跳未恢复者);疯魔保本体 dex(P2 落地后 perform 侧改派敌/友)。目标出手时环扫。
       for (let i = 0; i < s.players.length; i++)
-        if (!s.pendingActions.has(i)) s.pendingActions.set(i, { kind: 'attack', targetEnemyIdx: -1 })
+        if (!s.pendingActions.has(i))
+          s.pendingActions.set(i, { kind: 'attack', targetEnemyIdx: -1 })
       // 逃跑改为行动(轮到该队员时掷骰;fight.c:4143 语义)——不再选了即逃
       // 队列 dex 装配(fight.c:1497-1565 classic 队列口;stat 级的 slow/dying 修正是非 classic,
       // 不在此):动作系数 防御×5/辅助法×3/物品×3/逃÷2(合体×10 待 P3) → 濒死÷2 → ×[0.9,1.1)。
@@ -634,7 +647,7 @@ export function stepBattle(s: BattleState, rng: () => number): void {
         return { idx: i, dex: Math.trunc(dex * (0.9 + rng() * 0.2)) }
       })
       const enemies = aliveEnemies(s).map((i) => {
-        const st = s.enemies[i]!.def.stats
+        const st = expectDefined(s.enemies[i]).def.stats
         const base = getEnemyDexterity(st.level, st.dexterity)
         return {
           idx: i,
@@ -732,7 +745,7 @@ function applyPlayerSkill(
   rng: () => number,
   targetAllyIdx?: number,
 ): void {
-  const p = s.players[idx]!
+  const p = expectDefined(s.players[idx])
   const skill = s.skills[skillId]
   if (!skill) {
     s.log.push(`${p.roleId} 施法 ${skillId} 缺技能数据`)
@@ -798,7 +811,7 @@ function applyPlayerSkill(
       case 'instantKill': {
         // 0x60 即死(夺魂/灵葫咒;门已在前面把关,此处直落)
         for (const ti of enemyTargets) {
-          const e = s.enemies[ti]!
+          const e = expectDefined(s.enemies[ti])
           e.hp = 0
           s.log.push(`${p.roleId} 施展 ${skill.name},${e.def.id} 魂飞魄散`)
         }
@@ -807,7 +820,7 @@ function applyPlayerSkill(
       case 'collectTreasure': {
         // 0x33 收妖(灵葫咒二段):敌 collectValue 累进全局收妖值(战后无条件入 world)
         for (const ti of enemyTargets) {
-          const v = s.enemies[ti]!.def.stats.collectValue
+          const v = expectDefined(s.enemies[ti]).def.stats.collectValue
           if (v > 0) {
             s.collectGained += v
             s.log.push(`收妖值 +${v}`)
@@ -827,7 +840,7 @@ function applyPlayerSkill(
       }
       case 'buffStat': {
         for (const ti of allyTargets) {
-          const t = s.players[ti]!
+          const t = expectDefined(s.players[ti])
           if (t.hp <= 0) continue
           const delta = applyStatBuff(t, eff)
           s.log.push(`${t.roleId} ${eff.stat} +${delta}`)
@@ -837,7 +850,7 @@ function applyPlayerSkill(
       case 'removeStatus': {
         // 0x2F 解状态(冰心诀/灵血咒):点名清,无抗掷
         for (const ti of allyTargets) {
-          const t = s.players[ti]!
+          const t = expectDefined(s.players[ti])
           if (t.hp <= 0) continue
           for (const st of eff.statuses) t.status[st] = 0
           s.log.push(`${t.roleId} 恢复神智`)
@@ -847,7 +860,7 @@ function applyPlayerSkill(
       case 'revive': {
         // 0x22 全语义(还魂咒/赎魂):仅死者;回 max×% + 解重毒 + 清定时状态
         for (const ti of allyTargets) {
-          const t = s.players[ti]!
+          const t = expectDefined(s.players[ti])
           if (reviveBattlePlayer(s, t, eff.hpPercent))
             s.log.push(`${p.roleId} 施展 ${skill.name},${t.roleId} 死而复生`)
           else s.log.push(`${skill.name} 对 ${t.roleId} 无任何效果`)
@@ -855,7 +868,8 @@ function applyPlayerSkill(
         break
       }
       case 'damage': {
-        for (const ti of enemyTargets) dealSkillDamage(s, p, ti, eff.power, eff.elemental, skill.name, rng)
+        for (const ti of enemyTargets)
+          dealSkillDamage(s, p, ti, eff.power, eff.elemental, skill.name, rng)
         break
       }
       case 'moneyDamage': {
@@ -870,7 +884,8 @@ function applyPlayerSkill(
         s.moneyDelta -= spend
         s.log.push(`${p.roleId} 掷出 ${spend} 文钱`)
         const power = Math.trunc((spend * eff.num) / eff.den)
-        for (const ti of enemyTargets) dealSkillDamage(s, p, ti, power, eff.elemental, skill.name, rng)
+        for (const ti of enemyTargets)
+          dealSkillDamage(s, p, ti, power, eff.elemental, skill.name, rng)
         break
       }
       case 'fleeBattle': {
@@ -891,7 +906,7 @@ function applyPlayerSkill(
       case 'healHp': {
         // 0x1B 回血:PAL_IncreaseHPMP 仅活人(global.c:1287);目标按 skill.target 路由
         for (const ti of allyTargets) {
-          const t = s.players[ti]!
+          const t = expectDefined(s.players[ti])
           if (t.hp <= 0) continue
           t.hp = Math.min(t.maxHp, t.hp + eff.amount)
           s.log.push(`${p.roleId} 施展 ${skill.name},${t.roleId} 回复 ${eff.amount}`)
@@ -900,7 +915,7 @@ function applyPlayerSkill(
       }
       case 'healMp': {
         for (const ti of allyTargets) {
-          const t = s.players[ti]!
+          const t = expectDefined(s.players[ti])
           if (t.hp <= 0) continue
           t.mp = Math.min(t.maxMp, t.mp + eff.amount)
           s.log.push(`${p.roleId} 施展 ${skill.name},${t.roleId} 回蓝 ${eff.amount}`)
@@ -910,7 +925,7 @@ function applyPlayerSkill(
       case 'applyStatus': {
         if (onEnemies) {
           for (const ti of enemyTargets) {
-            const e = s.enemies[ti]!
+            const e = expectDefined(s.enemies[ti])
             // 命中判定:rng(0,9) >= resistanceToSorcery(原版后期修复语义,enemy.ts 注)
             if (Math.floor(rng() * 10) >= e.def.ai.resistanceToSorcery) {
               // 直接赋值(script.c:1391;曾 Math.max = 短回合无法覆写长回合,偏离原版)
@@ -921,7 +936,7 @@ function applyPlayerSkill(
         } else {
           // 己方增益状态(护体/神勇/加速等):0x2D 语义无抗掷,走 PAL_SetPlayerStatus 规则
           for (const ti of allyTargets) {
-            const t = s.players[ti]!
+            const t = expectDefined(s.players[ti])
             const ok = applyPlayerStatus(t.status, eff.status, eff.turns, t.hp > 0)
             if (ok) s.log.push(`${t.roleId} 获得 ${eff.status} ${eff.turns} 回合`)
           }
@@ -932,7 +947,7 @@ function applyPlayerSkill(
         // 三尸咒类:对敌下毒,命中门 = 巫抗(不是毒抗!fight.c 0x28 掷 0~9 >= 巫抗)
         const pid = Number(eff.poisonId)
         for (const ti of enemyTargets) {
-          const e = s.enemies[ti]!
+          const e = expectDefined(s.enemies[ti])
           if (applyPoisonToEnemy(e, pid, rng))
             s.log.push(`${e.def.id} 中 ${s.poisonDefs[pid]?.name ?? `毒${pid}`}`)
           else s.log.push(`${e.def.id} 抵抗了下毒`)
@@ -942,7 +957,7 @@ function applyPlayerSkill(
       case 'curePoison': {
         // 灵血咒类:解毒(按可解度 tier 或按 id);目标按 skill.target 路由(oneAlly 点名)
         for (const ti of allyTargets) {
-          const t = s.players[ti]!
+          const t = expectDefined(s.players[ti])
           if (t.hp <= 0) continue
           if (eff.poisonId !== undefined)
             t.poisons = t.poisons.filter((ap) => ap.poisonId !== Number(eff.poisonId))
@@ -967,7 +982,7 @@ function dealSkillDamage(
   skillName: string,
   rng: () => number,
 ): void {
-  const e = s.enemies[ti]!
+  const e = expectDefined(s.enemies[ti])
   const dmg = Math.max(
     1,
     applyDefense(
@@ -992,9 +1007,7 @@ function dealSkillDamage(
 export function isPlayerHealthy(p: BattlePlayerState): boolean {
   if (p.hp <= 0 || isPlayerDying(p.hp, p.maxHp)) return false
   const st = p.status
-  return (
-    st.sleep <= 0 && st.confused <= 0 && st.silence <= 0 && st.paralyzed <= 0 && st.puppet <= 0
-  )
+  return st.sleep <= 0 && st.confused <= 0 && st.silence <= 0 && st.paralyzed <= 0 && st.puppet <= 0
 }
 
 /** 当前 healthy 队员数(合击资格:≥2 才能发起)。 */
@@ -1023,7 +1036,9 @@ function performCoopMagic(
     s.log.push(`${caster.roleId} 无合体技,合击失败`)
     return
   }
-  const contributors = s.players.map((_, i) => i).filter((i) => isPlayerHealthy(s.players[i]!))
+  const contributors = s.players
+    .map((_, i) => i)
+    .filter((i) => isPlayerHealthy(expectDefined(s.players[i])))
   // healthy ≤ 1 → 退化发起者普攻(fight.c:3374-3378;选招到出手间贡献者阵亡的兜底)
   if (contributors.length <= 1) {
     const ti =
@@ -1031,7 +1046,12 @@ function performCoopMagic(
         ? targetEnemyIdx
         : retargetEnemy(s, targetEnemyIdx ?? 0)
     const e = s.enemies[ti]
-    s.lastAction = { side: 'player', idx: casterIdx, kind: 'attack', ...(ti >= 0 ? { target: ti } : {}) }
+    s.lastAction = {
+      side: 'player',
+      idx: casterIdx,
+      kind: 'attack',
+      ...(ti >= 0 ? { target: ti } : {}),
+    }
     if (!e || e.hp <= 0) return
     caster.hiddenCounts.attack = (caster.hiddenCounts.attack ?? 0) + 1
     caster.hiddenCounts.maxHP = (caster.hiddenCounts.maxHP ?? 0) + 2 + Math.floor(rng() * 2)
@@ -1044,14 +1064,14 @@ function performCoopMagic(
   // HP 代价:每贡献者扣 skill.cost.mp 作 HP,钳 ≥1(fight.c:3961-3967)
   const hpCost = skill.cost.mp ?? 0
   for (const i of contributors) {
-    const p = s.players[i]!
+    const p = expectDefined(s.players[i])
     p.hp -= hpCost
     if (p.hp <= 0) p.hp = 1
   }
   // magStr = Σ(攻 + 法力) / 4(fight.c:3982-3995;reforge 属性已 effective,无需 SHORT)
   let str = 0
   for (const i of contributors) {
-    const p = s.players[i]!
+    const p = expectDefined(s.players[i])
     str += p.attackStrength + p.magicStrength
   }
   str = Math.trunc(str / 4)
@@ -1081,7 +1101,7 @@ function performCoopMagic(
   }
   const hits: { idx: number; value: number }[] = []
   for (const ti of targets) {
-    const e = s.enemies[ti]!
+    const e = expectDefined(s.enemies[ti])
     const dmg = Math.max(
       1,
       applyDefense(
@@ -1171,7 +1191,7 @@ function retargetEnemy(s: BattleState, from: number): number {
  * 返回生效行动;lastAction 按生效值记,表现层自然演降级后的动作(原版同:改写 action 本体)。
  */
 function validatePlayerAction(s: BattleState, idx: number, act: BattleAction): BattleAction {
-  const p = s.players[idx]!
+  const p = expectDefined(s.players[idx])
   let a = act
   if (a.kind === 'cast') {
     const skill = s.skills[a.skillId]
@@ -1450,7 +1470,9 @@ function performThrow(
       case 'applyPoison': {
         const pid = Number(eff.poisonId)
         if (applyPoisonToEnemy(e, pid, rng)) {
-          s.log.push(`${p.roleId} 投掷 ${item.name},${e.def.id} 中 ${s.poisonDefs[pid]?.name ?? `毒${pid}`}`)
+          s.log.push(
+            `${p.roleId} 投掷 ${item.name},${e.def.id} 中 ${s.poisonDefs[pid]?.name ?? `毒${pid}`}`,
+          )
           // 三对致死(数据驱动 lethalWith;仅投掷触发,fight.c 0x5E+0x60):中本毒 + 已中配对毒 → 暴毙
           const lethal = s.poisonDefs[pid]?.lethalWith
           if (lethal !== undefined && e.poisons.some((ap) => ap.poisonId === lethal)) {
@@ -1525,8 +1547,8 @@ function resolvePlayerAttackHit(
  * **无噪声无暴击无闪避**(异于打敌全链);护体 /2 → 保底 1 → 钳余血,顺序照 C。
  */
 function attackMate(s: BattleState, idx: number, mateIdx: number): void {
-  const p = s.players[idx]!
-  const m = s.players[mateIdx]!
+  const p = expectDefined(s.players[idx])
+  const m = expectDefined(s.players[mateIdx])
   const def = m.defense * (m.defending ? 2 : 1)
   let dmg = calcPhysicalAttackDamage(p.attackStrength, def, 2)
   if (m.status.protect > 0) dmg = Math.trunc(dmg / 2)
@@ -1604,7 +1626,7 @@ function applyEnemySkill(
       }
       case 'damage': {
         for (const ti of targets) {
-          const p = s.players[ti]!
+          const p = expectDefined(s.players[ti])
           if (p.hp <= 0) continue // 已死跳过(fight.c:4782;AoE 前效果可能致死)
           // 除因子(fight.c:4801-4803/4836-4838):(防御2)×(护体2)+(格挡1)
           let dmg = Math.trunc(
@@ -1634,7 +1656,7 @@ function applyEnemySkill(
       }
       case 'applyStatus': {
         for (const ti of targets) {
-          const p = s.players[ti]!
+          const p = expectDefined(s.players[ti])
           // PAL_SetPlayerStatus 语义(global.c:2221-2276):坏状态已有不刷新/好状态活人取长/
           // 傀儡仅死者(曾一律 Math.max 覆盖,偏离原版)
           const ok = applyPlayerStatus(p.status, eff.status, eff.turns, p.hp > 0)
@@ -1751,7 +1773,7 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
     s.log.push(`${e.def.id} 逃走了`)
     return
   }
-  const p = s.players[decision.targetPlayerIdx]!
+  const p = expectDefined(s.players[decision.targetPlayerIdx])
   // 敌物攻打玩家(fight.c:4917-5076 全链):
   // str = 敌攻 + (敌级+6)×6(钳≥0);def = 玩家防 ×(防御 2)(原版 def 前置翻倍,非伤害减半)
   let str = e.def.stats.attackStrength + (e.def.stats.level + 6) * 6
@@ -1786,7 +1808,7 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
   if (blocked) {
     s.log.push(
       coverIdx >= 0
-        ? `${s.players[coverIdx]!.roleId} 挡下了 ${e.def.id} 对 ${p.roleId} 的攻击`
+        ? `${expectDefined(s.players[coverIdx]).roleId} 挡下了 ${e.def.id} 对 ${p.roleId} 的攻击`
         : `${p.roleId} 格挡了 ${e.def.id} 的攻击`,
     )
     return

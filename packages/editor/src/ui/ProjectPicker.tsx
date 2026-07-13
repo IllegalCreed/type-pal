@@ -5,7 +5,13 @@
  */
 import { useEffect, useState } from 'react'
 import { ensurePermission, listRecent, loadHandle } from '../core/handle-store.js'
-import { finishOpen, newBlankProject, newFromPal, type Opened, openExistingProject } from '../core/open-actions.js'
+import {
+  finishOpen,
+  newBlankProject,
+  newFromPal,
+  type Opened,
+  openExistingProject,
+} from '../core/open-actions.js'
 
 const mb = (n: number): string => (n / 1024 / 1024).toFixed(1)
 
@@ -22,7 +28,8 @@ export function ProjectPicker(props: { onOpened: (o: Opened) => void; seedBaseUr
       .catch(() => {})
   }, [])
 
-  const supported = typeof window !== 'undefined' && typeof window.showDirectoryPicker === 'function'
+  const supported =
+    typeof window !== 'undefined' && typeof window.showDirectoryPicker === 'function'
 
   const run = (label: string, fn: () => Promise<Opened | null>) => async (): Promise<void> => {
     setErr('')
@@ -65,13 +72,16 @@ export function ProjectPicker(props: { onOpened: (o: Opened) => void; seedBaseUr
     )
   }
 
-  const pct = progress && progress.total > 0 ? Math.floor((progress.done / progress.total) * 100) : 0
+  const pct =
+    progress && progress.total > 0 ? Math.floor((progress.done / progress.total) * 100) : 0
 
   return (
     <div className="picker">
       <div className="picker-card">
         <h1 className="picker-title">type-pal 编辑器</h1>
-        <p className="picker-sub">选一个工程开始 —— 改版仙剑,或从头做个新游戏。工程存在你本地文件夹。</p>
+        <p className="picker-sub">
+          选一个工程开始 —— 改版仙剑,或从头做个新游戏。工程存在你本地文件夹。
+        </p>
 
         {busy ? (
           <div className="picker-busy">
@@ -94,7 +104,9 @@ export function ProjectPicker(props: { onOpened: (o: Opened) => void; seedBaseUr
             <div className="picker-actions">
               <button type="button" className="picker-act primary" onClick={onCloneFromPal}>
                 <span className="picker-act-t">🗡 从仙剑(pal)克隆</span>
-                <span className="picker-act-d">下载整套原版到本地工程,直接改版(约 200MB,一次性)</span>
+                <span className="picker-act-d">
+                  下载整套原版到本地工程,直接改版(约 200MB,一次性)
+                </span>
               </button>
               <button type="button" className="picker-act" onClick={onOpen}>
                 <span className="picker-act-t">📂 打开工程</span>
@@ -102,7 +114,9 @@ export function ProjectPicker(props: { onOpened: (o: Opened) => void; seedBaseUr
               </button>
               <button type="button" className="picker-act" onClick={onNewBlank}>
                 <span className="picker-act-t">✨ 新建空白工程</span>
-                <span className="picker-act-d">从零做新游戏;自带一间起始草地房和占位主角,开箱即玩,素材逐步换成你自己的</span>
+                <span className="picker-act-d">
+                  从零做新游戏;自带一间起始草地房和占位主角,开箱即玩,素材逐步换成你自己的
+                </span>
               </button>
             </div>
 
@@ -110,7 +124,12 @@ export function ProjectPicker(props: { onOpened: (o: Opened) => void; seedBaseUr
               <div className="picker-recent">
                 <div className="picker-recent-h">最近工程</div>
                 {recent.map((r) => (
-                  <button type="button" key={r.id} className="picker-recent-item" onClick={() => onRecent(r.id)}>
+                  <button
+                    type="button"
+                    key={r.id}
+                    className="picker-recent-item"
+                    onClick={() => onRecent(r.id)}
+                  >
                     <span className="mono">{r.id}</span>
                     <span className="picker-recent-name">{r.name}</span>
                   </button>

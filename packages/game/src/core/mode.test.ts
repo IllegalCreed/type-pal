@@ -36,7 +36,10 @@ function tickWithTime(gs: GameState, ms = 100): void {
 }
 
 function palette(c: [number, number, number]): Palette {
-  return { colors: Array.from({ length: 256 }, () => [...c] as [number, number, number]), cycles: [] }
+  return {
+    colors: Array.from({ length: 256 }, () => [...c] as [number, number, number]),
+    cycles: [],
+  }
 }
 
 /**
@@ -64,7 +67,13 @@ describe('tickByMode autoScript gate (P2#6a)', () => {
   it('event 模式 + waiting=frame-wait(0x09)→ autoScript 跑', () => {
     const gs = gsWithAutoNpc()
     gs.mode = 'event'
-    gs.eventCursor = { commands: [{ op: 'end' }], labelMap: {}, ip: 0, waiting: 'frame-wait', waitFramesRemaining: 5 }
+    gs.eventCursor = {
+      commands: [{ op: 'end' }],
+      labelMap: {},
+      ip: 0,
+      waiting: 'frame-wait',
+      waitFramesRemaining: 5,
+    }
     tickByMode(gs, snap(), createCommandBus())
     expect(gs.npcs[0]?.autoCursor?.ip).toBe(1)
   })
@@ -73,8 +82,13 @@ describe('tickByMode autoScript gate (P2#6a)', () => {
     const gs = gsWithAutoNpc()
     gs.mode = 'event'
     gs.eventCursor = {
-      commands: [{ op: 'end' }], labelMap: {}, ip: 0,
-      waiting: 'camera-pan', cameraPanDx: 0, cameraPanDy: 0, cameraPanFramesRemaining: 5,
+      commands: [{ op: 'end' }],
+      labelMap: {},
+      ip: 0,
+      waiting: 'camera-pan',
+      cameraPanDx: 0,
+      cameraPanDy: 0,
+      cameraPanFramesRemaining: 5,
     }
     tickByMode(gs, snap(), createCommandBus())
     expect(gs.npcs[0]?.autoCursor?.ip).toBe(1) // pan 期间 autoScript 不冻(C 每帧 PAL_GameUpdate)
@@ -85,8 +99,17 @@ describe('tickByMode autoScript gate (P2#6a)', () => {
     gs.mode = 'event'
     gs.eventCursor = { commands: [{ op: 'end' }], labelMap: {}, ip: 0, waiting: 'dialog' }
     gs.dialogBox = {
-      titleText: undefined, shownLines: [], currentLineText: '在', typingFrames: 0,
-      charsRevealed: 0, dialogLineCount: 1, phase: 'typing', style: 'bottom', fontColor: 0x4f, shadow: true, keyIconBlink: false,
+      titleText: undefined,
+      shownLines: [],
+      currentLineText: '在',
+      typingFrames: 0,
+      charsRevealed: 0,
+      dialogLineCount: 1,
+      phase: 'typing',
+      style: 'bottom',
+      fontColor: 0x4f,
+      shadow: true,
+      keyIconBlink: false,
     }
     tickByMode(gs, snap(), createCommandBus())
     expect(gs.npcs[0]?.autoCursor?.ip).toBe(0) // 未推进

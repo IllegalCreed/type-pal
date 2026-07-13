@@ -1,6 +1,6 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
+import { baselinePathFor, pixelDiff } from '../helpers/pixel-diff.js'
 import { snapshotCanvas } from '../helpers/snapshot.js'
-import { pixelDiff, baselinePathFor } from '../helpers/pixel-diff.js'
 
 type Probe = {
   __game?: {
@@ -21,13 +21,14 @@ type Probe = {
  *  - 至少 verify > 1 种 style 出现过(default 'center' + 至少另 1 种)
  *  - 真补 4 种 style 全覆盖留 M5(需多 scene + NPC trigger 触发)
  */
-test('c1 对话框 style — scene 1 onEnter 链至少含 2 种 style + visual baseline', async ({ page }) => {
+test('c1 对话框 style — scene 1 onEnter 链至少含 2 种 style + visual baseline', async ({
+  page,
+}) => {
   await page.goto('/') // NOT skip-intro,让 onEnter 真跑
   await page.waitForSelector('canvas', { timeout: 10_000 })
-  await page.waitForFunction(
-    () => Boolean((window as unknown as Probe).__game),
-    { timeout: 10_000 },
-  )
+  await page.waitForFunction(() => Boolean((window as unknown as Probe).__game), {
+    timeout: 10_000,
+  })
 
   const stylesSeen = new Map<string, Buffer>()
   for (let i = 0; i < 120; i++) {
@@ -40,9 +41,10 @@ test('c1 对话框 style — scene 1 onEnter 链至少含 2 种 style + visual b
       }
     })
     // 只在 dialog 进入稳定状态(line-done / waiting-*)截图,避免 typing 中途的不稳定差异
-    const stableForSnap = probe.phase === 'line-done'
-      || probe.phase === 'waiting-page-key'
-      || probe.phase === 'waiting-end-key'
+    const stableForSnap =
+      probe.phase === 'line-done' ||
+      probe.phase === 'waiting-page-key' ||
+      probe.phase === 'waiting-end-key'
     if (probe.style && stableForSnap && !stylesSeen.has(probe.style)) {
       stylesSeen.set(probe.style, await snapshotCanvas(page))
     }

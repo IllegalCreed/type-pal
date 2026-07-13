@@ -97,7 +97,17 @@ describe('M4d-2 战斗动画时间线', () => {
       anim: { idleFrames: 4, magicFrames: 2 },
       magicSound: 0,
       fireFrames: 0, // 无特效资产也要有受击反应
-      fx: { placement: 'normal', xOffset: 0, yOffset: 0, speed: 0, fireDelay: 0, effectTimes: 1, shake: 0, wave: 0, sound: 0 },
+      fx: {
+        placement: 'normal',
+        xOffset: 0,
+        yOffset: 0,
+        speed: 0,
+        fireDelay: 0,
+        effectTimes: 1,
+        shake: 0,
+        wave: 0,
+        sound: 0,
+      },
       damageNums: [{ target: { side: 'player', idx: 0 }, value: 9 }],
       hurtPlayers: [{ idx: 0, pos: { x: 240, y: 170 } }],
     })
@@ -117,7 +127,17 @@ describe('M4d-2 战斗动画时间线', () => {
         anim: { idleFrames: 4, magicFrames: 2 },
         magicSound: 0,
         fireFrames: 3,
-        fx: { placement: 'normal', xOffset: 0, yOffset: 0, speed: 0, fireDelay: 0, effectTimes: 1, shake: 0, wave: 0, sound: 0 },
+        fx: {
+          placement: 'normal',
+          xOffset: 0,
+          yOffset: 0,
+          speed: 0,
+          fireDelay: 0,
+          effectTimes: 1,
+          shake: 0,
+          wave: 0,
+          sound: 0,
+        },
         damageNums: [],
         ...(autoDefendPlayers ? { autoDefendPlayers } : {}),
       })

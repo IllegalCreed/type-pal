@@ -15,7 +15,12 @@
       "!**/data",
       "!**/pnpm-lock.yaml",
       "!**/*.min.js",
-      "!**/public"
+      "!**/public",
+      "!docs/phase2/editor/mockups",
+      "!.qoder",
+      "!packages/game/src/dev/fixtures",
+      "!packages/migrate/baselines",
+      "!projects"
     ]
   },
   "formatter": {
@@ -28,6 +33,12 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "suspicious": {
+        "noThenProperty": "off"
+      },
+      "style": {
+        "noNonNullAssertion": "off"
+      },
       "complexity": {
         "useSimpleNumberKeys": "off"
       }
@@ -55,6 +66,34 @@
             "noExplicitAny": "off",
             "noNonNullAssertedOptionalChain": "off",
             "useIterableCallbackReturn": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/editor/src/ui/**"],
+      "linter": {
+        "rules": {
+          "a11y": {
+            "noLabelWithoutControl": {
+              "level": "error",
+              "options": {
+                "inputComponents": ["N", "Num", "NumIn"]
+              }
+            }
+          },
+          "suspicious": {
+            "noArrayIndexKey": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/editor/src/ui/editor.css"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noDescendingSpecificity": "off"
           }
         }
       }

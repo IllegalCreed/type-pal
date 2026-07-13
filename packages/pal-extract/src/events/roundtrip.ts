@@ -38,7 +38,6 @@ export function roundtripCheck(sssBuf: Uint8Array, msgBuf: Uint8Array): Roundtri
   for (let i = 0; i < back.length; i++) {
     if (back[i] !== sss.bytecode[i]) {
       const instr = Math.floor(i / 8) * 8
-      // biome-ignore lint/style/noNonNullAssertion: instr is always within bytecode bounds (i < back.length === bytecode.length)
       const opcode = (sss.bytecode[instr]! | (sss.bytecode[instr + 1]! << 8)) >>> 0
       return {
         ok: false,

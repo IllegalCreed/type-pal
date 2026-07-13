@@ -1,6 +1,12 @@
 import { describe, expect, test } from 'vitest'
 import type { ActorDef } from './actor.js'
-import { applySetParty, buildWorld, instantiate, type StartWorld, type WorldState } from './character.js'
+import {
+  applySetParty,
+  buildWorld,
+  instantiate,
+  type StartWorld,
+  type WorldState,
+} from './character.js'
 
 // 内联角色 fixture(C0:CharacterTemplate → ActorDef,battler 包住战斗数据)
 const hero: ActorDef = {
@@ -92,14 +98,53 @@ describe('buildWorld(manifest.startWorld 数据化)', () => {
 
 describe('applySetParty —— C7 队伍变更(D22 reserve 暂存区)', () => {
   const actors = {
-    'test-hero': { id: 'test-hero', name: 't.hero', spriteId: 's1',
-      battler: { baseStats: { level: 1, hp: 150, maxHP: 150, mp: 100, maxMP: 100, attack: 10, defense: 10, magicAttack: 10, speed: 10, luck: 10 }, initialEquipment: {} } },
-    'test-mate': { id: 'test-mate', name: 't.mate', spriteId: 's2',
-      battler: { baseStats: { level: 1, hp: 90, maxHP: 90, mp: 50, maxMP: 50, attack: 8, defense: 8, magicAttack: 8, speed: 8, luck: 8 }, initialEquipment: {} } },
+    'test-hero': {
+      id: 'test-hero',
+      name: 't.hero',
+      spriteId: 's1',
+      battler: {
+        baseStats: {
+          level: 1,
+          hp: 150,
+          maxHP: 150,
+          mp: 100,
+          maxMP: 100,
+          attack: 10,
+          defense: 10,
+          magicAttack: 10,
+          speed: 10,
+          luck: 10,
+        },
+        initialEquipment: {},
+      },
+    },
+    'test-mate': {
+      id: 'test-mate',
+      name: 't.mate',
+      spriteId: 's2',
+      battler: {
+        baseStats: {
+          level: 1,
+          hp: 90,
+          maxHP: 90,
+          mp: 50,
+          maxMP: 50,
+          attack: 8,
+          defense: 8,
+          magicAttack: 8,
+          speed: 8,
+          luck: 8,
+        },
+        initialEquipment: {},
+      },
+    },
   } as unknown as Record<string, import('./actor.js').ActorDef>
 
   function world(): WorldState {
-    const w = buildWorld({ party: ['test-hero'], money: 0, learnedSkills: {}, inventory: [] }, actors)
+    const w = buildWorld(
+      { party: ['test-hero'], money: 0, learnedSkills: {}, inventory: [] },
+      actors,
+    )
     return w
   }
 

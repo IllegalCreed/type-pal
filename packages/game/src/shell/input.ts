@@ -50,14 +50,14 @@ const CODE_MAP: Record<string, AbstractKey> = {
   Numpad1: 'End',
 
   // ── 战斗 / 大世界专用键(sdlpal input.c:83-90,WASD 还原原义) ─────
-  KeyR: 'Repeat',     // sdlpal SDLK_r 战斗重复上回合 action
-  KeyA: 'Auto',       // sdlpal SDLK_a 战斗 auto 攻击
-  KeyD: 'Defend',     // sdlpal SDLK_d 战斗防御
-  KeyE: 'UseItem',    // sdlpal SDLK_e 战斗/大世界用物品
-  KeyW: 'ThrowItem',  // sdlpal SDLK_w 战斗投掷物品
-  KeyQ: 'Flee',       // sdlpal SDLK_q 战斗逃跑
-  KeyF: 'Force',      // sdlpal SDLK_f 强制移动 / 战斗 force action
-  KeyS: 'Status',     // sdlpal SDLK_s 状态屏
+  KeyR: 'Repeat', // sdlpal SDLK_r 战斗重复上回合 action
+  KeyA: 'Auto', // sdlpal SDLK_a 战斗 auto 攻击
+  KeyD: 'Defend', // sdlpal SDLK_d 战斗防御
+  KeyE: 'UseItem', // sdlpal SDLK_e 战斗/大世界用物品
+  KeyW: 'ThrowItem', // sdlpal SDLK_w 战斗投掷物品
+  KeyQ: 'Flee', // sdlpal SDLK_q 战斗逃跑
+  KeyF: 'Force', // sdlpal SDLK_f 强制移动 / 战斗 force action
+  KeyS: 'Status', // sdlpal SDLK_s 状态屏
 }
 
 export function codeToAbstractKey(code: string): AbstractKey | null {

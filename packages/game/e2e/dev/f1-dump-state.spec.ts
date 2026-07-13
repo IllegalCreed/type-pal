@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { bootstrap } from '../helpers/bootstrap.js'
 
 test('f1 F1 dump GameState — console 含 "[dev] GameState dump:"', async ({ page }) => {

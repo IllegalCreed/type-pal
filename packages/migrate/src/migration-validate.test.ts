@@ -11,7 +11,6 @@ describe('迁移合并后 locale 引用门禁', () => {
           scripts: {
             a: [
               { kind: 'dialog', line: { text: 'dlg.ok', speaker: 'spk.missing' } },
-              // biome-ignore lint/suspicious/noThenProperty: Script command schema uses "then".
               { kind: 'branch', then: [{ kind: 'dialog', line: { text: 'dlg.missing' } }] },
             ],
           },

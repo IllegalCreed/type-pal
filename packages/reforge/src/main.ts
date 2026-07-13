@@ -1,7 +1,6 @@
 import {
   applySetParty,
   buildWorld,
-  type Dialogue,
   type DialogueLine,
   type EntityDef,
   type EntryPoint,
@@ -17,28 +16,27 @@ import {
   grantBattleRewards,
   gridToPixel,
   isIdentityTint,
+  isOwnMap,
+  isReuseMap,
   lerpTint,
   lookupText,
-  isOwnMap,
   mapRoom,
   pixelDeltaToGridDelta,
   pixelToGrid,
   resolveAmbienceTint,
   resolveEntitySpriteId,
-  sellableItems,
-  stageIndexFor,
   type SceneDef,
   type SceneMap,
-  sceneMapKey,
-  tileHeightsOf,
   type ScriptStage,
   type SpriteDef,
+  sceneMapKey,
+  sellableItems,
   spriteScreenY,
+  stageIndexFor,
+  tileHeightsOf,
   type WalkSpeed,
-  isReuseMap,
 } from '@type-pal/content'
 import type { Palette, RleFrame } from '@type-pal/shared'
-import { computeFollowerPos, type FollowerFrozen, pushTrail, type TrailEntry } from './follower.js'
 import {
   type AssetBase,
   type BattleFieldEntry,
@@ -53,20 +51,25 @@ import {
   loadPalette,
   loadSprite,
 } from './assets.js'
-import { loadSceneMap } from './scene-map.js'
-import type { SceneMapAssets } from './scene-map.js'
 import { createBgmPlayer } from './audio/bgm.js'
 import { SfxPlayer } from './audio/sfx.js'
-import { getEnemyBasePos, getPlayerBasePos } from './battle/battle-positions.js'
 import { curePoisons } from './battle/battle-core.js'
+import { getEnemyBasePos, getPlayerBasePos } from './battle/battle-positions.js'
 import { BattleSession } from './battle/battle-session.js'
 import { type BattleSpriteDraw, renderBattleScene } from './battle/present-battle.js'
 import { buildSettlementScreens } from './battle/settlement.js'
 import { isBlockedAt, sameGrid } from './collision.js'
-import { advanceWave, WorldWaveRenderer } from './screen-wave.js'
+import { expectDefined } from './defined.js'
 import { loadCursorFrames, loadPortraits } from './dialog/dialog-assets.js'
 import { DialogBox } from './dialog/dialog-box.js'
 import { startDialogue } from './dialogue.js'
+import {
+  applyDitherPaletteTransition,
+  buildDitherPalettePlan,
+  DITHER_TOTAL_STEPS,
+  DitherTransitionController,
+  hasEarlyDitherScreen,
+} from './dither-transition.js'
 import {
   closeEquipMenu,
   type EquipMenuState,
@@ -76,8 +79,9 @@ import {
   equipMoveCursor,
   openEquipMenu,
 } from './equip-menu-state.js'
+import { computeFollowerPos, type FollowerFrozen, pushTrail, type TrailEntry } from './follower.js'
 import { Keyboard } from './input.js'
-import { type LoadedProject, loadProject, loadSceneDef } from './loader.js'
+import { type LoadedProject, loadSceneDef } from './loader.js'
 import {
   castOutdoorSkill,
   closeMagicMenu,
@@ -91,34 +95,18 @@ import {
   openMagicMenu,
 } from './magic-menu-state.js'
 import { drawEquipMenu } from './menu/equip-box.js'
-import { drawShop, openShopUi, type ShopUiState, shopInput } from './menu/shop-box.js'
 import { drawMagicMenu } from './menu/magic-box.js'
 import { loadMenuAssets, loadPng, MenuBox } from './menu/menu-box.js'
 import { drawSaveBrowser } from './menu/save-browser-box.js'
+import { drawShop, openShopUi, type ShopUiState, shopInput } from './menu/shop-box.js'
 import { drawSystemMenu } from './menu/system-box.js'
 import { drawUseMenu } from './menu/use-box.js'
-import {
-  back,
-  CLOSED,
-  confirm,
-  type MenuState,
-  moveCursor,
-  openMenu,
-} from './menu-state.js'
+import { back, CLOSED, confirm, type MenuState, moveCursor, openMenu } from './menu-state.js'
 import { resolveMove } from './movement.js'
+import { runOpeningMenu } from './opening-menu.js'
 import { Canvas2DRenderer, type CellRect, type SpriteDraw } from './render.js'
 import { renderSceneFrame } from './render-scene.js'
-import { resolveSceneFacing } from './scene-transition.js'
-import {
-  applyDitherPaletteTransition,
-  buildDitherPalettePlan,
-  DITHER_TOTAL_STEPS,
-  DitherTransitionController,
-  hasEarlyDitherScreen,
-} from './dither-transition.js'
-import { runOpeningMenu } from './opening-menu.js'
 import { playRng as playRngOverlay, rngPaletteId } from './rng-player.js'
-import { playVideo as playVideoOverlay } from './video-player.js'
 import {
   browserConfirm,
   browserConfirmOverwriteNo,
@@ -131,6 +119,10 @@ import {
 import { buildMeta, buildPayload, captureThumbnail, normalizePayload } from './save/ops.js'
 import { IndexedDbSaveStore, MemorySaveStore, type SaveStore } from './save/store.js'
 import { ALL_SLOT_IDS, type SaveMeta, type SavePayload, type SlotId } from './save/types.js'
+import type { SceneMapAssets } from './scene-map.js'
+import { loadSceneMap } from './scene-map.js'
+import { resolveSceneFacing } from './scene-transition.js'
+import { advanceWave, WorldWaveRenderer } from './screen-wave.js'
 import { type ScriptHost, ScriptRunner } from './script-runner.js'
 import { animFrameIndex, idleFrameIndex, loopFrameIndex, walkFrameIndex } from './sprite-anim.js'
 import {
@@ -153,6 +145,7 @@ import {
   useConfirm,
   useMoveCursor,
 } from './use-menu-state.js'
+import { playVideo as playVideoOverlay } from './video-player.js'
 
 // 切片 1 · 第一步：把真实 map 56（黑水镇民居）整张渲染出来，看清里头几间民居、挑一间。
 // 下一步：定裁剪矩形（只取一间）+ 放李逍遥/鬼 + 走路/对话。
@@ -256,7 +249,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   const portraits = project.manifest.assets.portraits
     ? await (async (): Promise<Map<number, HTMLCanvasElement>> => {
         const portraitChunks = await fetch('/extracted/data/portraits.json')
-          .then((r) => (r.ok ? (r.json() as Promise<{ portraits: { chunkIndex: number }[] }>) : null))
+          .then((r) =>
+            r.ok ? (r.json() as Promise<{ portraits: { chunkIndex: number }[] }>) : null,
+          )
           .then((m) => m?.portraits.map((p) => p.chunkIndex) ?? [1, 2])
           .catch(() => [1, 2])
         return loadPortraits(portraitChunks, project.assetBase.portraits).catch((err: unknown) => {
@@ -412,7 +407,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   // 主菜单标题屏(?menu;dev 用 ?scene/?entry 直达跳过):照原版 FBP 2(盘0)+ 竖排 entryPoints + 读取进度。
   // 选开局项 → bootEntry(其 startWorld + 场景开局);选读档 → bootLoadSlot。(正式发布可翻默认走菜单,现 ?menu opt-in。)
   if (params.has('menu') && !bootEntry) {
-    const menuBg = await loadBattleBg(project.assetBase, 2, await getPalette(0)).catch(() => undefined)
+    const menuBg = await loadBattleBg(project.assetBase, 2, await getPalette(0)).catch(
+      () => undefined,
+    )
     if (menuBg) {
       const decision = await runOpeningMenu({
         ctx,
@@ -525,7 +522,11 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     if (import.meta.env.DEV) canvas.dataset.rfSceneLoad = JSON.stringify({ from, to, step })
   }
   // dev ?party:强制的队员拉满 HP/MP,确保 healthy(否则如赵灵儿初始 28/240 = 濒死,合击项灰)
-  if (partyParam) for (const c of world.party) { c.hp = c.maxHP; c.mp = c.maxMP }
+  if (partyParam)
+    for (const c of world.party) {
+      c.hp = c.maxHP
+      c.mp = c.maxMP
+    }
   // DEV 调试口(__rfBattle 同款):验收/自动化直读世界态(party HP/MP、money、learnedSkills)
   if (import.meta.env.DEV) {
     Object.defineProperty(window, '__rfWorld', { get: () => world, configurable: true })
@@ -550,9 +551,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     // 0x99 底图覆写:原版图按 override mapNum 换底(麒麟洞岩浆;自有地图不受 override)
     const ovMap = world.script?.mapOverride?.[sceneId]
     const mapRef =
-      ovMap !== undefined && isReuseMap(def.map)
-        ? { ...def.map, reuseOriginalMap: ovMap }
-        : def.map
+      ovMap !== undefined && isReuseMap(def.map) ? { ...def.map, reuseOriginalMap: ovMap } : def.map
     const assets = await getMapAssets(mapRef) // 复用原版 ⊕ 自有地图,分流内建于 loadSceneMap
     const pal = await getPalette(Number(params.get('pal') ?? 0)) // 只留盘 0(W7a-3);?pal= 仅 dev 调试兜底
     const defs = new Map<string, SpriteDef>()
@@ -568,7 +567,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     ])
     // A4 自有上传精灵按 def.path 加载(num→path;同号多 def 时任取 —— path 只有上传条目有)
     const pathByNum = new Map<number, string>()
-    for (const d of Object.values(project.spritesById)) if (d.path) pathByNum.set(d.spriteNum, d.path)
+    for (const d of Object.values(project.spritesById))
+      if (d.path) pathByNum.set(d.spriteNum, d.path)
     const missing = [...needed].filter((n) => !spriteByNum.has(n))
     await Promise.all(
       missing.map(async (n) => {
@@ -638,7 +638,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   const posParam = params.get('pos')?.split(',').map(Number)
   const spawnPos =
     posParam?.length === 2 && posParam.every(Number.isFinite)
-      ? { col: posParam[0]!, row: posParam[1]!, height: 0 }
+      ? { col: expectDefined(posParam[0]), row: expectDefined(posParam[1]), height: 0 }
       : undefined
   const facingParam = params.get('facing')
   await switchScene(initialSceneId, {
@@ -650,7 +650,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       ? { facing: facingParam }
       : {}),
   })
-  const playerSprite = spriteByNum.get(leaderSpriteDef.spriteNum)!
+  const playerSprite = expectDefined(spriteByNum.get(leaderSpriteDef.spriteNum))
   const dialogBox = new DialogBox(
     ctx,
     glyphs,
@@ -699,7 +699,11 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   const applyAmbienceTint = (): void => {
     if (ambienceFx) {
       const t = (nowMs - ambienceFx.start) / (ambienceFx.durMs ?? AMBIENCE_FADE_MS)
-      ambienceShown = lerpTint(ambienceFx.from, resolveAmbienceTint(world.ambience, project.ambiences), t)
+      ambienceShown = lerpTint(
+        ambienceFx.from,
+        resolveAmbienceTint(world.ambience, project.ambiences),
+        t,
+      )
       if (t >= 1) ambienceFx = null
     }
     if (isIdentityTint(ambienceShown)) return
@@ -866,9 +870,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       ditherTransition.cancel()
       const targetDef = await getSceneDef(sceneId)
       const targetStages = targetDef.onEnter
-      const targetStage = targetStages?.[
-        stageIndexFor(world.script!, `s:${sceneId}`, targetStages)
-      ]
+      const targetStage =
+        targetStages?.[stageIndexFor(expectDefined(world.script), `s:${sceneId}`, targetStages)]
       const handoffToDither = hasEarlyDitherScreen(targetStage)
       markSceneLoad(fromSceneId, sceneId, handoffToDither ? 'handoff' : 'fade-out')
       if (handoffToDither) {
@@ -930,7 +933,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       }
       const def = requireSpriteDef(spriteId, `0x65 换装 ${actorId}`)
       const frames =
-        spriteByNum.get(def.spriteNum) ?? (await loadSprite(project.assetBase, def.spriteNum, def.path))
+        spriteByNum.get(def.spriteNum) ??
+        (await loadSprite(project.assetBase, def.spriteNum, def.path))
       spriteByNum.set(def.spriteNum, frames)
       // 切回本体精灵 = 撤销覆盖(严格等价:override 恒生效,但本体时置 null 让存档/调试态干净)
       leaderSpriteOverride = def.spriteNum === leaderSpriteDef.spriteNum ? null : { def, frames }
@@ -947,7 +951,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       if (patch.spriteId) {
         const def = requireSpriteDef(patch.spriteId, `0x1A 换形象 ${actorTemplate}`)
         if (!spriteByNum.has(def.spriteNum))
-          spriteByNum.set(def.spriteNum, await loadSprite(project.assetBase, def.spriteNum, def.path))
+          spriteByNum.set(
+            def.spriteNum,
+            await loadSprite(project.assetBase, def.spriteNum, def.path),
+          )
       }
     },
     fleeBattle: () => {
@@ -959,7 +966,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       if (world.script) {
         const e = scene.entities.find((x) => x.id === id)
         const height = e?.pos.height ?? 0
-        ;(world.script.entityPos ??= {})[id] = { col: pos.col, row: pos.row, height }
+        world.script.entityPos ??= {}
+        world.script.entityPos[id] = { col: pos.col, row: pos.row, height }
       }
       applyWorldToScene()
     },
@@ -968,7 +976,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       if (world.script) {
         const e = scene.entities.find((x) => x.id === id)
         const height = e?.pos.height ?? 0
-        ;(world.script.entityPos ??= {})[id] = {
+        world.script.entityPos ??= {}
+        world.script.entityPos[id] = {
           col: player.pos.col + dcol,
           row: player.pos.row + drow,
           height,
@@ -1026,7 +1035,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     },
     playSound: () => {}, // 音频系统未落地(音频期);静默
     playMusic: (id) => {
-      world.script!.vars['sys:music'] = id // 记账(存档恢复用)
+      expectDefined(world.script).vars['sys:music'] = id // 记账(存档恢复用)
       bgm.play(id) // 0 = 停曲(原版语义)
     },
     // W6 氛围(0x53 昼/0x54 夜):world.ambience 权威(随存档),显示态播 300ms 过渡
@@ -1077,7 +1086,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       const inst =
         world.party.find((c) => c.template === tid) ??
         world.reserve?.find((c) => c.template === tid)
-      const list = (world.learnedSkills[inst?.id ?? tid] ??= [])
+      const actorId = inst?.id ?? tid
+      world.learnedSkills[actorId] ??= []
+      const list = world.learnedSkills[actorId]
       if (!list.includes(skillId)) list.push(skillId)
     },
     // E6b 显式定位权威(手工演出精细控制;隐式接管见 scriptHost 位移视图)
@@ -1265,8 +1276,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           // 合体技(角色专属;发起合击用。取自 actor 模板 battler)
           ...(project.actorsById[c.template]?.battler?.cooperativeMagicSkillId
             ? {
-                cooperativeMagicSkillId:
-                  project.actorsById[c.template]!.battler!.cooperativeMagicSkillId,
+                cooperativeMagicSkillId: expectDefined(
+                  expectDefined(project.actorsById[c.template]).battler,
+                ).cooperativeMagicSkillId,
               }
             : {}),
           // 守护关系(rgwCoveredBy 具名化):模板 → 在场队友实例 id;守护者不在队 = 无人护
@@ -1282,7 +1294,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           // 大世界带入的毒(自毒食/装备咒;战斗内副本,战后三件套清)
           ...(c.poisons?.length ? { poisons: c.poisons.map((x) => ({ ...x })) } : {}),
           // 大世界护体符/金刚符定时状态(护体等;建态注入 status,战后三件套 ClearAllStatus 清)
-          ...(c.extraStatuses?.length ? { carriedStatuses: c.extraStatuses.map((x) => ({ ...x })) } : {}),
+          ...(c.extraStatuses?.length
+            ? { carriedStatuses: c.extraStatuses.map((x) => ({ ...x })) }
+            : {}),
           // 攻击全体(长鞭 attackAll;红线 live 派生;dev 参数强制)
           attackAll: equipGrantsAttackAll(c, itemsById) || devAllLeader === c.id,
           // 每回合回血/回蓝(寿葫芦等 regen 词条;红线 live 派生)
@@ -1307,7 +1321,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       // 战场常驻波(battle.c:1559 进战斗设 field.screenWave;#18/22/32/35/50 水下/幻境)
       // + 五灵加成(lprgBattleField.rgsMagicEffect,fight.c:244 双向乘入法术伤害)。
       // 数据源:工程 content 战场表(D24 一等域,编辑器管) > assetBase 遗留回退(未收编工程)。
-      const fields = await (battleFieldsPromise ??= project.battleFields.length
+      battleFieldsPromise ??= project.battleFields.length
         ? Promise.resolve(
             new Map(
               project.battleFields.map((f) => [
@@ -1320,61 +1334,80 @@ export async function bootGame(project: LoadedProject): Promise<void> {
               ]),
             ),
           )
-        : loadBattleFields(project.assetBase).catch(() => new Map<number, BattleFieldEntry>()))
+        : loadBattleFields(project.assetBase).catch(() => new Map<number, BattleFieldEntry>())
+      const fields = await battleFieldsPromise
       const fieldDef = fields.get(Number(fieldId))
       const fieldWave = fieldDef?.screenWave ?? 0
-      const [bgFull, summonSprites, enemySprites, playerSprites, faceList, battleIcons, effectSprite, effectIndex] =
-        await Promise.all([
-          loadBattleBgFull(project.assetBase, Number(fieldId), palette, fieldDef?.bg).catch(
-            () => undefined,
+      const [
+        bgFull,
+        summonSprites,
+        enemySprites,
+        playerSprites,
+        faceList,
+        battleIcons,
+        effectSprite,
+        effectIndex,
+      ] = await Promise.all([
+        loadBattleBgFull(project.assetBase, Number(fieldId), palette, fieldDef?.bg).catch(
+          () => undefined,
+        ),
+        Promise.all(
+          [...summonGodIds].map(
+            async (g) =>
+              [
+                g,
+                await loadBattleSprite(project.assetBase, 'player', g + 10).catch(() => undefined),
+              ] as const,
           ),
-          Promise.all(
-            [...summonGodIds].map(async (g) =>
-              [g, await loadBattleSprite(project.assetBase, 'player', g + 10).catch(() => undefined)] as const,
-            ),
-          ).then((entries) =>
-            Object.fromEntries(entries.filter((e): e is [number, LoadedSprite] => !!e[1])),
-          ),
-          Promise.all(
-            enemyDefs.map((e) =>
-              loadBattleSprite(project.assetBase, 'enemy', e.spriteNum, e.spritePath).catch(() => undefined),
-            ),
-          ),
-          Promise.all(
-            world.party.map((c) =>
-              loadBattleSprite(
-                project.assetBase,
-                'player',
-                // 0x1A 战斗精灵覆写优先(成年灵儿 appearance.battleSprite);缺 = 模板
-                c.appearance?.battleSprite ??
-                  project.actorsById[c.template]?.battler?.battleSpriteNum ??
-                  0,
-                // 覆写走原版号 → 无自有 path(loadBattleSprite 回落原版 F.MKF 提取图)
-                c.appearance?.battleSprite !== undefined
-                  ? undefined
-                  : project.actorsById[c.template]?.battler?.battleSpritePath,
-              ).catch(() => undefined),
+        ).then((entries) =>
+          Object.fromEntries(entries.filter((e): e is [number, LoadedSprite] => !!e[1])),
+        ),
+        Promise.all(
+          enemyDefs.map((e) =>
+            loadBattleSprite(project.assetBase, 'enemy', e.spriteNum, e.spritePath).catch(
+              () => undefined,
             ),
           ),
-          Promise.all(
-            world.party.map((c) => loadPng(`${project.assetBase.faces}/${c.template}.png`)),
+        ),
+        Promise.all(
+          world.party.map((c) =>
+            loadBattleSprite(
+              project.assetBase,
+              'player',
+              // 0x1A 战斗精灵覆写优先(成年灵儿 appearance.battleSprite);缺 = 模板
+              c.appearance?.battleSprite ??
+                project.actorsById[c.template]?.battler?.battleSpriteNum ??
+                0,
+              // 覆写走原版号 → 无自有 path(loadBattleSprite 回落原版 F.MKF 提取图)
+              c.appearance?.battleSprite !== undefined
+                ? undefined
+                : project.actorsById[c.template]?.battler?.battleSpritePath,
+            ).catch(() => undefined),
           ),
-          Promise.all(
-            ['attack', 'magic', 'coop', 'misc'].map((n) => loadPng(`/ui/battle/icon-${n}.png`)),
-          ),
-          loadEffectOnce(),
-          loadEffectIndexOnce(),
-        ])
+        ),
+        Promise.all(
+          world.party.map((c) => loadPng(`${project.assetBase.faces}/${c.template}.png`)),
+        ),
+        Promise.all(
+          ['attack', 'magic', 'coop', 'misc'].map((n) => loadPng(`/ui/battle/icon-${n}.png`)),
+        ),
+        loadEffectOnce(),
+        loadEffectIndexOnce(),
+      ])
       // 各队员命中/施法前摇特效帧基(fight.c:2055 攻击 [1]*3;2387 施法 [0]*10+15;表缺 → −1)
       const playerEffectBase = world.party.map((c) => {
         const sn =
-          c.appearance?.battleSprite ?? project.actorsById[c.template]?.battler?.battleSpriteNum ?? 0
+          c.appearance?.battleSprite ??
+          project.actorsById[c.template]?.battler?.battleSpriteNum ??
+          0
         const v = effectIndex?.[sn * 2 + 1]
         return v === undefined ? -1 : v * 3
       })
       const playerCastBase = world.party.map((c) => {
         const sn =
-          c.appearance?.battleSprite ?? project.actorsById[c.template]?.battler?.battleSpriteNum ?? 0
+          c.appearance?.battleSprite ??
+          project.actorsById[c.template]?.battler?.battleSpriteNum ??
+          0
         const v = effectIndex?.[sn * 2]
         return v === undefined ? -1 : v * 10 + 15
       })
@@ -1418,9 +1451,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         {
           bg: bgFull?.canvas,
           // 召唤背景染色的索引源(调色板级 nibble 重烤,battle.c:62-80)
-          bgIndexed: bgFull
-            ? { indices: bgFull.indices, w: bgFull.w, h: bgFull.h }
-            : undefined,
+          bgIndexed: bgFull ? { indices: bgFull.indices, w: bgFull.w, h: bgFull.h } : undefined,
           palette,
           glyphs,
           enemySprites,
@@ -1512,8 +1543,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       session.writeBackInventory(world.inventory)
       // 偷窃/金钱技消耗/收妖所得:**无条件**入账(原版 dwCash 即时加减 —— 逃跑也保留;
       // 偷到的物品随 writeBackInventory 一并回世界)
-      if (session.moneyDelta() !== 0)
-        world.money = Math.max(0, world.money + session.moneyDelta())
+      if (session.moneyDelta() !== 0) world.money = Math.max(0, world.money + session.moneyDelta())
       if (session.collectGained() > 0)
         world.collectValue = (world.collectValue ?? 0) + session.collectGained()
       // 战后「三件套」(battle.c:1822-1830):胜/败/逃无条件。① ClearAllStatus → 清大世界护体符定时状态
@@ -1713,7 +1743,11 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       if (a.kind !== 'mount') continue
       const parent = scene.entities.find((e) => e.id === a.parent)
       if (!parent) continue
-      const pos = { col: parent.pos.col + a.dx, row: parent.pos.row + a.dy, height: parent.pos.height }
+      const pos = {
+        col: parent.pos.col + a.dx,
+        row: parent.pos.row + a.dy,
+        height: parent.pos.height,
+      }
       if (id === 'party') {
         player.pos = pos
         walking = false // 骑乘不迈步(原版 wFrame 冻结)
@@ -1878,7 +1912,13 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     const stages = auto.stages
     const ac = new AbortController()
     autoAborts.set(e.id, ac)
-    const r = new ScriptRunner(autoHost, world.script!, ac.signal, Math.random, project.scriptStore) // E6a:auto 视图(被接管实体暂停)
+    const r = new ScriptRunner(
+      autoHost,
+      expectDefined(world.script),
+      ac.signal,
+      Math.random,
+      project.scriptStore,
+    ) // E6a:auto 视图(被接管实体暂停)
     r.selfId = e.id // chasePlayer/vanishEntity 的 self
     r.paceMs = 100 // 原版 auto 一帧(100ms)一 op(曾 80ms 近似;对齐世界拍减小与走位的错相)
     void (async () => {
@@ -1958,7 +1998,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         if (h.respawnSeconds && h.respawnSeconds > 0) {
           const atScene = scene
           void (async () => {
-            await host.wait(h.respawnSeconds! * 1000)
+            await host.wait(expectDefined(h.respawnSeconds) * 1000)
             if (scene === atScene) e.hidden = false // 重生
           })()
         }
@@ -1992,7 +2032,13 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   function startScript(key: string, stages: readonly ScriptStage[], selfId?: string): void {
     if (runner) return
     scriptAbort = new AbortController()
-    const r = new ScriptRunner(scriptHost, world.script!, scriptAbort.signal, Math.random, project.scriptStore) // E6a:主脚本视图(位移隐式接管)
+    const r = new ScriptRunner(
+      scriptHost,
+      expectDefined(world.script),
+      scriptAbort.signal,
+      Math.random,
+      project.scriptStore,
+    ) // E6a:主脚本视图(位移隐式接管)
     r.selfId = selfId
     runner = r
     void r
@@ -2329,7 +2375,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     // 排队员之后按 trail 再深一档跟走;精灵未载(书生本就是场景实体,通常已载)跳过
     const extraFollowers = world.script?.followers ?? []
     for (let k = 0; k < extraFollowers.length; k++) {
-      const chunk = extraFollowers[k]!
+      const chunk = expectDefined(extraFollowers[k])
       const fr = spriteByNum.get(chunk)
       const m = world.party.length + k
       const r = computeFollowerPos(
@@ -2359,7 +2405,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     // 0x35 震屏:相机 y ±level 交替(40ms 相位;到期自清)
     if (worldShake && nowMs >= worldShake.untilMs) worldShake = null
     const shakeCam = worldShake
-      ? { x: camera.x, y: camera.y + (Math.floor(nowMs / 40) % 2 === 0 ? worldShake.level : -worldShake.level) }
+      ? {
+          x: camera.x,
+          y: camera.y + (Math.floor(nowMs / 40) % 2 === 0 ? worldShake.level : -worldShake.level),
+        }
       : camera
     // 0x71 屏波:活跃时世界层先合成到离屏,再逐行左卷到主画布(一阶段 applyScreenWave
     // 的 canvas 行卷版;波幅每帧自累加,==0/≥256 自灭 —— advanceWave 原地改 vars 随存档)
@@ -2367,10 +2416,24 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     if (waveAmp > 0) {
       const wc = ensureWaveCanvas()
       const wctx = get2dContext(wc)
-      renderSceneFrame(wctx, renderer, { map, room, camera: shakeCam, sprites, worldScale: WORLD_SCALE, layers: ownTileHeights ? { ownTileHeights } : undefined })
+      renderSceneFrame(wctx, renderer, {
+        map,
+        room,
+        camera: shakeCam,
+        sprites,
+        worldScale: WORLD_SCALE,
+        layers: ownTileHeights ? { ownTileHeights } : undefined,
+      })
       worldWave.apply(ctx, wc, waveAmp, WORLD_SCALE)
     } else {
-      renderSceneFrame(ctx, renderer, { map, room, camera: shakeCam, sprites, worldScale: WORLD_SCALE, layers: ownTileHeights ? { ownTileHeights } : undefined })
+      renderSceneFrame(ctx, renderer, {
+        map,
+        room,
+        camera: shakeCam,
+        sprites,
+        worldScale: WORLD_SCALE,
+        layers: ownTileHeights ? { ownTileHeights } : undefined,
+      })
     }
     // debug 碰撞叠加层(reforge 自己的 dev 拐杖;非编辑器叠加层)—— 在底图之上、独立变换块。
     if (DEBUG_COLLISION) {
@@ -2511,7 +2574,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         pr =
           dither.durationMs <= 0
             ? 1
-            : Math.max(0, Math.min(1, (nowMs - dither.startedAt!) / dither.durationMs))
+            : Math.max(
+                0,
+                Math.min(1, (nowMs - expectDefined(dither.startedAt)) / dither.durationMs),
+              )
       }
       const step = Math.floor(pr * DITHER_TOTAL_STEPS)
       if (dither.plan && dither.output && dither.lastStep !== step) {
@@ -2593,7 +2659,6 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     isBlockedAt(map, pos) ||
     scene.entities.some((e) => !e.hidden && e.collide === true && sameGrid(pos, e.pos))
   const keyboard = new Keyboard()
-  const INTERACT_RANGE = 48 // 像素：靠近实体即可交互
 
   // 调试 / 验证：暴露活动态
   ;(window as unknown as { __reforge?: unknown }).__reforge = {
@@ -2640,8 +2705,6 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     },
   }
 
-
-
   /** 当前按下的方向键 → 朝向(后按优先:按住一个再按另一个,新方向立即生效;一阶段同语义)。 */
   const ARROW_TO_FACING: Record<string, Facing> = {
     ArrowUp: 'up',
@@ -2661,7 +2724,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     nowMs = t
     // ── M3a 脚本 driver 推进(tick 时间源):计时器 → 兑现;淡入淡出 → 进度;对话关 → 兑现 ──
     for (let i = timers.length - 1; i >= 0; i--) {
-      if (t >= timers[i]!.deadline) timers.splice(i, 1)[0]!.resolve()
+      if (t >= expectDefined(timers[i]).deadline) expectDefined(timers.splice(i, 1)[0]).resolve()
     }
     if (fadeFx) {
       const pr = fadeFx.ms <= 0 ? 1 : Math.min(1, (t - fadeFx.start) / fadeFx.ms)
@@ -2769,7 +2832,13 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           if (interact) {
             const skill = magicMenu.spells[magicMenu.cursor]
             if (skill) {
-              castOutdoorSkill(world, skill, magicMenu.casterIdx, magicMenu.targetIdx, project.poisonsById)
+              castOutdoorSkill(
+                world,
+                skill,
+                magicMenu.casterIdx,
+                magicMenu.targetIdx,
+                project.poisonsById,
+              )
               const c = world.party[magicMenu.casterIdx]
               if (!c || c.mp < (skill.cost.mp ?? 0)) magicMenu = magicBackFromTarget(magicMenu)
             }
@@ -2818,7 +2887,13 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         if (useMenu.phase === 'pick-target') {
           // 选目标:Enter 施用(useApply 回写 world)/ Esc 回列表
           if (interact) {
-            const r = useApply(useMenu, world, world.party[0]?.id ?? '', project.items, project.poisonsById)
+            const r = useApply(
+              useMenu,
+              world,
+              world.party[0]?.id ?? '',
+              project.items,
+              project.poisonsById,
+            )
             world = r.world
             useMenu = r.state
           } else if (esc) {
@@ -3004,7 +3079,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         if (pressed.has('[') || pressed.has(']')) {
           const ids = project.sceneIds
           const cur = ids.indexOf(scene.id)
-          const nextId = ids[(cur + (pressed.has(']') ? 1 : ids.length - 1)) % ids.length]!
+          const nextId = expectDefined(
+            ids[(cur + (pressed.has(']') ? 1 : ids.length - 1)) % ids.length],
+          )
           abortScript()
           stopAutoRunners()
           void switchScene(nextId)
@@ -3086,7 +3163,11 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         const e2eLoadPosRaw = params.get('e2e-load-pos')?.split(',').map(Number)
         const e2eLoadPos =
           e2eLoadPosRaw?.length === 2 && e2eLoadPosRaw.every(Number.isFinite)
-            ? { col: e2eLoadPosRaw[0]!, row: e2eLoadPosRaw[1]!, height: 0 }
+            ? {
+                col: expectDefined(e2eLoadPosRaw[0]),
+                row: expectDefined(e2eLoadPosRaw[1]),
+                height: 0,
+              }
             : undefined
         startScript('__e2e:loadScene', [
           {

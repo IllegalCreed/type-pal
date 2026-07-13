@@ -6,7 +6,13 @@
 import type { LoadedManifest, ScriptIndexV1 } from '@type-pal/content'
 import { decompressGzip, type FileSource } from '@type-pal/reforge'
 import { writeFile } from './project-io.js'
-import { enumerateSeedFiles, type FileList, relativizeManifest, scenesDir, scriptsDir } from './seed.js'
+import {
+  enumerateSeedFiles,
+  type FileList,
+  relativizeManifest,
+  scenesDir,
+  scriptsDir,
+} from './seed.js'
 
 /**
  * 素材字节:.rle 是 gzip 压缩(1f8b)—— Chrome(尤其增强保护)会把 gzip 当压缩包**深扫下载**
@@ -42,7 +48,8 @@ export async function cloneFromPal(
 
   let done = 0
   for (const f of files) {
-    const value = f.kind === 'json' ? await seed.readJson(f.src) : await assetBytes(seed, f.src, f.rel)
+    const value =
+      f.kind === 'json' ? await seed.readJson(f.src) : await assetBytes(seed, f.src, f.rel)
     await writeFile(dir, f.rel, value)
     done += f.size
     onProgress(done, total)

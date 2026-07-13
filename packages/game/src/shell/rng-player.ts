@@ -16,7 +16,7 @@
  *  - Space/Enter/Escape 跳过
  *  - 不知 gs — caller(bootstrap)try/finally 包 suspendRaf
  */
-import { RNG_HEIGHT, RNG_WIDTH, decodeRngFrames, type Palette } from '@type-pal/shared'
+import { decodeRngFrames, type Palette, RNG_HEIGHT, RNG_WIDTH } from '@type-pal/shared'
 import type { IndexedImage } from '../assets/png.js'
 import { decompressGzip } from '../assets/tileset-blob.js'
 import type { Framebuffer } from '../present/framebuffer.js'
@@ -67,7 +67,7 @@ export interface PlayRngOptions {
    * 漏接的后果:0x35 震屏计数在 RNG 播放期间冻结,整段泄漏进下一场景
    * (僵尸王→血池演出:0x35[90] 本该在 25 帧等待 + 64 帧坠落视频里耗完,却带 65 帧进血池狂抖)。
    */
-  shakeState?: { shakeTime: number, shakeLevel: number }
+  shakeState?: { shakeTime: number; shakeLevel: number }
 
   /**
    * 测试 only override fetchers — 生产从 `/extracted/` fetch,测试注入 mock。
@@ -101,12 +101,18 @@ async function fetchAndDecodeRngChunk(chunkIdx: number): Promise<Map<number, Ind
   const bytes = await decompressGzip(await res.blob())
   const map = new Map<number, IndexedImage>()
   for (const f of decodeRngFrames(bytes)) {
-    map.set(f.index, { width: RNG_WIDTH, height: RNG_HEIGHT, indices: f.pixels, opaque: RNG_OPAQUE })
+    map.set(f.index, {
+      width: RNG_WIDTH,
+      height: RNG_HEIGHT,
+      indices: f.pixels,
+      opaque: RNG_OPAQUE,
+    })
   }
   return map
 }
 
-let _rngChunkLoader: (chunkIdx: number) => Promise<Map<number, IndexedImage>> = fetchAndDecodeRngChunk
+let _rngChunkLoader: (chunkIdx: number) => Promise<Map<number, IndexedImage>> =
+  fetchAndDecodeRngChunk
 
 /** 测试 only:替换底层 chunk 加载器(验证并发去重)并清缓存;传 null 复原默认。 */
 export function __setRngChunkLoaderForTest(
@@ -193,8 +199,7 @@ export async function playRng(options: PlayRngOptions): Promise<void> {
     let manifest: RngFramesManifest
     try {
       manifest = await fetchManifest()
-    }
-    catch (err) {
+    } catch (err) {
       console.warn('[rng-player] manifest fetch failed:', err)
       return
     }
@@ -218,8 +223,7 @@ export async function playRng(options: PlayRngOptions): Promise<void> {
       frameIndices.map(async (fi) => {
         try {
           return await fetchFrame(options.chunkIdx, fi)
-        }
-        catch (err) {
+        } catch (err) {
           console.warn(`[rng-player] frame ${fi} fetch fail, skip:`, err)
           return null
         }
@@ -245,8 +249,7 @@ export async function playRng(options: PlayRngOptions): Promise<void> {
         firstFrame = false
         // PAL_FadeIn 已越过首帧 deadline,淡入后立即解码下一帧。
         if ((options.initialFadeInMs ?? 0) > 0) continue
-      }
-      else {
+      } else {
         flushToCanvas(options.fb, options.canvasCtx, options.palette)
       }
       await sleep(options.frameDelayMs)
@@ -258,8 +261,7 @@ export async function playRng(options: PlayRngOptions): Promise<void> {
       const remaining = frames.length - framesShown
       options.shakeState.shakeTime = Math.max(0, options.shakeState.shakeTime - remaining)
     }
-  }
-  finally {
+  } finally {
     window.removeEventListener('keydown', onKey, true)
   }
 }

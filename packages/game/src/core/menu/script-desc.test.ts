@@ -12,12 +12,12 @@ import { getScriptDescLines } from './script-desc.js'
 
 const FIXTURE_COMMANDS: Command[] = [
   // L_40133 木剑(idx 0)
-  { op: 'raw', opcode: 0xA7, operands: [0, 0, 0], label: 'L_40133' },
+  { op: 'raw', opcode: 0xa7, operands: [0, 0, 0], label: 'L_40133' },
   { op: 'showDialog', messageIndex: 12718, text: '用木材雕刻的剑，小孩玩具。' },
   { op: 'showDialog', messageIndex: 12719, text: '武术+2 身法+3' },
   { op: 'end' },
   // L_40265 玉佛珠(idx 4)
-  { op: 'raw', opcode: 0xA7, operands: [0, 0, 0], label: 'L_40265' },
+  { op: 'raw', opcode: 0xa7, operands: [0, 0, 0], label: 'L_40265' },
   { op: 'showDialog', messageIndex: 12796, text: '西方如来檀前的念珠，经佛法薰陶' },
   { op: 'showDialog', messageIndex: 12797, text: '变化通灵。合体法术：佛法无边' },
   { op: 'showDialog', messageIndex: 12798, text: '灵力+88 防御+18 避毒率+30' },
@@ -35,10 +35,7 @@ describe('getScriptDescLines', () => {
   })
 
   it('木剑 40133 → 2 行真值描述', () => {
-    expect(getScriptDescLines(40133)).toEqual([
-      '用木材雕刻的剑，小孩玩具。',
-      '武术+2 身法+3',
-    ])
+    expect(getScriptDescLines(40133)).toEqual(['用木材雕刻的剑，小孩玩具。', '武术+2 身法+3'])
   })
 
   it('玉佛珠 40265 → 3 行真值描述', () => {

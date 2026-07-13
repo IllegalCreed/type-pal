@@ -32,7 +32,6 @@ import type { Magic, PlayerRoles, Spell } from '@type-pal/shared'
 import type { IndexedImage } from '../../assets/png.js'
 import type { GameState } from '../../core/game-state.js'
 import type { InGameMagicMenuState } from '../../core/menu/in-game-magic-menu.js'
-import { getScriptDescLines } from '../../core/menu/script-desc.js'
 import {
   MENUITEM_COLOR,
   MENUITEM_COLOR_INACTIVE,
@@ -40,10 +39,11 @@ import {
   MENUITEM_COLOR_SELECTED_INACTIVE,
   MENUITEM_COLOR_SELECTED_TOTAL,
 } from '../../core/menu/inventory-menu.js'
-import { drawBox, drawSingleLineBox, menuTextMaxCols } from './draw-box.js'
+import { getScriptDescLines } from '../../core/menu/script-desc.js'
 import { drawNumber } from '../draw-number.js'
-import { renderText, type GlyphTable } from '../font.js'
+import { type GlyphTable, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
+import { drawBox, drawSingleLineBox, menuTextMaxCols } from './draw-box.js'
 
 // ── sdlpal ui.h sprite 真值 ────────────────────────────────────────────────
 const SPRITENUM_PLAYERINFOBOX = 18
@@ -73,7 +73,7 @@ const MP_SLASH = { x: 45, y: 14 }
 const MP_CURRENT_RIGHT = { x: 50, y: 14 }
 const MAGIC_DESC_X = 102
 const MAGIC_DESC_Y = 3
-const MAGIC_DESC_COLOR = 0x3C
+const MAGIC_DESC_COLOR = 0x3c
 
 // magic grid box(magicmenu.c:121)
 const MAGIC_GRID_BOX = { x: 10, y: 42 }
@@ -88,7 +88,9 @@ const PICKER_CURSOR_Y = 158
 const PICKER_CURSOR_X_BASE = 75
 
 function selectedColor(): number {
-  return MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
+  return (
+    MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
+  )
 }
 
 // ── sprite blit(opaque mask) ─────────────────────────────────────────────
@@ -176,8 +178,13 @@ function drawPickCaster(input: DrawInGameMagicMenuInput): void {
     (it) => playerRoles.roles[it.id]?._name ?? `role#${it.id}`,
   )
   drawBox({
-    fb, x: CASTER_PICKER_BOX.x, y: CASTER_PICKER_BOX.y,
-    rows, cols: menuTextMaxCols(casterNames, glyphs), style: 0, uiSpriteFrames,
+    fb,
+    x: CASTER_PICKER_BOX.x,
+    y: CASTER_PICKER_BOX.y,
+    rows,
+    cols: menuTextMaxCols(casterNames, glyphs),
+    style: 0,
+    uiSpriteFrames,
   })
 
   // 4 caster names — sdlpal `rgMenuItem[i].pos = PAL_XY(48, 75 + 18*i)`
@@ -193,10 +200,15 @@ function drawPickCaster(input: DrawInGameMagicMenuInput): void {
     const roleId = it.id
     const role = playerRoles.roles[roleId]
     const name = role?._name ?? `role#${roleId}`
-    renderText(fb, name,
+    renderText(
+      fb,
+      name,
       CASTER_PICKER_ITEM_START.x,
       CASTER_PICKER_ITEM_START.y + i * CASTER_PICKER_LINE,
-      color, glyphs, true)
+      color,
+      glyphs,
+      true,
+    )
   }
 }
 
@@ -249,14 +261,21 @@ function drawMagicGrid(input: DrawInGameMagicMenuInput): void {
 
   // grid box(magicmenu.c:121:PAL_CreateBoxWithShadow at (10, 42),rows=4,cols=16)
   drawBox({
-    fb, x: MAGIC_GRID_BOX.x, y: MAGIC_GRID_BOX.y,
-    rows: MAGIC_LINES_PER_PAGE - 1, cols: 16, style: 1, shadowOffset: 0, uiSpriteFrames,
+    fb,
+    x: MAGIC_GRID_BOX.x,
+    y: MAGIC_GRID_BOX.y,
+    rows: MAGIC_LINES_PER_PAGE - 1,
+    cols: 16,
+    style: 1,
+    shadowOffset: 0,
+    uiSpriteFrames,
   })
 
   // page 起 idx(magicmenu.c:222-226:cursor / iItemsPerLine * iItemsPerLine - iItemsPerLine * iPageLineOffset)
   const iPageLineOffset = Math.floor(MAGIC_LINES_PER_PAGE / 2)
-  let pageStart = Math.floor(state.spellMenu.cursor / MAGIC_ITEMS_PER_LINE) * MAGIC_ITEMS_PER_LINE
-    - MAGIC_ITEMS_PER_LINE * iPageLineOffset
+  let pageStart =
+    Math.floor(state.spellMenu.cursor / MAGIC_ITEMS_PER_LINE) * MAGIC_ITEMS_PER_LINE -
+    MAGIC_ITEMS_PER_LINE * iPageLineOffset
   if (pageStart < 0) pageStart = 0
 
   // 画 page 内 magic items

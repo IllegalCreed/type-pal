@@ -7,7 +7,9 @@
  * 渲染复用 D17 menu-box 基建(drawScroll 单行框 / drawSlicedBox 红框 / drawNumber);
  * 320 逻辑坐标,调用方已 ctx.scale。
  */
+
 import type { HiddenStatKey, HiddenUpReport, LevelUpReport } from '@type-pal/content'
+import { expectDefined } from '../defined.js'
 import { drawNumberLeft, drawScroll, drawSlicedBox, type MenuAssets } from '../menu/menu-box.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { measureSpans, renderSpans } from '../text/text-render.js'
@@ -265,14 +267,26 @@ function drawLevelUp(
   const b = rep.before
   const a = rep.after
   const rows: StatRow[] = [
-    { lab: LEVELUP_LABELS[0]!, old: b.level, cur: a.level },
-    { lab: LEVELUP_LABELS[1]!, old: b.hp, cur: a.hp, oldMax: b.maxHP, curMax: a.maxHP },
-    { lab: LEVELUP_LABELS[2]!, old: b.mp, cur: a.mp, oldMax: b.maxMP, curMax: a.maxMP },
-    { lab: LEVELUP_LABELS[3]!, old: b.attack, cur: a.attack },
-    { lab: LEVELUP_LABELS[4]!, old: b.magicAttack, cur: a.magicAttack },
-    { lab: LEVELUP_LABELS[5]!, old: b.defense, cur: a.defense },
-    { lab: LEVELUP_LABELS[6]!, old: b.speed, cur: a.speed },
-    { lab: LEVELUP_LABELS[7]!, old: b.luck, cur: a.luck },
+    { lab: expectDefined(LEVELUP_LABELS[0]), old: b.level, cur: a.level },
+    {
+      lab: expectDefined(LEVELUP_LABELS[1]),
+      old: b.hp,
+      cur: a.hp,
+      oldMax: b.maxHP,
+      curMax: a.maxHP,
+    },
+    {
+      lab: expectDefined(LEVELUP_LABELS[2]),
+      old: b.mp,
+      cur: a.mp,
+      oldMax: b.maxMP,
+      curMax: a.maxMP,
+    },
+    { lab: expectDefined(LEVELUP_LABELS[3]), old: b.attack, cur: a.attack },
+    { lab: expectDefined(LEVELUP_LABELS[4]), old: b.magicAttack, cur: a.magicAttack },
+    { lab: expectDefined(LEVELUP_LABELS[5]), old: b.defense, cur: a.defense },
+    { lab: expectDefined(LEVELUP_LABELS[6]), old: b.speed, cur: a.speed },
+    { lab: expectDefined(LEVELUP_LABELS[7]), old: b.luck, cur: a.luck },
   ]
   // 列(相对框,原版标注真值):标签 + **间距**(黄区)+ 旧 cur **右对齐到绿线** + max 右挂;
   //   箭头固定列;新 cur 右对齐到第二绿线 + max 右挂。cur 右对齐 → 各行 cur 右缘成列。

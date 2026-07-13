@@ -3,8 +3,10 @@
 //   pick-caster(多人队选施法人;单人队跳过)→ pick-spell(3 列网格;applyToAll 直放、
 //   可连放)→ pick-target(选队员;连放;MP 不足退回 pick-spell)。
 //   pick-spell Cancel = 关整个菜单(不回 pick-caster —— caster 框原版在循环外只弹一次)。
+
 import type { CharacterInstance, SkillData, SkillDataMap, WorldState } from '@type-pal/content'
 import { curePoisons } from './battle/battle-core.js'
+import { expectDefined } from './defined.js'
 
 /** 原版仙术网格列数(draw-magic.ts:3 列)。 */
 export const MAGIC_GRID_COLS = 3
@@ -44,7 +46,7 @@ export function openMagicMenu(
   lastCasterIdx = 0,
 ): MagicMenuState {
   if (world.party.length === 1) {
-    const only = world.party[0]!
+    const only = expectDefined(world.party[0])
     return {
       active: true,
       phase: 'pick-spell',
@@ -161,7 +163,7 @@ export function castOutdoorSkill(
   const mpCost = skill.cost.mp ?? 0
   if (caster.mp < mpCost) return false
   const targets: CharacterInstance[] =
-    target === 'all' ? world.party : world.party[target] ? [world.party[target]!] : []
+    target === 'all' ? world.party : world.party[target] ? [expectDefined(world.party[target])] : []
   let success = false
   for (const eff of skill.effects) {
     switch (eff.kind) {

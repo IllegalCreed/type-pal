@@ -28,9 +28,9 @@ import type { Magic, PlayerRoles, Spell } from '@type-pal/shared'
 import { createMagicSelectMenu } from './magic-select.js'
 import {
   createSelectionMenu,
-  type SelectionMenuState,
   moveSelectionDown,
   moveSelectionUp,
+  type SelectionMenuState,
 } from './primitives.js'
 
 const MAGIC_GRID_COLS = 3

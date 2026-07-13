@@ -6,23 +6,41 @@ import type { Item, ItemFlags } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import { createInitialGameState, type GameState } from '../game-state.js'
 import {
-  createSellMenu, refreshSellGrid, sellCancel, sellConfirm,
-  sellMoveDown, sellMoveRight, sellMoveUp, sellSelectItem,
+  createSellMenu,
+  refreshSellGrid,
+  sellCancel,
+  sellConfirm,
+  sellMoveDown,
+  sellMoveRight,
+  sellMoveUp,
+  sellSelectItem,
 } from './sell-menu.js'
 
 function flags(over: Partial<ItemFlags> = {}): ItemFlags {
   return {
-    usable: false, equipable: false, throwable: false, consuming: false,
-    applyToAll: false, sellable: false, equipableBy: [false, false, false, false, false, false],
+    usable: false,
+    equipable: false,
+    throwable: false,
+    consuming: false,
+    applyToAll: false,
+    sellable: false,
+    equipableBy: [false, false, false, false, false, false],
     ...over,
   } as ItemFlags
 }
 
 function mkItem(id: number, price: number, over: Partial<Item> = {}): Item {
   return {
-    id, _name: `item${id}`, bitmap: id, price,
-    scriptOnUse: 0, scriptOnEquip: 0, scriptOnThrow: 0, scriptDesc: 0,
-    flags: flags(), ...over,
+    id,
+    _name: `item${id}`,
+    bitmap: id,
+    price,
+    scriptOnUse: 0,
+    scriptOnEquip: 0,
+    scriptOnThrow: 0,
+    scriptDesc: 0,
+    flags: flags(),
+    ...over,
   }
 }
 
@@ -43,7 +61,11 @@ describe('sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu k
   it('createSellMenu:grid 含全部库存(sdlpal 全显示),非可卖项渲染成红色,phase=list', () => {
     // sdlpal PAL_ItemSelectMenuInit(itemmenu.c:331-377)不按 kItemFlagSellable 过滤;87 照样列出,
     // 只是 PAL_ItemSelectMenuUpdate 把不可卖项画成 INACTIVE 红色,确认时 itemmenu.c:289 no-op。
-    const gs = gsWith([{ itemId: 87, count: 1 }, { itemId: 105, count: 2 }, { itemId: 110, count: 1 }])
+    const gs = gsWith([
+      { itemId: 87, count: 1 },
+      { itemId: 105, count: 2 },
+      { itemId: 110, count: 1 },
+    ])
     const s = createSellMenu(gs, CATALOG)
     expect(s.phase).toBe('list')
     expect(s.grid.filter).toBe('sellable')
@@ -69,7 +91,10 @@ describe('sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu k
   })
 
   it('grid 导航 right 跨列 clamp + confirm 阶段方向键 toggle yes/no', () => {
-    const gs = gsWith([{ itemId: 105, count: 2 }, { itemId: 110, count: 1 }])
+    const gs = gsWith([
+      { itemId: 105, count: 2 },
+      { itemId: 110, count: 1 },
+    ])
     const s = createSellMenu(gs, CATALOG)
     sellMoveRight(s)
     expect(s.grid.cursor).toBe(1) // 105 → 110
@@ -102,7 +127,10 @@ describe('sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu k
   })
 
   it('refreshSellGrid:卖光物品后 grid 缩短 + cursor clamp(sdlpal while 每轮重跑)', () => {
-    const gs = gsWith([{ itemId: 105, count: 1 }, { itemId: 110, count: 1 }])
+    const gs = gsWith([
+      { itemId: 105, count: 1 },
+      { itemId: 110, count: 1 },
+    ])
     const s = createSellMenu(gs, CATALOG)
     sellMoveRight(s) // cursor → 1 (110)
     // 模拟卖掉 110(从 inventory 移除)

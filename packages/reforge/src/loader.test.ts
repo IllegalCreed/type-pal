@@ -106,17 +106,19 @@ describe('assembleProject(纯核)', () => {
     expect(p.projectRoot).toBe('projects/demo')
     expect(p.entryScene?.id).toBe('guijie-minju') // 入口场景已载入(其余懒加载)
     expect(p.actorsById['li-xiaoyao']?.battler?.baseStats.attack).toBe(33)
-    expect(p.actorsById['youhun']?.spriteId).toBe('ghost') // 无 battler 的 NPC 也在表
+    expect(p.actorsById.youhun?.spriteId).toBe('ghost') // 无 battler 的 NPC 也在表
     expect(p.skills['296']?.name).toBe('气疗术')
     expect(p.levelUp['li-xiaoyao']).toEqual([{ level: 7, skillId: '349' }])
     expect(p.items['166']?.name).toBe('木剑')
     expect(p.locale['menu.status']).toBe('状态')
   })
   test('入口场景 id 与 manifest 不符 → throw;不在 index → throw', () => {
-    expect(() => assembleProject({ ...manifest, entryScene: 'nope' }, baseJsons)).toThrow('入口场景')
-    expect(() =>
-      assembleProject(manifest, { ...baseJsons, sceneIds: ['other'] }),
-    ).toThrow('不在 scenes/index.json')
+    expect(() => assembleProject({ ...manifest, entryScene: 'nope' }, baseJsons)).toThrow(
+      '入口场景',
+    )
+    expect(() => assembleProject(manifest, { ...baseJsons, sceneIds: ['other'] })).toThrow(
+      '不在 scenes/index.json',
+    )
   })
   test('sceneIds 非 string[] → throw', () => {
     expect(() => assembleProject(manifest, { ...baseJsons, sceneIds: [1] })).toThrow('string[]')
@@ -135,14 +137,16 @@ describe('assembleProject(纯核)', () => {
   })
   test('sprites 传入 → 按 id 索引到 spritesById(含 layout)', () => {
     const p = assembleProject(manifest, { ...baseJsons, sprites: spritesJson })
-    expect(p.spritesById['ghost']?.spriteNum).toBe(16)
-    expect(p.spritesById['ghost']?.layout).toEqual({ kind: 'directional', framesPerDir: 3 })
+    expect(p.spritesById.ghost?.spriteNum).toBe(16)
+    expect(p.spritesById.ghost?.layout).toEqual({ kind: 'directional', framesPerDir: 3 })
   })
   test('poisons 可选:不传 → poisonsById 空;传入 → 按 id 索引(P2)', () => {
     expect(assembleProject(manifest, baseJsons).poisonsById).toEqual({})
     const p = assembleProject(manifest, {
       ...baseJsons,
-      poisons: [{ id: 551, name: '赤毒', curability: 'common', color: 16, playerTicks: [{ hpDelta: -7 }] }],
+      poisons: [
+        { id: 551, name: '赤毒', curability: 'common', color: 16, playerTicks: [{ hpDelta: -7 }] },
+      ],
     })
     expect(p.poisonsById[551]?.curability).toBe('common')
     expect(p.poisonsById[551]?.playerTicks?.[0]?.hpDelta).toBe(-7)

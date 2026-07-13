@@ -7,7 +7,7 @@
  * 检查器侧只留摘要 + 入口按钮(LevelingEditor)。
  */
 import type { ActorDef, LevelUpSkill, SkillDataMap } from '@type-pal/content'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { UpdateActorCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 
@@ -72,8 +72,7 @@ export function LevelCurveEditor(props: {
   // 切角色跟数据(undo/redo 外部变更也同步:仅在非拖拽期)
   useEffect(() => {
     if (!dragRef.current) setTable(source)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [actor.id, actor.battler.leveling])
+  }, [source])
 
   const n = table.length
   const maxY = niceCeil(Math.max(...table, 1))
@@ -94,7 +93,7 @@ export function LevelCurveEditor(props: {
   }
   const clampView = (s: number, e: number): { s: number; e: number } | null => {
     const sp = Math.min(Math.max(e - s, 6), Math.max(1, n - 1))
-    let ns = Math.max(0, Math.min(s, n - 1 - sp))
+    const ns = Math.max(0, Math.min(s, n - 1 - sp))
     return sp >= n - 1 ? null : { s: ns, e: ns + sp }
   }
 
@@ -143,13 +142,9 @@ export function LevelCurveEditor(props: {
   // 只渲染视窗内的点/线段(各留一颗溢出点保线条连续)
   const iFrom = Math.max(0, Math.floor(vs) - 1)
   const iTo = Math.min(n - 1, Math.ceil(ve) + 1)
-  const path = useMemo(() => {
-    let d = ''
-    for (let i = iFrom; i <= iTo; i++)
-      d += `${i === iFrom ? 'M' : 'L'}${x(i).toFixed(1)},${y(table[i]!).toFixed(1)} `
-    return d
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [table, maxY, n, vs, ve])
+  let path = ''
+  for (let i = iFrom; i <= iTo; i++)
+    path += `${i === iFrom ? 'M' : 'L'}${x(i).toFixed(1)},${y(table[i] ?? 0).toFixed(1)} `
 
   const xLabelEvery = Math.max(1, Math.ceil(span / 14))
   const skillMarks = levelUpRows.filter((r) => r.level >= iFrom && r.level <= iTo)
@@ -204,8 +199,13 @@ export function LevelCurveEditor(props: {
           const p = panRef.current
           if (p && view) {
             // 以按下时的级锚点平移(全览态无处可移)
-            const cur = vs + (((e.clientX - (svgRef.current?.getBoundingClientRect().left ?? 0)) *
-              (W / (svgRef.current?.getBoundingClientRect().width ?? W)) - PAD.l) / plotW) * (p.e - p.s)
+            const cur =
+              vs +
+              (((e.clientX - (svgRef.current?.getBoundingClientRect().left ?? 0)) *
+                (W / (svgRef.current?.getBoundingClientRect().width ?? W)) -
+                PAD.l) /
+                plotW) *
+                (p.e - p.s)
             const dl = p.startLevel - cur
             setView(clampView(p.s + dl, p.e + dl))
           }
@@ -223,7 +223,14 @@ export function LevelCurveEditor(props: {
           const gy = PAD.t + plotH * (1 - f)
           return (
             <g key={f}>
-              <line x1={PAD.l} y1={gy} x2={W - PAD.r} y2={gy} stroke="var(--line)" strokeWidth={1} />
+              <line
+                x1={PAD.l}
+                y1={gy}
+                x2={W - PAD.r}
+                y2={gy}
+                stroke="var(--line)"
+                strokeWidth={1}
+              />
               <text x={PAD.l - 6} y={gy + 4} textAnchor="end" fontSize={11} fill="var(--dim)">
                 {Math.round(maxY * f)}
               </text>
@@ -290,7 +297,7 @@ export function LevelCurveEditor(props: {
       </svg>
 
       <div className="field" style={{ marginTop: 8, flexWrap: 'wrap', gap: 8 }}>
-        <label>级数</label>
+        <span className="field-label">级数</span>
         <input
           className="in mono"
           type="number"
@@ -307,7 +314,7 @@ export function LevelCurveEditor(props: {
         />
         {sel !== null && sel < n && (
           <>
-            <label>第 {sel} 级累计</label>
+            <span className="field-label">第 {sel} 级累计</span>
             <input
               className="in mono"
               type="number"
@@ -324,7 +331,7 @@ export function LevelCurveEditor(props: {
           </>
         )}
         <span className="sep" />
-        <label>首级需</label>
+        <span className="field-label">首级需</span>
         <input
           className="in mono"
           type="number"
@@ -333,7 +340,7 @@ export function LevelCurveEditor(props: {
           value={genFirst}
           onChange={(e) => setGenFirst(Math.max(1, Math.floor(e.target.valueAsNumber) || 1))}
         />
-        <label>每级递增</label>
+        <span className="field-label">每级递增</span>
         <input
           className="in mono"
           type="number"

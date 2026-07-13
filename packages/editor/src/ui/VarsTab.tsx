@@ -61,7 +61,11 @@ function VarGroup(props: {
           const writes = refs.length - reads
           return (
             <div key={n} className="var-row">
-              <button type="button" className="var-head" onClick={() => setOpen(open === n ? null : n)}>
+              <button
+                type="button"
+                className="var-head"
+                onClick={() => setOpen(open === n ? null : n)}
+              >
                 <span className="caret">{open === n ? '▾' : '▸'}</span>
                 <span className="mono nm">{n}</span>
                 <span className="k">
@@ -111,14 +115,24 @@ export function VarsTab(props: {
         <div className="et-scroll">
           {empty ? (
             <div className="insp-empty" style={{ margin: 16 }}>
-              本工程事件脚本没用 flag / 数值变量。迁移内容(原版)走
-              entityState/entityStage 状态机;flag/var 是手工剧情的工具 ——
-              事件里插「branch / setFlag / setVar」指令后,此页自动列出。
+              本工程事件脚本没用 flag / 数值变量。迁移内容(原版)走 entityState/entityStage
+              状态机;flag/var 是手工剧情的工具 —— 事件里插「branch / setFlag /
+              setVar」指令后,此页自动列出。
             </div>
           ) : (
             <>
-              <VarGroup title="🚩 flag(开关)" map={refIndex.flags} filter={filter} onJump={onJumpToEvent} />
-              <VarGroup title="🔢 数值变量" map={refIndex.vars} filter={filter} onJump={onJumpToEvent} />
+              <VarGroup
+                title="🚩 flag(开关)"
+                map={refIndex.flags}
+                filter={filter}
+                onJump={onJumpToEvent}
+              />
+              <VarGroup
+                title="🔢 数值变量"
+                map={refIndex.vars}
+                filter={filter}
+                onJump={onJumpToEvent}
+              />
             </>
           )}
         </div>

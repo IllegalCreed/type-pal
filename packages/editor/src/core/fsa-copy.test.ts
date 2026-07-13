@@ -54,9 +54,7 @@ function fileHandle(f: MemFile): FileSystemFileHandle {
       const chunks: Uint8Array[] = []
       return {
         async write(v: File | Blob | Uint8Array) {
-          chunks.push(
-            v instanceof Uint8Array ? v : new Uint8Array(await (v as Blob).arrayBuffer()),
-          )
+          chunks.push(v instanceof Uint8Array ? v : new Uint8Array(await (v as Blob).arrayBuffer()))
         },
         async close() {
           const total = chunks.reduce((a, c) => a + c.length, 0)

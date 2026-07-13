@@ -1,10 +1,10 @@
 import type { Command, ScriptStage } from '@type-pal/content'
 import { emptyWorldScriptState } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import { buildPayload } from './save/ops.js'
+import type { ScriptResolver } from './script-chunk-store.js'
 import type { ScriptHost } from './script-runner.js'
 import { ScriptRunner } from './script-runner.js'
-import type { ScriptResolver } from './script-chunk-store.js'
-import { buildPayload } from './save/ops.js'
 import { makeTestWorld } from './test-fixtures.js'
 
 /** 记录调用序的 fake host;异步项立即 resolve(顺序性由调用序断言)。 */
@@ -233,7 +233,12 @@ test('过场编排:playRng 命令 → host.playRng(chunkIdx, {段/速})(无调�
 
 test('setAmbience(W6 昼夜)→ host 分发氛围 id', async () => {
   const calls: string[] = []
-  const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal, () => 0)
+  const r = new ScriptRunner(
+    fakeHost(calls),
+    emptyWorldScriptState(),
+    new AbortController().signal,
+    () => 0,
+  )
   await r.run([
     { kind: 'setAmbience', ambience: 'night' },
     { kind: 'setAmbience', ambience: 'day' },
@@ -458,14 +463,30 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
   test('branch:allFullHp/itemEquipped 走 query(0x74 洪大夫治伤门 / 0x86 玉佛珠门禁)', async () => {
     // fakeHost:allFullHp→true(满血)、itemEquipped→false(未装备)
     const calls: string[] = []
-    const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
+    const r = new ScriptRunner(
+      fakeHost(calls),
+      emptyWorldScriptState(),
+      new AbortController().signal,
+    )
     await r.run([
       // 0x74 洪大夫:非满血才治疗。满血 → not(allFullHp)=false → 不治疗
-      { kind: 'branch', cond: { kind: 'not', cond: { kind: 'allFullHp' } }, then: [{ kind: 'playSound', soundId: 1 }] },
+      {
+        kind: 'branch',
+        cond: { kind: 'not', cond: { kind: 'allFullHp' } },
+        then: [{ kind: 'playSound', soundId: 1 }],
+      },
       { kind: 'branch', cond: { kind: 'allFullHp' }, then: [{ kind: 'playSound', soundId: 2 }] }, // 满血 ✓
       // 0x86 玉佛珠:未装备才拦。未装备 → not(itemEquipped)=true → 拦截
-      { kind: 'branch', cond: { kind: 'not', cond: { kind: 'itemEquipped', itemId: '274', atLeast: 1 } }, then: [{ kind: 'playSound', soundId: 3 }] },
-      { kind: 'branch', cond: { kind: 'itemEquipped', itemId: '274' }, then: [{ kind: 'playSound', soundId: 4 }] }, // 未装备 → 不走
+      {
+        kind: 'branch',
+        cond: { kind: 'not', cond: { kind: 'itemEquipped', itemId: '274', atLeast: 1 } },
+        then: [{ kind: 'playSound', soundId: 3 }],
+      },
+      {
+        kind: 'branch',
+        cond: { kind: 'itemEquipped', itemId: '274' },
+        then: [{ kind: 'playSound', soundId: 4 }],
+      }, // 未装备 → 不走
     ])
     expect(calls).toEqual(['playSound(2)', 'playSound(3)'])
   })
@@ -654,11 +675,14 @@ describe('分片脚本 call/jump', () => {
     const calls: string[] = []
     const leases = { active: 0, peak: 0 }
     const ref = (id: string) => ({ chunk: 'shared/c00', id })
-    const resolver = resolverOf({
-      'shared/a': [{ kind: 'callScript', ref: ref('shared/b') }],
-      'shared/b': [{ kind: 'callScript', ref: ref('shared/c') }],
-      'shared/c': [{ kind: 'playSound', soundId: 3 }],
-    }, leases)
+    const resolver = resolverOf(
+      {
+        'shared/a': [{ kind: 'callScript', ref: ref('shared/b') }],
+        'shared/b': [{ kind: 'callScript', ref: ref('shared/c') }],
+        'shared/c': [{ kind: 'playSound', soundId: 3 }],
+      },
+      leases,
+    )
     const runner = new ScriptRunner(
       fakeHost(calls),
       emptyWorldScriptState(),
@@ -727,20 +751,25 @@ describe('分片脚本 call/jump', () => {
       Math.random,
       resolver,
     )
-    const saveJson = (): string => JSON.stringify(buildPayload(
-      world,
-      { sceneId: 's001', pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
-      'pal',
-      1,
-    ))
+    const saveJson = (): string =>
+      JSON.stringify(
+        buildPayload(
+          world,
+          { sceneId: 's001', pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+          'pal',
+          1,
+        ),
+      )
     const baselineBytes = new TextEncoder().encode(saveJson()).byteLength
 
     for (let i = 0; i < 100; i++) {
       const scene = `s${String(i).padStart(3, '0')}`
-      await runner.run([{
-        kind: 'callScript',
-        ref: { chunk: `scene/${scene}`, id: `scene/${scene}/probe` },
-      }])
+      await runner.run([
+        {
+          kind: 'callScript',
+          ref: { chunk: `scene/${scene}`, id: `scene/${scene}/probe` },
+        },
+      ])
     }
 
     const serialized = saveJson()
@@ -775,7 +804,9 @@ describe('分片脚本 call/jump', () => {
       emptyWorldScriptState(),
       new AbortController().signal,
     )
-    await expect(noResolver.run([{ kind: 'callScript', ref: target }])).rejects.toThrow(/无 resolver/)
+    await expect(noResolver.run([{ kind: 'callScript', ref: target }])).rejects.toThrow(
+      /无 resolver/,
+    )
 
     const ac = new AbortController()
     let resolves = 0
@@ -785,8 +816,13 @@ describe('分片脚本 call/jump', () => {
         return { body: [{ kind: 'jumpScript', ref }], ref, release() {} }
       },
     }
-    const loop = new ScriptRunner(fakeHost([]), emptyWorldScriptState(), ac.signal, Math.random, resolver)
-      .run([{ kind: 'jumpScript', ref: target }])
+    const loop = new ScriptRunner(
+      fakeHost([]),
+      emptyWorldScriptState(),
+      ac.signal,
+      Math.random,
+      resolver,
+    ).run([{ kind: 'jumpScript', ref: target }])
     setTimeout(() => ac.abort(), 10)
     await expect(loop).rejects.toMatchObject({ name: 'AbortError' })
     expect(resolves).toBeGreaterThan(0)

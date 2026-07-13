@@ -10,11 +10,11 @@
  * **关键:不准 child_process / shell**,test 直接 import renderTilemap() 函数。
  */
 
-import { describe, it, expect } from 'vitest'
 import { existsSync, mkdirSync, readFileSync } from 'node:fs'
-import { resolve, dirname } from 'node:path'
+import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { PNG } from 'pngjs'
+import { describe, expect, it } from 'vitest'
 import { renderTilemap } from '../../scripts/render-tilemap.js'
 
 const HERE = dirname(fileURLToPath(import.meta.url))

@@ -50,7 +50,13 @@ export function setBgmVolume(v: number): void {
 
 export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): MusicBackend {
   const { baseUrl, workletUrl, soundfontUrl, reverbAmount = 0 } = opts
-  const w = typeof window !== 'undefined' ? (window as unknown as { AudioContext?: typeof AudioContext; webkitAudioContext?: typeof AudioContext }) : undefined
+  const w =
+    typeof window !== 'undefined'
+      ? (window as unknown as {
+          AudioContext?: typeof AudioContext
+          webkitAudioContext?: typeof AudioContext
+        })
+      : undefined
   const AudioCtor = w?.AudioContext ?? w?.webkitAudioContext
   if (!AudioCtor) return { play() {}, stop() {} } // SSR / 测试无 Web Audio → no-op
 
@@ -85,8 +91,8 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
       if (!ctx.audioWorklet) {
         const secure = typeof window !== 'undefined' ? window.isSecureContext : false
         throw new Error(
-          `AudioWorklet 不可用:当前非 secure context(isSecureContext=${secure})。`
-          + '多半是用了 http:// 局域网 IP 访问。请改用 https:// 或 http://localhost 打开。',
+          `AudioWorklet 不可用:当前非 secure context(isSecureContext=${secure})。` +
+            '多半是用了 http:// 局域网 IP 访问。请改用 https:// 或 http://localhost 打开。',
         )
       }
       await ctx.audioWorklet.addModule(workletUrl)
@@ -98,12 +104,13 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
       masterGain.connect(ctx.destination)
       synth.connect(masterGain)
       // 优先用 bootstrap 预取的数据(boot 进度条已等它);预取 reject → 回退自取。
-      let sfBytes = opts.soundfontData
-        ? await opts.soundfontData.catch(() => undefined)
-        : undefined
+      let sfBytes = opts.soundfontData ? await opts.soundfontData.catch(() => undefined) : undefined
       if (!sfBytes) {
         const sf = await fetch(soundfontUrl)
-        if (!sf.ok) throw new Error(`soundfont ${soundfontUrl} 取不到(HTTP ${sf.status})—— 放一个 GM .sf3/.sf2 到 packages/game/public/soundfont.sf3`)
+        if (!sf.ok)
+          throw new Error(
+            `soundfont ${soundfontUrl} 取不到(HTTP ${sf.status})—— 放一个 GM .sf3/.sf2 到 packages/game/public/soundfont.sf3`,
+          )
         sfBytes = await sf.arrayBuffer()
       }
       // 守卫:soundfont(SF2/SF3/DLS)都是 RIFF 容器(魔数 "RIFF")。文件不存在时 vite dev server 会回
@@ -112,9 +119,9 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
       const magic = String.fromCharCode(...head)
       if (magic !== 'RIFF') {
         throw new Error(
-          `${soundfontUrl} 不是有效 soundfont(取到 ${sfBytes.byteLength} 字节,魔数 "${magic}" 非 "RIFF")。`
-          + `多半是文件不存在 → dev server 回了 index.html。请把一个真 GM soundfont(.sf2/.sf3,通常 MB 级)`
-          + `放到 packages/game/public/soundfont.sf3`,
+          `${soundfontUrl} 不是有效 soundfont(取到 ${sfBytes.byteLength} 字节,魔数 "${magic}" 非 "RIFF")。` +
+            `多半是文件不存在 → dev server 回了 index.html。请把一个真 GM soundfont(.sf2/.sf3,通常 MB 级)` +
+            `放到 packages/game/public/soundfont.sf3`,
         )
       }
       await synth.soundBankManager.addSoundBank(sfBytes, 'main')
@@ -160,10 +167,15 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
       //   doPlay(否则 BGM 在解锁瞬间被重启多次)。
       if (resuming || ctx.state !== 'suspended') return
       resuming = true
-      void ctx.resume().then(() => {
-        resuming = false
-        if (ready && last) void doPlay(last.track, last.loop)
-      }).catch(() => { resuming = false })
+      void ctx
+        .resume()
+        .then(() => {
+          resuming = false
+          if (ready && last) void doPlay(last.track, last.loop)
+        })
+        .catch(() => {
+          resuming = false
+        })
     },
   }
 }

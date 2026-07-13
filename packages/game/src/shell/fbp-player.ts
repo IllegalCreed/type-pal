@@ -13,8 +13,8 @@
  */
 import type { Palette } from '@type-pal/shared'
 import type { IndexedImage } from '../assets/png.js'
-import type { Framebuffer } from '../present/framebuffer.js'
 import { drawSprite } from '../present/draw-sprite.js'
+import type { Framebuffer } from '../present/framebuffer.js'
 import { flushToCanvas } from '../present/present.js'
 
 const SCREEN_W = 320
@@ -73,7 +73,10 @@ export async function showFbp(o: ShowFbpOptions): Promise<void> {
     let skipped = false
     const skipKeys = new Set(o.skipKeys ?? [])
     const onKey = (e: KeyboardEvent): void => {
-      if (skipKeys.has(e.code)) { e.preventDefault(); skipped = true }
+      if (skipKeys.has(e.code)) {
+        e.preventDefault()
+        skipped = true
+      }
     }
     window.addEventListener('keydown', onKey, true)
     try {
@@ -83,12 +86,12 @@ export async function showFbp(o: ShowFbpOptions): Promise<void> {
             const a = target[k]!
             let b = back[k]!
             if (i > 0) {
-              const aLow = a & 0x0F
-              const bLow = b & 0x0F
-              if (aLow > bLow) b = (b + 1) & 0xFF
-              else if (aLow < bLow) b = (b - 1) & 0xFF
+              const aLow = a & 0x0f
+              const bLow = b & 0x0f
+              if (aLow > bLow) b = (b + 1) & 0xff
+              else if (aLow < bLow) b = (b - 1) & 0xff
             }
-            back[k] = (a & 0xF0) | (b & 0x0F)
+            back[k] = (a & 0xf0) | (b & 0x0f)
           }
           o.fb.indices.set(back) // VIDEO_RestoreScreen(累积 buffer → 屏幕)
           overlayEffectSprite(o.fb, o.effectSpriteFrames) // g_wCurEffectSprite 叠加(ending.c:126-131)
@@ -96,8 +99,7 @@ export async function showFbp(o: ShowFbpOptions): Promise<void> {
           await sleep(wFade)
         }
       }
-    }
-    finally {
+    } finally {
       window.removeEventListener('keydown', onKey, true)
     }
   }
@@ -139,7 +141,10 @@ export async function scrollFbp(o: ScrollFbpOptions): Promise<void> {
   let skipped = false
   const skipKeys = new Set(o.skipKeys ?? [])
   const onKey = (e: KeyboardEvent): void => {
-    if (skipKeys.has(e.code)) { e.preventDefault(); skipped = true }
+    if (skipKeys.has(e.code)) {
+      e.preventDefault()
+      skipped = true
+    }
   }
   window.addEventListener('keydown', onKey, true)
   try {
@@ -150,8 +155,7 @@ export async function scrollFbp(o: ScrollFbpOptions): Promise<void> {
         // 旧屏 top [0,200-i) → 下移到 [i,200);新图 bottom [200-i,200) → 顶部 [0,i)
         next.set(back.subarray(0, (200 - i) * SCREEN_W), i * SCREEN_W)
         next.set(target.subarray((200 - i) * SCREEN_W, N), 0)
-      }
-      else {
+      } else {
         // 上滚:旧屏 [i,200) → [0,200-i);新图 [0,i) → 底部 [200-i,200)
         next.set(back.subarray(i * SCREEN_W, N), 0)
         next.set(target.subarray(0, i * SCREEN_W), (200 - i) * SCREEN_W)
@@ -161,8 +165,7 @@ export async function scrollFbp(o: ScrollFbpOptions): Promise<void> {
       flushToCanvas(o.fb, o.canvasCtx, o.palette)
       await sleep(delay)
     }
-  }
-  finally {
+  } finally {
     window.removeEventListener('keydown', onKey, true)
   }
   o.fb.indices.set(target) // VIDEO_CopyEntireSurface(p, gpScreen) 末帧整屏新图

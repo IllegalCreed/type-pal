@@ -8,7 +8,18 @@
  * 对话文本:line.text 是 TextId(locale 键);编辑即改写为**字面量**(lookupText
  * 未命中回显原文,引擎/预览同语义)——新写的行直接放中文,旧行一改即脱离 locale 键。
  */
-import type { AmbienceDef, Command, Facing, Locale, MusicDef, SceneDef, ScriptIndexV1, SharedScriptMetaV1, ShopDef, WalkSpeed } from '@type-pal/content'
+import type {
+  AmbienceDef,
+  Command,
+  Facing,
+  Locale,
+  MusicDef,
+  SceneDef,
+  ScriptIndexV1,
+  SharedScriptMetaV1,
+  ShopDef,
+  WalkSpeed,
+} from '@type-pal/content'
 import { type ActorDef, deriveScriptChunk, lookupText } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { useEffect, useState } from 'react'
@@ -19,6 +30,7 @@ const SPEEDS: WalkSpeed[] = ['slow', 'normal', 'fast', 'run']
 
 function Row(props: { label: string; children: React.ReactNode }) {
   return (
+    // biome-ignore lint/a11y/noLabelWithoutControl: Row 的 children 契约是表单控件，静态分析无法穿透 ReactNode。
     <label className="cf-row">
       <span className="cf-label">{props.label}</span>
       {props.children}
@@ -94,7 +106,6 @@ function JsonForm(props: { cmd: Command; onChange: (c: Command) => void }) {
   const [text, setText] = useState(() => JSON.stringify(props.cmd, null, 2))
   const [err, setErr] = useState('')
   // 外部指令变化(选中另一行)→ 重置文本
-  // biome-ignore lint/correctness/useExhaustiveDependencies: 以 cmd 身份重置本地草稿
   useEffect(() => {
     setText(JSON.stringify(props.cmd, null, 2))
     setErr('')
@@ -158,7 +169,21 @@ export function CommandForm(props: {
   onOpenScript?: (id: string) => void
   onChange: (next: Command) => void
 }) {
-  const { cmd, scene, locale, music, musicBase, scenes, assetBase, actors, ambiences, shops, scriptIndex, hasImplicitSelf, onOpenScript, onChange } = props
+  const {
+    cmd,
+    scene,
+    locale,
+    music,
+    musicBase,
+    scenes,
+    actors,
+    ambiences,
+    shops,
+    scriptIndex,
+    hasImplicitSelf,
+    onOpenScript,
+    onChange,
+  } = props
   const set = (patch: object): void => onChange({ ...cmd, ...patch } as Command)
 
   switch (cmd.kind) {
@@ -403,7 +428,11 @@ export function CommandForm(props: {
                 onChange={(e) =>
                   e.target.checked
                     ? set({ pos: { ...(target?.entry.pos ?? { col: 0, row: 0, height: 0 }) } })
-                    : onChange({ kind: 'loadScene', scene: cmd.scene, ...(cmd.facing ? { facing: cmd.facing } : {}) })
+                    : onChange({
+                        kind: 'loadScene',
+                        scene: cmd.scene,
+                        ...(cmd.facing ? { facing: cmd.facing } : {}),
+                      })
                 }
               />{' '}
               自定(不勾 = 目标场景进场点)
@@ -411,14 +440,8 @@ export function CommandForm(props: {
           </Row>
           {cmd.pos && (
             <Row label="col / row">
-              <Num
-                value={cmd.pos.col}
-                onChange={(n) => set({ pos: { ...cmd.pos!, col: n } })}
-              />
-              <Num
-                value={cmd.pos.row}
-                onChange={(n) => set({ pos: { ...cmd.pos!, row: n } })}
-              />
+              <Num value={cmd.pos.col} onChange={(n) => set({ pos: { ...cmd.pos!, col: n } })} />
+              <Num value={cmd.pos.row} onChange={(n) => set({ pos: { ...cmd.pos!, row: n } })} />
             </Row>
           )}
           <Row label="朝向">
@@ -474,9 +497,7 @@ export function CommandForm(props: {
         </Row>
       )
     case 'setParty': {
-      const battlers = actors
-        ? Object.values(actors).filter((a) => a.battler)
-        : []
+      const battlers = actors ? Object.values(actors).filter((a) => a.battler) : []
       if (!battlers.length) break // 无角色表 → 走底部 JSON 兜底
       const members = cmd.members
       const setMembers = (next: string[]): void => set({ members: next })
@@ -602,7 +623,9 @@ export function CommandForm(props: {
           ) : (
             <p className="hint">非 flag 条件({c.kind})用下方 JSON 编辑。</p>
           )}
-          <p className="hint">成立走 then 臂、不成立走 else 臂 —— 树里展开臂内行,行悬停 ＋ 插指令。</p>
+          <p className="hint">
+            成立走 then 臂、不成立走 else 臂 —— 树里展开臂内行,行悬停 ＋ 插指令。
+          </p>
         </>
       )
     }
@@ -682,8 +705,9 @@ export function CommandForm(props: {
         </>
       )
     case 'callScript': {
-      const authored: [string, SharedScriptMetaV1][] = Object.entries(scriptIndex?.library ?? {})
-        .sort(([, a], [, b]) => a.name.localeCompare(b.name))
+      const authored: [string, SharedScriptMetaV1][] = Object.entries(
+        scriptIndex?.library ?? {},
+      ).sort(([, a], [, b]) => a.name.localeCompare(b.name))
       const options: [string, SharedScriptMetaV1][] = authored.some(([id]) => id === cmd.ref.id)
         ? authored
         : [[cmd.ref.id, { name: `${cmd.ref.id}(内部)`, self: 'none' as const }], ...authored]
@@ -703,10 +727,19 @@ export function CommandForm(props: {
                   set({ ref: { id, chunk: chunk ?? cmd.ref.chunk } })
                 }}
               >
-                {options.map(([id, meta]) => <option key={id} value={id}>{meta.name}</option>)}
+                {options.map(([id, meta]) => (
+                  <option key={id} value={id}>
+                    {meta.name}
+                  </option>
+                ))}
               </select>
               {onOpenScript ? (
-                <button type="button" className="mini" title="打开目标脚本" onClick={() => onOpenScript(cmd.ref.id)}>
+                <button
+                  type="button"
+                  className="mini"
+                  title="打开目标脚本"
+                  onClick={() => onOpenScript(cmd.ref.id)}
+                >
                   ↗
                 </button>
               ) : null}
@@ -719,7 +752,11 @@ export function CommandForm(props: {
               onChange={(event) => set({ self: event.target.value || undefined })}
             >
               <option value="">继承当前执行者</option>
-              {explicitEntities.map((id) => <option key={id} value={id}>{id}</option>)}
+              {explicitEntities.map((id) => (
+                <option key={id} value={id}>
+                  {id}
+                </option>
+              ))}
               {selfValue && !explicitEntities.includes(selfValue) ? (
                 <option value={selfValue}>{selfValue}(不在场)</option>
               ) : null}

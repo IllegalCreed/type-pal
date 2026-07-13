@@ -21,14 +21,12 @@ const ENEMY_POS_BYTES = MAX_ENEMIES_IN_TEAM * MAX_ENEMIES_IN_TEAM * PALPOS_BYTES
 
 export interface EnemyPosLayout {
   /** 每个 layout 一个数组,长度 = enemyCount;layouts[count-1][enemyIdx] = {x, y} */
-  layouts: ReadonlyArray<ReadonlyArray<{ x: number, y: number }>>
+  layouts: ReadonlyArray<ReadonlyArray<{ x: number; y: number }>>
 }
 
 export function parseEnemyPos(chunk: Uint8Array): EnemyPosLayout {
   if (chunk.byteLength !== ENEMY_POS_BYTES) {
-    throw new Error(
-      `parseEnemyPos: expected ${ENEMY_POS_BYTES} bytes, got ${chunk.byteLength}`,
-    )
+    throw new Error(`parseEnemyPos: expected ${ENEMY_POS_BYTES} bytes, got ${chunk.byteLength}`)
   }
   const view = new DataView(chunk.buffer, chunk.byteOffset, chunk.byteLength)
   // sdlpal C struct 内存布局:pos[i][j] 表示 row=i col=j,
@@ -36,9 +34,9 @@ export function parseEnemyPos(chunk: Uint8Array): EnemyPosLayout {
   // 但 sdlpal 用法 pos[enemyIdx][maxEnemyIndex] —— 即 第一维 = enemyIdx,
   // 第二维 = 总数-1。我方 dump 转成 layouts[count-1][enemyIdx]:
   //   for count in 1..5: layouts[count-1] = [pos[0][count-1], pos[1][count-1], ..., pos[count-1][count-1]]
-  const layouts: { x: number, y: number }[][] = []
+  const layouts: { x: number; y: number }[][] = []
   for (let maxIdx = 0; maxIdx < MAX_ENEMIES_IN_TEAM; maxIdx++) {
-    const row: { x: number, y: number }[] = []
+    const row: { x: number; y: number }[] = []
     for (let enemyIdx = 0; enemyIdx <= maxIdx; enemyIdx++) {
       const off = (enemyIdx * MAX_ENEMIES_IN_TEAM + maxIdx) * PALPOS_BYTES
       const x = view.getUint16(off, true)

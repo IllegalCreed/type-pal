@@ -75,14 +75,22 @@ const EFFECT_KINDS: { v: EquipEffect['kind']; label: string }[] = [
 /** kind 切换的缺省效果体。 */
 function defaultEquipEffect(kind: EquipEffect['kind']): EquipEffect {
   switch (kind) {
-    case 'statBonus': return { kind, stat: 'attack', delta: 10 }
-    case 'maxPool': return { kind, pool: 'hp', delta: 50 }
-    case 'resistance': return { kind, element: 'fire', percent: 30 }
-    case 'grantStatus': return { kind, status: 'dualAttack' }
-    case 'grantSkill': return { kind, skillId: '' }
-    case 'attackAll': return { kind }
-    case 'regenHp': return { kind, amount: 20 }
-    case 'regenMp': return { kind, amount: 10 }
+    case 'statBonus':
+      return { kind, stat: 'attack', delta: 10 }
+    case 'maxPool':
+      return { kind, pool: 'hp', delta: 50 }
+    case 'resistance':
+      return { kind, element: 'fire', percent: 30 }
+    case 'grantStatus':
+      return { kind, status: 'dualAttack' }
+    case 'grantSkill':
+      return { kind, skillId: '' }
+    case 'attackAll':
+      return { kind }
+    case 'regenHp':
+      return { kind, amount: 20 }
+    case 'regenMp':
+      return { kind, amount: 10 }
   }
 }
 
@@ -93,14 +101,20 @@ function Num(props: { v: number; on: (n: number) => void; w?: number }) {
       type="number"
       style={props.w ? { width: props.w } : undefined}
       value={props.v}
-      onChange={(e) => props.on(Number.isFinite(e.target.valueAsNumber) ? e.target.valueAsNumber : 0)}
+      onChange={(e) =>
+        props.on(Number.isFinite(e.target.valueAsNumber) ? e.target.valueAsNumber : 0)
+      }
       onWheel={(e) => e.currentTarget.blur()}
     />
   )
 }
 
 /** 单条装备效果的分支字段(镜像 SkillTab 的 EffectFields)。 */
-function EquipEffectFields(props: { e: EquipEffect; skills: SkillData[]; on: (next: EquipEffect) => void }) {
+function EquipEffectFields(props: {
+  e: EquipEffect
+  skills: SkillData[]
+  on: (next: EquipEffect) => void
+}) {
   const { e, skills, on } = props
   switch (e.kind) {
     case 'statBonus':
@@ -108,11 +122,22 @@ function EquipEffectFields(props: { e: EquipEffect; skills: SkillData[]; on: (ne
         <>
           <label>
             <span>属性</span>
-            <select className="in" value={e.stat} onChange={(ev) => on({ ...e, stat: ev.target.value as CombatStat })}>
-              {STATS.map((s) => <option key={s.v} value={s.v}>{s.label}</option>)}
+            <select
+              className="in"
+              value={e.stat}
+              onChange={(ev) => on({ ...e, stat: ev.target.value as CombatStat })}
+            >
+              {STATS.map((s) => (
+                <option key={s.v} value={s.v}>
+                  {s.label}
+                </option>
+              ))}
             </select>
           </label>
-          <label><span>加/减</span><Num v={e.delta} on={(n) => on({ ...e, delta: n })} /></label>
+          <label>
+            <span>加/减</span>
+            <Num v={e.delta} on={(n) => on({ ...e, delta: n })} />
+          </label>
         </>
       )
     case 'maxPool':
@@ -120,12 +145,19 @@ function EquipEffectFields(props: { e: EquipEffect; skills: SkillData[]; on: (ne
         <>
           <label>
             <span>池</span>
-            <select className="in" value={e.pool} onChange={(ev) => on({ ...e, pool: ev.target.value as 'hp' | 'mp' })}>
+            <select
+              className="in"
+              value={e.pool}
+              onChange={(ev) => on({ ...e, pool: ev.target.value as 'hp' | 'mp' })}
+            >
               <option value="hp">体力上限</option>
               <option value="mp">真气上限</option>
             </select>
           </label>
-          <label><span>加/减</span><Num v={e.delta} on={(n) => on({ ...e, delta: n })} /></label>
+          <label>
+            <span>加/减</span>
+            <Num v={e.delta} on={(n) => on({ ...e, delta: n })} />
+          </label>
         </>
       )
     case 'resistance':
@@ -133,19 +165,38 @@ function EquipEffectFields(props: { e: EquipEffect; skills: SkillData[]; on: (ne
         <>
           <label>
             <span>五灵/毒</span>
-            <select className="in" value={e.element} onChange={(ev) => on({ ...e, element: ev.target.value as ResElem })}>
-              {RES_ELEMS.map((r) => <option key={r.v} value={r.v}>{r.label}</option>)}
+            <select
+              className="in"
+              value={e.element}
+              onChange={(ev) => on({ ...e, element: ev.target.value as ResElem })}
+            >
+              {RES_ELEMS.map((r) => (
+                <option key={r.v} value={r.v}>
+                  {r.label}
+                </option>
+              ))}
             </select>
           </label>
-          <label><span>抗 %</span><Num v={e.percent} on={(n) => on({ ...e, percent: n })} /></label>
+          <label>
+            <span>抗 %</span>
+            <Num v={e.percent} on={(n) => on({ ...e, percent: n })} />
+          </label>
         </>
       )
     case 'grantStatus':
       return (
         <label>
           <span>状态</span>
-          <select className="in" value={e.status} onChange={(ev) => on({ ...e, status: ev.target.value as StatusId })}>
-            {STATUSES.map((s) => <option key={s.v} value={s.v}>{s.label}</option>)}
+          <select
+            className="in"
+            value={e.status}
+            onChange={(ev) => on({ ...e, status: ev.target.value as StatusId })}
+          >
+            {STATUSES.map((s) => (
+              <option key={s.v} value={s.v}>
+                {s.label}
+              </option>
+            ))}
           </select>
         </label>
       )
@@ -153,15 +204,28 @@ function EquipEffectFields(props: { e: EquipEffect; skills: SkillData[]; on: (ne
       return (
         <label>
           <span>技能</span>
-          <select className="in" value={e.skillId} onChange={(ev) => on({ ...e, skillId: ev.target.value })}>
+          <select
+            className="in"
+            value={e.skillId}
+            onChange={(ev) => on({ ...e, skillId: ev.target.value })}
+          >
             <option value="">(选技能)</option>
-            {skills.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
+            {skills.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name}
+              </option>
+            ))}
           </select>
         </label>
       )
     case 'regenHp':
     case 'regenMp':
-      return <label><span>每回合</span><Num v={e.amount} on={(n) => on({ ...e, amount: n })} /></label>
+      return (
+        <label>
+          <span>每回合</span>
+          <Num v={e.amount} on={(n) => on({ ...e, amount: n })} />
+        </label>
+      )
     default:
       return <span className="hint2">(无参数)</span>
   }
@@ -169,7 +233,7 @@ function EquipEffectFields(props: { e: EquipEffect; skills: SkillData[]; on: (ne
 
 /** 图标(预烘 RGBA PNG;assetBase.itemIcons 目录)。 */
 function ItemIcon(props: { base: string; icon: number; size?: number }) {
-  const { base, icon, size = 32 } = props
+  const { icon, size = 32 } = props
   return (
     <img
       src={`${props.base}/${icon}.png`}
@@ -196,7 +260,8 @@ export function ItemTab(props: {
   itemRefs?: Map<string, RefEntry[]>
   onJumpToEvent?: (sceneId: string, srcKey: string) => void
 }) {
-  const { items, actors, skills, locale, assetBase, session, tabBar, itemRefs, onJumpToEvent } = props
+  const { items, actors, skills, locale, assetBase, session, tabBar, itemRefs, onJumpToEvent } =
+    props
   const [filter, setFilter] = useState('')
   const [selId, setSelId] = useState(items[0]?.id ?? '')
 
@@ -335,7 +400,8 @@ export function ItemTab(props: {
             </div>
             <div className="section">
               <h4>
-                介绍 <span className="hint2">只写风味说明;数值效果由下方装备栏自动显示,不用手写</span>
+                介绍{' '}
+                <span className="hint2">只写风味说明;数值效果由下方装备栏自动显示,不用手写</span>
               </h4>
               <textarea
                 className="in cf-ta it-ta"
@@ -358,7 +424,9 @@ export function ItemTab(props: {
                     checked={!!equip}
                     onChange={(e) =>
                       patchEquip(
-                        e.target.checked ? { slot: 'weapon', equipableBy: [], effects: [] } : undefined,
+                        e.target.checked
+                          ? { slot: 'weapon', equipableBy: [], effects: [] }
+                          : undefined,
                       )
                     }
                   />
@@ -373,9 +441,15 @@ export function ItemTab(props: {
                       <select
                         className="in"
                         value={equip.slot}
-                        onChange={(e) => patchEquip({ ...equip, slot: e.target.value as EquipSlot })}
+                        onChange={(e) =>
+                          patchEquip({ ...equip, slot: e.target.value as EquipSlot })
+                        }
                       >
-                        {SLOTS.map((s) => <option key={s.v} value={s.v}>{s.label}</option>)}
+                        {SLOTS.map((s) => (
+                          <option key={s.v} value={s.v}>
+                            {s.label}
+                          </option>
+                        ))}
                       </select>
                     </label>
                   </div>
@@ -414,12 +488,22 @@ export function ItemTab(props: {
                         <select
                           className="in ef-kind"
                           value={e.kind}
-                          onChange={(ev) => setEffect(i, defaultEquipEffect(ev.target.value as EquipEffect['kind']))}
+                          onChange={(ev) =>
+                            setEffect(i, defaultEquipEffect(ev.target.value as EquipEffect['kind']))
+                          }
                         >
-                          {EFFECT_KINDS.map((k) => <option key={k.v} value={k.v}>{k.label}</option>)}
+                          {EFFECT_KINDS.map((k) => (
+                            <option key={k.v} value={k.v}>
+                              {k.label}
+                            </option>
+                          ))}
                         </select>
                         <div className="ef-fields">
-                          <EquipEffectFields e={e} skills={skills} on={(next) => setEffect(i, next)} />
+                          <EquipEffectFields
+                            e={e}
+                            skills={skills}
+                            on={(next) => setEffect(i, next)}
+                          />
                         </div>
                         <span className="ef-ops">
                           <button
@@ -456,7 +540,12 @@ export function ItemTab(props: {
                             type="button"
                             className="mini"
                             title="删除"
-                            onClick={() => patchEquip({ ...equip, effects: equip.effects.filter((_, j) => j !== i) })}
+                            onClick={() =>
+                              patchEquip({
+                                ...equip,
+                                effects: equip.effects.filter((_, j) => j !== i),
+                              })
+                            }
                           >
                             ✕
                           </button>
@@ -466,7 +555,12 @@ export function ItemTab(props: {
                     <button
                       type="button"
                       className="tool"
-                      onClick={() => patchEquip({ ...equip, effects: [...equip.effects, defaultEquipEffect('statBonus')] })}
+                      onClick={() =>
+                        patchEquip({
+                          ...equip,
+                          effects: [...equip.effects, defaultEquipEffect('statBonus')],
+                        })
+                      }
                     >
                       ＋ 添加效果
                     </button>

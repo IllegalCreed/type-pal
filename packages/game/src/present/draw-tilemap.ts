@@ -80,12 +80,7 @@ function blitTile(
 }
 
 /** 内部 blitTile を外部に公開(cover-tile 単体描画用)。 */
-export function blitTileAt(
-  fb: Framebuffer,
-  tile: TileImage,
-  dstX: number,
-  dstY: number,
-): void {
+export function blitTileAt(fb: Framebuffer, tile: TileImage, dstX: number, dstY: number): void {
   blitTile(fb, tile, dstX, dstY)
 }
 
@@ -119,14 +114,14 @@ export function drawTilemap(
   const fenceFill = layer === 1 ? -1 : tileIdLayer0(map.cells[0]![0]!.lower)
 
   for (let r = -1; r <= map.height; r++) {
-    const row = (r >= 0 && r < map.height) ? map.cells[r]! : null
+    const row = r >= 0 && r < map.height ? map.cells[r]! : null
     const rowPxY = r * ROW_Y_STEP + offsetY
     // viewport clip:整 row 都在 viewport 外则跳过(fence row 也照样 clip 不浪费)。
     // 注意 sub-row offset 后 lower 在 rowPxY-8、upper 在 rowPxY,所以 row 实际 y 覆盖
     // [rowPxY - SUBROW_Y_STEP, rowPxY + TILE_H)。
     if (rowPxY + TILE_H <= 0 || rowPxY - SUBROW_Y_STEP >= fb.height) continue
     for (let c = -1; c <= map.width; c++) {
-      const cell = (row && c >= 0 && c < map.width) ? row[c]! : null
+      const cell = row && c >= 0 && c < map.width ? row[c]! : null
       const cellPxX = c * TILE_W + offsetX
       // 同理 lower 在 cellPxX-16、upper 在 cellPxX,col 实际 x 覆盖
       // [cellPxX - TILE_HALF_W, cellPxX + TILE_W)。
@@ -166,11 +161,7 @@ export function drawTilemap(
  * **关键**:用 coverage(而非 `indices===0`)判漏黑 —— 瓦片可合法画出 opaque index-0
  * 像素(dense scene),那些不是漏黑,绝不能动。
  */
-export function repairTilemapSeams(
-  fb: Framebuffer,
-  coverage: Uint8Array,
-  maxPasses = 16,
-): void {
+export function repairTilemapSeams(fb: Framebuffer, coverage: Uint8Array, maxPasses = 16): void {
   const { width, height, indices } = fb
   const fills: number[] = []
   for (let pass = 0; pass < maxPasses; pass++) {
@@ -262,7 +253,7 @@ export function addCoverTileEntries(
   spriteH: number,
   camera: { x: number; y: number },
   idPrefix: string,
-  iLayer: number = 0,  // Sync.2 fix10:sdlpal `lpSpriteToDraw->iLayer`(party=6, NPC=2)
+  iLayer: number = 0, // Sync.2 fix10:sdlpal `lpSpriteToDraw->iLayer`(party=6, NPC=2)
 ): void {
   // camera 语义 = sdlpal viewport(屏幕左上 world 坐标),screen = world - viewport。
   const offsetX = -camera.x
@@ -276,41 +267,49 @@ export function addCoverTileEntries(
   // 注:caller 传入的 spriteWorldY 已包含 wLayer+offset(party=+10, NPC=+9),这里只减 iLayer。
   const sx = spriteWorldX - Math.floor(spriteW / 2) - Math.floor(iLayer / 2)
   const sy = spriteWorldY - iLayer
-  const sh = (sx % 32 !== 0) ? 1 : 0
+  const sh = sx % 32 !== 0 ? 1 : 0
 
   // L31:cover-tile 边界用向零截断(C 整数除法,scene.c:113-117),非 Math.floor;sx/sy 为负(NPC 贴
   //   地图左/上边缘)时与 floor 分叉。内层 spriteW/2 仍 floor(width 正,等价)。
   const yStart = Math.trunc((sy - spriteH - 15) / 16)
-  const yEnd   = Math.trunc(sy / 16)
+  const yEnd = Math.trunc(sy / 16)
   const xStart = Math.trunc((sx - Math.floor(spriteW / 2)) / 32)
-  const xEnd   = Math.trunc((sx + Math.floor(spriteW / 2)) / 32)
+  const xEnd = Math.trunc((sx + Math.floor(spriteW / 2)) / 32)
 
   for (let y = yStart; y <= yEnd; y++) {
     for (let x = xStart; x <= xEnd; x++) {
       // sdlpal case i=0..4:leftmost col (x == xStart) 处理 i=0..2,其余 x 处理 i=3..4
-      const iStart = (x === xStart) ? 0 : 3
+      const iStart = x === xStart ? 0 : 3
       for (let i = iStart; i < 5; i++) {
-        let dx = 0, dy = 0, dh = 0
+        let dx = 0,
+          dy = 0,
+          dh = 0
 
         // sdlpal scene.c:127-154
         switch (i) {
           case 0:
-            dx = x; dy = y; dh = sh
+            dx = x
+            dy = y
+            dh = sh
             break
           case 1:
-            dx = x - 1; dy = y; dh = sh
+            dx = x - 1
+            dy = y
+            dh = sh
             break
           case 2:
-            dx = sh ? x : (x - 1)
-            dy = sh ? (y + 1) : y
+            dx = sh ? x : x - 1
+            dy = sh ? y + 1 : y
             dh = 1 - sh
             break
           case 3:
-            dx = x + 1; dy = y; dh = sh
+            dx = x + 1
+            dy = y
+            dh = sh
             break
           case 4:
-            dx = sh ? (x + 1) : x
-            dy = sh ? (y + 1) : y
+            dx = sh ? x + 1 : x
+            dy = sh ? y + 1 : y
             dh = 1 - sh
             break
         }

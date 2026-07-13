@@ -1,17 +1,17 @@
-import type { Enemy, PlayerRole, } from '@type-pal/shared'
+import type { Enemy, PlayerRole } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
+import type { LevelUpScreenData } from '../../../core/battle/battle-settlement.js'
 import type { BattleEnemy, BattlePlayer, BattleState } from '../../../core/battle/battle-state.js'
 import type { BusEntry } from '../../../core/command-bus.js'
 import { createInitialGameState, type GameState } from '../../../core/game-state.js'
+import { buildFadeOut } from '../../../core/palette-fade.js'
 import { createSeedableRng } from '../../../core/rng.js'
+import { startDialogLine } from '../../dialog-box.js'
 import { createFramebuffer } from '../../framebuffer.js'
 import type { BattleBgAsset } from '../draw-battle-bg.js'
+import { drawBattleSettlement } from '../draw-battle-settlement.js'
 import type { SpriteAsset } from '../draw-battle-sprites.js'
 import { type BattleAssets, BattlePresent } from '../present-battle.js'
-import { buildFadeOut } from '../../../core/palette-fade.js'
-import { startDialogLine } from '../../dialog-box.js'
-import { drawBattleSettlement } from '../draw-battle-settlement.js'
-import type { LevelUpScreenData } from '../../../core/battle/battle-settlement.js'
 
 function minimalRole(id: number, opts: Partial<PlayerRole> = {}): PlayerRole {
   return {
@@ -211,7 +211,9 @@ describe('BattlePresent', () => {
     const present = new BattlePresent()
     const state = mkState([], [])
     const start: [number, number, number][] = Array.from({ length: 256 }, () => [200, 200, 200])
-    const gs = mkGs({ palette: { colors: start.map((c) => [...c] as [number, number, number]), cycles: [] } })
+    const gs = mkGs({
+      palette: { colors: start.map((c) => [...c] as [number, number, number]), cycles: [] },
+    })
     // 600ms 淡黑、起点 300ms 前 → draw 时应已 ramp 过半(从 200 向黑降)
     gs.paletteFadeState = buildFadeOut(start, 600, performance.now() - 300)
     present.draw(fb, gs, state, [], mkAssets(), 0)
@@ -232,7 +234,11 @@ describe('BattlePresent', () => {
     const fb = createFramebuffer()
     const present = new BattlePresent()
     const state = mkState([], [], {
-      battleAnim: { frames: [{ durationMs: 50, shake: { time: 0, level: 3 } }], idx: 0, frameElapsedMs: 0 },
+      battleAnim: {
+        frames: [{ durationMs: 50, shake: { time: 0, level: 3 } }],
+        idx: 0,
+        frameElapsedMs: 0,
+      },
     })
     const assets = mkAssets({ battleBgs: new Map([[0, mkBgAsset(4)]]) })
     present.draw(fb, mkGs(), state, [], assets, 0)
@@ -280,10 +286,22 @@ describe('BattlePresent', () => {
     const present = new BattlePresent()
     // 2×30 竖条 effect @ (160,100) → baseX=159,baseY=70,占 x∈{159,160} y∈[70,99]。
     const effectSprite: SpriteAsset = {
-      frames: [{ width: 2, height: 30, indices: new Uint8Array(2 * 30).fill(22), opaque: new Uint8Array(2 * 30).fill(1) }],
+      frames: [
+        {
+          width: 2,
+          height: 30,
+          indices: new Uint8Array(2 * 30).fill(22),
+          opaque: new Uint8Array(2 * 30).fill(1),
+        },
+      ],
     }
     const state = mkState([], [], {
-      battleAnim: { frames: [], idx: 0, frameElapsedMs: 0, overlay: { kind: 'effect', spriteChunk: 10, frameIdx: 0, x: 160, y: 100 } },
+      battleAnim: {
+        frames: [],
+        idx: 0,
+        frameElapsedMs: 0,
+        overlay: { kind: 'effect', spriteChunk: 10, frameIdx: 0, x: 160, y: 100 },
+      },
     })
     const assets = mkAssets({ battleBgs: new Map([[0, mkBgAsset(4)]]), effectSprite })
     const gs = mkGs({ wScreenWave: 128 }) // 强屏波(战场常驻波)
@@ -604,17 +622,25 @@ describe('BattlePresent —— D17 法术 magic overlays', () => {
 describe('drawBattleSettlement —— D11b 胜利结算演出渲染', () => {
   const ui = mkUiSpriteFrames()
   const lvData: LevelUpScreenData = {
-    roleId: 0, name: '李逍遥',
+    roleId: 0,
+    name: '李逍遥',
     level: { old: 1, cur: 12 },
     hp: { old: 30, oldMax: 30, cur: 120, curMax: 120 },
     mp: { old: 10, oldMax: 10, cur: 60, curMax: 60 },
-    attack: { old: 5, cur: 40 }, magic: { old: 5, cur: 35 },
-    defense: { old: 5, cur: 30 }, dexterity: { old: 5, cur: 25 }, flee: { old: 5, cur: 20 },
+    attack: { old: 5, cur: 40 },
+    magic: { old: 5, cur: 35 },
+    defense: { old: 5, cur: 30 },
+    dexterity: { old: 5, cur: 25 },
+    flee: { old: 5, cur: 20 },
   }
 
   it('exp-cash 屏:画 box + 经验/文钱数字 → framebuffer 有写入', () => {
     const fb = createFramebuffer()
-    drawBattleSettlement({ fb, screen: { kind: 'exp-cash', expGained: 200, cashGained: 999, isBoss: false }, uiSpriteFrames: ui })
+    drawBattleSettlement({
+      fb,
+      screen: { kind: 'exp-cash', expGained: 200, cashGained: 999, isBoss: false },
+      uiSpriteFrames: ui,
+    })
     expect(fbHasWrites(fb)).toBe(true)
   })
 
@@ -626,7 +652,11 @@ describe('drawBattleSettlement —— D11b 胜利结算演出渲染', () => {
 
   it('learn-magic 屏:画 box + name/练成/magicName → framebuffer 有写入', () => {
     const fb = createFramebuffer()
-    drawBattleSettlement({ fb, screen: { kind: 'learn-magic', data: { roleId: 0, name: '李逍遥', magicName: '天师符法' } }, uiSpriteFrames: ui })
+    drawBattleSettlement({
+      fb,
+      screen: { kind: 'learn-magic', data: { roleId: 0, name: '李逍遥', magicName: '天师符法' } },
+      uiSpriteFrames: ui,
+    })
     expect(fbHasWrites(fb)).toBe(true)
   })
 

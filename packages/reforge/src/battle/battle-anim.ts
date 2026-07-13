@@ -8,6 +8,7 @@
  * 玩家战斗精灵帧语义(F.MKF):0 站立 / 1 濒死 / 2 死 / 3 防御 / 4 受击 / 5 投掷 / 6,7 施法蓄力 / 8,9 攻击。
  * 敌人帧布局:idle(idleFrames 个)→ magic(magicFrames)→ attack(attackFrames)。
  */
+import { expectDefined } from '../defined.js'
 
 /** PAL_BattleDelay 单位:N × 40ms。 */
 const FRAME_MS = 40
@@ -114,7 +115,10 @@ export function buildPlayerAttackAll(input: BuildAttackAllInput): AnimFrame[] {
       { side: 'player', idx: attackerIdx, frame: 9 },
       ...hits.map((h) => ({ side: 'enemy' as const, idx: h.idx, colorShift: 6 })),
     ],
-    damageNums: hits.map((h) => ({ target: { side: 'enemy' as const, idx: h.idx }, value: h.value })),
+    damageNums: hits.map((h) => ({
+      target: { side: 'enemy' as const, idx: h.idx },
+      value: h.value,
+    })),
     ...(weaponSound > 0 ? { sound: weaponSound } : {}),
   })
   // 全敌击退 3 帧(x −8/−4/−6 衰减),末帧染色复位
@@ -679,9 +683,7 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
           ? { fighters: [{ side: 'player' as const, idx: casterIdx, frame: 6 }] }
           : {}),
         // 二次法术段不播二级自身音(fSummon 门,fight.c:2669 WIN95;作者报剑神段错响御剑声)
-        ...(!inSummon && fx.sound > 0 && i >= fd && (i - fd) % n === 0
-          ? { sound: fx.sound }
-          : {}),
+        ...(!inSummon && fx.sound > 0 && i >= fd && (i - fd) % n === 0 ? { sound: fx.sound } : {}),
         // 屏波:OffMagic 首帧设叠加值(fight.c:2666 wScreenWave += wWave;收尾还原在 session)
         ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
         // 震屏:末 wShake 帧逐帧触发(fight.c:2718 VIDEO_ShakeScreen(i,3))
@@ -704,7 +706,7 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
         fighters: input.postTargets.map((t) => ({
           side: 'enemy' as const,
           idx: t.idx,
-          pos: { x: t.pos.x + SHAKE_X[r]!, y: t.pos.y },
+          pos: { x: t.pos.x + expectDefined(SHAKE_X[r]), y: t.pos.y },
           colorShift: r === 1 ? 6 : 0,
         })),
       })
@@ -775,16 +777,35 @@ export interface BuildPlayerCoopInput {
  * 召唤类合击直接走 buildPlayerCast(summon 段),不经此(作者:召唤直接播召唤动画)。
  */
 export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
-  const { casterIdx, contributorIdxs, partySize, partyPositions, fireFrames, fx, targetPos, damageNums, postTargets } = input
+  const {
+    casterIdx,
+    contributorIdxs,
+    partySize,
+    partyPositions,
+    fireFrames,
+    fx,
+    targetPos,
+    damageNums,
+    postTargets,
+  } = input
   const isContrib = (j: number): boolean => contributorIdxs.includes(j)
-  const lerp = (orig: number, coop: number, num: number): number => Math.trunc((orig * (6 - num) + coop * num) / 6)
+  const lerp = (orig: number, coop: number, num: number): number =>
+    Math.trunc((orig * (6 - num) + coop * num) / 6)
   const frames: AnimFrame[] = []
 
   // ① 聚拢(i=1..6)
   for (let i = 1; i <= 6; i++) {
     const fighters: FighterDelta[] = []
     const oc = partyPositions[casterIdx]
-    if (oc) fighters.push({ side: 'player', idx: casterIdx, pos: { x: lerp(oc.x, COOP_POS[0]![0], i), y: lerp(oc.y, COOP_POS[0]![1], i) } })
+    if (oc)
+      fighters.push({
+        side: 'player',
+        idx: casterIdx,
+        pos: {
+          x: lerp(oc.x, expectDefined(COOP_POS[0])[0], i),
+          y: lerp(oc.y, expectDefined(COOP_POS[0])[1], i),
+        },
+      })
     let t = 0
     for (let j = 0; j < partySize; j++) {
       if (j === casterIdx) continue
@@ -793,7 +814,11 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
       const oj = partyPositions[j]
       const cp = COOP_POS[t]
       if (!oj || !cp) continue
-      fighters.push({ side: 'player', idx: j, pos: { x: lerp(oj.x, cp[0], i), y: lerp(oj.y, cp[1], i) } })
+      fighters.push({
+        side: 'player',
+        idx: j,
+        pos: { x: lerp(oj.x, cp[0], i), y: lerp(oj.y, cp[1], i) },
+      })
     }
     frames.push({ durationMs: delayMs(1), fighters })
   }
@@ -805,8 +830,15 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
   }
 
   // ③ 发起者闪白 + 起手音 → ④ 出招
-  frames.push({ durationMs: delayMs(5), sound: COOP_CAST_SOUND, fighters: [{ side: 'player', idx: casterIdx, colorShift: 6, frame: 5 }] })
-  frames.push({ durationMs: delayMs(3), fighters: [{ side: 'player', idx: casterIdx, colorShift: 0, frame: 6 }] })
+  frames.push({
+    durationMs: delayMs(5),
+    sound: COOP_CAST_SOUND,
+    fighters: [{ side: 'player', idx: casterIdx, colorShift: 6, frame: 5 }],
+  })
+  frames.push({
+    durationMs: delayMs(3),
+    fighters: [{ side: 'player', idx: casterIdx, colorShift: 0, frame: 6 }],
+  })
 
   // ⑤ OffMagic:fire 精灵帧循环(caster 已 frame6,不注入)
   if (fireFrames > 0) {
@@ -816,7 +848,12 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
     const frameDur = (fx.speed + 5) * 10
     const drop = (k: number): OverlayDraw[] => {
       if (fx.placement === 'attackAll') {
-        return ATTACK_ALL_POS.map((p) => ({ sheet: 'magic' as const, frameIdx: k, x: p.x + fx.xOffset, y: p.y + fx.yOffset }))
+        return ATTACK_ALL_POS.map((p) => ({
+          sheet: 'magic' as const,
+          frameIdx: k,
+          x: p.x + fx.xOffset,
+          y: p.y + fx.yOffset,
+        }))
       }
       const base =
         fx.placement === 'attackWhole'
@@ -846,10 +883,23 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
       frames.push({
         durationMs: delayMs(1),
         ...(r === 0 && damageNums.length ? { damageNums } : {}),
-        fighters: postTargets.map((t) => ({ side: 'enemy' as const, idx: t.idx, pos: { x: t.pos.x + SHAKE_X[r]!, y: t.pos.y }, colorShift: r === 1 ? 6 : 0 })),
+        fighters: postTargets.map((t) => ({
+          side: 'enemy' as const,
+          idx: t.idx,
+          pos: { x: t.pos.x + expectDefined(SHAKE_X[r]), y: t.pos.y },
+          colorShift: r === 1 ? 6 : 0,
+        })),
       })
     }
-    frames.push({ durationMs: delayMs(1), fighters: postTargets.map((t) => ({ side: 'enemy' as const, idx: t.idx, pos: { x: t.pos.x, y: t.pos.y }, colorShift: 0 })) })
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: postTargets.map((t) => ({
+        side: 'enemy' as const,
+        idx: t.idx,
+        pos: { x: t.pos.x, y: t.pos.y },
+        colorShift: 0,
+      })),
+    })
   } else if (damageNums.length) {
     frames.push({ durationMs: delayMs(2), damageNums })
   }
@@ -858,7 +908,16 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
   for (let i = 1; i <= 6; i++) {
     const fighters: FighterDelta[] = []
     const oc = partyPositions[casterIdx]
-    if (oc) fighters.push({ side: 'player', idx: casterIdx, frame: 0, pos: { x: Math.trunc((oc.x * i + COOP_POS[0]![0] * (6 - i)) / 6), y: Math.trunc((oc.y * i + COOP_POS[0]![1] * (6 - i)) / 6) } })
+    if (oc)
+      fighters.push({
+        side: 'player',
+        idx: casterIdx,
+        frame: 0,
+        pos: {
+          x: Math.trunc((oc.x * i + expectDefined(COOP_POS[0])[0] * (6 - i)) / 6),
+          y: Math.trunc((oc.y * i + expectDefined(COOP_POS[0])[1] * (6 - i)) / 6),
+        },
+      })
     let t = 0
     for (let j = 0; j < partySize; j++) {
       if (!isContrib(j)) continue
@@ -867,7 +926,15 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
       const oj = partyPositions[j]
       const cp = COOP_POS[t]
       if (!oj || !cp) continue
-      fighters.push({ side: 'player', idx: j, frame: 0, pos: { x: Math.trunc((oj.x * i + cp[0] * (6 - i)) / 6), y: Math.trunc((oj.y * i + cp[1] * (6 - i)) / 6) } })
+      fighters.push({
+        side: 'player',
+        idx: j,
+        frame: 0,
+        pos: {
+          x: Math.trunc((oj.x * i + cp[0] * (6 - i)) / 6),
+          y: Math.trunc((oj.y * i + cp[1] * (6 - i)) / 6),
+        },
+      })
     }
     frames.push({ durationMs: delayMs(1), fighters })
   }
@@ -912,7 +979,7 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
   // 被动格挡摆防御姿 frame3:注入起手**末帧**、特效前(fight.c:4737-4738/4755-4756;一阶段
   // DL10b 修过「早数帧」的坑)。姿势由 session 收尾 resetVisual 归位。
   if (input.autoDefendPlayers?.length) {
-    const tail = frames[frames.length - 1]!
+    const tail = expectDefined(frames[frames.length - 1])
     tail.fighters = [
       ...(tail.fighters ?? []),
       ...input.autoDefendPlayers.map((idx) => ({ side: 'player' as const, idx, frame: 3 })),
@@ -1188,7 +1255,7 @@ export function buildEnemyDivide(input: {
     frames.push({
       durationMs: delayMs(1),
       fighters: input.spawns.map((sp) => {
-        const c = cur.get(sp.idx)!
+        const c = expectDefined(cur.get(sp.idx))
         c.x = Math.trunc((c.x + sp.target.x) / 2)
         c.y = Math.trunc((c.y + sp.target.y) / 2)
         return { side: 'enemy' as const, idx: sp.idx, frame: 0, pos: { x: c.x, y: c.y } }

@@ -13,7 +13,7 @@
  *
  * data/raw 与 data/extracted gitignored → clean checkout skip,不 block pnpm check。
  */
-import { existsSync, readFileSync, readdirSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { decompressYj2, type Mkf, openMkf, parseSpriteChunk, readChunk } from '@type-pal/shared'

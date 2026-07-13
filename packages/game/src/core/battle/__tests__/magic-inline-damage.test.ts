@@ -276,18 +276,39 @@ describe('performMagic E1: inline 攻击法术伤害(player→enemy)', () => {
   })
 
   it('召唤魔法(type summon)→ 建召唤动画链(state.battleAnim.summon set,精灵 player-{special+10})+ 敌落血', () => {
-    const { state, playerRoles, bus } = makeState({ hp: 500, mp: 30, magicStrength: 60 }, [{ health: 9000, defense: 0, level: 5 }])
+    const { state, playerRoles, bus } = makeState({ hp: 500, mp: 30, magicStrength: 60 }, [
+      { health: 9000, defense: 0, level: 5 },
+    ])
     // 补 posOriginal(召唤动画前置:发起者底锚)
-    ;(state.players[0] as unknown as { posOriginal: { x: number, y: number } }).posOriginal = { x: 240, y: 170 }
+    ;(state.players[0] as unknown as { posOriginal: { x: number; y: number } }).posOriginal = {
+      x: 240,
+      y: 170,
+    }
     performMagic({
-      state, casterIsEnemy: false, casterIdx: 0, spellId: 7, targetIsEnemy: true, targetIdx: 0,
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: true,
+      targetIdx: 0,
       spells: [makeSpell({ magicNumber: 19 })],
       // 召唤 magic id19(special2→F.MKF chunk12,effect18 指向二次 magic);二次 magic id18(FIRE.MKF chunk18)
       magics: [
-        makeMagic({ id: 19, type: 'summon', special: 2, effect: 18, baseDamage: 80, speed: 5, effectTimes: 3 }),
+        makeMagic({
+          id: 19,
+          type: 'summon',
+          special: 2,
+          effect: 18,
+          baseDamage: 80,
+          speed: 5,
+          effectTimes: 3,
+        }),
         makeMagic({ id: 18, type: 'attackAll', effect: 18, baseDamage: 0 }),
       ],
-      playerRoles, bus, commands, runScript: noopRunScript,
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
       magicSpriteFrameCounts: new Map([[18, 6]]), // 二次效果 FIRE.MKF 帧数
       summonSpriteFrameCounts: new Map([[12, 4]]), // 召唤神精灵 chunk 12(special 2 + 10)= 4 帧
     })
@@ -300,32 +321,90 @@ describe('performMagic E1: inline 攻击法术伤害(player→enemy)', () => {
   })
 
   it('L17:普通召唤 secondary OffMagic 透传 keepEffect/wave/baseScreenWave', () => {
-    const { state, playerRoles, bus } = makeState({ hp: 500, mp: 30, magicStrength: 60 }, [{ health: 9000, defense: 0, level: 5 }])
+    const { state, playerRoles, bus } = makeState({ hp: 500, mp: 30, magicStrength: 60 }, [
+      { health: 9000, defense: 0, level: 5 },
+    ])
     state.field.screenWave = 128
-    ;(state.players[0] as unknown as { posOriginal: { x: number, y: number } }).posOriginal = { x: 240, y: 170 }
+    ;(state.players[0] as unknown as { posOriginal: { x: number; y: number } }).posOriginal = {
+      x: 240,
+      y: 170,
+    }
     performMagic({
-      state, casterIsEnemy: false, casterIdx: 0, spellId: 7, targetIsEnemy: true, targetIdx: 0,
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: true,
+      targetIdx: 0,
       spells: [makeSpell({ magicNumber: 19 })],
       magics: [
-        makeMagic({ id: 19, type: 'summon', special: 2, effect: 18, baseDamage: 80, speed: 5, effectTimes: 3 }),
-        makeMagic({ id: 18, type: 'attackAll', effect: 18, baseDamage: 0, keepEffect: 0xffff, wave: 0 }),
+        makeMagic({
+          id: 19,
+          type: 'summon',
+          special: 2,
+          effect: 18,
+          baseDamage: 80,
+          speed: 5,
+          effectTimes: 3,
+        }),
+        makeMagic({
+          id: 18,
+          type: 'attackAll',
+          effect: 18,
+          baseDamage: 0,
+          keepEffect: 0xffff,
+          wave: 0,
+        }),
       ],
-      playerRoles, bus, commands, runScript: noopRunScript,
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
       magicSpriteFrameCounts: new Map([[18, 6]]),
       summonSpriteFrameCounts: new Map([[12, 4]]),
     })
     expect(state.battleAnim!.frames.some((f) => f.keepEffect)).toBe(false)
 
-    const { state: landState, playerRoles: landRoles, bus: landBus } = makeState({ hp: 500, mp: 30, magicStrength: 60 }, [{ health: 9000, defense: 0, level: 5 }])
-    ;(landState.players[0] as unknown as { posOriginal: { x: number, y: number } }).posOriginal = { x: 240, y: 170 }
+    const {
+      state: landState,
+      playerRoles: landRoles,
+      bus: landBus,
+    } = makeState({ hp: 500, mp: 30, magicStrength: 60 }, [{ health: 9000, defense: 0, level: 5 }])
+    ;(landState.players[0] as unknown as { posOriginal: { x: number; y: number } }).posOriginal = {
+      x: 240,
+      y: 170,
+    }
     performMagic({
-      state: landState, casterIsEnemy: false, casterIdx: 0, spellId: 7, targetIsEnemy: true, targetIdx: 0,
+      state: landState,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: true,
+      targetIdx: 0,
       spells: [makeSpell({ magicNumber: 19 })],
       magics: [
-        makeMagic({ id: 19, type: 'summon', special: 2, effect: 18, baseDamage: 80, speed: 5, effectTimes: 3 }),
-        makeMagic({ id: 18, type: 'attackAll', effect: 18, baseDamage: 0, keepEffect: 0xffff, wave: 0 }),
+        makeMagic({
+          id: 19,
+          type: 'summon',
+          special: 2,
+          effect: 18,
+          baseDamage: 80,
+          speed: 5,
+          effectTimes: 3,
+        }),
+        makeMagic({
+          id: 18,
+          type: 'attackAll',
+          effect: 18,
+          baseDamage: 0,
+          keepEffect: 0xffff,
+          wave: 0,
+        }),
       ],
-      playerRoles: landRoles, bus: landBus, commands, runScript: noopRunScript,
+      playerRoles: landRoles,
+      bus: landBus,
+      commands,
+      runScript: noopRunScript,
       magicSpriteFrameCounts: new Map([[18, 6]]),
       summonSpriteFrameCounts: new Map([[12, 4]]),
     })
@@ -337,17 +416,40 @@ describe('performMagic E1: inline 攻击法术伤害(player→enemy)', () => {
   //   gs.pendingSounds(PreMagic 之前)→ 召唤音比真值早整个 PreMagic(user 2026-06-05 报"天剑音效又提前了")。
   //   修:挂到 PreMagic 后首个变亮帧,不再 dispatch 即时 push。(召唤二次效果音另算,天剑二次 sound=0。)
   it('召唤 magic.sound:挂 PreMagic 后首个变亮帧,不 dispatch 即时 push(WIN95 fight.c:3112)', () => {
-    const { state, playerRoles, bus } = makeState({ hp: 500, mp: 45, magicStrength: 60 }, [{ health: 9000, defense: 0, level: 5 }])
-    ;(state.players[0] as unknown as { posOriginal: { x: number, y: number } }).posOriginal = { x: 240, y: 170 }
+    const { state, playerRoles, bus } = makeState({ hp: 500, mp: 45, magicStrength: 60 }, [
+      { health: 9000, defense: 0, level: 5 },
+    ])
+    ;(state.players[0] as unknown as { posOriginal: { x: number; y: number } }).posOriginal = {
+      x: 240,
+      y: 170,
+    }
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     performMagic({
-      state, casterIsEnemy: false, casterIdx: 0, spellId: 7, targetIsEnemy: true, targetIdx: 0,
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: true,
+      targetIdx: 0,
       spells: [makeSpell({ magicNumber: 19 })],
       magics: [
-        makeMagic({ id: 19, type: 'summon', special: 2, effect: 18, baseDamage: 80, speed: 5, effectTimes: 3, sound: 304 }),
+        makeMagic({
+          id: 19,
+          type: 'summon',
+          special: 2,
+          effect: 18,
+          baseDamage: 80,
+          speed: 5,
+          effectTimes: 3,
+          sound: 304,
+        }),
         makeMagic({ id: 18, type: 'attackAll', effect: 18, baseDamage: 0 }),
       ],
-      playerRoles, bus, commands, runScript: noopRunScript, gs,
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
+      gs,
       magicSpriteFrameCounts: new Map([[18, 6]]),
       summonSpriteFrameCounts: new Map([[12, 4]]),
     })
@@ -355,7 +457,11 @@ describe('performMagic E1: inline 攻击法术伤害(player→enemy)', () => {
     const soundFrameIdx = frames.findIndex((f) => f.sound === 304)
     expect(soundFrameIdx, '召唤音挂在 PreMagic 之后某帧(非 frame0)').toBeGreaterThan(0)
     // 该帧是变亮帧(全员 iColorShift set)→ 确认在 PreMagic 之后
-    expect(frames[soundFrameIdx]!.fighters?.some((d) => d.side === 'player' && d.iColorShift !== undefined)).toBe(true)
+    expect(
+      frames[soundFrameIdx]!.fighters?.some(
+        (d) => d.side === 'player' && d.iColorShift !== undefined,
+      ),
+    ).toBe(true)
     // 不再 dispatch 即时 push gs.pendingSounds
     expect(gs.pendingSounds ?? []).not.toContain(304)
   })
@@ -651,7 +757,17 @@ describe('performMagic D17: 攻击魔法 build 时间线', () => {
       targetIdx: 0,
       spells: [makeSpell()],
       // 64537 = (SHORT)−999 sentinel:asShort(baseDamage) <= 0 → E1 内联伤害跳过
-      magics: [makeMagic({ effect: 12, type: 'normal', baseDamage: 64537, fireDelay: 2, effectTimes: 1, shake: 0, speed: 2 })],
+      magics: [
+        makeMagic({
+          effect: 12,
+          type: 'normal',
+          baseDamage: 64537,
+          fireDelay: 2,
+          effectTimes: 1,
+          shake: 0,
+          speed: 2,
+        }),
+      ],
       playerRoles,
       bus,
       commands,
@@ -661,7 +777,10 @@ describe('performMagic D17: 攻击魔法 build 时间线', () => {
     })
     // PreMagic + OffMagic FIRE 动画仍建链(尽管无内联伤害)
     expect(state.battleAnim, 'sentinel 攻击魔法 FIRE 动画应建链').toBeDefined()
-    expect(state.battleAnim!.frames[18]?.overlays?.[0]).toMatchObject({ kind: 'magic', spriteChunk: 12 }) // L14:前置 Delay(1) → overlay 从 idx 18
+    expect(state.battleAnim!.frames[18]?.overlays?.[0]).toMatchObject({
+      kind: 'magic',
+      spriteChunk: 12,
+    }) // L14:前置 Delay(1) → overlay 从 idx 18
     // 敌人 HP 未变(sentinel 不走 E1 内联伤害,伤害靠 scriptOnSuccess opcode)
     expect(state.enemies[0]!.e.health).toBe(100)
   })
@@ -917,9 +1036,7 @@ describe('performMagic D17: player 防御/治疗魔法 DefMagic 时间线', () =
       targetIsEnemy: false,
       targetIdx: 1, // 治疗队友 idx1
       spells: [makeSpell()],
-      magics: [
-        makeMagic({ effect: 15, type: 'applyToPlayer', speed: 2, xOffset: 4, yOffset: -6 }),
-      ],
+      magics: [makeMagic({ effect: 15, type: 'applyToPlayer', speed: 2, xOffset: 4, yOffset: -6 })],
       playerRoles,
       bus,
       commands,
@@ -1099,7 +1216,12 @@ describe('performMagic D17: 敌方攻击魔法 EnemyMagic 时间线', () => {
     expect(hurt[0]!.fighters).toEqual([
       { side: 'player', idx: 0, currentFrame: 4, iColorShift: 6, pos: { x: 240, y: 170 } },
     ])
-    expect(hurt[4]!.fighters?.[0]).toMatchObject({ side: 'player', idx: 0, currentFrame: 4, iColorShift: 0 })
+    expect(hurt[4]!.fighters?.[0]).toMatchObject({
+      side: 'player',
+      idx: 0,
+      currentFrame: 4,
+      iColorShift: 0,
+    })
     // 敌人 HP 不被改(敌方伤害靠 AI/script,本切片只动画)
     expect(state.enemies[0]!.e.health).toBe(100)
   })
@@ -1195,31 +1317,51 @@ describe('performMagic D17: 敌方攻击魔法 EnemyMagic 时间线', () => {
 describe('performMagic scriptOnSuccess(fight.c:4214-4265)', () => {
   it('scriptOnUse 后跑 scriptOnSuccess,带 target ctx(顺序 use→success)', () => {
     const { state, playerRoles, bus } = makeState({ hp: 50, maxHP: 200 }, [{ health: 100 }])
-    const calls: Array<{ ip: number, tType?: string, tIdx?: number }> = []
+    const calls: Array<{ ip: number; tType?: string; tIdx?: number }> = []
     const recordRun: RunScriptFn = (opts) => {
-      calls.push({ ip: opts.ip, tType: opts.battleCtx?.target?.type, tIdx: opts.battleCtx?.target?.idx })
+      calls.push({
+        ip: opts.ip,
+        tType: opts.battleCtx?.target?.type,
+        tIdx: opts.battleCtx?.target?.idx,
+      })
     }
     performMagic({
-      state, casterIsEnemy: false, casterIdx: 0, spellId: 7,
-      targetIsEnemy: false, targetIdx: 0,
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: false,
+      targetIdx: 0,
       spells: [makeSpell({ scriptOnUse: 10, scriptOnSuccess: 20 })],
       magics: [makeMagic({ type: 'applyToPlayer', baseDamage: 0 })],
-      playerRoles, bus, commands, runScript: recordRun,
+      playerRoles,
+      bus,
+      commands,
+      runScript: recordRun,
     })
-    expect(calls.map(c => c.ip)).toEqual([10, 20]) // use 先,success 后
+    expect(calls.map((c) => c.ip)).toEqual([10, 20]) // use 先,success 后
     expect(calls[1]).toMatchObject({ ip: 20, tType: 'player', tIdx: 0 }) // success 带 target
   })
 
   it('scriptOnUse=0 仍跑 scriptOnSuccess(气疗术真值:use=0 / success=heal)', () => {
     const { state, playerRoles, bus } = makeState({ hp: 50 }, [])
     const calls: number[] = []
-    const recordRun: RunScriptFn = (opts) => { calls.push(opts.ip) }
+    const recordRun: RunScriptFn = (opts) => {
+      calls.push(opts.ip)
+    }
     performMagic({
-      state, casterIsEnemy: false, casterIdx: 0, spellId: 7,
-      targetIsEnemy: false, targetIdx: 0,
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: false,
+      targetIdx: 0,
       spells: [makeSpell({ scriptOnUse: 0, scriptOnSuccess: 20 })],
       magics: [makeMagic({ type: 'applyToPlayer', baseDamage: 0 })],
-      playerRoles, bus, commands, runScript: recordRun,
+      playerRoles,
+      bus,
+      commands,
+      runScript: recordRun,
     })
     expect(calls).toEqual([20]) // 仅 success(use=0 skip)
   })
@@ -1230,15 +1372,23 @@ describe('performMagic scriptOnSuccess(fight.c:4214-4265)', () => {
     // scriptOnSuccess ip=1 → 0x1B heal op1=80;ip=2 end(ip=0 占位 end,避免 scriptId=0 被当 skip)
     const healCommands: Command[] = [
       { op: 'end' },
-      { op: 'raw', opcode: 0x1B, operands: [0, 80, 0] },
+      { op: 'raw', opcode: 0x1b, operands: [0, 80, 0] },
       { op: 'end' },
     ]
     performMagic({
-      state, casterIsEnemy: false, casterIdx: 0, spellId: 7,
-      targetIsEnemy: false, targetIdx: 0,
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: false,
+      targetIdx: 0,
       spells: [makeSpell({ scriptOnUse: 0, scriptOnSuccess: 1 })],
       magics: [makeMagic({ type: 'applyToPlayer', baseDamage: 0, costMP: 5 })],
-      playerRoles, bus, commands: healCommands, runScript, gs,
+      playerRoles,
+      bus,
+      commands: healCommands,
+      runScript,
+      gs,
     })
     expect(playerRoles.roles[0]!.hp).toBe(130) // 50 + 80
   })
@@ -1249,15 +1399,22 @@ describe('performMagic scriptOnSuccess(fight.c:4214-4265)', () => {
     const calls: number[] = []
     const failingRun: RunScriptFn = (opts) => {
       calls.push(opts.ip)
-      if (opts.ip === 10)
-        gs.fScriptSuccess = false // scriptOnUse 失败(等价 sdlpal g_fScriptSuccess=FALSE)
+      if (opts.ip === 10) gs.fScriptSuccess = false // scriptOnUse 失败(等价 sdlpal g_fScriptSuccess=FALSE)
     }
     performMagic({
-      state, casterIsEnemy: false, casterIdx: 0, spellId: 7,
-      targetIsEnemy: false, targetIdx: 0,
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: false,
+      targetIdx: 0,
       spells: [makeSpell({ scriptOnUse: 10, scriptOnSuccess: 20 })],
       magics: [makeMagic({ type: 'applyToPlayer', baseDamage: 0 })],
-      playerRoles, bus, commands, runScript: failingRun, gs,
+      playerRoles,
+      bus,
+      commands,
+      runScript: failingRun,
+      gs,
     })
     expect(calls).toEqual([10]) // scriptOnUse 跑了,scriptOnSuccess 被 fScriptSuccess gate 挡
   })
@@ -1266,7 +1423,12 @@ describe('performMagic scriptOnSuccess(fight.c:4214-4265)', () => {
 describe('D17:法术伤害数字延迟到特效播完(sdlpal DisplayStatChange after anim,fight.c:4322)', () => {
   it('建了攻击法术动画链 → 不立即 emit,数字挂 PostMagic 第一帧', () => {
     const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
-      { health: 100, defense: 30, level: 5, elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      {
+        health: 100,
+        defense: 30,
+        level: 5,
+        elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
     ])
     // 建动画链前置:caster + target posOriginal + magicSpriteFrameCounts 有该 effect
     state.players[0]!.posOriginal = { x: 240, y: 170 }
@@ -1294,7 +1456,9 @@ describe('D17:法术伤害数字延迟到特效播完(sdlpal DisplayStatChange a
     expect(state.battleAnim).toBeDefined()
     expect(state.battleAnim!.pendingDamageNums ?? []).toHaveLength(0)
     const numIdx = state.battleAnim!.frames.findIndex((f) => (f.damageNums?.length ?? 0) > 0)
-    const firstPostIdx = state.battleAnim!.frames.findIndex((f) => f.fighters?.some((d) => d.side === 'enemy' && d.idx === 0))
+    const firstPostIdx = state.battleAnim!.frames.findIndex((f) =>
+      f.fighters?.some((d) => d.side === 'enemy' && d.idx === 0),
+    )
     expect(numIdx).toBe(firstPostIdx)
     expect(state.battleAnim!.frames[numIdx]!.damageNums).toEqual([
       { target: { kind: 'enemy', idx: 0 }, value: expect.any(Number), color: 'blue' },
@@ -1303,7 +1467,12 @@ describe('D17:法术伤害数字延迟到特效播完(sdlpal DisplayStatChange a
 
   it('未建动画链(无 magicSpriteFrameCounts)→ 立即 emit(向后兼容 fallback)', () => {
     const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
-      { health: 100, defense: 30, level: 5, elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      {
+        health: 100,
+        defense: 30,
+        level: 5,
+        elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
     ])
     performMagic({
       state,

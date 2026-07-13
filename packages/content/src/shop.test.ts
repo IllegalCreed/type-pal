@@ -4,9 +4,33 @@ import type { ItemDataMap } from './item.js'
 import { sellableItems, shopBuy, shopSell } from './shop.js'
 
 const ITEMS: ItemDataMap = {
-  '166': { id: '166', name: '木剑', desc: [], icon: 0, buyPrice: 50, sellPrice: 25, sellable: true },
-  '61': { id: '61', name: '观音符', desc: [], icon: 0, buyPrice: 150, sellPrice: 75, sellable: true },
-  '267': { id: '267', name: '土灵珠', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false }, // 剧情品不可卖
+  '166': {
+    id: '166',
+    name: '木剑',
+    desc: [],
+    icon: 0,
+    buyPrice: 50,
+    sellPrice: 25,
+    sellable: true,
+  },
+  '61': {
+    id: '61',
+    name: '观音符',
+    desc: [],
+    icon: 0,
+    buyPrice: 150,
+    sellPrice: 75,
+    sellable: true,
+  },
+  '267': {
+    id: '267',
+    name: '土灵珠',
+    desc: [],
+    icon: 0,
+    buyPrice: 0,
+    sellPrice: 0,
+    sellable: false,
+  }, // 剧情品不可卖
 }
 
 function world(money: number, inv: { itemId: string; count: number }[]): WorldState {

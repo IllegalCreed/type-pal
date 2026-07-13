@@ -42,10 +42,16 @@ describe('httpSource', () => {
   })
 
   test('AbortSignal 透传 fetch，取消未完成读取', async () => {
-    const fetchMock = vi.fn((_url: string, init?: RequestInit) =>
-      new Promise<Response>((_resolve, reject) => {
-        init?.signal?.addEventListener('abort', () => reject(new DOMException('aborted', 'AbortError')), { once: true })
-      }))
+    const fetchMock = vi.fn(
+      (_url: string, init?: RequestInit) =>
+        new Promise<Response>((_resolve, reject) => {
+          init?.signal?.addEventListener(
+            'abort',
+            () => reject(new DOMException('aborted', 'AbortError')),
+            { once: true },
+          )
+        }),
+    )
     vi.stubGlobal('fetch', fetchMock)
     const ac = new AbortController()
     const reading = httpSource('projects/pal').readJson('content/scripts/chunk.json', ac.signal)

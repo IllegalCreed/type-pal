@@ -52,7 +52,9 @@ function ExpressionRow(props: {
         className="in mono pt-num"
         type="number"
         value={n}
-        onChange={(e) => Number.isFinite(e.target.valueAsNumber) && onSetNum(name, e.target.valueAsNumber)}
+        onChange={(e) =>
+          Number.isFinite(e.target.valueAsNumber) && onSetNum(name, e.target.valueAsNumber)
+        }
         onWheel={(e) => e.currentTarget.blur()}
       />
       <button type="button" className="mini" title="删除此表情" onClick={() => onRemove(name)}>

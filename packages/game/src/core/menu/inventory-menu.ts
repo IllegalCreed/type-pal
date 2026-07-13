@@ -48,12 +48,12 @@ export const INV_LINES_PER_PAGE = 7
 export const INV_ITEM_TEXT_WIDTH = 100
 
 // ── sdlpal ui.h 真值色(InventoryMenu / EquipMenu 共享) ─────────────────────
-export const MENUITEM_COLOR = 0x4F                  // ui.h:29  默认
-export const MENUITEM_COLOR_INACTIVE = 0x18         // ui.h:30  filter 不命中 + 非选
-export const MENUITEM_COLOR_SELECTED_INACTIVE = 0x1C // ui.h:32  filter 不命中 + 选中
-export const MENUITEM_COLOR_EQUIPPEDITEM = 0xC8     // ui.h:38  equipment 中(amount=0)
-export const MENUITEM_COLOR_SELECTED_FIRST = 0xF9   // ui.h:33  闪烁起始色
-export const MENUITEM_COLOR_SELECTED_TOTAL = 6      // ui.h:34  闪烁 cycle
+export const MENUITEM_COLOR = 0x4f // ui.h:29  默认
+export const MENUITEM_COLOR_INACTIVE = 0x18 // ui.h:30  filter 不命中 + 非选
+export const MENUITEM_COLOR_SELECTED_INACTIVE = 0x1c // ui.h:32  filter 不命中 + 选中
+export const MENUITEM_COLOR_EQUIPPEDITEM = 0xc8 // ui.h:38  equipment 中(amount=0)
+export const MENUITEM_COLOR_SELECTED_FIRST = 0xf9 // ui.h:33  闪烁起始色
+export const MENUITEM_COLOR_SELECTED_TOTAL = 6 // ui.h:34  闪烁 cycle
 
 /**
  * sdlpal itemmenu.c:135-181 真值 6-case 色规则 — InventoryMenu / EquipMenu / Shop 共享。
@@ -251,8 +251,11 @@ export function confirmInventoryItem(
   state.phase = 'use-target'
 }
 
-export function confirmInventoryTarget(state: InventoryMenuState): { itemId: number; roleId: number } | null {
-  if (state.phase !== 'use-target' || !state.targetMenu || state.selectedItemId === undefined) return null
+export function confirmInventoryTarget(
+  state: InventoryMenuState,
+): { itemId: number; roleId: number } | null {
+  if (state.phase !== 'use-target' || !state.targetMenu || state.selectedItemId === undefined)
+    return null
   const sel = state.targetMenu.items[state.targetMenu.cursor]
   if (!sel) return null
   sSelectedItemTargetSlot = state.targetMenu.cursor // L40:回写记忆 slot(uigame.c:1495 返回不复位)
@@ -267,8 +270,7 @@ export function cancelInventoryMenu(state: InventoryMenuState): void {
     state.phase = 'list'
     state.selectedItemId = undefined
     state.targetMenu = undefined
-  }
-  else if (state.phase === 'list') {
+  } else if (state.phase === 'list') {
     state.phase = 'done'
   }
 }

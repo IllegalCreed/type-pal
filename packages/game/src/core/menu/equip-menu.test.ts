@@ -33,18 +33,23 @@ function mkItem(id: number, name: string, equipable: boolean, equipableBy: boole
     scriptOnThrow: 0,
     scriptDesc: 0,
     flags: {
-      usable: false, equipable, throwable: false, consuming: false,
-      applyToAll: false, sellable: true, equipableBy,
+      usable: false,
+      equipable,
+      throwable: false,
+      consuming: false,
+      applyToAll: false,
+      sellable: true,
+      equipableBy,
     },
     _name: name,
   } as unknown as Item
 }
 
 const ITEMS: Item[] = [
-  mkItem(105, '木剑', true, [true, false, true, false, false, false]),  // 李逍遥/林月如
+  mkItem(105, '木剑', true, [true, false, true, false, false, false]), // 李逍遥/林月如
   mkItem(106, '短刀', true, [true, false, true, false, false, false]),
   mkItem(200, '观音符', false, [false, false, false, false, false, false]), // not equipable
-  mkItem(201, '玉佛珠', true, [false, true, false, false, false, false]),    // 赵灵儿 only
+  mkItem(201, '玉佛珠', true, [false, true, false, false, false, false]), // 赵灵儿 only
 ]
 
 function mkGs() {
@@ -73,7 +78,7 @@ describe('createEquipMenu', () => {
     expect('pageSize' in state.list).toBe(false)
   })
 
-  it("非可装备项(观音符 200)仍入列表(sdlpal 全显示,渲染成红色)", () => {
+  it('非可装备项(观音符 200)仍入列表(sdlpal 全显示,渲染成红色)', () => {
     // sdlpal PAL_ItemSelectMenuInit(itemmenu.c:331-377)不按 wItemFlags 过滤;观音符照样列出,
     // 只是 PAL_ItemSelectMenuUpdate 把不匹配 filter 的项画成 INACTIVE 红色。
     const gs = mkGs()

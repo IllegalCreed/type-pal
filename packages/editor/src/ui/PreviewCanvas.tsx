@@ -5,22 +5,20 @@
  * 相机跟随玩家(贴游戏观感;编辑自由视角归布置模式)。
  */
 
-import type {
-  ActorDef,
-  Command,
-  EntityDef,
-  Locale,
-  SceneDef,
-  ScriptStage,
-  SpriteDef,
-} from '@type-pal/content'
-import { gridToPixel, isReuseMap as sceneIsReuse, lookupText, mapRoom, resolveEntitySpriteId, spriteScreenY, tileHeightsOf } from '@type-pal/content'
-import type { AssetBase, OwnMap, SpriteDraw } from '@type-pal/reforge'
+import type { ActorDef, Command, Locale, SceneDef, ScriptStage, SpriteDef } from '@type-pal/content'
 import {
-  idleFrameIndex,
-  renderSceneFrame,
-  walkFrameIndex,
-} from '@type-pal/reforge'
+  gridToPixel,
+  lookupText,
+  mapRoom,
+  resolveEntitySpriteId,
+  isReuseMap as sceneIsReuse,
+  spriteScreenY,
+  tileHeightsOf,
+} from '@type-pal/content'
+import type { AssetBase, OwnMap, SpriteDraw } from '@type-pal/reforge'
+import { idleFrameIndex, renderSceneFrame, walkFrameIndex } from '@type-pal/reforge'
+import { useEffect, useMemo, useRef } from 'react'
+import type { Playback } from '../core/playback.js'
 import {
   drawGridBlocked,
   drawTriggerHighlight,
@@ -28,8 +26,6 @@ import {
   useStageSize,
   useViewZoomPan,
 } from './scene-stage.js'
-import { useEffect, useMemo, useRef, useState } from 'react'
-import type { Playback } from '../core/playback.js'
 
 const DEFAULT_ZOOM = 2
 
@@ -286,12 +282,16 @@ export function PreviewCanvas(props: {
         sprites: draws,
         worldScale: zoom,
         layers: !sceneIsReuse(scene.map)
-          ? { ownTileHeights: tileHeightsOf(tilesets, (map as import('@type-pal/reforge').OwnMap).tileset) }
+          ? {
+              ownTileHeights: tileHeightsOf(
+                tilesets,
+                (map as import('@type-pal/reforge').OwnMap).tileset,
+              ),
+            }
           : undefined,
       })
       // 网格/禁入叠加(与布置模式同开关同画法;共享层)
-      if (layers)
-        drawGridBlocked(ctx, map, room, { zoom, panX: camera.x, panY: camera.y }, layers)
+      if (layers) drawGridBlocked(ctx, map, room, { zoom, panX: camera.x, panY: camera.y }, layers)
       // 触发点/面高亮:选中事件的 owner 格描边 + 触发范围面(range 切比雪夫盒,引擎 findTrigger 同源)。
       // zone 实体无精灵,这是它在预览里唯一的可见形态。
       if (focusEntityId) {
@@ -314,7 +314,19 @@ export function PreviewCanvas(props: {
     }
     raf = requestAnimationFrame(frame)
     return () => cancelAnimationFrame(raf)
-  }, [status, scene, size.w, size.h, playback, spriteById, leaderSpriteId, focusEntityId, layers, sceneFraming, tilesets])
+  }, [
+    status,
+    scene,
+    size.w,
+    size.h,
+    playback,
+    spriteById,
+    leaderSpriteId,
+    focusEntityId,
+    layers,
+    sceneFraming,
+    tilesets,
+  ])
 
   const v = playback.view
   const mode = playback.mode

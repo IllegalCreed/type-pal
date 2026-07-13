@@ -92,7 +92,7 @@ export function cloneColors(colors: readonly RGB[]): RGB[] {
  * → 用 nightColors;否则白天 colors。fade target 用它选淡入目标(夜场淡入到夜色)。
  */
 export function resolveNightColors(
-  pal: { colors: RGB[], nightColors?: RGB[] } | undefined,
+  pal: { colors: RGB[]; nightColors?: RGB[] } | undefined,
   night: boolean,
 ): RGB[] {
   if (!pal) return blackColors()
@@ -264,7 +264,7 @@ export function stepPaletteFade(colors: RGB[], pf: PaletteFadeState, nowMs: numb
       //   j∈0..60 + 循环后 SetPalette 补满(finalize 补精确 100%/0%);SceneFade(palette.c:325-329/360-364)
       //   i∈0..63 且函数末尾**无补满** → fadeIn 停 63/64≈98.4%(finalize 也只补量化值,见 finalizePaletteFade)。
       const is63 = pf.fade63 !== undefined
-      const n = is63 ? 64 : 60   // 步数基数(time = n 步)
+      const n = is63 ? 64 : 60 // 步数基数(time = n 步)
       const cap = is63 ? 63 : 60 // j 上限:SceneFade `i<64` → 最大 63;Fade j 最大 60
       const isIn = quantDir === 'in'
       const jj = Math.min(cap, Math.trunc(n * (isIn ? progress : 1 - progress))) // in 0→cap, out cap→0

@@ -98,9 +98,7 @@ export function SpriteUploadWizard(props: {
     if (kind === 'static') return { cols: 1, rows: 1, w: draft.imgW, h: draft.imgH }
     if (kind === 'loop') {
       const n = Math.max(1, frameCount)
-      return draft.imgW % n === 0
-        ? { cols: n, rows: 1, w: draft.imgW / n, h: draft.imgH }
-        : null
+      return draft.imgW % n === 0 ? { cols: n, rows: 1, w: draft.imgW / n, h: draft.imgH } : null
     }
     const n = Math.max(1, framesPerDir)
     const rows = 4 + Math.max(0, actionRows)
@@ -132,7 +130,10 @@ export function SpriteUploadWizard(props: {
       ctx.drawImage(bitmap, 0, 0)
       bitmap.close()
       const data = ctx.getImageData(0, 0, cvs.width, cvs.height)
-      const base = file.name.replace(/\.[^.]*$/, '').toLowerCase().replace(/[^a-z0-9-]+/g, '-')
+      const base = file.name
+        .replace(/\.[^.]*$/, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9-]+/g, '-')
       setDraft({
         fileName: file.name,
         imgW: cvs.width,
@@ -187,7 +188,7 @@ export function SpriteUploadWizard(props: {
     <div className="dscroll" style={{ padding: '14px 18px' }}>
       <h3>上传精灵</h3>
       <div className="field">
-        <label>类型</label>
+        <span className="field-label">类型</span>
         <div style={{ display: 'flex', gap: 6 }}>
           {KIND_META.map((k) => (
             <button
@@ -205,7 +206,7 @@ export function SpriteUploadWizard(props: {
       <p className="hint2">替换某一帧 / 给已有精灵补帧 → 选中精灵后在「精灵帧」面板就地做。</p>
 
       <div className="field">
-        <label>图片文件</label>
+        <span className="field-label">图片文件</span>
         <input
           type="file"
           accept="image/png,image/webp,image/gif"
@@ -219,7 +220,7 @@ export function SpriteUploadWizard(props: {
       {draft && (
         <>
           <div className="field">
-            <label>原图</label>
+            <span className="field-label">原图</span>
             <span className="mono">
               {draft.fileName} · {draft.imgW}×{draft.imgH}
             </span>
@@ -228,7 +229,7 @@ export function SpriteUploadWizard(props: {
           {kind === 'directional' && (
             <>
               <div className="field">
-                <label>每向帧数</label>
+                <span className="field-label">每向帧数</span>
                 <input
                   className="in mono"
                   type="number"
@@ -240,14 +241,16 @@ export function SpriteUploadWizard(props: {
                 <span className="hint2">原版走姿 3 帧(中间为立姿)</span>
               </div>
               <div className="field">
-                <label>动作帧行</label>
+                <span className="field-label">动作帧行</span>
                 <input
                   className="in mono"
                   type="number"
                   min={0}
                   max={12}
                   value={actionRows}
-                  onChange={(e) => setActionRows(Math.max(0, Math.floor(e.target.valueAsNumber) || 0))}
+                  onChange={(e) =>
+                    setActionRows(Math.max(0, Math.floor(e.target.valueAsNumber) || 0))
+                  }
                 />
                 <span className="hint2">0 = 无;每行同宽,空格留透明即可</span>
               </div>
@@ -255,7 +258,7 @@ export function SpriteUploadWizard(props: {
           )}
           {kind === 'loop' && (
             <div className="field">
-              <label>帧数</label>
+              <span className="field-label">帧数</span>
               <input
                 className="in mono"
                 type="number"
@@ -272,7 +275,7 @@ export function SpriteUploadWizard(props: {
             </div>
           ) : (
             <div className="field">
-              <label>切帧</label>
+              <span className="field-label">切帧</span>
               <span className="mono">
                 {grid.cols}×{grid.rows} 帧 · 每帧 {grid.w}×{grid.h}
               </span>
@@ -281,7 +284,7 @@ export function SpriteUploadWizard(props: {
           {palette && grid && quantized.length > 0 && (
             <>
               <div className="field">
-                <label>入库预览</label>
+                <span className="field-label">入库预览</span>
                 <span className="hint2">已贴合工程主色(所见即入库,×2 展示)</span>
               </div>
               {kind === 'directional' ? (
@@ -315,7 +318,7 @@ export function SpriteUploadWizard(props: {
             </>
           )}
           <div className="field">
-            <label>ID</label>
+            <span className="field-label">ID</span>
             <input
               className="in mono"
               value={newId}
@@ -324,7 +327,7 @@ export function SpriteUploadWizard(props: {
             />
           </div>
           <div className="field">
-            <label>标签</label>
+            <span className="field-label">标签</span>
             <input className="in" value={newLabel} onChange={(e) => setNewLabel(e.target.value)} />
           </div>
           <button

@@ -32,10 +32,11 @@ export function drawBattleBg(fb: Framebuffer, bg: BattleBgAsset, bgColorShift = 
     for (let x = 0; x < w; x++) {
       let px = bg.indices[y * bg.width + x]!
       if (bgColorShift !== 0) {
-        let b = (px & 0x0F) + bgColorShift
-        if (b & 0x80) b = 0 // 负 → 0(battle.c:67-70)
-        else if (b & 0x70) b = 0x0F // >15 → 15(battle.c:71-74)
-        px = (b & 0x0F) | (px & 0xF0)
+        let b = (px & 0x0f) + bgColorShift
+        if (b & 0x80)
+          b = 0 // 负 → 0(battle.c:67-70)
+        else if (b & 0x70) b = 0x0f // >15 → 15(battle.c:71-74)
+        px = (b & 0x0f) | (px & 0xf0)
       }
       fb.writePixel(x, y, px)
     }

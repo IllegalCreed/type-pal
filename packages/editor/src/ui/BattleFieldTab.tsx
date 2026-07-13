@@ -59,9 +59,10 @@ export function BattleFieldTab(props: {
   const [filter, setFilter] = useState('')
   // FBP.MKF chunk 0-5 是 UI 背景(主菜单 / splash / DOS 开场 3·4),**不是战场** —— 真战场从 6 起
   //(作者实证)。它们五灵加成恒 0、且不该用战场调色盘上色(否则整偏)。战场页只列真战场。
-  const realFields = useMemo(() => battleFields.filter((f) => f.id >= FIRST_BATTLE_FIELD_ID), [
-    battleFields,
-  ])
+  const realFields = useMemo(
+    () => battleFields.filter((f) => f.id >= FIRST_BATTLE_FIELD_ID),
+    [battleFields],
+  )
   const [selId, setSelId] = useState<number>(realFields[0]?.id ?? FIRST_BATTLE_FIELD_ID)
   const shown = useMemo(
     () =>
@@ -96,15 +97,20 @@ export function BattleFieldTab(props: {
         />
         <div className="tree">
           {shown.map((f) => (
-            <div
+            <button
+              type="button"
               key={f.id}
               className={`node${field?.id === f.id ? ' sel' : ''}`}
               onClick={() => setSelId(f.id)}
             >
               <span className="mono">{String(f.id).padStart(3, '0')}</span>
               <span style={{ marginLeft: 6 }}>{f.name ?? ''}</span>
-              {f.screenWave > 0 && <span className="k" style={{ marginLeft: 'auto' }}>🌊{f.screenWave}</span>}
-            </div>
+              {f.screenWave > 0 && (
+                <span className="k" style={{ marginLeft: 'auto' }}>
+                  🌊{f.screenWave}
+                </span>
+              )}
+            </button>
           ))}
         </div>
       </div>

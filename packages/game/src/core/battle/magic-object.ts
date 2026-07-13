@@ -30,11 +30,9 @@ export function resolveMagicObject(
   }
 
   const objectMagic = objectMagics.find((m) => m.id === objectId)
-  if (!objectMagic)
-    return undefined
+  if (!objectMagic) return undefined
   const magic = magics.find((m) => m.id === objectMagic.magicNumber)
-  if (!magic)
-    return undefined
+  if (!magic) return undefined
 
   return {
     id: objectId,
@@ -60,13 +58,17 @@ export function explainMagicObjectResolution(
   const spell = spells.find((s) => s.id === objectId)
   if (spell) {
     const magic = magics.find((m) => m.id === spell.magicNumber)
-    return magic ? undefined : { id: objectId, spell, magicNumber: spell.magicNumber, reason: 'magicNotFound' }
+    return magic
+      ? undefined
+      : { id: objectId, spell, magicNumber: spell.magicNumber, reason: 'magicNotFound' }
   }
 
   const objectMagic = objectMagics.find((m) => m.id === objectId)
   if (objectMagic) {
     const magic = magics.find((m) => m.id === objectMagic.magicNumber)
-    return magic ? undefined : { id: objectId, objectMagic, magicNumber: objectMagic.magicNumber, reason: 'magicNotFound' }
+    return magic
+      ? undefined
+      : { id: objectId, objectMagic, magicNumber: objectMagic.magicNumber, reason: 'magicNotFound' }
   }
 
   return { id: objectId, reason: 'objectNotFound' }

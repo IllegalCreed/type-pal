@@ -4,9 +4,7 @@ import { createFramebuffer } from '../present/framebuffer.js'
 import { __setRngChunkLoaderForTest, playRng } from './rng-player.js'
 
 const MOCK_MANIFEST = {
-  chunks: [
-    { chunkIndex: 6, frameCount: 3, frames: [{ index: 0 }, { index: 1 }, { index: 2 }] },
-  ],
+  chunks: [{ chunkIndex: 6, frameCount: 3, frames: [{ index: 0 }, { index: 1 }, { index: 2 }] }],
 }
 
 function mockManifestOk(): () => Promise<typeof MOCK_MANIFEST> {
@@ -128,10 +126,15 @@ describe('playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)', () => {
       fb,
       canvasCtx: mockCanvasCtx,
       palette: mockPalette,
-      fetchManifest: async () => { throw new Error('mock fail') },
+      fetchManifest: async () => {
+        throw new Error('mock fail')
+      },
       fetchFrame: mockFrameFiller(),
     })
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining('manifest fetch failed'), expect.any(Error))
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining('manifest fetch failed'),
+      expect.any(Error),
+    )
     expect(fb.indices.every((v) => v === 0)).toBe(true)
   })
 
@@ -155,7 +158,10 @@ describe('playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)', () => {
         }
       },
     })
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining('frame 1 fetch fail'), expect.any(Error))
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining('frame 1 fetch fail'),
+      expect.any(Error),
+    )
     // 末帧 frameIdx=2 仍画到 fb
     expect(fb.indices[0]).toBe(3)
   })

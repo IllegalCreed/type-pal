@@ -1,12 +1,12 @@
-import { describe, it, expect, vi, afterEach } from 'vitest'
-import type { Tilemap, Palette, PlayerRoles } from '@type-pal/shared'
-import { presentFrame, applyDialogIconPaletteShift, type PresentContext } from './present.js'
-import { startDialogLine, tickDialog, setWaitingEndKey, FRAMES_PER_CHAR } from './dialog-box.js'
-import { createFramebuffer } from './framebuffer.js'
+import type { Palette, PlayerRoles, Tilemap } from '@type-pal/shared'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { createInitialGameState } from '../core/game-state.js'
+import { FRAMES_PER_CHAR, setWaitingEndKey, startDialogLine, tickDialog } from './dialog-box.js'
 import type { SpriteImage } from './draw-sprite.js'
 import * as drawSpriteModule from './draw-sprite.js'
+import { createFramebuffer } from './framebuffer.js'
 import * as drawMenuModule from './menu/draw-menu.js'
+import { applyDialogIconPaletteShift, type PresentContext, presentFrame } from './present.js'
 
 function flatMap(w: number, h: number): Tilemap {
   const cells = Array.from({ length: h }, () =>
@@ -17,10 +17,12 @@ function flatMap(w: number, h: number): Tilemap {
 
 function makeSprite(colorIdx: number = 1): SpriteImage {
   return {
-    width: 16, height: 24,
+    width: 16,
+    height: 24,
     indices: new Uint8Array(16 * 24).fill(colorIdx),
     opaque: new Uint8Array(16 * 24).fill(1),
-    anchorX: 8, anchorY: 24,
+    anchorX: 8,
+    anchorY: 24,
   }
 }
 
@@ -62,12 +64,17 @@ function baseCtx(tilemap?: Tilemap): PresentContext {
     tileImages: { get: () => undefined },
     partyFrames: [makeSprite(5)],
     partyWalkFrames: 3,
-    npcSprites: new Map([[1, makeSprite(3)], [2, makeSprite(4)]]),
+    npcSprites: new Map([
+      [1, makeSprite(3)],
+      [2, makeSprite(4)],
+    ]),
   }
 }
 
 describe('presentFrame 菜单渲染门控(物品/手卷 use 脚本期间 mode=event → 不画菜单遮挡对话)', () => {
-  afterEach(() => { vi.restoreAllMocks() })
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
 
   function menuGs(mode: 'menu' | 'event') {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
@@ -107,7 +114,16 @@ describe('presentFrame', () => {
     const ctx: PresentContext = {
       tilemap: flatMap(3, 3),
       tileImages: { get: () => undefined },
-      partyFrames: [{ width: 1, height: 1, indices: new Uint8Array([0]), opaque: new Uint8Array([0]), anchorX: 0, anchorY: 0 }],
+      partyFrames: [
+        {
+          width: 1,
+          height: 1,
+          indices: new Uint8Array([0]),
+          opaque: new Uint8Array([0]),
+          anchorX: 0,
+          anchorY: 0,
+        },
+      ],
       partyWalkFrames: 3,
       npcSprites: new Map(),
     }
@@ -125,7 +141,16 @@ describe('presentFrame', () => {
     const ctx: PresentContext = {
       tilemap: flatMap(3, 3),
       tileImages: { get: () => undefined },
-      partyFrames: [{ width: 1, height: 1, indices: new Uint8Array([0]), opaque: new Uint8Array([0]), anchorX: 0, anchorY: 0 }],
+      partyFrames: [
+        {
+          width: 1,
+          height: 1,
+          indices: new Uint8Array([0]),
+          opaque: new Uint8Array([0]),
+          anchorX: 0,
+          anchorY: 0,
+        },
+      ],
       partyWalkFrames: 3,
       npcSprites: new Map(),
     }
@@ -146,7 +171,16 @@ describe('presentFrame', () => {
     const ctx: PresentContext = {
       tilemap: flatMap(3, 3),
       tileImages: { get: () => undefined },
-      partyFrames: [{ width: 1, height: 1, indices: new Uint8Array([0]), opaque: new Uint8Array([0]), anchorX: 0, anchorY: 0 }],
+      partyFrames: [
+        {
+          width: 1,
+          height: 1,
+          indices: new Uint8Array([0]),
+          opaque: new Uint8Array([0]),
+          anchorX: 0,
+          anchorY: 0,
+        },
+      ],
       partyWalkFrames: 3,
       npcSprites: new Map(),
     }
@@ -164,7 +198,16 @@ describe('presentFrame', () => {
   const minimalCtx = (): PresentContext => ({
     tilemap: flatMap(3, 3),
     tileImages: { get: () => undefined },
-    partyFrames: [{ width: 1, height: 1, indices: new Uint8Array([0]), opaque: new Uint8Array([0]), anchorX: 0, anchorY: 0 }],
+    partyFrames: [
+      {
+        width: 1,
+        height: 1,
+        indices: new Uint8Array([0]),
+        opaque: new Uint8Array([0]),
+        anchorX: 0,
+        anchorY: 0,
+      },
+    ],
     partyWalkFrames: 3,
     npcSprites: new Map(),
   })
@@ -262,16 +305,19 @@ describe('P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)', () => {
     frameCount = walkFrames * 4,
   ): number {
     // 构造 walkFrames*4 帧,每帧颜色 = idx+1
-    const frames: SpriteImage[] = Array.from({ length: frameCount }, (_, i) =>
-      ({ width: 1, height: 1, indices: new Uint8Array([i + 1]), opaque: new Uint8Array([1]), anchorX: 0, anchorY: 0 }),
-    )
+    const frames: SpriteImage[] = Array.from({ length: frameCount }, (_, i) => ({
+      width: 1,
+      height: 1,
+      indices: new Uint8Array([i + 1]),
+      opaque: new Uint8Array([1]),
+      anchorX: 0,
+      anchorY: 0,
+    }))
     const drawn: number[] = []
-    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation(
-      (_fb, sprite) => {
-        const idx = frames.indexOf(sprite as SpriteImage)
-        if (idx >= 0) drawn.push(idx)
-      },
-    )
+    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation((_fb, sprite) => {
+      const idx = frames.indexOf(sprite as SpriteImage)
+      if (idx >= 0) drawn.push(idx)
+    })
     const fb = createFramebuffer()
     const ctx: PresentContext = {
       tilemap: flatMap(10, 10),
@@ -348,7 +394,10 @@ describe('P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)', () => {
 
   it('4 方向 facing 映射:down=0/left=1/up=2/right=3(站立帧验证)', () => {
     const facings: Array<['down' | 'left' | 'up' | 'right', number]> = [
-      ['down', 0], ['left', 1], ['up', 2], ['right', 3],
+      ['down', 0],
+      ['left', 1],
+      ['up', 2],
+      ['right', 3],
     ]
     for (const [facing, dir] of facings) {
       const gs = createInitialGameState({ x: 0, y: 0, facing })
@@ -383,12 +432,12 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     ctx: PresentContext,
   ): Array<{ spriteIdx: number; cx: number; cy: number }> {
     const calls: Array<{ spriteIdx: number; cx: number; cy: number }> = []
-    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation(
-      (_fb, sprite, cx, cy) => {
+    const spy = vi
+      .spyOn(drawSpriteModule, 'drawSprite')
+      .mockImplementation((_fb, sprite, cx, cy) => {
         const idx = ctx.partyFrames.indexOf(sprite as SpriteImage)
         if (idx >= 0) calls.push({ spriteIdx: idx, cx, cy })
-      },
-    )
+      })
     const fb = createFramebuffer()
     presentFrame(fb, gs, ctx)
     spy.mockRestore()
@@ -400,11 +449,11 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     ctx: PresentContext,
   ): Array<{ sprite: SpriteImage; cx: number; cy: number }> {
     const calls: Array<{ sprite: SpriteImage; cx: number; cy: number }> = []
-    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation(
-      (_fb, sprite, cx, cy) => {
+    const spy = vi
+      .spyOn(drawSpriteModule, 'drawSprite')
+      .mockImplementation((_fb, sprite, cx, cy) => {
         calls.push({ sprite: sprite as SpriteImage, cx, cy })
-      },
-    )
+      })
     const fb = createFramebuffer()
     presentFrame(fb, gs, ctx)
     spy.mockRestore()
@@ -419,9 +468,14 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
       { x: 268, y: 134, dir: 'right' },
     ]
     // 构造 12 帧(4 dir × 3 frames)partyFrames
-    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) =>
-      ({ width: 1, height: 1, indices: new Uint8Array([i + 1]), opaque: new Uint8Array([1]), anchorX: 0, anchorY: 0 }),
-    )
+    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) => ({
+      width: 1,
+      height: 1,
+      indices: new Uint8Array([i + 1]),
+      opaque: new Uint8Array([1]),
+      anchorX: 0,
+      anchorY: 0,
+    }))
     const ctx: PresentContext = {
       tilemap: flatMap(20, 20),
       tileImages: { get: () => undefined },
@@ -463,7 +517,9 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     }
 
     const calls = trackDrawSprites(gs, ctx)
-    expect(calls.map((c) => c.sprite)).toEqual(expect.arrayContaining([leaderSprite, followerSprite]))
+    expect(calls.map((c) => c.sprite)).toEqual(
+      expect.arrayContaining([leaderSprite, followerSprite]),
+    )
     expect(calls.some((c) => c.sprite === role0Fallback)).toBe(false)
   })
 
@@ -530,7 +586,7 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     }
 
     const calls = trackDrawSprites(gs, ctx)
-    expect(calls.some((c) => c.sprite === followerFrames[6])).toBe(true)  // 脚本帧生效
+    expect(calls.some((c) => c.sprite === followerFrames[6])).toBe(true) // 脚本帧生效
     expect(calls.some((c) => c.sprite === followerFrames[9])).toBe(false) // 不是 trail 朝向 right
   })
 
@@ -570,15 +626,20 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     gs.partyMembers = [0, 1]
     gs.walkingFrame = { walking: true, stepFrame: 0 } // 偏移公式属 fWalking 分支
     gs.trail = [
-      { x: 284, y: 142, dir: 'right' },   // trail[0]
-      { x: 268, y: 134, dir: 'right' },   // trail[1] → follower 用这个
+      { x: 284, y: 142, dir: 'right' }, // trail[0]
+      { x: 268, y: 134, dir: 'right' }, // trail[1] → follower 用这个
     ]
     // new camera 语义 = sdlpal viewport = party - partyoffset(160, 112)
-    gs.camera = { x: 300 - 160, y: 150 - 112 }  // = (140, 38)
+    gs.camera = { x: 300 - 160, y: 150 - 112 } // = (140, 38)
 
-    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) =>
-      ({ width: 1, height: 1, indices: new Uint8Array([i + 1]), opaque: new Uint8Array([1]), anchorX: 0, anchorY: 0 }),
-    )
+    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) => ({
+      width: 1,
+      height: 1,
+      indices: new Uint8Array([i + 1]),
+      opaque: new Uint8Array([1]),
+      anchorX: 0,
+      anchorY: 0,
+    }))
     const ctx: PresentContext = {
       tilemap: flatMap(30, 30),
       tileImages: { get: () => undefined },
@@ -610,13 +671,18 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     gs.walkingFrame = { walking: true, stepFrame: 0 } // 偏移公式属 fWalking 分支
     gs.trail = [
       { x: 316, y: 158, dir: 'left' },
-      { x: 332, y: 166, dir: 'left' },   // follower 用 trail[1]
+      { x: 332, y: 166, dir: 'left' }, // follower 用 trail[1]
     ]
-    gs.camera = { x: 300 - 160, y: 150 - 112 }  // sdlpal viewport = party - partyoffset
+    gs.camera = { x: 300 - 160, y: 150 - 112 } // sdlpal viewport = party - partyoffset
 
-    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) =>
-      ({ width: 1, height: 1, indices: new Uint8Array([i + 1]), opaque: new Uint8Array([1]), anchorX: 0, anchorY: 0 }),
-    )
+    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) => ({
+      width: 1,
+      height: 1,
+      indices: new Uint8Array([i + 1]),
+      opaque: new Uint8Array([1]),
+      anchorX: 0,
+      anchorY: 0,
+    }))
     const ctx: PresentContext = {
       tilemap: flatMap(30, 30),
       tileImages: { get: () => undefined },
@@ -642,11 +708,16 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
       { x: 316, y: 142, dir: 'down' },
       { x: 332, y: 134, dir: 'down' },
     ]
-    gs.camera = { x: 300 - 160, y: 150 - 112 }  // sdlpal viewport = party - partyoffset
+    gs.camera = { x: 300 - 160, y: 150 - 112 } // sdlpal viewport = party - partyoffset
 
-    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) =>
-      ({ width: 1, height: 1, indices: new Uint8Array([i + 1]), opaque: new Uint8Array([1]), anchorX: 0, anchorY: 0 }),
-    )
+    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) => ({
+      width: 1,
+      height: 1,
+      indices: new Uint8Array([i + 1]),
+      opaque: new Uint8Array([1]),
+      anchorX: 0,
+      anchorY: 0,
+    }))
     const ctx: PresentContext = {
       tilemap: flatMap(30, 30),
       tileImages: { get: () => undefined },
@@ -672,11 +743,16 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
       { x: 284, y: 158, dir: 'up' },
       { x: 268, y: 166, dir: 'up' },
     ]
-    gs.camera = { x: 300 - 160, y: 150 - 112 }  // sdlpal viewport = party - partyoffset
+    gs.camera = { x: 300 - 160, y: 150 - 112 } // sdlpal viewport = party - partyoffset
 
-    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) =>
-      ({ width: 1, height: 1, indices: new Uint8Array([i + 1]), opaque: new Uint8Array([1]), anchorX: 0, anchorY: 0 }),
-    )
+    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) => ({
+      width: 1,
+      height: 1,
+      indices: new Uint8Array([i + 1]),
+      opaque: new Uint8Array([1]),
+      anchorX: 0,
+      anchorY: 0,
+    }))
     const ctx: PresentContext = {
       tilemap: flatMap(30, 30),
       tileImages: { get: () => undefined },
@@ -697,12 +773,17 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
   it('partyMembers.length > 1 但 trail.length <= 1 → 不渲染 follower(避免 crash)', () => {
     const gs = createInitialGameState({ x: 300, y: 150, facing: 'right' })
     gs.partyMembers = [0, 1]
-    gs.trail = [{ x: 284, y: 142, dir: 'right' }]  // 只有 1 项,不够
-    gs.camera = { x: 300 - 160, y: 150 - 112 }  // sdlpal viewport = party - partyoffset
+    gs.trail = [{ x: 284, y: 142, dir: 'right' }] // 只有 1 项,不够
+    gs.camera = { x: 300 - 160, y: 150 - 112 } // sdlpal viewport = party - partyoffset
 
-    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) =>
-      ({ width: 1, height: 1, indices: new Uint8Array([i + 1]), opaque: new Uint8Array([1]), anchorX: 0, anchorY: 0 }),
-    )
+    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) => ({
+      width: 1,
+      height: 1,
+      indices: new Uint8Array([i + 1]),
+      opaque: new Uint8Array([1]),
+      anchorX: 0,
+      anchorY: 0,
+    }))
     const ctx: PresentContext = {
       tilemap: flatMap(20, 20),
       tileImages: { get: () => undefined },
@@ -719,11 +800,16 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     const gs = createInitialGameState({ x: 300, y: 150, facing: 'right' })
     gs.partyMembers = [0, 1]
     gs.trail = []
-    gs.camera = { x: 300 - 160, y: 150 - 112 }  // sdlpal viewport = party - partyoffset
+    gs.camera = { x: 300 - 160, y: 150 - 112 } // sdlpal viewport = party - partyoffset
 
-    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) =>
-      ({ width: 1, height: 1, indices: new Uint8Array([i + 1]), opaque: new Uint8Array([1]), anchorX: 0, anchorY: 0 }),
-    )
+    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) => ({
+      width: 1,
+      height: 1,
+      indices: new Uint8Array([i + 1]),
+      opaque: new Uint8Array([1]),
+      anchorX: 0,
+      anchorY: 0,
+    }))
     const ctx: PresentContext = {
       tilemap: flatMap(20, 20),
       tileImages: { get: () => undefined },
@@ -767,7 +853,16 @@ describe('palette fade 孤儿自清(香兰报信 cutscene 吞键回归)', () => 
     presentFrame(fb, gs, {
       tilemap: flatMap(3, 3),
       tileImages: { get: () => undefined },
-      partyFrames: [{ width: 1, height: 1, indices: new Uint8Array([0]), opaque: new Uint8Array([0]), anchorX: 0, anchorY: 0 }],
+      partyFrames: [
+        {
+          width: 1,
+          height: 1,
+          indices: new Uint8Array([0]),
+          opaque: new Uint8Array([0]),
+          anchorX: 0,
+          anchorY: 0,
+        },
+      ],
       partyWalkFrames: 3,
       npcSprites: new Map(),
     })
@@ -784,7 +879,16 @@ describe('palette fade 孤儿自清(香兰报信 cutscene 吞键回归)', () => 
     presentFrame(fb, gs, {
       tilemap: flatMap(3, 3),
       tileImages: { get: () => undefined },
-      partyFrames: [{ width: 1, height: 1, indices: new Uint8Array([0]), opaque: new Uint8Array([0]), anchorX: 0, anchorY: 0 }],
+      partyFrames: [
+        {
+          width: 1,
+          height: 1,
+          indices: new Uint8Array([0]),
+          opaque: new Uint8Array([0]),
+          anchorX: 0,
+          anchorY: 0,
+        },
+      ],
       partyWalkFrames: 3,
       npcSprites: new Map(),
     })
@@ -801,7 +905,16 @@ describe('palette fade 孤儿自清(香兰报信 cutscene 吞键回归)', () => 
     presentFrame(fb, gs, {
       tilemap: flatMap(3, 3),
       tileImages: { get: () => undefined },
-      partyFrames: [{ width: 1, height: 1, indices: new Uint8Array([0]), opaque: new Uint8Array([0]), anchorX: 0, anchorY: 0 }],
+      partyFrames: [
+        {
+          width: 1,
+          height: 1,
+          indices: new Uint8Array([0]),
+          opaque: new Uint8Array([0]),
+          anchorX: 0,
+          anchorY: 0,
+        },
+      ],
       partyWalkFrames: 3,
       npcSprites: new Map(),
     })
@@ -817,11 +930,9 @@ describe('NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不
   function renderWithNpc(npcX: number, npcY: number): boolean {
     const npcSprite = makeSprite(3) // 16×24
     let drawn = false
-    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation(
-      (_fb, sprite) => {
-        if (sprite === npcSprite) drawn = true
-      },
-    )
+    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation((_fb, sprite) => {
+      if (sprite === npcSprite) drawn = true
+    })
     const fb = createFramebuffer()
     // camera 固定 (0,0):party 放屏幕中央等价位置
     const gs = createInitialGameState({ x: 160, y: 112, facing: 'down' })
@@ -883,13 +994,13 @@ describe('P0.b Y-sort + cover-tile', () => {
     const npc1Sprite = makeSprite(3)
     const npc2Sprite = makeSprite(4)
 
-    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation(
-      (_fb, sprite, _cx, _cy) => {
+    const spy = vi
+      .spyOn(drawSpriteModule, 'drawSprite')
+      .mockImplementation((_fb, sprite, _cx, _cy) => {
         if (sprite === partySprite) order.push('party')
         else if (sprite === npc1Sprite) order.push('npc-1')
         else if (sprite === npc2Sprite) order.push('npc-2')
-      },
-    )
+      })
 
     cb()
     spy.mockRestore()
@@ -901,16 +1012,14 @@ describe('P0.b Y-sort + cover-tile', () => {
     const npc1Sprite = makeSprite(3)
     const order: string[] = []
 
-    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation(
-      (_fb, sprite) => {
-        if (sprite === partySprite) order.push('party')
-        else if (sprite === npc1Sprite) order.push('npc-1')
-      },
-    )
+    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation((_fb, sprite) => {
+      if (sprite === partySprite) order.push('party')
+      else if (sprite === npc1Sprite) order.push('npc-1')
+    })
 
     const fb = createFramebuffer()
-    const gs = createInitialGameState({ x: 100, y: 200, facing: 'down' })  // party y=200(大 = 屏幕下方)
-    gs.npcs = [{ id: 1, x: 100, y: 100, spriteNum: 1 }]                    // npc y=100(小 = 屏幕上方)
+    const gs = createInitialGameState({ x: 100, y: 200, facing: 'down' }) // party y=200(大 = 屏幕下方)
+    gs.npcs = [{ id: 1, x: 100, y: 100, spriteNum: 1 }] // npc y=100(小 = 屏幕上方)
 
     const ctx: PresentContext = {
       tilemap: flatMap(10, 20),
@@ -932,15 +1041,13 @@ describe('P0.b Y-sort + cover-tile', () => {
     const npc1Sprite = makeSprite(3)
     const order: string[] = []
 
-    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation(
-      (_fb, sprite) => {
-        if (sprite === partySprite) order.push('party')
-        else if (sprite === npc1Sprite) order.push('npc-1')
-      },
-    )
+    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation((_fb, sprite) => {
+      if (sprite === partySprite) order.push('party')
+      else if (sprite === npc1Sprite) order.push('npc-1')
+    })
 
     const fb = createFramebuffer()
-    const gs = createInitialGameState({ x: 100, y: 50, facing: 'down' })   // party y=50(小)
+    const gs = createInitialGameState({ x: 100, y: 50, facing: 'down' }) // party y=50(小)
     // npc y=150(大):C 屏外剔除(scene.c:286-314)下需留在屏内(camera y=-62 → vy=199<200)
     gs.npcs = [{ id: 1, x: 100, y: 150, spriteNum: 1 }]
 
@@ -967,21 +1074,22 @@ describe('P0.b Y-sort + cover-tile', () => {
     ])
     const order: string[] = []
 
-    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation(
-      (_fb, sprite) => {
-        for (const [id, s] of sprites) {
-          if (sprite === s) { order.push(`npc-${id}`); break }
+    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation((_fb, sprite) => {
+      for (const [id, s] of sprites) {
+        if (sprite === s) {
+          order.push(`npc-${id}`)
+          break
         }
-      },
-    )
+      }
+    })
 
     const fb = createFramebuffer()
     // party 居中(camera 0,0;party sprite 不入 order,不干扰)。npc y 全收屏内(C 屏外剔除)。
     const gs = createInitialGameState({ x: 160, y: 112, facing: 'down' })
     gs.npcs = [
-      { id: 3, x: 0, y: 180, spriteNum: 3 },   // y=180(最大 → 最后画)
-      { id: 1, x: 0, y: 60, spriteNum: 1 },    // y=60(最小 → 最先画)
-      { id: 2, x: 0, y: 120, spriteNum: 2 },   // y=120(中间)
+      { id: 3, x: 0, y: 180, spriteNum: 3 }, // y=180(最大 → 最后画)
+      { id: 1, x: 0, y: 60, spriteNum: 1 }, // y=60(最小 → 最先画)
+      { id: 2, x: 0, y: 120, spriteNum: 2 }, // y=120(中间)
     ]
 
     const ctx: PresentContext = {
@@ -1023,7 +1131,10 @@ describe('P0.b Y-sort + cover-tile', () => {
       tileImages: { get: () => undefined },
       partyFrames: [partySprite],
       partyWalkFrames: 3,
-      npcSprites: new Map([[1, hiddenNpcSprite], [2, frozenNpcSprite]]),
+      npcSprites: new Map([
+        [1, hiddenNpcSprite],
+        [2, frozenNpcSprite],
+      ]),
     }
 
     presentFrame(fb, gs, ctx)
@@ -1045,10 +1156,18 @@ describe('P0.b Y-sort + cover-tile', () => {
     const fb = createFramebuffer()
     // party 居中(camera 0,0)→ npc 屏内(同上,C 屏外剔除)
     const gs = createInitialGameState({ x: 160, y: 112, facing: 'down' })
-    gs.npcs = [{
-      id: 346, x: 100, y: 100, spriteNum: 193,
-      sState: 1, nSpriteFrames: 0, scriptedFrame: 13, facing: 'down',
-    }]
+    gs.npcs = [
+      {
+        id: 346,
+        x: 100,
+        y: 100,
+        spriteNum: 193,
+        sState: 1,
+        nSpriteFrames: 0,
+        scriptedFrame: 13,
+        facing: 'down',
+      },
+    ]
     const ctx: PresentContext = {
       tilemap: flatMap(20, 20),
       tileImages: { get: () => undefined },
@@ -1082,12 +1201,13 @@ describe('P0.b Y-sort + cover-tile', () => {
 
     // tile bitmap: 4×4 全 palette idx = 7
     const coverTileImg = {
-      width: 4, height: 4,
+      width: 4,
+      height: 4,
       indices: new Uint8Array(16).fill(7),
       opaque: new Uint8Array(16).fill(1),
     }
     const tileImages = {
-      get: (idx: number) => idx === 1 ? coverTileImg : undefined,
+      get: (idx: number) => (idx === 1 ? coverTileImg : undefined),
     }
 
     // Build tilemap: 10×10, cell(5,5).lower 编码 layer-1 tileId=1, height=2
@@ -1095,10 +1215,10 @@ describe('P0.b Y-sort + cover-tile', () => {
     //   tileId=1 → raw = 2 → hi low byte = 2
     //   height=2 → hi bits 8..11 = 2 → hi = (2 << 8) | 2 = 0x0202
     //   full DWORD lower = hi << 16 = 0x02020000
-    const L1_DWORD = 0x02020000   // layer-1: tileId raw=2 → id=1, height=2
+    const L1_DWORD = 0x02020000 // layer-1: tileId raw=2 → id=1, height=2
     const cells = Array.from({ length: 10 }, (_, r) =>
       Array.from({ length: 10 }, (__, c) =>
-        (r === 5 && c === 5) ? { lower: L1_DWORD, upper: 0 } : { lower: 0, upper: 0 },
+        r === 5 && c === 5 ? { lower: L1_DWORD, upper: 0 } : { lower: 0, upper: 0 },
       ),
     )
     const tilemap: Tilemap = { width: 10, height: 10, cells, tileset: 'fake' }
@@ -1108,7 +1228,7 @@ describe('P0.b Y-sort + cover-tile', () => {
     // sy = 80 + 10 = 90; condition: (5+2)*16 + 0*8 = 112 >= 90 ✓
     const gs = createInitialGameState({ x: 160, y: 80, facing: 'down' })
     // new camera 语义 = sdlpal viewport = party - partyoffset(160, 112)
-    gs.camera = { x: 160 - 160, y: 80 - 112 }  // = (0, -32)
+    gs.camera = { x: 160 - 160, y: 80 - 112 } // = (0, -32)
     const ctx: PresentContext = {
       tilemap,
       tileImages,
@@ -1138,19 +1258,20 @@ describe('P0.b Y-sort + cover-tile', () => {
 
     // 高 tile:48 px(屋顶/高柱子类),idx=9
     const coverTileImg = {
-      width: 4, height: 48,
+      width: 4,
+      height: 48,
       indices: new Uint8Array(4 * 48).fill(9),
       opaque: new Uint8Array(4 * 48).fill(1),
     }
     const tileImages = {
-      get: (idx: number) => idx === 1 ? coverTileImg : undefined,
+      get: (idx: number) => (idx === 1 ? coverTileImg : undefined),
     }
 
     // cell(2, 3).lower:layer-1 tileId=1, height=2 → hi = 0x0202 → DWORD 0x02020000
     const L1_DWORD = 0x02020000
     const cells = Array.from({ length: 10 }, (_, r) =>
       Array.from({ length: 10 }, (__, c) =>
-        (r === 3 && c === 2) ? { lower: L1_DWORD, upper: 0 } : { lower: 0, upper: 0 },
+        r === 3 && c === 2 ? { lower: L1_DWORD, upper: 0 } : { lower: 0, upper: 0 },
       ),
     )
     const tilemap: Tilemap = { width: 10, height: 10, cells, tileset: 'fake' }
@@ -1195,18 +1316,19 @@ describe('P0.b Y-sort + cover-tile', () => {
     // condition: (5+2)*16=112 < 510 → tile 不被加入 entries → 不绘
 
     const coverTileImg = {
-      width: 4, height: 4,
+      width: 4,
+      height: 4,
       indices: new Uint8Array(16).fill(7),
       opaque: new Uint8Array(16).fill(1),
     }
     const tileImages = {
-      get: (idx: number) => idx === 1 ? coverTileImg : undefined,
+      get: (idx: number) => (idx === 1 ? coverTileImg : undefined),
     }
 
     const L1_DWORD = 0x02020000
     const cells = Array.from({ length: 40 }, (_, r) =>
       Array.from({ length: 10 }, (__, c) =>
-        (r === 5 && c === 5) ? { lower: L1_DWORD, upper: 0 } : { lower: 0, upper: 0 },
+        r === 5 && c === 5 ? { lower: L1_DWORD, upper: 0 } : { lower: 0, upper: 0 },
       ),
     )
     const tilemap: Tilemap = { width: 10, height: 40, cells, tileset: 'fake' }

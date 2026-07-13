@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { GameState } from '../core/game-state.js'
-import { canQuickSave, setupQuickSave, type QuickSaveDeps } from './quick-save.js'
+import { canQuickSave, type QuickSaveDeps, setupQuickSave } from './quick-save.js'
 
 const exploreGs = (over: Record<string, unknown> = {}): GameState =>
   ({ mode: 'explore', dialogBox: undefined, menuStack: [], ...over }) as never

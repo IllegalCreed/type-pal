@@ -1,18 +1,16 @@
-import type { EnemyDef, SkillData } from '@type-pal/content'
+import type { EnemyDef, ItemData, SkillData } from '@type-pal/content'
 import { calcMagicDamage, calcPhysicalAttackDamage } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import type { ItemData } from '@type-pal/content'
 import {
-  type BattlePlayerState,
-  type CreatePlayerInput,
   applyEnemyEquivItem,
   applyPoisonToEnemy,
   applyPoisonToPlayer,
+  type CreatePlayerInput,
   createBattleState,
   curePoisons,
+  pendingItemUses,
   resolveAttack,
   runBattleToEnd,
-  pendingItemUses,
   stepBattle,
 } from './battle-core.js'
 
@@ -23,18 +21,47 @@ function mkEnemy(id: string, o: Partial<EnemyDef['stats']> = {}): EnemyDef {
     name: `name.${id}`,
     spriteNum: 1,
     stats: {
-      health: 30, level: 1, exp: 5, cash: 3, attackStrength: 20, magicStrength: 0,
-      defense: 10, dexterity: 10, fleeRate: 0, physicalResistance: 0, poisonResistance: 0,
-      elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 }, dualMove: false, collectValue: 0,
+      health: 30,
+      level: 1,
+      exp: 5,
+      cash: 3,
+      attackStrength: 20,
+      magicStrength: 0,
+      defense: 10,
+      dexterity: 10,
+      fleeRate: 0,
+      physicalResistance: 0,
+      poisonResistance: 0,
+      elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      dualMove: false,
+      collectValue: 0,
       ...o,
     },
     ai: { resistanceToSorcery: 5 },
-    anim: { idleFrames: 2, magicFrames: 0, attackFrames: 2, idleAnimSpeed: 5, actWaitFrames: 1, yPosOffset: 0 },
+    anim: {
+      idleFrames: 2,
+      magicFrames: 0,
+      attackFrames: 2,
+      idleAnimSpeed: 5,
+      actWaitFrames: 1,
+      yPosOffset: 0,
+    },
     sounds: { attack: 0, action: 0, magic: 0, death: 0, call: 0 },
   }
 }
 const player = (roleId: string, o: Partial<CreatePlayerInput> = {}): CreatePlayerInput => ({
-  roleId, hp: 100, maxHp: 100, mp: 30, maxMp: 30, attackStrength: 40, defense: 30, magicStrength: 20, baseDexterity: 50, skills: [], fleeRate: 20, ...o,
+  roleId,
+  hp: 100,
+  maxHp: 100,
+  mp: 30,
+  maxMp: 30,
+  attackStrength: 40,
+  defense: 30,
+  magicStrength: 20,
+  baseDexterity: 50,
+  skills: [],
+  fleeRate: 20,
+  ...o,
 })
 const rng0 = () => 0 // 定值:AI 恒选第一个目标
 
@@ -46,17 +73,31 @@ describe('M4a headless 战斗核', () => {
   })
 
   test('一场 1v1 攻击战:玩家碾压 → won,伤害对齐公式', () => {
-    const s = createBattleState({ players: [player('li', { attackStrength: 40 })], enemies: [mkEnemy('slime', { health: 30, defense: 10, attackStrength: 1 })] })
+    const s = createBattleState({
+      players: [player('li', { attackStrength: 40 })],
+      enemies: [mkEnemy('slime', { health: 30, defense: 10, attackStrength: 1 })],
+    })
     const dmg = calcPhysicalAttackDamage(40, 10, 0) // 每击伤害
-    const result = runBattleToEnd(s, (st) => st.pendingActions.set(0, { kind: 'attack', targetEnemyIdx: 0 }), rng0)
+    const result = runBattleToEnd(
+      s,
+      (st) => st.pendingActions.set(0, { kind: 'attack', targetEnemyIdx: 0 }),
+      rng0,
+    )
     expect(result).toBe('won')
     expect(Math.ceil(30 / dmg)).toBeGreaterThanOrEqual(1)
     expect(s.log.some((l) => l.includes('胜利'))).toBe(true)
   })
 
   test('一场 1v1:敌强玩家弱 → lost', () => {
-    const s = createBattleState({ players: [player('li', { hp: 10, attackStrength: 1, defense: 0 })], enemies: [mkEnemy('boss', { health: 999, attackStrength: 100, defense: 999 })] })
-    const result = runBattleToEnd(s, (st) => st.pendingActions.set(0, { kind: 'attack', targetEnemyIdx: 0 }), rng0)
+    const s = createBattleState({
+      players: [player('li', { hp: 10, attackStrength: 1, defense: 0 })],
+      enemies: [mkEnemy('boss', { health: 999, attackStrength: 100, defense: 999 })],
+    })
+    const result = runBattleToEnd(
+      s,
+      (st) => st.pendingActions.set(0, { kind: 'attack', targetEnemyIdx: 0 }),
+      rng0,
+    )
     expect(result).toBe('lost')
     expect(s.players[0]!.hp).toBe(0)
   })
@@ -123,7 +164,10 @@ describe('M4a headless 战斗核', () => {
 
   test('出手顺序:高 dex 先动（玩家 dex 50 > 敌 dex,玩家先削敌）', () => {
     // 玩家 baseDex 50(haste 无 → 50);敌 level1 dex10 → (1+6)*3+10=31。玩家先。
-    const s = createBattleState({ players: [player('li', { attackStrength: 100 })], enemies: [mkEnemy('slime', { health: 40, defense: 0, dexterity: 10, level: 1 })] })
+    const s = createBattleState({
+      players: [player('li', { attackStrength: 100 })],
+      enemies: [mkEnemy('slime', { health: 40, defense: 0, dexterity: 10, level: 1 })],
+    })
     stepBattle(s, rng0) // preBattle → selectAction
     s.pendingActions.set(0, { kind: 'attack', targetEnemyIdx: 0 })
     stepBattle(s, rng0) // selectAction → performAction(build queue)
@@ -185,21 +229,32 @@ describe('M4a headless 战斗核', () => {
 
 describe('M4c 敌人 AI(规则决策 + cast 结算)', () => {
   const bolt: import('@type-pal/content').SkillData = {
-    id: '339', name: '雷咒', desc: '', cost: { mp: 10 }, usableOutsideBattle: false,
-    target: 'oneEnemy', effects: [{ kind: 'damage', power: 50, elemental: 0 }],
+    id: '339',
+    name: '雷咒',
+    desc: '',
+    cost: { mp: 10 },
+    usableOutsideBattle: false,
+    target: 'oneEnemy',
+    effects: [{ kind: 'damage', power: 50, elemental: 0 }],
     animation: { effectSprite: 1 },
   }
   const caster = (): EnemyDef => ({
     ...mkEnemy('mage', { magicStrength: 60, attackStrength: 5, health: 500, defense: 0 }),
     ai: {
       resistanceToSorcery: 5,
-      rules: [{ at: 'act', when: { kind: 'chance', percent: 50 }, do: { kind: 'cast', skillId: '339' } }],
+      rules: [
+        { at: 'act', when: { kind: 'chance', percent: 50 }, do: { kind: 'cast', skillId: '339' } },
+      ],
     },
   })
 
   test('概率中 → 施法(calcMagicDamage 路径,日志记名);概率不中 → 兜底普攻', () => {
     // rng 序列:构造可控 —— 第一次 rng 用于 chance(0 → 中),后续用于目标/rngFactor
-    const s = createBattleState({ players: [player('li', { hp: 400, maxHp: 400, defense: 0 })], enemies: [caster()], skills: { '339': bolt } })
+    const s = createBattleState({
+      players: [player('li', { hp: 400, maxHp: 400, defense: 0 })],
+      enemies: [caster()],
+      skills: { '339': bolt },
+    })
     stepBattle(s, rng0)
     s.pendingActions.set(0, { kind: 'defend' })
     let guard = 0
@@ -209,7 +264,11 @@ describe('M4c 敌人 AI(规则决策 + cast 结算)', () => {
     }
     expect(s.log.some((l) => l.includes('施展 雷咒'))).toBe(true)
 
-    const s2 = createBattleState({ players: [player('li')], enemies: [caster()], skills: { '339': bolt } })
+    const s2 = createBattleState({
+      players: [player('li')],
+      enemies: [caster()],
+      skills: { '339': bolt },
+    })
     const r9 = () => 0.99 // chance 不中 → 普攻
     stepBattle(s2, r9)
     s2.pendingActions.set(0, { kind: 'defend' })
@@ -225,23 +284,39 @@ describe('M4c 敌人 AI(规则决策 + cast 结算)', () => {
   test('once 规则只触发一次;沉默跳过 cast 落普攻', () => {
     const e: EnemyDef = {
       ...mkEnemy('boss', { health: 800, attackStrength: 5 }),
-      ai: { resistanceToSorcery: 5, rules: [{ at: 'act', do: { kind: 'cast', skillId: '339' }, once: true }] },
+      ai: {
+        resistanceToSorcery: 5,
+        rules: [{ at: 'act', do: { kind: 'cast', skillId: '339' }, once: true }],
+      },
     }
-    const s = createBattleState({ players: [player('li', { hp: 900, maxHp: 900 })], enemies: [e], skills: { '339': bolt } })
+    const s = createBattleState({
+      players: [player('li', { hp: 900, maxHp: 900 })],
+      enemies: [e],
+      skills: { '339': bolt },
+    })
     // 回合1:施法(once);回合2:规则已耗尽 → 普攻
     let casts = 0
     let attacks = 0
-    runBattleToEnd(s, (st) => {
-      for (const i of st.players.keys()) if (st.players[i]!.hp > 0) st.pendingActions.set(i, { kind: 'defend' })
-      if (st.turn >= 3) st.pendingActions.set(0, { kind: 'flee' })
-    }, rng0)
+    runBattleToEnd(
+      s,
+      (st) => {
+        for (const i of st.players.keys())
+          if (st.players[i]!.hp > 0) st.pendingActions.set(i, { kind: 'defend' })
+        if (st.turn >= 3) st.pendingActions.set(0, { kind: 'flee' })
+      },
+      rng0,
+    )
     casts = s.log.filter((l) => l.includes('施展')).length
     attacks = s.log.filter((l) => l.includes('攻击')).length
     expect(casts).toBe(1)
     expect(attacks).toBeGreaterThanOrEqual(1)
 
     // 沉默:cast 规则被跳过 → 普攻
-    const s3 = createBattleState({ players: [player('li')], enemies: [caster()], skills: { '339': bolt } })
+    const s3 = createBattleState({
+      players: [player('li')],
+      enemies: [caster()],
+      skills: { '339': bolt },
+    })
     stepBattle(s3, rng0)
     s3.enemies[0]!.status.silence = 3
     s3.pendingActions.set(0, { kind: 'defend' })
@@ -271,7 +346,8 @@ describe('M4c 敌人 AI(规则决策 + cast 结算)', () => {
 describe('M4c-2 动作:变身/分裂/召唤/整场逃离', () => {
   const runOneTurn = (s: ReturnType<typeof createBattleState>, rng = rng0) => {
     stepBattle(s, rng)
-    for (const i of s.players.keys()) if (s.players[i]!.hp > 0) s.pendingActions.set(i, { kind: 'defend' })
+    for (const i of s.players.keys())
+      if (s.players[i]!.hp > 0) s.pendingActions.set(i, { kind: 'defend' })
     let guard = 0
     while ((s.phase as string) !== 'selectAction' || s.turn === 1) {
       if ((s.phase as string) === 'won' || (s.phase as string) === 'lost') break
@@ -283,8 +359,15 @@ describe('M4c-2 动作:变身/分裂/召唤/整场逃离', () => {
   test('transform:保当前 HP 换 def,once 记账清零', () => {
     const boss = mkEnemy('boss', { health: 300 })
     const truth = mkEnemy('truth', { health: 999, attackStrength: 50 })
-    boss.ai = { resistanceToSorcery: 5, rules: [{ at: 'act', do: { kind: 'transform', enemyId: 'truth' }, once: true }] }
-    const s = createBattleState({ players: [player('li', { hp: 500, maxHp: 500 })], enemies: [boss], enemiesById: { truth } })
+    boss.ai = {
+      resistanceToSorcery: 5,
+      rules: [{ at: 'act', do: { kind: 'transform', enemyId: 'truth' }, once: true }],
+    }
+    const s = createBattleState({
+      players: [player('li', { hp: 500, maxHp: 500 })],
+      enemies: [boss],
+      enemiesById: { truth },
+    })
     s.enemies[0]!.hp = 123 // 打残再变身
     runOneTurn(s)
     expect(s.enemies[0]!.def.id).toBe('truth')
@@ -295,22 +378,37 @@ describe('M4c-2 动作:变身/分裂/召唤/整场逃离', () => {
 
   test('divide:仅剩一只才分裂(原版内建门);血量均分', () => {
     const blob = mkEnemy('blob', { health: 90, attackStrength: 1 })
-    blob.ai = { resistanceToSorcery: 5, rules: [{ at: 'act', do: { kind: 'divide', copies: 1 }, once: true }] }
+    blob.ai = {
+      resistanceToSorcery: 5,
+      rules: [{ at: 'act', do: { kind: 'divide', copies: 1 }, once: true }],
+    }
     // 两只在场:分裂失败(门拦下)
-    const s0 = createBattleState({ players: [player('li', { hp: 500, maxHp: 500 })], enemies: [blob, mkEnemy('other', { attackStrength: 1 })] })
+    const s0 = createBattleState({
+      players: [player('li', { hp: 500, maxHp: 500 })],
+      enemies: [blob, mkEnemy('other', { attackStrength: 1 })],
+    })
     runOneTurn(s0)
     expect(s0.log.some((l) => l.includes('分裂失败'))).toBe(true)
     expect(s0.enemies.length).toBe(2)
     // 单only:成功均分
-    const s = createBattleState({ players: [player('li', { hp: 500, maxHp: 500 })], enemies: [blob] })
+    const s = createBattleState({
+      players: [player('li', { hp: 500, maxHp: 500 })],
+      enemies: [blob],
+    })
     runOneTurn(s)
     expect(s.enemies.length).toBe(2)
     expect(s.enemies[0]!.hp).toBe(45)
     expect(s.enemies[1]!.hp).toBe(45)
 
     const caller = mkEnemy('caller', { health: 200, attackStrength: 1 })
-    caller.ai = { resistanceToSorcery: 5, rules: [{ at: 'act', do: { kind: 'summon', count: 9 }, once: true }] }
-    const s2 = createBattleState({ players: [player('li', { hp: 500, maxHp: 500 })], enemies: [caller] })
+    caller.ai = {
+      resistanceToSorcery: 5,
+      rules: [{ at: 'act', do: { kind: 'summon', count: 9 }, once: true }],
+    }
+    const s2 = createBattleState({
+      players: [player('li', { hp: 500, maxHp: 500 })],
+      enemies: [caller],
+    })
     runOneTurn(s2)
     expect(s2.enemies.length).toBe(5) // 1 + min(9, 4) = 5 槽满
   })
@@ -329,7 +427,10 @@ describe('M4c-2 动作:变身/分裂/召唤/整场逃离', () => {
     // 分裂/召唤填死槽:继承 a 的槽位坐标,不加长数组
     const posA = { ...s.enemies[0]!.basePos }
     const blob = mkEnemy('blob', { health: 90 })
-    blob.ai = { resistanceToSorcery: 5, rules: [{ at: 'act', do: { kind: 'summon', count: 1 }, once: true }] }
+    blob.ai = {
+      resistanceToSorcery: 5,
+      rules: [{ at: 'act', do: { kind: 'summon', count: 1 }, once: true }],
+    }
     s.enemies[1] = { ...s.enemies[1]!, def: blob, firedRules: new Set() }
     runOneTurn(s)
     expect(s.enemies.length).toBe(3) // 填槽不 push
@@ -351,30 +452,50 @@ describe('M4c-2 动作:变身/分裂/召唤/整场逃离', () => {
 
 describe('M4b-3 玩家仙术', () => {
   const bolt2: import('@type-pal/content').SkillData = {
-    id: '300', name: '御剑术', desc: '', cost: { mp: 5 }, usableOutsideBattle: false,
-    target: 'oneEnemy', effects: [{ kind: 'damage', power: 30, elemental: 0 }], animation: { effectSprite: 1 },
+    id: '300',
+    name: '御剑术',
+    desc: '',
+    cost: { mp: 5 },
+    usableOutsideBattle: false,
+    target: 'oneEnemy',
+    effects: [{ kind: 'damage', power: 30, elemental: 0 }],
+    animation: { effectSprite: 1 },
   }
   const heal: import('@type-pal/content').SkillData = {
-    id: '296', name: '气疗术', desc: '', cost: { mp: 6 }, usableOutsideBattle: true,
-    target: 'oneAlly', effects: [{ kind: 'healHp', amount: 75 }], animation: { effectSprite: 27 },
+    id: '296',
+    name: '气疗术',
+    desc: '',
+    cost: { mp: 6 },
+    usableOutsideBattle: true,
+    target: 'oneAlly',
+    effects: [{ kind: 'healHp', amount: 75 }],
+    animation: { effectSprite: 27 },
   }
   test('对敌施法:扣 MP + calcMagicDamage 用敌方真实元素抗;奶自己回血;MP 不足空过', () => {
     const s = createBattleState({
-      players: [player('li', { hp: 20, maxHp: 200, mp: 30, magicStrength: 50, skills: ['300', '296'] })],
+      players: [
+        player('li', { hp: 20, maxHp: 200, mp: 30, magicStrength: 50, skills: ['300', '296'] }),
+      ],
       enemies: [mkEnemy('e', { health: 500, defense: 0, attackStrength: 1 })],
       skills: { '300': bolt2, '296': heal },
     })
     stepBattle(s, rng0)
     s.pendingActions.set(0, { kind: 'cast', skillId: '300', targetEnemyIdx: 0 })
     let guard = 0
-    while (s.phase !== 'selectAction' || s.turn === 1) { stepBattle(s, rng0); if (++guard > 50) break }
+    while (s.phase !== 'selectAction' || s.turn === 1) {
+      stepBattle(s, rng0)
+      if (++guard > 50) break
+    }
     expect(s.players[0]!.mp).toBe(25) // 30-5
     expect(s.log.some((l) => l.includes('施展 御剑术'))).toBe(true)
     expect(s.enemies[0]!.hp).toBeLessThan(500)
 
     s.pendingActions.set(0, { kind: 'cast', skillId: '296' }) // 奶自己(oneAlly 无敌目标)
     guard = 0
-    while (s.phase !== 'selectAction' || s.turn === 2) { stepBattle(s, rng0); if (++guard > 50) break }
+    while (s.phase !== 'selectAction' || s.turn === 2) {
+      stepBattle(s, rng0)
+      if (++guard > 50) break
+    }
     expect(s.players[0]!.mp).toBe(19)
     expect(s.players[0]!.hp).toBeGreaterThan(20)
 
@@ -383,7 +504,10 @@ describe('M4b-3 玩家仙术', () => {
     const eHpBefore = s.enemies[0]!.hp
     s.pendingActions.set(0, { kind: 'cast', skillId: '300', targetEnemyIdx: 0 })
     guard = 0
-    while (s.phase !== 'selectAction' || s.turn === 3) { stepBattle(s, rng0); if (++guard > 50) break }
+    while (s.phase !== 'selectAction' || s.turn === 3) {
+      stepBattle(s, rng0)
+      if (++guard > 50) break
+    }
     expect(s.log.some((l) => l.includes('降级普攻'))).toBe(true)
     expect(s.players[0]!.mp).toBe(2) // 未扣
     expect(s.enemies[0]!.hp).toBeLessThan(eHpBefore) // 物攻真落敌
@@ -392,12 +516,24 @@ describe('M4b-3 玩家仙术', () => {
 
 describe('降级链:出手时刻验证(fight.c:3260-3506 PAL_BattlePlayerValidateAction)', () => {
   const bolt: import('@type-pal/content').SkillData = {
-    id: '300', name: '御剑术', desc: '', cost: { mp: 5 }, usableOutsideBattle: false,
-    target: 'oneEnemy', effects: [{ kind: 'damage', power: 30, elemental: 0 }], animation: { effectSprite: 1 },
+    id: '300',
+    name: '御剑术',
+    desc: '',
+    cost: { mp: 5 },
+    usableOutsideBattle: false,
+    target: 'oneEnemy',
+    effects: [{ kind: 'damage', power: 30, elemental: 0 }],
+    animation: { effectSprite: 1 },
   }
   const heal: import('@type-pal/content').SkillData = {
-    id: '296', name: '气疗术', desc: '', cost: { mp: 6 }, usableOutsideBattle: true,
-    target: 'oneAlly', effects: [{ kind: 'healHp', amount: 75 }], animation: { effectSprite: 27 },
+    id: '296',
+    name: '气疗术',
+    desc: '',
+    cost: { mp: 6 },
+    usableOutsideBattle: true,
+    target: 'oneAlly',
+    effects: [{ kind: 'healHp', amount: 75 }],
+    animation: { effectSprite: 27 },
   }
 
   test('封咒 + 攻击系 → 降普攻:MP 不扣,伤害走物攻全链(暴击/隐藏池)', () => {
@@ -410,7 +546,10 @@ describe('降级链:出手时刻验证(fight.c:3260-3506 PAL_BattlePlayerValidat
     s.players[0]!.status.silence = 2 // 选招后被封咒(先手敌施封的 headless 等价)
     s.pendingActions.set(0, { kind: 'cast', skillId: '300', targetEnemyIdx: 0 })
     let guard = 0
-    while (s.phase !== 'selectAction' || s.turn === 1) { stepBattle(s, rng0); if (++guard > 50) break }
+    while (s.phase !== 'selectAction' || s.turn === 1) {
+      stepBattle(s, rng0)
+      if (++guard > 50) break
+    }
     expect(s.log.some((l) => l.includes('被封咒,御剑术 降级普攻'))).toBe(true)
     expect(s.players[0]!.mp).toBe(30) // MP 未扣
     const base = calcPhysicalAttackDamage(40, 10 + (1 + 6) * 4, 0)
@@ -434,7 +573,10 @@ describe('降级链:出手时刻验证(fight.c:3260-3506 PAL_BattlePlayerValidat
     expect(s.players[0]!.mp).toBe(2) // 没扣
     expect(s.players[0]!.hiddenCounts.defense).toBe(2) // 走真防御分支(B7c 记账)
     let guard = 0
-    while (s.phase !== 'selectAction' || s.turn === 1) { stepBattle(s, rng0); if (++guard > 50) break }
+    while (s.phase !== 'selectAction' || s.turn === 1) {
+      stepBattle(s, rng0)
+      if (++guard > 50) break
+    }
     expect(s.players[0]!.defending).toBe(false) // 回合末全清
   })
 
@@ -459,13 +601,29 @@ describe('降级链:出手时刻验证(fight.c:3260-3506 PAL_BattlePlayerValidat
 
   test('入队身法装配(fight.c:1497-1565):动作系数改写先后手;濒死÷2;×[0.9,1.1) 抖动', () => {
     const heal: import('@type-pal/content').SkillData = {
-      id: '296', name: '气疗术', desc: '', cost: { mp: 6 }, usableOutsideBattle: true,
-      target: 'oneAlly', effects: [{ kind: 'healHp', amount: 75 }], animation: { effectSprite: 27 },
+      id: '296',
+      name: '气疗术',
+      desc: '',
+      cost: { mp: 6 },
+      usableOutsideBattle: true,
+      target: 'oneAlly',
+      effects: [{ kind: 'healHp', amount: 75 }],
+      animation: { effectSprite: 27 },
     }
-    const build = (act: import('./battle-core.js').BattleAction, o: { hp?: number; enemyDex?: number } = {}) => {
+    const build = (
+      act: import('./battle-core.js').BattleAction,
+      o: { hp?: number; enemyDex?: number } = {},
+    ) => {
       const s = createBattleState({
         players: [player('li', { hp: o.hp ?? 400, maxHp: 400 })],
-        enemies: [mkEnemy('e', { level: 1, dexterity: o.enemyDex ?? 10, health: 500, attackStrength: -999 })],
+        enemies: [
+          mkEnemy('e', {
+            level: 1,
+            dexterity: o.enemyDex ?? 10,
+            health: 500,
+            attackStrength: -999,
+          }),
+        ],
         skills: { '296': heal },
       })
       stepBattle(s, rng0)
@@ -474,16 +632,24 @@ describe('降级链:出手时刻验证(fight.c:3260-3506 PAL_BattlePlayerValidat
       return s
     }
     // 敌 base (1+6)*3+52=73(×0.9=65) > 玩家普攻 50×0.9=45 → 敌先
-    expect(build({ kind: 'attack', targetEnemyIdx: 0 }, { enemyDex: 52 }).actionQueue[0]!.isEnemy).toBe(true)
+    expect(
+      build({ kind: 'attack', targetEnemyIdx: 0 }, { enemyDex: 52 }).actionQueue[0]!.isEnemy,
+    ).toBe(true)
     // 防御×5 → 225 → 玩家反超(×5 排序提前与"出手时才置位"成对 = 原版"防得住"的机制)
     expect(build({ kind: 'defend' }, { enemyDex: 52 }).actionQueue[0]!.isEnemy).toBe(false)
     // 辅助法术×3 → 135 → 玩家先;物品×3 同
-    expect(build({ kind: 'cast', skillId: '296' }, { enemyDex: 52 }).actionQueue[0]!.isEnemy).toBe(false)
-    expect(build({ kind: 'item', itemId: 'x' }, { enemyDex: 52 }).actionQueue[0]!.isEnemy).toBe(false)
+    expect(build({ kind: 'cast', skillId: '296' }, { enemyDex: 52 }).actionQueue[0]!.isEnemy).toBe(
+      false,
+    )
+    expect(build({ kind: 'item', itemId: 'x' }, { enemyDex: 52 }).actionQueue[0]!.isEnemy).toBe(
+      false,
+    )
     // 逃跑÷2 → 22 < 敌 dex10(31×0.9=27) → 敌反超
     expect(build({ kind: 'flee' }).actionQueue[0]!.isEnemy).toBe(true)
     // 濒死÷2(fight.c:1557 队列口,区别于非 classic 的 stat 级):hp 60<min(100,80) → 普攻 22 < 27
-    expect(build({ kind: 'attack', targetEnemyIdx: 0 }, { hp: 60 }).actionQueue[0]!.isEnemy).toBe(true)
+    expect(build({ kind: 'attack', targetEnemyIdx: 0 }, { hp: 60 }).actionQueue[0]!.isEnemy).toBe(
+      true,
+    )
     expect(build({ kind: 'attack', targetEnemyIdx: 0 }).actionQueue[0]!.isEnemy).toBe(false) // 满血对照 45>27
   })
 
@@ -517,7 +683,11 @@ describe('降级链:出手时刻验证(fight.c:3260-3506 PAL_BattlePlayerValidat
 
   test('物品已耗尽 → 降防御(fight.c:3433 UseItem 数 0)', () => {
     const potion: import('@type-pal/content').ItemData = {
-      id: '61', name: '金创药', desc: '', price: 50, bitmap: 0,
+      id: '61',
+      name: '金创药',
+      desc: '',
+      price: 50,
+      bitmap: 0,
       use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'healHp', amount: 50 }] },
     } as never
     const s = createBattleState({
@@ -540,7 +710,11 @@ describe('降级链:出手时刻验证(fight.c:3260-3506 PAL_BattlePlayerValidat
 describe('M4b-3b 物品 / 逃跑真判定', () => {
   test('物品:回血 + consuming 扣库存;逃跑:str vs Σ敌(吉运+(lv+6)*4) 掷骰', () => {
     const potion: import('@type-pal/content').ItemData = {
-      id: '61', name: '金创药', desc: '', price: 50, bitmap: 0,
+      id: '61',
+      name: '金创药',
+      desc: '',
+      price: 50,
+      bitmap: 0,
       use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'healHp', amount: 50 }] },
     } as never
     const s = createBattleState({
@@ -552,13 +726,19 @@ describe('M4b-3b 物品 / 逃跑真判定', () => {
     stepBattle(s, rng0)
     s.pendingActions.set(0, { kind: 'item', itemId: '61' })
     let guard = 0
-    while (s.phase !== 'selectAction' || s.turn === 1) { stepBattle(s, rng0); if (++guard > 50) break }
+    while (s.phase !== 'selectAction' || s.turn === 1) {
+      stepBattle(s, rng0)
+      if (++guard > 50) break
+    }
     // 回 50 → 60;敌 str 钳 0 后伤害走保底 1(fight.c:5070-5073)→ 59
     expect(s.players[0]!.hp).toBe(59)
     expect(s.inventory[0]!.count).toBe(1)
 
     // 逃跑失败:str 低 + rng 高 → roll 大
-    const s2 = createBattleState({ players: [player('li', { fleeRate: 0 })], enemies: [mkEnemy('e', { level: 10, fleeRate: 50, health: 500, attackStrength: 1 })] })
+    const s2 = createBattleState({
+      players: [player('li', { fleeRate: 0 })],
+      enemies: [mkEnemy('e', { level: 10, fleeRate: 50, health: 500, attackStrength: 1 })],
+    })
     const r9 = () => 0.99
     stepBattle(s2, r9)
     s2.pendingActions.set(0, { kind: 'flee' })
@@ -577,8 +757,13 @@ describe('M4b-3b 物品 / 逃跑真判定', () => {
 describe('敌法术:防御除因子 + 被动格挡(fight.c:4673-4853)', () => {
   const ZERO = { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 }
   const bolt: import('@type-pal/content').SkillData = {
-    id: '339', name: '雷咒', desc: '', cost: { mp: 10 }, usableOutsideBattle: false,
-    target: 'oneEnemy', effects: [{ kind: 'damage', power: 50, elemental: 0 }],
+    id: '339',
+    name: '雷咒',
+    desc: '',
+    cost: { mp: 10 },
+    usableOutsideBattle: false,
+    target: 'oneEnemy',
+    effects: [{ kind: 'damage', power: 50, elemental: 0 }],
     animation: { effectSprite: 1 },
   }
   const mage = (o: Partial<EnemyDef['stats']> = {}): EnemyDef => ({
@@ -588,13 +773,22 @@ describe('敌法术:防御除因子 + 被动格挡(fight.c:4673-4853)', () => {
   // 期望原始伤害走真公式(magStr 含级数项 (级+6)×6 —— fight.c:4673,曾漏):
   const raw = (rngFactor: number, def: number, magicStrength = 60, level = 1, power = 50) =>
     calcMagicDamage({
-      magStr: Math.max(0, magicStrength + (level + 6) * 6), def, rngFactor,
+      magStr: Math.max(0, magicStrength + (level + 6) * 6),
+      def,
+      rngFactor,
       magicData: { baseDamage: power, elemental: 0 },
-      elemRes: ZERO, poisonRes: 0, resistMult: 20, fieldEffect: ZERO,
+      elemRes: ZERO,
+      poisonRes: 0,
+      resistMult: 20,
+      fieldEffect: ZERO,
     })
   const castDmg = (s: ReturnType<typeof createBattleState>): number =>
     Number(/造成 (\d+)/.exec(s.log.find((l) => l.includes('施展 雷咒')) ?? '')?.[1] ?? -1)
-  const runTurn1 = (s: ReturnType<typeof createBattleState>, rng: () => number, act: () => void): void => {
+  const runTurn1 = (
+    s: ReturnType<typeof createBattleState>,
+    rng: () => number,
+    act: () => void,
+  ): void => {
     stepBattle(s, rng)
     act()
     let guard = 0
@@ -606,7 +800,11 @@ describe('敌法术:防御除因子 + 被动格挡(fight.c:4673-4853)', () => {
 
   test('防御+格挡:除因子 3;lastAction 记录格挡队员(演出摆 frame3 用)', () => {
     // rng0:chance 中 → 施法;格挡掷 floor(0*3)=0 → 中;rngFactor=1;玩家防御(×5 先手)
-    const s = createBattleState({ players: [player('li')], enemies: [mage()], skills: { '339': bolt } })
+    const s = createBattleState({
+      players: [player('li')],
+      enemies: [mage()],
+      skills: { '339': bolt },
+    })
     runTurn1(s, rng0, () => s.pendingActions.set(0, { kind: 'defend' }))
     expect(castDmg(s)).toBe(Math.trunc(raw(1, 30) / 3)) // (防2)×(护1)+(挡1)=3
     expect(s.lastAction?.kind).toBe('cast')
@@ -614,14 +812,22 @@ describe('敌法术:防御除因子 + 被动格挡(fight.c:4673-4853)', () => {
   })
 
   test('防御+护体+格挡全叠:除因子 5(最深)', () => {
-    const s = createBattleState({ players: [player('li')], enemies: [mage()], skills: { '339': bolt } })
+    const s = createBattleState({
+      players: [player('li')],
+      enemies: [mage()],
+      skills: { '339': bolt },
+    })
     s.players[0]!.status.protect = 3
     runTurn1(s, rng0, () => s.pendingActions.set(0, { kind: 'defend' }))
     expect(castDmg(s)).toBe(Math.trunc(raw(1, 30) / 5))
   })
 
   test('眠者无格挡资格:rng0 本该必中,除因子回 1 全额', () => {
-    const s = createBattleState({ players: [player('li')], enemies: [mage()], skills: { '339': bolt } })
+    const s = createBattleState({
+      players: [player('li')],
+      enemies: [mage()],
+      skills: { '339': bolt },
+    })
     stepBattle(s, rng0)
     s.players[0]!.status.sleep = 3 // selectAction 后施加:昏睡者强制普攻不防御
     let guard = 0
@@ -635,7 +841,11 @@ describe('敌法术:防御除因子 + 被动格挡(fight.c:4673-4853)', () => {
 
   test('伤害钳到余血(fight.c:4805);魔强钳 0 + power 0 → 造成 0(无最小 1 钳)', () => {
     // 钳余血:hp 5 防御,trunc(89/3)=29 > 5 → 显示/结算都是 5
-    const s = createBattleState({ players: [player('li', { hp: 5 })], enemies: [mage()], skills: { '339': bolt } })
+    const s = createBattleState({
+      players: [player('li', { hp: 5 })],
+      enemies: [mage()],
+      skills: { '339': bolt },
+    })
     runTurn1(s, rng0, () => s.pendingActions.set(0, { kind: 'defend' }))
     expect(castDmg(s)).toBe(5)
     expect(s.players[0]!.hp).toBe(0)
@@ -643,7 +853,9 @@ describe('敌法术:防御除因子 + 被动格挡(fight.c:4673-4853)', () => {
     // 无最小 1:magStr = -99+42 = -57 → 钳 0;power 0 → calcBaseDamage(0,30)=0 → 造成 0
     const bolt0 = { ...bolt, effects: [{ kind: 'damage' as const, power: 0, elemental: 0 }] }
     const s2 = createBattleState({
-      players: [player('li')], enemies: [mage({ magicStrength: -99 })], skills: { '339': bolt0 },
+      players: [player('li')],
+      enemies: [mage({ magicStrength: -99 })],
+      skills: { '339': bolt0 },
     })
     runTurn1(s2, rng0, () => s2.pendingActions.set(0, { kind: 'defend' }))
     expect(castDmg(s2)).toBe(0)
@@ -732,16 +944,45 @@ describe('疯魔改派(fight.c:1743-1747 执行时刻指派 + 3760-3855 打友)'
 
 describe('P2 中毒 DoT(数据化毒 tick;fight.c:4454 逐回合)', () => {
   const POISONS: Record<number, import('@type-pal/content').PoisonDef> = {
-    551: { id: 551, name: '赤毒', curability: 'common', color: 16, playerTicks: [{ hpDelta: -7 }], enemyTicks: [{ hpDelta: -7 }] },
+    551: {
+      id: 551,
+      name: '赤毒',
+      curability: 'common',
+      color: 16,
+      playerTicks: [{ hpDelta: -7 }],
+      enemyTicks: [{ hpDelta: -7 }],
+    },
     555: {
-      id: 555, name: '三尸蛊毒', curability: 'severe', color: 128,
-      playerTicks: [{ hpDelta: 0 }, { hpDelta: -1 }, { hpDelta: -2 }, { hpDelta: -3 }, { hpDelta: -200, selfCure: true }],
+      id: 555,
+      name: '三尸蛊毒',
+      curability: 'severe',
+      color: 128,
+      playerTicks: [
+        { hpDelta: 0 },
+        { hpDelta: -1 },
+        { hpDelta: -2 },
+        { hpDelta: -3 },
+        { hpDelta: -200, selfCure: true },
+      ],
       enemyTicks: [{ hpDelta: -111 }, { hpDelta: -222 }, { hpDelta: -333, selfCure: true }],
     },
-    137: { id: 137, name: '无影毒', curability: 'incurable', color: 0, enemyTicks: [{ halveHp: 1000, selfCure: true }] },
+    137: {
+      id: 137,
+      name: '无影毒',
+      curability: 'incurable',
+      color: 0,
+      enemyTicks: [{ halveHp: 1000, selfCure: true }],
+    },
     561: {
-      id: 561, name: '食妖虫附', curability: 'incurable', color: 0,
-      enemyTicks: [{ hpDelta: -1 }, { hpDelta: -2 }, { hpDelta: -8, grantItem: '145', selfCure: true }],
+      id: 561,
+      name: '食妖虫附',
+      curability: 'incurable',
+      color: 0,
+      enemyTicks: [
+        { hpDelta: -1 },
+        { hpDelta: -2 },
+        { hpDelta: -8, grantItem: '145', selfCure: true },
+      ],
     },
   }
   // 单回合推进器(填动作 → 消费到回合末毒 tick)
@@ -765,9 +1006,15 @@ describe('P2 中毒 DoT(数据化毒 tick;fight.c:4454 逐回合)', () => {
       poisonDefs: POISONS,
     })
     s.players[0]!.poisons = [{ poisonId: 551, tickIndex: 0 }]
-    oneTurn(s, () => { sleepEnemy(s); s.pendingActions.set(0, { kind: 'defend' }) })
+    oneTurn(s, () => {
+      sleepEnemy(s)
+      s.pendingActions.set(0, { kind: 'defend' })
+    })
     expect(s.players[0]!.hp).toBe(93)
-    oneTurn(s, () => { sleepEnemy(s); s.pendingActions.set(0, { kind: 'defend' }) })
+    oneTurn(s, () => {
+      sleepEnemy(s)
+      s.pendingActions.set(0, { kind: 'defend' })
+    })
     expect(s.players[0]!.hp).toBe(86) // 循环 −7
   })
 
@@ -779,7 +1026,11 @@ describe('P2 中毒 DoT(数据化毒 tick;fight.c:4454 逐回合)', () => {
     })
     s.players[0]!.poisons = [{ poisonId: 555, tickIndex: 0 }]
     const hp = () => s.players[0]!.hp
-    const turn = () => oneTurn(s, () => { sleepEnemy(s); s.pendingActions.set(0, { kind: 'defend' }) })
+    const turn = () =>
+      oneTurn(s, () => {
+        sleepEnemy(s)
+        s.pendingActions.set(0, { kind: 'defend' })
+      })
     turn()
     expect(hp()).toBe(300) // tick0: 0
     turn()
@@ -810,7 +1061,14 @@ describe('P2 中毒 DoT(数据化毒 tick;fight.c:4454 逐回合)', () => {
   })
 
   test('按可解度解毒:common 解常规留六大毒;severe 解六大毒;incurable(无影/寄生)谁都不解', () => {
-    const host = { hp: 100, poisons: [{ poisonId: 551, tickIndex: 0 }, { poisonId: 555, tickIndex: 0 }, { poisonId: 137, tickIndex: 0 }] }
+    const host = {
+      hp: 100,
+      poisons: [
+        { poisonId: 551, tickIndex: 0 },
+        { poisonId: 555, tickIndex: 0 },
+        { poisonId: 137, tickIndex: 0 },
+      ],
+    }
     curePoisons(host, POISONS, 'common') // 灵血咒/九节菖蒲
     expect(host.poisons.map((p) => p.poisonId)).toEqual([555, 137]) // 赤毒(common)解,三尸蛊(severe)/无影(incurable)留
     curePoisons(host, POISONS, 'severe') // 复活类
@@ -850,8 +1108,18 @@ describe('P2 中毒 DoT(数据化毒 tick;fight.c:4454 逐回合)', () => {
 
 describe('P2 敌普攻附毒(attackEquivItem + 玩家毒抗门;fight.c:5139-5146)', () => {
   const poisonItem: ItemData = {
-    id: '116', name: '尸腐肉', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false,
-    use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'applyPoison', poisonId: '552' }] },
+    id: '116',
+    name: '尸腐肉',
+    desc: [],
+    icon: 0,
+    buyPrice: 0,
+    sellPrice: 0,
+    sellable: false,
+    use: {
+      target: 'oneAlly',
+      consuming: true,
+      effects: [{ kind: 'applyPoison', poisonId: '552' }],
+    },
   }
   const defs = { 552: { id: 552, name: '尸毒', curability: 'common' as const, color: 0 } }
   const mkState = (poisonRes: number) =>
@@ -1016,10 +1284,25 @@ describe('P2 长鞭攻全体(attackAll;fight.c:3683-3730)', () => {
 
 describe('P2 投掷道具(throw;养蛊源 + 下毒)', () => {
   const THROW_ITEMS: Record<string, import('@type-pal/content').ItemData> = {
-    '144': { id: '144', name: '食妖虫', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, throw: { effects: [{ kind: 'applyPoison', poisonId: '561' }] } },
+    '144': {
+      id: '144',
+      name: '食妖虫',
+      desc: [],
+      icon: 0,
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      throw: { effects: [{ kind: 'applyPoison', poisonId: '561' }] },
+    },
   }
   const PARASITE: Record<number, import('@type-pal/content').PoisonDef> = {
-    561: { id: 561, name: '食妖虫附', curability: 'incurable', color: 0, enemyTicks: [{ hpDelta: -1 }, { hpDelta: -8, grantItem: '145', selfCure: true }] },
+    561: {
+      id: 561,
+      name: '食妖虫附',
+      curability: 'incurable',
+      color: 0,
+      enemyTicks: [{ hpDelta: -1 }, { hpDelta: -8, grantItem: '145', selfCure: true }],
+    },
   }
   test('投掷食妖虫 → 敌中寄生毒(巫抗门)+ 消耗;到期产灵蛊入背包(养蛊闭环)', () => {
     const s = createBattleState({
@@ -1069,17 +1352,44 @@ describe('P2 投掷道具(throw;养蛊源 + 下毒)', () => {
 
 describe('P2 投掷致死组合(三对;数据驱动 lethalWith,仅投掷触发)', () => {
   const ITEMS: Record<string, import('@type-pal/content').ItemData> = {
-    heding: { id: 'heding', name: '鹤顶红', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, throw: { effects: [{ kind: 'applyPoison', poisonId: '556' }] } },
+    heding: {
+      id: 'heding',
+      name: '鹤顶红',
+      desc: [],
+      icon: 0,
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      throw: { effects: [{ kind: 'applyPoison', poisonId: '556' }] },
+    },
   }
   const P: Record<number, import('@type-pal/content').PoisonDef> = {
-    556: { id: 556, name: '鹤顶红', curability: 'severe', color: 0, enemyTicks: [{ hpDelta: -100 }], lethalWith: 557, counters: 558 },
-    557: { id: 557, name: '孔雀胆', curability: 'severe', color: 0, enemyTicks: [{ hpDelta: -100 }], lethalWith: 556, counters: 560 },
+    556: {
+      id: 556,
+      name: '鹤顶红',
+      curability: 'severe',
+      color: 0,
+      enemyTicks: [{ hpDelta: -100 }],
+      lethalWith: 557,
+      counters: 558,
+    },
+    557: {
+      id: 557,
+      name: '孔雀胆',
+      curability: 'severe',
+      color: 0,
+      enemyTicks: [{ hpDelta: -100 }],
+      lethalWith: 556,
+      counters: 560,
+    },
   }
   test('敌已中孔雀胆(557),投鹤顶红(556)→ 双毒相冲暴毙', () => {
     const s = createBattleState({
       players: [player('li')],
       enemies: [mkEnemy('boss', { health: 9999, defense: 999, attackStrength: 0 })],
-      items: ITEMS, inventory: [{ itemId: 'heding', count: 1 }], poisonDefs: P,
+      items: ITEMS,
+      inventory: [{ itemId: 'heding', count: 1 }],
+      poisonDefs: P,
     })
     s.enemies[0]!.def.ai.resistanceToSorcery = 0
     s.enemies[0]!.poisons = [{ poisonId: 557, tickIndex: 0 }] // 已中孔雀胆
@@ -1095,7 +1405,9 @@ describe('P2 投掷致死组合(三对;数据驱动 lethalWith,仅投掷触发)'
     const s = createBattleState({
       players: [player('li')],
       enemies: [mkEnemy('boss', { health: 9999, defense: 999, attackStrength: 0 })],
-      items: ITEMS, inventory: [{ itemId: 'heding', count: 1 }], poisonDefs: P,
+      items: ITEMS,
+      inventory: [{ itemId: 'heding', count: 1 }],
+      poisonDefs: P,
     })
     s.enemies[0]!.def.ai.resistanceToSorcery = 0
     stepBattle(s, () => 0.5)
@@ -1110,7 +1422,9 @@ describe('P2 投掷致死组合(三对;数据驱动 lethalWith,仅投掷触发)'
     const s = createBattleState({
       players: [player('li')],
       enemies: [mkEnemy('boss', { health: 9999, defense: 999, attackStrength: 0 })],
-      items: ITEMS, inventory: [{ itemId: 'heding', count: 1 }], poisonDefs: P,
+      items: ITEMS,
+      inventory: [{ itemId: 'heding', count: 1 }],
+      poisonDefs: P,
     })
     s.enemies[0]!.def.ai.resistanceToSorcery = 10 // 满巫抗
     s.enemies[0]!.poisons = [{ poisonId: 557, tickIndex: 0 }] // 即便已中配对毒
@@ -1127,9 +1441,33 @@ describe('P2 投掷致死组合(三对;数据驱动 lethalWith,仅投掷触发)'
 
 describe('P2 相克 use-on-self(以毒攻毒自解;counters/lethalWith 数据驱动)', () => {
   const P: Record<number, import('@type-pal/content').PoisonDef> = {
-    556: { id: 556, name: '鹤顶红', curability: 'severe', color: 0, playerTicks: [{ hpDelta: -50 }], counters: 558, lethalWith: 557 },
-    558: { id: 558, name: '血海棠', curability: 'severe', color: 0, playerTicks: [{ hpDelta: -50 }], counters: 559, lethalWith: 555 },
-    557: { id: 557, name: '孔雀胆', curability: 'severe', color: 0, playerTicks: [{ hpDelta: -50 }], counters: 560, lethalWith: 556 },
+    556: {
+      id: 556,
+      name: '鹤顶红',
+      curability: 'severe',
+      color: 0,
+      playerTicks: [{ hpDelta: -50 }],
+      counters: 558,
+      lethalWith: 557,
+    },
+    558: {
+      id: 558,
+      name: '血海棠',
+      curability: 'severe',
+      color: 0,
+      playerTicks: [{ hpDelta: -50 }],
+      counters: 559,
+      lethalWith: 555,
+    },
+    557: {
+      id: 557,
+      name: '孔雀胆',
+      curability: 'severe',
+      color: 0,
+      playerTicks: [{ hpDelta: -50 }],
+      counters: 560,
+      lethalWith: 556,
+    },
   }
   test('身中血海棠(558),用鹤顶红(556)→ 以毒攻毒解掉558,不下556', () => {
     const p = { hp: 100, poisons: [{ poisonId: 558, tickIndex: 0 }] } as never
@@ -1144,22 +1482,45 @@ describe('P2 相克 use-on-self(以毒攻毒自解;counters/lethalWith 数据驱
   test('身上无相关毒 → 下本毒(自毒)', () => {
     const p = { hp: 100, poisons: [] } as never
     expect(applyPoisonToPlayer(p, 556, P)).toBe('applied')
-    expect((p as { poisons: { poisonId: number }[] }).poisons).toEqual([{ poisonId: 556, tickIndex: 0 }])
+    expect((p as { poisons: { poisonId: number }[] }).poisons).toEqual([
+      { poisonId: 556, tickIndex: 0 },
+    ])
   })
 })
 
 describe('P2 毒龙胆/九阴散(0x61 没中毒则秒杀)', () => {
   const ITEMS: Record<string, import('@type-pal/content').ItemData> = {
-    '278': { id: '278', name: '毒龙胆', desc: [], icon: 0, buyPrice: 0, sellPrice: 0, sellable: false, use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'dieIfNotPoisoned' }, { kind: 'curePoison', curesTier: 'severe' }] } },
+    '278': {
+      id: '278',
+      name: '毒龙胆',
+      desc: [],
+      icon: 0,
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      use: {
+        target: 'oneAlly',
+        consuming: true,
+        effects: [{ kind: 'dieIfNotPoisoned' }, { kind: 'curePoison', curesTier: 'severe' }],
+      },
+    },
   }
   const P: Record<number, import('@type-pal/content').PoisonDef> = {
-    555: { id: 555, name: '三尸蛊', curability: 'severe', color: 0, playerTicks: [{ hpDelta: -50 }] },
+    555: {
+      id: 555,
+      name: '三尸蛊',
+      curability: 'severe',
+      color: 0,
+      playerTicks: [{ hpDelta: -50 }],
+    },
   }
   const useOnSelf = (poisons: { poisonId: number; tickIndex: number }[]) => {
     const s = createBattleState({
       players: [player('li', { hp: 100 })],
       enemies: [mkEnemy('slime', { health: 9999, defense: 999, attackStrength: 0 })],
-      items: ITEMS, inventory: [{ itemId: '278', count: 1 }], poisonDefs: P,
+      items: ITEMS,
+      inventory: [{ itemId: '278', count: 1 }],
+      poisonDefs: P,
     })
     s.players[0]!.poisons = poisons
     stepBattle(s, rng0)
@@ -1185,8 +1546,13 @@ describe('P2 毒龙胆/九阴散(0x61 没中毒则秒杀)', () => {
 describe('P3 合体技(coop magic)', () => {
   type SkillData = import('@type-pal/content').SkillData
   const coopSkill: SkillData = {
-    id: 'c386', name: '合体气功', desc: '', cost: { mp: 9 }, usableOutsideBattle: false,
-    target: 'oneEnemy', effects: [{ kind: 'damage', power: 90, elemental: 0 }],
+    id: 'c386',
+    name: '合体气功',
+    desc: '',
+    cost: { mp: 9 },
+    usableOutsideBattle: false,
+    target: 'oneEnemy',
+    effects: [{ kind: 'damage', power: 90, elemental: 0 }],
     animation: { effectSprite: 1 },
   }
   const coopPlayer = (id: string): CreatePlayerInput =>
@@ -1195,7 +1561,11 @@ describe('P3 合体技(coop magic)', () => {
   const runTurn = (s: ReturnType<typeof createBattleState>): void => {
     let guard = 0
     const startTurn = s.turn
-    while (!(s.phase === 'selectAction' && s.turn > startTurn) && s.phase !== 'won' && s.phase !== 'lost') {
+    while (
+      !(s.phase === 'selectAction' && s.turn > startTurn) &&
+      s.phase !== 'won' &&
+      s.phase !== 'lost'
+    ) {
       stepBattle(s, rng0)
       if (++guard > 80) break
     }
@@ -1235,19 +1605,29 @@ describe('P3 合体技(coop magic)', () => {
   })
 
   test('全体合击技(allEnemies)打全场', () => {
-    const tnsh: SkillData = { ...coopSkill, id: 'c355', name: '天女散花', target: 'allEnemies', effects: [{ kind: 'damage', power: 109, elemental: 0 }] }
+    const tnsh: SkillData = {
+      ...coopSkill,
+      id: 'c355',
+      name: '天女散花',
+      target: 'allEnemies',
+      effects: [{ kind: 'damage', power: 109, elemental: 0 }],
+    }
     const s = createBattleState({
       players: [
         player('li', { attackStrength: 40, magicStrength: 20, cooperativeMagicSkillId: 'c355' }),
         player('zhao', { attackStrength: 40, magicStrength: 20, cooperativeMagicSkillId: 'c355' }),
       ],
-      enemies: [mkEnemy('a', { health: 9999, defense: 0, attackStrength: 0 }), mkEnemy('b', { health: 9999, defense: 0, attackStrength: 0 })],
+      enemies: [
+        mkEnemy('a', { health: 9999, defense: 0, attackStrength: 0 }),
+        mkEnemy('b', { health: 9999, defense: 0, attackStrength: 0 }),
+      ],
       skills: { c355: tnsh },
     })
     stepBattle(s, rng0)
     s.pendingActions.set(0, { kind: 'coop' }) // 无目标 = 全体技自动全场
     s.pendingActions.set(1, { kind: 'defend' })
-    const a0 = s.enemies[0]!.hp, b0 = s.enemies[1]!.hp
+    const a0 = s.enemies[0]!.hp,
+      b0 = s.enemies[1]!.hp
     runTurn(s)
     expect(s.enemies[0]!.hp).toBeLessThan(a0)
     expect(s.enemies[1]!.hp).toBeLessThan(b0) // 全体都掉血
@@ -1270,8 +1650,18 @@ describe('P3 合体技(coop magic)', () => {
   test('coop×10 出手身法:合击者敏捷极低仍先手(慢发起者也能消耗快队友)', () => {
     const s = createBattleState({
       players: [
-        player('slow', { baseDexterity: 1, attackStrength: 40, magicStrength: 20, cooperativeMagicSkillId: 'c386' }),
-        player('fast', { baseDexterity: 200, attackStrength: 40, magicStrength: 20, cooperativeMagicSkillId: 'c386' }),
+        player('slow', {
+          baseDexterity: 1,
+          attackStrength: 40,
+          magicStrength: 20,
+          cooperativeMagicSkillId: 'c386',
+        }),
+        player('fast', {
+          baseDexterity: 200,
+          attackStrength: 40,
+          magicStrength: 20,
+          cooperativeMagicSkillId: 'c386',
+        }),
       ],
       enemies: [mkEnemy('slime', { health: 9999, defense: 10, attackStrength: 0 })],
       skills: { c386: coopSkill },
@@ -1335,7 +1725,9 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
       skills: { lh },
     })
     s.enemies[0]!.hp = 20
-    turn(s, rng0, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'lh', targetEnemyIdx: 0 }))
+    turn(s, rng0, (st) =>
+      st.pendingActions.set(0, { kind: 'cast', skillId: 'lh', targetEnemyIdx: 0 }),
+    )
     expect(s.enemies[0]!.hp).toBe(0)
     expect(s.collectGained).toBe(5)
     expect(s.log.some((l) => l.includes('魂飞魄散'))).toBe(true)
@@ -1345,7 +1737,9 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
       enemies: [dummy({ health: 100, collectValue: 5 })],
       skills: { lh },
     })
-    turn(s2, rng0, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'lh', targetEnemyIdx: 0 }))
+    turn(s2, rng0, (st) =>
+      st.pendingActions.set(0, { kind: 'cast', skillId: 'lh', targetEnemyIdx: 0 }),
+    )
     expect(s2.enemies[0]!.hp).toBe(100)
     expect(s2.collectGained).toBe(0)
     expect(s2.log.some((l) => l.includes('无任何效果'))).toBe(true)
@@ -1353,39 +1747,39 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
 
   test('概率门(0x06):掷 100 ≥ 60 → 截断即死;灵抗门:巫抗 0 过 / 巫抗满不过', () => {
     const kill60 = mkSkill('k60', {
-      effects: [
-        { kind: 'gate', chance: 60 },
-        { kind: 'instantKill' },
-      ],
+      effects: [{ kind: 'gate', chance: 60 }, { kind: 'instantKill' }],
     })
     const s = createBattleState({
       players: [player('li', { skills: ['k60'] })],
       enemies: [dummy()],
       skills: { k60: kill60 },
     })
-    turn(s, rngHigh, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'k60', targetEnemyIdx: 0 }))
+    turn(s, rngHigh, (st) =>
+      st.pendingActions.set(0, { kind: 'cast', skillId: 'k60', targetEnemyIdx: 0 }),
+    )
     expect(s.enemies[0]!.hp).toBe(9999)
     expect(s.log.some((l) => l.includes('无任何效果'))).toBe(true)
     // 灵抗门(0x2E 同构 rng(0,9) >= 巫抗):rng0 掷 0 —— 巫抗 0 过(即死),巫抗 5(mkEnemy 默认)不过
     const mres = mkSkill('mres', {
-      effects: [
-        { kind: 'gate', magicResist: true },
-        { kind: 'instantKill' },
-      ],
+      effects: [{ kind: 'gate', magicResist: true }, { kind: 'instantKill' }],
     })
     const pass = createBattleState({
       players: [player('li', { skills: ['mres'] })],
       enemies: [{ ...dummy(), ai: { resistanceToSorcery: 0 } }],
       skills: { mres },
     })
-    turn(pass, rng0, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'mres', targetEnemyIdx: 0 }))
+    turn(pass, rng0, (st) =>
+      st.pendingActions.set(0, { kind: 'cast', skillId: 'mres', targetEnemyIdx: 0 }),
+    )
     expect(pass.enemies[0]!.hp).toBe(0)
     const block = createBattleState({
       players: [player('li', { skills: ['mres'] })],
       enemies: [dummy()],
       skills: { mres },
     })
-    turn(block, rng0, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'mres', targetEnemyIdx: 0 }))
+    turn(block, rng0, (st) =>
+      st.pendingActions.set(0, { kind: 'cast', skillId: 'mres', targetEnemyIdx: 0 }),
+    )
     expect(block.enemies[0]!.hp).toBe(9999)
   })
 
@@ -1728,8 +2122,16 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
       players: [player('li'), player('ling')],
       enemies: [dummy()],
       items: {
-        yao: { id: 'yao', name: '药', use: { consuming: true, effects: [] } } as unknown as ItemData,
-        zhu: { id: 'zhu', name: '珠', use: { consuming: false, effects: [] } } as unknown as ItemData,
+        yao: {
+          id: 'yao',
+          name: '药',
+          use: { consuming: true, effects: [] },
+        } as unknown as ItemData,
+        zhu: {
+          id: 'zhu',
+          name: '珠',
+          use: { consuming: false, effects: [] },
+        } as unknown as ItemData,
         du: { id: 'du', name: '毒', throw: { effects: [] } } as unknown as ItemData,
       },
     })

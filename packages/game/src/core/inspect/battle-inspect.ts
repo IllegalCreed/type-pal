@@ -148,9 +148,10 @@ export function collectPartyStatusReadouts(
     const entries: string[] = []
     const statuses: StatusTag[] = []
     for (const def of PARTY_STATUS_DEFS) {
-      const rounds = source === 'battle'
-        ? battleStatusValue(battlePlayer, def.key)
-        : persistentStatusValue(gs, roleId, def)
+      const rounds =
+        source === 'battle'
+          ? battleStatusValue(battlePlayer, def.key)
+          : persistentStatusValue(gs, roleId, def)
       if (rounds > 0) {
         entries.push(`${def.label} ${statusRoundsText(rounds)}`)
         statuses.push({ name: def.cn, kind: def.kind, rounds })
