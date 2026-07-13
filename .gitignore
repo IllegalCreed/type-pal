@@ -52,3 +52,9 @@ packages/game/playwright-report/
 business/
 
 data/baked/
+
+# MG2 迁移事务 journal/staging/冲突报告(本地可恢复状态)
+.type-pal-migrate/
+
+# MG2 首次 baseline 的一次性逐项审查报告；可由 bootstrap + 分类器重建
+packages/migrate/bootstrap/pal.json

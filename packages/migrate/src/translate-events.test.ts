@@ -4,6 +4,7 @@
  */
 import type { Command, SceneDef } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import { finalizeBattleConfig } from './migrate-content.js'
 import type { SourceCmd } from './source-facts.js'
 import type { TranslateCtx } from './translate-events.js'
 import {
@@ -13,7 +14,6 @@ import {
   foldBattleConfig,
   translateStages,
 } from './translate-events.js'
-import { finalizeBattleConfig } from './migrate-content.js'
 
 /** 手搓链 → labelAt(单段,L_1 起步,end 收尾;raw 命令补 op:'raw' 判别)。 */
 function ctxOf(cmds: SourceCmd[], spriteIdForNum?: (num: number) => string): TranslateCtx {
@@ -155,11 +155,7 @@ describe('对话 speaker 在同一 walkBody/slot 内继承', () => {
       ]),
     )
     const lines = body.flatMap((c) => (c.kind === 'dialog' ? [c.line] : []))
-    expect(lines.map((line) => line.speaker)).toEqual([
-      'spk.李逍遥',
-      'spk.李大娘',
-      undefined,
-    ])
+    expect(lines.map((line) => line.speaker)).toEqual(['spk.李逍遥', 'spk.李大娘', undefined])
   })
 })
 
@@ -178,12 +174,18 @@ describe('0x06 概率跳转:跳走臂尾必带 stopScript(命中不落穿;script
       { op: 'raw', opcode: 0x06, operands: [22, 9, 0], label: 'L_1' } as unknown as SourceCmd,
       { op: 'giveItem', itemId: 5, count: 0 } as unknown as SourceCmd,
       { op: 'end' } as unknown as SourceCmd,
-      { op: 'showDialog', messageIndex: 42, text: '臂内对白', label: 'L_9' } as unknown as SourceCmd,
+      {
+        op: 'showDialog',
+        messageIndex: 42,
+        text: '臂内对白',
+        label: 'L_9',
+      } as unknown as SourceCmd,
       { op: 'end' } as unknown as SourceCmd,
     ]
     const labelAt = new Map<string, { cmds: readonly SourceCmd[]; idx: number }>()
     raws.forEach((c, i) => {
-      if ((c as { label?: string }).label) labelAt.set((c as { label: string }).label, { cmds: raws, idx: i })
+      if ((c as { label?: string }).label)
+        labelAt.set((c as { label: string }).label, { cmds: raws, idx: i })
     })
     const ctx: TranslateCtx = { labelAt, locale: {}, report: emptyTranslateReport() }
     const stages = translateStages('L_1', 'e0', ctx)
@@ -283,19 +285,28 @@ describe('0x6D 改场景进场剧情(占位 → 具名 setSceneStage)', () => {
 
 describe('0x1A 改角色形象(SoA 字段 → setActorAppearance)', () => {
   const spriteIdForNum = (n: number) => `npc-${n}`
-  const body1a = (ops: number[]) =>
-    bodyOf(ctxOf([{ opcode: 0x1a, operands: ops }], spriteIdForNum))
+  const body1a = (ops: number[]) => bodyOf(ctxOf([{ opcode: 0x1a, operands: ops }], spriteIdForNum))
   test('字段0=头像 → portrait(灵儿 role1)', () => {
-    expect(body1a([0, 88, 2])).toEqual([{ kind: 'setActorAppearance', actor: 'zhao-linger', portrait: 88 }])
+    expect(body1a([0, 88, 2])).toEqual([
+      { kind: 'setActorAppearance', actor: 'zhao-linger', portrait: 88 },
+    ])
   })
   test('字段1=战斗精灵 → battleSprite', () => {
-    expect(body1a([1, 9, 2])).toEqual([{ kind: 'setActorAppearance', actor: 'zhao-linger', battleSprite: 9 }])
+    expect(body1a([1, 9, 2])).toEqual([
+      { kind: 'setActorAppearance', actor: 'zhao-linger', battleSprite: 9 },
+    ])
   })
   test('字段2=大世界精灵 → spriteId(经 spriteIdForNum)', () => {
-    expect(body1a([2, 38, 2])).toEqual([{ kind: 'setActorAppearance', actor: 'zhao-linger', spriteId: 'npc-38' }])
+    expect(body1a([2, 38, 2])).toEqual([
+      { kind: 'setActorAppearance', actor: 'zhao-linger', spriteId: 'npc-38' },
+    ])
   })
   test('字段64=走路帧 → 丢弃(新精灵 layout 自带)', () => {
-    const stages = translateStages('L_1', 'e0', ctxOf([{ opcode: 0x1a, operands: [64, 4, 2] }], spriteIdForNum))
+    const stages = translateStages(
+      'L_1',
+      'e0',
+      ctxOf([{ opcode: 0x1a, operands: [64, 4, 2] }], spriteIdForNum),
+    )
     expect(stages?.[0]?.body ?? []).toEqual([])
   })
   test('未知字段 → 保留 unmigrated', () => {
@@ -311,5 +322,17 @@ describe('0x9A 批量设实体状态(→ setMultiEntityState)', () => {
   test('单点区间 [10,10] → e9', () => {
     const body = bodyOf(ctxOf([{ opcode: 0x9a, operands: [10, 10, 0] }]))
     expect(body).toEqual([{ kind: 'setMultiEntityState', entities: ['e9'], state: 0 }])
+  })
+})
+
+describe('0x90 剧情侧清敌种回合演出', () => {
+  test('遭遇绑定后是 no-op，不留 unmigrated 或双重解释器', () => {
+    const body = bodyOf(
+      ctxOf([
+        { op: 'showDialog', messageIndex: 90, text: '战后台词' } as unknown as SourceCmd,
+        { opcode: 0x90, operands: [123, 0, 0] },
+      ]),
+    )
+    expect(body).toEqual([{ kind: 'dialog', line: { text: 'dlg.90' } }])
   })
 })

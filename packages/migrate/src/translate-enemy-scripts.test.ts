@@ -200,4 +200,12 @@ describe('advance 游标状态机 → 规则', () => {
     expect(t.pending.some((p) => p.includes('0x79'))).toBe(false)
     expect(t.choreography[0]?.body.some((c) => c.kind === 'dialog')).toBe(true)
   })
+
+  test('0x90 敌自清只是原版说一次 hack，遭遇绑定后丢弃且保留台词', () => {
+    const t = translateEnemyScripts(ctxOf({ 900: [dlg('只说一次', 9), raw(0x90, 0, 0), end()] }), {
+      turnStart: 900,
+    })
+    expect(t.choreography[0]?.body).toEqual([{ kind: 'dialog', line: { text: 'dlg.9' } }])
+    expect(t.pending.some((item) => item.includes('0x90'))).toBe(false)
+  })
 })

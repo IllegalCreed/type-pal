@@ -1,0 +1,228 @@
+import { describe, expect, test } from 'vitest'
+import { jsonAbsent, jsonPresent, mergeManagedFile } from './migration-merge.js'
+
+describe('mergeManagedFile', () => {
+  test('执行 primitive 与对象递归三方真值表', () => {
+    expect(
+      mergeManagedFile(
+        'content/locale.json',
+        jsonPresent({ a: 1, b: 2 }),
+        jsonPresent({ a: 3, b: 2 }),
+        jsonPresent({ a: 1, b: 4 }),
+      ),
+    ).toEqual({ value: jsonPresent({ a: 3, b: 4 }), conflicts: [] })
+  })
+
+  test('同一路径双改产生精确冲突', () => {
+    const result = mergeManagedFile(
+      'content/locale.json',
+      jsonPresent({ a: 1 }),
+      jsonPresent({ a: 2 }),
+      jsonPresent({ a: 3 }),
+    )
+    expect(result.conflicts).toMatchObject([{ path: '/a', type: 'value' }])
+  })
+
+  test('同一路径双方新增不同对象不得自动拼接', () => {
+    const result = mergeManagedFile(
+      'content/locale.json',
+      jsonPresent({}),
+      jsonPresent({ newValue: { ours: true } }),
+      jsonPresent({ newValue: { theirs: true } }),
+    )
+    expect(result.conflicts).toMatchObject([{ path: '/newValue', type: 'add-add' }])
+  })
+
+  test('文件新增、删除与删除对侧修改', () => {
+    expect(
+      mergeManagedFile('content/new.json', jsonAbsent(), jsonAbsent(), jsonPresent({ a: 1 })),
+    ).toEqual({ value: jsonPresent({ a: 1 }), conflicts: [] })
+    expect(
+      mergeManagedFile(
+        'content/old.json',
+        jsonPresent({ a: 1 }),
+        jsonPresent({ a: 1 }),
+        jsonAbsent(),
+      ),
+    ).toEqual({ value: jsonAbsent(), conflicts: [] })
+    expect(
+      mergeManagedFile(
+        'content/old.json',
+        jsonPresent({ a: 1 }),
+        jsonPresent({ a: 2 }),
+        jsonAbsent(),
+      ).conflicts,
+    ).toMatchObject([{ path: '/', type: 'delete-modify' }])
+  })
+
+  test('稳定 id 数组按字段合并并固定 ours-only 顺序', () => {
+    const result = mergeManagedFile(
+      'content/items.json',
+      jsonPresent([
+        { id: 'a', x: 1 },
+        { id: 'b', x: 1 },
+      ]),
+      jsonPresent([
+        { id: 'a', x: 2 },
+        { id: 'local', x: 1 },
+        { id: 'b', x: 1 },
+      ]),
+      jsonPresent([
+        { id: 'b', x: 3 },
+        { id: 'a', x: 1 },
+      ]),
+    )
+    expect(result.conflicts).toEqual([])
+    expect(result.value.value).toEqual([
+      { id: 'b', x: 3 },
+      { id: 'a', x: 2 },
+      { id: 'local', x: 1 },
+    ])
+    expect(
+      mergeManagedFile(
+        'content/items.json',
+        jsonPresent([
+          { id: 'a', x: 1 },
+          { id: 'b', x: 1 },
+        ]),
+        jsonPresent([
+          { id: 'a', x: 2 },
+          { id: 'local', x: 1 },
+          { id: 'b', x: 1 },
+        ]),
+        jsonPresent([
+          { id: 'b', x: 3 },
+          { id: 'a', x: 1 },
+        ]),
+      ).value.value,
+    ).toEqual(result.value.value)
+  })
+
+  test('稳定 id 数组双方新增同 id 不同值时冲突', () => {
+    const result = mergeManagedFile(
+      'content/items.json',
+      jsonPresent([]),
+      jsonPresent([{ id: 'new', ours: true }]),
+      jsonPresent([{ id: 'new', theirs: true }]),
+    )
+    expect(result.conflicts).toMatchObject([
+      { path: expect.stringContaining('@string:new'), type: 'add-add' },
+    ])
+  })
+
+  test('scene index 双边不同重排冲突', () => {
+    const result = mergeManagedFile(
+      'content/scenes/index.json',
+      jsonPresent(['s1', 's2', 's3']),
+      jsonPresent(['s2', 's1', 's3']),
+      jsonPresent(['s1', 's3', 's2']),
+    )
+    expect(result.conflicts).toMatchObject([{ path: '/', type: 'array-order' }])
+  })
+
+  test('pages 槽位支持尾部新增与独立字段修改', () => {
+    const base = { id: 's001', entities: [{ id: 'e1', pages: [{ state: 1 }] }] }
+    const ours = { id: 's001', entities: [{ id: 'e1', pages: [{ state: 2 }] }] }
+    const theirs = {
+      id: 's001',
+      entities: [{ id: 'e1', pages: [{ state: 1 }, { state: 3 }] }],
+    }
+    const result = mergeManagedFile(
+      'content/scenes/s001.json',
+      jsonPresent(base),
+      jsonPresent(ours),
+      jsonPresent(theirs),
+    )
+    expect(result.conflicts).toEqual([])
+    expect(result.value.value).toEqual({
+      id: 's001',
+      entities: [{ id: 'e1', pages: [{ state: 2 }, { state: 3 }] }],
+    })
+  })
+
+  test('pages 删页对侧修改与双方不同加页均冲突', () => {
+    const tailDeleted = mergeManagedFile(
+      'content/scenes/s001.json',
+      jsonPresent({ id: 's001', entities: [{ id: 'e1', pages: [{ x: 1 }, { x: 2 }] }] }),
+      jsonPresent({ id: 's001', entities: [{ id: 'e1', pages: [{ x: 1 }] }] }),
+      jsonPresent({ id: 's001', entities: [{ id: 'e1', pages: [{ x: 1 }, { x: 2 }] }] }),
+    )
+    expect(tailDeleted.conflicts).toEqual([])
+    expect(tailDeleted.value.value).toEqual({
+      id: 's001',
+      entities: [{ id: 'e1', pages: [{ x: 1 }] }],
+    })
+
+    const deleted = mergeManagedFile(
+      'content/scenes/s001.json',
+      jsonPresent({ id: 's001', entities: [{ id: 'e1', pages: [{ x: 1 }, { x: 2 }] }] }),
+      jsonPresent({ id: 's001', entities: [{ id: 'e1', pages: [{ x: 1 }] }] }),
+      jsonPresent({ id: 's001', entities: [{ id: 'e1', pages: [{ x: 1 }, { x: 3 }] }] }),
+    )
+    expect(deleted.conflicts).toMatchObject([{ type: 'delete-modify' }])
+
+    const added = mergeManagedFile(
+      'content/scenes/s001.json',
+      jsonPresent({ id: 's001', entities: [{ id: 'e1', pages: [] }] }),
+      jsonPresent({ id: 's001', entities: [{ id: 'e1', pages: [{ x: 1 }] }] }),
+      jsonPresent({ id: 's001', entities: [{ id: 'e1', pages: [{ x: 2 }] }] }),
+    )
+    expect(added.conflicts).toMatchObject([{ path: expect.stringContaining('/pages/0') }])
+
+    const disjointAdded = mergeManagedFile(
+      'content/scenes/s001.json',
+      jsonPresent({ id: 's001', entities: [{ id: 'e1', pages: [] }] }),
+      jsonPresent({ id: 's001', entities: [{ id: 'e1', pages: [{ ours: true }] }] }),
+      jsonPresent({ id: 's001', entities: [{ id: 'e1', pages: [{ theirs: true }] }] }),
+    )
+    expect(disjointAdded.conflicts).toMatchObject([
+      { path: expect.stringContaining('/pages/0'), type: 'add-add' },
+    ])
+  })
+
+  test('pages 非尾部插入或删除不得平移槽位身份', () => {
+    const base = {
+      id: 's001',
+      entities: [{ id: 'e1', pages: [{ state: 'a' }, { state: 'b' }, { state: 'c' }] }],
+    }
+    const inserted = mergeManagedFile(
+      'content/scenes/s001.json',
+      jsonPresent(base),
+      jsonPresent({
+        id: 's001',
+        entities: [
+          { id: 'e1', pages: [{ state: 'a' }, { state: 'new' }, { state: 'b' }, { state: 'c' }] },
+        ],
+      }),
+      jsonPresent(base),
+    )
+    expect(inserted.conflicts).toMatchObject([
+      { path: expect.stringContaining('/pages'), type: 'array-order' },
+    ])
+
+    const deleted = mergeManagedFile(
+      'content/scenes/s001.json',
+      jsonPresent(base),
+      jsonPresent({
+        id: 's001',
+        entities: [{ id: 'e1', pages: [{ state: 'a' }, { state: 'c' }] }],
+      }),
+      jsonPresent(base),
+    )
+    expect(deleted.conflicts).toMatchObject([
+      { path: expect.stringContaining('/pages'), type: 'array-order' },
+    ])
+  })
+
+  test('未登记有序数组整体原子冲突', () => {
+    const result = mergeManagedFile(
+      'content/items.json',
+      jsonPresent([{ id: 'a', desc: ['x'] }]),
+      jsonPresent([{ id: 'a', desc: ['ours'] }]),
+      jsonPresent([{ id: 'a', desc: ['theirs'] }]),
+    )
+    expect(result.conflicts).toMatchObject([
+      { path: expect.stringContaining('/desc'), type: 'value' },
+    ])
+  })
+})

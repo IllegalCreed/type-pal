@@ -148,9 +148,9 @@ import type {
   SourceEnemyTeam,
 } from './migrate-enemies.js'
 import { mapEnemies, mapEnemyTeams } from './migrate-enemies.js'
-import type { SourceCmd } from './source-facts.js'
 import { analyzeScriptGraph, type ScriptRoot } from './script-graph.js'
 import { applyPalScriptOverlays } from './script-overlays.js'
+import type { SourceCmd } from './source-facts.js'
 import {
   FACING_BY_DIR,
   partyPosToGrid,
@@ -159,7 +159,13 @@ import {
   signExtendI16,
 } from './source-facts.js'
 import type { TranslateCtx, TranslateReport } from './translate-events.js'
-import { asBattleCfg, emptyTranslateReport, foldStages, ScriptRegistry, translateStages } from './translate-events.js'
+import {
+  asBattleCfg,
+  emptyTranslateReport,
+  foldStages,
+  ScriptRegistry,
+  translateStages,
+} from './translate-events.js'
 export interface LevelUpMagicCell {
   level: number
   magic: number
@@ -512,7 +518,11 @@ export function mapSkills(
       // 精灵序 0-8:武神/天剑/雪妖/山神/风神/酒神/雷神/剑神/火神)+ 正常伤害结算(打全体)。
       // 酒神 baseDamage=3 是动态公式(按酒计)占位 → lossy 记账,待机制格。
       if (s._name === '酒神')
-        lossy.push({ id: s.id, name: s._name, notes: ['summon 伤害=按饮酒动态(原版公式);暂按 baseDamage=3 直译'] })
+        lossy.push({
+          id: s.id,
+          name: s._name,
+          notes: ['summon 伤害=按饮酒动态(原版公式);暂按 baseDamage=3 直译'],
+        })
       skills.push({
         id: String(s.id),
         name: s._name,
@@ -620,10 +630,11 @@ export interface EquipTranslation {
  * 装备"回补伪毒"→ clean regen 词条映射(原版借 level99 毒 563/564 省空间,正名为独立词条)。
  * 值 = 原版毒 DoT 脚本 0x1B/0x1C 的 operand(SSS chunk3 IP 40860/40858 = [_,20])。
  */
-const EQUIP_PSEUDO_POISON_REGEN: Record<number, NonNullable<ItemData['equip']>['effects'][number]> = {
-  563: { kind: 'regenHp', amount: 20 }, // 毒563 HP回补:0x1B[_,20]
-  564: { kind: 'regenMp', amount: 20 }, // 毒564 MP回补:0x1C[_,20]
-}
+const EQUIP_PSEUDO_POISON_REGEN: Record<number, NonNullable<ItemData['equip']>['effects'][number]> =
+  {
+    563: { kind: 'regenHp', amount: 20 }, // 毒563 HP回补:0x1B[_,20]
+    564: { kind: 'regenMp', amount: 20 }, // 毒564 MP回补:0x1C[_,20]
+  }
 
 /** 静态翻译一条 scriptOnEquip 链。slot 来自 0x18 的 operand0-0x0B(= EQUIP_INDEX_TO_SLOT 同源行序)。 */
 export function translateEquipScript(
@@ -687,7 +698,12 @@ export function translateEquipScript(
         // 其它毒 id(真伤害毒的装备附毒)当前无实例 → 留 pending。
         const regen = EQUIP_PSEUDO_POISON_REGEN[b]
         if (regen) out.effects.push(regen)
-        else out.pending.push({ opcode: 0x29, operands: [a, b, cc], reason: `装备授毒 id ${b}(非回补伪毒)` })
+        else
+          out.pending.push({
+            opcode: 0x29,
+            operands: [a, b, cc],
+            reason: `装备授毒 id ${b}(非回补伪毒)`,
+          })
         break
       }
       case 167: // 块头标记(同 desc)
@@ -890,7 +906,10 @@ export function translateThrowScript(
         break
       default:
         // 相克(0x5D/0x2B use-on-self 以毒攻毒)+ 其它 → 相克 use 层后续
-        return { effects, pendingReason: `op 0x${(c.opcode ?? 0).toString(16)}(相克 use 链)→ 相克 use 层` }
+        return {
+          effects,
+          pendingReason: `op 0x${(c.opcode ?? 0).toString(16)}(相克 use 链)→ 相克 use 层`,
+        }
     }
   }
   return { effects }
@@ -1000,7 +1019,11 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
       if (selfPoison !== undefined) {
         out = {
           ...out,
-          use: { target: 'oneAlly' as const, consuming: srcItem.flags.consuming, effects: [{ kind: 'applyPoison', poisonId: String(selfPoison) }] },
+          use: {
+            target: 'oneAlly' as const,
+            consuming: srcItem.flags.consuming,
+            effects: [{ kind: 'applyPoison', poisonId: String(selfPoison) }],
+          },
         }
       } else if (u.pendingReason) {
         pendingUse.push({ itemId: srcItem.id, name: srcItem._name, reason: u.pendingReason })
@@ -1144,7 +1167,15 @@ export function mergeExtras<T extends { id: string }>(migrated: T[], extras: T[]
 // 事实锚(2026-07-02 实测):实体 id 全局唯一;direction 0-3 = 下/左/上/右;
 // loadScene 是具名 op 且 sceneId 已解析为 0-based;setPartyPos=raw 70;playMusic=raw 67。
 // ════════════════════════════════════════════════════════════════════
-import type { Command, EnemyDef, EnemyTeamDef, SceneDef, ScriptChunkV1, ScriptIndexV1, ScriptStage } from '@type-pal/content'
+import type {
+  Command,
+  EnemyDef,
+  EnemyTeamDef,
+  SceneDef,
+  ScriptChunkV1,
+  ScriptIndexV1,
+  ScriptStage,
+} from '@type-pal/content'
 import { pixelToGrid } from '@type-pal/content'
 
 export interface SourceEventObject {
@@ -1526,9 +1557,33 @@ export function mapScenesStatic(
     const tstages = trigger?.stages
     const first = tstages?.[0]?.body?.[0]
     if (!first || first.kind !== 'startBattle') return undefined // trigger 非「开战起手」→ 剧情战,不折叠
+    // M3 把 goto/call 目标提成 ScriptRef 后，遇敌尾部的 vanish/fade 可能藏在 jumpScript 中。
+    // 模板识别只读展开引用，不改执行结构；否则重迁会让所有标准野怪退化回重复脚本页。
+    const unfold = (commands: readonly Command[], seen = new Set<string>()): Command[] => {
+      const out: Command[] = []
+      for (const command of commands) {
+        if (command.kind !== 'callScript' && command.kind !== 'jumpScript') {
+          out.push(command)
+          continue
+        }
+        if (seen.has(command.ref.id)) {
+          out.push(command)
+          continue
+        }
+        const body = registry.bodyFor(command.ref.id)
+        if (!body) {
+          out.push(command)
+          continue
+        }
+        const nextSeen = new Set(seen)
+        nextSeen.add(command.ref.id)
+        out.push(...unfold(body, nextSeen))
+      }
+      return out
+    }
     // trigger 全体必须只有遇敌套路命令(startBattle / vanishEntity / fade),含别的 = 特殊编排
     const encounterKinds = new Set(['startBattle', 'vanishEntity', 'fade'])
-    const flat = (tstages ?? []).flatMap((s) => s.body)
+    const flat = unfold((tstages ?? []).flatMap((s) => s.body))
     if (!flat.every((c) => encounterKinds.has(c.kind))) return undefined
     // auto:允许「纯 chasePlayer」或空;含别的巡逻演出 = 不折叠
     const achase = auto?.stages?.flatMap((s) => s.body) ?? []
@@ -1539,7 +1594,7 @@ export function mapScenesStatic(
     const vanish = flat.find((c) => c.kind === 'vanishEntity') as { seconds?: number } | undefined
     const onLose = first.onLose // startBattle.onLose(GameOver 链 or 剧情)
     // onLose 是 gameOver 序列(渐红+读档)→ 归 'gameOver' 语义;否则保留命令
-    const isGameOver = onLose?.some((c) => c.kind === 'loadLastSave')
+    const isGameOver = unfold(onLose ?? []).some((c) => c.kind === 'loadLastSave')
     return {
       hostile: {
         team: first.team,
@@ -1676,7 +1731,8 @@ export function mapScenesStatic(
     },
     components: graph?.components.length ?? 0,
     cyclicComponents:
-      graph?.components.filter((component) => component.length > 1 || selfLoops.has(component[0]!)).length ?? 0,
+      graph?.components.filter((component) => component.length > 1 || selfLoops.has(component[0]!))
+        .length ?? 0,
     ownership,
     topPredecessors: [...predecessorCount]
       .map(([entry, count]) => ({ entry, count }))
@@ -1698,7 +1754,10 @@ export function mapScenesStatic(
 
 /** scene 只保留持久 stage 壳；每个根体进入 scene chunk，避免场景 JSON 重复脚本树。 */
 function externalizeSceneScripts(scene: SceneDef, registry: ScriptRegistry): SceneDef {
-  const bindStages = (stages: ScriptStage[] | undefined, source: string): ScriptStage[] | undefined =>
+  const bindStages = (
+    stages: ScriptStage[] | undefined,
+    source: string,
+  ): ScriptStage[] | undefined =>
     stages?.map((stage, index) => {
       const id = `scene/${scene.id}/root/${source}/stage-${index}`
       const ref = registry.registerRoot(id, stage.body)
@@ -1716,7 +1775,10 @@ function externalizeSceneScripts(scene: SceneDef, registry: ScriptRegistry): Sce
         trigger: page.trigger
           ? {
               ...page.trigger,
-              stages: bindStages(page.trigger.stages, `entity-${entity.id}/page-${pageIndex}/trigger`)!,
+              stages: bindStages(
+                page.trigger.stages,
+                `entity-${entity.id}/page-${pageIndex}/trigger`,
+              )!,
             }
           : undefined,
         auto: page.auto

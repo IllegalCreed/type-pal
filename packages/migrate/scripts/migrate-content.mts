@@ -1,226 +1,268 @@
 /**
- * M1 迁移器 IO 壳:data/extracted → projects/pal(复刻载体工程)。
- * 用法:pnpm --filter @type-pal/migrate run migrate:content
- * 纯逻辑在 ../src/migrate-content.ts(vitest golden 钉真值);本脚本只做读盘/合并/写盘/复制资产。
- * 可重复跑(全量重写 projects/pal 的 content;assets 覆盖复制)。
+ * MG2 PAL 内容迁移 IO 壳。默认只生成 plan；只有 --write 会改工程与 baseline。
+ * 首次无 baseline 时必须先 --bootstrap 逐项闭合差异，禁止将当前工程冒充 base。
  */
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { isDeepStrictEqual } from 'node:util'
+import type { LoadedManifest } from '@type-pal/content'
+import { loadPalBaseline, type MigrationSnapshot } from '../src/migration-baseline.js'
 import {
-  type MigrateSources,
-  mapScenesStatic,
-  mergeSceneScriptBindings,
-  migrateAll,
-  type SourceCmd,
-  type SourceScene,
-  sceneSlug,
-} from '../src/migrate-content.js'
-import { assertScriptLibraryAudit, auditScriptLibrary } from '../src/script-library-audit.js'
-import { makeGlobalScriptRoots } from '../src/script-graph.js'
-import type { EnemyDef, SceneDef } from '@type-pal/content'
+  applyBootstrapReport,
+  type BootstrapReportV1,
+  createBootstrapReport,
+  verifyBootstrapReport,
+} from '../src/migration-bootstrap.js'
+import {
+  createInitialMigrationPlan,
+  createMigrationPlan,
+  type MigrationPlan,
+  snapshotOf,
+} from '../src/migration-plan.js'
+import {
+  assertHashMapsEqual,
+  assertProjectSnapshotCurrent,
+  discoverProjectManagedFiles,
+  hashUnmanagedProjectFiles,
+  loadProjectMigrationSnapshot,
+  type ProjectMigrationSnapshot,
+} from '../src/migration-project-io.js'
+import {
+  commitMigrationTransaction,
+  recoverMigrationTransaction,
+} from '../src/migration-transaction.js'
+import { validatePalMigrationTarget } from '../src/migration-validate.js'
+import { buildMigrationTransactionChanges } from '../src/migration-write-plan.js'
+import { buildPalMigration, type MigrationFileSet } from '../src/pal-migration.js'
+import { loadPalMigrationSources } from '../src/pal-migration-io.js'
+import { normalizeMigrationScriptFiles } from '../src/script-library-normalize.js'
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
-const readJson = <T,>(rel: string): T => JSON.parse(readFileSync(resolve(repo, rel), 'utf8')) as T
-const writeJson = (rel: string, v: unknown): void => {
-  const p = resolve(repo, rel)
-  mkdirSync(dirname(p), { recursive: true })
-  writeFileSync(p, `${JSON.stringify(v, null, 2)}\n`)
+const BOOTSTRAP_REL = 'packages/migrate/bootstrap/pal.json'
+const CONFLICT_REL = '.type-pal-migrate/pal-conflicts.json'
+
+const readJson = <T,>(path: string): T => JSON.parse(readFileSync(resolve(repo, path), 'utf8')) as T
+const writeJson = (path: string, value: unknown): void => {
+  const full = resolve(repo, path)
+  mkdirSync(dirname(full), { recursive: true })
+  writeFileSync(full, `${JSON.stringify(value, null, 2)}\n`)
 }
 
-// ── 源 ──
-const allJson = readJson<{ segments: { commands: SourceCmd[] }[] }>(
-  'data/extracted/events/all.json',
-)
-const src: MigrateSources = {
-  roles: readJson<{ roles: MigrateSources['roles'] }>('data/extracted/data/player-roles.json')
-    .roles,
-  levelUpExp: readJson('data/extracted/data/level-up-exp.json'),
-  levelUpMagic: readJson('data/extracted/data/level-up-magic.json'),
-  spells: readJson('data/extracted/data/spells.json'),
-  magic: readJson('data/extracted/data/magic.json'),
-  items: readJson('data/extracted/data/items.json'),
-  commands: allJson.segments.flatMap((s) => s.commands),
-  enemies: readJson('data/extracted/data/enemies.json'),
-  enemyObjects: readJson('data/extracted/data/enemy-objects.json'),
-  enemyTeams: readJson('data/extracted/data/enemy-teams.json'),
-}
-const out = migrateAll(src)
-const objectPlayers = readJson<Array<{ scriptOnFriendDeath: number; scriptOnDying: number }>>(
-  'data/extracted/data/object-players.json',
-)
-const globalRoots = makeGlobalScriptRoots({
-  items: src.items.flatMap((item) => [
-    item.scriptOnUse,
-    item.scriptOnEquip,
-    item.scriptOnThrow,
-    item.scriptDesc,
-  ]),
-  skills: src.spells.flatMap((spell) => [
-    spell.scriptOnUse,
-    spell.scriptOnSuccess,
-    spell.scriptDesc,
-  ]),
-  enemies: (src.enemyObjects ?? []).flatMap((enemy) => [
-    enemy.scriptOnTurnStart,
-    enemy.scriptOnBattleEnd,
-    enemy.scriptOnReady,
-  ]),
-  actors: objectPlayers.flatMap((actor) => [actor.scriptOnFriendDeath, actor.scriptOnDying]),
-})
+function usage(): void {
+  console.log(`PAL 内容迁移(MG2)
 
-// ── M2b:295 场景静态迁移 + 入口/音乐窄扫描 ──
-const srcScenes: SourceScene[] = []
-const eventsByScene = new Map<number, SourceCmd[]>()
-for (let n = 0; existsSync(resolve(repo, `data/extracted/data/scene/${n}.json`)); n++) {
-  srcScenes.push(readJson<SourceScene>(`data/extracted/data/scene/${n}.json`))
-  const evPath = `data/extracted/events/scene-${String(n).padStart(3, '0')}.json`
-  if (existsSync(resolve(repo, evPath))) {
-    const ev = readJson<{ segments: { commands: SourceCmd[] }[] }>(evPath)
-    eventsByScene.set(
-      n,
-      ev.segments.flatMap((sg) => sg.commands),
+  pnpm --filter @type-pal/migrate run migrate:content
+      有 baseline 时只生成三方合并 plan，不写盘。
+
+  pnpm --filter @type-pal/migrate run migrate:content -- --write
+      plan 无冲突且门禁全过后，同事务写工程与纯 theirs baseline。
+
+  pnpm --filter @type-pal/migrate run migrate:content -- --bootstrap
+      首次无 baseline 时生成/校验 ${BOOTSTRAP_REL}，不写工程。
+
+  pnpm --filter @type-pal/migrate run migrate:content -- --bootstrap --write
+      bootstrap 差异全部分类闭合后，建立首份 baseline 并事务写盘。`)
+}
+
+function sameSnapshot(expected: MigrationSnapshot, actual: MigrationSnapshot, label: string): void {
+  const managed = new Set([...expected.managedFiles, ...actual.managedFiles])
+  for (const path of managed) {
+    if (
+      expected.files.has(path) !== actual.files.has(path) ||
+      !isDeepStrictEqual(expected.files.get(path), actual.files.get(path))
     )
+      throw new Error(`${label}不符: ${path}`)
   }
 }
-// 共享段(跨场景 label,如 autoScript 公共巡逻/朝向链)以 key -1 挂入 label 全局索引
-if (existsSync(resolve(repo, 'data/extracted/events/shared.json'))) {
-  const ev = readJson<{ segments: { commands: SourceCmd[] }[] }>(
-    'data/extracted/events/shared.json',
-  )
-  eventsByScene.set(
-    -1,
-    ev.segments.flatMap((sg) => sg.commands),
-  )
-}
-// 全流兜底(key -2,label 索引后置:场景/共享文件优先):跳进战斗侧等未分区段的目标
-eventsByScene.set(
-  -2,
-  allJson.segments.flatMap((sg) => sg.commands),
-)
-const DEBUG_SCENES = process.env.MIG_DEBUG === '1'
-if (DEBUG_SCENES) {
-  // 逐场景跑,找翻译爆点
-  for (const sc of srcScenes) {
-    process.stderr.write(`scene ${sc.sceneId}...`)
-    const t0 = Date.now()
-    const one = mapScenesStatic([sc], eventsByScene, out.sprites, globalRoots)
-    process.stderr.write(` cmds=${one.scriptReport.commands} ${Date.now() - t0}ms\n`)
-  }
-  process.exit(0)
-}
-const scenesOut = mapScenesStatic(srcScenes, eventsByScene, out.sprites, globalRoots)
-const productEnemies = readJson<EnemyDef[]>('projects/pal/content/enemies.json')
-const globalCommandRoots = productEnemies.flatMap((enemy) => [
-  ...(enemy.choreography ?? []).map((hook, index) => ({
-    id: `global/enemies/${enemy.id}/choreography-${index}`,
-    body: hook.body,
-  })),
-  ...(enemy.onDefeated?.length
-    ? [{ id: `global/enemies/${enemy.id}/on-defeated`, body: enemy.onDefeated }]
-    : []),
-])
 
-// ── M3 门禁:先审后写，失败时磁盘保持原样 ──
-const sourceText = readFileSync(resolve(repo, 'data/extracted/events/all.json'), 'utf8')
-const audit = auditScriptLibrary({
-  sourceJson: allJson,
-  sourcePrettyBytes: Buffer.byteLength(sourceText),
-  sourceCommandCount: src.commands.length,
-  scenes: scenesOut.scenes,
-  index: scenesOut.scriptIndex,
-  chunks: scenesOut.scriptChunks,
-  extraRoots: globalCommandRoots,
+function reportGeneration(theirs: MigrationFileSet): void {
+  const audit = theirs.report.audit
+  console.log(
+    `[纯生成] 托管文件 ${theirs.managedFiles.size} · 场景 ${theirs.report.scenes.scenes} · ` +
+      `chunk ${[...theirs.managedFiles].filter((path) => path.startsWith('content/scripts/') && path !== 'content/scripts/index.json').length} ` +
+      `· boss overlay ${theirs.report.bossOverlay.attached}`,
+  )
+  console.log(
+    `[脚本门禁] compact ${audit.ratios.normalized.toFixed(2)}x · pretty ${audit.ratios.pretty.toFixed(2)}x · ` +
+      `commands ${audit.ratios.commands.toFixed(2)}x · closure ${audit.maxDependencyClosureBytes}B`,
+  )
+}
+
+function reportPlan(
+  plan: Pick<MigrationPlan, 'writes' | 'deletes' | 'conflicts'> & {
+    summary?: MigrationPlan['summary']
+  },
+): void {
+  console.log(
+    `[迁移 plan] writes=${plan.writes.size} deletes=${plan.deletes.length} conflicts=${plan.conflicts.length}`,
+  )
+  if (plan.summary)
+    console.log(
+      `[合并分类] generated=${plan.summary.generated} kept=${plan.summary.kept} merged=${plan.summary.merged}`,
+    )
+}
+
+function writeConflictReport(plan: MigrationPlan): void {
+  writeJson(CONFLICT_REL, {
+    version: 1,
+    summary: plan.summary,
+    conflicts: plan.conflicts,
+  })
+  console.error(`[冲突] 完整三值报告已写入 ${CONFLICT_REL}`)
+  for (const conflict of plan.conflicts.slice(0, 20))
+    console.error(`  ${conflict.file}${conflict.path} (${conflict.type})`)
+}
+
+async function commitAndVerify(args: {
+  ours: ProjectMigrationSnapshot
+  target: MigrationSnapshot
+  plan: Pick<MigrationPlan, 'writes' | 'deletes'>
+  previousBaseline?: MigrationSnapshot
+  theirs: MigrationFileSet
+}): Promise<void> {
+  const { ours, target, plan, previousBaseline, theirs } = args
+  const nextBaseline = snapshotOf(theirs)
+  const transactionManaged = new Set([...ours.managedFiles, ...target.managedFiles])
+  assertProjectSnapshotCurrent(repo, ours, transactionManaged)
+  const unmanagedBefore = hashUnmanagedProjectFiles(repo, transactionManaged)
+  const changes = buildMigrationTransactionChanges({
+    repo,
+    plan,
+    previousBaseline,
+    nextBaseline,
+  })
+  if (changes.length) commitMigrationTransaction(repo, changes)
+  console.log(`[事务] ${changes.length ? `已提交 ${changes.length} 项操作` : '无需写盘'}`)
+
+  const unmanagedAfter = hashUnmanagedProjectFiles(repo, transactionManaged)
+  assertHashMapsEqual(unmanagedBefore, unmanagedAfter, '非托管工程文件')
+  const baselineAfter = loadPalBaseline(repo)
+  if (!baselineAfter) throw new Error('事务完成后 baseline 缺失')
+  sameSnapshot(nextBaseline, baselineAfter, 'baseline 与纯 theirs')
+
+  const postManaged = discoverProjectManagedFiles(repo, target.managedFiles)
+  const projectAfter = loadProjectMigrationSnapshot(repo, postManaged)
+  sameSnapshot(target, projectAfter, '写盘工程与合并 target')
+
+  // 真正重读提取源并重跑纯生成，不用上一轮内存结果冒充幂等。
+  const sources2 = loadPalMigrationSources(repo)
+  const theirs2 = buildPalMigration(sources2)
+  sameSnapshot(nextBaseline, snapshotOf(theirs2), '二次纯生成')
+  const secondManaged = discoverProjectManagedFiles(
+    repo,
+    new Set([...baselineAfter.managedFiles, ...theirs2.managedFiles]),
+  )
+  const ours2 = loadProjectMigrationSnapshot(repo, secondManaged)
+  const second = createMigrationPlan(baselineAfter, ours2, theirs2)
+  if (second.writes.size || second.deletes.length || second.conflicts.length)
+    throw new Error(
+      `二次迁移非空计划: writes=${second.writes.size} deletes=${second.deletes.length} conflicts=${second.conflicts.length}`,
+    )
+  console.log('[幂等] 二次迁移 writes=0 deletes=0 conflicts=0')
+}
+
+async function main(): Promise<void> {
+  const flags = new Set(process.argv.slice(2).filter((flag) => flag !== '--'))
+  if (flags.has('--help') || flags.has('-h')) {
+    usage()
+    return
+  }
+  const unknown = [...flags].filter((flag) => flag !== '--write' && flag !== '--bootstrap')
+  if (unknown.length) throw new Error(`未知参数: ${unknown.join(', ')}`)
+  const write = flags.has('--write')
+  const bootstrap = flags.has('--bootstrap')
+
+  if (recoverMigrationTransaction(repo)) console.log('[恢复] 已完成上次中断的同一迁移事务')
+  const sources = loadPalMigrationSources(repo)
+  const theirs = buildPalMigration(sources)
+  reportGeneration(theirs)
+  const baseline = loadPalBaseline(repo)
+  if (baseline && bootstrap) throw new Error('已存在 baseline，不得重跑首次 bootstrap')
+
+  const seed = new Set([...(baseline?.managedFiles ?? []), ...theirs.managedFiles])
+  const managed = discoverProjectManagedFiles(repo, seed)
+  const ours = loadProjectMigrationSnapshot(repo, managed)
+  const manifest = readJson<LoadedManifest>('projects/pal/manifest.json')
+
+  if (!baseline) {
+    if (!bootstrap)
+      throw new Error(`PAL baseline 不存在；请先运行 --bootstrap 并审查 ${BOOTSTRAP_REL}`)
+    if (!existsSync(resolve(repo, BOOTSTRAP_REL))) {
+      const report = createBootstrapReport(ours, theirs)
+      writeJson(BOOTSTRAP_REL, report)
+      console.log(`[bootstrap] 已生成 ${report.differences.length} 项差异: ${BOOTSTRAP_REL}`)
+      console.log('[bootstrap] 请逐项填写 resolution + reason；未闭合前不会写工程或 baseline')
+      return
+    }
+    const report = readJson<BootstrapReportV1>(BOOTSTRAP_REL)
+    const status = verifyBootstrapReport(ours, theirs, report)
+    console.log(
+      `[bootstrap] differences=${status.differences} unresolved=${status.unresolved} upstream-overlay=${status.upstreamOverlays}`,
+    )
+    if (!write) return
+
+    const applied = applyBootstrapReport(ours, theirs, report)
+    const normalizedFiles = normalizeMigrationScriptFiles(applied.files)
+    const target: MigrationSnapshot = {
+      files: normalizedFiles,
+      managedFiles: new Set([...applied.managedFiles, ...normalizedFiles.keys()]),
+    }
+    const validation = validatePalMigrationTarget({
+      files: target.files,
+      managedFiles: target.managedFiles,
+      sources,
+      startWorld: manifest.startWorld,
+    })
+    console.log(
+      `[写前门禁] scenes=${validation.scenes} ref-warnings=${validation.referenceWarnings} script-issues=0`,
+    )
+    const plan = createInitialMigrationPlan(ours, target)
+    reportPlan({ ...plan, conflicts: [] })
+    await commitAndVerify({
+      ours,
+      target,
+      plan,
+      theirs,
+    })
+    return
+  }
+
+  const plan = createMigrationPlan(baseline, ours, theirs)
+  reportPlan(plan)
+  if (plan.conflicts.length) {
+    writeConflictReport(plan)
+    process.exitCode = 1
+    return
+  }
+  const target: MigrationSnapshot = {
+    files: plan.target,
+    managedFiles: new Set([...managed, ...plan.target.keys()]),
+  }
+  const validation = validatePalMigrationTarget({
+    files: target.files,
+    managedFiles: target.managedFiles,
+    sources,
+    startWorld: manifest.startWorld,
+  })
+  console.log(
+    `[写前门禁] scenes=${validation.scenes} ref-warnings=${validation.referenceWarnings} script-issues=0`,
+  )
+  if (!write) {
+    console.log('[dry-run] 未写盘；确认 plan 后加 --write')
+    return
+  }
+  await commitAndVerify({
+    ours,
+    target,
+    plan,
+    previousBaseline: baseline,
+    theirs,
+  })
+}
+
+main().catch((error: unknown) => {
+  console.error(`[migrate:content] 失败: ${error instanceof Error ? error.message : String(error)}`)
+  process.exitCode = 1
 })
-assertScriptLibraryAudit(audit)
-
-// ── M3 白名单写盘:只改脚本绑定 + scripts 目录，绝不覆盖其他手工内容域 ──
-for (const fresh of scenesOut.scenes) {
-  const path = `projects/pal/content/scenes/${fresh.id}.json`
-  const disk = existsSync(resolve(repo, path)) ? readJson<SceneDef>(path) : fresh
-  writeJson(path, mergeSceneScriptBindings(disk, fresh))
-}
-const scriptsRoot = resolve(repo, 'projects/pal/content/scripts')
-rmSync(scriptsRoot, { recursive: true, force: true })
-writeJson('projects/pal/content/scripts/index.json', scenesOut.scriptIndex)
-for (const [id, chunk] of Object.entries(scenesOut.scriptChunks)) {
-  const meta = scenesOut.scriptIndex.chunks[id]
-  if (!meta) throw new Error(`scripts index 缺 chunk ${id}`)
-  writeJson(`projects/pal/content/scripts/${meta.path}`, chunk)
-}
-
-// ── 报告 ──
-console.log(`[migrate:content] projects/pal 已生成:`)
-console.log(
-  `  actors ${out.actors.length}(本次不写盘,保护手工内容)`,
-)
-console.log(
-  `  sprites ${out.sprites.length + scenesOut.sprites.length} · items ${out.items.length} · skills ${out.skills.skills.length}(本次均不写盘)`,
-)
-console.log(
-  `  levelUp 角色数 ${Object.keys(out.skills.levelUp).length} · 脚本 locale 键 ${Object.keys(scenesOut.scriptLocale).length}(沿用盘上 locale)`,
-)
-const sr = scenesOut.scriptReport
-const unmigTotal = Object.values(sr.unmigrated).reduce((a, b) => a + b, 0)
-console.log(
-  `  脚本翻译(M3a):链 ${sr.chains} · 段 ${sr.stages} · 命令 ${sr.commands} · unmigrated ${unmigTotal}(流截断 ${sr.flowCuts})`,
-)
-console.log(
-  `  脚本库(M3):chunk ${Object.keys(scenesOut.scriptChunks).length} · ratio compact ${audit.ratios.normalized.toFixed(2)}x / pretty ${audit.ratios.pretty.toFixed(2)}x / nodes ${audit.ratios.commands.toFixed(2)}x · 最大 chunk ${audit.largestChunks[0]?.id ?? '-'} ${audit.largestChunks[0]?.bytes ?? 0}B · 最大依赖闭包 ${audit.maxDependencyClosureBytes}B`,
-)
-const gr = scenesOut.scriptGraphReport
-console.log(
-  `  CFG(M3):命令 ${gr.commands} · 根 ${gr.roots}(global ${gr.globalRoots}) · 边 exec/bind/recovery ${gr.edges.execution}/${gr.edges.binding}/${gr.edges.recovery} · SCC ${gr.components}(环 ${gr.cyclicComponents}) · 归属 scene/shared/global/unreachable ${gr.ownership.scene}/${gr.ownership.shared}/${gr.ownership.global}/${gr.ownership.unreachable}`,
-)
-console.log(
-  `    前驱 Top20:${gr.topPredecessors.map((x) => `L_${x.entry}×${x.count}`).join(' / ')}`,
-)
-console.log(
-  `    chunk Top20:${audit.largestChunks.map((x) => `${x.id} ${x.bytes}B`).join(' / ')}`,
-)
-console.log(
-  `    root Top20:${audit.largestRoots.map((x) => `${x.id} ${x.bytes}B`).join(' / ')}`,
-)
-const top = Object.entries(sr.unmigrated)
-  .sort((a, b) => b[1] - a[1])
-  .slice(0, 10)
-console.log(`    缺口 Top:${top.map(([k, v]) => `${k}×${v}`).join(' / ')}`)
-console.log(
-  `  装备效果(M1b):${out.items.filter((i) => i.equip).length} 件已翻;pending op ${out.report.pendingEquip.flatMap((p) => p.ops).length}(战斗精灵切换/毒疗)`,
-)
-console.log(
-  `  技能 pending ${out.report.pendingSkills.length}(summon ${out.report.pendingSkills.filter((p) => p.reason.includes('summon')).length} / 动态公式 ${out.report.pendingSkills.filter((p) => p.reason.includes('scriptOnUse')).length});有损注 ${out.report.lossySkills.length}`,
-)
-console.log(
-  `  场景(M2b):${scenesOut.report.scenes} 静态迁(实体 ${scenesOut.report.entities}/触发区跳 ${scenesOut.report.triggerZonesSkipped}/隐藏 ${scenesOut.report.hidden});入口对 ${scenesOut.report.entriesFound}(start ${scenesOut.report.scenesWithStart}/兜底 ${scenesOut.report.entryFallback.length});音乐 ${scenesOut.report.scenesWithMusic};精灵登记 ${scenesOut.sprites.length}(布局冲突 ${scenesOut.report.layoutConflicts.length}/自循环候选 ${scenesOut.report.autoLoopCandidates})`,
-)
-console.log(
-  `  使用效果(M1d):${out.items.filter((i) => i.use).length} 件已翻;pending ${out.report.pendingUse.length}(灵珠剧情/毒杀/遇敌香/蛊系→对应系统);有损注 ${out.report.lossyUse.length}`,
-)
-console.log(
-  `  敌人(M4a):${out.enemies.length} 迁(有 AI 脚本 ${out.enemyReport?.withScript ?? 0};越界 enemyId ${out.enemyReport?.danglingEnemyId.length ?? 0})`,
-)
-{
-  const ps = out.enemyReport?.pendingScripts ?? []
-  const ai = out.enemies.filter((e) => e.ai.rules?.length).length
-  const ch = out.enemies.filter((e) => e.choreography?.length).length
-  const od = out.enemies.filter((e) => e.onDefeated?.length).length
-  console.log(
-    `  敌 AI(M4c):规则敌 ${ai} · 演出 ${ch} · 战后 ${od};脚本翻不净 ${ps.length}${
-      ps.length
-        ? ` → ${ps
-            .slice(0, 6)
-            .map((p) => p.name)
-            .join('/')}${ps.length > 6 ? '…' : ''}`
-        : ''
-    }`,
-  )
-}
-console.log(
-  `  敌队(M4b):${out.enemyTeams.length} 队(空成员引用 ${out.enemyTeamReport?.danglingMember.length ?? 0})`,
-)
-if (out.report.blockedDescs.length)
-  console.log(
-    `  ⚠ desc 护栏命中 ${out.report.blockedDescs.length}(待手修):`,
-    out.report.blockedDescs.slice(0, 5),
-  )

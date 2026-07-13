@@ -1,6 +1,6 @@
 # MG2 - 迁移器结构化三方合并与安全重导
 
-Status: build
+Status: review
 Phase: phase2
 Capability: MG2(增量合并)
 Coding Owner: Codex
@@ -179,7 +179,7 @@ Branch: main
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: pending（build 候选已完成自测；真实工程写盘、6051 烟测和最终复核尚未执行）
 - Opus: pending
 - GLM: pending
 - counter / 返工处理:
@@ -336,11 +336,28 @@ bootstrap 是一次性迁移审计，不允许默认“全 ours”或“全 thei
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: 设计定案完成；实现文件开始后持续补充。
-- 实现摘要: 三签准入已满足，Codex 进入 build。
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: N/A
+- 修改文件:
+  - `packages/migrate/src/pal-migration*.ts`、`pal-derived-content.ts`、`pal-authored-overlays.ts`、`pal-boss-overlay.ts`：纯 PAL 生成核、确定性数据/演出 overlay 和只读提取源 IO。
+  - `packages/migrate/src/migration-{merge,plan,baseline,bootstrap,project-io,transaction,write-plan,validate}.ts`、`script-library-normalize.ts`：结构化三方合并、首次分类、完整 baseline、TOCTOU、同事务提交/恢复和后置门禁。
+  - `packages/migrate/scripts/migrate-content.mts`、`classify-pal-bootstrap.mts`：默认 dry-run、显式 bootstrap/write、精确分类和严格二次空计划 CLI。
+  - `packages/migrate/bootstrap/pal.json`（本地、Git 忽略、可重建）：5531 项完整首次差异报告，每项含精确路径、双值哈希、选择和理由；首份 baseline 建立后删除。
+  - 删除 `patch-enemy-choreo.mts`、`patch-boss-encounters.mts`、`patch-scene-stages.mts`；有效净效应已迁回纯生成并由回归测试覆盖。
+  - `packages/migrate/README.md`、`.gitignore` 及 10 组新增测试。
+- 实现摘要:
+  - `theirs` 只由 `data/extracted` 与确定性 overlay 生成，不再回读 `projects/pal`；共生成 602 个托管文件、295 个场景、294 个脚本 chunk。
+  - 合并实现完整 `base/ours/theirs` 真值表、稳定 id 数组顺序、pages 槽位规则、精确冲突路径、脚本分桶归一化和非托管字节保护。
+  - 脚本在合并前转为按稳定 script id 的虚拟视图；chunk 路径、`ref.chunk`、imports、bytes、hash 均视为派生提示，合并后统一重分桶并重算，避免分桶变化制造假删除/假冲突。
+  - baseline 与项目写盘进入同一 fsync journal 事务；故障后幂等补完，成功后强制重读源并验证第二轮 `writes=0/deletes=0/conflicts=0`。
+  - 修复 M3 重迁时 `jumpScript/callScript` 未展开导致标准 hostile 退化、重复场景页和脚本根膨胀的问题。
+  - 首次报告精确闭合为 `ours=35`（第二阶段 UI/系统 locale）与 `theirs=5496`（上游换行、hostile 去重、boss encounter、场景元数据及派生脚本元数据），无通配兜底。
+- 运行命令:
+  - `pnpm --filter @type-pal/migrate run check`：通过，20 个测试文件、141 项测试全绿（含真实工程临时副本上的 bootstrap、602 文件项目+baseline 事务、非托管字节不变、严格二次零计划以及双方同路径/同稳定 ID 新增冲突）。
+  - `pnpm exec tsx packages/migrate/scripts/classify-pal-bootstrap.mts`：通过，精确分类 5531 项，`ours=35`、`theirs=5496`。
+  - `pnpm --filter @type-pal/migrate run migrate:content -- --bootstrap`：通过，`unresolved=0`、`upstream-overlay=0`；纯生成与脚本体积/closure 门禁全绿。
+  - `pnpm check`：通过，7 个包共 245 个测试文件、3408 项测试全绿。
+  - MG2 新增/独立文件定向 `biome check`：通过，仅保留仓库规则中的 48 条 `noNonNullAssertion` warning。
+- 浏览器 / 手工检查: 尚未执行；按 Draft D，真实 `projects/pal` 在 bootstrap 报告经三方审查前不得写入，因此当前不能对重迁后的真实工程做 6051 烟测。
+- 跳过的检查及原因: 根 `pnpm lint` 仍有 1114 个历史错误和 684 个历史 warning，集中在旧 editor mockup、battle-formulas 等非 MG2 文件；本次没有越界修改。真实 `--bootstrap --write`、二次真实空计划和 6051 视觉验证等待 bootstrap 分类审查通过。
 
 ## 视觉验证记录
 
@@ -348,14 +365,21 @@ bootstrap 是一次性迁移审计，不允许默认“全 ours”或“全 thei
 - 验证方式: 6051 前台运行重迁后的 PAL 工程；详见验收条件。
 - 截图 / 像素检查路径: pending
 - 结论: pending
-- 未完成项: 实现完成后执行。
+- 未完成项: bootstrap 分类经 Opus + GLM 审查、用户转回 Codex 后，执行真实事务写盘、严格二次空计划及开场/跨场景/战斗/商店道具烟测。
 
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: pending
+- 审查结论: build 候选已提交审查；真实写盘门禁仍关闭。
 - 必须返工项: pending
 - Accept / rework: pending
+
+### Bootstrap 写盘前审查
+
+- Codex: **agree**（2026-07-13；逐类核对 5531 项分类并用硬编码白名单/精确计数钉住，真实工程尚未写入）
+- Opus: pending（主审合并/事务实现及分类理由，重点核对 hostile、boss encounter、场景入口与 locale）
+- GLM: pending（复核迁移覆盖、5531 项零漏项、`ours=35/theirs=5496` 和测试矩阵）
+- 真实 `--bootstrap --write` 准入: **blocked**，Opus + GLM 均 `agree` 且用户把任务转回 Codex 后才能执行。
 
 ## 用户验收
 
@@ -369,7 +393,22 @@ bootstrap 是一次性迁移审计，不允许默认“全 ours”或“全 thei
 - 2026-07-13 Opus: 设计签 **agree + M1-M4 必改**。锚点核实:mts:113-122 enemies 回读污染、mts:139-141 `rmSync(scripts)` 整目录重建、三 patch 全读盘——现状审计属实。六维压力测试:baseline 语义(唯一正确锚,含"工程已提交 baseline 未推进"崩溃窗 → M1 journal 事务域+故障注入)、合并边界(M2 id 数组输出顺序缺失会破二次零 diff;M3 pages 页数变化规则;Command[] 原子✓派生重算✓)、删除/非托管(真值表覆盖✓)、bootstrap(M4 patch 纯函数化必须先行,否则分类清单被淹没;允许迭代收敛)、事务(骨架✓,N3 fsync/rename 幂等/故障注入)、patch 顺序(=M4)。N1 禁手工合并 baseline、N2 编辑器互斥纪律。Evidence: Opus 压力测试段。Next: Codex 把 M1-M4 落进 Draft;GLM 复核文件域矩阵/bootstrap 可操作性/测试矩阵;三签齐后 build。未改实现文件。
 - 2026-07-13 GLM: 设计签 **agree**；要求补齐域矩阵、M1-M4 显式测试和严格二次空计划。Evidence: 本卡 GLM 四项复核。
 - 2026-07-13 Codex: 复核真实工程与提取源，确认 `music/battle-fields/poisons/shops` 为迁移托管域，`ambiences/tilesets` 为创作非托管域，`dither-false-color.json` 当前不存在；M1-M4、N1-N3 和四条测试均已写入 Draft。三签条件全部闭合，状态转 `build`。Next: Codex 单 Owner 实现与自测。
+- 2026-07-13 Codex: 完成 MG2 build 候选：纯生成、结构化三方合并、精确 bootstrap、项目+baseline 同事务、恢复/TOCTOU/后置归一化与全门禁均落地；三个历史写盘 patch 退役。5531 项分类闭合为 `ours=35/theirs=5496`，临时副本完整事务与二次零计划通过，`pnpm check` 共 3408 项测试全绿。真实 `projects/pal` 未写入，状态转 `review`。Next: Opus 审实现与 bootstrap 分类，不得执行真实 write；随后交 GLM 覆盖复核。
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词：当前由 Coding Owner Codex 在本会话连续执行 build；实现、自测和提交完成后再生成给 Opus 的 review 提示词。
+给 Opus：
+
+```text
+MG2 已由 Codex 完成 build 候选并转 review。任务卡：docs/ops/tasks/MG2-incremental-migration-merge.md。
+
+先读 AGENTS.md、任务卡的“上下文锚点 / Draft / Build / Bootstrap 写盘前审查”，再审：
+1. packages/migrate/src/migration-{merge,plan,baseline,bootstrap,transaction,write-plan,validate}.ts；
+2. packages/migrate/src/pal-migration*.ts、pal-*-overlay.ts、script-library-normalize.ts；
+3. packages/migrate/scripts/migrate-content.mts、classify-pal-bootstrap.mts；
+4. packages/migrate/bootstrap/pal.json（5531 项，硬门禁应严格为 ours=35/theirs=5496）。
+
+Codex 已完成：纯生成 602 文件/295 场景/294 chunk；临时副本 bootstrap + 项目/baseline 同事务 + 非托管字节保护 + 严格二次零计划；迁移包 141 测试、全仓 3408 测试通过。真实 projects/pal 尚未写入，6051 视觉验证尚未执行。
+
+请重点压力测试：三方删除/数组/pages 规则、journal 在项目与 baseline 之间中断的恢复、TOCTOU、hostile 去重、boss 演出迁到具体 encounter、s251/s294 入口修正、locale 的 35 项 ours 与其余 theirs 分类是否合理。把结论写入任务卡“Bootstrap 写盘前审查”的 Opus 行和 Review：agree 或 counter + 精确返工项；不得执行 --bootstrap --write，不得标记 done。若 agree，请更新“下一位 Agent 提示词”为给 GLM 的覆盖复核提示词并提交文档。
+```
