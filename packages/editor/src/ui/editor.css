@@ -211,8 +211,43 @@ body {
   outline: none;
 }
 .panel-resizer-toggle-icon {
+  position: relative;
   display: block;
-  line-height: 1;
+  width: 10px;
+  height: 10px;
+}
+.panel-resizer-toggle-icon::before,
+.panel-resizer-toggle-icon::after {
+  position: absolute;
+  top: 4px;
+  left: 2px;
+  width: 7px;
+  height: 2px;
+  border-radius: 1px;
+  background: currentColor;
+  content: "";
+  transform-origin: 1px 1px;
+}
+.panel-resizer-toggle-icon::before {
+  transform: rotate(45deg);
+}
+.panel-resizer-toggle-icon::after {
+  transform: rotate(-45deg);
+}
+.panel-resizer-toggle-icon-up {
+  top: 0.5px;
+  transform: rotate(90deg);
+}
+.panel-resizer-toggle-icon-down {
+  top: -0.5px;
+  transform: rotate(-90deg);
+}
+.panel-resizer-toggle-icon-left {
+  left: 0.5px;
+}
+.panel-resizer-toggle-icon-right {
+  left: -0.5px;
+  transform: rotate(180deg);
 }
 .panel-resizer-vertical > .panel-resizer-toggle {
   top: 50%;
@@ -228,9 +263,6 @@ body {
   height: 14px;
   font-size: 12px;
   transform: translate(-50%, -50%);
-}
-.panel-resizer-horizontal > .panel-resizer-toggle .panel-resizer-toggle-icon {
-  transform: translateY(-1px);
 }
 .app-outliner-resizer,
 .app-inspector-resizer {

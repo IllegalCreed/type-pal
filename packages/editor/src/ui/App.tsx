@@ -830,7 +830,7 @@ export function App(props: {
           max={outlinerCollapsed ? 0 : outlinerResizeMax}
           resizeLabel="调整左侧面板宽度"
           disabled={outlinerCollapsed}
-          toggleIcon={outlinerCollapsed ? '›' : '‹'}
+          toggleDirection={outlinerCollapsed ? 'right' : 'left'}
           toggleLabel={outlinerCollapsed ? '展开左侧面板' : '收起左侧面板'}
           onToggle={() => setOutlinerCollapsed((value) => !value)}
           onReset={() => setOutlinerWidth(OUTLINER_DEFAULT_WIDTH)}
@@ -848,7 +848,7 @@ export function App(props: {
           max={inspectorCollapsed ? 0 : inspectorResizeMax}
           resizeLabel="调整右侧面板宽度"
           disabled={inspectorCollapsed}
-          toggleIcon={inspectorCollapsed ? '‹' : '›'}
+          toggleDirection={inspectorCollapsed ? 'left' : 'right'}
           toggleLabel={inspectorCollapsed ? '展开右侧面板' : '收起右侧面板'}
           onToggle={() => setInspectorCollapsed((value) => !value)}
           onReset={() => setInspectorWidth(INSPECTOR_DEFAULT_WIDTH)}

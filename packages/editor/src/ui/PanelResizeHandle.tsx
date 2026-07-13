@@ -9,6 +9,7 @@ import {
 } from 'react'
 
 type Orientation = 'vertical' | 'horizontal'
+type ToggleDirection = 'up' | 'down' | 'left' | 'right'
 
 function readStoredValue<T>(key: string, fallback: T, parse: (raw: string) => T | undefined): T {
   if (typeof window === 'undefined') return fallback
@@ -67,7 +68,7 @@ export function PanelResizeHandle(props: {
   onReset: () => void
   className?: string
   disabled?: boolean
-  toggleIcon?: string
+  toggleDirection?: ToggleDirection
   toggleLabel?: string
   onToggle?: () => void
 }) {
@@ -156,7 +157,7 @@ export function PanelResizeHandle(props: {
         onPointerUp={endPointer}
         onPointerCancel={endPointer}
       />
-      {props.onToggle && props.toggleIcon && props.toggleLabel ? (
+      {props.onToggle && props.toggleDirection && props.toggleLabel ? (
         <button
           type="button"
           className="panel-resizer-toggle"
@@ -166,9 +167,10 @@ export function PanelResizeHandle(props: {
           onDoubleClick={(event) => event.stopPropagation()}
           onClick={props.onToggle}
         >
-          <span className="panel-resizer-toggle-icon" aria-hidden="true">
-            {props.toggleIcon}
-          </span>
+          <span
+            className={`panel-resizer-toggle-icon panel-resizer-toggle-icon-${props.toggleDirection}`}
+            aria-hidden="true"
+          />
         </button>
       ) : null}
     </div>

@@ -656,7 +656,7 @@ export function ScriptDrawer(props: {
         min={DRAWER_MIN_HEIGHT}
         max={drawerMaxHeight}
         resizeLabel="调整脚本面板高度"
-        toggleIcon="⌄"
+        toggleDirection="down"
         toggleLabel="收起脚本面板"
         onToggle={onClose}
         onReset={() => setDrawerHeight(DRAWER_DEFAULT_HEIGHT)}
@@ -898,7 +898,7 @@ export function ScriptDrawer(props: {
             max={drawerSideCollapsed ? 0 : drawerSideResizeMax}
             resizeLabel="调整脚本属性面板宽度"
             disabled={drawerSideCollapsed}
-            toggleIcon={drawerSideCollapsed ? '‹' : '›'}
+            toggleDirection={drawerSideCollapsed ? 'left' : 'right'}
             toggleLabel={drawerSideCollapsed ? '展开脚本属性面板' : '收起脚本属性面板'}
             onToggle={() => setDrawerSideCollapsed((value) => !value)}
             onReset={() => setDrawerSideWidth(DRAWER_SIDE_DEFAULT_WIDTH)}
