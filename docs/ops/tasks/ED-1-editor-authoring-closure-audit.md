@@ -87,10 +87,46 @@ Branch: main
 
 - Codex: **agree（2026-07-13）**。当前代码证明地图缺独立索引、场景地图不可选择、空白工程新场景回退原版地图 0；“数据”15 页已超出单模块边界。赞成七环判据、八个一级业务模块、稳定 map id + index、通用引用图和分卡实施。
 - Opus: **agree（2026-07-13;六维全过,附 R1-R3 子卡必落 + S1-S3 建议。锚点逐一核实:P0-1 三点(seed own start/App:580 `reuseMapNum??0`/commands:1734 固定 reuseOriginalMap)成立;loader:335 注释自证"own 场景引用即索引,无需单独 maps 索引"——审计发现即代码供词;capability 当前值与"当前 ✅"声明一致。详见主审立场）
-- GLM: pending
-- counter / 分歧处理: pending
+- GLM: **agree**（2026-07-14）。五项复核逐项：
+
+  **(1) 18 域矩阵抽 5 域对码验证**：
+  - **地图**：MapMode.tsx:88-97 只从 `scene.map.ownMap` 推导唯一编辑对象，无独立列表/index。❌ 确认。✅ 标注准确。
+  - **角色**：commands.ts 仅有 `UpdateActorCommand`（:1183），无 CreateActor/AddActor/DeleteActor。❌ 确认。✅ 标注准确。
+  - **过场**：CutsceneTab.tsx:38 读 `/extracted/data/rng-frames.json`，:58 硬编码 `/extracted/videos/${id}.mp4`。❌ 确认。✅ 标注准确。
+  - **入口点**：commands.ts:1875 `SetEntryPointsCommand`（整表替换，含增删改）。✅ 闭环确认。✅ 标注准确。
+  - **共享脚本**：commands.ts:1105 `UpdateSharedScriptBodyCommand` + N6 完整 CRUD。✅ 闭环确认。✅ 标注准确。
+  - **5 域全部对码一致，无虚标。** ✅
+
+  **(2) capability 拟调整表与 capability-map 当前值逐行对账**：
+  - W1/W7 编辑器当前 ✅ → 拟降 ⚠️（缺独立地图列表/选择/引用删除）。✅ 恢复条件明确。
+  - E1 编辑器当前 ✅ → 拟降 ⚠️（场景无复制/删除/zone 工具）。✅
+  - C1 编辑器当前 ✅ → 拟降 ⚠️（空白工程无法创建角色）。✅
+  - W5/X2 编辑器当前 ✅ → 拟降 ⚠️（音乐数字 id 隐式文件名）。✅
+  - B2 编辑器当前 ✅ → 拟降 ⚠️（战场只能改迁移条目）。✅
+  - N8 编辑器当前 ✅ → 拟降 ❌（硬编码 /extracted）。✅
+  - A4 编辑器当前 ✅ → 保留但收窄说明。✅
+  - X6/X7/N6 豁免：已闭环（工程生命周期/入口点/共享脚本满足当前范围七环）。✅ 豁免理由充分。
+  - **对账一致，降级项有恢复条件，豁免项有实据。** ✅
+
+  **(3) 分期依赖无环 + 每期独立验收**：
+  - ED-2（壳）→ W7E（地图 schema）→ ED-3（引用图）→ ED-4（场景/实体）→ ED-5（CRUD 波次）→ A7/R7 → ED-6（效率层）→ 复核。
+  - 依赖链：壳先定 IA 避免搬两次 → 地图 schema 是用户当前阻断 → 引用图是 CRUD 地基 → 场景/实体依赖引用图 → CRUD 依赖引用图 → 资源主线独立 → 效率层在基础闭环后。
+  - **无环。** 每期有独立验收（§10 总验收矩阵可裁剪到各期）。✅
+
+  **(4) 总验收矩阵七环覆盖完整性**：
+  - 空白工程（创建/绑定/保存/重开）✅ / 地图复用（多场景引用同一图/改图两处生效/删除保护）✅ / 引用安全（删除前看调用方/替换无悬空）✅ / PAL 兼容（打开/切场景/脚本预览/保存重开不变）✅ / 工程 IO（HTTP/FSA/另存为/zip round-trip）✅ / 视觉（1280/900/720）✅ / 门禁（pnpm check）✅。
+  - **七类全覆盖，无漏环。** ✅
+
+  **(5) R1 MG2 域表登记项一致性**：
+  - R1 要求 `content/maps/index.json` 在 MG2 合并策略表登记为 `id 模式`（MapIndexV1.maps 是 id 数组）。
+  - 实测 MG2 migration-merge.ts 当前**没有 maps/index 的 arrayMode 登记**（grep 零命中 `maps.*index` / `MapIndex`）。这是**预期的**——W7E 尚未实现 MapIndexV1，MG2 当前没有这个域要登记。
+  - R1 的正确性：**W7E 实现时必须同时在 MG2 合并策略表新增 `content/maps/index.json → id 模式`**，否则双边改地图注册表会整文件冲突。这是 build 时落的事项，不是当前 MG2 的缺口。✅
+
+  **总结**：5 域对码全部一致无虚标；capability 拟调整对账一致；分期无环；总验收矩阵七环全覆盖；R1 MG2 域表登记是 W7E build 时事项（当前 MG2 无此域=预期）。**agree**。
+
+- counter / 分歧处理: 无设计层 counter。
 - 缺签豁免: N/A
-- build 准入结论: blocked（本卡三签后只允许文档收口/拆子卡；实现仍按子卡门禁）
+- build 准入结论: **三签齐（Codex agree + Opus agree + GLM agree）。本卡只做文档收口 + 开 ED-2/W7E 子卡，实现仍按子卡门禁。**
 
 ### 进入 done 前:审查签字
 
