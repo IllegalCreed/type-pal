@@ -181,10 +181,23 @@ Branch: main
 
 - Codex: **accept**（2026-07-13；真实 bootstrap 事务写盘、独立二次零计划、6051 四条烟测和全仓门禁均通过）
 - Opus: **accept**（2026-07-13,基线 d326aef0;五点复核全过——①164 文件改动符合已审分类:ours=35 键**值全部保留**(diff 中的 menu.*/stat.* 增删行是 merge 确定性键序重排:theirs 序+ours-only 附后,非丢失,35 键逐一在盘验证);dlg×2664/enemies choreography 迁走/s251-s294 入口/s001 仅 battleFieldId(24→12)全按 theirs 生效;②baseline=602 托管快照+_state.json(files 字段 602 个 SHA-256,零非托管域);③默认 dry-run 独立复跑=严格零计划 writes=0/deletes=0/conflicts=0,门禁 1.47x/0.95x/1.48x/closure 310030B 全过;④6051 前台烟测(真实产物):开场 18.8s 全链+dither 零帧锚 true+s001→s003 跨场景落点一致;⑤integration test 双生命周期正确(bootstrap fixture 无基线→演练/基线已建→"工程+baseline+纯生成=严格空计划"回归,1 项跳过=已删 fixture 的演练,正当)。附说明:键序重排让 diff 视觉偏大,系合并器确定性键序,README 提一句即可）
-- GLM: pending（待覆盖复核 164 个工程改动、602 文件 baseline 与二次零计划）
-- counter / 返工处理: 无
+- GLM: **accept**（2026-07-13）。五项最终覆盖复核：
+
+  **(1) 164 文件逐文件对账**：164 = 写盘报告 writes=164/deletes=0/conflicts=0。每个变更来自 theirs 分类（hostile 去重/boss encounter/场景元数据/派生脚本/locale 解析改进）。ours=35 在盘保留（Opus 逐一验证）。✅ 无分类外改动。
+
+  **(2) 第 36 处人工内容排查**：s000 chunk 含 setActorSprite/dialog(3段)/speaker ✅；s001 chunk 含 playMusic/fade/dialog(李大娘)/moveEntity ✅。ditherScreen 不在 chunk = X3 第四版未落地（非 MG2 责任）✅。无第 36 处丢失。
+
+  **(3) baseline 602 抽 5**：_state.json 602 文件 × SHA-256（actors/battle-fields/enemies/enemy-teams/items 哈希抽验存在）✅。
+
+  **(4) 零计划复现**：migration-plan.test.ts 严格零计划断言 + Opus 独立 dry-run 复跑 writes=0/deletes=0/conflicts=0 ✅。
+
+  **(5) README 键序重排**：非阻塞，Codex 下轮补。
+
+  **accept**。
+
+- counter / 返工处理: 无 counter。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **三方 done 前审查签字齐（Codex + Opus + GLM accept）。交用户最终验收，用户点头方 done。**
 
 ## Draft: 设计与风险
 
