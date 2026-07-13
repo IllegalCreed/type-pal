@@ -370,14 +370,15 @@ bootstrap 是一次性迁移审计，不允许默认“全 ours”或“全 thei
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: build 候选已提交审查；真实写盘门禁仍关闭。
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: **Opus agree(写盘前审查,2026-07-13)**——合并/事务/TOCTOU 实现与设计(含 M1-M4)逐条吻合;5531 项分类敏感类别抽查全对;s000/s001 手工演出零丢失有数据铁证;migrate 141 tests 独立复跑绿。待 GLM 覆盖复核;真实写盘门禁仍关闭。
+- Opus 非阻塞观察: O1 孤儿 staging 清理(journal rename 前崩溃残留 transactions/<id>,建议 recover 时顺清);O2 非 primitive id 数组双侧异序时 theirs 序静默胜——行为已定义,README 提一句即可。
+- 必须返工项: 无
+- Accept / rework: Opus agree;GLM pending;真实 --bootstrap --write 仍 blocked(双 agree + 用户转交 Codex 后执行)
 
 ### Bootstrap 写盘前审查
 
 - Codex: **agree**（2026-07-13；逐类核对 5531 项分类并用硬编码白名单/精确计数钉住，真实工程尚未写入）
-- Opus: pending（主审合并/事务实现及分类理由，重点核对 hostile、boss encounter、场景入口与 locale）
+- Opus: **agree**（2026-07-13;实现六点全过+分类抽查全对。合并:真值表/orderedIds 确定性顺序(theirs 骨架+base 前驱锚,M2 落地)/pages tail-only 规则(M3 落地)/Command[] 原子/invalid-identity 原子降级——与设计逐条吻合;事务:baseline 同 journal(M1 落地)、幂等重放(targetMatches 跳已完成)、fsync 纪律(staged/journal/target/dir)、提交后哈希复核、afterOperation 故障注入钩;TOCTOU:assertProjectSnapshotCurrent 事务前复核全 managed ours + unmanaged 前后双清单。分类:ours=35 全部为二阶段 UI/系统文案(menu/stat/equip/gameover),清单完备理由一致;hostile 去重 2440 项(826 折叠+1614 根退役)成对自洽=修复 M3 ref 未展开退化;boss choreography→具体 encounter 防同种误触发;s251/s294 入口 1-based 换算修正;locale theirs 2664 条 dlg 为解析器换行/说话人改进。**关键铁证:s000/s001 在 5531 项中仅 1 条 battleFieldId 元数据差异——M3 手工演出(dither/speaker/李大娘两段式)经纯 overlay 在 fresh 中完整再生,零丢失**。独立复验:migrate 141 tests 重跑绿;bootstrap/pal.json 确认 git-ignored,35+5496=5531 核算吻合。O1 非阻塞:journal rename 前崩溃的孤儿 staging 目录无清理路径,建议 recover 顺清）
 - GLM: pending（复核迁移覆盖、5531 项零漏项、`ours=35/theirs=5496` 和测试矩阵）
 - 真实 `--bootstrap --write` 准入: **blocked**，Opus + GLM 均 `agree` 且用户把任务转回 Codex 后才能执行。
 
@@ -394,21 +395,20 @@ bootstrap 是一次性迁移审计，不允许默认“全 ours”或“全 thei
 - 2026-07-13 GLM: 设计签 **agree**；要求补齐域矩阵、M1-M4 显式测试和严格二次空计划。Evidence: 本卡 GLM 四项复核。
 - 2026-07-13 Codex: 复核真实工程与提取源，确认 `music/battle-fields/poisons/shops` 为迁移托管域，`ambiences/tilesets` 为创作非托管域，`dither-false-color.json` 当前不存在；M1-M4、N1-N3 和四条测试均已写入 Draft。三签条件全部闭合，状态转 `build`。Next: Codex 单 Owner 实现与自测。
 - 2026-07-13 Codex: 完成 MG2 build 候选：纯生成、结构化三方合并、精确 bootstrap、项目+baseline 同事务、恢复/TOCTOU/后置归一化与全门禁均落地；三个历史写盘 patch 退役。5531 项分类闭合为 `ours=35/theirs=5496`，临时副本完整事务与二次零计划通过，`pnpm check` 共 3408 项测试全绿。真实 `projects/pal` 未写入，状态转 `review`。Next: Opus 审实现与 bootstrap 分类，不得执行真实 write；随后交 GLM 覆盖复核。
+- 2026-07-13 Opus: 写盘前审查签 **agree**。六点压测:①merge(真值表/M2 orderedIds/M3 pages tail-only/Command[] 原子)与设计逐条吻合;②事务 M1 落地(baseline 同 journal+幂等重放+fsync+提交后复核+故障注入钩);③TOCTOU=assertProjectSnapshotCurrent+unmanaged 双清单;④hostile 去重 2440 项成对自洽;⑤boss/入口/locale 分类理由正确;⑥ours=35 全为二阶段 UI 文案且完备。铁证:s000/s001 仅 1 条元数据差异=M3 手工演出经纯 overlay 零丢失。独立复验 141 tests 绿+git-ignore+总数核算。O1-O2 非阻塞。Evidence: Bootstrap 写盘前审查 Opus 行。Next: GLM 覆盖复核(5531 零漏项/域矩阵/测试矩阵映射);双 agree 后用户转交 Codex 执行真实 --bootstrap --write + 6051 烟测。未改实现文件,未执行写盘。
 
 ## 下一位 Agent 提示词
 
-给 Opus：
+给 GLM：
 
 ```text
-MG2 已由 Codex 完成 build 候选并转 review。任务卡：docs/ops/tasks/MG2-incremental-migration-merge.md。
-
-先读 AGENTS.md、任务卡的“上下文锚点 / Draft / Build / Bootstrap 写盘前审查”，再审：
-1. packages/migrate/src/migration-{merge,plan,baseline,bootstrap,transaction,write-plan,validate}.ts；
-2. packages/migrate/src/pal-migration*.ts、pal-*-overlay.ts、script-library-normalize.ts；
-3. packages/migrate/scripts/migrate-content.mts、classify-pal-bootstrap.mts；
-4. packages/migrate/bootstrap/pal.json（5531 项，硬门禁应严格为 ours=35/theirs=5496）。
-
-Codex 已完成：纯生成 602 文件/295 场景/294 chunk；临时副本 bootstrap + 项目/baseline 同事务 + 非托管字节保护 + 严格二次零计划；迁移包 141 测试、全仓 3408 测试通过。真实 projects/pal 尚未写入，6051 视觉验证尚未执行。
-
-请重点压力测试：三方删除/数组/pages 规则、journal 在项目与 baseline 之间中断的恢复、TOCTOU、hostile 去重、boss 演出迁到具体 encounter、s251/s294 入口修正、locale 的 35 项 ours 与其余 theirs 分类是否合理。把结论写入任务卡“Bootstrap 写盘前审查”的 Opus 行和 Review：agree 或 counter + 精确返工项；不得执行 --bootstrap --write，不得标记 done。若 agree，请更新“下一位 Agent 提示词”为给 GLM 的覆盖复核提示词并提交文档。
+接手任务: MG2 迁移器三方合并,bootstrap 写盘前覆盖复核(GLM)
+任务卡: docs/ops/tasks/MG2-incremental-migration-merge.md
+当前状态: review;Codex agree + Opus agree(写盘前审查),GLM pending;真实 --bootstrap --write blocked。
+你的角色: GLM,覆盖/零漏项/测试矩阵复核;只审文档与产出,不改实现文件,不执行写盘。
+先读: AGENTS.md、任务卡"Draft/Build/Bootstrap 写盘前审查(Opus 行)/Review"。
+Opus 已过: merge(M2 orderedIds/M3 pages)/事务(M1 baseline 同 journal+故障注入)/TOCTOU 实现逐条吻合;分类抽查(hostile 2440 成对/boss encounter/s251-s294 入口/locale ours=35 完备);s000/s001 仅 1 条元数据差异=手工演出零丢失铁证;141 tests 独立复跑绿。O1 孤儿 staging/O2 异序静默胜为非阻塞。
+请你复核: (1)5531 项零漏项——differences 是否等于 current vs fresh 全部差异(抽 3-5 个文件独立 diff 对账,含一个 scripts chunk);(2)域矩阵——602 托管文件清单 vs projects/pal/content 实际文件与编辑器保存面,非托管(ambiences/tilesets/own-maps/assets)边界正确;(3)测试矩阵 141 项 vs 验收"测试"节逐条映射(三方删除/数组重排/pages/journal 中断×2/TOCTOU/二次严格空计划/非托管字节),给出缺口清单;(4)ours=35 之外是否存在应保 ours 而被分到 theirs 的项(重点:编辑器手工产物、X3 dither 相关 locale/scene 字段)。在"Bootstrap 写盘前审查"GLM 行签 agree/counter,更新交接日志。
+不要做: 不执行 --bootstrap --write;不改实现文件;不标 done。
+输出要求: 明确 agree/counter、对账样本、测试矩阵映射表、提交 hash;双 agree 后由用户转交 Codex 执行真实写盘+6051 烟测。
 ```
