@@ -27,7 +27,14 @@ import {
   validateReferences,
 } from '@type-pal/content'
 import type { AssetBase, LoadedProject } from '@type-pal/reforge'
-import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
+import {
+  type CSSProperties,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from 'react'
 import {
   AddEntityCommand,
   AddSceneCommand,
@@ -47,6 +54,12 @@ import { ActorMode } from './ActorMode.js'
 import { DataMode, type DataTab } from './DataMode.js'
 import { MapMode } from './MapMode.js'
 import { MusicPicker } from './MusicPicker.js'
+import {
+  PanelResizeHandle,
+  useStoredPanelBoolean,
+  useStoredPanelNumber,
+} from './PanelResizeHandle.js'
+import { clampPanelSize, fitSidePanelWidths } from './panel-layout.js'
 import { SceneCanvas, type Tool } from './SceneCanvas.js'
 import { ScriptDrawer } from './ScriptDrawer.js'
 import { SpriteThumb } from './SpriteThumb.js'
@@ -54,6 +67,14 @@ import { SpriteThumb } from './SpriteThumb.js'
 const SCENE_NODE = '__scene__'
 /** 进场点节点哨兵(与 SceneCanvas 的 ENTRY_HIT_ID 对齐):选中它 → 专属进场点 inspector(坐标+朝向)。 */
 const ENTRY_NODE = '__entry__'
+const RAIL_WIDTH = 52
+const CENTER_MIN_WIDTH = 260
+const OUTLINER_DEFAULT_WIDTH = 194
+const OUTLINER_MIN_WIDTH = 140
+const OUTLINER_MAX_WIDTH = 420
+const INSPECTOR_DEFAULT_WIDTH = 290
+const INSPECTOR_MIN_WIDTH = 220
+const INSPECTOR_MAX_WIDTH = 620
 type Mode = 'place' | 'actor' | 'data' | 'map'
 
 function newEntityId(existing: EntityDef[]): string {
@@ -141,6 +162,69 @@ export function App(props: {
   )
   const leaderSpriteId = actorsById[state.manifest.startWorld.party[0] ?? '']?.spriteId
   const [projMenu, setProjMenu] = useState(false)
+  const bodyRef = useRef<HTMLDivElement>(null)
+  const [bodyWidth, setBodyWidth] = useState(0)
+  const [outlinerWidth, setOutlinerWidth] = useStoredPanelNumber(
+    'type-pal:editor:outliner-width',
+    OUTLINER_DEFAULT_WIDTH,
+  )
+  const [inspectorWidth, setInspectorWidth] = useStoredPanelNumber(
+    'type-pal:editor:inspector-width',
+    INSPECTOR_DEFAULT_WIDTH,
+  )
+  const [outlinerCollapsed, setOutlinerCollapsed] = useStoredPanelBoolean(
+    'type-pal:editor:outliner-collapsed',
+    false,
+  )
+  const [inspectorCollapsed, setInspectorCollapsed] = useStoredPanelBoolean(
+    'type-pal:editor:inspector-collapsed',
+    false,
+  )
+
+  useEffect(() => {
+    const body = bodyRef.current
+    if (!body) return
+    const syncWidth = (): void => setBodyWidth(body.clientWidth)
+    syncWidth()
+    const observer = new ResizeObserver(syncWidth)
+    observer.observe(body)
+    return () => observer.disconnect()
+  }, [])
+
+  const layoutWidth = bodyWidth || 1280
+  const requestedOutlinerWidth = outlinerCollapsed
+    ? 0
+    : clampPanelSize(outlinerWidth, OUTLINER_MIN_WIDTH, OUTLINER_MAX_WIDTH)
+  const requestedInspectorWidth = inspectorCollapsed
+    ? 0
+    : clampPanelSize(inspectorWidth, INSPECTOR_MIN_WIDTH, INSPECTOR_MAX_WIDTH)
+  const fittedPanels = fitSidePanelWidths({
+    available: layoutWidth - RAIL_WIDTH - CENTER_MIN_WIDTH,
+    left: requestedOutlinerWidth,
+    right: requestedInspectorWidth,
+    leftMin: outlinerCollapsed ? 0 : OUTLINER_MIN_WIDTH,
+    rightMin: inspectorCollapsed ? 0 : INSPECTOR_MIN_WIDTH,
+  })
+  const visibleOutlinerWidth = fittedPanels.left
+  const visibleInspectorWidth = fittedPanels.right
+  const outlinerResizeMax = Math.min(
+    OUTLINER_MAX_WIDTH,
+    Math.max(
+      OUTLINER_MIN_WIDTH,
+      layoutWidth - RAIL_WIDTH - CENTER_MIN_WIDTH - visibleInspectorWidth,
+    ),
+  )
+  const inspectorResizeMax = Math.min(
+    INSPECTOR_MAX_WIDTH,
+    Math.max(
+      INSPECTOR_MIN_WIDTH,
+      layoutWidth - RAIL_WIDTH - CENTER_MIN_WIDTH - visibleOutlinerWidth,
+    ),
+  )
+  const bodyStyle = {
+    '--outliner-width': `${visibleOutlinerWidth}px`,
+    '--inspector-width': `${visibleInspectorWidth}px`,
+  } as CSSProperties
 
   const selEntity = scene?.entities.find((e) => e.id === selected)
 
@@ -364,7 +448,11 @@ export function App(props: {
         </button>
       </div>
 
-      <div className="body">
+      <div
+        ref={bodyRef}
+        className={`body${outlinerCollapsed ? ' outliner-collapsed' : ''}${inspectorCollapsed ? ' inspector-collapsed' : ''}`}
+        style={bodyStyle}
+      >
         <div className="rail">
           <button
             type="button"
@@ -733,6 +821,47 @@ export function App(props: {
             </div>
           </>
         )}
+
+        <PanelResizeHandle
+          orientation="vertical"
+          className="app-outliner-resizer"
+          value={visibleOutlinerWidth}
+          min={outlinerCollapsed ? 0 : OUTLINER_MIN_WIDTH}
+          max={outlinerCollapsed ? 0 : outlinerResizeMax}
+          resizeLabel="调整左侧面板宽度"
+          disabled={outlinerCollapsed}
+          toggleIcon={outlinerCollapsed ? '›' : '‹'}
+          toggleLabel={outlinerCollapsed ? '展开左侧面板' : '收起左侧面板'}
+          onToggle={() => setOutlinerCollapsed((value) => !value)}
+          onReset={() => setOutlinerWidth(OUTLINER_DEFAULT_WIDTH)}
+          onResize={(delta) =>
+            setOutlinerWidth(
+              clampPanelSize(visibleOutlinerWidth + delta, OUTLINER_MIN_WIDTH, outlinerResizeMax),
+            )
+          }
+        />
+        <PanelResizeHandle
+          orientation="vertical"
+          className="app-inspector-resizer"
+          value={visibleInspectorWidth}
+          min={inspectorCollapsed ? 0 : INSPECTOR_MIN_WIDTH}
+          max={inspectorCollapsed ? 0 : inspectorResizeMax}
+          resizeLabel="调整右侧面板宽度"
+          disabled={inspectorCollapsed}
+          toggleIcon={inspectorCollapsed ? '‹' : '›'}
+          toggleLabel={inspectorCollapsed ? '展开右侧面板' : '收起右侧面板'}
+          onToggle={() => setInspectorCollapsed((value) => !value)}
+          onReset={() => setInspectorWidth(INSPECTOR_DEFAULT_WIDTH)}
+          onResize={(delta) =>
+            setInspectorWidth(
+              clampPanelSize(
+                visibleInspectorWidth - delta,
+                INSPECTOR_MIN_WIDTH,
+                inspectorResizeMax,
+              ),
+            )
+          }
+        />
       </div>
 
       <div className="valbar">

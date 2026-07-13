@@ -108,12 +108,145 @@ body {
 
 /* 主体 */
 .body {
+  --outliner-width: 194px;
+  --inspector-width: 290px;
+
+  position: relative;
   display: grid;
-  grid-template-columns: 52px 194px 1fr 290px;
+  grid-template-columns: 52px var(--outliner-width) minmax(0, 1fr) var(--inspector-width);
   /* 行高钉死容器高:缺省 auto 行会被最高列撑爆(窄屏右栏换行变高 → 四列连坐溢出
      valbar 底,2026-07-05 作者三报遮挡的真根因;minmax(0,1fr) 防内容撑破) */
   grid-template-rows: minmax(0, 1fr);
   min-height: 0;
+  min-width: 0;
+}
+.body.outliner-collapsed > .outliner,
+.body.inspector-collapsed > .inspector {
+  display: none;
+}
+.body > .rail {
+  grid-column: 1;
+}
+.body > .outliner {
+  grid-column: 2;
+}
+.body > .center {
+  grid-column: 3;
+}
+.body > .inspector {
+  grid-column: 4;
+}
+
+/* 可调面板分隔条:拖动改尺寸、双击复位,中间箭头只负责折叠。 */
+.panel-resizer {
+  position: relative;
+  z-index: 30;
+  flex: none;
+  touch-action: none;
+  outline: none;
+}
+.panel-resizer-hit {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  cursor: inherit;
+  outline: none;
+}
+.panel-resizer::before {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  background: var(--line);
+  transition:
+    background-color 120ms ease,
+    box-shadow 120ms ease;
+}
+.panel-resizer:hover::before,
+.panel-resizer:focus-within::before {
+  background: var(--accent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+.panel-resizer-vertical {
+  width: 8px;
+  cursor: col-resize;
+}
+.panel-resizer-vertical::before {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  transform: translateX(-50%);
+}
+.panel-resizer-horizontal {
+  height: 8px;
+  cursor: row-resize;
+}
+.panel-resizer-horizontal::before {
+  top: 50%;
+  right: 0;
+  left: 0;
+  height: 1px;
+  transform: translateY(-50%);
+}
+.panel-resizer-toggle {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel2);
+  color: var(--dim);
+  cursor: pointer;
+  font: 600 15px / 1 var(--mono);
+}
+.panel-resizer-toggle:hover,
+.panel-resizer-toggle:focus-visible {
+  border-color: var(--accent);
+  color: var(--fg);
+  outline: none;
+}
+.panel-resizer-vertical > .panel-resizer-toggle {
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 34px;
+  transform: translate(-50%, -50%);
+}
+.panel-resizer-horizontal > .panel-resizer-toggle {
+  top: 50%;
+  left: 50%;
+  width: 34px;
+  height: 16px;
+  transform: translate(-50%, -50%);
+}
+.app-outliner-resizer,
+.app-inspector-resizer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+.app-outliner-resizer {
+  left: calc(52px + var(--outliner-width));
+  transform: translateX(-50%);
+}
+.app-inspector-resizer {
+  right: var(--inspector-width);
+  transform: translateX(50%);
+}
+html[data-panel-resize="vertical"],
+html[data-panel-resize="vertical"] * {
+  cursor: col-resize;
+  user-select: none;
+}
+html[data-panel-resize="horizontal"],
+html[data-panel-resize="horizontal"] * {
+  cursor: row-resize;
+  user-select: none;
 }
 
 /* 模式 rail */
@@ -270,8 +403,10 @@ body {
 }
 /* 脚本态(script-work 占画布行):内部自分 大预览 | 抽屉 两行 */
 .script-work {
+  --script-drawer-height: 320px;
+
   display: grid;
-  grid-template-rows: minmax(160px, 1fr) clamp(220px, 34vh, 400px);
+  grid-template-rows: minmax(140px, 1fr) 8px var(--script-drawer-height);
   min-height: 0;
   min-width: 0;
 }
@@ -699,15 +834,21 @@ body {
   opacity: 0.9;
 }
 .cmd-label {
-  flex: 1 1 auto;
+  flex: 1 1 45%;
+  min-width: 72px;
   color: var(--fg);
-  word-break: break-word;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 .cmd-detail {
-  flex: 0 0 auto;
+  flex: 1 1 55%;
+  min-width: 0;
+  overflow: hidden;
   color: var(--faint);
   font-family: var(--mono, monospace);
   font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .cmd-block-title {
   color: var(--dim);
@@ -2389,22 +2530,39 @@ body {
   font-size: 12px;
 }
 .script-drawer .drawer-body {
+  --script-side-width: 360px;
+
   flex: 1;
   display: flex;
   min-height: 0;
+  min-width: 0;
 }
 .script-drawer .drawer-tree {
-  flex: 1;
+  flex: 1 1 auto;
   overflow: auto;
   min-width: 0;
   min-height: 0;
 }
 .script-drawer .drawer-side {
-  flex: 0 0 min(44%, 640px);
-  border-left: 1px solid var(--line);
+  flex: 0 0 var(--script-side-width);
   display: flex;
   flex-direction: column;
+  min-width: 0;
   min-height: 0;
+}
+.script-drawer .drawer-side-collapsed .drawer-side {
+  display: none;
+}
+.script-height-resizer,
+.script-side-resizer {
+  background: var(--panel);
+}
+.script-side-resizer {
+  flex: 0 0 8px;
+}
+.script-drawer .drawer-side-collapsed .script-side-resizer > .panel-resizer-toggle {
+  left: 0;
+  transform: translate(-100%, -50%);
 }
 .script-drawer .drawer-preview {
   flex: 0 0 auto;

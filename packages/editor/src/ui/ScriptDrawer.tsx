@@ -19,7 +19,7 @@ import type {
   SpriteDef,
 } from '@type-pal/content'
 import { type AssetBase, MemoryScriptResolver, type OwnMap } from '@type-pal/reforge'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react'
 import {
   CreateScriptSourceCommand,
   DeleteScriptSourceCommand,
@@ -43,7 +43,13 @@ import {
 } from '../core/script-edit.js'
 import { createAuthoredScriptCall } from '../core/shared-script.js'
 import { CommandForm } from './CommandForm.js'
+import {
+  PanelResizeHandle,
+  useStoredPanelBoolean,
+  useStoredPanelNumber,
+} from './PanelResizeHandle.js'
 import { PreviewCanvas } from './PreviewCanvas.js'
+import { clampPanelSize } from './panel-layout.js'
 import { type RowAction, ScriptTree } from './ScriptTree.js'
 
 /** 插入上下文:当前场景 + 「自身」实体(当前源为实体触发/auto 时 = 该实体,模板自动指自己)。 */
@@ -365,6 +371,14 @@ const ICON: Record<ScriptSource['kind'], string> = {
 
 /** 稳定空 stages 引用(无活动源时喂给预览;每渲染新 [] 会破 spriteNums memo)。 */
 const EMPTY_STAGES: readonly ScriptStage[] = []
+const DRAWER_DEFAULT_HEIGHT = 320
+const DRAWER_MIN_HEIGHT = 180
+const PREVIEW_MIN_HEIGHT = 140
+const DRAWER_SIDE_DEFAULT_WIDTH = 360
+const DRAWER_SIDE_MIN_WIDTH = 260
+const DRAWER_SIDE_MAX_WIDTH = 720
+const DRAWER_TREE_MIN_WIDTH = 220
+const RESIZER_SIZE = 8
 
 export function ScriptDrawer(props: {
   scene: SceneDef
@@ -419,6 +433,38 @@ export function ScriptDrawer(props: {
     onOpenScript,
     onClose,
   } = props
+  const scriptWorkRef = useRef<HTMLDivElement>(null)
+  const drawerBodyRef = useRef<HTMLDivElement>(null)
+  const [scriptWorkHeight, setScriptWorkHeight] = useState(0)
+  const [drawerBodyWidth, setDrawerBodyWidth] = useState(0)
+  const [drawerHeight, setDrawerHeight] = useStoredPanelNumber(
+    'type-pal:editor:script-drawer-height',
+    DRAWER_DEFAULT_HEIGHT,
+  )
+  const [drawerSideWidth, setDrawerSideWidth] = useStoredPanelNumber(
+    'type-pal:editor:script-side-width',
+    DRAWER_SIDE_DEFAULT_WIDTH,
+  )
+  const [drawerSideCollapsed, setDrawerSideCollapsed] = useStoredPanelBoolean(
+    'type-pal:editor:script-side-collapsed',
+    false,
+  )
+
+  useEffect(() => {
+    const work = scriptWorkRef.current
+    const body = drawerBodyRef.current
+    if (!work || !body) return
+    const syncSize = (): void => {
+      setScriptWorkHeight(work.clientHeight)
+      setDrawerBodyWidth(body.clientWidth)
+    }
+    syncSize()
+    const observer = new ResizeObserver(syncSize)
+    observer.observe(work)
+    observer.observe(body)
+    return () => observer.disconnect()
+  }, [])
+
   const [srcKey, setSrcKey] = useState<string | null>(focusSrcKey ?? null)
   // 外部定位(点检查器「去编辑」/引用跳转)→ 跟随切源
   useEffect(() => {
@@ -536,9 +582,37 @@ export function ScriptDrawer(props: {
   const authoredScripts = Object.entries(scriptIndex?.library ?? {}).sort(([, a], [, b]) =>
     a.name.localeCompare(b.name),
   )
+  const measuredWorkHeight = scriptWorkHeight || 720
+  const drawerMaxHeight = Math.max(
+    DRAWER_MIN_HEIGHT,
+    measuredWorkHeight - PREVIEW_MIN_HEIGHT - RESIZER_SIZE,
+  )
+  const visibleDrawerHeight = clampPanelSize(drawerHeight, DRAWER_MIN_HEIGHT, drawerMaxHeight)
+  const measuredDrawerBodyWidth = drawerBodyWidth || 980
+  const drawerSideResizeMax = Math.min(
+    DRAWER_SIDE_MAX_WIDTH,
+    Math.max(DRAWER_SIDE_MIN_WIDTH, measuredDrawerBodyWidth - DRAWER_TREE_MIN_WIDTH - RESIZER_SIZE),
+  )
+  const requestedDrawerSideWidth = clampPanelSize(
+    drawerSideWidth,
+    DRAWER_SIDE_MIN_WIDTH,
+    drawerSideResizeMax,
+  )
+  const visibleDrawerSideWidth = drawerSideCollapsed
+    ? 0
+    : Math.min(
+        requestedDrawerSideWidth,
+        Math.max(0, measuredDrawerBodyWidth - DRAWER_TREE_MIN_WIDTH - RESIZER_SIZE),
+      )
+  const scriptWorkStyle = {
+    '--script-drawer-height': `${visibleDrawerHeight}px`,
+  } as CSSProperties
+  const drawerBodyStyle = {
+    '--script-side-width': `${visibleDrawerSideWidth}px`,
+  } as CSSProperties
 
   return (
-    <div className="script-work">
+    <div ref={scriptWorkRef} className="script-work" style={scriptWorkStyle}>
       {/* 上:大预览 —— 占原地图画布位(作者:预览就该用地图的位置,不塞小角落) */}
       <div className="work-preview">
         {/* 地图 = 场景画布,脚本模式**始终**渲染(没活动源也画地图+实体,免黑屏看不见场景 —— s119 类无
@@ -575,6 +649,23 @@ export function ScriptDrawer(props: {
           }
         />
       </div>
+      <PanelResizeHandle
+        orientation="horizontal"
+        className="script-height-resizer"
+        value={visibleDrawerHeight}
+        min={DRAWER_MIN_HEIGHT}
+        max={drawerMaxHeight}
+        resizeLabel="调整脚本面板高度"
+        toggleIcon="⌄"
+        toggleLabel="收起脚本面板"
+        onToggle={onClose}
+        onReset={() => setDrawerHeight(DRAWER_DEFAULT_HEIGHT)}
+        onResize={(delta) =>
+          setDrawerHeight(
+            clampPanelSize(visibleDrawerHeight - delta, DRAWER_MIN_HEIGHT, drawerMaxHeight),
+          )
+        }
+      />
       <div className="script-drawer">
         <div className="drawer-head">
           <span
@@ -761,7 +852,11 @@ export function ScriptDrawer(props: {
             ▾ 收起
           </button>
         </div>
-        <div className="drawer-body">
+        <div
+          ref={drawerBodyRef}
+          className={`drawer-body${drawerSideCollapsed ? ' drawer-side-collapsed' : ''}`}
+          style={drawerBodyStyle}
+        >
           {/* 中:指令树(播放跟随高亮) */}
           <div className="drawer-tree">
             {active ? (
@@ -798,7 +893,30 @@ export function ScriptDrawer(props: {
             )}
           </div>
 
-          {/* 右:演出预览(上)+ 表单/插入/日志(下滚动) */}
+          <PanelResizeHandle
+            orientation="vertical"
+            className="script-side-resizer"
+            value={visibleDrawerSideWidth}
+            min={drawerSideCollapsed ? 0 : DRAWER_SIDE_MIN_WIDTH}
+            max={drawerSideCollapsed ? 0 : drawerSideResizeMax}
+            resizeLabel="调整脚本属性面板宽度"
+            disabled={drawerSideCollapsed}
+            toggleIcon={drawerSideCollapsed ? '‹' : '›'}
+            toggleLabel={drawerSideCollapsed ? '展开脚本属性面板' : '收起脚本属性面板'}
+            onToggle={() => setDrawerSideCollapsed((value) => !value)}
+            onReset={() => setDrawerSideWidth(DRAWER_SIDE_DEFAULT_WIDTH)}
+            onResize={(delta) =>
+              setDrawerSideWidth(
+                clampPanelSize(
+                  visibleDrawerSideWidth - delta,
+                  DRAWER_SIDE_MIN_WIDTH,
+                  drawerSideResizeMax,
+                ),
+              )
+            }
+          />
+
+          {/* 右:表单/插入/日志(滚动) */}
           <div className="drawer-side">
             <div className="drawer-form">
               {insertFor && active ? (
