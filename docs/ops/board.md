@@ -16,7 +16,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| M3 | 迁移器循环臂指数展开(巡逻脚本爆炸) | draft | 三方设计 | 随机游走循环被 depth-6 臂内联展开成 4^6 树(s019 单场景 55 万 stepEntity,173MB 超 GitHub 限,push 被拒才暴露)。临时解已移植 origin 巡逻树(749c1ce3);根治=臂循环检测截断+全量重迁(须先解决手工补丁保留)。任务卡:[M3-wander-arm-explosion.md](tasks/M3-wander-arm-explosion.md) |
+| M3 | 迁移脚本控制流去内联与体积门禁 | draft | Opus 复核全库设计 | 当前迁移脚本规范化/pretty 均约 all.json 20 倍。用户裁决所有 goto/call 必须 O(1) 引用、全库脚本 ≤10 倍；Codex 已签共享脚本库修订版 agree，build 等 Opus/GLM。任务卡:[M3-wander-arm-explosion.md](tasks/M3-wander-arm-explosion.md) |
 
 ## 看板规则
 
