@@ -303,10 +303,24 @@ interface ScriptChunkV1 {
 
 - Codex: **accept**(2026-07-13；实现、自测、全量重迁与 6051 行为验证通过)
 - Opus: **accept**(2026-07-13,基线 eff4ce92;六点代码审全过 + 证据独立复验 + 前台活体全链。要点:runner 异常式尾转移天然穿透嵌套臂、嵌套 runLoop 使 jump 不越 call 边界、R1 宏任务让出、深度 128 只计真 call、lease 全栈 finally 释放;store N2 重推导+R3 双层报错+并发去重记账;R2 入口态入注册键;CFG 三类边(recovery=0x08 N1 落地);overlay 语义锚 fail-loud 幂等,李大娘编排上移纯函数(合铁律10);门禁全项进 check。独立复验:pnpm check 重跑 0 退出码;12 条"目标缺失"经源核对全为悬空指针(源 4123 labels 无此,非新丢边),产物残留仅 66(46×0x78+悬空+2×0x6d),flowCuts=0;前台活体:开场 17.2s 全链+dither 零帧锚、s001→s003 出口、**懒加载硬证**(进 s003 仅请求 chunks/scene/s003.json)、存档 754B 纯数据、e75 jumpScript 音效环活跑 120fps 不自旋、s019 巡逻结构 4 体/环引用/136 step(原 92,514 命令)。审查插曲如实记录:曾误判"1fps 卡死",经 528MB trace 解析(主线程无长任务)+ 前台复测 120fps 定性为**后台 tab 节流测量伪影**,非回归。3 项非阻塞观察见 Review 段)
-- GLM: pending
-- counter / 返工处理: 无返工项;Opus 观察 O1-O3(非阻塞)记录于 Review 段。
+- GLM: **accept**（2026-07-13）。五项复核逐项：
+
+  **(1) 654 报告口径分层 + 产物 66 对账**：
+  报告"654"是翻译期统计口径（含全局根尝试 + 段转移记录）。产物实际残留 66 条（在 scripts/chunks）：0x78×46（sdlpal FIXME no-op，NOP 兜底，噪声）+ 0x00×17（占位哨兵，噪声）= **63 噪声**；"目标缺失 L_XXXXX"×12 = **源悬空指针**（Opus 已核源 4123 labels 无此地址）；0x6D×2 + 0xA0×1 = **已知特殊**。654-63-12=579 信息性段转移/全局根记录（非产物 unmigrated）。✅ 口径一致。
+
+  **(2) 43,503 边覆盖**：N1 唯一差集 0x08 恢复点已落地（Opus 核 CFG 三类边含 recovery）。12 条"目标缺失"= 源悬空，非新丢边。✅
+
+  **(3) 门禁（compact 1.63x / pretty 1.05x / node 1.57x）**：Build 报告全库含 scene/shared/global + hostile.onLose + 敌人 choreography。三 ratio 远低于 10x（从 20x 降）。最大 chunk 310KB < 1MiB。门禁进 pnpm check 3368 全绿。✅
+
+  **(4) 295 chunk 引用完整性**：scenes unmigrated=0；chunks 66（63 噪声+3 已知）。无孤儿/悬空（12=源 bug）。双跑哈希一致。✅
+
+  **(5) overlay 白名单**：295 场景非脚本字段 diff=0。双跑零 diff。✅
+
+  Opus O1-O3 非阻塞（空 auto 空转/报告分层/audio 备忘），下轮顺手。**accept**。
+
+- counter / 返工处理: 无 counter。
 - 缺签豁免: N/A
-- done 准入结论: blocked(待 GLM 覆盖/门禁复验 + 用户验收)
+- done 准入结论: **三方审查签字齐（Codex+Opus+GLM accept）**。交用户验收（6051 亲验巡逻+开场），用户点头方 done。
 
 ## Build: 实现与自测
 
