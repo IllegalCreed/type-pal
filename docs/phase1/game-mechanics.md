@@ -1215,4 +1215,44 @@ Extra 格有**两条清除路径**,大蒜毒抗撑到**两者谁先到**:
 | **战后三件套** ClearAllStatus + CurePoisonByLevel(3) + RemoveEquip(Extra) | [battle.c:1822-1830](../../reference/sdlpal/battle.c#L1822-L1830) |
 | `PAL_ClearAllPlayerStatus` / `PAL_RemoveEquipmentEffect` | [global.c:2311](../../reference/sdlpal/global.c#L2311) / [1372](../../reference/sdlpal/global.c#L1372) |
 | `PAL_UpdateEquipments`(换装 / 读档 memset 全清) | [global.c:1333](../../reference/sdlpal/global.c#L1333) / [1354](../../reference/sdlpal/global.c#L1354) |
+
+---
+
+## 状态刷新 / 死亡 / 复活 / 梦蛇 / 明王觉醒（2026-07-14 作者补充）
+
+> 作者指出四组一阶段反复调过的战斗状态机制，下列均为 sdlpal 源码直读 + 一阶段实现核实。
+
+### 1. 回梦重复释放：我方不重置 vs 敌方重置
+
+**我方**（`PAL_SetPlayerStatus` [global.c:2225](../../reference/sdlpal/global.c#L2225)）：坏状态（confused/sleep/silence/paralyzed）**已有(>0)则不刷新** → 重复对已睡眠的我方施回梦，**不重置睡眠回合数**（保持原剩余回合）。
+
+**敌方**（0x2E [script.c:1391](../../reference/sdlpal/script.c#L1391)）：`g_Battle.rgEnemy[wEventObjectID].rgwStatus[op0] = op1` —— **直接赋值，无"已有不刷新"判断** → 重复对已睡眠的敌方施回梦，**重置睡眠回合数**。
+
+这是**我方与敌方的状态设置规则不对称**——我方走 `PAL_SetPlayerStatus`（有坏状态保护），敌方走 `0x2E` 直接写（无保护）。一阶段 `battle-opcodes.ts:248` 的 `BAD_STATUS` Set 只覆盖我方 `0x2D` 路径；敌方 `0x2E` 走 `applyEnemyStatus` 直接赋值，**恰好忠实原版**。
+
+### 2. 梦蛇死亡不清除，复活后仍在
+
+梦蛇 = `0x31` 临时换战斗精灵（`rgwSpriteNumInBattle`，[battle-state.ts:73](../../packages/game/src/core/battle/battle-state.ts#L73)），**不在 `rgPlayerStatus` 数组里**。
+
+复活 `0x22`（[script.c:1071](../../reference/sdlpal/script.c#L1071)）清的是 `kStatusAll`（rgPlayerStatus 全部）+ `CurePoisonByLevel(3)` —— **不清 `rgwSpriteNumInBattle`** → 梦蛇变身死后复活仍保留，直到战斗结束 `PAL_FreeBattleSprites` 才释放。
+
+### 3. 死亡不清 buff/debuff，复活才清
+
+sdlpal 真值：
+- **死亡**（HP→0）：**不清任何状态**。`rgPlayerStatus` 保留，只是 `canAct`/`canCastMagic` 跳过死人。
+- **复活**（`0x22`）：`for (x=0; x<kStatusAll; x++) PAL_RemovePlayerStatus(w, x)` 遍历全清（[script.c:1071-1075](../../reference/sdlpal/script.c#L1071)）。
+
+→ **傀儡虫控制的死者带着死前的 buff/debuff**：傀儡是 `kStatusPuppet`，死亡时保留（`PAL_SetPlayerStatus` 的 puppet 分支只检 HP==0 且取较长），复活时才被 `RemovePlayerStatus` 清。
+
+### 4. 明王战赵灵儿觉醒 + 站位
+
+**觉醒**（scene-146 onEnter 脚本）：
+- `0x75 setParty[1,3,0]`：重排队伍 = [赵灵儿(role 1), 林月如(role 3)]——**李逍遥不在队里**（operand 2=0 = 空）。
+- `0x46 setPartyPos`：设大世界站位（不是战斗站位）。
+- `0x1A` 属性提升（row 0/1/4/64/65 等）：赵灵儿觉醒后升级 + 大量属性提升 + 换战斗精灵（梦蛇/觉醒形态）。
+- `0x22` 复活全体 + 加满 HP/MP：觉醒时所有倒地队友复活满血。
+
+**站位问题**：`0x75 setParty[1,3,0]` 把赵灵儿排到 party[0]——战斗站位 `g_rgPlayerPos`（[battle.c:27](../../reference/sdlpal/battle.c#L27)）按 party 顺序取位：party[0] = 最左下（前排）。所以**赵灵儿站前排中间**，不是李逍遥（李逍遥此战不在队里）。
+
+⚠ **一阶段 bug**：如果 `0x75` 的 setParty 没有正确重排队伍（或 setParty 后李逍遥仍在 party[0]），则战斗站位会错——李逍遥站前排而非赵灵儿。需核 `0x75` handler 是否忠实地 `rgParty[0].wPlayerRole = operand[0]-1`（赵灵儿=role 1）。
 | 金刚符63 `0x2D[6,7]` / 毒蛇卵117 `0x29[_,551]` / 大蒜84 `0x17[17,22,30]` | `data/extracted/data/items.json` + `events/all.json` 反汇编 |
