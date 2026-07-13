@@ -121,10 +121,57 @@ Branch: main
 
 - Codex: **agree**（2026-07-13；实现可行。主张先纯生成、再显式策略三方合并、最后事务写盘；首次 bootstrap 全差异审计是必落项）
 - Opus: **agree**（2026-07-13;六维压力测试通过——baseline"上次纯 theirs"语义是三方合并唯一正确锚(hash-only 正确否决:旧 theirs 不可由源+新代码重推导);删除真值表/非托管保护/派生元数据后置重算/Command[] 原子+overlay 逃生口全对。附 M1-M4 必改:①baseline 推进纳入同一 journal 事务域+故障注入;②id 数组确定性输出顺序入策略表;③pages 页数变化规则显式(槽位=状态身份,positional 合法);④patch 纯函数化先于 bootstrap(顺序钉死,否则差异清单被 patch 效应淹没)。N1-N3 非阻塞。详见 Opus 压力测试段）
-- GLM: pending
-- counter / 分歧处理: Opus 无架构 counter;M1-M4 为 Draft 必落补明,Codex 落卡后随 GLM 复核一并确认。请 GLM 核:迁移文件域矩阵无遗漏、bootstrap 分类可操作性、测试矩阵含 M1-M4 对应项。
+- GLM: **agree**（2026-07-13）。四项复核逐项：
+
+  **(1) 托管文件域矩阵完整性——对照 projects/pal/content 实际文件 + editor project-io 保存面**：
+
+  content 实际文件（13 个顶层 + scenes/ + scripts/）：
+  actors / ambiences / battle-fields / enemies / enemy-teams / items / locale / music / poisons / shops / skills / sprites / tilesets + scenes/index.json + scenes/s*.json (295) + scripts/index.json + scripts/chunks/**/*.json (294)
+
+  策略表（Draft C）覆盖的域：actors/items/sprites/enemies/enemyTeams ✅ / skills ✅ / locale ✅ / scenes/index + scene ✅ / scripts/index + script chunk ✅
+
+  **策略表未显式列的域**：
+  - **battle-fields.json**：迁移器产物但策略表无。它是什么策略？ → 同 actors（根数组按 id 合并）。**非托管**还是**托管**？manifest 引用了 → 编辑器会写 → **应托管**。⚠ 策略表缺。
+  - **music.json**：同上。迁移器产物 + manifest 引用 + 编辑器写。策略表缺。⚠
+  - **poisons.json**：同上。⚠
+  - **ambiences.json**：同上（W6 新增域）。⚠
+  - **shops.json**：同上。⚠
+  - **tilesets.json**：W7B 新增（注册表）。迁移器产 + 编辑器写。策略表缺。⚠
+  - **dither-false-color.json**（X3 第四版 profile）：manifest 引用，迁移器 bake 产。策略表缺。⚠
+
+  **结论**：策略表列了 7 类域，但**缺 7 个域**（battle-fields / music / poisons / ambiences / shops / tilesets / dither-false-color）。这 7 个都是迁移器产出 + 编辑器会写的托管文件。**建议**：Draft C 策略表补这 7 个域，策略全部"根数组按稳定 id 合并"或"对象递归"（视 schema 结构定）。**非阻塞**——Codex 落 M1-M4 时一并补策略表，7 个域都是简单数据表没有复杂嵌套。
+
+  **"非托管保持原字节"边界**：验收 §82 列了 manifest/music/battle-fields/poisons/ambiences/shops/tilesets/自有 maps/assets——但这里 music/battle-fields 等同时出现在"非托管"和"迁移器产出"——**有矛盾**。澄清：这些文件**是迁移器产出的托管文件**（迁移器会更新它们），不是"非托管保持原字节"。验收 §82 应改为"manifest.json 本体 + 工程 assets/ 目录 = 非托管；music/battle-fields/poisons/ambiences/shops/tilesets = 迁移器托管的简单数据表"。⚠ 非阻塞，建议 Codex 落 Draft 时纠正措辞。
+
+  **(2) Bootstrap 分类可操作性——差异规模预估**：
+
+  当前 ours vs fresh theirs 的差异来源：
+  - 三 patch 效应（enemy-choreo / boss-encounters / scene-stages）：**数百条差异**（patch 写的 choreography/onDefeated/trigger stages 等）。M4 要求先纯函数化 → 迁入纯核后 fresh theirs 含这些 → 差异从"数百条"降到"零"。✅ M4 顺序正确。
+  - M3 后手工编辑（s000/s001 dither/speaker/center/李大娘/coveredBy/隐蛊等）：约 **20-30 条**（patch-scene-stages.mts 列的清单）。这些在 overlay 里 → 迁入纯核后 fresh theirs 也含 → 差异降。
+  - X3 dither profile / W7B tilesets / W6 ambiences：新增域，基线没有 → bootstrap 会报"ours 有 theirs 无"。分类 = "保留人工 ours"。
+
+  **M4 先行后，bootstrap 分类工作量**：预估 10-20 条差异（新增域 + 少量未迁入 overlay 的手工内容）。**可操作**。✅
+
+  **(3) 测试矩阵——M1-M4 对应项**：
+
+  验收 §94-102 覆盖：
+  - M1（journal 事务域+故障注入）：§98 "故障注入回滚、baseline 只在成功后推进"。✅ 但没有**显式的"baseline 推进中断"故障注入**。建议补（Opus M1 要求的"在 baseline 推进中途 kill"）。⚠ 非阻塞，build 时补。
+  - M2（id 数组确定性输出顺序）：§97 "对 fixture 的 ours 任意改值，theirs 输出哈希不变"间接覆盖确定性。但没有**显式的"合并后数组顺序固定"断言**。建议补。⚠ 非阻塞。
+  - M3（pages 页数变化）：§95 "pages 按槽递归、stage/body 双改冲突"覆盖了双改，但**缺"一侧加页/删页"的 add/delete 规则测试**。建议补。⚠ 非阻塞。
+  - M4（patch 吸收回归）：§97 "纯生成回归：禁止重新出现 read projects/pal -> generate theirs"间接覆盖。但**缺"patch 净效应吸收后产物与原 patch 输出一致"的回归锚**。建议补。⚠ 非阻塞。
+  - 七域矩阵（actors/sprites/items/skills/enemies/enemyTeams/locale/scenes/scripts）：§96 覆盖完整。✅
+
+  **测试矩阵基本完整，4 条非阻塞补充（M1-M4 各一条显式断言）。**
+
+  **(4) 二次零 diff 门禁口径**：
+
+  验收 §101："连续执行第二次迁移必须计划 writes=0/deletes=0/conflicts=0，工作树零差异。"——**严格空计划**（不是"写出相同内容"）。✅ 口径正确。
+
+  **总结**：域矩阵缺 7 个简单数据表（非阻塞，Codex 补策略表时一并加）；"非托管"措辞需纠正（非阻塞）；bootstrap 差异规模 M4 先行后可操作（10-20 条）；测试矩阵 4 条非阻塞显式断言补充；二次零 diff 口径正确。**agree**。
+
+- counter / 分歧处理: 无架构 counter。域矩阵缺 7 域 + 措辞纠正 + 4 条测试补充 = 非阻塞，Codex 落 M1-M4 时一并处理。
 - 缺签豁免: N/A
-- build 准入结论: **blocked(Codex+Opus agree;待 M1-M4 落进 Draft + GLM 签字)**
+- build 准入结论: **待 Codex 把 M1-M4 + GLM 指出的 7 域策略表 + 措辞纠正 + 4 条测试补充落进 Draft 后，三签齐进 build。**
 
 ### 进入 done 前:审查签字
 
