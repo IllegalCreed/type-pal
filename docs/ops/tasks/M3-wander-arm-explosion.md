@@ -127,6 +127,49 @@ interface ScriptLibraryV1 {
 - 理由：路径循环检测只能消掉循环树，无法保证非循环 DAG、多前驱 goto 和 0x04 call 不继续复制；用户的全库 10 倍上限需要控制流引用成为结构性不变量。
 - 是否建议进入 build：否，schema/loader/runner/editor/migration 跨包变更，等待 Opus + GLM 复核签字。
 
+### Opus 主审立场(2026-07-13,架构/运行语义)
+
+- 结论：**agree,附 R1-R3 必落修正(设计补充,非推翻)**。
+- 合法性：`script-model-m3-design.md` §3 层3 + M3c **原设计本就规定**"goto 单前驱内联、多前驱提共享
+  Script(callScript)、共享段 `shared/L_35639`、callScript 目标全部提名"——本方案是回归原架构,
+  实现漏掉共享库才退化成递归内联。锚点核实(translate-events.ts:295-322 goto 切 `at` 同体续走 /
+  861-893 0x04 memo 防重译但仍逐站点 `push(...calleeBody)` 复制),卡内现状描述准确。
+- 逐项复核：
+  - **schema(Draft B)**:`Record<string, Command[]>` 命令体 + scene 保留 ScriptStage 持久页壳,
+    分层正确(stage=实体持久状态机,共享体=控制流目标,不混)。owner 专门化(`@e312`)是正确的
+    分期:命令体内实体 id 是显式烘焙(铁律5 杜绝下标的代价),跨 NPC 真共享需 self-relative
+    引用 = 另一张 schema 卡;10 倍门禁作总闸,风险2 的处置顺序对。
+  - **call/jump 语义(Draft C)**:jumpScript 尾转移(常量栈,循环可持续)vs callScript 受控栈
+    (0x04 含 op1 改属主 → `self`),映射原版语义正确;二者不得共用"内联后补 stop"路径 ✓。
+    嵌套 branch 尾转移穿透 + "call 内 goto 不越过 call 边界、链终仍返回 caller"已列测试单 ✓。
+  - **注册算法(Draft D)**:label+owner 键 + unseen/translating/done 三态,translating 态处理
+    环 = 结构性消灭递归复制,O(1) 边成立;统一发 jumpScript(放弃单前驱内联优化)是更简单
+    安全的取舍,体积由门禁兜底。前驱数/SCC/不可达报告 ✓。
+  - **门禁(Draft A)**:三口径定义清楚、含共享库与嵌套臂、进 pnpm check ✓。⚠ 量化警示:卡内
+    自算"删 8 棵循环树后 8.61x"——距 10x 余量仅 14%,owner 专门化 + 引用开销可能回弹;若
+    首轮审计超标,风险2 的 self-relative 引用卡**立即转必做**,不再是"若仍超标再议"。
+  - **overlay(Draft E)**:纯函数 overlay + JSON Pointer 白名单 + 双跑零 diff,方向对;⚠ build
+    时注意 overlay 锚点须按**语义定位**(label/实体 id/内容匹配),不可按旧产物结构位置——
+    全量重迁后 onEnter 可能缩成一条 callScript,结构位置全变。
+- **R1-R3 必落修正(build 范围)**:
+  - **R1 尾转移让出保证**:每次 jumpScript 尾转移必须保证至少一次事件循环让出(pace 下限或
+    显式 yield)——纯同步命令体的 jump 环(理论存在)否则会同步自旋占死主线程;验收"不死循环
+    占满主线程"须有此机制背书,不能只靠"原版循环都带 wait"的经验假设。
+  - **R2 对话样式态跨引用保真(本审最重要发现)**:当前 goto 是**同 walkBody 续走**——
+    slot/portrait/activeSpeaker 跨 goto **延续**;改为 jumpScript 引用后目标体 fresh 启动
+    (样式重置为默认)。mid-style 的 goto(跳转点样式态非默认且目标体含先于样式 op 的对话)
+    语义会**静默改变**(top+立绘 → bottom 素框)。这正是 armMemo 路径相关性存在的原因,删它
+    必须显式承接:CFG 构建时**统计"跳转点携带非默认对话样式态且目标体入口对话依赖它"的边数**,
+    非零则按入口态专门化注册(键加样式摘要)或落人工清单;golden 无法全覆盖此类边,必须靠
+    迁移期统计钉死。(0x04 现实现 callee 已 fresh,无此问题。)
+  - **R3 resolver 归属与缺引用运行时诊断**:runner 构造注入 `resolveScript(id) → Command[]`
+    接口,loader(HTTP/FSA)与 editor Playback 各自供给——editor 预览经同一 runner 免费获得
+    解析,不另写模拟;运行时引用缺失 = 显式报错停脚本(诊断含 id 与调用点),不得静默跳过
+    ——迁移期"无孤儿"校验只覆盖迁移产物,手写工程需运行时兜底。
+- 命名注:`shared/L_35639@e312` 含原始地址,与"不暴露原始 IP 给作者 UI"不冲突——它是迁移产物的
+  稳定不透明 id(唯一可用身份),规则约束的是"不让作者用 IP 推理";手写脚本用语义名,迁移 id
+  后续可加语义别名,不在本卡。
+
 ## 验收条件
 
 - 结构：迁移产物中 goto/call 类边只出现 `jumpScript/callScript` 引用；禁止由迁移器生成深层复制目标体。脚本库所有引用存在、无孤儿、id 稳定。
@@ -143,11 +186,16 @@ interface ScriptLibraryV1 {
 ### 进入 build 前:设计签字
 
 - Codex: **agree**(2026-07-13，仅同意本全库共享脚本修订版)
-- Opus: pending
+- Opus: **agree**(2026-07-13,附 R1-R3 必落修正——①jumpScript 尾转移强制事件循环让出;
+  ②对话样式态跨引用保真:CFG 统计 mid-style goto 边并按入口态专门化/人工清单(当前 goto 同体
+  续走样式延续,引用化会静默重置——armMemo 路径相关性的真实原因必须显式承接);③resolver
+  注入接口 + 运行时缺引用显式报错。另:8.61x 距 10x 余量仅 14%,首轮审计超标则 self-relative
+  引用卡转必做。详见 Opus 主审立场)
 - GLM: pending
-- counter / 分歧处理：原 37 行“循环检测 + 全量重迁”与中间版“仅 auto 定点同步”均已作废。
+- counter / 分歧处理：原 37 行“循环检测 + 全量重迁”与中间版“仅 auto 定点同步”均已作废。Opus 无
+  counter,R1-R3 为 build 必落设计补充;请 GLM 复核覆盖/体积公式/测试矩阵 + R2 的统计口径可行性。
 - 缺签豁免: N/A
-- build 准入结论: **blocked**
+- build 准入结论: **blocked(Codex+Opus agree,待 GLM;R1-R3 纳入 build 范围)**
 
 ### 进入 done 前:审查签字
 
@@ -180,18 +228,19 @@ interface ScriptLibraryV1 {
 - 2026-07-13 Codex: 首轮复核发现 trigger/auto、memo、浅层预算和全量覆盖问题，提出 auto 路径检测窄修。Next: 用户复核范围。
 - 2026-07-13 User: 裁决必须彻查所有 goto 膨胀，迁移后脚本总体积不得超过 `all.json` 一个数量级。Next: Codex 重做全库设计。
 - 2026-07-13 Codex: 量化当前脚本两个字节口径均约 20 倍；确认原 M3 设计预留的 `callScript` 共享库未实现，改为全局脚本库 + O(1) call/jump 引用 + 三重 10 倍门禁 + 可重复 overlay。Next: Opus 复核，不得 build。
+- 2026-07-13 Opus: 设计签 **agree + R1-R3 必落**。核实:原 M3 设计 §3/M3c 本就规定共享库(方案=回归原架构);锚点 295-322(goto 同体续走)/861-893(0x04 memo 防重译仍逐站点复制)与卡描述一致。逐项过:schema 分层/call-jump 语义/registry 三态环处理/门禁口径/overlay 均正确。**关键发现 R2**:当前 goto 续走使对话样式态跨 goto 延续,引用化后 fresh 重置 = mid-style goto 对白样式静默改变(armMemo 路径相关的真实原因),CFG 须统计此类边并专门化/人工清单——golden 覆盖不到,必须迁移期统计钉死。R1=尾转移强制让出(防同步自旋);R3=resolver 注入 + 缺引用运行时报错。量化警示:8.61x 距 10x 仅 14% 余量,超标则 self-relative 卡转必做。Evidence: Opus 主审立场。Next: GLM 复核覆盖/体积公式/测试矩阵/R2 统计口径;三签齐后 Codex build(R1-R3 入范围)。未改实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手 M3 全库脚本控制流去内联设计复核。
+接手 M3 全库脚本控制流去内联设计复核(GLM)。
 任务卡: docs/ops/tasks/M3-wander-arm-explosion.md
-当前状态: draft；Codex 已签全库共享脚本修订版 agree；build 仍 blocked。
-你的角色: Claude Opus，架构/运行语义主审。
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、script-model-m3-design.md §3/M3c、任务卡上下文锚点和 Draft A-E。
-用户硬约束: 所有迁移脚本总体积不得超过 all.json 10 倍，任何 goto/call 不得通过递归复制目标体膨胀。
-已确认基线: all.json 5,470,901B / 规范化 2,274,228B / 43,503 指令；当前迁移脚本规范化 44,751,237B(19.68x)、独立 pretty 110,156,998B(20.14x)、990,160 Command。
-请你做: 重点复核 1) scripts.json schema 与 owner 专门化；2) callScript 返回 vs jumpScript 尾转移；3) 嵌套 branch 的 jump 穿透、auto pace/abort/stage 语义；4) ScriptRegistry 的 SCC/去内联算法；5) loader/editor round-trip 触点；6) overlay 先于全量写盘；7) 三个 10 倍门禁口径。agree 则写 Opus 签字；counter 必须给出同样能结构性保证 O(1) 控制流边和 10 倍上限的替代方案。
-不要做: 不得修改实现文件，不得运行 migrate:content 全量写盘，不得推进 build。
-输出要求: 更新任务卡 Opus 签字、主审结论、交接日志、下一位 Agent 提示词并提交仅文档改动；随后交 GLM 做全库覆盖/体积公式/测试矩阵复核。
+当前状态: draft；Codex agree + Opus agree(附 R1-R3 必落)；GLM pending,build blocked。
+你的角色: GLM,覆盖/体积公式/测试矩阵复核;只审设计,不改实现文件。
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、任务卡 Draft A-E、Codex 与 Opus 两个主审立场(尤其 R1-R3)。
+用户硬约束: 迁移脚本总体积 ≤ all.json 10 倍;goto/call 不得递归复制目标体。
+已确认: Opus 核实方案=回归原 M3 设计(§3/M3c 共享库);R1=jumpScript 尾转移强制事件循环让出;R2=对话样式态跨引用保真(当前 goto 同体续走样式延续,引用化 fresh 重置会静默改变 mid-style goto 对白样式,CFG 须统计此类边并入口态专门化/人工清单);R3=resolver 注入 + 运行时缺引用显式报错;量化警示 8.61x 距 10x 仅 14% 余量。
+请你复核: (1)三个 10 倍门禁公式与计量口径(含共享库/嵌套臂/运行时换页,不漏算);(2)验收单测矩阵(self-loop/A-B 环/SCC/共享 DAG/多前驱/嵌套穿透/0x04 返回/call 内 goto/jump0/auto pace-abort-self/stage advance-reset)对 Draft C/D 语义的覆盖完整性 + R1-R3 的测试补充;(3)R2 统计口径可行性(迁移器在 emit jumpScript 时可得样式态,目标体入口对话可静态判定);(4)43,503 源指令可达图覆盖(不静默丢边/17 条合法深臂不回退);(5)overlay 清单完整性(对照 patch-scene-stages.mts 现有全部定制)。在设计签字 GLM 行签 agree/counter,更新交接日志与下一位提示词(agree 即三签齐,交 Codex build,R1-R3 入范围)。
+不要做: 不改实现文件;不跑 migrate:content 全量写盘;不推进 build。
+输出要求: 明确 agree/counter、门禁公式核验、测试矩阵评估、提交 hash。
 ```
