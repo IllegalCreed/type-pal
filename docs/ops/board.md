@@ -10,8 +10,11 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| N6 | 共享脚本/子程序创作闭环 | review | Opus 代码/UX 主审 | Codex build、自测、迁移双跑与 6010 验证完成并签 accept；待 Opus 补 6051 网络复验，随后交 GLM 覆盖复核 |
-| ED-1 | 编辑器一级模块与创作闭环审查 | draft | Opus 架构/schema/信息架构主审 | Codex 已完成七环矩阵、八模块 IA 与地图 index 方向并签 agree；三签前不改实现或 capability 状态 |
+| N6 | 共享脚本/子程序创作闭环 | review | User 最终验收/收口 | Codex、Opus、GLM 三方 review 均 accept；任务卡仍待用户结论后转 done |
+| ED-1 | 编辑器一级模块与创作闭环审查 | review | Opus 文档收口复验 | 设计三签齐；Codex 已同步 capability/roadmap、拆三张子卡并签 accept，待 Opus/GLM review |
+| W7E-0 | 空白工程新场景地图引用止血 | draft | Opus 设计审查 | 完整传递现有 SceneMap，禁止自有地图回退原版 0；仅 Codex agree，未准入 build |
+| ED-2 | 编辑器八个一级模块与稳定深链 | draft | Opus 信息架构主审 | 八模块、唯一权威页、typed URL 深链与三档布局；仅 Codex agree，未准入 build |
+| W7E | 独立地图库与场景地图绑定 | draft | Opus schema/loader/MG2 主审 | MapIndexV1 + ownMapId + v1 显式升级；仅 Codex agree，未准入 build |
 
 ## 阻塞
 

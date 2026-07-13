@@ -1,9 +1,9 @@
 # ED-1 - 编辑器一级模块与创作闭环审查
 
-Status: draft
+Status: review
 Phase: phase2
-Capability: Editor / R6（拟调整 W1/W7/E1/C1/W5/B2/N8）
-Coding Owner: N/A（本卡只做审查与实施总纲；子任务另开卡）
+Capability: Editor / R6（已同步 W1/W7/E1/C1/W5/X2/B2/N8）
+Coding Owner: Codex（仅文档收口；实现由子任务另定）
 Generation Owner: N/A
 Reviewer: Opus + GLM
 Visual Verification Owner: Codex + User（后续子任务）
@@ -24,10 +24,10 @@ Branch: main
   - 审查场景、地图、实体、角色、物品、技能、敌人、毒、氛围、商店、战场、音乐、瓦片集、过场、入口、变量、共享脚本、locale。
   - 把一级导航重组为场景、地图、剧情、角色、物品、战斗、资源、工程。
   - 定向地图独立注册表、稳定 id、场景选择/复用、未引用地图保存重开的方案。
-  - 提出 capability-map 拟降级项和分期实施顺序。
+  - 按三签结论同步 capability-map 编辑器真值，并建立分期子任务。
 - 范围外:
   - 不修改 editor/content/reforge 实现文件。
-  - 不在三签前修改 capability-map 状态。
+  - 不在本卡修改 editor/content/reforge 实现或 schema；能力地图只按三签结论同步状态。
   - 不在本卡完成 A7 资源闭包、R7 资源注册表或所有 CRUD；它们按子任务另开卡。
 - 明确不做:
   - 不用“给现有 MapMode 加一个列表”掩盖底层无 map index 的问题。
@@ -75,13 +75,13 @@ Branch: main
   - 本卡为文档审查，不运行实现测试；每张后续实现卡必须从审计“总验收矩阵”裁出对应自动化与浏览器验证。
 - 文档:
   - 审计正文、任务卡、看板三者一致。
-  - 三签完成后再更新 capability-map 与路线图当前入口，并建立 ED-2/W7E 等子任务卡。
+  - 三签完成后更新 capability-map 与路线图当前入口，并建立 W7E-0/ED-2/W7E 子任务卡。
 - 视觉 / 手工验证:
   - 本卡只审信息架构；ED-2 必须提供 1280/900/720 三档截图和折叠/深链验证。
 
 ## 推进签字
 
-签字是阶段门禁。当前只允许审查文档，不得开始实现或修改 capability-map 状态。
+签字是阶段门禁。三方设计签字已齐，本卡仅获准做文档/能力真值收口和开子卡；实现仍按各子卡门禁。
 
 ### 进入 build 前:设计签字
 
@@ -126,11 +126,11 @@ Branch: main
 
 - counter / 分歧处理: 无设计层 counter。
 - 缺签豁免: N/A
-- build 准入结论: **三签齐（Codex agree + Opus agree + GLM agree）。本卡只做文档收口 + 开 ED-2/W7E 子卡，实现仍按子卡门禁。**
+- build 准入结论: **三签齐（Codex agree + Opus agree + GLM agree）。本卡只做文档收口 + 开 W7E-0/ED-2/W7E 子卡，实现仍按子卡门禁。**
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-07-14）**。已同步能力地图七环真值、路线图当前入口和审计状态；建立 W7E-0/ED-2/W7E 三张子卡并逐项落入 Opus R1-R3、S1/S3 与 GLM 覆盖要求；未改实现文件。
 - Opus: pending
 - GLM: pending
 - counter / 返工处理: pending
@@ -189,8 +189,8 @@ Branch: main
 
 - Codex: 赞成八个一级业务模块；赞成地图稳定 id + 独立 index，不接受继续用 path 当 id；赞成 capability-map 编辑器列按七环重审。
 - Opus: 与 Codex 无分歧;R1-R3 是子卡执行纪律(MG2 域表登记/临时反查标注收编/P0-1 止血提前),非方向异议。
-- GLM: pending
-- 用户拍板: 已明确要求一级展开、场景可选地图和整体闭环审查；具体 schema/分期待三方意见后终裁。
+- GLM: 与 Codex/Opus 无方向分歧；逐域矩阵、capability 调整、无环分期、七类验收和 MG2 登记时点均复核通过。
+- 用户拍板: 已明确要求一级展开、场景可选地图和整体闭环审查；2026-07-14 确认三方设计签字已齐，授权按卡进入文档收口与子卡拆分。
 
 ## 额度 / 代班记录(如适用)
 
@@ -204,16 +204,16 @@ Branch: main
 
 ## Build: 实现与自测
 
-- Coding Owner: N/A
-- 修改文件: pending（三签后只允许审计文档/能力真值/子任务卡收口）
-- 实现摘要: 未开始
-- 运行命令: N/A
-- 浏览器 / 手工检查: N/A
-- 跳过的检查及原因: 本卡尚在 draft，未修改实现。
+- Coding Owner: Codex（文档收口）
+- 修改文件: `docs/phase2/capability-map.md`、`docs/phase2/roadmap.md`、审计正文、看板、本卡及 W7E-0/ED-2/W7E 子卡。
+- 实现摘要: 按七环判据修正 W1/W7/E1/C1/W5/X2/B2/N8 编辑器状态并收窄 A4 说明；插入 P0 止血顺序；把实现拆成三张独立门禁卡。
+- 运行命令: `git diff --check`；文档链接/状态/签字与看板静态核对。
+- 浏览器 / 手工检查: N/A（本卡未改 UI）。
+- 跳过的检查及原因: 未运行实现测试；本卡没有实现代码，自动化与视觉验证由各子卡执行。
 
 ## 视觉验证记录(如适用)
 
-- Visual Verification Owner: Codex + User（ED-2/W7E 子任务）
+- Visual Verification Owner: Codex + User（W7E-0/ED-2/W7E 子任务）
 - 验证方式: pending
 - 截图 / 像素检查路径: pending
 - 结论: pending
@@ -222,30 +222,32 @@ Branch: main
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: pending
+- 审查结论: Codex 自审通过；待 Opus/GLM 核对子卡是否完整承接共识。
 - 必须返工项: pending
 - Accept / rework: pending
 
 ## 用户验收
 
-- 用户结论: pending
-- 后续任务: ED-2 一级模块壳；W7E 地图库与场景绑定；其余按审计分期。
+- 用户结论: 2026-07-14 确认设计三签齐并允许推进文档收口；ED-1 最终 done 仍待三方 review 签字。
+- 后续任务: W7E-0 空白新场景止血；ED-2 一级模块壳；W7E 地图库与场景绑定；其余按审计分期。
 
 ## 交接日志
 
 - 2026-07-13 Codex: 完成当前实现、旧审计、能力地图、路线图、Command/loader/serializer 的静态核查；确认地图、空白场景、核心 CRUD、资源库和引用校验存在系统性断环，形成七环矩阵、八模块 IA、地图 index 方向与分期。Evidence: 审计正文 + 本卡。Next: Opus 架构/schema/信息架构主审；不得改实现或 capability 状态。
 - 2026-07-13 Opus: 设计主审签 **agree,六维全过 + R1-R3 子卡必落 + S1-S3 建议**。锚点逐一核实(P0-1 三点/loader 注释自证/capability 当前值);八模块权威页+深链规则消双真值;MapIndex id-path 分离+显式迁移方向正确(影响面实测小);分级与拟降级准确(引擎列不动+恢复条件=真值修正)。R1=W7E 列消费方清单+MG2 arrayMode 登记 maps/index;R2=W7E 临时删除反查须标注 ED-3 收编;R3=P0-1 止血不等 ED-2。Evidence: 主审立场六条。Next: GLM 覆盖矩阵/capability 口径复核;三签后文档收口+开 ED-2/W7E 子卡(实现按子卡门禁)。未改实现文件与 capability 状态。
+- 2026-07-14 GLM: 设计复核签 **agree**；抽查地图/角色/过场/入口点/共享脚本五域均与代码一致，capability 调整逐行对账，分期无环，七类验收完整；确认 MG2 maps index 登记应在 W7E build 同步落下。Evidence: 本卡 GLM 签字。Next: Codex 文档收口与开子卡。
+- 2026-07-14 Codex: 完成 ED-1 获准的文档 build：同步 capability/roadmap/audit，拆 W7E-0/ED-2/W7E，并把 R1 消费方+MG2 双表、R2 临时反查收编、R3 提前止血、S1 文案和 S3 深链/子页门禁落入子卡；未改实现。Evidence: git diff + 三张子卡。Next: Opus 审 ED-1 收口并审三张子卡设计。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: ED-1 编辑器一级模块与创作闭环审查(GLM 复核)
+接手任务: ED-1 文档收口复验 + W7E-0/ED-2/W7E 三张子卡设计主审
 任务卡: docs/ops/tasks/ED-1-editor-authoring-closure-audit.md
-当前状态: draft;Codex agree + Opus agree(附 R1-R3 子卡必落/S1-S3 建议),GLM pending,build blocked
-你的角色: GLM,覆盖矩阵/capability 口径复核;只审文档,不改实现,不改 capability 状态
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、任务卡全部(尤其 Opus 主审立场六条+R1-R3)、docs/phase2/editor/editor-authoring-closure-audit-2026-07-13.md、docs/phase2/capability-map.md
-Opus 已过: 八模块边界(权威页+深链消双真值)/MapIndex id-path 分离+显式迁移/引用图与删除守卫/P0-P1 分级(锚点逐一核实,loader 注释自证)/capability 拟调整(引擎列不动+恢复条件)/分期梯度。R1=W7E 消费方清单+MG2 arrayMode 登记 content/maps/index.json;R2=W7E 临时删除反查显式标注 ED-3 收编;R3=P0-1 止血(空白 AddScene 禁回退原版 0)提前,不等 ED-2。
-请你复核: (1)§4 逐域闭环矩阵 18 域的状态标注抽查——按七环判据抽 5 域(建议:地图/角色/过场/入口点/共享脚本)对照代码验证 ✅/⚠️/❌ 无虚标;(2)§8 capability 拟调整表与 capability-map 当前值逐行对账(降级项/恢复条件/未降级项 X6-X7-N6 的豁免理由);(3)§9 分期依赖无环且每期有独立验收(对照 §10 总验收矩阵可裁剪性);(4)§10 总验收矩阵对七环判据的覆盖完整性(空白工程/地图复用/引用安全/PAL 兼容/IO/视觉/门禁七类是否漏环);(5)R1 的 MG2 域表登记项与 MG2 卡合并策略表的一致性。在设计签字 GLM 行签 agree/counter,更新交接日志与下一位提示词(三签后=文档收口+开 ED-2/W7E 子卡)
-不要做: 不改实现文件;不改 capability-map;不推进 build/done
-输出要求: 明确 agree/counter、矩阵抽查结果、capability 对账表、提交 hash
+当前状态: ED-1 review（Codex accept，Opus/GLM review pending）；三张子卡均 draft，仅 Codex agree，全部 build blocked
+你的角色: Opus，先复验 ED-1 收口是否忠实落实你提出的 R1-R3/S1-S3，再分别主审三张子卡
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、ED-1 全卡、docs/phase2/editor/editor-authoring-closure-audit-2026-07-13.md、docs/phase2/capability-map.md、docs/ops/tasks/W7E-0-blank-scene-map-reference.md、docs/ops/tasks/ED-2-editor-primary-modules.md、docs/ops/tasks/W7E-map-library-scene-binding.md
+已完成: capability 编辑器列按七环同步；路线图当前入口更新；W7E-0 采用完整 SceneMap 传递止血；ED-2 定八模块+唯一权威页+typed URL 深链；W7E 定 MapIndexV1/ownMapId/v1 显式升级/loader 懒加载/Command CRUD/临时删除反查由 ED-3 收编/MG2 merge+bootstrap 的 /maps id mode
+请你做: (1)在 ED-1 done 签字行签 accept 或 counter；(2)在 W7E-0、ED-2、W7E 各自 Opus 设计签字行分别签 agree 或 counter+替代方案；(3)重点核对 W7E contentVersion/v1 升级边界和 R1 消费方清单是否漏项；更新四卡交接日志与下一位 GLM 提示词
+不要做: 不改实现文件；子卡三签未齐不得 build；ED-1 review 未齐不得标 done
+输出要求: 四项分别给结论、必改项（如有）、提交 hash；给一段可直接复制给 GLM 的合并提示词
 ```
