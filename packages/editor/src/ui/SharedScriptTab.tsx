@@ -19,7 +19,7 @@ import {
 import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   DeleteAuthoredScriptCommand,
-  UpdateSharedScriptBodyCommand,
+  UpdateScriptBodyCommand,
   UpsertAuthoredScriptCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
@@ -40,6 +40,7 @@ import { PreviewCanvas } from './PreviewCanvas.js'
 import { type RowAction, ScriptTree } from './ScriptTree.js'
 
 const EMPTY_BODY: readonly Command[] = []
+const EMPTY_LIBRARY: Record<string, SharedScriptMetaV1> = {}
 
 const BASE_INSERTS: { label: string; make: () => Command }[] = [
   { label: '💬 对话', make: () => ({ kind: 'dialog', line: { text: '(新对话)' } }) },
@@ -48,6 +49,18 @@ const BASE_INSERTS: { label: string; make: () => Command }[] = [
   { label: '🔢 设数值', make: () => ({ kind: 'setVar', var: 'my-var', value: 1 }) },
   { label: '🎁 给物品', make: () => ({ kind: 'giveItem', itemId: '0' }) },
 ]
+
+function commandScriptTargetId(command: Command | undefined): string | undefined {
+  if (!command) return undefined
+  if (command.kind === 'callScript' || command.kind === 'jumpScript') return command.ref.id
+  if (
+    command.kind === 'setEntityAuto' ||
+    command.kind === 'setEntityTrigger' ||
+    command.kind === 'setSceneOnTeleport'
+  )
+    return command.script?.id
+  return undefined
+}
 
 function sourceLabel(entry: ScriptReferenceEntry): string {
   return `${entry.caller.label}${entry.path || '/'} · ${entry.kind}`
@@ -97,10 +110,12 @@ export function SharedScriptTab(props: {
     focusScriptRevision,
     onJumpToEvent,
   } = props
-  const library = scriptIndex?.library ?? {}
+  const library = scriptIndex?.library ?? EMPTY_LIBRARY
   const authoredIds = useMemo(() => Object.keys(library).sort(), [library])
   const [filter, setFilter] = useState('')
-  const [selectedId, setSelectedId] = useState(focusScriptId ?? authoredIds[0] ?? '')
+  const [selectedId, setSelectedId] = useState(
+    focusScriptId && library[focusScriptId] ? focusScriptId : (authoredIds[0] ?? ''),
+  )
   const [selectedPath, setSelectedPath] = useState<string | null>(null)
   const [insertFor, setInsertFor] = useState<string | null>(null)
   const [message, setMessage] = useState('')
@@ -111,12 +126,12 @@ export function SharedScriptTab(props: {
 
   useEffect(() => {
     if (focusScriptRevision == null) return
-    if (focusScriptId) setSelectedId(focusScriptId)
-  }, [focusScriptId, focusScriptRevision])
+    if (focusScriptId && library[focusScriptId]) setSelectedId(focusScriptId)
+  }, [focusScriptId, focusScriptRevision, library])
   useEffect(() => {
-    if (selectedId && scriptIndex && getScriptBody(scriptIndex, scriptChunks, selectedId)) return
+    if (selectedId && library[selectedId]) return
     setSelectedId(authoredIds[0] ?? '')
-  }, [authoredIds, scriptChunks, scriptIndex, selectedId])
+  }, [authoredIds, library, selectedId])
   // biome-ignore lint/correctness/useExhaustiveDependencies: 选中稳定 id 改变时必须清空对应的临时面板状态。
   useEffect(() => {
     setSelectedPath(null)
@@ -138,7 +153,7 @@ export function SharedScriptTab(props: {
     : EMPTY_BODY
   const stages = useMemo<ScriptStage[]>(() => [{ body: [...body] }], [body])
   const selectedCommand = selectedPath ? getCommandAt(stages, parsePath(selectedPath)) : undefined
-  const internal = !!selectedId && !meta
+  const selectedTargetId = commandScriptTargetId(selectedCommand)
   const actorsById = useMemo(
     () => Object.fromEntries(actors.map((actor) => [actor.id, actor])) as Record<string, ActorDef>,
     [actors],
@@ -173,7 +188,7 @@ export function SharedScriptTab(props: {
 
   const dispatchBody = (nextStages: readonly ScriptStage[]): void => {
     if (!selectedId) return
-    session.dispatch(new UpdateSharedScriptBodyCommand(selectedId, nextStages[0]?.body ?? []))
+    session.dispatch(new UpdateScriptBodyCommand(selectedId, nextStages[0]?.body ?? []))
   }
   const insertCommands = (commands: readonly Command[]): void => {
     if (!insertFor || !selectedId) return
@@ -292,7 +307,7 @@ export function SharedScriptTab(props: {
                   </option>
                 ))}
               </select>
-              {meta?.self !== 'none' || internal ? (
+              {meta?.self !== 'none' ? (
                 <select
                   className="in"
                   value={testEntityId}
@@ -331,6 +346,7 @@ export function SharedScriptTab(props: {
                 <ScriptTree
                   stages={stages}
                   locale={locale}
+                  scriptIndex={scriptIndex}
                   activePath={playback.activePath ?? null}
                   selectedPath={selectedPath}
                   onSelect={(path) => {
@@ -399,8 +415,10 @@ export function SharedScriptTab(props: {
                       ambiences={session.getState().ambiences ?? []}
                       shops={session.getState().shops ?? []}
                       scriptIndex={scriptIndex}
-                      hasImplicitSelf={internal || meta?.self === 'required'}
-                      onOpenScript={setSelectedId}
+                      hasImplicitSelf={meta?.self === 'required'}
+                      onOpenScript={
+                        selectedTargetId && library[selectedTargetId] ? setSelectedId : undefined
+                      }
                       onChange={(next) => {
                         const out = updateCommandAt(stages, parsePath(selectedPath), next)
                         if (out !== stages) dispatchBody(out)
@@ -423,7 +441,7 @@ export function SharedScriptTab(props: {
           <>
             <div className="insp-head">
               <div className="who">
-                <strong>{meta?.name ?? '迁移内部脚本'}</strong>
+                <strong>{meta?.name ?? '共享脚本'}</strong>
                 <code>{selectedId}</code>
               </div>
             </div>
@@ -491,12 +509,7 @@ export function SharedScriptTab(props: {
                   </button>
                 </div>
               </div>
-            ) : (
-              <div className="section">
-                <h4>迁移内部脚本</h4>
-                <p className="hint">稳定 id 和归属由迁移器维护；可编辑命令体，不可重命名或删除。</p>
-              </div>
-            )}
+            ) : null}
             <div className="section">
               <h4>引用</h4>
               <button type="button" className="mini-txt" onClick={openReferences}>
@@ -508,9 +521,13 @@ export function SharedScriptTab(props: {
                   type="button"
                   className="shared-ref"
                   key={referenceKey(entry)}
+                  disabled={entry.caller.type === 'script' && !library[entry.caller.scriptId]}
                   onClick={() => {
-                    if (entry.caller.type === 'script') setSelectedId(entry.caller.scriptId)
-                    else onJumpToEvent(entry.caller.sceneId, entry.caller.sourceKey)
+                    if (entry.caller.type === 'script') {
+                      if (library[entry.caller.scriptId]) setSelectedId(entry.caller.scriptId)
+                      return
+                    }
+                    onJumpToEvent(entry.caller.sceneId, entry.caller.sourceKey)
                   }}
                 >
                   {sourceLabel(entry)}

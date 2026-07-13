@@ -5,7 +5,13 @@
  * 只读:不 dispatch、不改数据。可视化编辑(拖拽/表单)是后续 C-track。
  */
 
-import type { Command, Locale, ScriptCondition, ScriptStage } from '@type-pal/content'
+import type {
+  Command,
+  Locale,
+  ScriptCondition,
+  ScriptIndexV1,
+  ScriptStage,
+} from '@type-pal/content'
 import { lookupText } from '@type-pal/content'
 import { useEffect, useRef } from 'react'
 
@@ -58,7 +64,7 @@ interface Described {
   warn?: boolean
 }
 
-function describe(cmd: Command, locale: Locale): Described {
+function describe(cmd: Command, locale: Locale, scriptIndex?: ScriptIndexV1): Described {
   switch (cmd.kind) {
     case 'chasePlayer':
       return {
@@ -279,7 +285,7 @@ function describe(cmd: Command, locale: Locale): Described {
         icon: '🔁',
         label: `${cmd.entity} 换巡逻脚本`,
         detail: cmd.script
-          ? `引用 ${cmd.script.id}`
+          ? `${scriptIndex?.library?.[cmd.script.id] ? '共享' : '内部'}引用 ${cmd.script.id}`
           : cmd.stages.length
             ? `${cmd.stages.length} 段`
             : '停用',
@@ -289,7 +295,7 @@ function describe(cmd: Command, locale: Locale): Described {
         icon: '🔗',
         label: `${cmd.entity} 换触发脚本`,
         detail: cmd.script
-          ? `引用 ${cmd.script.id}`
+          ? `${scriptIndex?.library?.[cmd.script.id] ? '共享' : '内部'}引用 ${cmd.script.id}`
           : cmd.stages.length
             ? `${cmd.stages.length} 段`
             : '停用',
@@ -298,12 +304,22 @@ function describe(cmd: Command, locale: Locale): Described {
       return {
         icon: '🌀',
         label: `${cmd.scene} 装传送出口`,
-        detail: cmd.script ? `引用 ${cmd.script.id}` : `${cmd.stages.length} 段`,
+        detail: cmd.script
+          ? `${scriptIndex?.library?.[cmd.script.id] ? '共享' : '内部'}引用 ${cmd.script.id}`
+          : `${cmd.stages.length} 段`,
       }
     case 'callScript':
-      return { icon: '↪', label: '调用脚本', detail: `${cmd.ref.chunk} · ${cmd.ref.id}` }
+      return {
+        icon: '↪',
+        label: scriptIndex?.library?.[cmd.ref.id] ? '调用共享脚本' : '调用内部子脚本',
+        detail: `${cmd.ref.chunk} · ${cmd.ref.id}`,
+      }
     case 'jumpScript':
-      return { icon: '→', label: '跳转脚本', detail: `${cmd.ref.chunk} · ${cmd.ref.id}` }
+      return {
+        icon: '→',
+        label: scriptIndex?.library?.[cmd.ref.id] ? '跳转共享脚本' : '跳转内部子脚本',
+        detail: `${cmd.ref.chunk} · ${cmd.ref.id}`,
+      }
     case 'setEntityTriggerMode':
       return {
         icon: '🔗',
@@ -330,6 +346,7 @@ export type StageAction =
 
 interface RowCtx {
   locale: Locale
+  scriptIndex?: ScriptIndexV1
   activePath: string | null
   selectedPath: string | null
   onSelect?: (path: string, cmd: Command) => void
@@ -339,7 +356,7 @@ interface RowCtx {
 
 function CommandRow(props: { cmd: Command; depth: number; path: string; ctx: RowCtx }) {
   const { cmd, depth, path, ctx } = props
-  const d = describe(cmd, ctx.locale)
+  const d = describe(cmd, ctx.locale, ctx.scriptIndex)
   const active = ctx.activePath === path
   const selected = ctx.selectedPath === path
   const rowRef = useRef<HTMLDivElement>(null)
@@ -410,6 +427,7 @@ function CommandRow(props: { cmd: Command; depth: number; path: string; ctx: Row
 export function ScriptTree(props: {
   stages: readonly ScriptStage[]
   locale: Locale
+  scriptIndex?: ScriptIndexV1
   activePath?: string | null
   selectedPath?: string | null
   onSelect?: (path: string, cmd: Command) => void
@@ -419,13 +437,14 @@ export function ScriptTree(props: {
   const {
     stages,
     locale,
+    scriptIndex,
     activePath = null,
     selectedPath = null,
     onSelect,
     onRowAction,
     onStageAction,
   } = props
-  const ctx: RowCtx = { locale, activePath, selectedPath, onSelect, onRowAction }
+  const ctx: RowCtx = { locale, scriptIndex, activePath, selectedPath, onSelect, onRowAction }
   if (stages.length === 0) return <div className="script-empty">（空脚本）</div>
   return (
     <div className="script-tree">

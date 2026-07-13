@@ -1101,9 +1101,9 @@ export class UpsertAuthoredScriptCommand implements Command {
   }
 }
 
-/** 修改任意已存在脚本体；作者脚本与从引用跳入的迁移内部脚本共用。 */
-export class UpdateSharedScriptBodyCommand implements Command {
-  readonly label = '修改共享脚本'
+/** 修改任意已存在的分片脚本体；是否共享由 library 元数据决定。 */
+export class UpdateScriptBodyCommand implements Command {
+  readonly label = '修改脚本内容'
   private old: ScriptStateSnapshot | undefined
 
   constructor(

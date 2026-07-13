@@ -6,17 +6,21 @@
  * 编辑逻辑与原事件模式同源(UpdateScriptCommand → session,undo 可回)。
  */
 
-import type {
-  ActorDef,
-  AmbienceDef,
-  Command,
-  Facing,
-  Locale,
-  MusicDef,
-  SceneDef,
-  ScriptStage,
-  ShopDef,
-  SpriteDef,
+import {
+  type ActorDef,
+  type AmbienceDef,
+  type Command,
+  type Facing,
+  getScriptBody,
+  type Locale,
+  type MusicDef,
+  type SceneDef,
+  type ScriptChunkV1,
+  type ScriptIndexV1,
+  type ScriptRef,
+  type ScriptStage,
+  type ShopDef,
+  type SpriteDef,
 } from '@type-pal/content'
 import { type AssetBase, MemoryScriptResolver, type OwnMap } from '@type-pal/reforge'
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react'
@@ -24,11 +28,13 @@ import {
   CreateScriptSourceCommand,
   DeleteScriptSourceCommand,
   type ScriptSourceRef,
+  UpdateScriptBodyCommand,
   UpdateScriptCommand,
   UpdateTriggerModeCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { Playback } from '../core/playback.js'
+import { materializeSceneStages } from '../core/scene-script-view.js'
 import {
   addStageAfter,
   getCommandAt,
@@ -309,48 +315,113 @@ interface ScriptSource {
   label: string
   kind: 'onEnter' | 'onTeleport' | 'trigger' | 'auto'
   sub: string
+  rawStages: readonly ScriptStage[]
   stages: readonly ScriptStage[]
+  bindings: ReadonlyArray<ScriptRef | undefined>
 }
 
-/** 收集一个场景的全部脚本源。 */
-function collectSources(scene: SceneDef): ScriptSource[] {
+function sourceRefOf(key: string): ScriptSourceRef {
+  return key === '__onEnter__'
+    ? { kind: 'onEnter' }
+    : key === '__onTeleport__'
+      ? { kind: 'onTeleport' }
+      : key.endsWith(':trigger')
+        ? { kind: 'trigger', entityId: key.slice(0, -':trigger'.length) }
+        : { kind: 'auto', entityId: key.slice(0, -':auto'.length) }
+}
+
+function materializedSource(
+  scene: SceneDef,
+  source: Omit<ScriptSource, 'rawStages' | 'bindings'>,
+  index: ScriptIndexV1 | undefined,
+  chunks: Readonly<Record<string, ScriptChunkV1>>,
+): ScriptSource {
+  const resolved = materializeSceneStages(
+    scene.id,
+    sourceRefOf(source.key),
+    source.stages,
+    index,
+    chunks,
+  )
+  return {
+    ...source,
+    rawStages: source.stages,
+    stages: resolved.stages,
+    bindings: resolved.bindings,
+  }
+}
+
+/** 收集一个场景的全部脚本源，并透明展开 M3 场景私有根绑定。 */
+function collectSources(
+  scene: SceneDef,
+  index: ScriptIndexV1 | undefined,
+  chunks: Readonly<Record<string, ScriptChunkV1>>,
+): ScriptSource[] {
   const out: ScriptSource[] = []
   if (scene.onEnter?.length)
-    out.push({
-      key: '__onEnter__',
-      label: '进场脚本',
-      kind: 'onEnter',
-      sub: `${scene.onEnter.length} 段`,
-      stages: scene.onEnter,
-    })
+    out.push(
+      materializedSource(
+        scene,
+        {
+          key: '__onEnter__',
+          label: '进场脚本',
+          kind: 'onEnter',
+          sub: `${scene.onEnter.length} 段`,
+          stages: scene.onEnter,
+        },
+        index,
+        chunks,
+      ),
+    )
   if (scene.onTeleport?.length)
-    out.push({
-      key: '__onTeleport__',
-      label: '传送出口(引路蜂/土灵珠)',
-      kind: 'onTeleport',
-      sub: `${scene.onTeleport.length} 段`,
-      stages: scene.onTeleport,
-    })
+    out.push(
+      materializedSource(
+        scene,
+        {
+          key: '__onTeleport__',
+          label: '传送出口(引路蜂/土灵珠)',
+          kind: 'onTeleport',
+          sub: `${scene.onTeleport.length} 段`,
+          stages: scene.onTeleport,
+        },
+        index,
+        chunks,
+      ),
+    )
   for (const e of scene.entities) {
     const page = e.pages?.[0]
     if (page?.trigger) {
       const on = page.trigger.on === 'interact' ? '交互' : '触碰'
-      out.push({
-        key: `${e.id}:trigger`,
-        label: e.id,
-        kind: 'trigger',
-        sub: `${on}触发`,
-        stages: page.trigger.stages,
-      })
+      out.push(
+        materializedSource(
+          scene,
+          {
+            key: `${e.id}:trigger`,
+            label: e.id,
+            kind: 'trigger',
+            sub: `${on}触发`,
+            stages: page.trigger.stages,
+          },
+          index,
+          chunks,
+        ),
+      )
     }
     if (page?.auto)
-      out.push({
-        key: `${e.id}:auto`,
-        label: e.id,
-        kind: 'auto',
-        sub: '巡逻/动画',
-        stages: page.auto.stages,
-      })
+      out.push(
+        materializedSource(
+          scene,
+          {
+            key: `${e.id}:auto`,
+            label: e.id,
+            kind: 'auto',
+            sub: '巡逻/动画',
+            stages: page.auto.stages,
+          },
+          index,
+          chunks,
+        ),
+      )
   }
   return out
 }
@@ -471,8 +542,14 @@ export function ScriptDrawer(props: {
     if (focusSrcKey) setSrcKey(focusSrcKey)
   }, [focusSrcKey])
 
+  const editorState = session.getState()
+  const scriptIndex = editorState.scriptIndex
+  const scriptChunks = editorState.scriptChunks
   // 源列**跟随选中**(作者:全场景源列和左大纲重复):实体选中 → 该实体源;场景节点 → 场景级源
-  const allSources = useMemo(() => collectSources(scene), [scene])
+  const allSources = useMemo(
+    () => collectSources(scene, scriptIndex, scriptChunks),
+    [scene, scriptChunks, scriptIndex],
+  )
   const sources = useMemo(
     () =>
       selectedEntityId
@@ -486,15 +563,23 @@ export function ScriptDrawer(props: {
     setSrcKey(sources[0]?.key ?? null)
   }, [sources, srcKey])
   const active = sources.find((s) => s.key === srcKey) ?? sources[0]
+  const [internalTrail, setInternalTrail] = useState<string[]>([])
+  const internalScriptId = internalTrail.at(-1)
+  const internalBody =
+    internalScriptId && scriptIndex
+      ? getScriptBody(scriptIndex, scriptChunks, internalScriptId)
+      : undefined
+  const internalStages = useMemo<ScriptStage[]>(
+    () => (internalBody ? [{ body: internalBody }] : []),
+    [internalBody],
+  )
+  const editingStages = internalScriptId ? internalStages : (active?.stages ?? EMPTY_STAGES)
 
   // 演出预览控制器:随场景重建;切场景/切源/卸载时停播丢弃演出态
   const playback = useMemo(() => {
-    const state = session.getState()
-    const resolver = state.scriptIndex
-      ? new MemoryScriptResolver(state.scriptIndex, state.scriptChunks)
-      : undefined
+    const resolver = scriptIndex ? new MemoryScriptResolver(scriptIndex, scriptChunks) : undefined
     return new Playback(scene, resolver)
-  }, [scene, session])
+  }, [scene, scriptChunks, scriptIndex])
   const [, setUiTick] = useState(0)
   const prevRef = useRef<Playback | null>(null)
   useEffect(() => {
@@ -506,51 +591,73 @@ export function ScriptDrawer(props: {
   // biome-ignore lint/correctness/useExhaustiveDependencies: 仅在源切换时停播
   useEffect(() => {
     playback.stop()
-  }, [active?.key])
+  }, [active?.key, internalScriptId])
 
   // ── 脚本编辑:选中行 → 右栏表单;行按钮 插/移/删;整 stages 经指令落 session ──
   const [selPath, setSelPath] = useState<string | null>(null)
   const [insertFor, setInsertFor] = useState<string | null>(null)
-  // biome-ignore lint/correctness/useExhaustiveDependencies: 切场景/切源即清选中
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 切场景/切源即回到该场景源并清临时选择
   useEffect(() => {
     setSelPath(null)
     setInsertFor(null)
+    setInternalTrail([])
   }, [scene.id, active?.key])
 
-  const refOf = (key: string): ScriptSourceRef =>
-    key === '__onEnter__'
-      ? { kind: 'onEnter' }
-      : key === '__onTeleport__'
-        ? { kind: 'onTeleport' } // 旧事件模式漏此分支 → 编辑 onTeleport 会写坏 auto(隐性 bug,迁抽屉时修)
-        : key.endsWith(':trigger')
-          ? { kind: 'trigger', entityId: key.slice(0, -':trigger'.length) }
-          : { kind: 'auto', entityId: key.slice(0, -':auto'.length) }
-
-  const dispatchStages = (stages: readonly ScriptStage[]): void => {
+  const dispatchBody = (stages: readonly ScriptStage[], stageIndex: number): void => {
+    const stage = stages[stageIndex]
+    if (!stage) return
+    if (internalScriptId) {
+      session.dispatch(new UpdateScriptBodyCommand(internalScriptId, stage.body))
+      return
+    }
     if (!active) return
-    session.dispatch(new UpdateScriptCommand(scene.id, refOf(active.key), stages))
+    const binding = active.bindings[stageIndex]
+    if (binding) {
+      session.dispatch(new UpdateScriptBodyCommand(binding.id, stage.body))
+      return
+    }
+    const rawStages = active.rawStages.map((raw, index) =>
+      index === stageIndex ? { ...raw, body: stage.body } : raw,
+    )
+    session.dispatch(new UpdateScriptCommand(scene.id, sourceRefOf(active.key), rawStages))
   }
-  const selCmd = active && selPath ? getCommandAt(active.stages, parsePath(selPath)) : undefined
+  const selCmd = selPath ? getCommandAt(editingStages, parsePath(selPath)) : undefined
+
+  const openScriptTarget = (id: string): void => {
+    if (scriptIndex?.library?.[id]) {
+      onOpenScript?.(id)
+      return
+    }
+    if (!scriptIndex || !getScriptBody(scriptIndex, scriptChunks, id)) return
+    setInternalTrail((current) => {
+      const existing = current.indexOf(id)
+      return existing >= 0 ? current.slice(0, existing + 1) : [...current, id]
+    })
+    setSelPath(null)
+    setInsertFor(null)
+  }
 
   const onRowAction = (path: string, action: RowAction): void => {
-    if (!active) return
+    if (!editingStages.length) return
     const p = parsePath(path)
+    const stageIndex = p[0]
+    if (typeof stageIndex !== 'number') return
     if (action === 'insert') {
       setInsertFor(path)
       return
     }
     if (action === 'remove') {
-      const next = removeAt(active.stages, p)
-      if (next !== active.stages) {
-        dispatchStages(next)
+      const next = removeAt(editingStages, p)
+      if (next !== editingStages) {
+        dispatchBody(next, stageIndex)
         if (selPath === path) setSelPath(null)
       }
       return
     }
     const dir = action === 'up' ? -1 : 1
-    const next = moveAt(active.stages, p, dir)
-    if (next !== active.stages) {
-      dispatchStages(next)
+    const next = moveAt(editingStages, p, dir)
+    if (next !== editingStages) {
+      dispatchBody(next, stageIndex)
       if (selPath === path) {
         const last = p[p.length - 1] as number
         setSelPath([...p.slice(0, -1), last + dir].join('/'))
@@ -559,9 +666,11 @@ export function ScriptDrawer(props: {
   }
 
   const insertCommands = (commands: readonly Command[]): void => {
-    if (!active || !insertFor) return
-    let stages = active.stages
+    if (!editingStages.length || !insertFor) return
+    let stages = editingStages
     let at = parsePath(insertFor)
+    const stageIndex = at[0]
+    if (typeof stageIndex !== 'number') return
     for (const command of commands) {
       const last = at[at.length - 1] as number
       if (last === -1) {
@@ -572,13 +681,12 @@ export function ScriptDrawer(props: {
         at = [...at.slice(0, -1), last + 1]
       }
     }
-    if (stages !== active.stages) {
-      dispatchStages(stages)
+    if (stages !== editingStages) {
+      dispatchBody(stages, stageIndex)
       setSelPath(at.join('/'))
     }
     setInsertFor(null)
   }
-  const scriptIndex = session.getState().scriptIndex
   const authoredScripts = Object.entries(scriptIndex?.library ?? {}).sort(([, a], [, b]) =>
     a.name.localeCompare(b.name),
   )
@@ -619,14 +727,17 @@ export function ScriptDrawer(props: {
             onEnter/onTeleport 场景的坑)。有源 → 焦点该源触发实体 + 可播;无源 → 焦点选中实体(或玩家)+ 提示。 */}
         <PreviewCanvas
           scene={scene}
-          stages={active?.stages ?? EMPTY_STAGES}
-          sourceKey={active?.key ?? '__none__'}
+          stages={editingStages}
+          sourceKey={
+            internalScriptId ? `internal:${internalScriptId}` : (active?.key ?? '__none__')
+          }
           projectId={projectId}
           focusEntityId={
             active
-              ? refOf(active.key).kind === 'onEnter' || refOf(active.key).kind === 'onTeleport'
+              ? sourceRefOf(active.key).kind === 'onEnter' ||
+                sourceRefOf(active.key).kind === 'onTeleport'
                 ? undefined
-                : (refOf(active.key) as { entityId: string }).entityId
+                : (sourceRefOf(active.key) as { entityId: string }).entityId
               : (selectedEntityId ?? undefined)
           }
           sprites={sprites}
@@ -688,7 +799,10 @@ export function ScriptDrawer(props: {
                 type="button"
                 className={`mini-txt${active?.key === s.key ? ' sel' : ''}`}
                 title={s.sub}
-                onClick={() => setSrcKey(s.key)}
+                onClick={() => {
+                  setSrcKey(s.key)
+                  setInternalTrail([])
+                }}
               >
                 {ICON[s.kind]} {KIND_LABEL[s.kind]}
               </button>
@@ -765,7 +879,24 @@ export function ScriptDrawer(props: {
               </>
             )}
           </span>
-          {active?.kind === 'trigger' && selectedEntityId
+          {internalScriptId ? (
+            <span className="drawer-internal-nav">
+              <button
+                type="button"
+                className="mini-txt"
+                title="返回上一级脚本"
+                onClick={() => {
+                  setInternalTrail((current) => current.slice(0, -1))
+                  setSelPath(null)
+                  setInsertFor(null)
+                }}
+              >
+                ← 返回
+              </button>
+              <code title={internalScriptId}>{internalScriptId}</code>
+            </span>
+          ) : null}
+          {!internalScriptId && active?.kind === 'trigger' && selectedEntityId
             ? (() => {
                 const trig = scene.entities.find((e) => e.id === selectedEntityId)?.pages?.[0]
                   ?.trigger
@@ -818,14 +949,14 @@ export function ScriptDrawer(props: {
                 )
               })()
             : null}
-          {active ? (
+          {active && !internalScriptId ? (
             <button
               type="button"
               className="mini-txt"
               style={{ marginLeft: 10, color: 'var(--err)' }}
               title="删除当前脚本源(可 ↶ 撤销)"
               onClick={() => {
-                session.dispatch(new DeleteScriptSourceCommand(scene.id, refOf(active.key)))
+                session.dispatch(new DeleteScriptSourceCommand(scene.id, sourceRefOf(active.key)))
                 setSrcKey(null)
               }}
             >
@@ -858,8 +989,9 @@ export function ScriptDrawer(props: {
           <div className="drawer-tree">
             {active ? (
               <ScriptTree
-                stages={active.stages}
+                stages={editingStages}
                 locale={locale}
+                scriptIndex={scriptIndex}
                 activePath={playback.activePath ?? null}
                 selectedPath={selPath}
                 onSelect={(path) => {
@@ -867,19 +999,24 @@ export function ScriptDrawer(props: {
                   setInsertFor(null)
                 }}
                 onRowAction={onRowAction}
-                onStageAction={(i, a) => {
-                  if (!active) return
-                  const next =
-                    a.kind === 'addAfter'
-                      ? addStageAfter(active.stages, i)
-                      : a.kind === 'remove'
-                        ? removeStage(active.stages, i)
-                        : setStageNext(active.stages, i, a.next)
-                  if (next !== active.stages) {
-                    dispatchStages(next)
-                    setSelPath(null)
-                  }
-                }}
+                onStageAction={
+                  internalScriptId
+                    ? undefined
+                    : (i, a) => {
+                        const next =
+                          a.kind === 'addAfter'
+                            ? addStageAfter(active.rawStages, i)
+                            : a.kind === 'remove'
+                              ? removeStage(active.rawStages, i)
+                              : setStageNext(active.rawStages, i, a.next)
+                        if (next !== active.rawStages) {
+                          session.dispatch(
+                            new UpdateScriptCommand(scene.id, sourceRefOf(active.key), next),
+                          )
+                          setSelPath(null)
+                        }
+                      }
+                }
               />
             ) : (
               <div className="insp-empty">
@@ -949,7 +1086,7 @@ export function ScriptDrawer(props: {
                             type="button"
                             className="pv-btn"
                             onClick={() => {
-                              const ref = refOf(active.key)
+                              const ref = sourceRefOf(active.key)
                               const ctx: InsertCtx = {
                                 scene,
                                 ownerId:
@@ -991,10 +1128,13 @@ export function ScriptDrawer(props: {
                     shops={shops}
                     scriptIndex={scriptIndex}
                     hasImplicitSelf={active.kind === 'trigger' || active.kind === 'auto'}
-                    onOpenScript={onOpenScript}
+                    onOpenScript={openScriptTarget}
                     onChange={(next) => {
-                      const out = updateCommandAt(active.stages, parsePath(selPath), next)
-                      if (out !== active.stages) dispatchStages(out)
+                      const path = parsePath(selPath)
+                      const stageIndex = path[0]
+                      if (typeof stageIndex !== 'number') return
+                      const out = updateCommandAt(editingStages, path, next)
+                      if (out !== editingStages) dispatchBody(out, stageIndex)
                     }}
                   />
                 </div>

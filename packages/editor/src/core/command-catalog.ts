@@ -532,13 +532,13 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
   {
     kind: 'callScript',
     icon: '↪',
-    name: '调用共享脚本',
+    name: '调用子脚本',
     group: '控制流',
     params: [
       ['ref', '稳定脚本引用'],
       ['self', '显式执行实体(缺省继承当前)'],
     ],
-    desc: '调用作者共享脚本，正常结束后返回当前命令体。',
+    desc: '调用稳定引用的子脚本，正常结束后返回当前命令体；作者共享脚本只是其中一种目标。',
   },
   {
     kind: 'setEntityAuto',

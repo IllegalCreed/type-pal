@@ -161,11 +161,11 @@ export function CommandForm(props: {
   ambiences?: AmbienceDef[]
   /** 店铺表(openShop 店下拉)。缺省退化数字输入。 */
   shops?: ShopDef[]
-  /** N6 作者共享脚本目录；只给 callScript 表单使用。 */
+  /** N6 作者共享脚本目录；用于区分作者共享目标与场景内部目标。 */
   scriptIndex?: ScriptIndexV1
   /** 当前执行上下文是否保证有可继承 self。 */
   hasImplicitSelf?: boolean
-  /** 打开 callScript 目标。 */
+  /** 打开 callScript/jumpScript 目标；调用方决定留在场景内或进入作者共享库。 */
   onOpenScript?: (id: string) => void
   onChange: (next: Command) => void
 }) {
@@ -704,13 +704,82 @@ export function CommandForm(props: {
           </Row>
         </>
       )
+    case 'setEntityAuto':
+    case 'setEntityTrigger':
+    case 'setSceneOnTeleport': {
+      const targetId = cmd.script?.id
+      const targetMeta = targetId ? scriptIndex?.library?.[targetId] : undefined
+      return (
+        <>
+          {targetId ? (
+            <Row label={targetMeta ? '共享目标' : '内部目标'}>
+              <span className="cf-ref-row">
+                <code className="cf-ref-target">{targetId}</code>
+                {onOpenScript ? (
+                  <button
+                    type="button"
+                    className="mini"
+                    title={targetMeta ? '打开共享脚本' : '在当前场景脚本中打开内部目标'}
+                    onClick={() => onOpenScript(targetId)}
+                  >
+                    ↗
+                  </button>
+                ) : null}
+              </span>
+            </Row>
+          ) : null}
+          <JsonForm cmd={cmd} onChange={onChange} />
+        </>
+      )
+    }
+    case 'jumpScript': {
+      const targetMeta = scriptIndex?.library?.[cmd.ref.id]
+      const explicitEntities = scene.entities.map((entity) => entity.id)
+      const selfValue = cmd.self ?? ''
+      return (
+        <>
+          <Row label={targetMeta ? '共享目标' : '内部目标'}>
+            <span className="cf-ref-row">
+              <code className="cf-ref-target">{cmd.ref.id}</code>
+              {onOpenScript ? (
+                <button
+                  type="button"
+                  className="mini"
+                  title={targetMeta ? '打开共享脚本' : '在当前场景脚本中打开内部目标'}
+                  onClick={() => onOpenScript(cmd.ref.id)}
+                >
+                  ↗
+                </button>
+              ) : null}
+            </span>
+          </Row>
+          <Row label="self">
+            <select
+              className="in"
+              value={selfValue}
+              onChange={(event) => set({ self: event.target.value || undefined })}
+            >
+              <option value="">继承当前执行者</option>
+              {explicitEntities.map((id) => (
+                <option key={id} value={id}>
+                  {id}
+                </option>
+              ))}
+              {selfValue && !explicitEntities.includes(selfValue) ? (
+                <option value={selfValue}>{selfValue}(不在场)</option>
+              ) : null}
+            </select>
+          </Row>
+        </>
+      )
+    }
     case 'callScript': {
       const authored: [string, SharedScriptMetaV1][] = Object.entries(
         scriptIndex?.library ?? {},
       ).sort(([, a], [, b]) => a.name.localeCompare(b.name))
       const options: [string, SharedScriptMetaV1][] = authored.some(([id]) => id === cmd.ref.id)
         ? authored
-        : [[cmd.ref.id, { name: `${cmd.ref.id}(内部)`, self: 'none' as const }], ...authored]
+        : [[cmd.ref.id, { name: `${cmd.ref.id}（内部）`, self: 'none' as const }], ...authored]
       const targetMeta = scriptIndex?.library?.[cmd.ref.id]
       const explicitEntities = scene.entities.map((entity) => entity.id)
       const selfValue = cmd.self ?? ''
@@ -737,7 +806,7 @@ export function CommandForm(props: {
                 <button
                   type="button"
                   className="mini"
-                  title="打开目标脚本"
+                  title={targetMeta ? '打开共享脚本' : '在当前场景脚本中打开内部目标'}
                   onClick={() => onOpenScript(cmd.ref.id)}
                 >
                   ↗

@@ -36,8 +36,8 @@ import {
   UpdateOwnMapLayerCommand,
   UpdatePoisonCommand,
   UpdateSceneCommand,
+  UpdateScriptBodyCommand,
   UpdateScriptCommand,
-  UpdateSharedScriptBodyCommand,
   UpdateSpriteCommand,
   UpsertAuthoredScriptCommand,
 } from './commands.js'
@@ -233,7 +233,7 @@ describe('布置命令集 · 不可变 + invert', () => {
   })
 })
 
-describe('N6 共享脚本命令 · 原子状态 + invert', () => {
+describe('N6 分片脚本命令 · 原子状态 + invert', () => {
   const id = 'shared/user/demo-a1b2c3d4'
 
   test('首次创建原子补 manifest/index/chunk，invert 恢复无脚本工程', () => {
@@ -253,16 +253,51 @@ describe('N6 共享脚本命令 · 原子状态 + invert', () => {
     expect(back.manifest.content?.scripts).toBeUndefined()
   })
 
-  test('内部/作者 body 更新统一归一化，invert 恢复旧体', () => {
+  test('作者 body 更新统一归一化，invert 恢复旧体', () => {
     const create = new UpsertAuthoredScriptCommand(id, { name: '演示', self: 'none' }, [
       { kind: 'wait', ms: 100 },
     ])
     const s1 = create.apply(Object.assign(st(), { scriptChunks: {} }))
-    const update = new UpdateSharedScriptBodyCommand(id, [{ kind: 'wait', ms: 200 }])
+    const update = new UpdateScriptBodyCommand(id, [{ kind: 'wait', ms: 200 }])
     const s2 = update.apply(s1)
     expect(getScriptBody(s2.scriptIndex!, s2.scriptChunks, id)).toEqual([{ kind: 'wait', ms: 200 }])
     const back = update.invert(s2)
     expect(getScriptBody(back.scriptIndex!, back.scriptChunks, id)).toEqual([
+      { kind: 'wait', ms: 100 },
+    ])
+  })
+
+  test('场景私有 body 原地更新，不登记为共享脚本，invert 恢复旧体', () => {
+    const authored = new UpsertAuthoredScriptCommand(id, { name: '演示', self: 'none' }, []).apply(
+      Object.assign(st(), { scriptChunks: {} }),
+    )
+    const internalId = 'scene/s/root/on-enter/stage-0'
+    const base: EditorState = {
+      ...authored,
+      scriptIndex: {
+        ...authored.scriptIndex!,
+        chunks: {
+          ...authored.scriptIndex!.chunks,
+          'scene/s': { path: 'chunks/scene/s.json', bytes: 0 },
+        },
+      },
+      scriptChunks: {
+        ...authored.scriptChunks,
+        'scene/s': {
+          version: 1,
+          id: 'scene/s',
+          scripts: { [internalId]: [{ kind: 'wait', ms: 100 }] },
+        },
+      },
+    }
+    const update = new UpdateScriptBodyCommand(internalId, [{ kind: 'wait', ms: 200 }])
+    const changed = update.apply(base)
+    expect(getScriptBody(changed.scriptIndex!, changed.scriptChunks, internalId)).toEqual([
+      { kind: 'wait', ms: 200 },
+    ])
+    expect(changed.scriptIndex?.library?.[internalId]).toBeUndefined()
+    const restored = update.invert(changed)
+    expect(getScriptBody(restored.scriptIndex!, restored.scriptChunks, internalId)).toEqual([
       { kind: 'wait', ms: 100 },
     ])
   })

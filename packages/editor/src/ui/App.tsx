@@ -150,6 +150,7 @@ export function App(props: {
     setDrawer({ open: true, src: srcKey })
   }
   const openSharedScript = (id: string): void => {
+    if (!state.scriptIndex?.library?.[id]) return
     setScriptFocus((current) => ({ id, revision: current.revision + 1 }))
     setDataTab('scripts')
     setMode('data')
