@@ -1215,6 +1215,7 @@ Extra 格有**两条清除路径**,大蒜毒抗撑到**两者谁先到**:
 | **战后三件套** ClearAllStatus + CurePoisonByLevel(3) + RemoveEquip(Extra) | [battle.c:1822-1830](../../reference/sdlpal/battle.c#L1822-L1830) |
 | `PAL_ClearAllPlayerStatus` / `PAL_RemoveEquipmentEffect` | [global.c:2311](../../reference/sdlpal/global.c#L2311) / [1372](../../reference/sdlpal/global.c#L1372) |
 | `PAL_UpdateEquipments`(换装 / 读档 memset 全清) | [global.c:1333](../../reference/sdlpal/global.c#L1333) / [1354](../../reference/sdlpal/global.c#L1354) |
+| 金刚符63 `0x2D[6,7]` / 毒蛇卵117 `0x29[_,551]` / 大蒜84 `0x17[17,22,30]` | `data/extracted/data/items.json` + `events/all.json` 反汇编 |
 
 ---
 
@@ -1256,51 +1257,42 @@ sdlpal 真值：
 
 ### 4. 明王战赵灵儿觉醒 + 站位
 
-**觉醒**（scene-146 onEnter 脚本，all.json [43016-43140]）：
+**原始数据入口**：`data/extracted/data/enemy-objects.json` 中镇狱明王对象
+`objectIndex=519` 的 `scriptOnTurnStart=42237`。第一次执行是 `all.json@42237-42298`
+的战前对白，`end advance` 后脚本指针推进；下一阶段 `42299-42331` 才是觉醒。它与
+`scene-146 onEnter` 无关，也不是 `43016-43140` 那组法术成功脚本。
 
-⚠ **原版脚本没有升级（无改 level 的 opcode），也没有 0x1A 改基础属性。** 觉醒效果是治疗 + 临时 buff + 换精灵 + 状态授予的复合：
+觉醒核心是 `all.json@42309-42316` 连续八条 `0x19`。`0x19` 的原义见
+[script.c:813](../../reference/sdlpal/script.c#L813)：把 `g.PlayerRoles` 当作按角色排列的 WORD 行表，执行
+`row[role] += SHORT(delta)`；`operand[2]=2` 表示 `role=2-1=1`，即赵灵儿。
 
-| 命令 | 效果 |
-|---|---|
-| `0x1B HP+75` (全体) ×4 轮 | 全体治疗 HP+75/220/500/150 = **总共 +945 HP**（0x1B 加当前 HP，clamp maxHP，非 maxHP 提升） |
-| `0x22` 复活 role 1 (赵灵儿) HP=maxHP×1/10 | 赵灵儿复活（10% 血） |
-| `0x22` 复活 role 3 (林月如) HP=maxHP×3/10 | 林月如复活（30% 血） |
-| `0x31` 换精灵号=5 | 赵灵儿换梦蛇战斗精灵 |
-| `0x30` 武术 +100% (Extra 槽) | 赵灵儿武术翻倍（空装基础值 ×100%） |
-| `0x30` 身法 +100% (Extra 槽) | 赵灵儿身法翻倍 |
-| `0x2D` 连击(DualAttack) 9 回合 | 赵灵儿连击 |
-| `0x2D` 狂暴(Bravery) 7 回合 | 赵灵儿必暴击 |
-| `0x28` 下毒(赵灵儿, 毒 560=HP 回补) | 赵灵儿每回合自动回 HP（伪毒） |
-| `0x28` 下毒(赵灵儿, 毒 555=MP 回补) | 赵灵儿每回合自动回 MP（伪毒） |
-| `0x20` 移除物品 148 ×1 | 消耗物品（灵珠/法器类） |
-| `0x2D` 加速(Haste) 5 回合 | 赵灵儿加速 |
-| `0x2D` 护体(Protect) 9 回合 | 赵灵儿护体 |
+| 原始 entry | 指令 | PlayerRoles row | 固定增长 |
+|---:|---|---:|---:|
+| 42309 | `0x19 [7,170,2]` | maxHP | **+170** |
+| 42310 | `0x19 [8,190,2]` | maxMP | **+190** |
+| 42311 | `0x19 [6,11,2]` | level | **+11** |
+| 42312 | `0x19 [17,100,2]` | attackStrength（武术） | **+100** |
+| 42313 | `0x19 [18,155,2]` | magicStrength（灵力） | **+155** |
+| 42314 | `0x19 [19,55,2]` | defense（防御） | **+55** |
+| 42315 | `0x19 [20,80,2]` | dexterity（身法） | **+80** |
+| 42316 | `0x19 [21,30,2]` | fleeRate（吉运） | **+30** |
 
-→ **觉醒的"大量属性提升"实际是 0x30 武术/身法 +100% 临时 buff + 狂暴/连击/加速/护体状态叠加**，不是永久属性变更。战后三件套清 Extra 槽 → buff 消失。
+随后 `42317: 0x22 [1,10,0]` 把全队死者按 `maxHP × 10/10` 复活并清毒/状态，
+`42318: 0x1D [1,9999,9999]` 给全队 HP/MP 加 9999（封顶到新上限），
+`42319: 0x92 [2,0,0]` 播赵灵儿所在队伍位置的施法/白闪演出，最后显示“赵灵儿力量觉醒”。
 
-⚠ **以上为 sdlpal 源码解读。但原版觉醒的真实实现是 0x19 addStat 连发（all.json [42309-42316]），不走 PAL_PlayerLevelUp 随机公式：**
+**结论**：原版确实让赵灵儿直接升 11 级并永久增加七项固定属性。这里完全不调用
+`0x8D` / `PAL_PlayerLevelUp`，所以没有随机成长，也不是 `0x30` Extra 槽临时 buff；死亡、复活和
+战后三件套都不会清掉。此前误判的原因是把 `data/extracted/data/spells.json` 引用的
+`43016-43140` 法术脚本错当成明王的 `scriptOnTurnStart`。
 
-> **赵灵儿觉醒（all.json@42309，镇狱明王战 scriptOnTurnStart）= 战内 0x19 连发 8 条，直接 delta 加到基础属性：**
+一阶段实现已经覆盖该机制：`equip-effect.ts:96` 明确记录 `all.json@42309`，
+`event-system.test.ts:1020` 钉住战内 `0x19` 写基础属性后立即回灌战斗 snapshot，避免新 maxHP/武术
+只在菜单生效；`event-system.test.ts:4015` 另钉 PlayerRoles row 映射。
 
-| 命令 | row | 属性 | delta |
-|---|---|---|---|
-| 0x19 [42309] | 7 | maxHP | **+170** |
-| 0x19 [42310] | 8 | maxMP | **+190** |
-| 0x19 [42311] | 6 | level | **+11** |
-| 0x19 [42312] | 17 | atk(武术) | **+100** |
-| 0x19 [42313] | 18 | mag(灵力) | **+155** |
-| 0x19 [42314] | 19 | def(防御) | **+55** |
-| 0x19 [42315] | 20 | dex(身法) | **+80** |
-| 0x19 [42316] | 21 | luck(吉运) | **+30** |
-| 0x92 [42319] | — | showMagicAnim | 白闪觉醒演出 |
-
-**关键**：升级不是 0x8D（PAL_PlayerLevelUp 随机成长），而是 **0x19 addStat row=6 delta=11**——直接给 level +11。属性也是 0x19 直接 delta，**固定值，非随机**。PAL_PlayerLevelUp 的随机公式不参与觉醒。
-
-一阶段代码已正确实现：`equip-effect.ts:96` 注释「all.json@42309 正是战内 0x19 连发」；`event-system.test.ts:1020` 有「0x19 提升属性 → 同步回灌战斗工作副本 snapshot」回归测试。
-
-**死亡不清除**：0x19 改的是 `g.PlayerRoles`（基础属性持久层），不是 Extra 槽也不是 rgPlayerStatus → 死亡不清、复活不清、战后三件套不清 → **永久增长**（不像 0x30 buffStat 是临时的）。
-
-**站位问题**：`0x75 setParty[1,3,0]` 把赵灵儿排到 party[0]——战斗站位 `g_rgPlayerPos`（[battle.c:27](../../reference/sdlpal/battle.c#L27)）按 party 顺序取位：party[0] = 最左下（前排）。所以**赵灵儿站前排中间**，不是李逍遥（李逍遥此战不在队里）。
-
-⚠ **一阶段 bug**：如果 `0x75` 的 setParty 没有正确重排队伍（或 setParty 后李逍遥仍在 party[0]），则战斗站位会错——李逍遥站前排而非赵灵儿。需核 `0x75` handler 是否忠实地 `rgParty[0].wPlayerRole = operand[0]-1`（赵灵儿=role 1）。
-| 金刚符63 `0x2D[6,7]` / 毒蛇卵117 `0x29[_,551]` / 大蒜84 `0x17[17,22,30]` | `data/extracted/data/items.json` + `events/all.json` 反汇编 |
+**站位**：明王开战链在 `all.json@24104` 执行 `0x75 [1,2,3]`，按
+[script.c:2164](../../reference/sdlpal/script.c#L2164) 减一后队伍为
+`[李逍遥(role 0), 赵灵儿(role 1), 林月如(role 2)]`；`24108` 才开始敌队 188 的战斗。
+三人阵型 `g_rgPlayerPos[2]`（[battle.c:27](../../reference/sdlpal/battle.c#L27)）依次为
+`(180,180) / (234,170) / (270,146)`，所以赵灵儿是 `party[1]` 的中间位，李逍遥并未离队。
+一阶段 `event-system.ts:4935` 已按 `operand - 1` 实现该队伍顺序。
