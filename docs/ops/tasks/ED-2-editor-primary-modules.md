@@ -91,10 +91,14 @@ Branch: main
 
 - Codex: **agree（2026-07-14）**。先建立八模块壳和 typed URL 深链，再让 W7E/ED-3 等页面落位，可以避免业务页重复搬迁；本卡严格不改 schema 和业务 CRUD。
 - Opus: **agree（2026-07-14;信息架构/深链/状态边界全过——单一子页注册表同源派生导航/URL/测试(防菜单漂移);EditorLocation typed+URL 查询参数+popstate 单向恢复+解析失败回安全默认页;objectId 仅提示、目标缺失显空态**不偷选第 0 项**(杜绝下标身份的 UI 版);EditSession 仍是唯一真值、URL 非第二份数据;过场"编排归剧情/媒体归资源"且当前不造假编排页,诚实;S1 文案项+S3 子页≤5 硬门禁均落卡。无必改）
-- GLM: pending
-- counter / 分歧处理: pending
+- GLM: **agree**（2026-07-14）。
+  - **15 旧页→八模块"恰好一次"可测性**：DataMode.tsx:57 列了 15 个 tab（sprite/skill/item/enemy/poison/ambience/shop/battlefield/music/tileset/cutscene/entrypoint/vars/sharedscript/locale）。ED-2 §114-123 模块归属表逐页映射到八模块，每页只出现一次。验收 §66"每个业务页面只有一个权威挂载点"+ §76"导航映射测试证明所有旧工作页恰好登记一次"= **可测性充分**。✅
+  - **跨模块跳转三例**：验收 §76 列"场景事件→剧情脚本、角色→资源精灵、场景→地图"——覆盖了"内容→脚本引用""角色→资产引用""场景→地图绑定"三类典型跨域跳转，**足够**（第四类"物品→商店"在同一模块内不需跨模块跳转测试）。✅
+  - **注册表同源**：§125 `EditorSubpageRegistry` 派生导航/URL/测试防漂移，方向正确。✅
+
+- counter / 分歧处理: 无。
 - 缺签豁免: N/A
-- build 准入结论: blocked
+- build 准入结论: **三签齐（Codex+Opus+GLM agree），build allowed。**
 
 ### 进入 done 前:审查签字
 

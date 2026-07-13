@@ -132,10 +132,10 @@ Branch: main
 
 - Codex: **accept（2026-07-14）**。已同步能力地图七环真值、路线图当前入口和审计状态；建立 W7E-0/ED-2/W7E 三张子卡并逐项落入 Opus R1-R3、S1/S3 与 GLM 覆盖要求；未改实现文件。
 - Opus: **accept**（2026-07-14;收口忠实度核验——capability 编辑器列与审计 §8 逐行一致(W7⚠️/E1⚠️/C1⚠️/N8❌/A4 收窄,引擎列全未动,恢复条件齐);R1→W7E §6 七层消费方表+MG2 双表规则;R2→W7E 四重钉(范围/明确不做/风险/ED-3 验收删 helper);R3→W7E-0 独立止血卡;S1→ED-2 文案项;S3→ED-2 子页≤5 硬门禁+深链契约。**唯一余项:S2(引用图边带删除策略元数据)尚未落任何文档**——已补记后续任务行,ED-3 开卡时必须带上）
-- GLM: pending
-- counter / 返工处理: pending
+- GLM: **accept**（2026-07-14 done 前复核）。S2 补记与首轮抽查结论一致：ED-1 §184 补记"S2: ED-3 引用图边定义携带删除策略元数据(block/warn/replace-suggest)"与我首轮签字"建议 S2"逐字一致；Opus 定位为"ED-3 开卡时必须带上"。capability 五域对码（地图/角色/过场/入口点/共享脚本）与 Opus 逐行对账结论一致。R1-R3+S1+S3 全部定位到子卡条文。**accept**。
+- counter / 返工处理: 无。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **三方 done 前审查齐（Codex+Opus+GLM accept）。交用户验收，点头方 done。**
 
 ## Draft: 设计与风险
 

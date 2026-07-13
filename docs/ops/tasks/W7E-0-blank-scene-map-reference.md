@@ -43,7 +43,7 @@ Capability: W3 / W7 / E1
 
 ## 推进签字
 
-- build 准入: Codex **agree（2026-07-14）** | Opus **agree（2026-07-14;最小语义正确修复——完整 SceneMap 联合传递+防御性复制,不改 schema、不提前 map index、own 共享同 path 是现有 loader 的 path 键控天然支持;测试矩阵 own/reuse+room/undo-redo/save-reload 四支齐;W7E 迁移路径自然(完整联合→id 化零兼容分支)。无必改）** | GLM pending | 用户豁免 N/A | 结论 blocked(待 GLM)
+- GLM: **agree**（2026-07-14）。测试矩阵四支覆盖 P0-1 复现路径：(1) own 地图新建场景保留 `{ownMap:path}` 不退回 `reuseOriginalMap:0` ✅；(2) reuse+room 完整保留地图号与 room ✅；(3) undo/redo 删除/恢复地图引用一致 ✅；(4) save/reload loader 重开解析 ✅。P0-1 复现路径（App.tsx:580 `reuseMapNum??0` + commands.ts:1734 固定 `reuseOriginalMap`）与修复方案（完整 SceneMap 联合传递+防御性复制）对应。四支测试覆盖了"类型保留+参数保留+撤销一致+持久化一致"四维，无漏环。
 - done 准入: Codex pending | Opus pending | GLM pending | 用户豁免 N/A | 结论 blocked
 
 Codex 立场：完整传递现有 `SceneMap` 是最小且语义正确的修复；它不改 schema、不创建临时地图文件，也不会把 W7E 的 map-id 设计提前塞进止血卡。

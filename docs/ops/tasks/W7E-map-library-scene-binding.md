@@ -110,10 +110,36 @@ Branch: main
 
 - Codex: **agree（2026-07-14）**。采用显式 `ownMapId` + MapIndexV1，旧 `ownMap:path` 只作为 v1 兼容输入并在编辑器保存时升级；注册表是发现真值，场景引用不是索引。实现按内容契约/loader -> editor state/IO -> Commands/UI -> 迁移/MG2 -> E2E 分期提交。
 - Opus: **agree（2026-07-14,附 M1/M2 必改）**。schema 与升级边界总体正确:LegacyOwnMapRefV1 单独命名封死双义字段;打开不写盘、保存一次性升 v2;id=stem 优先+冲突加 path hash 确定性;`o:<mapId>` 与 `legacy:<path>` 缓存键不混;懒加载哲学与 M3 一致(index 只元数据,OwnMap 场景级 LRU);MG2 双表登记+交叉测试正合 R1(现在登记=前瞻防御,迁移器当前不产 maps,零成本);临时删除反查四重钉正合 R2;五 Command apply/invert+删除单命令含文件 diff。**M1**:升级触发条件须显式写死——"仅当工程含自有地图引用才升 contentVersion 2/写 index;纯 reuseOriginalMap 工程(如 pal)保存时保持 v1,不注入空 index"——否则实现可能无条件升版,pal 的 manifest 被无意义改写。**M2**:消费方清单 editor core 行漏 `clone.ts/zip 导出(A5)`——克隆与 zip round-trip 必须含 content/maps/index.json,补入表并在测试节点名。游戏存档已核无涉(SavePayload 不含 map 信息,缓存键不入档)
-- GLM: pending
-- counter / 分歧处理: pending
+- GLM: **agree**（2026-07-14）。
+
+  **消费方矩阵逐层对码（含 M1/M2 落卡后终版）**：
+
+  | 层 | 消费方表条目 | 代码面实测 | 差集 |
+  |---|---|---|---|
+  | content | MapIndex/MapAsset/SceneMap/guards/legacy parser/sceneMapKey/validate-refs | index.ts:135 SceneMap / :138 isReuseMap / :143 reuseMapNum / :153 sceneMapKey / validate-refs.ts:72 | 无漏 |
+  | reforge | LoadedProjectCore/loadProjectFrom/loadSceneDef/全量地图/scene-map.ts/main cache/assets | loader.ts:46 LoadedProjectCore / :85 LoadedProject / scene-map.ts:18 loadSceneMap / assets.ts:73 loadOwnMap / :87 loadTilesetByPath | 无漏 |
+  | editor core | EditorState/blank seed/Commands/project IO/open-local/tests + **clone.ts/zip(M2)** | edit-session.ts:25 maps Record / seed.ts:132 / project-io.ts:99 / open-local.ts 存在 / **clone.ts 存在 / export-zip.ts 存在(App.tsx:49)** | M2 已落，无漏 |
+  | editor UI | App/MapMode/scene inspector/SceneCanvas/PreviewCanvas/scene-stage/ED-2 deep link | MapMode.tsx:84-97 / App.tsx:1426 / scene-stage.ts | 无漏 |
+  | migrate | 生成 schema/fixtures/migrate-content tests/旧项目兼容 | migrate-content.ts migrateAll | 无漏 |
+  | MG2 | migration-merge.ts/migration-bootstrap.ts /maps id mode + 双方测试 | merge:42 arrayMode / bootstrap:46 arrayMode（当前无 maps 登记=预期，W7E build 时新增） | 无漏（前瞻登记） |
+  | docs | content/editor 设计/能力地图/ED-3 收编债/升级说明 | capability-map.md / editor-design.md | 无漏 |
+
+  **消费方差集：零漏项。** M1（纯 reuse 工程不升 v2）和 M2（clone.ts/zip 入表+测试点名）均已落卡。七层全部对码。
+
+  **测试节 D1-D5 分期映射**：
+  - D1 契约 → content guard/legacy/MapIndex merge rules 纯测试 ✅
+  - D2 loader → map catalog/v2 lazy/v1 runtime/编辑器升级/缓存测试 ✅
+  - D3 editor core → state/serializer/Commands/undo/diff round-trip ✅
+  - D4 UI → 独立列表/场景 picker/deep link/删除守卫/响应式 ✅
+  - D5 集成 → PAL 回归/空白 E2E/MG2 双跑/文档 ✅
+  **D1-D5 每期有独立验收，分期映射完整。** ✅
+
+  **M1 复核**：升级触发条件"仅含自有地图引用才升 contentVersion 2/写 index；纯 reuseOriginalMap 工程保持 v1 不注入空 index"——pal 工程全 reuseOriginalMap，保存不被改写 manifest。✅
+  **M2 复核**：消费方表 editor core 行已含 clone.ts/zip 导出(A5)。clone.ts 和 export-zip.ts 代码面存在。测试节点已点名。✅
+
+- counter / 分歧处理: 无。
 - 缺签豁免: N/A
-- build 准入结论: blocked
+- build 准入结论: **三签齐（Codex+Opus+GLM agree），build allowed。** M1/M2 已落卡，消费方矩阵零漏项。
 
 ### 进入 done 前:审查签字
 
