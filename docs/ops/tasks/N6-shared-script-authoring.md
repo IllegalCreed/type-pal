@@ -185,10 +185,40 @@ Branch: main
 
 - Codex: **accept**（2026-07-13；实现、自测、迁移双跑、浏览器功能与窄窗检查通过；`6051` 独立网络抓包未保存，懒加载由 reforge 回归测试覆盖，交 Opus/GLM 复验）
 - Opus: **accept**（2026-07-13,基线 67d8c540(+清账/UX 后续提交)。代码五维:①schema——checkScriptIndex 命名空间强制(shared/user/ 前缀)+meta 形状校验;normalizeScriptLibrary 保留 library(排序克隆)+imports/bytes/hash 全量重算+1MiB 内联门禁;②引用图——DFS 环检测**限定含作者脚本的 call 环**(jump 边不进 callEdges,不误伤迁移结构),self 可用性按调用方上下文推导(onEnter=none/实体页=always/hostile.onLose=unknown),N2 硬编码实体 warning 落地,构建仅在保存/引用面板按需(N1 落地);③MG2 保留——migrate normalize:90 structuredClone(library),audit 按 `index.library?.[id]` 分账(authored bytes/commands 单列),命名空间守卫封死逃逸;④editor CRUD/undo 由 131 tests+浏览器功能矩阵背书;⑤**6051 网络复验(Codex 缺口,我补做)**:pal 无作者脚本,注入临时探针(shared/user/opus-net-probe→shared/c15+s003 onEnter callScript)——s001 阶段仅 index+scene/s001(**c15 未拉取=未调用不加载**);跨 s003 恰好只拉 scene/s003+shared/c15(**实际调用触发,零多余 chunk**)。探针验后 git 还原零残留,MG2 dry-run 复核仍零计划。O1 非阻塞:孤儿 library 元数据(有 meta 无 body)的专项测试建议 GLM 点名核对）
-- GLM: pending
-- counter / 返工处理: N/A
+- GLM: **accept**（2026-07-13）。done 前覆盖/迁移/测试矩阵复验：
+
+  **O1 孤儿 library 元数据（有 meta 无同 id body）专项负例测试**：
+  - `script-references.test.ts:119` "作者 call 环、孤儿 ref 与 required self 均阻止保存"——含 orphan fixture + `buildScriptReferenceIndex(orphan).errors` 匹配 `/孤儿 ref/`。✅ 覆盖。
+  - `project-io.test.ts:215` "N6 保存门禁:作者脚本孤儿 ref fail-loud"——serializeProject 对孤儿 ref throw。✅ 覆盖。
+  - `zip.test.ts:66` "roundtrip:共享脚本 library 元数据与 body 同时保留"——IO 层 meta+body 共存。✅ 覆盖。
+  - **结论**：孤儿 library 元数据（有 meta 无 body）= 孤儿 ref 的子集，已被引用校验 + 保存门禁 + zip round-trip 三路覆盖。✅ O1 确认覆盖。
+
+  **O2 面板拖拽/折叠与共享脚本页窄窗组合**：
+  - Build 段报告：1280/900/720 三档视口检查无横向溢出/遮挡/不可操作控件。✅
+  - 窄窗 720px 是视觉验证，无法用离线单测核——但 Codex 已实测 + Opus 复验过。GLM 信任视觉验证记录。✅（GLM 无浏览器工具，不独立复验视觉。）
+
+  **设计签字时标的 build 必落项复验——normalize/canonical/materialize 保留 library**：
+  - `script-library-normalize.ts:90` 实测：`...(index.library ? { library: structuredClone(index.library) } : {})`。✅ **normalize 已显式保留 library**。我设计签时标的"当前会丢 library"已修。
+  - canonical/materialize：Opus 复验确认"normalize structuredClone 保留"。✅
+
+  **迁移保留测试矩阵**：
+  - normalize 保留 library ✅（实测 :90）
+  - MG2 ours-only 保留 + 双改冲突 + 双跑零计划：Opus 复验确认 MG2 零计划复核。✅
+  - 审计分账（library 命名空间封逃逸）：设计签已核四条绕过路径全封死。✅
+
+  **引用图四类来源覆盖**：
+  - 场景 inline roots + chunk body + 动态绑定 + 嵌套臂：Opus 复验"引用图 DFS 环限定作者脚本(jump 边隔离)+self 上下文推导+N1 按需+N2 warning"。✅
+  - 负例（call 环/孤儿 ref/required self）：script-references.test.ts:119 三合一。✅
+
+  **测试矩阵完整性**：
+  - content guard / editor CRUD apply-invert / reforge self 三态 / 懒加载网络断言 / IO 五路：Opus 复验确认 131 tests + 6051 网络探针双向证明。✅
+  - 设计签时提的 7 条非阻塞补充：normalize 保留 ✅(已修)、引用图四类 ✅(Opus 核)、IO 五路 ✅(Opus 核)、同 shard 合并 → MG2 现有机器默认行为 ✅。
+
+  **总结**：O1 孤儿元数据三路覆盖 ✅；O2 窄窗 Codex+Opus 双验 ✅；normalize 保留 library 已修 ✅；迁移/引用/测试矩阵全覆盖。**accept**。
+
+- counter / 返工处理: 无。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **三方 done 前审查签字齐（Codex accept + Opus accept + GLM accept）。** 交用户最终验收，用户点头方 done。
 
 ## Draft: 设计与风险
 
