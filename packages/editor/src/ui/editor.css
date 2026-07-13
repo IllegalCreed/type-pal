@@ -210,6 +210,10 @@ body {
   color: var(--fg);
   outline: none;
 }
+.panel-resizer-toggle-icon {
+  display: block;
+  line-height: 1;
+}
 .panel-resizer-vertical > .panel-resizer-toggle {
   top: 50%;
   left: 50%;
@@ -221,8 +225,12 @@ body {
   top: 50%;
   left: 50%;
   width: 34px;
-  height: 16px;
+  height: 14px;
+  font-size: 12px;
   transform: translate(-50%, -50%);
+}
+.panel-resizer-horizontal > .panel-resizer-toggle .panel-resizer-toggle-icon {
+  transform: translateY(-1px);
 }
 .app-outliner-resizer,
 .app-inspector-resizer {
@@ -406,7 +414,7 @@ html[data-panel-resize="horizontal"] * {
   --script-drawer-height: 320px;
 
   display: grid;
-  grid-template-rows: minmax(140px, 1fr) 8px var(--script-drawer-height);
+  grid-template-rows: minmax(140px, 1fr) 1px var(--script-drawer-height);
   min-height: 0;
   min-width: 0;
 }
@@ -415,6 +423,9 @@ html[data-panel-resize="horizontal"] * {
   display: flex;
   background: #000;
   overflow: hidden;
+}
+.script-work .work-preview > .preview-wrap {
+  border-bottom: 0;
 }
 /* 工具栏基类(布置/地图共用)。响应式三件套 —— 四犯根治,升到基类,别再单栏打补丁:
    ① 容器 flex-wrap:整项换行,不压瘦格子
@@ -792,19 +803,20 @@ html[data-panel-resize="horizontal"] * {
   font-size: 12.5px;
 }
 .stage {
-  margin-bottom: 10px;
+  margin-bottom: 4px;
+  padding-bottom: 4px;
+  background: color-mix(in srgb, var(--panel2) 42%, var(--panel));
 }
 .stage-head {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 4px 12px;
-  margin: 4px 0;
+  padding: 6px 12px;
+  margin: 0 0 2px;
   color: var(--accent);
   font-weight: 600;
   font-size: 11px;
-  background: var(--panel);
-  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--accent) 7%, var(--panel2));
 }
 .stage-next {
   color: var(--faint);
@@ -2553,10 +2565,20 @@ html[data-panel-resize="horizontal"] * {
 }
 .script-height-resizer,
 .script-side-resizer {
-  background: var(--panel);
+  background: transparent;
+}
+/* 分隔线只占 1px；透明命中层向两侧扩 4px，保留拖拽手感而不挤压内容。 */
+.script-height-resizer {
+  height: 1px;
+}
+.script-height-resizer > .panel-resizer-hit {
+  inset: -4px 0;
 }
 .script-side-resizer {
-  flex: 0 0 8px;
+  flex: 0 0 1px;
+}
+.script-side-resizer > .panel-resizer-hit {
+  inset: 0 -4px;
 }
 .script-drawer .drawer-side-collapsed .script-side-resizer > .panel-resizer-toggle {
   left: 0;

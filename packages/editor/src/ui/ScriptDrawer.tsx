@@ -378,7 +378,7 @@ const DRAWER_SIDE_DEFAULT_WIDTH = 360
 const DRAWER_SIDE_MIN_WIDTH = 260
 const DRAWER_SIDE_MAX_WIDTH = 720
 const DRAWER_TREE_MIN_WIDTH = 220
-const RESIZER_SIZE = 8
+const RESIZER_SIZE = 1
 
 export function ScriptDrawer(props: {
   scene: SceneDef
@@ -848,9 +848,6 @@ export function ScriptDrawer(props: {
           >
             改动即入 undo · ▶ 预览不改数据
           </span>
-          <button type="button" className="mini-txt" onClick={onClose} title="收起抽屉">
-            ▾ 收起
-          </button>
         </div>
         <div
           ref={drawerBodyRef}

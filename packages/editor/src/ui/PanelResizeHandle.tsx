@@ -166,7 +166,9 @@ export function PanelResizeHandle(props: {
           onDoubleClick={(event) => event.stopPropagation()}
           onClick={props.onToggle}
         >
-          {props.toggleIcon}
+          <span className="panel-resizer-toggle-icon" aria-hidden="true">
+            {props.toggleIcon}
+          </span>
         </button>
       ) : null}
     </div>
