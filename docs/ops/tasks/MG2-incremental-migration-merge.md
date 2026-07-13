@@ -1,6 +1,6 @@
 # MG2 - 迁移器结构化三方合并与安全重导
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: MG2(增量合并)
 Coding Owner: Codex
@@ -26,7 +26,7 @@ Branch: main
   - 把 PAL 内容生成整理为不读取 `projects/pal` 的纯生成核，产出完整 `MigrationFileSet`、托管文件清单和迁移报告。
   - 把仍依赖盘上产物的有效 patch 审计并迁回纯函数迁移/overlay；无效或已被主迁移器吸收的 patch 明确退役。
   - 建立持久 `base`、结构化三方合并、冲突报告、首次 bootstrap 和事务式写盘。
-  - 恢复 actors/sprites/items/skills/enemies/enemyTeams/locale/scenes/scripts 等迁移域的全量安全更新。
+  - 恢复 actors/sprites/items/skills/enemies/enemyTeams/locale/scenes/scripts，以及 music/battle-fields/poisons/shops 等有提取真源域的全量安全更新。
   - 对文件新增/删除、对象字段、稳定 id 数组、场景页、脚本 chunk/index 分别定义合并策略。
   - 将迁移计划、冲突、校验和二次零 diff 纳入自动门禁。
 - 范围外:
@@ -79,7 +79,7 @@ Branch: main
 ### 功能
 
 - `theirs` 由纯生成核产出；改变任意 `projects/pal` 当前内容不会改变 `theirs` 的哈希和报告。
-- 完成托管域清单，manifest、music、battle-fields、poisons、ambiences、shops、tilesets、自有 maps/assets 等非迁移托管文件保持原字节不变。
+- 完成托管域清单：`music`、`battle-fields`、`poisons`、`shops` 由提取源或确定性 PAL overlay 生成并参与三方合并；`manifest`、`ambiences`、`tilesets`、自有 maps/assets 等创作域保持原字节不变。当前工程不存在 `dither-false-color.json`，不得凭历史草案把它加入托管域。
 - 正确执行 `base/ours/theirs` 三方真值表，支持字段和条目级无冲突合并；同一路径双改必须产生 conflict。
 - `base` 保存“上一次纯生成的 theirs”，不得保存合并后的工程；本次成功后更新为本次纯 `theirs`。
 - 首次无 baseline 时只生成 bootstrap 报告；所有 current-vs-fresh 差异完成 `ours/theirs/upstream-overlay` 分类前不得写盘或建立伪 baseline。
@@ -93,9 +93,13 @@ Branch: main
 
 - 三方合并单测覆盖：primitive、对象递归、字段新增/删除、两边同改、两边异改、文件新增/删除、用户新增文件、生成文件退役。
 - 数组测试覆盖：稳定 id 增删改、单边/双边重排、无 id 顺序数组原子冲突、场景 entity id 合并、pages 按槽递归、stage/body 双改冲突。
-- 文件域矩阵覆盖：actors、sprites、items、skills/levelUp、enemies、enemyTeams、locale、scenes/index、单场景、scripts/index、script chunk。
+- 文件域矩阵覆盖：actors、sprites、items、skills/levelUp、enemies、enemyTeams、locale、music、battle-fields、poisons、shops、scenes/index、单场景、scripts/index、script chunk；并反向断言 manifest/ambiences/tilesets/own maps/assets 非托管。
 - 纯生成回归：对 fixture 的 `ours` 任意改值，`theirs` 输出哈希不变；禁止重新出现 `read projects/pal -> generate theirs`。
 - 写盘测试覆盖：冲突零写盘、校验失败零写盘、故障注入回滚、baseline 只在成功后推进、非托管文件字节哈希不变。
+- M1 显式覆盖 baseline 推进中途故障：工程文件已提交但 baseline 尚未全部 rename 时重启，必须按同一 journal 补完事务，不能拿旧 base 进入下一轮 merge。
+- M2 显式断言稳定 id 数组合并后的顺序固定，重复运行不得因 Map/遍历顺序产生 diff。
+- M3 显式覆盖 `pages` 一侧加页、一侧删页、删页对侧改页和双方不同加页；槽位冲突必须精确定位。
+- M4 为三个历史 patch 建净效应回归：纯生成结果必须包含其仍有效效果，退役脚本不得再作为第二写盘入口。
 - 在临时目录完成首次 bootstrap 演练和全量合并，报告中每个差异都有分类，无通配遗漏。
 - 对真实 `projects/pal` 写盘前保存哈希清单；写盘后白名单外差异为 0。
 - 连续执行第二次迁移必须计划 `writes=0/deletes=0/conflicts=0`，工作树零差异。
@@ -169,9 +173,9 @@ Branch: main
 
   **总结**：域矩阵缺 7 个简单数据表（非阻塞，Codex 补策略表时一并加）；"非托管"措辞需纠正（非阻塞）；bootstrap 差异规模 M4 先行后可操作（10-20 条）；测试矩阵 4 条非阻塞显式断言补充；二次零 diff 口径正确。**agree**。
 
-- counter / 分歧处理: 无架构 counter。域矩阵缺 7 域 + 措辞纠正 + 4 条测试补充 = 非阻塞，Codex 落 M1-M4 时一并处理。
+- counter / 分歧处理: 无架构 counter。GLM 原始覆盖意见中的“缺 7 域”已按真实文件与提取源复核：4 域纳入托管，2 域明确非托管，1 个文件当前不存在；4 条测试补充已写入验收条件。
 - 缺签豁免: N/A
-- build 准入结论: **待 Codex 把 M1-M4 + GLM 指出的 7 域策略表 + 措辞纠正 + 4 条测试补充落进 Draft 后，三签齐进 build。**
+- build 准入结论: **allowed（2026-07-13）。Codex 已按仓库事实把 M1-M4、域归属矩阵、措辞纠正和 4 条显式测试落进 Draft；Codex / Opus / GLM 三方设计签均为 agree。**
 
 ### 进入 done 前:审查签字
 
@@ -201,6 +205,7 @@ function buildPalMigration(sources: PalMigrationSources): MigrationFileSet
 - IO 壳只负责读取 `data/extracted` 并组装 `sources`；`buildPalMigration` 不读文件系统、不接收当前 `projects/pal`。
 - `migrateAll`、`mapScenesStatic`、M3 graph/chunk、PAL overlay 都在纯生成编排层内串联。
 - `patch-enemy-choreo`、`patch-boss-encounters`、`patch-scene-stages` 的仍有效净效应必须移入纯转换；已被当前翻译器覆盖的逻辑用回归测试证明后退役。
+- 顺序固定为：先为历史 patch 建净效应回归并把有效逻辑迁入纯核，再删除或改成只读审计脚本，最后才允许生成 bootstrap 差异。bootstrap 可按“差异 -> upstream overlay -> 重生成”迭代到闭合，不能先用旧 patch 污染的 `ours` 建伪 baseline。
 - 当前从盘上 enemies 收集 `choreography/onDefeated` 根的路径必须消失；根只能来自本次纯迁移后的 enemy 输出和确定性 overlay。
 - 所有门禁在生成完成、写盘之前执行。
 
@@ -225,24 +230,31 @@ function buildPalMigration(sources: PalMigrationSources): MigrationFileSet
 | 文件域 | 合并策略 |
 |---|---|
 | actors/items/sprites/enemies/enemyTeams | 根数组按稳定 `id` 合并；条目对象递归；未登记的内部数组原子处理 |
+| music/battle-fields/poisons/shops | 根数组按稳定 `id` 合并；`music` 来自 `music-manifest.json:midi`，`battle-fields` 来自提取表，`poisons` 来自 object-poisons + 已审计 PAL 规则 overlay，`shops` 来自 `stores.json`；条目内部未登记的有序数组原子处理 |
 | skills | `skills` 按 `id`；`levelUp` 按角色 key，单角色有序表原子处理 |
 | locale | 按 locale key 递归，互不相交的新键自动合并 |
 | scenes/index | 以 scene id 做成员合并；仅一边改顺序时采用该边，双边不同重排 conflict |
 | scene | 对象递归；`entities` 按 id；`pages` 按槽位递归；`stages/body` 是有序语义序列，原子处理 |
 | scripts/index | `chunks` 按 chunk id 合并；shard 配置为原子 contentVersion 决策 |
 | script chunk | `scripts` 按 script id；每个 `Command[]` 原子处理；imports/bytes/hash 由合并结果重算 |
+| manifest/ambiences/tilesets/own maps/assets | 非托管创作域，迁移器不得写、删或纳入 baseline；当前不存在的 dither profile 同样不凭空创建 |
 
 文件级新增/删除也走同一真值表。迁移器只能删除 `base` 或 `theirs` 中声明的托管文件；从未托管的文件永远不动。
+
+稳定 id 数组的输出顺序是策略的一部分：以 `theirs` 的顺序为骨架；仅存在于 `ours` 的条目按其在 `base` 中最近的仍存前驱之后插入，同一锚点保持 `ours` 相对顺序；找不到锚点的条目按 `ours` 相对顺序追加。实现不得依赖对象或 `Map` 的偶然遍历顺序。
+
+`pages` 的数组下标就是原版状态槽位身份，因此允许 positional merge，但不允许插入后自动平移身份：一侧相对 base 在尾部加页、另一侧未动时接受新增；双方在同一新槽新增且值不同则 conflict；一侧删槽且另一侧未改该槽则删除；一侧删槽而另一侧修改该槽则 conflict；非尾部插入或造成后续槽位平移时整段 `pages` conflict。冲突路径必须指向具体 `/entities/<id>/pages/<slot>`。
 
 ### D. 首次 bootstrap
 
 仓库没有可信的“上一次纯生成快照”，禁止拿当前工程冒充 base。首次流程：
 
-1. 纯生成 fresh `theirs`，不写项目。
-2. 对 current `ours` 与 fresh 做完整结构化差异清单，按文件/稳定 id/JSON Pointer 分组。
-3. 每项分类为：保留人工 `ours`、接受新生成 `theirs`、或先回迁为 `upstream-overlay` 后重新生成。
-4. 分类文件必须精确覆盖全部差异；无匹配、重复匹配和宽泛整库规则都失败。
-5. 三方审查 bootstrap 报告后，才写合并工程并把 fresh 保存为首个 baseline。
+1. 先完成 M4：三个历史 patch 的有效净效应进入纯核并通过等价回归，旧写盘入口退役。
+2. 纯生成 fresh `theirs`，不写项目。
+3. 对 current `ours` 与 fresh 做完整结构化差异清单，按文件/稳定 id/JSON Pointer 分组。
+4. 每项分类为：保留人工 `ours`、接受新生成 `theirs`、或先回迁为 `upstream-overlay` 后重新生成。
+5. 分类文件必须精确覆盖全部差异；无匹配、重复匹配和宽泛整库规则都失败。
+6. 三方审查 bootstrap 报告后，才写合并工程并把 fresh 保存为首个 baseline。
 
 bootstrap 是一次性迁移审计，不允许默认“全 ours”或“全 theirs”。
 
@@ -252,8 +264,10 @@ bootstrap 是一次性迁移审计，不允许默认“全 ours”或“全 thei
 - 先在内存/临时目录完成生成、merge、schema、M3 audit 和项目加载校验；任一 conflict 或校验失败直接退出非零。
 - 冲突报告保存完整 base/ours/theirs，控制台只输出摘要和报告路径。
 - 写盘前再次核对 current 文件哈希，防止 plan 后并发编辑造成 TOCTOU 覆盖。
-- staging 中构造完整目标；提交时使用临时文件 + rename，并维护可恢复 journal。baseline 只在工程文件全部提交成功后推进；异常启动时按 journal 恢复旧状态或完成同一事务。
+- staging 中构造完整目标；提交时使用临时文件 + rename，并维护可恢复 journal。journal 必须在首个 rename 前完整写入并 fsync，工程文件和 baseline 文件都属于同一事务清单；每个 rename 可幂等重放。
+- 恢复策略固定为“完成同一事务”：工程文件全部提交而 baseline 尚未推进时，重启必须从 journal/staging 补完 baseline；不得带旧 baseline 开始新 merge，也不得把刚提交的工程误判为人工修改。journal 只在项目与 baseline 的目标哈希全部核对通过后删除。
 - 禁止 `rmSync(content/scripts)`；旧生成文件的删除由 managed file 三方规则决定。
+- 操作纪律写入 README：baseline 是机器产物，Git 冲突时禁止手工合并，必须重跑生成；迁移写盘期间不得让编辑器保存，迁移成功后已打开的编辑器必须重载工程。
 
 ### F. 后置归一化与门禁
 
@@ -282,8 +296,8 @@ bootstrap 是一次性迁移审计，不允许默认“全 ours”或“全 thei
 ### 主审立场
 
 - Reviewer: Opus（架构/事务/合并语义主审）+ GLM（迁移域覆盖/bootstrap/测试矩阵复核）
-- 结论: **Opus agree,附 M1-M4 必改(设计层补明,非架构推翻)+ N1-N3 非阻塞**。
-- 是否建议进入 build: 否——M1-M4 落进 Draft + GLM 签字后三签齐方可。
+- 结论: **Codex / Opus / GLM 三方 agree；M1-M4 与 N1-N3 已落为实现约束。GLM 所列 7 域经代码与提取源复核后纠正为 4 个迁移托管域、2 个创作非托管域、1 个当前不存在的历史草案文件。**
+- 是否建议进入 build: **是（2026-07-13，三签与条件均已满足）。**
 
 ### Opus 压力测试(2026-07-13,六维)
 
@@ -306,8 +320,8 @@ bootstrap 是一次性迁移审计，不允许默认“全 ours”或“全 thei
 
 - Codex: 支持“纯生成 + 完整 baseline + 显式策略三方合并 + 事务写盘”；反对读取当前产物生成 theirs、运行时双层和 hash-only baseline。
 - Opus: 与 Codex 全部主张一致(含 hash-only 否决的推理补强:生成器代码本身随版本变化,旧 theirs 不可重推导,完整快照是唯一可靠 base)。无分歧;M1-M4 是设计精化不是对抗立场。
-- GLM: pending
-- 用户拍板: 已批准开始 draft；未批准缺签进入 build。
+- GLM: agree；覆盖审查意见已按仓库事实收敛进域归属矩阵和测试门禁。
+- 用户拍板: 2026-07-13 确认三签齐并批准 Codex 开始 build。
 
 ## 额度 / 代班记录
 
@@ -322,8 +336,8 @@ bootstrap 是一次性迁移审计，不允许默认“全 ours”或“全 thei
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: 尚未开始，设计三签未齐。
-- 实现摘要: pending
+- 修改文件: 设计定案完成；实现文件开始后持续补充。
+- 实现摘要: 三签准入已满足，Codex 进入 build。
 - 运行命令: pending
 - 浏览器 / 手工检查: pending
 - 跳过的检查及原因: N/A
@@ -334,7 +348,7 @@ bootstrap 是一次性迁移审计，不允许默认“全 ours”或“全 thei
 - 验证方式: 6051 前台运行重迁后的 PAL 工程；详见验收条件。
 - 截图 / 像素检查路径: pending
 - 结论: pending
-- 未完成项: 全部，尚未进入 build。
+- 未完成项: 实现完成后执行。
 
 ## Review: 审查与返工
 
@@ -353,17 +367,9 @@ bootstrap 是一次性迁移审计，不允许默认“全 ours”或“全 thei
 - 2026-07-13 User: 批准开始 MG2。Next: Codex 完成 draft，不得越过三签门禁。
 - 2026-07-13 Codex: 审计确认 M3 只恢复脚本域安全重迁；完整数据域仍不写盘，且当前生成脚本回读盘上 enemies、历史 patch 依赖旧产物。完成“纯生成 + baseline + 结构化 merge + bootstrap + 事务写盘”设计并签 agree。Evidence: 本卡上下文锚点与 Draft。Next: Opus 架构设计签字，不得开始实现。
 - 2026-07-13 Opus: 设计签 **agree + M1-M4 必改**。锚点核实:mts:113-122 enemies 回读污染、mts:139-141 `rmSync(scripts)` 整目录重建、三 patch 全读盘——现状审计属实。六维压力测试:baseline 语义(唯一正确锚,含"工程已提交 baseline 未推进"崩溃窗 → M1 journal 事务域+故障注入)、合并边界(M2 id 数组输出顺序缺失会破二次零 diff;M3 pages 页数变化规则;Command[] 原子✓派生重算✓)、删除/非托管(真值表覆盖✓)、bootstrap(M4 patch 纯函数化必须先行,否则分类清单被淹没;允许迭代收敛)、事务(骨架✓,N3 fsync/rename 幂等/故障注入)、patch 顺序(=M4)。N1 禁手工合并 baseline、N2 编辑器互斥纪律。Evidence: Opus 压力测试段。Next: Codex 把 M1-M4 落进 Draft;GLM 复核文件域矩阵/bootstrap 可操作性/测试矩阵;三签齐后 build。未改实现文件。
+- 2026-07-13 GLM: 设计签 **agree**；要求补齐域矩阵、M1-M4 显式测试和严格二次空计划。Evidence: 本卡 GLM 四项复核。
+- 2026-07-13 Codex: 复核真实工程与提取源，确认 `music/battle-fields/poisons/shops` 为迁移托管域，`ambiences/tilesets` 为创作非托管域，`dither-false-color.json` 当前不存在；M1-M4、N1-N3 和四条测试均已写入 Draft。三签条件全部闭合，状态转 `build`。Next: Codex 单 Owner 实现与自测。
 
 ## 下一位 Agent 提示词
 
-```text
-接手任务: MG2 迁移器结构化三方合并与安全重导,设计复核(GLM)
-任务卡: docs/ops/tasks/MG2-incremental-migration-merge.md
-当前状态: draft;Codex agree + Opus agree(附 M1-M4 必改),GLM pending,build blocked。
-你的角色: GLM,迁移域覆盖/bootstrap 可操作性/测试矩阵复核;只审设计,不改实现文件。
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、任务卡全部,重点 Draft A-F + "Opus 压力测试(六维)"段。
-Opus 已过并附必改: M1 baseline 推进纳入同一 journal 事务域(含"工程已提交 baseline 未推进"恢复分支+故障注入);M2 id 数组合并的确定性输出顺序入策略表(否则二次零 diff 因顺序漂移误报);M3 pages 页数变化的 add/delete/conflict 规则显式(槽位=状态身份,positional 合法);M4 历史 patch 纯函数化+回归退役先于 bootstrap 分类(顺序钉死)。N1-N3 非阻塞(禁手工合并 baseline/编辑器互斥纪律/journal fsync+rename 幂等)。
-请你复核: (1)托管文件域矩阵完整性——对照 projects/pal/content 实际文件清单与 editor project-io 保存面,验证策略表无遗漏域(battle-fields/poisons/ambiences/shops/music/tilesets/own-maps 的"非托管保持原字节"边界是否与编辑器写盘面一致);(2)bootstrap 分类的可操作性——预估当前 ours vs fresh 差异规模(三 patch 效应+M3 后手工编辑),分类工作量是否现实,upstream-overlay 回迁通道是否够用;(3)测试矩阵完整性——验收"测试"节是否覆盖 M1-M4(journal 故障注入×2/顺序确定性/pages 页数变化/patch 吸收回归)与七域矩阵;(4)二次零 diff 门禁的计量口径(严格空计划,非"写出相同内容")。在设计签字 GLM 行签 agree/counter,更新交接日志;agree 即三签待 Codex 落 M1-M4 后进 build。
-不要做: 不改实现文件;不跑会写 projects/pal 的迁移命令;不改 build 状态。
-输出要求: 明确 agree/counter、域矩阵差集、bootstrap 规模预估、测试矩阵评估、提交 hash。
-```
+无下一位 Agent 提示词：当前由 Coding Owner Codex 在本会话连续执行 build；实现、自测和提交完成后再生成给 Opus 的 review 提示词。
