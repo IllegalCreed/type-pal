@@ -16,7 +16,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| M3 | 迁移脚本去内联、按场景分片与体积门禁 | draft / 设计重签 | Opus 重审分片版 | 用户新增硬约束：进场不得加载全游戏脚本。方案改为 `{chunk,id}` + scene/shared/global-domain SCC 分片 + 按需 resolver/LRU + 存档只存 ref；第一阶段切片实测仅 all.json 0.89x。Codex agree；Opus 旧版 agree 因加载边界变化恢复 pending(R1-R3 保留)，GLM 后续复核。任务卡:[M3-wander-arm-explosion.md](tasks/M3-wander-arm-explosion.md) |
+| M3 | 迁移脚本去内联、按场景分片与体积门禁 | draft / 设计签字 | GLM 复核 | 分片版(ScriptRef{chunk,id}+scene/shared/global SCC 分片+执行/绑定边分离+lease-LRU+存档只存 ref):**Codex+Opus agree(重签),待 GLM**。Opus 核实 D18 0.89x+6b58f9e8 回退三动因逐条对症;R1-R3 保留+N1-N3 新增(0x08 恢复点边/ref 重推导/lease 全栈)。三签未齐不得 build。任务卡:[M3-wander-arm-explosion.md](tasks/M3-wander-arm-explosion.md) |
 
 ## 看板规则
 

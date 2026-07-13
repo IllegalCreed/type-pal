@@ -198,6 +198,46 @@ interface ScriptChunkV1 {
   稳定不透明 id(唯一可用身份),规则约束的是"不让作者用 IP 推理";手写脚本用语义名,迁移 id
   后续可加语义别名,不在本卡。
 
+### Opus 分片版主审立场(2026-07-13 重签,架构/加载边界/运行语义)
+
+- 结论:**agree(重签)**。R1-R3 全部保留(R2 已烘进 Draft D 注册键=label+owner+入口对话态摘要,
+  比我原要求更强);附 N1-N3 build 必落注记。
+- 真值核实:D18/events-schema §文件组织/slice.ts BFS 归属与卡描述一致,一阶段 295 slices+shared
+  =0.89x 坐实"可达归属+shared 不复制"可行;`6b58f9e8` 提交原文核实——回退动因是 **cursor 内嵌
+  commands/labelMap 致存档 structuredClone 5.5MB、scene/shared 三级寻址兜底、全局/本地 IP 混用、
+  漏边(checkpoint/全局根)**,非分片原则失败;新方案逐条对症:存档只存 ref(Draft C 末条)/
+  单一 `{chunk,id}` 寻址(无三级兜底、无 IP 双语义)/ typed edge catalog(补漏边)。
+- 八点逐项:
+  1. **chunk schema**:`{chunk,id}` 自带寻址,index.json 只存元数据不存体、无启动巨表 ✓;
+     手写工程 inline stages 与迁移 ref 同 runner,双形态不分叉 ✓。
+  2. **执行边 vs 绑定边**:0x24/25 归目标实体所在 scene、0x6D 归目标 scene,不因设置点错归
+     caller——修正一阶段 BFS 把绑定目标算进 caller 可达集的归属偏差;绑定+执行多场景并用时
+     归 shared 的合成规则自洽 ✓。
+  3. **typed edge catalog**:0x07 双臂/0x6D op1+op2/0xA2 相对多目标/数据表全局根齐;结构性
+     兜底(未解析引用报告)能抓漏 ✓。→ N1 补显式项。
+  4. **稳定哈希分桶**:SCC 不可拆 + min-id 主键 + 固定 shard 数写死配置,增脚本不重排既有 ref ✓;
+     锁定 shard 数与 1MiB 上限的张力见 N2(重分片降级路径)。哈希随机分桶牺牲局部性换稳定性,
+     代价被 256KiB 粒度封顶,取舍正确。
+  5. **跨 chunk 运行语义**:resolver 不触 SceneDef/地图/实体(风险4 网络测试钉死)✓;
+     lease+LRU 先 abort 后释放再淘汰的顺序对 ✓;async 加载插入 pace 间隙可接受(网络现实)。
+     → N3 补 lease 粒度与 fetch 取消。
+  6. **存档**:只存 ref+stage/cursor,验收含"100 次跨场景调用存档不线性增长"——直接封死
+     6b58f9e8 的根因回归 ✓。
+  7. **门禁**:三个 10x + 场景 <10MB + 根 <1MB + chunk <1MiB + 驻留 ≤8MiB + 单 SCC >1MiB 即
+     失败(禁超大兜底文件),全进 pnpm check ✓。
+  8. **R1-R3 充分性**:R1 仍必要(同 chunk 同步 jump 环不因分片消失);R2 入键 ✓;R3 升级为
+     chunk 缺失/чid 缺失双层显式报错 ✓。
+- **N1-N3(build 必落注记)**:
+  - **N1 恢复点边显式入目录**:`6b58f9e8` 原文列 checkpoint(0x08)/triggerResume 为全局 IP 消费者
+    ——typed edge catalog 须显式覆盖 0x08 与一切"存档/恢复期重新进入脚本"的恢复点边,GLM 复核时
+    对照 script.c 全目录枚举,不得只靠 JUMP_TARGET_OPERAND 旧表推断。
+  - **N2 chunk 字段作提示、失配可重推导**:shared/global 的归属是 `(稳定 id, 分片配置)` 的纯函数
+    → resolver 在 chunk 查无此 id 时按当前配置从 id 重推导目标 chunk(ref.chunk 视为缓存提示)。
+    这使"重选 shard 数"降级为 contentVersion 事件而非存档杀手;重推导仍失败才走 R3 显式报错。
+  - **N3 lease 粒度与 fetch 取消**:lease 覆盖 runner **全调用栈**各帧所在 chunk(帧未弹出即持有,
+    callScript 深链不得因 LRU 抽走 caller 体);AbortSignal 须同时取消进行中的 resolver fetch
+    (场景切换不留孤儿请求回填缓存)。
+
 ## 验收条件
 
 - 结构：迁移产物中 goto/call 类边只出现 `jumpScript/callScript` 的 `{chunk,id}` 引用；禁止生成深层复制目标体。所有 ref 存在、无孤儿、chunk id/脚本 id 稳定。
@@ -216,11 +256,11 @@ interface ScriptChunkV1 {
 ### 进入 build 前:设计签字
 
 - Codex: **agree**(2026-07-13，仅同意按场景/shared/global-domain 分片修订版)
-- Opus: pending(上一版单文件全局库 agree 已因用户新增场景懒加载约束失效，R1-R3 继续作为必改项)
+- Opus: **agree(分片版重签)**(2026-07-13;真值核实 D18 0.89x 可行 + `6b58f9e8` 回退动因=存档内嵌/三级寻址/漏边而非分片原则,新方案逐条对症;八点逐项过——{chunk,id} 无巨表寻址/执行-绑定边分离修正一阶段归属偏差/typed catalog 结构性兜底/稳定哈希分桶取舍正确/lease-LRU 顺序对/存档只存 ref 封死回归/门禁全进 check。R1-R3 保留(R2 已入注册键);附 N1-N3 必落:①0x08/恢复点边显式入目录 ②ref.chunk 作提示失配按 id+配置重推导(重分片不杀存档) ③lease 覆盖全调用栈+abort 取消 fetch。详见分片版主审立场)
 - GLM: pending
-- counter / 分歧处理：原“循环检测 + 全量重迁”、“仅 auto 定点同步”和“启动时单文件全局 scripts.json”均已作废。分片版必须重新取得 Opus/GLM 签字；Opus R1-R3 沿用。
+- counter / 分歧处理：原“循环检测 + 全量重迁”、“仅 auto 定点同步”和“启动时单文件全局 scripts.json”均已作废。Opus 分片版无 counter,R1-R3+N1-N3 为 build 必落;请 GLM 复核覆盖(含 N1 恢复点枚举)/体积公式/测试矩阵。
 - 缺签豁免: N/A
-- build 准入结论: **blocked(Codex agree，待 Opus/GLM 重审分片版；R1-R3 纳入 build 范围)**
+- build 准入结论: **blocked(Codex+Opus agree,待 GLM;R1-R3+N1-N3 纳入 build 范围)**
 
 ### 进入 done 前:审查签字
 
@@ -256,18 +296,19 @@ interface ScriptChunkV1 {
 - 2026-07-13 Opus: 设计签 **agree + R1-R3 必落**。核实:原 M3 设计 §3/M3c 本就规定共享库(方案=回归原架构);锚点 295-322(goto 同体续走)/861-893(0x04 memo 防重译仍逐站点复制)与卡描述一致。逐项过:schema 分层/call-jump 语义/registry 三态环处理/门禁口径/overlay 均正确。**关键发现 R2**:当前 goto 续走使对话样式态跨 goto 延续,引用化后 fresh 重置 = mid-style goto 对白样式静默改变(armMemo 路径相关的真实原因),CFG 须统计此类边并专门化/人工清单——golden 覆盖不到,必须迁移期统计钉死。R1=尾转移强制让出(防同步自旋);R3=resolver 注入 + 缺引用运行时报错。量化警示:8.61x 距 10x 仅 14% 余量,超标则 self-relative 卡转必做。Evidence: Opus 主审立场。Next: GLM 复核覆盖/体积公式/测试矩阵/R2 统计口径;三签齐后 Codex build(R1-R3 入范围)。未改实现文件。
 - 2026-07-13 User: 补充第一阶段历史约束：脚本必须按场景拆分，跨场景调用/跳转不能迫使每场景加载全游戏脚本；具体解耦由 Codex 设计。Next: Codex 复核 phase1 切片与全局数组回退史。
 - 2026-07-13 Codex: 核实 D18 切片总量仅 all.json 0.89x；第一阶段 `6b58f9e8` 回退全局数组的原因是 cursor 内嵌脚本导致存档膨胀、全局/本地 IP 混用和控制边/全局根漏收，并非场景分片不可行。方案改为 `{chunk,id}`、scene/shared/global-domain SCC 分片、typed execution/binding edge、按需 resolver + lease-LRU、存档只存 ref。Opus 旧签因 schema/加载边界变化恢复 pending，R1-R3 保留。Next: Opus 重审分片版，不得 build。
+- 2026-07-13 Opus: 分片版**重签 agree**。真值核实:D18/events-schema/slice.ts 与卡一致,0.89x 坐实归属可行;`6b58f9e8` 提交原文核实回退三动因(存档 structuredClone 5.5MB/三级寻址/漏边),新方案逐条对症(ref-only 存档/单一 {chunk,id}/typed catalog)。八点逐项过(无巨表寻址/绑定边归属修正/多目标边覆盖/稳定分桶/lease-LRU 顺序/存档反回归/门禁齐/R1-R3 充分,R2 已入注册键)。新增 N1-N3 必落:①typed catalog 显式含 0x08 checkpoint/triggerResume 恢复点边(6b58f9e8 列名的全局 IP 消费者,防旧单目标表推断漏边);②ref.chunk 作提示、失配按 (id,分片配置) 纯函数重推导,重分片降级为 contentVersion 事件而非存档杀手;③lease 覆盖 runner 全调用栈各帧 chunk + abort 同步取消进行中 resolver fetch。Evidence: 分片版主审立场。Next: GLM 复核覆盖(N1 对照 script.c 枚举)/体积公式/测试矩阵;三签齐后 Codex build(R1-R3+N1-N3 入范围)。未改实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手 M3 脚本去内联 + 按场景分片设计复核(Opus 重签)。
+接手 M3 脚本去内联 + 按场景分片设计复核(GLM)。
 任务卡: docs/ops/tasks/M3-wander-arm-explosion.md
-当前状态: draft；Codex 已签分片版 agree；你对上一版单文件全局库的 agree 因用户新增场景懒加载约束已恢复 pending；GLM pending，build blocked。
-你的角色: Claude Opus，架构/加载边界/运行语义主审；只审设计，不改实现文件。
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、docs/phase1/04-decisions.md D18、docs/phase1/05-events-schema.md §文件组织、packages/pal-extract/src/events/slice.ts、commit 6b58f9e8、任务卡 Draft A-E。
-用户硬约束: ①迁移脚本总量 ≤ all.json 10 倍；②goto/call 不得复制目标体；③进入一个场景不得加载全游戏脚本，跨场景调用只加载目标 script chunk，不加载目标 scene 数据。
-已确认: 第一阶段 295 scene slices + shared 总计 4,884,865B = all.json 0.89x；后来回退全局数组源于旧 cursor/全局IP/漏边问题。新方案使用 ScriptRef{chunk,id}、scene/shared/global-domain SCC 分片、typed execution edge 与 binding edge、256KiB 目标/1MiB 上限、按需 resolver + 8MiB lease-LRU、存档只存 ref。你上一轮 R1 尾跳让出、R2 对话入口态、R3 resolver 诊断全部保留。
-请你复核: 1)chunk schema 是否无需全局脚本体/巨型索引即可寻址；2)执行边与 0x24/25/6D 绑定边归属是否正确；3)typed edge catalog 是否覆盖 0x07 双臂、0x6D 双目标、0xA2 和全局数据根；4)稳定哈希分桶是否避免无关 ref 重排且兼顾请求粒度；5)跨 chunk call/jump 的 async、self、stage、pace、abort、lease/LRU 语义；6)存档不嵌脚本；7)256KiB/1MiB/8MiB 门禁；8)R1-R3 在分片版是否仍充分。agree 则重新签 Opus；counter 必须给出同时满足三个用户硬约束的替代方案。
-不要做: 不改实现文件；不跑 migrate:content 全量写盘；不推进 build。
-输出要求: 更新任务卡 Opus 签字/主审结论/交接日志/下一位提示词并提交仅文档改动；agree 后再交 GLM 做覆盖、体积与测试矩阵复核。
+当前状态: draft；Codex agree + Opus 分片版重签 agree(R1-R3 保留 + N1-N3 新增)；GLM pending,build blocked。
+你的角色: GLM,覆盖/体积公式/测试矩阵复核;只审设计,不改实现文件。
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、任务卡 Draft A-E/B2、Codex 与 Opus 两个主审立场(尤其 R1-R3+N1-N3)、packages/pal-extract/src/events/slice.ts、reference/sdlpal/script.c。
+用户硬约束: ①总量 ≤ all.json 10 倍;②goto/call 不复制目标体;③场景懒加载,跨场景调用只加载目标 script chunk。
+已确认: Opus 核实 D18 0.89x + 6b58f9e8 回退三动因(新方案逐条对症);八点逐项过。N1=typed edge catalog 须显式含 0x08 checkpoint/triggerResume 恢复点边;N2=ref.chunk 作提示、失配按 (id,分片配置) 重推导;N3=lease 覆盖全调用栈 + abort 取消 fetch。
+请你复核: (1)**typed edge catalog 完整性(重点=N1)**——对照 script.c 全 opcode 枚举一切 IP 消费者(跳转/调用/绑定/恢复点/数据表根),给出与 Draft B2 清单的差集;(2)三个 10 倍门禁 + chunk/驻留门禁公式与计量口径(含 index.json/imports 元数据是否计入);(3)验收单测矩阵对 Draft C/D/B2 语义的覆盖(跨 scene call/goto、0x24/25 绑定、0x6D 双目标、0xA2、R2 入口态专门化、N2 重推导、N3 lease/abort)的完整性;(4)SCC 归属算法对 43,503 指令可达图的覆盖(不静默丢边/17 条合法深臂不回退);(5)overlay 清单对照 patch-scene-stages.mts 全部既有定制。在设计签字 GLM 行签 agree/counter,更新交接日志与下一位提示词(agree 即三签齐,交 Codex build,R1-R3+N1-N3 入范围)。
+不要做: 不改实现文件;不跑 migrate:content 全量写盘;不推进 build。
+输出要求: 明确 agree/counter、edge catalog 差集、门禁公式核验、测试矩阵评估、提交 hash。
 ```
