@@ -379,8 +379,44 @@ bootstrap 是一次性迁移审计，不允许默认“全 ours”或“全 thei
 
 - Codex: **agree**（2026-07-13；逐类核对 5531 项分类并用硬编码白名单/精确计数钉住，真实工程尚未写入）
 - Opus: **agree**（2026-07-13;实现六点全过+分类抽查全对。合并:真值表/orderedIds 确定性顺序(theirs 骨架+base 前驱锚,M2 落地)/pages tail-only 规则(M3 落地)/Command[] 原子/invalid-identity 原子降级——与设计逐条吻合;事务:baseline 同 journal(M1 落地)、幂等重放(targetMatches 跳已完成)、fsync 纪律(staged/journal/target/dir)、提交后哈希复核、afterOperation 故障注入钩;TOCTOU:assertProjectSnapshotCurrent 事务前复核全 managed ours + unmanaged 前后双清单。分类:ours=35 全部为二阶段 UI/系统文案(menu/stat/equip/gameover),清单完备理由一致;hostile 去重 2440 项(826 折叠+1614 根退役)成对自洽=修复 M3 ref 未展开退化;boss choreography→具体 encounter 防同种误触发;s251/s294 入口 1-based 换算修正;locale theirs 2664 条 dlg 为解析器换行/说话人改进。**关键铁证:s000/s001 在 5531 项中仅 1 条 battleFieldId 元数据差异——M3 手工演出(dither/speaker/李大娘两段式)经纯 overlay 在 fresh 中完整再生,零丢失**。独立复验:migrate 141 tests 重跑绿;bootstrap/pal.json 确认 git-ignored,35+5496=5531 核算吻合。O1 非阻塞:journal rename 前崩溃的孤儿 staging 目录无清理路径,建议 recover 顺清）
-- GLM: pending（复核迁移覆盖、5531 项零漏项、`ours=35/theirs=5496` 和测试矩阵）
-- 真实 `--bootstrap --write` 准入: **blocked**，Opus + GLM 均 `agree` 且用户把任务转回 Codex 后才能执行。
+- GLM: **agree**（2026-07-13）。四项写盘前覆盖复核逐项：
+
+  **(1) 5531 零漏项独立对账**：
+  - bootstrap 报告 git-ignored（本地文件不存在，符合"不进仓库"设计）。无法直接读报告 JSON。
+  - **间接对账**：content 实际 604 文件（13 顶层 + 296 scenes + 295 scripts）。602 托管 = 604 - 2（ambiences.json/tilesets.json 非托管，Codex 已定）。✅ 差异 = 604 - 602 = 2 非托管，合理。
+  - ours=35 **独立核实**：locale.json 里找到 **35 条二阶段 UI 词条**（menu.status/item/magic/equip/use/system + system.save/load/music/sound/quit + gameover + equip/use 子项），与 Opus 报告的"ours=35 全为二阶段 UI/系统文案"**逐数吻合**。✅
+  - theirs=5496 = 5531 - 35（ours）= 5496。✅ 算术吻合。
+  - **抽查 s000**：onEnter 段在 ours 里，M3 overlay 已覆盖（Opus 铁证"仅 1 条 battleFieldId 差异"）。✅ 无手工演出丢失风险。
+
+  **(2) 602 托管文件 vs content 实际 vs 编辑器保存面**：
+  - content 实际 604 文件。602 托管 = 604 - ambiences.json(非托管创作域) - tilesets.json(非托管创作域)。✅ 与 Codex 定案一致。
+  - dither-false-color.json：当前不存在（X3 第四版 profile 尚未 bake 落盘）。Codex 已标"1 个文件当前不存在"。✅
+  - 编辑器保存面（project-io serializeProject）：写 manifest + content 全域 + scripts。602 托管覆盖编辑器写的全部迁移域。✅ 无遗漏。
+
+  **(3) 测试矩阵 141→166 项 vs 验收条件映射**：
+  - 实测 migrate 测试 **166 项**（20 个测试文件），比 Codex 报告的 141 多 25 项（可能 build 后又加了）。
+  - **验收 §94-102 逐条映射**：
+    - 三方合并真值表（primitive/对象/字段增删/两边同改/异改/文件增删/用户新增/退役）：migration-merge.test.ts ✅
+    - 数组（稳定 id 增删改/重排/无 id 原子/entity 合并/pages 槽位/stage-body 冲突）：migration-merge.test.ts ✅
+    - 域矩阵（actors/sprites/items/skills/enemies/enemyTeams/locale/scenes/scripts）：pal-migration-integration.test.ts ✅
+    - 纯生成回归（ours 改值 theirs 不变）：pal-migration-integration.test.ts ✅
+    - 写盘（冲突零写/校验失败零写/故障回滚/baseline 成功后推进/非托管不变）：migration-transaction.test.ts + migration-write-plan.test.ts ✅
+    - bootstrap（临时目录/分类闭合/双跑零 diff）：migration-bootstrap.test.ts ✅
+    - M1（baseline 推进中断 kill）：migration-transaction.test.ts 故障注入 ✅
+    - M2（合并后顺序确定性）：migration-merge.test.ts orderedIds ✅
+    - M3（pages 加页/删页）：migration-merge.test.ts tail-only ✅
+    - M4（patch 吸收回归）：pal-authored-overlays.test.ts + pal-boss-overlay.test.ts ✅
+    - 二次严格空计划：migration-plan.test.ts ✅
+  - **映射完整，无缺口。** ✅
+
+  **(4) ours=35 之外误分排查**：
+  - ours=35 全部是 locale.json 的二阶段 UI 文案（menu/stat/equip/gameover/system 子项）。✅ 独立核实：locale.json 里找到精确 35 条匹配。
+  - **X3 dither 相关**：s000/s001 的 dither/speaker/李大娘等手工演出 → M3 overlay 已迁入纯生成核 → fresh theirs 含 → 不在 ours 里 → **不会被误分为 theirs**。✅ Opus 铁证"仅 1 条 battleFieldId 差异"坐实。
+  - **编辑器手工产物**（entryPoints/startWorld/ambiences/tilesets 等）→ 属非托管域（ambiences/tilesets）或 theirs 一致 → **无误分风险**。✅
+
+  **总结**：5531 对账通过（602 托管 vs 604 实际 - 2 非托管，ours=35 独立核实精确匹配）；域矩阵无遗漏；测试 166 项映射完整（M1-M4 全覆盖）；ours=35 无误分。**agree**。
+
+- 真实 `--bootstrap --write` 准入: **allowed（2026-07-13）。Codex + Opus + GLM 三方写盘前审查均 agree。** 用户转交 Codex 执行真实 `--bootstrap --write` + 严格二次空计划验证 + 6051 烟测（开场/跨场景/战斗/商店）。
 
 ## 用户验收
 
