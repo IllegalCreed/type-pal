@@ -110,10 +110,76 @@ Branch: main
 
 - Codex: **agree**（2026-07-13；同意“index 仅加作者元数据、body 复用 M3 chunk、共享纯归一化、无通用参数、MG2 保留与引用安全”方案）
 - Opus: **agree**（2026-07-13;八项全过,三项实证消解关键落地风险——①checkScriptIndex 只验必需字段不拒未知键,`library` 可选字段**不升版稳妥**,卡内 v2 出口可关;②`shared/user/*` 经 deriveScriptChunk 兜底分支天然落 16 shared shard,零新分桶机制;③normalize 哈希已是纯 JS FNV-1a(stableScriptHash),下沉 content 零浏览器兼容障碍。MG2 组合验证:纯 theirs 永不产 library → base/theirs 皆缺+ours 有=永远保留;作者 shared chunk 当前 ours-only 文件,未来迁移若产同名 shared chunk 则 scripts Record 按 id 不相交合并,现有 MG2 机器直接吃下。附 N1-N3 非阻塞 build 注记,详见主审立场）
-- GLM: pending
-- counter / 分歧处理: N/A
+- GLM: **agree**（2026-07-13）。四项复核逐项：
+
+  **(1) MG2 保留测试矩阵——验收"migrate"节是否覆盖 library 三方合并**：
+
+  验收 §93 migrate 节列了："MG2 重迁保留 ours-only 作者元数据和 body；双方改同一作者 body 时显式冲突；双跑零计划；ref.chunk 重写不改稳定 id。"
+
+  **实测核 normalize/canonical/materialize 当前状态**：
+  - `normalizeScriptLibrary`（script-library-normalize.ts:57）重建 index 时只保留 `{version, shards, chunks}`——**library 字段会被丢弃**。
+  - `canonicalizeMigrationScriptFiles`（:131）chunks 只保留 path——library 不在 canonical view 里。
+  - **这意味着：如果 N6 加了 library 字段但 normalize/canonical 不显式保留它，MG2 重迁会静默抹掉 library。** 验收 §93 的"保留 ours-only 作者元数据"必须**显式覆盖 normalize/canonical/materialize 三处保留 library**。
+
+  验收 §93 当前措辞"MG2 重迁保留 ours-only 作者元数据"——**太笼统**。Draft F §187 说"canonical/materialize 必须原样保留 library"——方向对，但验收条件没有显式列出三个函数各自保留 library 的单测。
+
+  **建议**（非阻塞，build 时补验收 §93）：拆成三条显式单测：
+  1. `normalizeScriptLibrary` 重建后 library 字段保留（不是丢弃）
+  2. `canonicalizeMigrationScriptFiles` canonical view 含 library
+  3. `materializeMigrationScriptFiles` 重建后 library 恢复
+  + 一条集成测试：MG2 三方合并 ours-only library（base/theirs 缺+ours 有=保留）+ 双改同 body 冲突 + 二次零计划。
+
+  **作者 chunk 与未来迁移 shared chunk 共存合并**：验收 §93 未显式列此 case。Draft F §188 说"Record 按 id 不相交合并"——这是 MG2 现有机器的默认行为（按 script id 合并），但**没有测试**。建议补一条：ours 有 `shared/user/my-func` body + theirs 未来产 `shared/something` 同 chunk → scripts Record 按 id 不相交合并 → 无冲突。⚠ 非阻塞。
+
+  **总结**：MG2 保留方向对，但 normalize 当前**会丢 library**（实测）——build 时必须改 normalize/canonical/materialize 三处显式保留 library。验收 §93 需拆成三条显式单测 + 一条集成。**这是 build 必落项，不是设计阻塞**。
+
+  **(2) 审计分账口径——"未登记 library = 迁移体"绕过路径分析**：
+
+  Draft F §190："M3 迁移膨胀比只统计未登记在 library 的迁移/内部脚本；作者脚本另报。"
+  Draft A §150："library 的键必须属于 `shared/user/` 命名空间且存在同 id body。"
+
+  **绕过路径分析**：
+  - **路径 A**：在 library 里登记一个迁移内部 id（如 `shared/something/L_35639`）→ 该脚本被排除出迁移体积审计 → 审计比虚低。**被封死**：§150 要求 library 键必须属于 `shared/user/` 命名空间。`shared/something/` 不在 `shared/user/` 下 → guard 拒绝。✅
+  - **路径 B**：在 library 里登记一个 `shared/user/fake` 但 body 不存在 → 审计排除了一条不存在的脚本（无实际影响，但 library 校验应报"有元数据无 body"错误）。Draft E §183 "fail-loud 校验：library 元数据有 body" 覆盖。✅
+  - **路径 C**：不给作者脚本登记 library 但改迁移 body（ours-only 编辑迁移内部 body）→ 该 body 仍在迁移审计里（因为 id 不在 library）→ 审计正确计入。✅ 不是绕过。
+  - **路径 D**：把迁移体从 `shared/something/` 改名到 `shared/user/` 来逃避审计 → id 改名 = 稳定 id 变化 = MG2 视为删除旧+新增新 = 显式冲突。✅ 不是绕过。
+
+  **结论**：命名空间强制（`shared/user/` + 有 body）完全封死审计逃逸。✅ 无可绕过路径。
+
+  **(3) 测试矩阵完整性——验收"测试"节逐条映射**：
+
+  验收 §89-95：
+  - **content**（§89）：index 新字段 guard / 旧 index 兼容 / 默认分桶 / 创建·更新·删除·删空 / imports·bytes·hash 确定性。✅ 完整。
+  - **editor core**（§90）：CRUD command apply/invert / 引用索引穿透共享体防环 / 删除保护 / callScript 表单。✅ 完整。
+  - **reforge**（§91）：作者脚本调用 / 嵌套调用 / self 继承·显式覆盖 / 错误引用诊断 / 进入场景只请求所需 chunk + 实际调用的 shared chunk（网络断言）。✅ 完整。
+  - **IO**（§92）：HTTP/FSA 打开·保存·重开·另存为/A5 zip 后 index/chunk/metadata 不丢 + hash/bytes 匹配。✅ 五路全覆盖。
+  - **migrate**（§93）：见 (1)——方向对但 normalize 保留需补三条显式单测。⚠ 非阻塞。
+  - **审计**（§94）：M3 门禁只计迁移脚本；作者脚本单列。✅ 口径正确。
+  - **引用图覆盖**（§179-183 Draft E）：场景 inline / chunk body / 动态绑定 / 嵌套臂四类来源。
+    - 场景 inline roots：✅（现有 ref-index 已覆盖场景 inline）
+    - chunk body（穿透 ScriptRef 到共享体）：✅（Draft E §179 "扫描所有 chunk body"）
+    - 动态绑定（setEntityAuto/setEntityTrigger 目标）：✅（Draft E §179）
+    - 嵌套臂（branch.then/onNo/onLose 内的 callScript）：✅（Draft E §179 "命令内嵌臂"）
+    - **四类各有测试样例**：验收 §90 "引用索引穿透共享体且防环"——但**没有逐类列**。建议 build 时补四条独立单测（每类一个样例）。⚠ 非阻塞。
+
+  **测试矩阵基本完整**。缺口：migrate normalize 保留三条单测（非阻塞，build 必落）+ 引用图四类各一条单测（非阻塞，建议补）。
+
+  **(4) 引用图四类来源覆盖**：
+
+  当前 ref-index（editor/core/ref-index.ts）只扫场景内联（onEnter/trigger/auto/hostile.onLose），**不穿透 ScriptRef 到 chunk body**。Draft E 要求扩展到穿透全部 chunk + 动态绑定 + 嵌套臂。这是**新功能**不是现有覆盖。
+
+  四类来源的测试样例：验收 §90 笼统列"引用索引穿透共享体且防环"——**建议 build 时拆成四条**：
+  1. 场景 onEnter 里有 callScript{ref} → ref-index 记录
+  2. chunk A body 里有 callScript{ref→B} → 穿透到 B 记录
+  3. setEntityAuto 的目标 stage 里有 callScript{ref} → 动态绑定记录
+  4. branch.then 臂里有 callScript{ref} → 嵌套臂记录
+  ⚠ 非阻塞，build 时补。
+
+  **总结**：MG2 normalize 当前会丢 library（实测，build 必落三处保留）；审计分账无绕过路径；测试矩阵基本完整（migrate 三条 + 引用图四条 = 7 条非阻塞补充）。**agree**。
+
+- counter / 分歧处理: 无设计层 counter。normalize 保留 library 是 build 必落项（设计方向对，实现未到）；7 条非阻塞测试补充 build 时补。
 - 缺签豁免: N/A
-- build 准入结论: **blocked**（缺 Opus / GLM 设计签字）
+- build 准入结论: **三签齐（Codex agree + Opus agree + GLM agree），build allowed**。N1-N3 + normalize 保留 library（三处）+ 7 条非阻塞测试补充纳入 build 范围。
 
 ### 进入 done 前：审查签字
 
