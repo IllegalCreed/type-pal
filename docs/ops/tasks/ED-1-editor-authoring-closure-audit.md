@@ -86,7 +86,7 @@ Branch: main
 ### 进入 build 前:设计签字
 
 - Codex: **agree（2026-07-13）**。当前代码证明地图缺独立索引、场景地图不可选择、空白工程新场景回退原版地图 0；“数据”15 页已超出单模块边界。赞成七环判据、八个一级业务模块、稳定 map id + index、通用引用图和分卡实施。
-- Opus: pending
+- Opus: **agree（2026-07-13;六维全过,附 R1-R3 子卡必落 + S1-S3 建议。锚点逐一核实:P0-1 三点(seed own start/App:580 `reuseMapNum??0`/commands:1734 固定 reuseOriginalMap)成立;loader:335 注释自证"own 场景引用即索引,无需单独 maps 索引"——审计发现即代码供词;capability 当前值与"当前 ✅"声明一致。详见主审立场）
 - GLM: pending
 - counter / 分歧处理: pending
 - 缺签豁免: N/A
@@ -132,14 +132,27 @@ Branch: main
 ### 主审立场
 
 - Reviewer: Opus（架构/schema/信息架构主审）+ GLM（覆盖矩阵/capability 口径复核）
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: **agree(2026-07-13)**。六维逐项:
+  1. **八模块边界** — agree。业务域组织正确;"每对象一个权威编辑页+跨模块选择器只做深链"消灭双真值;分层自洽(瓦片集归地图=地图专属资产/商店归物品/过场**编排**归剧情而**文件**归资源,与 §7.3 一致)。
+  2. **MapIndexV1 + ownMapId + 显式迁移** — agree。id/path 分离符合稳定身份铁律;`{ownMap:path}` 显式迁移+同路径冲突报错、禁静默重解释正确;影响面实测很小(pal 全 reuseOriginalMap 零涉,own 用户仅空白种子)。判别联合是 content schema 破坏性变更,W7E 单独三签已列 ✓。
+  3. **统一引用图与删除守卫** — agree。P1-2 诊断准确(共享脚本拦/tileset 不查/精灵先删后报三种语义并存);复用 N6 按需模式防输入卡顿 ✓。
+  4. **P0/P1 分级** — agree。P0=空白工程创作阻断、P1=一致性/IA,分级准确;P0-1 证据链逐锚点核实;P1-3"引用完整性 OK"过度承诺属实(validate-refs 覆盖面 vs 底栏文案)。
+  5. **capability 拟调整** — agree。引擎列不动+编辑器列按七环暂降+恢复条件逐条,是真值修正不是否定工作;N8 降 ❌ 有硬编码 `/extracted` 实据;A4 收窄说明而非降级,诚实。
+  6. **分期依赖** — agree。壳→地图 schema→引用地基→生命周期→CRUD 波次→资源主线→效率层→复核,梯度合理、避免搬两次。
+- 必改项(子卡必落,非本卡阻塞):
+  - **R1(W7E)**:消费方清单成卡内章节——SceneMap 判别联合变更涉 loader/serializer/validate-refs/seed/迁移器/**MG2 合并域表**;`MapIndexV1.maps` 是 id 数组,必须在 MG2 `migration-merge` 的 arrayMode 登记 `content/maps/index.json → id 模式`,否则默认 atomic,双边改地图注册表会整文件冲突。
+  - **R2(次序钉死)**:W7E 的地图删除守卫先于 ED-3 引用图存在——允许 W7E 内做**临时地图专用反查**(scene.map 全扫,量小),但卡内显式标注"ED-3 收编,禁演化为第二套长期引用实现";或把 ED-3 提前。二选一写明。
+  - **R3(P0-1 止血提前)**:用户当前阻断不等 ED-2——空白工程 AddScene 默认新建/复制自有地图(禁回退原版 0)的最小修复应为 W7E 第一步或独立 hotfix 小卡;"壳先行避免搬两次"约束的是页面迁移,不约束这条断链修复。
+- 建议(非必改):
+  - S1: P1-3 文案一行改("已检查的引用无问题")挂最近实现卡立即做。
+  - S2: ED-3 引用图边定义携带**删除策略元数据**(block/warn/replace-suggest),避免统一图上再长每域 if。
+  - S3: "模块子页 2-5 上限"写进 ED-2 验收防"数据"复活;跨模块深链协议(模块+对象 id+子页)在 ED-2 一并定义。
+- 是否建议进入 build: **是(三签后仅文档收口/拆子卡;实现按子卡门禁)**。
 
 ### 三方争议记录(按需)
 
 - Codex: 赞成八个一级业务模块；赞成地图稳定 id + 独立 index，不接受继续用 path 当 id；赞成 capability-map 编辑器列按七环重审。
-- Opus: pending
+- Opus: 与 Codex 无分歧;R1-R3 是子卡执行纪律(MG2 域表登记/临时反查标注收编/P0-1 止血提前),非方向异议。
 - GLM: pending
 - 用户拍板: 已明确要求一级展开、场景可选地图和整体闭环审查；具体 schema/分期待三方意见后终裁。
 
@@ -185,17 +198,18 @@ Branch: main
 ## 交接日志
 
 - 2026-07-13 Codex: 完成当前实现、旧审计、能力地图、路线图、Command/loader/serializer 的静态核查；确认地图、空白场景、核心 CRUD、资源库和引用校验存在系统性断环，形成七环矩阵、八模块 IA、地图 index 方向与分期。Evidence: 审计正文 + 本卡。Next: Opus 架构/schema/信息架构主审；不得改实现或 capability 状态。
+- 2026-07-13 Opus: 设计主审签 **agree,六维全过 + R1-R3 子卡必落 + S1-S3 建议**。锚点逐一核实(P0-1 三点/loader 注释自证/capability 当前值);八模块权威页+深链规则消双真值;MapIndex id-path 分离+显式迁移方向正确(影响面实测小);分级与拟降级准确(引擎列不动+恢复条件=真值修正)。R1=W7E 列消费方清单+MG2 arrayMode 登记 maps/index;R2=W7E 临时删除反查须标注 ED-3 收编;R3=P0-1 止血不等 ED-2。Evidence: 主审立场六条。Next: GLM 覆盖矩阵/capability 口径复核;三签后文档收口+开 ED-2/W7E 子卡(实现按子卡门禁)。未改实现文件与 capability 状态。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: ED-1 编辑器一级模块与创作闭环审查
+接手任务: ED-1 编辑器一级模块与创作闭环审查(GLM 复核)
 任务卡: docs/ops/tasks/ED-1-editor-authoring-closure-audit.md
-当前状态: draft，Codex 已签 agree；Opus/GLM 设计签字未齐，build blocked
-你的角色: Claude Opus，架构/schema/信息架构主审
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、任务卡全部内容、docs/phase2/editor/editor-authoring-closure-audit-2026-07-13.md、docs/phase2/editor/editor-design.md、docs/phase2/capability-map.md；重点核对卡内代码锚点
-已完成: Codex 已按七环盘点全部编辑器领域，提出八个一级模块、MapIndexV1 + 稳定 map id、统一 ProjectReferenceIndex、capability 拟降级项和 ED-2/W7E 后续分期
-请你做: 审查 1) 八模块边界是否合理且不会复制编辑真值；2) map index/ownMapId/旧 ownMap:path 显式迁移的可行性；3) 引用图与删除守卫边界；4) P0/P1 分级和 capability 拟调整是否准确；5) 分期依赖与工作量。逐项给 agree 或 counter + 可执行替代方案，并写回任务卡 Opus 签字、主审立场、争议记录和交接日志
-不要做: 不得修改实现文件，不得修改 capability-map 状态，不得把任务推进到 build/done；不要只给聊天意见而不写任务卡
-输出要求: 提交文档改动；若 agree，给出一段可直接复制给 GLM 的覆盖/测试矩阵复核提示词；若 counter，明确阻塞点和推荐改文
+当前状态: draft;Codex agree + Opus agree(附 R1-R3 子卡必落/S1-S3 建议),GLM pending,build blocked
+你的角色: GLM,覆盖矩阵/capability 口径复核;只审文档,不改实现,不改 capability 状态
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、任务卡全部(尤其 Opus 主审立场六条+R1-R3)、docs/phase2/editor/editor-authoring-closure-audit-2026-07-13.md、docs/phase2/capability-map.md
+Opus 已过: 八模块边界(权威页+深链消双真值)/MapIndex id-path 分离+显式迁移/引用图与删除守卫/P0-P1 分级(锚点逐一核实,loader 注释自证)/capability 拟调整(引擎列不动+恢复条件)/分期梯度。R1=W7E 消费方清单+MG2 arrayMode 登记 content/maps/index.json;R2=W7E 临时删除反查显式标注 ED-3 收编;R3=P0-1 止血(空白 AddScene 禁回退原版 0)提前,不等 ED-2。
+请你复核: (1)§4 逐域闭环矩阵 18 域的状态标注抽查——按七环判据抽 5 域(建议:地图/角色/过场/入口点/共享脚本)对照代码验证 ✅/⚠️/❌ 无虚标;(2)§8 capability 拟调整表与 capability-map 当前值逐行对账(降级项/恢复条件/未降级项 X6-X7-N6 的豁免理由);(3)§9 分期依赖无环且每期有独立验收(对照 §10 总验收矩阵可裁剪性);(4)§10 总验收矩阵对七环判据的覆盖完整性(空白工程/地图复用/引用安全/PAL 兼容/IO/视觉/门禁七类是否漏环);(5)R1 的 MG2 域表登记项与 MG2 卡合并策略表的一致性。在设计签字 GLM 行签 agree/counter,更新交接日志与下一位提示词(三签后=文档收口+开 ED-2/W7E 子卡)
+不要做: 不改实现文件;不改 capability-map;不推进 build/done
+输出要求: 明确 agree/counter、矩阵抽查结果、capability 对账表、提交 hash
 ```
