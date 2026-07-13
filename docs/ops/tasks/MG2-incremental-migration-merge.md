@@ -180,7 +180,7 @@ Branch: main
 ### 进入 done 前:审查签字
 
 - Codex: **accept**（2026-07-13；真实 bootstrap 事务写盘、独立二次零计划、6051 四条烟测和全仓门禁均通过）
-- Opus: pending（待复验真实迁移 diff、baseline 与开场/跨场景链）
+- Opus: **accept**（2026-07-13,基线 d326aef0;五点复核全过——①164 文件改动符合已审分类:ours=35 键**值全部保留**(diff 中的 menu.*/stat.* 增删行是 merge 确定性键序重排:theirs 序+ours-only 附后,非丢失,35 键逐一在盘验证);dlg×2664/enemies choreography 迁走/s251-s294 入口/s001 仅 battleFieldId(24→12)全按 theirs 生效;②baseline=602 托管快照+_state.json(files 字段 602 个 SHA-256,零非托管域);③默认 dry-run 独立复跑=严格零计划 writes=0/deletes=0/conflicts=0,门禁 1.47x/0.95x/1.48x/closure 310030B 全过;④6051 前台烟测(真实产物):开场 18.8s 全链+dither 零帧锚 true+s001→s003 跨场景落点一致;⑤integration test 双生命周期正确(bootstrap fixture 无基线→演练/基线已建→"工程+baseline+纯生成=严格空计划"回归,1 项跳过=已删 fixture 的演练,正当)。附说明:键序重排让 diff 视觉偏大,系合并器确定性键序,README 提一句即可）
 - GLM: pending（待覆盖复核 164 个工程改动、602 文件 baseline 与二次零计划）
 - counter / 返工处理: 无
 - 缺签豁免: N/A
@@ -379,7 +379,7 @@ bootstrap 是一次性迁移审计，不允许默认“全 ours”或“全 thei
 - 审查结论: 写盘前 Codex / Opus / GLM 三方均 `agree`；真实写盘、baseline、二次零计划和 Codex 6051 烟测已完成。现进入真实产物最终审查，Codex `accept`，Opus / GLM pending。
 - Opus 非阻塞观察: O1 孤儿 staging 清理(journal rename 前崩溃残留 transactions/<id>,建议 recover 时顺清);O2 非 primitive id 数组双侧异序时 theirs 序静默胜——行为已定义,README 提一句即可。
 - 必须返工项: 无
-- Accept / rework: 写盘前三方 agree；最终 Codex accept，Opus / GLM pending。
+- Accept / rework: 写盘前三方 agree；最终 **Codex accept + Opus accept**(2026-07-13,d326aef0:分类一致/baseline 结构/零计划/前台烟测/测试生命周期五点全过,键序重排为确定性行为非数据问题)，GLM pending;不得标 done。
 
 ### Bootstrap 写盘前审查
 
@@ -440,30 +440,20 @@ bootstrap 是一次性迁移审计，不允许默认“全 ours”或“全 thei
 - 2026-07-13 Opus: 写盘前审查签 **agree**。六点压测:①merge(真值表/M2 orderedIds/M3 pages tail-only/Command[] 原子)与设计逐条吻合;②事务 M1 落地(baseline 同 journal+幂等重放+fsync+提交后复核+故障注入钩);③TOCTOU=assertProjectSnapshotCurrent+unmanaged 双清单;④hostile 去重 2440 项成对自洽;⑤boss/入口/locale 分类理由正确;⑥ours=35 全为二阶段 UI 文案且完备。铁证:s000/s001 仅 1 条元数据差异=M3 手工演出经纯 overlay 零丢失。独立复验 141 tests 绿+git-ignore+总数核算。O1-O2 非阻塞。Evidence: Bootstrap 写盘前审查 Opus 行。Next: GLM 覆盖复核(5531 零漏项/域矩阵/测试矩阵映射);双 agree 后用户转交 Codex 执行真实 --bootstrap --write + 6051 烟测。未改实现文件,未执行写盘。
 - 2026-07-13 GLM: 写盘前覆盖审查签 **agree**。5531 差异算术闭合，602 托管 / 2 非托管域边界、ours=35、M1-M4 测试矩阵和 X3 手工演出均无漏项。Evidence: Bootstrap 写盘前审查 GLM 行。Next: 用户转交 Codex 真实写盘与 6051 烟测。
 - 2026-07-13 Codex: 写盘前三签齐后执行真实 bootstrap 事务，`writes=164 deletes=0 conflicts=0`，项目 + baseline 提交 767 项操作；命令内与独立二次计划均严格为零。602 托管 baseline + `_state.json` 已建立，一次性 `pal.json` 已删除。6051 开场/跨场景/普通战斗/商店购买烟测通过，全仓 3408 项通过 + 1 项按生命周期跳过。同时修正真实集成测试的首基线前/后双生命周期。Codex 最终签 **accept**。Next: Opus 复验真实迁移产物与视觉链，不得重跑 bootstrap write。
+- 2026-07-13 Opus: 真实迁移最终审查签 **accept**(d326aef0)。五点:①164 文件=已审分类忠实执行,ours=35 键值逐一在盘验证保留(diff 增删行=merge 确定性键序重排);②baseline 602+_state(files 602 hash,零非托管);③默认 dry-run 独立复跑严格零计划+门禁全过;④6051 前台烟测真实产物开场全链(dither 锚 true)+s001→s003;⑤集成测试双生命周期正确。观察:键序重排致 diff 视觉偏大,README 提一句。Evidence: done 前审查 Opus 行。Next: GLM 最终覆盖(164 逐文件对账/602 清单/零计划复跑);双 accept 后交用户验收方可 done。未执行任何写盘。
 
 ## 下一位 Agent 提示词
 
-给 Opus：
+给 GLM：
 
 ```text
-接手任务: MG2 真实迁移产物最终审查(Opus)
+接手 MG2 真实迁移产物最终覆盖复核(GLM)。
 任务卡: docs/ops/tasks/MG2-incremental-migration-merge.md
-当前状态: review;写盘前三方 agree,真实写盘已完成,Codex 最终 accept,Opus/GLM 最终签 pending。
-先读: AGENTS.md、任务卡的“进入 done 前审查签字 / Build / 视觉验证记录 / Review / 交接日志”。
-
-Codex 已执行:
-- 真实 --bootstrap --write: writes=164,deletes=0,conflicts=0;项目+baseline 事务 767 项操作;
-- 命令内与独立二次迁移均 writes=0,deletes=0,conflicts=0;
-- baseline 共 602 个托管快照 + _state.json,一次性 pal.json 已删;
-- 6051 开场 s000->s001、loadScene s012->s005、team-0 一轮战斗、s012 商店购买均通过;
-- 全仓 3408 项通过 + 1 项首基线前演练按生命周期跳过。
-
-请复核:
-1. git diff 中 164 个 projects/pal 改动是否符合已审的 ours=35/theirs=5496 结论;
-2. packages/migrate/baselines/pal/_state.json 是否恰有 602 个 managedFiles/hash,快照不含非托管域;
-3. 复跑默认 dry-run,必须严格零计划;不得再执行 --bootstrap --write;
-4. 6051 至少复验开场和一条跨场景或战斗链;
-5. pal-migration-integration.test.ts 的首基线前/后双生命周期是否合理。
-
-在任务卡“进入 done 前:审查签字”Opus 行签 accept,或 counter + 精确返工项;同步更新 Review 与交接日志。不得标记 done。若 accept,请把“下一位 Agent 提示词”更新为交给 GLM 的最终覆盖复核提示词并提交。
+提交: d326aef0;当前状态: review;写盘前三方 agree,最终 Codex accept + Opus accept,GLM pending;不得标 done。
+你的角色: GLM,最终覆盖/对账复核;只审文档与产出,不改实现文件,不再执行 --bootstrap --write。
+先读: AGENTS.md、任务卡"进入 done 前审查签字(Opus 行五点)/Build/视觉验证/Review/交接日志"。
+Opus 已过: ①164 文件=分类忠实执行(ours=35 键值在盘逐一验证保留;diff 增删=merge 确定性键序重排非丢失);②baseline 602+_state(files 602 SHA-256,零非托管域);③默认 dry-run 独立复跑严格零计划(1.47x/0.95x/1.48x);④6051 前台烟测开场全链+s001→s003;⑤集成测试双生命周期正确(跳过项=已删 bootstrap fixture 的演练)。
+请你复核: (1)164 个 projects/pal 改动逐文件对账——每个变更文件应对应 ≥1 条 theirs 分类差异,无"分类之外的文件被改";(2)ours=35 之外无第 36 处人工内容被覆盖(抽 X3/M3 手工演出关键字段:s000/s001 的 ditherScreen/speaker/moveEntity e10 在盘完好);(3)baseline 602 文件与 _state.files 哈希一一对应且与盘上一致(抽 5 验证);(4)独立复跑一次默认 dry-run 确认零计划可复现;(5)README 是否需补键序重排说明(Opus 观察)。在"进入 done 前"GLM 行签 accept/counter,更新交接日志。
+不要做: 不执行任何 --write;不改实现文件;不标 done(双 accept 后交用户验收)。
+输出要求: 明确 accept/counter、对账清单、抽验结果、提交 hash。
 ```
