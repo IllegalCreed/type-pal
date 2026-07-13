@@ -1,6 +1,6 @@
 # MG2 - 迁移器结构化三方合并与安全重导
 
-Status: review
+Status: done
 Phase: phase2
 Capability: MG2(增量合并)
 Coding Owner: Codex
@@ -197,7 +197,7 @@ Branch: main
 
 - counter / 返工处理: 无 counter。
 - 缺签豁免: N/A
-- done 准入结论: **三方 done 前审查签字齐（Codex + Opus + GLM accept）。交用户最终验收，用户点头方 done。**
+- done 准入结论: **allowed（2026-07-13）。Codex / Opus / GLM 三方最终审查均为 accept，用户确认完成并验收通过。**
 
 ## Draft: 设计与风险
 
@@ -383,16 +383,16 @@ bootstrap 是一次性迁移审计，不允许默认“全 ours”或“全 thei
 - Visual Verification Owner: Codex + Opus
 - 验证方式: 6051 前台运行重迁后的 PAL 工程；详见验收条件。
 - 截图 / 像素检查路径: Codex 浏览器会话（`http://localhost:6051/`）；未向仓库写入临时验收图。
-- 结论: **Codex 通过**。新局从 `s000` 正常进入 `s001` 并显示开场对话；实际 `loadScene` 链 `s012 -> s005` 收尾为 `step=done`，落点 `(98,58)`、朝向 `down`；普通敌队 `team-0` 完成一轮攻防，HP `100 -> 94`；`s012` 商店 #2 成功购买短刀，数量 `0 -> 1`、金钱 `1000 -> 800`。各链无 console warning/error。
-- 未完成项: Opus 复验开场与一条跨场景/战斗链；GLM 复核真实 diff、baseline 覆盖和零计划证据。
+- 结论: **通过**。Codex 验证新局 `s000 -> s001`、实际 `loadScene` 链 `s012 -> s005`、普通敌队 `team-0` 一轮攻防和 `s012` 商店 #2 购买；各链无 console warning/error。Opus 另行复验开场全链、dither 零帧锚和 `s001 -> s003` 跨场景落点，结果通过。
+- 未完成项: 无。
 
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: 写盘前 Codex / Opus / GLM 三方均 `agree`；真实写盘、baseline、二次零计划和 Codex 6051 烟测已完成。现进入真实产物最终审查，Codex `accept`，Opus / GLM pending。
+- 审查结论: 写盘前 Codex / Opus / GLM 三方均 `agree`；真实写盘、baseline、二次零计划和 6051 烟测完成后，三方最终审查均为 `accept`。
 - Opus 非阻塞观察: O1 孤儿 staging 清理(journal rename 前崩溃残留 transactions/<id>,建议 recover 时顺清);O2 非 primitive id 数组双侧异序时 theirs 序静默胜——行为已定义,README 提一句即可。
 - 必须返工项: 无
-- Accept / rework: 写盘前三方 agree；最终 **Codex accept + Opus accept**(2026-07-13,d326aef0:分类一致/baseline 结构/零计划/前台烟测/测试生命周期五点全过,键序重排为确定性行为非数据问题)，GLM pending;不得标 done。
+- Accept / rework: **accept**。Codex、Opus、GLM 三方对分类一致性、baseline 结构、二次零计划、前台烟测和测试生命周期完成复核；无返工项。
 
 ### Bootstrap 写盘前审查
 
@@ -439,8 +439,8 @@ bootstrap 是一次性迁移审计，不允许默认“全 ours”或“全 thei
 
 ## 用户验收
 
-- 用户结论: 2026-07-13 确认写盘前审核完成并转回 Codex 执行真实写盘；最终验收 pending。
-- 后续任务: 一次性 `pal.json` 已在首份 baseline 建立后删除；MG2 最终三签与用户验收后再开 N6 共享脚本编辑器任务。
+- 用户结论: **accept（2026-07-13）**。用户确认 MG2 完成，任务正式归档为 `done`。
+- 后续任务: 一次性 `pal.json` 已在首份 baseline 建立后删除；后续可按优先级另开 N6 共享脚本编辑器任务。
 
 ## 交接日志
 
@@ -454,19 +454,9 @@ bootstrap 是一次性迁移审计，不允许默认“全 ours”或“全 thei
 - 2026-07-13 GLM: 写盘前覆盖审查签 **agree**。5531 差异算术闭合，602 托管 / 2 非托管域边界、ours=35、M1-M4 测试矩阵和 X3 手工演出均无漏项。Evidence: Bootstrap 写盘前审查 GLM 行。Next: 用户转交 Codex 真实写盘与 6051 烟测。
 - 2026-07-13 Codex: 写盘前三签齐后执行真实 bootstrap 事务，`writes=164 deletes=0 conflicts=0`，项目 + baseline 提交 767 项操作；命令内与独立二次计划均严格为零。602 托管 baseline + `_state.json` 已建立，一次性 `pal.json` 已删除。6051 开场/跨场景/普通战斗/商店购买烟测通过，全仓 3408 项通过 + 1 项按生命周期跳过。同时修正真实集成测试的首基线前/后双生命周期。Codex 最终签 **accept**。Next: Opus 复验真实迁移产物与视觉链，不得重跑 bootstrap write。
 - 2026-07-13 Opus: 真实迁移最终审查签 **accept**(d326aef0)。五点:①164 文件=已审分类忠实执行,ours=35 键值逐一在盘验证保留(diff 增删行=merge 确定性键序重排);②baseline 602+_state(files 602 hash,零非托管);③默认 dry-run 独立复跑严格零计划+门禁全过;④6051 前台烟测真实产物开场全链(dither 锚 true)+s001→s003;⑤集成测试双生命周期正确。观察:键序重排致 diff 视觉偏大,README 提一句。Evidence: done 前审查 Opus 行。Next: GLM 最终覆盖(164 逐文件对账/602 清单/零计划复跑);双 accept 后交用户验收方可 done。未执行任何写盘。
+- 2026-07-13 GLM: 真实迁移最终覆盖签 **accept**(065e3558)。164 文件对账、ours=35 保护、602 文件 baseline 与哈希、零计划复现和测试矩阵均通过。Evidence: done 前审查 GLM 行。Next: 用户最终验收。
+- 2026-07-13 User: 确认任务完成并验收通过。三方最终签字齐、无 counter，状态转 `done`。
 
 ## 下一位 Agent 提示词
 
-给 GLM：
-
-```text
-接手 MG2 真实迁移产物最终覆盖复核(GLM)。
-任务卡: docs/ops/tasks/MG2-incremental-migration-merge.md
-提交: d326aef0;当前状态: review;写盘前三方 agree,最终 Codex accept + Opus accept,GLM pending;不得标 done。
-你的角色: GLM,最终覆盖/对账复核;只审文档与产出,不改实现文件,不再执行 --bootstrap --write。
-先读: AGENTS.md、任务卡"进入 done 前审查签字(Opus 行五点)/Build/视觉验证/Review/交接日志"。
-Opus 已过: ①164 文件=分类忠实执行(ours=35 键值在盘逐一验证保留;diff 增删=merge 确定性键序重排非丢失);②baseline 602+_state(files 602 SHA-256,零非托管域);③默认 dry-run 独立复跑严格零计划(1.47x/0.95x/1.48x);④6051 前台烟测开场全链+s001→s003;⑤集成测试双生命周期正确(跳过项=已删 bootstrap fixture 的演练)。
-请你复核: (1)164 个 projects/pal 改动逐文件对账——每个变更文件应对应 ≥1 条 theirs 分类差异,无"分类之外的文件被改";(2)ours=35 之外无第 36 处人工内容被覆盖(抽 X3/M3 手工演出关键字段:s000/s001 的 ditherScreen/speaker/moveEntity e10 在盘完好);(3)baseline 602 文件与 _state.files 哈希一一对应且与盘上一致(抽 5 验证);(4)独立复跑一次默认 dry-run 确认零计划可复现;(5)README 是否需补键序重排说明(Opus 观察)。在"进入 done 前"GLM 行签 accept/counter,更新交接日志。
-不要做: 不执行任何 --write;不改实现文件;不标 done(双 accept 后交用户验收)。
-输出要求: 明确 accept/counter、对账清单、抽验结果、提交 hash。
-```
+无下一位 Agent 提示词：MG2 已获三方最终 `accept` 和用户验收，正式归档为 `done`。下一项工作按用户优先级另行开卡。
