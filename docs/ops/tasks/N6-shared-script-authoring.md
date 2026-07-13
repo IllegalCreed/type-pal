@@ -1,0 +1,286 @@
+# N6 - 共享脚本/子程序创作闭环
+
+Status: draft
+Phase: phase2
+Capability: N6
+Coding Owner: Codex
+Generation Owner: N/A
+Reviewer: Opus + GLM
+Visual Verification Owner: Codex
+Unavailable Agents: none
+Branch: main
+
+## 目标
+
+把 M3 已落地的分片脚本运行时升级为创作者可用的“共享脚本库”：作者能在编辑器中新建、命名、编辑、复制、引用和安全删除一段项目级脚本；多个场景/实体通过 `callScript` 调用同一稳定脚本，修改脚本体后所有调用方立即生效。保存、重开、工程 zip、运行时懒加载和 MG2 重迁移都不得丢失或复制这段脚本。
+
+## 范围
+
+- 范围内：
+  - `ScriptIndexV1` 增加向后兼容的作者脚本元数据；脚本体继续复用 `ScriptChunkV1.scripts`，不新建第二套运行模型。
+  - 作者脚本稳定 id、默认分桶、chunk 创建/删空、`imports/bytes/hash` 统一归一化。
+  - 编辑器“共享脚本”数据页：搜索、创建、复制、改显示名/说明、编辑命令体、删除与引用查看。
+  - 场景脚本插入菜单和 `CommandForm` 支持作者可用的 `callScript`；调用时可继承当前 `self` 或显式指定实体。
+  - `callScript` 行可跳转目标。迁移生成的内部脚本默认不混入作者库，但从引用行仍可打开、查看和编辑命令体；内部脚本不可改 id、不可作为普通作者条目删除。
+  - 空白工程首次创建共享脚本时自动建立 `content/scripts/`、index 和默认 shared 分桶。
+  - 引用反查、悬空引用校验、作者脚本调用环校验、删除保护。
+  - 编辑器预览、工程 IO/FSA、MG2 三方合并、M3 体积审计与运行时懒加载的兼容。
+- 范围外：
+  - 通用参数、返回值、局部变量和表达式系统。
+  - 新的 `jumpScript` 创作入口；它继续作为迁移器表达原版尾转移/循环的内部控制流原语。
+  - Q1 全流程 E2E、迁移残余清理、资源闭包、音乐注册表改造。
+- 明确不做：
+  - 不把普通对话、`giveItem`、获得金钱等命令自动改成共享脚本。
+  - 不把“宝箱/拾取/获得道具/一句话 NPC”等带参数的重复创作流程伪装成共享脚本；它们属于编辑器模板，插入时展开为普通命令。
+  - 不为 N6 再造全局 `all.json`、启动时全量脚本体索引或第二个脚本解释器。
+  - 不允许重命名显示名时改变稳定 id，也不允许把 `ref.chunk` 当持久身份。
+
+## 上下文锚点
+
+- 已拍板决策 / 铁律：
+  - `AGENTS.md`：第二阶段、高风险 schema/迁移/跨包任务必须三签；数据迁移缺陷先修上游再重生成；build 只有一个 Coding Owner。
+  - `docs/phase2/READ-FIRST.md`：场景懒加载、稳定 id、编辑器命令不可变 `apply/invert`、新架构不得回退全局耦合。
+  - `docs/phase2/roadmap.md:141` 起：R1=N6，随后才进入迁移残余、资源闭包和分段 E2E。
+  - 用户 2026-07-13 定义：普通对话/获得道具是命令；重复录入体验由模板解决；“改一处、所有调用方同时变化”的逻辑才是共享脚本。
+  - 用户 2026-07-13 定义：迁移器/提取器/overlay 根因必须优先修上游，不能只改会被重迁覆盖的 `projects/pal` 产物。
+- 代码锚点(`file:line`)：
+  - `packages/content/src/script-library.ts:3-35`：`ScriptRef`、`ScriptChunkV1`、`ScriptIndexV1`；index 只带元数据，不带 `Command[]`。
+  - `packages/content/src/script-library.ts:47-82`：稳定散列和 `deriveScriptChunk`；`id` 是身份，`chunk` 是可重推导提示。
+  - `packages/content/src/script.ts:168-173`：现有 `callScript/jumpScript` 命令形状。
+  - `packages/reforge/src/script-runner.ts:303-367,597-600`：resolver、受控调用栈、`self` 继承和尾转移语义已完成。
+  - `packages/reforge/src/script-chunk-store.ts:16-95`：内存/HTTP resolver 和按需 chunk 加载已完成。
+  - `packages/editor/src/core/edit-session.ts:18-34,68-94`：`scriptIndex/scriptChunks` 已在不可变工作副本中，所有编辑必须走 command/undo。
+  - `packages/editor/src/core/project-io.ts:89-110`：index/chunk 已能原样序列化，但不会替作者重算派生元数据。
+  - `packages/editor/src/ui/ScriptDrawer.tsx:415-475`：当前只编辑场景/实体 `ScriptStage[]`，共享 `Command[]` 尚无编辑入口。
+  - `packages/editor/src/ui/ScriptTree.tsx:282-285`：调用/跳转目前只有文本展示，没有目标导航。
+  - `packages/editor/src/core/command-catalog.ts:76-81`：普通创作目录没有 `callScript`；`jumpScript` 也不应暴露为新建项。
+  - `packages/editor/src/core/ref-index.ts:64-145`：当前反向索引只扫描场景内联命令，未穿过 ScriptRef/共享体。
+  - `packages/migrate/src/script-library-normalize.ts:24-59`：归一化逻辑目前私有于 migrate，且重建 index 时只保留 `version/shards/chunks`。
+  - `packages/migrate/src/script-library-normalize.ts:100-189`：MG2 canonical/materialize 会重建 index/chunks；N6 元数据若不进入规范视图会静默丢失。
+- 已知坑 / 审计文档：
+  - `docs/ops/tasks/M3-wander-arm-explosion.md:89-138,329-349`：M3 已完成分片、resolver、call/jump、存档 ref 化和体积门禁；N6 不能重复发明运行时。
+  - `docs/ops/tasks/MG2-incremental-migration-merge.md`：人工修改必须通过 base/theirs/ours 合并保留；作者脚本属于 ours-only 内容。
+  - `docs/phase2/foundation/script-system-design.md:69-87,120-143`：早期设计已预留 `callScript`，同时明确模板与共享脚本是两层概念。
+  - 当前 editor 会一次读入所有 chunk 作为工作副本，这是编辑器能力，不得据此让游戏运行时也全量常驻。
+  - 当前 M3 体积门禁把所有脚本体算在迁移量中；作者新增内容必须单列统计，否则正常创作会被误判为迁移膨胀。
+- 不得重新引入：
+  - 全游戏 `scripts.json/all.json`、脚本数组下标身份、`chunk` 身份化、递归内联调用目标。
+  - 为模板参数需求扩张所有 `Command` 字段的表达式联合。
+  - 编辑器直接 mutate `scriptChunks`，或由 UI 自己计算一套与迁移器不同的 hash/imports。
+  - 为方便删除而级联删调用方，或保存悬空 `ScriptRef`。
+- 相关测试：
+  - `packages/migrate/src/migration-plan.test.ts:47-151`：ours-only 文件、稳定 script id 合并和重分桶保留。
+  - `packages/editor/src/core/project-io.test.ts:144-160`：index/chunk round-trip 基线。
+  - `packages/reforge/src/script-chunk-store.test.ts`、`packages/reforge/src/script-runner.test.ts`：resolver/call/jump 语义基线。
+  - `packages/editor/src/core/commands.test.ts:267-319`：脚本编辑 `apply/invert` 模式基线。
+
+## 验收条件
+
+- 功能：
+  - 在空白工程和 `projects/pal` 各能创建一个作者共享脚本；稳定 id 形如 `shared/user/<slug>-<suffix>`，创建后不可变，显示名可改。
+  - 作者脚本元数据至少包含 `name`、可选 `description`、`self: none | optional | required`；缺 `library` 的旧 index 继续可读。
+  - 两个不同场景/实体调用同一作者脚本，编辑共享体一次，两处预览/运行均读取新行为，调用方不复制命令体。
+  - `self=required` 在无可继承执行者且未显式选实体时不能保存调用；`none/optional` 行为有单测。
+  - 调用行能打开目标。作者条目在共享脚本页可 CRUD；迁移内部脚本默认隐藏但可从引用打开，不能误删/改 id。
+  - 删除有调用方的作者脚本必须阻止并列出直接引用位置；无引用脚本删除后空 chunk/索引元数据正确收敛，undo 可恢复。
+  - 任一只由 `callScript` 组成、且涉及作者脚本的直接或间接调用环作为保存错误报告；迁移器合法 `jumpScript` 环不受影响。
+  - 普通模板、对话、给物品工作流不受改变；N6 v1 没有通用参数/返回值。
+- 测试：
+  - content：index 新字段 guard、旧 index 兼容、默认分桶、创建/更新/删除/删空、imports/bytes/hash 确定性。
+  - editor core：共享脚本 CRUD command 全部 `apply/invert`；引用索引穿透共享体且防环；删除保护；`callScript` 表单构造。
+  - reforge：作者脚本调用、嵌套调用、`self` 继承/显式覆盖、错误引用诊断；进入场景只请求所需 scene chunk + 实际调用的 shared chunk。
+  - IO：HTTP/FSA 打开、保存、重开、另存为、A5 zip 后 index/chunk/metadata 不丢且 hash/bytes 匹配实际文件。
+  - migrate：MG2 重迁保留 ours-only 作者元数据和 body；双方改同一作者 body 时显式冲突；双跑零计划；`ref.chunk` 重写不改稳定 id。
+  - 审计：M3 的 10 倍门禁只计算迁移生成脚本；作者脚本单列 bytes/commands，同时继续受单 chunk `<1MiB` 和悬空引用门禁约束。
+  - 总门禁：`pnpm check` 全绿。
+- 文档：
+  - 更新 capability map N6 状态与说明；补作者手册，明确“命令 / 模板 / 共享脚本”选择规则和内部脚本边界。
+  - 任务卡 Build、验证证据、交接日志、三方审查签字完整。
+- 视觉 / 手工验证：
+  - `6010` 编辑器实测创建、搜索、复制、重命名、编辑、调用选择、引用跳转、删除拦截、undo/redo、保存重开。
+  - 用两个调用方做预览，修改共享体后无需重插调用即可同时变化。
+  - `6051` 或编辑器同源 `play.html` 实测运行时调用；网络记录证明没有加载全库脚本。
+  - 桌面和窄窗口检查共享脚本页与调用表单，无溢出、遮挡和不可操作控件。
+
+## 推进签字
+
+签字是阶段门禁。开卡任务必须集齐三方签字才能推进；缺签只能由用户明确豁免。`Status` 字段不能替代签字。
+
+### 进入 build 前：设计签字
+
+- Codex: **agree**（2026-07-13；同意“index 仅加作者元数据、body 复用 M3 chunk、共享纯归一化、无通用参数、MG2 保留与引用安全”方案）
+- Opus: pending
+- GLM: pending
+- counter / 分歧处理: N/A
+- 缺签豁免: N/A
+- build 准入结论: **blocked**（缺 Opus / GLM 设计签字）
+
+### 进入 done 前：审查签字
+
+- Codex: pending
+- Opus: pending
+- GLM: pending
+- counter / 返工处理: N/A
+- 缺签豁免: N/A
+- done 准入结论: blocked
+
+## Draft: 设计与风险
+
+### A. 数据形状：元数据进 index，命令体继续进 chunk
+
+```ts
+interface SharedScriptMetaV1 {
+  name: string
+  description?: string
+  self: 'none' | 'optional' | 'required'
+}
+
+interface ScriptIndexV1 {
+  version: 1
+  shards: ScriptShardConfigV1
+  chunks: Record<string, ScriptChunkMetaV1>
+  /** 只有作者一等脚本登记在这里；缺席的 script id 是迁移/内部实现脚本。 */
+  library?: Record<string, SharedScriptMetaV1>
+}
+```
+
+- `library` 只存作者检索、表单和约束需要的轻量元数据，不携带 `Command[]`；运行时启动内存仍只增加少量名称信息。
+- body 仍以同一 script id 存在 `ScriptChunkV1.scripts`；不存在两份真值。
+- 作者 id 由编辑器一次生成，使用 `shared/user/<slug>-<suffix>` 命名空间；重命名只改 `name`。
+- `library` 的键必须属于 `shared/user/` 命名空间且存在同 id body；不能给迁移内部 id 补一条元数据来逃避迁移体积审计。
+- `library` 是可选向后兼容字段，`ScriptIndexV1.version` 暂不升版，`contentVersion` 也不因读取旧项目需要迁移而增加。若 Opus 认定旧消费者不能安全忽略字段，再改为显式 v2，不在 build 中临时拍脑袋。
+- `self` 是 N6 v1 唯一上下文槽：`none` 表示逻辑不依赖执行实体，`optional` 可继承/覆盖，`required` 必须有调用实体。它复用现有 `callScript.self`，不扩张 `Command`。
+
+### B. 参数边界：v1 不建通用参数系统
+
+- 通用参数若要真正有用，必须让大量命令字段支持“字面量或参数表达式”，同时引入类型检查、局部作用域、序列化和编辑器表单，范围远超 N6。
+- 目前真实需求可分清：固定且多处共用的业务逻辑用共享脚本；只是减少重复录入、每次物品/数量/文本不同的流程用模板展开；普通一次性内容仍用命令。
+- 将来出现无法由 `self + world flags/vars` 清楚表达的真实复用案例，再单开 N6b 参数/局部变量设计，不用假参数把债藏进 v1。
+
+### C. 单一归一化边界
+
+- 把不依赖迁移器的 `normalizeScriptLibrary`/imports 收集/metadata 计算下沉到 `@type-pal/content` 纯逻辑，migrate 与 editor 共用。
+- 新增纯操作：初始化默认 index、upsert body/meta、remove、lookup/遍历；操作返回新 index/chunks，不原地 mutate。
+- 默认 shared shard 数固定为 16，与 `projects/pal` 当前配置一致；editor 不提供改 shard 数 UI。分桶变更仍是单独 contentVersion 事件。
+- 所有 CRUD 经 editor `Command`，一次 apply 同时更新 index/chunks/manifest.content.scripts，invert 完整恢复。
+- 新建第一个脚本时才给空白工程补 `manifest.content.scripts = "content/scripts/"`，避免空工程无意义地产生目录。
+
+### D. 编辑器信息架构
+
+- 数据模式新增“共享脚本”页。左栏是作者库条目，支持搜索、创建、复制、重命名和删除；右侧复用 ScriptTree/CommandForm 编辑单个 `Command[]`。
+- 不用卡片堆叠：保持现有数据库页的紧凑列表 + 主编辑区结构。工具操作用图标按钮和 tooltip。
+- 正常列表只显示 `index.library` 登记项，避免把数万条迁移 label 暴露给创作者。
+- `callScript` 行增加“打开目标”：作者脚本跳共享页；内部脚本打开同一 body 编辑器的“迁移脚本”上下文，并清楚标记稳定 id、来源和不可删除/不可改 id。
+- 插入菜单只提供“调用共享脚本”，下拉只列作者脚本；`jumpScript` 只展示既有数据，不允许新插入。
+- 共享脚本直接预览时必须选择测试场景；`self=required` 再选测试实体。预览仍复用 `Playback + MemoryScriptResolver`，不建第二套模拟器。
+
+### E. 引用、循环与删除安全
+
+- 扩展工程引用索引：扫描场景 inline roots、所有 chunk body、动态 script bindings 和命令内嵌臂，记录 `ScriptRef -> caller`，并继续索引 shared body 内的 flag/var/item。
+- 遍历按 script id 去重，避免迁移 jump 环或错误 call 环把编辑器扫死。
+- 删除作者脚本前要求直接 caller 为 0；不提供静默级联删除。引用面板可跳到场景源或共享调用方。
+- `callScript` 图执行 SCC/DFS；任何包含作者脚本的 call 环是内容错误。`jumpScript` 环是 M3 表达循环的合法结构，不纳入此错误。
+- 保存和运行前都做“library 元数据有 body、body id 全局唯一、ref 可解析”的 fail-loud 校验。
+
+### F. MG2 与体积门禁
+
+- canonical script view 继续以稳定 script id 合并；index 的 `library` 必须参与三方语义合并，materialize/normalize 必须原样保留。
+- 作者新增的 meta/body 是 ours-only；上游重迁不得删除。若用户与新迁移结果同时改同一已托管 body，按 MG2 规则显式冲突，不能静默选边。
+- `ref.chunk` 仍是派生提示，不参与冲突判定；重分桶后统一重写。
+- M3 迁移膨胀比只统计“未登记在 `library` 的迁移/内部脚本”；作者脚本另报总 bytes/commands。所有脚本仍共同接受 chunk `<1MiB`、引用完整性和 id 唯一门禁。
+
+### G. 实现分期
+
+1. content：schema/guard、共享归一化和不可变 library 操作，先写失败测试。
+2. migrate/reforge：MG2 保留、审计分口径、运行时兼容与 lazy-load 回归。
+3. editor core：CRUD commands、工程引用图、校验、project IO/blank init。
+4. editor UI：共享脚本页、`callScript` 表单、目标导航、测试上下文预览。
+5. 全量门禁 + 6010/6051 浏览器验证 + 文档，再转 review。
+
+### 已知风险
+
+- 风险：把元数据放 index 后被 migrate 的 canonical/materialize 重建静默抹掉。
+  - 缓解：先写 base/theirs/ours integration test，再改 schema；canonical/materialize/normalize 必须显式保留 `library`。
+- 风险：editor 与 migrate 各算一套 imports/hash，保存后每次迁移都产生无意义 diff。
+  - 缓解：纯归一化下沉 content，两个包只调用同一函数。
+- 风险：作者脚本混进迁移内部条目，列表不可用且容易误删原版控制流节点。
+  - 缓解：只有 `index.library` 是作者库；内部节点只能从 ref 跳入，限制 rename/delete。
+- 风险：为了“带参数”提前扩张所有 Command，导致 schema 与表单爆炸。
+  - 缓解：v1 只用既有 self；模板负责带参数重复录入。
+- 风险：call 环在运行时直到 128 层才失败。
+  - 缓解：编辑/保存期图校验；运行时深度保护继续保底。
+- 风险：作者内容让 M3 源迁移体积比误报超限。
+  - 缓解：迁移体与作者体分账，chunk/引用门禁不放松。
+- 风险：空白工程首次启用 scripts 时 manifest/index/chunk 三处只写了一半。
+  - 缓解：一个不可变 editor command 原子完成，apply/invert + 保存重开测试钉死。
+
+### 主审立场
+
+- Reviewer: Opus
+- 结论: pending
+- 必改项: pending
+- 是否建议进入 build: pending
+
+### 三方争议记录（必填：schema/migration/跨包公共接口）
+
+- Codex: **agree**。M3 已解决运行时与物理分片，N6 应只增加作者层；`library` 元数据与现有 body 分离最小化运行时变化，纯归一化下沉避免 editor/migrate 漂移。v1 不做通用参数是有意控制 schema 爆炸，不妨碍后续以真实案例单独扩展。
+- Opus: pending
+- GLM: pending
+- 用户拍板: pending（如三方有分歧再请用户裁决）
+
+## 额度 / 代班记录（如适用）
+
+- 缺席 Agent: none
+- 缺席原因: N/A
+- 代班 Agent: N/A
+- 代班范围: N/A
+- 风险: N/A
+- 是否需要补审: N/A
+- 用户裁决: N/A
+
+## Build: 实现与自测
+
+- Coding Owner: Codex（设计三签齐后接手）
+- 修改文件: pending
+- 实现摘要: pending
+- 运行命令: pending
+- 浏览器 / 手工检查: pending
+- 跳过的检查及原因: pending
+
+## 视觉验证记录（如适用）
+
+- Visual Verification Owner: Codex
+- 验证方式: pending
+- 截图 / 像素检查路径: pending
+- 结论: pending
+- 未完成项: pending
+
+## Review: 审查与返工
+
+- Reviewer: Opus（架构/代码/UX）+ GLM（覆盖/迁移/测试矩阵）
+- 审查结论: pending
+- 必须返工项: pending
+- Accept / rework: pending
+
+## 用户验收
+
+- 用户结论: pending
+- 后续任务: R2 迁移残余收口
+
+## 交接日志
+
+- 2026-07-13 Codex: 核对 M3/MG2、content/reforge/editor/migrate 现状，确认 N6 是作者层闭环而非重写运行时；完成 schema、参数边界、UI、引用安全、迁移保留和验证方案并签 agree。Evidence: 本卡 Draft + `docs/phase2/roadmap.md` §10。Next: Opus 设计主审；不得开始实现。
+
+## 下一位 Agent 提示词
+
+```text
+接手任务: N6 共享脚本/子程序创作闭环设计主审
+任务卡: docs/ops/tasks/N6-shared-script-authoring.md
+当前状态: draft，Codex 已签 agree；Opus/GLM 未签，build 准入仍 blocked
+你的角色: Claude Opus，负责 schema/跨包边界、编辑器 UX、引用安全和实现可行性压力测试
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、任务卡全部“上下文锚点”和 Draft；重点对照 docs/ops/tasks/M3-wander-arm-explosion.md、docs/ops/tasks/MG2-incremental-migration-merge.md、packages/content/src/script-library.ts、packages/migrate/src/script-library-normalize.ts
+已完成: Codex 已确认 M3 的 ScriptRef/chunk/resolver/call stack 可复用，并提出 index.library 轻元数据、body 继续存 chunk、纯归一化下沉 content、v1 只保留 self 不做通用参数、作者/内部脚本分层、调用环/删除保护和 MG2 保留方案
+请你做: 审查 1) library 元数据放 ScriptIndexV1 且不升版是否稳妥；2) normalize 下沉边界；3) 作者 id/self/无参数取舍；4) 内部脚本跳转编辑与删除边界；5) call 环/引用图；6) 空白工程初始化；7) MG2 与 M3 体积分账；8) UI/预览和验证矩阵。将结论写回本卡 Opus 设计签字、主审立场、争议记录和交接日志并提交
+不要做: 不得修改任何实现文件，不得把 Status 改成 build；即使 agree，GLM 未签前仍不得开始实现
+输出要求: 给出 agree 或 counter+可落地替代方案；更新“下一位 Agent 提示词”为交 GLM 做迁移覆盖/测试矩阵复核，并在回复中提供同一段可直接复制文本
+```
