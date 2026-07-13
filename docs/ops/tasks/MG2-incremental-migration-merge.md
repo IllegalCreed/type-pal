@@ -120,11 +120,11 @@ Branch: main
 ### 进入 build 前:设计签字
 
 - Codex: **agree**（2026-07-13；实现可行。主张先纯生成、再显式策略三方合并、最后事务写盘；首次 bootstrap 全差异审计是必落项）
-- Opus: pending
+- Opus: **agree**（2026-07-13;六维压力测试通过——baseline"上次纯 theirs"语义是三方合并唯一正确锚(hash-only 正确否决:旧 theirs 不可由源+新代码重推导);删除真值表/非托管保护/派生元数据后置重算/Command[] 原子+overlay 逃生口全对。附 M1-M4 必改:①baseline 推进纳入同一 journal 事务域+故障注入;②id 数组确定性输出顺序入策略表;③pages 页数变化规则显式(槽位=状态身份,positional 合法);④patch 纯函数化先于 bootstrap(顺序钉死,否则差异清单被 patch 效应淹没)。N1-N3 非阻塞。详见 Opus 压力测试段）
 - GLM: pending
-- counter / 分歧处理: 无，等待两方审查。
+- counter / 分歧处理: Opus 无架构 counter;M1-M4 为 Draft 必落补明,Codex 落卡后随 GLM 复核一并确认。请 GLM 核:迁移文件域矩阵无遗漏、bootstrap 分类可操作性、测试矩阵含 M1-M4 对应项。
 - 缺签豁免: N/A
-- build 准入结论: **blocked，三签未齐**
+- build 准入结论: **blocked(Codex+Opus agree;待 M1-M4 落进 Draft + GLM 签字)**
 
 ### 进入 done 前:审查签字
 
@@ -235,14 +235,30 @@ bootstrap 是一次性迁移审计，不允许默认“全 ours”或“全 thei
 ### 主审立场
 
 - Reviewer: Opus（架构/事务/合并语义主审）+ GLM（迁移域覆盖/bootstrap/测试矩阵复核）
-- 结论: Codex 初稿认为方案可实现，但基线存储、pages 策略、脚本 index 后置派生和事务恢复协议需 Opus 压力测试；GLM 需核对所有迁移文件域与 bootstrap 分类无遗漏。
-- 必改项: 等待审查。
-- 是否建议进入 build: **否，三签未齐。**
+- 结论: **Opus agree,附 M1-M4 必改(设计层补明,非架构推翻)+ N1-N3 非阻塞**。
+- 是否建议进入 build: 否——M1-M4 落进 Draft + GLM 签字后三签齐方可。
+
+### Opus 压力测试(2026-07-13,六维)
+
+- **① baseline 语义 —— 通过,一处必改**。"base = 上次纯 theirs"是三方合并唯一正确锚:base 若存合并结果,人工编辑会被吸进 base 而伪装"未改",上游回退会静默获胜——Codex 语义正确。hash-only 替代已正确否决:字段级合并必须有 base 完整值,且生成器代码本身在版本间变化(这正是"上游修复"),旧 theirs 不可由源+新代码重推导,完整快照是唯一可靠形态。14MiB 开发期 Git delta 可接受;baseline 必须进 Git(跨机器/跨 Agent 共享,否则每个 clone 都要重新 bootstrap)。
+  - **【M1】baseline 推进纳入同一 journal 事务域**:Draft E 只说"工程文件全部提交成功后推进 baseline"——"工程已提交、baseline 未推进"的崩溃窗口必须显式定义恢复分支(recovery 补完 baseline 或整体回滚,二选一钉死),baseline 文件写入本身进 journal,并加故障注入测试(在 baseline 推进中途 kill)。否则下次运行会把刚合并的工程当 ours、旧 base 当基,人工编辑与上游修复的判定全错。
+- **② 合并边界 —— 方向对,两处必改**。Command[] 原子(脚本是语义序列,元素级合并危险,冲突走 overlay 逃生口)✓;script index/imports/bytes/hash 一律后置重算、不信任输入派生元数据 ✓(派生 vs 源数据分离正确);shard 配置原子 conflict ✓。
+  - **【M2】id 数组的确定性输出顺序未定义**:策略表只给 scenes/index 定了顺序规则,actors/items/enemies 等"按稳定 id 合并"后的**输出顺序**没说。顺序不定 = 二次零 diff 门禁会因顺序漂移误报、编辑器 diff 噪音。必须写进策略表(建议:theirs 顺序为骨架,ours 独有条目按其 base 前驱锚点插入、无锚则尾部追加;任选但要确定性+文档化+测试)。
+  - **【M3】pages 槽位递归的页数变化规则要显式**:页 = 状态槽位身份(原版 sState 页),positional 递归**合法**(不违反"禁下标身份"——槽位就是语义身份);但两侧页数相对 base 不一致时(一侧加页/删页)的 add/delete/双改 conflict 规则必须写明,防插入错位静默串页。
+- **③ 文件删除与非托管保护 —— 通过**。删除走同一真值表(theirs 删+ours 未改=删;ours 删+theirs 未改=保持删;theirs 删+ours 改=conflict);只动 base∪theirs 声明的托管文件;managed 清单持久在 `_state.json`(生成器版本变化时清单演进有据);非托管前后 SHA-256 一致 ✓。双方同增同路径:相等取一、不等 conflict,由通用规则覆盖 ✓。现状 `rmSync(scripts)` 整目录重建(锚点核实)被 E 明令废除 ✓。
+- **④ bootstrap —— 通过,一处必改**。全差异显式分类、禁通配、禁默认全 ours ✓ 是防"陈旧生成值误认人工内容"的唯一诚实做法。
+  - **【M4】历史 patch 纯函数化必须先于 bootstrap 分类(顺序钉死)**:三个 patch(enemy-choreo/boss-encounters/scene-stages,锚点核实全部读盘上产物)的净效应目前在 ours 里、不在 fresh theirs 里——若不先迁入纯生成核,bootstrap 差异清单会被数百条 patch 效应淹没,逐条人工分类 = 误分类温床。顺序:patch 净效应迁入纯核(回归测试先红后绿)→ 退役 patch → 再跑 bootstrap;bootstrap 允许迭代(分类→回迁 upstream-overlay→重生成→复差)直至清单闭合。
+- **⑤ 事务写盘 —— 骨架对,M1 之外补实现纪律(N3)**。staging 全量构造→TOCTOU 哈希复核→journal→临时文件+rename 提交→恢复,序对;门禁全部在写盘前 ✓。
+- **⑥ patch 纯函数化 —— 见 M4**;每 patch"净效应回归证明吸收→删除",禁第二写盘入口 ✓;script-overlays.ts 已是范例(语义锚+幂等)。
+- **N1-N3 非阻塞建议**:
+  - N1: baseline 的 Git 合并冲突处置写进 README——**禁止手工合并 baseline**,冲突时重跑迁移再生成;baseline 是机器产物不是人审对象。
+  - N2: 迁移写盘与编辑器会话互斥要留一句话:TOCTOU 哈希复核只防"plan 后编辑器写",不防"迁移写后编辑器用陈旧快照回存"——写盘后编辑器须重载(或迁移检测 editor 持锁时拒写),落 README 操作纪律即可。
+  - N3: journal 先写先 fsync 再首个 rename、rename 幂等可重放;故障注入测试覆盖"journal 后第 k 个 rename 中断"与"baseline 推进中断"(配合 M1)。
 
 ### 三方争议记录
 
 - Codex: 支持“纯生成 + 完整 baseline + 显式策略三方合并 + 事务写盘”；反对读取当前产物生成 theirs、运行时双层和 hash-only baseline。
-- Opus: pending
+- Opus: 与 Codex 全部主张一致(含 hash-only 否决的推理补强:生成器代码本身随版本变化,旧 theirs 不可重推导,完整快照是唯一可靠 base)。无分歧;M1-M4 是设计精化不是对抗立场。
 - GLM: pending
 - 用户拍板: 已批准开始 draft；未批准缺签进入 build。
 
@@ -289,17 +305,18 @@ bootstrap 是一次性迁移审计，不允许默认“全 ours”或“全 thei
 
 - 2026-07-13 User: 批准开始 MG2。Next: Codex 完成 draft，不得越过三签门禁。
 - 2026-07-13 Codex: 审计确认 M3 只恢复脚本域安全重迁；完整数据域仍不写盘，且当前生成脚本回读盘上 enemies、历史 patch 依赖旧产物。完成“纯生成 + baseline + 结构化 merge + bootstrap + 事务写盘”设计并签 agree。Evidence: 本卡上下文锚点与 Draft。Next: Opus 架构设计签字，不得开始实现。
+- 2026-07-13 Opus: 设计签 **agree + M1-M4 必改**。锚点核实:mts:113-122 enemies 回读污染、mts:139-141 `rmSync(scripts)` 整目录重建、三 patch 全读盘——现状审计属实。六维压力测试:baseline 语义(唯一正确锚,含"工程已提交 baseline 未推进"崩溃窗 → M1 journal 事务域+故障注入)、合并边界(M2 id 数组输出顺序缺失会破二次零 diff;M3 pages 页数变化规则;Command[] 原子✓派生重算✓)、删除/非托管(真值表覆盖✓)、bootstrap(M4 patch 纯函数化必须先行,否则分类清单被淹没;允许迭代收敛)、事务(骨架✓,N3 fsync/rename 幂等/故障注入)、patch 顺序(=M4)。N1 禁手工合并 baseline、N2 编辑器互斥纪律。Evidence: Opus 压力测试段。Next: Codex 把 M1-M4 落进 Draft;GLM 复核文件域矩阵/bootstrap 可操作性/测试矩阵;三签齐后 build。未改实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: MG2 迁移器结构化三方合并与安全重导，设计签字
+接手任务: MG2 迁移器结构化三方合并与安全重导,设计复核(GLM)
 任务卡: docs/ops/tasks/MG2-incremental-migration-merge.md
-当前状态: draft；Codex 已完成现状审计并签 agree，Opus/GLM pending，build 准入 blocked。
-你的角色: Claude Opus，架构/事务/合并语义主审并填写设计签字。
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、任务卡全部内容，重点看上下文锚点与 Draft A-F；再核 packages/migrate/scripts/migrate-content.mts:113-150、src/migrate-content.ts:1221-1269、src/script-overlays.ts、三个 patch 脚本。
-已完成: 已确认当前 migrate:content 只写脚本域，完整数据域仍被保护性冻结；theirs 还会回读盘上 enemies；初稿提出纯 MigrationFileSet、完整 baseline、显式文件域策略、首次 bootstrap 全差异分类、事务写盘和二次零 diff 门禁。
-请你做: 压力测试 1) baseline 存储和“base 必须是上次纯 theirs”语义；2) id 数组/pages/Command[]/script index 的合并边界；3) 文件删除和非托管文件保护；4) bootstrap 是否会误保留陈旧生成值；5) staging+journal 是否足以防半写；6) 历史 patch 纯函数化顺序。给出 agree 或 counter+可落地替代方案，写回“Opus 签字、主审立场、三方争议记录、交接日志”。
-不要做: 不改任何实现文件，不运行会写 projects/pal 的迁移命令，不把状态改为 build；三签未齐不得实现。
-输出要求: 明确 agree/counter、必改项和非阻塞建议，提交文档变更；若 agree，给用户一段可直接转交 GLM 的覆盖审查提示词。
+当前状态: draft;Codex agree + Opus agree(附 M1-M4 必改),GLM pending,build blocked。
+你的角色: GLM,迁移域覆盖/bootstrap 可操作性/测试矩阵复核;只审设计,不改实现文件。
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、任务卡全部,重点 Draft A-F + "Opus 压力测试(六维)"段。
+Opus 已过并附必改: M1 baseline 推进纳入同一 journal 事务域(含"工程已提交 baseline 未推进"恢复分支+故障注入);M2 id 数组合并的确定性输出顺序入策略表(否则二次零 diff 因顺序漂移误报);M3 pages 页数变化的 add/delete/conflict 规则显式(槽位=状态身份,positional 合法);M4 历史 patch 纯函数化+回归退役先于 bootstrap 分类(顺序钉死)。N1-N3 非阻塞(禁手工合并 baseline/编辑器互斥纪律/journal fsync+rename 幂等)。
+请你复核: (1)托管文件域矩阵完整性——对照 projects/pal/content 实际文件清单与 editor project-io 保存面,验证策略表无遗漏域(battle-fields/poisons/ambiences/shops/music/tilesets/own-maps 的"非托管保持原字节"边界是否与编辑器写盘面一致);(2)bootstrap 分类的可操作性——预估当前 ours vs fresh 差异规模(三 patch 效应+M3 后手工编辑),分类工作量是否现实,upstream-overlay 回迁通道是否够用;(3)测试矩阵完整性——验收"测试"节是否覆盖 M1-M4(journal 故障注入×2/顺序确定性/pages 页数变化/patch 吸收回归)与七域矩阵;(4)二次零 diff 门禁的计量口径(严格空计划,非"写出相同内容")。在设计签字 GLM 行签 agree/counter,更新交接日志;agree 即三签待 Codex 落 M1-M4 后进 build。
+不要做: 不改实现文件;不跑会写 projects/pal 的迁移命令;不改 build 状态。
+输出要求: 明确 agree/counter、域矩阵差集、bootstrap 规模预估、测试矩阵评估、提交 hash。
 ```
