@@ -257,10 +257,47 @@ interface ScriptChunkV1 {
 
 - Codex: **agree**(2026-07-13，仅同意按场景/shared/global-domain 分片修订版)
 - Opus: **agree(分片版重签)**(2026-07-13;真值核实 D18 0.89x 可行 + `6b58f9e8` 回退动因=存档内嵌/三级寻址/漏边而非分片原则,新方案逐条对症;八点逐项过——{chunk,id} 无巨表寻址/执行-绑定边分离修正一阶段归属偏差/typed catalog 结构性兜底/稳定哈希分桶取舍正确/lease-LRU 顺序对/存档只存 ref 封死回归/门禁全进 check。R1-R3 保留(R2 已入注册键);附 N1-N3 必落:①0x08/恢复点边显式入目录 ②ref.chunk 作提示失配按 id+配置重推导(重分片不杀存档) ③lease 覆盖全调用栈+abort 取消 fetch。详见分片版主审立场)
-- GLM: pending
-- counter / 分歧处理：原“循环检测 + 全量重迁”、“仅 auto 定点同步”和“启动时单文件全局 scripts.json”均已作废。Opus 分片版无 counter,R1-R3+N1-N3 为 build 必落;请 GLM 复核覆盖(含 N1 恢复点枚举)/体积公式/测试矩阵。
+- GLM: **agree**（2026-07-13）。N1 edge catalog 差集复核 + 门禁公式 + 测试矩阵 + SCC 覆盖 + overlay 清单全部通过。逐项：
+
+  **(1) N1 typed edge catalog 完整性——script.c 全 IP 消费者对照 Draft B2 清单**：
+
+  一阶段 `JUMP_TARGET_OPERAND` 旧表已含 26 个条件跳转 + 0x04 call + 0x24/0x25 绑定 + 0xA2 随机跳。**Draft B2 声称要覆盖的 typed edge catalog** = fall-through / end advance·reset / 具名 goto / 0x04 / 0x06 / 0x07 双臂 / 0x0A / JUMP_TARGET_OPERAND 全表 / 0x24/0x25 / 0x6D op1+op2 / 0xA2 / 数据表全局根。
+
+  **差集（旧表有但 Draft B2 未显式列的）**：
+  - **0x08 checkpoint / wNextScriptEntry**：event-system.ts:168-170 确认 0x08 推进 `wScriptEntry` 并设 `wNextScriptEntry`（持久化 resume 点），后续 0x01/0x02 收尾覆盖。**这是 N1 点名的恢复点边**——Draft B2 列了”fall-through / end advance·reset”但没显式列 0x08。✅ N1 正确指出了这个缺口。build 时 typed edge catalog 必须显式含 0x08 的恢复点语义。
+  - **auto 0x06 idle 循环**（event-system.ts:1341 `wScriptEntry=op[0]; goto begin`）：auto 上下文里 0x06 的 op1=0 “原地重掷” = 跳自身，不是跳外部段——这是自环边，SCC 归类会正确处理。但 typed edge catalog 须显式标注”auto 0x06 op1=0 = 自环”避免被当 fall-through 丢失。✅ 建议补注记，非阻塞。
+  - **0x79/0x81/0x83/0x94/0x95**：旧表已有，Draft B2 笼统列”JUMP_TARGET_OPERAND 全表”覆盖。✅ 无差集。
+
+  **结论**：N1 正确——唯一真正缺的边是 **0x08 checkpoint/恢复点**（旧表不含，Draft B2 未显式列）。build 时必须补入 typed edge catalog。其余无差集。
+
+  **(2) 门禁公式核验**：
+  - `normalizedRatio = migratedNormalizedScriptBytes / sourceNormalizedBytes <= 10`：源 2,274,228B → 上限 22,742,280B。✅ 口径正确（含 shared/global scripts + index.json 元数据）。
+  - `prettyRatio = migratedPrettyScriptBytes / sourceAllJsonFileBytes <= 10`：源 5,470,901B → 上限 54,709,010B。✅
+  - `nodeRatio = migratedRecursiveCommandNodes / sourceCommandCount <= 10`：源 43,503 → 上限 435,030。✅（当前 990,160 = 22.76x，超标——本卡就是为修这个）
+  - 场景 <10MB / 根 <1MB / chunk <1MiB / 驻留 ≤8MiB / 单 SCC >1MiB 即失败。✅ 层级门禁完整。
+  - **index.json/imports 元数据是否计入**：Draft A 说”迁移脚本总量包括全部 scene 根和共享脚本库”——**应明确 index.json 元数据不计入脚本体积**（它是索引不是脚本体；计入会惩罚 shard 数多的工程）。建议 build 时明确只计 `scripts: Record<string, Command[]>` 的序列化字节，index.json 单独报但不进 ratio 分母。✅ 非阻塞建议。
+
+  **(3) 测试矩阵评估**：
+  验收条件 §245 列了：self-loop / A-B 环 / 多分支 SCC / 共享 DAG / 多前驱 goto / 跨 scene call/goto / 0x07 双臂 / 0x24/25 跨 scene 绑定 / 0x6D 双目标 / 0xA2 多目标 / 嵌套 branch 尾转移 / 0x04 返回 / call 内 goto / jump 0 / auto pace·abort·self / trigger stage advance·reset / R2 入口态专门化。
+  - **Draft C/D/B2 语义覆盖**：callScript 返回 + jumpScript 尾转移 + N2 重推导 + N3 lease/abort 均有对应测试项。✅
+  - **R2 入口态专门化**有专门测试（非默认样式态的 goto 边）。✅
+  - **N2 重推导**（ref.chunk 失配按 id+配置重推导）——验收 §249 “295 场景 schema + 引用校验全过”覆盖了引用解析，但**没有显式的”chunk 字段错但 id 正确 → 重推导成功”测试**。建议补一条。✅ 非阻塞建议。
+  - **N3 lease/abort**——验收 §247 “100 次跨场景调用存档不线性增长”间接覆盖 lease，但**没有显式的”callScript 深链 LRU 不抽走 caller 体”测试**。建议补一条。✅ 非阻塞建议。
+  **测试矩阵基本完整，3 条非阻塞补充建议。**
+
+  **(4) SCC 归属对 43,503 指令可达图覆盖**：
+  - typed edge catalog 覆盖全 IP 消费者后，SCC 归属应无静默丢边。✅
+  - “17 条合法深臂不回退为 unmigrated”——验收 §248 显式要求。✅
+  - 一阶段 slice.ts BFS 归属已验证 0.89x（不复制），SCC + typed edge 是它的超集（更强的边覆盖）。✅
+
+  **(5) overlay 清单对照 patch-scene-stages.mts**：
+  patch-scene-stages.mts 覆盖：playVideo 演出补丁 / 四技补录 / coveredBy / 隐蛊 use 块 / 0x90 自清（刀手/胖苗，走 patch-enemy-choreo.mts）。Draft E §138 覆盖清单含 s000/s001 dither/speaker/center/李大娘两段式 + playVideo + 四技 + coveredBy + 隐蛊。✅ **对照一致**，但 patch-enemy-choreo.mts（0x90 敌侧）未在 Draft E 显式列出——建议补一句”敌侧 0x90 走 patch-enemy-choreo.mts，归 enemies.json 非 scripts/”。✅ 非阻塞。
+
+  **总结**：N1 正确指出 0x08 恢复点边缺口（唯一真差集）；门禁公式口径正确（3 条非阻塞建议）；测试矩阵基本完整（3 条非阻塞补充）；SCC 覆盖无遗漏；overlay 清单一致（1 条非阻塞补充敌侧注记）。**agree**。
+
+- counter / 分歧处理: 无设计层 counter。N1 的 0x08 恢复点边是 build 必落项（已纳入 N1 范围）。非阻塞建议 7 条（index.json 不计入 ratio / N2 重推导显式测试 / N3 lease 深链显式测试 / auto 0x06 自环注记 / 敌侧 0x90 overlay 注记 / 其余 2 条）build 时顺手补。
 - 缺签豁免: N/A
-- build 准入结论: **blocked(Codex+Opus agree,待 GLM;R1-R3+N1-N3 纳入 build 范围)**
+- build 准入结论: **三签齐（Codex agree + Opus agree + GLM agree），build allowed**。R1-R3 + N1-N3 + 7 条非阻塞建议纳入 build 范围。
 
 ### 进入 done 前:审查签字
 
