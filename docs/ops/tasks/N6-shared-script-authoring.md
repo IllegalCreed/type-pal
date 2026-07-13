@@ -184,7 +184,7 @@ Branch: main
 ### 进入 done 前：审查签字
 
 - Codex: **accept**（2026-07-13；实现、自测、迁移双跑、浏览器功能与窄窗检查通过；`6051` 独立网络抓包未保存，懒加载由 reforge 回归测试覆盖，交 Opus/GLM 复验）
-- Opus: pending
+- Opus: **accept**（2026-07-13,基线 67d8c540(+清账/UX 后续提交)。代码五维:①schema——checkScriptIndex 命名空间强制(shared/user/ 前缀)+meta 形状校验;normalizeScriptLibrary 保留 library(排序克隆)+imports/bytes/hash 全量重算+1MiB 内联门禁;②引用图——DFS 环检测**限定含作者脚本的 call 环**(jump 边不进 callEdges,不误伤迁移结构),self 可用性按调用方上下文推导(onEnter=none/实体页=always/hostile.onLose=unknown),N2 硬编码实体 warning 落地,构建仅在保存/引用面板按需(N1 落地);③MG2 保留——migrate normalize:90 structuredClone(library),audit 按 `index.library?.[id]` 分账(authored bytes/commands 单列),命名空间守卫封死逃逸;④editor CRUD/undo 由 131 tests+浏览器功能矩阵背书;⑤**6051 网络复验(Codex 缺口,我补做)**:pal 无作者脚本,注入临时探针(shared/user/opus-net-probe→shared/c15+s003 onEnter callScript)——s001 阶段仅 index+scene/s001(**c15 未拉取=未调用不加载**);跨 s003 恰好只拉 scene/s003+shared/c15(**实际调用触发,零多余 chunk**)。探针验后 git 还原零残留,MG2 dry-run 复核仍零计划。O1 非阻塞:孤儿 library 元数据(有 meta 无 body)的专项测试建议 GLM 点名核对）
 - GLM: pending
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
@@ -354,9 +354,10 @@ interface ScriptIndexV1 {
 ## Review: 审查与返工
 
 - Reviewer: Opus（架构/代码/UX）+ GLM（覆盖/迁移/测试矩阵）
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: **Opus accept**(2026-07-13)——schema/引用安全/MG2 分账代码审全过;6051 网络复验以临时探针法补齐 Codex 缺口,双向证明懒加载(未调用不加载/调用只拉目标 shard),探针零残留。待 GLM。
+- Opus 非阻塞观察: O1 孤儿 library 元数据(有 meta 无同 id body)的专项负例测试未见点名,GLM 复核时确认覆盖或补;O2 编辑器面板拖拽/折叠(b89763f5)与共享脚本页的窄窗组合再过一眼(Codex 已测 720px,GLM 顺手复验即可)。
+- 必须返工项: 无
+- Accept / rework: Opus accept;GLM pending;不得标 done
 
 ## 用户验收
 
@@ -370,6 +371,7 @@ interface ScriptIndexV1 {
 - 2026-07-13 GLM: 设计复核签 **agree**。确认审计分账无绕过路径；点名 normalize/canonical/materialize 三处保留 library、同 shard 合并、MG2 集成和引用图四类来源共 7 条 build 测试。Evidence: 设计签字 GLM 复核段。Next: Codex build。
 - 2026-07-13 Codex: 核对三签齐与 build allowed，接任 Coding Owner；N1-N3 和 GLM 点名测试全部纳入实现范围，任务状态转 `build`。Next: Codex 按分期 1-5 实现和自测。
 - 2026-07-13 Codex: 完成 content schema/纯归一化、editor CRUD/引用图/UI、MG2 保留与审计分账、reforge 懒加载回归和作者手册；全包测试、editor build、迁移双跑、6010 双调用方与窄窗检查通过，Codex 签 `accept`，状态转 `review`。Next: Opus 复验架构/代码/UX，并补 6051 网络抓包；不得标记 done。
+- 2026-07-13 Opus: 实现复验签 **accept**(67d8c540)。五维:schema 守卫命名空间强制+normalize 保留重算;引用图 DFS 环限定作者脚本(jump 边隔离)+self 上下文推导+N1 按需+N2 warning;MG2 normalize structuredClone 保留+audit 分账封逃逸;editor 131 tests;**6051 网络复验补齐**——临时探针法(注入 shared/user 探针+s003 onEnter 调用):s001 不拉未调用 shard,跨 s003 恰好只拉 scene/s003+shared/c15,双向证明;探针 git 还原零残留+MG2 零计划复核。O1 孤儿元数据测试/O2 窄窗组合交 GLM 顺手。Evidence: done 前审查 Opus 行。Next: GLM 覆盖/迁移/测试矩阵复验;三签齐交用户验收方可 done。未改实现文件(探针为审查性临时注入,已还原)。
 
 ## 下一位 Agent 提示词
 
