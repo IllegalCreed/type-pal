@@ -804,7 +804,6 @@ html[data-panel-resize="horizontal"] * {
   font-weight: 600;
   font-size: 11px;
   background: var(--panel);
-  border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
 .stage-next {
@@ -2512,7 +2511,6 @@ html[data-panel-resize="horizontal"] * {
   min-height: 0;
   display: flex;
   flex-direction: column;
-  border-top: 1px solid var(--line);
   background: var(--panel);
   overflow: hidden;
 }
