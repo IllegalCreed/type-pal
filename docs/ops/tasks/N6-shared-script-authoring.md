@@ -109,7 +109,7 @@ Branch: main
 ### 进入 build 前：设计签字
 
 - Codex: **agree**（2026-07-13；同意“index 仅加作者元数据、body 复用 M3 chunk、共享纯归一化、无通用参数、MG2 保留与引用安全”方案）
-- Opus: pending
+- Opus: **agree**（2026-07-13;八项全过,三项实证消解关键落地风险——①checkScriptIndex 只验必需字段不拒未知键,`library` 可选字段**不升版稳妥**,卡内 v2 出口可关;②`shared/user/*` 经 deriveScriptChunk 兜底分支天然落 16 shared shard,零新分桶机制;③normalize 哈希已是纯 JS FNV-1a(stableScriptHash),下沉 content 零浏览器兼容障碍。MG2 组合验证:纯 theirs 永不产 library → base/theirs 皆缺+ours 有=永远保留;作者 shared chunk 当前 ours-only 文件,未来迁移若产同名 shared chunk 则 scripts Record 按 id 不相交合并,现有 MG2 机器直接吃下。附 N1-N3 非阻塞 build 注记,详见主审立场）
 - GLM: pending
 - counter / 分歧处理: N/A
 - 缺签豁免: N/A
@@ -217,14 +217,25 @@ interface ScriptIndexV1 {
 ### 主审立场
 
 - Reviewer: Opus
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: **agree(2026-07-13)**。八项逐条:
+  1. **library 进 index 不升版** — 稳妥。guard 实证只验必需字段(script-library.ts:85-107);monorepo 同发,新 guard 与写入方同 PR;工程文件本地。关掉 v2 出口,不再留"或许升版"的悬念。
+  2. **normalize 下沉 content** — 正确,消除 editor/migrate 双算漂移(MG2 风险2 同类);哈希已是纯 JS,零障碍。
+  3. **作者 id/self/无参数** — id 命名空间+创建即不可变+显示名分离 = 身份/展示正确分层;self 三态静态可校验(onEnter 无 self → required 必须显式实体,保存期可判);无参数边界严格对齐用户定义(模板=参数化录入展开/共享脚本=改一处全变),N6b 出口留位,不藏假参数债。
+  4. **内部脚本边界** — 默认隐藏+引用可入+id 不可改+不可删;编辑内部体=ours 修改,MG2 冲突语义自然接管,无需新机制。
+  5. **call 环/引用图** — 环错误限定"含作者脚本的 call 环",不误伤迁移 jump 环与既存内部 call 结构;按 script id 去重防扫死;运行时 128 深度仍兜底。
+  6. **空白工程初始化** — 单一原子 command(manifest+index+chunk 三处一次 apply/invert),风险7 已钉。
+  7. **MG2/M3 分账** — 组合推演通过(见签字行);"未登记 library = 迁移体"配命名空间强制(library 键必须 shared/user/ 且有同 id body),审计逃逸被封死。
+  8. **UI/预览/验证矩阵** — 复用数据页结构(列表+主编辑区,无新形态发明);插入菜单仅 callScript、jumpScript 只读;Playback+MemoryScriptResolver 预览带测试场景/实体;矩阵含 6010 全交互、6051 懒加载网络证明、窄窗检查,完整。
+- 必改项: 无(N1-N3 为 build 注记):
+  - **N1 引用图不进热路径**:ref-index 穿透全部 chunk(8.2MiB)后,构建须增量或按需(保存/删除/打开引用面板时),不得挂在每次编辑的热路径上,防 6010 卡顿。
+  - **N2 共享体内实体 id 保存期 warning**:self 覆盖执行者,但 body 硬引用 e12 类场景实体在跨场景调用下几乎必是 bug——扩展后的 ref-index 顺手给非阻断 warning。
+  - **N3 round-trip 测试点名 library**:IO 测试(HTTP/FSA/zip)显式断言 `index.library` 字段经保存/重开/导出不丢。
+- 是否建议进入 build: **是(待 GLM 签字齐)**。
 
 ### 三方争议记录（必填：schema/migration/跨包公共接口）
 
 - Codex: **agree**。M3 已解决运行时与物理分片，N6 应只增加作者层；`library` 元数据与现有 body 分离最小化运行时变化，纯归一化下沉避免 editor/migrate 漂移。v1 不做通用参数是有意控制 schema 爆炸，不妨碍后续以真实案例单独扩展。
-- Opus: pending
+- Opus: 与 Codex 无分歧。补强论证:不升版的安全性经 guard 实证;MG2 保留经 base/theirs/ours 组合推演(纯 theirs 永不产 library);作者/迁移脚本未来同 shard 共存时 Record 按 id 不相交合并可无缝吃下。N1-N3 为实现注记非立场分歧。
 - GLM: pending
 - 用户拍板: pending（如三方有分歧再请用户裁决）
 
@@ -270,17 +281,18 @@ interface ScriptIndexV1 {
 ## 交接日志
 
 - 2026-07-13 Codex: 核对 M3/MG2、content/reforge/editor/migrate 现状，确认 N6 是作者层闭环而非重写运行时；完成 schema、参数边界、UI、引用安全、迁移保留和验证方案并签 agree。Evidence: 本卡 Draft + `docs/phase2/roadmap.md` §10。Next: Opus 设计主审；不得开始实现。
+- 2026-07-13 Opus: 设计主审签 **agree**。八项全过;三实证:guard 只验必需字段(不升版稳妥,关 v2 出口)、shared/user 分桶走现有 deriveScriptChunk 兜底、normalize 哈希纯 JS(下沉零障碍);MG2 组合推演(theirs 永不产 library → ours-only 永保;未来同 shard 共存按 id 不相交合并)。N1-N3 build 注记:引用图增量/按需构建、共享体实体 id 保存期 warning、IO round-trip 点名 library。Evidence: 主审立场八条。Next: GLM 复核(迁移保留测试矩阵/审计分账口径/引用图覆盖);三签齐后 Codex 按分期 1-5 build。未改实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: N6 共享脚本/子程序创作闭环设计主审
+接手任务: N6 共享脚本/子程序创作闭环设计复核(GLM)
 任务卡: docs/ops/tasks/N6-shared-script-authoring.md
-当前状态: draft，Codex 已签 agree；Opus/GLM 未签，build 准入仍 blocked
-你的角色: Claude Opus，负责 schema/跨包边界、编辑器 UX、引用安全和实现可行性压力测试
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、任务卡全部“上下文锚点”和 Draft；重点对照 docs/ops/tasks/M3-wander-arm-explosion.md、docs/ops/tasks/MG2-incremental-migration-merge.md、packages/content/src/script-library.ts、packages/migrate/src/script-library-normalize.ts
-已完成: Codex 已确认 M3 的 ScriptRef/chunk/resolver/call stack 可复用，并提出 index.library 轻元数据、body 继续存 chunk、纯归一化下沉 content、v1 只保留 self 不做通用参数、作者/内部脚本分层、调用环/删除保护和 MG2 保留方案
-请你做: 审查 1) library 元数据放 ScriptIndexV1 且不升版是否稳妥；2) normalize 下沉边界；3) 作者 id/self/无参数取舍；4) 内部脚本跳转编辑与删除边界；5) call 环/引用图；6) 空白工程初始化；7) MG2 与 M3 体积分账；8) UI/预览和验证矩阵。将结论写回本卡 Opus 设计签字、主审立场、争议记录和交接日志并提交
-不要做: 不得修改任何实现文件，不得把 Status 改成 build；即使 agree，GLM 未签前仍不得开始实现
-输出要求: 给出 agree 或 counter+可落地替代方案；更新“下一位 Agent 提示词”为交 GLM 做迁移覆盖/测试矩阵复核，并在回复中提供同一段可直接复制文本
+当前状态: draft;Codex agree + Opus agree(附 N1-N3 build 注记),GLM pending,build 准入 blocked
+你的角色: GLM,迁移保留/测试矩阵/覆盖复核;只审设计,不改实现文件
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、任务卡 Draft A-G + Opus 主审立场(八条+N1-N3)
+Opus 已过: ①guard 实证只验必需字段,library 不升版稳妥(v2 出口已关);②shared/user/* 走现有 deriveScriptChunk 兜底分桶,零新机制;③normalize 哈希纯 JS,下沉 content 零障碍;④MG2 组合推演——纯 theirs 永不产 library(base/theirs 皆缺+ours 有=永保),作者 chunk 当前 ours-only 文件,未来迁移产同名 shared chunk 时 Record 按 id 不相交合并。N1 引用图增量/按需构建;N2 共享体实体 id 保存期 warning;N3 IO round-trip 点名 library。
+请你复核: (1)MG2 保留测试矩阵——验收"migrate"节是否覆盖:library 三方合并(ours-only 保留/双改同 body 冲突/materialize-canonical-normalize 三处显式保留 library)、作者 chunk 与未来迁移 shared chunk 共存合并;(2)审计分账口径——"未登记 library=迁移体"的计量实现是否可被 library 键命名空间校验完全钉死(shared/user/ 且有同 id body),给出绕过路径分析;(3)测试矩阵完整性——content guard/editor CRUD apply-invert/reforge self 三态/懒加载网络断言/IO 五路(HTTP/FSA/保存/重开/zip)逐条映射验收,列缺口;(4)引用图覆盖——场景 inline/chunk body/动态绑定/嵌套臂四类来源是否有测试样例各一。在设计签字 GLM 行签 agree/counter,更新交接日志与下一位提示词(agree 即三签齐,交 Codex 按分期 1-5 build,N1-N3 入范围)
+不要做: 不改实现文件;GLM 签后仍不得由你开始实现;不把 Status 改 build
+输出要求: 明确 agree/counter、矩阵缺口清单、分账绕过分析、提交 hash
 ```
