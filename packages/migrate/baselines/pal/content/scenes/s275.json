@@ -1,0 +1,109 @@
+{
+  "id": "s275",
+  "map": {
+    "reuseOriginalMap": 21
+  },
+  "entries": {
+    "from-s273": {
+      "pos": {
+        "col": 94,
+        "row": 56,
+        "height": 0
+      }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 125,
+        "row": 88,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 94,
+      "row": 56,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e4731",
+      "pos": {
+        "col": 59,
+        "row": 19,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s275",
+                      "id": "scene/s275/root/entity-e4731/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e4732",
+      "pos": {
+        "col": 63,
+        "row": 8,
+        "height": 0
+      },
+      "sprite": "npc-96",
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s275",
+                      "id": "scene/s275/root/entity-e4732/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s275",
+                      "id": "scene/s275/root/entity-e4732/page-0/auto/stage-0"
+                    }
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

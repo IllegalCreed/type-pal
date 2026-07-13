@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| MG2 | 迁移器结构化三方合并与安全重导 | review | Opus 审实现与 bootstrap 分类，随后 GLM 覆盖复核 | Build 候选与临时副本全流程已通过；真实 `projects/pal` 未写入，需 Opus/GLM 认可 5531 项分类后再交 Codex 写盘和视觉验证。任务卡：[MG2-incremental-migration-merge.md](tasks/MG2-incremental-migration-merge.md) |
+| MG2 | 迁移器结构化三方合并与安全重导 | review | Opus 复验真实迁移产物，随后 GLM 最终覆盖复核 | 真实写盘已完成：164 个工程改动、602 文件 baseline，二次零计划与 6051 四条烟测通过；Codex 已 accept，待 Opus/GLM 最终两签。任务卡：[MG2-incremental-migration-merge.md](tasks/MG2-incremental-migration-merge.md) |
 
 ## 阻塞
 

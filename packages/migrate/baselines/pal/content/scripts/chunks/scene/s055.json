@@ -1,0 +1,306 @@
+{
+  "version": 1,
+  "id": "scene/s055",
+  "scripts": {
+    "scene/s055/L-10805/e934/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3847",
+          "speaker": "spk.苗人"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3849",
+          "speaker": "spk.赵灵儿",
+          "portrait": {
+            "icon": 11,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3852",
+          "speaker": "spk.苗人",
+          "portrait": {
+            "icon": 11,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3856",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 5,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3860",
+          "speaker": "spk.苗人",
+          "portrait": {
+            "icon": 5,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "startBattle",
+        "team": 33,
+        "boss": true,
+        "fieldId": 45
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e934",
+        "state": 0
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e935",
+        "state": 0
+      }
+    ],
+    "scene/s055/L-10805/e935/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3847",
+          "speaker": "spk.苗人"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3849",
+          "speaker": "spk.赵灵儿",
+          "portrait": {
+            "icon": 11,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3852",
+          "speaker": "spk.苗人",
+          "portrait": {
+            "icon": 11,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3856",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 5,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3860",
+          "speaker": "spk.苗人",
+          "portrait": {
+            "icon": 5,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "startBattle",
+        "team": 33,
+        "boss": true,
+        "fieldId": 45
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e934",
+        "state": 0
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e935",
+        "state": 0
+      }
+    ],
+    "scene/s055/root/on-enter/stage-0": [],
+    "scene/s055/root/on-teleport/stage-0": [
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      },
+      {
+        "kind": "loadScene",
+        "scene": "s049",
+        "pos": {
+          "col": 69,
+          "row": 9,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s055/root/entity-e932/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s054",
+        "pos": {
+          "col": 87,
+          "row": 71,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s055/root/entity-e933/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s070",
+        "pos": {
+          "col": 96,
+          "row": -6,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s055/root/entity-e934/page-0/trigger/stage-0": [
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e934",
+        "on": "interact",
+        "range": 2
+      },
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e935",
+        "on": "interact",
+        "range": 2
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e934",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e934",
+        "frame": 0
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e935",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e935",
+        "frame": 0
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3820",
+          "speaker": "spk.苗人"
+        }
+      }
+    ],
+    "scene/s055/root/entity-e934/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3822",
+          "speaker": "spk.苗人"
+        }
+      }
+    ],
+    "scene/s055/root/entity-e935/page-0/trigger/stage-0": [
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e934",
+        "on": "interact",
+        "range": 2
+      },
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e935",
+        "on": "interact",
+        "range": 2
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e934",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e934",
+        "frame": 0
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e935",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e935",
+        "frame": 0
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3820",
+          "speaker": "spk.苗人"
+        }
+      }
+    ],
+    "scene/s055/root/entity-e935/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3822",
+          "speaker": "spk.苗人"
+        }
+      }
+    ]
+  }
+}

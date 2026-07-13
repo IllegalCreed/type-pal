@@ -1,0 +1,112 @@
+{
+  "id": "s242",
+  "map": {
+    "reuseOriginalMap": 186
+  },
+  "entries": {
+    "from-s229": {
+      "pos": {
+        "col": 42,
+        "row": 7,
+        "height": 0
+      }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 106,
+        "row": 2,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 135,
+        "row": 27,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 42,
+      "row": 7,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e4293",
+      "pos": {
+        "col": 46,
+        "row": 8,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s242",
+                      "id": "scene/s242/root/entity-e4293/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e4294",
+      "pos": {
+        "col": 109,
+        "row": 96,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s242",
+                      "id": "scene/s242/root/entity-e4294/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "onTeleport": [
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s242",
+            "id": "scene/s242/root/on-teleport/stage-0"
+          }
+        }
+      ]
+    }
+  ]
+}

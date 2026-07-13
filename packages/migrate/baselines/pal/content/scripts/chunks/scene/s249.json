@@ -1,0 +1,410 @@
+{
+  "version": 1,
+  "id": "scene/s249",
+  "scripts": {
+    "scene/s249/L-33970/e4394/d-89d21e09": [
+      {
+        "kind": "nudgeParty",
+        "dx": -8,
+        "dy": -8
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s249",
+          "id": "scene/s249/L-33970/e4394/d-89d21e09"
+        },
+        "self": "e4394"
+      }
+    ],
+    "scene/s249/L-35627/e4396/d-89d21e09": [
+      {
+        "kind": "animEntity",
+        "entity": "e4396"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s249",
+          "id": "scene/s249/L-35627/e4396/d-89d21e09"
+        },
+        "self": "e4396"
+      }
+    ],
+    "scene/s249/L-35627/e4402/d-89d21e09": [
+      {
+        "kind": "animEntity",
+        "entity": "e4402"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s249",
+          "id": "scene/s249/L-35627/e4402/d-89d21e09"
+        },
+        "self": "e4402"
+      }
+    ],
+    "scene/s249/L-35627/e4403/d-89d21e09": [
+      {
+        "kind": "animEntity",
+        "entity": "e4403"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s249",
+          "id": "scene/s249/L-35627/e4403/d-89d21e09"
+        },
+        "self": "e4403"
+      }
+    ],
+    "scene/s249/L-35627/e4404/d-89d21e09": [
+      {
+        "kind": "animEntity",
+        "entity": "e4404"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s249",
+          "id": "scene/s249/L-35627/e4404/d-89d21e09"
+        },
+        "self": "e4404"
+      }
+    ],
+    "scene/s249/L-35627/e4405/d-89d21e09": [
+      {
+        "kind": "animEntity",
+        "entity": "e4405"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s249",
+          "id": "scene/s249/L-35627/e4405/d-89d21e09"
+        },
+        "self": "e4405"
+      }
+    ],
+    "scene/s249/L-35627/e4406/d-89d21e09": [
+      {
+        "kind": "animEntity",
+        "entity": "e4406"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s249",
+          "id": "scene/s249/L-35627/e4406/d-89d21e09"
+        },
+        "self": "e4406"
+      }
+    ],
+    "scene/s249/L-35627/e4407/d-89d21e09": [
+      {
+        "kind": "animEntity",
+        "entity": "e4407"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s249",
+          "id": "scene/s249/L-35627/e4407/d-89d21e09"
+        },
+        "self": "e4407"
+      }
+    ],
+    "scene/s249/root/on-enter/stage-0": [
+      {
+        "kind": "playMusic",
+        "musicId": 60
+      }
+    ],
+    "scene/s249/root/on-teleport/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s249",
+        "pos": {
+          "col": 54,
+          "row": 33,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s249/root/entity-e4394/page-0/trigger/stage-0": [
+      {
+        "kind": "setPartyFacing",
+        "facing": "left"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -8,
+        "dy": -8
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s249",
+          "id": "scene/s249/L-33970/e4394/d-89d21e09"
+        },
+        "self": "e4394"
+      }
+    ],
+    "scene/s249/root/entity-e4395/page-0/trigger/stage-0": [
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 76,
+          "row": 11,
+          "height": 0
+        },
+        "speed": "run"
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "setActorSprite",
+        "actor": "li-xiaoyao",
+        "sprite": "npc-232"
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e4396",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e4396",
+        "frame": 1
+      },
+      {
+        "kind": "wait",
+        "ms": 80
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e4396",
+        "script": {
+          "chunk": "scene/s249",
+          "id": "scene/s249/L-35627/e4396/d-89d21e09"
+        }
+      },
+      {
+        "kind": "playSound",
+        "soundId": 155
+      },
+      {
+        "kind": "wait",
+        "ms": 640
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e4396",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e4396",
+        "frame": 0
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e4396",
+        "stages": []
+      },
+      {
+        "kind": "setActorSprite",
+        "actor": "li-xiaoyao",
+        "sprite": "npc-563"
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "loadScene",
+        "scene": "s260",
+        "pos": {
+          "col": 149,
+          "row": 49,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s249/root/entity-e4397/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s260",
+        "pos": {
+          "col": 149,
+          "row": 49,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s249/root/entity-e4398/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s260",
+        "pos": {
+          "col": 149,
+          "row": 67,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s249/root/entity-e4399/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s260",
+        "pos": {
+          "col": 65,
+          "row": 22,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s249/root/entity-e4400/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s260",
+        "pos": {
+          "col": 102,
+          "row": 29,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s249/root/entity-e4401/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s260",
+        "pos": {
+          "col": 102,
+          "row": 29,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s249/root/entity-e4402/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e4402"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s249",
+          "id": "scene/s249/L-35627/e4402/d-89d21e09"
+        },
+        "self": "e4402"
+      }
+    ],
+    "scene/s249/root/entity-e4403/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e4403"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s249",
+          "id": "scene/s249/L-35627/e4403/d-89d21e09"
+        },
+        "self": "e4403"
+      }
+    ],
+    "scene/s249/root/entity-e4404/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e4404"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s249",
+          "id": "scene/s249/L-35627/e4404/d-89d21e09"
+        },
+        "self": "e4404"
+      }
+    ],
+    "scene/s249/root/entity-e4405/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e4405"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s249",
+          "id": "scene/s249/L-35627/e4405/d-89d21e09"
+        },
+        "self": "e4405"
+      }
+    ],
+    "scene/s249/root/entity-e4406/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e4406"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s249",
+          "id": "scene/s249/L-35627/e4406/d-89d21e09"
+        },
+        "self": "e4406"
+      }
+    ],
+    "scene/s249/root/entity-e4407/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e4407"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s249",
+          "id": "scene/s249/L-35627/e4407/d-89d21e09"
+        },
+        "self": "e4407"
+      }
+    ]
+  }
+}

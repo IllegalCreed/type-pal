@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "id": "scene/s094",
+  "scripts": {
+    "scene/s094/root/entity-e1760/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s082",
+        "pos": {
+          "col": 48,
+          "row": 12,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s094/root/entity-e1761/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s093",
+        "pos": {
+          "col": 63,
+          "row": 26,
+          "height": 0
+        }
+      }
+    ]
+  }
+}

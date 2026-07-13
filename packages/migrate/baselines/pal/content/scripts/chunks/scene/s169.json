@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "id": "scene/s169",
+  "scripts": {
+    "scene/s169/root/on-enter/stage-0": [
+      {
+        "kind": "setActorSprite",
+        "actor": "li-xiaoyao",
+        "sprite": "npc-193"
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down",
+        "gesture": 12
+      },
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 111,
+          "row": 75,
+          "height": 0
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.9187"
+        }
+      },
+      {
+        "kind": "loadScene",
+        "scene": "s170"
+      }
+    ],
+    "scene/s169/root/on-enter/stage-1": [
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 108,
+          "row": 36,
+          "height": 0
+        }
+      },
+      {
+        "kind": "setActorSprite",
+        "actor": "li-xiaoyao",
+        "sprite": "li-xiaoyao"
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "ditherScreen",
+        "ms": 5040
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e2851",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e2851",
+        "frame": 1
+      },
+      {
+        "kind": "wait",
+        "ms": 400
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      },
+      {
+        "kind": "wait",
+        "ms": 240
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.9189"
+        }
+      },
+      {
+        "kind": "setSceneStage",
+        "scene": "s145",
+        "stage": 0
+      },
+      {
+        "kind": "loadScene",
+        "scene": "s145"
+      }
+    ]
+  }
+}

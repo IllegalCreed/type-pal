@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "id": "scene/s259",
+  "scripts": {
+    "scene/s259/root/entity-e4552/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s255",
+        "pos": {
+          "col": 145,
+          "row": 65,
+          "height": 0
+        }
+      }
+    ]
+  }
+}

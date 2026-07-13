@@ -1,0 +1,148 @@
+{
+  "version": 1,
+  "id": "scene/s116",
+  "scripts": {
+    "scene/s116/L-36497/e2150/d-89d21e09": [
+      {
+        "kind": "wait",
+        "ms": 80
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 41
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s116",
+              "id": "scene/s116/L-36497/e2150/d-89d21e09"
+            },
+            "self": "e2150"
+          }
+        ]
+      },
+      {
+        "kind": "wait",
+        "ms": 80
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e2150",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e2150",
+        "frame": 0
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e2150",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e2150",
+        "frame": 1
+      }
+    ],
+    "scene/s116/root/entity-e2148/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s108",
+        "pos": {
+          "col": 135,
+          "row": 97,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s116/root/entity-e2149/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s115",
+        "pos": {
+          "col": 56,
+          "row": 40,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s116/root/entity-e2150/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6495",
+          "speaker": "spk.婢　女"
+        }
+      }
+    ],
+    "scene/s116/root/entity-e2150/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6498",
+          "speaker": "spk.婢　女"
+        }
+      }
+    ],
+    "scene/s116/root/entity-e2150/page-0/auto/stage-0": [
+      {
+        "kind": "wait",
+        "ms": 80
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 41
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s116",
+              "id": "scene/s116/L-36497/e2150/d-89d21e09"
+            },
+            "self": "e2150"
+          }
+        ]
+      },
+      {
+        "kind": "wait",
+        "ms": 80
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e2150",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e2150",
+        "frame": 0
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e2150",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e2150",
+        "frame": 1
+      }
+    ]
+  }
+}

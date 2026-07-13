@@ -1,0 +1,113 @@
+{
+  "id": "s277",
+  "map": {
+    "reuseOriginalMap": 182
+  },
+  "entries": {
+    "start": {
+      "pos": {
+        "col": 122,
+        "row": 69,
+        "height": 0
+      }
+    },
+    "from-s281": {
+      "pos": {
+        "col": 100,
+        "row": 82,
+        "height": 0
+      }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 96,
+        "row": 39,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 122,
+      "row": 69,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e4735",
+      "pos": {
+        "col": 126,
+        "row": 84,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s277",
+                      "id": "scene/s277/root/entity-e4735/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e4736",
+      "pos": {
+        "col": 124,
+        "row": 69,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s277",
+                      "id": "scene/s277/root/entity-e4736/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s277",
+            "id": "scene/s277/root/on-enter/stage-0"
+          }
+        }
+      ]
+    }
+  ],
+  "battleFieldId": 48
+}

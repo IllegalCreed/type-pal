@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "id": "scene/s152",
+  "scripts": {
+    "scene/s152/L-35627/e2475/d-89d21e09": [
+      {
+        "kind": "animEntity",
+        "entity": "e2475"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s152",
+          "id": "scene/s152/L-35627/e2475/d-89d21e09"
+        },
+        "self": "e2475"
+      }
+    ],
+    "scene/s152/root/on-enter/stage-0": [
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 78,
+          "row": -27,
+          "height": 0
+        }
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e2804",
+        "script": {
+          "chunk": "scene/s168",
+          "id": "scene/s168/L-22599/e2804/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setParty",
+        "members": [
+          "zhao-linger",
+          "li-xiaoyao",
+          "lin-yueru"
+        ]
+      }
+    ],
+    "scene/s152/root/on-enter/stage-1": [],
+    "scene/s152/root/entity-e2473/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s168",
+        "pos": {
+          "col": 85,
+          "row": 4,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s152/root/entity-e2474/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s144"
+      }
+    ],
+    "scene/s152/root/entity-e2475/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e2475"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s152",
+          "id": "scene/s152/L-35627/e2475/d-89d21e09"
+        },
+        "self": "e2475"
+      }
+    ]
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "version": 1,
+  "id": "scene/s251",
+  "scripts": {
+    "scene/s251/L-33768/e4438/d-89d21e09": [
+      {
+        "kind": "nudgeEntity",
+        "entity": "e4438",
+        "dx": 6,
+        "dy": 4
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e4438"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e4438",
+        "dx": 6,
+        "dy": 4
+      },
+      {
+        "kind": "wait",
+        "ms": 360
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s251",
+          "id": "scene/s251/L-33768/e4438/d-89d21e09"
+        },
+        "self": "e4438"
+      }
+    ],
+    "scene/s251/root/on-enter/stage-0": [
+      {
+        "kind": "playMusic",
+        "musicId": 0
+      },
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 108,
+          "row": 75,
+          "height": 0
+        }
+      },
+      {
+        "kind": "setActorSprite",
+        "actor": "li-xiaoyao",
+        "sprite": "npc-193"
+      },
+      {
+        "kind": "setParty",
+        "members": [
+          "li-xiaoyao"
+        ]
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down",
+        "gesture": 8
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 640
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down",
+        "gesture": 9
+      },
+      {
+        "kind": "wait",
+        "ms": 80
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e4437",
+        "state": 1
+      },
+      {
+        "kind": "playSound",
+        "soundId": 175
+      },
+      {
+        "kind": "ditherScreen",
+        "ms": 720
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e4437",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e4437",
+        "frame": 1
+      },
+      {
+        "kind": "ditherScreen",
+        "ms": 2160
+      },
+      {
+        "kind": "setActorSprite",
+        "actor": "li-xiaoyao",
+        "sprite": "li-xiaoyao"
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "left"
+      },
+      {
+        "kind": "wait",
+        "ms": 320
+      },
+      {
+        "kind": "playSound",
+        "soundId": 192
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e4437",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e4437",
+        "frame": 2
+      },
+      {
+        "kind": "ditherScreen",
+        "ms": 3600
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11661",
+          "speaker": "spk.李逍遥"
+        }
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e4438",
+        "state": 1
+      },
+      {
+        "kind": "wait",
+        "ms": 560
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      },
+      {
+        "kind": "wait",
+        "ms": 80
+      }
+    ],
+    "scene/s251/root/entity-e4438/page-0/auto/stage-0": [
+      {
+        "kind": "nudgeEntity",
+        "entity": "e4438",
+        "dx": 6,
+        "dy": 4
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e4438"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e4438",
+        "dx": 6,
+        "dy": 4
+      },
+      {
+        "kind": "wait",
+        "ms": 360
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s251",
+          "id": "scene/s251/L-33768/e4438/d-89d21e09"
+        },
+        "self": "e4438"
+      }
+    ]
+  }
+}

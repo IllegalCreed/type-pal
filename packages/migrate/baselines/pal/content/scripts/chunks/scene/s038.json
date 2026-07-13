@@ -1,0 +1,413 @@
+{
+  "version": 1,
+  "id": "scene/s038",
+  "scripts": {
+    "scene/s038/L-35650/e625/d-89d21e09": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e625",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e625",
+        "frame": 1
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e625",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e625",
+        "frame": 2
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e625",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e625",
+        "frame": 3
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s038",
+          "id": "scene/s038/L-35650/e625/d-89d21e09"
+        },
+        "self": "e625"
+      }
+    ],
+    "scene/s038/L-35650/e626/d-89d21e09": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e626",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e626",
+        "frame": 1
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e626",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e626",
+        "frame": 2
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e626",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e626",
+        "frame": 3
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s038",
+          "id": "scene/s038/L-35650/e626/d-89d21e09"
+        },
+        "self": "e626"
+      }
+    ],
+    "scene/s038/root/on-enter/stage-0": [
+      {
+        "kind": "playMusic",
+        "musicId": 51
+      },
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 115,
+          "row": 19,
+          "height": 0
+        }
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3005",
+          "speaker": "spk.春兰"
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 640
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "wait",
+        "ms": 320
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "left"
+      },
+      {
+        "kind": "wait",
+        "ms": 320
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3009",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
+      }
+    ],
+    "scene/s038/root/on-enter/stage-1": [
+      {
+        "kind": "setAmbience",
+        "ambience": "day"
+      }
+    ],
+    "scene/s038/root/entity-e620/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s035",
+        "pos": {
+          "col": 41,
+          "row": -25,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s038/root/entity-e621/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s035",
+        "pos": {
+          "col": 57,
+          "row": -25,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s038/root/entity-e622/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s035",
+        "pos": {
+          "col": 84,
+          "row": -25,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s038/root/entity-e623/page-0/auto/stage-0": [
+      {
+        "kind": "moveEntity",
+        "entity": "e623",
+        "to": {
+          "col": 117,
+          "row": 30,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e623",
+        "state": 0
+      }
+    ],
+    "scene/s038/root/entity-e624/page-0/auto/stage-0": [],
+    "scene/s038/root/entity-e624/page-0/auto/stage-1": [
+      {
+        "kind": "moveEntity",
+        "entity": "e624",
+        "to": {
+          "col": 117,
+          "row": 30,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e624",
+        "state": 0
+      }
+    ],
+    "scene/s038/root/entity-e625/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e625",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e625",
+        "frame": 1
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e625",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e625",
+        "frame": 2
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e625",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e625",
+        "frame": 3
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s038",
+          "id": "scene/s038/L-35650/e625/d-89d21e09"
+        },
+        "self": "e625"
+      }
+    ],
+    "scene/s038/root/entity-e626/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e626",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e626",
+        "frame": 3
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s038",
+          "id": "scene/s038/L-35650/e626/d-89d21e09"
+        },
+        "self": "e626"
+      }
+    ],
+    "scene/s038/root/entity-e627/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12466",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveMoney",
+        "delta": 50
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e627",
+        "state": 0
+      }
+    ],
+    "scene/s038/root/entity-e628/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12522",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "248"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e628",
+        "state": 0
+      }
+    ],
+    "scene/s038/root/entity-e629/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12485",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "99"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e629",
+        "state": 0
+      }
+    ],
+    "scene/s038/root/entity-e630/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12529",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "63"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e630",
+        "state": 0
+      }
+    ],
+    "scene/s038/root/entity-e631/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12519",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "236"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e631",
+        "state": 0
+      }
+    ]
+  }
+}

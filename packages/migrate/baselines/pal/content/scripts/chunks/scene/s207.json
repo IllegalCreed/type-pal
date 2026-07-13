@@ -1,0 +1,1096 @@
+{
+  "version": 1,
+  "id": "scene/s207",
+  "scripts": {
+    "scene/s207/L-36132/e3504/d-89d21e09": [],
+    "scene/s207/L-36135/e3504/d-89d21e09": [],
+    "scene/s207/root/entity-e3495/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s206",
+        "pos": {
+          "col": 130,
+          "row": 96,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s207/root/entity-e3496/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s206",
+        "pos": {
+          "col": 145,
+          "row": 43,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s207/root/entity-e3497/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s206",
+        "pos": {
+          "col": 130,
+          "row": 68,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s207/root/entity-e3498/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s206",
+        "pos": {
+          "col": 114,
+          "row": 97,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s207/root/entity-e3499/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s206",
+        "pos": {
+          "col": 126,
+          "row": 26,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s207/root/entity-e3500/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s206",
+        "pos": {
+          "col": 96,
+          "row": 70,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s207/root/entity-e3501/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s206",
+        "pos": {
+          "col": 106,
+          "row": 72,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s207/root/entity-e3502/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s206",
+        "pos": {
+          "col": 105,
+          "row": 58,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s207/root/entity-e3503/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10580",
+          "speaker": "spk.店家"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "openShop",
+        "shop": 16,
+        "mode": "buy"
+      }
+    ],
+    "scene/s207/root/entity-e3503/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3503",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3503",
+        "frame": 0
+      }
+    ],
+    "scene/s207/root/entity-e3504/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10583",
+          "speaker": "spk.顾客"
+        }
+      }
+    ],
+    "scene/s207/root/entity-e3504/page-0/auto/stage-0": [],
+    "scene/s207/root/entity-e3504/page-0/auto/stage-1": [
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 96
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s207",
+              "id": "scene/s207/L-36132/e3504/d-89d21e09"
+            },
+            "self": "e3504"
+          }
+        ]
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3504",
+        "facing": "up"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3504",
+        "frame": 0
+      }
+    ],
+    "scene/s207/root/entity-e3504/page-0/auto/stage-2": [
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 93
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s207",
+              "id": "scene/s207/L-36135/e3504/d-89d21e09"
+            },
+            "self": "e3504"
+          }
+        ]
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3504",
+        "facing": "left"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3504",
+        "frame": 0
+      }
+    ],
+    "scene/s207/root/entity-e3505/page-0/trigger/stage-0": [
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10587",
+          "speaker": "spk.小孩"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10590",
+          "speaker": "spk.白苗妇女"
+        }
+      }
+    ],
+    "scene/s207/root/entity-e3505/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3505",
+        "facing": "left"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3505",
+        "frame": 0
+      }
+    ],
+    "scene/s207/root/entity-e3506/page-0/trigger/stage-0": [
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10587",
+          "speaker": "spk.小孩"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10590",
+          "speaker": "spk.白苗妇女"
+        }
+      }
+    ],
+    "scene/s207/root/entity-e3506/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3506",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3506",
+        "frame": 0
+      }
+    ],
+    "scene/s207/root/entity-e3507/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10593",
+          "speaker": "spk.店主"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "openShop",
+        "shop": 18,
+        "mode": "buy"
+      }
+    ],
+    "scene/s207/root/entity-e3507/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3507",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3507",
+        "frame": 0
+      }
+    ],
+    "scene/s207/root/entity-e3509/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10596",
+          "speaker": "spk.居民"
+        }
+      }
+    ],
+    "scene/s207/root/entity-e3509/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3509",
+        "facing": "left"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3509",
+        "frame": 0
+      }
+    ],
+    "scene/s207/root/entity-e3510/page-0/trigger/stage-0": [
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10601",
+          "speaker": "spk.居民"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10604",
+          "speaker": "spk.阿宝"
+        }
+      }
+    ],
+    "scene/s207/root/entity-e3510/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3510",
+        "facing": "up"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3510",
+        "frame": 0
+      }
+    ],
+    "scene/s207/root/entity-e3512/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12477",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "86"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3512",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3513/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12477",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "86"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3513",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3514/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12477",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "86"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3514",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3515/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12477",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "86"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3515",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3516/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12472",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "77"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3516",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3517/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12506",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "143"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3517",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3518/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12514",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "210"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3518",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3519/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12473",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "79"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3519",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3520/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12523",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "249"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3520",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3521/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12505",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "142"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3521",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3522/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12524",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "252"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3522",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3523/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12472",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "77"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3523",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3524/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12503",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "148"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3524",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3525/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12515",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "225"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3525",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3526/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12506",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "143"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3526",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3527/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12525",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "253"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3527",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3528/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12498",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "115"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3528",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3529/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12472",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "77"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3529",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3530/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12468",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveMoney",
+        "delta": 230
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3530",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3531/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12502",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "135"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3531",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3532/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12493",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "108"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3532",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3533/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12483",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "95"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3533",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3534/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12495",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "131"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3534",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3535/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12504",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "140"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3535",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3536/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12520",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "237"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3536",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3537/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12473",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "79"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3537",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3538/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12501",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "128"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3538",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3539/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12506",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "143"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3539",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3540/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12480",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "92"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3540",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3541/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12495",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "131"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3541",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3542/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12486",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "100"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3542",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3543/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12487",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "101"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3543",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3544/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12505",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "142"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3544",
+        "state": 0
+      }
+    ],
+    "scene/s207/root/entity-e3545/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12466",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveMoney",
+        "delta": 50
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3545",
+        "state": 0
+      }
+    ]
+  }
+}

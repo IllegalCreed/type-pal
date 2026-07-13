@@ -1,0 +1,131 @@
+{
+  "id": "s177",
+  "map": {
+    "reuseOriginalMap": 201
+  },
+  "entries": {
+    "start": {
+      "pos": {
+        "col": 88,
+        "row": 0,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 88,
+      "row": 0,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e2944",
+      "pos": {
+        "col": 89,
+        "row": -3,
+        "height": 0
+      },
+      "sprite": "npc-609",
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s177",
+                      "id": "scene/s177/root/entity-e2944/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2945",
+      "pos": {
+        "col": 87,
+        "row": 0,
+        "height": 0
+      },
+      "sprite": "npc-358",
+      "facing": "left"
+    },
+    {
+      "id": "e2946",
+      "pos": {
+        "col": 84,
+        "row": 5,
+        "height": 0
+      },
+      "sprite": "npc-519",
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s177",
+                      "id": "scene/s177/root/entity-e2946/page-0/trigger/stage-0"
+                    }
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s177",
+                      "id": "scene/s177/root/entity-e2946/page-0/trigger/stage-1"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s177",
+            "id": "scene/s177/root/on-enter/stage-0"
+          }
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s177",
+            "id": "scene/s177/root/on-enter/stage-1"
+          }
+        }
+      ]
+    }
+  ]
+}

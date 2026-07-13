@@ -1,0 +1,218 @@
+{
+  "id": "s135",
+  "map": {
+    "reuseOriginalMap": 122
+  },
+  "entries": {
+    "from-s100": {
+      "pos": {
+        "col": 55,
+        "row": 17,
+        "height": 0
+      }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 51,
+        "row": 7,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 55,
+      "row": 17,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e2322",
+      "pos": {
+        "col": 42,
+        "row": 20,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s135",
+                      "id": "scene/s135/root/entity-e2322/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2323",
+      "pos": {
+        "col": 35,
+        "row": 11,
+        "height": 0
+      },
+      "sprite": "npc-90",
+      "facing": "right",
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s135",
+                      "id": "scene/s135/root/entity-e2323/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2324",
+      "pos": {
+        "col": 40,
+        "row": 8,
+        "height": 0
+      },
+      "sprite": "npc-342",
+      "facing": "up",
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s135",
+                      "id": "scene/s135/root/entity-e2324/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s135",
+                      "id": "scene/s135/root/entity-e2324/page-0/auto/stage-0"
+                    }
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2325",
+      "pos": {
+        "col": 46,
+        "row": 13,
+        "height": 0
+      },
+      "sprite": "npc-102",
+      "facing": "right",
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s135",
+                      "id": "scene/s135/root/entity-e2325/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2326",
+      "pos": {
+        "col": 37,
+        "row": 16,
+        "height": 0
+      },
+      "sprite": "npc-136",
+      "facing": "left",
+      "hidden": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s135",
+                      "id": "scene/s135/root/entity-e2326/page-0/trigger/stage-0"
+                    }
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s135",
+                      "id": "scene/s135/root/entity-e2326/page-0/trigger/stage-1"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

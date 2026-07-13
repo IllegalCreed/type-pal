@@ -1,0 +1,534 @@
+{
+  "version": 1,
+  "id": "scene/s007",
+  "scripts": {
+    "scene/s007/L-3969/e172/d-89d21e09": [
+      {
+        "kind": "moveEntity",
+        "entity": "e172",
+        "to": {
+          "col": 112,
+          "row": 12,
+          "height": 0
+        },
+        "speed": "slow"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e172",
+        "state": 0
+      }
+    ],
+    "scene/s007/L-3969/e171/d-89d21e09": [
+      {
+        "kind": "moveEntity",
+        "entity": "e171",
+        "to": {
+          "col": 112,
+          "row": 12,
+          "height": 0
+        },
+        "speed": "slow"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e171",
+        "state": 0
+      }
+    ],
+    "scene/s007/L-38648/e173/d-89d21e09": [
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 93
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 68
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s007",
+              "id": "scene/s007/L-38641/e173/d-89d21e09"
+            },
+            "self": "e173"
+          }
+        ]
+      },
+      {
+        "kind": "wait",
+        "ms": 800
+      },
+      {
+        "kind": "playSound",
+        "soundId": 73
+      },
+      {
+        "kind": "wait",
+        "ms": 800
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 31
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s007",
+              "id": "scene/s007/L-38641/e173/d-89d21e09"
+            },
+            "self": "e173"
+          }
+        ]
+      },
+      {
+        "kind": "playSound",
+        "soundId": 73
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 99
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      }
+    ],
+    "scene/s007/L-38641/e173/d-89d21e09": [
+      {
+        "kind": "wait",
+        "ms": 320
+      },
+      {
+        "kind": "playSound",
+        "soundId": 66
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 41
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s007",
+              "id": "scene/s007/L-38648/e173/d-89d21e09"
+            },
+            "self": "e173"
+          }
+        ]
+      },
+      {
+        "kind": "wait",
+        "ms": 240
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 81
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "playSound",
+        "soundId": 66
+      },
+      {
+        "kind": "wait",
+        "ms": 320
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 93
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 68
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s007",
+              "id": "scene/s007/L-38641/e173/d-89d21e09"
+            },
+            "self": "e173"
+          }
+        ]
+      },
+      {
+        "kind": "wait",
+        "ms": 800
+      },
+      {
+        "kind": "playSound",
+        "soundId": 73
+      },
+      {
+        "kind": "wait",
+        "ms": 800
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 31
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s007",
+              "id": "scene/s007/L-38641/e173/d-89d21e09"
+            },
+            "self": "e173"
+          }
+        ]
+      },
+      {
+        "kind": "playSound",
+        "soundId": 73
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 99
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      }
+    ],
+    "scene/s007/root/on-teleport/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s007",
+        "pos": {
+          "col": 76,
+          "row": 12,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s007/root/entity-e169/page-0/trigger/stage-0": [
+      {
+        "kind": "setEntityState",
+        "entity": "e171",
+        "state": 0
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e172",
+        "state": 0
+      },
+      {
+        "kind": "loadScene",
+        "scene": "s006",
+        "pos": {
+          "col": 18,
+          "row": 5,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s007/root/entity-e170/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s011",
+        "pos": {
+          "col": 46,
+          "row": 17,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s007/root/entity-e171/page-0/trigger/stage-0": [
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e171"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1508",
+          "speaker": "spk.白苗使者"
+        }
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1511",
+          "speaker": "spk.李逍遥",
+          "slot": "top",
+          "portrait": {
+            "icon": 1,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1514",
+          "speaker": "spk.白苗使者"
+        }
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e172",
+        "script": {
+          "chunk": "scene/s007",
+          "id": "scene/s007/L-3969/e172/d-89d21e09"
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 80
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e171",
+        "script": {
+          "chunk": "scene/s007",
+          "id": "scene/s007/L-3969/e171/d-89d21e09"
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 320
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e171",
+        "facing": "left"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e171",
+        "frame": 0
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e172",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e172",
+        "frame": 0
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1516",
+          "speaker": "spk.白苗使者"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1519",
+          "speaker": "spk.李逍遥",
+          "slot": "top",
+          "portrait": {
+            "icon": 1,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1523",
+          "speaker": "spk.白苗使者"
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      }
+    ],
+    "scene/s007/root/entity-e173/page-0/auto/stage-0": [
+      {
+        "kind": "wait",
+        "ms": 320
+      },
+      {
+        "kind": "playSound",
+        "soundId": 66
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 41
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s007",
+              "id": "scene/s007/L-38648/e173/d-89d21e09"
+            },
+            "self": "e173"
+          }
+        ]
+      },
+      {
+        "kind": "wait",
+        "ms": 240
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 81
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "playSound",
+        "soundId": 66
+      },
+      {
+        "kind": "wait",
+        "ms": 320
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 93
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 68
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s007",
+              "id": "scene/s007/L-38641/e173/d-89d21e09"
+            },
+            "self": "e173"
+          }
+        ]
+      },
+      {
+        "kind": "wait",
+        "ms": 800
+      },
+      {
+        "kind": "playSound",
+        "soundId": 73
+      },
+      {
+        "kind": "wait",
+        "ms": 800
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 31
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s007",
+              "id": "scene/s007/L-38641/e173/d-89d21e09"
+            },
+            "self": "e173"
+          }
+        ]
+      },
+      {
+        "kind": "playSound",
+        "soundId": 73
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 99
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      }
+    ]
+  }
+}

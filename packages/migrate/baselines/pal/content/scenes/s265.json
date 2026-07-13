@@ -1,0 +1,324 @@
+{
+  "id": "s265",
+  "map": {
+    "reuseOriginalMap": 209
+  },
+  "entries": {
+    "from-s263": {
+      "pos": {
+        "col": 35,
+        "row": 14,
+        "height": 0
+      }
+    },
+    "from-s263-2": {
+      "pos": {
+        "col": 73,
+        "row": 34,
+        "height": 0
+      }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 35,
+        "row": 14,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 63,
+        "row": 18,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 35,
+      "row": 14,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e4646",
+      "pos": {
+        "col": 73,
+        "row": 38,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s265",
+                      "id": "scene/s265/root/entity-e4646/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e4647",
+      "pos": {
+        "col": 104,
+        "row": 38,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s265",
+                      "id": "scene/s265/root/entity-e4647/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e4648",
+      "pos": {
+        "col": 87,
+        "row": -7,
+        "height": 0
+      },
+      "sprite": "npc-612",
+      "zBias": 4,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s265",
+                      "id": "scene/s265/root/entity-e4648/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e4649",
+      "pos": {
+        "col": 68,
+        "row": 17,
+        "height": 0
+      },
+      "sprite": "npc-619",
+      "zBias": 6,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s265",
+                      "id": "scene/s265/root/entity-e4649/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e4650",
+      "pos": {
+        "col": 105,
+        "row": 17,
+        "height": 0
+      },
+      "sprite": "npc-619",
+      "zBias": 6,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s265",
+                      "id": "scene/s265/root/entity-e4650/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e4651",
+      "pos": {
+        "col": 92,
+        "row": -13,
+        "height": 0
+      },
+      "sprite": "npc-619",
+      "zBias": 6,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s265",
+                      "id": "scene/s265/root/entity-e4651/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e4652",
+      "pos": {
+        "col": 79,
+        "row": -13,
+        "height": 0
+      },
+      "sprite": "npc-619",
+      "zBias": 6,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s265",
+                      "id": "scene/s265/root/entity-e4652/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e4653",
+      "pos": {
+        "col": 79,
+        "row": -4,
+        "height": 0
+      },
+      "sprite": "npc-619",
+      "zBias": 6,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s265",
+                      "id": "scene/s265/root/entity-e4653/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e4654",
+      "pos": {
+        "col": 92,
+        "row": -4,
+        "height": 0
+      },
+      "sprite": "npc-619",
+      "zBias": 6,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s265",
+                      "id": "scene/s265/root/entity-e4654/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "onTeleport": [
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s265",
+            "id": "scene/s265/root/on-teleport/stage-0"
+          }
+        }
+      ]
+    }
+  ]
+}

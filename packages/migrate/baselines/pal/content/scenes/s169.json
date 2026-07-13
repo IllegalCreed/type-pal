@@ -1,0 +1,68 @@
+{
+  "id": "s169",
+  "map": {
+    "reuseOriginalMap": 9
+  },
+  "entry": {
+    "pos": {
+      "col": 96,
+      "row": 32,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e2849",
+      "pos": {
+        "col": 111,
+        "row": 80,
+        "height": 0
+      },
+      "sprite": "npc-18-f0"
+    },
+    {
+      "id": "e2850",
+      "pos": {
+        "col": 111,
+        "row": 78,
+        "height": 0
+      },
+      "sprite": "npc-365-f0"
+    },
+    {
+      "id": "e2851",
+      "pos": {
+        "col": 109,
+        "row": 34,
+        "height": 0
+      },
+      "sprite": "npc-364"
+    }
+  ],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s169",
+            "id": "scene/s169/root/on-enter/stage-0"
+          }
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s169",
+            "id": "scene/s169/root/on-enter/stage-1"
+          }
+        }
+      ]
+    }
+  ]
+}

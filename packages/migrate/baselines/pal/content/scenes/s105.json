@@ -1,0 +1,182 @@
+{
+  "id": "s105",
+  "map": {
+    "reuseOriginalMap": 95
+  },
+  "musicId": 8,
+  "entries": {
+    "from-s113": {
+      "pos": {
+        "col": 35,
+        "row": 19,
+        "height": 0
+      }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 131,
+        "row": 101,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 169,
+        "row": 67,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 104,
+        "row": 68,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 35,
+      "row": 19,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e1964",
+      "pos": {
+        "col": 100,
+        "row": -15,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s105",
+                      "id": "scene/s105/root/entity-e1964/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e1965",
+      "pos": {
+        "col": 74,
+        "row": 64,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s105",
+                      "id": "scene/s105/root/entity-e1965/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e1966",
+      "pos": {
+        "col": 31,
+        "row": 19,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s105",
+                      "id": "scene/s105/root/entity-e1966/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e1967",
+      "pos": {
+        "col": 41,
+        "row": -23,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s105",
+                      "id": "scene/s105/root/entity-e1967/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s105",
+            "id": "scene/s105/root/on-enter/stage-0"
+          }
+        }
+      ]
+    }
+  ],
+  "battleFieldId": 7,
+  "battleMusicId": 41
+}

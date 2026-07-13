@@ -1,0 +1,124 @@
+{
+  "id": "s066",
+  "map": {
+    "reuseOriginalMap": 57
+  },
+  "entries": {
+    "start": {
+      "pos": {
+        "col": 33,
+        "row": 3,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 33,
+      "row": 3,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e1336",
+      "pos": {
+        "col": 34,
+        "row": 3,
+        "height": 0
+      },
+      "sprite": "npc-398",
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s066",
+                      "id": "scene/s066/root/entity-e1336/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e1337",
+      "pos": {
+        "col": 31,
+        "row": 3,
+        "height": 0
+      },
+      "sprite": "npc-397",
+      "facing": "right",
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s066",
+                      "id": "scene/s066/root/entity-e1337/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e1338",
+      "pos": {
+        "col": 32,
+        "row": 4,
+        "height": 0
+      },
+      "sprite": "npc-400",
+      "facing": "left",
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s066",
+                      "id": "scene/s066/root/entity-e1338/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s066",
+            "id": "scene/s066/root/on-enter/stage-0"
+          }
+        }
+      ]
+    }
+  ]
+}

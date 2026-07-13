@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "id": "scene/s105",
+  "scripts": {
+    "scene/s105/root/on-enter/stage-0": [
+      {
+        "kind": "playMusic",
+        "musicId": 8
+      }
+    ],
+    "scene/s105/root/entity-e1964/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s102",
+        "pos": {
+          "col": 104,
+          "row": 68,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s105/root/entity-e1965/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s084",
+        "pos": {
+          "col": 81,
+          "row": -29,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s105/root/entity-e1966/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s113",
+        "pos": {
+          "col": 131,
+          "row": 101,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s105/root/entity-e1967/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s113",
+        "pos": {
+          "col": 169,
+          "row": 67,
+          "height": 0
+        }
+      }
+    ]
+  }
+}

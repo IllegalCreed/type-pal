@@ -1,0 +1,139 @@
+{
+  "id": "s090",
+  "map": {
+    "reuseOriginalMap": 120
+  },
+  "entries": {
+    "from-shared": {
+      "pos": {
+        "col": 116,
+        "row": 12,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 116,
+      "row": 12,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e1662",
+      "pos": {
+        "col": 102,
+        "row": 54,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s090",
+                      "id": "scene/s090/root/entity-e1662/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e1663",
+      "pos": {
+        "col": 93,
+        "row": 33,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s090",
+                      "id": "scene/s090/root/entity-e1663/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e1664",
+      "pos": {
+        "col": 90,
+        "row": 31,
+        "height": 0
+      },
+      "sprite": "npc-9",
+      "zBias": 10,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s090",
+                      "id": "scene/s090/root/entity-e1664/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s090",
+            "id": "scene/s090/root/on-enter/stage-0"
+          }
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s090",
+            "id": "scene/s090/root/on-enter/stage-1"
+          }
+        }
+      ]
+    }
+  ]
+}

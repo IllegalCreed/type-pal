@@ -1,0 +1,37 @@
+{
+  "id": "s164",
+  "map": {
+    "reuseOriginalMap": 140
+  },
+  "entries": {
+    "start": {
+      "pos": {
+        "col": 152,
+        "row": 86,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 152,
+      "row": 86,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s164",
+            "id": "scene/s164/root/on-enter/stage-0"
+          }
+        }
+      ]
+    }
+  ]
+}

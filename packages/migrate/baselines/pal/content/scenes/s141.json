@@ -1,0 +1,112 @@
+{
+  "id": "s141",
+  "map": {
+    "reuseOriginalMap": 129
+  },
+  "entry": {
+    "pos": {
+      "col": 96,
+      "row": 32,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e2379",
+      "pos": {
+        "col": 68,
+        "row": -22,
+        "height": 0
+      },
+      "sprite": "npc-405",
+      "zBias": 10,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s141",
+                      "id": "scene/s141/root/entity-e2379/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2380",
+      "pos": {
+        "col": 64,
+        "row": -19,
+        "height": 0
+      },
+      "sprite": "npc-166",
+      "facing": "up",
+      "zBias": 10,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s141",
+                      "id": "scene/s141/root/entity-e2380/page-0/auto/stage-0"
+                    }
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2381",
+      "pos": {
+        "col": 63,
+        "row": -19,
+        "height": 0
+      },
+      "sprite": "npc-488",
+      "facing": "right",
+      "zBias": 10
+    }
+  ],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s141",
+            "id": "scene/s141/root/on-enter/stage-0"
+          }
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s141",
+            "id": "scene/s141/root/on-enter/stage-1"
+          }
+        }
+      ]
+    }
+  ]
+}

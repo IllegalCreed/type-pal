@@ -1,0 +1,115 @@
+{
+  "id": "s196",
+  "map": {
+    "reuseOriginalMap": 18
+  },
+  "entries": {
+    "start": {
+      "pos": {
+        "col": 92,
+        "row": 36,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 92,
+      "row": 36,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e3341",
+      "pos": {
+        "col": 93,
+        "row": 36,
+        "height": 0
+      },
+      "sprite": "npc-229"
+    },
+    {
+      "id": "e3342",
+      "pos": {
+        "col": 89,
+        "row": 35,
+        "height": 0
+      },
+      "sprite": "npc-398",
+      "facing": "right"
+    },
+    {
+      "id": "e3343",
+      "pos": {
+        "col": 90,
+        "row": 36,
+        "height": 0
+      },
+      "sprite": "npc-2",
+      "facing": "right",
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s196",
+                      "id": "scene/s196/root/entity-e3343/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3344",
+      "pos": {
+        "col": 91,
+        "row": 36,
+        "height": 0
+      },
+      "sprite": "npc-228-f0",
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s196",
+                      "id": "scene/s196/root/entity-e3344/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s196",
+            "id": "scene/s196/root/on-enter/stage-0"
+          }
+        }
+      ]
+    }
+  ]
+}

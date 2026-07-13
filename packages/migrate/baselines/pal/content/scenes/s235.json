@@ -1,0 +1,68 @@
+{
+  "id": "s235",
+  "map": {
+    "reuseOriginalMap": 187
+  },
+  "entries": {
+    "from-shared": {
+      "pos": {
+        "col": 109,
+        "row": 92,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 109,
+      "row": 92,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e4224",
+      "pos": {
+        "col": 138,
+        "row": 27,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s235",
+                      "id": "scene/s235/root/entity-e4224/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "onTeleport": [
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s235",
+            "id": "scene/s235/root/on-teleport/stage-0"
+          }
+        }
+      ]
+    }
+  ]
+}

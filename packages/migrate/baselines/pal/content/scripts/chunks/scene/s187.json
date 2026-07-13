@@ -1,0 +1,114 @@
+{
+  "version": 1,
+  "id": "scene/s187",
+  "scripts": {
+    "scene/s187/L-36518/e3152/d-89d21e09": [
+      {
+        "kind": "playSound",
+        "soundId": 113
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3152",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3152",
+        "frame": 1
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3152",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3152",
+        "frame": 2
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3152",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3152",
+        "frame": 3
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3152",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3152",
+        "frame": 4
+      }
+    ],
+    "scene/s187/root/on-enter/stage-0": [
+      {
+        "kind": "playMusic",
+        "musicId": 36
+      }
+    ],
+    "scene/s187/root/entity-e3150/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s186",
+        "pos": {
+          "col": 95,
+          "row": 81,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s187/root/entity-e3151/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s184",
+        "pos": {
+          "col": 98,
+          "row": 79,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s187/root/entity-e3154/page-0/trigger/stage-0": [
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e3154"
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3154",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3154",
+        "frame": 1
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e3152",
+        "script": {
+          "chunk": "scene/s187",
+          "id": "scene/s187/L-36518/e3152/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3152",
+        "state": 1
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3153",
+        "state": 0
+      }
+    ]
+  }
+}

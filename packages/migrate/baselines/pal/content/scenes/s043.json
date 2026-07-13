@@ -1,0 +1,130 @@
+{
+  "id": "s043",
+  "map": {
+    "reuseOriginalMap": 44
+  },
+  "entries": {
+    "from-s042": {
+      "pos": {
+        "col": 23,
+        "row": 9,
+        "height": 0
+      }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 68,
+        "row": 18,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 23,
+      "row": 9,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e696",
+      "pos": {
+        "col": 62,
+        "row": 12,
+        "height": 0
+      },
+      "sprite": "npc-121",
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s043",
+                      "id": "scene/s043/root/entity-e696/page-0/trigger/stage-0"
+                    }
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s043",
+                      "id": "scene/s043/root/entity-e696/page-0/trigger/stage-1"
+                    }
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s043",
+                      "id": "scene/s043/root/entity-e696/page-0/trigger/stage-2"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e697",
+      "pos": {
+        "col": 62,
+        "row": 23,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s043",
+                      "id": "scene/s043/root/entity-e697/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s043",
+            "id": "scene/s043/root/on-enter/stage-0"
+          }
+        }
+      ]
+    }
+  ]
+}

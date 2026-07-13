@@ -1,0 +1,99 @@
+{
+  "id": "s123",
+  "map": {
+    "reuseOriginalMap": 113
+  },
+  "entries": {
+    "from-s122": {
+      "pos": {
+        "col": 54,
+        "row": 14,
+        "height": 0
+      }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 69,
+        "row": 19,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 54,
+        "row": 14,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 54,
+      "row": 14,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e2203",
+      "pos": {
+        "col": 51,
+        "row": 7,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s123",
+                      "id": "scene/s123/root/entity-e2203/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2204",
+      "pos": {
+        "col": 48,
+        "row": 28,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s123",
+                      "id": "scene/s123/root/entity-e2204/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

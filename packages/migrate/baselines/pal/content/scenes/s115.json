@@ -1,0 +1,195 @@
+{
+  "id": "s115",
+  "map": {
+    "reuseOriginalMap": 106
+  },
+  "entries": {
+    "from-s116": {
+      "pos": {
+        "col": 135,
+        "row": 97,
+        "height": 0
+      }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 135,
+        "row": 97,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 55,
+        "row": 10,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 135,
+      "row": 97,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e2134",
+      "pos": {
+        "col": 52,
+        "row": 40,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s115",
+                      "id": "scene/s115/root/entity-e2134/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2135",
+      "pos": {
+        "col": 93,
+        "row": 26,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s115",
+                      "id": "scene/s115/root/entity-e2135/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2136",
+      "pos": {
+        "col": 72,
+        "row": 0,
+        "height": 0
+      },
+      "sprite": "npc-383",
+      "hidden": true,
+      "zBias": -2
+    },
+    {
+      "id": "e2145",
+      "pos": {
+        "col": 71,
+        "row": -3,
+        "height": 0
+      },
+      "sprite": "npc-384",
+      "hidden": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 4,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s115",
+                      "id": "scene/s115/root/entity-e2145/page-0/trigger/stage-0"
+                    }
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s115",
+                      "id": "scene/s115/root/entity-e2145/page-0/trigger/stage-1"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2146",
+      "pos": {
+        "col": 67,
+        "row": 0,
+        "height": 0
+      },
+      "sprite": "npc-7",
+      "facing": "right",
+      "hidden": true
+    },
+    {
+      "id": "e2147",
+      "pos": {
+        "col": 78,
+        "row": 41,
+        "height": 0
+      },
+      "sprite": "npc-456",
+      "hidden": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s115",
+                      "id": "scene/s115/root/entity-e2147/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

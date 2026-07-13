@@ -1,0 +1,2189 @@
+{
+  "version": 1,
+  "id": "scene/s203",
+  "scripts": {
+    "scene/s203/L-30315/e3404/d-89d21e09": [
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e3458",
+        "script": {
+          "chunk": "scene/s206",
+          "id": "scene/s206/L-28871/e3458/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setParty",
+        "members": [
+          "anu",
+          "li-xiaoyao"
+        ]
+      },
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 86,
+          "row": 19,
+          "height": 0
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "callScript",
+        "ref": {
+          "chunk": "scene/s203",
+          "id": "scene/s203/L-36374/e3404/d-89d21e09"
+        },
+        "self": "e3404"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 84,
+          "row": 10,
+          "height": 0
+        },
+        "speed": "run"
+      },
+      {
+        "kind": "wait",
+        "ms": 240
+      },
+      {
+        "kind": "setActorSprite",
+        "actor": "li-xiaoyao",
+        "sprite": "npc-232"
+      },
+      {
+        "kind": "setParty",
+        "members": [
+          "li-xiaoyao"
+        ]
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3425",
+        "state": 1
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3423",
+        "state": 1
+      },
+      {
+        "kind": "wait",
+        "ms": 600
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10847",
+          "speaker": "spk.阿奴"
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 560
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3425",
+        "state": 0
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3426",
+        "state": 1
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10850",
+          "speaker": "spk.阿奴"
+        }
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3426",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3426",
+        "frame": 0
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10854",
+          "speaker": "spk.阿奴",
+          "slot": "top",
+          "portrait": {
+            "icon": 27,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10856",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10858",
+          "speaker": "spk.阿奴",
+          "slot": "top",
+          "portrait": {
+            "icon": 27,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10862",
+          "speaker": "spk.李逍遥"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10866",
+          "speaker": "spk.阿奴",
+          "slot": "top",
+          "portrait": {
+            "icon": 32,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10868",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 6,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10871",
+          "speaker": "spk.阿奴",
+          "slot": "top",
+          "portrait": {
+            "icon": 27,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 800
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e3423",
+        "script": {
+          "chunk": "scene/s203",
+          "id": "scene/s203/L-30282/e3423/d-89d21e09"
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 1040
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3426",
+        "facing": "up"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3426",
+        "frame": 0
+      },
+      {
+        "kind": "wait",
+        "ms": 480
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3423",
+        "state": 0
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3424",
+        "state": 1
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10877",
+          "speaker": "spk.李逍遥"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10880",
+          "speaker": "spk.李逍遥"
+        }
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e3424",
+        "script": {
+          "chunk": "scene/s203",
+          "id": "scene/s203/L-30429/e3424/d-89d21e09"
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10883",
+          "speaker": "spk.李逍遥"
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 400
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e3424",
+        "stages": []
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10885",
+          "speaker": "spk.李逍遥"
+        }
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e3426",
+        "script": {
+          "chunk": "scene/s203",
+          "id": "scene/s203/L-30313/e3426/d-89d21e09"
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10889",
+          "speaker": "spk.阿奴",
+          "slot": "top",
+          "portrait": {
+            "icon": 28,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e3424",
+        "script": {
+          "chunk": "scene/s203",
+          "id": "scene/s203/L-30429/e3424/d-89d21e09"
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10892",
+          "speaker": "spk.李逍遥",
+          "slot": "top",
+          "portrait": {
+            "icon": 28,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "playSound",
+        "soundId": 170
+      },
+      {
+        "kind": "wait",
+        "ms": 640
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3424",
+        "state": 0
+      },
+      {
+        "kind": "wait",
+        "ms": 200
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10894",
+          "speaker": "spk.阿奴",
+          "slot": "top",
+          "portrait": {
+            "icon": 28,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      },
+      {
+        "kind": "setActorSprite",
+        "actor": "li-xiaoyao",
+        "sprite": "li-xiaoyao"
+      },
+      {
+        "kind": "loadScene",
+        "scene": "s200"
+      }
+    ],
+    "scene/s203/L-36374/e3404/d-89d21e09": [
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      }
+    ],
+    "scene/s203/L-30282/e3423/d-89d21e09": [
+      {
+        "kind": "moveEntity",
+        "entity": "e3423",
+        "to": {
+          "col": 84,
+          "row": 9,
+          "height": 0
+        },
+        "speed": "slow"
+      }
+    ],
+    "scene/s203/L-30429/e3424/d-89d21e09": [
+      {
+        "kind": "animEntity",
+        "entity": "e3424"
+      }
+    ],
+    "scene/s203/L-30313/e3426/d-89d21e09": [
+      {
+        "kind": "moveEntity",
+        "entity": "e3426",
+        "to": {
+          "col": 83,
+          "row": 9,
+          "height": 0
+        },
+        "speed": "normal"
+      }
+    ],
+    "scene/s203/L-36402/e3405/d-89d21e09": [
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down",
+        "gesture": 1
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      }
+    ],
+    "scene/s203/root/on-enter/stage-0": [
+      {
+        "kind": "playMusic",
+        "musicId": 16
+      }
+    ],
+    "scene/s203/root/entity-e3402/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s211",
+        "pos": {
+          "col": 87,
+          "row": 5,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s203/root/entity-e3403/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s204",
+        "pos": {
+          "col": 108,
+          "row": 78,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s203/root/entity-e3404/page-0/trigger/stage-0": [
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 86,
+          "row": 19,
+          "height": 0
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "callScript",
+        "ref": {
+          "chunk": "scene/s203",
+          "id": "scene/s203/L-36374/e3404/d-89d21e09"
+        },
+        "self": "e3404"
+      }
+    ],
+    "scene/s203/root/entity-e3405/page-0/trigger/stage-0": [
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 85,
+          "row": 15,
+          "height": 0
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "callScript",
+        "ref": {
+          "chunk": "scene/s203",
+          "id": "scene/s203/L-36402/e3405/d-89d21e09"
+        },
+        "self": "e3405"
+      }
+    ],
+    "scene/s203/root/entity-e3406/page-0/trigger/stage-0": [
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 16,
+        "dy": -8
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      }
+    ],
+    "scene/s203/root/entity-e3407/page-0/trigger/stage-0": [
+      {
+        "kind": "setPartyFacing",
+        "facing": "down",
+        "gesture": 1
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -16,
+        "dy": 8
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      }
+    ],
+    "scene/s203/root/entity-e3408/page-0/trigger/stage-0": [
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 16,
+        "dy": -8
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      }
+    ],
+    "scene/s203/root/entity-e3409/page-0/trigger/stage-0": [
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down",
+        "gesture": 1
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -16,
+        "dy": 8
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      }
+    ],
+    "scene/s203/root/entity-e3410/page-0/trigger/stage-0": [
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 16,
+        "dy": -8
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      }
+    ],
+    "scene/s203/root/entity-e3411/page-0/trigger/stage-0": [
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 16,
+        "dy": -8
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      }
+    ],
+    "scene/s203/root/entity-e3412/page-0/trigger/stage-0": [
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": -10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": -6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 16,
+        "dy": -8
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      }
+    ],
+    "scene/s203/root/entity-e3413/page-0/trigger/stage-0": [
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down",
+        "gesture": 1
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -16,
+        "dy": 8
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      }
+    ],
+    "scene/s203/root/entity-e3414/page-0/trigger/stage-0": [
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down",
+        "gesture": 1
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -16,
+        "dy": 8
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      }
+    ],
+    "scene/s203/root/entity-e3415/page-0/trigger/stage-0": [
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down",
+        "gesture": 1
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -16,
+        "dy": 8
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      }
+    ],
+    "scene/s203/root/entity-e3416/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10798",
+          "speaker": "spk.守卫"
+        }
+      }
+    ],
+    "scene/s203/root/entity-e3416/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3416",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3416",
+        "frame": 0
+      }
+    ],
+    "scene/s203/root/entity-e3417/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10802",
+          "speaker": "spk.守卫"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10806",
+          "speaker": "spk.守卫"
+        }
+      }
+    ],
+    "scene/s203/root/entity-e3417/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3417",
+        "facing": "left"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3417",
+        "frame": 0
+      }
+    ],
+    "scene/s203/root/entity-e3418/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10810",
+          "speaker": "spk.守卫"
+        }
+      }
+    ],
+    "scene/s203/root/entity-e3418/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3418",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3418",
+        "frame": 0
+      }
+    ],
+    "scene/s203/root/entity-e3419/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10815",
+          "speaker": "spk.守卫"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10818",
+          "speaker": "spk.守卫"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10829",
+          "speaker": "spk.守卫"
+        }
+      }
+    ],
+    "scene/s203/root/entity-e3419/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3419",
+        "facing": "left"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3419",
+        "frame": 0
+      }
+    ],
+    "scene/s203/root/entity-e3420/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10834",
+          "speaker": "spk.守卫"
+        }
+      }
+    ],
+    "scene/s203/root/entity-e3420/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3420",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3420",
+        "frame": 0
+      }
+    ],
+    "scene/s203/root/entity-e3421/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10838",
+          "speaker": "spk.守卫"
+        }
+      }
+    ],
+    "scene/s203/root/entity-e3421/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10843",
+          "speaker": "spk.守卫"
+        }
+      }
+    ],
+    "scene/s203/root/entity-e3421/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3421",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3421",
+        "frame": 0
+      }
+    ],
+    "scene/s203/root/entity-e3422/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10955",
+          "speaker": "spk.守卫"
+        }
+      }
+    ],
+    "scene/s203/root/entity-e3422/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10959",
+          "speaker": "spk.守卫"
+        }
+      }
+    ],
+    "scene/s203/root/entity-e3422/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3422",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3422",
+        "frame": 0
+      }
+    ],
+    "scene/s203/root/entity-e3425/page-0/auto/stage-0": [],
+    "scene/s203/root/entity-e3425/page-0/auto/stage-1": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3425",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3425",
+        "frame": 1
+      }
+    ],
+    "scene/s203/root/entity-e3425/page-0/auto/stage-2": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3425",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3425",
+        "frame": 2
+      }
+    ],
+    "scene/s203/root/entity-e3425/page-0/auto/stage-3": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3425",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3425",
+        "frame": 3
+      }
+    ],
+    "scene/s203/root/entity-e3425/page-0/auto/stage-4": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3425",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3425",
+        "frame": 4
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3425",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3425",
+        "frame": 5
+      }
+    ],
+    "scene/s203/root/entity-e3425/page-0/auto/stage-5": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3425",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3425",
+        "frame": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 80
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3425",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3425",
+        "frame": 5
+      }
+    ],
+    "scene/s203/root/entity-e3425/page-0/auto/stage-6": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3425",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3425",
+        "frame": 4
+      }
+    ],
+    "scene/s203/root/entity-e3425/page-0/auto/stage-7": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3425",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3425",
+        "frame": 3
+      }
+    ],
+    "scene/s203/root/entity-e3425/page-0/auto/stage-8": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3425",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3425",
+        "frame": 2
+      }
+    ],
+    "scene/s203/root/entity-e3425/page-0/auto/stage-9": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3425",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3425",
+        "frame": 1
+      }
+    ],
+    "scene/s203/root/entity-e3425/page-0/auto/stage-10": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3425",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3425",
+        "frame": 0
+      }
+    ],
+    "scene/s203/root/entity-e3426/page-0/auto/stage-0": [
+      {
+        "kind": "moveEntity",
+        "entity": "e3426",
+        "to": {
+          "col": 83,
+          "row": 10,
+          "height": 0
+        },
+        "speed": "slow"
+      },
+      {
+        "kind": "moveEntity",
+        "entity": "e3426",
+        "to": {
+          "col": 83,
+          "row": 11,
+          "height": 0
+        },
+        "speed": "slow"
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3426",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3426",
+        "frame": 0
+      }
+    ],
+    "scene/s203/root/entity-e3428/page-0/auto/stage-0": [],
+    "scene/s203/root/entity-e3428/page-0/auto/stage-1": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3428",
+        "facing": "left"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3428",
+        "frame": 0
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3428",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3428",
+        "frame": 0
+      }
+    ],
+    "scene/s203/root/entity-e3428/page-0/auto/stage-2": [
+      {
+        "kind": "moveEntity",
+        "entity": "e3428",
+        "to": {
+          "col": 84,
+          "row": 10,
+          "height": 0
+        },
+        "speed": "normal"
+      }
+    ],
+    "scene/s203/root/entity-e3429/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10931",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 2,
+            "side": "right"
+          }
+        }
+      }
+    ],
+    "scene/s203/root/entity-e3429/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10933",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 2,
+            "side": "right"
+          }
+        }
+      }
+    ]
+  }
+}

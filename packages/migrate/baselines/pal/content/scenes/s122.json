@@ -1,0 +1,219 @@
+{
+  "id": "s122",
+  "map": {
+    "reuseOriginalMap": 112
+  },
+  "entries": {
+    "from-s108": {
+      "pos": {
+        "col": 125,
+        "row": 109,
+        "height": 0
+      }
+    },
+    "from-s122": {
+      "pos": {
+        "col": 96,
+        "row": 42,
+        "height": 0
+      }
+    },
+    "from-s122-2": {
+      "pos": {
+        "col": 78,
+        "row": -12,
+        "height": 0
+      }
+    },
+    "from-s123": {
+      "pos": {
+        "col": 51,
+        "row": 6,
+        "height": 0
+      }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 102,
+        "row": 33,
+        "height": 0
+      }
+    },
+    "from-shared-2": {
+      "pos": {
+        "col": 96,
+        "row": 42,
+        "height": 0
+      }
+    },
+    "from-shared-3": {
+      "pos": {
+        "col": 78,
+        "row": -12,
+        "height": 0
+      }
+    },
+    "from-shared-4": {
+      "pos": {
+        "col": 51,
+        "row": 6,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 125,
+      "row": 109,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e2199",
+      "pos": {
+        "col": 69,
+        "row": 16,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s122",
+                      "id": "scene/s122/root/entity-e2199/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2200",
+      "pos": {
+        "col": 58,
+        "row": 6,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s122",
+                      "id": "scene/s122/root/entity-e2200/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2201",
+      "pos": {
+        "col": 78,
+        "row": -9,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s122",
+                      "id": "scene/s122/root/entity-e2201/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2202",
+      "pos": {
+        "col": 54,
+        "row": 13,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s122",
+                      "id": "scene/s122/root/entity-e2202/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s122",
+            "id": "scene/s122/root/on-enter/stage-0"
+          }
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s122",
+            "id": "scene/s122/root/on-enter/stage-1"
+          }
+        }
+      ]
+    }
+  ]
+}

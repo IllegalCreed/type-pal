@@ -1,0 +1,62 @@
+{
+  "id": "s259",
+  "map": {
+    "reuseOriginalMap": 181
+  },
+  "entries": {
+    "from-s255": {
+      "pos": {
+        "col": 143,
+        "row": 70,
+        "height": 0
+      }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 94,
+        "row": 62,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 143,
+      "row": 70,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e4552",
+      "pos": {
+        "col": 61,
+        "row": 45,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s259",
+                      "id": "scene/s259/root/entity-e4552/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

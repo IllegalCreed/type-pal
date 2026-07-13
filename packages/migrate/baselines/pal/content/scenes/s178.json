@@ -1,0 +1,92 @@
+{
+  "id": "s178",
+  "map": {
+    "reuseOriginalMap": 16
+  },
+  "entries": {
+    "from-s186": {
+      "pos": {
+        "col": 108,
+        "row": 14,
+        "height": 0
+      }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 109,
+        "row": 76,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 108,
+      "row": 14,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e2947",
+      "pos": {
+        "col": 162,
+        "row": 54,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s178",
+                      "id": "scene/s178/root/entity-e2947/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2948",
+      "pos": {
+        "col": 153,
+        "row": 54,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s178",
+                      "id": "scene/s178/root/entity-e2948/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

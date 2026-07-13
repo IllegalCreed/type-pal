@@ -22,9 +22,13 @@ import { loadPalMigrationSources } from './pal-migration-io.js'
 import { normalizeMigrationScriptFiles } from './script-library-normalize.js'
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
-const hasRealData =
-  existsSync(resolve(repo, 'data/extracted/events/all.json')) &&
-  existsSync(resolve(repo, 'packages/migrate/bootstrap/pal.json'))
+const hasExtractedData = existsSync(resolve(repo, 'data/extracted/events/all.json'))
+const hasBootstrapFixture =
+  hasExtractedData &&
+  existsSync(resolve(repo, 'packages/migrate/bootstrap/pal.json')) &&
+  !existsSync(resolve(repo, 'packages/migrate/baselines/pal/_state.json'))
+const hasCommittedBaseline =
+  hasExtractedData && existsSync(resolve(repo, 'packages/migrate/baselines/pal/_state.json'))
 const tempRoots: string[] = []
 
 function assertSameSnapshot(expected: MigrationSnapshot, actual: MigrationSnapshot): void {
@@ -39,7 +43,7 @@ afterAll(() => {
   for (const root of tempRoots) rmSync(root, { recursive: true, force: true })
 })
 
-describe.skipIf(!hasRealData)('MG2 真实 PAL 数据临时目录演练', () => {
+describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练', () => {
   test('闭合 bootstrap -> 同事务工程+baseline -> 二次严格空计划', () => {
     const sources = loadPalMigrationSources(repo)
     const theirs = buildPalMigration(sources)
@@ -97,5 +101,33 @@ describe.skipIf(!hasRealData)('MG2 真实 PAL 数据临时目录演练', () => {
     expect(second.conflicts).toEqual([])
     expect(second.writes.size).toBe(0)
     expect(second.deletes).toEqual([])
+  }, 60_000)
+})
+
+describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () => {
+  test('当前工程 + baseline + 纯生成必须是严格空计划', () => {
+    const sources = loadPalMigrationSources(repo)
+    const theirs = buildPalMigration(sources)
+    const baseline = loadPalBaseline(repo)
+    expect(baseline).toBeDefined()
+
+    const managed = discoverProjectManagedFiles(repo, theirs.managedFiles)
+    const ours = loadProjectMigrationSnapshot(repo, managed)
+    const plan = createMigrationPlan(baseline!, ours, theirs)
+    expect(plan.conflicts).toEqual([])
+    expect(plan.writes.size).toBe(0)
+    expect(plan.deletes).toEqual([])
+
+    const manifest = JSON.parse(
+      readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8'),
+    ) as LoadedManifest
+    const validation = validatePalMigrationTarget({
+      files: ours.files,
+      managedFiles: ours.managedFiles,
+      sources,
+      startWorld: manifest.startWorld,
+    })
+    expect(validation.scenes).toBe(295)
+    expect(validation.scriptAudit.issues).toEqual([])
   }, 60_000)
 })

@@ -1,0 +1,170 @@
+{
+  "version": 1,
+  "id": "scene/s273",
+  "scripts": {
+    "scene/s273/root/entity-e4719/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s267",
+        "pos": {
+          "col": 124,
+          "row": 21,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s273/root/entity-e4720/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s276",
+        "pos": {
+          "col": 76,
+          "row": 34,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s273/root/entity-e4721/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s275",
+        "pos": {
+          "col": 59,
+          "row": 16,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s273/root/entity-e4722/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s274",
+        "pos": {
+          "col": 94,
+          "row": 56,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s273/root/entity-e4723/page-0/auto/stage-0": [
+      {
+        "kind": "wait",
+        "ms": 240
+      },
+      {
+        "kind": "wait",
+        "ms": 240
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e4723",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e4723",
+        "frame": 1
+      },
+      {
+        "kind": "wait",
+        "ms": 360
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e4723",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e4723",
+        "frame": 0
+      }
+    ],
+    "scene/s273/root/entity-e4724/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12064",
+          "speaker": "spk.船商"
+        }
+      }
+    ],
+    "scene/s273/root/entity-e4724/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12067",
+          "speaker": "spk.船商"
+        }
+      }
+    ],
+    "scene/s273/root/entity-e4729/page-0/auto/stage-0": [
+      {
+        "kind": "moveEntity",
+        "entity": "e4729",
+        "to": {
+          "col": 114,
+          "row": 57,
+          "height": 0
+        },
+        "speed": "normal"
+      },
+      {
+        "kind": "wait",
+        "ms": 200
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e4729",
+        "facing": "left"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e4729",
+        "frame": 0
+      },
+      {
+        "kind": "wait",
+        "ms": 240
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e4729",
+        "facing": "up"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e4729",
+        "frame": 0
+      },
+      {
+        "kind": "wait",
+        "ms": 200
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e4729",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e4729",
+        "frame": 0
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "moveEntity",
+        "entity": "e4729",
+        "to": {
+          "col": 115,
+          "row": 57,
+          "height": 0
+        },
+        "speed": "normal"
+      }
+    ]
+  }
+}

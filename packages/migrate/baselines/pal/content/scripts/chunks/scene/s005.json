@@ -1,0 +1,4017 @@
+{
+  "version": 1,
+  "id": "scene/s005",
+  "scripts": {
+    "scene/s005/L-2664/e123/d-89d21e09": [
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e116",
+        "on": "touch",
+        "range": 2
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e116",
+        "script": {
+          "chunk": "scene/s005",
+          "id": "scene/s005/L-1509/e116/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e201",
+        "script": {
+          "chunk": "scene/s014",
+          "id": "scene/s014/L-5040/e201/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setSceneStage",
+        "scene": "s014",
+        "stage": 0
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.954",
+          "speaker": "spk.张四",
+          "slot": "top",
+          "portrait": {
+            "icon": 39,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.957",
+          "speaker": "spk.张四",
+          "slot": "top",
+          "portrait": {
+            "icon": 39,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.961",
+          "speaker": "spk.赵灵儿",
+          "portrait": {
+            "icon": 18,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.963",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 10,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.968",
+          "speaker": "spk.张四",
+          "slot": "top",
+          "portrait": {
+            "icon": 39,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e123",
+        "dir": "right"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e123",
+        "dir": "right"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e123",
+        "dir": "right"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e123",
+        "dir": "right"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e123",
+        "dir": "down"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e123",
+        "dir": "down"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e123",
+        "dir": "down"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e123",
+        "dir": "down"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e123",
+        "state": 0
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e117",
+        "state": 2
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e117",
+        "stages": []
+      },
+      {
+        "kind": "setEntityPos",
+        "entity": "e117",
+        "pos": {
+          "col": 124,
+          "row": 54,
+          "height": 0
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.971",
+          "speaker": "spk.张四",
+          "slot": "top",
+          "portrait": {
+            "icon": 39,
+            "side": "left"
+          }
+        }
+      }
+    ],
+    "scene/s005/L-1509/e116/d-89d21e09": [
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 124,
+          "row": 48,
+          "height": 0
+        },
+        "speed": "slow"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down",
+        "member": 1
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e117",
+        "script": {
+          "chunk": "scene/s005",
+          "id": "scene/s005/L-36147/e117/d-89d21e09"
+        }
+      },
+      {
+        "kind": "ride",
+        "entity": "e116",
+        "to": {
+          "col": 124,
+          "row": 30,
+          "height": 0
+        },
+        "speed": "slow"
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "loadScene",
+        "scene": "s014",
+        "pos": {
+          "col": 74,
+          "row": 27,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s005/L-36147/e117/d-89d21e09": [
+      {
+        "kind": "nudgeEntity",
+        "entity": "e117",
+        "dx": 4,
+        "dy": -2
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e117"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e117",
+        "dx": 4,
+        "dy": -2
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e117",
+        "dx": 4,
+        "dy": -2
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e117",
+        "dx": 4,
+        "dy": -2
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e117",
+        "dx": 4,
+        "dy": -2
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e117"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e117",
+        "dx": 4,
+        "dy": -2
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e117",
+        "dx": 4,
+        "dy": -2
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e117",
+        "dx": 4,
+        "dy": -2
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e117",
+        "dx": 4,
+        "dy": -2
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e117",
+        "dx": 4,
+        "dy": -2
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e117",
+        "dx": 4,
+        "dy": -2
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e117",
+        "dx": 4,
+        "dy": -2
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e117",
+        "dx": 4,
+        "dy": -2
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e117",
+        "dx": 4,
+        "dy": -2
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e117",
+        "dx": 4,
+        "dy": -2
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e117",
+        "dx": 4,
+        "dy": -2
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s005",
+          "id": "scene/s005/L-36147/e117/d-89d21e09"
+        },
+        "self": "e117"
+      }
+    ],
+    "scene/s005/L-3304/e127/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1193",
+          "speaker": "spk.鱼嫂"
+        }
+      }
+    ],
+    "scene/s005/L-1465/e123/d-89d21e09": [
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e116",
+        "on": "touch",
+        "range": 2
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e116",
+        "script": {
+          "chunk": "scene/s005",
+          "id": "scene/s005/L-1509/e116/d-89d21e09"
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.533",
+          "speaker": "spk.张四",
+          "slot": "top",
+          "portrait": {
+            "icon": 39,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.538",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 10,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.542",
+          "speaker": "spk.张四",
+          "slot": "top",
+          "portrait": {
+            "icon": 39,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e123",
+        "dir": "right"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e123",
+        "dir": "right"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e123",
+        "dir": "right"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e123",
+        "dir": "right"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e123",
+        "dir": "down"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e123",
+        "dir": "down"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e123",
+        "dir": "down"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e123",
+        "dir": "down"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e123",
+        "state": 0
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e117",
+        "state": 2
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e117",
+        "stages": []
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.546",
+          "speaker": "spk.张四",
+          "slot": "top",
+          "portrait": {
+            "icon": 39,
+            "side": "left"
+          }
+        }
+      }
+    ],
+    "scene/s005/L-1557/e124/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.571",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 10,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.574",
+          "speaker": "spk.水生叔",
+          "slot": "top"
+        }
+      }
+    ],
+    "scene/s005/L-3485/e125/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1304"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1307",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1310",
+          "speaker": "spk.方老板",
+          "slot": "top"
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1313",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      },
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 114,
+          "row": 36,
+          "height": 0
+        }
+      },
+      {
+        "kind": "setActorSprite",
+        "actor": "li-xiaoyao",
+        "sprite": "npc-232"
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "setParty",
+        "members": [
+          "li-xiaoyao"
+        ]
+      },
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e126",
+        "on": "touch",
+        "range": 4
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e125",
+        "state": 0
+      },
+      {
+        "kind": "clearDialog"
+      }
+    ],
+    "scene/s005/L-35725/e121/d-89d21e09": [
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 76
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s005",
+              "id": "scene/s005/L-35725/e121/d-89d21e09"
+            },
+            "self": "e121"
+          }
+        ]
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 61
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s005",
+              "id": "scene/s005/L-35732/e121/d-89d21e09"
+            },
+            "self": "e121"
+          }
+        ]
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 51
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s005",
+              "id": "scene/s005/L-35745/e121/d-89d21e09"
+            },
+            "self": "e121"
+          }
+        ]
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e121",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e121",
+        "frame": 0
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s005",
+          "id": "scene/s005/L-35725/e121/d-89d21e09"
+        },
+        "self": "e121"
+      }
+    ],
+    "scene/s005/L-35732/e121/d-89d21e09": [
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 61
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s005",
+              "id": "scene/s005/L-35732/e121/d-89d21e09"
+            },
+            "self": "e121"
+          }
+        ]
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 51
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s005",
+              "id": "scene/s005/L-35745/e121/d-89d21e09"
+            },
+            "self": "e121"
+          }
+        ]
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e121",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e121",
+        "frame": 0
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s005",
+          "id": "scene/s005/L-35725/e121/d-89d21e09"
+        },
+        "self": "e121"
+      }
+    ],
+    "scene/s005/L-35745/e121/d-89d21e09": [
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 51
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s005",
+              "id": "scene/s005/L-35745/e121/d-89d21e09"
+            },
+            "self": "e121"
+          }
+        ]
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e121",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e121",
+        "frame": 0
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s005",
+          "id": "scene/s005/L-35725/e121/d-89d21e09"
+        },
+        "self": "e121"
+      }
+    ],
+    "scene/s005/L-35799/e122/d-89d21e09": [
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 76
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s005",
+              "id": "scene/s005/L-35799/e122/d-89d21e09"
+            },
+            "self": "e122"
+          }
+        ]
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 76
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s005",
+              "id": "scene/s005/L-35814/e122/d-89d21e09"
+            },
+            "self": "e122"
+          }
+        ]
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 76
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s005",
+              "id": "scene/s005/L-35821/e122/d-89d21e09"
+            },
+            "self": "e122"
+          }
+        ]
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s005",
+          "id": "scene/s005/L-35799/e122/d-89d21e09"
+        },
+        "self": "e122"
+      }
+    ],
+    "scene/s005/L-35814/e122/d-89d21e09": [
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 76
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s005",
+              "id": "scene/s005/L-35814/e122/d-89d21e09"
+            },
+            "self": "e122"
+          }
+        ]
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 76
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s005",
+              "id": "scene/s005/L-35821/e122/d-89d21e09"
+            },
+            "self": "e122"
+          }
+        ]
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s005",
+          "id": "scene/s005/L-35799/e122/d-89d21e09"
+        },
+        "self": "e122"
+      }
+    ],
+    "scene/s005/L-35821/e122/d-89d21e09": [
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 76
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s005",
+              "id": "scene/s005/L-35821/e122/d-89d21e09"
+            },
+            "self": "e122"
+          }
+        ]
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s005",
+          "id": "scene/s005/L-35799/e122/d-89d21e09"
+        },
+        "self": "e122"
+      }
+    ],
+    "scene/s005/L-1436/e123/d-89d21e09": [
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e123",
+        "on": "interact",
+        "range": 3
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.515",
+          "speaker": "spk.张四",
+          "slot": "top",
+          "portrait": {
+            "icon": 39,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.517",
+          "speaker": "spk.张四",
+          "slot": "top",
+          "portrait": {
+            "icon": 39,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.521",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "setSceneStage",
+        "scene": "s004",
+        "stage": 0
+      }
+    ],
+    "scene/s005/L-3746/e128/d-b63b206a": [
+      {
+        "kind": "unmigrated",
+        "opcode": 0,
+        "operands": [],
+        "note": "目标缺失 L_3746"
+      }
+    ],
+    "scene/s005/L-3742/e128/d-d2a47587": [
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1385",
+          "speaker": "spk.李逍遥"
+        }
+      }
+    ],
+    "scene/s005/L-1829/e127/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.650",
+          "speaker": "spk.鱼嫂"
+        }
+      }
+    ],
+    "scene/s005/L-1522/e123/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.548",
+          "speaker": "spk.张四"
+        }
+      }
+    ],
+    "scene/s005/L-3216/e123/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1141",
+          "speaker": "spk.张四",
+          "slot": "top",
+          "portrait": {
+            "icon": 39,
+            "side": "left"
+          }
+        }
+      }
+    ],
+    "scene/s005/root/entity-e115/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s004",
+        "pos": {
+          "col": 140,
+          "row": 31,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s005/root/entity-e116/page-0/auto/stage-0": [
+      {
+        "kind": "wait",
+        "ms": 240
+      },
+      {
+        "kind": "wait",
+        "ms": 240
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e116",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e116",
+        "frame": 1
+      },
+      {
+        "kind": "wait",
+        "ms": 360
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e116",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e116",
+        "frame": 0
+      }
+    ],
+    "scene/s005/root/entity-e118/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.494",
+          "speaker": "spk.渔翁"
+        }
+      }
+    ],
+    "scene/s005/root/entity-e118/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.498"
+        }
+      }
+    ],
+    "scene/s005/root/entity-e118/page-0/trigger/stage-2": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.503"
+        }
+      }
+    ],
+    "scene/s005/root/entity-e118/page-0/trigger/stage-3": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.509"
+        }
+      }
+    ],
+    "scene/s005/root/entity-e118/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e118"
+      }
+    ],
+    "scene/s005/root/entity-e120/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e120"
+      }
+    ],
+    "scene/s005/root/entity-e120/page-0/auto/stage-1": [
+      {
+        "kind": "animEntity",
+        "entity": "e120"
+      }
+    ],
+    "scene/s005/root/entity-e120/page-0/auto/stage-2": [
+      {
+        "kind": "animEntity",
+        "entity": "e120"
+      }
+    ],
+    "scene/s005/root/entity-e120/page-0/auto/stage-3": [
+      {
+        "kind": "animEntity",
+        "entity": "e120"
+      },
+      {
+        "kind": "wait",
+        "ms": 320
+      }
+    ],
+    "scene/s005/root/entity-e121/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 76
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s005",
+              "id": "scene/s005/L-35725/e121/d-89d21e09"
+            },
+            "self": "e121"
+          }
+        ]
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 61
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s005",
+              "id": "scene/s005/L-35732/e121/d-89d21e09"
+            },
+            "self": "e121"
+          }
+        ]
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "left"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 51
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s005",
+              "id": "scene/s005/L-35745/e121/d-89d21e09"
+            },
+            "self": "e121"
+          }
+        ]
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "up"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e121",
+        "dir": "down"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e121",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e121",
+        "frame": 0
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e121"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s005",
+          "id": "scene/s005/L-35725/e121/d-89d21e09"
+        },
+        "self": "e121"
+      }
+    ],
+    "scene/s005/root/entity-e122/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 76
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s005",
+              "id": "scene/s005/L-35799/e122/d-89d21e09"
+            },
+            "self": "e122"
+          }
+        ]
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 76
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s005",
+              "id": "scene/s005/L-35814/e122/d-89d21e09"
+            },
+            "self": "e122"
+          }
+        ]
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 76
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s005",
+              "id": "scene/s005/L-35821/e122/d-89d21e09"
+            },
+            "self": "e122"
+          }
+        ]
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e122"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e122",
+        "dir": "right"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s005",
+          "id": "scene/s005/L-35799/e122/d-89d21e09"
+        },
+        "self": "e122"
+      }
+    ],
+    "scene/s005/root/entity-e123/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.511",
+          "speaker": "spk.张四",
+          "slot": "top",
+          "portrait": {
+            "icon": 39,
+            "side": "left"
+          }
+        }
+      }
+    ],
+    "scene/s005/root/entity-e124/page-0/trigger/stage-0": [
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e124",
+        "on": "interact",
+        "range": 3
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.552",
+          "speaker": "spk.水生叔"
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.557",
+          "speaker": "spk.李逍遥"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.560",
+          "speaker": "spk.水生叔",
+          "slot": "top"
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.564",
+          "speaker": "spk.李逍遥"
+        }
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e123",
+        "script": {
+          "chunk": "scene/s005",
+          "id": "scene/s005/L-1436/e123/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e123",
+        "on": "touch",
+        "range": 2
+      }
+    ],
+    "scene/s005/root/entity-e124/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.567",
+          "speaker": "spk.水生叔"
+        }
+      }
+    ],
+    "scene/s005/root/entity-e125/page-0/trigger/stage-0": [
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e125",
+        "on": "interact",
+        "range": 3
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.584",
+          "speaker": "spk.方老板"
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.588",
+          "speaker": "spk.李逍遥"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.592",
+          "speaker": "spk.方老板",
+          "slot": "top"
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.596",
+          "speaker": "spk.李逍遥"
+        }
+      }
+    ],
+    "scene/s005/root/entity-e125/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.599",
+          "speaker": "spk.方老板"
+        }
+      }
+    ],
+    "scene/s005/root/entity-e127/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.603",
+          "speaker": "spk.鱼嫂"
+        }
+      }
+    ],
+    "scene/s005/root/entity-e127/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.607"
+        }
+      }
+    ],
+    "scene/s005/root/entity-e127/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e127",
+        "facing": "left"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e127",
+        "frame": 0
+      }
+    ],
+    "scene/s005/root/entity-e128/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1387",
+          "speaker": "spk.水果贩"
+        }
+      },
+      {
+        "kind": "confirm",
+        "onNo": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s005",
+              "id": "scene/s005/L-3746/e128/d-b63b206a"
+            },
+            "self": "e128"
+          }
+        ]
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1391",
+          "speaker": "spk.李逍遥"
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1393",
+          "speaker": "spk.水果贩",
+          "slot": "top"
+        }
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "not",
+          "cond": {
+            "kind": "hasMoney",
+            "atLeast": 25
+          }
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s005",
+              "id": "scene/s005/L-3742/e128/d-d2a47587"
+            },
+            "self": "e128"
+          }
+        ]
+      },
+      {
+        "kind": "giveMoney",
+        "delta": -25
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "92"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1394",
+          "slot": "narration"
+        }
+      }
+    ],
+    "scene/s005/root/entity-e128/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e128",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e128",
+        "frame": 0
+      }
+    ],
+    "scene/s005/root/entity-e129/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1396",
+          "speaker": "spk.卖菜老杨"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1400",
+          "speaker": "spk.李逍遥"
+        }
+      }
+    ],
+    "scene/s005/root/entity-e129/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1403",
+          "speaker": "spk.卖菜老杨"
+        }
+      }
+    ],
+    "scene/s005/root/entity-e129/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e129",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e129",
+        "frame": 0
+      }
+    ],
+    "scene/s005/root/entity-e130/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1408",
+          "speaker": "spk.卖酱老苏"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1411",
+          "speaker": "spk.李逍遥"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1412",
+          "speaker": "spk.李逍遥"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1416",
+          "speaker": "spk.卖酱老苏",
+          "slot": "top"
+        }
+      }
+    ],
+    "scene/s005/root/entity-e130/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1418",
+          "speaker": "spk.卖酱老苏"
+        }
+      }
+    ],
+    "scene/s005/root/entity-e130/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e130",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e130",
+        "frame": 0
+      }
+    ],
+    "scene/s005/root/entity-e131/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1420",
+          "speaker": "spk.猪肉张"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1425",
+          "speaker": "spk.李逍遥"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1428",
+          "speaker": "spk.猪肉张",
+          "slot": "top"
+        }
+      }
+    ],
+    "scene/s005/root/entity-e131/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1431",
+          "speaker": "spk.猪肉张"
+        }
+      }
+    ],
+    "scene/s005/root/entity-e131/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e131",
+        "facing": "left"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e131",
+        "frame": 0
+      }
+    ],
+    "scene/s005/root/entity-e132/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1433",
+          "speaker": "spk.卖包子"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1435",
+          "speaker": "spk.卖包子"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1438",
+          "speaker": "spk.李逍遥"
+        }
+      }
+    ],
+    "scene/s005/root/entity-e132/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1441",
+          "speaker": "spk.卖包子"
+        }
+      }
+    ],
+    "scene/s005/root/entity-e132/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e132",
+        "facing": "left"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e132",
+        "frame": 0
+      }
+    ],
+    "scene/s005/root/entity-e133/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1444",
+          "speaker": "spk.妇人"
+        }
+      }
+    ],
+    "scene/s005/root/entity-e133/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e133",
+        "facing": "up"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e133",
+        "frame": 0
+      }
+    ],
+    "scene/s005/root/entity-e134/page-0/trigger/stage-0": [
+      {
+        "kind": "setEntityState",
+        "entity": "e134",
+        "state": 0
+      }
+    ],
+    "scene/s005/root/entity-e134/page-0/auto/stage-0": [
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "entityState",
+          "entity": "e135",
+          "is": 0
+        },
+        "then": [
+          {
+            "kind": "setEntityState",
+            "entity": "e134",
+            "state": 0
+          }
+        ]
+      }
+    ],
+    "scene/s005/root/entity-e135/page-0/trigger/stage-0": [
+      {
+        "kind": "setEntityState",
+        "entity": "e135",
+        "state": 0
+      }
+    ],
+    "scene/s005/root/entity-e135/page-0/auto/stage-0": [
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "entityState",
+          "entity": "e134",
+          "is": 0
+        },
+        "then": [
+          {
+            "kind": "setEntityState",
+            "entity": "e135",
+            "state": 0
+          }
+        ]
+      }
+    ],
+    "scene/s005/root/entity-e136/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s013",
+        "pos": {
+          "col": 76,
+          "row": 34,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s005/root/entity-e137/page-0/trigger/stage-0": [
+      {
+        "kind": "setEntityState",
+        "entity": "e137",
+        "state": 0
+      }
+    ],
+    "scene/s005/root/entity-e137/page-0/auto/stage-0": [
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "entityState",
+          "entity": "e138",
+          "is": 0
+        },
+        "then": [
+          {
+            "kind": "setEntityState",
+            "entity": "e137",
+            "state": 0
+          }
+        ]
+      }
+    ],
+    "scene/s005/root/entity-e138/page-0/trigger/stage-0": [
+      {
+        "kind": "setEntityState",
+        "entity": "e138",
+        "state": 0
+      }
+    ],
+    "scene/s005/root/entity-e138/page-0/auto/stage-0": [
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "entityState",
+          "entity": "e137",
+          "is": 0
+        },
+        "then": [
+          {
+            "kind": "setEntityState",
+            "entity": "e138",
+            "state": 0
+          }
+        ]
+      }
+    ],
+    "scene/s005/root/entity-e139/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s012",
+        "pos": {
+          "col": 59,
+          "row": 16,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s005/root/entity-e140/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.703",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "209"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e140",
+        "state": 0
+      }
+    ],
+    "scene/s005/root/entity-e141/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s009",
+        "pos": {
+          "col": 94,
+          "row": 56,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s005/root/entity-e142/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12480",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "92"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e142",
+        "state": 0
+      }
+    ],
+    "scene/s005/root/entity-e143/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12485",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "99"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e143",
+        "state": 0
+      }
+    ],
+    "scene/s005/root/entity-e144/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12480",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "92"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e144",
+        "state": 0
+      }
+    ],
+    "scene/s005/root/entity-e145/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12485",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "99"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e145",
+        "state": 0
+      }
+    ],
+    "scene/s005/root/entity-e146/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12498",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "115"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e146",
+        "state": 0
+      }
+    ],
+    "scene/s005/root/entity-e147/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12495",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "131"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e147",
+        "state": 0
+      }
+    ]
+  }
+}

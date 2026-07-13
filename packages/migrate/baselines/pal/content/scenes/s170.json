@@ -1,0 +1,47 @@
+{
+  "id": "s170",
+  "map": {
+    "reuseOriginalMap": 119
+  },
+  "entries": {
+    "start": {
+      "pos": {
+        "col": 123,
+        "row": 55,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 123,
+      "row": 55,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e2852",
+      "pos": {
+        "col": 128,
+        "row": 56,
+        "height": 0
+      },
+      "sprite": "npc-339"
+    }
+  ],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s170",
+            "id": "scene/s170/root/on-enter/stage-0"
+          }
+        }
+      ]
+    }
+  ]
+}

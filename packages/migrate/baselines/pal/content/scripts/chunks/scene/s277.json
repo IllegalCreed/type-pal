@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "id": "scene/s277",
+  "scripts": {
+    "scene/s277/L-35052/e4736/d-89d21e09": [
+      {
+        "kind": "nudgeParty",
+        "dx": 8,
+        "dy": 8
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "wait",
+        "ms": 120
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s277",
+          "id": "scene/s277/L-35052/e4736/d-89d21e09"
+        },
+        "self": "e4736"
+      }
+    ],
+    "scene/s277/root/on-enter/stage-0": [
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 122,
+          "row": 69,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s277/root/entity-e4735/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s281",
+        "pos": {
+          "col": 120,
+          "row": 39,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s277/root/entity-e4736/page-0/trigger/stage-0": [
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 123,
+          "row": 69,
+          "height": 0
+        },
+        "speed": "run"
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 8,
+        "dy": 8
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "wait",
+        "ms": 120
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s277",
+          "id": "scene/s277/L-35052/e4736/d-89d21e09"
+        },
+        "self": "e4736"
+      }
+    ]
+  }
+}

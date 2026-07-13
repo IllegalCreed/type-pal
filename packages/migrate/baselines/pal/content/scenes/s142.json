@@ -1,0 +1,109 @@
+{
+  "id": "s142",
+  "map": {
+    "reuseOriginalMap": 106
+  },
+  "entry": {
+    "pos": {
+      "col": 96,
+      "row": 32,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e2382",
+      "pos": {
+        "col": 64,
+        "row": 32,
+        "height": 0
+      },
+      "sprite": "npc-166",
+      "zBias": 10,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s142",
+                      "id": "scene/s142/root/entity-e2382/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2383",
+      "pos": {
+        "col": 71,
+        "row": 41,
+        "height": 0
+      },
+      "sprite": "npc-445-f1",
+      "hidden": true
+    },
+    {
+      "id": "e2384",
+      "pos": {
+        "col": 71,
+        "row": 41,
+        "height": 0
+      },
+      "sprite": "npc-23",
+      "hidden": true,
+      "pages": [
+        {
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s142",
+                      "id": "scene/s142/root/entity-e2384/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s142",
+            "id": "scene/s142/root/on-enter/stage-0"
+          }
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s142",
+            "id": "scene/s142/root/on-enter/stage-1"
+          }
+        }
+      ]
+    }
+  ]
+}

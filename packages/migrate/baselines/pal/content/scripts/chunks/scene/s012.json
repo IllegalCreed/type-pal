@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "id": "scene/s012",
+  "scripts": {
+    "scene/s012/root/entity-e196/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s005",
+        "pos": {
+          "col": 98,
+          "row": 58,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s012/root/entity-e197/page-0/trigger/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e197",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e197",
+        "frame": 0
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1228",
+          "speaker": "spk.曾伯"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "openShop",
+        "shop": 2,
+        "mode": "buy"
+      }
+    ],
+    "scene/s012/root/entity-e197/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e197",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e197",
+        "frame": 0
+      },
+      {
+        "kind": "wait",
+        "ms": 80
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e197",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e197",
+        "frame": 1
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e197",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e197",
+        "frame": 2
+      },
+      {
+        "kind": "playSound",
+        "soundId": 135
+      },
+      {
+        "kind": "wait",
+        "ms": 80
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e197",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e197",
+        "frame": 3
+      },
+      {
+        "kind": "wait",
+        "ms": 120
+      }
+    ]
+  }
+}

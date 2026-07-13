@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "id": "scene/s117",
+  "scripts": {
+    "scene/s117/root/entity-e2151/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s139",
+        "pos": {
+          "col": 128,
+          "row": 98,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s117/root/entity-e2152/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s108",
+        "pos": {
+          "col": 102,
+          "row": 33,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s117/root/entity-e2154/page-0/auto/stage-0": [
+      {
+        "kind": "moveEntity",
+        "entity": "e2154",
+        "to": {
+          "col": 121,
+          "row": 99,
+          "height": 0
+        },
+        "speed": "normal"
+      }
+    ],
+    "scene/s117/root/entity-e2155/page-0/auto/stage-0": [
+      {
+        "kind": "moveEntity",
+        "entity": "e2155",
+        "to": {
+          "col": 117,
+          "row": 91,
+          "height": 0
+        },
+        "speed": "run"
+      },
+      {
+        "kind": "moveEntity",
+        "entity": "e2155",
+        "to": {
+          "col": 120,
+          "row": 91,
+          "height": 0
+        },
+        "speed": "normal"
+      },
+      {
+        "kind": "moveEntity",
+        "entity": "e2155",
+        "to": {
+          "col": 120,
+          "row": 93,
+          "height": 0
+        },
+        "speed": "normal"
+      }
+    ],
+    "scene/s117/root/entity-e2156/page-0/trigger/stage-0": [
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e2156",
+        "on": "interact",
+        "range": 2
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.7645",
+          "slot": "center"
+        }
+      }
+    ]
+  }
+}

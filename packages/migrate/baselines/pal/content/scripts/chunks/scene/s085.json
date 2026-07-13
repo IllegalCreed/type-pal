@@ -1,0 +1,343 @@
+{
+  "version": 1,
+  "id": "scene/s085",
+  "scripts": {
+    "scene/s085/L-13447/e1622/d-89d21e09": [
+      {
+        "kind": "moveEntity",
+        "entity": "e1622",
+        "to": {
+          "col": 39,
+          "row": -6,
+          "height": 0
+        },
+        "speed": "run"
+      },
+      {
+        "kind": "moveEntity",
+        "entity": "e1622",
+        "to": {
+          "col": 24,
+          "row": -6,
+          "height": 0
+        },
+        "speed": "run"
+      },
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e1622",
+        "on": "touch",
+        "range": 2
+      }
+    ],
+    "scene/s085/L-13451/e1622/d-89d21e09": [
+      {
+        "kind": "moveEntity",
+        "entity": "e1622",
+        "to": {
+          "col": 58,
+          "row": -6,
+          "height": 0
+        },
+        "speed": "run"
+      },
+      {
+        "kind": "moveEntity",
+        "entity": "e1622",
+        "to": {
+          "col": 58,
+          "row": -13,
+          "height": 0
+        },
+        "speed": "normal"
+      },
+      {
+        "kind": "wait",
+        "ms": 80
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1622",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1622",
+        "frame": 16
+      }
+    ],
+    "scene/s085/L-38634/e1623/d-89d21e09": [
+      {
+        "kind": "playSound",
+        "soundId": 52
+      },
+      {
+        "kind": "wait",
+        "ms": 1200
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 95
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "playSound",
+        "soundId": 53
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 98
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      }
+    ],
+    "scene/s085/L-38637/e1623/d-89d21e09": [
+      {
+        "kind": "playSound",
+        "soundId": 53
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 98
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      }
+    ],
+    "scene/s085/root/on-enter/stage-0": [],
+    "scene/s085/root/entity-e1618/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s093",
+        "pos": {
+          "col": 54,
+          "row": 8,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s085/root/entity-e1619/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s098",
+        "pos": {
+          "col": 53,
+          "row": 17,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s085/root/entity-e1620/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s098",
+        "pos": {
+          "col": 74,
+          "row": -7,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s085/root/entity-e1621/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s098",
+        "pos": {
+          "col": 82,
+          "row": 55,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s085/root/entity-e1622/page-0/trigger/stage-0": [
+      {
+        "kind": "setEntityAuto",
+        "entity": "e1622",
+        "script": {
+          "chunk": "scene/s085",
+          "id": "scene/s085/L-13447/e1622/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e1622"
+      },
+      {
+        "kind": "playSound",
+        "soundId": 178
+      }
+    ],
+    "scene/s085/root/entity-e1622/page-0/trigger/stage-1": [
+      {
+        "kind": "setEntityAuto",
+        "entity": "e1622",
+        "script": {
+          "chunk": "scene/s085",
+          "id": "scene/s085/L-13451/e1622/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e1622"
+      },
+      {
+        "kind": "playSound",
+        "soundId": 178
+      }
+    ],
+    "scene/s085/root/entity-e1623/page-0/auto/stage-0": [
+      {
+        "kind": "wait",
+        "ms": 800
+      },
+      {
+        "kind": "playSound",
+        "soundId": 52
+      },
+      {
+        "kind": "wait",
+        "ms": 400
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 93
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 51
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s085",
+              "id": "scene/s085/L-38634/e1623/d-89d21e09"
+            },
+            "self": "e1623"
+          }
+        ]
+      },
+      {
+        "kind": "playSound",
+        "soundId": 53
+      },
+      {
+        "kind": "wait",
+        "ms": 600
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 51
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s085",
+              "id": "scene/s085/L-38637/e1623/d-89d21e09"
+            },
+            "self": "e1623"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 97
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "playSound",
+        "soundId": 53
+      },
+      {
+        "kind": "wait",
+        "ms": 400
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 93
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "playSound",
+        "soundId": 52
+      },
+      {
+        "kind": "wait",
+        "ms": 1200
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 95
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "playSound",
+        "soundId": 53
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 98
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      }
+    ]
+  }
+}

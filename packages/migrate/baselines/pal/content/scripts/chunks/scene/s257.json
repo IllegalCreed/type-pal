@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "id": "scene/s257",
+  "scripts": {
+    "scene/s257/L-33962/e4550/d-89d21e09": [
+      {
+        "kind": "nudgeParty",
+        "dx": 8,
+        "dy": 8
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "wait",
+        "ms": 120
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s257",
+          "id": "scene/s257/L-33962/e4550/d-89d21e09"
+        },
+        "self": "e4550"
+      }
+    ],
+    "scene/s257/root/on-enter/stage-0": [
+      {
+        "kind": "playMusic",
+        "musicId": 58
+      }
+    ],
+    "scene/s257/root/entity-e4549/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s255",
+        "pos": {
+          "col": 120,
+          "row": 39,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s257/root/entity-e4550/page-0/trigger/stage-0": [
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 123,
+          "row": 69,
+          "height": 0
+        },
+        "speed": "run"
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 8,
+        "dy": 8
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "wait",
+        "ms": 120
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s257",
+          "id": "scene/s257/L-33962/e4550/d-89d21e09"
+        },
+        "self": "e4550"
+      }
+    ]
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "version": 1,
+  "id": "scene/s018",
+  "scripts": {
+    "scene/s018/root/on-enter/stage-0": [
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e204",
+        "script": {
+          "chunk": "scene/s015",
+          "id": "scene/s015/L-4211/e204/d-89d21e09"
+        }
+      },
+      {
+        "kind": "playSound",
+        "soundId": 260
+      },
+      {
+        "kind": "ditherScreen",
+        "ms": 2160
+      }
+    ],
+    "scene/s018/root/on-enter/stage-1": [],
+    "scene/s018/root/on-teleport/stage-0": [
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1897",
+          "speaker": "spk.李逍遥",
+          "slot": "top",
+          "portrait": {
+            "icon": 1,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "loadScene",
+        "scene": "s016",
+        "pos": {
+          "col": 61,
+          "row": 42,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s018/root/entity-e264/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s015",
+        "pos": {
+          "col": 116,
+          "row": 4,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s018/root/entity-e265/page-0/trigger/stage-0": [
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1897",
+          "speaker": "spk.李逍遥",
+          "slot": "top",
+          "portrait": {
+            "icon": 1,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "loadScene",
+        "scene": "s016",
+        "pos": {
+          "col": 61,
+          "row": 42,
+          "height": 0
+        }
+      }
+    ]
+  }
+}

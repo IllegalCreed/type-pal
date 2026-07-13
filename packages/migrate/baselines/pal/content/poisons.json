@@ -1,0 +1,274 @@
+[
+  {
+    "id": 551,
+    "name": "赤毒",
+    "curability": "common",
+    "color": 16,
+    "playerTicks": [
+      {
+        "hpDelta": -7
+      }
+    ],
+    "enemyTicks": [
+      {
+        "hpDelta": -7
+      }
+    ]
+  },
+  {
+    "id": 552,
+    "name": "尸毒",
+    "curability": "common",
+    "color": 64,
+    "playerTicks": [
+      {
+        "hpDelta": -12
+      }
+    ],
+    "enemyTicks": [
+      {
+        "hpDelta": -12
+      }
+    ]
+  },
+  {
+    "id": 553,
+    "name": "瘴毒",
+    "curability": "common",
+    "color": 33,
+    "playerTicks": [
+      {
+        "hpDelta": -20
+      }
+    ],
+    "enemyTicks": [
+      {
+        "hpDelta": -20
+      }
+    ]
+  },
+  {
+    "id": 554,
+    "name": "毒丝",
+    "curability": "common",
+    "color": 224,
+    "playerTicks": [
+      {
+        "hpDelta": -32
+      }
+    ],
+    "enemyTicks": [
+      {
+        "hpDelta": -32
+      }
+    ]
+  },
+  {
+    "id": 555,
+    "name": "三尸蛊毒",
+    "curability": "severe",
+    "color": 128,
+    "playerTicks": [
+      {
+        "hpDelta": 0
+      },
+      {
+        "hpDelta": -1
+      },
+      {
+        "hpDelta": -2
+      },
+      {
+        "hpDelta": -3
+      },
+      {
+        "hpDelta": -200,
+        "selfCure": true
+      }
+    ],
+    "enemyTicks": [
+      {
+        "hpDelta": -111
+      },
+      {
+        "hpDelta": -222
+      },
+      {
+        "hpDelta": -333,
+        "selfCure": true
+      }
+    ],
+    "lethalWith": 558,
+    "counters": 557
+  },
+  {
+    "id": 556,
+    "name": "鹤顶红",
+    "curability": "severe",
+    "color": 160,
+    "playerTicks": [
+      {
+        "hpDelta": -50
+      }
+    ],
+    "enemyTicks": [
+      {
+        "hpDelta": -100
+      }
+    ],
+    "lethalWith": 557,
+    "counters": 558
+  },
+  {
+    "id": 557,
+    "name": "孔雀胆",
+    "curability": "severe",
+    "color": 80,
+    "playerTicks": [
+      {
+        "hpDelta": -50
+      }
+    ],
+    "enemyTicks": [
+      {
+        "hpDelta": -100
+      }
+    ],
+    "lethalWith": 556,
+    "counters": 560
+  },
+  {
+    "id": 558,
+    "name": "血海棠",
+    "curability": "severe",
+    "color": 96,
+    "playerTicks": [
+      {
+        "hpDelta": -50
+      }
+    ],
+    "enemyTicks": [
+      {
+        "hpDelta": -100
+      }
+    ],
+    "lethalWith": 555,
+    "counters": 559
+  },
+  {
+    "id": 559,
+    "name": "断肠草",
+    "curability": "severe",
+    "color": 192,
+    "playerTicks": [
+      {
+        "hpDelta": -50
+      }
+    ],
+    "enemyTicks": [
+      {
+        "hpDelta": -100
+      }
+    ],
+    "lethalWith": 560,
+    "counters": 555
+  },
+  {
+    "id": 560,
+    "name": "金蚕蛊毒",
+    "curability": "severe",
+    "color": 176,
+    "playerTicks": [
+      {
+        "hpDelta": -50
+      }
+    ],
+    "enemyTicks": [
+      {
+        "hpDelta": -100
+      }
+    ],
+    "lethalWith": 559,
+    "counters": 556
+  },
+  {
+    "id": 137,
+    "name": "无影毒",
+    "curability": "incurable",
+    "color": 0,
+    "enemyTicks": [
+      {
+        "halveHp": 1000,
+        "selfCure": true
+      }
+    ]
+  },
+  {
+    "id": 561,
+    "name": "食妖虫附",
+    "curability": "incurable",
+    "color": 0,
+    "enemyTicks": [
+      {
+        "hpDelta": -1
+      },
+      {
+        "hpDelta": -2
+      },
+      {
+        "hpDelta": -3
+      },
+      {
+        "hpDelta": -4
+      },
+      {
+        "hpDelta": -5
+      },
+      {
+        "hpDelta": -6
+      },
+      {
+        "hpDelta": -7
+      },
+      {
+        "hpDelta": -8,
+        "grantItem": "145",
+        "selfCure": true
+      }
+    ]
+  },
+  {
+    "id": 562,
+    "name": "碧血蚕附",
+    "curability": "incurable",
+    "color": 0,
+    "enemyTicks": [
+      {
+        "hpDelta": -1
+      },
+      {
+        "hpDelta": -2
+      },
+      {
+        "hpDelta": -3
+      },
+      {
+        "hpDelta": -4
+      },
+      {
+        "hpDelta": -5
+      },
+      {
+        "hpDelta": -6
+      },
+      {
+        "hpDelta": -7
+      },
+      {
+        "hpDelta": -8,
+        "grantItem": "149",
+        "selfCure": true
+      }
+    ]
+  }
+]

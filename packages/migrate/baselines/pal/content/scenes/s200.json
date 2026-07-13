@@ -1,0 +1,39 @@
+{
+  "id": "s200",
+  "map": {
+    "reuseOriginalMap": 20
+  },
+  "entry": {
+    "pos": {
+      "col": 96,
+      "row": 32,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e3351",
+      "pos": {
+        "col": 80,
+        "row": 20,
+        "height": 0
+      },
+      "sprite": "npc-590",
+      "hidden": true
+    }
+  ],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s200",
+            "id": "scene/s200/root/on-enter/stage-0"
+          }
+        }
+      ]
+    }
+  ]
+}

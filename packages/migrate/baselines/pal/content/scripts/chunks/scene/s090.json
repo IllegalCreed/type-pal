@@ -1,0 +1,142 @@
+{
+  "version": 1,
+  "id": "scene/s090",
+  "scripts": {
+    "scene/s090/L-35650/e1664/d-89d21e09": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1664",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1664",
+        "frame": 1
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1664",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1664",
+        "frame": 2
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1664",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1664",
+        "frame": 3
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s090",
+          "id": "scene/s090/L-35650/e1664/d-89d21e09"
+        },
+        "self": "e1664"
+      }
+    ],
+    "scene/s090/root/on-enter/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 134
+      },
+      {
+        "kind": "ditherScreen",
+        "ms": 720
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "left"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.4949"
+        }
+      },
+      {
+        "kind": "setMultiEntityState",
+        "entities": [
+          "e1707",
+          "e1708",
+          "e1709",
+          "e1710"
+        ],
+        "state": 2
+      }
+    ],
+    "scene/s090/root/on-enter/stage-1": [],
+    "scene/s090/root/entity-e1662/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s084",
+        "pos": {
+          "col": 63,
+          "row": -5,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s090/root/entity-e1663/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s092",
+        "pos": {
+          "col": 101,
+          "row": 69,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s090/root/entity-e1664/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1664",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1664",
+        "frame": 1
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1664",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1664",
+        "frame": 2
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1664",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1664",
+        "frame": 3
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s090",
+          "id": "scene/s090/L-35650/e1664/d-89d21e09"
+        },
+        "self": "e1664"
+      }
+    ]
+  }
+}

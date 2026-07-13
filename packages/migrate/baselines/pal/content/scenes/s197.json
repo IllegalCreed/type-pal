@@ -1,0 +1,48 @@
+{
+  "id": "s197",
+  "map": {
+    "reuseOriginalMap": 90
+  },
+  "entries": {
+    "start": {
+      "pos": {
+        "col": 46,
+        "row": 14,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 46,
+      "row": 14,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e3345",
+      "pos": {
+        "col": 46,
+        "row": 14,
+        "height": 0
+      },
+      "sprite": "npc-379-f0",
+      "zBias": 5
+    }
+  ],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s197",
+            "id": "scene/s197/root/on-enter/stage-0"
+          }
+        }
+      ]
+    }
+  ]
+}

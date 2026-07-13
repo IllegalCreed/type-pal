@@ -1,0 +1,162 @@
+{
+  "version": 1,
+  "id": "scene/s123",
+  "scripts": {
+    "scene/s123/L-36393/e2203/d-89d21e09": [
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down",
+        "gesture": 1
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      }
+    ],
+    "scene/s123/root/entity-e2203/page-0/trigger/stage-0": [
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 51,
+          "row": 6,
+          "height": 0
+        }
+      },
+      {
+        "kind": "callScript",
+        "ref": {
+          "chunk": "scene/s123",
+          "id": "scene/s123/L-36393/e2203/d-89d21e09"
+        },
+        "self": "e2203"
+      },
+      {
+        "kind": "loadScene",
+        "scene": "s122"
+      }
+    ],
+    "scene/s123/root/entity-e2204/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s124",
+        "pos": {
+          "col": 69,
+          "row": 19,
+          "height": 0
+        }
+      }
+    ]
+  }
+}

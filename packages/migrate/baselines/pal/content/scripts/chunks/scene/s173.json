@@ -1,0 +1,122 @@
+{
+  "version": 1,
+  "id": "scene/s173",
+  "scripts": {
+    "scene/s173/L-27737/e2866/d-89d21e09": [
+      {
+        "kind": "animEntity",
+        "entity": "e2866"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s173",
+          "id": "scene/s173/L-27737/e2866/d-89d21e09"
+        },
+        "self": "e2866"
+      }
+    ],
+    "scene/s173/root/on-enter/stage-0": [
+      {
+        "kind": "playMusic",
+        "musicId": 28
+      },
+      {
+        "kind": "unequip",
+        "role": 1,
+        "slot": 5
+      },
+      {
+        "kind": "unequip",
+        "role": 2,
+        "slot": "all"
+      },
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 38,
+          "row": 8,
+          "height": 0
+        }
+      },
+      {
+        "kind": "setActorSprite",
+        "actor": "li-xiaoyao",
+        "sprite": "npc-232"
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.9827"
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.9829"
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.9831",
+          "slot": "top"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.9832",
+          "slot": "top"
+        }
+      },
+      {
+        "kind": "ditherScreen",
+        "ms": 720
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e2866",
+        "script": {
+          "chunk": "scene/s173",
+          "id": "scene/s173/L-27737/e2866/d-89d21e09"
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 1480
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e2866",
+        "state": 0
+      },
+      {
+        "kind": "wait",
+        "ms": 120
+      },
+      {
+        "kind": "loadScene",
+        "scene": "s174"
+      }
+    ]
+  }
+}
