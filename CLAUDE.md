@@ -16,6 +16,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **展示效果没有特殊说明 = 照原版**：第一阶段本来就忠实；第二阶段 UI/演出观感以一阶段实现为 UX 真值（[READ-FIRST 铁律 8](docs/phase2/READ-FIRST.md)），形态级选择（图标 vs 文字、网格 vs 列表、布局结构）不许自作主张，想换先问。
 - **改完自己真实测过再说 done**（dev / preview 真 SW / 生产烟测），别拿作者当测试员。
 - **修 bug 默认只修根因**，不为被污染的旧存档做迁移/复原（新档干净即可），除非作者要求。
+- **迁移类 bug 必须先修上游**（2026-07-13 用户拍板）：提取器 / 迁移器 / 数据映射 / 生成脚本 / overlay 有问题时，直接改 `projects/pal` 产物不算修复；必须修真源、全量重迁、验证白名单并确认双跑幂等。详见 [READ-FIRST 铁律 10](docs/phase2/READ-FIRST.md)。
 - **给定范围的批量任务一路做完**，别每步停下问「继续吗」。
 - **报告/审查结论**：复核后的收窄与纠正要合并进正文，别让正文留着未修正的初版结论。
 
