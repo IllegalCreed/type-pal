@@ -1,12 +1,19 @@
 import { describe, expect, it } from 'vitest'
-import {
-  checkScriptIndex,
-  deriveScriptChunk,
-  isScriptRef,
-  stableScriptHash,
-  type ScriptIndexV1,
-} from './script-library.js'
 import { checkStages } from './script.js'
+import {
+  AUTHORED_SCRIPT_PREFIX,
+  checkScriptIndex,
+  checkScriptLibrary,
+  createScriptIndex,
+  deriveScriptChunk,
+  getScriptBody,
+  isScriptRef,
+  normalizeScriptLibrary,
+  removeAuthoredScript,
+  type ScriptIndexV1,
+  stableScriptHash,
+  upsertAuthoredScript,
+} from './script-library.js'
 
 const shards = { shared: 16, global: { items: 4 } }
 
@@ -34,9 +41,142 @@ describe('script library schema', () => {
     expect(() => checkScriptIndex({ ...index, shards: { ...shards, shared: 0 } })).toThrow(/正整数/)
   })
 
+  it('作者目录只接受 shared/user 稳定 id 与合法 self 契约', () => {
+    const index: ScriptIndexV1 = {
+      version: 1,
+      shards,
+      chunks: {},
+      library: {
+        [`${AUTHORED_SCRIPT_PREFIX}heal-a1b2c3d4`]: {
+          name: '旅店休息',
+          description: '恢复后播放提示',
+          self: 'none',
+        },
+      },
+    }
+    expect(() => checkScriptIndex(index)).not.toThrow()
+    expect(() =>
+      checkScriptIndex({
+        ...index,
+        library: { 'shared/L_1/default': { name: '伪装内部脚本', self: 'none' } },
+      }),
+    ).toThrow(/shared\/user/)
+    expect(() =>
+      checkScriptIndex({
+        ...index,
+        library: { [`${AUTHORED_SCRIPT_PREFIX}bad`]: { name: '', self: 'sometimes' } },
+      }),
+    ).toThrow()
+  })
+
+  it('归一化保留作者目录并统一重算 imports/bytes/hash', () => {
+    const target = `${AUTHORED_SCRIPT_PREFIX}target-a1b2c3d4`
+    const caller = `${AUTHORED_SCRIPT_PREFIX}caller-a1b2c3d4`
+    const index: ScriptIndexV1 = {
+      version: 1,
+      shards,
+      chunks: {},
+      library: {
+        [target]: { name: '目标', self: 'none' },
+        [caller]: { name: '调用者', self: 'optional' },
+      },
+    }
+    const targetChunk = deriveScriptChunk(target, shards)!
+    const callerChunk = deriveScriptChunk(caller, shards)!
+    const normalized = normalizeScriptLibrary(index, {
+      [targetChunk]: {
+        version: 1,
+        id: targetChunk,
+        scripts: { [target]: [{ kind: 'wait', ms: 40 }] },
+      },
+      [callerChunk]: {
+        version: 1,
+        id: callerChunk,
+        scripts: {
+          [caller]: [{ kind: 'callScript', ref: { chunk: targetChunk, id: target } }],
+        },
+      },
+    })
+    expect(normalized.index.library).toEqual(index.library)
+    expect(normalized.index.chunks[callerChunk]?.bytes).toBeGreaterThan(0)
+    expect(normalized.index.chunks[callerChunk]?.hash).toMatch(/^[0-9a-f]{8}$/)
+    if (callerChunk !== targetChunk)
+      expect(normalized.chunks[callerChunk]?.imports).toEqual([targetChunk])
+    expect(() => checkScriptLibrary(normalized.index, normalized.chunks)).not.toThrow()
+  })
+
+  it('作者脚本可初始化、更新、定位和删除且不留空 chunk', () => {
+    const id = `${AUTHORED_SCRIPT_PREFIX}demo-a1b2c3d4`
+    const empty = { index: createScriptIndex(), chunks: {} }
+    const created = upsertAuthoredScript(
+      empty.index,
+      empty.chunks,
+      id,
+      {
+        name: '演示',
+        self: 'required',
+      },
+      [{ kind: 'wait', ms: 100 }],
+    )
+    expect(getScriptBody(created.index, created.chunks, id)).toEqual([{ kind: 'wait', ms: 100 }])
+    const updated = upsertAuthoredScript(
+      created.index,
+      created.chunks,
+      id,
+      {
+        name: '演示改名',
+        self: 'required',
+      },
+      [{ kind: 'wait', ms: 200 }],
+    )
+    expect(updated.index.library?.[id]?.name).toBe('演示改名')
+    expect(getScriptBody(updated.index, updated.chunks, id)).toEqual([{ kind: 'wait', ms: 200 }])
+    const removed = removeAuthoredScript(updated.index, updated.chunks, id)
+    expect(removed.index.library).toBeUndefined()
+    expect(Object.keys(removed.chunks)).toEqual([])
+    expect(Object.keys(removed.index.chunks)).toEqual([])
+  })
+
+  it('完整校验拒绝有元数据无 body 和作者 body 放错 chunk', () => {
+    const id = `${AUTHORED_SCRIPT_PREFIX}bad-a1b2c3d4`
+    const index: ScriptIndexV1 = {
+      version: 1,
+      shards,
+      chunks: {},
+      library: { [id]: { name: '缺失', self: 'none' } },
+    }
+    expect(() => checkScriptLibrary(index, {})).toThrow(/没有脚本体/)
+    const wrong = 'shared/c99'
+    const chunks = { [wrong]: { version: 1 as const, id: wrong, scripts: { [id]: [] } } }
+    const normalized = normalizeScriptLibrary(index, chunks)
+    expect(() => checkScriptLibrary(normalized.index, normalized.chunks)).toThrow(/应位于/)
+  })
+
   it('stage 同时支持 inline、call/jump 与 ref 换页', () => {
-    expect(() => checkStages([{ body: [{ kind: 'callScript', ref: { chunk: 'scene/s001', id: 'scene/s001/root' } }] }], 'stages')).not.toThrow()
-    expect(() => checkStages([{ body: [{ kind: 'setEntityAuto', entity: 'e1', script: { chunk: 'shared/c00', id: 'shared/auto/e1' } }] }], 'stages')).not.toThrow()
-    expect(() => checkStages([{ body: [{ kind: 'jumpScript', ref: { chunk: '', id: 'bad' } }] }], 'stages')).toThrow(/ScriptRef/)
+    expect(() =>
+      checkStages(
+        [{ body: [{ kind: 'callScript', ref: { chunk: 'scene/s001', id: 'scene/s001/root' } }] }],
+        'stages',
+      ),
+    ).not.toThrow()
+    expect(() =>
+      checkStages(
+        [
+          {
+            body: [
+              {
+                kind: 'setEntityAuto',
+                entity: 'e1',
+                script: { chunk: 'shared/c00', id: 'shared/auto/e1' },
+              },
+            ],
+          },
+        ],
+        'stages',
+      ),
+    ).not.toThrow()
+    expect(() =>
+      checkStages([{ body: [{ kind: 'jumpScript', ref: { chunk: '', id: 'bad' } }] }], 'stages'),
+    ).toThrow(/ScriptRef/)
   })
 })

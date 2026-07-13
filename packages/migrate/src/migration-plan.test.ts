@@ -151,6 +151,73 @@ describe('createMigrationPlan', () => {
     })
   })
 
+  test('ours-only 作者目录与作者 body 可和 theirs 同 shard 内部脚本无冲突合并', () => {
+    const authoredId = 'shared/user/demo-a1b2c3d4'
+    const internalId = 'shared/L_1/default'
+    const chunkId = 'shared/c00'
+    const path = 'content/scripts/chunks/shared/c00.json'
+    const makeIndex = (library?: MigrationJson): MigrationJson => ({
+      version: 1,
+      shards: { shared: 1, global: {} },
+      chunks: { [chunkId]: { path: 'chunks/shared/c00.json', bytes: 1 } },
+      ...(library ? { library } : {}),
+    })
+    const makeChunk = (internalWait: number, authoredWait?: number): MigrationJson => ({
+      version: 1,
+      id: chunkId,
+      scripts: {
+        [internalId]: [{ kind: 'wait', ms: internalWait }],
+        ...(authoredWait === undefined
+          ? {}
+          : { [authoredId]: [{ kind: 'wait', ms: authoredWait }] }),
+      },
+    })
+    const authorLibrary: MigrationJson = {
+      [authoredId]: { name: '演示', self: 'none' },
+    }
+    const plan = createMigrationPlan(
+      snapshot({ 'content/scripts/index.json': makeIndex(), [path]: makeChunk(1) }),
+      snapshot({
+        'content/scripts/index.json': makeIndex(authorLibrary),
+        [path]: makeChunk(1, 9),
+      }),
+      generated({ 'content/scripts/index.json': makeIndex(), [path]: makeChunk(2) }),
+    )
+    expect(plan.conflicts).toEqual([])
+    expect(plan.target.get('content/scripts/index.json')).toMatchObject({ library: authorLibrary })
+    expect(plan.target.get(path)).toMatchObject({
+      scripts: {
+        [internalId]: [{ kind: 'wait', ms: 2 }],
+        [authoredId]: [{ kind: 'wait', ms: 9 }],
+      },
+    })
+  })
+
+  test('双方修改同一作者 body 时显式冲突且零写盘', () => {
+    const authoredId = 'shared/user/demo-a1b2c3d4'
+    const chunkId = 'shared/c00'
+    const path = 'content/scripts/chunks/shared/c00.json'
+    const index: MigrationJson = {
+      version: 1,
+      shards: { shared: 1, global: {} },
+      chunks: { [chunkId]: { path: 'chunks/shared/c00.json', bytes: 1 } },
+      library: { [authoredId]: { name: '演示', self: 'none' } },
+    }
+    const chunk = (ms: number): MigrationJson => ({
+      version: 1,
+      id: chunkId,
+      scripts: { [authoredId]: [{ kind: 'wait', ms }] },
+    })
+    const plan = createMigrationPlan(
+      snapshot({ 'content/scripts/index.json': index, [path]: chunk(1) }),
+      snapshot({ 'content/scripts/index.json': index, [path]: chunk(2) }),
+      generated({ 'content/scripts/index.json': index, [path]: chunk(3) }),
+    )
+    expect(plan.conflicts.length).toBeGreaterThan(0)
+    expect(plan.writes.size).toBe(0)
+    expect(plan.deletes).toEqual([])
+  })
+
   test('首次 bootstrap 只写语义变化并删除 target 明确退役项', () => {
     const ours = snapshot({ 'content/a.json': { x: 1 }, 'content/old.json': { x: 1 } })
     const target = snapshot({ 'content/a.json': { x: 1 }, 'content/new.json': { x: 2 } })

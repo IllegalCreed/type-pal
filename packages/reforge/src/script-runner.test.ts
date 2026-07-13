@@ -672,6 +672,23 @@ describe('分片脚本 call/jump', () => {
     expect(calls).toEqual(['playSound(3)'])
   })
 
+  test('作者 shared/user 脚本复用同一受控调用栈并继承 self', async () => {
+    const calls: string[] = []
+    const id = 'shared/user/chase-a1b2c3d4'
+    const target = { chunk: 'shared/c00', id }
+    const runner = new ScriptRunner(
+      fakeHost(calls),
+      emptyWorldScriptState(),
+      new AbortController().signal,
+      Math.random,
+      resolverOf({ [id]: [{ kind: 'chasePlayer' }] }),
+    )
+    runner.selfId = 'e7'
+    await runner.run([{ kind: 'callScript', ref: target }])
+    expect(calls).toEqual(['chaseStep("e7",8,4,false)'])
+    expect(runner.selfId).toBe('e7')
+  })
+
   test('call/jump 的 self 跨引用生效并在返回后恢复', async () => {
     const calls: string[] = []
     const target = { chunk: 'shared/c00', id: 'shared/chase' }

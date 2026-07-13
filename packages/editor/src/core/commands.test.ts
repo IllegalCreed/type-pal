@@ -1,4 +1,5 @@
 import type { ActorDef, EntityDef, ScriptStage, SpriteDef } from '@type-pal/content'
+import { deriveScriptChunk, getScriptBody } from '@type-pal/content'
 import { buildBlankOwnMap, buildOwnMapLayer, paintOwnMapTiles } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
 import {
@@ -11,6 +12,7 @@ import {
   AppendSpriteFramesCommand,
   CreateOwnMapCommand,
   CreateScriptSourceCommand,
+  DeleteAuthoredScriptCommand,
   DeleteEnemyCommand,
   DeleteEntityCommand,
   MoveEntityCommand,
@@ -35,7 +37,9 @@ import {
   UpdatePoisonCommand,
   UpdateSceneCommand,
   UpdateScriptCommand,
+  UpdateSharedScriptBodyCommand,
   UpdateSpriteCommand,
+  UpsertAuthoredScriptCommand,
 } from './commands.js'
 import type { EditorState } from './edit-session.js'
 
@@ -226,6 +230,59 @@ describe('布置命令集 · 不可变 + invert', () => {
     expect(a1).toBe(s0) // 同引用 = 未改
     const a2 = new UpdateEntityCommand('nope', 'a', { collide: true }).apply(s0)
     expect(a2).toBe(s0)
+  })
+})
+
+describe('N6 共享脚本命令 · 原子状态 + invert', () => {
+  const id = 'shared/user/demo-a1b2c3d4'
+
+  test('首次创建原子补 manifest/index/chunk，invert 恢复无脚本工程', () => {
+    const s0 = st()
+    s0.scriptChunks = {}
+    const cmd = new UpsertAuthoredScriptCommand(id, { name: '演示', self: 'none' }, [
+      { kind: 'wait', ms: 100 },
+    ])
+    const s1 = cmd.apply(s0)
+    expect(s1.manifest.content.scripts).toBe('content/scripts/')
+    expect(s1.scriptIndex?.library?.[id]?.name).toBe('演示')
+    expect(getScriptBody(s1.scriptIndex!, s1.scriptChunks, id)).toEqual([{ kind: 'wait', ms: 100 }])
+    expect(s0.scriptIndex).toBeUndefined()
+    const back = cmd.invert(s1)
+    expect(back.scriptIndex).toBeUndefined()
+    expect(back.scriptChunks).toEqual({})
+    expect(back.manifest.content?.scripts).toBeUndefined()
+  })
+
+  test('内部/作者 body 更新统一归一化，invert 恢复旧体', () => {
+    const create = new UpsertAuthoredScriptCommand(id, { name: '演示', self: 'none' }, [
+      { kind: 'wait', ms: 100 },
+    ])
+    const s1 = create.apply(Object.assign(st(), { scriptChunks: {} }))
+    const update = new UpdateSharedScriptBodyCommand(id, [{ kind: 'wait', ms: 200 }])
+    const s2 = update.apply(s1)
+    expect(getScriptBody(s2.scriptIndex!, s2.scriptChunks, id)).toEqual([{ kind: 'wait', ms: 200 }])
+    const back = update.invert(s2)
+    expect(getScriptBody(back.scriptIndex!, back.scriptChunks, id)).toEqual([{ kind: 'wait', ms: 100 }])
+  })
+
+  test('删除有调用方时阻止并列出来源；无引用时删除且可撤销', () => {
+    const create = new UpsertAuthoredScriptCommand(id, { name: '演示', self: 'none' }, [
+      { kind: 'wait', ms: 100 },
+    ])
+    const base = create.apply(Object.assign(st(), { scriptChunks: {} }))
+    const chunk = deriveScriptChunk(id, base.scriptIndex!.shards)!
+    const referenced: EditorState = {
+      ...base,
+      scenes: [{ ...base.scenes[0]!, onEnter: [{ body: [{ kind: 'callScript', ref: { chunk, id } }] }] }],
+    }
+    expect(() => new DeleteAuthoredScriptCommand(id).apply(referenced)).toThrow(/仍被 1 处引用/)
+
+    const remove = new DeleteAuthoredScriptCommand(id)
+    const deleted = remove.apply(base)
+    expect(deleted.scriptIndex?.library?.[id]).toBeUndefined()
+    expect(getScriptBody(deleted.scriptIndex!, deleted.scriptChunks, id)).toBeUndefined()
+    const restored = remove.invert(deleted)
+    expect(restored.scriptIndex?.library?.[id]?.name).toBe('演示')
   })
 })
 

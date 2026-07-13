@@ -24,9 +24,19 @@ import type {
   PoisonDef,
   SceneDef,
   SceneMap,
+  Command as ScriptCommand,
   SkillData,
   ScriptStage,
+  SharedScriptMetaV1,
   SpriteDef,
+} from '@type-pal/content'
+import {
+  checkCommands,
+  createScriptIndex,
+  findScriptOwnerChunk,
+  normalizeScriptLibrary,
+  removeAuthoredScript,
+  upsertAuthoredScript,
 } from '@type-pal/content'
 import type { OwnMap, OwnMapCollisionEdit, OwnMapLayer, OwnMapTileEdit, TilesetDef } from '@type-pal/reforge'
 import {
@@ -39,6 +49,7 @@ import {
   updateOwnMapLayer,
 } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
+import { findScriptReferences } from './script-references.js'
 
 /**
  * 一次编辑操作。apply/invert 都返回**新** EditorState(不可变 —— 不得 mutate 传入)。
@@ -1008,6 +1019,143 @@ export class UpdateScriptCommand implements Command {
     const scene = findScene(state, this.sceneId)
     if (!scene) return state
     return withScene(state, this.sceneId, withScriptStages(scene, this.ref, this.old))
+  }
+}
+
+interface ScriptStateSnapshot {
+  index: EditorState['scriptIndex']
+  chunks: EditorState['scriptChunks']
+  scriptsPath: string | undefined
+}
+
+function captureScriptState(state: EditorState): ScriptStateSnapshot {
+  return {
+    index: state.scriptIndex ? structuredClone(state.scriptIndex) : undefined,
+    chunks: structuredClone(state.scriptChunks ?? {}),
+    scriptsPath: state.manifest.content?.scripts,
+  }
+}
+
+function restoreScriptState(state: EditorState, snapshot: ScriptStateSnapshot): EditorState {
+  const content = { ...(state.manifest.content ?? {}) }
+  if (snapshot.scriptsPath === undefined) delete content.scripts
+  else content.scripts = snapshot.scriptsPath
+  return {
+    ...state,
+    manifest: { ...state.manifest, content },
+    scriptIndex: snapshot.index ? structuredClone(snapshot.index) : undefined,
+    scriptChunks: structuredClone(snapshot.chunks),
+  }
+}
+
+function withScriptLibrary(
+  state: EditorState,
+  index: NonNullable<EditorState['scriptIndex']>,
+  chunks: EditorState['scriptChunks'],
+): EditorState {
+  return {
+    ...state,
+    manifest: {
+      ...state.manifest,
+      content: {
+        ...(state.manifest.content ?? {}),
+        scripts: state.manifest.content?.scripts ?? 'content/scripts/',
+      },
+    },
+    scriptIndex: index,
+    scriptChunks: chunks,
+  }
+}
+
+/** 新建/改名/修改作者共享脚本；首次创建时原子补 manifest + index + chunk。 */
+export class UpsertAuthoredScriptCommand implements Command {
+  readonly label = '保存共享脚本'
+  private old: ScriptStateSnapshot | undefined
+
+  constructor(
+    private readonly id: string,
+    private readonly meta: SharedScriptMetaV1,
+    private readonly body: readonly ScriptCommand[],
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    if (!this.old) this.old = captureScriptState(state)
+    const result = upsertAuthoredScript(
+      state.scriptIndex ?? createScriptIndex(),
+      state.scriptChunks ?? {},
+      this.id,
+      this.meta,
+      this.body,
+    )
+    return withScriptLibrary(state, result.index, result.chunks)
+  }
+
+  invert(state: EditorState): EditorState {
+    return this.old ? restoreScriptState(state, this.old) : state
+  }
+}
+
+/** 修改任意已存在脚本体；作者脚本与从引用跳入的迁移内部脚本共用。 */
+export class UpdateSharedScriptBodyCommand implements Command {
+  readonly label = '修改共享脚本'
+  private old: ScriptStateSnapshot | undefined
+
+  constructor(
+    private readonly id: string,
+    private readonly body: readonly ScriptCommand[],
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    if (!state.scriptIndex) throw new Error(`脚本 ${this.id} 没有 index`)
+    checkCommands(this.body, `scripts.${this.id}`)
+    const owner = findScriptOwnerChunk(state.scriptChunks ?? {}, this.id)
+    if (!owner) throw new Error(`脚本不存在 ${this.id}`)
+    if (!this.old) this.old = captureScriptState(state)
+    const chunks = structuredClone(state.scriptChunks) as EditorState['scriptChunks']
+    const ownerChunk = chunks[owner]
+    if (!ownerChunk) throw new Error(`脚本 ${this.id} 的分片 ${owner} 不存在`)
+    chunks[owner] = {
+      ...ownerChunk,
+      scripts: {
+        ...ownerChunk.scripts,
+        [this.id]: structuredClone(this.body) as ScriptCommand[],
+      },
+    }
+    const result = normalizeScriptLibrary(state.scriptIndex, chunks)
+    return withScriptLibrary(state, result.index, result.chunks)
+  }
+
+  invert(state: EditorState): EditorState {
+    return this.old ? restoreScriptState(state, this.old) : state
+  }
+}
+
+/** 删除无外部调用方的作者脚本；引用检查只在删除动作发生时运行。 */
+export class DeleteAuthoredScriptCommand implements Command {
+  readonly label = '删除共享脚本'
+  private old: ScriptStateSnapshot | undefined
+
+  constructor(private readonly id: string) {}
+
+  apply(state: EditorState): EditorState {
+    if (!state.scriptIndex?.library?.[this.id]) throw new Error(`作者脚本不存在 ${this.id}`)
+    const external = findScriptReferences(state, this.id).filter(
+      (entry) => entry.caller.type !== 'script' || entry.caller.scriptId !== this.id,
+    )
+    if (external.length)
+      throw new Error(
+        `共享脚本仍被 ${external.length} 处引用:\n${external
+          .slice(0, 8)
+          .map((entry) => `${entry.caller.label}${entry.path}`)
+          .join('\n')}`,
+      )
+    if (!this.old) this.old = captureScriptState(state)
+    const result = removeAuthoredScript(state.scriptIndex, state.scriptChunks ?? {}, this.id)
+    return withScriptLibrary(state, result.index, result.chunks)
+  }
+
+  invert(state: EditorState): EditorState {
+    return this.old ? restoreScriptState(state, this.old) : state
   }
 }
 

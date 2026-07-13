@@ -3,61 +3,11 @@ import {
   checkScriptIndex,
   deriveScriptChunk,
   isScriptRef,
-  stableScriptHash,
+  normalizeScriptLibrary,
 } from '@type-pal/content'
 import type { MigrationJson } from './pal-migration.js'
 
-function collectImports(node: unknown, owner: string, imports: Set<string>): void {
-  if (Array.isArray(node)) {
-    for (const value of node) collectImports(value, owner, imports)
-    return
-  }
-  if (!node || typeof node !== 'object') return
-  const value = node as Record<string, unknown>
-  if ((value.kind === 'callScript' || value.kind === 'jumpScript') && value.ref) {
-    const ref = value.ref as ScriptRef
-    if (ref.chunk !== owner) imports.add(ref.chunk)
-  }
-  for (const child of Object.values(value)) collectImports(child, owner, imports)
-}
-
-/** 修改脚本体后统一重算 imports、bytes、hash；chunk 布局与 shard 配置保持不变。 */
-export function normalizeScriptLibrary(
-  index: ScriptIndexV1,
-  input: Readonly<Record<string, ScriptChunkV1>>,
-): { index: ScriptIndexV1; chunks: Record<string, ScriptChunkV1> } {
-  const chunks: Record<string, ScriptChunkV1> = {}
-  for (const id of Object.keys(input).sort()) {
-    const source = input[id]!
-    const scripts = Object.fromEntries(
-      Object.entries(source.scripts).map(([scriptId, body]) => [scriptId, structuredClone(body)]),
-    )
-    const imports = new Set<string>()
-    collectImports(scripts, id, imports)
-    chunks[id] = {
-      version: 1,
-      id,
-      ...(imports.size ? { imports: [...imports].sort() } : {}),
-      scripts,
-    }
-  }
-  const metas: ScriptIndexV1['chunks'] = {}
-  for (const [id, chunk] of Object.entries(chunks)) {
-    const json = JSON.stringify(chunk)
-    const bytes = new TextEncoder().encode(json).byteLength
-    if (bytes >= 1024 * 1024) throw new Error(`脚本 chunk ${id} ${bytes}B 超过 1MiB`)
-    metas[id] = {
-      path: index.chunks[id]?.path ?? `chunks/${id}.json`,
-      bytes,
-      hash: stableScriptHash(json).toString(16).padStart(8, '0'),
-      ...(chunk.imports?.length ? { imports: chunk.imports } : {}),
-    }
-  }
-  return {
-    index: { version: 1, shards: structuredClone(index.shards), chunks: metas },
-    chunks,
-  }
-}
+export { normalizeScriptLibrary }
 
 export const MIGRATION_SCRIPT_VIEW_PATH = 'content/scripts/.mg2-by-script-id.json'
 const SCRIPT_INDEX_PATH = 'content/scripts/index.json'
@@ -128,12 +78,17 @@ export function canonicalizeMigrationScriptFiles(
 
   for (const path of chunkPaths) files.delete(path)
   const chunkPathsOnly = Object.fromEntries(
-    Object.entries(index.chunks).map(([id, meta]) => [id, { path: meta.path }]),
+    Object.entries(index.chunks).map(([id, meta]) => [id, { path: meta.path, bytes: 0 }]),
   )
   files.set(
     SCRIPT_INDEX_PATH,
     JSON.parse(
-      JSON.stringify({ version: 1, shards: structuredClone(index.shards), chunks: chunkPathsOnly }),
+      JSON.stringify({
+        version: 1,
+        shards: structuredClone(index.shards),
+        chunks: chunkPathsOnly,
+        ...(index.library ? { library: structuredClone(index.library) } : {}),
+      }),
     ) as MigrationJson,
   )
   files.set(
@@ -181,7 +136,8 @@ export function materializeMigrationScriptFiles(
   const normalized = normalizeScriptLibrary(index, rawChunks)
   files.set(SCRIPT_INDEX_PATH, JSON.parse(JSON.stringify(normalized.index)) as MigrationJson)
   for (const [id, chunk] of Object.entries(normalized.chunks)) {
-    const meta = normalized.index.chunks[id]!
+    const meta = normalized.index.chunks[id]
+    if (!meta) throw new Error(`归一化脚本 index 缺少 chunk ${id}`)
     const path = `content/scripts/${meta.path}`
     if (files.has(path)) throw new Error(`脚本重分桶目标与现有文件冲突: ${path}`)
     files.set(path, JSON.parse(JSON.stringify(chunk)) as MigrationJson)

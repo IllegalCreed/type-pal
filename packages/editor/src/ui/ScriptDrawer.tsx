@@ -41,6 +41,7 @@ import {
   setStageNext,
   updateCommandAt,
 } from '../core/script-edit.js'
+import { createAuthoredScriptCall } from '../core/shared-script.js'
 import { CommandForm } from './CommandForm.js'
 import { PreviewCanvas } from './PreviewCanvas.js'
 import { type RowAction, ScriptTree } from './ScriptTree.js'
@@ -383,6 +384,8 @@ export function ScriptDrawer(props: {
   shops?: ShopDef[]
   /** 网格/禁入/透视叠加开关(与布置模式同一状态;传给大预览)。 */
   layers?: { grid: boolean; blocked: boolean; ghosts?: boolean }
+  /** N6:从调用行跳到数据模式的共享脚本页。 */
+  onOpenScript?: (id: string) => void
   onClose: () => void
 }) {
   const {
@@ -404,6 +407,7 @@ export function ScriptDrawer(props: {
     ambiences,
     shops,
     layers,
+    onOpenScript,
     onClose,
   } = props
   const [srcKey, setSrcKey] = useState<string | null>(focusSrcKey ?? null)
@@ -499,6 +503,31 @@ export function ScriptDrawer(props: {
       }
     }
   }
+
+  const insertCommands = (commands: readonly Command[]): void => {
+    if (!active || !insertFor) return
+    let stages = active.stages
+    let at = parsePath(insertFor)
+    for (const command of commands) {
+      const last = at[at.length - 1] as number
+      if (last === -1) {
+        stages = insertAtHead(stages, at[0] as number, command)
+        at = [at[0] as number, 0]
+      } else {
+        stages = insertAfterAt(stages, at, command)
+        at = [...at.slice(0, -1), last + 1]
+      }
+    }
+    if (stages !== active.stages) {
+      dispatchStages(stages)
+      setSelPath(at.join('/'))
+    }
+    setInsertFor(null)
+  }
+  const scriptIndex = session.getState().scriptIndex
+  const authoredScripts = Object.entries(scriptIndex?.library ?? {}).sort(([, a], [, b]) =>
+    a.name.localeCompare(b.name),
+  )
 
   return (
     <div className="script-work">
@@ -760,6 +789,26 @@ export function ScriptDrawer(props: {
             {insertFor && active ? (
               <div className="section">
                 <h4>插入(到选中行之后)</h4>
+                {authoredScripts.length ? (
+                  <div>
+                    <div className="cf-group">调用共享脚本</div>
+                    <div className="cf-insert">
+                      {authoredScripts.map(([id, meta]) => (
+                        <button
+                          key={id}
+                          type="button"
+                          className="pv-btn"
+                          onClick={() => {
+                            if (!scriptIndex) return
+                            insertCommands([createAuthoredScriptCall(scriptIndex, id)])
+                          }}
+                        >
+                          ↪ {meta.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
                 {INSERT_GROUPS.map((g) => (
                   <div key={g.title}>
                     <div className="cf-group">{g.title}</div>
@@ -778,27 +827,7 @@ export function ScriptDrawer(props: {
                                   ? undefined
                                   : ref.entityId,
                             }
-                            const cmds = t.make(ctx)
-                            const p = parsePath(insertFor)
-                            let stages = active.stages
-                            let at = p
-                            for (const cmd of cmds) {
-                              const last = at[at.length - 1] as number
-                              if (last === -1) {
-                                // 空段「＋ 插入第一条指令」:段首插入
-                                stages = insertAtHead(stages, at[0] as number, cmd)
-                                at = [at[0] as number, 0]
-                              } else {
-                                stages = insertAfterAt(stages, at, cmd)
-                                at = [...at.slice(0, -1), last + 1]
-                              }
-                            }
-                            if (stages !== active.stages) {
-                              dispatchStages(stages)
-                              const first = p[p.length - 1] as number
-                              setSelPath([...p.slice(0, -1), first + 1].join('/'))
-                            }
-                            setInsertFor(null)
+                            insertCommands(t.make(ctx))
                           }}
                         >
                           {t.label}
@@ -830,6 +859,9 @@ export function ScriptDrawer(props: {
                   assetBase={assetBase}
                   ambiences={ambiences}
                   shops={shops}
+                  scriptIndex={scriptIndex}
+                  hasImplicitSelf={active.kind === 'trigger' || active.kind === 'auto'}
+                  onOpenScript={onOpenScript}
                   onChange={(next) => {
                     const out = updateCommandAt(active.stages, parsePath(selPath), next)
                     if (out !== active.stages) dispatchStages(out)

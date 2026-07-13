@@ -75,6 +75,7 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
   { kind: 'ride', icon: '⛵', name: '骑行走位', group: '走位/相机', params: [['entity', '载具实体 id'], ['to', '目标格'], ['speed', '速度']], desc: '驱动载具走位,队伍跟随(未挂载自动挂重叠);可连发拼路线。芦苇漂/坐船/骑驴同此契约。', origin: '0x3F/0x44/0x97' },
   // 控制流
   { kind: 'branch', icon: '🔀', name: '条件分支', group: '控制流', params: [['cond', 'flag/var/hasItem/chance/all/any/not…'], ['then', '成立指令'], ['else', '不成立指令']], desc: '结构化条件;可嵌套。', origin: 'jump-on-X 系折叠' },
+  { kind: 'callScript', icon: '↪', name: '调用共享脚本', group: '控制流', params: [['ref', '稳定脚本引用'], ['self', '显式执行实体(缺省继承当前)']], desc: '调用作者共享脚本，正常结束后返回当前命令体。' },
   { kind: 'setEntityAuto', icon: '🔁', name: '换自动脚本', group: '控制流', params: [['entity', '实体 id'], ['stages', '新段(空=停)']], desc: '运行时切实体巡逻行为。', origin: '0x24' },
   { kind: 'setEntityTrigger', icon: '🔗', name: '换触发脚本', group: '控制流', params: [['entity', '实体 id'], ['stages', '新段']], desc: '运行时切实体触发行为。', origin: '0x25' },
   { kind: 'setEntityTriggerMode', icon: '🎚', name: '触发方式', group: '控制流', params: [['entity', '实体 id'], ['on', 'interact/touch(缺省关)'], ['range', '触发距离']], desc: '开关/改距(演出后启用门等)。', origin: '0x40' },

@@ -1354,6 +1354,8 @@ body {
 }
 .cmd-row.sel .cmd-ops {
   background: linear-gradient(90deg, transparent, #1d2b22 22px);
+  opacity: 1;
+  pointer-events: auto;
 }
 .cmd-ops button {
   width: 20px;
@@ -1941,7 +1943,6 @@ body {
   opacity: 1;
 }
 
-
 /* ── 垂直字段体系(2026-07-05 定稿规范:label 小字上置,控件恒宽格;宽表单区通用;
    窄检查器(194/290px 栏)保留 .field 左置紧凑规格 —— 两种场景两种规格,各自统一) ── */
 .form-grid {
@@ -2296,7 +2297,7 @@ body {
   align-items: center;
   gap: 8px;
 }
-.amb-tint input[type='color'] {
+.amb-tint input[type="color"] {
   width: 34px;
   height: 24px;
   padding: 0;
@@ -2378,7 +2379,10 @@ body {
   border-bottom: 1px solid var(--line);
   flex: 0 0 auto;
 }
-.script-drawer .drawer-head .t { font-weight: 600; font-size: 12px; }
+.script-drawer .drawer-head .t {
+  font-weight: 600;
+  font-size: 12px;
+}
 .script-drawer .drawer-body {
   flex: 1;
   display: flex;
@@ -2423,8 +2427,15 @@ body {
   line-height: 1;
   white-space: nowrap;
 }
-.mini-txt:hover { border-color: var(--acc); color: var(--fg); }
-.mini-txt.sel { border-color: var(--acc); color: var(--fg); background: var(--panel); }
+.mini-txt:hover {
+  border-color: var(--acc);
+  color: var(--fg);
+}
+.mini-txt.sel {
+  border-color: var(--acc);
+  color: var(--fg);
+  background: var(--panel);
+}
 .drawer-tabs {
   display: inline-flex;
   gap: 4px;
@@ -2433,8 +2444,124 @@ body {
   /* CJK 短文字在收窄 flex 项里会竖排折行(方/式 距/离)—— 一律禁折禁缩(三犯根治) */
   white-space: nowrap;
 }
-.drawer-tabs > * { flex: none; white-space: nowrap; }
-.mini-txt:disabled { opacity: 0.4; cursor: default; }
+.drawer-tabs > * {
+  flex: none;
+  white-space: nowrap;
+}
+.mini-txt:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* N6 共享脚本：左库 / 中预览+命令编辑 / 右元数据与引用。 */
+.shared-script-main {
+  display: grid !important;
+  grid-template-rows: auto minmax(180px, 46%) minmax(180px, 1fr);
+  background: #090b10;
+}
+.shared-context .t {
+  color: var(--dim);
+  font-size: 11px;
+  font-weight: 600;
+}
+.shared-context .in {
+  flex: 0 1 190px;
+  width: min(190px, 100%);
+}
+.shared-preview {
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+  background: #000;
+}
+.shared-preview > .preview-wrap {
+  flex: 1;
+  min-width: 0;
+}
+.shared-edit-row {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(250px, 42%);
+  min-height: 0;
+  overflow: hidden;
+  background: var(--panel);
+}
+.shared-tree,
+.shared-command-form,
+.shared-script-inspector {
+  min-height: 0;
+  overflow: auto;
+}
+.shared-command-form {
+  border-left: 1px solid var(--line);
+}
+.shared-script-inspector .who {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.shared-script-inspector .who code {
+  overflow-wrap: anywhere;
+}
+.shared-script-icon {
+  color: var(--accent);
+  font-size: 18px;
+}
+.shared-meta .v-field {
+  margin-bottom: 9px;
+}
+.shared-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+.mini-txt.danger {
+  color: var(--err);
+}
+.shared-ref {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 6px 7px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel2);
+  color: var(--dim);
+  font: inherit;
+  font-size: 11px;
+  text-align: left;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+.shared-ref:hover {
+  border-color: var(--accent);
+  color: var(--fg);
+}
+.cf-ref-row {
+  display: flex;
+  min-width: 0;
+  gap: 5px;
+  flex: 1;
+}
+.cf-ref-row .in {
+  min-width: 0;
+}
+
+@media (max-width: 1050px) {
+  .shared-script-main {
+    grid-template-rows: auto minmax(150px, 38%) minmax(230px, 1fr);
+  }
+  .shared-edit-row {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(110px, 1fr) minmax(120px, 1fr);
+  }
+  .shared-command-form {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+}
 
 /* 预览回正(拖/缩后浮现,右上角) */
 .preview-recenter {
@@ -2446,8 +2573,16 @@ body {
 
 /* 段头控件(段管理:next 下拉 / ＋段 / 🗑段)。响应式三件套(见 .toolbar 注):
    窄树栏整项换行;短标签(第 N 段/→ 跑完)禁项内竖排 */
-.stage-head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; white-space: nowrap; }
-.stage-head .spacer { flex: 1; }
+.stage-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+  white-space: nowrap;
+}
+.stage-head .spacer {
+  flex: 1;
+}
 .stage-next-sel {
   height: 20px;
   font-size: 11px;

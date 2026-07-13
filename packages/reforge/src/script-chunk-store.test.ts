@@ -28,6 +28,44 @@ function sourceOf(chunks: Record<string, ScriptChunkV1>, reads: string[] = []): 
 }
 
 describe('ScriptChunkStore', () => {
+  test('作者脚本按需加载：场景 imports 只取实际依赖 shard，不加载全库', async () => {
+    const authorId = 'shared/user/open-door-a1b2c3d4'
+    const reads: string[] = []
+    const authorIndex: ScriptIndexV1 = {
+      ...index,
+      library: { [authorId]: { name: '开门', self: 'none' } },
+    }
+    const store = new ScriptChunkStore(sourceOf({
+      'content/scripts/chunks/scene/s001.json': {
+        version: 1,
+        id: 'scene/s001',
+        imports: ['shared/c00'],
+        scripts: {
+          'scene/s001/on-enter/0': [
+            { kind: 'callScript', ref: { chunk: 'shared/c00', id: authorId } },
+          ],
+        },
+      },
+      'content/scripts/chunks/shared/c00.json': {
+        version: 1,
+        id: 'shared/c00',
+        scripts: { [authorId]: [{ kind: 'playSound', soundId: 2 }] },
+      },
+      'content/scripts/chunks/shared/c01.json': {
+        version: 1,
+        id: 'shared/c01',
+        scripts: { 'shared/unused': [{ kind: 'playSound', soundId: 99 }] },
+      },
+    }, reads), 'content/scripts', authorIndex)
+
+    await store.prefetch('scene/s001', new AbortController().signal)
+    expect(reads).toEqual([
+      'content/scripts/chunks/scene/s001.json',
+      'content/scripts/chunks/shared/c00.json',
+    ])
+    expect(reads).not.toContain('content/scripts/chunks/shared/c01.json')
+  })
+
   test('ref.chunk 只是提示：错误提示下按稳定 id 重推导并命中', async () => {
     const id = 'scene/s001/on-enter/0'
     const reads: string[] = []

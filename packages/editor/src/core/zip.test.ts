@@ -30,7 +30,9 @@ async function readZip(zip: Uint8Array): Promise<Map<string, Uint8Array>> {
         ? new Uint8Array(payload)
         : new Uint8Array(
             await new Response(
-              new Blob([new Uint8Array(payload)]).stream().pipeThrough(new DecompressionStream('deflate-raw')),
+              new Blob([new Uint8Array(payload)])
+                .stream()
+                .pipeThrough(new DecompressionStream('deflate-raw')),
             ).arrayBuffer(),
           )
     expect(data.length).toBe(rawSize)
@@ -59,6 +61,41 @@ describe('zip 打包器(A5 工程导出)', () => {
     const back = await readZip(zip)
     expect(back.size).toBe(3)
     for (const e of entries) expect(back.get(e.path)).toEqual(e.data)
+  })
+
+  test('roundtrip:共享脚本 library 元数据与 body 同时保留', async () => {
+    const enc = new TextEncoder()
+    const dec = new TextDecoder()
+    const index = {
+      version: 1,
+      shards: { scene: 16, shared: 16 },
+      chunks: {
+        'shared/00': { path: 'shared/00.json', bytes: 123, hash: 'deadbeef' },
+      },
+      library: {
+        'shared/user/开门-abc123': {
+          name: '客栈开门',
+          description: '两个场景共同调用',
+          self: 'required',
+        },
+      },
+    }
+    const chunk = {
+      version: 1,
+      chunk: 'shared/00',
+      imports: [],
+      scripts: {
+        'shared/user/开门-abc123': [{ op: 'setEntityState', entity: 'self', state: 'open' }],
+      },
+    }
+    const zip = await buildZip([
+      { path: 'content/scripts/index.json', data: enc.encode(JSON.stringify(index)) },
+      { path: 'content/scripts/shared/00.json', data: enc.encode(JSON.stringify(chunk)) },
+    ])
+    const back = await readZip(zip)
+
+    expect(JSON.parse(dec.decode(back.get('content/scripts/index.json')))).toEqual(index)
+    expect(JSON.parse(dec.decode(back.get('content/scripts/shared/00.json')))).toEqual(chunk)
   })
 
   test('不可压小文件择优 STORE(不反涨)', async () => {

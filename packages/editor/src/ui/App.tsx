@@ -83,6 +83,7 @@ export function App(props: {
   const [mode, setMode] = useState<Mode>('place')
   // 数据页(rail 二级展开驱动,2026-07-05 作者拍板)
   const [dataTab, setDataTab] = useState<DataTab>('sprite')
+  const [scriptFocus, setScriptFocus] = useState({ id: '', revision: 0 })
   // 画布图层显隐(布置模式:左栏 地板/高物/实体 + 工具栏 网格/禁入格)
   const [canvasLayers, setCanvasLayers] = useState({
     base: true,
@@ -126,6 +127,11 @@ export function App(props: {
     // 源列跟随选中 → 跳转须同步选中目标(实体源选实体,场景级源选场景节点)
     setSelected(srcKey.startsWith('__') ? SCENE_NODE : (srcKey.split(':')[0] ?? SCENE_NODE))
     setDrawer({ open: true, src: srcKey })
+  }
+  const openSharedScript = (id: string): void => {
+    setScriptFocus((current) => ({ id, revision: current.revision + 1 }))
+    setDataTab('scripts')
+    setMode('data')
   }
   const issues = useMemo(() => validateReferences(state), [state])
   // C0:实体经 actor⊕sprite 解析;玩家精灵 = party[0] → ActorDef.spriteId(与引擎同路径)
@@ -403,6 +409,8 @@ export function App(props: {
             actors={state.actors}
             skillList={state.skills}
             onJumpToEvent={jumpToEvent}
+            focusScriptId={scriptFocus.id || undefined}
+            focusScriptRevision={scriptFocus.revision}
             tab={dataTab}
             onTab={setDataTab}
           />
@@ -639,6 +647,7 @@ export function App(props: {
                     blocked: canvasLayers.blocked,
                     ghosts: canvasLayers.ghosts,
                   }}
+                  onOpenScript={openSharedScript}
                   onClose={() => setDrawer({ open: false, src: null })}
                 />
               )}

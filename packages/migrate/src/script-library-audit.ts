@@ -1,15 +1,10 @@
-import type {
-  Command,
-  SceneDef,
-  ScriptChunkV1,
-  ScriptIndexV1,
-  ScriptRef,
-} from '@type-pal/content'
-import { deriveScriptChunk } from '@type-pal/content'
+import type { Command, SceneDef, ScriptChunkV1, ScriptIndexV1, ScriptRef } from '@type-pal/content'
+import { checkScriptIndex, deriveScriptChunk } from '@type-pal/content'
 
 export interface ScriptSizeAudit {
   source: { normalizedBytes: number; prettyBytes: number; commands: number }
   migrated: { normalizedBytes: number; prettyBytes: number; commands: number }
+  authored: { normalizedBytes: number; prettyBytes: number; commands: number }
   ratios: { normalized: number; pretty: number; commands: number }
   largestChunks: Array<{ id: string; bytes: number }>
   largestRoots: Array<{ id: string; bytes: number }>
@@ -49,6 +44,7 @@ export function auditScriptLibrary(args: {
   extraRoots?: ReadonlyArray<{ id: string; body: readonly Command[] }>
 }): ScriptSizeAudit {
   const { sourceJson, sourcePrettyBytes, sourceCommandCount, scenes, index, chunks } = args
+  checkScriptIndex(index)
   const issues: string[] = []
   const allScripts = new Map<string, { chunk: string; body: Command[] }>()
   const largestChunks: Array<{ id: string; bytes: number }> = []
@@ -56,6 +52,9 @@ export function auditScriptLibrary(args: {
   let normalizedBytes = 0
   let prettyBytes = 0
   let commands = 0
+  let authoredNormalizedBytes = 0
+  let authoredPrettyBytes = 0
+  let authoredCommands = 0
 
   for (const [chunkId, chunk] of Object.entries(chunks)) {
     const chunkBytes = bytes(JSON.stringify(chunk))
@@ -67,14 +66,22 @@ export function auditScriptLibrary(args: {
       allScripts.set(id, { chunk: chunkId, body })
       const compact = bytes(JSON.stringify(body))
       const pretty = bytes(JSON.stringify(body, null, 2))
-      normalizedBytes += compact
-      prettyBytes += pretty
-      commands += commandCount(body)
+      const count = commandCount(body)
+      if (index.library?.[id]) {
+        authoredNormalizedBytes += compact
+        authoredPrettyBytes += pretty
+        authoredCommands += count
+      } else {
+        normalizedBytes += compact
+        prettyBytes += pretty
+        commands += count
+      }
       largestRoots.push({ id, bytes: compact })
       if (compact >= 1024 * 1024) issues.push(`脚本根 ${id} ${compact}B >= 1MiB`)
     }
   }
-  for (const id of Object.keys(index.chunks)) if (!chunks[id]) issues.push(`index chunk 缺文件 ${id}`)
+  for (const id of Object.keys(index.chunks))
+    if (!chunks[id]) issues.push(`index chunk 缺文件 ${id}`)
 
   const extraRoots = [
     ...(args.extraRoots ?? []),
@@ -106,17 +113,19 @@ export function auditScriptLibrary(args: {
     walkCommands(chunk.scripts, (command) => {
       if (command.kind === 'callScript' || command.kind === 'jumpScript') checkRef(command.ref)
       if (
-        (command.kind === 'setEntityAuto'
-          || command.kind === 'setEntityTrigger'
-          || command.kind === 'setSceneOnTeleport')
-        && command.stages?.length
-      ) issues.push(`${command.kind} 仍嵌 ${command.stages.length} 段`)
+        (command.kind === 'setEntityAuto' ||
+          command.kind === 'setEntityTrigger' ||
+          command.kind === 'setSceneOnTeleport') &&
+        command.stages?.length
+      )
+        issues.push(`${command.kind} 仍嵌 ${command.stages.length} 段`)
       if (
-        (command.kind === 'setEntityAuto'
-          || command.kind === 'setEntityTrigger'
-          || command.kind === 'setSceneOnTeleport')
-        && command.script
-      ) checkRef(command.script)
+        (command.kind === 'setEntityAuto' ||
+          command.kind === 'setEntityTrigger' ||
+          command.kind === 'setSceneOnTeleport') &&
+        command.script
+      )
+        checkRef(command.script)
     })
   }
   for (const root of extraRoots) {
@@ -132,7 +141,8 @@ export function auditScriptLibrary(args: {
       scene.onEnter,
       scene.onTeleport,
       ...scene.entities.flatMap((entity) =>
-        (entity.pages ?? []).flatMap((page) => [page.trigger?.stages, page.auto?.stages])),
+        (entity.pages ?? []).flatMap((page) => [page.trigger?.stages, page.auto?.stages]),
+      ),
     ]
     for (const stages of stageLists) {
       for (const stage of stages ?? []) {
@@ -148,7 +158,8 @@ export function auditScriptLibrary(args: {
     const queue = [start]
     let total = 0
     while (queue.length) {
-      const id = queue.pop()!
+      const id = queue.pop()
+      if (!id) continue
       if (seen.has(id)) continue
       seen.add(id)
       const chunk = chunks[id]
@@ -179,6 +190,11 @@ export function auditScriptLibrary(args: {
       commands: sourceCommandCount,
     },
     migrated: { normalizedBytes, prettyBytes, commands },
+    authored: {
+      normalizedBytes: authoredNormalizedBytes,
+      prettyBytes: authoredPrettyBytes,
+      commands: authoredCommands,
+    },
     ratios,
     largestChunks: largestChunks.sort((a, b) => b.bytes - a.bytes).slice(0, 20),
     largestRoots: largestRoots.sort((a, b) => b.bytes - a.bytes).slice(0, 20),

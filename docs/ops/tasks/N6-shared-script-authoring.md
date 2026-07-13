@@ -1,6 +1,6 @@
 # N6 - 共享脚本/子程序创作闭环
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: N6
 Coding Owner: Codex
@@ -183,7 +183,7 @@ Branch: main
 
 ### 进入 done 前：审查签字
 
-- Codex: pending
+- Codex: **accept**（2026-07-13；实现、自测、迁移双跑、浏览器功能与窄窗检查通过；`6051` 独立网络抓包未保存，懒加载由 reforge 回归测试覆盖，交 Opus/GLM 复验）
 - Opus: pending
 - GLM: pending
 - counter / 返工处理: N/A
@@ -302,8 +302,8 @@ interface ScriptIndexV1 {
 
 - Codex: **agree**。M3 已解决运行时与物理分片，N6 应只增加作者层；`library` 元数据与现有 body 分离最小化运行时变化，纯归一化下沉避免 editor/migrate 漂移。v1 不做通用参数是有意控制 schema 爆炸，不妨碍后续以真实案例单独扩展。
 - Opus: 与 Codex 无分歧。补强论证:不升版的安全性经 guard 实证;MG2 保留经 base/theirs/ours 组合推演(纯 theirs 永不产 library);作者/迁移脚本未来同 shard 共存时 Record 按 id 不相交合并可无缝吃下。N1-N3 为实现注记非立场分歧。
-- GLM: pending
-- 用户拍板: pending（如三方有分歧再请用户裁决）
+- GLM: **agree**。确认 `library` 命名空间足以封死体积审计逃逸；要求 build 显式覆盖 normalize/canonical/materialize 三处保留、同 shard 不相交合并，以及引用图四类来源测试。与 Codex/Opus 无设计分歧。
+- 用户拍板: N/A（三方无分歧）
 
 ## 额度 / 代班记录（如适用）
 
@@ -317,20 +317,39 @@ interface ScriptIndexV1 {
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（设计三签齐后接手）
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- Coding Owner: Codex
+- 修改文件:
+  - `packages/content/src/script-library.ts` 及测试：作者脚本 metadata、纯归一化、稳定 id、不可变 CRUD、imports/bytes/hash。
+  - `packages/editor/src/core/{commands,project-io,script-references,shared-script}.ts` 及测试：原子 command、引用图、保存校验、工程 IO。
+  - `packages/editor/src/ui/{SharedScriptTab,DataMode,ScriptDrawer,CommandForm,App}.tsx`、`editor.css`：共享脚本工作台、调用表单、目标导航和响应式布局。
+  - `packages/migrate/src/{script-library-normalize,script-library-audit}.ts` 及测试：MG2 保留 library、作者/迁移体积分账、同 shard 合并。
+  - `packages/reforge/src/{script-chunk-store,script-runner}.test.ts`：作者脚本懒加载、嵌套调用与 `self` 语义回归。
+  - `docs/phase2/editor/shared-script-author-guide.md`：命令/模板/共享脚本选择规则与内部脚本边界。
+- 实现摘要:
+  - `ScriptIndexV1.library` 只登记 `shared/user/*` 作者 metadata，body 继续复用 M3 chunk；编辑器与迁移器共用 content 纯归一化，未引入第二运行模型。
+  - 共享脚本支持创建、复制、改名/说明、编辑命令、搜索、引用反查、安全删除和 undo；场景/实体可插入 `callScript` 并跳到目标。
+  - 保存前检查悬空引用、作者 call 环、`self=required`、缺 body 和共享体硬编码实体 warning；引用图仅按需构建，不进入编辑热路径。
+  - MG2 canonical/materialize/normalize 保留作者 metadata/body；M3 审计把作者内容单列，迁移膨胀门禁不再误计正常创作。
+- 运行命令:
+  - `pnpm check`：shared 111、content 167、reforge 329、migrate 147 pass + 1 skip、pal-extract 251、game 2294、editor 131，全部通过。
+  - `pnpm --filter @type-pal/editor build`：通过；仅保留 Vite 既有主 chunk `510.78 kB` 大小警告。
+  - `pnpm --filter @type-pal/migrate run migrate:content`：连续两次 `writes=0 / deletes=0 / conflicts=0`，602 个托管文件、295 场景、294 chunks，引用/脚本问题均为 0。
+  - `git diff --check`：通过。
+- 浏览器 / 手工检查:
+  - `http://localhost:6010/` 创建作者脚本、复制、搜索、改名/改 body、引用面板、引用删除拦截、无引用删除和 undo 均通过。
+  - s001 与 s002 两个调用方共同引用同一作者脚本；body 改为“共享脚本已统一更新”后，两处预览同步变化，无命令体复制。
+  - 1280、900、720 宽度检查无横向溢出、遮挡或不可操作控件；浏览器 console 无 error/warning。
+- 跳过的检查及原因:
+  - 未单独保存 `6051` 网络面板抓包；HTTP/Memory resolver 只取实际 `ScriptRef` chunk 的行为由 reforge 单测覆盖，交审查方补一次独立运行时网络复验。
+  - 首轮根目录 `pnpm lint` 暴露 2026-06-27 后累计的全仓历史债；用户已要求另行全量清零，独立于 N6 功能提交处理。
 
 ## 视觉验证记录（如适用）
 
 - Visual Verification Owner: Codex
-- 验证方式: pending
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 验证方式: 6010 浏览器真实交互 + 1280/900/720 三档视口布局检查 + console 检查。
+- 截图 / 像素检查路径: Codex 浏览器会话；验收图未写入仓库，避免把临时二进制证据混入功能提交。
+- 结论: 共享脚本列表、编辑区、引用面板和调用表单布局稳定；窄窗自动收敛，无溢出/遮挡，canvas/预览非空。
+- 未完成项: 6051 独立网络抓包由 Opus 复验补齐。
 
 ## Review: 审查与返工
 
@@ -348,17 +367,10 @@ interface ScriptIndexV1 {
 
 - 2026-07-13 Codex: 核对 M3/MG2、content/reforge/editor/migrate 现状，确认 N6 是作者层闭环而非重写运行时；完成 schema、参数边界、UI、引用安全、迁移保留和验证方案并签 agree。Evidence: 本卡 Draft + `docs/phase2/roadmap.md` §10。Next: Opus 设计主审；不得开始实现。
 - 2026-07-13 Opus: 设计主审签 **agree**。八项全过;三实证:guard 只验必需字段(不升版稳妥,关 v2 出口)、shared/user 分桶走现有 deriveScriptChunk 兜底、normalize 哈希纯 JS(下沉零障碍);MG2 组合推演(theirs 永不产 library → ours-only 永保;未来同 shard 共存按 id 不相交合并)。N1-N3 build 注记:引用图增量/按需构建、共享体实体 id 保存期 warning、IO round-trip 点名 library。Evidence: 主审立场八条。Next: GLM 复核(迁移保留测试矩阵/审计分账口径/引用图覆盖);三签齐后 Codex 按分期 1-5 build。未改实现文件。
+- 2026-07-13 GLM: 设计复核签 **agree**。确认审计分账无绕过路径；点名 normalize/canonical/materialize 三处保留 library、同 shard 合并、MG2 集成和引用图四类来源共 7 条 build 测试。Evidence: 设计签字 GLM 复核段。Next: Codex build。
+- 2026-07-13 Codex: 核对三签齐与 build allowed，接任 Coding Owner；N1-N3 和 GLM 点名测试全部纳入实现范围，任务状态转 `build`。Next: Codex 按分期 1-5 实现和自测。
+- 2026-07-13 Codex: 完成 content schema/纯归一化、editor CRUD/引用图/UI、MG2 保留与审计分账、reforge 懒加载回归和作者手册；全包测试、editor build、迁移双跑、6010 双调用方与窄窗检查通过，Codex 签 `accept`，状态转 `review`。Next: Opus 复验架构/代码/UX，并补 6051 网络抓包；不得标记 done。
 
 ## 下一位 Agent 提示词
 
-```text
-接手任务: N6 共享脚本/子程序创作闭环设计复核(GLM)
-任务卡: docs/ops/tasks/N6-shared-script-authoring.md
-当前状态: draft;Codex agree + Opus agree(附 N1-N3 build 注记),GLM pending,build 准入 blocked
-你的角色: GLM,迁移保留/测试矩阵/覆盖复核;只审设计,不改实现文件
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、任务卡 Draft A-G + Opus 主审立场(八条+N1-N3)
-Opus 已过: ①guard 实证只验必需字段,library 不升版稳妥(v2 出口已关);②shared/user/* 走现有 deriveScriptChunk 兜底分桶,零新机制;③normalize 哈希纯 JS,下沉 content 零障碍;④MG2 组合推演——纯 theirs 永不产 library(base/theirs 皆缺+ours 有=永保),作者 chunk 当前 ours-only 文件,未来迁移产同名 shared chunk 时 Record 按 id 不相交合并。N1 引用图增量/按需构建;N2 共享体实体 id 保存期 warning;N3 IO round-trip 点名 library。
-请你复核: (1)MG2 保留测试矩阵——验收"migrate"节是否覆盖:library 三方合并(ours-only 保留/双改同 body 冲突/materialize-canonical-normalize 三处显式保留 library)、作者 chunk 与未来迁移 shared chunk 共存合并;(2)审计分账口径——"未登记 library=迁移体"的计量实现是否可被 library 键命名空间校验完全钉死(shared/user/ 且有同 id body),给出绕过路径分析;(3)测试矩阵完整性——content guard/editor CRUD apply-invert/reforge self 三态/懒加载网络断言/IO 五路(HTTP/FSA/保存/重开/zip)逐条映射验收,列缺口;(4)引用图覆盖——场景 inline/chunk body/动态绑定/嵌套臂四类来源是否有测试样例各一。在设计签字 GLM 行签 agree/counter,更新交接日志与下一位提示词(agree 即三签齐,交 Codex 按分期 1-5 build,N1-N3 入范围)
-不要做: 不改实现文件;GLM 签后仍不得由你开始实现;不把 Status 改 build
-输出要求: 明确 agree/counter、矩阵缺口清单、分账绕过分析、提交 hash
-```
+给 Claude Opus：请复验 N6 共享脚本/子程序创作闭环。任务卡：`docs/ops/tasks/N6-shared-script-authoring.md`，当前状态 `review`，实现方 Codex 已签 `accept`。先读 `AGENTS.md`、`docs/phase2/READ-FIRST.md`、本卡「上下文锚点 / 验收条件 / Build」和 `docs/phase2/editor/shared-script-author-guide.md`。重点审：① `ScriptIndexV1.library` 不升版及 content 纯归一化边界；② editor CRUD command 的 apply/invert、按需引用图、删除/循环/self 校验；③ MG2 normalize/canonical/materialize 保留 library、作者体积分账；④ UI 创建/复制/编辑/引用/删除/undo 与窄窗。请运行相关测试并在 `6051` 或编辑器同源 `play.html` 补一次运行时网络复验，确认只加载实际调用 chunk、不加载全库。输出 `accept` 或 `counter + 具体返工项`，写回本卡 Opus 审查签字和交接日志；若 accept，请生成交 GLM 的覆盖复核提示词。允许审查和补证据，不得在三方审查签字未齐前标记 `done`。

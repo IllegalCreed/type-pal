@@ -16,6 +16,7 @@ import type { LoadedProjectCore } from '@type-pal/reforge'
 import type { MusicDef, SceneDef, ScriptChunkV1 } from '@type-pal/content'
 import type { OwnMap } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
+import { assertScriptProjectValid } from './script-references.js'
 
 /**
  * 只读工程 → 可变工作副本。by-id Record 翻成数组(Object.values,保原数组序);
@@ -87,6 +88,11 @@ type ContentKey =
  * 外加 manifest.json(整体)。返回纯 JSON 值(可 JSON.stringify)。
  */
 export function serializeProject(state: EditorState): Record<string, unknown> {
+  if (state.scriptIndex || Object.keys(state.scriptChunks).length) {
+    const diagnostics = assertScriptProjectValid(state)
+    if (diagnostics.warnings.length)
+      console.warn(`[scripts] 保存前检查警告:\n${diagnostics.warnings.join('\n')}`)
+  }
   const files: Record<string, unknown> = {}
   const content = state.manifest.content
 

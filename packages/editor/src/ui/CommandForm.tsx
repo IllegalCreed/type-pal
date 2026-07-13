@@ -8,8 +8,8 @@
  * 对话文本:line.text 是 TextId(locale 键);编辑即改写为**字面量**(lookupText
  * 未命中回显原文,引擎/预览同语义)——新写的行直接放中文,旧行一改即脱离 locale 键。
  */
-import type { AmbienceDef, Command, Facing, Locale, MusicDef, SceneDef, ShopDef, WalkSpeed } from '@type-pal/content'
-import { type ActorDef, lookupText } from '@type-pal/content'
+import type { AmbienceDef, Command, Facing, Locale, MusicDef, SceneDef, ScriptIndexV1, SharedScriptMetaV1, ShopDef, WalkSpeed } from '@type-pal/content'
+import { type ActorDef, deriveScriptChunk, lookupText } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { useEffect, useState } from 'react'
 import { MusicPicker } from './MusicPicker.js'
@@ -150,9 +150,15 @@ export function CommandForm(props: {
   ambiences?: AmbienceDef[]
   /** 店铺表(openShop 店下拉)。缺省退化数字输入。 */
   shops?: ShopDef[]
+  /** N6 作者共享脚本目录；只给 callScript 表单使用。 */
+  scriptIndex?: ScriptIndexV1
+  /** 当前执行上下文是否保证有可继承 self。 */
+  hasImplicitSelf?: boolean
+  /** 打开 callScript 目标。 */
+  onOpenScript?: (id: string) => void
   onChange: (next: Command) => void
 }) {
-  const { cmd, scene, locale, music, musicBase, scenes, assetBase, actors, ambiences, shops, onChange } = props
+  const { cmd, scene, locale, music, musicBase, scenes, assetBase, actors, ambiences, shops, scriptIndex, hasImplicitSelf, onOpenScript, onChange } = props
   const set = (patch: object): void => onChange({ ...cmd, ...patch } as Command)
 
   switch (cmd.kind) {
@@ -675,6 +681,57 @@ export function CommandForm(props: {
           </Row>
         </>
       )
+    case 'callScript': {
+      const authored: [string, SharedScriptMetaV1][] = Object.entries(scriptIndex?.library ?? {})
+        .sort(([, a], [, b]) => a.name.localeCompare(b.name))
+      const options: [string, SharedScriptMetaV1][] = authored.some(([id]) => id === cmd.ref.id)
+        ? authored
+        : [[cmd.ref.id, { name: `${cmd.ref.id}(内部)`, self: 'none' as const }], ...authored]
+      const targetMeta = scriptIndex?.library?.[cmd.ref.id]
+      const explicitEntities = scene.entities.map((entity) => entity.id)
+      const selfValue = cmd.self ?? ''
+      return (
+        <>
+          <Row label="目标">
+            <span className="cf-ref-row">
+              <select
+                className="in"
+                value={cmd.ref.id}
+                onChange={(event) => {
+                  const id = event.target.value
+                  const chunk = scriptIndex ? deriveScriptChunk(id, scriptIndex.shards) : undefined
+                  set({ ref: { id, chunk: chunk ?? cmd.ref.chunk } })
+                }}
+              >
+                {options.map(([id, meta]) => <option key={id} value={id}>{meta.name}</option>)}
+              </select>
+              {onOpenScript ? (
+                <button type="button" className="mini" title="打开目标脚本" onClick={() => onOpenScript(cmd.ref.id)}>
+                  ↗
+                </button>
+              ) : null}
+            </span>
+          </Row>
+          <Row label="self">
+            <select
+              className="in"
+              value={selfValue}
+              onChange={(event) => set({ self: event.target.value || undefined })}
+            >
+              <option value="">继承当前执行者</option>
+              {explicitEntities.map((id) => <option key={id} value={id}>{id}</option>)}
+              {selfValue && !explicitEntities.includes(selfValue) ? (
+                <option value={selfValue}>{selfValue}(不在场)</option>
+              ) : null}
+            </select>
+          </Row>
+          {targetMeta?.self === 'required' && !cmd.self && !hasImplicitSelf ? (
+            <p className="cf-err">目标要求 self；当前来源没有可继承执行者，请显式选择实体。</p>
+          ) : null}
+          <p className="hint mono">{cmd.ref.id}</p>
+        </>
+      )
+    }
     case 'cameraPan':
       return (
         <>

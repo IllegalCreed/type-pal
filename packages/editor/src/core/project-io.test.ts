@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { assembleProject, buildBlankOwnMap, loadOwnMap } from '@type-pal/reforge'
-import type { LoadedManifest } from '@type-pal/content'
+import { normalizeScriptLibrary, type LoadedManifest } from '@type-pal/content'
 import { diffFiles, serializeProject, toEditorState } from './project-io.js'
 
 /**
@@ -141,23 +141,70 @@ test('M3 scripts 目录 round-trip:index + chunk 路径与内容原样保留', (
     content: { ...manifest.content, scripts: 'content/scripts/' },
   }
   const scriptId = 'scene/guijie-minju/on-enter/0'
-  const scriptIndex = {
+  const libraryId = 'shared/user/demo-a1b2c3d4'
+  const rawIndex = {
     version: 1 as const,
     shards: { shared: 1, global: {} },
     chunks: {
-      'scene/guijie-minju': { path: 'chunks/scene/guijie-minju.json', bytes: 100 },
+      'scene/guijie-minju': { path: 'chunks/scene/guijie-minju.json', bytes: 0 },
+      'shared/c00': { path: 'chunks/shared/c00.json', bytes: 0 },
     },
+    library: { [libraryId]: { name: '演示', self: 'none' as const } },
   }
-  const chunk = {
+  const rawChunk = {
     version: 1 as const,
     id: 'scene/guijie-minju',
     scripts: { [scriptId]: [{ kind: 'playSound' as const, soundId: 1 }] },
   }
+  const rawLibraryChunk = {
+    version: 1 as const,
+    id: 'shared/c00',
+    scripts: { [libraryId]: [{ kind: 'wait' as const, ms: 10 }] },
+  }
+  const { index: scriptIndex, chunks } = normalizeScriptLibrary(rawIndex, {
+    'scene/guijie-minju': rawChunk,
+    'shared/c00': rawLibraryChunk,
+  })
+  const chunk = chunks['scene/guijie-minju']!
   const project = assembleProject(withScripts, { ...JSONS, scripts: scriptIndex })
-  const state = toEditorState(project, SCENES, [], {}, { 'scene/guijie-minju': chunk })
+  const state = toEditorState(project, SCENES, [], {}, chunks)
   const out = serializeProject(state)
   expect(out['content/scripts/index.json']).toEqual(scriptIndex)
+  expect((out['content/scripts/index.json'] as typeof scriptIndex).library).toEqual(scriptIndex.library)
   expect(out['content/scripts/chunks/scene/guijie-minju.json']).toEqual(chunk)
+  expect(out['content/scripts/chunks/shared/c00.json']).toEqual(chunks['shared/c00'])
+})
+
+test('N6 保存门禁:作者脚本孤儿 ref fail-loud', () => {
+  const withScripts: LoadedManifest = {
+    ...manifest,
+    content: { ...manifest.content, scripts: 'content/scripts/' },
+  }
+  const id = 'shared/user/demo-a1b2c3d4'
+  const rawIndex = {
+    version: 1 as const,
+    shards: { shared: 1, global: {} },
+    chunks: { 'shared/c00': { path: 'chunks/shared/c00.json', bytes: 0 } },
+    library: { [id]: { name: '演示', self: 'none' as const } },
+  }
+  const rawChunk = {
+    version: 1 as const,
+    id: 'shared/c00',
+    scripts: {
+      [id]: [
+        { kind: 'callScript' as const, ref: { chunk: 'shared/c00', id: 'shared/user/missing' } },
+      ],
+    },
+  }
+  const { index, chunks } = normalizeScriptLibrary(rawIndex, { 'shared/c00': rawChunk })
+  const state = toEditorState(
+    assembleProject(withScripts, { ...JSONS, scripts: index }),
+    SCENES,
+    [],
+    {},
+    chunks,
+  )
+  expect(() => serializeProject(state)).toThrow(/孤儿 ref/)
 })
 
 test('W7D 自有地图 serialize → loadOwnMap 重开闭环', async () => {

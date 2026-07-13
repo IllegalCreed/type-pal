@@ -30,6 +30,7 @@ import { ItemTab } from './ItemTab.js'
 import { MusicTab } from './MusicTab.js'
 import { AmbienceTab } from './AmbienceTab.js'
 import { PoisonTab } from './PoisonTab.js'
+import { SharedScriptTab } from './SharedScriptTab.js'
 import { ShopTab } from './ShopTab.js'
 import { TilesetTab } from './TilesetTab.js'
 import { SkillTab } from './SkillTab.js'
@@ -52,6 +53,7 @@ export type DataTab =
   | 'entrypoint'
   | 'vars'
   | 'events'
+  | 'scripts'
 export const DATA_TABS: { id: DataTab; label: string; icon: string }[] = [
   { id: 'sprite', label: '精灵库', icon: '🖼' },
   { id: 'skill', label: '技能', icon: '✨' },
@@ -67,6 +69,7 @@ export const DATA_TABS: { id: DataTab; label: string; icon: string }[] = [
   { id: 'entrypoint', label: '入口', icon: '🚪' },
   { id: 'vars', label: '变量', icon: '🚩' },
   { id: 'events', label: '指令手册', icon: '📖' },
+  { id: 'scripts', label: '共享脚本', icon: '↪' },
 ]
 
 const KIND_LABEL: Record<SpriteDef['layout']['kind'], string> = {
@@ -122,6 +125,9 @@ export function DataMode(props: {
   actors: import('@type-pal/content').ActorDef[]
   /** 引用跳转:变量页/物品页点引用 → 事件模式定位。 */
   onJumpToEvent: (sceneId: string, srcKey: string) => void
+  /** N6:从场景调用行跳入指定共享/内部脚本。 */
+  focusScriptId?: string
+  focusScriptRevision?: number
   /** 当前数据页 + 切换(左栏垂直页列驱动 —— RPGM 数据库范式,2026-07-05 二改)。 */
   tab: DataTab
   onTab: (t: DataTab) => void
@@ -147,6 +153,8 @@ export function DataMode(props: {
     actors,
     skillList,
     onJumpToEvent,
+    focusScriptId,
+    focusScriptRevision,
     tab,
     onTab,
   } = props
@@ -288,6 +296,30 @@ export function DataMode(props: {
 
   if (tab === 'vars') {
     return <VarsTab refIndex={refIndex} onJumpToEvent={onJumpToEvent} tabBar={tabBar} />
+  }
+
+  if (tab === 'scripts') {
+    const state = session.getState()
+    return (
+      <SharedScriptTab
+        tabBar={tabBar}
+        session={session}
+        scriptIndex={state.scriptIndex}
+        scriptChunks={state.scriptChunks}
+        scenes={scenes}
+        locale={locale}
+        sprites={sprites}
+        actors={actors}
+        assetBase={assetBase}
+        ownMaps={state.maps}
+        tilesets={tilesets}
+        tilesetBlobs={tilesetBlobs}
+        projectId={manifest.id}
+        focusScriptId={focusScriptId}
+        focusScriptRevision={focusScriptRevision}
+        onJumpToEvent={onJumpToEvent}
+      />
+    )
   }
 
   return (
