@@ -11,6 +11,7 @@
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | N6 | 共享脚本/子程序创作闭环 | review | Opus 代码/UX 主审 | Codex build、自测、迁移双跑与 6010 验证完成并签 accept；待 Opus 补 6051 网络复验，随后交 GLM 覆盖复核 |
+| ED-1 | 编辑器一级模块与创作闭环审查 | draft | Opus 架构/schema/信息架构主审 | Codex 已完成七环矩阵、八模块 IA 与地图 index 方向并签 agree；三签前不改实现或 capability 状态 |
 
 ## 阻塞
 
