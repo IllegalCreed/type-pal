@@ -38,12 +38,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s281",
-                    "pos": {
-                      "col": 120,
-                      "row": 80,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s280",
+                      "id": "scene/s280/root/entity-e4791/page-0/trigger/stage-0"
                     }
                   }
                 ]

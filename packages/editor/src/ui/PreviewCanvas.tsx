@@ -49,7 +49,7 @@ function collectActorSprites(stages: readonly ScriptStage[]): string[] {
       }
       if (c.kind === 'confirm') walk(c.onNo)
       if (c.kind === 'setEntityAuto' || c.kind === 'setEntityTrigger')
-        for (const st of c.stages) walk(st.body)
+        for (const st of c.stages ?? []) walk(st.body)
     }
   }
   for (const st of stages) walk(st.body)

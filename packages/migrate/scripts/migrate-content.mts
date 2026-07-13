@@ -4,17 +4,21 @@
  * 纯逻辑在 ../src/migrate-content.ts(vitest golden 钉真值);本脚本只做读盘/合并/写盘/复制资产。
  * 可重复跑(全量重写 projects/pal 的 content;assets 覆盖复制)。
  */
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import {
   type MigrateSources,
   mapScenesStatic,
+  mergeSceneScriptBindings,
   migrateAll,
   type SourceCmd,
   type SourceScene,
   sceneSlug,
 } from '../src/migrate-content.js'
+import { assertScriptLibraryAudit, auditScriptLibrary } from '../src/script-library-audit.js'
+import { makeGlobalScriptRoots } from '../src/script-graph.js'
+import type { EnemyDef, SceneDef } from '@type-pal/content'
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 const readJson = <T,>(rel: string): T => JSON.parse(readFileSync(resolve(repo, rel), 'utf8')) as T
@@ -42,6 +46,28 @@ const src: MigrateSources = {
   enemyTeams: readJson('data/extracted/data/enemy-teams.json'),
 }
 const out = migrateAll(src)
+const objectPlayers = readJson<Array<{ scriptOnFriendDeath: number; scriptOnDying: number }>>(
+  'data/extracted/data/object-players.json',
+)
+const globalRoots = makeGlobalScriptRoots({
+  items: src.items.flatMap((item) => [
+    item.scriptOnUse,
+    item.scriptOnEquip,
+    item.scriptOnThrow,
+    item.scriptDesc,
+  ]),
+  skills: src.spells.flatMap((spell) => [
+    spell.scriptOnUse,
+    spell.scriptOnSuccess,
+    spell.scriptDesc,
+  ]),
+  enemies: (src.enemyObjects ?? []).flatMap((enemy) => [
+    enemy.scriptOnTurnStart,
+    enemy.scriptOnBattleEnd,
+    enemy.scriptOnReady,
+  ]),
+  actors: objectPlayers.flatMap((actor) => [actor.scriptOnFriendDeath, actor.scriptOnDying]),
+})
 
 // ── M2b:295 场景静态迁移 + 入口/音乐窄扫描 ──
 const srcScenes: SourceScene[] = []
@@ -78,51 +104,82 @@ if (DEBUG_SCENES) {
   for (const sc of srcScenes) {
     process.stderr.write(`scene ${sc.sceneId}...`)
     const t0 = Date.now()
-    const one = mapScenesStatic([sc], eventsByScene, out.sprites)
+    const one = mapScenesStatic([sc], eventsByScene, out.sprites, globalRoots)
     process.stderr.write(` cmds=${one.scriptReport.commands} ${Date.now() - t0}ms\n`)
   }
   process.exit(0)
 }
-const scenesOut = mapScenesStatic(srcScenes, eventsByScene, out.sprites)
+const scenesOut = mapScenesStatic(srcScenes, eventsByScene, out.sprites, globalRoots)
+const productEnemies = readJson<EnemyDef[]>('projects/pal/content/enemies.json')
+const globalCommandRoots = productEnemies.flatMap((enemy) => [
+  ...(enemy.choreography ?? []).map((hook, index) => ({
+    id: `global/enemies/${enemy.id}/choreography-${index}`,
+    body: hook.body,
+  })),
+  ...(enemy.onDefeated?.length
+    ? [{ id: `global/enemies/${enemy.id}/on-defeated`, body: enemy.onDefeated }]
+    : []),
+])
 
-// ── 纯 pal:内容全部来自原版提取,绝不掺 demo(鬼界民居/幽魂等 demo 示例工程内容)──
-const actors = out.actors
-const sprites = [...out.sprites, ...scenesOut.sprites]
-const locale = { ...out.localeNames, ...scenesOut.scriptLocale }
+// ── M3 门禁:先审后写，失败时磁盘保持原样 ──
+const sourceText = readFileSync(resolve(repo, 'data/extracted/events/all.json'), 'utf8')
+const audit = auditScriptLibrary({
+  sourceJson: allJson,
+  sourcePrettyBytes: Buffer.byteLength(sourceText),
+  sourceCommandCount: src.commands.length,
+  scenes: scenesOut.scenes,
+  index: scenesOut.scriptIndex,
+  chunks: scenesOut.scriptChunks,
+  extraRoots: globalCommandRoots,
+})
+assertScriptLibraryAudit(audit)
 
-// ── 写 projects/pal(只写 content;manifest 手工维护,此脚本不碰)──
-// ⚠ manifest.json 不由迁移生成:startWorld(新游戏初始队伍/技能/道具/属性)、entryScene、
-//    entryPoints、name、assets 全是手工设计、非提取产物。此脚本只重建 content;
-//    首次 bootstrap 须手工建 pal manifest(参照 projects/pal/manifest.json 现状)。
-writeJson('projects/pal/content/actors.json', actors)
-writeJson('projects/pal/content/sprites.json', sprites)
-writeJson('projects/pal/content/items.json', out.items)
-writeJson('projects/pal/content/skills.json', out.skills)
-writeJson('projects/pal/content/enemies.json', out.enemies)
-writeJson('projects/pal/content/enemy-teams.json', out.enemyTeams)
-writeJson('projects/pal/content/locale.json', locale)
-// M2b per-scene:只写原版静态场景(纯 pal,不掺 demo 鬼界民居)
-const allSceneIds = scenesOut.scenes.map((s) => s.id)
-writeJson('projects/pal/content/scenes/index.json', allSceneIds)
-for (const sc of scenesOut.scenes) writeJson(`projects/pal/content/scenes/${sc.id}.json`, sc)
-// ⚠ 不拷 assets:pal 资源指向共享提取源 /extracted + bake 产物 /baked(见手工 manifest.assets),
-//    不该有自包含 projects/pal/assets 目录(那是 demo 的自包含范例才需要)。
+// ── M3 白名单写盘:只改脚本绑定 + scripts 目录，绝不覆盖其他手工内容域 ──
+for (const fresh of scenesOut.scenes) {
+  const path = `projects/pal/content/scenes/${fresh.id}.json`
+  const disk = existsSync(resolve(repo, path)) ? readJson<SceneDef>(path) : fresh
+  writeJson(path, mergeSceneScriptBindings(disk, fresh))
+}
+const scriptsRoot = resolve(repo, 'projects/pal/content/scripts')
+rmSync(scriptsRoot, { recursive: true, force: true })
+writeJson('projects/pal/content/scripts/index.json', scenesOut.scriptIndex)
+for (const [id, chunk] of Object.entries(scenesOut.scriptChunks)) {
+  const meta = scenesOut.scriptIndex.chunks[id]
+  if (!meta) throw new Error(`scripts index 缺 chunk ${id}`)
+  writeJson(`projects/pal/content/scripts/${meta.path}`, chunk)
+}
 
 // ── 报告 ──
 console.log(`[migrate:content] projects/pal 已生成:`)
 console.log(
-  `  actors ${actors.length}(纯原版迁移)`,
+  `  actors ${out.actors.length}(本次不写盘,保护手工内容)`,
 )
 console.log(
-  `  sprites ${sprites.length} · items ${out.items.length} · skills ${out.skills.skills.length}(纯伤害 57 + 线性脚本 18 + 门类 5)`,
+  `  sprites ${out.sprites.length + scenesOut.sprites.length} · items ${out.items.length} · skills ${out.skills.skills.length}(本次均不写盘)`,
 )
 console.log(
-  `  levelUp 角色数 ${Object.keys(out.skills.levelUp).length} · locale 键 ${Object.keys(locale).length}`,
+  `  levelUp 角色数 ${Object.keys(out.skills.levelUp).length} · 脚本 locale 键 ${Object.keys(scenesOut.scriptLocale).length}(沿用盘上 locale)`,
 )
 const sr = scenesOut.scriptReport
 const unmigTotal = Object.values(sr.unmigrated).reduce((a, b) => a + b, 0)
 console.log(
   `  脚本翻译(M3a):链 ${sr.chains} · 段 ${sr.stages} · 命令 ${sr.commands} · unmigrated ${unmigTotal}(流截断 ${sr.flowCuts})`,
+)
+console.log(
+  `  脚本库(M3):chunk ${Object.keys(scenesOut.scriptChunks).length} · ratio compact ${audit.ratios.normalized.toFixed(2)}x / pretty ${audit.ratios.pretty.toFixed(2)}x / nodes ${audit.ratios.commands.toFixed(2)}x · 最大 chunk ${audit.largestChunks[0]?.id ?? '-'} ${audit.largestChunks[0]?.bytes ?? 0}B · 最大依赖闭包 ${audit.maxDependencyClosureBytes}B`,
+)
+const gr = scenesOut.scriptGraphReport
+console.log(
+  `  CFG(M3):命令 ${gr.commands} · 根 ${gr.roots}(global ${gr.globalRoots}) · 边 exec/bind/recovery ${gr.edges.execution}/${gr.edges.binding}/${gr.edges.recovery} · SCC ${gr.components}(环 ${gr.cyclicComponents}) · 归属 scene/shared/global/unreachable ${gr.ownership.scene}/${gr.ownership.shared}/${gr.ownership.global}/${gr.ownership.unreachable}`,
+)
+console.log(
+  `    前驱 Top20:${gr.topPredecessors.map((x) => `L_${x.entry}×${x.count}`).join(' / ')}`,
+)
+console.log(
+  `    chunk Top20:${audit.largestChunks.map((x) => `${x.id} ${x.bytes}B`).join(' / ')}`,
+)
+console.log(
+  `    root Top20:${audit.largestRoots.map((x) => `${x.id} ${x.bytes}B`).join(' / ')}`,
 )
 const top = Object.entries(sr.unmigrated)
   .sort((a, b) => b[1] - a[1])

@@ -39,12 +39,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s106",
-                    "pos": {
-                      "col": 78,
-                      "row": 54,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s107",
+                      "id": "scene/s107/root/entity-e1990/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -71,12 +69,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s112",
-                    "pos": {
-                      "col": 146,
-                      "row": 70,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s107",
+                      "id": "scene/s107/root/entity-e1991/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -103,53 +99,11 @@
               {
                 "body": [
                   {
-                    "kind": "setPartyFacing",
-                    "facing": "up"
-                  },
-                  {
-                    "kind": "nudgeParty",
-                    "dx": 12,
-                    "dy": -16
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 40
-                  },
-                  {
-                    "kind": "nudgeParty",
-                    "dx": 12,
-                    "dy": -16
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 40
-                  },
-                  {
-                    "kind": "nudgeParty",
-                    "dx": 12,
-                    "dy": -16
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 40
-                  },
-                  {
-                    "kind": "nudgeParty",
-                    "dx": 12,
-                    "dy": -8
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 40
-                  },
-                  {
-                    "kind": "nudgeParty",
-                    "dx": 16,
-                    "dy": -8
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 40
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s107",
+                      "id": "scene/s107/root/entity-e1992/page-0/trigger/stage-0"
+                    }
                   }
                 ]
               }
@@ -175,53 +129,11 @@
               {
                 "body": [
                   {
-                    "kind": "setPartyFacing",
-                    "facing": "down"
-                  },
-                  {
-                    "kind": "nudgeParty",
-                    "dx": -12,
-                    "dy": 16
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 40
-                  },
-                  {
-                    "kind": "nudgeParty",
-                    "dx": -12,
-                    "dy": 16
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 40
-                  },
-                  {
-                    "kind": "nudgeParty",
-                    "dx": -12,
-                    "dy": 16
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 40
-                  },
-                  {
-                    "kind": "nudgeParty",
-                    "dx": -12,
-                    "dy": 8
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 40
-                  },
-                  {
-                    "kind": "nudgeParty",
-                    "dx": -16,
-                    "dy": 8
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 40
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s107",
+                      "id": "scene/s107/root/entity-e1993/page-0/trigger/stage-0"
+                    }
                   }
                 ]
               }
@@ -249,14 +161,10 @@
               {
                 "body": [
                   {
-                    "kind": "playSound",
-                    "soundId": 177
-                  },
-                  {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.5431",
-                      "slot": "center"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s107",
+                      "id": "scene/s107/root/entity-e1994/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -271,8 +179,11 @@
     {
       "body": [
         {
-          "kind": "playMusic",
-          "musicId": 12
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s107",
+            "id": "scene/s107/root/on-enter/stage-0"
+          }
         }
       ]
     }

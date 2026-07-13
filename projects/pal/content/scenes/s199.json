@@ -45,53 +45,11 @@
     {
       "body": [
         {
-          "kind": "teleportParty",
-          "pos": {
-            "col": 79,
-            "row": -26,
-            "height": 0
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s199",
+            "id": "scene/s199/root/on-enter/stage-0"
           }
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.10216",
-            "speaker": "spk.林月如",
-            "portrait": {
-              "icon": 21,
-              "side": "right"
-            }
-          }
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.10217",
-            "speaker": "spk.林月如",
-            "portrait": {
-              "icon": 21,
-              "side": "right"
-            }
-          }
-        },
-        {
-          "kind": "playMusic",
-          "musicId": 0
-        },
-        {
-          "kind": "fade",
-          "dir": "out",
-          "ms": 2400
-        },
-        {
-          "kind": "loadScene",
-          "scene": "s174"
         }
       ]
     }

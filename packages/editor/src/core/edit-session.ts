@@ -7,7 +7,7 @@
  *
  * 纯 TS + 无 React → 重度单测。见 docs/phase2/editor/editor-design.md §4。
  */
-import type { ContentBundle, LoadedManifest } from '@type-pal/content'
+import type { ContentBundle, LoadedManifest, ScriptChunkV1, ScriptIndexV1 } from '@type-pal/content'
 import type { OwnMap } from '@type-pal/reforge'
 import type { Command } from './commands.js'
 
@@ -28,6 +28,9 @@ export interface EditorState extends ContentBundle {
    * 保存时并进文件集(ArrayBuffer → FSA Blob);已在磁盘的旧资产不回读,只存新上传。
    */
   tilesetBlobs: Record<string, ArrayBuffer>
+  /** 分片脚本工作副本；普通 inline 工程均为空/undefined。 */
+  scriptIndex?: ScriptIndexV1
+  scriptChunks: Record<string, ScriptChunkV1>
 }
 
 /** 编辑会话:不可变工作副本 + undo/redo 栈 + 订阅 + 脏标记。 */

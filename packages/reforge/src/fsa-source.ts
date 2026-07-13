@@ -5,25 +5,43 @@
  */
 import type { FileSource } from './file-source.js'
 
-async function fileOf(dir: FileSystemDirectoryHandle, rel: string): Promise<File> {
+function throwIfAborted(signal?: AbortSignal): void {
+  if (signal?.aborted) throw new DOMException('file read aborted', 'AbortError')
+}
+
+async function fileOf(dir: FileSystemDirectoryHandle, rel: string, signal?: AbortSignal): Promise<File> {
+  throwIfAborted(signal)
   const parts = rel.split('/').filter(Boolean)
   const name = parts.pop()
   if (!name) throw new Error(`fsaSource: 空路径 "${rel}"`)
   let d = dir
-  for (const p of parts) d = await d.getDirectoryHandle(p)
-  return (await d.getFileHandle(name)).getFile()
+  for (const p of parts) {
+    d = await d.getDirectoryHandle(p)
+    throwIfAborted(signal)
+  }
+  const handle = await d.getFileHandle(name)
+  throwIfAborted(signal)
+  const file = await handle.getFile()
+  throwIfAborted(signal)
+  return file
 }
 
 export function fsaSource(dir: FileSystemDirectoryHandle): FileSource {
   return {
-    async readText(rel) {
-      return (await fileOf(dir, rel)).text()
+    async readText(rel, signal) {
+      const text = await (await fileOf(dir, rel, signal)).text()
+      throwIfAborted(signal)
+      return text
     },
-    async readJson<T>(rel: string) {
-      return JSON.parse(await (await fileOf(dir, rel)).text()) as T
+    async readJson<T>(rel: string, signal?: AbortSignal) {
+      const text = await (await fileOf(dir, rel, signal)).text()
+      throwIfAborted(signal)
+      return JSON.parse(text) as T
     },
-    async readBytes(rel) {
-      return (await fileOf(dir, rel)).arrayBuffer()
+    async readBytes(rel, signal) {
+      const bytes = await (await fileOf(dir, rel, signal)).arrayBuffer()
+      throwIfAborted(signal)
+      return bytes
     },
     async urlFor(rel) {
       return URL.createObjectURL(await fileOf(dir, rel))

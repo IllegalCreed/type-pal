@@ -45,12 +45,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s100",
-                    "pos": {
-                      "col": 51,
-                      "row": 7,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s137",
+                      "id": "scene/s137/root/entity-e2331/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -78,20 +76,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.5732",
-                      "speaker": "spk.宋氏"
-                    }
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.5733",
-                      "speaker": "spk.宋氏"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s137",
+                      "id": "scene/s137/root/entity-e2332/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -119,20 +107,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.5737",
-                      "speaker": "spk.书生"
-                    }
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.5739",
-                      "speaker": "spk.书生"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s137",
+                      "id": "scene/s137/root/entity-e2333/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -144,14 +122,11 @@
               {
                 "body": [
                   {
-                    "kind": "moveEntity",
-                    "entity": "e2333",
-                    "to": {
-                      "col": 55,
-                      "row": -6,
-                      "height": 0
-                    },
-                    "speed": "slow"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s137",
+                      "id": "scene/s137/root/entity-e2333/page-0/auto/stage-0"
+                    }
                   }
                 ],
                 "next": "advance"
@@ -159,42 +134,11 @@
               {
                 "body": [
                   {
-                    "kind": "setEntityFacing",
-                    "entity": "e2333",
-                    "facing": "right"
-                  },
-                  {
-                    "kind": "setEntityFrame",
-                    "entity": "e2333",
-                    "frame": 0
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 120
-                  },
-                  {
-                    "kind": "moveEntity",
-                    "entity": "e2333",
-                    "to": {
-                      "col": 55,
-                      "row": -1,
-                      "height": 0
-                    },
-                    "speed": "slow"
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 160
-                  },
-                  {
-                    "kind": "setEntityFacing",
-                    "entity": "e2333",
-                    "facing": "right"
-                  },
-                  {
-                    "kind": "setEntityFrame",
-                    "entity": "e2333",
-                    "frame": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s137",
+                      "id": "scene/s137/root/entity-e2333/page-0/auto/stage-1"
+                    }
                   }
                 ],
                 "next": 0
@@ -221,24 +165,11 @@
               {
                 "body": [
                   {
-                    "kind": "playSound",
-                    "soundId": 78
-                  },
-                  {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.12507",
-                      "slot": "narration"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s137",
+                      "id": "scene/s137/root/entity-e2335/page-0/trigger/stage-0"
                     }
-                  },
-                  {
-                    "kind": "giveItem",
-                    "itemId": "255"
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "entity": "e2335",
-                    "state": 0
                   }
                 ]
               }

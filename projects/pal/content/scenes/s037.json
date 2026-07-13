@@ -38,12 +38,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s035",
-                    "pos": {
-                      "col": 69,
-                      "row": 36,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s037",
+                      "id": "scene/s037/root/entity-e611/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -70,12 +68,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s039",
-                    "pos": {
-                      "col": 112,
-                      "row": 9,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s037",
+                      "id": "scene/s037/root/entity-e612/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -141,14 +137,11 @@
               {
                 "body": [
                   {
-                    "kind": "moveEntity",
-                    "entity": "e617",
-                    "to": {
-                      "col": 77,
-                      "row": 8,
-                      "height": 0
-                    },
-                    "speed": "normal"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s037",
+                      "id": "scene/s037/root/entity-e617/page-0/auto/stage-0"
+                    }
                   }
                 ]
               }
@@ -173,14 +166,11 @@
               {
                 "body": [
                   {
-                    "kind": "moveEntity",
-                    "entity": "e618",
-                    "to": {
-                      "col": 77,
-                      "row": 8,
-                      "height": 0
-                    },
-                    "speed": "slow"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s037",
+                      "id": "scene/s037/root/entity-e618/page-0/auto/stage-0"
+                    }
                   }
                 ]
               }
@@ -205,18 +195,11 @@
               {
                 "body": [
                   {
-                    "kind": "wait",
-                    "ms": 80
-                  },
-                  {
-                    "kind": "moveEntity",
-                    "entity": "e619",
-                    "to": {
-                      "col": 77,
-                      "row": 7,
-                      "height": 0
-                    },
-                    "speed": "slow"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s037",
+                      "id": "scene/s037/root/entity-e619/page-0/auto/stage-0"
+                    }
                   }
                 ]
               }
@@ -230,16 +213,22 @@
     {
       "body": [
         {
-          "kind": "setAmbience",
-          "ambience": "day"
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s037",
+            "id": "scene/s037/root/on-enter/stage-0"
+          }
         }
       ]
     },
     {
       "body": [
         {
-          "kind": "setAmbience",
-          "ambience": "night"
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s037",
+            "id": "scene/s037/root/on-enter/stage-1"
+          }
         }
       ]
     }

@@ -59,12 +59,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s082",
-                    "pos": {
-                      "col": 64,
-                      "row": 12,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s095",
+                      "id": "scene/s095/root/entity-e1762/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -91,12 +89,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s093",
-                    "pos": {
-                      "col": 91,
-                      "row": 15,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s095",
+                      "id": "scene/s095/root/entity-e1763/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -125,10 +121,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.5198",
-                      "speaker": "spk.煮饭婆"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s095",
+                      "id": "scene/s095/root/entity-e1764/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -155,24 +151,11 @@
               {
                 "body": [
                   {
-                    "kind": "playSound",
-                    "soundId": 78
-                  },
-                  {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.12471",
-                      "slot": "narration"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s095",
+                      "id": "scene/s095/root/entity-e1765/page-0/trigger/stage-0"
                     }
-                  },
-                  {
-                    "kind": "giveItem",
-                    "itemId": "76"
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "entity": "e1765",
-                    "state": 0
                   }
                 ]
               }
@@ -198,24 +181,11 @@
               {
                 "body": [
                   {
-                    "kind": "playSound",
-                    "soundId": 78
-                  },
-                  {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.12482",
-                      "slot": "narration"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s095",
+                      "id": "scene/s095/root/entity-e1766/page-0/trigger/stage-0"
                     }
-                  },
-                  {
-                    "kind": "giveItem",
-                    "itemId": "94"
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "entity": "e1766",
-                    "state": 0
                   }
                 ]
               }

@@ -13,7 +13,7 @@
  * 见 docs/phase2/editor/editor-b1-logic-plan.md(契约 + L3)。
  */
 import type { LoadedProjectCore } from '@type-pal/reforge'
-import type { MusicDef, SceneDef } from '@type-pal/content'
+import type { MusicDef, SceneDef, ScriptChunkV1 } from '@type-pal/content'
 import type { OwnMap } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 
@@ -27,6 +27,7 @@ export function toEditorState(
   scenes: SceneDef[],
   music: MusicDef[] = [], // W5:音乐库(manifest.content.music 声明才有;缺省空)
   ownMaps: Record<string, OwnMap> = {}, // W7D:自有地图 v1(own 场景引用;pal 无 → {})
+  scriptChunks: Record<string, ScriptChunkV1> = {},
 ): EditorState {
   return {
     // M2a-2:场景懒加载后 LoadedProject 不再带全量 → 编辑器 loadAllScenes 拉齐后传入
@@ -37,6 +38,8 @@ export function toEditorState(
     // W7B:tileset 注册表(loader 已 guard;缺省空)+ 上传字节暂存(载入时空,只存新上传)
     tilesets: project.tilesets ?? [],
     tilesetBlobs: {},
+    scriptIndex: project.scriptIndex,
+    scriptChunks,
     // by-id Record → 数组(Object.values 保序:indexById 按原数组序插入)
     actors: Object.values(project.actorsById),
     skills: Object.values(project.skills),
@@ -96,6 +99,16 @@ export function serializeProject(state: EditorState): Record<string, unknown> {
   for (const [rel, map] of Object.entries(state.maps)) files[rel] = map
   // W7B 上传 tileset 字节:键即资产相对路径(ArrayBuffer → writeFile 走 Blob,diff 记 bin: 占位)
   for (const [rel, buf] of Object.entries(state.tilesetBlobs)) files[rel] = buf
+  // M3 分片脚本目录:index 只存元数据，chunk 路径严格跟 index，禁止重组时丢文件。
+  if (content.scripts && state.scriptIndex) {
+    const scriptDir = content.scripts.replace(/\/?$/, '/')
+    files[`${scriptDir}index.json`] = state.scriptIndex
+    for (const [id, meta] of Object.entries(state.scriptIndex.chunks)) {
+      const chunk = state.scriptChunks[id]
+      if (!chunk) throw new Error(`serializeProject: 缺脚本 chunk "${id}"`)
+      files[`${scriptDir}${meta.path}`] = chunk
+    }
+  }
   // 各 content 文件:按 manifest 声明的路径键映射到对应值。
   const byKey: Record<ContentKey, unknown> = {
     actors: state.actors,

@@ -38,12 +38,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s077",
-                    "pos": {
-                      "col": 93,
-                      "row": 21,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s078",
+                      "id": "scene/s078/root/entity-e1495/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -70,12 +68,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s080",
-                    "pos": {
-                      "col": 37,
-                      "row": 19,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s078",
+                      "id": "scene/s078/root/entity-e1496/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -88,7 +84,15 @@
   ],
   "onEnter": [
     {
-      "body": []
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s078",
+            "id": "scene/s078/root/on-enter/stage-0"
+          }
+        }
+      ]
     }
   ],
   "battleFieldId": 55

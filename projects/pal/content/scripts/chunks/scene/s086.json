@@ -1,0 +1,1135 @@
+{
+  "version": 1,
+  "id": "scene/s086",
+  "scripts": {
+    "scene/s086/L-35691/e1625/d-89d21e09": [
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 10,
+        "dy": 10
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 6,
+        "dy": 6
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      }
+    ],
+    "scene/s086/L-41075/e1629/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s086/L-13870/e1629/d-89d21e09": [
+      {
+        "kind": "moveEntity",
+        "entity": "e1629",
+        "to": {
+          "col": 58,
+          "row": -11,
+          "height": 0
+        },
+        "speed": "run"
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1629",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1629",
+        "frame": 13
+      },
+      {
+        "kind": "playSound",
+        "soundId": 45
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e1629",
+        "dx": -20,
+        "dy": 8
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e1629",
+        "dx": -16,
+        "dy": 8
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e1629",
+        "dx": -12,
+        "dy": 8
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e1629",
+        "dx": -8,
+        "dy": 10
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e1629",
+        "dx": -4,
+        "dy": 12
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e1629",
+        "dx": 0,
+        "dy": 14
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e1629",
+        "dx": 0,
+        "dy": 16
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e1629",
+        "state": 0
+      }
+    ],
+    "scene/s086/L-14293/e1631/d-89d21e09": [
+      {
+        "kind": "moveEntity",
+        "entity": "e1631",
+        "to": {
+          "col": 24,
+          "row": 4,
+          "height": 0
+        },
+        "speed": "run"
+      },
+      {
+        "kind": "moveEntity",
+        "entity": "e1631",
+        "to": {
+          "col": 26,
+          "row": 4,
+          "height": 0
+        },
+        "speed": "run"
+      }
+    ],
+    "scene/s086/L-14314/e1631/d-89d21e09": [
+      {
+        "kind": "moveEntity",
+        "entity": "e1631",
+        "to": {
+          "col": 24,
+          "row": 4,
+          "height": 0
+        },
+        "speed": "run"
+      },
+      {
+        "kind": "moveEntity",
+        "entity": "e1631",
+        "to": {
+          "col": 25,
+          "row": -1,
+          "height": 0
+        },
+        "speed": "run"
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1631",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1631",
+        "frame": 0
+      }
+    ],
+    "scene/s086/L-38634/e1634/d-89d21e09": [
+      {
+        "kind": "playSound",
+        "soundId": 52
+      },
+      {
+        "kind": "wait",
+        "ms": 1200
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 95
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "playSound",
+        "soundId": 53
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 98
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      }
+    ],
+    "scene/s086/L-38637/e1634/d-89d21e09": [
+      {
+        "kind": "playSound",
+        "soundId": 53
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 98
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      }
+    ],
+    "scene/s086/root/on-enter/stage-0": [],
+    "scene/s086/root/entity-e1624/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s098",
+        "pos": {
+          "col": 82,
+          "row": 48,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s086/root/entity-e1625/page-0/trigger/stage-0": [
+      {
+        "kind": "callScript",
+        "ref": {
+          "chunk": "scene/s086",
+          "id": "scene/s086/L-35691/e1625/d-89d21e09"
+        },
+        "self": "e1625"
+      },
+      {
+        "kind": "loadScene",
+        "scene": "s084"
+      }
+    ],
+    "scene/s086/root/entity-e1626/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1626",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1626",
+        "frame": 0
+      }
+    ],
+    "scene/s086/root/entity-e1627/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1627",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1627",
+        "frame": 0
+      }
+    ],
+    "scene/s086/root/entity-e1628/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1628",
+        "facing": "left"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1628",
+        "frame": 0
+      }
+    ],
+    "scene/s086/root/entity-e1629/page-0/trigger/stage-0": [
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e1629"
+      },
+      {
+        "kind": "playMusic",
+        "musicId": 0
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.4606"
+        }
+      },
+      {
+        "kind": "startBattle",
+        "team": 29,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s086",
+              "id": "scene/s086/L-41075/e1629/d-89d21e09"
+            },
+            "self": "e1629"
+          }
+        ],
+        "boss": true,
+        "musicId": 48
+      },
+      {
+        "kind": "setParty",
+        "members": [
+          "li-xiaoyao",
+          "lin-yueru"
+        ]
+      },
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 55,
+          "row": -23,
+          "height": 0
+        }
+      },
+      {
+        "kind": "unmigrated",
+        "opcode": 120,
+        "operands": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "toggleDayNight",
+        "ms": 800
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.4608",
+          "speaker": "spk.女飞贼",
+          "portrait": {
+            "icon": 41,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "setMultiEntityState",
+        "entities": [
+          "e1637",
+          "e1638",
+          "e1639",
+          "e1640",
+          "e1641",
+          "e1642",
+          "e1643",
+          "e1644"
+        ],
+        "state": 0
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e1629",
+        "script": {
+          "chunk": "scene/s086",
+          "id": "scene/s086/L-13870/e1629/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e1723",
+        "on": "touch",
+        "range": 1
+      },
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e1760",
+        "on": "touch",
+        "range": 1
+      },
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e1762",
+        "on": "touch",
+        "range": 1
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e1741",
+        "state": 0
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e1740",
+        "state": 2
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e1740",
+        "script": {
+          "chunk": "scene/s093",
+          "id": "scene/s093/L-14331/e1740/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e1764",
+        "state": 2
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e1745",
+        "state": 2
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e1746",
+        "state": 2
+      },
+      {
+        "kind": "wait",
+        "ms": 120
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 58,
+          "row": -23,
+          "height": 0
+        },
+        "speed": "run"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 58,
+          "row": -12,
+          "height": 0
+        },
+        "speed": "run"
+      },
+      {
+        "kind": "wait",
+        "ms": 320
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.4611",
+          "speaker": "spk.林月如",
+          "portrait": {
+            "icon": 22,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "playMusic",
+        "musicId": 54
+      }
+    ],
+    "scene/s086/root/entity-e1630/page-0/trigger/stage-0": [
+      {
+        "kind": "setEntityState",
+        "entity": "e1630",
+        "state": 0
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.4694",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "271"
+      }
+    ],
+    "scene/s086/root/entity-e1631/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.4797",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1631",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1631",
+        "frame": 0
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.4799",
+          "speaker": "spk.林月如",
+          "slot": "top",
+          "portrait": {
+            "icon": 23,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.4802",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 10,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.4804",
+          "speaker": "spk.林月如",
+          "slot": "top",
+          "portrait": {
+            "icon": 22,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.4807",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 6,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1631",
+        "facing": "up"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1631",
+        "frame": 0
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.4810",
+          "speaker": "spk.林月如",
+          "slot": "top",
+          "portrait": {
+            "icon": 24,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1631",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1631",
+        "frame": 0
+      },
+      {
+        "kind": "wait",
+        "ms": 280
+      },
+      {
+        "kind": "playMusic",
+        "musicId": 0
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.4812",
+          "speaker": "spk.林月如",
+          "slot": "top",
+          "portrait": {
+            "icon": 25,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e1631",
+        "script": {
+          "chunk": "scene/s086",
+          "id": "scene/s086/L-14293/e1631/d-89d21e09"
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 320
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1631",
+        "facing": "up"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1631",
+        "frame": 0
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.4814",
+          "speaker": "spk.林月如",
+          "slot": "top",
+          "portrait": {
+            "icon": 23,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1631",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1631",
+        "frame": 0
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 25,
+          "row": 5,
+          "height": 0
+        },
+        "speed": "run"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.4816",
+          "speaker": "spk.李逍遥"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.4818",
+          "speaker": "spk.林月如",
+          "slot": "top"
+        }
+      },
+      {
+        "kind": "playMusic",
+        "musicId": 11
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e1632",
+        "state": 1
+      },
+      {
+        "kind": "cameraPan",
+        "dx": 4,
+        "dy": 0,
+        "frames": 48
+      },
+      {
+        "kind": "wait",
+        "ms": 2400
+      },
+      {
+        "kind": "cameraPan",
+        "dx": -16,
+        "dy": 0,
+        "frames": 12
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e1631",
+        "script": {
+          "chunk": "scene/s086",
+          "id": "scene/s086/L-14314/e1631/d-89d21e09"
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 25,
+          "row": 0,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.4820",
+          "speaker": "spk.林月如",
+          "slot": "top",
+          "portrait": {
+            "icon": 22,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e1609",
+        "state": 1
+      },
+      {
+        "kind": "setParty",
+        "members": [
+          "lin-yueru",
+          "li-xiaoyao"
+        ]
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e1631",
+        "state": 0
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e1614",
+        "state": 0
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e1649",
+        "state": 2
+      },
+      {
+        "kind": "setMultiEntityState",
+        "entities": [
+          "e1650",
+          "e1651",
+          "e1652",
+          "e1653",
+          "e1654",
+          "e1655",
+          "e1656",
+          "e1657",
+          "e1658"
+        ],
+        "state": 0
+      }
+    ],
+    "scene/s086/root/entity-e1632/page-0/auto/stage-0": [
+      {
+        "kind": "moveEntity",
+        "entity": "e1632",
+        "to": {
+          "col": 39,
+          "row": 2,
+          "height": 0
+        },
+        "speed": "slow"
+      },
+      {
+        "kind": "moveEntity",
+        "entity": "e1632",
+        "to": {
+          "col": 34,
+          "row": 2,
+          "height": 0
+        },
+        "speed": "slow"
+      },
+      {
+        "kind": "wait",
+        "ms": 200
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1632",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1632",
+        "frame": 0
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1632",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1632",
+        "frame": 0
+      },
+      {
+        "kind": "wait",
+        "ms": 200
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1632",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1632",
+        "frame": 0
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1632",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1632",
+        "frame": 0
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1632",
+        "facing": "up"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1632",
+        "frame": 0
+      },
+      {
+        "kind": "wait",
+        "ms": 120
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e1633",
+        "state": 1
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e1632",
+        "state": 0
+      }
+    ],
+    "scene/s086/root/entity-e1633/page-0/auto/stage-0": [
+      {
+        "kind": "moveEntity",
+        "entity": "e1633",
+        "to": {
+          "col": 38,
+          "row": 2,
+          "height": 0
+        },
+        "speed": "normal"
+      },
+      {
+        "kind": "moveEntity",
+        "entity": "e1633",
+        "to": {
+          "col": 38,
+          "row": 7,
+          "height": 0
+        },
+        "speed": "normal"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e1633",
+        "state": 0
+      }
+    ],
+    "scene/s086/root/entity-e1634/page-0/auto/stage-0": [
+      {
+        "kind": "wait",
+        "ms": 800
+      },
+      {
+        "kind": "playSound",
+        "soundId": 52
+      },
+      {
+        "kind": "wait",
+        "ms": 400
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 93
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 51
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s086",
+              "id": "scene/s086/L-38634/e1634/d-89d21e09"
+            },
+            "self": "e1634"
+          }
+        ]
+      },
+      {
+        "kind": "playSound",
+        "soundId": 53
+      },
+      {
+        "kind": "wait",
+        "ms": 600
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 51
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s086",
+              "id": "scene/s086/L-38637/e1634/d-89d21e09"
+            },
+            "self": "e1634"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 97
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "playSound",
+        "soundId": 53
+      },
+      {
+        "kind": "wait",
+        "ms": 400
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 93
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "playSound",
+        "soundId": 52
+      },
+      {
+        "kind": "wait",
+        "ms": 1200
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 95
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "playSound",
+        "soundId": 53
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 98
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      }
+    ]
+  }
+}

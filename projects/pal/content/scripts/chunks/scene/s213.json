@@ -1,0 +1,1967 @@
+{
+  "version": 1,
+  "id": "scene/s213",
+  "scripts": {
+    "scene/s213/L-31286/e3606/d-89d21e09": [
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "not",
+          "cond": {
+            "kind": "entityInScene",
+            "entity": "e3607"
+          }
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s213",
+              "id": "scene/s213/L-31286/e3606/d-89d21e09"
+            },
+            "self": "e3606"
+          }
+        ]
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3607",
+        "state": 0
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3606",
+        "state": 1
+      },
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e3606",
+        "on": "touch",
+        "range": 0
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e3606",
+        "script": {
+          "chunk": "scene/s213",
+          "id": "scene/s213/L-31292/e3606/d-89d21e09"
+        }
+      }
+    ],
+    "scene/s213/L-31292/e3606/d-89d21e09": [
+      {
+        "kind": "mountParty",
+        "entity": "e3606"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3606",
+        "to": {
+          "col": 113,
+          "row": 82,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 114,
+          "row": 82,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/L-31550/e3638/d-c72f93d3": [
+      {
+        "kind": "learnSkill",
+        "role": 1,
+        "skill": "389"
+      }
+    ],
+    "scene/s213/L-36505/e3640/d-89d21e09": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3640",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3640",
+        "frame": 1
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "playSound",
+        "soundId": 78
+      }
+    ],
+    "scene/s213/L-36505/e3641/d-89d21e09": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3641",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3641",
+        "frame": 1
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "playSound",
+        "soundId": 78
+      }
+    ],
+    "scene/s213/L-36505/e3642/d-89d21e09": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3642",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3642",
+        "frame": 1
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "playSound",
+        "soundId": 78
+      }
+    ],
+    "scene/s213/L-36505/e3643/d-89d21e09": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3643",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3643",
+        "frame": 1
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "playSound",
+        "soundId": 78
+      }
+    ],
+    "scene/s213/L-36505/e3644/d-89d21e09": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3644",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3644",
+        "frame": 1
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "playSound",
+        "soundId": 78
+      }
+    ],
+    "scene/s213/root/on-enter/stage-0": [
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 65,
+          "row": -26,
+          "height": 0
+        }
+      },
+      {
+        "kind": "playMusic",
+        "musicId": 16
+      }
+    ],
+    "scene/s213/root/on-teleport/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s215",
+        "pos": {
+          "col": 72,
+          "row": 20,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s213/root/entity-e3606/page-0/trigger/stage-0": [
+      {
+        "kind": "setEntityState",
+        "entity": "e3606",
+        "state": 0
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "294"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11087",
+          "slot": "narration"
+        }
+      }
+    ],
+    "scene/s213/root/entity-e3606/page-0/auto/stage-0": [
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "not",
+          "cond": {
+            "kind": "entityInScene",
+            "entity": "e3607"
+          }
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s213",
+              "id": "scene/s213/L-31286/e3606/d-89d21e09"
+            },
+            "self": "e3606"
+          }
+        ]
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3607",
+        "state": 0
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3606",
+        "state": 1
+      },
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e3606",
+        "on": "touch",
+        "range": 0
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e3606",
+        "script": {
+          "chunk": "scene/s213",
+          "id": "scene/s213/L-31292/e3606/d-89d21e09"
+        }
+      }
+    ],
+    "scene/s213/root/entity-e3613/page-0/trigger/stage-0": [
+      {
+        "kind": "mountParty",
+        "entity": "e3613"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3613",
+        "to": {
+          "col": 114,
+          "row": 75,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 114,
+          "row": 74,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3613/page-0/trigger/stage-1": [
+      {
+        "kind": "mountParty",
+        "entity": "e3613"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3613",
+        "to": {
+          "col": 114,
+          "row": 81,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 114,
+          "row": 82,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3613/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e3613"
+      }
+    ],
+    "scene/s213/root/entity-e3614/page-0/trigger/stage-0": [
+      {
+        "kind": "mountParty",
+        "entity": "e3614"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3614",
+        "to": {
+          "col": 119,
+          "row": 82,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 120,
+          "row": 82,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3614/page-0/trigger/stage-1": [
+      {
+        "kind": "mountParty",
+        "entity": "e3614"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3614",
+        "to": {
+          "col": 115,
+          "row": 82,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 114,
+          "row": 82,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3614/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e3614"
+      }
+    ],
+    "scene/s213/root/entity-e3615/page-0/trigger/stage-0": [
+      {
+        "kind": "mountParty",
+        "entity": "e3615"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3615",
+        "to": {
+          "col": 109,
+          "row": 74,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 108,
+          "row": 74,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3615/page-0/trigger/stage-1": [
+      {
+        "kind": "mountParty",
+        "entity": "e3615"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3615",
+        "to": {
+          "col": 113,
+          "row": 74,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 114,
+          "row": 74,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3615/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e3615"
+      }
+    ],
+    "scene/s213/root/entity-e3616/page-0/trigger/stage-0": [
+      {
+        "kind": "mountParty",
+        "entity": "e3616"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3616",
+        "to": {
+          "col": 110,
+          "row": 63,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 111,
+          "row": 63,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3616/page-0/trigger/stage-1": [
+      {
+        "kind": "mountParty",
+        "entity": "e3616"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3616",
+        "to": {
+          "col": 108,
+          "row": 63,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 108,
+          "row": 64,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3616/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e3616"
+      }
+    ],
+    "scene/s213/root/entity-e3617/page-0/trigger/stage-0": [
+      {
+        "kind": "mountParty",
+        "entity": "e3617"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3617",
+        "to": {
+          "col": 127,
+          "row": 78,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 128,
+          "row": 78,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3617/page-0/trigger/stage-1": [
+      {
+        "kind": "mountParty",
+        "entity": "e3617"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3617",
+        "to": {
+          "col": 120,
+          "row": 78,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 119,
+          "row": 78,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3617/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e3617"
+      }
+    ],
+    "scene/s213/root/entity-e3618/page-0/trigger/stage-0": [
+      {
+        "kind": "mountParty",
+        "entity": "e3618"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3618",
+        "to": {
+          "col": 128,
+          "row": 70,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 128,
+          "row": 69,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3618/page-0/trigger/stage-1": [
+      {
+        "kind": "mountParty",
+        "entity": "e3618"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3618",
+        "to": {
+          "col": 128,
+          "row": 77,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 128,
+          "row": 78,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3618/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e3618"
+      }
+    ],
+    "scene/s213/root/entity-e3619/page-0/trigger/stage-0": [
+      {
+        "kind": "mountParty",
+        "entity": "e3619"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3619",
+        "to": {
+          "col": 120,
+          "row": 67,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 119,
+          "row": 67,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3619/page-0/trigger/stage-1": [
+      {
+        "kind": "mountParty",
+        "entity": "e3619"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3619",
+        "to": {
+          "col": 127,
+          "row": 67,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 128,
+          "row": 67,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3619/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e3619"
+      }
+    ],
+    "scene/s213/root/entity-e3620/page-0/trigger/stage-0": [
+      {
+        "kind": "mountParty",
+        "entity": "e3620"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3620",
+        "to": {
+          "col": 128,
+          "row": 59,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 128,
+          "row": 58,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3620/page-0/trigger/stage-1": [
+      {
+        "kind": "mountParty",
+        "entity": "e3620"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3620",
+        "to": {
+          "col": 128,
+          "row": 66,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 128,
+          "row": 67,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3620/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e3620"
+      }
+    ],
+    "scene/s213/root/entity-e3621/page-0/trigger/stage-0": [
+      {
+        "kind": "mountParty",
+        "entity": "e3621"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3621",
+        "to": {
+          "col": 130,
+          "row": 45,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 130,
+          "row": 44,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3621/page-0/trigger/stage-1": [
+      {
+        "kind": "mountParty",
+        "entity": "e3621"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3621",
+        "to": {
+          "col": 130,
+          "row": 54,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 130,
+          "row": 55,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3621/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e3621"
+      }
+    ],
+    "scene/s213/root/entity-e3622/page-0/trigger/stage-0": [
+      {
+        "kind": "mountParty",
+        "entity": "e3622"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3622",
+        "to": {
+          "col": 116,
+          "row": 68,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 116,
+          "row": 67,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3622/page-0/trigger/stage-1": [
+      {
+        "kind": "mountParty",
+        "entity": "e3622"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3622",
+        "to": {
+          "col": 116,
+          "row": 73,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 116,
+          "row": 74,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3622/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e3622"
+      }
+    ],
+    "scene/s213/root/entity-e3623/page-0/trigger/stage-0": [
+      {
+        "kind": "mountParty",
+        "entity": "e3623"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3623",
+        "to": {
+          "col": 116,
+          "row": 59,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 116,
+          "row": 58,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3623/page-0/trigger/stage-1": [
+      {
+        "kind": "mountParty",
+        "entity": "e3623"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3623",
+        "to": {
+          "col": 116,
+          "row": 64,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 116,
+          "row": 65,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3623/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e3623"
+      }
+    ],
+    "scene/s213/root/entity-e3624/page-0/trigger/stage-0": [
+      {
+        "kind": "mountParty",
+        "entity": "e3624"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3624",
+        "to": {
+          "col": 115,
+          "row": 60,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3624",
+        "to": {
+          "col": 117,
+          "row": 60,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3624",
+        "to": {
+          "col": 117,
+          "row": 58,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 116,
+          "row": 58,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3610",
+        "state": 2
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3608",
+        "state": 0
+      }
+    ],
+    "scene/s213/root/entity-e3624/page-0/trigger/stage-1": [
+      {
+        "kind": "mountParty",
+        "entity": "e3624"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3608",
+        "state": 2
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3609",
+        "state": 0
+      },
+      {
+        "kind": "ride",
+        "entity": "e3624",
+        "to": {
+          "col": 117,
+          "row": 60,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3624",
+        "to": {
+          "col": 114,
+          "row": 60,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3624",
+        "to": {
+          "col": 114,
+          "row": 57,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3624",
+        "to": {
+          "col": 116,
+          "row": 57,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 116,
+          "row": 58,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3624/page-0/trigger/stage-2": [
+      {
+        "kind": "mountParty",
+        "entity": "e3624"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3624",
+        "to": {
+          "col": 116,
+          "row": 43,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 116,
+          "row": 42,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3624/page-0/trigger/stage-3": [
+      {
+        "kind": "mountParty",
+        "entity": "e3624"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3624",
+        "to": {
+          "col": 116,
+          "row": 57,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 116,
+          "row": 58,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3624/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e3624"
+      }
+    ],
+    "scene/s213/root/entity-e3625/page-0/trigger/stage-0": [
+      {
+        "kind": "mountParty",
+        "entity": "e3625"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3625",
+        "to": {
+          "col": 109,
+          "row": 42,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 108,
+          "row": 42,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3625/page-0/trigger/stage-1": [
+      {
+        "kind": "mountParty",
+        "entity": "e3625"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3625",
+        "to": {
+          "col": 115,
+          "row": 42,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 116,
+          "row": 42,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3625/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e3625"
+      }
+    ],
+    "scene/s213/root/entity-e3626/page-0/trigger/stage-0": [
+      {
+        "kind": "mountParty",
+        "entity": "e3626"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3626",
+        "to": {
+          "col": 112,
+          "row": 46,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 113,
+          "row": 46,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3626/page-0/trigger/stage-1": [
+      {
+        "kind": "mountParty",
+        "entity": "e3626"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3626",
+        "to": {
+          "col": 109,
+          "row": 46,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 108,
+          "row": 46,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3626/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e3626"
+      }
+    ],
+    "scene/s213/root/entity-e3627/page-0/trigger/stage-0": [
+      {
+        "kind": "mountParty",
+        "entity": "e3627"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3627",
+        "to": {
+          "col": 113,
+          "row": 51,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 113,
+          "row": 52,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3627/page-0/trigger/stage-1": [
+      {
+        "kind": "mountParty",
+        "entity": "e3627"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3627",
+        "to": {
+          "col": 113,
+          "row": 47,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 113,
+          "row": 46,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3627/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e3627"
+      }
+    ],
+    "scene/s213/root/entity-e3628/page-0/trigger/stage-0": [
+      {
+        "kind": "mountParty",
+        "entity": "e3628"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3628",
+        "to": {
+          "col": 109,
+          "row": 54,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 108,
+          "row": 54,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3628/page-0/trigger/stage-1": [
+      {
+        "kind": "mountParty",
+        "entity": "e3628"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3628",
+        "to": {
+          "col": 112,
+          "row": 54,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 113,
+          "row": 54,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3628/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e3628"
+      }
+    ],
+    "scene/s213/root/entity-e3629/page-0/trigger/stage-0": [
+      {
+        "kind": "mountParty",
+        "entity": "e3629"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3629",
+        "to": {
+          "col": 121,
+          "row": 74,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 122,
+          "row": 74,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3629/page-0/trigger/stage-1": [
+      {
+        "kind": "mountParty",
+        "entity": "e3629"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3629",
+        "to": {
+          "col": 117,
+          "row": 74,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 116,
+          "row": 74,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3629/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e3629"
+      }
+    ],
+    "scene/s213/root/entity-e3630/page-0/trigger/stage-0": [
+      {
+        "kind": "mountParty",
+        "entity": "e3630"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3630",
+        "to": {
+          "col": 122,
+          "row": 62,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 122,
+          "row": 61,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3630/page-0/trigger/stage-1": [
+      {
+        "kind": "mountParty",
+        "entity": "e3630"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3630",
+        "to": {
+          "col": 122,
+          "row": 73,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 122,
+          "row": 74,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3630/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e3630"
+      }
+    ],
+    "scene/s213/root/entity-e3631/page-0/trigger/stage-0": [
+      {
+        "kind": "mountParty",
+        "entity": "e3631"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3631",
+        "to": {
+          "col": 123,
+          "row": 51,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 123,
+          "row": 50,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3631/page-0/trigger/stage-1": [
+      {
+        "kind": "mountParty",
+        "entity": "e3631"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3631",
+        "to": {
+          "col": 123,
+          "row": 58,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 122,
+          "row": 58,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3631/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e3631"
+      }
+    ],
+    "scene/s213/root/entity-e3632/page-0/trigger/stage-0": [
+      {
+        "kind": "mountParty",
+        "entity": "e3632"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3632",
+        "to": {
+          "col": 109,
+          "row": 50,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 108,
+          "row": 50,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3632/page-0/trigger/stage-1": [
+      {
+        "kind": "mountParty",
+        "entity": "e3632"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3632",
+        "to": {
+          "col": 122,
+          "row": 50,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 123,
+          "row": 50,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3632/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e3632"
+      }
+    ],
+    "scene/s213/root/entity-e3633/page-0/trigger/stage-0": [
+      {
+        "kind": "mountParty",
+        "entity": "e3633"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3633",
+        "to": {
+          "col": 124,
+          "row": 43,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 124,
+          "row": 42,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3633/page-0/trigger/stage-1": [
+      {
+        "kind": "mountParty",
+        "entity": "e3633"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3633",
+        "to": {
+          "col": 124,
+          "row": 49,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 124,
+          "row": 50,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3633/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e3633"
+      }
+    ],
+    "scene/s213/root/entity-e3634/page-0/trigger/stage-0": [
+      {
+        "kind": "mountParty",
+        "entity": "e3634"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3611",
+        "state": 0
+      },
+      {
+        "kind": "ride",
+        "entity": "e3634",
+        "to": {
+          "col": 122,
+          "row": 44,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3634",
+        "to": {
+          "col": 126,
+          "row": 44,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3634",
+        "to": {
+          "col": 126,
+          "row": 40,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3634",
+        "to": {
+          "col": 124,
+          "row": 40,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 124,
+          "row": 41,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3612",
+        "state": 2
+      }
+    ],
+    "scene/s213/root/entity-e3634/page-0/trigger/stage-1": [
+      {
+        "kind": "mountParty",
+        "entity": "e3634"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3634",
+        "to": {
+          "col": 108,
+          "row": 40,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 108,
+          "row": 39,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3634/page-0/trigger/stage-2": [
+      {
+        "kind": "mountParty",
+        "entity": "e3634"
+      },
+      {
+        "kind": "ride",
+        "entity": "e3634",
+        "to": {
+          "col": 124,
+          "row": 40,
+          "height": 0
+        },
+        "speed": "fast"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 124,
+          "row": 41,
+          "height": 0
+        },
+        "speed": "fast"
+      }
+    ],
+    "scene/s213/root/entity-e3634/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e3634"
+      }
+    ],
+    "scene/s213/root/entity-e3635/page-0/trigger/stage-0": [
+      {
+        "kind": "learnSkill",
+        "role": 4,
+        "skill": "315"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3635",
+        "state": 0
+      },
+      {
+        "kind": "playSound",
+        "soundId": 263
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11088",
+          "slot": "narration"
+        }
+      }
+    ],
+    "scene/s213/root/entity-e3636/page-0/trigger/stage-0": [
+      {
+        "kind": "learnSkill",
+        "role": 0,
+        "skill": "320"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3636",
+        "state": 0
+      },
+      {
+        "kind": "playSound",
+        "soundId": 263
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11089",
+          "slot": "narration"
+        }
+      }
+    ],
+    "scene/s213/root/entity-e3637/page-0/trigger/stage-0": [
+      {
+        "kind": "learnSkill",
+        "role": 4,
+        "skill": "325"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3637",
+        "state": 0
+      },
+      {
+        "kind": "playSound",
+        "soundId": 263
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11090",
+          "slot": "narration"
+        }
+      }
+    ],
+    "scene/s213/root/entity-e3638/page-0/trigger/stage-0": [
+      {
+        "kind": "setEntityState",
+        "entity": "e3638",
+        "state": 0
+      },
+      {
+        "kind": "playSound",
+        "soundId": 263
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11091",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "inParty",
+          "actorId": "37"
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s213",
+              "id": "scene/s213/L-31550/e3638/d-c72f93d3"
+            },
+            "self": "e3638"
+          }
+        ]
+      },
+      {
+        "kind": "learnSkill",
+        "role": 4,
+        "skill": "389"
+      }
+    ],
+    "scene/s213/root/entity-e3639/page-0/trigger/stage-0": [
+      {
+        "kind": "learnSkill",
+        "role": 0,
+        "skill": "336"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3639",
+        "state": 0
+      },
+      {
+        "kind": "playSound",
+        "soundId": 263
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11092",
+          "slot": "narration"
+        }
+      }
+    ],
+    "scene/s213/root/entity-e3640/page-0/trigger/stage-0": [
+      {
+        "kind": "callScript",
+        "ref": {
+          "chunk": "scene/s213",
+          "id": "scene/s213/L-36505/e3640/d-89d21e09"
+        },
+        "self": "e3640"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12270",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "187"
+      }
+    ],
+    "scene/s213/root/entity-e3640/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12222",
+          "slot": "center"
+        }
+      }
+    ],
+    "scene/s213/root/entity-e3641/page-0/trigger/stage-0": [
+      {
+        "kind": "callScript",
+        "ref": {
+          "chunk": "scene/s213",
+          "id": "scene/s213/L-36505/e3641/d-89d21e09"
+        },
+        "self": "e3641"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12272",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "194"
+      }
+    ],
+    "scene/s213/root/entity-e3641/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12222",
+          "slot": "center"
+        }
+      }
+    ],
+    "scene/s213/root/entity-e3642/page-0/trigger/stage-0": [
+      {
+        "kind": "callScript",
+        "ref": {
+          "chunk": "scene/s213",
+          "id": "scene/s213/L-36505/e3642/d-89d21e09"
+        },
+        "self": "e3642"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12275",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "191"
+      }
+    ],
+    "scene/s213/root/entity-e3642/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12222",
+          "slot": "center"
+        }
+      }
+    ],
+    "scene/s213/root/entity-e3643/page-0/trigger/stage-0": [
+      {
+        "kind": "callScript",
+        "ref": {
+          "chunk": "scene/s213",
+          "id": "scene/s213/L-36505/e3643/d-89d21e09"
+        },
+        "self": "e3643"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12339",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "261"
+      }
+    ],
+    "scene/s213/root/entity-e3643/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12222",
+          "slot": "center"
+        }
+      }
+    ],
+    "scene/s213/root/entity-e3644/page-0/trigger/stage-0": [
+      {
+        "kind": "callScript",
+        "ref": {
+          "chunk": "scene/s213",
+          "id": "scene/s213/L-36505/e3644/d-89d21e09"
+        },
+        "self": "e3644"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12326",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "247"
+      }
+    ],
+    "scene/s213/root/entity-e3644/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12222",
+          "slot": "center"
+        }
+      }
+    ]
+  }
+}

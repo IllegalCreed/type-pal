@@ -46,38 +46,10 @@
               {
                 "body": [
                   {
-                    "kind": "setEntityTriggerMode",
-                    "entity": "e696",
-                    "on": "interact",
-                    "range": 2
-                  },
-                  {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.3312",
-                      "speaker": "spk.张老头",
-                      "slot": "top"
-                    }
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.3316",
-                      "speaker": "spk.李逍遥"
-                    }
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.3319",
-                      "speaker": "spk.张老头",
-                      "slot": "top"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s043",
+                      "id": "scene/s043/root/entity-e696/page-0/trigger/stage-0"
                     }
                   }
                 ],
@@ -86,43 +58,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.3321",
-                      "speaker": "spk.张老头",
-                      "slot": "top"
-                    }
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.3324",
-                      "speaker": "spk.李逍遥"
-                    }
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.3328",
-                      "speaker": "spk.张老头",
-                      "slot": "top"
-                    }
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.3329",
-                      "speaker": "spk.张老头",
-                      "slot": "top"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s043",
+                      "id": "scene/s043/root/entity-e696/page-0/trigger/stage-1"
                     }
                   }
                 ],
@@ -131,11 +70,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.3334",
-                      "speaker": "spk.张老头",
-                      "slot": "top"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s043",
+                      "id": "scene/s043/root/entity-e696/page-0/trigger/stage-2"
                     }
                   }
                 ]
@@ -162,12 +100,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s042",
-                    "pos": {
-                      "col": 147,
-                      "row": 36,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s043",
+                      "id": "scene/s043/root/entity-e697/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -182,8 +118,11 @@
     {
       "body": [
         {
-          "kind": "setAmbience",
-          "ambience": "day"
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s043",
+            "id": "scene/s043/root/on-enter/stage-0"
+          }
         }
       ]
     }

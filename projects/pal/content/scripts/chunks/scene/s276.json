@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "id": "scene/s276",
+  "scripts": {
+    "scene/s276/root/entity-e4733/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s273",
+        "pos": {
+          "col": 96,
+          "row": 72,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s276/root/entity-e4734/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11987",
+          "speaker": "spk.木匠"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11990",
+          "speaker": "spk.木匠"
+        }
+      },
+      {
+        "kind": "openShop",
+        "shop": 3,
+        "mode": "buy"
+      }
+    ],
+    "scene/s276/root/entity-e4734/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e4734",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e4734",
+        "frame": 0
+      }
+    ]
+  }
+}

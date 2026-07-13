@@ -41,6 +41,19 @@ describe('httpSource', () => {
     await expect(s.readJson('nope.json')).rejects.toThrow('404')
   })
 
+  test('AbortSignal 透传 fetch，取消未完成读取', async () => {
+    const fetchMock = vi.fn((_url: string, init?: RequestInit) =>
+      new Promise<Response>((_resolve, reject) => {
+        init?.signal?.addEventListener('abort', () => reject(new DOMException('aborted', 'AbortError')), { once: true })
+      }))
+    vi.stubGlobal('fetch', fetchMock)
+    const ac = new AbortController()
+    const reading = httpSource('projects/pal').readJson('content/scripts/chunk.json', ac.signal)
+    ac.abort()
+    await expect(reading).rejects.toMatchObject({ name: 'AbortError' })
+    expect(fetchMock.mock.calls[0]?.[1]?.signal).toBe(ac.signal)
+  })
+
   test('urlFor:相对拼 base,绝对原样', async () => {
     const s = httpSource('projects/pal')
     expect(await s.urlFor('content/a.json')).toBe('projects/pal/content/a.json')

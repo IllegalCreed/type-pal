@@ -52,12 +52,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s098",
-                    "pos": {
-                      "col": 45,
-                      "row": 17,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s087",
+                      "id": "scene/s087/root/entity-e1635/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -84,12 +82,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s098",
-                    "pos": {
-                      "col": 74,
-                      "row": -14,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s087",
+                      "id": "scene/s087/root/entity-e1636/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -115,7 +111,43 @@
           "speed": 4
         },
         "respawnSeconds": 80
-      }
+      },
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s087",
+                      "id": "scene/s087/root/entity-e1637/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s087",
+                      "id": "scene/s087/root/entity-e1637/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e1638",
@@ -133,7 +165,43 @@
           "speed": 4
         },
         "respawnSeconds": 80
-      }
+      },
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s087",
+                      "id": "scene/s087/root/entity-e1638/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s087",
+                      "id": "scene/s087/root/entity-e1638/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e1639",
@@ -151,7 +219,43 @@
           "speed": 4
         },
         "respawnSeconds": 80
-      }
+      },
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s087",
+                      "id": "scene/s087/root/entity-e1639/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s087",
+                      "id": "scene/s087/root/entity-e1639/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e1640",
@@ -169,7 +273,43 @@
           "speed": 4
         },
         "respawnSeconds": 80
-      }
+      },
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s087",
+                      "id": "scene/s087/root/entity-e1640/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s087",
+                      "id": "scene/s087/root/entity-e1640/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e1641",
@@ -187,7 +327,43 @@
           "speed": 4
         },
         "respawnSeconds": 80
-      }
+      },
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s087",
+                      "id": "scene/s087/root/entity-e1641/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s087",
+                      "id": "scene/s087/root/entity-e1641/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e1642",
@@ -205,7 +381,43 @@
           "speed": 4
         },
         "respawnSeconds": 80
-      }
+      },
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s087",
+                      "id": "scene/s087/root/entity-e1642/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s087",
+                      "id": "scene/s087/root/entity-e1642/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e1643",
@@ -223,7 +435,43 @@
           "speed": 4
         },
         "respawnSeconds": 80
-      }
+      },
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s087",
+                      "id": "scene/s087/root/entity-e1643/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s087",
+                      "id": "scene/s087/root/entity-e1643/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e1644",
@@ -241,7 +489,43 @@
           "speed": 2
         },
         "respawnSeconds": 80
-      }
+      },
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s087",
+                      "id": "scene/s087/root/entity-e1644/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s087",
+                      "id": "scene/s087/root/entity-e1644/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e1645",
@@ -258,180 +542,11 @@
               {
                 "body": [
                   {
-                    "kind": "wait",
-                    "ms": 800
-                  },
-                  {
-                    "kind": "playSound",
-                    "soundId": 52
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 400
-                  },
-                  {
-                    "kind": "branch",
-                    "cond": {
-                      "kind": "chance",
-                      "percent": 93
-                    },
-                    "then": [
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "branch",
-                    "cond": {
-                      "kind": "chance",
-                      "percent": 51
-                    },
-                    "then": [
-                      {
-                        "kind": "playSound",
-                        "soundId": 52
-                      },
-                      {
-                        "kind": "wait",
-                        "ms": 1200
-                      },
-                      {
-                        "kind": "branch",
-                        "cond": {
-                          "kind": "chance",
-                          "percent": 95
-                        },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
-                      },
-                      {
-                        "kind": "playSound",
-                        "soundId": 53
-                      },
-                      {
-                        "kind": "branch",
-                        "cond": {
-                          "kind": "chance",
-                          "percent": 98
-                        },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
-                      },
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "playSound",
-                    "soundId": 53
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 600
-                  },
-                  {
-                    "kind": "branch",
-                    "cond": {
-                      "kind": "chance",
-                      "percent": 51
-                    },
-                    "then": [
-                      {
-                        "kind": "playSound",
-                        "soundId": 53
-                      },
-                      {
-                        "kind": "branch",
-                        "cond": {
-                          "kind": "chance",
-                          "percent": 98
-                        },
-                        "then": [
-                          {
-                            "kind": "stopScript"
-                          }
-                        ]
-                      },
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "branch",
-                    "cond": {
-                      "kind": "chance",
-                      "percent": 97
-                    },
-                    "then": [
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "playSound",
-                    "soundId": 53
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 400
-                  },
-                  {
-                    "kind": "branch",
-                    "cond": {
-                      "kind": "chance",
-                      "percent": 93
-                    },
-                    "then": [
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "playSound",
-                    "soundId": 52
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 1200
-                  },
-                  {
-                    "kind": "branch",
-                    "cond": {
-                      "kind": "chance",
-                      "percent": 95
-                    },
-                    "then": [
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "playSound",
-                    "soundId": 53
-                  },
-                  {
-                    "kind": "branch",
-                    "cond": {
-                      "kind": "chance",
-                      "percent": 98
-                    },
-                    "then": [
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s087",
+                      "id": "scene/s087/root/entity-e1645/page-0/auto/stage-0"
+                    }
                   }
                 ],
                 "next": 0

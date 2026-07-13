@@ -1,9 +1,9 @@
 # M3 - 迁移脚本去内联、按场景分片与体积门禁
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: M3(脚本迁移)
-Coding Owner: Codex(待三签准入)
+Coding Owner: Codex
 Reviewer: Opus + GLM
 Visual Verification Owner: Codex + Opus
 Unavailable Agents: none
@@ -301,7 +301,7 @@ interface ScriptChunkV1 {
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept**(2026-07-13；实现、自测、全量重迁与 6051 行为验证通过)
 - Opus: pending
 - GLM: pending
 - counter / 返工处理: N/A
@@ -310,17 +310,37 @@ interface ScriptChunkV1 {
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex(未准入)
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- Coding Owner: Codex
+- 修改文件:
+  - content: 新增 `ScriptRef/ScriptChunkV1/ScriptIndexV1`，命令新增 `callScript/jumpScript`，动态 auto/trigger/teleport 支持引用。
+  - reforge: 新增 HTTP/FSA 可取消读取、按需 `ScriptChunkStore`、8MiB lease-LRU、N2 chunk 重推导、runner call/jump/self/stop/abort/128 层 call 诊断；loader 启动只读 index。
+  - editor: 工程打开/保存/clone/seed/预览/引用树完整 round-trip `scripts/index.json + chunks`，预览复用同一 resolver/runner。
+  - migrate: 新增 typed edge catalog、Tarjan SCC、674 个物品/法术/敌 AI/角色全局根、`ScriptRegistry`、R2 对话态专门化、纯函数 overlay、三重体积与 chunk/closure 门禁；写盘只更新脚本绑定和 `content/scripts/**`。
+  - 产物: 295 个场景全部校验，存在脚本的场景根缩为单 `callScript`，生成 294 个按场景 chunk 和 index；manifest 增加 scripts 内容域。
+- 实现摘要:
+  - goto/条件臂改成 O(1) `jumpScript` 尾转移，0x04 改成受控 `callScript`；嵌套 branch 跳转穿透父体，每次 jump 强制宏任务让出。
+  - runner 活动调用帧持有 chunk lease，abort 同步取消 fetch；缺 chunk/缺 id 明确报错，错误 chunk hint 可按稳定 id 重推导。
+  - CFG 覆盖 43,503 条源命令：6,747 个根(其中 global 674)，边 execution/binding/recovery = 39,669/763/2,248，SCC 40,205(环 326)。
+  - 全库统计已包含 scene/shared/global chunk、hostile.onLose、敌人 choreography/onDefeated；最终 compact `1.63x`、pretty `1.05x`、节点 `1.57x`，最大 chunk/依赖闭包 `310,030B`。
+  - 连续两次迁移后 scenes+scripts 目录哈希均为 `e5f8de301d54f4781659b297818ad1c53444a991`，证明生成幂等；295 场景剥离 onEnter/onTeleport/trigger/auto/hostile.onLose 后与 HEAD 对比非脚本差异为 0，actors/items/skills/enemies/locale 未被写盘。
+- 运行命令:
+  - `pnpm --filter @type-pal/migrate check`: 10 files / 101 tests；含“只替换 stages、保留实体/页面静态字段”白名单回归。
+  - `pnpm --filter @type-pal/reforge check`: 36 files / 327 tests；含跨场景 100 次调用存档恒定、call 深度诊断和同 chunk 并发加载缓存记账。
+  - `pnpm --filter @type-pal/migrate run migrate:content`: 连续运行两次，目录哈希一致，体积/SCC/Top20 报告输出且门禁通过。
+  - `pnpm check`: 7 个包全绿，共 3368 tests(content 163/shared 111/pal-extract 251/migrate 101/reforge 327/game 2294/editor 121)。
+  - `git diff --check`: 通过。
+- 浏览器 / 手工检查:
+  - `http://localhost:6051/?entry=new-game&m3-final=1`: 最终产物从 s000 完整推进到 s001，94 个自动化步进后 `scriptRunning=false/dialogActive=false`，李大娘两段演出正常收口。
+  - 近景抽查 `s005/s019/s035/s049/s176/s186`: 各等待 5 秒的前后截图哈希均变化，确认巡逻连续移动/换向；默认镜头看不到 NPC 的场景改用 `?pos=` 对准巡逻实体。
+  - 最终重迁后复验 s186 与开场；本轮浏览器控制台无新增 error/warn。
+  - 网络加载边界由 loader/FileSource 单测钉住：启动只读 index，resolve 才读取目标 script chunk，abort 不回填缓存；resolver API 不接触 SceneDef/地图/实体 loader。
+- 跳过的检查及原因: 无。
+- 剩余已知缺口: 迁移报告仍有既存 `unmigrated 654`、`flowCuts 0`，主要是“引用目标含段转移”记录与尚未实现的 0x78/setPalette；本卡没有把这些语义缺口伪装成已完成，需 reviewer 确认未因去内联新增回归。
 
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: pending
+- 审查结论: 待 Opus 架构/代码复验，随后 GLM 覆盖/门禁复验
 - 必须返工项: pending
 - Accept / rework: pending
 
@@ -334,18 +354,20 @@ interface ScriptChunkV1 {
 - 2026-07-13 User: 补充第一阶段历史约束：脚本必须按场景拆分，跨场景调用/跳转不能迫使每场景加载全游戏脚本；具体解耦由 Codex 设计。Next: Codex 复核 phase1 切片与全局数组回退史。
 - 2026-07-13 Codex: 核实 D18 切片总量仅 all.json 0.89x；第一阶段 `6b58f9e8` 回退全局数组的原因是 cursor 内嵌脚本导致存档膨胀、全局/本地 IP 混用和控制边/全局根漏收，并非场景分片不可行。方案改为 `{chunk,id}`、scene/shared/global-domain SCC 分片、typed execution/binding edge、按需 resolver + lease-LRU、存档只存 ref。Opus 旧签因 schema/加载边界变化恢复 pending，R1-R3 保留。Next: Opus 重审分片版，不得 build。
 - 2026-07-13 Opus: 分片版**重签 agree**。真值核实:D18/events-schema/slice.ts 与卡一致,0.89x 坐实归属可行;`6b58f9e8` 提交原文核实回退三动因(存档 structuredClone 5.5MB/三级寻址/漏边),新方案逐条对症(ref-only 存档/单一 {chunk,id}/typed catalog)。八点逐项过(无巨表寻址/绑定边归属修正/多目标边覆盖/稳定分桶/lease-LRU 顺序/存档反回归/门禁齐/R1-R3 充分,R2 已入注册键)。新增 N1-N3 必落:①typed catalog 显式含 0x08 checkpoint/triggerResume 恢复点边(6b58f9e8 列名的全局 IP 消费者,防旧单目标表推断漏边);②ref.chunk 作提示、失配按 (id,分片配置) 纯函数重推导,重分片降级为 contentVersion 事件而非存档杀手;③lease 覆盖 runner 全调用栈各帧 chunk + abort 同步取消进行中 resolver fetch。Evidence: 分片版主审立场。Next: GLM 复核覆盖(N1 对照 script.c 枚举)/体积公式/测试矩阵;三签齐后 Codex build(R1-R3+N1-N3 入范围)。未改实现文件。
+- 2026-07-13 GLM: 设计签 agree；确认 N1 edge catalog、门禁公式、测试矩阵、SCC 与 overlay 清单，三签齐准入 build。
+- 2026-07-13 Codex: 完成 ScriptRef/chunk store/runner/loader/editor/CFG-SCC/registry/overlay/体积门禁和 294 chunk 全量重迁；`pnpm check` 3368 tests 全绿，双跑哈希一致，295 场景非脚本字段差异 0，6051 开场及六处巡逻通过。任务转 review。Next: Opus 代码/架构复验，不得直接标 done。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手 M3 脚本去内联 + 按场景分片设计复核(GLM)。
+接手 M3 脚本去内联 + 按场景分片实现审查(Opus)。
 任务卡: docs/ops/tasks/M3-wander-arm-explosion.md
-当前状态: draft；Codex agree + Opus 分片版重签 agree(R1-R3 保留 + N1-N3 新增)；GLM pending,build blocked。
-你的角色: GLM,覆盖/体积公式/测试矩阵复核;只审设计,不改实现文件。
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、任务卡 Draft A-E/B2、Codex 与 Opus 两个主审立场(尤其 R1-R3+N1-N3)、packages/pal-extract/src/events/slice.ts、reference/sdlpal/script.c。
-用户硬约束: ①总量 ≤ all.json 10 倍;②goto/call 不复制目标体;③场景懒加载,跨场景调用只加载目标 script chunk。
-已确认: Opus 核实 D18 0.89x + 6b58f9e8 回退三动因(新方案逐条对症);八点逐项过。N1=typed edge catalog 须显式含 0x08 checkpoint/triggerResume 恢复点边;N2=ref.chunk 作提示、失配按 (id,分片配置) 重推导;N3=lease 覆盖全调用栈 + abort 取消 fetch。
-请你复核: (1)**typed edge catalog 完整性(重点=N1)**——对照 script.c 全 opcode 枚举一切 IP 消费者(跳转/调用/绑定/恢复点/数据表根),给出与 Draft B2 清单的差集;(2)三个 10 倍门禁 + chunk/驻留门禁公式与计量口径(含 index.json/imports 元数据是否计入);(3)验收单测矩阵对 Draft C/D/B2 语义的覆盖(跨 scene call/goto、0x24/25 绑定、0x6D 双目标、0xA2、R2 入口态专门化、N2 重推导、N3 lease/abort)的完整性;(4)SCC 归属算法对 43,503 指令可达图的覆盖(不静默丢边/17 条合法深臂不回退);(5)overlay 清单对照 patch-scene-stages.mts 全部既有定制。在设计签字 GLM 行签 agree/counter,更新交接日志与下一位提示词(agree 即三签齐,交 Codex build,R1-R3+N1-N3 入范围)。
-不要做: 不改实现文件;不跑 migrate:content 全量写盘;不推进 build。
-输出要求: 明确 agree/counter、edge catalog 差集、门禁公式核验、测试矩阵评估、提交 hash。
+当前状态: review；Codex 已实现并签 accept，Opus/GLM 审查签 pending；done 门禁未满足。
+你的角色: Opus，做架构/代码/运行语义审查。只更新任务卡审查意见与签字，不改实现文件；发现问题签 counter 并列出可复现返工项。
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡 Draft/验收/Build 全节，重点核对 R1-R3 + N1-N3。
+实现范围: content ScriptRef/chunk schema；reforge resolver+lease-LRU+call/jump；editor round-trip；migrate typed CFG/SCC+全局根+registry+overlay+体积门禁；projects/pal 的 294 个 chunk 和 295 scene 脚本绑定。
+验证证据: pnpm check 7 包共 3368 tests 全绿；最终 compact/pretty/node = 1.63x/1.05x/1.57x；最大 chunk/closure 310030B；两次重迁目录哈希均 e5f8de301d54f4781659b297818ad1c53444a991；295 场景剥离脚本口后与 HEAD 非脚本差异 0；6051 开场完整收口，s005/s019/s035/s049/s176/s186 近景 5 秒截图均变化，最终控制台无新增 error/warn。
+请重点复核: ① jump 尾转移从嵌套臂穿透且每跳让出，call 内 jump 仍返回 caller，128 层真实 call 诊断；② lease 覆盖调用栈、abort 取消 fetch、ref.chunk 失配重推导、缺引用诊断；③ R2 入口对话态专门化；④ scene/shared/global 归属和 674 个全局根是否真实进入 43,503 指令图；⑤迁移写盘白名单与 overlay 是否保护 s000/s001；⑥体积审计是否包含动态绑定、hostile.onLose 和敌人战斗脚本；⑦编辑器/FSA/HTTP round-trip。
+已知风险: 报告仍有既存 unmigrated 654、flowCuts 0，主要为段转移记录和未实现 0x78/setPalette；请确认本次未新增控制流丢失。浏览器网络边界由定向单测证明，行为由 6051 证明。
+输出要求: 在“进入 done 前:审查签字”Opus 行签 accept，或签 counter+明确复现/返工项；更新 Review、交接日志和“下一位 Agent 提示词”。若 accept，下一位交 GLM 做覆盖/门禁复验；仍不得标记 done。
 ```

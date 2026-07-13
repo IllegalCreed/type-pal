@@ -46,12 +46,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s104",
-                    "pos": {
-                      "col": 34,
-                      "row": 14,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s106",
+                      "id": "scene/s106/root/entity-e1968/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -78,12 +76,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s107",
-                    "pos": {
-                      "col": 164,
-                      "row": 55,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s106",
+                      "id": "scene/s106/root/entity-e1969/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -110,12 +106,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s110",
-                    "pos": {
-                      "col": 75,
-                      "row": 14,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s106",
+                      "id": "scene/s106/root/entity-e1970/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -282,8 +276,11 @@
               {
                 "body": [
                   {
-                    "kind": "animEntity",
-                    "entity": "e1984"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s106",
+                      "id": "scene/s106/root/entity-e1984/page-0/auto/stage-0"
+                    }
                   }
                 ],
                 "next": 0
@@ -349,8 +346,11 @@
     {
       "body": [
         {
-          "kind": "playMusic",
-          "musicId": 12
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s106",
+            "id": "scene/s106/root/on-enter/stage-0"
+          }
         }
       ]
     }

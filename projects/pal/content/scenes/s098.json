@@ -101,12 +101,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s087",
-                    "pos": {
-                      "col": 116,
-                      "row": 95,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s098",
+                      "id": "scene/s098/root/entity-e1788/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -133,12 +131,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s087",
-                    "pos": {
-                      "col": 154,
-                      "row": 67,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s098",
+                      "id": "scene/s098/root/entity-e1789/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -165,12 +161,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s085",
-                    "pos": {
-                      "col": 24,
-                      "row": -5,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s098",
+                      "id": "scene/s098/root/entity-e1790/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -197,12 +191,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s085",
-                    "pos": {
-                      "col": 55,
-                      "row": -26,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s098",
+                      "id": "scene/s098/root/entity-e1791/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -229,12 +221,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s085",
-                    "pos": {
-                      "col": 76,
-                      "row": -36,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s098",
+                      "id": "scene/s098/root/entity-e1792/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -261,12 +251,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s086",
-                    "pos": {
-                      "col": 25,
-                      "row": 3,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s098",
+                      "id": "scene/s098/root/entity-e1793/page-0/trigger/stage-0"
                     }
                   }
                 ]

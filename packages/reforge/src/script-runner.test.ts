@@ -3,6 +3,9 @@ import { emptyWorldScriptState } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { ScriptHost } from './script-runner.js'
 import { ScriptRunner } from './script-runner.js'
+import type { ScriptResolver } from './script-chunk-store.js'
+import { buildPayload } from './save/ops.js'
+import { makeTestWorld } from './test-fixtures.js'
 
 /** 记录调用序的 fake host;异步项立即 resolve(顺序性由调用序断言)。 */
 function fakeHost(calls: string[]): ScriptHost {
@@ -572,4 +575,203 @@ test('ditherScreen 阻塞后续命令，host 收口 Promise 后 abort 不会落�
   finishDither?.()
   await expect(running).rejects.toMatchObject({ name: 'AbortError' })
   expect(calls).toEqual(['ditherScreen(2160)'])
+})
+
+describe('分片脚本 call/jump', () => {
+  function resolverOf(
+    bodies: Record<string, Command[]>,
+    leases?: { active: number; peak: number },
+  ): ScriptResolver {
+    return {
+      async resolve(ref) {
+        const body = bodies[ref.id]
+        if (!body) throw new Error(`missing ${ref.id}`)
+        if (leases) {
+          leases.active++
+          leases.peak = Math.max(leases.peak, leases.active)
+        }
+        let released = false
+        return {
+          body,
+          ref,
+          release: () => {
+            if (released) return
+            released = true
+            if (leases) leases.active--
+          },
+        }
+      },
+    }
+  }
+
+  test('call 返回调用点；callee 内 jump 尾转移后仍返回 caller', async () => {
+    const calls: string[] = []
+    const ref = (id: string) => ({ chunk: 'shared/c00', id })
+    const resolver = resolverOf({
+      'shared/a': [
+        { kind: 'playSound', soundId: 1 },
+        { kind: 'jumpScript', ref: ref('shared/b') },
+        { kind: 'playSound', soundId: 99 },
+      ],
+      'shared/b': [{ kind: 'playSound', soundId: 2 }],
+    })
+    const runner = new ScriptRunner(
+      fakeHost(calls),
+      emptyWorldScriptState(),
+      new AbortController().signal,
+      Math.random,
+      resolver,
+    )
+    await runner.run([
+      { kind: 'callScript', ref: ref('shared/a') },
+      { kind: 'playSound', soundId: 3 },
+    ])
+    expect(calls).toEqual(['playSound(1)', 'playSound(2)', 'playSound(3)'])
+  })
+
+  test('嵌套 branch 内 jump 穿透父体，父体后续不落穿', async () => {
+    const calls: string[] = []
+    const target = { chunk: 'scene/s001', id: 'scene/s001/target' }
+    const runner = new ScriptRunner(
+      fakeHost(calls),
+      emptyWorldScriptState(),
+      new AbortController().signal,
+      () => 0,
+      resolverOf({ [target.id]: [{ kind: 'playSound', soundId: 7 }] }),
+    )
+    await runner.run([
+      {
+        kind: 'branch',
+        cond: { kind: 'chance', percent: 100 },
+        then: [{ kind: 'jumpScript', ref: target }],
+      },
+      { kind: 'playSound', soundId: 99 },
+    ])
+    expect(calls).toEqual(['playSound(7)'])
+  })
+
+  test('深 call 链的 lease 覆盖全部活动调用帧', async () => {
+    const calls: string[] = []
+    const leases = { active: 0, peak: 0 }
+    const ref = (id: string) => ({ chunk: 'shared/c00', id })
+    const resolver = resolverOf({
+      'shared/a': [{ kind: 'callScript', ref: ref('shared/b') }],
+      'shared/b': [{ kind: 'callScript', ref: ref('shared/c') }],
+      'shared/c': [{ kind: 'playSound', soundId: 3 }],
+    }, leases)
+    const runner = new ScriptRunner(
+      fakeHost(calls),
+      emptyWorldScriptState(),
+      new AbortController().signal,
+      Math.random,
+      resolver,
+    )
+    await runner.run([{ kind: 'callScript', ref: ref('shared/a') }])
+    expect(leases.peak).toBe(3)
+    expect(leases.active).toBe(0)
+    expect(calls).toEqual(['playSound(3)'])
+  })
+
+  test('call/jump 的 self 跨引用生效并在返回后恢复', async () => {
+    const calls: string[] = []
+    const target = { chunk: 'shared/c00', id: 'shared/chase' }
+    const runner = new ScriptRunner(
+      fakeHost(calls),
+      emptyWorldScriptState(),
+      new AbortController().signal,
+      Math.random,
+      resolverOf({ [target.id]: [{ kind: 'chasePlayer' }] }),
+    )
+    runner.selfId = 'caller'
+    await runner.run([{ kind: 'callScript', ref: target, self: 'callee' }])
+    expect(calls).toEqual(['chaseStep("callee",8,4,false)'])
+    expect(runner.selfId).toBe('caller')
+  })
+
+  test('连续访问 100 个跨场景脚本后，存档不携带已加载脚本体', async () => {
+    const script = emptyWorldScriptState()
+    const world = makeTestWorld()
+    world.script = script
+    const visited: string[] = []
+    const resolver: ScriptResolver = {
+      async resolve(ref) {
+        visited.push(`${ref.chunk}:${ref.id}`)
+        return {
+          body: [{ kind: 'playSound', soundId: 1 }],
+          ref,
+          release() {},
+        }
+      },
+    }
+    const runner = new ScriptRunner(
+      fakeHost([]),
+      script,
+      new AbortController().signal,
+      Math.random,
+      resolver,
+    )
+    const saveJson = (): string => JSON.stringify(buildPayload(
+      world,
+      { sceneId: 's001', pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+      'pal',
+      1,
+    ))
+    const baselineBytes = new TextEncoder().encode(saveJson()).byteLength
+
+    for (let i = 0; i < 100; i++) {
+      const scene = `s${String(i).padStart(3, '0')}`
+      await runner.run([{
+        kind: 'callScript',
+        ref: { chunk: `scene/${scene}`, id: `scene/${scene}/probe` },
+      }])
+    }
+
+    const serialized = saveJson()
+    expect(visited).toHaveLength(100)
+    expect(new TextEncoder().encode(serialized).byteLength).toBe(baselineBytes)
+    expect(serialized).not.toContain('callScript')
+    expect(serialized).not.toContain('playSound')
+  })
+
+  test('真实 call 递归超过受控深度时给出目标诊断', async () => {
+    const target = { chunk: 'shared/c00', id: 'shared/recursive-call' }
+    const resolver = resolverOf({
+      [target.id]: [{ kind: 'callScript', ref: target }],
+    })
+    const runner = new ScriptRunner(
+      fakeHost([]),
+      emptyWorldScriptState(),
+      new AbortController().signal,
+      Math.random,
+      resolver,
+    )
+
+    await expect(runner.run([{ kind: 'callScript', ref: target }])).rejects.toThrow(
+      /调用深度超过 128.*shared\/c00:shared\/recursive-call/,
+    )
+  })
+
+  test('缺 resolver 明确报错；纯 jump 自环可 abort 且不会同步占死', async () => {
+    const target = { chunk: 'shared/c00', id: 'shared/loop' }
+    const noResolver = new ScriptRunner(
+      fakeHost([]),
+      emptyWorldScriptState(),
+      new AbortController().signal,
+    )
+    await expect(noResolver.run([{ kind: 'callScript', ref: target }])).rejects.toThrow(/无 resolver/)
+
+    const ac = new AbortController()
+    let resolves = 0
+    const resolver: ScriptResolver = {
+      async resolve(ref) {
+        resolves++
+        return { body: [{ kind: 'jumpScript', ref }], ref, release() {} }
+      },
+    }
+    const loop = new ScriptRunner(fakeHost([]), emptyWorldScriptState(), ac.signal, Math.random, resolver)
+      .run([{ kind: 'jumpScript', ref: target }])
+    setTimeout(() => ac.abort(), 10)
+    await expect(loop).rejects.toMatchObject({ name: 'AbortError' })
+    expect(resolves).toBeGreaterThan(0)
+  })
 })

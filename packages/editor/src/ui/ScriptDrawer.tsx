@@ -18,7 +18,7 @@ import type {
   ScriptStage,
   SpriteDef,
 } from '@type-pal/content'
-import type { AssetBase, OwnMap } from '@type-pal/reforge'
+import { MemoryScriptResolver, type AssetBase, type OwnMap } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   CreateScriptSourceCommand,
@@ -430,7 +430,13 @@ export function ScriptDrawer(props: {
   const active = sources.find((s) => s.key === srcKey) ?? sources[0]
 
   // 演出预览控制器:随场景重建;切场景/切源/卸载时停播丢弃演出态
-  const playback = useMemo(() => new Playback(scene), [scene])
+  const playback = useMemo(() => {
+    const state = session.getState()
+    const resolver = state.scriptIndex
+      ? new MemoryScriptResolver(state.scriptIndex, state.scriptChunks)
+      : undefined
+    return new Playback(scene, resolver)
+  }, [scene, session])
   const [, setUiTick] = useState(0)
   const prevRef = useRef<Playback | null>(null)
   useEffect(() => {

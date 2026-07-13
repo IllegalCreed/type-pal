@@ -265,16 +265,24 @@ function describe(cmd: Command, locale: Locale): Described {
       return {
         icon: '🔁',
         label: `${cmd.entity} 换巡逻脚本`,
-        detail: cmd.stages.length ? `${cmd.stages.length} 段` : '停用',
+        detail: cmd.script ? `引用 ${cmd.script.id}` : cmd.stages.length ? `${cmd.stages.length} 段` : '停用',
       }
     case 'setEntityTrigger':
       return {
         icon: '🔗',
         label: `${cmd.entity} 换触发脚本`,
-        detail: cmd.stages.length ? `${cmd.stages.length} 段` : '停用',
+        detail: cmd.script ? `引用 ${cmd.script.id}` : cmd.stages.length ? `${cmd.stages.length} 段` : '停用',
       }
     case 'setSceneOnTeleport':
-      return { icon: '🌀', label: `${cmd.scene} 装传送出口`, detail: `${cmd.stages.length} 段` }
+      return {
+        icon: '🌀',
+        label: `${cmd.scene} 装传送出口`,
+        detail: cmd.script ? `引用 ${cmd.script.id}` : `${cmd.stages.length} 段`,
+      }
+    case 'callScript':
+      return { icon: '↪', label: '调用脚本', detail: `${cmd.ref.chunk} · ${cmd.ref.id}` }
+    case 'jumpScript':
+      return { icon: '→', label: '跳转脚本', detail: `${cmd.ref.chunk} · ${cmd.ref.id}` }
     case 'setEntityTriggerMode':
       return {
         icon: '🔗',

@@ -1,0 +1,937 @@
+{
+  "version": 1,
+  "id": "scene/s266",
+  "scripts": {
+    "scene/s266/L-34311/e4658/d-89d21e09": [
+      {
+        "kind": "nudgeEntity",
+        "entity": "e4658",
+        "dx": 0,
+        "dy": 4
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e4658"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e4658",
+        "dx": 0,
+        "dy": 4
+      },
+      {
+        "kind": "wait",
+        "ms": 600
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s266",
+          "id": "scene/s266/L-34311/e4658/d-89d21e09"
+        },
+        "self": "e4658"
+      }
+    ],
+    "scene/s266/L-34311/e4659/d-89d21e09": [
+      {
+        "kind": "nudgeEntity",
+        "entity": "e4659",
+        "dx": 0,
+        "dy": 4
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e4659"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e4659",
+        "dx": 0,
+        "dy": 4
+      },
+      {
+        "kind": "wait",
+        "ms": 600
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s266",
+          "id": "scene/s266/L-34311/e4659/d-89d21e09"
+        },
+        "self": "e4659"
+      }
+    ],
+    "scene/s266/L-36505/e4660/d-89d21e09": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e4660",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e4660",
+        "frame": 1
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "playSound",
+        "soundId": 78
+      }
+    ],
+    "scene/s266/L-34784/e4662/d-89d21e09": [
+      {
+        "kind": "moveEntity",
+        "entity": "e4662",
+        "to": {
+          "col": 137,
+          "row": 70,
+          "height": 0
+        },
+        "speed": "normal"
+      },
+      {
+        "kind": "moveEntity",
+        "entity": "e4662",
+        "to": {
+          "col": 137,
+          "row": 66,
+          "height": 0
+        },
+        "speed": "normal"
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e4662",
+        "facing": "left"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e4662",
+        "frame": 0
+      }
+    ],
+    "scene/s266/L-34792/e4662/d-89d21e09": [
+      {
+        "kind": "moveEntity",
+        "entity": "e4662",
+        "to": {
+          "col": 135,
+          "row": 67,
+          "height": 0
+        },
+        "speed": "normal"
+      }
+    ],
+    "scene/s266/L-34912/e4662/d-eedb790d": [],
+    "scene/s266/L-34330/e4657/d-89d21e09": [
+      {
+        "kind": "moveEntity",
+        "entity": "e4657",
+        "to": {
+          "col": 76,
+          "row": 13,
+          "height": 0
+        },
+        "speed": "normal"
+      }
+    ],
+    "scene/s266/L-34332/e4657/d-89d21e09": [
+      {
+        "kind": "moveEntity",
+        "entity": "e4657",
+        "to": {
+          "col": 76,
+          "row": 9,
+          "height": 0
+        },
+        "speed": "normal"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e4657",
+        "state": 0
+      }
+    ],
+    "scene/s266/root/on-enter/stage-0": [
+      {
+        "kind": "playMusic",
+        "musicId": 59
+      },
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 76,
+          "row": 16,
+          "height": 0
+        }
+      },
+      {
+        "kind": "setActorSprite",
+        "actor": "li-xiaoyao",
+        "sprite": "npc-232"
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "wait",
+        "ms": 880
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e4657",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e4657",
+        "frame": 0
+      },
+      {
+        "kind": "wait",
+        "ms": 560
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e4659",
+        "state": 0
+      },
+      {
+        "kind": "setActorSprite",
+        "actor": "li-xiaoyao",
+        "sprite": "li-xiaoyao"
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      },
+      {
+        "kind": "wait",
+        "ms": 480
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "wait",
+        "ms": 320
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "left"
+      },
+      {
+        "kind": "wait",
+        "ms": 240
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e4658",
+        "state": 0
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11803",
+          "speaker": "spk.李逍遥"
+        }
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e4657",
+        "script": {
+          "chunk": "scene/s266",
+          "id": "scene/s266/L-34330/e4657/d-89d21e09"
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 280
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11806",
+          "speaker": "spk.小孩",
+          "slot": "top",
+          "portrait": {
+            "icon": 85,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11810",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 3,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e4657",
+        "facing": "up"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e4657",
+        "frame": 0
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e4657",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e4657",
+        "frame": 0
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11812",
+          "speaker": "spk.小孩",
+          "slot": "top",
+          "portrait": {
+            "icon": 85,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e4657",
+        "script": {
+          "chunk": "scene/s266",
+          "id": "scene/s266/L-34332/e4657/d-89d21e09"
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 480
+      }
+    ],
+    "scene/s266/root/on-enter/stage-1": [],
+    "scene/s266/root/entity-e4655/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s269",
+        "pos": {
+          "col": 18,
+          "row": 5,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s266/root/entity-e4656/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s268",
+        "pos": {
+          "col": 46,
+          "row": 17,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s266/root/entity-e4658/page-0/auto/stage-0": [
+      {
+        "kind": "nudgeEntity",
+        "entity": "e4658",
+        "dx": 0,
+        "dy": 4
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e4658"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e4658",
+        "dx": 0,
+        "dy": 4
+      },
+      {
+        "kind": "wait",
+        "ms": 600
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s266",
+          "id": "scene/s266/L-34311/e4658/d-89d21e09"
+        },
+        "self": "e4658"
+      }
+    ],
+    "scene/s266/root/entity-e4659/page-0/auto/stage-0": [
+      {
+        "kind": "nudgeEntity",
+        "entity": "e4659",
+        "dx": 0,
+        "dy": 4
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e4659"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e4659",
+        "dx": 0,
+        "dy": 4
+      },
+      {
+        "kind": "wait",
+        "ms": 600
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s266",
+          "id": "scene/s266/L-34311/e4659/d-89d21e09"
+        },
+        "self": "e4659"
+      }
+    ],
+    "scene/s266/root/entity-e4660/page-0/trigger/stage-0": [
+      {
+        "kind": "callScript",
+        "ref": {
+          "chunk": "scene/s266",
+          "id": "scene/s266/L-36505/e4660/d-89d21e09"
+        },
+        "self": "e4660"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11958",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11959",
+          "portrait": {
+            "icon": 3,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e4662",
+        "state": 2
+      },
+      {
+        "kind": "wait",
+        "ms": 640
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "wait",
+        "ms": 200
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11961",
+          "speaker": "spk.小孩",
+          "portrait": {
+            "icon": 85,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 135,
+          "row": 67,
+          "height": 0
+        },
+        "speed": "slow"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11962",
+          "slot": "top",
+          "portrait": {
+            "icon": 6,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11965",
+          "speaker": "spk.小孩",
+          "portrait": {
+            "icon": 85,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e4662",
+        "script": {
+          "chunk": "scene/s266",
+          "id": "scene/s266/L-34784/e4662/d-89d21e09"
+        }
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 135,
+          "row": 69,
+          "height": 0
+        },
+        "speed": "slow"
+      },
+      {
+        "kind": "wait",
+        "ms": 240
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      },
+      {
+        "kind": "wait",
+        "ms": 320
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "wait",
+        "ms": 240
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11967",
+          "portrait": {
+            "icon": 3,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e4662",
+        "script": {
+          "chunk": "scene/s266",
+          "id": "scene/s266/L-34792/e4662/d-89d21e09"
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11971",
+          "speaker": "spk.小孩",
+          "slot": "top",
+          "portrait": {
+            "icon": 85,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11972",
+          "portrait": {
+            "icon": 3,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11974",
+          "speaker": "spk.小孩",
+          "slot": "top",
+          "portrait": {
+            "icon": 85,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11976",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11979",
+          "speaker": "spk.小孩",
+          "slot": "top",
+          "portrait": {
+            "icon": 85,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11982",
+          "portrait": {
+            "icon": 9,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11985",
+          "speaker": "spk.小孩",
+          "slot": "top",
+          "portrait": {
+            "icon": 85,
+            "side": "left"
+          }
+        }
+      }
+    ],
+    "scene/s266/root/entity-e4660/page-0/trigger/stage-1": [],
+    "scene/s266/root/entity-e4661/page-0/trigger/stage-0": [
+      {
+        "kind": "setEntityState",
+        "entity": "e4660",
+        "state": 2
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11952",
+          "speaker": "spk.秀兰"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11954",
+          "speaker": "spk.秀兰"
+        }
+      }
+    ],
+    "scene/s266/root/entity-e4661/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11957",
+          "speaker": "spk.秀兰"
+        }
+      }
+    ],
+    "scene/s266/root/entity-e4661/page-0/auto/stage-0": [
+      {
+        "kind": "moveEntity",
+        "entity": "e4661",
+        "to": {
+          "col": 67,
+          "row": 13,
+          "height": 0
+        },
+        "speed": "normal"
+      },
+      {
+        "kind": "wait",
+        "ms": 400
+      },
+      {
+        "kind": "moveEntity",
+        "entity": "e4661",
+        "to": {
+          "col": 67,
+          "row": 11,
+          "height": 0
+        },
+        "speed": "normal"
+      },
+      {
+        "kind": "wait",
+        "ms": 320
+      },
+      {
+        "kind": "moveEntity",
+        "entity": "e4661",
+        "to": {
+          "col": 67,
+          "row": 17,
+          "height": 0
+        },
+        "speed": "normal"
+      },
+      {
+        "kind": "wait",
+        "ms": 800
+      },
+      {
+        "kind": "moveEntity",
+        "entity": "e4661",
+        "to": {
+          "col": 83,
+          "row": 17,
+          "height": 0
+        },
+        "speed": "normal"
+      },
+      {
+        "kind": "wait",
+        "ms": 320
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e4661",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e4661",
+        "frame": 0
+      },
+      {
+        "kind": "wait",
+        "ms": 320
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e4661",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e4661",
+        "frame": 0
+      },
+      {
+        "kind": "wait",
+        "ms": 400
+      },
+      {
+        "kind": "moveEntity",
+        "entity": "e4661",
+        "to": {
+          "col": 76,
+          "row": 17,
+          "height": 0
+        },
+        "speed": "normal"
+      },
+      {
+        "kind": "wait",
+        "ms": 320
+      },
+      {
+        "kind": "moveEntity",
+        "entity": "e4661",
+        "to": {
+          "col": 76,
+          "row": 13,
+          "height": 0
+        },
+        "speed": "normal"
+      },
+      {
+        "kind": "wait",
+        "ms": 1200
+      }
+    ],
+    "scene/s266/root/entity-e4662/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.11999",
+          "speaker": "spk.小孩",
+          "slot": "top",
+          "portrait": {
+            "icon": 85,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "not",
+          "cond": {
+            "kind": "hasItem",
+            "itemId": "166",
+            "atLeast": 1
+          }
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s266",
+              "id": "scene/s266/L-34912/e4662/d-eedb790d"
+            },
+            "self": "e4662"
+          }
+        ]
+      },
+      {
+        "kind": "loseItem",
+        "itemId": "166"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12001",
+          "portrait": {
+            "icon": 3,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12003",
+          "speaker": "spk.小孩",
+          "slot": "top",
+          "portrait": {
+            "icon": 85,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12004",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "265"
+      },
+      {
+        "kind": "setScreenWave",
+        "level": 1,
+        "progression": 2
+      },
+      {
+        "kind": "wait",
+        "ms": 2400
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 6400
+      },
+      {
+        "kind": "setSceneStage",
+        "scene": "s203",
+        "stage": 0
+      },
+      {
+        "kind": "loadScene",
+        "scene": "s203"
+      }
+    ],
+    "scene/s266/root/entity-e4662/page-0/auto/stage-0": [
+      {
+        "kind": "moveEntity",
+        "entity": "e4662",
+        "to": {
+          "col": 135,
+          "row": 70,
+          "height": 0
+        },
+        "speed": "normal"
+      }
+    ]
+  }
+}

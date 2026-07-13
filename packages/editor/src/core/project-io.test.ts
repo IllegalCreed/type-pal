@@ -135,6 +135,31 @@ test('W7D 自有地图 round-trip:ownMaps → serializeProject 产出 content/ma
   expect(out['content/maps/guijie-minju.json']).toEqual(ownMap) // 键即路径,直接产出为文件
 })
 
+test('M3 scripts 目录 round-trip:index + chunk 路径与内容原样保留', () => {
+  const withScripts: LoadedManifest = {
+    ...manifest,
+    content: { ...manifest.content, scripts: 'content/scripts/' },
+  }
+  const scriptId = 'scene/guijie-minju/on-enter/0'
+  const scriptIndex = {
+    version: 1 as const,
+    shards: { shared: 1, global: {} },
+    chunks: {
+      'scene/guijie-minju': { path: 'chunks/scene/guijie-minju.json', bytes: 100 },
+    },
+  }
+  const chunk = {
+    version: 1 as const,
+    id: 'scene/guijie-minju',
+    scripts: { [scriptId]: [{ kind: 'playSound' as const, soundId: 1 }] },
+  }
+  const project = assembleProject(withScripts, { ...JSONS, scripts: scriptIndex })
+  const state = toEditorState(project, SCENES, [], {}, { 'scene/guijie-minju': chunk })
+  const out = serializeProject(state)
+  expect(out['content/scripts/index.json']).toEqual(scriptIndex)
+  expect(out['content/scripts/chunks/scene/guijie-minju.json']).toEqual(chunk)
+})
+
 test('W7D 自有地图 serialize → loadOwnMap 重开闭环', async () => {
   const project = assembleProject(manifest, JSONS)
   const rel = 'content/maps/guijie-minju.json'

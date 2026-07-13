@@ -1191,16 +1191,22 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       }
       updateCamera()
     },
-    setEntityAuto: (id, stages) => {
+    setEntityAuto: (id, binding) => {
       const e = scene.entities.find((x) => x.id === id)
       if (!e) return
+      const stages = Array.isArray(binding)
+        ? binding
+        : [{ body: [{ kind: 'callScript' as const, ref: binding }] }]
       e.pages = e.pages?.length ? e.pages : [{}]
       e.pages[0] = { ...e.pages[0], auto: stages.length ? { stages } : undefined }
       restartAutoRunner(e) // 停旧起新(空 stages = 仅停)
     },
-    setEntityTrigger: (id, stages) => {
+    setEntityTrigger: (id, binding) => {
       const e = scene.entities.find((x) => x.id === id)
       if (!e) return
+      const stages = Array.isArray(binding)
+        ? binding
+        : [{ body: [{ kind: 'callScript' as const, ref: binding }] }]
       e.pages = e.pages?.length ? e.pages : [{}]
       const on = e.pages[0]?.trigger?.on ?? 'interact'
       const range = e.pages[0]?.trigger?.range
@@ -1529,6 +1535,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
             scriptHost,
             world.script,
             (scriptAbort ?? new AbortController()).signal,
+            Math.random,
+            project.scriptStore,
           )
           await r
             .runStages(`battle-end:${def.id}`, [{ body: def.onDefeated }])
@@ -1565,10 +1573,19 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     // world.onTeleport 覆写,优先于静态 scene.onTeleport —— 否则血池封闭无出口=死锁卡关。
     teleportOut: async () => {
       const stages = world.script?.onTeleport?.[scene.id] ?? scene.onTeleport
-      if (!stages?.length) return false
+      if (!stages || (Array.isArray(stages) && stages.length === 0)) return false
       if (world.script) {
-        const r = new ScriptRunner(scriptHost, world.script, (scriptAbort ?? new AbortController()).signal)
-        await r.runStages(`teleport:${scene.id}`, stages).catch((err: unknown) => {
+        const r = new ScriptRunner(
+          scriptHost,
+          world.script,
+          (scriptAbort ?? new AbortController()).signal,
+          Math.random,
+          project.scriptStore,
+        )
+        const runnable = Array.isArray(stages)
+          ? stages
+          : [{ body: [{ kind: 'callScript' as const, ref: stages }] }]
+        await r.runStages(`teleport:${scene.id}`, runnable).catch((err: unknown) => {
           if (!(err instanceof DOMException && err.name === 'AbortError'))
             console.error('[script] teleportOut', scene.id, err)
         })
@@ -1861,7 +1878,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     const stages = auto.stages
     const ac = new AbortController()
     autoAborts.set(e.id, ac)
-    const r = new ScriptRunner(autoHost, world.script!, ac.signal) // E6a:auto 视图(被接管实体暂停)
+    const r = new ScriptRunner(autoHost, world.script!, ac.signal, Math.random, project.scriptStore) // E6a:auto 视图(被接管实体暂停)
     r.selfId = e.id // chasePlayer/vanishEntity 的 self
     r.paceMs = 100 // 原版 auto 一帧(100ms)一 op(曾 80ms 近似;对齐世界拍减小与走位的错相)
     void (async () => {
@@ -1975,7 +1992,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   function startScript(key: string, stages: readonly ScriptStage[], selfId?: string): void {
     if (runner) return
     scriptAbort = new AbortController()
-    const r = new ScriptRunner(scriptHost, world.script!, scriptAbort.signal) // E6a:主脚本视图(位移隐式接管)
+    const r = new ScriptRunner(scriptHost, world.script!, scriptAbort.signal, Math.random, project.scriptStore) // E6a:主脚本视图(位移隐式接管)
     r.selfId = selfId
     runner = r
     void r
@@ -2819,7 +2836,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
               // 引路蜂/土灵珠:当前场景有 onTeleport → 消耗道具、关菜单回大世界、跑出口;
               // 无出口 = 「引路蜂不灵」(不消耗、留菜单)。同步查 onTeleport 决定,避开 world 异步竞态。
               // world.onTeleport 覆写(0x6D op2 运行时装,如血池 s059 打完)优先于静态槽。
-              if ((world.script?.onTeleport?.[scene.id] ?? scene.onTeleport)?.length) {
+              const teleportScript = world.script?.onTeleport?.[scene.id] ?? scene.onTeleport
+              if (teleportScript && (!Array.isArray(teleportScript) || teleportScript.length > 0)) {
                 if (project.items[r.itemId]?.use?.consuming) host.loseItem(r.itemId, 1) // 引路蜂消耗;土灵珠宝珠不消耗
                 lastUseCursor = useMenu.cursor
                 useMenu = closeUseMenu()

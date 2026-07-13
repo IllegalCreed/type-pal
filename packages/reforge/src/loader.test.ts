@@ -213,4 +213,50 @@ describe('loadProjectFrom(经 FileSource)', () => {
     const scene = await loadSceneDef(p, 'guijie-minju')
     expect(scene.id).toBe('guijie-minju')
   })
+
+  test('scripts 启动只读 index，目标 chunk 到 resolve 时才按需读取', async () => {
+    const scriptId = 'scene/guijie-minju/on-enter/0'
+    const scriptFiles = {
+      ...files,
+      'manifest.json': {
+        ...(files['manifest.json'] as LoadedManifest),
+        content: {
+          ...(files['manifest.json'] as LoadedManifest).content,
+          scripts: 'content/scripts/',
+        },
+      },
+      'content/scripts/index.json': {
+        version: 1,
+        shards: { shared: 1, global: {} },
+        chunks: {
+          'scene/guijie-minju': { path: 'chunks/scene/guijie-minju.json', bytes: 100 },
+        },
+      },
+      'content/scripts/chunks/scene/guijie-minju.json': {
+        version: 1,
+        id: 'scene/guijie-minju',
+        scripts: { [scriptId]: [{ kind: 'playSound', soundId: 1 }] },
+      },
+    }
+    const reads: string[] = []
+    const source = memSource(scriptFiles)
+    const tracked: FileSource = {
+      ...source,
+      async readJson<T>(rel: string, signal?: AbortSignal) {
+        reads.push(rel)
+        return source.readJson<T>(rel, signal)
+      },
+    }
+    const p = await loadProjectFrom(tracked)
+    expect(p.scriptStore).toBeDefined()
+    expect(reads).toContain('content/scripts/index.json')
+    expect(reads).not.toContain('content/scripts/chunks/scene/guijie-minju.json')
+    const lease = await p.scriptStore!.resolve(
+      { chunk: 'scene/guijie-minju', id: scriptId },
+      new AbortController().signal,
+    )
+    expect(lease.body).toHaveLength(1)
+    expect(reads).toContain('content/scripts/chunks/scene/guijie-minju.json')
+    lease.release()
+  })
 })

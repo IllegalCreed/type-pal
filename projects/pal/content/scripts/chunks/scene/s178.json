@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "id": "scene/s178",
+  "scripts": {
+    "scene/s178/root/entity-e2947/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s186",
+        "pos": {
+          "col": 108,
+          "row": 32,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s178/root/entity-e2948/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.9774",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 16,
+        "dy": 8
+      }
+    ]
+  }
+}

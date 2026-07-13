@@ -1,0 +1,129 @@
+{
+  "version": 1,
+  "id": "scene/s137",
+  "scripts": {
+    "scene/s137/root/entity-e2331/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s100",
+        "pos": {
+          "col": 51,
+          "row": 7,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s137/root/entity-e2332/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5732",
+          "speaker": "spk.宋氏"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5733",
+          "speaker": "spk.宋氏"
+        }
+      }
+    ],
+    "scene/s137/root/entity-e2333/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5737",
+          "speaker": "spk.书生"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5739",
+          "speaker": "spk.书生"
+        }
+      }
+    ],
+    "scene/s137/root/entity-e2333/page-0/auto/stage-0": [
+      {
+        "kind": "moveEntity",
+        "entity": "e2333",
+        "to": {
+          "col": 55,
+          "row": -6,
+          "height": 0
+        },
+        "speed": "slow"
+      }
+    ],
+    "scene/s137/root/entity-e2333/page-0/auto/stage-1": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e2333",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e2333",
+        "frame": 0
+      },
+      {
+        "kind": "wait",
+        "ms": 120
+      },
+      {
+        "kind": "moveEntity",
+        "entity": "e2333",
+        "to": {
+          "col": 55,
+          "row": -1,
+          "height": 0
+        },
+        "speed": "slow"
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e2333",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e2333",
+        "frame": 0
+      }
+    ],
+    "scene/s137/root/entity-e2335/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12507",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "255"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e2335",
+        "state": 0
+      }
+    ]
+  }
+}

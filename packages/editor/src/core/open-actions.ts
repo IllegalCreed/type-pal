@@ -3,7 +3,7 @@
  * 每个动作 = 拿本地目录句柄(原生选夹,须用户手势)→ 操作 → openLocalProject 装配 → Opened。
  * 用户取消选夹 → 返回 null(调用方静默忽略)。
  */
-import type { MusicDef, SceneDef } from '@type-pal/content'
+import type { MusicDef, SceneDef, ScriptChunkV1 } from '@type-pal/content'
 import { httpSource, type LoadedProject } from '@type-pal/reforge'
 import type { OwnMap } from '@type-pal/reforge'
 import { cloneFromPal } from './clone.js'
@@ -19,6 +19,7 @@ export interface Opened {
   music: MusicDef[]
   /** W7:own 场景引用的自有地图(finishOpen 由 openLocalProject 透传)。 */
   ownMaps: Record<string, OwnMap>
+  scriptChunks: Record<string, ScriptChunkV1>
   dir: FileSystemDirectoryHandle
 }
 

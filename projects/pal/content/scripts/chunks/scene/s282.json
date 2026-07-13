@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "id": "scene/s282",
+  "scripts": {
+    "scene/s282/root/entity-e4804/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s281",
+        "pos": {
+          "col": 94,
+          "row": 62,
+          "height": 0
+        }
+      }
+    ]
+  }
+}

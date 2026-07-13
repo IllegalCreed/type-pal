@@ -149,6 +149,8 @@ import type {
 } from './migrate-enemies.js'
 import { mapEnemies, mapEnemyTeams } from './migrate-enemies.js'
 import type { SourceCmd } from './source-facts.js'
+import { analyzeScriptGraph, type ScriptRoot } from './script-graph.js'
+import { applyPalScriptOverlays } from './script-overlays.js'
 import {
   FACING_BY_DIR,
   partyPosToGrid,
@@ -157,7 +159,7 @@ import {
   signExtendI16,
 } from './source-facts.js'
 import type { TranslateCtx, TranslateReport } from './translate-events.js'
-import { asBattleCfg, emptyTranslateReport, foldStages, translateStages } from './translate-events.js'
+import { asBattleCfg, emptyTranslateReport, foldStages, ScriptRegistry, translateStages } from './translate-events.js'
 export interface LevelUpMagicCell {
   level: number
   magic: number
@@ -1142,7 +1144,7 @@ export function mergeExtras<T extends { id: string }>(migrated: T[], extras: T[]
 // 事实锚(2026-07-02 实测):实体 id 全局唯一;direction 0-3 = 下/左/上/右;
 // loadScene 是具名 op 且 sceneId 已解析为 0-based;setPartyPos=raw 70;playMusic=raw 67。
 // ════════════════════════════════════════════════════════════════════
-import type { Command, EnemyDef, EnemyTeamDef, SceneDef, ScriptStage } from '@type-pal/content'
+import type { Command, EnemyDef, EnemyTeamDef, SceneDef, ScriptChunkV1, ScriptIndexV1, ScriptStage } from '@type-pal/content'
 import { pixelToGrid } from '@type-pal/content'
 
 export interface SourceEventObject {
@@ -1169,12 +1171,24 @@ export interface SourceScene {
 
 export interface SceneMigrationResult {
   scenes: SceneDef[]
+  scriptIndex: ScriptIndexV1
+  scriptChunks: Record<string, ScriptChunkV1>
   /** 实体引用到的原版精灵批量登记(npc-<num>;布局按 nSpriteFrames)。 */
   sprites: SpriteDef[]
   /** M3a 脚本翻译产出的文本(dlg./spk.;IO 壳并入工程 locale)。 */
   scriptLocale: Record<string, string>
   /** M3a 脚本翻译统计(覆盖缺口 → M3b/c 收敛清单)。 */
   scriptReport: TranslateReport
+  scriptGraphReport: {
+    commands: number
+    roots: number
+    globalRoots: number
+    edges: Record<'execution' | 'binding' | 'recovery', number>
+    components: number
+    cyclicComponents: number
+    ownership: { scene: number; shared: number; global: number; unreachable: number }
+    topPredecessors: Array<{ entry: number; count: number }>
+  }
   report: {
     scenes: number
     entities: number
@@ -1205,6 +1219,57 @@ export interface SceneMigrationResult {
 }
 
 /**
+ * 产品同步只改脚本绑定：场景/实体/页面的手工静态字段全部以盘上版本为准。
+ * fresh 缺某个 trigger/auto 表示迁移器确认该脚本口应移除；额外旧页只保留非脚本元数据。
+ */
+export function mergeSceneScriptBindings(disk: SceneDef, fresh: SceneDef): SceneDef {
+  const freshEntities = new Map(fresh.entities.map((entity) => [entity.id, entity]))
+  const mergePages = (
+    diskPages: SceneDef['entities'][number]['pages'],
+    freshPages: SceneDef['entities'][number]['pages'],
+  ): SceneDef['entities'][number]['pages'] => {
+    if (!diskPages) return freshPages
+    const length = Math.max(diskPages.length, freshPages?.length ?? 0)
+    const pages = []
+    for (let index = 0; index < length; index++) {
+      const oldPage = diskPages[index]
+      const newPage = freshPages?.[index]
+      if (!oldPage && newPage) {
+        pages.push(newPage)
+        continue
+      }
+      if (!oldPage) continue
+      const page = { ...oldPage }
+      if (newPage?.trigger) {
+        page.trigger = {
+          ...(oldPage.trigger ?? newPage.trigger),
+          stages: newPage.trigger.stages,
+        }
+      } else delete page.trigger
+      if (newPage?.auto) {
+        page.auto = { stages: newPage.auto.stages }
+      } else delete page.auto
+      if (Object.keys(page).length) pages.push(page)
+    }
+    return pages.length ? pages : undefined
+  }
+
+  return {
+    ...disk,
+    onEnter: fresh.onEnter,
+    onTeleport: fresh.onTeleport,
+    entities: disk.entities.map((entity) => {
+      const source = freshEntities.get(entity.id)
+      if (!source) return entity
+      const pages = mergePages(entity.pages, source.pages)
+      const next = { ...entity, ...(pages ? { pages } : {}) }
+      if (!pages) delete next.pages
+      return next
+    }),
+  }
+}
+
+/**
  * 静态层 + 窄扫层一体:
  * - 实体:spriteNum>0 → EntityDef(pixelToGrid 坐标/朝向/hidden/collide/zBias/prop 精灵引用)。
  * - 入口:各源场景 events 里 setPartyPos(raw70)紧邻 loadScene(具名)→ 目标场景 entries[from-sNNN];
@@ -1216,6 +1281,8 @@ export function mapScenesStatic(
   eventsByScene: ReadonlyMap<number, readonly SourceCmd[]>,
   /** 角色本体精灵表(mapSprites 产物)。0x65 换精灵翻译:角色精灵优先复用其 id。 */
   roleSprites: readonly SpriteDef[] = [],
+  /** 物品/法术/敌 AI/角色钩子等不属于场景的执行根。 */
+  globalRoots: readonly ScriptRoot[] = [],
 ): SceneMigrationResult {
   const report: SceneMigrationResult['report'] = {
     scenes: 0,
@@ -1300,10 +1367,52 @@ export function mapScenesStatic(
   // label → 指令数组+下标的全局索引:autoLabel 可指向共享段(events/shared.json,IO 壳以
   // key -1 挂入)或他场景段,勿只查本场景;地址型 label 全局唯一,重复出现内容相同,首见即用。
   const labelAt = new Map<string, { cmds: readonly SourceCmd[]; idx: number }>()
-  for (const cmds of eventsByScene.values())
+  const labelScene = new Map<string, string | undefined>()
+  for (const [sourceScene, cmds] of eventsByScene)
     cmds.forEach((c, i) => {
-      if (c.label && !labelAt.has(c.label)) labelAt.set(c.label, { cmds, idx: i })
+      if (c.label && !labelAt.has(c.label)) {
+        labelAt.set(c.label, { cmds, idx: i })
+        labelScene.set(c.label, sourceScene >= 0 ? sceneSlug(sourceScene) : undefined)
+      }
     })
+  const ownerScene = new Map<string, string>()
+  for (const sourceScene of srcScenes)
+    for (const entity of sourceScene.eventObjects)
+      ownerScene.set(`e${entity.id}`, sceneSlug(sourceScene.sceneId))
+  const allCommands = eventsByScene.get(-2)
+  const addressOf = (label: string | undefined): number | undefined => {
+    const match = label ? /L_(\d+)$/.exec(label) : null
+    return match?.[1] === undefined ? undefined : Number(match[1])
+  }
+  const graphRoots: ScriptRoot[] = []
+  for (const sourceScene of srcScenes) {
+    const owner = sceneSlug(sourceScene.sceneId)
+    for (const label of [sourceScene.onEnterLabel, sourceScene.onTeleportLabel]) {
+      const entry = addressOf(label)
+      if (entry !== undefined) graphRoots.push({ entry, owner, kind: 'scene' })
+    }
+    for (const entity of sourceScene.eventObjects) {
+      for (const label of [entity.triggerLabel, entity.autoLabel]) {
+        const entry = addressOf(label)
+        if (entry !== undefined) graphRoots.push({ entry, owner, kind: 'scene' })
+      }
+    }
+  }
+  const roots = [...graphRoots, ...globalRoots]
+  const graph = allCommands ? analyzeScriptGraph(allCommands, roots) : undefined
+  const graphSceneFor = (label: string): string | undefined => {
+    const address = addressOf(label)
+    const owners = address === undefined ? undefined : graph?.owners[address]
+    if (owners?.size !== 1) return undefined
+    const owner = [...owners][0]
+    return owner?.startsWith('global/') ? undefined : owner
+  }
+  const sccFor = (label: string): string => {
+    const address = addressOf(label)
+    const componentId = address === undefined ? undefined : graph?.componentOf[address]
+    const component = componentId === undefined ? undefined : graph?.components[componentId]
+    return `scc-L-${component?.[0] ?? address ?? label.replace(/^L_/, '')}`
+  }
   const autoHeadFacing = (label: string | undefined): number | undefined => {
     if (!label) return undefined
     const at = labelAt.get(label)
@@ -1374,11 +1483,18 @@ export function mapScenesStatic(
   }
 
   // ── M3a 脚本翻译上下文(触发链/onEnter → 结构化 stages;文本进 locale)──
-  const tctx = {
+  const registry = new ScriptRegistry(
+    (label, owner) =>
+      (owner ? ownerScene.get(owner) : undefined) ?? graphSceneFor(label) ?? labelScene.get(label),
+    undefined,
+    sccFor,
+  )
+  const tctx: TranslateCtx = {
     labelAt,
     locale: {} as Record<string, string>,
     report: emptyTranslateReport(),
     spriteIdForNum,
+    registry,
   }
   /** 原版 triggerMode → 触发口:1-3 = 按键交互(range=mode),4-8 = 走近自动(range=mode-4)。 */
   const triggerOf = (eo: SourceEventObject) => {
@@ -1442,7 +1558,7 @@ export function mapScenesStatic(
     }
   }
 
-  const scenes: SceneDef[] = srcScenes.map((sc) => {
+  let scenes: SceneDef[] = srcScenes.map((sc) => {
     const slug = sceneSlug(sc.sceneId)
     const entities = []
     for (const eo of sc.eventObjects) {
@@ -1527,15 +1643,87 @@ export function mapScenesStatic(
       ...(onTeleport ? { onTeleport } : {}),
     })
   })
-  propagateBattleFieldDefaults(scenes, report)
   resolveSceneStagePatches(scenes, tctx)
+  scenes = applyPalScriptOverlays(scenes)
+  // 0x6D 追加的新段也要参与 battle marker bake 与默认传播。
+  for (let i = 0; i < scenes.length; i++) scenes[i] = finalizeBattleConfig(scenes[i]!)
+  propagateBattleFieldDefaults(scenes, report, registry)
+
+  for (let i = 0; i < scenes.length; i++) scenes[i] = externalizeSceneScripts(scenes[i]!, registry)
+  const library = registry.build()
+
+  const predecessorCount = new Map<number, number>()
+  for (const edge of graph?.edges ?? [])
+    predecessorCount.set(edge.to, (predecessorCount.get(edge.to) ?? 0) + 1)
+  const ownership = { scene: 0, shared: 0, global: 0, unreachable: 0 }
+  for (const owners of graph?.owners ?? []) {
+    if (owners.size === 0) ownership.unreachable++
+    else if (owners.size > 1) ownership.shared++
+    else if ([...owners][0]?.startsWith('global/')) ownership.global++
+    else ownership.scene++
+  }
+  const selfLoops = new Set(
+    (graph?.edges ?? []).filter((edge) => edge.from === edge.to).map((edge) => edge.from),
+  )
+  const scriptGraphReport: SceneMigrationResult['scriptGraphReport'] = {
+    commands: allCommands?.length ?? 0,
+    roots: roots.length,
+    globalRoots: globalRoots.length,
+    edges: {
+      execution: graph?.edges.filter((edge) => edge.kind === 'execution').length ?? 0,
+      binding: graph?.edges.filter((edge) => edge.kind === 'binding').length ?? 0,
+      recovery: graph?.edges.filter((edge) => edge.kind === 'recovery').length ?? 0,
+    },
+    components: graph?.components.length ?? 0,
+    cyclicComponents:
+      graph?.components.filter((component) => component.length > 1 || selfLoops.has(component[0]!)).length ?? 0,
+    ownership,
+    topPredecessors: [...predecessorCount]
+      .map(([entry, count]) => ({ entry, count }))
+      .sort((a, b) => b.count - a.count || a.entry - b.entry)
+      .slice(0, 20),
+  }
 
   return {
     scenes,
+    scriptIndex: library.index,
+    scriptChunks: library.chunks,
     sprites: [...spriteDefs.values()],
     scriptLocale: tctx.locale,
     scriptReport: tctx.report,
+    scriptGraphReport,
     report,
+  }
+}
+
+/** scene 只保留持久 stage 壳；每个根体进入 scene chunk，避免场景 JSON 重复脚本树。 */
+function externalizeSceneScripts(scene: SceneDef, registry: ScriptRegistry): SceneDef {
+  const bindStages = (stages: ScriptStage[] | undefined, source: string): ScriptStage[] | undefined =>
+    stages?.map((stage, index) => {
+      const id = `scene/${scene.id}/root/${source}/stage-${index}`
+      const ref = registry.registerRoot(id, stage.body)
+      return { ...stage, body: [{ kind: 'callScript', ref }] }
+    })
+
+  return {
+    ...scene,
+    onEnter: bindStages(scene.onEnter, 'on-enter'),
+    onTeleport: bindStages(scene.onTeleport, 'on-teleport'),
+    entities: scene.entities.map((entity) => ({
+      ...entity,
+      pages: entity.pages?.map((page, pageIndex) => ({
+        ...page,
+        trigger: page.trigger
+          ? {
+              ...page.trigger,
+              stages: bindStages(page.trigger.stages, `entity-${entity.id}/page-${pageIndex}/trigger`)!,
+            }
+          : undefined,
+        auto: page.auto
+          ? { stages: bindStages(page.auto.stages, `entity-${entity.id}/page-${pageIndex}/auto`)! }
+          : undefined,
+      })),
+    })),
   }
 }
 
@@ -1565,6 +1753,7 @@ export function resolveSceneStagePatches(scenes: SceneDef[], tctx: TranslateCtx)
   for (let round = 0; round < 5; round++) {
     const pend: Pending[] = []
     for (const s of scenes) collect(s, pend)
+    for (const body of tctx.registry?.commandBodies() ?? []) collect(body, pend)
     if (!pend.length) return
     const startIdxByKey = new Map<string, number>()
     for (const cmd of pend) {
@@ -1596,6 +1785,7 @@ export function resolveSceneStagePatches(scenes: SceneDef[], tctx: TranslateCtx)
   // 5 轮仍有剩(病理嵌套):上报
   const left: Pending[] = []
   for (const s of scenes) collect(s, left)
+  for (const body of tctx.registry?.commandBodies() ?? []) collect(body, left)
   if (left.length)
     tctx.report.unmigrated['0x6d 嵌套超 5 轮'] =
       (tctx.report.unmigrated['0x6d 嵌套超 5 轮'] ?? 0) + left.length
@@ -1653,9 +1843,11 @@ export function finalizeBattleConfig(scene: SceneDef): SceneDef {
 export function propagateBattleFieldDefaults(
   scenes: SceneDef[],
   report: SceneMigrationResult['report'],
+  registry?: ScriptRegistry,
 ): void {
   const hasBattle = new Set<string>()
   const loads = new Map<string, Set<string>>()
+  const visitedRefs = new Set<string>()
   const walk = (node: unknown, sid: string): void => {
     if (Array.isArray(node)) {
       for (const v of node) walk(v, sid)
@@ -1668,6 +1860,14 @@ export function propagateBattleFieldDefaults(
       let set = loads.get(sid)
       if (!set) loads.set(sid, (set = new Set()))
       set.add(o.scene)
+    }
+    if ((o.kind === 'callScript' || o.kind === 'jumpScript') && o.ref && registry) {
+      const ref = o.ref as { id?: unknown }
+      if (typeof ref.id === 'string' && !visitedRefs.has(`${sid}:${ref.id}`)) {
+        visitedRefs.add(`${sid}:${ref.id}`)
+        const body = registry.bodyFor(ref.id)
+        if (body) walk(body, sid)
+      }
     }
     for (const v of Object.values(o)) walk(v, sid)
   }

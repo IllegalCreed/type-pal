@@ -1,0 +1,195 @@
+{
+  "version": 1,
+  "id": "scene/s010",
+  "scripts": {
+    "scene/s010/L-3308/e191/d-89d21e09": [
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "not",
+          "cond": {
+            "kind": "allFullHp"
+          }
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s010",
+              "id": "scene/s010/L-3320/e191/d-89d21e09"
+            },
+            "self": "e191"
+          }
+        ]
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1196",
+          "speaker": "spk.洪大夫"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1199",
+          "speaker": "spk.洪大夫"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "openShop",
+        "shop": 1,
+        "mode": "buy"
+      }
+    ],
+    "scene/s010/L-3320/e191/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1203",
+          "speaker": "spk.洪大夫"
+        }
+      },
+      {
+        "kind": "revivePartyAll",
+        "tenths": 10
+      },
+      {
+        "kind": "increaseHpMp",
+        "delta": 9999
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1207",
+          "speaker": "spk.洪大夫"
+        }
+      }
+    ],
+    "scene/s010/L-2018/e191/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.714",
+          "speaker": "spk.洪大夫"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "107"
+      }
+    ],
+    "scene/s010/L-2191/e191/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.778",
+          "speaker": "spk.洪大夫",
+          "slot": "top"
+        }
+      }
+    ],
+    "scene/s010/L-2008/e191/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.708",
+          "speaker": "spk.洪大夫"
+        }
+      },
+      {
+        "kind": "increaseHpMp",
+        "delta": 9999
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.712",
+          "speaker": "spk.洪大夫"
+        }
+      }
+    ],
+    "scene/s010/root/entity-e191/page-0/trigger/stage-0": [
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "not",
+          "cond": {
+            "kind": "allFullHp"
+          }
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s010",
+              "id": "scene/s010/L-2008/e191/d-89d21e09"
+            },
+            "self": "e191"
+          }
+        ]
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.705",
+          "speaker": "spk.洪大夫"
+        }
+      }
+    ],
+    "scene/s010/root/entity-e191/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e191",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e191",
+        "frame": 0
+      }
+    ],
+    "scene/s010/root/entity-e192/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s004",
+        "pos": {
+          "col": 137,
+          "row": 59,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s010/root/entity-e193/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1448",
+          "speaker": "spk.居民"
+        }
+      }
+    ]
+  }
+}

@@ -52,12 +52,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s105",
-                    "pos": {
-                      "col": 35,
-                      "row": 19,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2111/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -84,12 +82,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s105",
-                    "pos": {
-                      "col": 41,
-                      "row": -19,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2112/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -115,36 +111,11 @@
               {
                 "body": [
                   {
-                    "kind": "branch",
-                    "cond": {
-                      "kind": "chance",
-                      "percent": 96
-                    },
-                    "then": [
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "down"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "down"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "down"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "down"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2113/page-0/auto/stage-0"
+                    }
                   }
                 ],
                 "next": "advance"
@@ -152,56 +123,11 @@
               {
                 "body": [
                   {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "down"
-                  },
-                  {
-                    "kind": "branch",
-                    "cond": {
-                      "kind": "chance",
-                      "percent": 91
-                    },
-                    "then": [
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "left"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "left"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "left"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "left"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "left"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "left"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "left"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2113/page-0/auto/stage-1"
+                    }
                   }
                 ],
                 "next": "advance"
@@ -209,126 +135,11 @@
               {
                 "body": [
                   {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "left"
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 80
-                  },
-                  {
-                    "kind": "branch",
-                    "cond": {
-                      "kind": "chance",
-                      "percent": 96
-                    },
-                    "then": [
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 80
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "down"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "down"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "down"
-                  },
-                  {
-                    "kind": "branch",
-                    "cond": {
-                      "kind": "chance",
-                      "percent": 93
-                    },
-                    "then": [
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "up"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "up"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "up"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "up"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "up"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "up"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2113/page-0/auto/stage-2"
+                    }
                   }
                 ],
                 "next": "advance"
@@ -336,26 +147,11 @@
               {
                 "body": [
                   {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "up"
-                  },
-                  {
-                    "kind": "branch",
-                    "cond": {
-                      "kind": "chance",
-                      "percent": 91
-                    },
-                    "then": [
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2113",
-                    "dir": "up"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2113/page-0/auto/stage-3"
+                    }
                   }
                 ],
                 "next": 0
@@ -381,36 +177,11 @@
               {
                 "body": [
                   {
-                    "kind": "branch",
-                    "cond": {
-                      "kind": "chance",
-                      "percent": 96
-                    },
-                    "then": [
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "down"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "down"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "down"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "down"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2114/page-0/auto/stage-0"
+                    }
                   }
                 ],
                 "next": "advance"
@@ -418,56 +189,11 @@
               {
                 "body": [
                   {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "down"
-                  },
-                  {
-                    "kind": "branch",
-                    "cond": {
-                      "kind": "chance",
-                      "percent": 91
-                    },
-                    "then": [
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "left"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "left"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "left"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "left"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "left"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "left"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "left"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2114/page-0/auto/stage-1"
+                    }
                   }
                 ],
                 "next": "advance"
@@ -475,126 +201,11 @@
               {
                 "body": [
                   {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "left"
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 80
-                  },
-                  {
-                    "kind": "branch",
-                    "cond": {
-                      "kind": "chance",
-                      "percent": 96
-                    },
-                    "then": [
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 80
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "down"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "down"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "down"
-                  },
-                  {
-                    "kind": "branch",
-                    "cond": {
-                      "kind": "chance",
-                      "percent": 93
-                    },
-                    "then": [
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "up"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "up"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "up"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "up"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "up"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "up"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2114/page-0/auto/stage-2"
+                    }
                   }
                 ],
                 "next": "advance"
@@ -602,26 +213,11 @@
               {
                 "body": [
                   {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "up"
-                  },
-                  {
-                    "kind": "branch",
-                    "cond": {
-                      "kind": "chance",
-                      "percent": 91
-                    },
-                    "then": [
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2114",
-                    "dir": "up"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2114/page-0/auto/stage-3"
+                    }
                   }
                 ],
                 "next": 0
@@ -647,36 +243,11 @@
               {
                 "body": [
                   {
-                    "kind": "branch",
-                    "cond": {
-                      "kind": "chance",
-                      "percent": 96
-                    },
-                    "then": [
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "down"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "down"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "down"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "down"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2115/page-0/auto/stage-0"
+                    }
                   }
                 ],
                 "next": "advance"
@@ -684,56 +255,11 @@
               {
                 "body": [
                   {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "down"
-                  },
-                  {
-                    "kind": "branch",
-                    "cond": {
-                      "kind": "chance",
-                      "percent": 91
-                    },
-                    "then": [
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "left"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "left"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "left"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "left"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "left"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "left"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "left"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2115/page-0/auto/stage-1"
+                    }
                   }
                 ],
                 "next": "advance"
@@ -741,126 +267,11 @@
               {
                 "body": [
                   {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "left"
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 80
-                  },
-                  {
-                    "kind": "branch",
-                    "cond": {
-                      "kind": "chance",
-                      "percent": 96
-                    },
-                    "then": [
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 80
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "down"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "down"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "down"
-                  },
-                  {
-                    "kind": "branch",
-                    "cond": {
-                      "kind": "chance",
-                      "percent": 93
-                    },
-                    "then": [
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "right"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "up"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "up"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "up"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "up"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "up"
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "up"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2115/page-0/auto/stage-2"
+                    }
                   }
                 ],
                 "next": "advance"
@@ -868,26 +279,11 @@
               {
                 "body": [
                   {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "up"
-                  },
-                  {
-                    "kind": "branch",
-                    "cond": {
-                      "kind": "chance",
-                      "percent": 91
-                    },
-                    "then": [
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "stepEntity",
-                    "entity": "e2115",
-                    "dir": "up"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2115/page-0/auto/stage-3"
+                    }
                   }
                 ],
                 "next": 0
@@ -913,7 +309,43 @@
           "speed": 8
         },
         "respawnSeconds": 80
-      }
+      },
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2116/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2116/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2117",
@@ -931,7 +363,43 @@
           "speed": 8
         },
         "respawnSeconds": 80
-      }
+      },
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2117/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2117/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2118",
@@ -949,7 +417,43 @@
           "speed": 4
         },
         "respawnSeconds": 80
-      }
+      },
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2118/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2118/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2119",
@@ -967,7 +471,43 @@
           "speed": 8
         },
         "respawnSeconds": 80
-      }
+      },
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2119/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2119/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2120",
@@ -985,7 +525,43 @@
           "speed": 8
         },
         "respawnSeconds": 80
-      }
+      },
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2120/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2120/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2121",
@@ -1003,7 +579,43 @@
           "speed": 4
         },
         "respawnSeconds": 80
-      }
+      },
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2121/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s113",
+                      "id": "scene/s113/root/entity-e2121/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "battleFieldId": 7,

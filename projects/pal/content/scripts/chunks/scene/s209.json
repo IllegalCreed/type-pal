@@ -1,0 +1,299 @@
+{
+  "version": 1,
+  "id": "scene/s209",
+  "scripts": {
+    "scene/s209/root/entity-e3564/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s208",
+        "pos": {
+          "col": 86,
+          "row": 14,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s209/root/entity-e3565/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s208",
+        "pos": {
+          "col": 66,
+          "row": 6,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s209/root/entity-e3566/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s208",
+        "pos": {
+          "col": 85,
+          "row": 39,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s209/root/entity-e3567/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s208",
+        "pos": {
+          "col": 66,
+          "row": 24,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s209/root/entity-e3568/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s208",
+        "pos": {
+          "col": 81,
+          "row": 21,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s209/root/entity-e3569/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10607",
+          "speaker": "spk.当铺老板"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "openShop",
+        "shop": 0,
+        "mode": "sell"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10610",
+          "speaker": "spk.当铺老板"
+        }
+      }
+    ],
+    "scene/s209/root/entity-e3570/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10613",
+          "speaker": "spk.老板"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "openShop",
+        "shop": 17,
+        "mode": "buy"
+      }
+    ],
+    "scene/s209/root/entity-e3571/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10616",
+          "speaker": "spk.药铺老板"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "openShop",
+        "shop": 19,
+        "mode": "buy"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10618",
+          "speaker": "spk.药铺老板"
+        }
+      }
+    ],
+    "scene/s209/root/entity-e3572/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10621",
+          "speaker": "spk.顾客"
+        }
+      }
+    ],
+    "scene/s209/root/entity-e3573/page-0/trigger/stage-0": [
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10624",
+          "speaker": "spk.妻"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10629",
+          "speaker": "spk.夫"
+        }
+      }
+    ],
+    "scene/s209/root/entity-e3573/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3573",
+        "facing": "left"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3573",
+        "frame": 0
+      }
+    ],
+    "scene/s209/root/entity-e3574/page-0/trigger/stage-0": [
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10624",
+          "speaker": "spk.妻"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10629",
+          "speaker": "spk.夫"
+        }
+      }
+    ],
+    "scene/s209/root/entity-e3574/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e3574",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e3574",
+        "frame": 0
+      }
+    ],
+    "scene/s209/root/entity-e3575/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12496",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "111"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3575",
+        "state": 0
+      }
+    ],
+    "scene/s209/root/entity-e3576/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12495",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "131"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3576",
+        "state": 0
+      }
+    ],
+    "scene/s209/root/entity-e3577/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12469",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveMoney",
+        "delta": 300
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3577",
+        "state": 0
+      }
+    ],
+    "scene/s209/root/entity-e3578/page-0/trigger/stage-0": [
+      {
+        "kind": "playSound",
+        "soundId": 78
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12513",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "209"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e3578",
+        "state": 0
+      }
+    ]
+  }
+}

@@ -53,4 +53,10 @@ describe('fsaSource', () => {
   test('缺文件 → 抛(NotFound 透传)', async () => {
     await expect(fsaSource(dir).readText('nope.json')).rejects.toThrow()
   })
+
+  test('已取消读取立即抛 AbortError', async () => {
+    const ac = new AbortController()
+    ac.abort()
+    await expect(fsaSource(dir).readJson('manifest.json', ac.signal)).rejects.toMatchObject({ name: 'AbortError' })
+  })
 })

@@ -20,6 +20,8 @@ import type {
   Locale,
   OwnMap,
   SceneDef,
+  ScriptIndexV1,
+  ScriptChunkV1,
   SkillDataMap,
   SpriteDef,
   TilesetDef,
@@ -33,10 +35,12 @@ import {
   validateScenes,
   validateSkills,
   validateSprites,
+  checkScriptIndex,
 } from '@type-pal/content'
 import type { AssetBase } from './assets.js'
 import { loadOwnMap } from './assets.js'
 import { type FileSource, httpSource } from './file-source.js'
+import { ScriptChunkStore } from './script-chunk-store.js'
 
 /** 加载完成的工程数据核(纯组装产物,不含 IO 源;assembleProject 返回它)。 */
 export interface LoadedProjectCore {
@@ -73,11 +77,14 @@ export interface LoadedProjectCore {
   tilesets: TilesetDef[]
   /** 工程资源根 + 子目录(assets.ts load* 用;来自 manifest.assets)。 */
   assetBase: AssetBase
+  /** 可选分片脚本索引；不含 Command[]。 */
+  scriptIndex?: ScriptIndexV1
 }
 
 /** 运行期工程对象(main.ts / 编辑器消费):数据核 + 读取源(loadSceneDef/素材加载经它)。 */
 export interface LoadedProject extends LoadedProjectCore {
   source: FileSource
+  scriptStore?: ScriptChunkStore
 }
 
 /** content JSON 输入(assembleProject 的纯参,便于单测喂 fixture)。 */
@@ -105,6 +112,7 @@ export interface ContentJsons {
   shops?: unknown
   /** tileset 注册表(可选,W7B;缺 → 空)。 */
   tilesets?: unknown
+  scripts?: unknown
 }
 
 function indexById<T extends { id: string }>(arr: T[]): Record<string, T> {
@@ -141,6 +149,10 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
   for (const p of poisonList) poisonsById[p.id] = p
   const ambiences = Array.isArray(jsons.ambiences) ? (jsons.ambiences as AmbienceDef[]) : []
   const shops = Array.isArray(jsons.shops) ? (jsons.shops as ShopDef[]) : []
+  const scriptIndex = jsons.scripts === undefined ? undefined : (() => {
+    checkScriptIndex(jsons.scripts)
+    return jsons.scripts
+  })()
 
   if (!entryScene || entryScene.id !== manifest.entryScene)
     throw new Error(
@@ -171,6 +183,7 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
     ambiences,
     shops,
     tilesets,
+    scriptIndex,
     assetBase: (() => {
       // 素材路径**原样用**:相对(如 "assets/extracted/data" / "assets")的根由 FileSource 提供
       // ——httpSource 的 baseUrl=projects/<id>(dev/种子),fsaSource 是工程夹(本地克隆);
@@ -201,12 +214,19 @@ function scenesDir(manifest: LoadedManifest): string {
   return dir.endsWith('/') ? dir : `${dir}/`
 }
 
+function scriptsDir(manifest: LoadedManifest): string | undefined {
+  const raw = manifest.content.scripts
+  if (!raw) return undefined
+  return raw.endsWith('/') ? raw : `${raw}/`
+}
+
 /** 真加载核:经 FileSource 读 manifest + 表域 + 场景 index + 入口场景 → assembleProject + 挂 source。 */
 export async function loadProjectFrom(source: FileSource): Promise<LoadedProject> {
   const manifest = await source.readJson<LoadedManifest>('manifest.json')
   const content = manifest.content
   const dir = scenesDir(manifest)
-  const [actors, sceneIds, entryScene, skills, items, locale, sprites, enemies, enemyTeams, battleFields, poisons, ambiences, shops, tilesets] =
+  const scriptDir = scriptsDir(manifest)
+  const [actors, sceneIds, entryScene, skills, items, locale, sprites, enemies, enemyTeams, battleFields, poisons, ambiences, shops, tilesets, scripts] =
     await Promise.all([
       source.readJson(content.actors as string),
       source.readJson(`${dir}index.json`),
@@ -222,6 +242,7 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
       content.ambiences ? source.readJson(content.ambiences) : Promise.resolve(undefined),
       content.shops ? source.readJson(content.shops) : Promise.resolve(undefined),
       content.tilesets ? source.readJson(content.tilesets) : Promise.resolve(undefined),
+      scriptDir ? source.readJson(`${scriptDir}index.json`) : Promise.resolve(undefined),
     ])
   const core = assembleProject(manifest, {
     actors,
@@ -238,9 +259,17 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
     ambiences,
     shops,
     tilesets,
+    scripts,
   })
   // source 注入 assetBase(P2:素材加载经它;assembleProject 纯核不碰 IO,故在壳注入)
-  return { ...core, assetBase: { ...core.assetBase, source }, source }
+  return {
+    ...core,
+    assetBase: { ...core.assetBase, source },
+    source,
+    ...(scriptDir && core.scriptIndex
+      ? { scriptStore: new ScriptChunkStore(source, scriptDir, core.scriptIndex) }
+      : {}),
+  }
 }
 
 /** IO 壳:projectId → httpSource('projects/<id>') → loadProjectFrom。签名不变(dev/引擎入口)。 */
@@ -260,6 +289,22 @@ export async function loadSceneDef(project: LoadedProject, sceneId: string): Pro
 /** 编辑器全量路径:按 index 顺序拉全部场景。 */
 export async function loadAllScenes(project: LoadedProject): Promise<SceneDef[]> {
   return Promise.all(project.sceneIds.map((id) => loadSceneDef(project, id)))
+}
+
+/** 编辑器 round-trip 路径：显式读取全部 chunk；游戏运行时绝不调用。 */
+export async function loadAllScriptChunks(project: LoadedProject): Promise<Record<string, ScriptChunkV1>> {
+  const index = project.scriptIndex
+  const dir = scriptsDir(project.manifest)
+  if (!index || !dir) return {}
+  const entries = await Promise.all(
+    Object.entries(index.chunks).map(async ([id, meta]) => {
+      const chunk = await project.source.readJson<ScriptChunkV1>(`${dir}${meta.path}`)
+      if (chunk.version !== 1 || chunk.id !== id || typeof chunk.scripts !== 'object' || chunk.scripts === null)
+        throw new Error(`loadAllScriptChunks: chunk "${id}" 形状或 id 不符`)
+      return [id, chunk] as const
+    }),
+  )
+  return Object.fromEntries(entries)
 }
 
 /**

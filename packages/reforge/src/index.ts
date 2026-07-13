@@ -37,9 +37,9 @@ export { loadSceneMap }
 export type { SceneMapAssets }
 
 // 工程 loader(manifest + content JSON → LoadedProject)
-import { assembleProject, loadAllOwnMaps, loadAllScenes, loadProject, loadProjectFrom, loadSceneDef } from './loader.js'
+import { assembleProject, loadAllOwnMaps, loadAllScenes, loadAllScriptChunks, loadProject, loadProjectFrom, loadSceneDef } from './loader.js'
 import type { ContentJsons, LoadedProject, LoadedProjectCore } from './loader.js'
-export { assembleProject, loadAllOwnMaps, loadAllScenes, loadProject, loadProjectFrom, loadSceneDef }
+export { assembleProject, loadAllOwnMaps, loadAllScenes, loadAllScriptChunks, loadProject, loadProjectFrom, loadSceneDef }
 export type { ContentJsons, LoadedProject, LoadedProjectCore }
 
 // 文件源抽象(内容 + 素材统一「从哪读」;httpSource=dev/种子,fsaSource=本地工程)
@@ -111,6 +111,8 @@ import { evalCondition, ScriptRunner } from './script-runner.js'
 import type { ScriptHost, StepEvent } from './script-runner.js'
 export { evalCondition, ScriptRunner }
 export type { ScriptHost, StepEvent }
+export { MemoryScriptResolver, ScriptChunkStore } from './script-chunk-store.js'
+export type { ResolvedScript, ScriptResolver } from './script-chunk-store.js'
 
 // BGM 播放器(W5:编辑器试听复用;引擎 main.ts 自用同款)
 import { createBgmPlayer } from './audio/bgm.js'

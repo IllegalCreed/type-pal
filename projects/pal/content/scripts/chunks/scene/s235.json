@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "id": "scene/s235",
+  "scripts": {
+    "scene/s235/root/on-teleport/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s229",
+        "pos": {
+          "col": 106,
+          "row": 2,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s235/root/entity-e4224/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s242",
+        "pos": {
+          "col": 49,
+          "row": 8,
+          "height": 0
+        }
+      }
+    ]
+  }
+}

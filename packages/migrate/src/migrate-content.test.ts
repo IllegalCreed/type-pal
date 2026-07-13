@@ -2,7 +2,7 @@
 // 读真实 data/extracted(同 demo-project.test 惯例;migrate 有 node fs)。
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import type { ActorDef, SpriteDef } from '@type-pal/content'
+import type { ActorDef, Command, SceneDef, ScriptChunkV1, SpriteDef } from '@type-pal/content'
 import {
   buildWorld,
   mapRoom,
@@ -19,6 +19,7 @@ import {
   buildLabelIndex,
   type MigrateSources,
   mapScenesStatic,
+  mergeSceneScriptBindings,
   mergeExtras,
   migrateAll,
   type SourceCmd,
@@ -29,6 +30,42 @@ import {
 
 const root = fileURLToPath(new URL('../../../', import.meta.url))
 const readJson = <T>(rel: string): T => JSON.parse(readFileSync(root + rel, 'utf8')) as T
+
+/** 测试观察器：沿 ref 展开行为视图，不改变真实迁移产物的去内联结构。 */
+function materializeScenes(
+  scenes: SceneDef[],
+  chunks: Record<string, ScriptChunkV1>,
+): SceneDef[] {
+  const scripts = new Map(
+    Object.values(chunks).flatMap((chunk) => Object.entries(chunk.scripts)),
+  )
+  const expand = (body: readonly Command[], stack = new Set<string>()): Command[] =>
+    body.flatMap((cmd): Command[] => {
+      if (cmd.kind === 'callScript' || cmd.kind === 'jumpScript') {
+        if (stack.has(cmd.ref.id)) return []
+        const target = scripts.get(cmd.ref.id) ?? []
+        return expand(target, new Set([...stack, cmd.ref.id]))
+      }
+      if (cmd.kind === 'branch')
+        return [{ ...cmd, then: expand(cmd.then, stack), ...(cmd.else ? { else: expand(cmd.else, stack) } : {}) }]
+      return [cmd]
+    })
+  const stages = (value: SceneDef['onEnter']): SceneDef['onEnter'] =>
+    value?.map((stage) => ({ ...stage, body: expand(stage.body) }))
+  return scenes.map((scene) => ({
+    ...scene,
+    onEnter: stages(scene.onEnter),
+    onTeleport: stages(scene.onTeleport),
+    entities: scene.entities.map((entity) => ({
+      ...entity,
+      pages: entity.pages?.map((page) => ({
+        ...page,
+        trigger: page.trigger ? { ...page.trigger, stages: stages(page.trigger.stages)! } : undefined,
+        auto: page.auto ? { stages: stages(page.auto.stages)! } : undefined,
+      })),
+    })),
+  }))
+}
 
 // ── 源(真实 extracted)──
 const allJson = readJson<{ segments: { commands: SourceCmd[] }[] }>(
@@ -396,6 +433,8 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
     ]),
   )
   const byId = new Map(out2.scenes.map((s) => [s.id, s]))
+  const expandedScenes = materializeScenes(out2.scenes, out2.scriptChunks)
+  const expandedById = new Map(expandedScenes.map((s) => [s.id, s]))
 
   test('s001:mapNum/实体数/坐标零换算/触发区跳过', () => {
     const s1 = byId.get('s001')!
@@ -447,7 +486,7 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
     expect(out2.report.facingFromAuto).toBeGreaterThanOrEqual(4)
   })
   test('M3a 门模式折叠:门触发 = 单条 loadScene{scene,pos}(setPartyPos/fadeOut 被吸收)', () => {
-    const doors = out2.scenes
+    const doors = expandedScenes
       .flatMap((s) =>
         s.entities.flatMap((e) => e.pages?.flatMap((p) => p.trigger?.stages ?? []) ?? []),
       )
@@ -465,7 +504,7 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
     expect(folded.length).toBeGreaterThan(doors.length * 0.6)
   })
   test('M3a 对话成组:渔翁(s005)= speaker 行折 speaker 字段,正文行拼一页进 locale', () => {
-    const s5 = byId.get('s005')!
+    const s5 = expandedById.get('s005')!
     const dialogs = s5.entities
       .flatMap(
         (e) => e.pages?.flatMap((p) => p.trigger?.stages.flatMap((st) => st.body) ?? []) ?? [],
@@ -480,7 +519,7 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
   })
   test('M3c 立绘:对话样式 op 的 arg0 → DialogueLine.portrait(top→左 / bottom→右;用户实测漏显回归)', () => {
     // 全量对话(含 onEnter/触发)扫立绘
-    const allDialogs = out2.scenes
+    const allDialogs = expandedScenes
       .flatMap((s) => [
         ...(s.onEnter ?? []).flatMap((st) => st.body),
         ...s.entities.flatMap(
@@ -502,12 +541,12 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
     expect(allDialogs.every((d) => d.line.slot !== 'narration' || !d.line.portrait)).toBe(true)
   })
   test('M3a stages:存在 advance 多段触发与 reset 回跳;onEnter 翻译含 playMusic', () => {
-    const allStages = out2.scenes.flatMap((s) =>
+    const allStages = expandedScenes.flatMap((s) =>
       s.entities.flatMap((e) => e.pages?.flatMap((p) => p.trigger?.stages ?? []) ?? []),
     )
     expect(allStages.some((st) => st.next === 'advance')).toBe(true)
     expect(allStages.some((st) => typeof st.next === 'number')).toBe(true)
-    const s4 = byId.get('s004')!
+    const s4 = expandedById.get('s004')!
     expect(s4.onEnter?.length).toBeGreaterThan(0)
     expect(s4.onEnter![0]!.body.some((c) => c.kind === 'playMusic' && c.musicId === 49)).toBe(true)
     // 覆盖统计存在;跳转族截断如实上报
@@ -523,7 +562,7 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
         [-1, readShared()],
       ]),
     )
-    const s7 = out.scenes[0]!
+    const s7 = materializeScenes(out.scenes, out.scriptChunks)[0]!
     expect(s7.onTeleport?.length).toBeGreaterThan(0)
     // 门模式折叠:出口脚本核心是一条 loadScene(回上层/洞口)
     const hasLoad = s7.onTeleport!.some((st) => st.body.some((c) => c.kind === 'loadScene'))
@@ -533,7 +572,7 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
   })
   test('M3a 0xFFFF 自指:setEntityState(0xFFFF) → 属主实体(拾取消失例)', () => {
     // 全场景搜:某实体的触发脚本里 setEntityState 指向自己(原版拾取 = 0x49[0xFFFF,0] 自灭)
-    const selfVanish = out2.scenes
+    const selfVanish = expandedScenes
       .flatMap((s) => s.entities)
       .some((e) =>
         e.pages?.[0]?.trigger?.stages.some((st) =>
@@ -542,7 +581,7 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
       )
     expect(selfVanish).toBe(true)
     // 字面 e65535 不应存在
-    const literal = out2.scenes
+    const literal = expandedScenes
       .flatMap((s) => s.entities)
       .some((e) =>
         e.pages?.[0]?.trigger?.stages.some((st) =>
@@ -587,5 +626,62 @@ describe('M1d · 投掷效果(scriptOnThrow → ThrowSpec)', () => {
     expect(byId.get('138')!.throw!.effects).toEqual([{ kind: 'applyPoison', poisonId: '555' }])
     // 剩余 pendingThrow 仅相克 use 链(0x5D/0x2B 以毒攻毒),非六大毒药投掷
     expect(out.report.pendingThrow.every((p) => p.reason.includes('相克 use'))).toBe(true)
+  })
+})
+
+describe('M3 写盘白名单', () => {
+  test('只替换脚本 stages，保留实体与页面静态字段', () => {
+    const disk: SceneDef = {
+      id: 's001',
+      map: { reuseOriginalMap: 1 },
+      entry: { pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
+      entities: [{
+        id: 'e1',
+        pos: { col: 3, row: 4, height: 0 },
+        zone: true,
+        collide: true,
+        pages: [{
+          state: 7,
+          trigger: {
+            on: 'interact',
+            range: 3,
+            stages: [{ body: [{ kind: 'playSound', soundId: 1 }] }],
+          },
+          auto: { stages: [{ body: [{ kind: 'wait', ms: 100 }] }] },
+        }, {
+          state: 9,
+          trigger: { on: 'touch', stages: [{ body: [{ kind: 'playSound', soundId: 9 }] }] },
+        }],
+      }],
+      onEnter: [{ body: [{ kind: 'playSound', soundId: 2 }] }],
+    }
+    const ref = { chunk: 'scene/s001', id: 'scene/s001/root' }
+    const fresh: SceneDef = {
+      ...disk,
+      map: { reuseOriginalMap: 99 },
+      entities: [{
+        id: 'e1',
+        pos: { col: 99, row: 99, height: 0 },
+        zone: true,
+        pages: [{
+          trigger: { on: 'touch', range: 0, stages: [{ body: [{ kind: 'callScript', ref }] }] },
+        }],
+      }],
+      onEnter: [{ body: [{ kind: 'callScript', ref }] }],
+    }
+
+    const merged = mergeSceneScriptBindings(disk, fresh)
+    expect(merged.map).toEqual(disk.map)
+    expect(merged.entities[0]!.pos).toEqual(disk.entities[0]!.pos)
+    expect(merged.entities[0]!.collide).toBe(true)
+    expect(merged.entities[0]!.pages?.[0]?.state).toBe(7)
+    expect(merged.entities[0]!.pages?.[0]?.trigger).toEqual({
+      on: 'interact',
+      range: 3,
+      stages: [{ body: [{ kind: 'callScript', ref }] }],
+    })
+    expect(merged.entities[0]!.pages?.[0]?.auto).toBeUndefined()
+    expect(merged.entities[0]!.pages?.[1]).toEqual({ state: 9 })
+    expect(merged.onEnter).toEqual(fresh.onEnter)
   })
 })

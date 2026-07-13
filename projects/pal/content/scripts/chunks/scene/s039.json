@@ -1,0 +1,331 @@
+{
+  "version": 1,
+  "id": "scene/s039",
+  "scripts": {
+    "scene/s039/L-38724/e634/d-89d21e09": [
+      {
+        "kind": "wait",
+        "ms": 120
+      },
+      {
+        "kind": "playSound",
+        "soundId": 79
+      },
+      {
+        "kind": "wait",
+        "ms": 240
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 61
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s039",
+              "id": "scene/s039/L-38724/e634/d-89d21e09"
+            },
+            "self": "e634"
+          }
+        ]
+      },
+      {
+        "kind": "wait",
+        "ms": 80
+      },
+      {
+        "kind": "playSound",
+        "soundId": 67
+      },
+      {
+        "kind": "wait",
+        "ms": 640
+      }
+    ],
+    "scene/s039/root/on-enter/stage-0": [
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 112,
+          "row": 11,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s039/root/entity-e632/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s042",
+        "pos": {
+          "col": 167,
+          "row": 57,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s039/root/entity-e633/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3266",
+          "speaker": "spk.林月如",
+          "slot": "top",
+          "portrait": {
+            "icon": 21,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3269",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 2,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3271",
+          "speaker": "spk.林月如",
+          "slot": "top",
+          "portrait": {
+            "icon": 22,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3275",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3279",
+          "speaker": "spk.林月如",
+          "slot": "top",
+          "portrait": {
+            "icon": 21,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3281",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 6,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3283",
+          "speaker": "spk.林月如",
+          "slot": "top",
+          "portrait": {
+            "icon": 21,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3288",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3291",
+          "speaker": "spk.林月如",
+          "slot": "top",
+          "portrait": {
+            "icon": 21,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3293",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e633",
+        "facing": "left"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e633",
+        "frame": 0
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3297",
+          "speaker": "spk.林月如",
+          "slot": "top"
+        }
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e633",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e633",
+        "frame": 0
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3299",
+          "speaker": "spk.林月如",
+          "slot": "top",
+          "portrait": {
+            "icon": 21,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3309",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e633",
+        "state": 0
+      },
+      {
+        "kind": "setActorSprite",
+        "actor": "lin-yueru",
+        "sprite": "lin-yueru"
+      },
+      {
+        "kind": "setParty",
+        "members": [
+          "lin-yueru",
+          "li-xiaoyao"
+        ]
+      }
+    ],
+    "scene/s039/root/entity-e634/page-0/auto/stage-0": [
+      {
+        "kind": "wait",
+        "ms": 120
+      },
+      {
+        "kind": "playSound",
+        "soundId": 79
+      },
+      {
+        "kind": "wait",
+        "ms": 240
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 61
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s039",
+              "id": "scene/s039/L-38724/e634/d-89d21e09"
+            },
+            "self": "e634"
+          }
+        ]
+      },
+      {
+        "kind": "wait",
+        "ms": 80
+      },
+      {
+        "kind": "playSound",
+        "soundId": 67
+      },
+      {
+        "kind": "wait",
+        "ms": 640
+      }
+    ]
+  }
+}

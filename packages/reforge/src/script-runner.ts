@@ -12,11 +12,15 @@ import type {
   Facing,
   GridPos,
   ScriptCondition,
+  ScriptRef,
   ScriptStage,
   WalkSpeed,
   WorldScriptState,
 } from '@type-pal/content'
 import { applyStageNext, pixelToGrid, stageIndexFor } from '@type-pal/content'
+import type { ResolvedScript, ScriptResolver } from './script-chunk-store.js'
+
+export type ScriptBinding = ScriptStage[] | ScriptRef
 
 /** 命令的副作用出口 —— main.ts(或测试 fake)实现。所有异步项须响应 signal 取消。 */
 export interface ScriptHost {
@@ -80,8 +84,8 @@ export interface ScriptHost {
   // ── M3c 相机 / 页切换 ──
   cameraPan(dx: number, dy: number, frames: number): Promise<void>
   cameraSnap(to?: GridPos): void
-  setEntityAuto(entity: string, stages: ScriptStage[]): void
-  setEntityTrigger(entity: string, stages: ScriptStage[]): void
+  setEntityAuto(entity: string, script: ScriptBinding): void
+  setEntityTrigger(entity: string, script: ScriptBinding): void
   setEntityTriggerMode(
     entity: string,
     on: 'interact' | 'touch' | undefined,
@@ -220,6 +224,15 @@ class ScriptStopped extends Error {
   }
 }
 
+class ScriptJump extends Error {
+  constructor(
+    readonly ref: ScriptRef,
+    readonly selfId: string | undefined,
+  ) {
+    super(`jumpScript -> ${ref.chunk}:${ref.id}`)
+  }
+}
+
 /** onStep 上报:path = 嵌套下标链(段/命令下标 + 分支臂段名),编辑器预览高亮用。 */
 export interface StepEvent {
   path: readonly (number | string)[]
@@ -227,6 +240,8 @@ export interface StepEvent {
 }
 
 export class ScriptRunner {
+  private static readonly MAX_CALL_DEPTH = 128
+  private callDepth = 0
   /** 当前是否有脚本在跑(main.ts 用于冻结探索输入 + 触发防重入)。 */
   running = false
   /**
@@ -246,10 +261,10 @@ export class ScriptRunner {
     private readonly world: WorldScriptState,
     private readonly signal: AbortSignal,
     private readonly random: () => number = Math.random,
+    private readonly resolver?: ScriptResolver,
   ) {}
 
-  /** 顺序执行一段命令体。path = 本段在脚本树中的位置前缀(预览高亮;缺省根)。 */
-  async run(body: readonly Command[], path: readonly (number | string)[] = []): Promise<void> {
+  private async runBody(body: readonly Command[], path: readonly (number | string)[]): Promise<void> {
     for (let i = 0; i < body.length; i++) {
       const cmd = body[i]!
       throwIfAborted(this.signal)
@@ -265,6 +280,89 @@ export class ScriptRunner {
         await this.host.wait(this.paceMs)
         throwIfAborted(this.signal)
       }
+    }
+  }
+
+  /** 每次尾转移至少让出一个宏任务，纯同步 jump 环也不能占满主线程。 */
+  private async yieldForJump(): Promise<void> {
+    await new Promise<void>((resolve, reject) => {
+      const done = (): void => {
+        this.signal.removeEventListener('abort', abort)
+        resolve()
+      }
+      const abort = (): void => {
+        clearTimeout(timer)
+        reject(new DOMException('script aborted', 'AbortError'))
+      }
+      const timer = setTimeout(done, 0)
+      this.signal.addEventListener('abort', abort, { once: true })
+      if (this.signal.aborted) abort()
+    })
+  }
+
+  private requireResolver(ref: ScriptRef): ScriptResolver {
+    if (!this.resolver)
+      throw new Error(`ScriptRunner: 无 resolver，无法解析 ${ref.chunk}:${ref.id}`)
+    return this.resolver
+  }
+
+  private async runLoop(
+    body: readonly Command[],
+    path: readonly (number | string)[],
+    initialLease?: ResolvedScript,
+  ): Promise<void> {
+    let currentBody = body
+    let currentPath = path
+    let lease = initialLease
+    try {
+      while (true) {
+        try {
+          await this.runBody(currentBody, currentPath)
+          return
+        } catch (err) {
+          if (!(err instanceof ScriptJump)) throw err
+          lease?.release()
+          lease = undefined
+          await this.yieldForJump()
+          throwIfAborted(this.signal)
+          this.selfId = err.selfId
+          lease = await this.requireResolver(err.ref).resolve(err.ref, this.signal)
+          currentBody = lease.body
+          currentPath = [...path, `jump:${lease.ref.id}`]
+        }
+      }
+    } finally {
+      lease?.release()
+    }
+  }
+
+  /** 顺序执行一段命令体。path = 本段在脚本树中的位置前缀(预览高亮;缺省根)。 */
+  async run(body: readonly Command[], path: readonly (number | string)[] = []): Promise<void> {
+    const previousSelf = this.selfId
+    try {
+      await this.runLoop(body, path)
+    } finally {
+      this.selfId = previousSelf
+    }
+  }
+
+  private async callScript(ref: ScriptRef, selfId: string | undefined, path: readonly (number | string)[]): Promise<void> {
+    if (this.callDepth >= ScriptRunner.MAX_CALL_DEPTH)
+      throw new Error(
+        `ScriptRunner: callScript 调用深度超过 ${ScriptRunner.MAX_CALL_DEPTH}(目标 ${ref.chunk}:${ref.id})`,
+      )
+    const previousSelf = this.selfId
+    const lease = await this.requireResolver(ref).resolve(ref, this.signal)
+    this.callDepth++
+    this.selfId = selfId
+    try {
+      await this.runLoop(lease.body, path, lease)
+    } catch (err) {
+      // 0 号 END 在真实 call 边内只结束 callee；caller 从调用点继续。
+      if (!(err instanceof ScriptStopped)) throw err
+    } finally {
+      this.callDepth--
+      this.selfId = previousSelf
     }
   }
 
@@ -437,9 +535,9 @@ export class ScriptRunner {
 
       case 'branch':
         return evalCondition(cmd.cond, this.world, h.query, this.random)
-          ? this.run(cmd.then, [...path, 'then'])
+          ? this.runBody(cmd.then, [...path, 'then'])
           : cmd.else
-            ? this.run(cmd.else, [...path, 'else'])
+            ? this.runBody(cmd.else, [...path, 'else'])
             : undefined
       case 'moveEntity':
         return h.moveEntity(cmd.entity, cmd.to, cmd.speed)
@@ -461,13 +559,13 @@ export class ScriptRunner {
           musicId: cmd.musicId,
           ...(cmd.choreography ? { choreography: cmd.choreography } : {}),
         })
-        if (r === 'lose' && cmd.onLose) return this.run(cmd.onLose, [...path, 'onLose'])
-        if (r === 'flee' && cmd.onFlee) return this.run(cmd.onFlee, [...path, 'onFlee'])
+        if (r === 'lose' && cmd.onLose) return this.runBody(cmd.onLose, [...path, 'onLose'])
+        if (r === 'flee' && cmd.onFlee) return this.runBody(cmd.onFlee, [...path, 'onFlee'])
         return
       }
       case 'teleportOut': {
         const ok = await h.teleportOut()
-        if (!ok && cmd.onFail) return this.run(cmd.onFail, [...path, 'onFail'])
+        if (!ok && cmd.onFail) return this.runBody(cmd.onFail, [...path, 'onFail'])
         return
       }
       case 'playVideo':
@@ -481,21 +579,25 @@ export class ScriptRunner {
       case 'openShop':
         return h.openShop(cmd.shop, cmd.mode)
       case 'confirm':
-        return (await h.confirm()) ? undefined : this.run(cmd.onNo, [...path, 'onNo'])
+        return (await h.confirm()) ? undefined : this.runBody(cmd.onNo, [...path, 'onNo'])
       case 'cameraPan':
         return h.cameraPan(cmd.dx, cmd.dy, cmd.frames)
       case 'cameraSnap':
         return h.cameraSnap(cmd.to)
       case 'setEntityAuto':
-        return h.setEntityAuto(cmd.entity, cmd.stages)
+        return h.setEntityAuto(cmd.entity, cmd.script ?? cmd.stages)
       case 'setSceneOnTeleport':
         // 0x6D op2:运行时装场景传送出口 → 持久写 world(teleportOut/引路蜂菜单读覆写优先)
-        ;(this.world.onTeleport ??= {})[cmd.scene] = cmd.stages
+        ;(this.world.onTeleport ??= {})[cmd.scene] = cmd.script ?? cmd.stages
         return
       case 'setEntityTrigger':
-        return h.setEntityTrigger(cmd.entity, cmd.stages)
+        return h.setEntityTrigger(cmd.entity, cmd.script ?? cmd.stages)
       case 'setEntityTriggerMode':
         return h.setEntityTriggerMode(cmd.entity, cmd.on, cmd.range)
+      case 'callScript':
+        return this.callScript(cmd.ref, cmd.self ?? this.selfId, [...path, `call:${cmd.ref.id}`])
+      case 'jumpScript':
+        throw new ScriptJump(cmd.ref, cmd.self ?? this.selfId)
       case 'unmigrated':
         return this.runLegacyOp(cmd, h)
     }

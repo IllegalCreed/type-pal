@@ -66,12 +66,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s221",
-                    "pos": {
-                      "col": 62,
-                      "row": -4,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s221",
+                      "id": "scene/s221/root/entity-e3822/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -98,12 +96,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s221",
-                    "pos": {
-                      "col": 107,
-                      "row": 92,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s221",
+                      "id": "scene/s221/root/entity-e3823/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -130,12 +126,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s225",
-                    "pos": {
-                      "col": 85,
-                      "row": 27,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s221",
+                      "id": "scene/s221/root/entity-e3824/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -160,7 +154,43 @@
           "speed": 2
         },
         "respawnSeconds": 80
-      }
+      },
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s221",
+                      "id": "scene/s221/root/entity-e3825/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s221",
+                      "id": "scene/s221/root/entity-e3825/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3826",
@@ -177,19 +207,53 @@
           "speed": 2
         },
         "respawnSeconds": 80
-      }
+      },
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s221",
+                      "id": "scene/s221/root/entity-e3826/page-0/trigger/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "auto": {
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s221",
+                      "id": "scene/s221/root/entity-e3826/page-0/auto/stage-0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "onTeleport": [
     {
       "body": [
         {
-          "kind": "loadScene",
-          "scene": "s215",
-          "pos": {
-            "col": 72,
-            "row": 20,
-            "height": 0
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s221",
+            "id": "scene/s221/root/on-teleport/stage-0"
           }
         }
       ]

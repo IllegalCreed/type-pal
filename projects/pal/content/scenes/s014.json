@@ -47,10 +47,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.1592",
-                      "speaker": "spk.张四哥"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s014",
+                      "id": "scene/s014/root/entity-e201/page-0/trigger/stage-0"
                     }
                   }
                 ],
@@ -59,15 +59,11 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.1594",
-                      "speaker": "spk.张四哥"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s014",
+                      "id": "scene/s014/root/entity-e201/page-0/trigger/stage-1"
                     }
-                  },
-                  {
-                    "kind": "giveItem",
-                    "itemId": "100"
                   }
                 ],
                 "next": "advance"
@@ -75,21 +71,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.1597",
-                      "speaker": "spk.张四哥"
-                    }
-                  },
-                  {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.1601",
-                      "speaker": "spk.李逍遥",
-                      "portrait": {
-                        "icon": 5,
-                        "side": "right"
-                      }
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s014",
+                      "id": "scene/s014/root/entity-e201/page-0/trigger/stage-2"
                     }
                   }
                 ]
@@ -116,12 +101,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s015",
-                    "pos": {
-                      "col": 117,
-                      "row": 91,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s014",
+                      "id": "scene/s014/root/entity-e202/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -147,36 +130,11 @@
               {
                 "body": [
                   {
-                    "kind": "wait",
-                    "ms": 240
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 240
-                  },
-                  {
-                    "kind": "setEntityFacing",
-                    "entity": "e203",
-                    "facing": "down"
-                  },
-                  {
-                    "kind": "setEntityFrame",
-                    "entity": "e203",
-                    "frame": 1
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 360
-                  },
-                  {
-                    "kind": "setEntityFacing",
-                    "entity": "e203",
-                    "facing": "down"
-                  },
-                  {
-                    "kind": "setEntityFrame",
-                    "entity": "e203",
-                    "frame": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s014",
+                      "id": "scene/s014/root/entity-e203/page-0/auto/stage-0"
+                    }
                   }
                 ],
                 "next": 0
@@ -191,64 +149,35 @@
     {
       "body": [
         {
-          "kind": "playMusic",
-          "musicId": 70
-        },
-        {
-          "kind": "setPartyFacing",
-          "facing": "down"
-        },
-        {
-          "kind": "teleportParty",
-          "pos": {
-            "col": 74,
-            "row": 27,
-            "height": 0
-          }
-        },
-        {
-          "kind": "clearDialog"
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.1886",
-            "speaker": "spk.李逍遥",
-            "portrait": {
-              "icon": 1,
-              "side": "right"
-            }
-          }
-        },
-        {
-          "kind": "dialog",
-          "line": {
-            "text": "dlg.1888",
-            "speaker": "spk.张四哥",
-            "slot": "top",
-            "portrait": {
-              "icon": 39,
-              "side": "left"
-            }
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s014",
+            "id": "scene/s014/root/on-enter/stage-0"
           }
         }
       ],
       "next": "advance"
     },
     {
-      "body": []
+      "body": [
+        {
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s014",
+            "id": "scene/s014/root/on-enter/stage-1"
+          }
+        }
+      ]
     }
   ],
   "onTeleport": [
     {
       "body": [
         {
-          "kind": "loadScene",
-          "scene": "s014",
-          "pos": {
-            "col": 74,
-            "row": -14,
-            "height": 0
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s014",
+            "id": "scene/s014/root/on-teleport/stage-0"
           }
         }
       ]

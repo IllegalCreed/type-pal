@@ -45,12 +45,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s186",
-                    "pos": {
-                      "col": 108,
-                      "row": 32,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s178",
+                      "id": "scene/s178/root/entity-e2947/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -77,16 +75,11 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.9774",
-                      "slot": "center"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s178",
+                      "id": "scene/s178/root/entity-e2948/page-0/trigger/stage-0"
                     }
-                  },
-                  {
-                    "kind": "nudgeParty",
-                    "dx": 16,
-                    "dy": 8
                   }
                 ]
               }

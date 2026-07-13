@@ -17,7 +17,8 @@
     "poisons": "content/poisons.json",
     "tilesets": "content/tilesets.json",
     "ambiences": "content/ambiences.json",
-    "shops": "content/shops.json"
+    "shops": "content/shops.json",
+    "scripts": "content/scripts/"
   },
   "assets": {
     "root": "/extracted/data",

@@ -38,12 +38,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s023",
-                    "pos": {
-                      "col": 81,
-                      "row": 36,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s029",
+                      "id": "scene/s029/root/entity-e534/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -71,19 +69,11 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.2422",
-                      "speaker": "spk.当铺老板"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s029",
+                      "id": "scene/s029/root/entity-e535/page-0/trigger/stage-0"
                     }
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "kind": "openShop",
-                    "shop": 0,
-                    "mode": "sell"
                   }
                 ]
               }
@@ -94,14 +84,11 @@
               {
                 "body": [
                   {
-                    "kind": "setEntityFacing",
-                    "entity": "e535",
-                    "facing": "down"
-                  },
-                  {
-                    "kind": "setEntityFrame",
-                    "entity": "e535",
-                    "frame": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s029",
+                      "id": "scene/s029/root/entity-e535/page-0/auto/stage-0"
+                    }
                   }
                 ],
                 "next": 0
@@ -129,105 +116,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.2647",
-                      "speaker": "spk.赌鬼"
-                    }
-                  },
-                  {
-                    "kind": "confirm",
-                    "onNo": [
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.2644",
-                          "speaker": "spk.李逍遥",
-                          "portrait": {
-                            "icon": 1,
-                            "side": "right"
-                          }
-                        }
-                      },
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "giveMoney",
-                    "delta": -50
-                  },
-                  {
-                    "kind": "setEntityTrigger",
-                    "entity": "e537",
-                    "stages": [
-                      {
-                        "body": [
-                          {
-                            "kind": "dialog",
-                            "line": {
-                              "text": "dlg.2654",
-                              "speaker": "spk.居民"
-                            }
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "setEntityAuto",
-                    "entity": "e536",
-                    "stages": [
-                      {
-                        "body": [
-                          {
-                            "kind": "moveEntity",
-                            "entity": "e536",
-                            "to": {
-                              "col": 64,
-                              "row": 16,
-                              "height": 0
-                            },
-                            "speed": "run"
-                          },
-                          {
-                            "kind": "moveEntity",
-                            "entity": "e536",
-                            "to": {
-                              "col": 61,
-                              "row": 16,
-                              "height": 0
-                            },
-                            "speed": "run"
-                          },
-                          {
-                            "kind": "moveEntity",
-                            "entity": "e536",
-                            "to": {
-                              "col": 61,
-                              "row": 20,
-                              "height": 0
-                            },
-                            "speed": "run"
-                          },
-                          {
-                            "kind": "setEntityState",
-                            "entity": "e536",
-                            "state": 0
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.2648",
-                      "speaker": "spk.赌鬼"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s029",
+                      "id": "scene/s029/root/entity-e536/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -256,10 +148,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.2650",
-                      "speaker": "spk.居民"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s029",
+                      "id": "scene/s029/root/entity-e537/page-0/trigger/stage-0"
                     }
                   }
                 ]

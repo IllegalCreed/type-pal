@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "id": "scene/s272",
+  "scripts": {
+    "scene/s272/root/entity-e4713/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s267",
+        "pos": {
+          "col": 100,
+          "row": 22,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s272/root/entity-e4714/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s267",
+        "pos": {
+          "col": 103,
+          "row": 41,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s272/root/entity-e4715/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s267",
+        "pos": {
+          "col": 133,
+          "row": 40,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s272/root/entity-e4716/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12040",
+          "speaker": "spk.老王"
+        }
+      }
+    ],
+    "scene/s272/root/entity-e4716/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e4716",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e4716",
+        "frame": 0
+      }
+    ],
+    "scene/s272/root/entity-e4717/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12043",
+          "speaker": "spk.王婶"
+        }
+      }
+    ],
+    "scene/s272/root/entity-e4718/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12047",
+          "speaker": "spk.来福伯"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12048",
+          "speaker": "spk.来福伯"
+        }
+      }
+    ],
+    "scene/s272/root/entity-e4718/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12050",
+          "speaker": "spk.来福伯"
+        }
+      }
+    ],
+    "scene/s272/root/entity-e4718/page-0/trigger/stage-2": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12054",
+          "speaker": "spk.来福伯"
+        }
+      }
+    ]
+  }
+}

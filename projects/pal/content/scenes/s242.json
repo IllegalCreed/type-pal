@@ -52,12 +52,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s235",
-                    "pos": {
-                      "col": 135,
-                      "row": 27,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s242",
+                      "id": "scene/s242/root/entity-e4293/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -84,12 +82,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s229",
-                    "pos": {
-                      "col": 106,
-                      "row": 2,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s242",
+                      "id": "scene/s242/root/entity-e4294/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -104,12 +100,10 @@
     {
       "body": [
         {
-          "kind": "loadScene",
-          "scene": "s229",
-          "pos": {
-            "col": 106,
-            "row": 2,
-            "height": 0
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s242",
+            "id": "scene/s242/root/on-teleport/stage-0"
           }
         }
       ]

@@ -59,12 +59,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s084",
-                    "pos": {
-                      "col": 49,
-                      "row": 8,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s099",
+                      "id": "scene/s099/root/entity-e1794/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -91,12 +89,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s084",
-                    "pos": {
-                      "col": 54,
-                      "row": 7,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s099",
+                      "id": "scene/s099/root/entity-e1795/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -125,10 +121,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.5140",
-                      "speaker": "spk.居民"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s099",
+                      "id": "scene/s099/root/entity-e1796/page-0/trigger/stage-0"
                     }
                   }
                 ],
@@ -137,10 +133,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.5142",
-                      "speaker": "spk.居民"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s099",
+                      "id": "scene/s099/root/entity-e1796/page-0/trigger/stage-1"
                     }
                   }
                 ]
@@ -168,20 +164,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.5144",
-                      "speaker": "spk.父"
-                    }
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.5147",
-                      "speaker": "spk.女"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s099",
+                      "id": "scene/s099/root/entity-e1797/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -209,20 +195,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.5144",
-                      "speaker": "spk.父"
-                    }
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.5147",
-                      "speaker": "spk.女"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s099",
+                      "id": "scene/s099/root/entity-e1798/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -250,10 +226,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.5149",
-                      "speaker": "spk.小孩"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s099",
+                      "id": "scene/s099/root/entity-e1799/page-0/trigger/stage-0"
                     }
                   }
                 ],
@@ -262,10 +238,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.5151",
-                      "speaker": "spk.小孩"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s099",
+                      "id": "scene/s099/root/entity-e1799/page-0/trigger/stage-1"
                     }
                   }
                 ]

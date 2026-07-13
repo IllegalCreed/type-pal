@@ -60,12 +60,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s102",
-                    "pos": {
-                      "col": 104,
-                      "row": 68,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s105",
+                      "id": "scene/s105/root/entity-e1964/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -92,12 +90,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s084",
-                    "pos": {
-                      "col": 81,
-                      "row": -29,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s105",
+                      "id": "scene/s105/root/entity-e1965/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -124,12 +120,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s113",
-                    "pos": {
-                      "col": 131,
-                      "row": 101,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s105",
+                      "id": "scene/s105/root/entity-e1966/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -156,12 +150,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s113",
-                    "pos": {
-                      "col": 169,
-                      "row": 67,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s105",
+                      "id": "scene/s105/root/entity-e1967/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -176,8 +168,11 @@
     {
       "body": [
         {
-          "kind": "playMusic",
-          "musicId": 8
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s105",
+            "id": "scene/s105/root/on-enter/stage-0"
+          }
         }
       ]
     }

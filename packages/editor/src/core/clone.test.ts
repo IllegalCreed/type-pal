@@ -112,4 +112,30 @@ describe('cloneFromPal', () => {
     const bytes = new Uint8Array(await w.arrayBuffer())
     expect([...bytes]).toEqual([9, 8, 7, 6, 5]) // 写的是解压后的原始字节,不是 gzip
   })
+
+  test('分片脚本工程克隆 index 与全部 chunk', async () => {
+    const scriptsManifest = {
+      ...manifest,
+      content: { ...manifest.content, scripts: 'content/scripts/' },
+    }
+    const index = {
+      version: 1,
+      shards: { shared: 1, global: {} },
+      chunks: { 'scene/s1': { path: 'chunks/scene/s1.json', bytes: 10 } },
+    }
+    const source = memSource({
+      ...seedFiles,
+      'manifest.json': scriptsManifest,
+      'content/scripts/index.json': index,
+      'content/scripts/chunks/scene/s1.json': {
+        version: 1,
+        id: 'scene/s1',
+        scripts: { 'scene/s1/root': [] },
+      },
+    })
+    const { dir, written } = recordingDir()
+    await cloneFromPal(source, dir, () => {})
+    expect(written.has('content/scripts/index.json')).toBe(true)
+    expect(written.has('content/scripts/chunks/scene/s1.json')).toBe(true)
+  })
 })

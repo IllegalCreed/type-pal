@@ -19,6 +19,11 @@ import {
   pixelDeltaToGridDelta,
   pixelToGrid,
   type ScriptStage,
+  type ScriptChunkV1,
+  type ScriptIndexV1,
+  type ScriptRef,
+  deriveScriptChunk,
+  stableScriptHash,
 } from '@type-pal/content'
 import type { SourceCmd } from './source-facts.js'
 import {
@@ -76,6 +81,149 @@ export interface TranslateCtx {
    * 角色本体精灵优先,未注册的补登记 npc-<num>)。缺省 → 0x65 落 unmigrated。
    */
   spriteIdForNum?: (num: number) => string
+  /** M3 分片注册表；生产迁移必须提供，缺省仅供旧 inline 单测/手工窄工具。 */
+  registry?: ScriptRegistry
+}
+
+interface DialogueEntryState {
+  slot?: DialogueLine['slot']
+  portrait?: DialogueLine['portrait']
+  activeSpeaker?: string
+  speakerAwaitingBody?: boolean
+}
+
+interface RegisteredScript {
+  ref: ScriptRef
+  body: Command[]
+  status: 'translating' | 'done'
+}
+
+export interface ScriptRegistryOutput {
+  index: ScriptIndexV1
+  chunks: Record<string, ScriptChunkV1>
+}
+
+/** 翻译期图注册表：同一 label+owner+入口对话态只翻译一次，环只留下 O(1) ref。 */
+export class ScriptRegistry {
+  private readonly scripts = new Map<string, RegisteredScript>()
+
+  constructor(
+    private readonly sceneFor: (label: string, owner: string | undefined) => string | undefined,
+    readonly shards = { shared: 16, global: {} as Record<string, number> },
+    private readonly sharedGroupFor: (label: string) => string = (label) => label.replace(/^L_/, 'L-'),
+  ) {}
+
+  private idFor(label: string, owner: string | undefined, state: DialogueEntryState): string {
+    const scene = this.sceneFor(label, owner)
+    const scope = scene ? `scene/${scene}` : `shared/${this.sharedGroupFor(label)}`
+    const summary = JSON.stringify({
+      slot: state.slot ?? '',
+      portrait: state.portrait ?? null,
+      speaker: state.activeSpeaker ?? '',
+      awaiting: state.speakerAwaitingBody ?? false,
+    })
+    const stateId = stableScriptHash(summary).toString(16).padStart(8, '0')
+    return `${scope}/${label.replace(/^L_/, 'L-')}/${owner ?? 'none'}/d-${stateId}`
+  }
+
+  private refForId(id: string): ScriptRef {
+    const chunk = deriveScriptChunk(id, this.shards)
+    if (!chunk) throw new Error(`ScriptRegistry: 无法为稳定 id 推导 chunk: ${id}`)
+    return { chunk, id }
+  }
+
+  registerTarget(
+    label: string,
+    owner: string | undefined,
+    state: DialogueEntryState,
+    ctx: TranslateCtx,
+  ): ScriptRef {
+    const id = this.idFor(label, owner, state)
+    const hit = this.scripts.get(id)
+    if (hit) return hit.ref
+    const ref = this.refForId(id)
+    const record: RegisteredScript = { ref, body: [], status: 'translating' }
+    this.scripts.set(id, record)
+    const target = ctx.labelAt.get(label)
+    if (!target) {
+      note(ctx, `脚本引用目标缺失 ${label}`)
+      record.body = [{ kind: 'unmigrated', opcode: 0, operands: [], note: `目标缺失 ${label}` }]
+    } else {
+      const translated = walkBody(target.cmds, target.idx, owner, ctx, 0, state)
+      if (translated.term.kind === 'advance' || translated.term.kind === 'reset')
+        note(ctx, '引用目标含段转移(按 end 处理)')
+      record.body = foldBattleConfig(foldDoorPattern(translated.body))
+    }
+    record.status = 'done'
+    return ref
+  }
+
+  registerRoot(id: string, body: Command[]): ScriptRef {
+    const ref = this.refForId(id)
+    const hit = this.scripts.get(id)
+    if (hit) {
+      if (JSON.stringify(hit.body) !== JSON.stringify(body))
+        throw new Error(`ScriptRegistry: root id 冲突 ${id}`)
+      return hit.ref
+    }
+    this.scripts.set(id, { ref, body, status: 'done' })
+    return ref
+  }
+
+  commandBodies(): Command[][] {
+    return [...this.scripts.values()].map((x) => x.body)
+  }
+
+  bodyFor(id: string): Command[] | undefined {
+    return this.scripts.get(id)?.body
+  }
+
+  build(): ScriptRegistryOutput {
+    const grouped = new Map<string, Record<string, Command[]>>()
+    for (const { ref, body, status } of this.scripts.values()) {
+      if (status !== 'done') throw new Error(`ScriptRegistry: 未完成脚本 ${ref.id}`)
+      const scripts = grouped.get(ref.chunk) ?? {}
+      scripts[ref.id] = body
+      grouped.set(ref.chunk, scripts)
+    }
+    const chunks: Record<string, ScriptChunkV1> = {}
+    for (const [chunkId, scripts] of [...grouped].sort(([a], [b]) => a.localeCompare(b))) {
+      const imports = new Set<string>()
+      const visit = (node: unknown): void => {
+        if (Array.isArray(node)) {
+          for (const value of node) visit(value)
+          return
+        }
+        if (!node || typeof node !== 'object') return
+        const value = node as Record<string, unknown>
+        if ((value.kind === 'callScript' || value.kind === 'jumpScript') && value.ref) {
+          const ref = value.ref as ScriptRef
+          if (ref.chunk !== chunkId) imports.add(ref.chunk)
+        }
+        for (const child of Object.values(value)) visit(child)
+      }
+      visit(scripts)
+      chunks[chunkId] = {
+        version: 1,
+        id: chunkId,
+        ...(imports.size ? { imports: [...imports].sort() } : {}),
+        scripts,
+      }
+    }
+    const metas: ScriptIndexV1['chunks'] = {}
+    for (const [id, chunk] of Object.entries(chunks)) {
+      const json = JSON.stringify(chunk)
+      const bytes = new TextEncoder().encode(json).byteLength
+      if (bytes >= 1024 * 1024) throw new Error(`ScriptRegistry: chunk ${id} ${bytes}B 超过 1MiB`)
+      metas[id] = {
+        path: `chunks/${id}.json`,
+        bytes,
+        hash: stableScriptHash(json).toString(16).padStart(8, '0'),
+        ...(chunk.imports?.length ? { imports: chunk.imports } : {}),
+      }
+    }
+    return { index: { version: 1, shards: this.shards, chunks: metas }, chunks }
+  }
 }
 
 /** 尚未结构化的跳转族(census 全清单减去已结构化:0x06/07/0A/1E/20/58/74/79/83/86/94)。
@@ -245,15 +393,16 @@ function walkBody(
   owner: string | undefined,
   ctx: TranslateCtx,
   depth = 0,
+  entryState: DialogueEntryState = {},
 ): { body: Command[]; term: WalkTerm } {
   const body: Command[] = []
   let lastRngChunk = 0 // 0x36 设当前 RNG 序列号,0x37 播放时消费(折叠成 playRng{chunkIdx})
-  let slot: DialogueLine['slot'] | undefined
+  let slot: DialogueLine['slot'] | undefined = entryState.slot
   /** 当前立绘(对话样式 op 的 arg0 = RGM 立绘号;top→左 / bottom→右;0/narration = 无)。 */
-  let portrait: DialogueLine['portrait']
+  let portrait: DialogueLine['portrait'] = entryState.portrait
   /** 姓名牌属于整条 walkBody；同 slot 的 flush/clearDialog 不应把梦话说话人抹掉。 */
-  let activeSpeaker: string | undefined
-  let speakerAwaitingBody = false
+  let activeSpeaker: string | undefined = entryState.activeSpeaker
+  let speakerAwaitingBody = entryState.speakerAwaitingBody ?? false
   /** 对话批:待成组的 showDialog 行。 */
   let batch: { msgIdx: number; text: string }[] = []
   const visited = new Set<number>() // goto 环保护(同数组按下标;跨数组由 steps 总上限兜底)
@@ -311,6 +460,20 @@ function walkBody(
       // B8 后 0x4C 段翻成单条 chasePlayer 即终止,海已排干 → 放开正常内联(环/超长截断兜底)。
       // 提取器把跨场景共享目标改写为 "shared#L_X"(slice.ts rewriteJumps);索引用裸名 → 剥前缀查
       const toName = (c.to ?? '').split('#').pop() ?? ''
+      if (ctx.registry) {
+        if (!toName) {
+          body.push({ kind: 'stopScript' })
+        } else {
+          const ref = ctx.registry.registerTarget(toName, owner, {
+            slot,
+            portrait,
+            activeSpeaker,
+            speakerAwaitingBody,
+          }, ctx)
+          body.push({ kind: 'jumpScript', ref, ...(owner ? { self: owner } : {}) })
+        }
+        return { body, term: { kind: 'cut' } }
+      }
       const target = ctx.labelAt.get(toName)
       if (!target || (target.cmds === at.cmds && visited.has(target.idx))) {
         note(ctx, target ? 'goto 环截断' : `goto 目标缺失`)
@@ -380,6 +543,15 @@ function walkBody(
        *  100%、选"否"照办事)。addr 0/缺 = 原版跳全局 0 号 END = 当场退,臂就是一条 stop。 */
       const inlineArm = (addr: number | undefined): Command[] => {
         if (!addr) return [{ kind: 'stopScript' }]
+        if (ctx.registry) {
+          const ref = ctx.registry.registerTarget(`L_${addr}`, owner, {
+            slot,
+            portrait,
+            activeSpeaker,
+            speakerAwaitingBody,
+          }, ctx)
+          return [{ kind: 'jumpScript', ref, ...(owner ? { self: owner } : {}) }]
+        }
         const memoKey = `L_${addr}|${owner ?? ''}`
         const memo = (ctx.armMemo ??= new Map())
         const hit = memo.get(memoKey)
@@ -862,6 +1034,12 @@ function walkBody(
         // callScript:目标链整段内联(owner 可被 op1 覆盖;memo 防重展)
         flush()
         const callOwner = (o[1] ?? 0) !== 0 ? `e${o[1]}` : owner
+        if (ctx.registry) {
+          const ref = ctx.registry.registerTarget(`L_${o[0]}`, callOwner, {}, ctx)
+          body.push({ kind: 'callScript', ref, ...(callOwner ? { self: callOwner } : {}) })
+          at = { cmds: at.cmds, idx: at.idx + 1 }
+          continue
+        }
         const memoKey = `call:L_${o[0]}|${callOwner ?? ''}`
         const memo = (ctx.armMemo ??= new Map())
         let calleeBody = memo.get(memoKey)
@@ -905,6 +1083,16 @@ function walkBody(
                 : { kind: 'setEntityTrigger', entity: ent, stages: [] },
             )
           } else {
+            if (ctx.registry) {
+              const ref = ctx.registry.registerTarget(`L_${o[1]}`, ent, {}, ctx)
+              body.push(
+                oc === 0x24
+                  ? { kind: 'setEntityAuto', entity: ent, script: ref }
+                  : { kind: 'setEntityTrigger', entity: ent, script: ref },
+              )
+              at = { cmds: at.cmds, idx: at.idx + 1 }
+              continue
+            }
             const sub = translateStages(`L_${o[1]}`, ent, ctx)
             if (sub?.length) {
               body.push(

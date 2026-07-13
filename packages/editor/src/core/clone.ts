@@ -3,10 +3,10 @@
  * 逐文件下载→写(流式,单文件在内存,207MB 不 OOM);素材经 src 绝对透传(种子 httpSource)读。
  * manifest 单独相对化写(assets 指向本地 assets/**),使克隆后经 fsaSource 离线渲染。
  */
-import type { LoadedManifest } from '@type-pal/content'
+import type { LoadedManifest, ScriptIndexV1 } from '@type-pal/content'
 import { decompressGzip, type FileSource } from '@type-pal/reforge'
 import { writeFile } from './project-io.js'
-import { enumerateSeedFiles, type FileList, relativizeManifest, scenesDir } from './seed.js'
+import { enumerateSeedFiles, type FileList, relativizeManifest, scenesDir, scriptsDir } from './seed.js'
 
 /**
  * 素材字节:.rle 是 gzip 压缩(1f8b)—— Chrome(尤其增强保护)会把 gzip 当压缩包**深扫下载**
@@ -30,7 +30,11 @@ export async function cloneFromPal(
   const sceneIds = await seed.readJson<string[]>(`${scenesDir(manifest)}index.json`)
   const assetManifest = await seed.readJson<FileList>('/extracted/asset-manifest.json')
   const bakedManifest = await seed.readJson<FileList>('/baked/baked-manifest.json')
-  const files = enumerateSeedFiles(manifest, sceneIds, assetManifest, bakedManifest)
+  const scriptDir = scriptsDir(manifest)
+  const scriptIndex = scriptDir
+    ? await seed.readJson<ScriptIndexV1>(`${scriptDir}index.json`)
+    : undefined
+  const files = enumerateSeedFiles(manifest, sceneIds, assetManifest, bakedManifest, scriptIndex)
   const total = files.reduce((s, f) => s + f.size, 0)
 
   // 相对化 manifest 单独写(assets 指向本地 assets/**)

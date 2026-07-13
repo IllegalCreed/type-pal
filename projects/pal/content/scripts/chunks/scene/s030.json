@@ -1,0 +1,149 @@
+{
+  "version": 1,
+  "id": "scene/s030",
+  "scripts": {
+    "scene/s030/L-7469/e540/d-5f102105": [
+      {
+        "kind": "unmigrated",
+        "opcode": 0,
+        "operands": [],
+        "note": "目标缺失 L_7469"
+      }
+    ],
+    "scene/s030/L-7477/e540/d-5f102105": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2644",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
+      }
+    ],
+    "scene/s030/root/entity-e538/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s023",
+        "pos": {
+          "col": 71,
+          "row": 36,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s030/root/entity-e539/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2430",
+          "speaker": "spk.药铺老板"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "openShop",
+        "shop": 5,
+        "mode": "buy"
+      }
+    ],
+    "scene/s030/root/entity-e539/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e539",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e539",
+        "frame": 0
+      }
+    ],
+    "scene/s030/root/entity-e540/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2626",
+          "speaker": "spk.少女"
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2630",
+          "speaker": "spk.赵灵儿",
+          "portrait": {
+            "icon": 11,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "confirm",
+        "onNo": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s030",
+              "id": "scene/s030/L-7469/e540/d-5f102105"
+            },
+            "self": "e540"
+          }
+        ]
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "not",
+          "cond": {
+            "kind": "hasMoney",
+            "atLeast": 100
+          }
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s030",
+              "id": "scene/s030/L-7477/e540/d-5f102105"
+            },
+            "self": "e540"
+          }
+        ]
+      },
+      {
+        "kind": "giveMoney",
+        "delta": -100
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2632",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2636",
+          "speaker": "spk.少女",
+          "slot": "top"
+        }
+      }
+    ]
+  }
+}

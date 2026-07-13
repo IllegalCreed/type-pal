@@ -45,12 +45,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s273",
-                    "pos": {
-                      "col": 96,
-                      "row": 72,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s276",
+                      "id": "scene/s276/root/entity-e4733/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -79,26 +77,11 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.11987",
-                      "speaker": "spk.木匠"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s276",
+                      "id": "scene/s276/root/entity-e4734/page-0/trigger/stage-0"
                     }
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.11990",
-                      "speaker": "spk.木匠"
-                    }
-                  },
-                  {
-                    "kind": "openShop",
-                    "shop": 3,
-                    "mode": "buy"
                   }
                 ]
               }
@@ -109,14 +92,11 @@
               {
                 "body": [
                   {
-                    "kind": "setEntityFacing",
-                    "entity": "e4734",
-                    "facing": "right"
-                  },
-                  {
-                    "kind": "setEntityFrame",
-                    "entity": "e4734",
-                    "frame": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s276",
+                      "id": "scene/s276/root/entity-e4734/page-0/auto/stage-0"
+                    }
                   }
                 ],
                 "next": 0

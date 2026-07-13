@@ -45,12 +45,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s034",
-                    "pos": {
-                      "col": 131,
-                      "row": 42,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s033",
+                      "id": "scene/s033/root/entity-e569/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -65,8 +63,11 @@
     {
       "body": [
         {
-          "kind": "setAmbience",
-          "ambience": "night"
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s033",
+            "id": "scene/s033/root/on-enter/stage-0"
+          }
         }
       ]
     }

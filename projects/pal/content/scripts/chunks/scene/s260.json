@@ -1,0 +1,156 @@
+{
+  "version": 1,
+  "id": "scene/s260",
+  "scripts": {
+    "scene/s260/L-35627/e4558/d-89d21e09": [
+      {
+        "kind": "animEntity",
+        "entity": "e4558"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s260",
+          "id": "scene/s260/L-35627/e4558/d-89d21e09"
+        },
+        "self": "e4558"
+      }
+    ],
+    "scene/s260/L-35627/e4559/d-89d21e09": [
+      {
+        "kind": "animEntity",
+        "entity": "e4559"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s260",
+          "id": "scene/s260/L-35627/e4559/d-89d21e09"
+        },
+        "self": "e4559"
+      }
+    ],
+    "scene/s260/L-35627/e4560/d-89d21e09": [
+      {
+        "kind": "animEntity",
+        "entity": "e4560"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s260",
+          "id": "scene/s260/L-35627/e4560/d-89d21e09"
+        },
+        "self": "e4560"
+      }
+    ],
+    "scene/s260/root/on-teleport/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s249",
+        "pos": {
+          "col": 54,
+          "row": 33,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s260/root/entity-e4553/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s249",
+        "pos": {
+          "col": 59,
+          "row": 5,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s260/root/entity-e4554/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s249",
+        "pos": {
+          "col": 59,
+          "row": 17,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s260/root/entity-e4555/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s249",
+        "pos": {
+          "col": 68,
+          "row": -5,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s260/root/entity-e4556/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s249",
+        "pos": {
+          "col": 96,
+          "row": -5,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s260/root/entity-e4557/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s249",
+        "pos": {
+          "col": 102,
+          "row": 29,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s260/root/entity-e4558/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e4558"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s260",
+          "id": "scene/s260/L-35627/e4558/d-89d21e09"
+        },
+        "self": "e4558"
+      }
+    ],
+    "scene/s260/root/entity-e4559/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e4559"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s260",
+          "id": "scene/s260/L-35627/e4559/d-89d21e09"
+        },
+        "self": "e4559"
+      }
+    ],
+    "scene/s260/root/entity-e4560/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e4560"
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s260",
+          "id": "scene/s260/L-35627/e4560/d-89d21e09"
+        },
+        "self": "e4560"
+      }
+    ]
+  }
+}

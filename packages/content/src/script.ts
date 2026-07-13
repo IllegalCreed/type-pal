@@ -8,6 +8,11 @@
 
 import type { GridPos } from './grid.js'
 import type { DialogueLine, Facing } from './index.js'
+import type { ScriptRef } from './script-library.js'
+
+type ScriptBinding =
+  | { stages: ScriptStage[]; script?: never }
+  | { script: ScriptRef; stages?: never }
 
 // ── 条件(M3b 引擎实现;M3a 只定形供 branch 占位)──
 export type ScriptCondition =
@@ -145,9 +150,9 @@ export type Command =
   | { kind: 'cameraSnap'; to?: GridPos } // 绝对跳到格(to)/回正跟随(缺省)
   // 页切换(M3c;原版 0x24/25/40 改脚本入口指针。运行时覆盖,暂不持久 —— 原版存档存指针,
   // clean 版的持久化留给页注册表设计(M4 期);过场局部行为切换不受影响)
-  | { kind: 'setEntityAuto'; entity: string; stages: ScriptStage[] } // 0x24;空 stages = 停用
-  | { kind: 'setSceneOnTeleport'; scene: string; stages: ScriptStage[] } // 0x6D op2:运行时装场景传送出口(血池打完才可走)
-  | { kind: 'setEntityTrigger'; entity: string; stages: ScriptStage[] } // 0x25;触发方式沿用当前
+  | ({ kind: 'setEntityAuto'; entity: string } & ScriptBinding) // 0x24;inline 手写或迁移 ScriptRef
+  | ({ kind: 'setSceneOnTeleport'; scene: string } & ScriptBinding) // 0x6D op2:运行时装场景传送出口
+  | ({ kind: 'setEntityTrigger'; entity: string } & ScriptBinding) // 0x25;触发方式沿用当前
   | { kind: 'setEntityTriggerMode'; entity: string; on?: 'interact' | 'touch'; range?: number } // 0x40;on 缺省=关
   // 定位权威(E6b:显式接管/归还 —— 隐式接管见位移指令;手工演出精细控制用)
   | { kind: 'takeEntity'; entity: string }
@@ -162,6 +167,10 @@ export type Command =
   | { kind: 'setParty'; members: string[] }
   // 控制流(M3b 引擎;schema 先行防返工)
   | { kind: 'branch'; cond: ScriptCondition; then: Command[]; else?: Command[] }
+  /** 受控调用：目标正常结束后返回当前命令体。 */
+  | { kind: 'callScript'; ref: ScriptRef; self?: string }
+  /** 尾转移：目标结束后不返回当前命令体。 */
+  | { kind: 'jumpScript'; ref: ScriptRef; self?: string }
   // 逃生口
   | { kind: 'unmigrated'; opcode: number; operands: number[]; note?: string }
 
@@ -219,7 +228,7 @@ export interface WorldScriptState {
   mapOverride?: Record<string, number>
   /** 场景传送出口覆写(原版 0x6D operand[2] wScriptOnTeleport 运行时改写:键 = sceneId;
    *  随存档持久 —— 赤鬼王血池 s059 打完赤鬼王才装 onTeleport,否则封闭无出口=死锁)。 */
-  onTeleport?: Record<string, ScriptStage[]>
+  onTeleport?: Record<string, ScriptStage[] | ScriptRef>
 }
 
 export function emptyWorldScriptState(): WorldScriptState {
@@ -244,7 +253,20 @@ export function applyStageNext(
 }
 
 // ── 形状守卫(loader/编辑器入口用;递归浅检 kind + 关键字段)──
-function checkCommands(cmds: unknown, path: string): void {
+function checkRef(value: unknown, path: string): void {
+  const ref = value as { chunk?: unknown; id?: unknown } | null
+  if (
+    typeof ref !== 'object'
+    || ref === null
+    || typeof ref.chunk !== 'string'
+    || ref.chunk.length === 0
+    || typeof ref.id !== 'string'
+    || ref.id.length === 0
+  )
+    throw new Error(`${path}: 期望 {chunk,id} ScriptRef`)
+}
+
+export function checkCommands(cmds: unknown, path: string): void {
   if (!Array.isArray(cmds)) throw new Error(`${path}: 期望 Command[]`)
   cmds.forEach((c, i) => {
     if (typeof c !== 'object' || c === null || typeof (c as { kind?: unknown }).kind !== 'string')
@@ -256,6 +278,18 @@ function checkCommands(cmds: unknown, path: string): void {
       checkCommands((c as { then?: unknown }).then, `${path}[${i}].then`)
       const el = (c as { else?: unknown }).else
       if (el !== undefined) checkCommands(el, `${path}[${i}].else`)
+    }
+    if (k === 'callScript' || k === 'jumpScript') checkRef((c as { ref?: unknown }).ref, `${path}[${i}].ref`)
+    if (k === 'setEntityAuto' || k === 'setEntityTrigger' || k === 'setSceneOnTeleport') {
+      const binding = c as { stages?: unknown; script?: unknown }
+      if (binding.script !== undefined) {
+        if (binding.stages !== undefined) throw new Error(`${path}[${i}]: stages 与 script 不能同时存在`)
+        checkRef(binding.script, `${path}[${i}].script`)
+      } else {
+        // 动态换页的 [] 是既有“停用”语义；普通 stage 根仍要求非空。
+        if (!(Array.isArray(binding.stages) && binding.stages.length === 0))
+          checkStages(binding.stages, `${path}[${i}].stages`)
+      }
     }
   })
 }

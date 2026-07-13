@@ -45,12 +45,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s155",
-                    "pos": {
-                      "col": 132,
-                      "row": 43,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s157",
+                      "id": "scene/s157/root/entity-e2640/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -77,12 +75,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s159",
-                    "pos": {
-                      "col": 112,
-                      "row": 74,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s157",
+                      "id": "scene/s157/root/entity-e2641/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -111,10 +107,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.8400",
-                      "speaker": "spk.青衣弟子"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s157",
+                      "id": "scene/s157/root/entity-e2642/page-0/trigger/stage-0"
                     }
                   }
                 ],
@@ -123,20 +119,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.8402",
-                      "speaker": "spk.青衣弟子"
-                    }
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.8404",
-                      "speaker": "spk.青衣弟子"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s157",
+                      "id": "scene/s157/root/entity-e2642/page-0/trigger/stage-1"
                     }
                   }
                 ]
@@ -148,14 +134,11 @@
               {
                 "body": [
                   {
-                    "kind": "setEntityFacing",
-                    "entity": "e2642",
-                    "facing": "right"
-                  },
-                  {
-                    "kind": "setEntityFrame",
-                    "entity": "e2642",
-                    "frame": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s157",
+                      "id": "scene/s157/root/entity-e2642/page-0/auto/stage-0"
+                    }
                   }
                 ],
                 "next": 0
@@ -184,10 +167,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.8408",
-                      "speaker": "spk.青衣弟子"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s157",
+                      "id": "scene/s157/root/entity-e2643/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -199,14 +182,11 @@
               {
                 "body": [
                   {
-                    "kind": "setEntityFacing",
-                    "entity": "e2643",
-                    "facing": "left"
-                  },
-                  {
-                    "kind": "setEntityFrame",
-                    "entity": "e2643",
-                    "frame": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s157",
+                      "id": "scene/s157/root/entity-e2643/page-0/auto/stage-0"
+                    }
                   }
                 ],
                 "next": 0

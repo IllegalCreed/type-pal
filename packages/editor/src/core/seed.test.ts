@@ -71,6 +71,21 @@ describe('enumerateSeedFiles', () => {
     const actors = seed.find((f) => f.rel === 'content/actors.json')
     expect(actors).toMatchObject({ src: 'content/actors.json', kind: 'json' })
   })
+
+  test('scripts 是目录：复制 index 与全部 chunk，不把目录当单文件', () => {
+    const withScripts = {
+      ...manifest,
+      content: { ...manifest.content, scripts: 'content/scripts/' },
+    }
+    const files = enumerateSeedFiles(withScripts, ['s1'], { files: [] }, { files: [] }, {
+      version: 1,
+      shards: { shared: 1, global: {} },
+      chunks: { 'scene/s1': { path: 'chunks/scene/s1.json', bytes: 10 } },
+    })
+    expect(files.map((f) => f.rel)).toContain('content/scripts/index.json')
+    expect(files.map((f) => f.rel)).toContain('content/scripts/chunks/scene/s1.json')
+    expect(files.map((f) => f.rel)).not.toContain('content/scripts/')
+  })
 })
 
 describe('buildBlankProject(W-blank:开箱即玩)', () => {

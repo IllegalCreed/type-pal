@@ -5,7 +5,7 @@
  * enumerateSeedFiles:汇总克隆要拉的**可复制**文件集(内容表 + 场景 + 全部素材);
  * manifest.json 本身走 relativizeManifest 单独写(不在此列)。
  */
-import type { LoadedManifest, OwnMap } from '@type-pal/content'
+import type { LoadedManifest, OwnMap, ScriptIndexV1 } from '@type-pal/content'
 import { buildSeedAssets } from './seed-assets.js'
 
 const SEED_W = 12
@@ -151,6 +151,12 @@ export function scenesDir(m: LoadedManifest): string {
   return dir.endsWith('/') ? dir : `${dir}/`
 }
 
+export function scriptsDir(m: LoadedManifest): string | undefined {
+  const dir = m.content.scripts
+  if (!dir) return undefined
+  return dir.endsWith('/') ? dir : `${dir}/`
+}
+
 /**
  * 克隆要复制的文件集:内容表(manifest.content 各文件,scenes 目录除外)+ scenes index + 每场景
  * + 全部素材(asset-manifest → assets/extracted/;baked-manifest → assets/baked/)。
@@ -160,6 +166,7 @@ export function enumerateSeedFiles(
   sceneIds: string[],
   assetManifest: FileList,
   bakedManifest: FileList,
+  scriptIndex?: ScriptIndexV1,
 ): SeedFile[] {
   const out: SeedFile[] = []
   const json = (rel: string): void => {
@@ -168,13 +175,18 @@ export function enumerateSeedFiles(
 
   // 内容表(scenes 是目录,跳过)
   for (const [key, val] of Object.entries(manifest.content)) {
-    if (key === 'scenes' || typeof val !== 'string') continue
+    if (key === 'scenes' || key === 'scripts' || typeof val !== 'string') continue
     json(val)
   }
   // 场景 index + 每场景
   const dir = scenesDir(manifest)
   json(`${dir}index.json`)
   for (const id of sceneIds) json(`${dir}${id}.json`)
+  const scriptDir = scriptsDir(manifest)
+  if (scriptDir && scriptIndex) {
+    json(`${scriptDir}index.json`)
+    for (const meta of Object.values(scriptIndex.chunks)) json(`${scriptDir}${meta.path}`)
+  }
   // 素材:extracted → assets/extracted/;baked → assets/baked/
   for (const f of assetManifest.files) {
     out.push({ rel: `assets/extracted/${f.path}`, src: `/extracted/${f.path}`, kind: 'binary', size: f.size })

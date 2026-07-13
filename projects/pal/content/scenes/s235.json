@@ -38,12 +38,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s242",
-                    "pos": {
-                      "col": 49,
-                      "row": 8,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s235",
+                      "id": "scene/s235/root/entity-e4224/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -58,12 +56,10 @@
     {
       "body": [
         {
-          "kind": "loadScene",
-          "scene": "s229",
-          "pos": {
-            "col": 106,
-            "row": 2,
-            "height": 0
+          "kind": "callScript",
+          "ref": {
+            "chunk": "scene/s235",
+            "id": "scene/s235/root/on-teleport/stage-0"
           }
         }
       ]

@@ -1,0 +1,166 @@
+{
+  "version": 1,
+  "id": "scene/s029",
+  "scripts": {
+    "scene/s029/L-7477/e536/d-e87ba239": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2644",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
+      }
+    ],
+    "scene/s029/L-7502/e537/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2654",
+          "speaker": "spk.居民"
+        }
+      }
+    ],
+    "scene/s029/L-7492/e536/d-89d21e09": [
+      {
+        "kind": "moveEntity",
+        "entity": "e536",
+        "to": {
+          "col": 64,
+          "row": 16,
+          "height": 0
+        },
+        "speed": "run"
+      },
+      {
+        "kind": "moveEntity",
+        "entity": "e536",
+        "to": {
+          "col": 61,
+          "row": 16,
+          "height": 0
+        },
+        "speed": "run"
+      },
+      {
+        "kind": "moveEntity",
+        "entity": "e536",
+        "to": {
+          "col": 61,
+          "row": 20,
+          "height": 0
+        },
+        "speed": "run"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e536",
+        "state": 0
+      }
+    ],
+    "scene/s029/root/entity-e534/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s023",
+        "pos": {
+          "col": 81,
+          "row": 36,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s029/root/entity-e535/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2422",
+          "speaker": "spk.当铺老板"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "openShop",
+        "shop": 0,
+        "mode": "sell"
+      }
+    ],
+    "scene/s029/root/entity-e535/page-0/auto/stage-0": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e535",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e535",
+        "frame": 0
+      }
+    ],
+    "scene/s029/root/entity-e536/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2647",
+          "speaker": "spk.赌鬼"
+        }
+      },
+      {
+        "kind": "confirm",
+        "onNo": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s029",
+              "id": "scene/s029/L-7477/e536/d-e87ba239"
+            },
+            "self": "e536"
+          }
+        ]
+      },
+      {
+        "kind": "giveMoney",
+        "delta": -50
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e537",
+        "script": {
+          "chunk": "scene/s029",
+          "id": "scene/s029/L-7502/e537/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e536",
+        "script": {
+          "chunk": "scene/s029",
+          "id": "scene/s029/L-7492/e536/d-89d21e09"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2648",
+          "speaker": "spk.赌鬼"
+        }
+      }
+    ],
+    "scene/s029/root/entity-e537/page-0/trigger/stage-0": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2650",
+          "speaker": "spk.居民"
+        }
+      }
+    ]
+  }
+}

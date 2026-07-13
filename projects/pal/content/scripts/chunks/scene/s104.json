@@ -1,0 +1,2645 @@
+{
+  "version": 1,
+  "id": "scene/s104",
+  "scripts": {
+    "scene/s104/L-38733/e1928/d-89d21e09": [
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 93
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "playSound",
+        "soundId": 80
+      },
+      {
+        "kind": "wait",
+        "ms": 640
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 61
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-38733/e1928/d-89d21e09"
+            },
+            "self": "e1928"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 96
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "playSound",
+        "soundId": 74
+      },
+      {
+        "kind": "wait",
+        "ms": 320
+      }
+    ],
+    "scene/s104/L-41075/e1929/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1929/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1929/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1930/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1930/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1930/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1931/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1931/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1931/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1932/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1932/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1932/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1933/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1933/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1933/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1934/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1934/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1934/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1935/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1935/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1935/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1936/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1936/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1936/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1937/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1937/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1937/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1938/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1938/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1938/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1939/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1939/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1939/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1940/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1940/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1940/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1941/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1941/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1941/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1942/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1942/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1942/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1943/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1943/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1943/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1944/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1944/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1944/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1945/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1945/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1945/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1946/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1946/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1946/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1947/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1947/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1947/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1948/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1948/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1948/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1949/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1949/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1949/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1950/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1950/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1950/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1951/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1951/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1951/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1952/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1952/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1952/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1953/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1953/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1953/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-41075/e1954/d-89d21e09": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
+      }
+    ],
+    "scene/s104/L-41073/e1954/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 2
+      }
+    ],
+    "scene/s104/L-41127/e1954/d-89d21e09": [
+      {
+        "kind": "vanishEntity",
+        "seconds": 80
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      }
+    ],
+    "scene/s104/L-36505/e1955/d-89d21e09": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1955",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1955",
+        "frame": 1
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "playSound",
+        "soundId": 78
+      }
+    ],
+    "scene/s104/L-36505/e1956/d-89d21e09": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1956",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1956",
+        "frame": 1
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "playSound",
+        "soundId": 78
+      }
+    ],
+    "scene/s104/L-36505/e1957/d-89d21e09": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1957",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1957",
+        "frame": 1
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "playSound",
+        "soundId": 78
+      }
+    ],
+    "scene/s104/L-36505/e1958/d-89d21e09": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1958",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1958",
+        "frame": 1
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "playSound",
+        "soundId": 78
+      }
+    ],
+    "scene/s104/L-36505/e1959/d-89d21e09": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1959",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1959",
+        "frame": 1
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "playSound",
+        "soundId": 78
+      }
+    ],
+    "scene/s104/L-36505/e1960/d-89d21e09": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1960",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1960",
+        "frame": 1
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "playSound",
+        "soundId": 78
+      }
+    ],
+    "scene/s104/L-36505/e1961/d-89d21e09": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1961",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1961",
+        "frame": 1
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "playSound",
+        "soundId": 78
+      }
+    ],
+    "scene/s104/L-36505/e1962/d-89d21e09": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1962",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1962",
+        "frame": 1
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "playSound",
+        "soundId": 78
+      }
+    ],
+    "scene/s104/L-36505/e1963/d-89d21e09": [
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1963",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1963",
+        "frame": 1
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "playSound",
+        "soundId": 78
+      }
+    ],
+    "scene/s104/root/on-enter/stage-0": [
+      {
+        "kind": "playMusic",
+        "musicId": 82
+      }
+    ],
+    "scene/s104/root/on-teleport/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s103",
+        "pos": {
+          "col": 130,
+          "row": 96,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s104/root/entity-e1925/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s103",
+        "pos": {
+          "col": 76,
+          "row": 30,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s104/root/entity-e1926/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s103",
+        "pos": {
+          "col": 76,
+          "row": 23,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s104/root/entity-e1927/page-0/trigger/stage-0": [
+      {
+        "kind": "loadScene",
+        "scene": "s106",
+        "pos": {
+          "col": 85,
+          "row": -20,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s104/root/entity-e1928/page-0/auto/stage-0": [
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 93
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "playSound",
+        "soundId": 80
+      },
+      {
+        "kind": "wait",
+        "ms": 640
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 61
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-38733/e1928/d-89d21e09"
+            },
+            "self": "e1928"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 96
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "playSound",
+        "soundId": 74
+      },
+      {
+        "kind": "wait",
+        "ms": 320
+      }
+    ],
+    "scene/s104/root/entity-e1929/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 126,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1929/d-89d21e09"
+            },
+            "self": "e1929"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1929/d-89d21e09"
+            },
+            "self": "e1929"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1929/d-89d21e09"
+        },
+        "self": "e1929"
+      }
+    ],
+    "scene/s104/root/entity-e1929/page-0/auto/stage-0": [
+      {
+        "kind": "chasePlayer",
+        "range": 10,
+        "speed": 8
+      }
+    ],
+    "scene/s104/root/entity-e1930/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 133,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1930/d-89d21e09"
+            },
+            "self": "e1930"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1930/d-89d21e09"
+            },
+            "self": "e1930"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1930/d-89d21e09"
+        },
+        "self": "e1930"
+      }
+    ],
+    "scene/s104/root/entity-e1930/page-0/auto/stage-0": [
+      {
+        "kind": "chasePlayer",
+        "range": 6,
+        "speed": 2
+      }
+    ],
+    "scene/s104/root/entity-e1931/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 129,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1931/d-89d21e09"
+            },
+            "self": "e1931"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1931/d-89d21e09"
+            },
+            "self": "e1931"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1931/d-89d21e09"
+        },
+        "self": "e1931"
+      }
+    ],
+    "scene/s104/root/entity-e1931/page-0/auto/stage-0": [
+      {
+        "kind": "chasePlayer",
+        "range": 10,
+        "speed": 8
+      }
+    ],
+    "scene/s104/root/entity-e1932/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 134,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1932/d-89d21e09"
+            },
+            "self": "e1932"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1932/d-89d21e09"
+            },
+            "self": "e1932"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1932/d-89d21e09"
+        },
+        "self": "e1932"
+      }
+    ],
+    "scene/s104/root/entity-e1932/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e1932"
+      }
+    ],
+    "scene/s104/root/entity-e1933/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 130,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1933/d-89d21e09"
+            },
+            "self": "e1933"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1933/d-89d21e09"
+            },
+            "self": "e1933"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1933/d-89d21e09"
+        },
+        "self": "e1933"
+      }
+    ],
+    "scene/s104/root/entity-e1933/page-0/auto/stage-0": [
+      {
+        "kind": "chasePlayer",
+        "range": 10,
+        "speed": 8
+      }
+    ],
+    "scene/s104/root/entity-e1934/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 137,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1934/d-89d21e09"
+            },
+            "self": "e1934"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1934/d-89d21e09"
+            },
+            "self": "e1934"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1934/d-89d21e09"
+        },
+        "self": "e1934"
+      }
+    ],
+    "scene/s104/root/entity-e1934/page-0/auto/stage-0": [
+      {
+        "kind": "chasePlayer",
+        "range": 9,
+        "speed": 4
+      }
+    ],
+    "scene/s104/root/entity-e1935/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 125,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1935/d-89d21e09"
+            },
+            "self": "e1935"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1935/d-89d21e09"
+            },
+            "self": "e1935"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1935/d-89d21e09"
+        },
+        "self": "e1935"
+      }
+    ],
+    "scene/s104/root/entity-e1936/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 122,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1936/d-89d21e09"
+            },
+            "self": "e1936"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1936/d-89d21e09"
+            },
+            "self": "e1936"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1936/d-89d21e09"
+        },
+        "self": "e1936"
+      }
+    ],
+    "scene/s104/root/entity-e1937/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 129,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1937/d-89d21e09"
+            },
+            "self": "e1937"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1937/d-89d21e09"
+            },
+            "self": "e1937"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1937/d-89d21e09"
+        },
+        "self": "e1937"
+      }
+    ],
+    "scene/s104/root/entity-e1938/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 137,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1938/d-89d21e09"
+            },
+            "self": "e1938"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1938/d-89d21e09"
+            },
+            "self": "e1938"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1938/d-89d21e09"
+        },
+        "self": "e1938"
+      }
+    ],
+    "scene/s104/root/entity-e1938/page-0/auto/stage-0": [
+      {
+        "kind": "chasePlayer",
+        "range": 9,
+        "speed": 4
+      }
+    ],
+    "scene/s104/root/entity-e1939/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 97,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1939/d-89d21e09"
+            },
+            "self": "e1939"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1939/d-89d21e09"
+            },
+            "self": "e1939"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1939/d-89d21e09"
+        },
+        "self": "e1939"
+      }
+    ],
+    "scene/s104/root/entity-e1939/page-0/auto/stage-0": [
+      {
+        "kind": "chasePlayer",
+        "range": 10,
+        "speed": 8
+      }
+    ],
+    "scene/s104/root/entity-e1940/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 126,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1940/d-89d21e09"
+            },
+            "self": "e1940"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1940/d-89d21e09"
+            },
+            "self": "e1940"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1940/d-89d21e09"
+        },
+        "self": "e1940"
+      }
+    ],
+    "scene/s104/root/entity-e1940/page-0/auto/stage-0": [
+      {
+        "kind": "chasePlayer",
+        "range": 10,
+        "speed": 8
+      }
+    ],
+    "scene/s104/root/entity-e1941/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 130,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1941/d-89d21e09"
+            },
+            "self": "e1941"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1941/d-89d21e09"
+            },
+            "self": "e1941"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1941/d-89d21e09"
+        },
+        "self": "e1941"
+      }
+    ],
+    "scene/s104/root/entity-e1941/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e1941"
+      }
+    ],
+    "scene/s104/root/entity-e1942/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 94,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1942/d-89d21e09"
+            },
+            "self": "e1942"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1942/d-89d21e09"
+            },
+            "self": "e1942"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1942/d-89d21e09"
+        },
+        "self": "e1942"
+      }
+    ],
+    "scene/s104/root/entity-e1942/page-0/auto/stage-0": [
+      {
+        "kind": "chasePlayer",
+        "range": 10,
+        "speed": 8
+      }
+    ],
+    "scene/s104/root/entity-e1943/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 93,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1943/d-89d21e09"
+            },
+            "self": "e1943"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1943/d-89d21e09"
+            },
+            "self": "e1943"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1943/d-89d21e09"
+        },
+        "self": "e1943"
+      }
+    ],
+    "scene/s104/root/entity-e1944/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 126,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1944/d-89d21e09"
+            },
+            "self": "e1944"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1944/d-89d21e09"
+            },
+            "self": "e1944"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1944/d-89d21e09"
+        },
+        "self": "e1944"
+      }
+    ],
+    "scene/s104/root/entity-e1944/page-0/auto/stage-0": [
+      {
+        "kind": "chasePlayer",
+        "range": 10,
+        "speed": 8
+      }
+    ],
+    "scene/s104/root/entity-e1945/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 135,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1945/d-89d21e09"
+            },
+            "self": "e1945"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1945/d-89d21e09"
+            },
+            "self": "e1945"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1945/d-89d21e09"
+        },
+        "self": "e1945"
+      }
+    ],
+    "scene/s104/root/entity-e1945/page-0/auto/stage-0": [
+      {
+        "kind": "chasePlayer",
+        "range": 9,
+        "speed": 4
+      }
+    ],
+    "scene/s104/root/entity-e1946/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 93,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1946/d-89d21e09"
+            },
+            "self": "e1946"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1946/d-89d21e09"
+            },
+            "self": "e1946"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1946/d-89d21e09"
+        },
+        "self": "e1946"
+      }
+    ],
+    "scene/s104/root/entity-e1946/page-0/auto/stage-0": [
+      {
+        "kind": "chasePlayer",
+        "range": 10,
+        "speed": 8
+      }
+    ],
+    "scene/s104/root/entity-e1947/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 99,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1947/d-89d21e09"
+            },
+            "self": "e1947"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1947/d-89d21e09"
+            },
+            "self": "e1947"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1947/d-89d21e09"
+        },
+        "self": "e1947"
+      }
+    ],
+    "scene/s104/root/entity-e1948/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 133,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1948/d-89d21e09"
+            },
+            "self": "e1948"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1948/d-89d21e09"
+            },
+            "self": "e1948"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1948/d-89d21e09"
+        },
+        "self": "e1948"
+      }
+    ],
+    "scene/s104/root/entity-e1948/page-0/auto/stage-0": [
+      {
+        "kind": "animEntity",
+        "entity": "e1948"
+      }
+    ],
+    "scene/s104/root/entity-e1949/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 129,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1949/d-89d21e09"
+            },
+            "self": "e1949"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1949/d-89d21e09"
+            },
+            "self": "e1949"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1949/d-89d21e09"
+        },
+        "self": "e1949"
+      }
+    ],
+    "scene/s104/root/entity-e1949/page-0/auto/stage-0": [
+      {
+        "kind": "chasePlayer",
+        "range": 10,
+        "speed": 8
+      }
+    ],
+    "scene/s104/root/entity-e1950/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 130,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1950/d-89d21e09"
+            },
+            "self": "e1950"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1950/d-89d21e09"
+            },
+            "self": "e1950"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1950/d-89d21e09"
+        },
+        "self": "e1950"
+      }
+    ],
+    "scene/s104/root/entity-e1951/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 137,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1951/d-89d21e09"
+            },
+            "self": "e1951"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1951/d-89d21e09"
+            },
+            "self": "e1951"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1951/d-89d21e09"
+        },
+        "self": "e1951"
+      }
+    ],
+    "scene/s104/root/entity-e1951/page-0/auto/stage-0": [
+      {
+        "kind": "chasePlayer",
+        "range": 9,
+        "speed": 4
+      }
+    ],
+    "scene/s104/root/entity-e1952/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 94,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1952/d-89d21e09"
+            },
+            "self": "e1952"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1952/d-89d21e09"
+            },
+            "self": "e1952"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1952/d-89d21e09"
+        },
+        "self": "e1952"
+      }
+    ],
+    "scene/s104/root/entity-e1953/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 122,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1953/d-89d21e09"
+            },
+            "self": "e1953"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1953/d-89d21e09"
+            },
+            "self": "e1953"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1953/d-89d21e09"
+        },
+        "self": "e1953"
+      }
+    ],
+    "scene/s104/root/entity-e1953/page-0/auto/stage-0": [
+      {
+        "kind": "chasePlayer",
+        "range": 10,
+        "speed": 8
+      }
+    ],
+    "scene/s104/root/entity-e1954/page-0/trigger/stage-0": [
+      {
+        "kind": "startBattle",
+        "team": 125,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41075/e1954/d-89d21e09"
+            },
+            "self": "e1954"
+          }
+        ],
+        "onFlee": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s104",
+              "id": "scene/s104/L-41073/e1954/d-89d21e09"
+            },
+            "self": "e1954"
+          }
+        ]
+      },
+      {
+        "kind": "jumpScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-41127/e1954/d-89d21e09"
+        },
+        "self": "e1954"
+      }
+    ],
+    "scene/s104/root/entity-e1954/page-0/auto/stage-0": [
+      {
+        "kind": "chasePlayer",
+        "range": 10,
+        "speed": 8
+      }
+    ],
+    "scene/s104/root/entity-e1955/page-0/trigger/stage-0": [
+      {
+        "kind": "callScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-36505/e1955/d-89d21e09"
+        },
+        "self": "e1955"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12411",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "128"
+      }
+    ],
+    "scene/s104/root/entity-e1955/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12222",
+          "slot": "center"
+        }
+      }
+    ],
+    "scene/s104/root/entity-e1956/page-0/trigger/stage-0": [
+      {
+        "kind": "callScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-36505/e1956/d-89d21e09"
+        },
+        "self": "e1956"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12425",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "148",
+        "count": 9
+      }
+    ],
+    "scene/s104/root/entity-e1956/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12222",
+          "slot": "center"
+        }
+      }
+    ],
+    "scene/s104/root/entity-e1957/page-0/trigger/stage-0": [
+      {
+        "kind": "callScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-36505/e1957/d-89d21e09"
+        },
+        "self": "e1957"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12426",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "144"
+      }
+    ],
+    "scene/s104/root/entity-e1957/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12222",
+          "slot": "center"
+        }
+      }
+    ],
+    "scene/s104/root/entity-e1958/page-0/trigger/stage-0": [
+      {
+        "kind": "callScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-36505/e1958/d-89d21e09"
+        },
+        "self": "e1958"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12427",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "147"
+      }
+    ],
+    "scene/s104/root/entity-e1958/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12222",
+          "slot": "center"
+        }
+      }
+    ],
+    "scene/s104/root/entity-e1959/page-0/trigger/stage-0": [
+      {
+        "kind": "callScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-36505/e1959/d-89d21e09"
+        },
+        "self": "e1959"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12428",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "145"
+      }
+    ],
+    "scene/s104/root/entity-e1959/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12222",
+          "slot": "center"
+        }
+      }
+    ],
+    "scene/s104/root/entity-e1960/page-0/trigger/stage-0": [
+      {
+        "kind": "callScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-36505/e1960/d-89d21e09"
+        },
+        "self": "e1960"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12426",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "144"
+      }
+    ],
+    "scene/s104/root/entity-e1960/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12222",
+          "slot": "center"
+        }
+      }
+    ],
+    "scene/s104/root/entity-e1961/page-0/trigger/stage-0": [
+      {
+        "kind": "callScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-36505/e1961/d-89d21e09"
+        },
+        "self": "e1961"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12379",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "152"
+      }
+    ],
+    "scene/s104/root/entity-e1961/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12222",
+          "slot": "center"
+        }
+      }
+    ],
+    "scene/s104/root/entity-e1962/page-0/trigger/stage-0": [
+      {
+        "kind": "callScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-36505/e1962/d-89d21e09"
+        },
+        "self": "e1962"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12405",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "119",
+        "count": 9
+      }
+    ],
+    "scene/s104/root/entity-e1962/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12222",
+          "slot": "center"
+        }
+      }
+    ],
+    "scene/s104/root/entity-e1963/page-0/trigger/stage-0": [
+      {
+        "kind": "callScript",
+        "ref": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-36505/e1963/d-89d21e09"
+        },
+        "self": "e1963"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12374",
+          "slot": "narration"
+        }
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "132"
+      }
+    ],
+    "scene/s104/root/entity-e1963/page-0/trigger/stage-1": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.12222",
+          "slot": "center"
+        }
+      }
+    ]
+  }
+}

@@ -8,7 +8,7 @@
  */
 import type { DialogueLine, Facing, GridPos, SceneDef, ScriptStage } from '@type-pal/content'
 import { emptyWorldScriptState, pixelDeltaToGridDelta } from '@type-pal/content'
-import type { ScriptHost, StepEvent } from '@type-pal/reforge'
+import type { ScriptHost, ScriptResolver, StepEvent } from '@type-pal/reforge'
 import { ScriptRunner } from '@type-pal/reforge'
 
 export interface EntityOverlay {
@@ -87,7 +87,7 @@ export class Playback {
   private gateQueue: (() => void)[] = []
   private timers: { left: number; resolve: () => void }[] = []
 
-  constructor(scene: SceneDef) {
+  constructor(scene: SceneDef, private readonly resolver?: ScriptResolver) {
     this.scene = scene
     this.view = this.freshView()
   }
@@ -173,7 +173,7 @@ export class Playback {
     this.poi = opts?.ownerId ? { kind: 'entity', id: opts.ownerId } : { kind: 'player' }
     const ac = new AbortController()
     this.abort = ac
-    const runner = new ScriptRunner(this.host, emptyWorldScriptState(), ac.signal)
+    const runner = new ScriptRunner(this.host, emptyWorldScriptState(), ac.signal, Math.random, this.resolver)
     runner.onStep = (ev: StepEvent) => {
       this.activePath = ev.path.join('/')
       const p = this.poiOf(ev.cmd as { kind: string; entity?: string })
@@ -432,8 +432,12 @@ export class Playback {
       this.log(`🎥 镜头平移 (${dx},${dy})×${frames}`)
     },
     cameraSnap: (to) => this.log(to ? `🎥 镜头定位 (${to.col},${to.row})` : '🎥 镜头回正'),
-    setEntityAuto: (id, stages) => this.log(`🔁 ${id} 换巡逻脚本(${stages.length} 段)`),
-    setEntityTrigger: (id, stages) => this.log(`🔗 ${id} 换触发脚本(${stages.length} 段)`),
+    setEntityAuto: (id, script) => this.log(
+      Array.isArray(script) ? `🔁 ${id} 换巡逻脚本(${script.length} 段)` : `🔁 ${id} 换巡逻脚本(${script.id})`,
+    ),
+    setEntityTrigger: (id, script) => this.log(
+      Array.isArray(script) ? `🔗 ${id} 换触发脚本(${script.length} 段)` : `🔗 ${id} 换触发脚本(${script.id})`,
+    ),
     setEntityTriggerMode: (id, on, range) =>
       this.log(`🔗 ${id} 触发方式 ${on ?? '关'}${range ?? ''}`),
     startBattle: async (team) => {

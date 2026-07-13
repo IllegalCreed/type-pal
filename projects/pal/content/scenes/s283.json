@@ -45,12 +45,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s281",
-                    "pos": {
-                      "col": 145,
-                      "row": 65,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s283",
+                      "id": "scene/s283/root/entity-e4805/page-0/trigger/stage-0"
                     }
                   }
                 ]

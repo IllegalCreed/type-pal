@@ -40,9 +40,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.5383"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s111",
+                      "id": "scene/s111/root/entity-e2071/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -68,36 +69,11 @@
               {
                 "body": [
                   {
-                    "kind": "wait",
-                    "ms": 240
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 240
-                  },
-                  {
-                    "kind": "setEntityFacing",
-                    "entity": "e2072",
-                    "facing": "down"
-                  },
-                  {
-                    "kind": "setEntityFrame",
-                    "entity": "e2072",
-                    "frame": 1
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 360
-                  },
-                  {
-                    "kind": "setEntityFacing",
-                    "entity": "e2072",
-                    "facing": "down"
-                  },
-                  {
-                    "kind": "setEntityFrame",
-                    "entity": "e2072",
-                    "frame": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s111",
+                      "id": "scene/s111/root/entity-e2072/page-0/auto/stage-0"
+                    }
                   }
                 ],
                 "next": 0
@@ -135,24 +111,11 @@
               {
                 "body": [
                   {
-                    "kind": "moveEntity",
-                    "entity": "e2074",
-                    "to": {
-                      "col": 92,
-                      "row": 17,
-                      "height": 0
-                    },
-                    "speed": "slow"
-                  },
-                  {
-                    "kind": "moveEntity",
-                    "entity": "e2074",
-                    "to": {
-                      "col": 94,
-                      "row": 17,
-                      "height": 0
-                    },
-                    "speed": "slow"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s111",
+                      "id": "scene/s111/root/entity-e2074/page-0/auto/stage-0"
+                    }
                   }
                 ]
               }
@@ -178,24 +141,11 @@
               {
                 "body": [
                   {
-                    "kind": "moveEntity",
-                    "entity": "e2075",
-                    "to": {
-                      "col": 92,
-                      "row": 17,
-                      "height": 0
-                    },
-                    "speed": "slow"
-                  },
-                  {
-                    "kind": "setEntityFacing",
-                    "entity": "e2075",
-                    "facing": "right"
-                  },
-                  {
-                    "kind": "setEntityFrame",
-                    "entity": "e2075",
-                    "frame": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s111",
+                      "id": "scene/s111/root/entity-e2075/page-0/auto/stage-0"
+                    }
                   }
                 ]
               }
@@ -221,24 +171,11 @@
               {
                 "body": [
                   {
-                    "kind": "moveEntity",
-                    "entity": "e2076",
-                    "to": {
-                      "col": 92,
-                      "row": 18,
-                      "height": 0
-                    },
-                    "speed": "slow"
-                  },
-                  {
-                    "kind": "setEntityFacing",
-                    "entity": "e2076",
-                    "facing": "right"
-                  },
-                  {
-                    "kind": "setEntityFrame",
-                    "entity": "e2076",
-                    "frame": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s111",
+                      "id": "scene/s111/root/entity-e2076/page-0/auto/stage-0"
+                    }
                   }
                 ]
               }
@@ -265,10 +202,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.7710",
-                      "speaker": "spk.官兵"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s111",
+                      "id": "scene/s111/root/entity-e2077/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -280,14 +217,11 @@
               {
                 "body": [
                   {
-                    "kind": "setEntityFacing",
-                    "entity": "e2077",
-                    "facing": "down"
-                  },
-                  {
-                    "kind": "setEntityFrame",
-                    "entity": "e2077",
-                    "frame": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s111",
+                      "id": "scene/s111/root/entity-e2077/page-0/auto/stage-0"
+                    }
                   }
                 ],
                 "next": 0
@@ -315,10 +249,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.7710",
-                      "speaker": "spk.官兵"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s111",
+                      "id": "scene/s111/root/entity-e2078/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -330,14 +264,11 @@
               {
                 "body": [
                   {
-                    "kind": "setEntityFacing",
-                    "entity": "e2078",
-                    "facing": "down"
-                  },
-                  {
-                    "kind": "setEntityFrame",
-                    "entity": "e2078",
-                    "frame": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s111",
+                      "id": "scene/s111/root/entity-e2078/page-0/auto/stage-0"
+                    }
                   }
                 ],
                 "next": 0
@@ -365,10 +296,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.7712",
-                      "speaker": "spk.官兵"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s111",
+                      "id": "scene/s111/root/entity-e2079/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -380,14 +311,11 @@
               {
                 "body": [
                   {
-                    "kind": "setEntityFacing",
-                    "entity": "e2079",
-                    "facing": "down"
-                  },
-                  {
-                    "kind": "setEntityFrame",
-                    "entity": "e2079",
-                    "frame": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s111",
+                      "id": "scene/s111/root/entity-e2079/page-0/auto/stage-0"
+                    }
                   }
                 ],
                 "next": 0
@@ -416,10 +344,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.7714",
-                      "speaker": "spk.官兵"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s111",
+                      "id": "scene/s111/root/entity-e2080/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -431,14 +359,11 @@
               {
                 "body": [
                   {
-                    "kind": "setEntityFacing",
-                    "entity": "e2080",
-                    "facing": "up"
-                  },
-                  {
-                    "kind": "setEntityFrame",
-                    "entity": "e2080",
-                    "frame": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s111",
+                      "id": "scene/s111/root/entity-e2080/page-0/auto/stage-0"
+                    }
                   }
                 ],
                 "next": 0
@@ -467,9 +392,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.7716"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s111",
+                      "id": "scene/s111/root/entity-e2081/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -481,14 +407,11 @@
               {
                 "body": [
                   {
-                    "kind": "setEntityFacing",
-                    "entity": "e2081",
-                    "facing": "up"
-                  },
-                  {
-                    "kind": "setEntityFrame",
-                    "entity": "e2081",
-                    "frame": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s111",
+                      "id": "scene/s111/root/entity-e2081/page-0/auto/stage-0"
+                    }
                   }
                 ],
                 "next": 0
@@ -517,10 +440,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.7718",
-                      "speaker": "spk.婢女阿萍"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s111",
+                      "id": "scene/s111/root/entity-e2082/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -532,14 +455,11 @@
               {
                 "body": [
                   {
-                    "kind": "setEntityFacing",
-                    "entity": "e2082",
-                    "facing": "left"
-                  },
-                  {
-                    "kind": "setEntityFrame",
-                    "entity": "e2082",
-                    "frame": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s111",
+                      "id": "scene/s111/root/entity-e2082/page-0/auto/stage-0"
+                    }
                   }
                 ],
                 "next": 0
@@ -568,10 +488,10 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.7721",
-                      "speaker": "spk.婢女阿香"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s111",
+                      "id": "scene/s111/root/entity-e2083/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -583,14 +503,11 @@
               {
                 "body": [
                   {
-                    "kind": "setEntityFacing",
-                    "entity": "e2083",
-                    "facing": "left"
-                  },
-                  {
-                    "kind": "setEntityFrame",
-                    "entity": "e2083",
-                    "frame": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s111",
+                      "id": "scene/s111/root/entity-e2083/page-0/auto/stage-0"
+                    }
                   }
                 ],
                 "next": 0
@@ -617,8 +534,11 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s112"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s111",
+                      "id": "scene/s111/root/entity-e2084/page-0/trigger/stage-0"
+                    }
                   }
                 ]
               }
@@ -645,60 +565,11 @@
               {
                 "body": [
                   {
-                    "kind": "dialog",
-                    "line": {
-                      "text": "dlg.5987",
-                      "speaker": "spk.小贩"
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s111",
+                      "id": "scene/s111/root/entity-e2085/page-0/trigger/stage-0"
                     }
-                  },
-                  {
-                    "kind": "confirm",
-                    "onNo": [
-                      {
-                        "kind": "unmigrated",
-                        "opcode": 0,
-                        "operands": [
-                          17178
-                        ],
-                        "note": "分支臂不可内联"
-                      },
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "branch",
-                    "cond": {
-                      "kind": "not",
-                      "cond": {
-                        "kind": "hasMoney",
-                        "atLeast": 30
-                      }
-                    },
-                    "then": [
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "line": {
-                          "text": "dlg.5989",
-                          "speaker": "spk.小贩"
-                        }
-                      },
-                      {
-                        "kind": "stopScript"
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "giveMoney",
-                    "delta": -30
-                  },
-                  {
-                    "kind": "giveItem",
-                    "itemId": "80"
                   }
                 ]
               }

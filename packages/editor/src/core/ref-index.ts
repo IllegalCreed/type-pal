@@ -98,7 +98,7 @@ function walkCmds(
         break
       case 'setEntityAuto':
       case 'setEntityTrigger':
-        walkStages(c.stages, idx, at)
+        if (c.stages) walkStages(c.stages, idx, at)
         break
       default:
         break

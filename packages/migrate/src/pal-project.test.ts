@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
+import type { Command, ScriptChunkV1, ScriptIndexV1 } from '@type-pal/content'
 import { validateScenes } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 
@@ -7,11 +8,24 @@ const scenePath = fileURLToPath(
   new URL('../../../projects/pal/content/scenes/s001.json', import.meta.url),
 )
 const scene = validateScenes([JSON.parse(readFileSync(scenePath, 'utf8'))])[0]!
+const scriptsDir = fileURLToPath(new URL('../../../projects/pal/content/scripts/', import.meta.url))
+const scriptIndex = JSON.parse(readFileSync(`${scriptsDir}index.json`, 'utf8')) as ScriptIndexV1
+const scripts = new Map<string, Command[]>()
+for (const meta of Object.values(scriptIndex.chunks)) {
+  const chunk = JSON.parse(readFileSync(`${scriptsDir}${meta.path}`, 'utf8')) as ScriptChunkV1
+  for (const [id, body] of Object.entries(chunk.scripts)) scripts.set(id, body)
+}
+const expand = (body: readonly Command[], seen = new Set<string>()): Command[] =>
+  body.flatMap((command): Command[] => {
+    if (command.kind !== 'callScript' && command.kind !== 'jumpScript') return [command]
+    if (seen.has(command.ref.id)) return []
+    return expand(scripts.get(command.ref.id) ?? [], new Set([...seen, command.ref.id]))
+  })
 
 describe('pal 工程定制演出', () => {
   test('李大娘退场保持显式主时间线编排，不退回并行 autoScript', () => {
     const aunt = scene.entities.find((entity) => entity.id === 'e10')
-    const body = scene.onEnter?.[0]?.body ?? []
+    const body = expand(scene.onEnter?.[0]?.body ?? [])
     const visibleAt = body.findIndex(
       (command) =>
         command.kind === 'setEntityState' && command.entity === 'e10' && command.state === 2,

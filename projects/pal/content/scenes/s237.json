@@ -143,12 +143,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s229",
-                    "pos": {
-                      "col": 130,
-                      "row": 96,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s237",
+                      "id": "scene/s237/root/entity-e4242/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -175,12 +173,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s229",
-                    "pos": {
-                      "col": 145,
-                      "row": 43,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s237",
+                      "id": "scene/s237/root/entity-e4243/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -207,12 +203,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s229",
-                    "pos": {
-                      "col": 130,
-                      "row": 68,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s237",
+                      "id": "scene/s237/root/entity-e4244/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -239,12 +233,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s229",
-                    "pos": {
-                      "col": 114,
-                      "row": 97,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s237",
+                      "id": "scene/s237/root/entity-e4245/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -271,12 +263,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s229",
-                    "pos": {
-                      "col": 126,
-                      "row": 26,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s237",
+                      "id": "scene/s237/root/entity-e4246/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -303,12 +293,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s229",
-                    "pos": {
-                      "col": 96,
-                      "row": 70,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s237",
+                      "id": "scene/s237/root/entity-e4247/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -335,12 +323,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s229",
-                    "pos": {
-                      "col": 106,
-                      "row": 72,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s237",
+                      "id": "scene/s237/root/entity-e4248/page-0/trigger/stage-0"
                     }
                   }
                 ]
@@ -367,12 +353,10 @@
               {
                 "body": [
                   {
-                    "kind": "loadScene",
-                    "scene": "s229",
-                    "pos": {
-                      "col": 105,
-                      "row": 58,
-                      "height": 0
+                    "kind": "callScript",
+                    "ref": {
+                      "chunk": "scene/s237",
+                      "id": "scene/s237/root/entity-e4249/page-0/trigger/stage-0"
                     }
                   }
                 ]
