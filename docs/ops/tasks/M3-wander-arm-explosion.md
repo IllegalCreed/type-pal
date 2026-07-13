@@ -1,6 +1,6 @@
 # M3 - 迁移脚本去内联、按场景分片与体积门禁
 
-Status: review
+Status: done
 Phase: phase2
 Capability: M3(脚本迁移)
 Coding Owner: Codex
@@ -320,7 +320,7 @@ interface ScriptChunkV1 {
 
 - counter / 返工处理: 无 counter。
 - 缺签豁免: N/A
-- done 准入结论: **三方审查签字齐（Codex+Opus+GLM accept）**。交用户验收（6051 亲验巡逻+开场），用户点头方 done。
+- done 准入结论: **三方审查签字齐（Codex+Opus+GLM accept），用户于 2026-07-13 确认全部验收通过，任务转 `done`。**
 
 ## Build: 实现与自测
 
@@ -354,13 +354,13 @@ interface ScriptChunkV1 {
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: **Opus accept**(2026-07-13,基线 eff4ce92)——代码六点/证据复验/前台活体全链通过,详见签字行;待 GLM 覆盖/门禁复验。
+- 审查结论: **Codex、Opus、GLM 三方 accept**；实现、自测、代码/架构审查、迁移覆盖、体积门禁和前台活体验证均通过，详见签字行。
 - Opus 非阻塞观察(O1-O3):
   - **O1 空 auto 体空转**:如 s003/e62 的 auto 是空体 callScript,外层 while 每 40ms 空跑一圈(段间让步兜底,无害但费);建议迁移器将空 auto 体直接不产 auto 页,下轮迁移顺手清。
   - **O2 报告口径分层**:unmigrated"654"是翻译报告口径(含全局根尝试与信息性段转移记录),产物实际残留 66;建议审计报告分"信息性/真残留"两列,避免误读。
   - **O3 后台节流备忘**:后台 tab 下 BGM worklet 消息与 GC 活动在 trace 中偏高(audio 线程,不堵主线程);与本卡无关,列为将来性能巡检线索。
 - 必须返工项: 无
-- Accept / rework: **Opus accept**;GLM pending;不得标 done
+- Accept / rework: **三方 accept，用户验收通过，任务已完成。**
 
 ## 交接日志
 
@@ -375,17 +375,9 @@ interface ScriptChunkV1 {
 - 2026-07-13 GLM: 设计签 agree；确认 N1 edge catalog、门禁公式、测试矩阵、SCC 与 overlay 清单，三签齐准入 build。
 - 2026-07-13 Codex: 完成 ScriptRef/chunk store/runner/loader/editor/CFG-SCC/registry/overlay/体积门禁和 294 chunk 全量重迁；`pnpm check` 3368 tests 全绿，双跑哈希一致，295 场景非脚本字段差异 0，6051 开场及六处巡逻通过。任务转 review。Next: Opus 代码/架构复验，不得直接标 done。
 - 2026-07-13 Opus: 实现审查签 **accept**(基线 eff4ce92)。六点代码审全过(尾转移/穿透/call 边界/128 深度、lease-LRU/N2 重推导/R3 报错/并发记账、R2 入口态键、CFG 三类边含 recovery、overlay 语义锚、门禁进 check);独立复验:check 重跑 0 码、12 条目标缺失全为源悬空指针(源 4123 labels 核对,非新丢边)、产物残留 66/flowCuts 0;前台活体:开场 17.2s 全链、s001→s003 出口、懒加载硬证(仅 chunks/scene/s003.json)、存档 754B 纯数据、e75 jump 音效环 120fps 不自旋、s019 巡逻 4 体环引用(原 92,514 命令)。**审查插曲**:曾误判 1fps 卡死,528MB trace 解析(主线程无长任务)+ 前台复测 120fps 定性为后台 tab 节流测量伪影——审查方法教训:活体验证必须 bringToFront。O1-O3 非阻塞观察落 Review 段。Evidence: Review 段 + 签字行。Next: GLM 覆盖/门禁复验(654 报告口径分层核对 + 43,503 边覆盖抽查);GLM accept 后交用户验收,方可 done。未改实现文件。
+- 2026-07-13 GLM: 覆盖/门禁复验签 **accept**；654 报告口径、43,503 指令边、三重体积门禁、chunk 引用完整性和 overlay 白名单五项通过。Next: 用户验收。
+- 2026-07-13 User: 确认全部验收通过，批准任务转 `done`。Next: 无，归档。
 
 ## 下一位 Agent 提示词
 
-```text
-接手 M3 脚本去内联 + 按场景分片实现复验(GLM)。
-任务卡: docs/ops/tasks/M3-wander-arm-explosion.md
-当前状态: review；Codex accept + Opus accept(基线 eff4ce92);GLM 复验 pending;不得标 done。
-你的角色: GLM,覆盖/门禁复验;只更新任务卡审查意见与签字,不改实现文件。
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡 Review 段(Opus accept 要点 + O1-O3)、交接日志末两条。
-Opus 已过: 六点代码审(尾转移/穿透/call 边界/lease-LRU/N2/R3/R2/CFG 三类边/overlay/门禁);独立复验 check 0 码、12 条目标缺失=源悬空指针(源 4123 labels 核对)、产物残留 66/flowCuts 0;前台活体开场全链+懒加载硬证(进 s003 仅拉 scene/s003 chunk)+存档 754B 纯数据+s019 巡逻 4 体环引用。注意:Opus 曾误判 1fps 卡死,已定性为后台 tab 节流伪影(活体验证必须前台)。
-请你复核: (1)**654 报告口径分层**(O2)——按 note 分类给出"信息性(段转移/全局根尝试) vs 真残留"两列清单,与产物 66 对账;(2)**43,503 指令边覆盖抽查**——typed catalog(execution/binding/recovery)对 script.c 全 IP 消费者的枚举差集,重点 0x08/0x24/25/0x6D/0xA2/0x07;(3)三个 10x 门禁计量口径(compact 1.63x/pretty 1.05x/node 1.57x)是否含动态绑定/hostile.onLose/敌人战斗脚本;(4)294 chunk 引用完整性(无孤儿/无悬空 ref,除已知源悬空 12 条);(5)overlay 白名单越界扫描(295 场景非脚本字段 diff 0 的复算)。在"进入 done 前"GLM 行签 accept/counter,更新交接日志;accept 后交用户验收(6051 亲验巡逻场景观感),用户点头方可 done。
-不要做: 不改实现文件;不跑会写盘的 migrate:content(dry-run 临时目录);不标 done。
-输出要求: 明确 accept/counter、654 分层清单、边覆盖差集、门禁口径核验、提交 hash。
-```
+无下一位 Agent 提示词，三方审查和用户验收均已通过，任务完成并归档。
