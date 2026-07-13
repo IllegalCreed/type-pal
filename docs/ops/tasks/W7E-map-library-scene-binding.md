@@ -109,7 +109,7 @@ Branch: main
 ### 进入 build 前:设计签字
 
 - Codex: **agree（2026-07-14）**。采用显式 `ownMapId` + MapIndexV1，旧 `ownMap:path` 只作为 v1 兼容输入并在编辑器保存时升级；注册表是发现真值，场景引用不是索引。实现按内容契约/loader -> editor state/IO -> Commands/UI -> 迁移/MG2 -> E2E 分期提交。
-- Opus: pending
+- Opus: **agree（2026-07-14,附 M1/M2 必改）**。schema 与升级边界总体正确:LegacyOwnMapRefV1 单独命名封死双义字段;打开不写盘、保存一次性升 v2;id=stem 优先+冲突加 path hash 确定性;`o:<mapId>` 与 `legacy:<path>` 缓存键不混;懒加载哲学与 M3 一致(index 只元数据,OwnMap 场景级 LRU);MG2 双表登记+交叉测试正合 R1(现在登记=前瞻防御,迁移器当前不产 maps,零成本);临时删除反查四重钉正合 R2;五 Command apply/invert+删除单命令含文件 diff。**M1**:升级触发条件须显式写死——"仅当工程含自有地图引用才升 contentVersion 2/写 index;纯 reuseOriginalMap 工程(如 pal)保存时保持 v1,不注入空 index"——否则实现可能无条件升版,pal 的 manifest 被无意义改写。**M2**:消费方清单 editor core 行漏 `clone.ts/zip 导出(A5)`——克隆与 zip round-trip 必须含 content/maps/index.json,补入表并在测试节点名。游戏存档已核无涉(SavePayload 不含 map 信息,缓存键不入档)
 - GLM: pending
 - counter / 分歧处理: pending
 - 缺签豁免: N/A
@@ -243,7 +243,7 @@ type SceneMap =
 ### 三方争议记录(按需)
 
 - Codex: 选择新字段 `ownMapId` + 独立 index；拒绝让旧 `ownMap` 字段双义化。v1 兼容只在输入边界保留，编辑器保存时显式升级为 v2。
-- Opus: pending
+- Opus: 无方向分歧;M1(纯 reuse 工程不升版)/M2(clone/zip 入消费方表)是边界补明。另注 N1:v1 own 运行时兼容建议标注过渡性质(测试钉住,待存量工程升级后评估收敛),防双分支永存。
 - GLM: pending
 - 用户拍板: 已确认地图必须独立列出并可由场景选择；schema 细节待本卡三签。
 
@@ -289,16 +289,17 @@ type SceneMap =
 ## 交接日志
 
 - 2026-07-14 Codex: 按 ED-1 三签结论与 Opus R1-R3 起草 W7E：稳定 map id/index、v1 显式升级、运行时懒加载、编辑器 CRUD/绑定、临时删除守卫收编、MG2 双表 `/maps` id 合并和全消费方矩阵。Evidence: 本卡 Draft/验收。Next: Opus 架构/schema 主审；不得实现。
+- 2026-07-14 Opus: 设计签 **agree + M1/M2 必改**。M1=升级触发边界显式化(仅含自有地图才升 v2,纯 reuse 工程保持 v1 不注入空 index);M2=消费方表补 clone.ts/zip(A5) 并测试点名。已核:双义字段封死/读不写盘/确定性 id/缓存键分离/懒加载/MG2 双表前瞻/R2 四重钉/存档无涉。N1 注记:v1 runtime 兼容标过渡。Next: Codex 落 M1/M2 进 Draft;GLM 复核消费方矩阵+测试映射;三签齐 build。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: W7E 独立地图库与场景地图绑定（设计主审）
-任务卡: docs/ops/tasks/W7E-map-library-scene-binding.md
-当前状态: draft；Codex agree，Opus/GLM pending，build blocked
-你的角色: Opus，审 schema/contentVersion、v1 显式升级、loader 懒加载、Command 可逆性、删除守卫边界和 MG2 合并规则
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡、docs/ops/tasks/ED-1-editor-authoring-closure-audit.md（R1-R3）、docs/phase2/editor/editor-authoring-closure-audit-2026-07-13.md、W7D/W7B/MG2 任务卡
-请你做: 核对 `MapIndexV1 + ownMapId + contentVersion 2` 是否完整；核对 legacy ownMap 只在 v1 输入边界、保存时显式升级；逐项检查 R1 消费方清单；确认 W7E 临时 scene.map 删除反查会被 ED-3 收编；确认 migration-merge 与 migration-bootstrap 都在 file=content/maps/index.json,path=/maps 使用 id mode。签 agree 或 counter+具体替代方案
-不要做: 不改实现文件；不提前 build；不把 old ownMap 静默解释为 id；不重做 OwnMap N 层/碰撞/tileset 管线
-输出要求: 写回 Opus 设计签字、主审立场、交接日志与下一位提示词，并提交文档
+接手任务: ED-1 done 复核 + W7E-0/ED-2/W7E 三子卡设计复核(GLM 四卡合并)
+四卡: docs/ops/tasks/{ED-1-editor-authoring-closure-audit, W7E-0-blank-scene-map-reference, ED-2-editor-primary-modules, W7E-map-library-scene-binding}.md
+当前状态: ED-1 review(Codex+Opus accept,GLM pending);W7E-0/ED-2 draft(Codex+Opus agree,无必改);W7E draft(Codex+Opus agree,附 M1/M2 必改待 Codex 落卡)
+你的角色: GLM,覆盖/测试矩阵/一致性复核;只审文档,不改实现
+Opus 已过: ED-1 收口忠实(capability 五格逐行对账/R1-R3+S1+S3 定位到子卡条文;唯一余项 S2 已补记 ED-1 后续任务行=ED-3 开卡必带);W7E-0 最小修复+四支测试齐;ED-2 注册表同源+typed 深链+objectId 不偷选第 0 项;W7E schema/升级边界/懒加载/MG2 双表全过,M1=纯 reuse 工程不升 v2 不注入空 index、M2=消费方表补 clone/zip(A5)。
+请你复核: (1)ED-1:S2 补记文本与 GLM 自己首轮抽查结论仍一致,签 done accept/counter;(2)W7E-0:测试矩阵(own/reuse+room/undo-redo/save-reload)对 P0-1 复现路径的覆盖,签 agree/counter;(3)ED-2:15 旧页→八模块映射"恰好一次"可测性、跨模块跳转三例是否足够,签 agree/counter;(4)W7E:M1/M2 落卡后的消费方矩阵终版逐层对照实际代码面(content/reforge/editor core/editor UI/migrate/MG2/docs),给漏项差集;测试节对 D1-D5 分期的映射,签 agree/counter。各卡分别写 GLM 行+日志
+不要做: 不改实现;子卡三签未齐不 build;ED-1 三方未齐不标 done
+输出要求: 四项分别结论、W7E 消费方差集、提交 hash
 ```

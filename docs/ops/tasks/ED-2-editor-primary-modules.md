@@ -90,7 +90,7 @@ Branch: main
 ### 进入 build 前:设计签字
 
 - Codex: **agree（2026-07-14）**。先建立八模块壳和 typed URL 深链，再让 W7E/ED-3 等页面落位，可以避免业务页重复搬迁；本卡严格不改 schema 和业务 CRUD。
-- Opus: pending
+- Opus: **agree（2026-07-14;信息架构/深链/状态边界全过——单一子页注册表同源派生导航/URL/测试(防菜单漂移);EditorLocation typed+URL 查询参数+popstate 单向恢复+解析失败回安全默认页;objectId 仅提示、目标缺失显空态**不偷选第 0 项**(杜绝下标身份的 UI 版);EditSession 仍是唯一真值、URL 非第二份数据;过场"编排归剧情/媒体归资源"且当前不造假编排页,诚实;S1 文案项+S3 子页≤5 硬门禁均落卡。无必改）
 - GLM: pending
 - counter / 分歧处理: pending
 - 缺签豁免: N/A
@@ -179,7 +179,7 @@ interface EditorLocation {
 ### 三方争议记录(按需)
 
 - Codex: 八模块和单一权威页按 ED-1 共识执行；建议以 typed URL location 作为跨模块唯一跳转协议。
-- Opus: pending
+- Opus: 无分歧;氛围归场景(环境属性)与审计战斗域(毒/状态/战场)的划分自洽,以对象权威编辑页为锚的归属规则可裁决未来争议。
 - GLM: pending
 - 用户拍板: 已要求一级展开和面板可调；具体实现待本卡三签。
 
@@ -225,16 +225,17 @@ interface EditorLocation {
 ## 交接日志
 
 - 2026-07-14 Codex: 按 ED-1 三签结论起草八模块、唯一权威页、typed URL 深链、状态保留和三档视觉验收方案；未改实现。Evidence: 本卡 Draft/验收矩阵。Next: Opus 设计主审。
+- 2026-07-14 Opus: 设计签 **agree,无必改**。注册表同源/typed 深链/空态兜底/真值单一/S1+S3 落实逐项过。Next: GLM 复核(15 页恰好一次映射+跨模块跳转矩阵);三签齐后 build。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: ED-2 编辑器八个一级模块与稳定深链（设计审查）
-任务卡: docs/ops/tasks/ED-2-editor-primary-modules.md
-当前状态: draft；Codex agree，Opus/GLM pending，build blocked
-你的角色: Opus，审信息架构、唯一权威页、URL 深链与状态边界
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡、docs/ops/tasks/ED-1-editor-authoring-closure-audit.md、docs/phase2/editor/editor-authoring-closure-audit-2026-07-13.md
-请你做: 核对八模块归属是否避免双真值；核对 `(module + subpage + objectId)` URL 契约、前进后退、非法目标兜底；核对每模块最多 5 子页与 1280/900/720 验收。签 agree 或 counter+替代方案
-不要做: 不改实现文件；不改 schema；不补业务 CRUD；签字未齐不得推进 build
-输出要求: 写回 Opus 设计签字、主审立场、交接日志与下一位提示词，并提交文档
+接手任务: ED-1 done 复核 + W7E-0/ED-2/W7E 三子卡设计复核(GLM 四卡合并)
+四卡: docs/ops/tasks/{ED-1-editor-authoring-closure-audit, W7E-0-blank-scene-map-reference, ED-2-editor-primary-modules, W7E-map-library-scene-binding}.md
+当前状态: ED-1 review(Codex+Opus accept,GLM pending);W7E-0/ED-2 draft(Codex+Opus agree,无必改);W7E draft(Codex+Opus agree,附 M1/M2 必改待 Codex 落卡)
+你的角色: GLM,覆盖/测试矩阵/一致性复核;只审文档,不改实现
+Opus 已过: ED-1 收口忠实(capability 五格逐行对账/R1-R3+S1+S3 定位到子卡条文;唯一余项 S2 已补记 ED-1 后续任务行=ED-3 开卡必带);W7E-0 最小修复+四支测试齐;ED-2 注册表同源+typed 深链+objectId 不偷选第 0 项;W7E schema/升级边界/懒加载/MG2 双表全过,M1=纯 reuse 工程不升 v2 不注入空 index、M2=消费方表补 clone/zip(A5)。
+请你复核: (1)ED-1:S2 补记文本与 GLM 自己首轮抽查结论仍一致,签 done accept/counter;(2)W7E-0:测试矩阵(own/reuse+room/undo-redo/save-reload)对 P0-1 复现路径的覆盖,签 agree/counter;(3)ED-2:15 旧页→八模块映射"恰好一次"可测性、跨模块跳转三例是否足够,签 agree/counter;(4)W7E:M1/M2 落卡后的消费方矩阵终版逐层对照实际代码面(content/reforge/editor core/editor UI/migrate/MG2/docs),给漏项差集;测试节对 D1-D5 分期的映射,签 agree/counter。各卡分别写 GLM 行+日志
+不要做: 不改实现;子卡三签未齐不 build;ED-1 三方未齐不标 done
+输出要求: 四项分别结论、W7E 消费方差集、提交 hash
 ```
