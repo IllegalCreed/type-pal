@@ -1278,6 +1278,19 @@ sdlpal 真值：
 
 → **觉醒的"大量属性提升"实际是 0x30 武术/身法 +100% 临时 buff + 狂暴/连击/加速/护体状态叠加**，不是永久属性变更。战后三件套清 Extra 槽 → buff 消失。
 
+⚠ **以上为 sdlpal 源码解读。但原版 PAL.EXE 的觉醒行为经无数玩家验证为：**
+
+> **赵灵儿觉醒时升 11 级，属性固定增长（非随机）：体力最大值 +170、真气最大值 +190、武术 +100、灵力 +155、防御 +55、身法 +80、吉运 +30。**
+
+sdlpal 的 `PAL_PlayerLevelUp`（global.c:2347）用 `RandomLong` 随机加属性——这与原版固定值**不符**，是社区推断的误实现。原版 PAL.EXE 的升级属性增长**可能是固定值**（不随 RNG 变化），或者觉醒用了独立的固定属性增长路径（不经过通用 `PAL_PlayerLevelUp`）。
+
+脚本事实：
+- 全库 `0x8D IncreaseLevel`（script.c:2595）只有 1 处（all.json [39561]），operand=1（升 1 级）。
+- 但原版觉醒升 11 级 → 要么该脚本被循环 11 次，要么 `0x8D` 在原版 PAL.EXE 里的语义与 sdlpal 不同。
+- `PAL_PlayerLevelUp`（global.c:2347）每级加 maxHP 10+R(0,7) / maxMP 8+R(0,5) / atk 4+R(0,1) / mag 4+R(0,1) / def 2+R(0,1) / dex 2+R(0,1) / flee +2 — **11 级最大值远小于你说的固定值**（atk 最大 55 vs 你说 +100；mag 最大 55 vs +155）→ **原版的固定属性增长不来自 PAL_PlayerLevelUp 的随机公式**。
+
+**结论**：原版觉醒升 11 级 + 固定属性增长是**已验证的原版真值**，sdlpal 的实现（0x8D + PAL_PlayerLevelUp 随机公式）**不忠实原版**。第二阶段 reforge 实现觉醒时应**以原版真值为准**（固定值），不以 sdlpal 的随机公式为准。需要进一步考证原版 PAL.EXE 的实际升级路径（是 PAL_PlayerLevelUp 用固定种子/固定表，还是有独立的属性增长脚本）。
+
 **站位问题**：`0x75 setParty[1,3,0]` 把赵灵儿排到 party[0]——战斗站位 `g_rgPlayerPos`（[battle.c:27](../../reference/sdlpal/battle.c#L27)）按 party 顺序取位：party[0] = 最左下（前排）。所以**赵灵儿站前排中间**，不是李逍遥（李逍遥此战不在队里）。
 
 ⚠ **一阶段 bug**：如果 `0x75` 的 setParty 没有正确重排队伍（或 setParty 后李逍遥仍在 party[0]），则战斗站位会错——李逍遥站前排而非赵灵儿。需核 `0x75` handler 是否忠实地 `rgParty[0].wPlayerRole = operand[0]-1`（赵灵儿=role 1）。
