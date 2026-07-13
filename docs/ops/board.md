@@ -16,7 +16,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| M3 | 迁移脚本控制流去内联与体积门禁 | draft / 设计签字 | GLM 复核 | 全库共享脚本方案(回归原 M3 设计):scripts.json + callScript/jumpScript O(1) 引用 + 三重 10 倍门禁 + overlay。**Codex+Opus agree(附 R1-R3:尾转移让出/对话样式态跨引用保真/resolver+缺引用报错),待 GLM**;8.61x 距 10x 仅 14% 余量,超标则 self-relative 卡转必做。任务卡:[M3-wander-arm-explosion.md](tasks/M3-wander-arm-explosion.md) |
+| M3 | 迁移脚本去内联、按场景分片与体积门禁 | draft / 设计重签 | Opus 重审分片版 | 用户新增硬约束：进场不得加载全游戏脚本。方案改为 `{chunk,id}` + scene/shared/global-domain SCC 分片 + 按需 resolver/LRU + 存档只存 ref；第一阶段切片实测仅 all.json 0.89x。Codex agree；Opus 旧版 agree 因加载边界变化恢复 pending(R1-R3 保留)，GLM 后续复核。任务卡:[M3-wander-arm-explosion.md](tasks/M3-wander-arm-explosion.md) |
 
 ## 看板规则
 
