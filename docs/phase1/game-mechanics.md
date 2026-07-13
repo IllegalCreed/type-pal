@@ -1232,9 +1232,19 @@ Extra 格有**两条清除路径**,大蒜毒抗撑到**两者谁先到**:
 
 ### 2. 梦蛇死亡不清除，复活后仍在
 
-梦蛇 = `0x31` 临时换战斗精灵（`rgwSpriteNumInBattle`，[battle-state.ts:73](../../packages/game/src/core/battle/battle-state.ts#L73)），**不在 `rgPlayerStatus` 数组里**。
+梦蛇 = 完整脚本链（all.json [43024-43032]）：
+- `0x22` 复活赵灵儿 + 林月如（10% HP）
+- `0x31` 临时换战斗精灵（`rgwSpriteNumInBattle`，[battle-state.ts:73](../../packages/game/src/core/battle/battle-state.ts#L73)）
+- `0x30` buffStat row=17(attackStrength) **100%** → 武术 +100% 空装基础值（写 Extra 槽 `rgEquipmentEffect[kBodyPartExtra]`）
+- `0x30` buffStat row=20(dexterity) **100%** → 身法 +100% 空装基础值
+- `0x2D` 设状态 kStatusDualAttack(6) duration=9 → 连击 9 回合
 
-复活 `0x22`（[script.c:1071](../../reference/sdlpal/script.c#L1071)）清的是 `kStatusAll`（rgPlayerStatus 全部）+ `CurePoisonByLevel(3)` —— **不清 `rgwSpriteNumInBattle`** → 梦蛇变身死后复活仍保留，直到战斗结束 `PAL_FreeBattleSprites` 才释放。
+**死亡不清的部分**：
+- `0x31` 换精灵写 `rgwSpriteNumInBattle` —— **不在 `rgPlayerStatus`** → 复活不清。
+- `0x30` buffStat 写 `rgEquipmentEffect[Extra=6]` —— **不在 `rgPlayerStatus`** → 复活不清；只在战后三件套 `removeEquipmentEffect(role, kBodyPartExtra)` 时清。
+- `0x2D` DualAttack 写 `rgPlayerStatus[kStatusDualAttack]` —— **在 `rgPlayerStatus`** → 复活 `0x22` 的 `PAL_RemovePlayerStatus(w, x)` 遍历全清 → **DualAttack 复活后清除**。
+
+→ 梦蛇死后复活：**换精灵 + 武术/身法 buff 仍在**（Extra 槽 + sprite 不被复活清），但 **DualAttack 连击被清**（status 被复活清）。直到战斗结束三件套才全清。
 
 ### 3. 死亡不清 buff/debuff，复活才清
 
