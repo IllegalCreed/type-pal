@@ -1278,18 +1278,27 @@ sdlpal 真值：
 
 → **觉醒的"大量属性提升"实际是 0x30 武术/身法 +100% 临时 buff + 狂暴/连击/加速/护体状态叠加**，不是永久属性变更。战后三件套清 Extra 槽 → buff 消失。
 
-⚠ **以上为 sdlpal 源码解读。但原版 PAL.EXE 的觉醒行为经无数玩家验证为：**
+⚠ **以上为 sdlpal 源码解读。但原版觉醒的真实实现是 0x19 addStat 连发（all.json [42309-42316]），不走 PAL_PlayerLevelUp 随机公式：**
 
-> **赵灵儿觉醒时升 11 级，属性固定增长（非随机）：体力最大值 +170、真气最大值 +190、武术 +100、灵力 +155、防御 +55、身法 +80、吉运 +30。**
+> **赵灵儿觉醒（all.json@42309，镇狱明王战 scriptOnTurnStart）= 战内 0x19 连发 8 条，直接 delta 加到基础属性：**
 
-sdlpal 的 `PAL_PlayerLevelUp`（global.c:2347）用 `RandomLong` 随机加属性——这与原版固定值**不符**，是社区推断的误实现。原版 PAL.EXE 的升级属性增长**可能是固定值**（不随 RNG 变化），或者觉醒用了独立的固定属性增长路径（不经过通用 `PAL_PlayerLevelUp`）。
+| 命令 | row | 属性 | delta |
+|---|---|---|---|
+| 0x19 [42309] | 7 | maxHP | **+170** |
+| 0x19 [42310] | 8 | maxMP | **+190** |
+| 0x19 [42311] | 6 | level | **+11** |
+| 0x19 [42312] | 17 | atk(武术) | **+100** |
+| 0x19 [42313] | 18 | mag(灵力) | **+155** |
+| 0x19 [42314] | 19 | def(防御) | **+55** |
+| 0x19 [42315] | 20 | dex(身法) | **+80** |
+| 0x19 [42316] | 21 | luck(吉运) | **+30** |
+| 0x92 [42319] | — | showMagicAnim | 白闪觉醒演出 |
 
-脚本事实：
-- 全库 `0x8D IncreaseLevel`（script.c:2595）只有 1 处（all.json [39561]），operand=1（升 1 级）。
-- 但原版觉醒升 11 级 → 要么该脚本被循环 11 次，要么 `0x8D` 在原版 PAL.EXE 里的语义与 sdlpal 不同。
-- `PAL_PlayerLevelUp`（global.c:2347）每级加 maxHP 10+R(0,7) / maxMP 8+R(0,5) / atk 4+R(0,1) / mag 4+R(0,1) / def 2+R(0,1) / dex 2+R(0,1) / flee +2 — **11 级最大值远小于你说的固定值**（atk 最大 55 vs 你说 +100；mag 最大 55 vs +155）→ **原版的固定属性增长不来自 PAL_PlayerLevelUp 的随机公式**。
+**关键**：升级不是 0x8D（PAL_PlayerLevelUp 随机成长），而是 **0x19 addStat row=6 delta=11**——直接给 level +11。属性也是 0x19 直接 delta，**固定值，非随机**。PAL_PlayerLevelUp 的随机公式不参与觉醒。
 
-**结论**：原版觉醒升 11 级 + 固定属性增长是**已验证的原版真值**，sdlpal 的实现（0x8D + PAL_PlayerLevelUp 随机公式）**不忠实原版**。第二阶段 reforge 实现觉醒时应**以原版真值为准**（固定值），不以 sdlpal 的随机公式为准。需要进一步考证原版 PAL.EXE 的实际升级路径（是 PAL_PlayerLevelUp 用固定种子/固定表，还是有独立的属性增长脚本）。
+一阶段代码已正确实现：`equip-effect.ts:96` 注释「all.json@42309 正是战内 0x19 连发」；`event-system.test.ts:1020` 有「0x19 提升属性 → 同步回灌战斗工作副本 snapshot」回归测试。
+
+**死亡不清除**：0x19 改的是 `g.PlayerRoles`（基础属性持久层），不是 Extra 槽也不是 rgPlayerStatus → 死亡不清、复活不清、战后三件套不清 → **永久增长**（不像 0x30 buffStat 是临时的）。
 
 **站位问题**：`0x75 setParty[1,3,0]` 把赵灵儿排到 party[0]——战斗站位 `g_rgPlayerPos`（[battle.c:27](../../reference/sdlpal/battle.c#L27)）按 party 顺序取位：party[0] = 最左下（前排）。所以**赵灵儿站前排中间**，不是李逍遥（李逍遥此战不在队里）。
 
