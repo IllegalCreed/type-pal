@@ -134,11 +134,32 @@ Branch: main
   ScriptStage 级(非 SceneDef 级)+ 复用 stageIndexFor 单一解析,正确处理首访/重访分叉。**发现卡未覆盖点:
   s001 除 root/on-enter 外还有 L-2876/L-2920 两个 0x6D 安装的 override on-enter 绑定(实测),lifting 扫描
   必须覆盖 override 家族(X-R2)**。
-- GLM: pending
-- counter / 分歧处理: Opus 无架构 counter;X-R1~X-R4 为设计必补(prepare 安全集穷尽判别/override lifting/
-  生命周期收尾人表/fade reveal 时序定义),纳入 build 范围。
+- GLM: **agree（2026-07-15;附 X-N1 站点面勘误 + X-N2 反例集 + X-N3 非阻塞,见下）**。两项复核逐条：
+
+  **(1) X-R2 lifting 站点面——全 PAL onEnter 早期 0x73 计数（独立实测）** ✅ + **勘误**：
+
+  实测全 PAL 脚本产物，ditherScreen 分布分三类（互斥，共 41 场景）：
+  - **早期 dither in onEnter（lift 集）= 11 场景**：s001/s018/s057/s090/s151/s180/s182/s196/s197/s198/s200。其中 **10 个在 root/on-enter/stage-0**，**1 个在 override**（s182/L-27448）。s001 root dither idx=2，prefix=`[playMusic,teleportParty]`。
+  - **⚠️ X-N1（卡内勘误，build 必落）**：**Opus 称"s001 有 L-2876/L-2920 两个 override on-enter 含 ditherScreen"——实测两 override 均不含 ditherScreen**。L-2876 prefix=`[teleportParty,setPartyFacing,clearDialog,dialog]`；L-2920 prefix=`[setActorSprite,teleportParty,setPartyFacing,setAmbience,wait]`。**s001 只有 root/on-enter/stage-0 一个绑定含早期 dither**。Opus 的 X-R2"override 家族必须覆盖"方向正确（s182 确实是 override），但 s001 具体站点描述有误——build 时以实测 11 站点清单为准。
+  - **独立 0x73 非 onEnter（反例集）= 17 场景**：s011/s020/s058/s059/s064/s138/s144/s146/s147/s148/s154/s163/s201/s250/s252/s278/s281——全部在 entity trigger 或 shared 编舞脚本中，**不得误升 entry**。✅
+  - **onEnter 但非早期（第三类）= 13 场景**：s140/s142/s164/s169/s170/s171/s173/s183/s188/s203/s227/s233/s251——dither 前有非确定性命令（多为 `setActorSprite`，s188 dither 在 idx=91）。这些当前 allowlist 正确拒绝，entry 迁移也不应提升。**卡内未提及第三类，build 时审计报告需纳入。**
+
+  **(2) 测试矩阵** ✅（方向完整，build 必落逐行测试）：
+  - **X-R3 生命周期路径表**：prepare 中 abort / prepare 内命令抛错 / reveal 中二次 loadScene / 读档 quitToTitle 打断 / 目标资产加载失败——每行可落独立测试。沿 R2 RngPresentationState 先例（路径→收尾人→终态表）。✅
+  - **X-R1 prepare 安全集穷尽性断言**：每个 Command kind 必须声明 presentation-safety（随命令目录同址维护），新增 kind 未分类=类型错误或穷尽性测试失败。测试形态 = 遍历 `Command` 联合所有 kind，断言每个 kind 在安全集或禁止集中有声明（`expect(kind).oneOf([safe, blocked])`）。✅ 防止"47 项白名单搬到另一个暗角"。
+  - **X-R4 fade reveal 时序**：capture source → out → switch 逻辑 → prepare → in。当前 PAL 无站点用 entry.fade，语义定义给新内容。✅
+  - **migrate lifting 测试**：s001 精确 lifting（root 确实有，两 override 确实无——**修正 Opus 的 override 描述**）；11 站点全集 lifting；17 反例不误升；13 非早期不误升。✅
+
+  **总结**：entry 元数据取代命令前瞻方向正确；**lift 集 = 11 场景（非"s001 为主"），其中 1 个 override（s182 非 s001）**；反例集 17 + 第三类 13 均有清单；X-R1/R3/R4 测试矩阵可落。**agree**。
+
+  **X-N1-X-N3 非阻塞（build 必落）**：
+  - **X-N1**：修正 Opus X-R2 中 s001 override 描述——L-2876/L-2920 不含 ditherScreen，s001 只有 root。以实测 11 站点为准。
+  - **X-N2**：17 反例 + 13 非早期清单纳入迁移审计报告 + 测试（当前卡未覆盖第三类）。
+  - **X-N3**：`bindingHasEarlyDither` 当前只查 effective binding（override 若存在则不查 root，main.ts:584-591）——entry 迁移是 build-time 一次性扫描，不受运行时 effective 选择影响，但测试需明确"root 和 override 独立扫描"。
+
+- counter / 分歧处理: Opus 无架构 counter;X-R1~X-R4 为设计必补,GLM 无 counter(标 X-N1 站点勘误 + X-N2 反例/第三类清单 + X-N3 扫描独立性)。
 - 缺签豁免: N/A
-- build 准入结论: blocked(待 GLM;且 build 固定排在 N1-1 收口之后)
+- build 准入结论: **三签齐（Codex agree + Opus agree + GLM agree），build allowed。** X-R1~X-R4 必改 + X-N1(s001 override 勘误)/X-N2(17反例+13非早期清单)/X-N3(root/override 独立扫描)纳入 build 范围。**实现顺序：固定排在 N1-1 收口之后。**
 
 ### 进入 done 前:审查签字
 
@@ -211,7 +232,7 @@ Branch: main
 - Opus: **agree**。目标侧 stage 级 entry 正确——入场呈现是目的地首访演出的属性,不是每扇门的属性;
   来源侧方案需预知目标 stage 推进态,天然错位,否决正确。命令前瞻退役与 R2 第二解释器退役同一法理。
   附 X-R1~X-R4(prepare 安全集单源穷尽/override lifting/生命周期收尾人表/fade 时序定义)。
-- GLM: pending
+- GLM: **agree**。独立实测 lift 集 = **11 场景**(s001/s018/s057/s090/s151/s180/s182/s196/s197/s198/s200),非"s001 为主";**勘误 Opus X-R2: s001 L-2876/L-2920 两 override 均不含 ditherScreen**(s001 只有 root/on-enter/stage-0 含早期 dither);唯一 override lift 站点是 s182/L-27448。反例集 17 场景(trigger/shared 编舞)+第三类 13 场景(onEnter 非早期,setActorSprite 等非确定性前缀)。X-R1 安全集穷尽/X-R3 生命周期逐行/X-R4 fade 时序测试矩阵可落。X-N1(override 勘误)/X-N2(反例+第三类清单)/X-N3(root/override 独立扫描)非阻塞。
 - 用户拍板: 认可场景入场事务方向。
 
 ## 额度 / 代班记录(如适用)
@@ -259,6 +280,7 @@ Branch: main
   (X-R2)。X-R1=prepare 安全集随命令目录单源穷尽判别;X-R3=SceneEntrySession 收尾人逐路径表;
   X-R4=fade reveal 时序钉死。Evidence: 主审立场 + 代码/产物核验。Next: GLM 复核(与 N1-1 一并,提示词见
   N1-1 卡末);三签齐后 build,固定排在 N1-1 收口后。未改实现文件。
+- 2026-07-15 GLM: 设计复核签 **agree**。两项独立实测：(1)X-R2 lifting 站点面——实测 lift 集=**11 场景**(10 root + 1 override s182/L-27448),非"s001 为主";**勘误 Opus: s001 L-2876/L-2920 两 override 均不含 ditherScreen**(prefix 无 dither),s001 只有 root;反例集 17 场景(trigger/shared)+第三类 13 场景(onEnter 非早期,多 setActorSprite 前缀,s188 dither idx=91)。三集互斥共 41=总 ditherScreen 场景。(2)测试矩阵——X-R3 生命周期 5 路径逐行可测(沿 R2 RngPresentation 先例)/X-R1 安全集穷尽性(遍历 Command kind 断言 oneOf safe/blocked)/X-R4 fade 时序。X-N1(override 勘误)/X-N2(17反例+13非早期入审计)/X-N3(root/override 独立扫描)非阻塞。Evidence: 设计签字 GLM 行。Next: 三签齐已 build allowed,固定排在 N1-1 收口后;交 Codex build。未改实现文件。
 
 ## 下一位 Agent 提示词
 

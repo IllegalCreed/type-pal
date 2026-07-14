@@ -137,11 +137,25 @@ Branch: main
   reforge dialog-box.ts:113-130 每次排版对同一文本双跑 legacy parser。loader 单向升级 line→cue 为单射结构平移
   (line.speed→row.speed / line.autoAdvance→cue.autoAdvance),与 R2"迁移产物拒绝+重迁"分工不冲突
   (PAL=重生成,作者工程=loader 升级)。
-- GLM: pending
-- counter / 分歧处理: Opus 无架构 counter;R1-R4 为设计必补(`"` slot 依赖 / `~` 后死码 / 18 处 `-` 负号考证 /
-  `\n` 政策),纳入 build 范围。
+- GLM: **agree（2026-07-15;附 N1-N3 非阻塞 + R3 考证材料备齐,见下）**。六项复核逐条：
+
+  **(1) 基线对账** ✅（独立实测全吻合）：113 `$NN`/107 `~NN`/240 `"`/27 `(`/`)`（拆 17+10）/6,722 dialog/2,392 join 值全逐项验证。12vs9 口径差异=定义不同（实测 6 值含>1 `$NN`），两口径行中=0——前提 `\u3000` 算非可见。**N1(build 必落)**：`parseDialogText` default 分支(:166-167)实际 emit `\u3000`，严格读法有 4 个行中变速；`\u3000` 可见性约定必须显式钉进 decoder 契约+测试。
+
+  **(2) 表驱动测试矩阵完备性** ✅：对照 dialog-box.ts:98-180 全分支——`-`cyan toggle(无条件)/`'`/`@` toggle/`"`**R1 仅普通对话变黄 narration 只消费**(:130-132)/`$NN`跨行持续(:133-139)/`~NN`行止+**R2 其后全废含`$NN`**(:140-154 两形态并存 dlg.8624 vs 8603/9213/10217)/`\`转义(:161-165)/`(`icon=2 `)`icon=1(:155-160)/末尾冒号 speaker。R1/R2/R3 专项用例全部落表。✅
+
+  **(3) R3 考证材料——18 处 `-` 全站点清单备齐** ✅：全为属性±N 文案（防御+N 身法-N / HP-N / 武术+N 身法-N / 敌人HP-N），无一叙事、无一转义。一阶段 :121-123 `-` 无条件 toggle CYAN → "身法-10"="身法"+[cyan on]+"10"。`+`非控制码故只`-`被吞。裁决选项备齐交用户：(A)忠实 toggle(负号消失+数字变青) vs (B)literal 负号。
+
+  **(4) variant text id** ✅：命名必须与遍历顺序无关（S2）。**N2(build 必落)**：补"variant id 正序/逆序遍历输出相同"确定性测试。
+
+  **(5)** 一阶段 parseDialogText 真值复核 ✅：dialog-box.ts:98-180 全分支独立验证，与 Opus 一致。
+
+  **总结**：基线全吻合；R3 材料 18 站点备齐；测试矩阵方向完整。**agree**。
+
+  **N1-N3 非阻塞（build 必落）**：N1 `\u3000`可见性约定钉死；N2 variant id 确定性测试；N3 1,234 控制码引用交叉口径写审计报告。
+
+- counter / 分歧处理: Opus 无架构 counter;R1-R4 为设计必补,GLM 无 counter(标 N1-N3 build 必落 + R3 考证材料备齐)。
 - 缺签豁免: N/A
-- build 准入结论: blocked(待 GLM)
+- build 准入结论: **三签齐（Codex agree + Opus agree + GLM agree），build allowed。** R1-R4 必改 + N1-N3(`\u3000`可见性约定/variant id 确定性测试/1,234 交叉口径)纳入 build 范围。实现顺序：N1-1 优先。
 
 ### 进入 done 前:审查签字
 
@@ -218,7 +232,7 @@ Branch: main
 - Opus: **agree**,cue + rows 采纳为唯一 canonical(全语料 0 例行中变速,rows 覆盖率 100%;`~` = 页终真值故
   autoAdvance 归 cue 级正确);反对双格式立场一致。附 R1-R4:`"` slot 依赖、`~` 后死码、18 处 `-` 负号考证
   (需用户裁决 toggle vs literal)、`\n` 政策。
-- GLM: pending
+- GLM: **agree**。基线数字全吻合(113/107/240/27/6722/2392 独立实测);12vs9 口径差异=定义不同(6 值含>1 `$NN`),两口径行中=0 但依赖 `\u3000` 算非可见(N1 build 必落);R3 考证 18 处 `-` 全站点清单备齐(全属性±N 文案,一阶段无条件 cyan toggle);测试矩阵方向完整(R1 `"`slot依赖/R2 `~`后死码两形态/R3 18站点)。variant id 确定性需补测试(N2)。N1-N3 非阻塞。Evidence: 设计签字 GLM 行。
 - 用户拍板: 控制码必须移除并改成现代明确属性；迁移缺陷优先处理。R3 的 18 站点 toggle/literal 裁决待呈报。
 
 ## 额度 / 代班记录(如适用)
@@ -267,6 +281,7 @@ Branch: main
   渲染后交用户裁决 toggle/literal;R4=`\n` 政策(PAL 重生成去 join、新内容禁 `\n`、升级豁免)。同批完成
   X3-1 设计主审(agree + X-R1~X-R4,见该卡)。Evidence: 两卡主审立场 + 本人核验脚本输出。
   Next: GLM 覆盖/测试矩阵复核(两卡一并);三签齐后 Codex build,顺序 N1-1 优先。未改实现文件。
+- 2026-07-15 GLM: 设计复核签 **agree**。六项独立实测：(1)基线 113/107/240/27(拆17+10)/6722/2392 全吻合,12vs9=定义口径不同(6值含>1`$NN`),行中=0 依赖`\u3000`非可见(N1 build必落);(2)测试矩阵对照 parseDialogText:98-180 全分支方向完整,R1`"`slot依赖/R2`~`后死码两形态/R3专项全落表;(3)R3 材料 18处`-`全站点备齐(全属性±N,cmd39926-40790范围,一阶段:121-123无条件cyan toggle),裁决(A)忠实toggle vs(B)literal备齐交用户;(4)variant id 确定性需补正序/逆序测试(N2);(5)parseDialogText真值复核与Opus一致。N1(`\u3000`约定)/N2(variant确定性)/N3(1234交叉口径)非阻塞。Evidence: 设计签字GLM行。Next: 三签齐已 build allowed,N1-1优先;交 Codex build。未改实现文件。
 
 ## 下一位 Agent 提示词
 
