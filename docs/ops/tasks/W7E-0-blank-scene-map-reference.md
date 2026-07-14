@@ -47,7 +47,7 @@ Capability: W3 / W7 / E1
 - Opus: **agree**（2026-07-14）。完整联合传递是唯一不猜类型的修法；防御性复制防命令间引用共享；范围外条款挡住 map index 提前混入。
 - GLM: **agree**（2026-07-14）。测试矩阵四支覆盖 P0-1 复现路径：(1) own 地图新建场景保留 `{ownMap:path}` 不退回 `reuseOriginalMap:0` ✅；(2) reuse+room 完整保留地图号与 room ✅；(3) undo/redo 删除/恢复地图引用一致 ✅；(4) save/reload loader 重开解析 ✅。P0-1 复现路径（App.tsx:580 `reuseMapNum??0` + commands.ts:1734 固定 `reuseOriginalMap`）与修复方案（完整 SceneMap 联合传递+防御性复制）对应。四支测试覆盖了"类型保留+参数保留+撤销一致+持久化一致"四维，无漏环。
 - build 准入: **三签齐（Codex + Opus + GLM agree），build allowed。**
-- done 准入: Codex **accept**（2026-07-14）| Opus pending | GLM pending | 用户豁免 N/A | 结论 blocked
+- done 准入: Codex **accept**（2026-07-14）| Opus **accept（2026-07-14;四项复验全过——①AddSceneCommand 收完整 SceneMap+structuredClone(测试断言含嵌套 room 深复制 not.toBe);②全 editor 扫描零残留 `?? 0` 回退;③79 项测试绿(ownMap 经 dispatch/undo/redo/防御复制、reuse+room、正式 loader 重开);④6012 实测:新建 opus-w7e0-check 场景→属性面板显示 content/maps/start.json、画布中心亮度 101 非黑→撤销消失→重做恢复(仍 101/仍 start.json)→验证后撤销还原未保存。无返工项）** | GLM pending | 用户豁免 N/A | 结论 blocked
 
 ## Build：实现与自测
 
@@ -66,6 +66,8 @@ Capability: W3 / W7 / E1
 - 2026-07-14 Codex: 按 ED-1/Opus R3 拆出独立止血卡并给出完整联合传递方案。Evidence: ED-1 P0-1 与本卡验证矩阵。Next: Opus 设计审查；签字未齐，不得实现。
 - 2026-07-14 Opus: 设计签 **agree,无必改**。完整联合传递是唯一不猜类型的修法;防御性复制防命令间引用共享;范围外条款挡住 map index 提前混入。Next: GLM 复核;三签齐即可 build(独立于 ED-2/W7E)。
 - 2026-07-14 Codex: 实现与自动门禁完成，状态转 `review`。Evidence: editor 144 tests、根 `pnpm check`、`6012` 自有地图像素验证；原生 prompt 自动化限制已明确。Next: Opus 实现复验并补浏览器新建/撤销/重做动作；不得标 done。
+
+- 2026-07-14 Opus: 实现复验签 **accept**(fb86b23a)。structuredClone 防御复制+嵌套 room 深复制断言;回退零残留;79 测试绿;6012 全流程实测(新建→start.json 非黑屏 101→undo/redo→还原)。Evidence: done 准入行。Next: GLM 复验;三签齐后可 done。未改实现文件。
 
 ## 下一位 Agent 提示词
 
