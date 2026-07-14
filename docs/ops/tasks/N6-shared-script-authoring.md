@@ -389,6 +389,15 @@ interface ScriptIndexV1 {
 - 必须返工项: 无
 - Accept / rework: Opus accept;GLM pending;不得标 done
 
+### 增量复验:418cd1bc(场景私有脚本 vs 共享脚本,原三方 accept 之后)
+
+- Opus: **accept**(2026-07-14)。四条新语义逐一验证:
+  1. **透明展开不误吞真实 callScript** —— `materializeSceneStages` 六重闸:单命令 stage + callScript + `self === undefined`(显式 self = 真语义,永不展开)+ ref.id 不在 `index.library`(作者脚本永不吞)+ 精确匹配 `scene/<id>/root/<source>/stage-<digits>` 私有前缀 + 目标体可解析(孤儿原样显示)。测试"普通 callScript/内联内容/孤儿引用不冒充私有根绑定"钉住反例;**"段增删位置漂移后稳定 stage id 仍同源展开"专项测试**钉住了我最初怀疑的 digits≠index 场景——那是稳定 id 不随位置漂移的有意设计。
+  2. **编辑/undo/normalize** —— `UpdateScriptBodyCommand`(前 UpdateSharedScriptBodyCommand 更名扩责):checkCommands 前置、不可变更新、apply 收尾走 content `normalizeScriptLibrary`(imports/bytes/hash 全量重算,library 原样保留),invert 走完整快照恢复;**只写 chunks 不碰 index.library** —— 编辑内部 body 不会将其登记为共享脚本(语义 4)。
+  3. **导航** —— 抽屉命中 `scriptIndex.library[id]` 跳共享脚本页;内部脚本走"← 返回上一级"栈(手动进入天然防环);孤儿引用有测试。
+  4. **SharedScriptTab 只显作者库** —— 列表源 = `library ?? EMPTY_LIBRARY`;`focusScriptId` 必须在 library 内才选中,内部 id 深链不会污染共享列表选择。
+  - 独立复跑 scene-script-view + commands 定向测试 65 项全绿。无必改。
+
 ## 用户验收
 
 - 用户结论: pending
@@ -402,6 +411,7 @@ interface ScriptIndexV1 {
 - 2026-07-13 Codex: 核对三签齐与 build allowed，接任 Coding Owner；N1-N3 和 GLM 点名测试全部纳入实现范围，任务状态转 `build`。Next: Codex 按分期 1-5 实现和自测。
 - 2026-07-13 Codex: 完成 content schema/纯归一化、editor CRUD/引用图/UI、MG2 保留与审计分账、reforge 懒加载回归和作者手册；全包测试、editor build、迁移双跑、6010 双调用方与窄窗检查通过，Codex 签 `accept`，状态转 `review`。Next: Opus 复验架构/代码/UX，并补 6051 网络抓包；不得标记 done。
 - 2026-07-13 Opus: 实现复验签 **accept**(67d8c540)。五维:schema 守卫命名空间强制+normalize 保留重算;引用图 DFS 环限定作者脚本(jump 边隔离)+self 上下文推导+N1 按需+N2 warning;MG2 normalize structuredClone 保留+audit 分账封逃逸;editor 131 tests;**6051 网络复验补齐**——临时探针法(注入 shared/user 探针+s003 onEnter 调用):s001 不拉未调用 shard,跨 s003 恰好只拉 scene/s003+shared/c15,双向证明;探针 git 还原零残留+MG2 零计划复核。O1 孤儿元数据测试/O2 窄窗组合交 GLM 顺手。Evidence: done 前审查 Opus 行。Next: GLM 覆盖/迁移/测试矩阵复验;三签齐交用户验收方可 done。未改实现文件(探针为审查性临时注入,已还原)。
+- 2026-07-14 Opus: 418cd1bc 增量复验签 **accept**。六重闸判定器(单命令/callScript/无 self/非 library/精确 root 前缀/可解析)防误吞;位置漂移边界系有意设计且有专项测试;UpdateScriptBodyCommand 经 content normalize+快照 invert 且不碰 library;SharedScriptTab 仅 authoredIds;65 定向测试复跑绿。Evidence: Review 增量复验节。未改实现文件。
 
 ## 下一位 Agent 提示词
 
