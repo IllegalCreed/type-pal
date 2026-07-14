@@ -577,9 +577,7 @@ export function App(props: {
                     window.alert(`场景 "${id}" 已存在`)
                     return
                   }
-                  session.dispatch(
-                    new AddSceneCommand(id, reuseMapNum(scene.map) ?? 0, scene.entry),
-                  )
+                  session.dispatch(new AddSceneCommand(id, scene.map, scene.entry))
                   switchPlaceScene(id)
                 }}
               >

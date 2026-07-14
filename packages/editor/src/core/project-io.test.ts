@@ -1,6 +1,13 @@
-import { type LoadedManifest, normalizeScriptLibrary } from '@type-pal/content'
-import { assembleProject, buildBlankOwnMap, loadOwnMap } from '@type-pal/reforge'
+import { type LoadedManifest, normalizeScriptLibrary, type SceneDef } from '@type-pal/content'
+import {
+  assembleProject,
+  buildBlankOwnMap,
+  loadOwnMap,
+  loadProjectFrom,
+  loadSceneDef,
+} from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
+import { AddSceneCommand } from './commands.js'
 import { diffFiles, serializeProject, toEditorState } from './project-io.js'
 
 /**
@@ -168,6 +175,29 @@ test('W7D 自有地图 round-trip:ownMaps → serializeProject 产出 content/ma
   expect(state.maps).toEqual(ownMaps) // 键 = ownMap 相对路径,原样入 state
   const out = serializeProject(state)
   expect(out['content/maps/guijie-minju.json']).toEqual(ownMap) // 键即路径,直接产出为文件
+})
+
+test('W7E-0 新场景保存后由正式 loader 重开仍保留自有地图引用', async () => {
+  const ownScene: SceneDef = {
+    ...(scenesJson[0] as SceneDef),
+    map: { ownMap: 'content/maps/guijie-minju.json' },
+  }
+  const project = assembleProject(manifest, { ...JSONS, entryScene: ownScene })
+  const state = toEditorState(project, [ownScene])
+  const changed = new AddSceneCommand('new-room', ownScene.map, ownScene.entry).apply(state)
+  const files = serializeProject(changed)
+  const source = {
+    readText: async (path: string) => JSON.stringify(files[path]),
+    readJson: async <T>(path: string) => files[path] as T,
+    readBytes: async () => new ArrayBuffer(0),
+    urlFor: async (path: string) => path,
+  }
+
+  const reopened = await loadProjectFrom(source)
+  expect(await loadSceneDef(reopened, 'new-room')).toMatchObject({
+    id: 'new-room',
+    map: { ownMap: 'content/maps/guijie-minju.json' },
+  })
 })
 
 test('M3 scripts 目录 round-trip:index + chunk 路径与内容原样保留', () => {

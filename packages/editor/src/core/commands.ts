@@ -1728,7 +1728,7 @@ export class UpdateSkillCommand implements Command {
 }
 
 /**
- * 新建场景(复用地图号起步;entry 给定落点;空实体/对话)。invert 删回。
+ * 新建场景(完整复用当前地图引用;entry 给定落点;空实体/对话)。invert 删回。
  * id 由 UI 保证唯一(重复 = no-op 防御)。
  */
 export class AddSceneCommand implements Command {
@@ -1736,10 +1736,10 @@ export class AddSceneCommand implements Command {
   private readonly scene: SceneDef
   private added = false
 
-  constructor(id: string, mapNum: number, entry: SceneDef['entry']) {
+  constructor(id: string, map: SceneMap, entry: SceneDef['entry']) {
     this.scene = {
       id,
-      map: { reuseOriginalMap: mapNum },
+      map: structuredClone(map),
       entry: structuredClone(entry),
       entities: [],
     }

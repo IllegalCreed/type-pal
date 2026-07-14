@@ -1,6 +1,6 @@
 # W7E-0 - 空白工程新场景地图引用止血
 
-Status: draft
+Status: review
 Owner: Codex
 Reviewer: Opus + GLM
 Phase: phase2
@@ -34,7 +34,7 @@ Capability: W3 / W7 / E1
 
 ## 验证
 
-- 单测：空白种子从 `s000` 新建 `s001`，两者均保留同一 `{ ownMap: "content/maps/start.json" }`，不存在 `reuseOriginalMap: 0`。
+- 单测：空白种子从 `start` 新建 `s001`，两者均保留同一 `{ ownMap: "content/maps/start.json" }`，不存在 `reuseOriginalMap: 0`。
 - 单测：带 `room` 的原版复用地图新建场景后完整保留地图号与 room。
 - 单测：undo 删除新场景，redo 恢复同一地图引用；原场景和地图数据不变。
 - 工程 I/O：保存后由正式 loader 重开，新场景仍能解析其地图。
@@ -43,25 +43,44 @@ Capability: W3 / W7 / E1
 
 ## 推进签字
 
+- Codex: **agree**（2026-07-14）。完整传递现有 `SceneMap` 是最小且语义正确的修复；不改 schema、不创建临时地图文件，也不把 W7E 的 map-id 设计提前塞进止血卡。
+- Opus: **agree**（2026-07-14）。完整联合传递是唯一不猜类型的修法；防御性复制防命令间引用共享；范围外条款挡住 map index 提前混入。
 - GLM: **agree**（2026-07-14）。测试矩阵四支覆盖 P0-1 复现路径：(1) own 地图新建场景保留 `{ownMap:path}` 不退回 `reuseOriginalMap:0` ✅；(2) reuse+room 完整保留地图号与 room ✅；(3) undo/redo 删除/恢复地图引用一致 ✅；(4) save/reload loader 重开解析 ✅。P0-1 复现路径（App.tsx:580 `reuseMapNum??0` + commands.ts:1734 固定 `reuseOriginalMap`）与修复方案（完整 SceneMap 联合传递+防御性复制）对应。四支测试覆盖了"类型保留+参数保留+撤销一致+持久化一致"四维，无漏环。
-- done 准入: Codex pending | Opus pending | GLM pending | 用户豁免 N/A | 结论 blocked
+- build 准入: **三签齐（Codex + Opus + GLM agree），build allowed。**
+- done 准入: Codex **accept**（2026-07-14）| Opus pending | GLM pending | 用户豁免 N/A | 结论 blocked
 
-Codex 立场：完整传递现有 `SceneMap` 是最小且语义正确的修复；它不改 schema、不创建临时地图文件，也不会把 W7E 的 map-id 设计提前塞进止血卡。
+## Build：实现与自测
+
+- Coding Owner：Codex。
+- 实现：`AddSceneCommand` 改为接收完整 `SceneMap`，构造时用 `structuredClone` 防御性复制；新建按钮直接传 `scene.map`，彻底移除 `reuseMapNum(scene.map) ?? 0` 回退。
+- 范围：只改既有联合的消费方式；没有修改 content schema、map index、地图文件复制或删除语义。
+- 测试：
+  - 空白种子 `start -> s001` 保持同一 `ownMap`，并通过真实 `EditSession` 验证 dispatch / undo / redo。
+  - 原版复用地图完整保留 `reuseOriginalMap + room`，新旧对象及嵌套 `room` 不共享引用。
+  - `serializeProject -> loadProjectFrom -> loadSceneDef` 正式链重开后，新场景仍解析为同一 `ownMap`。
+- 自动门禁：`pnpm --filter @type-pal/editor check` 全绿（17 文件 / 144 tests）；根 `pnpm check` 全绿（654 个 Biome 文件无错误）。
+- 浏览器：`6012` 载入 `projects/e2e-own`，确认 `content/maps/start.json`、canvas 和自有地图像素均正常，控制台无 warning/error。当前内置浏览器自动化明确不支持页面 `prompt()`，因此“点新建 -> 输入 id -> 切换两场景 -> undo/redo”未伪报完成，交 Opus 用可处理原生 prompt 的浏览器补验。
 
 ## 交接
 
 - 2026-07-14 Codex: 按 ED-1/Opus R3 拆出独立止血卡并给出完整联合传递方案。Evidence: ED-1 P0-1 与本卡验证矩阵。Next: Opus 设计审查；签字未齐，不得实现。
 - 2026-07-14 Opus: 设计签 **agree,无必改**。完整联合传递是唯一不猜类型的修法;防御性复制防命令间引用共享;范围外条款挡住 map index 提前混入。Next: GLM 复核;三签齐即可 build(独立于 ED-2/W7E)。
+- 2026-07-14 Codex: 实现与自动门禁完成，状态转 `review`。Evidence: editor 144 tests、根 `pnpm check`、`6012` 自有地图像素验证；原生 prompt 自动化限制已明确。Next: Opus 实现复验并补浏览器新建/撤销/重做动作；不得标 done。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: ED-1 done 复核 + W7E-0/ED-2/W7E 三子卡设计复核(GLM 四卡合并)
-四卡: docs/ops/tasks/{ED-1-editor-authoring-closure-audit, W7E-0-blank-scene-map-reference, ED-2-editor-primary-modules, W7E-map-library-scene-binding}.md
-当前状态: ED-1 review(Codex+Opus accept,GLM pending);W7E-0/ED-2 draft(Codex+Opus agree,无必改);W7E draft(Codex+Opus agree,附 M1/M2 必改待 Codex 落卡)
-你的角色: GLM,覆盖/测试矩阵/一致性复核;只审文档,不改实现
-Opus 已过: ED-1 收口忠实(capability 五格逐行对账/R1-R3+S1+S3 定位到子卡条文;唯一余项 S2 已补记 ED-1 后续任务行=ED-3 开卡必带);W7E-0 最小修复+四支测试齐;ED-2 注册表同源+typed 深链+objectId 不偷选第 0 项;W7E schema/升级边界/懒加载/MG2 双表全过,M1=纯 reuse 工程不升 v2 不注入空 index、M2=消费方表补 clone/zip(A5)。
-请你复核: (1)ED-1:S2 补记文本与 GLM 自己首轮抽查结论仍一致,签 done accept/counter;(2)W7E-0:测试矩阵(own/reuse+room/undo-redo/save-reload)对 P0-1 复现路径的覆盖,签 agree/counter;(3)ED-2:15 旧页→八模块映射"恰好一次"可测性、跨模块跳转三例是否足够,签 agree/counter;(4)W7E:M1/M2 落卡后的消费方矩阵终版逐层对照实际代码面(content/reforge/editor core/editor UI/migrate/MG2/docs),给漏项差集;测试节对 D1-D5 分期的映射,签 agree/counter。各卡分别写 GLM 行+日志
-不要做: 不改实现;子卡三签未齐不 build;ED-1 三方未齐不标 done
-输出要求: 四项分别结论、W7E 消费方差集、提交 hash
+接手 W7E-0 实现复验。
+任务卡: docs/ops/tasks/W7E-0-blank-scene-map-reference.md
+当前状态: review；Coding Owner=Codex；三方设计 agree 已齐。
+实现提交: 由用户随本提示词附上 Codex 最新 W7E-0 提交 hash。
+
+先读 AGENTS.md、docs/phase2/READ-FIRST.md 和任务卡上下文锚点。请审查：
+1. AddSceneCommand 是否完整、防御性复制 SceneMap，且没有引入 map index/schema 变化；
+2. App 新建入口是否彻底移除 ownMap -> reuseOriginalMap:0 回退；
+3. ownMap、reuse+room、undo/redo、serialize+正式 loader 重开四支测试是否有效；
+4. 在 http://localhost:6012/ 实测：从 start 新建场景，输入唯一 id，确认新场景仍显示 content/maps/start.json 且地图非黑屏；再撤销/重做并复查。
+
+通过请在任务卡 done 准入与交接日志写 Opus accept；不通过写 counter、文件位置和返工条件。
+只审实现和补验证记录，不得另改实现文件，不得标 done。
 ```

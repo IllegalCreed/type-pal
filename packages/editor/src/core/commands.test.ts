@@ -1,4 +1,4 @@
-import type { ActorDef, EntityDef, ScriptStage, SpriteDef } from '@type-pal/content'
+import type { ActorDef, EntityDef, SceneDef, ScriptStage, SpriteDef } from '@type-pal/content'
 import { deriveScriptChunk, getScriptBody } from '@type-pal/content'
 import { buildBlankOwnMap, buildOwnMapLayer, paintOwnMapTiles } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
@@ -8,6 +8,7 @@ import {
   AddEntityCommand,
   AddOwnMapLayerCommand,
   AddPoisonCommand,
+  AddSceneCommand,
   AddSpriteCommand,
   AppendSpriteFramesCommand,
   CreateOwnMapCommand,
@@ -41,7 +42,8 @@ import {
   UpdateSpriteCommand,
   UpsertAuthoredScriptCommand,
 } from './commands.js'
-import type { EditorState } from './edit-session.js'
+import { type EditorState, EditSession } from './edit-session.js'
+import { buildBlankProject } from './seed.js'
 
 const ent = (id: string): EntityDef => ({
   id,
@@ -230,6 +232,49 @@ describe('布置命令集 · 不可变 + invert', () => {
     expect(a1).toBe(s0) // 同引用 = 未改
     const a2 = new UpdateEntityCommand('nope', 'a', { collide: true }).apply(s0)
     expect(a2).toBe(s0)
+  })
+})
+
+describe('W7E-0 新场景完整继承地图引用', () => {
+  test('空白工程自有地图经 dispatch/undo/redo 始终保持 ownMap', async () => {
+    const files = await buildBlankProject('W7E Test')
+    const source = structuredClone(files['content/scenes/start.json']) as SceneDef
+    const initial = st()
+    initial.scenes = [source]
+    const session = new EditSession(initial)
+
+    session.dispatch(new AddSceneCommand('s001', source.map, source.entry))
+    const added = session.getState().scenes.find((scene) => scene.id === 's001')
+    expect(added?.map).toEqual({ ownMap: 'content/maps/start.json' })
+    expect(added?.map).not.toBe(source.map)
+    expect(source.map).toEqual({ ownMap: 'content/maps/start.json' })
+
+    session.undo()
+    expect(session.getState().scenes.map((scene) => scene.id)).toEqual(['start'])
+    expect(session.getState().scenes[0]?.map).toEqual({ ownMap: 'content/maps/start.json' })
+
+    session.redo()
+    expect(session.getState().scenes.find((scene) => scene.id === 's001')?.map).toEqual({
+      ownMap: 'content/maps/start.json',
+    })
+  })
+
+  test('原版地图完整保留 mapNum + room，并防御性复制嵌套 room', () => {
+    const sourceMap: SceneDef['map'] = {
+      reuseOriginalMap: 56,
+      room: { col: 26, row: 34, cols: 22, rows: 25 },
+    }
+    const command = new AddSceneCommand('room-copy', sourceMap, {
+      pos: { col: 90, row: 14, height: 0 },
+      facing: 'down',
+    })
+    const changed = command.apply(st())
+    const added = changed.scenes.find((scene) => scene.id === 'room-copy')
+    expect(added).toBeDefined()
+    if (!added || !('reuseOriginalMap' in added.map)) throw new Error('新场景地图类型错误')
+    expect(added.map).toEqual(sourceMap)
+    expect(added.map).not.toBe(sourceMap)
+    expect(added.map.room).not.toBe('reuseOriginalMap' in sourceMap ? sourceMap.room : undefined)
   })
 })
 
