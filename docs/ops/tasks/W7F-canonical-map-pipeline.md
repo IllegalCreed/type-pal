@@ -196,7 +196,7 @@ editor 此后只认识这一种地图模型。所有迁移地图与作者地图�
 - Codex: **accept（2026-07-14）**。已完成实现自审、全仓门禁、迁移双跑、三档浏览器与
   demo/e2e-own 工程加载验证；实现符合单一 ProjectMapV2、实例高度、懒加载/copy-through 和
   地图编辑闭环设计。等待 Opus/GLM 独立复验。
-- Opus: pending
+- Opus: **accept**（2026-07-14,基线 c2589fb2;五点复核全过——①静态边界独立 grep:content/reforge/editor 零 Tilemap/reuseOriginalMap/lower-upper/word 解码;②M2 落地实锤:save/ops.ts:65-72 对数字 mapOverride 显式抛"旧存档…无法安全转换",fail-loud;③M3 按"undo 引用禁淘汰"落地且双测试钉住(edit-session.test:151 干净图可淘汰/撤销链触及图保存后仍 pin/切图后可 undo;project-io.test:195 未加载图 copy-through 不 parse),定向 96+22 测试独立复跑绿;④0x99 双站点产物 s230/s243 setSceneMapOverride mapId,renderer/collision 测试绿,**6051 前台运行时实测**:开场 16s 可控(dither 零帧锚 true)→s001→s003 跨场景渲染正常(中心亮度 147)、console 零 error;⑤6010 实测:223 图地图库(共享计数正确,map-104/164 在库)、＋⧉✎− 四操作、图层列表+吸管带实例高度+聚焦开关、高度输入接受超当前最大值(M5a 数值输入方案落地)。M1/M4 抽验实锤:project-map-audit 语义位往返失败即抛(3,653,632 实例差异 0 即其产物);formatProjectMapV2 单一来源于 content+字节幂等测试+editor 共享断言。**审查方法学注记**:复验初期测得 6051 "1fps",追查为 Chrome 后台标签 rAF 节流伪装的假回归(置前台即 119.5fps 满帧)——M3 审查期同症疑云同因,CLI 浏览器验证必须 bringToFront,已记入工作方法。无返工项）
 - GLM: pending
 - counter / 返工处理: pending
 - 缺签豁免: N/A
@@ -475,6 +475,8 @@ F1-F6 由同一 Coding Owner 连续推进；任一期不得以兼容分支把半
 - 2026-07-14 Codex: 完成 F2-F6：迁移/MG2、reforge 单格式、editor 懒仓库与 UI、三工程升级、
   全仓门禁和浏览器实测全部收口，任务转 review。Evidence: Build 与视觉验证记录。Next: Opus
   独立复验实现可行性、运行时/存档边界和视觉交互；不得直接改实现文件。
+
+- 2026-07-14 Opus: 实现主审签 **accept**(c2589fb2)。五点:静态边界零命中/M2 数字 override fail-loud(save/ops.ts:72)/M3 undo-pin+copy-through 双测试/0x99 双站点+6051 前台运行时(开场→s003,console 零错)/6010 地图库+双尺+超范围高度输入(M5a 落地)。M1 往返审计失败即抛、M4 格式化器单一来源+字节幂等均实锤。方法学:后台标签 rAF 节流伪装 1fps 假回归(前台 119.5fps),CLI 验证必须 bringToFront——M3 期同症同因,已归档。Evidence: done 签字行。Next: GLM 迁移覆盖/测试矩阵复核;三签齐+用户验收方可 done。未改实现文件。
 
 ## 下一位 Agent 提示词
 
