@@ -124,11 +124,24 @@ Branch: main
 
 - Codex: **agree（2026-07-14）**。现状与原设计直接冲突；建议 cue + rows 单一模型，旧码解析只归 migrate，
   loader 仅做一次性边界升级。
-- Opus: pending
+- Opus: **agree（2026-07-14,附 R1-R4 必改 + S1-S2 建议,见主审立场）**。独立地面重验,卡内基线数字全部吻合:
+  `$NN`=113/`~NN`=107/`"`=240/`()`=27(出现次数口径)、dialog 命令 6,722 条(speed/autoAdvance/cursorFrame 全 0)、
+  1,234 条引用含控制码 locale、join 值 2,392 个;开场三段 `$10`→112ms/`~30`→342ms、`$02`→16ms/`~40`→457ms、
+  第三段继承 16ms/`~60`→685ms,逐条对上一阶段换算公式。**关键新证据——全语料 `$NN` 位置分类:行首(可见字前)103 /
+  末字后 10 / 行中(真·中途变速)0**:PAL 全集不存在任何可见文字中途变速,rows 行级 speed + 状态携带 100% 覆盖,
+  fail-loud 是纯保险而非预期路径(我按 join 值口径测得多速度批 9 个,与卡"12 个原始批次"口径差留 GLM 对账,
+  两口径下全部属行界形态)。dlg.9831/9832 跨值黄色实证(`$12"…~70` 未闭合 → `…"$02~60` 闭合)确证 stateful decoder
+  + 每值平衡标签展开必要。cue 级 autoAdvance 忠实:一阶段 `~` = 行止 + 行计数复位 = 页终不等键不画光标
+  (game/present/dialog-box.ts:76-81),`~` 天然是 cue 边界,批中 `~` 即迁移期分 cue 点。runtime 删除有据:
+  content/dialog-text.ts 文档头自认"二阶段渲染层解析",与 model-design §5(控制码在数据生产期消失)正面冲突;
+  reforge dialog-box.ts:113-130 每次排版对同一文本双跑 legacy parser。loader 单向升级 line→cue 为单射结构平移
+  (line.speed→row.speed / line.autoAdvance→cue.autoAdvance),与 R2"迁移产物拒绝+重迁"分工不冲突
+  (PAL=重生成,作者工程=loader 升级)。
 - GLM: pending
-- counter / 分歧处理:
+- counter / 分歧处理: Opus 无架构 counter;R1-R4 为设计必补(`"` slot 依赖 / `~` 后死码 / 18 处 `-` 负号考证 /
+  `\n` 政策),纳入 build 范围。
 - 缺签豁免: N/A
-- build 准入结论: blocked
+- build 准入结论: blocked(待 GLM)
 
 ### 进入 done 前:审查签字
 
@@ -169,16 +182,44 @@ Branch: main
 ### 主审立场
 
 - Reviewer: Opus（schema/运行时边界）+ GLM（迁移覆盖/测试矩阵）
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论(Opus,2026-07-14): **agree — DialogueCue + rows 应为唯一 canonical 形态**。三个核心问题裁定:
+  1. **批内多速度**:全语料实测 `$NN` 行中出现 0 次(行首 103 / 末字后 10),行级 `row.speed` + 迁移器状态携带
+     即 100% 覆盖;"真·中途变速 fail-loud 交三方裁"作为保险条款保留,预期永不点火。
+  2. **跨行颜色**:dlg.9831/9832 未闭合/续闭合实证跨值状态真实存在;stateful decoder 携带进入/离开状态、
+     每个 locale 值独立平衡标签,是唯一不把控制状态泄进运行时的方案。采纳。
+  3. **autoAdvance cue 级**:一阶段 `~` 行止 + 行计数复位 = 页终(不等键不画光标),`~` 就是显示单元边界;
+     批中出现 `~` 时迁移器在该点分 cue,各 cue 独立 autoAdvance——忠实且无损。采纳。
+  runtime 删除 legacy parser、loader 单向升级、变体 text id 方向均无 counter。
+- 必改项(R,设计层面补明,build 必落):
+  - **R1 `"` 的 slot 依赖语义进 decoder 契约与测试表**:一阶段真值 `"` 仅 `!isDialog`(top/bottom/center 普通对话)
+    toggle 黄色,narration(isDialog=TRUE)只消费不变色(game/present/dialog-box.ts:96,130-132)。decoder 输入必须含
+    slot 上下文;测试表必须含"narration 内 `"` 消费不变色"与"普通对话 `"` 变黄"两个方向。卡现文"与一阶段逐字符
+    真值一致"未点名此分叉,240 处 quote 全押在这上面。
+  - **R2 尾部 `$NN` 两形态分家钉进测试**:`…$02~70`(`~` 前)= 速度状态改变,传播到下一行/下一 cue;
+    `…~50$02`(`~` 后)= 死码,一阶段整段丢弃(text.c:1554 return),**不得让其污染后续速度状态**。实测两形态
+    并存(dlg.8624 vs dlg.8603/9213/10217)。卡有"`~` 后缀忽略"一句,须精确为"其后所有字符含 `$NN`/颜色码一并作废"。
+  - **R3 18 处 `-` 全部是属性±N 文案的负号,先考证再定去向**:实测 all.json 18 处 `-` 全落在
+    `防御+13　身法-10`/`HP-30` 类属性增减文案,无一处叙事强调。按一阶段解析器语义它们会被当 cyan toggle 消费
+    (负号消失、`身法` 后数字变青直到下个 `-` 关断)——视觉上像 bug 但可能是原版真行为。build 前必须:
+    跑一阶段渲染取实况(或原版对照),连同 18 站点清单交用户裁决"忠实 toggle"vs"literal 负号(跟原版后期修复风格)";
+    不得未考证默认按 toggle 吞负号。此裁决同时决定 decoder 对 `-'@` 三符的缺省策略。
+  - **R4 row 内 `\n` 政策一句话钉死**:重生成后 PAL 每 row 一个 TextId(不再 join,消化现存 2,392 个 join 值);
+    新内容 validator 禁止 locale 值内 `\n`;loader 升级旧工程 line→单 row 时保留既有 `\n` 作软换行豁免
+    (升级器只动结构、不改写 locale)。防止"rows 与 `\n` 两套换行"变相双 canonical。
+- 建议项(S,不阻塞):
+  - S1 编辑器 rows 表单显示 resolved 继承速度来源(行无显式 speed 时显示"继承 16ms/字"),纯 UX,build 裁量。
+  - S2 变体 text id 命名规则写进 content-schema 文档,并注明必须与翻译遍历顺序无关(MG2 二跑同进程重放防不了
+    顺序依赖式 id churn,基线稳定性靠命名本身确定)。
+- 是否建议进入 build: **待 GLM 覆盖复核;R1-R4 纳入 build 范围后 build**。实现顺序用户已定:N1-1 优先,X3-1 后置。
 
 ### 三方争议记录(按需)
 
 - Codex: 推荐 cue + rows；反对保留 `line.text` 与 `cue.rows` 双格式。
-- Opus: pending
+- Opus: **agree**,cue + rows 采纳为唯一 canonical(全语料 0 例行中变速,rows 覆盖率 100%;`~` = 页终真值故
+  autoAdvance 归 cue 级正确);反对双格式立场一致。附 R1-R4:`"` slot 依赖、`~` 后死码、18 处 `-` 负号考证
+  (需用户裁决 toggle vs literal)、`\n` 政策。
 - GLM: pending
-- 用户拍板: 控制码必须移除并改成现代明确属性；迁移缺陷优先处理。
+- 用户拍板: 控制码必须移除并改成现代明确属性；迁移缺陷优先处理。R3 的 18 站点 toggle/literal 裁决待呈报。
 
 ## 额度 / 代班记录(如适用)
 
@@ -218,17 +259,31 @@ Branch: main
 - 2026-07-14 Codex: 复核设计文档、迁移器、runtime、editor 和 PAL 产物；确认运行时解析器是对已拍板
   架构的倒退，且当前结构无法表达批内多速度。建立 cue + rows 提案并签 agree。Evidence: 本卡基线统计。
   Next: Opus 做 schema/运行时设计主审；不得实现。
+- 2026-07-14 Opus: 设计主审签 **agree + R1-R4 必改 + S1-S2 建议**。独立重验:卡内全部基线数字吻合
+  (113/107/240/27、6,722/1,234、2,392 join 值、开场三段换算逐条对上);新证据 `$NN` 位置分类
+  行首103/末字后10/**行中0** —— rows 模型 100% 覆盖 PAL,无一真·中途变速;dlg.9831/9832 跨值黄色实证
+  stateful decoder 必要;`~` 页终真值支持 cue 级 autoAdvance。R1=`"` slot 依赖(仅普通对话变黄,narration
+  只消费);R2=`~` 后 `$NN` 死码不得污染状态(两形态实测并存);R3=18 处 `-` 全为属性±N 负号,须考证原版
+  渲染后交用户裁决 toggle/literal;R4=`\n` 政策(PAL 重生成去 join、新内容禁 `\n`、升级豁免)。同批完成
+  X3-1 设计主审(agree + X-R1~X-R4,见该卡)。Evidence: 两卡主审立场 + 本人核验脚本输出。
+  Next: GLM 覆盖/测试矩阵复核(两卡一并);三签齐后 Codex build,顺序 N1-1 优先。未改实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: N1-1 对话控制码退出内容与运行时,并顺带审阅已记录的 X3-1 场景入场呈现事务
+接手任务: N1-1 对话控制码退出内容与运行时 + X3-1 场景入场呈现事务,覆盖/测试矩阵复核(GLM)
 主任务卡: docs/ops/tasks/N1-1-dialogue-control-code-retirement.md
 关联设计卡: docs/ops/tasks/X3-1-scene-entry-presentation.md
-当前状态: 两卡均为 draft;Codex agree,Opus/GLM pending;build blocked
-你的角色: Opus,主审 schema、运行时边界、旧工程单向升级和呈现架构;只改任务卡,不得实现
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、两张任务卡及其上下文锚点;N1-1 重点对照 dialogue/model-design.md 与一阶段 dialog-box.ts;X3-1 重点对照一阶段 sceneLoading/0x73 与 Reforge 当前 bindingHasEarlyDither
-请你做: 1)判断 DialogueCue + rows 是否是唯一 canonical 形态,能否忠实覆盖批内多速度、跨行颜色和 autoAdvance;2)审 loader 单向升级、variant text id、runtime 删除 legacy parser 的风险;3)判断 X3-1 的 Prepare→Reveal→Body 是否应取代运行时命令前瞻,普通 fade 与独立 dither 边界是否完整;4)分别在两卡 Opus 设计签字行写 agree 或 counter+替代方案,补主审结论/必改项/交接日志并提交
-不要做: 不改实现文件;不重生成 PAL;不改 capability-map 状态;三签未齐不得转 build
-输出要求: 给出提交 hash和可直接转交 GLM 的下一位 Agent 提示词;即使两卡 agree,实现顺序仍是 N1-1 优先、X3-1 后置
+当前状态: 两卡设计签字 Codex agree + Opus agree(N1-1 附 R1-R4,X3-1 附 X-R1~X-R4),GLM pending;三签未齐,build blocked
+你的角色: GLM,迁移覆盖面/测试矩阵复核;只改任务卡,不得实现
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、两卡全部(重点两卡 Opus 主审立场的 R 项)、docs/phase2/dialogue/model-design.md、packages/game/src/present/dialog-box.ts(一阶段真值)
+请重点复核(数据/测试面,与 Opus 的 schema/架构面互补):
+1. N1-1 基线对账:113 $NN/107 ~NN/240 quote/27 paren(出现次数口径)、6,722 dialog 命令、1,234 控制码引用、2,392 join 值;卡"12 个批内变速批次"与 Opus 按 join 值口径 9 个的差异对账(两口径均应全属行界形态,行中=0);
+2. 表驱动测试矩阵完备性:对照一阶段 parseDialogText 全分支(-'@" 四色 toggle、`"` 仅普通对话变黄、$NN 跨行跨命令持续、~NN 行止且其后含 $NN 一并作废、\ 转义、() 光标、末尾冒号 speaker),每分支至少一用例;R1/R2/R3 的专项用例是否全部落进测试列表;
+3. R3 考证材料:18 处 `-` 全站点清单(实测全为属性±N 文案)+ 一阶段渲染实况,备齐给用户裁决 toggle vs literal;
+4. variant text id:同源多状态站点数量的审计方法;命名确定性(与翻译遍历顺序无关)如何落断言;
+5. X3-1 lifting 站点面:全 PAL onEnter 绑定(root + override 家族)中"早期 0x73"站点计数,确认除 s001 root 外还有哪些;独立 0x73(非 onEnter 前缀)不误升 entry 的反例集;
+6. X3-1 测试矩阵:X-R3 生命周期路径表(prepare 中 abort/reveal 中二次 loadScene/读档打断/prepare 抛错)逐行可落测试;X-R1 prepare 安全集穷尽性断言(每个 Command kind 必须声明分类)的测试形态。
+不要做: 不改实现文件;不重生成 PAL;不改 capability-map;三签未齐不得转 build
+输出要求: 在两卡 GLM 设计签字行写 agree 或 counter+理由,补交接日志并提交;三签齐后把两卡 build 准入结论改 allowed(实现顺序固定 N1-1 优先、X3-1 后置),交 Codex build
 ```

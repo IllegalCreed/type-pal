@@ -122,11 +122,23 @@ Branch: main
 
 - Codex: **agree（2026-07-14）**。用户指出的是正确的抽象泄漏；建议显式 stage entry metadata +
   SceneEntrySession，保留已验视觉算法，仅替换 source handoff 的决策架构。
-- Opus: pending
+- Opus: **agree（2026-07-14,附 X-R1~X-R4 必改 + S1,见主审立场）**。独立复核裁定 Prepare→Reveal→Body 应当
+  取代运行时命令前瞻:当前实现是三重暗耦合——47 项 `DETERMINISTIC_PREFIX_KINDS` 运行时白名单
+  (dither-transition.ts:199-247)、callScript 穿透 chunk store 预读(main.ts:602-610)、
+  `preserveClosedDialogFrame` 隐藏态(main.ts:932-936);白名单外任何新命令出现在 dither 前即**静默降级**普通
+  fade,行为改变无报错——与 R2 刚退役的第二解释器同类抽象泄漏(运行时预执行/预解释数据)。一阶段真值本就是
+  "目标侧声明":0x73 位于 s001 自己的脚本内,loadScene 只设 sceneLoading 冻结、0x73 清冻结并以旧呈现帧为
+  source(event-system.ts:2580-2605)——entry 元数据是这一已验语义的显式数据化,72 步/2160ms/target-only 假色
+  算法零改动(范围外已钉死)。s001 产物实测(playMusic→teleportParty→ditherScreen 2160→dialog…)提升为
+  prepare=[playMusic,teleportParty]/reveal=dither 2160/body=[dialog…] 是纯结构移动,语义等价。entry 挂
+  ScriptStage 级(非 SceneDef 级)+ 复用 stageIndexFor 单一解析,正确处理首访/重访分叉。**发现卡未覆盖点:
+  s001 除 root/on-enter 外还有 L-2876/L-2920 两个 0x6D 安装的 override on-enter 绑定(实测),lifting 扫描
+  必须覆盖 override 家族(X-R2)**。
 - GLM: pending
-- counter / 分歧处理:
+- counter / 分歧处理: Opus 无架构 counter;X-R1~X-R4 为设计必补(prepare 安全集穷尽判别/override lifting/
+  生命周期收尾人表/fade reveal 时序定义),纳入 build 范围。
 - 缺签豁免: N/A
-- build 准入结论: blocked
+- build 准入结论: blocked(待 GLM;且 build 固定排在 N1-1 收口之后)
 
 ### 进入 done 前:审查签字
 
@@ -165,14 +177,40 @@ Branch: main
 ### 主审立场
 
 - Reviewer: Opus（架构/生命周期）+ GLM（迁移站点/测试矩阵）
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论(Opus,2026-07-14): **agree — 显式 entry 元数据取代 bindingHasEarlyDither 命令前瞻,裁定成立**。
+  三点依据:(1) 前瞻是运行时对数据的预解释,47 项白名单 + callScript 穿透预读 + 静默降级构成与 R2 已退役
+  第二解释器同类的抽象泄漏;(2) 一阶段真值本就是目标侧揭示(0x73 在 s001 脚本内、以冻结旧帧为 source),
+  entry 是同一语义的显式化,视觉算法与用户已验收观感零改动;(3) 数据自明,编辑器三区可直接呈现,符合铁律。
+  普通 loadScene 默认 fade、独立 ditherScreen 通用命令两条边界划分完整,`不得重新引入` 清单(全局冻屏/150 帧
+  超时/orphan Promise/source-target 取反)与一阶段既往坑一一对应。
+- 必改项(X-R,设计层面补明,build 必落):
+  - **X-R1 prepare 安全集必须是命令目录上的穷尽判别,不许第二张散表**:content 层为每个 Command kind 声明
+    presentation-safety(随命令目录同址维护),validator 消费该唯一来源;新增 kind 未分类 = 类型错误或穷尽性
+    测试失败。否则只是把 47 项白名单从 runtime 搬进另一个暗角——一阶段"双白名单漏登记"(mode.ts autoScript +
+    event-system autoFadeIn)之坑有案可查,必须单源。
+  - **X-R2 迁移 lifting 覆盖 override on-enter 家族**:实测 s001 有 root/on-enter 与 L-2876、L-2920 两个
+    0x6D 安装的 override on-enter 绑定;lifting 扫描范围 = 所有 onEnter 绑定(root + override)× 每 stage 独立,
+    各自无早期 0x73 则无 entry(默认 fade)。卡现文只写"onEnter 活动 stage",未点名 override 家族;GLM 复核时
+    给出全 PAL 站点计数。
+  - **X-R3 SceneEntrySession 生命周期收尾人逐路径点名**(沿 R2 RngPresentationState 先例):设计须列
+    "路径 → 收尾人 → 终态"表,至少覆盖:prepare 中 abort、prepare 内命令抛错、reveal 中二次 loadScene、
+    读档/quitToTitle 打断、目标资产加载失败。每行 build 期一一对应测试;不得靠"全收口"一句话带过。
+  - **X-R4 fade reveal 的时序定义写死**:entry.reveal='fade' 与默认 fade 的关系一句话钉死——建议语义:
+    capture source → out(作用于 source 帧)→ switch 逻辑世界 → prepare(黑屏/隐藏期执行)→ in(作用于 target)。
+    与现行默认路径(hostFade out 260 → switch → in 260)等价,仅显式化 + 可自定时长;当前 PAL 无站点使用
+    entry.fade,该形态是给新内容的表达力,语义含糊会在 build 期打架。
+- 建议项(S,不阻塞):
+  - S1 `source: 'previousPresentedFrame'` 单值字面量判别保留(自文档化 + 为将来 source 变体留位),
+    不视为过度设计。
+- 是否建议进入 build: **待 GLM 复核(lifting 站点面 + 测试矩阵);X-R1~X-R4 纳入 build 范围后 build,
+  且固定排在 N1-1 收口之后**。
 
 ### 三方争议记录(按需)
 
 - Codex: 推荐显式 stage entry；不推荐把 reveal 塞进来源 loadScene，也不推荐保留命令前瞻。
-- Opus: pending
+- Opus: **agree**。目标侧 stage 级 entry 正确——入场呈现是目的地首访演出的属性,不是每扇门的属性;
+  来源侧方案需预知目标 stage 推进态,天然错位,否决正确。命令前瞻退役与 R2 第二解释器退役同一法理。
+  附 X-R1~X-R4(prepare 安全集单源穷尽/override lifting/生命周期收尾人表/fade 时序定义)。
 - GLM: pending
 - 用户拍板: 认可场景入场事务方向。
 
@@ -214,9 +252,16 @@ Branch: main
 - 2026-07-14 Codex: 对照一阶段 `sceneLoading` 与 Reforge `bindingHasEarlyDither`，确认当前效果由运行时
   窄前瞻实现，来源场景并不知情；用户认可改为显式入场事务。建立 Prepare→Reveal→Body 提案并签 agree。
   Evidence: 本卡代码锚点。Next: 与 N1-1 一并交 Opus 设计主审；不得实现。
+- 2026-07-14 Opus: 设计主审签 **agree + X-R1~X-R4 必改 + S1**。裁定:显式 entry 取代命令前瞻成立——
+  当前三重暗耦合(47 项白名单/callScript 穿透预读/preserveClosedDialogFrame)与 R2 已退役第二解释器同类;
+  一阶段真值本就是目标侧揭示,entry 是其显式数据化,视觉算法零改动;s001 产物提升为 prepare/reveal/body
+  纯结构移动。新发现:s001 有 L-2876/L-2920 两个 override on-enter 绑定,lifting 必须覆盖 override 家族
+  (X-R2)。X-R1=prepare 安全集随命令目录单源穷尽判别;X-R3=SceneEntrySession 收尾人逐路径表;
+  X-R4=fade reveal 时序钉死。Evidence: 主审立场 + 代码/产物核验。Next: GLM 复核(与 N1-1 一并,提示词见
+  N1-1 卡末);三签齐后 build,固定排在 N1-1 收口后。未改实现文件。
 
 ## 下一位 Agent 提示词
 
-本卡与 N1-1 一并交 Opus 设计主审，直接使用
+本卡与 N1-1 一并交 GLM 覆盖/测试矩阵复核（Opus 已双卡签 agree），直接使用
 `docs/ops/tasks/N1-1-dialogue-control-code-retirement.md` 末尾的“下一位 Agent 提示词”。实现顺序固定为
 N1-1 优先，本卡后置。
