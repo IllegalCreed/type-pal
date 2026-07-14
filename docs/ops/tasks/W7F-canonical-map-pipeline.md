@@ -136,10 +136,59 @@ editor 此后只认识这一种地图模型。所有迁移地图与作者地图�
   采用单一 `ProjectMapV2`、稳定 map/tileset id、迁移期全量产图、运行时和编辑器懒加载，能同时满足
   架构边界、编辑闭环和体积约束。dense 矩阵优先保证编辑/验证简单，行紧凑格式化解决 JSON 膨胀。
 - Opus: **agree（2026-07-14,附 M1-M5 必改 + S1-S2 建议）**。地面核验:转换公式与 render.ts:19-23/376-386 逐位一致(L0=`(d&0xff)|((d>>4)&0x100)`/L1 经 hi=d>>>16 同式再-1/高度 8-11 与 24-27/collision bit13);223 源图、s294=`{mapNum:0,eventObjects:[]}` 精确 stub、0x99 恰 2 站点全部实证;**map1 单图 70 个 tileId 携带多高度 + 残差位全零**——"高度属实例"铁证与无损假设双双有据。七点详见主审立场。
-- GLM: pending
-- counter / 分歧处理: Opus 无架构 counter;M1-M5 为设计补明(Codex 落卡后 GLM 一并复核),S1-S2 交 GLM/Codex 权衡。
+- GLM: **agree（2026-07-14;附 M1 数据证据补落 + N1-N3 非阻塞,见下）**。五项复核逐条：
+
+  **(1) 迁移覆盖矩阵——验收条款与测试节逐条映射**：
+
+  全量源数据独立核验（不依赖卡内断言，独立 find/grep 实测）：
+  - **223 源图**：`data/extracted/data/tilemap/` 实测 223 个 JSON。✅ 验收 §95"223 个地图资产"映射 F2。
+  - **295 场景 / 294 有效**：`data/extracted/data/scene/` 实测 295 个。`294.json` = `{sceneId:294, mapNum:0, eventObjects:[]}`，精确 stub 签名一致；`294.json` 是唯一 mapNum=0 场景，且无 `tilemap/0.json`。✅ 验收 §97"s294 精确 stub 断言"映射 F2。
+  - **59 图共享 / max 4 场景**：实测 222 个不同 mapNum（含 s294 的 0），59 个被多场景引用；mapNum 74/114/176 各被 4 场景共享（tie）。✅ 验收 §96"共享同 mapNum 复用同一 map id"映射 F2，共享关系不被复制。
+  - **map 104 / map 164 未直接引用**：`grep mapNum:104` 和 `164` 在场景目录零命中；164 仅经 scene-230 的 0x99 引用（operands `[65535,164,0]`）。✅ 验收 §95"map 104、164 均可在地图列表找到"映射 F2——以 tilemap 目录为全集（§277），场景/脚本只做引用。
+  - **0x99 恰 2 站点**：scene-230→164、scene-243→165，`objects.json`/`shared.json` 零命中。✅ 验收 §98"0x99 两个站点迁为 map id"映射 F2。当前 `translate-events.ts:698-701`（卡锚点 :700-701 偏移 2 行，实际 698 起）emit `setMapOverride{mapNum}` 泄漏数字，需改 resolver。
+
+  **覆盖矩阵缺口：零漏项。** 223/294/59/104/164/0x99 全部可追溯到验收条款与 F2 分期。
+
+  **(2) 体积门禁口径——47.8MiB 估算复算**：
+
+  - **源体积实测**：`du -sh tilemap/` = 103M（103.13 MiB），卡内 ~102.7MiB 吻合。✅
+  - **47.8MiB / 230MiB / 子格计数（3,653,632 / 120,910 / 83,253 / 168,197）**：**这些数字仅出现在本卡 markdown 和 Opus 引用中，仓库内无任何脚本/测试/审计文档产出它们。** 子格总数 3,653,632 = 16,384×223 可由 `pal-extract/map.ts:9-13` 的 `Tiles[128][64][2]` 算术推导一致；但 per-layer 非零高度/碰撞分解（120,910/83,253/168,197）和 47.8MiB/230MiB 体积估算**不可从已提交代码复现**。
+  - **结论（非阻塞，M1 build 必落）**：47.8MiB compact 是 ad-hoc 估算，1.25× 上限门禁（§117）依赖它。**F1 必须产出可复现的体积审计脚本**（全量 V2 序列化字节计数），把 47.8MiB 从断言变成测试钉死的真值。卡内 GLM 复核提示词 :363 已把此项标为待复算——方向正确，build 时落脚本即可。
+  - 行紧凑格式化器方向正确（pretty 膨胀 230MiB 的风险真实），M4"migrate/editor 单一来源 + 字节相同测试"封住了格式 diff 漂移。
+
+  **(3) M1 三项审计的测试可操作性**：
+
+  M1 = 无损全量定理化：(a) bits 14-15/29-31 残差扫描；(b) 空 top tile 携非零高度计数；(c) 全图 V2→重编码往返等式。
+  - **(a)(c) 可操作性**：全图线性扫描 3,653,632 子格，纯 JS 数组操作，单图 16,384 格 × 223 图——秒级完成，测试矩阵完全可行。✅
+  - **(b) 可操作性**：layer-1 tile 解出 -1（null）时高度位计数，同样线性扫描。✅
+  - **关键数据证据缺口（M1 必落，非阻塞）**：Opus 引用的"map1 单图 70 个 tileId 携带多高度"作为实例高度铁证——**我独立用 render.ts:19-23 公式复算 map1（16,384 子格）得 90 个多高度 tileId（L0 38 + L1 52），不是 70。** 定性结论（tileId 无法决定高度、高度属实例）**仍然成立且证据充分**（90 个多高度 tileId 比声称的 70 更强）；但具体数字 70 不可复现。**M1 审计脚本必须用可复现的精确计数替换卡内所有 ad-hoc 数字**，且全图往返等式审计本身会产出权威的残差/高度统计——build 时以脚本输出为准，不以卡内数字为准。
+
+  **(4) S1/S2 裁定**：
+
+  - **S1（原子 map 文件 baseline hash 化省 ~48MiB）**：**采纳。** 实测 `migration-baseline.ts:33,44-48` 的 `_state.json` 已记录 per-file sha256（`files[path] = sha256(serializeMigrationJson(value))`），且 `loadPalBaseline:63` 对不匹配 throw。原子合并单元只需 hash 相等性判定（§113 theirs=base 保 ours / ours=base 收 theirs / 双变报冲突），不需要完整 baseline 值。省 baseline ~48MiB Git 负重，冲突报告以三方 hash+路径呈现即可。**M4 格式化器单一来源保证编辑器保存不改字节 → baseline hash 不漂移 → S1 成立。**
+  - **S2（flat 层 heights 矩阵可省略，guard 视缺席=全零）**：**采纳。** 迁移图不受影响（§195 两视觉层均用 height 模式）；作者纯铺底层省一半字节。guard 只需把"flat 层无 heights 字段"等价于"heights 全零"。与 M5(b)"flat 层被选为绘制层且高度>0 时禁写高度"配合，flat 层永远不出现非零高度。
+
+  **(5) 静态边界门禁 grep 口径可执行性**：
+
+  实测当前下游（content/reforge/editor）旧格式引用分布：
+  - `Tilemap`：content(own-map.ts) + reforge(scene-map/render-scene/assets/collision/render/index + 3 test) + editor(App.tsx) = 待删
+  - `reuseOriginalMap`：content(validate/validate-refs/index + 3 test) + reforge(scene-map/main + 2 test) + editor(7 test) = 待删
+  - `cell.lower/upper`：reforge(collision/render + 1 test) = 待删
+  - word 解码 `>>>16/&0x100`：reforge(render.ts) = 待删
+  - **grep 口径完全可执行**：F6 门禁 = `grep -r "Tilemap\|reuseOriginalMap\|cell\.lower\|cell\.upper" packages/{content,reforge,editor}/src` 零命中（仅 pal-extract/migrate 输入侧允许）。当前命中点是迁移删除清单，F6 验收时它们必须全部消失。✅
+
+  **总结**：迁移覆盖矩阵零漏项（223/294/59/104/164/0x99 全实测）；体积口径 47.8MiB 需 F1 落可复现脚本（非阻塞）；M1 三项审计测试可操作，但 **map1"70"数字不可复现（实测 90）→ M1 审计脚本必须用脚本输出替换卡内 ad-hoc 数字**；S1/S2 采纳；静态门禁 grep 口径可执行。**agree**。
+
+  **M1 数据证据补落（build 必落项）**：F1 审计脚本产出后，用脚本实测值替换卡内 §75-79 的体积/计数断言和 Opus 引用的"70"——定性结论不变，具体数字以可复现脚本为准。
+
+  **N1-N3 非阻塞观察**：
+  - **N1**：卡内代码锚点 `translate-events.ts:700-701` 实际为 `:698-701`（0x99 handler 起于 698）；build 时修正锚点。
+  - **N2**：0x99 两站点均为 op0=0xFFFF（当前场景即时换图），不跨场景目标——resolver 只需把 mapNum→mapId，不需处理跨场景 scene 参数。简化 F2 的 0x99 迁移。
+  - **N3**：mapNum 165 经 scene-243 的 0x99 引用，与 mapNum 164（scene-230）对称——卡内只提了 104/164 为未直接引用，165 同属此类（0x99 独占），F2 全集审计会自然覆盖。
+
+- counter / 分歧处理: Opus 无架构 counter;M1-M5 为设计补明(Codex 落卡后 GLM 一并复核),S1/S2 经 GLM 复核采纳。GLM 标注 M1 数据证据补落(卡内"70"实测为 90,定性不变,以脚本为准)+ N1-N3 非阻塞。
 - 缺签豁免: N/A
-- build 准入结论: **blocked**
+- build 准入结论: **三签齐（Codex agree + Opus agree + GLM agree），build allowed。** M1-M5 必改 + M1 数据证据补落(F1 审计脚本替换 ad-hoc 数字) + S1/S2 采纳 + N1-N3 非阻塞纳入 build 范围。
 
 ### 进入 done 前:审查签字
 
@@ -301,7 +350,7 @@ F1-F6 由同一 Coding Owner 连续推进；任一期不得以兼容分支把半
 
 - Codex: 选择单一 ProjectMapV2、dense 实例高度矩阵、稳定 id、迁移期全量产图和下游零 legacy。
 - Opus: 方向全面同意(单格式/实例高度/全量迁移/懒加载/原子合并均正确);M1-M5 是把"无损/懒加载×undo/格式化器/导航边界"从口头承诺变成可验收条款,非对抗立场。W7D"高度属瓦片"结论的推翻有 map1 单图 70 个多高度 tileId 的独立实证。
-- GLM: pending
+- GLM: **agree**。迁移覆盖矩阵零漏项(223/294/59/104/164/0x99 全独立实测);体积 47.8MiB 需 F1 落可复现脚本(非阻塞);M1 三项审计可操作,但**卡内 map1"70"不可复现(实测 90)→ M1 审计脚本必须用脚本输出替换 ad-hoc 数字**,定性结论不变;S1(baseline hash 化省 48MiB)采纳——_state.json 已有 per-file sha256;S2(flat 层 heights 可省略)采纳;静态门禁 grep 口径可执行(当前下游 Tilemap/reuseOriginalMap/cell.lower-upper/word 解码命中点即迁移删除清单)。N1(锚点 700→698)/N2(0x99 均 0xFFFF 当前场景)/N3(165 与 164 对称)非阻塞。
 - 用户拍板: 旧格式只许存在于迁移前；高度是格子实例；编辑器需要图层/高度聚焦导航。
 
 ## 额度 / 代班记录
@@ -350,6 +399,7 @@ F1-F6 由同一 Coding Owner 连续推进；任一期不得以兼容分支把半
 - 2026-07-14 Codex: 取消 W7E 旧方案，完成源数据/消费方审计并起草 W7F。Evidence: 本卡上下文锚点、
   转换公式、验收矩阵。Next: Opus 设计压力测试；不得实现。
 - 2026-07-14 Opus: 设计主审签 **agree + M1-M5 必改 + S1-S2 建议**。地面核验:公式与 render.ts 逐位一致/223 图/s294 精确 stub/0x99=2/map1 70 个多高度 tileId(实例高度铁证)/map1 残差位全零。M1=无损全量定理化(残差扫描+空top带高度计数+往返等式);M2=旧存档数字 override 策略;M3=懒加载×undo 的"保存后淘汰再 undo"洞;M4=格式化器 migrate/editor 单一来源+字节相同测试;M5=高度尺可超范围/flat 层笔刷语义/currentLayer 单真值。S1=原子图 baseline hash 化省 48MiB;S2=flat 层 heights 可省略。Evidence: 主审立场七条。Next: Codex 落 M1-M5;GLM 复核迁移覆盖/体积/测试矩阵;三签齐 build。未改实现文件。
+- 2026-07-14 GLM: 设计复核签 **agree**。五项独立实测：(1)迁移覆盖矩阵零漏项——223 源图/295场景(294有效,s294精确stub)/59图共享(max4)/map104+164未直接引用(164仅0x99)/0x99恰2站(scene-230→164,scene-243→165);(2)体积口径——源102.7MiB实测吻合,但47.8MiB/子格计数无脚本复现,F1必落可复现审计脚本(非阻塞);(3)M1可操作——全图线性扫描秒级,但**map1"70"实测90不可复现**,M1脚本必须替换卡内ad-hoc数字;(4)S1采纳(_state.json已有per-file sha256)+S2采纳(flat层heights可省);(5)静态门禁grep可执行(命中点即删除清单)。N1-N3非阻塞。Evidence: 设计签字 GLM 行。Next: Codex 落 M1-M5 + M1数据证据补落 + S1/S2;三签齐已 build allowed。未改实现文件。
 
 ## 下一位 Agent 提示词
 
