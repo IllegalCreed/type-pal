@@ -10,7 +10,6 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| ED-2 | 编辑器八个一级模块与稳定深链 | review | Opus（实现审查） | Codex build/自测通过并签 accept；待 Opus、GLM 独立复验 |
 | W7E | 独立地图库与场景地图绑定 | draft | Codex（ED-2 收口后 build） | MapIndexV1 + ownMapId + v1 显式升级；设计三签齐，M1/M2 已落卡 |
 
 ## 阻塞

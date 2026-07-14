@@ -1,6 +1,6 @@
 # ED-2 - 编辑器八个一级模块与稳定深链
 
-Status: review
+Status: done
 Phase: phase2
 Capability: Editor / R6
 Coding Owner: Codex
@@ -107,7 +107,7 @@ Branch: main
 - GLM: **accept（2026-07-14;见下）**
 - counter / 返工处理: 无。
 - 缺签豁免: N/A
-- done 准入结论: **三方 done 前审查签字齐（Codex + Opus + GLM accept），交用户验收。**
+- done 准入结论: **三方 done 前审查签字齐（Codex + Opus + GLM accept）；用户授权按三方技术验收直接收口，准入通过。**
 
 ### GLM done 前覆盖复验（2026-07-14）
 
@@ -263,18 +263,18 @@ interface EditorLocation {
 - 验证方式: 1280/900/720 浏览器截图 + 交互检查
 - 截图 / 像素检查路径: Codex 浏览器会话（`http://localhost:6012/`）；三档截图已逐张检查，临时二进制证据未写入仓库。
 - 结论: 三档均无模块导航、Outliner、主区和 Inspector 重叠；720px 强制收起生效，按钮/icon/focus/active 状态可辨识。
-- 未完成项: Opus 与 GLM 独立复验签字。
+- 未完成项: 无。
 
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: Codex、Opus、GLM 均为 `accept`；Opus 完成状态边界/视觉活体复验，GLM 完成条款覆盖/文档一致性复验。
+- 必须返工项: 无。
+- Accept / rework: accept。
 
 ## 用户验收
 
-- 用户结论: 2026-07-14 用户表示无法代替 Agent 做技术验收，授权 Codex 继续按三贤人系统完成实现、自动验证与交审；这不是产品验收 `accept`，`done` 仍须三方审查签字。
+- 用户结论: **accept（2026-07-14）**。用户已明确不重复执行 Agent 技术验收，并在三方 `accept` 齐全后确认“齐了”、授权继续推进；据此完成技术收口。
 - 后续任务: W7E 地图库与场景绑定；ED-3 工程引用图。
 
 ## 交接日志
@@ -286,16 +286,8 @@ interface EditorLocation {
 
 - 2026-07-14 Opus: 实现审查签 **accept**(b8c824d1)。注册表唯一真源(15 页恰好一次/≤5 专项测试)/popstate 单向无循环+对象 replace/记忆 per-projectId 零串扰/720+900 活体零溢出零重叠+失效深链不偷选/core-schema 零触碰;150 测试复跑绿。Evidence: done 签字行。Next: GLM 复核;三签齐可 done。未改实现文件。
 - 2026-07-14 GLM: done 前覆盖复验签 **accept**(b8c824d1)。五项逐条：(1)验收条款逐项对照——URL 编解码/非法兜底/objectId 转义/back-forward 四支测试+15 页恰好一次(Set 断言)+子页≤5 门禁+跨模块跳转三例(editorLinks)+状态恢复(popstate none/scroll/per-projectId)全映射；(2)§5.1 文档八模块表与 EDITOR_MODULES 逐行一致+四条约束对应+§10 退役标注；(3)DataMode 退役审计——App 无"数据"一级入口，ModuleNav 8 按钮从注册表派生，DataMode 注释改为内部挂载器+DataTab=DataPageId，15 页全部可达；(4)受改回归——SharedScriptTab selectScript 包装+library 守卫、ActorMode focusActorId effect+onOpenSprite、MapMode 4 行接入、main.tsx 1 行；(5)core/schema 零触碰。editor 18 文件 150 tests 复跑全绿。Evidence: done 准入 GLM 复验段。Next: 交用户验收，用户点头方 done。未改实现文件。
+- 2026-07-14 Codex: 三方 done 前签字齐；用户确认“齐了”并已授权按 Agent 技术验收继续推进，ED-2 标记 `done`，看板移除。Next: 同一 Coding Owner 连续接手 W7E。
 
 ## 下一位 Agent 提示词
 
-```text
-接手任务: ED-2 八个一级模块与稳定深链,实现复核(GLM)
-任务卡: docs/ops/tasks/ED-2-editor-primary-modules.md
-实现提交: b8c824d1;当前状态 review;Codex accept + Opus accept,GLM pending,不得标 done
-你的角色: GLM,覆盖/测试矩阵复核;只审文档与代码,不改实现
-Opus 已过: 注册表唯一真源(15 旧页恰好一次+子页≤5 专项测试);popstate 'none' 单向无循环+sameEditorLocation 守卫+对象 replace;记忆 per-projectId localStorage 零串扰;720/900 活体零溢出零重叠;失效深链"目标不存在"不偷选;core/content/schema 零触碰;150 测试复跑绿。
-请你复核: (1)验收条款逐项对照实现(URL 编解码/非法兜底/objectId 转义/back-forward、旧页恰好一次、跨模块跳转三例、状态恢复)与测试映射,列缺口;(2)editor-design §5.1/§11 文档与实现一致性;(3)DataMode 退役后的可见入口审计(不再有"数据"一级入口,15 页全部可达);(4)SharedScriptTab/ActorMode 等受改文件的行为回归点抽查。在 done 签字 GLM 行签 accept/counter,更新交接日志
-不要做: 不改实现;GLM accept 前不标 done
-输出要求: 结论、缺口清单、提交 hash
-```
+无下一位 Agent 提示词；ED-2 已完成，Codex 按看板连续推进 W7E。
