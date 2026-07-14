@@ -135,9 +135,9 @@ editor 此后只认识这一种地图模型。所有迁移地图与作者地图�
 - Codex: **agree（2026-07-14）**。旧图可逐子格无损展开为统一 lattice；高度与碰撞均有明确实例位置。
   采用单一 `ProjectMapV2`、稳定 map/tileset id、迁移期全量产图、运行时和编辑器懒加载，能同时满足
   架构边界、编辑闭环和体积约束。dense 矩阵优先保证编辑/验证简单，行紧凑格式化解决 JSON 膨胀。
-- Opus: pending
+- Opus: **agree（2026-07-14,附 M1-M5 必改 + S1-S2 建议）**。地面核验:转换公式与 render.ts:19-23/376-386 逐位一致(L0=`(d&0xff)|((d>>4)&0x100)`/L1 经 hi=d>>>16 同式再-1/高度 8-11 与 24-27/collision bit13);223 源图、s294=`{mapNum:0,eventObjects:[]}` 精确 stub、0x99 恰 2 站点全部实证;**map1 单图 70 个 tileId 携带多高度 + 残差位全零**——"高度属实例"铁证与无损假设双双有据。七点详见主审立场。
 - GLM: pending
-- counter / 分歧处理: 新设计待 Opus/GLM 独立复核；任一 counter 留在 draft。
+- counter / 分歧处理: Opus 无架构 counter;M1-M5 为设计补明(Codex 落卡后 GLM 一并复核),S1-S2 交 GLM/Codex 权衡。
 - 缺签豁免: N/A
 - build 准入结论: **blocked**
 
@@ -283,14 +283,24 @@ F1-F6 由同一 Coding Owner 连续推进；任一期不得以兼容分支把半
 ### 主审立场
 
 - Reviewer: Opus 主审架构/schema/懒加载/MG2；GLM 主审迁移覆盖、全量审计、体积与测试矩阵。
-- 结论: Codex agree；等待 Opus、GLM。
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: **Opus agree(2026-07-14)**。七点逐项:
+  1. **schema** — 通过。heights 与 tiles 同层平行矩阵 = 实例高度;collision 正交;`TilesetDef.tiles[].height` 退役+静态门禁封回流;flat/height 双模式 + "null tile 高度必 0" guard;不继承 4bit 上限正确(作者态不受原版编码束缚)。
+  2. **转换无损** — 公式逐位核实与现行 render/collision 一致;但"无损"目前是抽样命题。**M1:升级为全量定理**——F1 审计必须含 (a) 全 223 图未映射位残差扫描(bits 14-15/29-31,非零即 fail-loud 并落审计;map1 抽验 16,384 子格全零,可行性已证),(b) 空 top tile 携非零高度位的计数(有则文档化丢弃),(c) **全图 V2→重编码==源 的往返等式审计**(线性扫描,便宜),不以"采样对照"代替。
+  3. **闭环** — s294 精确签名排除+fail-loud ✓;全集以 tilemap 目录为准(map104/164 天然入库)✓;0x99 双站点→resolver→`setSceneMapOverride{mapId}` ✓。**M2:旧存档策略补一句**——现存 X1/dev 存档的 world mapOverride 是数字,contentVersion 2 下按版本拒载或显式迁移,写明,禁静默错型。
+  4. **懒加载编辑仓库** — hydrate 不入 undo ✓/脏 pin ✓/copy-through ✓ 架构正确。**M3:补"保存后淘汰再 undo"洞**——地图 A 编辑→保存(变净)→LRU 淘汰→用户 undo,invert 需要文档在场。三选一写死:undo 栈引用的文档禁淘汰 / 命令自带逆快照 / 保存清撤销历史;并加状态机测试。
+  5. **MG2** — index 按 id 双表 ✓;单图原子三方(不逐格猜)✓ 正确保护作者改动。
+  6. **体积** — 行紧凑格式化器+1.25× 门禁+禁单体 ✓。**M4:格式化器单一来源**——迁移器与编辑器保存必须共用同一实现,并加"编辑器保存未改地图=字节相同"测试;否则首次编辑器保存即产生全文件格式 diff,MG2 会把 223 张图全部视为 ours 改动。
+  7. **导航交互** — 双尺/变暗/交集/显示全部/吸管回写闭环完整。**M5 三个交互边界**:(a) 高度尺必须允许选超出当前图已有最大值的高度(否则永远无法引入新高度层级——"按实际高度范围列刻度"是死循环),给 max+1 档或数值输入;(b) flat 层被选为绘制层且当前高度>0 时的笔刷语义写明(禁写高度并提示/引导切 depthMode),防与"flat 全零"guard 冲突;(c) 图层列表与图层导航尺共享同一 currentLayerId 状态(两个视图一个真值),防双选择漂移。
+- 建议(非必改,GLM/Codex 权衡):
+  - **S1**: map 文件在 MG2 baseline 以 hash 记录即可——原子合并单元只需相等性判定(_state.json 已有 per-file sha256),完整值仅服务字段级合并;可省 baseline ~48MiB Git 负重,冲突报告以三方 hash+文件路径呈现。
+  - **S2**: flat 层可允许省略 heights 矩阵(guard 视缺席=全零),迁移图不受影响,作者纯铺底层省一半字节。
+- 必改项: M1-M5(如上,均为设计补明,非架构推翻)。
+- 是否建议进入 build: **待 Codex 把 M1-M5 落进 Draft + GLM 签字后 build**。
 
 ### 三方争议记录
 
 - Codex: 选择单一 ProjectMapV2、dense 实例高度矩阵、稳定 id、迁移期全量产图和下游零 legacy。
-- Opus: pending
+- Opus: 方向全面同意(单格式/实例高度/全量迁移/懒加载/原子合并均正确);M1-M5 是把"无损/懒加载×undo/格式化器/导航边界"从口头承诺变成可验收条款,非对抗立场。W7D"高度属瓦片"结论的推翻有 map1 单图 70 个多高度 tileId 的独立实证。
 - GLM: pending
 - 用户拍板: 旧格式只许存在于迁移前；高度是格子实例；编辑器需要图层/高度聚焦导航。
 
@@ -339,24 +349,18 @@ F1-F6 由同一 Coding Owner 连续推进；任一期不得以兼容分支把半
   地图编辑器增加图层/高度导航尺。Evidence: 当前会话。Next: Codex 重做设计。
 - 2026-07-14 Codex: 取消 W7E 旧方案，完成源数据/消费方审计并起草 W7F。Evidence: 本卡上下文锚点、
   转换公式、验收矩阵。Next: Opus 设计压力测试；不得实现。
+- 2026-07-14 Opus: 设计主审签 **agree + M1-M5 必改 + S1-S2 建议**。地面核验:公式与 render.ts 逐位一致/223 图/s294 精确 stub/0x99=2/map1 70 个多高度 tileId(实例高度铁证)/map1 残差位全零。M1=无损全量定理化(残差扫描+空top带高度计数+往返等式);M2=旧存档数字 override 策略;M3=懒加载×undo 的"保存后淘汰再 undo"洞;M4=格式化器 migrate/editor 单一来源+字节相同测试;M5=高度尺可超范围/flat 层笔刷语义/currentLayer 单真值。S1=原子图 baseline hash 化省 48MiB;S2=flat 层 heights 可省略。Evidence: 主审立场七条。Next: Codex 落 M1-M5;GLM 复核迁移覆盖/体积/测试矩阵;三签齐 build。未改实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手 W7F 设计主审。
+接手 W7F 设计复核(GLM)。
 任务卡: docs/ops/tasks/W7F-canonical-map-pipeline.md
-当前状态: draft；Codex 已签 agree，Opus/GLM pending，build blocked。
-你的角色: Claude Opus，负责架构/schema/跨包边界、懒加载编辑仓库和 MG2 合并策略的设计压力测试。
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部 Draft/上下文锚点/验收条件；再读
-docs/ops/tasks/W7D-nlayer-map-schema.md 与 docs/ops/tasks/W7E-map-library-scene-binding.md 顶部取消说明。
-已完成: 已核 223 源图、294 有效场景+s294 stub、共享/未引用图、0x99 两站点、每格高度/碰撞分布；
-提出唯一 ProjectMapV2、dense 实例高度矩阵、全量迁移、下游零 Tilemap、地图懒加载和双导航尺方案。
-请你做: 重点审查 (1) schema 是否正确表达每格实例高度且无 tileset 高度回流；(2) lower/upper 两个子格、
-两视觉层、bit13 的转换是否无损；(3) s294 精确排除、map104/164、共享引用和 0x99 是否闭环；
-(4) editor MapDocumentStore 懒加载/脏 pin/copy-through 与 immutable Command 是否可落地；
-(5) map index 按 id + 单图 atomic 三方合并是否保护作者修改；(6) 行紧凑 JSON 与体积门禁是否合理；
-(7) 图层/高度导航交互是否存在状态混淆或遗漏。
-不要做: 不得修改实现文件，不得复用 W7D/W7E 旧签字，不得开始 build。
-输出要求: 在本卡 Opus 设计签字、主审立场、三方争议记录和交接日志写 agree，或 counter + 精确替代方案；
-提交仅文档审查结论。若 agree，请给用户一段可直接转交 GLM 做迁移覆盖/测试矩阵复核的提示词。
+当前状态: draft;Codex agree + Opus agree(附 M1-M5 必改/S1-S2 建议),GLM pending,build blocked。
+你的角色: GLM,迁移覆盖/全量审计/体积/测试矩阵复核;只审文档,不改实现。
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡 Draft/验收/Opus 主审立场七条(含 M1-M5)。
+Opus 已过并实证: 转换公式与 render.ts 逐位一致;223 图/s294 精确 stub/0x99=2 站点/map1 单图 70 个 tileId 多高度(实例高度铁证)/map1 残差位全零。M1=无损全量定理化(bits 14-15/29-31 残差扫描+空 top 带高度计数+全图往返等式审计);M2=旧存档数字 mapOverride 策略;M3=懒加载×undo"保存后淘汰再 undo"三选一;M4=行紧凑格式化器 migrate/editor 单一来源+"编辑器保存未改地图=字节相同"测试;M5=高度尺可超范围选值/flat 层高度笔刷语义/图层列表与导航尺共享 currentLayerId。S1=原子 map 文件 baseline hash 化(省~48MiB,_state 已有 sha256);S2=flat 层 heights 可省略。
+请你复核: (1)迁移覆盖矩阵——223 图全集/294 场景/共享 mapNum 复用同 id/未引用图入库/0x99 双站点的验收条款与测试节逐条映射,列缺口;(2)体积门禁口径——47.8MiB 估算的复算方法、1.25× 上限与行紧凑格式的可验证性;(3)M1 三项审计的测试可操作性(全图线性扫描成本);(4)S1/S2 的权衡结论(采納/否决+理由);(5)静态边界门禁(下游零 Tilemap/reuseOriginalMap/word 解码)的 grep 口径可执行性。在设计签字 GLM 行签 agree/counter,更新交接日志;三签齐+Codex 落 M1-M5 后方可 build。
+不要做: 不改实现文件;不复用 W7D/W7E 旧签字;不开始 build。
+输出要求: 明确 agree/counter、覆盖缺口清单、S1/S2 裁定、提交 hash。
 ```
