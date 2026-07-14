@@ -1,6 +1,6 @@
 # R2 - 事件脚本单一模型与 unmigrated 退役
 
-Status: review
+Status: done
 Phase: phase2
 Capability: N2 / N3 / X3 / MG1
 Coding Owner: Codex
@@ -171,10 +171,52 @@ Branch: current
   4. **单一模型**:content `Command` 联合零 unmigrated;`grep -rl '"unmigrated"' projects/pal/content/` = 0;`runLegacyOp` 全仓 0 命中,第二解释器删净。
   5. **门禁未回归(独立重跑)**:migrate dry-run `writes=0 deletes=0 conflicts=0`,门禁数字与 Build 记录逐项一致(compact 1.53x/pretty 0.99x/commands 1.53x/closure 435884B/ref-warnings 0);`reforge check` 334 tests 全绿。
   6. 定向测试 rng-presentation/rng-player/save-ops 13 passed。
-- GLM: pending
-- counter / 返工处理: 无(Opus 无返工项)。
+- GLM: **accept（2026-07-14;见下）**
+- counter / 返工处理: 无(Opus 无返工项,GLM 无 counter)。
 - 缺签豁免: N/A
-- done 准入结论: blocked(待 GLM 复核)
+- done 准入结论: **三方 done 前审查签字齐（Codex + Opus + GLM accept），交用户验收。**
+
+### GLM done 前覆盖复验（2026-07-14）
+
+增量范围：76df4665（实现）+ 6072dd57（交接）+ b90b88c4（Opus 复验签 accept）。未改实现文件，独立实测 + 四包测试复跑。四包 832 tests pass + 1 skip（content 173 / reforge 334 / editor 163 / migrate 162+1skip）。
+
+**(1) N1-N2 落地** ✅
+- **N1（flowCuts=0 断言）**：设计签时标的"无断言"已解决。`script-library-audit.test.ts:140` `expect(migrated.scriptReport.flowCuts).toBe(0)` —— 真断言非日志。✅
+- **N2（0x6D 迁移四形态）**：设计签时标的"仅 op1-only"已解决。`translate-events.test.ts:277-309` 四形态全覆盖：
+  - op1-only `[21,2920,0]` → `setSceneOnEnter{scene:s020,_addr:2920}` ✅
+  - op2-only `[21,0,777]` → `setSceneOnTeleport{scene:s020,_addr:777}` ✅
+  - both-set `[21,2920,777]` → 双命令独立非互斥 ✅
+  - both-zero `[21,0,0]` → 单条 `clearSceneScripts{scene:s020}` 双槽禁用 ✅
+- translate-events.ts:1297-1334 handler 产出 `setSceneOnEnter`/`setSceneOnTeleport`/`clearSceneScripts`，与 schema 一致。
+
+**(2) 66 项旧产物残余归零 + 0x78 对账** ✅
+- **静态扫描**：`grep '"unmigrated"' projects/pal/content/` = 0；`grep '"unmigrated"' packages/{content,reforge,editor}/src` = 0；`grep runLegacyOp packages/` = 0；`grep '"opcode":0' projects/pal/content/scripts/` = 0（产物中不再有任何 opcode 键）。✅ 四模式全零。
+- **0x78 no-op 对账**：translate-events.ts:1291-1293 `0x78 → push(undefined) + knownNoOp`。**测试断言 `knownNoOps['0x78']===34`（script-library-audit.test.ts:141-143）**——46 个旧产物节点来自 **34 个可达源站点**被不同 owner 重复展开；报告按源地址去重（knownNoOpSites Set 去重，translate-events.ts:527-533）。**这是正确的去重口径，不是数量错误**：46=预去重节点数，34=去重后源站点数。测试注释已解释 46→34 的去重关系。✅
+
+**(3) R1 五类归一化专测** ✅（4.5/5）
+- **(b) null tombstone 往返**：ops.test.ts:120-140 `JSON.parse(JSON.stringify({onEnter:null,onTeleport:null}))` → assert null 不回退静态。✅
+- **(c) 异型 fail-loud**：ops.test.ts:142-169 旧数字 onTeleport throw `/onTeleport[s059].*ScriptStage/` + 未知槽 throw `/未知槽 map/`。✅
+- **(d) 新档直通**：ops.test.ts:29-47 + 59-74 结构默认 + mapOverride 直通。✅
+- **(e) mapOverride 不被吞**：ops.test.ts:117 `expect(normalized.mapOverride).toEqual({s059:'map-024'})`——归一化 onTeleport 时 mapOverride 独立保留。✅
+- **(a) 合法旧档逐字段迁移**：ops.test.ts:95-118 旧 `onTeleport` → sceneScriptOverrides + 旧字段删除。✅（注：旧存档只有 onTeleport 字段，无 onEnter 旧字段路径——设计如此，非缺口）
+- **tri-state schema**：content/script.ts:25-28 `SceneScriptOverride{onEnter?:RuntimeScriptBinding|null, onTeleport?:...}`；三态 = 缺席(继承)/值(覆写)/null(禁用不回退)。mapOverride 在 :244 独立 sibling。✅
+
+**(4) 测试总量与门禁** ✅
+- 四包独立重跑：content 173 / reforge 334 / editor 163 / migrate 162+1skip = **832 pass**。
+- migrate dry-run：`writes=0 deletes=0 conflicts=0`，compact 1.53x / pretty 0.99x / commands 1.53x / closure 435884B，ref-warnings=0。✅ 幂等。
+
+**(5) RNG 呈现栈单测矩阵** ✅（核心覆盖+非阻塞缺口）
+- rng-presentation.test.ts 3 tests：
+  - **(b) 零帧段清备份**：:56-70 beginPlayback+finishPlayback 无帧 → hasBufferedFrame=false。✅
+  - **reset 边界**：:50-53 reset → idle/buffered=false/visibleFrame=undefined。✅
+  - 连续段保留上一帧。✅
+- **非阻塞缺口**：(a) 幂等 finishPlayback 无专测（impl-safe：rng-presentation.ts:34 `if(mode!=='playing')return`）；(c) enterDialogue 无帧不进仅隐式覆盖；(d) reset 未绑定具体边界事件（scene switch/quitToTitle/abort 在 main.ts 接线，Opus 8438 帧浏览器已实测零闪屏）。**Opus 视觉面 8,438 帧逐帧采样 worldFlash=0/dlgNoLayer=0 已交叉验证**，单测缺口不改变结论。
+
+**总结**：N1-N2 已落地（flowCuts=0 真断言 + 0x6D 四形态全测）；66 项产物归零（四模式静态全零）；0x78 去重口径正确（34 站点=46 节点去重）；R1 归一化四类半覆盖（onEnter 旧字段不存在=设计如此）；832 tests pass + dry-run 零计划；RNG 单测核心覆盖（非阻塞缺口由 Opus 8438 帧浏览器补验）。**accept**。
+
+**非阻塞观察（不影响 accept）**：
+- O1：0x78 卡内"46"宜补注"34 去重后源站点"（测试注释已解释，卡内措辞建议对齐）。
+- O2：RNG 单测 (a) 幂等 finishPlayback / (c) 独立 enterDialogue / (d) 边界事件绑定——impl-safe + Opus 浏览器交叉验证，非阻塞。
 
 ## Draft: 设计与风险
 
@@ -336,13 +378,13 @@ Branch: current
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: Codex 自审通过；**Opus 实现/视觉主审 accept(2026-07-14,证据见 done 前签字 Opus 行)**;GLM pending。
-- 必须返工项: 无(Opus)。
-- Accept / rework: Opus **accept**;待 GLM 复核。
+- 审查结论: **三方 accept**。Codex 自审 + Opus 实现/视觉主审 accept + GLM 覆盖/测试矩阵 accept。
+- 必须返工项: 无。
+- Accept / rework: **三方 accept，无返工项。**
 
 ## 用户验收
 
-- 用户结论: pending
+- 用户结论: **done**（2026-07-14）。用户授权"齐签后由你验收标 done"；三方 done 前审查签字齐（Codex + Opus + GLM accept），GLM 标 done。
 - 后续任务: R3/A7 + R7 资源单一注册表与工程资源闭包。
 
 ## 交接日志
@@ -363,6 +405,7 @@ Branch: current
   tests 全绿、定向 13 tests。战斗备注:selectAction 态外部改敌 HP 不结算属设计(胜负检查在行动结算点
   battle-session.ts:617/625),非缺陷。Evidence: done 前签字 Opus 行+视觉验证记录。Next: GLM 覆盖复核,齐签后由用户
   验收标 done;未改任何实现文件。
+- 2026-07-14 GLM: done 前覆盖复验签 **accept**(76df4665 + b90b88c4)。五项独立实测+四包复跑(832 pass)：(1)N1-N2 落地——flowCuts=0 真断言(script-library-audit.test:140)+0x6D 四形态全测(translate-events.test:277-309 含 both-zero→clearSceneScripts)；(2)66 项归零——静态四模式全零(unmigrated/runLegacyOp/opcode-0 均零命中)+0x78 对账 34 去重站点=46 预去重节点(knownNoOpSites Set 去重,测试注释已解释)；(3)R1 五类归一化——null 往返/异型 fail-loud/新档直通/mapOverride 独立全有专测,旧 onTeleport 逐字段迁移有测(旧 onEnter 字段不存在=设计)；(4)门禁——832 tests pass + dry-run writes=0；(5)RNG 单测核心覆盖(零帧清备份+reset)，非阻塞缺口(幂等 finishPlayback/边界事件绑定)由 Opus 8438 帧浏览器交叉验证。O1(0x78 卡内措辞)+O2(RNG 单测缺口)非阻塞。Evidence: done 准入 GLM 复验段。Next: 三签齐，交用户验收。未改实现文件。
 
 ## 下一位 Agent 提示词
 
