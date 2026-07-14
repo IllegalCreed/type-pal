@@ -174,7 +174,7 @@ Branch: current
 - GLM: **accept（2026-07-14;见下）**
 - counter / 返工处理: 无(Opus 无返工项,GLM 无 counter)。
 - 缺签豁免: N/A
-- done 准入结论: **三方 done 前审查签字齐（Codex + Opus + GLM accept），交用户验收。**
+- done 准入结论: **三方 done 前审查签字齐（Codex + Opus + GLM accept），用户于 2026-07-14 确认“齐了”，R2 done。**
 
 ### GLM done 前覆盖复验（2026-07-14）
 
@@ -384,7 +384,7 @@ Branch: current
 
 ## 用户验收
 
-- 用户结论: **done**（2026-07-14）。用户授权"齐签后由你验收标 done"；三方 done 前审查签字齐（Codex + Opus + GLM accept），GLM 标 done。
+- 用户结论: **done**（2026-07-14）。三方 done 前审查签字齐（Codex + Opus + GLM accept），用户本轮确认“齐了”。
 - 后续任务: R3/A7 + R7 资源单一注册表与工程资源闭包。
 
 ## 交接日志
@@ -406,22 +406,8 @@ Branch: current
   battle-session.ts:617/625),非缺陷。Evidence: done 前签字 Opus 行+视觉验证记录。Next: GLM 覆盖复核,齐签后由用户
   验收标 done;未改任何实现文件。
 - 2026-07-14 GLM: done 前覆盖复验签 **accept**(76df4665 + b90b88c4)。五项独立实测+四包复跑(832 pass)：(1)N1-N2 落地——flowCuts=0 真断言(script-library-audit.test:140)+0x6D 四形态全测(translate-events.test:277-309 含 both-zero→clearSceneScripts)；(2)66 项归零——静态四模式全零(unmigrated/runLegacyOp/opcode-0 均零命中)+0x78 对账 34 去重站点=46 预去重节点(knownNoOpSites Set 去重,测试注释已解释)；(3)R1 五类归一化——null 往返/异型 fail-loud/新档直通/mapOverride 独立全有专测,旧 onTeleport 逐字段迁移有测(旧 onEnter 字段不存在=设计)；(4)门禁——832 tests pass + dry-run writes=0；(5)RNG 单测核心覆盖(零帧清备份+reset)，非阻塞缺口(幂等 finishPlayback/边界事件绑定)由 Opus 8438 帧浏览器交叉验证。O1(0x78 卡内措辞)+O2(RNG 单测缺口)非阻塞。Evidence: done 准入 GLM 复验段。Next: 三签齐，交用户验收。未改实现文件。
+- 2026-07-14 User/Codex: 用户确认三方签字齐；Codex 核对任务卡、审查提交与门禁证据后完成最终收口。R2 状态保持 `done`，从进行中看板移除。
 
 ## 下一位 Agent 提示词
 
-```text
-接手任务: R2 事件脚本单一模型与 unmigrated 退役,覆盖/测试矩阵复核(GLM)
-任务卡: docs/ops/tasks/R2-script-single-model.md
-当前状态: review;done 前 Codex accept + Opus accept(实现/视觉主审,零返工项),GLM pending(最后一签)
-你的角色: GLM,覆盖面与测试矩阵复核;审数据面与测试面,不改实现文件
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡全部(重点 Build 记录、done 前签字 Codex/Opus 两行、实现提交 76df4665)
-请重点复核(数据/测试面,与 Opus 的架构/视觉面互补):
-1. N1-N2 落地:flowCuts=0 是否有真断言(非仅日志);0x6D 迁移测试是否覆盖四形态(both-zero 双清/onEnter-only/onTeleport-only/双 binding);
-2. 66 项旧产物残余归零口径:静态扫描 projects/pal 零 "unmigrated"、零 opcode-0 占位,46×0x78 no-op 丢弃与 34 唯一源站点对账;
-3. R1 旧存档归一化测试矩阵:合法旧档逐字段迁移、null tombstone 往返、异型 fail-loud、新档 sceneScriptOverrides 直通、mapOverride 不被吞——五类是否都有专测;
-4. 测试总量与门禁:content/migrate/reforge/editor 四包测试独立重跑;migrate dry-run 零计划(writes=0 deletes=0 conflicts=0);
-5. RNG 呈现栈测试面:rng-presentation 单测是否覆盖 幂等 finishPlayback/零帧段清备份/enterDialogue 无帧不进/reset 边界(Opus 已浏览器 8,438 帧实测零闪屏,你只需确认单测矩阵完整,浏览器复验可选)。
-已验证(勿重复,可抽查): Opus 已做 6051 s281 全链逐帧审计(worldFlash=0/dlgNoLayer=0/?menu 零错)、migrate dry-run 零计划、reforge 334 tests、静态扫描零命中
-允许修改: 仅任务卡审查签字/交接日志;发现实现问题签 counter 并列精确返工项,不要自行改实现
-输出要求: 在 done 前 GLM 行签 accept 或 counter+理由,写复核证据与命令输出,提交任务卡;三签齐后 done 准入结论改为等用户验收,仍不得标 done(用户拍板)
-```
+无下一位 Agent 提示词。R2 已完成三方审查与用户验收，状态为 `done`；后续 R3/A7 + R7 另开任务卡。
