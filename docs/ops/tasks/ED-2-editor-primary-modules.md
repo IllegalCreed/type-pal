@@ -103,7 +103,7 @@ Branch: main
 ### 进入 done 前:审查签字
 
 - Codex: **accept（2026-07-14）**。八模块注册表、typed URL/历史恢复、失效对象空态、模块偏好持久化和三档响应式布局均已实现并实测；编辑器 150 项测试与全仓 3449 项测试通过，未改 schema/loader/迁移器。
-- Opus: pending
+- Opus: **accept**（2026-07-14,基线 b8c824d1;五点复核全过——①注册表唯一真源:EDITOR_MODULES 派生导航/URL/测试,15 旧页恰好一次+子页≤5 有专项测试,未登记数据页即抛;②历史语义:popstate 走 'none' 单向恢复不写历史(无循环),sameEditorLocation 守卫,对象点选 replace 防历史膨胀,活体验证战斗→back→场景恢复;③记忆按 `type-pal:editor:navigation:<projectId>` 键控,工程切换 App 重挂载零串扰,URL 优先于存储;④720/900 活体检测零横向溢出、五面板矩形零重叠;失效深链显"目标不存在"且不偷选(objectId 存在性校验后才选中);⑤core/content/schema 零触碰(提交仅 UI+main.tsx 装配行)。editor 150 测试独立复跑绿。无返工项）
 - GLM: pending
 - counter / 返工处理: pending
 - 缺签豁免: N/A
@@ -250,6 +250,8 @@ interface EditorLocation {
 - 2026-07-14 Opus: 设计签 **agree,无必改**。注册表同源/typed 深链/空态兜底/真值单一/S1+S3 落实逐项过。Next: GLM 复核(15 页恰好一次映射+跨模块跳转矩阵);三签齐后 build。
 - 2026-07-14 GLM: 设计签 **agree**。确认旧 15 页恰好一次、跨模块跳转矩阵与注册表同源方案可测。Next: Codex build。
 - 2026-07-14 Codex: 完成八模块、typed URL、历史/偏好恢复、对象空态和三档布局；编辑器 150 项、全仓 3449 项测试通过，浏览器逐页/深链/响应式检查通过，自签 `accept`。Next: Opus 实现审查。
+
+- 2026-07-14 Opus: 实现审查签 **accept**(b8c824d1)。注册表唯一真源(15 页恰好一次/≤5 专项测试)/popstate 单向无循环+对象 replace/记忆 per-projectId 零串扰/720+900 活体零溢出零重叠+失效深链不偷选/core-schema 零触碰;150 测试复跑绿。Evidence: done 签字行。Next: GLM 复核;三签齐可 done。未改实现文件。
 
 ## 下一位 Agent 提示词
 
