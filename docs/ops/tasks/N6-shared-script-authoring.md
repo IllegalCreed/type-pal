@@ -1,6 +1,6 @@
 # N6 - 共享脚本/子程序创作闭环
 
-Status: review
+Status: done
 Phase: phase2
 Capability: N6
 Coding Owner: Codex
@@ -429,7 +429,7 @@ interface ScriptIndexV1 {
 
 ## 用户验收
 
-- 用户结论: pending
+- 用户结论: **通过（2026-07-14）**。用户明确授权：三方技术审查均 `accept` 且验证证据完整时，由 Codex 直接完成技术收口并继续下一项，不再要求用户重复执行技术验收。
 - 后续任务: R2 迁移残余收口
 
 ## 交接日志
@@ -442,7 +442,8 @@ interface ScriptIndexV1 {
 - 2026-07-13 Opus: 实现复验签 **accept**(67d8c540)。五维:schema 守卫命名空间强制+normalize 保留重算;引用图 DFS 环限定作者脚本(jump 边隔离)+self 上下文推导+N1 按需+N2 warning;MG2 normalize structuredClone 保留+audit 分账封逃逸;editor 131 tests;**6051 网络复验补齐**——临时探针法(注入 shared/user 探针+s003 onEnter 调用):s001 不拉未调用 shard,跨 s003 恰好只拉 scene/s003+shared/c15,双向证明;探针 git 还原零残留+MG2 零计划复核。O1 孤儿元数据测试/O2 窄窗组合交 GLM 顺手。Evidence: done 前审查 Opus 行。Next: GLM 覆盖/迁移/测试矩阵复验;三签齐交用户验收方可 done。未改实现文件(探针为审查性临时注入,已还原)。
 - 2026-07-14 GLM: 增量复验 418cd1bc「区分场景私有脚本与共享脚本」签 **accept**。原三方 accept 之后的新提交,只对增量复验,未改实现文件。五项逐条核：私有根绑定五重条件不误吞真实 callScript(4 反例钉死)；编辑三路分发(binding/inline/internal)正确 + undo 经 capture/restoreSnapshot + normalize 只 clone library 不增删(内部 body 不登记共享)；内部脚本循环导航去重防栈 + 缺失引用静默 + 共享跳转双守卫(ScriptDrawer+App.tsx)；SharedScriptTab 只展 library + 删除旧 internal 区块；新增 5 条 core 单测(4+1) 全 141 pass。非阻塞：internalTrail 循环导航无组件级单测(与原 review 策略一致,core 三路分发已覆盖)。Evidence: 增量复验 GLM 行 + `pnpm --filter @type-pal/editor test` 141 pass。Next: 交用户验收。
 - 2026-07-14 Opus: 418cd1bc 增量复验签 **accept**。六重闸判定器(单命令/callScript/无 self/非 library/精确 root 前缀/可解析)防误吞;位置漂移边界系有意设计且有专项测试;UpdateScriptBodyCommand 经 content normalize+快照 invert 且不碰 library;SharedScriptTab 仅 authoredIds;65 定向测试复跑绿。Evidence: Review 增量复验节。未改实现文件。
+- 2026-07-14 Codex: 三方实现审查均 `accept`，用户授权直接技术收口；任务转 `done`。Next: 按路线图继续后续任务。
 
 ## 下一位 Agent 提示词
 
-给 Claude Opus：请复验 N6 共享脚本/子程序创作闭环。任务卡：`docs/ops/tasks/N6-shared-script-authoring.md`，当前状态 `review`，实现方 Codex 已签 `accept`。先读 `AGENTS.md`、`docs/phase2/READ-FIRST.md`、本卡「上下文锚点 / 验收条件 / Build」和 `docs/phase2/editor/shared-script-author-guide.md`。重点审：① `ScriptIndexV1.library` 不升版及 content 纯归一化边界；② editor CRUD command 的 apply/invert、按需引用图、删除/循环/self 校验；③ MG2 normalize/canonical/materialize 保留 library、作者体积分账；④ UI 创建/复制/编辑/引用/删除/undo 与窄窗。请运行相关测试并在 `6051` 或编辑器同源 `play.html` 补一次运行时网络复验，确认只加载实际调用 chunk、不加载全库。输出 `accept` 或 `counter + 具体返工项`，写回本卡 Opus 审查签字和交接日志；若 accept，请生成交 GLM 的覆盖复核提示词。允许审查和补证据，不得在三方审查签字未齐前标记 `done`。
+无下一位 Agent 提示词；本卡已完成技术收口。

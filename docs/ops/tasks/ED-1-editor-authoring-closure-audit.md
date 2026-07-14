@@ -1,6 +1,6 @@
 # ED-1 - 编辑器一级模块与创作闭环审查
 
-Status: review
+Status: done
 Phase: phase2
 Capability: Editor / R6（已同步 W1/W7/E1/C1/W5/X2/B2/N8）
 Coding Owner: Codex（仅文档收口；实现由子任务另定）
@@ -228,7 +228,7 @@ Branch: main
 
 ## 用户验收
 
-- 用户结论: 2026-07-14 确认设计三签齐并允许推进文档收口；ED-1 最终 done 仍待三方 review 签字。
+- 用户结论: **通过（2026-07-14）**。三方 review 已全部 `accept`；用户明确授权由 Codex 依据完整技术证据直接收口并继续下一项。
 - 后续任务: W7E-0 空白新场景止血；ED-2 一级模块壳；W7E 地图库与场景绑定；其余按审计分期。**ED-3 开卡必带:Opus S2(引用图边定义携带删除策略元数据 block/warn/replace-suggest)+ W7E 临时删除反查收编。**
 
 ## 交接日志
@@ -238,16 +238,8 @@ Branch: main
 - 2026-07-14 GLM: 设计复核签 **agree**；抽查地图/角色/过场/入口点/共享脚本五域均与代码一致，capability 调整逐行对账，分期无环，七类验收完整；确认 MG2 maps index 登记应在 W7E build 同步落下。Evidence: 本卡 GLM 签字。Next: Codex 文档收口与开子卡。
 - 2026-07-14 Codex: 完成 ED-1 获准的文档 build：同步 capability/roadmap/audit，拆 W7E-0/ED-2/W7E，并把 R1 消费方+MG2 双表、R2 临时反查收编、R3 提前止血、S1 文案和 S3 深链/子页门禁落入子卡；未改实现。Evidence: git diff + 三张子卡。Next: Opus 审 ED-1 收口并审三张子卡设计。
 - 2026-07-14 Opus: ED-1 done 复验签 **accept**。capability 五格逐行对账一致(引擎列未动);R1-R3/S1/S3 逐项定位到子卡条文;唯一余项 S2 未落盘——已补记后续任务行(ED-3 开卡必带),非阻塞。同轮:W7E-0 agree(无必改)、ED-2 agree(无必改)、W7E agree+M1/M2 必改。Next: GLM 四卡合并复核。
+- 2026-07-14 Codex: 三方文档审查均 `accept`，用户授权直接技术收口；任务转 `done`。Next: ED-2 已进入 build。
 
 ## 下一位 Agent 提示词
 
-```text
-接手任务: ED-1 done 复核 + W7E-0/ED-2/W7E 三子卡设计复核(GLM 四卡合并)
-四卡: docs/ops/tasks/{ED-1-editor-authoring-closure-audit, W7E-0-blank-scene-map-reference, ED-2-editor-primary-modules, W7E-map-library-scene-binding}.md
-当前状态: ED-1 review(Codex+Opus accept,GLM pending);W7E-0/ED-2 draft(Codex+Opus agree,无必改);W7E draft(Codex+Opus agree,附 M1/M2 必改待 Codex 落卡)
-你的角色: GLM,覆盖/测试矩阵/一致性复核;只审文档,不改实现
-Opus 已过: ED-1 收口忠实(capability 五格逐行对账/R1-R3+S1+S3 定位到子卡条文;唯一余项 S2 已补记 ED-1 后续任务行=ED-3 开卡必带);W7E-0 最小修复+四支测试齐;ED-2 注册表同源+typed 深链+objectId 不偷选第 0 项;W7E schema/升级边界/懒加载/MG2 双表全过,M1=纯 reuse 工程不升 v2 不注入空 index、M2=消费方表补 clone/zip(A5)。
-请你复核: (1)ED-1:S2 补记文本与 GLM 自己首轮抽查结论仍一致,签 done accept/counter;(2)W7E-0:测试矩阵(own/reuse+room/undo-redo/save-reload)对 P0-1 复现路径的覆盖,签 agree/counter;(3)ED-2:15 旧页→八模块映射"恰好一次"可测性、跨模块跳转三例是否足够,签 agree/counter;(4)W7E:M1/M2 落卡后的消费方矩阵终版逐层对照实际代码面(content/reforge/editor core/editor UI/migrate/MG2/docs),给漏项差集;测试节对 D1-D5 分期的映射,签 agree/counter。各卡分别写 GLM 行+日志
-不要做: 不改实现;子卡三签未齐不 build;ED-1 三方未齐不标 done
-输出要求: 四项分别结论、W7E 消费方差集、提交 hash
-```
+无下一位 Agent 提示词；本卡已完成技术收口。

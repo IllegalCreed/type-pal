@@ -1,6 +1,6 @@
 # W7E-0 - 空白工程新场景地图引用止血
 
-Status: review
+Status: done
 Owner: Codex
 Reviewer: Opus + GLM
 Phase: phase2
@@ -47,7 +47,7 @@ Capability: W3 / W7 / E1
 - Opus: **agree**（2026-07-14）。完整联合传递是唯一不猜类型的修法；防御性复制防命令间引用共享；范围外条款挡住 map index 提前混入。
 - GLM: **agree**（2026-07-14）。测试矩阵四支覆盖 P0-1 复现路径：(1) own 地图新建场景保留 `{ownMap:path}` 不退回 `reuseOriginalMap:0` ✅；(2) reuse+room 完整保留地图号与 room ✅；(3) undo/redo 删除/恢复地图引用一致 ✅；(4) save/reload loader 重开解析 ✅。P0-1 复现路径（App.tsx:580 `reuseMapNum??0` + commands.ts:1734 固定 `reuseOriginalMap`）与修复方案（完整 SceneMap 联合传递+防御性复制）对应。四支测试覆盖了"类型保留+参数保留+撤销一致+持久化一致"四维，无漏环。
 - build 准入: **三签齐（Codex + Opus + GLM agree），build allowed。**
-- done 准入: Codex **accept**（2026-07-14）| Opus **accept（2026-07-14;四项复验全过——①AddSceneCommand 收完整 SceneMap+structuredClone(测试断言含嵌套 room 深复制 not.toBe);②全 editor 扫描零残留 `?? 0` 回退;③79 项测试绿(ownMap 经 dispatch/undo/redo/防御复制、reuse+room、正式 loader 重开);④6012 实测:新建 opus-w7e0-check 场景→属性面板显示 content/maps/start.json、画布中心亮度 101 非黑→撤销消失→重做恢复(仍 101/仍 start.json)→验证后撤销还原未保存。无返工项）** | GLM **accept（2026-07-14;见下）** | 用户豁免 N/A | **结论：三方 done 前审查签字齐（Codex + Opus + GLM accept），交用户验收。**
+- done 准入: Codex **accept**（2026-07-14）| Opus **accept（2026-07-14;四项复验全过——①AddSceneCommand 收完整 SceneMap+structuredClone(测试断言含嵌套 room 深复制 not.toBe);②全 editor 扫描零残留 `?? 0` 回退;③79 项测试绿(ownMap 经 dispatch/undo/redo/防御复制、reuse+room、正式 loader 重开);④6012 实测:新建 opus-w7e0-check 场景→属性面板显示 content/maps/start.json、画布中心亮度 101 非黑→撤销消失→重做恢复(仍 101/仍 start.json)→验证后撤销还原未保存。无返工项）** | GLM **accept（2026-07-14;见下）** | 用户授权收口 **是（2026-07-14）** | **结论：三方审查全 `accept`，用户授权依据技术证据直接收口，done allowed。**
 
 ### GLM done 前覆盖复验（2026-07-14）
 
@@ -97,21 +97,8 @@ Capability: W3 / W7 / E1
 
 - 2026-07-14 Opus: 实现复验签 **accept**(fb86b23a)。structuredClone 防御复制+嵌套 room 深复制断言;回退零残留;79 测试绿;6012 全流程实测(新建→start.json 非黑屏 101→undo/redo→还原)。Evidence: done 准入行。Next: GLM 复验;三签齐后可 done。未改实现文件。
 - 2026-07-14 GLM: done 前覆盖复验签 **accept**(fb86b23a + 1f677d19)。四支逐条：①AddSceneCommand 收完整 SceneMap + structuredClone，App.tsx:580 直传 scene.map，AddScene 路径零 `??0` 残留(两处 height 默认值无关)；②reuse+room 嵌套深复制三重 not.toBe 断言；③undo/redo 经真实 EditSession + 源场景 not.toBe+toEqual 双断言防 mutate；④serializeProject→loadProjectFrom→loadSceneDef 正式 loader 链重开 ownMap 一致；⑤fb86b23a --name-only 不含 content/schema/index，SceneMap 类型定义未触碰；⑥editor 17 文件 144 tests pass。Evidence: done 准入 GLM 复验段。Next: 交用户验收，用户点头方 done。未改实现文件。
+- 2026-07-14 Codex: 三方实现审查均 `accept`，用户授权直接技术收口；任务转 `done`。Next: ED-2 已进入 build。
 
 ## 下一位 Agent 提示词
 
-```text
-接手 W7E-0 实现复验。
-任务卡: docs/ops/tasks/W7E-0-blank-scene-map-reference.md
-当前状态: review；Coding Owner=Codex；三方设计 agree 已齐。
-实现提交: 由用户随本提示词附上 Codex 最新 W7E-0 提交 hash。
-
-先读 AGENTS.md、docs/phase2/READ-FIRST.md 和任务卡上下文锚点。请审查：
-1. AddSceneCommand 是否完整、防御性复制 SceneMap，且没有引入 map index/schema 变化；
-2. App 新建入口是否彻底移除 ownMap -> reuseOriginalMap:0 回退；
-3. ownMap、reuse+room、undo/redo、serialize+正式 loader 重开四支测试是否有效；
-4. 在 http://localhost:6012/ 实测：从 start 新建场景，输入唯一 id，确认新场景仍显示 content/maps/start.json 且地图非黑屏；再撤销/重做并复查。
-
-通过请在任务卡 done 准入与交接日志写 Opus accept；不通过写 counter、文件位置和返工条件。
-只审实现和补验证记录，不得另改实现文件，不得标 done。
-```
+无下一位 Agent 提示词；本卡已完成技术收口。
