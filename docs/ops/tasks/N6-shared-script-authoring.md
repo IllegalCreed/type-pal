@@ -220,6 +220,35 @@ Branch: main
 - 缺签豁免: N/A
 - done 准入结论: **三方 done 前审查签字齐（Codex accept + Opus accept + GLM accept）。** 交用户最终验收，用户点头方 done。
 
+#### 增量复验：418cd1bc「区分场景私有脚本与共享脚本」
+
+- GLM: **accept**（2026-07-14）。原三方 accept 之后的新提交，只对该增量复验。四条新语义逐项：
+
+  **(1) 私有根绑定识别不误吞真实 callScript** ✅
+  - `scene-script-view.ts:54-68` `materializeSceneStages` 五重条件全满足才透明展开：单命令 + `callScript` + `self===undefined` + 非 `library` id + id 匹配场景根前缀模式。任一不满足即原样展示。
+  - scene-script-view.test.ts:56-72 四反例（作者共享 callScript / 内联 wait / 孤儿 stage-2 / 带 self 的根 callScript）全部 `bindings=[undefined×4]`，body 原样返回。
+
+  **(2) 编辑/undo/chunk normalize 保持正确** ✅
+  - 编辑三路分发正确（ScriptDrawer.tsx `dispatchBody`）：internalScriptId → `UpdateScriptBodyCommand(id)`；binding 命中 → `UpdateScriptBodyCommand(binding.id)`；普通内联 → `UpdateScriptCommand(rawStages)`。binding 命中时写回 chunk 而非内联壳。
+  - undo：`UpdateScriptBodyCommand.invert` 经 `captureScriptState`/`restoreScriptState`；commands.test.ts:267 新增场景私有 body invert 测试通过。
+  - normalize：`UpdateScriptBodyCommand.apply` → `normalizeScriptLibrary` 重算 bytes/hash/imports；library 从 `state.scriptIndex` 原样保留（script-library.ts:252-258 只 clone 不增删），内部 body 编辑不会把自己登记进 library。commands.test.ts:267 `library[internalId]===undefined` 断言钉死。
+
+  **(3) 内部脚本循环导航/缺失引用/共享目标跳转** ✅
+  - 循环导航：`openScriptTarget` 用 `internalTrail` + `indexOf` 去重 → `slice(0, existing+1)` 防无限堆栈；"返回" `slice(0,-1)` 弹栈。
+  - 缺失引用：非 library id 先 `getScriptBody` 检查存在性，不存在静默 return。
+  - 共享目标跳转：library id 走 `onOpenScript` → SharedScriptTab；App.tsx:152 再加 `if (!library[id]) return` 守卫，非作者 id 不进入共享模块。
+
+  **(4) SharedScriptTab 只展示作者 library** ✅
+  - `library = scriptIndex?.library ?? EMPTY_LIBRARY`；旧 `internal = !!selectedId && !meta` 逻辑及"迁移内部脚本"区块已删除；引用面板内部 caller 按钮 `disabled`。内部脚本不再进入 SharedScriptTab。
+
+  **(5) 新增测试覆盖边界** ✅
+  - scene-script-view.test.ts 4 条（根 id / 透明展开+段转移 / 四反例不冒充 / 段增删后稳定 id 仍展开）。
+  - commands.test.ts 1 条（私有 body 原地更新不登记 library + invert）。
+  - 全包 141 tests pass（含新 5 条）。
+
+  **非阻塞观察**：`internalTrail` 循环导航是纯 UI 交互，当前无 ScriptDrawer 组件级单测——与原 N6 review 一致（core 单测 + 浏览器手工验证）；core 层三路分发已覆盖，不影响 accept。
+- 增量结论：418cd1bc 三方 done 前审查签字仍齐。
+
 ## Draft: 设计与风险
 
 ### A. 数据形状：元数据进 index，命令体继续进 chunk
@@ -411,6 +440,7 @@ interface ScriptIndexV1 {
 - 2026-07-13 Codex: 核对三签齐与 build allowed，接任 Coding Owner；N1-N3 和 GLM 点名测试全部纳入实现范围，任务状态转 `build`。Next: Codex 按分期 1-5 实现和自测。
 - 2026-07-13 Codex: 完成 content schema/纯归一化、editor CRUD/引用图/UI、MG2 保留与审计分账、reforge 懒加载回归和作者手册；全包测试、editor build、迁移双跑、6010 双调用方与窄窗检查通过，Codex 签 `accept`，状态转 `review`。Next: Opus 复验架构/代码/UX，并补 6051 网络抓包；不得标记 done。
 - 2026-07-13 Opus: 实现复验签 **accept**(67d8c540)。五维:schema 守卫命名空间强制+normalize 保留重算;引用图 DFS 环限定作者脚本(jump 边隔离)+self 上下文推导+N1 按需+N2 warning;MG2 normalize structuredClone 保留+audit 分账封逃逸;editor 131 tests;**6051 网络复验补齐**——临时探针法(注入 shared/user 探针+s003 onEnter 调用):s001 不拉未调用 shard,跨 s003 恰好只拉 scene/s003+shared/c15,双向证明;探针 git 还原零残留+MG2 零计划复核。O1 孤儿元数据测试/O2 窄窗组合交 GLM 顺手。Evidence: done 前审查 Opus 行。Next: GLM 覆盖/迁移/测试矩阵复验;三签齐交用户验收方可 done。未改实现文件(探针为审查性临时注入,已还原)。
+- 2026-07-14 GLM: 增量复验 418cd1bc「区分场景私有脚本与共享脚本」签 **accept**。原三方 accept 之后的新提交,只对增量复验,未改实现文件。五项逐条核：私有根绑定五重条件不误吞真实 callScript(4 反例钉死)；编辑三路分发(binding/inline/internal)正确 + undo 经 capture/restoreSnapshot + normalize 只 clone library 不增删(内部 body 不登记共享)；内部脚本循环导航去重防栈 + 缺失引用静默 + 共享跳转双守卫(ScriptDrawer+App.tsx)；SharedScriptTab 只展 library + 删除旧 internal 区块；新增 5 条 core 单测(4+1) 全 141 pass。非阻塞：internalTrail 循环导航无组件级单测(与原 review 策略一致,core 三路分发已覆盖)。Evidence: 增量复验 GLM 行 + `pnpm --filter @type-pal/editor test` 141 pass。Next: 交用户验收。
 - 2026-07-14 Opus: 418cd1bc 增量复验签 **accept**。六重闸判定器(单命令/callScript/无 self/非 library/精确 root 前缀/可解析)防误吞;位置漂移边界系有意设计且有专项测试;UpdateScriptBodyCommand 经 content normalize+快照 invert 且不碰 library;SharedScriptTab 仅 authoredIds;65 定向测试复跑绿。Evidence: Review 增量复验节。未改实现文件。
 
 ## 下一位 Agent 提示词
