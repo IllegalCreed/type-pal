@@ -1,0 +1,362 @@
+# W7F - 单一新版地图管线（无损迁移、地图库、图层与高度导航）
+
+Status: draft
+Phase: phase2
+Capability: W7 / W1 / W3 / MG2
+Coding Owner: Codex
+Generation Owner: N/A
+Reviewer: Opus + GLM
+Visual Verification Owner: Codex
+Unavailable Agents: none
+Branch: main
+
+## 目标
+
+把旧 `Tilemap` 严格封在提取器和迁移器输入端。迁移器将全部 PAL 地图无损转换为工程唯一的
+新版地图文件，并产出稳定地图库、tileset 注册和场景 `mapId` 引用；content、reforge、
+editor 此后只认识这一种地图模型。所有迁移地图与作者地图均可在同一地图编辑器中创建、选择、
+修改、复制和换绑，不再存在“复用原版地图只读”支路。地图编辑器同时提供图层导航尺和格子高度
+导航尺，便于聚焦并编辑指定图层、指定高度。
+
+## 范围
+
+- 范围内:
+  - 用 `ProjectMapV2` 统一迁移地图和作者地图：尺寸可变、N 个视觉层、每个瓦片格子实例自己的
+    高度矩阵、独立碰撞矩阵、稳定 tileset id。
+  - `MapIndexV1` 成为所有工程必需的地图发现真值；`SceneDef` 只以稳定 `mapId` 绑定地图。
+  - 迁移 `data/extracted/data/tilemap/*.json` 的全部 223 张源图，而不是只迁移被场景直接引用的图。
+  - 迁移 295 个源场景中的 294 个有效场景；精确识别并排除 `s294/mapNum=0` 空 stub。
+  - 把 opcode `0x99` 的旧 `mapNum` 在迁移时解析成 `mapId`；世界状态和重载接口只存/收 map id。
+  - 为全部 PAL tileset 生成稳定 `TilesetDef`；地图只引用 `tilesetId`，禁止路径直通。
+  - 移除 content/reforge/editor 中的 `ReuseMap`、`reuseOriginalMap`、`Tilemap | ProjectMap`
+    联合、旧 word 解码、旧碰撞分支和“原版地图只读”UI。
+  - 地图库列表、搜索、创建、复制、改名、删除守卫、场景选择/换绑/打开地图，以及未引用地图发现。
+  - 引擎和编辑器均按 map id 懒加载地图；编辑器不得为显示列表而一次解析全工程地图正文。
+  - 地图编辑器增加图层导航尺、高度导航尺、组合聚焦、画笔高度和吸管高度闭环。
+  - MG2 把地图索引按 id 合并，把单张地图文件作为原子三方合并单元，保护作者修改。
+- 范围外:
+  - 不在本卡转换 `.rle` 瓦片图像的像素格式；只把每个 tileset 登记为稳定资产。
+  - 不在本卡完成“所有二进制资源复制进工程”的资源自包含总任务；未来改资产路径时不影响 map id。
+  - 不在本卡清理与地图无关的 `unmigrated` opcode、精灵双轨、音乐/音效裸编号；另卡处理。
+  - 不做超大世界 chunk 流式地图；单张地图仍是有限、尺寸可变的 lattice。
+  - 不做 autotile、stamp、随机笔刷和跨地图拼接。
+- 明确不做:
+  - 不允许 editor 或 reforge 在运行时把旧图“首次打开时转换”。转换必须发生在迁移/升级边界之前。
+  - 不允许任何新版地图字段携带旧 `word/mask/lower/upper/h/mapNum` 概念。
+  - 不把格子高度放入 `TilesetDef`。tileset 最多描述图像资源，不拥有地图放置实例的高度真值。
+  - 不把所有地图打进单个 JSON，也不因地图列表而把所有地图常驻浏览器内存。
+  - 不对 map 文件做静默逐格三方合并；源转换和作者修改同时变化时必须报告冲突。
+
+## 上下文锚点
+
+- 已拍板决策 / 铁律:
+  - `docs/phase2/READ-FIRST.md` 铁律 4、5、10：架构第一、稳定 id、迁移缺陷先修上游。
+  - 用户 2026-07-14：进入编辑器的地图必须全是新版格式；迁移的职责就是把旧格式转换完，
+    编辑器不允许两套格式并行。
+  - 用户 2026-07-14：地图高度属于格子实例，不属于瓦片元数据。
+  - 用户 2026-07-14：地图编辑器需要类似楼层条的图层/高度导航滑块；当前值高亮，其他内容变暗。
+  - 用户既有要求：地图列表具备新建/编辑等完整闭环；场景地图可选择；迁移产物不能膨胀成单体巨物。
+- 代码锚点(`file:line`):
+  - `packages/pal-extract/src/resources/map.ts:9-52`：旧源每 cell 的 lower/upper 两个 u32。
+  - `packages/reforge/src/render.ts:19-23,376-386`：旧 tile id 与每次放置高度的真实解码公式。
+  - `packages/reforge/src/collision.ts:42-59`：旧 bit13 是对应 lower/upper 子格实例的碰撞值。
+  - `packages/content/src/own-map.ts:1-26`：当前 OwnMap v1 缺少格子实例高度。
+  - `packages/content/src/tileset.ts:6-16,68-84`：当前错误地把高度放在 tileset 并按 tileId 查询。
+  - `packages/content/src/index.ts:117-179`：当前 `ReuseMap | OwnMapRef` 双模型。
+  - `packages/migrate/src/migrate-content.ts:1692`：迁移器当前只输出 `reuseOriginalMap`。
+  - `packages/migrate/src/translate-events.ts:700-701`：0x99 当前把 mapNum 泄漏进新版命令。
+  - `packages/reforge/src/scene-map.ts:1-31`：运行时当前双格式分流。
+  - `packages/editor/src/ui/MapMode.tsx:520,676,1003`：编辑器当前原版地图只读支路。
+- 已知坑 / 审计数据:
+  - W7D 的“per-tile 高度属瓦片固有属性”结论错误；本卡明确推翻，不复用 W7D 该项签字。
+  - 源图 223 张、源场景 295 个；场景直接使用 222 个 mapNum，59 张图被多个场景共享，最多 4 个场景共用。
+  - map 104 无场景直接引用，map 164 只被换图脚本引用；二者仍必须进入地图库。
+  - `s294` 是已知空 stub：mapNum=0、无实体、无脚本、无有效入边，源侧也没有 tilemap/0.json。
+  - 全源扫描中，同一 `(tileset,tileId)` 出现多个高度的组合有 14,160 个，证明 tileId 无法决定高度。
+  - 3,653,632 个子格实例中，视觉层 0 非零高度 120,910 个，视觉层 1 非零高度 83,253 个；
+    碰撞实例 168,197 个。高度与碰撞都属于具体坐标。
+  - 源 tilemap JSON 共约 102.7 MiB。V2 dense 矩阵 compact 估算约 47.8 MiB，默认两空格 pretty
+    会膨胀到约 230 MiB，因此地图必须使用“结构缩进 + 每行紧凑”的确定性格式化器。
+  - 旧 W7E 设计及签字已由用户裁决取消，见 `docs/ops/tasks/W7E-map-library-scene-binding.md` 顶部。
+- 不得重新引入:
+  - `reuseOriginalMap`、运行时 `Tilemap`、路径即身份、mapNum 运行时引用、tileset 路径直通。
+  - `TilesetDef.tiles[].height` 或任何 `tileId -> height` 运行时映射。
+  - 地图加载时猜格式、编辑器首次编辑时转换、contentVersion 双模型长期共存。
+  - 把 223 张地图或全游戏脚本打进单文件、编辑器启动时全量解析地图正文。
+- 相关测试:
+  - `packages/content/src/own-map.test.ts`、`validate-refs.test.ts`、新 map index/schema tests。
+  - `packages/reforge/src/render.test.ts`、`collision.test.ts`、`scene-map.test.ts`、`loader.test.ts`。
+  - `packages/editor/src/core/commands.test.ts`、`project-io.test.ts`、clone/zip/open-local tests。
+  - `packages/migrate/src/migrate-content.test.ts`、`translate-events.test.ts`、MG2 merge/bootstrap/integration tests。
+
+## 验收条件
+
+- 功能:
+  - `projects/pal` 迁移后有 223 个地图资产和对应 tileset 注册；map 104、164 均可在地图列表找到。
+  - 294 个有效场景只保存 `mapId`；共享同一旧 mapNum 的场景继续引用同一个 map id。
+  - `s294` 仅在精确 stub 断言成立时排除；签名不符必须 fail-loud，不能泛化成“mapNum 0 都丢弃”。
+  - 0x99 两个现有站点迁为 map id；运行时切图、持久 world override、保存/读档均不出现 mapNum。
+  - 每张迁移地图可直接在地图编辑器修改并保存，没有只读原版分支；场景可换绑、复制后换绑。
+  - 地图库可发现未引用地图；被引用地图禁删，解除引用后可删，undo 恢复索引、文件和引用。
+  - 地图编辑器图层导航尺可拖动/点刻度/滚轮切层；当前层全亮并成为绘制目标，其余层变暗。
+  - 高度导航尺可聚焦高度 0、1、2...；当前高度全亮，其余高度变暗；图层与高度条件可叠加。
+  - 当前高度作为画笔写入值；吸管同时读取 tileId 和该实例高度。聚焦状态只属编辑器 UI，不写地图文件。
+  - 提供临时“显示全部”开关；碰撞、选框、hover 等编辑反馈不得因变暗而不可辨认。
+  - 打开 PAL 编辑器只加载 map index 和当前地图；切图按需读取，脏地图不得被 LRU 静默丢弃。
+- 测试:
+  - 逐位转换测试覆盖 layer0/layer1 tile id、两层实例高度、bit13 碰撞、空 layer1 和边界值 0/15。
+  - 全量迁移审计：223 图全部产出；场景、0x99、tileset 和 map index 引用零悬空；共享关系不被复制开。
+  - 新 schema guard 覆盖矩阵尺寸、layer id 唯一、非负高度、null tile 必须 height=0、未知 tileset/map id。
+  - renderer/collision 只接 `ProjectMapV2`；代表性室内/室外/多高度地图做旧源转换前后像素与碰撞采样对照。
+  - editor Command 覆盖图层/高度绘制、吸管、CRUD、换绑、删除、undo/redo；输入不 mutate。
+  - lazy store 覆盖加载去重、切换、脏文档 pin、失败恢复、保存/clone/zip 对未加载文件的 copy-through。
+  - MG2：map index 按 id；单图 theirs=base 保 ours、ours=base 收 theirs、双方变化报冲突；连续第二次迁移零计划。
+  - 静态边界门禁：`packages/content|reforge|editor` 不得引用 `Tilemap`、`reuseOriginalMap`、
+    `cell.lower/upper` 或旧地图 word 解码；仅 pal-extract/migrate 输入侧允许。
+  - 根 `pnpm check`、editor production build、PAL 全量迁移与第二次 dry-run 全绿。
+  - 迁移后地图目录的确定性序列化总字节不得超过源 tilemap JSON 总字节的 1.25 倍，且无全图单文件。
+- 文档:
+  - 修订 content-schema、decisions、engineering-notes、editor-design、asset pipeline 和 capability map。
+  - 明确旧格式只存在于 pal-extract/migrate 输入；W7D/W7E 旧兼容结论标为 superseded。
+  - 另记后续债：脚本 `unmigrated` 运行时解释器、精灵/音乐/音效资源身份清理。
+- 视觉 / 手工验证:
+  - 1280、900、720 三档验证地图库、场景换绑、图层尺、高度尺和画布，无遮挡、溢出或不可达控件。
+  - 至少选三张含不同高度的 PAL 地图，逐级拖高度尺，确认仅匹配格子保持正常亮度。
+  - 组合验证“指定图层 + 指定高度”、吸管后继续绘制、撤销/重做、保存重开。
+  - 引擎从开场连续跨场景，含 0x99 换图站点，地图、碰撞和遮挡正常；控制台零错误。
+
+## 推进签字
+
+签字是阶段门禁。W7F 同时涉及 schema、migration、asset pipeline、跨包公共接口和编辑器工作流，
+旧 W7D/W7E 的任何签字均不得复用。
+
+### 进入 build 前:设计签字
+
+- Codex: **agree（2026-07-14）**。旧图可逐子格无损展开为统一 lattice；高度与碰撞均有明确实例位置。
+  采用单一 `ProjectMapV2`、稳定 map/tileset id、迁移期全量产图、运行时和编辑器懒加载，能同时满足
+  架构边界、编辑闭环和体积约束。dense 矩阵优先保证编辑/验证简单，行紧凑格式化解决 JSON 膨胀。
+- Opus: pending
+- GLM: pending
+- counter / 分歧处理: 新设计待 Opus/GLM 独立复核；任一 counter 留在 draft。
+- 缺签豁免: N/A
+- build 准入结论: **blocked**
+
+### 进入 done 前:审查签字
+
+- Codex: pending
+- Opus: pending
+- GLM: pending
+- counter / 返工处理: pending
+- 缺签豁免: N/A
+- done 准入结论: blocked
+
+## Draft: 设计与风险
+
+### 1. 唯一作者态 schema
+
+```ts
+interface MapLayerV2 {
+  id: string
+  name: string
+  depthMode: 'flat' | 'height'
+  tiles: (number | null)[][]
+  heights: number[][]
+}
+
+interface ProjectMapV2 {
+  version: 2
+  width: number
+  height: number
+  tilesetId: string
+  layers: MapLayerV2[]
+  collision: number[][]
+}
+
+interface MapAssetDefV1 {
+  id: string
+  name: string
+  path: string
+}
+
+interface MapIndexV1 {
+  version: 1
+  maps: MapAssetDefV1[]
+}
+
+interface SceneDef {
+  mapId: string
+  // 其余字段不变
+}
+```
+
+- 所有矩阵都是 `[2 * height][width]` 的错排菱形 lattice；行奇偶只是几何坐标，不叫旧 `h`。
+- `heights[row][col]` 是同位置 `tiles[row][col]` 这次放置的遮挡高度；tile 为 null 时高度必须为 0。
+- 高度为非负整数，不继承旧 4 bit 上限。`depthMode='height'` 时，非零高度实例进入角色深度排序；
+  `flat` 层高度必须全 0，只铺底。旧两视觉层迁移后都用 `height`，因为原版两层均可能出现非零高度。
+- `collision` 与视觉层正交。数值 0 可通行，非 0 为阻挡/未来地形类型。
+- `TilesetDef.tiles[].height` 与 `tileHeightsOf()` 退役。瓦片集只提供图像；画笔高度来自编辑器当前高度。
+- map index 是发现真值，场景不是索引。地图 id/path/name 分离；改显示名不改变 id/path。
+- 工程 contentVersion 升为 2，manifest 必须声明地图索引。reforge/editor 不接受 v1；旧工程只能先走
+  migrate 包的一次性升级器，升级器输出 v2 后才可进入编辑器。
+
+### 2. 旧 Tilemap 到 ProjectMapV2 的纯转换
+
+对源 `cells[row][col]` 的 `lower/upper` 分别取 `sub=0/1`，目标 lattice 行
+`b = row * 2 + sub`：
+
+```text
+d = sub == 0 ? lower : upper
+layer-0.tile   = (d & 0xff) | ((d >>> 4) & 0x100)
+layer-0.height = (d >>> 8) & 0x0f
+layer-1.tile   = (((d >>> 16) & 0xff) | ((d >>> 20) & 0x100)) - 1
+layer-1.height = (d >>> 24) & 0x0f
+collision      = (d & 0x2000) != 0 ? 1 : 0
+```
+
+- layer-1 tile 解出 -1 时写 null，height 强制 0；不得保留 `+1/-1` 编码。
+- map id 使用 `map-NNN`，tileset id 使用 `tileset-NNN`；原始数字只在转换函数内部存在。
+- 全部 223 张源图均产出，包括未引用图；源场景共享 mapNum 时复用同一个 map id。
+- `s294` 只按精确 stub 签名排除并写审计记录；不生成虚假 map-000/tileset-000。
+- 0x99 在 translate 阶段调用同一个 mapNum→mapId resolver，产出
+  `setSceneMapOverride { scene?, mapId }`。world override、reload host 和存档随之改为 string id。
+
+### 3. 单格式加载与编辑仓库
+
+- `LegacyTilemap` 类型仅允许 pal-extract、phase1 game 和 migrate converter 引用；reforge/content/editor
+  的公开类型和实现都不能 import 它。
+- 引擎加载 map index 元数据，按当前场景 mapId 读取一张 `ProjectMapV2`，继续使用有界 LRU。
+- 编辑器先加载地图目录，不加载所有正文。选择地图时由 `MapDocumentStore` 异步 hydrate；hydrate 不是
+  作者操作，不进入 undo 栈。编辑 Command 只作用于已加载文档，仍用不可变 apply/invert。
+- 脏地图在保存或明确放弃前不可被 LRU 淘汰。未加载且未改的地图在保存、clone、zip 时从项目源
+  copy-through；新建、删除、改名和换绑由目录与文件变更集记录。
+- PAL HTTP 工程和 FSA 本地工程共用同一 repository 接口，不建立两套 schema/状态机。
+
+### 4. 地图库、场景绑定与聚焦导航
+
+- 地图模块左栏为 map index 列表，支持搜索、新建、复制、改显示名、删除和使用场景计数。
+- 场景检查器只显示稳定 map 选择器，提供打开地图、创建并绑定、复制并绑定；没有“复用原版”选项。
+- 图层列表继续负责增删、重排、命名和 `depthMode`；图层导航尺只负责快速选择当前绘制层与聚焦。
+- 画布边缘放两条紧凑竖向导航尺：图层尺按 z 顺序列刻度，高度尺按当前地图实际高度范围列刻度。
+  支持拖动、点击和滚轮；使用统一 CSS 手柄与图标视觉。
+- 当前图层、当前高度匹配的瓦片按正常亮度绘制，其余瓦片统一降低至约 25% 亮度；两个焦点同时启用时
+  取交集。临时“显示全部”只关闭变暗，不改变当前绘制层/高度。
+- 高度尺当前值同时是新笔触写入的实例高度；吸管读取 tileId、layerId 和 height 后同步两条导航尺。
+- 聚焦、显隐、缩放和导航位置只属编辑器视图状态，不序列化到 ProjectMapV2。
+
+### 5. 迁移合并、体积与确定性
+
+- `content/maps/index.json#/maps` 在 migration-merge 与 migration-bootstrap 两处按 id 合并。
+- 单张 `content/maps/<id>.json` 使用现有原子三方规则：theirs 未变则保 ours，ours 未变则收 theirs，
+  双方变化报告冲突。地图矩阵不做猜测式逐格自动合并。
+- map 文件使用确定性专用格式化器：对象结构缩进，矩阵每行压成一行；既可按行 diff，又避免默认
+  pretty 的 230 MiB 膨胀。格式化器往返必须保持 JSON 语义和字节幂等。
+- migration file set 可为大地图保存预序列化文本/惰性 artifact，禁止同时长期保留旧图对象、dense
+  V2 对象和 pretty 字符串三份副本。构建与合并按单图处理，控制峰值内存。
+- 基线与项目均管理每张地图；第二次同源迁移必须严格零写入、零删除、零冲突。
+
+### 6. 实施分期
+
+1. **F1 契约与转换器**：ProjectMapV2、MapIndex、tileset 修正、纯转换公式、全源审计与体积格式化器。
+2. **F2 迁移输出与 MG2**：223 图、294 场景、0x99、baseline/merge/bootstrap、双跑幂等。
+3. **F3 reforge 单格式**：删除 Tilemap 分支，统一 renderer/collision/loader/cache/world override。
+4. **F4 editor repository/core**：map index、懒加载、copy-through、Command/undo、CRUD/换绑、clone/zip。
+5. **F5 editor UI**：地图库与场景绑定收口，图层尺、高度尺、组合聚焦、吸管/画笔闭环。
+6. **F6 集成与清债**：静态边界门禁、全仓测试、三档浏览器、跨场景/0x99、文档与旧代码删除。
+
+F1-F6 由同一 Coding Owner 连续推进；任一期不得以兼容分支把半成品暴露给 editor/reforge。
+
+### 已知风险
+
+- 风险: W7D 的 tileset 高度错误已进入 renderer/editor 多处。
+  - 缓解: 删除 helper 后用 typecheck 暴露消费方；静态门禁禁止 tileId→height 回流。
+- 风险: 223 张 dense 地图导致磁盘、迁移内存和编辑器启动膨胀。
+  - 缓解: 行紧凑序列化、单图 artifact、目录先行、按需加载、脏文档 pin 和明确体积门禁。
+- 风险: 旧 W7E 未提交实现范围大，容易选择性保留时把 legacy 分支一起带回。
+  - 缓解: 以 F6 静态零命中为门禁；按新契约逐文件审，不以“测试已绿”判可复用。
+- 风险: map override、共享地图和未引用地图在只按场景扫描时漏迁。
+  - 缓解: 以 tilemap 目录为全集，场景/脚本只做引用；全量引用闭包审计。
+- 风险: editor lazy store 与全局 undo/save/zip 交互复杂，可能丢未加载或脏文件。
+  - 缓解: repository 状态机测试 + copy-through 集成测试 + FSA 临时目录真实保存重开。
+- 风险: 两条竖向导航尺在窄屏挤压画布或与可调面板手柄冲突。
+  - 缓解: 固定窄轨、稳定尺寸、可折叠；1280/900/720 截图和命中区检查。
+
+### 主审立场
+
+- Reviewer: Opus 主审架构/schema/懒加载/MG2；GLM 主审迁移覆盖、全量审计、体积与测试矩阵。
+- 结论: Codex agree；等待 Opus、GLM。
+- 必改项: pending
+- 是否建议进入 build: pending
+
+### 三方争议记录
+
+- Codex: 选择单一 ProjectMapV2、dense 实例高度矩阵、稳定 id、迁移期全量产图和下游零 legacy。
+- Opus: pending
+- GLM: pending
+- 用户拍板: 旧格式只许存在于迁移前；高度是格子实例；编辑器需要图层/高度聚焦导航。
+
+## 额度 / 代班记录
+
+- 缺席 Agent: none
+- 缺席原因: N/A
+- 代班 Agent: N/A
+- 代班范围: N/A
+- 风险: N/A
+- 是否需要补审: N/A
+- 用户裁决: N/A
+
+## Build: 实现与自测
+
+- Coding Owner: Codex
+- 修改文件: pending
+- 实现摘要: pending；三签未齐，不得开始。
+- 运行命令: pending
+- 浏览器 / 手工检查: pending
+- 跳过的检查及原因: pending
+
+## 视觉验证记录
+
+- Visual Verification Owner: Codex
+- 验证方式: pending
+- 截图 / 像素检查路径: pending
+- 结论: pending
+- 未完成项: pending
+
+## Review: 审查与返工
+
+- Reviewer: Opus + GLM
+- 审查结论: pending
+- 必须返工项: pending
+- Accept / rework: pending
+
+## 用户验收
+
+- 用户结论: 已拍板单格式、高度实例化与双导航尺；实现验收 pending。
+- 后续任务: 清理事件 `unmigrated` 兼容解释器；统一精灵/音乐/音效资产身份；工程资源自包含。
+
+## 交接日志
+
+- 2026-07-14 User: 否决 Tilemap/OwnMap 下游并行；要求迁移后只有新版地图，高度归格子实例，
+  地图编辑器增加图层/高度导航尺。Evidence: 当前会话。Next: Codex 重做设计。
+- 2026-07-14 Codex: 取消 W7E 旧方案，完成源数据/消费方审计并起草 W7F。Evidence: 本卡上下文锚点、
+  转换公式、验收矩阵。Next: Opus 设计压力测试；不得实现。
+
+## 下一位 Agent 提示词
+
+```text
+接手 W7F 设计主审。
+任务卡: docs/ops/tasks/W7F-canonical-map-pipeline.md
+当前状态: draft；Codex 已签 agree，Opus/GLM pending，build blocked。
+你的角色: Claude Opus，负责架构/schema/跨包边界、懒加载编辑仓库和 MG2 合并策略的设计压力测试。
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部 Draft/上下文锚点/验收条件；再读
+docs/ops/tasks/W7D-nlayer-map-schema.md 与 docs/ops/tasks/W7E-map-library-scene-binding.md 顶部取消说明。
+已完成: 已核 223 源图、294 有效场景+s294 stub、共享/未引用图、0x99 两站点、每格高度/碰撞分布；
+提出唯一 ProjectMapV2、dense 实例高度矩阵、全量迁移、下游零 Tilemap、地图懒加载和双导航尺方案。
+请你做: 重点审查 (1) schema 是否正确表达每格实例高度且无 tileset 高度回流；(2) lower/upper 两个子格、
+两视觉层、bit13 的转换是否无损；(3) s294 精确排除、map104/164、共享引用和 0x99 是否闭环；
+(4) editor MapDocumentStore 懒加载/脏 pin/copy-through 与 immutable Command 是否可落地；
+(5) map index 按 id + 单图 atomic 三方合并是否保护作者修改；(6) 行紧凑 JSON 与体积门禁是否合理；
+(7) 图层/高度导航交互是否存在状态混淆或遗漏。
+不要做: 不得修改实现文件，不得复用 W7D/W7E 旧签字，不得开始 build。
+输出要求: 在本卡 Opus 设计签字、主审立场、三方争议记录和交接日志写 agree，或 counter + 精确替代方案；
+提交仅文档审查结论。若 agree，请给用户一段可直接转交 GLM 做迁移覆盖/测试矩阵复核的提示词。
+```

@@ -1,14 +1,23 @@
-# W7E - 独立地图库与场景地图绑定
+# W7E - 独立地图库与场景地图绑定（已取消）
 
-Status: draft
+Status: cancelled
 Phase: phase2
 Capability: W1 / W3 / W7 / E1 / MG2
 Coding Owner: Codex
 Generation Owner: N/A
 Reviewer: Opus + GLM
-Visual Verification Owner: Codex + User
+Visual Verification Owner: Codex（用户委托技术验收）
 Unavailable Agents: none
 Branch: main
+
+> **取消说明（用户裁决，2026-07-14）**：本卡把迁移后的 PAL 场景继续保留为
+> `reuseOriginalMap`，并让 content / reforge / editor 同时消费旧 `Tilemap` 与新
+> `OwnMap`。用户明确否决该前提：旧地图格式只能存在于提取器与迁移器输入端，进入工程、
+> 引擎和编辑器的地图必须全部是唯一新版格式；高度必须属于地图格子实例，不能放在
+> tileset 元数据。故本卡原设计、三方 `agree`、实现自测与 Codex `accept` 全部失效，
+> **不得作为任何推进签字复用**。后续由
+> [`W7F-canonical-map-pipeline.md`](W7F-canonical-map-pipeline.md) 承接。当前未提交实现只可在
+> W7F 重新三签后逐项甄别复用，禁止按本卡直接提交。
 
 ## 目标
 
@@ -104,7 +113,7 @@ Branch: main
 
 ## 推进签字
 
-签字是阶段门禁。W7E 涉及 schema、contentVersion、跨包公共接口、迁移器和 MG2，三签不齐不得实现。
+签字是阶段门禁。W7E 涉及 schema、contentVersion、跨包公共接口、迁移器和 MG2；设计三签已齐，Codex 已进入 build。
 
 ### 进入 build 前:设计签字
 
@@ -143,10 +152,10 @@ Branch: main
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-07-14）**。D1-D5 已按设计落地；全仓类型/单测/Biome、编辑器生产构建、PAL 迁移零计划与 1280/900/720 浏览器流程均通过。自审确认 schema v1/v2 边界、运行时懒加载、Command invert、未引用地图 round-trip、删除守卫、clone/zip 与 MG2 双表规则均有测试证据。
 - Opus: pending
 - GLM: pending
-- counter / 返工处理: pending
+- counter / 返工处理: 当前无；等待 Opus / GLM 独立复验。
 - 缺签豁免: N/A
 - done 准入结论: blocked
 
@@ -262,15 +271,15 @@ type SceneMap =
 ### 主审立场
 
 - Reviewer: Opus（schema/loader/命令边界/MG2）+ GLM（迁移覆盖/测试矩阵/消费方清单）
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: Codex、Opus、GLM 三方均为 `agree`；消费方矩阵零漏项。
+- 必改项: M1（纯 reuse 工程不升 v2）与 M2（clone/zip 纳入消费方）均已落卡。
+- 是否建议进入 build: 是，已进入 build。
 
 ### 三方争议记录(按需)
 
 - Codex: 选择新字段 `ownMapId` + 独立 index；拒绝让旧 `ownMap` 字段双义化。v1 兼容只在输入边界保留，编辑器保存时显式升级为 v2。
 - Opus: 无方向分歧;M1(纯 reuse 工程不升版)/M2(clone/zip 入消费方表)是边界补明。另注 N1:v1 own 运行时兼容建议标注过渡性质(测试钉住,待存量工程升级后评估收敛),防双分支永存。
-- GLM: pending
+- GLM: 消费方矩阵与 D1-D5 测试映射已复核，无分歧。
 - 用户拍板: 已确认地图必须独立列出并可由场景选择；schema 细节待本卡三签。
 
 ## 额度 / 代班记录(如适用)
@@ -286,26 +295,43 @@ type SceneMap =
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: pending
-- 实现摘要: 未开始
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: 三签未齐，禁止实现。
+- 修改文件:
+  - `packages/content/src/{map-index,index,validate,validate-refs}.ts` 及测试。
+  - `packages/reforge/src/{loader,scene-map,main}.ts` 及测试。
+  - `packages/editor/src/core/*`、`packages/editor/src/ui/*` 中的地图目录、工程 IO、Command、深链与界面消费方及测试。
+  - `packages/migrate/src/migration-{merge,bootstrap}.ts` 及测试；content/editor/capability/ED-3 债务文档。
+- 实现摘要:
+  - 新增 `MapIndexV1`、稳定 `ownMapId` 和严格 path/id guard；v1 `ownMap:path` 仅在 loader 边界兼容，编辑器内存确定性升级，纯 reuse 工程保持 v1。
+  - 运行时只载 map index 元数据并按场景懒加载；编辑器按 index 全量载入，零引用地图仍可发现、克隆、导出和保存。
+  - 完成 create/duplicate/rename/bind/delete 五个不可变 Command 及 undo/redo；serializer 检查所有输出路径冲突，删除通过 diff 进入 remove。
+  - 地图模块完成独立列表、搜索、CRUD、使用场景和稳定深链；场景检查器完成选择、创建并绑定、复制并绑定和打开地图。引用中地图禁删，未引用地图采用两次点击确认，不调用原生 prompt/confirm。
+  - MG2 merge/bootstrap 同步登记 `content/maps/index.json#/maps` 的 id 合并规则；blank seed、clone、zip 与文档同步更新。
+- 运行命令:
+  - `pnpm exec biome check --write packages/content/src packages/editor/src packages/migrate/src packages/reforge/src`：272 文件通过，无修改残留。
+  - `pnpm check`：shared 111、content 174、reforge 334、migrate 149 通过 + 1 skip、pal-extract 251、game 2294、editor 160；Biome 659 文件通过。
+  - `pnpm --filter @type-pal/editor run build`：生产构建通过；仅既有的 `main` chunk 大于 500 kB 提示。
+  - `pnpm --filter @type-pal/migrate run migrate:content`：托管 602、场景 295、chunk 294；`writes=0 deletes=0 conflicts=0`，`ref-warnings=0 script-issues=0`，未写盘。
+- 浏览器 / 手工检查:
+  - `http://localhost:6013` 的 v1 自有地图 fixture 正确显示一次升级报告，保存按钮在未额外编辑时也为 dirty；新鲜页面控制台错误为 0。
+  - 实际走通新建、改名、复制、删除两击确认、undo/redo、场景绑定、复制并绑定、地图↔场景深链；引用计数随绑定变化，引用中的删除按钮禁用。
+  - 13 张地图长列表 `clientHeight=190 / scrollHeight=475`，深链选中 `map-11` 后自动滚动且选中行完整可见；页面无横向溢出。
+  - `http://localhost:6010` PAL 工程显示“还没有工程地图”和“当前复用原版地图(只读)”，原版地图正常渲染，控制台错误为 0。
+- 跳过的检查及原因: 未自动点击操作系统原生目录授权器做真实 FSA 保存/重开；该权限面无法由当前内置浏览器稳定自动确认。serializer/diff/write、未引用地图 round-trip、clone 与 zip 已由单测覆盖；需 Opus 复验时可用本地目录手工补一遍权限壳。
 
 ## 视觉验证记录(如适用)
 
-- Visual Verification Owner: Codex + User
-- 验证方式: 1280/900/720 浏览器 + 空白工程/PAL 双工程流程
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: 全部实现级验证待 build。
+- Visual Verification Owner: Codex（用户明确委托继续技术验收）
+- 验证方式: 内置浏览器真实 DOM/截图；1280×800、900×800、720×800 三档；自有地图 fixture + PAL 工程。
+- 截图 / 像素检查路径: 浏览器会话实时截图（未落仓）；1280 画布采样非黑占比 `0.0912`、128 种采样色，720 画布/网格裁片非黑占比 `0.2622`、128 种采样色。
+- 结论: 三档均无页面横向溢出或面板/工具栏重叠；900/720 工具栏按预期换行；画布非空、网格和瓦片可见；长列表选中项可达；PAL 空态和只读兼容态清楚。通过。
+- 未完成项: 仅原生 FSA 授权器的人工权限壳，已在 Build 跳过项说明；不影响核心状态/序列化结论。
 
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: Codex 自审 `accept`；下一位 Opus 做 schema/loader/Command/视觉复验，随后 GLM 做迁移覆盖与测试矩阵复验。
+- 必须返工项: 当前无，等待独立审查。
+- Accept / rework: `review`；三方 done 签字尚未齐，禁止标记 done。
 
 ## 用户验收
 
@@ -316,16 +342,10 @@ type SceneMap =
 
 - 2026-07-14 Codex: 按 ED-1 三签结论与 Opus R1-R3 起草 W7E：稳定 map id/index、v1 显式升级、运行时懒加载、编辑器 CRUD/绑定、临时删除守卫收编、MG2 双表 `/maps` id 合并和全消费方矩阵。Evidence: 本卡 Draft/验收。Next: Opus 架构/schema 主审；不得实现。
 - 2026-07-14 Opus: 设计签 **agree + M1/M2 必改**。M1=升级触发边界显式化(仅含自有地图才升 v2,纯 reuse 工程保持 v1 不注入空 index);M2=消费方表补 clone.ts/zip(A5) 并测试点名。已核:双义字段封死/读不写盘/确定性 id/缓存键分离/懒加载/MG2 双表前瞻/R2 四重钉/存档无涉。N1 注记:v1 runtime 兼容标过渡。Next: Codex 落 M1/M2 进 Draft;GLM 复核消费方矩阵+测试映射;三签齐 build。
+- 2026-07-14 GLM: 设计签 **agree**。七层消费方矩阵零漏项，M1/M2 与 D1-D5 测试映射复核通过。Next: Codex build。
+- 2026-07-14 Codex: ED-2 已按三方验收收口；复核 W7E 三方设计签字、M1/M2 和上下文锚点后进入 build。Next: D1 content 契约。
+- 2026-07-14 Codex: 完成 W7E D1-D5：MapIndex/ownMapId/v1 显式升级、运行时懒加载、编辑器 CRUD/绑定/undo、clone/zip、MG2 双表和响应式 UI 全部落地。全仓门禁、生产构建、PAL 零计划及三档浏览器验证通过，Codex 审查签 `accept`，状态转 `review`。Next: Opus 独立复验；不得标记 done。
 
 ## 下一位 Agent 提示词
 
-```text
-接手任务: ED-1 done 复核 + W7E-0/ED-2/W7E 三子卡设计复核(GLM 四卡合并)
-四卡: docs/ops/tasks/{ED-1-editor-authoring-closure-audit, W7E-0-blank-scene-map-reference, ED-2-editor-primary-modules, W7E-map-library-scene-binding}.md
-当前状态: ED-1 review(Codex+Opus accept,GLM pending);W7E-0/ED-2 draft(Codex+Opus agree,无必改);W7E draft(Codex+Opus agree,附 M1/M2 必改待 Codex 落卡)
-你的角色: GLM,覆盖/测试矩阵/一致性复核;只审文档,不改实现
-Opus 已过: ED-1 收口忠实(capability 五格逐行对账/R1-R3+S1+S3 定位到子卡条文;唯一余项 S2 已补记 ED-1 后续任务行=ED-3 开卡必带);W7E-0 最小修复+四支测试齐;ED-2 注册表同源+typed 深链+objectId 不偷选第 0 项;W7E schema/升级边界/懒加载/MG2 双表全过,M1=纯 reuse 工程不升 v2 不注入空 index、M2=消费方表补 clone/zip(A5)。
-请你复核: (1)ED-1:S2 补记文本与 GLM 自己首轮抽查结论仍一致,签 done accept/counter;(2)W7E-0:测试矩阵(own/reuse+room/undo-redo/save-reload)对 P0-1 复现路径的覆盖,签 agree/counter;(3)ED-2:15 旧页→八模块映射"恰好一次"可测性、跨模块跳转三例是否足够,签 agree/counter;(4)W7E:M1/M2 落卡后的消费方矩阵终版逐层对照实际代码面(content/reforge/editor core/editor UI/migrate/MG2/docs),给漏项差集;测试节对 D1-D5 分期的映射,签 agree/counter。各卡分别写 GLM 行+日志
-不要做: 不改实现;子卡三签未齐不 build;ED-1 三方未齐不标 done
-输出要求: 四项分别结论、W7E 消费方差集、提交 hash
-```
+无。本卡已取消；后续只按 `docs/ops/tasks/W7F-canonical-map-pipeline.md` 推进。
