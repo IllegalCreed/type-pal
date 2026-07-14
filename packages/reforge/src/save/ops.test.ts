@@ -91,4 +91,80 @@ describe('save ops（纯）', () => {
       /旧存档 world\.script\.mapOverride\[s230\].*数字地图编号 56/,
     )
   })
+
+  test('normalizePayload:旧 onTeleport 逐场景归一化到 sceneScriptOverrides', () => {
+    const p = buildPayload(
+      makeTestWorld(),
+      { sceneId: 's059', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
+      'pal',
+      1,
+    )
+    p.world.script = {
+      flags: {},
+      vars: {},
+      entityState: {},
+      entityStage: {},
+      mapOverride: { s059: 'map-024' },
+    }
+    const raw = p.world.script as unknown as Record<string, unknown>
+    raw.onTeleport = { s059: [{ body: [{ kind: 'clearDialog' }] }] }
+
+    const normalized = normalizePayload(p).world.script!
+    expect(normalized.sceneScriptOverrides?.s059?.onTeleport).toEqual([
+      { body: [{ kind: 'clearDialog' }] },
+    ])
+    expect(raw.onTeleport).toBeUndefined()
+    expect(normalized.mapOverride).toEqual({ s059: 'map-024' })
+  })
+
+  test('normalizePayload:null tombstone 经 JSON 往返仍显式禁用双槽', () => {
+    const p = buildPayload(
+      makeTestWorld(),
+      { sceneId: 's172', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
+      'pal',
+      1,
+    )
+    p.world.script = {
+      flags: {},
+      vars: {},
+      entityState: {},
+      entityStage: {},
+      sceneScriptOverrides: { s172: { onEnter: null, onTeleport: null } },
+    }
+    const parsed = JSON.parse(JSON.stringify(p)) as typeof p
+
+    expect(normalizePayload(parsed).world.script?.sceneScriptOverrides?.s172).toEqual({
+      onEnter: null,
+      onTeleport: null,
+    })
+  })
+
+  test('normalizePayload:旧 onTeleport 异型与新覆写未知槽均明确拒绝', () => {
+    const old = buildPayload(
+      makeTestWorld(),
+      { sceneId: 's', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
+      'pal',
+      1,
+    )
+    old.world.script = { flags: {}, vars: {}, entityState: {}, entityStage: {} }
+    ;(old.world.script as unknown as Record<string, unknown>).onTeleport = { s059: 11870 }
+    expect(() => normalizePayload(old)).toThrow(/onTeleport\[s059\].*ScriptStage/)
+
+    const current = buildPayload(
+      makeTestWorld(),
+      { sceneId: 's', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
+      'pal',
+      1,
+    )
+    current.world.script = {
+      flags: {},
+      vars: {},
+      entityState: {},
+      entityStage: {},
+      sceneScriptOverrides: { s059: { onEnter: null } },
+    }
+    ;(current.world.script.sceneScriptOverrides!.s059 as unknown as Record<string, unknown>).map =
+      'map-024'
+    expect(() => normalizePayload(current)).toThrow(/未知槽 map/)
+  })
 })

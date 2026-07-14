@@ -57,6 +57,7 @@ function commandScriptTargetId(command: Command | undefined): string | undefined
   if (
     command.kind === 'setEntityAuto' ||
     command.kind === 'setEntityTrigger' ||
+    command.kind === 'setSceneOnEnter' ||
     command.kind === 'setSceneOnTeleport'
   )
     return command.script?.id

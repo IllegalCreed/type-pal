@@ -9,6 +9,7 @@ import type { SourceCmd } from './source-facts.js'
 import type { TranslateCtx } from './translate-events.js'
 import {
   asBattleCfg,
+  assertNoMigrationGaps,
   battleCfgMarker,
   emptyTranslateReport,
   foldBattleConfig,
@@ -67,9 +68,10 @@ describe('0x65 换角色大世界精灵(script.c: rgwSpriteNum[role]=sprite)', (
     )
     expect(body).toEqual([{ kind: 'setActorSprite', actor: 'li-xiaoyao', sprite: 'li-xiaoyao' }])
   })
-  test('无注册回调 → unmigrated(不猜 id)', () => {
-    const body = bodyOf(ctxOf([{ opcode: 0x65, operands: [0, 627, 0xffff] }]))
-    expect(body[0]!.kind).toBe('unmigrated')
+  test('无注册回调 → 只记 MigrationGap,不生成可执行占位', () => {
+    const ctx = ctxOf([{ opcode: 0x65, operands: [0, 627, 0xffff] }])
+    expect(bodyOf(ctx)).toEqual([])
+    expect(ctx.report.gaps[0]).toMatchObject({ opcode: 0x65, owner: 'e0' })
   })
 })
 
@@ -272,14 +274,65 @@ describe('战斗配置(铁律4:0x4A/0x45 持久全局退役 —— 无 override 
   })
 })
 
-describe('0x6D 改场景进场剧情(占位 → 具名 setSceneStage)', () => {
-  test('op0=场景号(1-based)op1=地址 → 占位命令(stage=-1 + _addr,post-pass 回填)', () => {
+describe('0x6D 场景脚本覆写四形态', () => {
+  test('op1-only → setSceneOnEnter 迁移期地址绑定', () => {
     const body = bodyOf(ctxOf([{ opcode: 0x6d, operands: [21, 2920, 0] }]))
-    expect(body).toEqual([{ kind: 'setSceneStage', scene: 's020', stage: -1, _addr: 2920 }])
+    expect(body).toHaveLength(1)
+    expect(body[0]).toMatchObject({
+      kind: 'setSceneOnEnter',
+      scene: 's020',
+      stages: [],
+      _addr: 2920,
+    })
   })
-  test('op1=0(只改 teleport,全游戏 1 站点)→ 保留 unmigrated', () => {
+  test('op2-only → setSceneOnTeleport 迁移期地址绑定', () => {
     const body = bodyOf(ctxOf([{ opcode: 0x6d, operands: [21, 0, 777] }]))
-    expect(body[0]?.kind).toBe('unmigrated')
+    expect(body).toHaveLength(1)
+    expect(body[0]).toMatchObject({
+      kind: 'setSceneOnTeleport',
+      scene: 's020',
+      stages: [],
+      _addr: 777,
+    })
+  })
+  test('op1+op2 → 两个槽都设置,不互斥', () => {
+    const body = bodyOf(ctxOf([{ opcode: 0x6d, operands: [21, 2920, 777] }]))
+    expect(body.map((command) => command.kind)).toEqual(['setSceneOnEnter', 'setSceneOnTeleport'])
+    expect(body[0]).toMatchObject({ scene: 's020', _addr: 2920 })
+    expect(body[1]).toMatchObject({ scene: 's020', _addr: 777 })
+  })
+  test('both-zero → clearSceneScripts,运行时写双 null tombstone', () => {
+    expect(bodyOf(ctxOf([{ opcode: 0x6d, operands: [21, 0, 0] }]))).toEqual([
+      { kind: 'clearSceneScripts', scene: 's020' },
+    ])
+  })
+})
+
+describe('R2 残余 opcode clean 收口', () => {
+  test('0x78 是已证明 no-op,只计报告', () => {
+    const ctx = ctxOf([{ opcode: 0x78, operands: [0, 0, 0] }])
+    expect(bodyOf(ctx)).toEqual([])
+    expect(ctx.report.knownNoOps['0x78']).toBe(1)
+  })
+
+  test('0xA0 → quitToTitle', () => {
+    expect(bodyOf(ctxOf([{ opcode: 0xa0, operands: [0, 0, 0] }]))).toEqual([
+      { kind: 'quitToTitle' },
+    ])
+  })
+
+  test('0x1B apply-all → clean 全队 HP 变化', () => {
+    expect(bodyOf(ctxOf([{ opcode: 0x1b, operands: [1, 999, 0] }]))).toEqual([
+      { kind: 'increaseHpMp', delta: 999, pools: 'hp' },
+    ])
+  })
+
+  test('未知可达 opcode 只进 MigrationGap,门禁错误含完整诊断', () => {
+    const ctx = ctxOf([{ opcode: 0xbe, operands: [1, 2, 3] }])
+    expect(bodyOf(ctx)).toEqual([])
+    expect(() => assertNoMigrationGaps(ctx.report)).toThrow(
+      /@1 opcode=190 operands=\[1,2,3\] owner=e0 path=L_1@e0: 未知 opcode 0xbe/,
+    )
   })
 })
 
@@ -309,8 +362,10 @@ describe('0x1A 改角色形象(SoA 字段 → setActorAppearance)', () => {
     )
     expect(stages?.[0]?.body ?? []).toEqual([])
   })
-  test('未知字段 → 保留 unmigrated', () => {
-    expect(body1a([7, 100, 2])[0]?.kind).toBe('unmigrated')
+  test('未知字段 → 只记 MigrationGap', () => {
+    const ctx = ctxOf([{ opcode: 0x1a, operands: [7, 100, 2] }], spriteIdForNum)
+    expect(bodyOf(ctx)).toEqual([])
+    expect(ctx.report.gaps[0]?.reason).toContain('字段 7')
   })
 })
 
@@ -326,7 +381,7 @@ describe('0x9A 批量设实体状态(→ setMultiEntityState)', () => {
 })
 
 describe('0x90 剧情侧清敌种回合演出', () => {
-  test('遭遇绑定后是 no-op，不留 unmigrated 或双重解释器', () => {
+  test('遭遇绑定后是 no-op，不留占位节点或双重解释器', () => {
     const body = bodyOf(
       ctxOf([
         { op: 'showDialog', messageIndex: 90, text: '战后台词' } as unknown as SourceCmd,

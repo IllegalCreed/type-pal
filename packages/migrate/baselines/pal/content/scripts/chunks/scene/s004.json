@@ -1,6 +1,9 @@
 {
   "version": 1,
   "id": "scene/s004",
+  "imports": [
+    "scene/s008"
+  ],
   "scripts": {
     "scene/s004/L-3223/e76/d-89d21e09": [
       {
@@ -1264,9 +1267,33 @@
         "frame": 0
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s008",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s008",
+                  "id": "scene/s008/override/on-enter/L-2124/stage-0"
+                }
+              }
+            ],
+            "next": "advance"
+          },
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s008",
+                  "id": "scene/s008/override/on-enter/L-2124/stage-1"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
         "kind": "teleportParty",
@@ -1453,9 +1480,33 @@
         "frame": 0
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s008",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s008",
+                  "id": "scene/s008/override/on-enter/L-2124/stage-0"
+                }
+              }
+            ],
+            "next": "advance"
+          },
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s008",
+                  "id": "scene/s008/override/on-enter/L-2124/stage-1"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
         "kind": "teleportParty",
@@ -1806,6 +1857,308 @@
         "frame": 0
       }
     ],
+    "scene/s004/override/on-enter/L-3531/stage-0": [
+      {
+        "kind": "nudgeParty",
+        "dx": -8,
+        "dy": 4
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -8,
+        "dy": 4
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -8,
+        "dy": 4
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -8,
+        "dy": 4
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1316",
+          "speaker": "spk.李逍遥"
+        }
+      },
+      {
+        "kind": "increaseHpMp",
+        "delta": 9999
+      }
+    ],
+    "scene/s004/override/on-enter/L-3531/stage-1": [],
+    "scene/s004/L-886/e83/d-89d21e09": [
+      {
+        "kind": "moveEntity",
+        "entity": "e83",
+        "to": {
+          "col": 140,
+          "row": 32,
+          "height": 0
+        },
+        "speed": "normal"
+      }
+    ],
+    "scene/s004/L-888/e83/d-89d21e09": [],
+    "scene/s004/L-955/e83/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.302",
+          "speaker": "spk.香兰",
+          "slot": "top",
+          "portrait": {
+            "icon": 52,
+            "side": "left"
+          }
+        }
+      }
+    ],
+    "scene/s004/L-944/e84/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.295",
+          "speaker": "spk.秀兰",
+          "slot": "top",
+          "portrait": {
+            "icon": 33,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.298",
+          "speaker": "spk.秀兰",
+          "slot": "top",
+          "portrait": {
+            "icon": 33,
+            "side": "left"
+          }
+        }
+      }
+    ],
+    "scene/s004/L-812/e86/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.256",
+          "speaker": "spk.来福婶"
+        }
+      }
+    ],
+    "scene/s004/override/on-enter/L-903/stage-0": [
+      {
+        "kind": "setEntityPosRelParty",
+        "entity": "e83",
+        "dcol": -0.5,
+        "drow": 7.5
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e83",
+        "facing": "up"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e83",
+        "frame": 0
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e83",
+        "script": {
+          "chunk": "scene/s004",
+          "id": "scene/s004/L-886/e83/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e83",
+        "on": "interact",
+        "range": 3
+      },
+      {
+        "kind": "wait",
+        "ms": 480
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.282",
+          "speaker": "spk.香兰",
+          "slot": "top",
+          "portrait": {
+            "icon": 52,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.286",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 2,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "playMusic",
+        "musicId": 0
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.288",
+          "speaker": "spk.香兰",
+          "slot": "top",
+          "portrait": {
+            "icon": 52,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.292",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 2,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "playMusic",
+        "musicId": 87
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e83",
+        "script": {
+          "chunk": "scene/s004",
+          "id": "scene/s004/L-888/e83/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e83",
+        "script": {
+          "chunk": "scene/s004",
+          "id": "scene/s004/L-955/e83/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e84",
+        "script": {
+          "chunk": "scene/s004",
+          "id": "scene/s004/L-944/e84/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e86",
+        "script": {
+          "chunk": "scene/s004",
+          "id": "scene/s004/L-812/e86/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e76",
+        "state": 0
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e36",
+        "state": 2
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e191",
+        "state": 0
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e35",
+        "state": 2
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e34",
+        "state": 1
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e19",
+        "state": 0
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e24",
+        "state": 0
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e25",
+        "script": {
+          "chunk": "scene/s001",
+          "id": "scene/s001/L-544/e25/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e26",
+        "script": {
+          "chunk": "scene/s001",
+          "id": "scene/s001/L-550/e26/d-89d21e09"
+        }
+      }
+    ],
+    "scene/s004/override/on-enter/L-903/stage-1": [],
+    "scene/s004/override/on-enter/L-1/stage-0": [
+      {
+        "kind": "playMusic",
+        "musicId": 49
+      }
+    ],
+    "scene/s004/override/on-enter/L-1/stage-1": [],
     "scene/s004/root/on-enter/stage-0": [
       {
         "kind": "playMusic",

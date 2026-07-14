@@ -773,6 +773,156 @@
         }
       }
     ],
+    "scene/s001/L-544/e25/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.114",
+          "speaker": "spk.苗人喽罗"
+        }
+      }
+    ],
+    "scene/s001/L-550/e26/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.119",
+          "speaker": "spk.苗人喽啰"
+        }
+      }
+    ],
+    "scene/s001/override/on-enter/L-2876/stage-0": [
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 43,
+          "row": -2,
+          "height": 0
+        }
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1021",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 6,
+            "side": "right"
+          }
+        }
+      }
+    ],
+    "scene/s001/override/on-enter/L-2876/stage-1": [],
+    "scene/s001/override/on-enter/L-2920/stage-0": [
+      {
+        "kind": "setActorSprite",
+        "actor": "li-xiaoyao",
+        "sprite": "npc-193"
+      },
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 57,
+          "row": -26,
+          "height": 0
+        }
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down",
+        "gesture": 11
+      },
+      {
+        "kind": "setAmbience",
+        "ambience": "night"
+      },
+      {
+        "kind": "wait",
+        "ms": 400
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1037"
+        }
+      },
+      {
+        "kind": "setActorSprite",
+        "actor": "li-xiaoyao",
+        "sprite": "li-xiaoyao"
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 57,
+          "row": -24,
+          "height": 0
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1038",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e68",
+        "state": 2
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e68",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e68",
+        "frame": 0
+      },
+      {
+        "kind": "setEntityTriggerMode",
+        "entity": "e68",
+        "on": "touch",
+        "range": 3
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e68",
+        "script": {
+          "chunk": "scene/s003",
+          "id": "scene/s003/L-2939/e68/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setEntityPos",
+        "entity": "e68",
+        "pos": {
+          "col": 146,
+          "row": 45,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s001/override/on-enter/L-2920/stage-1": [],
     "scene/s001/root/on-enter/stage-0": [
       {
         "kind": "playMusic",
@@ -3011,15 +3161,6 @@
         "kind": "setParty",
         "members": [
           "li-xiaoyao"
-        ]
-      },
-      {
-        "kind": "unmigrated",
-        "opcode": 120,
-        "operands": [
-          0,
-          0,
-          0
         ]
       },
       {

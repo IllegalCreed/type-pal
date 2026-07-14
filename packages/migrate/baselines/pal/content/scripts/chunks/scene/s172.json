@@ -1,6 +1,9 @@
 {
   "version": 1,
   "id": "scene/s172",
+  "imports": [
+    "scene/s174"
+  ],
   "scripts": {
     "scene/s172/L-28405/e2862/d-89d21e09": [
       {
@@ -309,13 +312,8 @@
     ],
     "scene/s172/root/on-enter/stage-0": [
       {
-        "kind": "unmigrated",
-        "opcode": 109,
-        "operands": [
-          183,
-          0,
-          0
-        ]
+        "kind": "clearSceneScripts",
+        "scene": "s182"
       },
       {
         "kind": "setEntityTrigger",
@@ -1197,9 +1195,33 @@
         "ms": 600
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s174",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s174",
+                  "id": "scene/s174/override/on-enter/L-28467/stage-0"
+                }
+              }
+            ],
+            "next": "advance"
+          },
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s174",
+                  "id": "scene/s174/override/on-enter/L-28467/stage-1"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
         "kind": "loadScene",

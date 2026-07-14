@@ -1,9 +1,8 @@
 /**
  * 剧情脚本 schema(M3a)—— 设计:docs/phase2/foundation/script-model-m3-design.md §2。
  *
- * 结构化嵌套 AST(无 IP 跳转);命令集按普查份额分期落地:本文件是 M3a 起步集 +
- * M3b 占位(branch/Condition 只定形,引擎后续实现)。翻不动的原版 op 走 `unmigrated`
- * 逃生口 —— 结构上保留、语义标未译,dev 日志 + 编辑器人工修,**不是**兼容执行器。
+ * 结构化嵌套 AST(无 IP 跳转);可执行内容只允许本联合中的语义命令。
+ * 旧 opcode 的翻译缺口属于迁移期诊断,不得进入工程内容或运行时。
  */
 
 import type { GridPos } from './grid.js'
@@ -13,6 +12,20 @@ import type { ScriptRef } from './script-library.js'
 type ScriptBinding =
   | { stages: ScriptStage[]; script?: never }
   | { script: ScriptRef; stages?: never }
+
+/** 场景脚本的运行时绑定;可内联 stages,也可引用分片脚本。 */
+export type RuntimeScriptBinding = ScriptStage[] | ScriptRef
+
+/**
+ * 场景脚本覆写三态:
+ * - 字段缺席:继承 SceneDef 静态脚本;
+ * - 绑定:使用运行时覆写;
+ * - null:显式禁用,不得回退静态脚本。
+ */
+export interface SceneScriptOverride {
+  onEnter?: RuntimeScriptBinding | null
+  onTeleport?: RuntimeScriptBinding | null
+}
 
 // ── 条件(M3b 引擎实现;M3a 只定形供 branch 占位)──
 export type ScriptCondition =
@@ -67,13 +80,13 @@ export type Command =
   // 0x9A:批量设实体状态(原版全局对象号区间 [op0,op1] 全设 sState=op2;迁移器展开成实体 id 数组,
   // 杜绝下标式身份)。≤0 隐 / 1 显 / ≥2 显+挡路,语义同 setEntityState。跨场景写 world 持久、进场重放。
   | { kind: 'setMultiEntityState'; entities: string[]; state: number }
-  // ── 批 4:runLegacyOp 兜底的高频 op 具名化(退役双解释器,语义见 runner runLegacyOp / script.c)──
+  // ── 原版高频 op 的 clean 语义命令 ──
   | { kind: 'setEntityPos'; entity: string; pos: GridPos } // 0x13 实体绝对定位(持久+活体双写)
   | { kind: 'setEntityPosRelParty'; entity: string; dcol: number; drow: number } // 0x12 相对队伍格偏移摆位
   | { kind: 'shakeScreen'; frames: number; level: number } // 0x35 震屏(time 帧/level;time=0 关)
   | { kind: 'setScreenWave'; level: number; progression: number } // 0x71 屏幕水波(状态入 vars 随存档)
   | { kind: 'setEntityLayer'; entity: string; layer: number } // 0x7E 实体图层(只进深度键 +8px/层)
-  | { kind: 'increaseHpMp'; delta: number } // 0x1D 全队 HP/MP 同加 int16
+  | { kind: 'increaseHpMp'; delta: number; pools?: 'hp' | 'mp' | 'both' } // 0x1B-1D 全队资源变化;缺省 both
   | { kind: 'revivePartyAll'; tenths: number } // 0x22 全队复活(HP=max×tenths/10 + 解重毒)
   | { kind: 'learnSkill'; role: number; skill: string } // 0x55 角色学仙术(role 0-based)
   | { kind: 'unequip'; role: number; slot: number | 'all' } // 0x23 卸装(退回背包)
@@ -81,9 +94,6 @@ export type Command =
   | { kind: 'setFollowers'; sprites: number[] } // 0x98 编外跟随者精灵号(空=清)
   | { kind: 'setSceneMapOverride'; scene?: string; mapId: string } // 0x99 换图(scene 缺=当前即时重载)
   | { kind: 'halveMoney' } // 0x8F 金钱减半(酒剑仙赌局;运行时算 delta)
-  // 0x6D:改场景进场剧情到指定段(原版改 wScriptOnEnter 地址;迁移器把目标链追加为该场景
-  // onEnter 新段并回填下标 —— 45 站点目标全是新链,不在既有链内)。运行时写 entityStage['s:<scene>']
-  | { kind: 'setSceneStage'; scene: string; stage: number }
   | { kind: 'setEntityFacing'; entity: string; facing: Facing } // 0x0F/0x16
   | { kind: 'setEntityFrame'; entity: string; frame: number } // 0x14/0x0F op1
   // 0x65:换角色大世界精灵(id 引用,非下标)。原版写 PlayerRoles.rgwSpriteNum[role],
@@ -157,7 +167,9 @@ export type Command =
   // 页切换(M3c;原版 0x24/25/40 改脚本入口指针。运行时覆盖,暂不持久 —— 原版存档存指针,
   // clean 版的持久化留给页注册表设计(M4 期);过场局部行为切换不受影响)
   | ({ kind: 'setEntityAuto'; entity: string } & ScriptBinding) // 0x24;inline 手写或迁移 ScriptRef
-  | ({ kind: 'setSceneOnTeleport'; scene: string } & ScriptBinding) // 0x6D op2:运行时装场景传送出口
+  | ({ kind: 'setSceneOnEnter'; scene: string } & ScriptBinding) // 0x6D op1:覆写进场脚本
+  | ({ kind: 'setSceneOnTeleport'; scene: string } & ScriptBinding) // 0x6D op2:覆写传送出口
+  | { kind: 'clearSceneScripts'; scene: string } // 0x6D both-zero:显式禁用双槽
   | ({ kind: 'setEntityTrigger'; entity: string } & ScriptBinding) // 0x25;触发方式沿用当前
   | { kind: 'setEntityTriggerMode'; entity: string; on?: 'interact' | 'touch'; range?: number } // 0x40;on 缺省=关
   // 定位权威(E6b:显式接管/归还 —— 隐式接管见位移指令;手工演出精细控制用)
@@ -177,8 +189,6 @@ export type Command =
   | { kind: 'callScript'; ref: ScriptRef; self?: string }
   /** 尾转移：目标结束后不返回当前命令体。 */
   | { kind: 'jumpScript'; ref: ScriptRef; self?: string }
-  // 逃生口
-  | { kind: 'unmigrated'; opcode: number; operands: number[]; note?: string }
 
 export type WalkSpeed = 'slow' | 'normal' | 'fast' | 'run'
 
@@ -232,9 +242,8 @@ export interface WorldScriptState {
   /** 场景底图覆写(原版 0x99 wMapNum 改写:键 = sceneId;0xFFFF 当前场景即时重载,
    *  其余场景下次进场生效;随存档持久 —— 麒麟洞 s230/s243 岩浆变化)。 */
   mapOverride?: Record<string, string>
-  /** 场景传送出口覆写(原版 0x6D operand[2] wScriptOnTeleport 运行时改写:键 = sceneId;
-   *  随存档持久 —— 赤鬼王血池 s059 打完赤鬼王才装 onTeleport,否则封闭无出口=死锁)。 */
-  onTeleport?: Record<string, ScriptStage[] | ScriptRef>
+  /** 场景 onEnter/onTeleport 运行时覆写;与 mapOverride 保持独立。 */
+  sceneScriptOverrides?: Record<string, SceneScriptOverride>
 }
 
 export function emptyWorldScriptState(): WorldScriptState {
@@ -278,6 +287,7 @@ export function checkCommands(cmds: unknown, path: string): void {
     if (typeof c !== 'object' || c === null || typeof (c as { kind?: unknown }).kind !== 'string')
       throw new Error(`${path}[${i}]: 缺 kind`)
     const k = (c as { kind: string }).kind
+    if (k === 'unmigrated') throw new Error(`${path}[${i}]: 旧工程产物,请用迁移器重新生成`)
     if (k === 'dialog' && typeof (c as { line?: { text?: unknown } }).line?.text !== 'string')
       throw new Error(`${path}[${i}]: dialog 缺 line.text`)
     if (k === 'branch') {
@@ -285,9 +295,24 @@ export function checkCommands(cmds: unknown, path: string): void {
       const el = (c as { else?: unknown }).else
       if (el !== undefined) checkCommands(el, `${path}[${i}].else`)
     }
+    if (k === 'startBattle') {
+      const battle = c as { onLose?: unknown; onFlee?: unknown }
+      if (battle.onLose !== undefined) checkCommands(battle.onLose, `${path}[${i}].onLose`)
+      if (battle.onFlee !== undefined) checkCommands(battle.onFlee, `${path}[${i}].onFlee`)
+    }
+    if (k === 'teleportOut') {
+      const onFail = (c as { onFail?: unknown }).onFail
+      if (onFail !== undefined) checkCommands(onFail, `${path}[${i}].onFail`)
+    }
+    if (k === 'confirm') checkCommands((c as { onNo?: unknown }).onNo, `${path}[${i}].onNo`)
     if (k === 'callScript' || k === 'jumpScript')
       checkRef((c as { ref?: unknown }).ref, `${path}[${i}].ref`)
-    if (k === 'setEntityAuto' || k === 'setEntityTrigger' || k === 'setSceneOnTeleport') {
+    if (
+      k === 'setEntityAuto' ||
+      k === 'setEntityTrigger' ||
+      k === 'setSceneOnEnter' ||
+      k === 'setSceneOnTeleport'
+    ) {
       const binding = c as { stages?: unknown; script?: unknown }
       if (binding.script !== undefined) {
         if (binding.stages !== undefined)

@@ -1246,6 +1246,17 @@
         "soundId": 78
       }
     ],
+    "scene/s104/L-21170/e1927/d-89d21e09": [
+      {
+        "kind": "loadScene",
+        "scene": "s109",
+        "pos": {
+          "col": 85,
+          "row": -20,
+          "height": 0
+        }
+      }
+    ],
     "scene/s104/root/on-enter/stage-0": [
       {
         "kind": "playMusic",

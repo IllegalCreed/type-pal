@@ -1,6 +1,17 @@
 {
   "version": 1,
   "id": "scene/s115",
+  "imports": [
+    "scene/s108",
+    "scene/s114",
+    "scene/s116",
+    "scene/s118",
+    "scene/s119",
+    "scene/s121",
+    "scene/s122",
+    "scene/s123",
+    "scene/s124"
+  ],
   "scripts": {
     "scene/s115/L-15635/e2135/d-89d21e09": [
       {
@@ -507,6 +518,74 @@
         "kind": "setEntityFrame",
         "entity": "e2146",
         "frame": 0
+      }
+    ],
+    "scene/s115/override/on-enter/L-20551/stage-0": [
+      {
+        "kind": "setMultiEntityState",
+        "entities": [
+          "e2136",
+          "e2137",
+          "e2138",
+          "e2139",
+          "e2140",
+          "e2141",
+          "e2142",
+          "e2143",
+          "e2144"
+        ],
+        "state": 2
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e2145",
+        "state": 2
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e2146",
+        "state": 2
+      },
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 67,
+          "row": -2,
+          "height": 0
+        }
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right",
+        "member": 1
+      },
+      {
+        "kind": "setParty",
+        "members": [
+          "li-xiaoyao"
+        ]
+      }
+    ],
+    "scene/s115/override/on-enter/L-20551/stage-1": [],
+    "scene/s115/override/on-enter/L-20697/stage-0": [
+      {
+        "kind": "playMusic",
+        "musicId": 32
+      }
+    ],
+    "scene/s115/override/on-enter/L-19792/stage-0": [
+      {
+        "kind": "setScreenWave",
+        "level": 2,
+        "progression": 0
+      },
+      {
+        "kind": "playMusic",
+        "musicId": 32
       }
     ],
     "scene/s115/root/entity-e2134/page-0/trigger/stage-0": [
@@ -1120,54 +1199,174 @@
         "state": 1
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s114",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s114",
+                  "id": "scene/s114/override/on-enter/L-20697/stage-0"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s115",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s115",
+                  "id": "scene/s115/override/on-enter/L-20697/stage-0"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s116",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s116",
+                  "id": "scene/s116/override/on-enter/L-20697/stage-0"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s108",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s108",
+                  "id": "scene/s108/override/on-enter/L-20697/stage-0"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s118",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s118",
+                  "id": "scene/s118/override/on-enter/L-20697/stage-0"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s119",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s119",
+                  "id": "scene/s119/override/on-enter/L-20697/stage-0"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s121",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s121",
+                  "id": "scene/s121/override/on-enter/L-20697/stage-0"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s122",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s122",
+                  "id": "scene/s122/override/on-enter/L-20697/stage-0"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s123",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s123",
+                  "id": "scene/s123/override/on-enter/L-20697/stage-0"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s124",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s124",
+                  "id": "scene/s124/override/on-enter/L-20697/stage-0"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
         "kind": "setScreenWave",

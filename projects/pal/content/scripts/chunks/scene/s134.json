@@ -1,7 +1,102 @@
 {
   "version": 1,
   "id": "scene/s134",
+  "imports": [
+    "scene/s131"
+  ],
   "scripts": {
+    "scene/s134/L-17554/e2318/d-89d21e09": [
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e2319",
+        "script": {
+          "chunk": "scene/s134",
+          "id": "scene/s134/L-17573/e2319/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setSceneOnEnter",
+        "scene": "s131",
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s131",
+                  "id": "scene/s131/override/on-enter/L-17582/stage-0"
+                }
+              }
+            ],
+            "next": "advance"
+          },
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s131",
+                  "id": "scene/s131/override/on-enter/L-17582/stage-1"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6172"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6174"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6177",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6179",
+          "slot": "top"
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6180",
+          "slot": "top"
+        }
+      }
+    ],
+    "scene/s134/L-17573/e2319/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6182"
+        }
+      }
+    ],
     "scene/s134/root/entity-e2317/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",

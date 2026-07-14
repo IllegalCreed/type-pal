@@ -86,6 +86,7 @@ function fakeHost(calls: string[]): ScriptHost {
     vanishEntity: log('vanishEntity'),
     loadLastSave: alog('loadLastSave'),
     gameOver: alog('gameOver'),
+    quitToTitle: log('quitToTitle'),
     shakeScreen: log('shakeScreen'),
     toggleDayNight: log('toggleDayNight'),
     increaseHpMp: log('increaseHpMp'),
@@ -98,107 +99,28 @@ function fakeHost(calls: string[]): ScriptHost {
   }
 }
 
-test('legacy op 兼容层:静默 0x00/0x08,直映射 0x85/0x93/0x35/0x36+0x37/0x80/0x77,未覆盖仍上报', async () => {
+test('场景脚本覆写:双槽独立设置,both-zero 写入 null tombstone', async () => {
+  const calls: string[] = []
+  const world = emptyWorldScriptState()
+  const r = new ScriptRunner(fakeHost(calls), world, new AbortController().signal)
+  const enter = [{ body: [{ kind: 'clearDialog' as const }] }]
+  const teleport = { chunk: 'scene/s059', id: 'scene/s059/teleport' }
+  await r.run([
+    { kind: 'setSceneOnEnter', scene: 's059', stages: enter },
+    { kind: 'setSceneOnTeleport', scene: 's059', script: teleport },
+  ])
+  expect(world.sceneScriptOverrides?.s059).toEqual({ onEnter: enter, onTeleport: teleport })
+
+  await r.run([{ kind: 'clearSceneScripts', scene: 's059' }])
+  expect(world.sceneScriptOverrides?.s059).toEqual({ onEnter: null, onTeleport: null })
+  expect(calls).toEqual([])
+})
+
+test('结局命令调用宿主回标题', async () => {
   const calls: string[] = []
   const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
-  const un = (opcode: number, operands: number[]): Command => ({
-    kind: 'unmigrated',
-    opcode,
-    operands,
-  })
-  await r.run(
-    [
-      un(0x00, [19309, 0, 0]), // NOP 占位 → 静默
-      un(0x08, [0, 0, 0]), // 触发入口推进 → stage 体系已承担,静默
-      un(0x85, [30, 0, 0]), // 延时 30×80ms
-      un(0x93, [8, 0, 0]), // SceneFade step 8 → ceil(64/8)×100 = 800ms 渐入
-      un(0x93, [0xffff, 0, 0]), // step −1 → 6400ms 渐出
-      un(0x35, [999, 4, 0]), // 震屏 999 帧 level4
-      un(0x35, [0, 0, 0]), // 关震屏(level 缺省补 4)
-      un(0x36, [5, 0, 0]), // 设 RNG 序列 5
-      un(0x37, [0, 0, 7]), // 播 RNG:chunk=5(0x36 设的),end≤0 → 缺省,speed 7
-      un(0x80, [0, 0, 0]), // 昼夜切换,更新场景模式 → 3200ms 渐变
-      un(0x77, [0, 0, 0]), // 停乐
-      un(0x1d, [1, 9999, 0]), // 全队增血蓝(HP/MP 同加 op1;op2 忽略 = sdlpal/一阶段裁决)
-      un(0x1d, [1, 0xfc19, 0]), // 负增量(int16 −999;温泉陷阱两用)
-      un(0x22, [1, 10, 0]), // 全队复活 10/10 = 满血
-      un(0x55, [301, 2, 0]), // 学仙术:magic 301 → 角色 2−1=1(赵灵儿)
-      un(0x6d, [115, 17192, 0]), // 场景脚本入口重设(迁移器批,地址依赖)→ 仍上报
-    ],
-    [],
-  )
-  expect(calls).toEqual([
-    'wait(2400)',
-    'fade("in",800)',
-    'fade("out",6400)',
-    'shakeScreen(999,4)',
-    'shakeScreen(0,4)',
-    'playRng(5,{"startFrame":0,"speed":7})',
-    'toggleDayNight(3200)',
-    'playMusic(0)',
-    'increaseHpMp(9999)',
-    'increaseHpMp(-999)',
-    'revivePartyAll(10)',
-    'learnSkill(1,"301")',
-    'report("unmigrated op 0x6d ")',
-  ])
-})
-
-test('legacy 对象族:0x9A 批量状态/0x13 定位/0x6F 条件同步/0x23 卸装/0x8F 减半/0xA3 音轨', async () => {
-  const calls: string[] = []
-  const world = emptyWorldScriptState()
-  const r = new ScriptRunner(fakeHost(calls), world, new AbortController().signal)
-  r.selfId = 'e50' // 触发者(0x6F 同步目标 / 0x13 自指)
-  const un = (opcode: number, operands: number[]): Command => ({
-    kind: 'unmigrated',
-    opcode,
-    operands,
-  })
-  await r.run(
-    [
-      un(0x9a, [5, 7, 2]), // 全局对象 5..7 → e4/e5/e6 设 2(挡路)
-      un(0x13, [10, 64, 32]), // 对象 10 = e9 定位:pixelToGrid(64,32) = (4,0)
-      un(0x13, [0xffff, 32, 16]), // 自指 → e50:(2,0)
-      un(0x6f, [104, 0, 0]), // 源 e103 状态 0 == 0 → 触发者 e50 同设 0
-      un(0x6f, [105, 0, 0]), // 源 e104 状态 1 ≠ 0 → 不同步
-      un(0x23, [2, 0, 0]), // 角色 2(林月如)卸全部
-      un(0x23, [1, 6, 0]), // 角色 1(赵灵儿)卸槽 6−1=5(佩饰)
-      un(0x8f, [0, 0, 0]), // 金钱减半:query.money()=50 → −25
-      un(0xa3, [4, 67, 0]), // CD 音轨 → 回退 RIX 曲 67
-      un(0x71, [255, 0xfffc, 0]), // 屏波:幅 255 + 推进 −4(渐弱)→ vars
-      un(0x7e, [60, 3, 0]), // 实体图层:e59 → 层 3
-      un(0x7e, [0xffff, 0xffdf, 0]), // 自指 e50 → 层 int16(−33)
-      un(0x98, [82, 83, 0]), // 编外跟随者:精灵 chunk 82/83 直用(s102 书生)
-      { kind: 'setSceneMapOverride', scene: 's230', mapId: 'map-164' },
-      un(0x98, [0, 0, 0]), // 清跟随者
-    ],
-    [],
-  )
-  expect(world.entityState).toEqual({ e4: 2, e5: 2, e6: 2, e50: 0 })
-  expect(world.vars['sys:screenWave']).toBe(255)
-  expect(world.vars['sys:waveProgression']).toBe(-4)
-  expect(world.entityLayer).toEqual({ e59: 3, e50: -33 })
-  expect(world.followers).toBeUndefined() // 设 82/83 后被清
-  expect(world.mapOverride).toEqual({ s230: 'map-164' })
-  expect(calls).toEqual([
-    'setEntityState("e4",2)', // 0x9A 宿主重放通知(main 侧整场 applyWorldToScene)
-    'setEntityPos("e9",{"col":4,"row":0})',
-    'setEntityPos("e50",{"col":2,"row":0})',
-    'setEntityState("e50",0)', // 0x6F 命中臂
-    'unequipRole(2,"all")',
-    'unequipRole(1,5)',
-    'giveMoney(-25)',
-    'playMusic(67)',
-  ])
-})
-
-test('旧 0x99 数字地图编号不得在运行时解释', async () => {
-  const calls: string[] = []
-  const world = emptyWorldScriptState()
-  const r = new ScriptRunner(fakeHost(calls), world, new AbortController().signal)
-  await r.run([{ kind: 'unmigrated', opcode: 0x99, operands: [231, 164, 0] }])
-  expect(world.mapOverride).toBeUndefined()
-  expect(calls).toContain('report("op 0x99 未迁移：必须转换为 setSceneMapOverride(mapId)")')
+  await r.run([{ kind: 'quitToTitle' }])
+  expect(calls).toEqual(['quitToTitle()'])
 })
 
 test('顺序执行 + 世界状态写入(flags/vars/entityState 双写)', async () => {
@@ -408,13 +330,6 @@ test('abort:await 间隙取消,后续命令不再执行', async () => {
     ]),
   ).rejects.toThrow(/aborted/)
   expect(calls).toEqual(['dialog']) // giveItem 未执行
-})
-
-test('unmigrated 上报不中断', async () => {
-  const calls: string[] = []
-  const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
-  await r.run([{ kind: 'unmigrated', opcode: 0x24, operands: [1, 2, 0], note: 'setAutoScript' }])
-  expect(calls.some((c) => c.startsWith('report') && c.includes('24'))).toBe(true)
 })
 
 describe('M3b 分支 / 条件 / 战斗 / 确认', () => {

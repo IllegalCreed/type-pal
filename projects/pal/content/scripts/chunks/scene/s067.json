@@ -279,15 +279,6 @@
         "musicId": 33
       },
       {
-        "kind": "unmigrated",
-        "opcode": 120,
-        "operands": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
         "kind": "setActorSprite",
         "actor": "li-xiaoyao",
         "sprite": "npc-394"

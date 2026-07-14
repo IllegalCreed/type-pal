@@ -18080,6 +18080,183 @@
         "dir": "right"
       }
     ],
+    "scene/s019/override/on-enter/L-4912/stage-0": [
+      {
+        "kind": "playMusic",
+        "musicId": 76
+      },
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 66,
+          "row": -22,
+          "height": 0
+        }
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e283",
+        "state": 1
+      },
+      {
+        "kind": "setMultiEntityState",
+        "entities": [
+          "e284",
+          "e285",
+          "e286",
+          "e287",
+          "e288",
+          "e289",
+          "e290",
+          "e291",
+          "e292",
+          "e293",
+          "e294",
+          "e295",
+          "e296",
+          "e297",
+          "e298",
+          "e299",
+          "e300",
+          "e301",
+          "e302",
+          "e303",
+          "e304",
+          "e305",
+          "e306",
+          "e307",
+          "e308",
+          "e309",
+          "e310",
+          "e311"
+        ],
+        "state": 2
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1828",
+          "slot": "top",
+          "portrait": {
+            "icon": 15,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1831",
+          "slot": "top",
+          "portrait": {
+            "icon": 15,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      },
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 68,
+          "row": -21,
+          "height": 0
+        }
+      },
+      {
+        "kind": "setParty",
+        "members": [
+          "li-xiaoyao",
+          "zhao-linger"
+        ]
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right",
+        "member": 1
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e283",
+        "state": 0
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1833",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1834",
+          "slot": "top",
+          "portrait": {
+            "icon": 11,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "left"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1836",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 9,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1839",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 9,
+            "side": "right"
+          }
+        }
+      }
+    ],
+    "scene/s019/override/on-enter/L-4912/stage-1": [],
     "scene/s019/root/on-enter/stage-0": [
       {
         "kind": "setEntityState",

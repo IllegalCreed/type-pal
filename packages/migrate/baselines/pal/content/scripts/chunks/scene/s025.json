@@ -133,6 +133,61 @@
         }
       }
     ],
+    "scene/s025/L-6458/e481/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2339",
+          "speaker": "spk.掌柜",
+          "slot": "top"
+        }
+      }
+    ],
+    "scene/s025/L-7579/e486/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2684",
+          "speaker": "spk.客人"
+        }
+      }
+    ],
+    "scene/s025/L-7583/e487/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2687",
+          "speaker": "spk.客人"
+        }
+      }
+    ],
+    "scene/s025/L-6961/e492/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2532",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -16,
+        "dy": -8
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -16,
+        "dy": -8
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      }
+    ],
     "scene/s025/root/entity-e478/page-0/trigger/stage-0": [
       {
         "kind": "setPartyFacing",

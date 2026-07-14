@@ -1,6 +1,9 @@
 {
   "version": 1,
   "id": "scene/s159",
+  "imports": [
+    "scene/s158"
+  ],
   "scripts": {
     "scene/s159/L-35650/e2656/d-89d21e09": [
       {
@@ -1280,9 +1283,33 @@
         "state": 0
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s158",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s158",
+                  "id": "scene/s158/override/on-enter/L-23189/stage-0"
+                }
+              }
+            ],
+            "next": "advance"
+          },
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s158",
+                  "id": "scene/s158/override/on-enter/L-23189/stage-1"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
         "kind": "loadScene",

@@ -181,14 +181,7 @@
         }
       }
     ],
-    "scene/s023/L-7566/e437/d-89d21e09": [
-      {
-        "kind": "unmigrated",
-        "opcode": 0,
-        "operands": [],
-        "note": "目标缺失 L_7566"
-      }
-    ],
+    "scene/s023/L-7566/e437/d-89d21e09": [],
     "scene/s023/L-36477/e460/d-89d21e09": [
       {
         "kind": "setEntityFrame",
@@ -226,6 +219,233 @@
         }
       }
     ],
+    "scene/s023/L-6958/e425/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2531",
+          "speaker": "spk.算命仙"
+        }
+      }
+    ],
+    "scene/s023/override/on-enter/L-6866/stage-0": [
+      {
+        "kind": "playMusic",
+        "musicId": 50
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2495",
+          "speaker": "spk.算命仙",
+          "slot": "top"
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "wait",
+        "ms": 80
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up",
+        "member": 1
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2498",
+          "speaker": "spk.李逍遥"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2501",
+          "speaker": "spk.算命仙",
+          "slot": "top"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2503",
+          "speaker": "spk.算命仙",
+          "slot": "top"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2506",
+          "speaker": "spk.算命仙",
+          "slot": "top"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2509",
+          "speaker": "spk.李逍遥"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2511",
+          "speaker": "spk.算命仙",
+          "slot": "top"
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2512",
+          "portrait": {
+            "icon": 11,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 240
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2514",
+          "speaker": "spk.算命仙",
+          "slot": "top"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2515",
+          "speaker": "spk.算命仙",
+          "slot": "top"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2518",
+          "speaker": "spk.算命仙",
+          "slot": "top"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2521",
+          "speaker": "spk.李逍遥"
+        }
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 8,
+        "dy": 4
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 8,
+        "dy": 4
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2524",
+          "speaker": "spk.算命仙",
+          "slot": "top"
+        }
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2526",
+          "speaker": "spk.李逍遥"
+        }
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e425",
+        "script": {
+          "chunk": "scene/s023",
+          "id": "scene/s023/L-7039/e425/d-89d21e09"
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2528",
+          "speaker": "spk.算命仙",
+          "slot": "top"
+        }
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      }
+    ],
+    "scene/s023/override/on-enter/L-6866/stage-1": [],
     "scene/s023/root/entity-e423/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",

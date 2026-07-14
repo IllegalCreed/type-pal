@@ -113,19 +113,16 @@ export function auditScriptLibrary(args: {
     walkCommands(chunk.scripts, (command) => {
       if (command.kind === 'callScript' || command.kind === 'jumpScript') checkRef(command.ref)
       if (
-        (command.kind === 'setEntityAuto' ||
-          command.kind === 'setEntityTrigger' ||
-          command.kind === 'setSceneOnTeleport') &&
-        command.stages?.length
-      )
-        issues.push(`${command.kind} 仍嵌 ${command.stages.length} 段`)
-      if (
-        (command.kind === 'setEntityAuto' ||
-          command.kind === 'setEntityTrigger' ||
-          command.kind === 'setSceneOnTeleport') &&
-        command.script
-      )
-        checkRef(command.script)
+        command.kind === 'setEntityAuto' ||
+        command.kind === 'setEntityTrigger' ||
+        command.kind === 'setSceneOnEnter' ||
+        command.kind === 'setSceneOnTeleport'
+      ) {
+        if (command.script) checkRef(command.script)
+        for (const stage of command.stages ?? [])
+          if (stage.body.length !== 1 || stage.body[0]?.kind !== 'callScript')
+            issues.push(`${command.kind} 仍内联命令体`)
+      }
     })
   }
   for (const root of extraRoots) {

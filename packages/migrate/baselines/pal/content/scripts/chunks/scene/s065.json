@@ -3286,15 +3286,6 @@
         "musicId": 45
       },
       {
-        "kind": "unmigrated",
-        "opcode": 120,
-        "operands": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
         "kind": "loadScene",
         "scene": "s066"
       }

@@ -359,8 +359,6 @@ export function translateEnemyScripts(
   if (hooks.battleEnd) {
     const stages = translateStages(`L_${hooks.battleEnd}`, undefined, ctx)
     const body = stages?.[0]?.body ?? []
-    const bad = body.filter((c) => c.kind === 'unmigrated')
-    if (bad.length) out.pending.push(`battleEnd: ${bad.length} 条未翻`)
     if (body.length) out.onDefeated = body
   }
   return out

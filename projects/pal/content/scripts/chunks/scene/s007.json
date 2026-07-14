@@ -1,6 +1,9 @@
 {
   "version": 1,
   "id": "scene/s007",
+  "imports": [
+    "scene/s004"
+  ],
   "scripts": {
     "scene/s007/L-3969/e172/d-89d21e09": [
       {
@@ -237,6 +240,59 @@
         ]
       }
     ],
+    "scene/s007/override/on-enter/L-2360/stage-0": [
+      {
+        "kind": "playMusic",
+        "musicId": 0
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.821",
+          "portrait": {
+            "icon": 10,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "playMusic",
+        "musicId": 70
+      },
+      {
+        "kind": "setSceneOnEnter",
+        "scene": "s004",
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s004",
+                  "id": "scene/s004/override/on-enter/L-1/stage-0"
+                }
+              }
+            ],
+            "next": "advance"
+          },
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s004",
+                  "id": "scene/s004/override/on-enter/L-1/stage-1"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "scene/s007/override/on-enter/L-2360/stage-1": [],
     "scene/s007/root/on-teleport/stage-0": [
       {
         "kind": "loadScene",

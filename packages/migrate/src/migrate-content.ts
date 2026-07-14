@@ -161,8 +161,10 @@ import {
 import type { TranslateCtx, TranslateReport } from './translate-events.js'
 import {
   asBattleCfg,
+  assertNoMigrationGaps,
   emptyTranslateReport,
   foldStages,
+  recordMigrationGap,
   ScriptRegistry,
   translateStages,
 } from './translate-events.js'
@@ -974,6 +976,15 @@ export interface MigrateOutput {
 
 export function migrateAll(src: MigrateSources): MigrateOutput {
   const labelIndex = buildLabelIndex(src.commands)
+  const explicitLabels = new Set(labelIndex.keys())
+  src.commands.forEach((command, address) => {
+    const expected = `L_${address}`
+    if (command.label !== undefined && command.label !== expected)
+      throw new Error(
+        `all.json 显式 label 与数组地址不一致: index=${address}, label=${command.label}`,
+      )
+    if (!labelIndex.has(expected)) labelIndex.set(expected, address)
+  })
   const blockedDescs: MigrateOutput['report']['blockedDescs'] = []
   /** 按域包一层护栏记录(id = scriptDesc 的 ip,足以定位手修)。 */
   const descOf =
@@ -1066,6 +1077,8 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
   // M4a/M4c:敌人(有源才迁;name.<enemy> + 战斗对白并入 locale;脚本翻译走 all.json labelAt)
   const enemyTctx = {
     labelAt: new Map([...labelIndex].map(([l, i]) => [l, { cmds: src.commands, idx: i }] as const)),
+    sourceAddressAt: (_cmds: readonly SourceCmd[], idx: number) => idx,
+    explicitLabels,
     locale: {} as Record<string, string>,
     report: emptyTranslateReport(),
   }
@@ -1076,6 +1089,7 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
   if (enemyRes) {
     Object.assign(localeNames, enemyRes.localeNames)
     Object.assign(localeNames, enemyTctx.locale) // 战斗脚本对白(dlg.<idx>)
+    assertNoMigrationGaps(enemyTctx.report)
   }
   // M4c:敌用法术兜底补翻 —— 收集**翻译后规则里全部 cast id**(fallback magic + 0x67
   // 时间线设置的,如僵尸王 352;曾只收 fallback 漏 0x67 → 编辑器校验器抓出 23 处悬空)。
@@ -1398,8 +1412,11 @@ export function mapScenesStatic(
   // = 动态行为,静态层不猜 → 停。上限 16 步防长链空转。
   // label → 指令数组+下标的全局索引:autoLabel 可指向共享段(events/shared.json,IO 壳以
   // key -1 挂入)或他场景段,勿只查本场景;地址型 label 全局唯一,重复出现内容相同,首见即用。
+  const allCommands = eventsByScene.get(-2)
   const labelAt = new Map<string, { cmds: readonly SourceCmd[]; idx: number }>()
   const labelScene = new Map<string, string | undefined>()
+  const explicitLabels = new Set<string>()
+  const addressesByCommands = new Map<readonly SourceCmd[], Array<number | undefined>>()
   for (const [sourceScene, cmds] of eventsByScene)
     cmds.forEach((c, i) => {
       if (c.label && !labelAt.has(c.label)) {
@@ -1407,11 +1424,36 @@ export function mapScenesStatic(
         labelScene.set(c.label, sourceScene >= 0 ? sceneSlug(sourceScene) : undefined)
       }
     })
+  for (const [, cmds] of eventsByScene) {
+    const addresses: Array<number | undefined> = []
+    let address: number | undefined
+    cmds.forEach((command, index) => {
+      const match = command.label ? /^L_(\d+)$/.exec(command.label) : null
+      if (match?.[1] !== undefined) address = Number(match[1])
+      else if (address !== undefined) address++
+      addresses[index] = address
+    })
+    addressesByCommands.set(cmds, addresses)
+  }
+  if (allCommands) {
+    allCommands.forEach((command, address) => {
+      const expected = `L_${address}`
+      if (command.label !== undefined && command.label !== expected)
+        throw new Error(
+          `all.json 显式 label 与数组地址不一致: index=${address}, label=${command.label}`,
+        )
+      if (command.label) explicitLabels.add(command.label)
+      if (!labelAt.has(expected)) labelAt.set(expected, { cmds: allCommands, idx: address })
+    })
+    addressesByCommands.set(
+      allCommands,
+      Array.from({ length: allCommands.length }, (_, address) => address),
+    )
+  }
   const ownerScene = new Map<string, string>()
   for (const sourceScene of srcScenes)
     for (const entity of sourceScene.eventObjects)
       ownerScene.set(`e${entity.id}`, sceneSlug(sourceScene.sceneId))
-  const allCommands = eventsByScene.get(-2)
   const addressOf = (label: string | undefined): number | undefined => {
     const match = label ? /L_(\d+)$/.exec(label) : null
     return match?.[1] === undefined ? undefined : Number(match[1])
@@ -1523,6 +1565,8 @@ export function mapScenesStatic(
   )
   const tctx: TranslateCtx = {
     labelAt,
+    sourceAddressAt: (cmds, idx) => addressesByCommands.get(cmds)?.[idx],
+    explicitLabels,
     locale: {} as Record<string, string>,
     report: emptyTranslateReport(),
     spriteIdForNum,
@@ -1714,11 +1758,15 @@ export function mapScenesStatic(
       ...(onTeleport ? { onTeleport } : {}),
     })
   })
-  resolveSceneStagePatches(scenes, tctx)
+  resolveSceneScriptPatches(scenes, tctx)
   scenes = applyPalScriptOverlays(scenes)
   // 0x6D 追加的新段也要参与 battle marker bake 与默认传播。
   for (let i = 0; i < scenes.length; i++) scenes[i] = finalizeBattleConfig(scenes[i]!)
   propagateBattleFieldDefaults(scenes, report, registry)
+
+  // 窄切片测试/工具可能只提供部分场景与局部脚本,其缺引用留在报告；正式迁移必带
+  // all.json(-2),此时任何可达 gap/flow cut 都在写盘前硬失败。
+  if (allCommands) assertNoMigrationGaps(tctx.report)
 
   for (let i = 0; i < scenes.length; i++) scenes[i] = externalizeSceneScripts(scenes[i]!, registry)
   const library = registry.build()
@@ -1806,68 +1854,102 @@ function externalizeSceneScripts(scene: SceneDef, registry: ScriptRegistry): Sce
 }
 
 /**
- * 0x6D post-pass:walkBody 发的 setSceneStage 占位(stage=-1 + _addr)→ 把目标地址链翻译
- * 并**追加为目标场景 onEnter 新段**,回填真实段下标。考证:45 站点目标全是新链(不在目标
- * 场景既有 onEnter 链内,部分目标场景原本无 onEnter)—— 原版语义「换进场脚本地址」在
- * stage 模型下 = 追加段 + 显式设段。
- * - (scene, addr) 去重:同地址多站点共用同一追加段;
- * - 追加段内部的数字 next(reset 下标)相对本链 → 整体平移 +base;'advance' 相对推进不平移,
- *   末段越界由 stageIndexFor 钳末段兜底;
- * - 追加链可能再含 0x6D(嵌套占位)→ 迭代到不动点(cap 5 轮);
- * - 翻不出/目标场景缺 → 回填 stage 0 + note 上报(不静默)。
+ * 0x6D post-pass:把 setSceneOnEnter/setSceneOnTeleport 的迁移期 `_addr` 占位解析为
+ * clean ScriptStage[] 绑定。每段体注册进分片,命令只保留小型 callScript 根,避免多站点
+ * 内联导致体积膨胀。嵌套 0x6D 逐轮解析;任何目标缺失都记 MigrationGap 并在写盘前失败。
  */
-export function resolveSceneStagePatches(scenes: SceneDef[], tctx: TranslateCtx): void {
+export function resolveSceneScriptPatches(scenes: SceneDef[], tctx: TranslateCtx): void {
   const byId = new Map(scenes.map((s) => [s.id, s]))
-  type Pending = { kind: string; scene: string; stage: number; _addr?: number }
+  type Pending = {
+    kind: 'setSceneOnEnter' | 'setSceneOnTeleport'
+    scene: string
+    stages: ScriptStage[]
+    _addr?: number
+    _sourceAddress?: number
+    _owner?: string
+    _path?: string
+  }
   const collect = (o: unknown, out: Pending[]): void => {
     if (Array.isArray(o)) {
       for (const x of o) collect(x, out)
     } else if (o && typeof o === 'object') {
       const c = o as Pending
-      if (c.kind === 'setSceneStage' && c._addr !== undefined) out.push(c)
+      if (
+        (c.kind === 'setSceneOnEnter' || c.kind === 'setSceneOnTeleport') &&
+        c._addr !== undefined
+      )
+        out.push(c)
       for (const v of Object.values(o)) collect(v, out)
     }
   }
-  for (let round = 0; round < 5; round++) {
+  const bindingsByKey = new Map<string, ScriptStage[]>()
+  const finishPlaceholder = (cmd: Pending): void => {
+    delete cmd._addr
+    delete cmd._sourceAddress
+    delete cmd._owner
+    delete cmd._path
+  }
+  for (let round = 0; round < 12; round++) {
     const pend: Pending[] = []
     for (const s of scenes) collect(s, pend)
     for (const body of tctx.registry?.commandBodies() ?? []) collect(body, pend)
     if (!pend.length) return
-    const startIdxByKey = new Map<string, number>()
     for (const cmd of pend) {
-      const key = `${cmd.scene}|${cmd._addr}`
-      let idx = startIdxByKey.get(key)
-      if (idx === undefined) {
-        const tgt = byId.get(cmd.scene)
-        const stages = tgt ? translateStages(`L_${cmd._addr}`, undefined, tctx) : undefined
-        const folded = stages?.length ? foldStages(stages) : undefined
-        if (!tgt || !folded?.length) {
-          tctx.report.unmigrated[`0x6d 目标不可译 ${cmd.scene}:${cmd._addr}`] =
-            (tctx.report.unmigrated[`0x6d 目标不可译 ${cmd.scene}:${cmd._addr}`] ?? 0) + 1
-          idx = 0
-        } else {
-          tgt.onEnter ??= []
-          const arr = tgt.onEnter
-          idx = arr.length
-          for (const st of folded) {
-            // 数字 next 是链内相对下标 → 平移到追加基址;'advance' 相对推进保持
-            const next = typeof st.next === 'number' ? st.next + idx : st.next
-            arr.push({ ...st, ...(next !== undefined ? { next } : {}) })
-          }
+      const slot = cmd.kind === 'setSceneOnEnter' ? 'on-enter' : 'on-teleport'
+      const key = `${cmd.scene}|${slot}|${cmd._addr}`
+      let binding = bindingsByKey.get(key)
+      if (!binding) {
+        if (!byId.has(cmd.scene)) {
+          recordMigrationGap(tctx, {
+            sourceAddress: cmd._sourceAddress ?? -1,
+            opcode: 0x6d,
+            operands: [Number(cmd.scene.slice(1)) + 1, cmd._addr ?? 0, 0],
+            owner: cmd._owner ?? 'scene',
+            path: cmd._path,
+            reason: `0x6D 目标场景不存在 ${cmd.scene}`,
+          })
+          finishPlaceholder(cmd)
+          continue
         }
-        startIdxByKey.set(key, idx)
+        const stages = translateStages(`L_${cmd._addr}`, undefined, tctx)
+        const folded = stages?.length ? foldStages(stages) : undefined
+        if (!folded?.length) {
+          recordMigrationGap(tctx, {
+            sourceAddress: cmd._sourceAddress ?? -1,
+            opcode: 0x6d,
+            operands: [Number(cmd.scene.slice(1)) + 1, cmd._addr ?? 0, 0],
+            owner: cmd._owner ?? 'scene',
+            path: cmd._path,
+            reason: `0x6D 目标脚本不可译 ${cmd.scene}:L_${cmd._addr}`,
+          })
+          finishPlaceholder(cmd)
+          continue
+        }
+        binding = folded.map((stage, index) => {
+          const id = `scene/${cmd.scene}/override/${slot}/L-${cmd._addr}/stage-${index}`
+          const ref = tctx.registry?.registerRoot(id, stage.body)
+          if (!ref) return stage
+          return { ...stage, body: [{ kind: 'callScript', ref }] }
+        })
+        bindingsByKey.set(key, binding)
       }
-      cmd.stage = idx
-      delete cmd._addr
+      cmd.stages = binding
+      finishPlaceholder(cmd)
     }
   }
-  // 5 轮仍有剩(病理嵌套):上报
+  // 12 轮仍有剩(病理嵌套):阻断生成。
   const left: Pending[] = []
   for (const s of scenes) collect(s, left)
   for (const body of tctx.registry?.commandBodies() ?? []) collect(body, left)
-  if (left.length)
-    tctx.report.unmigrated['0x6d 嵌套超 5 轮'] =
-      (tctx.report.unmigrated['0x6d 嵌套超 5 轮'] ?? 0) + left.length
+  for (const cmd of left)
+    recordMigrationGap(tctx, {
+      sourceAddress: cmd._sourceAddress ?? -1,
+      opcode: 0x6d,
+      operands: [Number(cmd.scene.slice(1)) + 1, cmd._addr ?? 0, 0],
+      owner: cmd._owner ?? 'scene',
+      path: cmd._path,
+      reason: '0x6D 嵌套解析超过 12 轮',
+    })
 }
 
 /** 深走任意结构,bake 出 BattleCfgMarker(0x4A/0x45)→ acc(last-wins)+ strip;返回同构清洁副本。 */

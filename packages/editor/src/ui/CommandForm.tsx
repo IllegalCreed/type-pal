@@ -1,7 +1,7 @@
 /**
  * 指令属性表单(C-track v1)—— 事件模式右栏:选中树行 → 编辑该指令参数。
  *
- * 高频指令给专控件;其余(branch/startBattle/confirm/页切换/unmigrated 等结构类)
+ * 高频指令给专控件;其余(branch/startBattle/confirm/页切换等结构类)
  * 走 JSON 兜底(textarea + 应用,保证全指令可编)。每次变更即 onChange(整指令替换,
  * 由 EventMode 经 script-edit 纯函数 + UpdateScriptCommand 落进 EditSession)。
  *
@@ -706,6 +706,7 @@ export function CommandForm(props: {
       )
     case 'setEntityAuto':
     case 'setEntityTrigger':
+    case 'setSceneOnEnter':
     case 'setSceneOnTeleport': {
       const targetId = cmd.script?.id
       const targetMeta = targetId ? scriptIndex?.library?.[targetId] : undefined

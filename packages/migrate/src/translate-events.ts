@@ -10,8 +10,8 @@
  *  - 门模式:loadScene ± setPartyPos ± fadeOut(窗口 ≤3 命令)折叠成单条 loadScene{scene,pos};
  *  - end.advance/reset → 多段 stages(原版触发入口推进的 clean 版);
  *  - goto:frameDelay→wait,目标内联续走(环 → 截断);
- *  - 跳转族(census 31 op)未实现的 → unmigrated + 截断本段(flow-cut,不猜控制流);
- *  - 其它未知 op → unmigrated + 继续(不破坏后续可译部分)。
+ *  - 跳转族或未知 op 只写迁移期 MigrationGap;可达 gap 会在写盘前统一失败,
+ *    不得生成可执行占位命令。
  */
 import {
   type Command,
@@ -46,27 +46,64 @@ interface Cmd extends SourceCmd {
   reset?: boolean
   resetTo?: number
   arg0?: number // 对话样式 op 的 operand[0]:top/bottom = 立绘号(wNumCharFace)
+  paletteIndex?: number
 }
 
 export interface TranslateReport {
   chains: number
   stages: number
   commands: number
-  /** note → 次数(翻译覆盖缺口清单;M3b/c 按此收敛)。 */
-  unmigrated: Record<string, number>
+  /** 信息性损耗/折叠说明,不是阻塞缺口。 */
+  notes: Record<string, number>
+  /** 已由一阶段/原引擎真值证明的 no-op。 */
+  knownNoOps: Record<string, number>
+  /** 已映射为 clean 命令的原 opcode 统计。 */
+  resolved: Record<string, number>
+  /** 无显式 label 但已按 all.json 数组地址解析的目标。 */
+  resolvedAddressTargets: { address: number; operation: string }[]
+  /** 可达且无法转成 clean 命令的阻塞诊断。 */
+  gaps: MigrationGap[]
   /** 因未实现跳转族而截断的段数。 */
   flowCuts: number
-  /** 0x6D 场景进场剧情补丁站点数(post-pass 追加段+回填)。 */
-  sceneStagePatches?: number
+  /** 0x6D 场景脚本覆写站点数(post-pass 回填 clean 绑定)。 */
+  sceneScriptPatches?: number
 }
 
 export function emptyTranslateReport(): TranslateReport {
-  return { chains: 0, stages: 0, commands: 0, unmigrated: {}, flowCuts: 0 }
+  return {
+    chains: 0,
+    stages: 0,
+    commands: 0,
+    notes: {},
+    knownNoOps: {},
+    resolved: {},
+    resolvedAddressTargets: [],
+    gaps: [],
+    flowCuts: 0,
+  }
+}
+
+export interface MigrationGap {
+  sourceAddress: number
+  opcode: number | string
+  operands: number[]
+  owner: string
+  reachable: true
+  path: string
+  reason: string
 }
 
 export interface TranslateCtx {
   /** 全局 label 索引(跨场景/共享段;mapScenesStatic 已建)。 */
   labelAt: Map<string, { cmds: readonly SourceCmd[]; idx: number }>
+  /** 源数组下标 → all.json 全局地址;生产迁移由 mapScenesStatic 注入。 */
+  sourceAddressAt?: (cmds: readonly SourceCmd[], idx: number) => number | undefined
+  /** all.json 原本显式声明的 label;用于记录补全地址索引的命中。 */
+  explicitLabels?: ReadonlySet<string>
+  /** 当前翻译引用路径,只用于诊断。 */
+  pathStack?: string[]
+  /** 报告计数按源站点去重,避免同一共享链因多个 owner 被重复翻译而虚高。 */
+  knownNoOpSites?: Set<string>
   /** 分支臂记忆化(label|owner → 已译体;同一游戏over/败臂被数百战斗共享,防重复走+堆爆)。 */
   armMemo?: Map<string, Command[]>
   /** 在译链栈(label|owner):0x24/25 页目标可自引用,防 translateStages 无限递归。 */
@@ -78,7 +115,7 @@ export interface TranslateCtx {
   report: TranslateReport
   /**
    * 0x65(换角色精灵)的 spriteNum → 精灵 id 解析(mapScenesStatic 注入:
-   * 角色本体精灵优先,未注册的补登记 npc-<num>)。缺省 → 0x65 落 unmigrated。
+   * 角色本体精灵优先,未注册的补登记 npc-<num>)。缺省会记阻塞 gap。
    */
   spriteIdForNum?: (num: number) => string
   /** 迁移边界内把旧 mapNum 解析为工程稳定 map id。 */
@@ -149,13 +186,25 @@ export class ScriptRegistry {
     this.scripts.set(id, record)
     const target = ctx.labelAt.get(label)
     if (!target) {
-      note(ctx, `脚本引用目标缺失 ${label}`)
-      record.body = [{ kind: 'unmigrated', opcode: 0, operands: [], note: `目标缺失 ${label}` }]
+      recordGap(ctx, {
+        sourceAddress: addressFromLabel(label) ?? -1,
+        opcode: 'target',
+        operands: [],
+        owner: owner ?? 'scene',
+        reason: `脚本引用目标缺失 ${label}`,
+      })
     } else {
-      const translated = walkBody(target.cmds, target.idx, owner, ctx, 0, state)
-      if (translated.term.kind === 'advance' || translated.term.kind === 'reset')
-        note(ctx, '引用目标含段转移(按 end 处理)')
-      record.body = foldBattleConfig(foldDoorPattern(translated.body))
+      recordResolvedAddressTarget(ctx, label, target)
+      ctx.pathStack ??= []
+      ctx.pathStack.push(`${id} -> ${label}`)
+      try {
+        const translated = walkBody(target.cmds, target.idx, owner, ctx, 0, state)
+        if (translated.term.kind === 'advance' || translated.term.kind === 'reset')
+          note(ctx, '引用目标含段转移(按 end 处理)')
+        record.body = foldBattleConfig(foldDoorPattern(translated.body))
+      } finally {
+        ctx.pathStack.pop()
+      }
     }
     record.status = 'done'
     return ref
@@ -251,11 +300,11 @@ const GIVEITEM_ZERO_FIXUP: Record<number, number> = {
   12408: 116, // 「获得腐尸肉」→ 尸腐肉
 }
 
-/** 分支臂内联深度上限(臂内再遇跳转的嵌套;更深 → unmigrated,M3c 提共享脚本)。
+/** 分支臂内联深度上限(臂内再遇跳转的嵌套;更深 → MigrationGap,M3c 提共享脚本)。
  *  3→6(2026-07-12):17 条"分支臂不可内联"= 15 个独立段各 1-2 引用(非高频共享),
  *  depth 3 截断过早;提到 6 让多数深层臂闭合。MAX_ARM_BODY=200 仍兜底防组合爆炸。 */
 const MAX_ARM_DEPTH = 6
-/** 单臂命令上限(超限 → unmigrated;防组合爆炸,如层层嵌套的战斗败臂)。 */
+/** 单臂命令上限(超限 → MigrationGap;防组合爆炸,如层层嵌套的战斗败臂)。 */
 const MAX_ARM_BODY = 200
 /** 每逻辑帧 40ms(一阶段主循环 tick;waitFrames/goto frameDelay 换算)。 */
 const FRAME_MS = 40
@@ -289,8 +338,18 @@ export function translateStages(
   ctx: TranslateCtx,
 ): ScriptStage[] | undefined {
   const start0 = ctx.labelAt.get(startLabel)
-  if (!start0) return undefined
+  if (!start0) {
+    recordGap(ctx, {
+      sourceAddress: addressFromLabel(startLabel) ?? -1,
+      opcode: 'target',
+      operands: [],
+      owner: ownerEntity ?? 'scene',
+      reason: `脚本根目标缺失 ${startLabel}`,
+    })
+    return undefined
+  }
   const startAt = start0 // 收窄后常量(闭包内 TS 不保 start0 非空)
+  recordResolvedAddressTarget(ctx, startLabel, startAt)
   const tkey = `${startLabel}|${ownerEntity ?? ''}`
   ctx.translating ??= new Set()
   const inFlight = ctx.translating
@@ -299,9 +358,12 @@ export function translateStages(
     return undefined
   }
   inFlight.add(tkey)
+  ctx.pathStack ??= []
+  ctx.pathStack.push(`${startLabel}@${ownerEntity ?? 'scene'}`)
   try {
     return translateStagesInner()
   } finally {
+    ctx.pathStack.pop()
     inFlight.delete(tkey)
   }
 
@@ -386,8 +448,92 @@ export function translateStages(
   }
 }
 
+function addressFromLabel(label: string | undefined): number | undefined {
+  const match = label ? /^L_(\d+)$/.exec(label) : null
+  return match?.[1] === undefined ? undefined : Number(match[1])
+}
+
+function sourceAddressAt(ctx: TranslateCtx, cmds: readonly SourceCmd[], idx: number): number {
+  const injected = ctx.sourceAddressAt?.(cmds, idx)
+  if (injected !== undefined) return injected
+  for (let i = idx; i >= 0; i--) {
+    const base = addressFromLabel(cmds[i]?.label)
+    if (base !== undefined) return base + idx - i
+  }
+  return idx
+}
+
+function operationOf(command: SourceCmd | undefined): string {
+  if (!command) return 'missing'
+  if (command.op === 'raw') return `raw:0x${(command.opcode ?? 0).toString(16)}`
+  return command.op ?? 'unknown'
+}
+
+function recordResolvedAddressTarget(
+  ctx: TranslateCtx,
+  label: string,
+  target: { cmds: readonly SourceCmd[]; idx: number },
+): void {
+  if (!ctx.explicitLabels || ctx.explicitLabels.has(label)) return
+  const address = addressFromLabel(label)
+  if (address === undefined || ctx.report.resolvedAddressTargets.some((x) => x.address === address))
+    return
+  ctx.report.resolvedAddressTargets.push({
+    address,
+    operation: operationOf(target.cmds[target.idx]),
+  })
+}
+
+function recordGap(
+  ctx: TranslateCtx,
+  gap: Omit<MigrationGap, 'reachable' | 'path'> & { path?: string },
+): void {
+  const full: MigrationGap = {
+    ...gap,
+    reachable: true,
+    path: gap.path ?? ctx.pathStack?.join(' -> ') ?? 'unknown-root',
+  }
+  const key = JSON.stringify(full)
+  if (!ctx.report.gaps.some((existing) => JSON.stringify(existing) === key))
+    ctx.report.gaps.push(full)
+}
+
+export function recordMigrationGap(
+  ctx: TranslateCtx,
+  gap: Omit<MigrationGap, 'reachable' | 'path'> & { path?: string },
+): void {
+  recordGap(ctx, gap)
+}
+
+export function assertNoMigrationGaps(report: TranslateReport): void {
+  if (report.gaps.length === 0 && report.flowCuts === 0) return
+  const details = report.gaps
+    .slice(0, 20)
+    .map(
+      (gap) =>
+        `@${gap.sourceAddress} opcode=${String(gap.opcode)} operands=${JSON.stringify(gap.operands)} owner=${gap.owner} path=${gap.path}: ${gap.reason}`,
+    )
+    .join('\n')
+  throw new Error(
+    `迁移存在 ${report.gaps.length} 个可达 MigrationGap / ${report.flowCuts} 个 flow cut,` +
+      `拒绝生成工程${details ? `:\n${details}` : ''}`,
+  )
+}
+
 function note(ctx: TranslateCtx, key: string): void {
-  ctx.report.unmigrated[key] = (ctx.report.unmigrated[key] ?? 0) + 1
+  ctx.report.notes[key] = (ctx.report.notes[key] ?? 0) + 1
+}
+
+function knownNoOp(ctx: TranslateCtx, key: string, sourceAddress?: number): void {
+  ctx.knownNoOpSites ??= new Set()
+  const site = `${key}@${sourceAddress ?? 'unknown'}`
+  if (ctx.knownNoOpSites.has(site)) return
+  ctx.knownNoOpSites.add(site)
+  ctx.report.knownNoOps[key] = (ctx.report.knownNoOps[key] ?? 0) + 1
+}
+
+function resolved(ctx: TranslateCtx, key: string): void {
+  ctx.report.resolved[key] = (ctx.report.resolved[key] ?? 0) + 1
 }
 
 /** 走一段体:从 idx 到 end 变体/流截断。 */
@@ -534,6 +680,13 @@ function walkBody(
       at = { cmds: at.cmds, idx: at.idx + 1 }
       continue
     }
+    if (op === 'setPalette') {
+      // 已知视觉缺口,不属于未知命令:二阶段必须用 RGBA 全屏色彩 profile 重写,严禁把
+      // paletteId/index 重新带回脚本 schema。这里只记迁移报告,不生成可执行旧节点。
+      note(ctx, `known-deferred:setPalette(${c.paletteIndex ?? 0})`)
+      at = { cmds: at.cmds, idx: at.idx + 1 }
+      continue
+    }
 
     // ── raw 表 ──
     if (op === 'raw' && typeof c.opcode === 'number') {
@@ -543,6 +696,16 @@ function walkBody(
         flush()
         if (cmd) body.push(cmd)
       }
+      const gap = (reason: string, opcode: number | string = oc, operands = o) => {
+        flush()
+        recordGap(ctx, {
+          sourceAddress: sourceAddressAt(ctx, at.cmds, at.idx),
+          opcode,
+          operands: [...operands],
+          owner: owner ?? 'scene',
+          reason,
+        })
+      }
       // 对象引用:操作数 0xFFFF = 脚本属主"自己";其余是 **1-based 全局**对象号
       // (script.c:631 `pCurrent = &lprgEventObject[operand-1]`;一阶段 resolveGlobalEventObject
       // 同语义)。提取的 eo.id 是 0-based 全局累加(scene1=0..31,scene2=32..),故 -1 即得
@@ -551,7 +714,7 @@ function walkBody(
       // pCurrent 式引用:0 也是"自己"(script.c:op0==0 → pEvtObj)
       const pcRef = (v: number): string | undefined =>
         v === 0 || v === 0xffff ? owner : `e${v - 1}`
-      /** 跳走臂内联:跳转目标链整段翻成 Command[](环/深度超限 → unmigrated)。
+      /** 跳走臂内联:跳转目标链整段翻成 Command[](环/深度超限 → gap)。
        *  臂尾一律补 stopScript:原版跳转命中后链一路跑到 END 即整个脚本结束,臂跑完
        *  绝不落穿回父体(曾漏 → 概率门/确认门全废:then=[] 空臂照跑后续 = 21% 掉落变
        *  100%、选"否"照办事)。addr 0/缺 = 原版跳全局 0 号 END = 当场退,臂就是一条 stop。 */
@@ -578,11 +741,8 @@ function walkBody(
         if (hit) return hit
         const target = ctx.labelAt.get(`L_${addr}`)
         if (!target || depth >= MAX_ARM_DEPTH) {
-          note(ctx, target ? '分支臂深度截断' : '分支臂目标缺失')
-          return [
-            { kind: 'unmigrated', opcode: 0, operands: [addr], note: '分支臂不可内联' },
-            { kind: 'stopScript' },
-          ]
+          gap(target ? '分支臂深度截断' : `分支臂目标缺失 L_${addr}`)
+          return [{ kind: 'stopScript' }]
         }
         memo.set(memoKey, []) // 先占位:环(臂内再跳回自己)拿到空臂而非无限递归
         const r = walkBody(target.cmds, target.idx, owner, ctx, depth + 1)
@@ -616,7 +776,7 @@ function walkBody(
         })
       } else if (oc === 0x9a) {
         // 0x9A 批量设实体状态(script.c:2756):全局对象号区间 [op0,op1] 全设 sState=op2。
-        // 展开成实体 id 数组(e<号−1>;杜绝下标式身份);区间钳 512 防病理(同 runLegacyOp)。
+        // 展开成实体 id 数组(e<号−1>;杜绝下标式身份);区间钳 512 防病理输入。
         const from = o[0] ?? 0
         const to = Math.min(o[1] ?? from, from + 511)
         const entities: string[] = []
@@ -660,7 +820,7 @@ function walkBody(
             entity: ent,
             pos: { ...pixelToGrid(o[1] ?? 0, o[2] ?? 0), height: 0 },
           })
-        else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '0x13 无属主' })
+        else gap('0x13 无属主')
       } else if (oc === 0x12) {
         // 0x12 相对队伍摆位(script.c:706):pCurrent = 队伍绝对像素 + op1/op2 偏移。
         // 清洁重写:偏移 → 格偏移(pixelDeltaToGridDelta 防 round 吞小位移),运行时加队伍格坐标。
@@ -671,7 +831,7 @@ function walkBody(
             signExtendI16(o[2] ?? 0),
           )
           push({ kind: 'setEntityPosRelParty', entity: ent, dcol, drow })
-        } else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '0x12 无属主' })
+        } else gap('0x12 无属主')
       } else if (oc === 0x35) {
         push({ kind: 'shakeScreen', frames: o[0] ?? 0, level: (o[1] ?? 0) || 4 }) // 0x35 震屏
       } else if (oc === 0x71) {
@@ -680,7 +840,10 @@ function walkBody(
         const ent = pcRef(o[0] ?? 0)
         if (ent)
           push({ kind: 'setEntityLayer', entity: ent, layer: signExtendI16(o[1] ?? 0) }) // 0x7E 图层
-        else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '0x7E 无属主' })
+        else gap('0x7E 无属主')
+      } else if (oc === 0x1b && (o[0] ?? 0) !== 0) {
+        // 剧情侧全队 HP 变化(镇狱明王战后灵儿恢复 999)。
+        push({ kind: 'increaseHpMp', delta: signExtendI16(o[1] ?? 0), pools: 'hp' })
       } else if (oc === 0x1d && (o[0] ?? 0) !== 0) {
         push({ kind: 'increaseHpMp', delta: signExtendI16(o[1] ?? 0) }) // 0x1D 全队增血蓝(op0=1)
       } else if (oc === 0x22 && (o[0] ?? 0) !== 0) {
@@ -731,7 +894,7 @@ function walkBody(
             cond: { kind: 'entityState', entity: src, is: val },
             then: [{ kind: 'setEntityState', entity: owner, state: val }],
           })
-        } else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '0x6F 无属主' })
+        } else gap('0x6F 无属主')
       } else if (oc === 0x49) {
         // script.c:operand0==0 是 no-op；仍 flush，保留 opcode 两侧的对话批次边界。
         if ((o[0] ?? 0) === 0) push(undefined)
@@ -739,13 +902,7 @@ function walkBody(
           const ent = entRef(o[0] ?? 0)
           if (ent) push({ kind: 'setEntityState', entity: ent, state: signExtendI16(o[1] ?? 0) })
           else {
-            push({
-              kind: 'unmigrated',
-              opcode: oc,
-              operands: [...o],
-              note: '0xFFFF 自指但无属主(onEnter)',
-            })
-            note(ctx, 'setState 自指无属主')
+            gap('0xFFFF 自指但无属主(onEnter)')
           }
         }
       } else if (oc === 0x0f && owner) {
@@ -795,19 +952,13 @@ function walkBody(
         const sprite = actor !== undefined ? ctx.spriteIdForNum?.(o[1] ?? 0) : undefined
         if (actor && sprite) push({ kind: 'setActorSprite', actor, sprite })
         else {
-          push({
-            kind: 'unmigrated',
-            opcode: oc,
-            operands: [...o],
-            note: sprite ? `未知 roleId ${o[0]}` : '无精灵注册回调',
-          })
-          note(ctx, sprite ? 'setActorSprite 未知角色' : 'setActorSprite 无注册回调')
+          gap(sprite ? `setActorSprite 未知 roleId ${o[0]}` : 'setActorSprite 无精灵注册回调')
         }
       } else if (oc === 0x1a) {
         // 0x1A 改角色 SoA 属性(script.c:834:p[field*6 + role] = val)。全游戏 4 站点全是**形象**字段
         // (成年灵儿 role 1):field 0=头像 / 1=战斗精灵 / 2=大世界精灵 / 64=走路帧。映射成具名
         // setActorAppearance,杜绝下标式身份。field 2 的精灵号 → id(spriteIdForNum);64 走路帧
-        // 由新精灵 layout 自带,丢弃。o[2]=0(当前玩家,数据中未出现)→ unmigrated。
+        // 由新精灵 layout 自带,丢弃。o[2]=0(当前玩家,数据中未出现)→ MigrationGap。
         const roleIdx = (o[2] ?? 0) - 1
         const actor = roleIdx >= 0 ? ROLE_SLUGS[roleIdx] : undefined
         const field = o[0] ?? -1
@@ -818,16 +969,10 @@ function walkBody(
         else if (actor && field === 2) {
           const sprite = ctx.spriteIdForNum?.(val)
           if (sprite) push({ kind: 'setActorAppearance', actor, spriteId: sprite })
-          else {
-            push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '0x1A 精灵无注册回调' })
-            note(ctx, '0x1A setActorAppearance 无精灵回调')
-          }
+          else gap('0x1A setActorAppearance 无精灵注册回调')
         } else if (actor && field === 64) {
           push(undefined) // 走路帧:新精灵 layout 自带,clean 模型无独立帧数字段
-        } else {
-          push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: `0x1A 字段 ${field}` })
-          note(ctx, `0x1A 字段 ${field}(非形象/o2=0)`)
-        }
+        } else gap(`0x1A 字段 ${field}(非形象/o2=0)`)
       } else if (oc === 0x90 && (o[2] ?? 0) === 0 && (o[1] ?? 0) === 0) {
         // 0x90 剧情侧清 enemy scriptOnTurnStart(六脚蜘蛛 s138 酒剑仙救场后降级):原版敌种绑定的
         // 「说一次」hack。二阶段遭遇绑定后**无需** —— 对话属于这场遭遇的 startBattle,丢弃(no-op)。
@@ -843,7 +988,7 @@ function walkBody(
       } else if (oc >= 0x0b && oc <= 0x0e) {
         if (owner)
           push({ kind: 'stepEntity', entity: owner, dir: FACING_BY_DIR[oc - 0x0b] ?? 'down' })
-        else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '单步无属主' })
+        else gap('单步无属主')
       } else if (oc === 0x10 || oc === 0x11 || oc === 0x7c || oc === 0x82) {
         const sp = oc === 0x11 ? 2 : oc === 0x10 ? 3 : oc === 0x7c ? 4 : 8
         if (owner)
@@ -853,7 +998,7 @@ function walkBody(
             to: partyPosToGrid(o[0] ?? 0, o[1] ?? 0, o[2] ?? 0),
             speed: SPEED[sp]!,
           })
-        else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: 'walkTo 无属主' })
+        else gap('walkTo 无属主')
       } else if (oc === 0x70 || oc === 0x7a || oc === 0x7b) {
         const sp = oc === 0x70 ? 2 : oc === 0x7a ? 4 : 8
         push({
@@ -871,7 +1016,7 @@ function walkBody(
       } else if (oc === 0xa1) {
         // SetAllPartyPos 全员聚拢队首:骑乘链开头(E7)→ mountParty(属主=载具,全员叠上)
         if (owner) push({ kind: 'mountParty', entity: owner })
-        else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '聚拢无属主' })
+        else gap('聚拢无属主')
       } else if (oc === 0x3f || oc === 0x44 || oc === 0x97) {
         // PartyRideEventObject 骑当前对象走位(速 2/4/8);挂载 op-scoped:
         // 引擎 moveParty 走位即下筏(dismountParty),连骑不卸、无持久态
@@ -883,7 +1028,7 @@ function walkBody(
             to: partyPosToGrid(o[0] ?? 0, o[1] ?? 0, o[2] ?? 0),
             speed: SPEED[sp]!,
           })
-        else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '骑乘无属主' })
+        else gap('骑乘无属主')
       } else if (oc === 0x6e) {
         push({ kind: 'nudgeParty', dx: signExtendI16(o[0] ?? 0), dy: signExtendI16(o[1] ?? 0) })
       } else if (oc === 0x7d) {
@@ -895,7 +1040,7 @@ function walkBody(
             dx: signExtendI16(o[1] ?? 0),
             dy: signExtendI16(o[2] ?? 0),
           })
-        else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: 'moveObject 无属主' })
+        else gap('moveObject 无属主')
       } else if (oc === 0x6c) {
         const ent = pcRef(o[0] ?? 0)
         if (ent) {
@@ -907,11 +1052,10 @@ function walkBody(
             dy: signExtendI16(o[2] ?? 0),
           })
           body.push({ kind: 'animEntity', entity: ent })
-        } else
-          push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: 'walkOneStep 无属主' })
+        } else gap('walkOneStep 无属主')
       } else if (oc === 0x87) {
         if (owner) push({ kind: 'animEntity', entity: owner })
-        else push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: 'animate 无属主' })
+        else gap('animate 无属主')
       } else if (oc === 0x4c) {
         // B8 追逐:0x4C [maxDist, speed, floating](缺省 8/4;script.c:1733-1751)。原版靠
         // goto-self/0x06 概率环逐帧重复 —— 新引擎 auto runner 天然循环,单条声明即持续追逐,
@@ -1042,8 +1186,7 @@ function walkBody(
             cond: { kind: 'entityState', entity: ent, is: signExtendI16(o[1] ?? 0) },
             then: inlineArm(o[2]),
           })
-        else
-          push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: 'jumpIfObjState 无属主' })
+        else gap('jumpIfObjState 无属主')
       } else if (oc === 0x79) {
         flush()
         body.push({
@@ -1081,25 +1224,13 @@ function walkBody(
         if (!calleeBody) {
           const target = ctx.labelAt.get(`L_${o[0]}`)
           if (!target || depth >= MAX_ARM_DEPTH) {
-            note(ctx, target ? 'call 深度截断' : 'call 目标缺失')
-            calleeBody = [
-              { kind: 'unmigrated', opcode: oc, operands: [...o], note: 'call 不可内联' },
-            ]
+            gap(target ? 'call 深度截断' : `call 目标缺失 L_${o[0]}`)
+            calleeBody = []
           } else {
             memo.set(memoKey, [])
             const r = walkBody(target.cmds, target.idx, callOwner, ctx, depth + 1)
-            calleeBody =
-              r.body.length > MAX_ARM_BODY
-                ? [
-                    {
-                      kind: 'unmigrated',
-                      opcode: oc,
-                      operands: [...o],
-                      note: `call 体超长(${r.body.length})`,
-                    },
-                  ]
-                : r.body
-            if (r.body.length > MAX_ARM_BODY) note(ctx, 'call 体超长截断')
+            calleeBody = r.body.length > MAX_ARM_BODY ? [] : r.body
+            if (r.body.length > MAX_ARM_BODY) gap(`call 体超长(${r.body.length})`)
           }
           memo.set(memoKey, calleeBody)
         }
@@ -1136,8 +1267,7 @@ function walkBody(
                   : { kind: 'setEntityTrigger', entity: ent, stages: sub },
               )
             } else {
-              body.push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '页目标不可译' })
-              note(ctx, '页目标不可译')
+              gap(`页目标不可译 L_${o[1]}`)
             }
           }
         }
@@ -1158,41 +1288,71 @@ function walkBody(
         }
       } else if (oc === 0x26 || oc === 0x27) {
         push({ kind: 'openShop', shop: o[0] ?? 0, mode: oc === 0x26 ? 'buy' : 'sell' })
-      } else if (oc === 0x6d && (o[0] ?? 0) > 0 && (o[1] ?? 0) > 0) {
-        // 0x6D 改场景 onEnter 到新地址(45 站点目标全是新链):emit 占位(stage=-1 + _addr),
-        // migrate-content post-pass 把目标链追加为目标场景 onEnter 新段后回填真下标。
-        // op2(teleport 地址)非零仅 1 站点且与 enter 互斥 —— 仍落 unmigrated 保留
-        const tgt = (o[0] ?? 1) - 1 // 1-based 场景号 → 0-based slug
-        push({
-          kind: 'setSceneStage',
-          scene: `s${String(tgt).padStart(3, '0')}`,
-          stage: -1,
-          _addr: o[1],
-        } as Command)
-        ctx.report.sceneStagePatches = (ctx.report.sceneStagePatches ?? 0) + 1
+      } else if (oc === 0x78) {
+        push(undefined)
+        knownNoOp(ctx, '0x78', sourceAddressAt(ctx, at.cmds, at.idx))
+      } else if (oc === 0xa0) {
+        push({ kind: 'quitToTitle' })
+        resolved(ctx, '0xa0 -> quitToTitle')
+      } else if (oc === 0x6d) {
+        flush()
+        const sourceScene = o[0] ?? 0
+        if (sourceScene <= 0) {
+          gap('0x6D 场景号必须为 1-based 正数')
+        } else {
+          const scene = sceneSlug(sourceScene - 1)
+          const onEnter = o[1] ?? 0
+          const onTeleport = o[2] ?? 0
+          if (onEnter === 0 && onTeleport === 0) {
+            body.push({ kind: 'clearSceneScripts', scene })
+          } else {
+            const sourceAddress = sourceAddressAt(ctx, at.cmds, at.idx)
+            const path = ctx.pathStack?.join(' -> ') ?? 'unknown-root'
+            if (onEnter > 0)
+              body.push({
+                kind: 'setSceneOnEnter',
+                scene,
+                stages: [],
+                _addr: onEnter,
+                _sourceAddress: sourceAddress,
+                _owner: owner ?? 'scene',
+                _path: path,
+              } as Command)
+            if (onTeleport > 0)
+              body.push({
+                kind: 'setSceneOnTeleport',
+                scene,
+                stages: [],
+                _addr: onTeleport,
+                _sourceAddress: sourceAddress,
+                _owner: owner ?? 'scene',
+                _path: path,
+              } as Command)
+          }
+          ctx.report.sceneScriptPatches = (ctx.report.sceneScriptPatches ?? 0) + 1
+          resolved(ctx, '0x6d -> sceneScriptOverrides')
+        }
       } else if (JUMP_FAMILY.has(oc)) {
         // 未实现的跳转族:截断本段(不猜控制流)
-        flush()
-        body.push({
-          kind: 'unmigrated',
-          opcode: oc,
-          operands: [...o],
-          note: `jump-family 0x${oc.toString(16)}`,
-        })
-        note(ctx, `flow-cut 0x${oc.toString(16)}`)
+        gap(`jump-family 0x${oc.toString(16)}`)
         ctx.report.flowCuts++
         return { body, term: { kind: 'cut' } }
       } else {
-        flush()
-        body.push({ kind: 'unmigrated', opcode: oc, operands: [...o] })
-        note(ctx, `op 0x${oc.toString(16)}`)
+        gap(`未知 opcode 0x${oc.toString(16)}`)
       }
       at = { cmds: at.cmds, idx: at.idx + 1 }
       continue
     }
 
-    // 未知具名 op(不应出现):上报 + 跳过
-    note(ctx, `具名 ${op}`)
+    // 未知具名 op(不应出现):记阻塞 gap,继续收集诊断。
+    flush()
+    recordGap(ctx, {
+      sourceAddress: sourceAddressAt(ctx, at.cmds, at.idx),
+      opcode: op ?? 'missing-op',
+      operands: [...(c.operands ?? [])],
+      owner: owner ?? 'scene',
+      reason: `未知具名 op ${String(op)}`,
+    })
     at = { cmds: at.cmds, idx: at.idx + 1 }
   }
   flush()

@@ -4,18 +4,26 @@
   "scripts": {
     "scene/s009/L-3925/e188/d-7191caaf": [
       {
-        "kind": "unmigrated",
-        "opcode": 0,
-        "operands": [],
-        "note": "目标缺失 L_3925"
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1506",
+          "speaker": "spk.中年人"
+        }
       }
     ],
     "scene/s009/L-3925/e188/d-1a56d584": [
       {
-        "kind": "unmigrated",
-        "opcode": 0,
-        "operands": [],
-        "note": "目标缺失 L_3925"
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.1506",
+          "speaker": "spk.中年人"
+        }
       }
     ],
     "scene/s009/root/entity-e185/page-0/trigger/stage-0": [

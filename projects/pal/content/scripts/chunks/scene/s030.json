@@ -4,10 +4,18 @@
   "scripts": {
     "scene/s030/L-7469/e540/d-5f102105": [
       {
-        "kind": "unmigrated",
-        "opcode": 0,
-        "operands": [],
-        "note": "目标缺失 L_7469"
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.2640",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
       }
     ],
     "scene/s030/L-7477/e540/d-5f102105": [

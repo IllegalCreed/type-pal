@@ -924,15 +924,6 @@
         "facing": "left"
       },
       {
-        "kind": "unmigrated",
-        "opcode": 120,
-        "operands": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
         "kind": "wait",
         "ms": 160
       },

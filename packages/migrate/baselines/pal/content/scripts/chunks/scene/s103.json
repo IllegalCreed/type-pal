@@ -1,6 +1,9 @@
 {
   "version": 1,
   "id": "scene/s103",
+  "imports": [
+    "scene/s101"
+  ],
   "scripts": {
     "scene/s103/L-38733/e1907/d-89d21e09": [
       {
@@ -192,6 +195,197 @@
       {
         "kind": "playSound",
         "soundId": 78
+      }
+    ],
+    "scene/s103/L-21515/e1908/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.7954",
+          "speaker": "spk.林月如",
+          "portrait": {
+            "icon": 23,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.7956",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 2,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.7959",
+          "speaker": "spk.金蟾鬼母",
+          "slot": "top",
+          "portrait": {
+            "icon": 84,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.7960",
+          "speaker": "spk.金蟾鬼母",
+          "slot": "top",
+          "portrait": {
+            "icon": 84,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.7963",
+          "speaker": "spk.林月如",
+          "portrait": {
+            "icon": 24,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.7965",
+          "speaker": "spk.金蟾鬼母",
+          "slot": "top",
+          "portrait": {
+            "icon": 84,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1908",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1908",
+        "frame": 0
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.7968",
+          "speaker": "spk.金蟾鬼母",
+          "slot": "top",
+          "portrait": {
+            "icon": 84,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1908",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1908",
+        "frame": 0
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e1908",
+        "state": 0
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1909",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1909",
+        "frame": 1
+      },
+      {
+        "kind": "setMultiEntityState",
+        "entities": [
+          "e1910",
+          "e1911",
+          "e1912",
+          "e1913",
+          "e1914",
+          "e1915",
+          "e1916",
+          "e1917"
+        ],
+        "state": 2
+      },
+      {
+        "kind": "startBattle",
+        "team": 36,
+        "onLose": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s103",
+              "id": "scene/s103/L-41075/e1908/d-2bcf074a"
+            },
+            "self": "e1908"
+          }
+        ],
+        "boss": true
+      },
+      {
+        "kind": "playMusic",
+        "musicId": 82
+      }
+    ],
+    "scene/s103/L-41075/e1908/d-2bcf074a": [
+      {
+        "kind": "playMusic",
+        "musicId": 1
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 900,
+        "color": "red"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.13135",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "loadLastSave"
       }
     ],
     "scene/s103/root/on-enter/stage-0": [
@@ -478,9 +672,21 @@
         "kind": "clearDialog"
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s101",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s101",
+                  "id": "scene/s101/override/on-enter/L-21484/stage-0"
+                }
+              }
+            ]
+          }
+        ]
       }
     ],
     "scene/s103/root/entity-e1908/page-0/trigger/stage-1": [

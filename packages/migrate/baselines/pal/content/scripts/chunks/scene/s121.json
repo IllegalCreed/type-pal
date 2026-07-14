@@ -2,6 +2,23 @@
   "version": 1,
   "id": "scene/s121",
   "scripts": {
+    "scene/s121/override/on-enter/L-20697/stage-0": [
+      {
+        "kind": "playMusic",
+        "musicId": 32
+      }
+    ],
+    "scene/s121/override/on-enter/L-19792/stage-0": [
+      {
+        "kind": "setScreenWave",
+        "level": 2,
+        "progression": 0
+      },
+      {
+        "kind": "playMusic",
+        "musicId": 32
+      }
+    ],
     "scene/s121/root/on-enter/stage-0": [
       {
         "kind": "increaseHpMp",

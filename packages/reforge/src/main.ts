@@ -20,6 +20,7 @@ import {
   lookupText,
   pixelDeltaToGridDelta,
   pixelToGrid,
+  type RuntimeScriptBinding,
   resolveAmbienceTint,
   resolveEntitySpriteId,
   type SceneDef,
@@ -100,7 +101,8 @@ import { resolveMove } from './movement.js'
 import { runOpeningMenu } from './opening-menu.js'
 import { Canvas2DRenderer, type CellRect, type SpriteDraw } from './render.js'
 import { renderSceneFrame } from './render-scene.js'
-import { playRng as playRngOverlay, rngPaletteId } from './rng-player.js'
+import { playRng as playRngOverlay, type RngFrameSnapshot, rngPaletteId } from './rng-player.js'
+import { RngPresentationState } from './rng-presentation.js'
 import {
   browserConfirm,
   browserConfirmOverwriteNo,
@@ -447,6 +449,50 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   // 0x99 底图覆写持久层。放此前 = 避免 TDZ)。
   let world = buildWorld(bootStartWorld, project.actorsById)
   const ditherTransition = new DitherTransitionController<ImageData>()
+  const rngPresentation = new RngPresentationState()
+  let rngLayerCanvas: HTMLCanvasElement | null = null
+  const writeRngLayerFrame = (frame: RngFrameSnapshot): void => {
+    if (!rngLayerCanvas) rngLayerCanvas = document.createElement('canvas')
+    const layer = rngLayerCanvas
+    layer.width = frame.width
+    layer.height = frame.height
+    const layerCtx = get2dContext(layer)
+    const image = layerCtx.createImageData(frame.width, frame.height)
+    image.data.set(frame.rgba)
+    layerCtx.putImageData(image, 0, 0)
+  }
+  /** RNG player 的逐帧出口：只更新 Cinematic Layer，不直接操作主画布或 DOM 层级。 */
+  const presentRngFrame = (frame: RngFrameSnapshot): void => {
+    rngPresentation.present(frame)
+    writeRngLayerFrame(frame)
+  }
+  /** 首段资源加载期间冻结当前完整输出；连续段已有上一张 RNG 末帧，不再另取世界帧。 */
+  const beginRngPlayback = (): void => {
+    let fallback: RngFrameSnapshot | undefined
+    if (!rngPresentation.hasBufferedFrame) {
+      const current = ctx.getImageData(0, 0, canvas.width, canvas.height)
+      fallback = {
+        width: current.width,
+        height: current.height,
+        rgba: new Uint8ClampedArray(current.data),
+      }
+      writeRngLayerFrame(fallback)
+    }
+    rngPresentation.beginPlayback(fallback)
+  }
+  const resetRngPresentation = (): void => {
+    rngPresentation.reset()
+    rngLayerCanvas = null
+  }
+  /** Presentation Pass 2：在 World Layer 之上合成 Cinematic Layer。 */
+  const drawCinematicLayer = (): boolean => {
+    if (!rngPresentation.visibleFrame || !rngLayerCanvas) return false
+    ctx.save()
+    ctx.imageSmoothingEnabled = false
+    ctx.drawImage(rngLayerCanvas, 0, 0, canvas.width, canvas.height)
+    ctx.restore()
+    return true
+  }
   let ditherZeroFrameMatchesBackup: boolean | null = null
   let ditherZeroFrameDiffersFromTarget: boolean | null = null
   const ditherDebugState = () => {
@@ -507,6 +553,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       facing,
       scriptRunning: !!runner,
       dialogActive: dialogBox.active,
+      rngLayerMode: rngPresentation.mode,
+      rngLayerVisible: rngPresentation.visibleFrame !== undefined,
     })
   }
   const markSceneLoad = (from: string, to: string, step: string): void => {
@@ -528,6 +576,39 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     })
   }
   world.script ??= emptyWorldScriptState()
+
+  const runnableStages = (binding: RuntimeScriptBinding): ScriptStage[] =>
+    Array.isArray(binding) ? binding : [{ body: [{ kind: 'callScript', ref: binding }] }]
+
+  /** 解析场景脚本三态:字段缺席继承静态槽,null 显式禁用,绑定则覆盖。 */
+  const sceneScriptBinding = (
+    def: SceneDef,
+    slot: 'onEnter' | 'onTeleport',
+  ): RuntimeScriptBinding | undefined => {
+    const override = world.script?.sceneScriptOverrides?.[def.id]
+    if (override && Object.hasOwn(override, slot)) return override[slot] ?? undefined
+    return def[slot]
+  }
+
+  /** loadScene 前瞻需穿过分片入口,才能在切场景前冻结旧帧交给 0x73。 */
+  const bindingHasEarlyDither = async (
+    key: string,
+    binding: RuntimeScriptBinding | undefined,
+  ): Promise<boolean> => {
+    if (!binding) return false
+    const stages = runnableStages(binding)
+    const stage = stages[stageIndexFor(expectDefined(world.script), key, stages)]
+    if (hasEarlyDitherScreen(stage)) return true
+    const first = stage?.body[0]
+    if (stage?.body.length !== 1 || first?.kind !== 'callScript' || !project.scriptStore)
+      return false
+    const lease = await project.scriptStore.resolve(first.ref, new AbortController().signal)
+    try {
+      return hasEarlyDitherScreen({ body: [...lease.body] })
+    } finally {
+      lease.release()
+    }
+  }
 
   /**
    * 切场景(M2c):取场景定义 → 换图/调色板 → 重建渲染器(烤图缓存随 palette 走)→
@@ -580,7 +661,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         if (!needed.has(k)) spriteByNum.delete(k)
       }
     }
-    // 原子提交
+    // 原子提交。新场景开始即不再属于上一张 RNG 画面。
+    resetRngPresentation()
     scene = def
     map = assets.map
     tiles = assets.tiles
@@ -775,6 +857,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     dialog: (line: DialogueLine) =>
       new Promise((resolve) => {
         preserveClosedDialogFrame = false
+        rngPresentation.enterDialogue()
         dialogBox.open(startDialogue({ id: '__script', lines: [line] }), nowMs)
         scriptDialogResolve = resolve // tick 检测 dialogBox 关闭时兑现
       }),
@@ -855,10 +938,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       markSceneLoad(fromSceneId, sceneId, 'preflight')
       ditherTransition.cancel()
       const targetDef = await getSceneDef(sceneId)
-      const targetStages = targetDef.onEnter
-      const targetStage =
-        targetStages?.[stageIndexFor(expectDefined(world.script), `s:${sceneId}`, targetStages)]
-      const handoffToDither = hasEarlyDitherScreen(targetStage)
+      const targetBinding = sceneScriptBinding(targetDef, 'onEnter')
+      const handoffToDither = await bindingHasEarlyDither(`s:${sceneId}`, targetBinding)
       markSceneLoad(fromSceneId, sceneId, handoffToDither ? 'handoff' : 'fade-out')
       if (handoffToDither) {
         // M2:先关对话状态、但不强制重画；canvas 仍是旧场景最后已呈现帧。
@@ -1046,12 +1127,12 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     shakeScreen: (timeFrames, level) => {
       worldShake = timeFrames > 0 ? { untilMs: nowMs + timeFrames * 40, level } : null
     },
-    // 0x1D 全队增血蓝(客栈/温泉 9999 全满):HP/MP 同加 amount(sdlpal op1 双用),仅活人,clamp
-    increaseHpMp: (amount) => {
+    // 0x1B-1D 全队资源变化:仅活人,clamp；0x1D 缺省 HP/MP 同改。
+    increaseHpMp: (amount, pools) => {
       for (const c of world.party) {
         if (c.hp <= 0) continue
-        c.hp = Math.max(0, Math.min(c.maxHP, c.hp + amount))
-        c.mp = Math.max(0, Math.min(c.maxMP, c.mp + amount))
+        if (pools === 'hp' || pools === 'both') c.hp = Math.max(0, Math.min(c.maxHP, c.hp + amount))
+        if (pools === 'mp' || pools === 'both') c.mp = Math.max(0, Math.min(c.maxMP, c.mp + amount))
       }
     },
     // 0x22 全队复活(仅死者):HP = max×tenths/10 + 解重毒 + 清临时状态(0x22 遍历 RemovePlayerStatus)
@@ -1586,10 +1667,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     // 传送出口(0x38 引路蜂/土灵珠):当前场景有 onTeleport → 内联跑(loadScene 回洞口/城镇),
     // 返回 true;无此槽 → false(调用方走 onFail「引路蜂不灵」)。runner 槽被道具脚本占着 →
     // detached 内联跑(同 Phase E)。0x6D op2 运行时装的出口(赤鬼王血池 s059 打完才装)存
-    // world.onTeleport 覆写,优先于静态 scene.onTeleport —— 否则血池封闭无出口=死锁卡关。
+    // sceneScriptOverrides 覆写优先于静态槽;null 显式禁用,不得回退。
     teleportOut: async () => {
-      const stages = world.script?.onTeleport?.[scene.id] ?? scene.onTeleport
-      if (!stages || (Array.isArray(stages) && stages.length === 0)) return false
+      const binding = sceneScriptBinding(scene, 'onTeleport')
+      if (!binding || (Array.isArray(binding) && binding.length === 0)) return false
       if (world.script) {
         const r = new ScriptRunner(
           scriptHost,
@@ -1598,10 +1679,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           Math.random,
           project.scriptStore,
         )
-        const runnable = Array.isArray(stages)
-          ? stages
-          : [{ body: [{ kind: 'callScript' as const, ref: stages }] }]
-        await r.runStages(`teleport:${scene.id}`, runnable).catch((err: unknown) => {
+        await r.runStages(`teleport:${scene.id}`, runnableStages(binding)).catch((err: unknown) => {
           if (!(err instanceof DOMException && err.name === 'AbortError'))
             console.error('[script] teleportOut', scene.id, err)
         })
@@ -1611,18 +1689,24 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     // 过场编排:播 mp4(videos/{id}.mp4;reforge dev/preview 中间件把 /extracted/* 映射到 data/extracted)。
     // 演出期 runner 活跃 → 游戏循环吞输入,视频 overlay 盖住画布;加载失败 video-player 内部静默 resolve。
     playVideo: (videoId) => playVideoOverlay({ src: `/extracted/videos/${videoId}.mp4` }),
-    // 过场编排:播 RNG 序列图(speed=iSpeed 帧率)。正确调色盘引擎内 RNG_PALETTE 定死(不暴露);
-    // 全屏 canvas overlay,加载失败静默。
+    // 过场编排:播 RNG 序列图(speed=iSpeed 帧率)。播放器逐帧写 Cinematic Layer；
+    // World Layer 在下、对话/UI 在上，播放与末帧保持共用同一条合成路径。
     playRng: async (chunkIdx, opts) => {
       const palette = await getPalette(rngPaletteId(chunkIdx)).catch(() => undefined)
       if (!palette) return
-      await playRngOverlay({
-        chunkIdx,
-        palette,
-        frameDelayMs: opts?.speed ? Math.round(1000 / opts.speed) : 40,
-        startFrame: opts?.startFrame,
-        endFrame: opts?.endFrame,
-      })
+      beginRngPlayback()
+      try {
+        await playRngOverlay({
+          chunkIdx,
+          palette,
+          frameDelayMs: opts?.speed ? Math.round(1000 / opts.speed) : 40,
+          startFrame: opts?.startFrame,
+          endFrame: opts?.endFrame,
+          onFrame: presentRngFrame,
+        })
+      } finally {
+        rngPresentation.finishPlayback()
+      }
     },
     confirm: async () => {
       host.report('confirm 是/否框未实现(暂按"是")')
@@ -1652,6 +1736,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     },
     // 0xA0 游戏通关退出 → 回标题屏(复用系统菜单 quit 的 ?menu 干净重启;未存进度弃)
     quitToTitle: () => {
+      resetRngPresentation()
       location.href = `${location.pathname}?menu`
     },
     report: (msg) => {
@@ -2016,7 +2101,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   }
 
   /** 起一段触发/进场脚本(单脚本槽;收尾后接排队的 onEnter)。 */
-  function startScript(key: string, stages: readonly ScriptStage[], selfId?: string): void {
+  function startScript(key: string, binding: RuntimeScriptBinding, selfId?: string): void {
     if (runner) return
     scriptAbort = new AbortController()
     const r = new ScriptRunner(
@@ -2029,7 +2114,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     r.selfId = selfId
     runner = r
     void r
-      .runStages(key, stages)
+      .runStages(key, runnableStages(binding))
       .catch((err: unknown) => {
         if (!(err instanceof DOMException && err.name === 'AbortError')) {
           console.error('[script]', key, err)
@@ -2047,8 +2132,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         if (pendingOnEnter) {
           const sid = pendingOnEnter
           pendingOnEnter = null
-          if (scene.id === sid && scene.onEnter) {
-            startScript(`s:${sid}`, scene.onEnter)
+          const onEnter = scene.id === sid ? sceneScriptBinding(scene, 'onEnter') : undefined
+          if (onEnter) {
+            startScript(`s:${sid}`, onEnter)
             return // onEnter 续链;auto 档等整链收尾(下一次 finally)
           }
         }
@@ -2079,6 +2165,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     fadeFx?.resolve()
     fadeFx = null
     ditherTransition.cancel()
+    resetRngPresentation()
     fadeBlack = 0
     entityFrameOverride.clear()
     partyGesture = null // 演出态随脚本终止一并清(dev 强停/读档;正常流脚本自清)
@@ -2256,6 +2343,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     }
   }
 
+  /**
+   * 主呈现栈：World Layer → Cinematic Layer(RNG)→ fade → UI Layer → 输出特效(dither)。
+   * RNG 是不透明的中间层，不改写/暂停世界渲染；对话始终由 UI Layer 最后叠加。
+   */
   function render(): void {
     // 对话状态已结束，但持久屏幕的最后文字像素须留给紧随的 loadScene 快照。
     if (preserveClosedDialogFrame) return
@@ -2428,7 +2519,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       drawCollisionOverlay()
       ctx.restore()
     }
-    // M3a fade 遮罩(脚本淡入淡出;盖世界层,对话/菜单在其上)
+    // Presentation Pass 2:Cinematic Layer(RNG)。不活动时 World Layer 原样可见。
+    const cinematicLayerDrawn = drawCinematicLayer()
+    // Presentation Pass 3:fade 遮罩；Presentation Pass 4 的对话/菜单仍在它之上。
     if (fadeBlack > 0.001) {
       ctx.save()
       ctx.fillStyle = `rgba(${fadeCurtain === 'red' ? '150,12,12' : '0,0,0'},${fadeBlack.toFixed(3)})`
@@ -2531,7 +2624,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       ctx.restore()
     }
     // W6 氛围滤镜:一切画完之后全帧 multiply(原版夜盘是全局调色板 —— UI 也染,数据实证)
-    applyAmbienceTint()
+    // RNG 已按其专用 palette 烘成 RGBA，不再套用大世界 ambience；普通世界/UI 保持原有全帧染色。
+    if (!cinematicLayerDrawn) applyAmbienceTint()
     // 0x73 是壳层整屏输出特效，必须放在氛围滤镜之后：backup 来自上一张最终 canvas，
     // target 也取本帧最终 canvas，避免夜景旧像素被重复 multiply。首帧强制 pr=0。
     const dither = ditherTransition.active
@@ -2678,7 +2772,13 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     },
     /** dev:渲染层诊断(fade 卡黑/战斗态排查)。 */
     get renderDebug() {
-      return { fadeBlack, inBattle: !!activeBattle, menuActive: menu.active }
+      return {
+        fadeBlack,
+        inBattle: !!activeBattle,
+        menuActive: menu.active,
+        rngLayerMode: rngPresentation.mode,
+        rngLayerVisible: rngPresentation.visibleFrame !== undefined,
+      }
     },
     /** dev:活动战斗队员态快照(护体符/毒携带验证:status.protect / poisons)。无战斗 = []。 */
     get battlePlayers() {
@@ -2895,8 +2995,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
             if (r.kind === 'teleportOut') {
               // 引路蜂/土灵珠:当前场景有 onTeleport → 消耗道具、关菜单回大世界、跑出口;
               // 无出口 = 「引路蜂不灵」(不消耗、留菜单)。同步查 onTeleport 决定,避开 world 异步竞态。
-              // world.onTeleport 覆写(0x6D op2 运行时装,如血池 s059 打完)优先于静态槽。
-              const teleportScript = world.script?.onTeleport?.[scene.id] ?? scene.onTeleport
+              // 0x6D 运行时覆写优先于静态槽;null 表示此场景明确无出口。
+              const teleportScript = sceneScriptBinding(scene, 'onTeleport')
               if (teleportScript && (!Array.isArray(teleportScript) || teleportScript.length > 0)) {
                 if (project.items[r.itemId]?.use?.consuming) host.loseItem(r.itemId, 1) // 引路蜂消耗;土灵珠宝珠不消耗
                 lastUseCursor = useMenu.cursor
@@ -3074,7 +3174,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
               applyWorldToScene()
               startAutoRunners()
               showToast(`${nextId}(${ids.indexOf(nextId) + 1}/${ids.length})`)
-              if (scene.onEnter) startScript(`s:${scene.id}`, scene.onEnter)
+              const onEnter = sceneScriptBinding(scene, 'onEnter')
+              if (onEnter) startScript(`s:${scene.id}`, onEnter)
             })
             .catch((err: unknown) => showToast(`切场景失败: ${String(err).slice(0, 40)}`))
         }
@@ -3178,7 +3279,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       // 读档失败(槽空/归一化拒/工程不符)→ 落回默认新局:应用世界态 + 跑入口 onEnter。
       applyWorldToScene()
       startAutoRunners()
-      if (scene.onEnter) startScript(`s:${scene.id}`, scene.onEnter)
+      const onEnter = sceneScriptBinding(scene, 'onEnter')
+      if (onEnter) startScript(`s:${scene.id}`, onEnter)
     }
     requestAnimationFrame(tick)
     return
@@ -3243,7 +3345,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     // X5 跳转预览(?pos 落点):dev 跳转意图 = 落地即自由,跳过 onEnter 剧情垫
     //   (同一阶段 dev 跳场景语义;onEnter 的队伍瞬移会劫持落点)。要看进场演出 → 不带 pos。
     showToast(`已跳至 ${scene.id} (${spawnPos.col},${spawnPos.row}) — onEnter 已跳过`)
-  } else if (scene.onEnter) startScript(`s:${scene.id}`, scene.onEnter)
+  } else {
+    const onEnter = sceneScriptBinding(scene, 'onEnter')
+    if (onEnter) startScript(`s:${scene.id}`, onEnter)
+  }
   requestAnimationFrame(tick)
 
   console.log(

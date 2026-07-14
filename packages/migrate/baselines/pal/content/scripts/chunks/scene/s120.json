@@ -2,6 +2,312 @@
   "version": 1,
   "id": "scene/s120",
   "scripts": {
+    "scene/s120/override/on-enter/L-18015/stage-0": [
+      {
+        "kind": "setEntityState",
+        "entity": "e2167",
+        "state": 0
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e2190",
+        "state": 0
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e2191",
+        "state": 0
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e2192",
+        "state": 0
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e2193",
+        "state": 1
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e2194",
+        "state": 1
+      },
+      {
+        "kind": "setParty",
+        "members": [
+          "lin-yueru"
+        ]
+      },
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 51,
+          "row": 14,
+          "height": 0
+        }
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": 0,
+        "dy": 0
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6426",
+          "speaker": "spk.刘夫人",
+          "portrait": {
+            "icon": 67,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6428",
+          "speaker": "spk.李逍遥",
+          "slot": "top",
+          "portrait": {
+            "icon": 6,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6430",
+          "speaker": "spk.林月如",
+          "slot": "top",
+          "portrait": {
+            "icon": 21,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6433",
+          "speaker": "spk.刘夫人",
+          "portrait": {
+            "icon": 67,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6440",
+          "speaker": "spk.刘夫人",
+          "portrait": {
+            "icon": 67,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6444",
+          "speaker": "spk.林月如",
+          "slot": "top",
+          "portrait": {
+            "icon": 21,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6448",
+          "speaker": "spk.刘夫人",
+          "portrait": {
+            "icon": 67,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6452",
+          "speaker": "spk.刘夫人",
+          "portrait": {
+            "icon": 67,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6455",
+          "speaker": "spk.刘夫人",
+          "portrait": {
+            "icon": 67,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6459",
+          "speaker": "spk.刘夫人",
+          "portrait": {
+            "icon": 67,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6462",
+          "speaker": "spk.刘夫人",
+          "portrait": {
+            "icon": 67,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6466",
+          "speaker": "spk.林月如",
+          "slot": "top",
+          "portrait": {
+            "icon": 21,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6468",
+          "speaker": "spk.刘夫人",
+          "portrait": {
+            "icon": 67,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6472",
+          "speaker": "spk.李逍遥低声道",
+          "slot": "top",
+          "portrait": {
+            "icon": 9,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6474",
+          "speaker": "spk.林月如",
+          "portrait": {
+            "icon": 22,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6476",
+          "speaker": "spk.李逍遥",
+          "slot": "top",
+          "portrait": {
+            "icon": 3,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6478",
+          "speaker": "spk.林月如",
+          "portrait": {
+            "icon": 22,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e2163",
+        "script": {
+          "chunk": "scene/s118",
+          "id": "scene/s118/L-17896/e2163/d-89d21e09"
+        }
+      },
+      {
+        "kind": "loadScene",
+        "scene": "s121"
+      }
+    ],
+    "scene/s120/override/on-enter/L-18015/stage-1": [],
     "scene/s120/root/entity-e2189/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",

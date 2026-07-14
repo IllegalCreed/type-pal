@@ -86,6 +86,228 @@
         }
       }
     ],
+    "scene/s008/L-2155/e176/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.755",
+          "slot": "top",
+          "portrait": {
+            "icon": 52,
+            "side": "left"
+          }
+        }
+      }
+    ],
+    "scene/s008/L-2158/e177/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.757",
+          "speaker": "spk.秀兰",
+          "slot": "top",
+          "portrait": {
+            "icon": 35,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.760",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.764",
+          "speaker": "spk.秀兰",
+          "slot": "top",
+          "portrait": {
+            "icon": 35,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.768",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 6,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.771",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 9,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.774",
+          "speaker": "spk.秀兰",
+          "slot": "top",
+          "portrait": {
+            "icon": 34,
+            "side": "left"
+          }
+        }
+      }
+    ],
+    "scene/s008/override/on-enter/L-2124/stage-0": [
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e178",
+        "facing": "left"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e178",
+        "frame": 0
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e176",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e176",
+        "frame": 0
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.746",
+          "speaker": "spk.洪大夫",
+          "slot": "top"
+        }
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 1200
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e176",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e176",
+        "frame": 0
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e178",
+        "state": 0
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e176",
+        "facing": "left"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e176",
+        "frame": 0
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.750",
+          "speaker": "spk.香兰",
+          "slot": "top",
+          "portrait": {
+            "icon": 52,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.753",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e176",
+        "script": {
+          "chunk": "scene/s008",
+          "id": "scene/s008/L-2155/e176/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e177",
+        "script": {
+          "chunk": "scene/s008",
+          "id": "scene/s008/L-2158/e177/d-89d21e09"
+        }
+      }
+    ],
+    "scene/s008/override/on-enter/L-2124/stage-1": [],
     "scene/s008/root/entity-e174/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",

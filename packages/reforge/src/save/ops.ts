@@ -1,5 +1,6 @@
 import {
   type CharacterInstance,
+  checkStages,
   type Facing,
   type GridPos,
   isMapAssetId,
@@ -57,8 +58,77 @@ export function normalizePayload(p: SavePayload): SavePayload {
     c.hiddenExp ??= {}
     c.luck ??= 0 // 后加字段(fleeRate 装备派生刀):旧档缺 → 0(装备加成仍活派生)
   }
+  normalizeSceneScriptOverrides(w.script)
   validateMapOverride(w.script)
   return p
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+function validateRuntimeScriptBinding(value: unknown, path: string): void {
+  if (Array.isArray(value)) {
+    checkStages(value, path)
+    return
+  }
+  if (
+    !isRecord(value) ||
+    typeof value.chunk !== 'string' ||
+    value.chunk.length === 0 ||
+    typeof value.id !== 'string' ||
+    value.id.length === 0
+  )
+    throw new Error(`${path} 必须是 ScriptStage[]、{chunk,id} ScriptRef 或 null`)
+}
+
+function normalizeSceneScriptOverrides(script: WorldState['script']): void {
+  if (!script) return
+  const raw = script as unknown as Record<string, unknown>
+  const legacy = raw.onTeleport
+  const rawOverrides = raw.sceneScriptOverrides
+  if (rawOverrides !== undefined && !isRecord(rawOverrides))
+    throw new Error('存档 world.script.sceneScriptOverrides 必须是“场景 ID → 脚本覆写”对象')
+  let overrides: Record<string, unknown> | undefined = rawOverrides
+
+  if (legacy !== undefined) {
+    if (!isRecord(legacy))
+      throw new Error('旧存档 world.script.onTeleport 必须是“场景 ID → 脚本绑定”对象')
+    if (overrides === undefined) {
+      overrides = {}
+      raw.sceneScriptOverrides = overrides
+    }
+    for (const [sceneId, binding] of Object.entries(legacy)) {
+      validateRuntimeScriptBinding(binding, `旧存档 world.script.onTeleport[${sceneId}]`)
+      const existing = overrides[sceneId]
+      if (existing !== undefined && !isRecord(existing))
+        throw new Error(`存档 world.script.sceneScriptOverrides[${sceneId}] 必须是对象`)
+      if (isRecord(existing) && Object.hasOwn(existing, 'onTeleport'))
+        throw new Error(`旧存档 ${sceneId} 同时存在 onTeleport 旧字段与新覆写,拒绝猜测合并`)
+      const target: Record<string, unknown> = existing ?? {}
+      target.onTeleport = binding
+      overrides[sceneId] = target
+    }
+    delete raw.onTeleport
+  }
+
+  if (overrides === undefined) return
+  for (const [sceneId, override] of Object.entries(overrides)) {
+    if (!isRecord(override))
+      throw new Error(`存档 world.script.sceneScriptOverrides[${sceneId}] 必须是对象`)
+    for (const key of Object.keys(override))
+      if (key !== 'onEnter' && key !== 'onTeleport')
+        throw new Error(
+          `存档 world.script.sceneScriptOverrides[${sceneId}] 含未知槽 ${key};只允许 onEnter/onTeleport`,
+        )
+    for (const slot of ['onEnter', 'onTeleport'] as const) {
+      if (!Object.hasOwn(override, slot) || override[slot] === null) continue
+      validateRuntimeScriptBinding(
+        override[slot],
+        `存档 world.script.sceneScriptOverrides[${sceneId}].${slot}`,
+      )
+    }
+  }
 }
 
 function validateMapOverride(script: WorldState['script']): void {

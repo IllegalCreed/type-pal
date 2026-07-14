@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { checkStages } from './script.js'
+import { checkCommands, checkStages } from './script.js'
 import {
   AUTHORED_SCRIPT_PREFIX,
   checkScriptIndex,
@@ -178,5 +178,11 @@ describe('script library schema', () => {
     expect(() =>
       checkStages([{ body: [{ kind: 'jumpScript', ref: { chunk: '', id: 'bad' } }] }], 'stages'),
     ).toThrow(/ScriptRef/)
+  })
+
+  it('拒绝旧工程的 unmigrated 节点并提示重新迁移', () => {
+    expect(() =>
+      checkCommands([{ kind: 'unmigrated', opcode: 0x78, operands: [0, 0, 0] }], 'legacy-script'),
+    ).toThrow(/旧工程产物,请用迁移器重新生成/)
   })
 })

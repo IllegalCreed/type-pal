@@ -2,6 +2,22 @@
   "version": 1,
   "id": "scene/s131",
   "scripts": {
+    "scene/s131/L-17546/e2293/d-89d21e09": [
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6168"
+        }
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e2318",
+        "script": {
+          "chunk": "scene/s134",
+          "id": "scene/s134/L-17554/e2318/d-89d21e09"
+        }
+      }
+    ],
     "scene/s131/L-36393/e2281/d-89d21e09": [
       {
         "kind": "setPartyFacing",
@@ -127,10 +143,34 @@
     ],
     "scene/s131/L-15999/e2292/d-93633836": [
       {
-        "kind": "unmigrated",
-        "opcode": 0,
-        "operands": [],
-        "note": "目标缺失 L_15999"
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5488",
+          "speaker": "spk.老鸨"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5489",
+          "speaker": "spk.老鸨"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5493",
+          "speaker": "spk.老鸨"
+        }
       }
     ],
     "scene/s131/L-16013/e2292/d-93633836": [
@@ -144,12 +184,232 @@
     ],
     "scene/s131/L-15968/e2292/d-93633836": [
       {
-        "kind": "unmigrated",
-        "opcode": 0,
-        "operands": [],
-        "note": "目标缺失 L_15968"
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5467",
+          "speaker": "spk.老鸨"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5468",
+          "speaker": "spk.老鸨"
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5472",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 2,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5475",
+          "speaker": "spk.老鸨",
+          "slot": "top"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5478",
+          "speaker": "spk.老鸨",
+          "slot": "top"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5481",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 5,
+            "side": "right"
+          }
+        }
       }
     ],
+    "scene/s131/override/on-enter/L-17582/stage-0": [
+      {
+        "kind": "setEntityState",
+        "entity": "e2318",
+        "state": 0
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 59,
+          "row": 40,
+          "height": 0
+        },
+        "speed": "slow"
+      },
+      {
+        "kind": "moveParty",
+        "to": {
+          "col": 59,
+          "row": 42,
+          "height": 0
+        },
+        "speed": "slow"
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      },
+      {
+        "kind": "wait",
+        "ms": 40
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "wait",
+        "ms": 240
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e2294",
+        "state": 2
+      },
+      {
+        "kind": "wait",
+        "ms": 560
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6187",
+          "speaker": "spk.莺莺夫人",
+          "slot": "top",
+          "portrait": {
+            "icon": 56,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6188",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6190",
+          "speaker": "spk.莺莺夫人",
+          "slot": "top",
+          "portrait": {
+            "icon": 56,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6191",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6195",
+          "speaker": "spk.莺莺夫人",
+          "slot": "top",
+          "portrait": {
+            "icon": 56,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6201",
+          "speaker": "spk.莺莺夫人",
+          "slot": "top",
+          "portrait": {
+            "icon": 56,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.6204",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e1824",
+        "script": {
+          "chunk": "scene/s100",
+          "id": "scene/s100/L-17632/e1824/d-89d21e09"
+        }
+      }
+    ],
+    "scene/s131/override/on-enter/L-17582/stage-1": [],
     "scene/s131/root/entity-e2281/page-0/trigger/stage-0": [
       {
         "kind": "callScript",

@@ -1,6 +1,10 @@
 {
   "version": 1,
   "id": "scene/s005",
+  "imports": [
+    "scene/s004",
+    "scene/s014"
+  ],
   "scripts": {
     "scene/s005/L-2664/e123/d-89d21e09": [
       {
@@ -26,9 +30,33 @@
         }
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s014",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s014",
+                  "id": "scene/s014/override/on-enter/L-5132/stage-0"
+                }
+              }
+            ],
+            "next": "advance"
+          },
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s014",
+                  "id": "scene/s014/override/on-enter/L-5132/stage-1"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
         "kind": "dialog",
@@ -2398,19 +2426,36 @@
         }
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s004",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s004",
+                  "id": "scene/s004/override/on-enter/L-903/stage-0"
+                }
+              }
+            ],
+            "next": "advance"
+          },
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s004",
+                  "id": "scene/s004/override/on-enter/L-903/stage-1"
+                }
+              }
+            ]
+          }
+        ]
       }
     ],
-    "scene/s005/L-3746/e128/d-b63b206a": [
-      {
-        "kind": "unmigrated",
-        "opcode": 0,
-        "operands": [],
-        "note": "目标缺失 L_3746"
-      }
-    ],
+    "scene/s005/L-3746/e128/d-b63b206a": [],
     "scene/s005/L-3742/e128/d-d2a47587": [
       {
         "kind": "clearDialog"

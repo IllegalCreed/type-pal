@@ -1,6 +1,9 @@
 {
   "version": 1,
   "id": "scene/s110",
+  "imports": [
+    "scene/s106"
+  ],
   "scripts": {
     "scene/s110/L-16784/e2056/d-89d21e09": [
       {
@@ -68,6 +71,204 @@
         "speed": "run"
       }
     ],
+    "scene/s110/L-16381/e2055/d-89d21e09": [
+      {
+        "kind": "loadScene",
+        "scene": "s109",
+        "pos": {
+          "col": 95,
+          "row": 38,
+          "height": 0
+        }
+      }
+    ],
+    "scene/s110/override/on-enter/L-16974/stage-0": [
+      {
+        "kind": "wait",
+        "ms": 800
+      },
+      {
+        "kind": "shakeScreen",
+        "frames": 0,
+        "level": 4
+      },
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 0,
+          "row": 0,
+          "height": 0
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 2560
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5928",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5930",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      },
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 67,
+          "row": 15,
+          "height": 0
+        }
+      },
+      {
+        "kind": "playSound",
+        "soundId": 26
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5931",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e2059",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e2059",
+        "frame": 0
+      },
+      {
+        "kind": "wait",
+        "ms": 80
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e2060",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e2060",
+        "frame": 0
+      },
+      {
+        "kind": "wait",
+        "ms": 240
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e2059",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e2059",
+        "frame": 1
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e2059",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e2059",
+        "frame": 0
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5933",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 67,
+          "row": 16,
+          "height": 0
+        }
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e2059",
+        "state": 0
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e2060",
+        "state": 0
+      },
+      {
+        "kind": "setActorSprite",
+        "actor": "li-xiaoyao",
+        "sprite": "li-xiaoyao"
+      },
+      {
+        "kind": "setParty",
+        "members": [
+          "li-xiaoyao",
+          "lin-yueru"
+        ]
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5935",
+          "speaker": "spk.李逍遥",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "revivePartyAll",
+        "tenths": 10
+      },
+      {
+        "kind": "increaseHpMp",
+        "delta": 9999
+      }
+    ],
+    "scene/s110/override/on-enter/L-16974/stage-1": [],
     "scene/s110/root/entity-e2055/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
@@ -814,9 +1015,33 @@
         "state": 2
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s106",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s106",
+                  "id": "scene/s106/override/on-enter/L-16627/stage-0"
+                }
+              }
+            ],
+            "next": "advance"
+          },
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s106",
+                  "id": "scene/s106/override/on-enter/L-16627/stage-1"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
         "kind": "fade",

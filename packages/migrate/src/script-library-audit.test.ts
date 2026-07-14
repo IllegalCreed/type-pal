@@ -137,6 +137,38 @@ describe('全库脚本去内联门禁', () => {
     expect(migrated.scriptGraphReport.commands).toBe(43_503)
     expect(migrated.scriptGraphReport.globalRoots).toBeGreaterThan(0)
     expect(migrated.scriptGraphReport.edges.execution).toBeGreaterThan(0)
+    expect(migrated.scriptReport.flowCuts).toBe(0)
+    expect(migrated.scriptReport.gaps).toEqual([])
+    // 旧产物 46 个节点来自 34 个可达源站点被不同 owner 重复展开；报告按源地址去重。
+    expect(migrated.scriptReport.knownNoOps['0x78']).toBe(34)
+    const resolvedByAddress = new Map(
+      migrated.scriptReport.resolvedAddressTargets.map((target) => [
+        target.address,
+        target.operation,
+      ]),
+    )
+    expect(
+      [
+        3746, 3925, 7469, 7566, 14461, 15968, 15999, 17178, 17500, 17718, 19309, 19829, 20355,
+        21220, 23511,
+      ].map((address) => [address, resolvedByAddress.get(address)]),
+    ).toEqual([
+      [3746, 'end'],
+      [3925, 'raw:0x5'],
+      [7469, 'raw:0x5'],
+      [7566, 'end'],
+      [14461, 'raw:0x5'],
+      [15968, 'raw:0x5'],
+      [15999, 'raw:0x5'],
+      [17178, 'end'],
+      [17500, 'setDialogStyleBottom'],
+      [17718, 'raw:0x5'],
+      [19309, 'end'],
+      [19829, 'raw:0x5'],
+      [20355, 'raw:0x5'],
+      [21220, 'raw:0x5'],
+      [23511, 'end'],
+    ])
     expect(audit.ratios.normalized).toBeLessThan(3)
     expect(audit.ratios.pretty).toBeLessThan(3)
     expect(audit.ratios.commands).toBeLessThan(3)

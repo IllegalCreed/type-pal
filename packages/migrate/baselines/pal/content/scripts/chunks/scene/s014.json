@@ -231,6 +231,24 @@
         "musicId": 49
       }
     ],
+    "scene/s014/override/on-enter/L-5132/stage-0": [
+      {
+        "kind": "setParty",
+        "members": [
+          "zhao-linger",
+          "li-xiaoyao"
+        ]
+      },
+      {
+        "kind": "overrideSceneBattle",
+        "musicId": 37
+      },
+      {
+        "kind": "playMusic",
+        "musicId": 70
+      }
+    ],
+    "scene/s014/override/on-enter/L-5132/stage-1": [],
     "scene/s014/root/on-enter/stage-0": [
       {
         "kind": "playMusic",

@@ -2,6 +2,17 @@
   "version": 1,
   "id": "scene/s214",
   "scripts": {
+    "scene/s214/L-31118/e3646/d-89d21e09": [
+      {
+        "kind": "loadScene",
+        "scene": "s228",
+        "pos": {
+          "col": 89,
+          "row": 11,
+          "height": 0
+        }
+      }
+    ],
     "scene/s214/root/on-enter/stage-0": [
       {
         "kind": "playMusic",

@@ -1428,6 +1428,61 @@
     "scene/s206/L-36344/e3494/d-89d21e09": [],
     "scene/s206/L-36356/e3494/d-89d21e09": [],
     "scene/s206/L-36351/e3494/d-89d21e09": [],
+    "scene/s206/override/on-enter/L-29937/stage-0": [
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 34,
+          "row": 3,
+          "height": 0
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10664",
+          "speaker": "spk.李逍遥",
+          "slot": "top",
+          "portrait": {
+            "icon": 1,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "left"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.10667",
+          "speaker": "spk.阿奴",
+          "portrait": {
+            "icon": 29,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      }
+    ],
+    "scene/s206/override/on-enter/L-29937/stage-1": [],
     "scene/s206/root/on-enter/stage-0": [
       {
         "kind": "playMusic",

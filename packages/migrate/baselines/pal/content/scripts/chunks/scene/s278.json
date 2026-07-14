@@ -456,15 +456,6 @@
         "musicId": 0
       },
       {
-        "kind": "unmigrated",
-        "opcode": 120,
-        "operands": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
         "kind": "setMultiEntityState",
         "entities": [
           "e4744",
@@ -790,15 +781,6 @@
         ],
         "boss": true,
         "musicId": 38
-      },
-      {
-        "kind": "unmigrated",
-        "opcode": 120,
-        "operands": [
-          0,
-          0,
-          0
-        ]
       },
       {
         "kind": "playMusic",

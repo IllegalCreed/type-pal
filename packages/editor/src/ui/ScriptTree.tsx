@@ -154,7 +154,10 @@ function describe(cmd: Command, locale: Locale, scriptIndex?: ScriptIndexV1): De
     case 'setEntityLayer':
       return { icon: '📐', label: `${cmd.entity} 图层 → ${cmd.layer}` }
     case 'increaseHpMp':
-      return { icon: '❤', label: `全队 HP/MP ${cmd.delta >= 0 ? '+' : ''}${cmd.delta}` }
+      return {
+        icon: '❤',
+        label: `全队 ${cmd.pools === 'hp' ? 'HP' : cmd.pools === 'mp' ? 'MP' : 'HP/MP'} ${cmd.delta >= 0 ? '+' : ''}${cmd.delta}`,
+      }
     case 'revivePartyAll':
       return { icon: '✨', label: `全队复活(HP=max×${cmd.tenths}/10)` }
     case 'learnSkill':
@@ -179,8 +182,6 @@ function describe(cmd: Command, locale: Locale, scriptIndex?: ScriptIndexV1): De
       return { icon: '🧭', label: `${cmd.entity} 转向 ${cmd.facing}` }
     case 'setEntityFrame':
       return { icon: '🎞', label: `${cmd.entity} 定帧 ${cmd.frame}` }
-    case 'setSceneStage':
-      return { icon: '📜', label: `${cmd.scene} 进场剧情 → 第 ${cmd.stage} 段` }
     case 'setActorAppearance': {
       const parts = [
         cmd.spriteId ? `精灵 ${cmd.spriteId}` : '',
@@ -300,14 +301,17 @@ function describe(cmd: Command, locale: Locale, scriptIndex?: ScriptIndexV1): De
             ? `${cmd.stages.length} 段`
             : '停用',
       }
+    case 'setSceneOnEnter':
     case 'setSceneOnTeleport':
       return {
-        icon: '🌀',
-        label: `${cmd.scene} 装传送出口`,
+        icon: cmd.kind === 'setSceneOnEnter' ? '📜' : '🌀',
+        label: `${cmd.scene} 换${cmd.kind === 'setSceneOnEnter' ? '进场脚本' : '传送出口'}`,
         detail: cmd.script
           ? `${scriptIndex?.library?.[cmd.script.id] ? '共享' : '内部'}引用 ${cmd.script.id}`
           : `${cmd.stages.length} 段`,
       }
+    case 'clearSceneScripts':
+      return { icon: '🚫', label: `${cmd.scene} 禁用进场与传送脚本` }
     case 'callScript':
       return {
         icon: '↪',
@@ -325,13 +329,6 @@ function describe(cmd: Command, locale: Locale, scriptIndex?: ScriptIndexV1): De
         icon: '🔗',
         label: `${cmd.entity} 触发方式`,
         detail: cmd.on ? `${cmd.on}${cmd.range ?? ''}` : '关闭',
-      }
-    case 'unmigrated':
-      return {
-        icon: '⚠',
-        label: `未翻译 op 0x${cmd.opcode.toString(16)}`,
-        detail: cmd.note,
-        warn: true,
       }
   }
 }

@@ -6,9 +6,8 @@
  *   - `/extracted/data/animation/rng-{NN}.rle`(gzip 原始 RNG chunk)→ decompressGzip →
  *     shared decodeRngFrames 解出全帧(每帧 = 完整 320×200 索引面,delta 已在解码累加)。
  *
- * 渲染:自建全屏 `<canvas>`(320×200 背板,object-fit:contain 等比黑边,image-rendering:pixelated),
- *   逐帧把索引像素经 palette 上色成 RGBA ImageData → putImageData,按 frameDelay 推进。
- *   不复用 reforge 的瓦片渲染器(过场是独立全屏叠层,类比 video-player 的 <video> overlay)。
+ * 渲染出口有两种:引擎传 `onFrame` 时只输出 RGBA 帧，由 Cinematic Layer 统一合成；独立预览不传时
+ * 自建全屏 `<canvas>`。播放器只负责解码、上色、计时与跳过键，不决定引擎内的视觉层级。
  *
  * clean 版对齐一阶段 UX(全屏黑底 + 跳过键),但用 canvas 上色而非一阶段的索引 framebuffer。
  * palette 由调用方按过场指定(原版 PAL_SetPalette 在 PAL_RNGPlay 前设);frameDelayMs = 1000/iSpeed。
@@ -41,10 +40,19 @@ export interface PlayRngOptions {
   /** 跳过键(KeyboardEvent.code),默认 Space/Enter/Escape。 */
   skipKeys?: string[]
   containerEl?: HTMLElement
+  /** 引擎呈现栈帧出口；提供后不挂 DOM overlay，由调用方的 Cinematic Layer 合成。 */
+  onFrame?: (frame: RngFrameSnapshot) => void
   /** 测试注入:替换 chunk 加载(免真 fetch)。 */
   loadChunk?: (
     chunkIdx: number,
   ) => Promise<{ frameCount: number; framesByIndex: Map<number, Uint8Array> }>
+}
+
+/** RNG 播放结束时最后一张真正落到屏幕上的 RGBA 帧。供后续对话保持动画末帧。 */
+export interface RngFrameSnapshot {
+  readonly width: number
+  readonly height: number
+  readonly rgba: Uint8ClampedArray
 }
 
 async function defaultLoadChunk(
@@ -80,9 +88,9 @@ function colorFrame(pixels: Uint8Array, palette: Palette, out: ImageData): void 
 
 /**
  * 播 RNG 动画 — sdlpal PAL_RNGPlay 等价。Promise resolve 时机 = 全帧播完 / 跳过键 / 加载失败(warn)。
- * SSR/无 document 直接 resolve(测试友好)。
+ * 成功画过至少一帧时返回最后一帧快照；SSR、加载失败或零帧则返回 undefined。
  */
-export async function playRng(options: PlayRngOptions): Promise<void> {
+export async function playRng(options: PlayRngOptions): Promise<RngFrameSnapshot | undefined> {
   if (typeof document === 'undefined') return
   const skipKeys = new Set(options.skipKeys ?? ['Space', 'Enter', 'Escape'])
   const container = options.containerEl ?? document.body
@@ -104,22 +112,25 @@ export async function playRng(options: PlayRngOptions): Promise<void> {
   const canvas = document.createElement('canvas')
   canvas.width = RNG_WIDTH
   canvas.height = RNG_HEIGHT
-  canvas.style.cssText = [
-    'position:fixed',
-    'top:0',
-    'left:0',
-    'width:100vw',
-    'height:100vh',
-    'object-fit:contain', // 等比 + 黑边
-    'background-color:#000',
-    'image-rendering:pixelated', // 整数放大不糊
-    'z-index:10000',
-  ].join(';')
+  if (!options.onFrame)
+    canvas.style.cssText = [
+      'position:fixed',
+      'top:0',
+      'left:0',
+      'width:100vw',
+      'height:100vh',
+      'object-fit:contain', // 等比 + 黑边
+      'background-color:#000',
+      'image-rendering:pixelated', // 整数放大不糊
+      'z-index:10000',
+    ].join(';')
   const ctx = canvas.getContext('2d')
   if (!ctx) return
   const img = ctx.createImageData(RNG_WIDTH, RNG_HEIGHT)
 
   let skipped = false
+  let rendered = false
+  let lastSnapshot: RngFrameSnapshot | undefined
   const onKey = (e: KeyboardEvent): void => {
     if (!skipKeys.has(e.code)) return
     e.preventDefault()
@@ -127,7 +138,7 @@ export async function playRng(options: PlayRngOptions): Promise<void> {
     skipped = true
   }
   window.addEventListener('keydown', onKey, true)
-  container.appendChild(canvas)
+  if (!options.onFrame) container.appendChild(canvas)
 
   try {
     for (let fi = startFrame; fi <= endFrame; fi++) {
@@ -135,11 +146,29 @@ export async function playRng(options: PlayRngOptions): Promise<void> {
       const pixels = chunk.framesByIndex.get(fi)
       if (!pixels) continue
       colorFrame(pixels, options.palette, img)
-      ctx.putImageData(img, 0, 0)
+      if (options.onFrame) {
+        lastSnapshot = {
+          width: RNG_WIDTH,
+          height: RNG_HEIGHT,
+          rgba: new Uint8ClampedArray(img.data),
+        }
+        options.onFrame(lastSnapshot)
+      } else {
+        ctx.putImageData(img, 0, 0)
+      }
+      rendered = true
       await sleep(frameDelayMs)
     }
   } finally {
     window.removeEventListener('keydown', onKey, true)
     canvas.parentElement?.removeChild(canvas)
   }
+  if (!rendered) return
+  return (
+    lastSnapshot ?? {
+      width: RNG_WIDTH,
+      height: RNG_HEIGHT,
+      rgba: new Uint8ClampedArray(img.data),
+    }
+  )
 }

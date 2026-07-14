@@ -12,17 +12,18 @@ import type {
   DialogueLine,
   Facing,
   GridPos,
+  RuntimeScriptBinding,
   ScriptCondition,
   ScriptRef,
   ScriptStage,
   WalkSpeed,
   WorldScriptState,
 } from '@type-pal/content'
-import { applyStageNext, pixelToGrid, stageIndexFor } from '@type-pal/content'
+import { applyStageNext, stageIndexFor } from '@type-pal/content'
 import { expectDefined } from './defined.js'
 import type { ResolvedScript, ScriptResolver } from './script-chunk-store.js'
 
-export type ScriptBinding = ScriptStage[] | ScriptRef
+export type ScriptBinding = RuntimeScriptBinding
 
 /** 命令的副作用出口 —— main.ts(或测试 fake)实现。所有异步项须响应 signal 取消。 */
 export interface ScriptHost {
@@ -134,9 +135,9 @@ export interface ScriptHost {
     /** 当前场景 id(0x99 当前场景换图的 override 键;缺省实现可返回空串 = 不落 override)。 */
     sceneId?(): string
   }
-  /** unmigrated / 未实现命令上报(dev toast + console;生产静默日志)。 */
+  /** 宿主能力或内容异常上报(dev toast + console;生产静默日志)。 */
   report(msg: string): void
-  // ── 原版 op 运行时兼容层(batch1)的小能力;可选 = 部分 host(choreo/测试)不需要 ──
+  // ── clean 命令的可选宿主能力;部分 host(choreo/测试)不需要 ──
   /** 0x35 震屏(script.c:1521):timeFrames 帧(40ms/帧)内画面上下 ±level;0 = 立即关。 */
   shakeScreen?(timeFrames: number, level: number): void
   /** 0x80 昼夜切换(script.c:2381):world.ambience day↔night 翻转 + fadeMs 渐变
@@ -144,7 +145,7 @@ export interface ScriptHost {
   toggleDayNight?(fadeMs: number): void
   /** 0x1D 全队增血蓝(script.c:923 PAL_IncreaseHPMP(role, op1, op1)):HP/MP **同加** amount
    *  (op2 忽略,sdlpal/一阶段同);仅活人、clamp [0,max]。负数 = 扣(温泉/陷阱两用)。 */
-  increaseHpMp?(amount: number): void
+  increaseHpMp?(amount: number, pools: 'hp' | 'mp' | 'both'): void
   /** 0x22 全队复活(script.c:1052):仅死者;HP = maxHP×tenths/10 + 解重毒(CurePoisonByLevel(3)
    *  ≙ severe)+ 清临时状态(遍历 RemovePlayerStatus ≙ extraStatuses 清空)。 */
   revivePartyAll?(tenths: number): void
@@ -445,7 +446,7 @@ export class ScriptRunner {
         if (cmd.entities[0]) return h.setEntityState(cmd.entities[0], cmd.state)
         return
       }
-      // ── 批 4:runLegacyOp 兜底 op 具名化(逻辑同 runLegacyOp,退役双解释器)──
+      // ── 原版高频 op 的 clean 语义命令 ──
       case 'setEntityPos': {
         // 0x13 实体绝对定位:持久写 entityPos + 活体生效(host)
         this.world.entityPos ??= {}
@@ -471,7 +472,7 @@ export class ScriptRunner {
         this.world.entityLayer[cmd.entity] = cmd.layer
         return
       case 'increaseHpMp':
-        h.increaseHpMp?.(cmd.delta)
+        h.increaseHpMp?.(cmd.delta, cmd.pools ?? 'both')
         return
       case 'revivePartyAll':
         h.revivePartyAll?.(cmd.tenths)
@@ -505,10 +506,6 @@ export class ScriptRunner {
         h.giveMoney(-(money - Math.floor(money / 2)))
         return
       }
-      case 'setSceneStage':
-        // 0x6D:目标场景进场剧情切到指定段(startScript 键 `s:<sceneId>`,stageIndexFor 选段)
-        this.world.entityStage[`s:${cmd.scene}`] = cmd.stage
-        return
       case 'setEntityFacing':
         return h.setEntityFacing(cmd.entity, cmd.facing)
       case 'setEntityFrame':
@@ -604,11 +601,37 @@ export class ScriptRunner {
         return h.cameraSnap(cmd.to)
       case 'setEntityAuto':
         return h.setEntityAuto(cmd.entity, cmd.script ?? cmd.stages)
-      case 'setSceneOnTeleport':
-        // 0x6D op2:运行时装场景传送出口 → 持久写 world(teleportOut/引路蜂菜单读覆写优先)
-        this.world.onTeleport ??= {}
-        this.world.onTeleport[cmd.scene] = cmd.script ?? cmd.stages
+      case 'setSceneOnEnter': {
+        this.world.sceneScriptOverrides ??= {}
+        let override = this.world.sceneScriptOverrides[cmd.scene]
+        if (!override) {
+          override = {}
+          this.world.sceneScriptOverrides[cmd.scene] = override
+        }
+        override.onEnter = cmd.script ?? cmd.stages
         return
+      }
+      case 'setSceneOnTeleport': {
+        this.world.sceneScriptOverrides ??= {}
+        let override = this.world.sceneScriptOverrides[cmd.scene]
+        if (!override) {
+          override = {}
+          this.world.sceneScriptOverrides[cmd.scene] = override
+        }
+        override.onTeleport = cmd.script ?? cmd.stages
+        return
+      }
+      case 'clearSceneScripts': {
+        this.world.sceneScriptOverrides ??= {}
+        let override = this.world.sceneScriptOverrides[cmd.scene]
+        if (!override) {
+          override = {}
+          this.world.sceneScriptOverrides[cmd.scene] = override
+        }
+        override.onEnter = null
+        override.onTeleport = null
+        return
+      }
       case 'setEntityTrigger':
         return h.setEntityTrigger(cmd.entity, cmd.script ?? cmd.stages)
       case 'setEntityTriggerMode':
@@ -617,170 +640,6 @@ export class ScriptRunner {
         return this.callScript(cmd.ref, cmd.self ?? this.selfId, [...path, `call:${cmd.ref.id}`])
       case 'jumpScript':
         throw new ScriptJump(cmd.ref, cmd.self ?? this.selfId)
-      case 'unmigrated':
-        return this.runLegacyOp(cmd, h)
-    }
-  }
-
-  /** 0x36 设的「当前 RNG 序列」(script.c:1537;0x37 播放时消费)。 */
-  private curRngChunk = 0
-
-  /**
-   * 迁移器翻不动的原版 op 的**运行时兼容层**(batch1,2026-07-11)——
-   * 内容文件不动(round-trip 不变式),执行层按 sdlpal script.c 逐 case 精读语义直映射。
-   * jump-family(0x58/0x74/0x83/0x86,带字节码跳转地址,树化后无目标)与状态机类
-   * (0x13/0x9A/0x6D/0x78 等)留 batch2;未覆盖的仍上报。
-   */
-  private async runLegacyOp(
-    cmd: { opcode: number; operands: number[]; note?: string },
-    h: ScriptHost,
-  ): Promise<void> {
-    const a = cmd.operands[0] ?? 0
-    const b = cmd.operands[1] ?? 0
-    const c = cmd.operands[2] ?? 0
-    const i16 = (n: number): number => (n & 0x8000 ? n - 0x10000 : n)
-    switch (cmd.opcode) {
-      case 0x00: // NOP(script.c:3204 default 前的空 op;迁移器留作分支臂占位)
-      case 0x08: // 触发入口推进(script.c:3335 wScriptEntry++)—— stage 推进体系已承担该语义
-        return
-      case 0x35: // 震屏(script.c:1521):time=op0 帧,level=op1||4;time=0 立即关
-        h.shakeScreen?.(a, b || 4)
-        return
-      case 0x36: // 设当前 RNG 序列号(script.c:1537)
-        this.curRngChunk = a
-        return
-      case 0x37: // 播 RNG(script.c:1544 PAL_RNGPlay(cur, op0, op1>0?op1:-1, op2>0?op2:16))
-        return h.playRng(this.curRngChunk, {
-          startFrame: a,
-          endFrame: b > 0 ? b : undefined,
-          speed: c > 0 ? c : 16,
-        })
-      case 0x77: // 停当前音乐(script.c:2215;fade 时长 op0×3s 细节未复刻,直接停)
-        h.playMusic(0)
-        return
-      case 0x80: // 昼夜切换(script.c:2381):toggle + PaletteFade;时长真值 = 一阶段
-        // OP_PALETTE_FADE:op0==0(更新场景)3200ms 渐变,否则 800ms
-        h.toggleDayNight?.(a === 0 ? 3200 : 800)
-        return
-      case 0x1d: // 增血蓝(script.c:923):HP/MP 同加 int16(op1),op2 忽略(sdlpal/一阶段裁决)。
-        // pal 数据 9 处全 op0=1(全队);op0=0 单人形态(事件对象指角色)全游戏未出现,报缺口
-        if (a !== 0) h.increaseHpMp?.(i16(b))
-        else h.report(`unmigrated op 0x1d 单人形态(op0=0)未接`)
-        return
-      case 0x22: // 复活(script.c:1052):仅死者,HP=max×op1/10 + 解重毒 + 清临时状态;数据全 op0=1
-        if (a !== 0) h.revivePartyAll?.(b)
-        else h.report(`unmigrated op 0x22 单人形态(op0=0)未接`)
-        return
-      case 0x55: // 学仙术(script.c:1816):op0=magic id,op1>0 → 角色 op1−1;op1=0(事件对象)未出现
-        if (b > 0) h.learnSkill?.(b - 1, String(a))
-        else h.report(`unmigrated op 0x55 事件对象形态(op1=0)未接`)
-        return
-      case 0x13: {
-        // 实体绝对定位(script.c:716):op0 对象选择器(0/0xFFFF=触发者),op1/op2 = 原版像素
-        // 坐标 → pixelToGrid 换算(与迁移器 partyPosToGrid 同源)。持久 + 活体双写在 host。
-        const ent = a === 0 || a === 0xffff ? this.selfId : `e${a - 1}`
-        if (ent) h.setEntityPos?.(ent, pixelToGrid(b, c))
-        return
-      }
-      case 0x23: // 卸装(script.c:1104):op0=角色号,op1=0 全卸 / op1−1 槽序;卸下退回背包
-        h.unequipRole?.(a, b === 0 ? 'all' : b - 1)
-        return
-      case 0x6f: {
-        // 条件同步状态(script.c:2115):源对象(op0)状态 == int16(op1) → 触发者同设该值
-        // (仙灵岛/村口双态机关门)。源状态:脚本覆写优先,否则活体推导(host)。
-        const src = a === 0 || a === 0xffff ? this.selfId : `e${a - 1}`
-        const self = this.selfId
-        if (!src || !self) return
-        if (h.getEntityState?.(src) === i16(b)) {
-          this.world.entityState[self] = i16(b)
-          h.setEntityState(self, i16(b))
-        }
-        return
-      }
-      case 0x71:
-        // 屏幕水波(一阶段 OP_WAVE_SCREEN:wScreenWave=op0 / sWaveProgression=int16(op1),
-        // present 层每帧消费:32 相位逐行左卷 + 波幅累加,==0/≥256 自灭)。状态入 vars 随存档
-        this.world.vars['sys:screenWave'] = a
-        this.world.vars['sys:waveProgression'] = i16(b)
-        return
-      case 0x98: {
-        // 编外跟随者(script.c:2709 nFollower):op0/op1 >0 = 精灵 chunk 直用(非角色表,
-        // s102 书生 82/83);全 0 = 清。写 world 持久,渲染层队尾按 trail 跟走
-        const fl = [a, b].filter((x) => x > 0)
-        this.world.followers = fl.length ? fl : undefined
-        return
-      }
-      case 0x99: {
-        // 旧数值地图编号只允许出现在迁移输入。迁移器必须把 0x99 翻译为稳定 mapId，
-        // 运行时不再保留第二套数字索引解释器。
-        h.report('op 0x99 未迁移：必须转换为 setSceneMapOverride(mapId)')
-        return
-      }
-      // 0x24(改实体巡逻脚本)/ 0x90(写全局对象 rgwData 槽):各仅 1 站点的低层脚本指针 poke —
-      // 0x24 @s206 把触发实体的 autoScript 重绑成另一实体的躲藏行为(阿奴捉迷藏);0x90 @s138
-      // 写全局对象表 rgObject[n].rgwData[2+k](对象类型相关,无 clean 概念映射)。二者均无干净
-      // 建模、非主线卡点 → 落 report(dev warn + 生产静默),不为 2 个边缘单点建"运行时重绑实体
-      // 脚本"整套机制(content-first:范围错配)。将来若成主线障碍再评估。
-      case 0x24:
-      case 0x90:
-        h.report(`op 0x${cmd.opcode.toString(16)}(单点低层脚本 poke,已知搁置)`)
-        return
-      case 0x76:
-        // ShowFBP(script.c:2199)。全游戏 4 站点(水月宫 s020)全为 op0=0xFFFF「填黑帧缓冲」,
-        // 且前面必有 fade out(一阶段 blackScreenHold 防 FadeIn 旧帧回闪)。reforge 每帧重画
-        // 无陈旧帧缓冲,黑幕(fadeBlack 保持)下实体重排、fade in 揭新景 → 0xFFFF 即 no-op。
-        // 真 FBP 图(op0≠0xFFFF)数据中不存在;若内容工程将来用到再接全屏图演出
-        if (a !== 0xffff) console.warn(`[script] 0x76 ShowFBP 图 ${a} 未实现(数据中无此用法)`)
-        return
-      case 0x7e: {
-        // 实体图层(一阶段 OP_SET_OBJECT_LAYER:sLayer=int16(op1),**只进深度排序键** +8px/层)。
-        // 写 world.script.entityLayer,render 每帧直读(跨场景/存档天然持久)
-        const ent = a === 0 || a === 0xffff ? this.selfId : `e${a - 1}`
-        if (ent) {
-          this.world.entityLayer ??= {}
-          this.world.entityLayer[ent] = i16(b)
-        }
-        return
-      }
-      case 0x8f: {
-        // 金钱减半(一阶段 OP_HALVE_CASH:cash = floor(cash/2);酒剑仙赌局)。
-        // ⚠ delta 形式须扣 (cash − floor(cash/2)):扣 trunc(cash/2) 在奇数上余 ceil,差 1
-        const money = h.query.money()
-        h.giveMoney(-(money - Math.floor(money / 2)))
-        return
-      }
-      case 0x9a: {
-        // 批量设实体状态(script.c:2756):全局对象号区间 [op0,op1] 全设 sState=op2。
-        // 实体 id = 全局号−1(迁移器 entRef 同源),跨场景写 world 持久、进场重放
-        for (let v = a; v <= b && v - a < 512; v++) {
-          this.world.entityState[`e${v - 1}`] = i16(c)
-        }
-        h.setEntityState(`e${a - 1}`, i16(c)) // 通知宿主重放一次(main 侧整场 applyWorldToScene)
-        return
-      }
-      case 0xa3: // CD 音轨播放(script.c:3023):CD 不可用回退 RIX 曲 op1 —— 直接放 op1
-        return h.playMusic(b)
-      case 0x85: // 延时(script.c:2511 UTIL_Delay(op0 × 80ms))
-        return h.wait(a * 80)
-      case 0x8c: {
-        // 颜色渐变(script.c:2582 PAL_ColorFade(delay=op1, color=op0, fFrom=op2)):
-        // 时长 = 64 × (op1×10 || 10)ms(一阶段 OP_COLOR_FADE);fFrom = 从纯色渐回场景。
-        // reforge 无调色板,纯色近似黑幕:from → fade in / to → fade out。
-        const ms = 64 * (b * 10 || 10)
-        return h.fade(c !== 0 ? 'in' : 'out', ms)
-      }
-      case 0x93: {
-        // SceneFade(script.c:2664):step=int16(op0)||1;总时长 ceil(64/|step|)×100ms
-        // (一阶段 OP_SCENE_FADE);step<0 = 渐暗(needToFadeIn 语义由后续 fade in 恢复)
-        const step = i16(a) || 1
-        const ms = Math.ceil(64 / Math.abs(step)) * 100
-        return h.fade(step < 0 ? 'out' : 'in', ms)
-      }
-      case 0x9b: // fade to 当前场景(script.c:2766 VIDEO_FadeScreen(2)≈640ms 渐入)
-        return h.fade('in', 640)
-      default:
-        h.report(`unmigrated op 0x${cmd.opcode.toString(16)} ${cmd.note ?? ''}`)
-        return
     }
   }
 }

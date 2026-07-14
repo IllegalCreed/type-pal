@@ -1,6 +1,9 @@
 {
   "version": 1,
   "id": "scene/s020",
+  "imports": [
+    "scene/s019"
+  ],
   "scripts": {
     "scene/s020/L-5076/e343/d-89d21e09": [
       {
@@ -3855,9 +3858,33 @@
         "range": 2
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s019",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s019",
+                  "id": "scene/s019/override/on-enter/L-4912/stage-0"
+                }
+              }
+            ],
+            "next": "advance"
+          },
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s019",
+                  "id": "scene/s019/override/on-enter/L-4912/stage-1"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
         "kind": "fade",

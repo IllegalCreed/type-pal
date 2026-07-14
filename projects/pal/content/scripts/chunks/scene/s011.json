@@ -1,6 +1,9 @@
 {
   "version": 1,
   "id": "scene/s011",
+  "imports": [
+    "scene/s007"
+  ],
   "scripts": {
     "scene/s011/root/entity-e194/page-0/trigger/stage-0": [
       {
@@ -384,9 +387,33 @@
         "delta": 9999
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s007",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s007",
+                  "id": "scene/s007/override/on-enter/L-2360/stage-0"
+                }
+              }
+            ],
+            "next": "advance"
+          },
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s007",
+                  "id": "scene/s007/override/on-enter/L-2360/stage-1"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
         "kind": "setEntityState",

@@ -124,6 +124,23 @@
         "ms": 40
       }
     ],
+    "scene/s122/override/on-enter/L-20697/stage-0": [
+      {
+        "kind": "playMusic",
+        "musicId": 32
+      }
+    ],
+    "scene/s122/override/on-enter/L-19792/stage-0": [
+      {
+        "kind": "setScreenWave",
+        "level": 2,
+        "progression": 0
+      },
+      {
+        "kind": "playMusic",
+        "musicId": 32
+      }
+    ],
     "scene/s122/root/on-enter/stage-0": [
       {
         "kind": "setPartyFacing",

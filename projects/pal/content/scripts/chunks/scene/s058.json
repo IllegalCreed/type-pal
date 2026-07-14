@@ -1253,15 +1253,6 @@
         "frame": 0
       },
       {
-        "kind": "unmigrated",
-        "opcode": 120,
-        "operands": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
         "kind": "clearDialog"
       },
       {
@@ -1382,15 +1373,6 @@
         ],
         "boss": true,
         "musicId": 45
-      },
-      {
-        "kind": "unmigrated",
-        "opcode": 120,
-        "operands": [
-          0,
-          0,
-          0
-        ]
       },
       {
         "kind": "teleportParty",

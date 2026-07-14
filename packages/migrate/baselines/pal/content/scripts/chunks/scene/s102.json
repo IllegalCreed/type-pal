@@ -63,10 +63,18 @@
     ],
     "scene/s102/L-21220/e1882/d-3d8c2dff": [
       {
-        "kind": "unmigrated",
-        "opcode": 0,
-        "operands": [],
-        "note": "目标缺失 L_21220"
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.7835",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 9,
+            "side": "right"
+          }
+        }
       }
     ],
     "scene/s102/L-16515/e1884/d-89d21e09": [

@@ -482,15 +482,6 @@
         "musicId": 18
       },
       {
-        "kind": "unmigrated",
-        "opcode": 120,
-        "operands": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
         "kind": "playMusic",
         "musicId": 34
       },
@@ -669,13 +660,7 @@
         "kind": "clearDialog"
       },
       {
-        "kind": "unmigrated",
-        "opcode": 160,
-        "operands": [
-          0,
-          0,
-          0
-        ]
+        "kind": "quitToTitle"
       }
     ],
     "scene/s281/root/entity-e4801/page-0/auto/stage-0": [

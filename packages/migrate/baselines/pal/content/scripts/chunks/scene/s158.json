@@ -20,6 +20,382 @@
         }
       }
     ],
+    "scene/s158/L-23279/e2648/d-89d21e09": [
+      {
+        "kind": "moveEntity",
+        "entity": "e2648",
+        "to": {
+          "col": 116,
+          "row": 63,
+          "height": 0
+        },
+        "speed": "slow"
+      }
+    ],
+    "scene/s158/L-23281/e2648/d-89d21e09": [
+      {
+        "kind": "moveEntity",
+        "entity": "e2648",
+        "to": {
+          "col": 113,
+          "row": 63,
+          "height": 0
+        },
+        "speed": "slow"
+      }
+    ],
+    "scene/s158/L-23286/e2649/d-89d21e09": [
+      {
+        "kind": "moveEntity",
+        "entity": "e2649",
+        "to": {
+          "col": 115,
+          "row": 64,
+          "height": 0
+        },
+        "speed": "normal"
+      }
+    ],
+    "scene/s158/override/on-enter/L-23189/stage-0": [
+      {
+        "kind": "setParty",
+        "members": [
+          "li-xiaoyao"
+        ]
+      },
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 116,
+          "row": 64,
+          "height": 0
+        }
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e2648",
+        "state": 2
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e2649",
+        "state": 2
+      },
+      {
+        "kind": "wait",
+        "ms": 240
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.8558",
+          "speaker": "spk.酒剑仙",
+          "portrait": {
+            "icon": 37,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.8560",
+          "speaker": "spk.李逍遥",
+          "slot": "top",
+          "portrait": {
+            "icon": 8,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 240
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e2648",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e2648",
+        "frame": 0
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e2648",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e2648",
+        "frame": 0
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.8562",
+          "speaker": "spk.酒剑仙",
+          "portrait": {
+            "icon": 37,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e2648",
+        "script": {
+          "chunk": "scene/s158",
+          "id": "scene/s158/L-23279/e2648/d-89d21e09"
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 1000
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.8564",
+          "speaker": "spk.酒剑仙",
+          "portrait": {
+            "icon": 37,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.8565",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "learnSkill",
+        "role": 0,
+        "skill": "370"
+      },
+      {
+        "kind": "learnSkill",
+        "role": 0,
+        "skill": "390"
+      },
+      {
+        "kind": "learnSkill",
+        "role": 0,
+        "skill": "393"
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "264"
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "62",
+        "count": 3
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "66",
+        "count": 3
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "63",
+        "count": 3
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "86",
+        "count": 2
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.8570",
+          "speaker": "spk.酒剑仙",
+          "portrait": {
+            "icon": 37,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.8573",
+          "speaker": "spk.酒剑仙",
+          "portrait": {
+            "icon": 37,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.8581",
+          "speaker": "spk.酒剑仙",
+          "portrait": {
+            "icon": 37,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e2648",
+        "script": {
+          "chunk": "scene/s158",
+          "id": "scene/s158/L-23281/e2648/d-89d21e09"
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 640
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.8585",
+          "speaker": "spk.酒剑仙",
+          "portrait": {
+            "icon": 37,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.8588",
+          "speaker": "spk.酒剑仙",
+          "portrait": {
+            "icon": 37,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 80
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e2649",
+        "script": {
+          "chunk": "scene/s158",
+          "id": "scene/s158/L-23286/e2649/d-89d21e09"
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 320
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.8590",
+          "speaker": "spk.林月如",
+          "slot": "top",
+          "portrait": {
+            "icon": 24,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "left"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.8592",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 9,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.8595",
+          "speaker": "spk.林月如",
+          "slot": "top",
+          "portrait": {
+            "icon": 21,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.8596",
+          "speaker": "spk.林月如",
+          "slot": "top",
+          "portrait": {
+            "icon": 21,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e2649",
+        "state": 0
+      },
+      {
+        "kind": "setParty",
+        "members": [
+          "li-xiaoyao",
+          "lin-yueru"
+        ]
+      }
+    ],
+    "scene/s158/override/on-enter/L-23189/stage-1": [],
     "scene/s158/root/entity-e2644/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",

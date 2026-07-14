@@ -393,17 +393,6 @@
           }
         }
       ]
-    },
-    {
-      "body": [
-        {
-          "kind": "callScript",
-          "ref": {
-            "chunk": "scene/s036",
-            "id": "scene/s036/root/on-enter/stage-1"
-          }
-        }
-      ]
     }
   ],
   "battleMusicId": 37

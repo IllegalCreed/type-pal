@@ -230,8 +230,9 @@ const DETERMINISTIC_PREFIX_KINDS = new Set<Command['kind']>([
   'setMultiEntityState',
   'setParty',
   'setPartyFacing',
+  'setSceneOnEnter',
   'setSceneOnTeleport',
-  'setSceneStage',
+  'clearSceneScripts',
   'setScreenWave',
   'setVar',
   'addVar',
@@ -241,7 +242,6 @@ const DETERMINISTIC_PREFIX_KINDS = new Set<Command['kind']>([
   'teleportParty',
   'toggleDayNight',
   'unequip',
-  'unmigrated',
   'unmountParty',
   'vanishEntity',
 ])

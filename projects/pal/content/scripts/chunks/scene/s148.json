@@ -2,14 +2,7 @@
   "version": 1,
   "id": "scene/s148",
   "scripts": {
-    "scene/s148/L-23511/e2433/d-73471b9e": [
-      {
-        "kind": "unmigrated",
-        "opcode": 0,
-        "operands": [],
-        "note": "目标缺失 L_23511"
-      }
-    ],
+    "scene/s148/L-23511/e2433/d-73471b9e": [],
     "scene/s148/L-23297/e2429/d-89d21e09": [
       {
         "kind": "setEntityState",
@@ -1145,15 +1138,6 @@
         "kind": "startBattle",
         "team": 293,
         "boss": true
-      },
-      {
-        "kind": "unmigrated",
-        "opcode": 120,
-        "operands": [
-          0,
-          0,
-          0
-        ]
       },
       {
         "kind": "revivePartyAll",

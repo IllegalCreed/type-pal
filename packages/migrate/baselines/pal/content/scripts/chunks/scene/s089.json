@@ -1,6 +1,9 @@
 {
   "version": 1,
   "id": "scene/s089",
+  "imports": [
+    "scene/s084"
+  ],
   "scripts": {
     "scene/s089/L-35650/e1661/d-89d21e09": [
       {
@@ -494,9 +497,33 @@
         "facing": "down"
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s084",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s084",
+                  "id": "scene/s084/override/on-enter/L-14024/stage-0"
+                }
+              }
+            ],
+            "next": "advance"
+          },
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s084",
+                  "id": "scene/s084/override/on-enter/L-14024/stage-1"
+                }
+              }
+            ]
+          }
+        ]
       }
     ],
     "scene/s089/root/entity-e1650/page-0/trigger/stage-1": [

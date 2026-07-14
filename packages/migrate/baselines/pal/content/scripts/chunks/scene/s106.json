@@ -1,7 +1,657 @@
 {
   "version": 1,
   "id": "scene/s106",
+  "imports": [
+    "scene/s110"
+  ],
   "scripts": {
+    "scene/s106/override/on-enter/L-16627/stage-0": [
+      {
+        "kind": "playMusic",
+        "musicId": 26
+      },
+      {
+        "kind": "setActorSprite",
+        "actor": "li-xiaoyao",
+        "sprite": "npc-232"
+      },
+      {
+        "kind": "setParty",
+        "members": [
+          "li-xiaoyao"
+        ]
+      },
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 87,
+          "row": 29,
+          "height": 0
+        }
+      },
+      {
+        "kind": "playSound",
+        "soundId": 123
+      },
+      {
+        "kind": "wait",
+        "ms": 320
+      },
+      {
+        "kind": "playSound",
+        "soundId": 190
+      },
+      {
+        "kind": "cameraPan",
+        "dx": 0,
+        "dy": 4,
+        "frames": 40
+      },
+      {
+        "kind": "wait",
+        "ms": 160
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5794",
+          "speaker": "spk.石长老",
+          "portrait": {
+            "icon": 60,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5796",
+          "speaker": "spk.盖罗娇",
+          "slot": "top",
+          "portrait": {
+            "icon": 44,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5800",
+          "speaker": "spk.石长老",
+          "portrait": {
+            "icon": 60,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 320
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5802",
+          "speaker": "spk.盖罗娇",
+          "slot": "top",
+          "portrait": {
+            "icon": 44,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5805",
+          "speaker": "spk.轿中之人",
+          "slot": "top"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5807",
+          "speaker": "spk.盖罗娇",
+          "slot": "top",
+          "portrait": {
+            "icon": 44,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5812",
+          "speaker": "spk.轿中之人",
+          "slot": "top",
+          "portrait": {
+            "icon": 44,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5814",
+          "speaker": "spk.盖罗娇",
+          "slot": "top",
+          "portrait": {
+            "icon": 44,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5818",
+          "speaker": "spk.石长老",
+          "portrait": {
+            "icon": 60,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "setParty",
+        "members": [
+          "anu",
+          "gai-luojiao",
+          "anu"
+        ]
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "148",
+        "count": 9
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "138",
+        "count": 9
+      },
+      {
+        "kind": "startBattle",
+        "team": 37,
+        "auto": true,
+        "boss": true,
+        "fieldId": 23,
+        "musicId": 18,
+        "choreography": [
+          {
+            "at": "turnStart",
+            "once": true,
+            "body": [
+              {
+                "kind": "dialog",
+                "line": {
+                  "text": "dlg.13219",
+                  "speaker": "spk.赵灵儿"
+                }
+              },
+              {
+                "kind": "dialog",
+                "line": {
+                  "text": "dlg.13221",
+                  "speaker": "spk.石长老"
+                }
+              },
+              {
+                "kind": "dialog",
+                "line": {
+                  "text": "dlg.13222"
+                }
+              },
+              {
+                "kind": "dialog",
+                "line": {
+                  "text": "dlg.13223"
+                }
+              },
+              {
+                "kind": "dialog",
+                "line": {
+                  "text": "dlg.13224"
+                }
+              },
+              {
+                "kind": "dialog",
+                "line": {
+                  "text": "dlg.13226",
+                  "speaker": "spk.赵灵儿"
+                }
+              },
+              {
+                "kind": "dialog",
+                "line": {
+                  "text": "dlg.13227"
+                }
+              },
+              {
+                "kind": "dialog",
+                "line": {
+                  "text": "dlg.13229",
+                  "speaker": "spk.石长老"
+                }
+              },
+              {
+                "kind": "dialog",
+                "line": {
+                  "text": "dlg.13230"
+                }
+              },
+              {
+                "kind": "dialog",
+                "line": {
+                  "text": "dlg.13232",
+                  "speaker": "spk.李逍遥"
+                }
+              },
+              {
+                "kind": "dialog",
+                "line": {
+                  "text": "dlg.13233"
+                }
+              },
+              {
+                "kind": "dialog",
+                "line": {
+                  "text": "dlg.13235",
+                  "speaker": "spk.石长老"
+                }
+              },
+              {
+                "kind": "dialog",
+                "line": {
+                  "text": "dlg.13236"
+                }
+              },
+              {
+                "kind": "dialog",
+                "line": {
+                  "text": "dlg.13238",
+                  "speaker": "spk.李逍遥"
+                }
+              },
+              {
+                "kind": "dialog",
+                "line": {
+                  "text": "dlg.13240",
+                  "speaker": "spk.石长老"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "overrideSceneBattle",
+        "musicId": 37
+      },
+      {
+        "kind": "playMusic",
+        "musicId": 18
+      },
+      {
+        "kind": "setParty",
+        "members": [
+          "li-xiaoyao"
+        ]
+      },
+      {
+        "kind": "loseItem",
+        "itemId": "148",
+        "count": 9
+      },
+      {
+        "kind": "loseItem",
+        "itemId": "138",
+        "count": 9
+      },
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 98,
+          "row": 40,
+          "height": 0
+        }
+      },
+      {
+        "kind": "cameraSnap"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5820",
+          "speaker": "spk.石长老",
+          "portrait": {
+            "icon": 60,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5822",
+          "speaker": "spk.盖罗娇",
+          "slot": "top",
+          "portrait": {
+            "icon": 44,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5825",
+          "speaker": "spk.盖罗娇",
+          "slot": "top",
+          "portrait": {
+            "icon": 44,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5828",
+          "speaker": "spk.石长老",
+          "portrait": {
+            "icon": 60,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5830",
+          "speaker": "spk.盖罗娇",
+          "slot": "top",
+          "portrait": {
+            "icon": 44,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5834",
+          "speaker": "spk.盖罗娇",
+          "slot": "top",
+          "portrait": {
+            "icon": 44,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5838",
+          "speaker": "spk.石长老",
+          "portrait": {
+            "icon": 60,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5841",
+          "speaker": "spk.盖罗娇",
+          "slot": "top",
+          "portrait": {
+            "icon": 44,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5844",
+          "speaker": "spk.盖罗娇",
+          "slot": "top",
+          "portrait": {
+            "icon": 44,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5848",
+          "speaker": "spk.石长老",
+          "portrait": {
+            "icon": 60,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5853",
+          "speaker": "spk.盖罗娇",
+          "slot": "top",
+          "portrait": {
+            "icon": 44,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e1983",
+        "state": 0
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e1984",
+        "state": 1
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e1979",
+        "dx": -16,
+        "dy": 8
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5856",
+          "speaker": "spk.石长老",
+          "portrait": {
+            "icon": 60,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5859",
+          "speaker": "spk.盖罗娇",
+          "slot": "top",
+          "portrait": {
+            "icon": 44,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5861",
+          "speaker": "spk.石长老",
+          "portrait": {
+            "icon": 60,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "playMusic",
+        "musicId": 0
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.5862",
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "shakeScreen",
+        "frames": 30,
+        "level": 4
+      },
+      {
+        "kind": "wait",
+        "ms": 560
+      },
+      {
+        "kind": "playSound",
+        "soundId": 175
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 1280
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e1990",
+        "script": {
+          "chunk": "scene/s107",
+          "id": "scene/s107/L-15495/e1990/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e2055",
+        "script": {
+          "chunk": "scene/s110",
+          "id": "scene/s110/L-16381/e2055/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e1927",
+        "script": {
+          "chunk": "scene/s104",
+          "id": "scene/s104/L-21170/e1927/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setSceneOnEnter",
+        "scene": "s110",
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s110",
+                  "id": "scene/s110/override/on-enter/L-16974/stage-0"
+                }
+              }
+            ],
+            "next": "advance"
+          },
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s110",
+                  "id": "scene/s110/override/on-enter/L-16974/stage-1"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "loadScene",
+        "scene": "s110"
+      }
+    ],
+    "scene/s106/override/on-enter/L-16627/stage-1": [],
     "scene/s106/root/on-enter/stage-0": [
       {
         "kind": "playMusic",

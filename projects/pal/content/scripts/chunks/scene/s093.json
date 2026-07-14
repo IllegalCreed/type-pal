@@ -332,15 +332,6 @@
     ],
     "scene/s093/L-13783/e1759/d-60de72ce": [
       {
-        "kind": "unmigrated",
-        "opcode": 120,
-        "operands": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
         "kind": "setEntityState",
         "entity": "e1758",
         "state": 0
@@ -1682,15 +1673,6 @@
               }
             ]
           }
-        ]
-      },
-      {
-        "kind": "unmigrated",
-        "opcode": 120,
-        "operands": [
-          0,
-          0,
-          0
         ]
       },
       {

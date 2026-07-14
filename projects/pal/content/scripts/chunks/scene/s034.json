@@ -1,6 +1,10 @@
 {
   "version": 1,
   "id": "scene/s034",
+  "imports": [
+    "scene/s036",
+    "scene/s037"
+  ],
   "scripts": {
     "scene/s034/L-35650/e579/d-89d21e09": [
       {
@@ -107,14 +111,38 @@
         "range": 2
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s036",
-        "stage": 1
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s036",
+                  "id": "scene/s036/override/on-enter/L-36203/stage-0"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s037",
-        "stage": 1
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s037",
+                  "id": "scene/s037/override/on-enter/L-36203/stage-0"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
         "kind": "setEntityAuto",

@@ -1,6 +1,9 @@
 {
   "version": 1,
   "id": "scene/s128",
+  "imports": [
+    "scene/s119"
+  ],
   "scripts": {
     "scene/s128/L-19311/e2245/d-89d21e09": [
       {
@@ -156,9 +159,21 @@
         "state": 0
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s119",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s119",
+                  "id": "scene/s119/override/on-enter/L-19364/stage-0"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
         "kind": "loadScene",
@@ -178,14 +193,7 @@
         "musicId": 32
       }
     ],
-    "scene/s128/L-19309/e2245/d-fbdb0f7e": [
-      {
-        "kind": "unmigrated",
-        "opcode": 0,
-        "operands": [],
-        "note": "目标缺失 L_19309"
-      }
-    ],
+    "scene/s128/L-19309/e2245/d-fbdb0f7e": [],
     "scene/s128/L-19306/e2245/d-fbdb0f7e": [
       {
         "kind": "clearDialog"

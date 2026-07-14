@@ -1,6 +1,9 @@
 {
   "version": 1,
   "id": "scene/s002",
+  "imports": [
+    "scene/s004"
+  ],
   "scripts": {
     "scene/s002/L-3075/e38/d-89d21e09": [
       {
@@ -425,9 +428,33 @@
     ],
     "scene/s002/root/entity-e37/page-0/trigger/stage-0": [
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s004",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s004",
+                  "id": "scene/s004/override/on-enter/L-3531/stage-0"
+                }
+              }
+            ],
+            "next": "advance"
+          },
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s004",
+                  "id": "scene/s004/override/on-enter/L-3531/stage-1"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
         "kind": "setEntityTrigger",

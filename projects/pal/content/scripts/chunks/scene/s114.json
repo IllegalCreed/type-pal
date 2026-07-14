@@ -2,6 +2,29 @@
   "version": 1,
   "id": "scene/s114",
   "scripts": {
+    "scene/s114/override/on-enter/L-17192/stage-0": [
+      {
+        "kind": "playMusic",
+        "musicId": 52
+      }
+    ],
+    "scene/s114/override/on-enter/L-20697/stage-0": [
+      {
+        "kind": "playMusic",
+        "musicId": 32
+      }
+    ],
+    "scene/s114/override/on-enter/L-19792/stage-0": [
+      {
+        "kind": "setScreenWave",
+        "level": 2,
+        "progression": 0
+      },
+      {
+        "kind": "playMusic",
+        "musicId": 32
+      }
+    ],
     "scene/s114/root/on-enter/stage-0": [
       {
         "kind": "playMusic",

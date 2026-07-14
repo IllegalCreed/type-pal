@@ -9,6 +9,12 @@
 | 审计单元 | 5(事件解释器主体 / autoScript 巡逻 / 触发器系统 / 走位骑乘相机 / 页切换状态机 setPalette) |
 | 方法 | sdlpal C 真值语义 → 一阶段逐函数对照(含 git log 踩坑)→ reforge 逐函数对照(✅/⚠️/❌/✨)→ 缺口 + 风险 + 行动 |
 
+> **时效说明（2026-07-14）**：本文是 2026-07-05 的审计快照，其中关于可执行 `unmigrated`、
+> 旧 opcode 运行时兼容层和“缺 label 即目标缺失”的现状描述已被
+> [R2 任务](../../ops/tasks/R2-script-single-model.md)取代。当前规则是：可执行内容只有 clean `Command`；
+> 迁移缺口只写 `MigrationGap` 并阻断生成；全局脚本地址按 `all.json.commands[n]` 解析。本文仍保留原始证据与
+> 当时缺口，不能再作为这三项的当前实现真值。
+
 > 全文行号锚点都基于上述 commit。判断必有 `文件:行`。
 >
 > 本子系统是 reforge 重写最重的一块。一阶段 `event-system.ts`(5583 行)在三套 cursor(trigger / autoScript / battle runScript)+ 单一 `applyRawOpcode` 分发上叠了大量修补;reforge 用「原生 async AST 树遍历 + AbortSignal」从架构上消解了多数坑,但**仍有一批因语义折叠 / 内容层决策引入的新缺口**,见各单元「缺口」。

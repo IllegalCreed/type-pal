@@ -1,6 +1,9 @@
 {
   "version": 1,
   "id": "scene/s205",
+  "imports": [
+    "scene/s206"
+  ],
   "scripts": {
     "scene/s205/L-29700/e3441/d-89d21e09": [
       {
@@ -1265,9 +1268,33 @@
         "speed": "run"
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s206",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s206",
+                  "id": "scene/s206/override/on-enter/L-29937/stage-0"
+                }
+              }
+            ],
+            "next": "advance"
+          },
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s206",
+                  "id": "scene/s206/override/on-enter/L-29937/stage-1"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
         "kind": "loadScene",
@@ -1488,9 +1515,33 @@
         "speed": "run"
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s206",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s206",
+                  "id": "scene/s206/override/on-enter/L-29937/stage-0"
+                }
+              }
+            ],
+            "next": "advance"
+          },
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s206",
+                  "id": "scene/s206/override/on-enter/L-29937/stage-1"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
         "kind": "loadScene",

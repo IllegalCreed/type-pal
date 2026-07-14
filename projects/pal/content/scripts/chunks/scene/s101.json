@@ -956,6 +956,122 @@
         "soundId": 78
       }
     ],
+    "scene/s101/override/on-enter/L-21484/stage-0": [
+      {
+        "kind": "playMusic",
+        "musicId": 35
+      },
+      {
+        "kind": "setEntityState",
+        "entity": "e1909",
+        "state": 2
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e1908",
+        "dx": 32,
+        "dy": 0
+      },
+      {
+        "kind": "setEntityTrigger",
+        "entity": "e1908",
+        "script": {
+          "chunk": "scene/s103",
+          "id": "scene/s103/L-21515/e1908/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e1908",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e1908",
+        "frame": 0
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -16,
+        "dy": 8
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "nudgeParty",
+        "dx": -16,
+        "dy": 8
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "down",
+        "member": 1
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.7945",
+          "speaker": "spk.林月如",
+          "slot": "top",
+          "portrait": {
+            "icon": 25,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "up"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.7947",
+          "speaker": "spk.林月如",
+          "slot": "top",
+          "portrait": {
+            "icon": 22,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.7952",
+          "speaker": "spk.李逍遥",
+          "portrait": {
+            "icon": 1,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "overrideSceneBattle",
+        "fieldId": 20
+      },
+      {
+        "kind": "playMusic",
+        "musicId": 35
+      }
+    ],
     "scene/s101/root/on-enter/stage-0": [
       {
         "kind": "playMusic",

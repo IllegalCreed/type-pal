@@ -1,6 +1,9 @@
 {
   "version": 1,
   "id": "scene/s188",
+  "imports": [
+    "scene/s182"
+  ],
   "scripts": {
     "scene/s188/root/on-enter/stage-0": [
       {
@@ -836,9 +839,33 @@
         }
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s182",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s182",
+                  "id": "scene/s182/override/on-enter/L-27448/stage-0"
+                }
+              }
+            ],
+            "next": "advance"
+          },
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s182",
+                  "id": "scene/s182/override/on-enter/L-27448/stage-1"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
         "kind": "setEntityTrigger",

@@ -1,6 +1,9 @@
 {
   "version": 1,
   "id": "scene/s036",
+  "imports": [
+    "scene/s037"
+  ],
   "scripts": {
     "scene/s036/L-35650/e604/d-89d21e09": [
       {
@@ -141,16 +144,16 @@
         "soundId": 78
       }
     ],
+    "scene/s036/override/on-enter/L-36203/stage-0": [
+      {
+        "kind": "setAmbience",
+        "ambience": "night"
+      }
+    ],
     "scene/s036/root/on-enter/stage-0": [
       {
         "kind": "setAmbience",
         "ambience": "day"
-      }
-    ],
-    "scene/s036/root/on-enter/stage-1": [
-      {
-        "kind": "setAmbience",
-        "ambience": "night"
       }
     ],
     "scene/s036/root/entity-e600/page-0/trigger/stage-0": [
@@ -393,9 +396,33 @@
         "musicId": 0
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s037",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s037",
+                  "id": "scene/s037/override/on-enter/L-8857/stage-0"
+                }
+              }
+            ],
+            "next": "advance"
+          },
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s037",
+                  "id": "scene/s037/override/on-enter/L-8857/stage-1"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
         "kind": "loadScene",

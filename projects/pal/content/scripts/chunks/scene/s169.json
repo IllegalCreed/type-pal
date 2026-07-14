@@ -1,6 +1,9 @@
 {
   "version": 1,
   "id": "scene/s169",
+  "imports": [
+    "scene/s145"
+  ],
   "scripts": {
     "scene/s169/root/on-enter/stage-0": [
       {
@@ -86,9 +89,21 @@
         }
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s145",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s145",
+                  "id": "scene/s145/override/on-enter/L-23975/stage-0"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
         "kind": "loadScene",

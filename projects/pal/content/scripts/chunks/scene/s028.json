@@ -1,6 +1,9 @@
 {
   "version": 1,
   "id": "scene/s028",
+  "imports": [
+    "scene/s026"
+  ],
   "scripts": {
     "scene/s028/L-41075/e524/d-5cef7d3f": [
       {
@@ -77,15 +80,6 @@
         "fieldId": 24
       },
       {
-        "kind": "unmigrated",
-        "opcode": 120,
-        "operands": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
         "kind": "setMultiEntityState",
         "entities": [
           "e438",
@@ -138,9 +132,33 @@
         "state": 0
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s026",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s026",
+                  "id": "scene/s026/override/on-enter/L-6781/stage-0"
+                }
+              }
+            ],
+            "next": "advance"
+          },
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s026",
+                  "id": "scene/s026/override/on-enter/L-6781/stage-1"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
         "kind": "loadScene",

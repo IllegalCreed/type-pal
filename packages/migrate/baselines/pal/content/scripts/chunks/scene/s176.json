@@ -10286,6 +10286,17 @@
         "self": "e2943"
       }
     ],
+    "scene/s176/L-27729/e2916/d-89d21e09": [
+      {
+        "kind": "loadScene",
+        "scene": "s174",
+        "pos": {
+          "col": 61,
+          "row": 17,
+          "height": 0
+        }
+      }
+    ],
     "scene/s176/root/on-enter/stage-0": [
       {
         "kind": "playMusic",

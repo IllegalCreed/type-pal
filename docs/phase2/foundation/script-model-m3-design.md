@@ -3,7 +3,9 @@
 > 2026-07-02。基于:①全库字节码普查(43,503 指令/160 opcode,统计见 §1);②B2 v0 草稿
 > (`script-system-design.md`,定了结构化嵌套 AST 的大方向);③一阶段 event-system.ts 的
 > 全部架构教训(CLAUDE.md 工程经验节)。**本文定 M3 的完整方案:AST v1、翻译分层、
-> 解释器架构、分期验收。** 铁律不变:单解释器、无 opcode 兼容层、翻不动的进逃生口人工修。
+> 解释器架构、分期验收。**2026-07-14 R2 修订**：本文原先的可执行 `unmigrated`“逃生口”已经退役；
+> 现在只有迁移期 `MigrationGap`，可达缺口会阻断生成，不进入 content/editor/runtime。其余历史设计仍作为 M3
+> 决策背景保留。
 
 ## 0. 一句话
 
@@ -83,11 +85,11 @@ interface EntityPage {
 | `switchEntityPage{entity,page}` | 0x24/0x25/0x40 | 见 §2.2 |
 | `advanceStage{entity?,to?}` | 0x01/0x02(1,699) | 脚本末尾推进/重置触发阶段;翻译器自动插入 |
 | `camera{...}`(v0 已有,补 pan 语义) | 0x7F(317) | 相对 pan(一阶段教训:绝对回正毁演出) |
-| `unmigrated{opcode,operands,note}` | 长尾兜底 | **逃生口**:结构上翻过来、语义标未译;dev 构建 toast+日志,编辑器列表待人工 |
+| `MigrationGap`（仅迁移器内部） | 长尾诊断 | 记录源地址/opcode/operands/归属/引用路径/原因；可达缺口阻断写盘，不属于 `Command` |
 
 Condition 增量:`chance`(0x06)、`entityState{entity,is}`(0x94 jumpIfObjState)、
 `hasMoney{atLeast}`(0x1E 减钱分支)、`inParty{actorId}`(0x79)。其余低频条件跳(≤26 次)
-按需加,加不动的走 unmigrated。
+按需增加 clean 命令；暂时不能翻译的可达站点必须作为迁移缺口失败，不能进入工程内容。
 
 ### 2.4 触发器
 
@@ -109,8 +111,8 @@ range 0-3)→ touch。SceneDef 增 `onEnter?: Script`(146 场景)。`use` 挂 It
 3. **结构重建层(conditional 14.7%)**:基本块 + 跳转族 31 op 清单 → 单臂失败旁路 →
    `branch{then}`;startBattle 双臂;end.advance/reset → stages+advanceStage;
    goto 单前驱内联、多前驱提成共享 Script(callScript);回跳仅认 autoScript 循环形。
-4. **逃生口(长尾)**:unmigrated 命令 + 置信报告(场景/实体/op/次数),编辑器人工修。
-   普查显示真 spaghetti 极少(goto-only 触发 5 条)——预算人工 <50 处。
+4. **阻塞诊断(长尾)**:`MigrationGap` + 分类报告(源地址/场景/实体/op/引用路径/原因)。
+   先补迁移语义或明确改写方案，再允许生成；不再输出可执行占位节点。
 
 **label→Script 命名**:`s005/e127/t0`(场景/实体/触发段序)、共享段 `shared/L_35639`;
 callScript 目标全部提名。翻译是**整库一遍**(跨场景 label 引用,M2 朝向折叠已建全局索引)。
@@ -137,14 +139,14 @@ callScript 目标全部提名。翻译是**整库一遍**(跨场景 label 引用
 |---|---|---|
 | **M3a 骨架+线性** | AST schema/guard + 解释器核(dialog/teleport/loadScene/give/fade/wait/music)+ 翻译模式层+线性层 + onEnter | 盛渔村:进门出门(666 门)、NPC 对话、宝箱拾取、进场音乐/落位全走脚本;`?scene=` 任意逛 |
 | **M3b 状态+分支** | flags/entityState/stages/页切换 + branch/chance/battle 双臂(桩)+ 商店 + autoScript 巡逻/动画 runner | 码头市集活起来(游走小贩/招牌动画);多阶段对话推进;商店可买卖 |
-| **M3c 演出+长尾** | camera/moveParty 编排/parallel/RNG 播片位 + callScript 共享库 + 置信报告驱动人工修 | 开场 → 出村完整剧情链;unmigrated 清单收敛到人工可扫 |
+| **M3c 演出+长尾** | camera/moveParty 编排/parallel/RNG 播片位 + callScript 共享库 + 迁移诊断 | 开场 → 出村完整剧情链；可执行产物零 `unmigrated`，可达 gap 为 0 |
 
 编辑器侧(B2/C 系列):M3 只交付**数据模型 + 只读脚本树查看器**(验证眼睛);
 可视化编辑/模板表单是 C-track,另排。
 
 ## 6. 已拍板 / 遗留
 
-- ✅ 单解释器、无兼容执行器(P0-5/6 不复活);unmigrated 是数据不是代码路径。
+- ✅ 单解释器、无兼容执行器(P0-5/6 不复活)；R2 已进一步删除可执行 `unmigrated` 数据节点，缺口只存在于迁移报告。
 - ✅ 实体状态/阶段一等公民(不是 flag 命名约定)—— 编辑器可做专用 UI。
 - ✅ 翻译整库一遍 + 全局 label 索引;共享段命名 `shared/*`。
 - ⏳ choice(多选项)原版不存在(只有 0x0A 是/否)——保留 v0 设计给新内容。

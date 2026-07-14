@@ -1,6 +1,10 @@
 {
   "version": 1,
   "id": "scene/s092",
+  "imports": [
+    "scene/s081",
+    "scene/s084"
+  ],
   "scripts": {
     "scene/s092/L-36365/e1688/d-89d21e09": [
       {
@@ -887,9 +891,33 @@
         "state": 1
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s084",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s084",
+                  "id": "scene/s084/override/on-enter/L-14553/stage-0"
+                }
+              }
+            ],
+            "next": "advance"
+          },
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s084",
+                  "id": "scene/s084/override/on-enter/L-14553/stage-1"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
         "kind": "loadScene",
@@ -1085,15 +1113,6 @@
         "musicId": 40
       },
       {
-        "kind": "unmigrated",
-        "opcode": 120,
-        "operands": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
         "kind": "setEntityState",
         "entity": "e1693",
         "state": 0
@@ -1117,9 +1136,21 @@
         }
       },
       {
-        "kind": "setSceneStage",
+        "kind": "setSceneOnEnter",
         "scene": "s081",
-        "stage": 0
+        "stages": [
+          {
+            "body": [
+              {
+                "kind": "callScript",
+                "ref": {
+                  "chunk": "scene/s081",
+                  "id": "scene/s081/override/on-enter/L-14707/stage-0"
+                }
+              }
+            ]
+          }
+        ]
       },
       {
         "kind": "loadScene",

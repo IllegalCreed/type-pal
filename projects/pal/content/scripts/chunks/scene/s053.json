@@ -147,6 +147,218 @@
         }
       }
     ],
+    "scene/s053/L-10156/e905/d-89d21e09": [
+      {
+        "kind": "moveEntity",
+        "entity": "e905",
+        "to": {
+          "col": 85,
+          "row": -7,
+          "height": 0
+        },
+        "speed": "slow"
+      },
+      {
+        "kind": "moveEntity",
+        "entity": "e905",
+        "to": {
+          "col": 85,
+          "row": 8,
+          "height": 0
+        },
+        "speed": "slow"
+      },
+      {
+        "kind": "moveEntity",
+        "entity": "e905",
+        "to": {
+          "col": 77,
+          "row": 8,
+          "height": 0
+        },
+        "speed": "slow"
+      }
+    ],
+    "scene/s053/override/on-enter/L-10659/stage-0": [
+      {
+        "kind": "teleportParty",
+        "pos": {
+          "col": 81,
+          "row": -9,
+          "height": 0
+        }
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e904",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e904",
+        "frame": 1
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e905",
+        "facing": "right"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e905",
+        "frame": 0
+      },
+      {
+        "kind": "wait",
+        "ms": 240
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e905",
+        "facing": "up"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e905",
+        "frame": 0
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3780",
+          "speaker": "spk.韩医仙",
+          "portrait": {
+            "icon": 65,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3784",
+          "speaker": "spk.赵灵儿",
+          "slot": "top",
+          "portrait": {
+            "icon": 15,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3787",
+          "speaker": "spk.韩医仙",
+          "portrait": {
+            "icon": 65,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3790",
+          "speaker": "spk.韩医仙",
+          "portrait": {
+            "icon": 65,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3795",
+          "speaker": "spk.赵灵儿",
+          "slot": "top",
+          "portrait": {
+            "icon": 17,
+            "side": "left"
+          }
+        }
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3797",
+          "speaker": "spk.韩医仙",
+          "portrait": {
+            "icon": 65,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "line": {
+          "text": "dlg.3800",
+          "speaker": "spk.韩医仙",
+          "portrait": {
+            "icon": 65,
+            "side": "right"
+          }
+        }
+      },
+      {
+        "kind": "setEntityAuto",
+        "entity": "e905",
+        "script": {
+          "chunk": "scene/s053",
+          "id": "scene/s053/L-10156/e905/d-89d21e09"
+        }
+      },
+      {
+        "kind": "setEntityFacing",
+        "entity": "e904",
+        "facing": "down"
+      },
+      {
+        "kind": "setEntityFrame",
+        "entity": "e904",
+        "frame": 0
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      },
+      {
+        "kind": "loadScene",
+        "scene": "s052",
+        "pos": {
+          "col": 84,
+          "row": 28,
+          "height": 0
+        }
+      },
+      {
+        "kind": "setActorSprite",
+        "actor": "li-xiaoyao",
+        "sprite": "li-xiaoyao"
+      },
+      {
+        "kind": "setPartyFacing",
+        "facing": "right"
+      }
+    ],
+    "scene/s053/override/on-enter/L-10659/stage-1": [],
     "scene/s053/root/entity-e903/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",

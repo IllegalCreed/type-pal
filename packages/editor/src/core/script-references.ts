@@ -121,7 +121,10 @@ export function buildScriptReferenceIndex(state: EditorState): ScriptProjectDiag
     }
 
     if (
-      (kind === 'setEntityAuto' || kind === 'setEntityTrigger' || kind === 'setSceneOnTeleport') &&
+      (kind === 'setEntityAuto' ||
+        kind === 'setEntityTrigger' ||
+        kind === 'setSceneOnEnter' ||
+        kind === 'setSceneOnTeleport') &&
       isScriptRef(command.script)
     ) {
       pushRef(references, command.script, {
