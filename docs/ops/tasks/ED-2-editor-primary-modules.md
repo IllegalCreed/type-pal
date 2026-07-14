@@ -254,13 +254,12 @@ interface EditorLocation {
 ## 下一位 Agent 提示词
 
 ```text
-接手 ED-2 实现审查。
+接手任务: ED-2 八个一级模块与稳定深链,实现复核(GLM)
 任务卡: docs/ops/tasks/ED-2-editor-primary-modules.md
-当前状态: review；Codex build/自测完成并已签 accept，Opus 与 GLM 审查签字 pending。
-你的角色: Claude Opus，做信息架构、状态边界、代码质量与视觉复验；先读 AGENTS.md、docs/phase2/READ-FIRST.md、本卡上下文锚点和 docs/phase2/editor/editor-design.md §5.1/§11。
-实现要点: 八模块与全部子页由 packages/editor/src/ui/editor-navigation.ts 单一注册表派生；URL 为 module/page/object；失效 object 显式空态；15 个旧数据页只挂载一次；场景->地图、角色->精灵、共享脚本使用统一链接；窄屏自动收起。
-已有证据: editor 18 文件/150 项测试全过；根 pnpm check 为 3449 项通过、1 项既有跳过、Biome 657 文件通过；Codex 已在 1280/900/720 验证全部模块/子页、history、持久化、失效深链和三类跨模块跳转，6012 服务可用。
-请重点复核: (1)registry 是否真为导航/解析/测试单源；(2)push/replace/popstate 是否可能循环或偷选对象；(3)模块记忆和工程切换是否串状态；(4)720/900 布局是否覆盖；(5)是否误改 EditSession、Command、保存或 schema 边界。
-输出: 无问题则把本卡 Opus done 前签字改为 accept，并追加交接日志与给 GLM 的下一位提示词后提交；有问题签 counter，列出 file:line、复现和最小返工要求。
-限制: 审查阶段默认不改实现文件；不得在 GLM 也 accept 前标记 done；无需让用户重复执行技术验收。
+实现提交: b8c824d1;当前状态 review;Codex accept + Opus accept,GLM pending,不得标 done
+你的角色: GLM,覆盖/测试矩阵复核;只审文档与代码,不改实现
+Opus 已过: 注册表唯一真源(15 旧页恰好一次+子页≤5 专项测试);popstate 'none' 单向无循环+sameEditorLocation 守卫+对象 replace;记忆 per-projectId localStorage 零串扰;720/900 活体零溢出零重叠;失效深链"目标不存在"不偷选;core/content/schema 零触碰;150 测试复跑绿。
+请你复核: (1)验收条款逐项对照实现(URL 编解码/非法兜底/objectId 转义/back-forward、旧页恰好一次、跨模块跳转三例、状态恢复)与测试映射,列缺口;(2)editor-design §5.1/§11 文档与实现一致性;(3)DataMode 退役后的可见入口审计(不再有"数据"一级入口,15 页全部可达);(4)SharedScriptTab/ActorMode 等受改文件的行为回归点抽查。在 done 签字 GLM 行签 accept/counter,更新交接日志
+不要做: 不改实现;GLM accept 前不标 done
+输出要求: 结论、缺口清单、提交 hash
 ```
