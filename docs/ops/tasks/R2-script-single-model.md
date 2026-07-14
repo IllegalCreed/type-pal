@@ -110,10 +110,56 @@ Branch: current
 
 - Codex: **agree（2026-07-14）**。当前 66 项已逐类核对；17 个“目标缺失”是地址索引缺陷，必须先修迁移器。
 - Opus: **agree（2026-07-14,附 R1-R3 必改 + S1 建议;含本人 M3 期结论的公开修正）**。独立重验:43,503 全局命令、4,123 显式 label 且 **L_n===下标 n 零例外**(全量断言),15 个唯一缺失地址逐一为有效命令(0x5/end/setDialogStyleBottom 类收尾点,仅无显式 label)——**我 M3 期"源数据悬空指针"结论确证错误**,根因是只验了 label 存在性、未验地址有效性;Codex 的根因定位(labelAt 只登记显式 label)与修法(全地址索引+一致性断言)正确。0x6D 一阶段真值(event-system:4987-5005 both-zero 双清)与 tri-state 契约同构;s059=[60,0,11870]/s172=[183,0,0] 产物复核一致;runLegacyOp 注释自认"运行时兼容层…0x6D/0x78 留 batch2",第二解释器删除有据。统一 sceneScriptOverrides 裁定采纳(优于双散槽:单一归一化路径/单一三态契约/both-zero 一命令双槽);JSON null 作 tombstone 序列化安全,undefined 禁用正确。详见主审立场。
-- GLM: pending
-- counter / 分歧处理: 无；等待 Opus 审架构与 0x6D 状态表达，GLM 审覆盖矩阵与迁移门禁。
+- GLM: **agree（2026-07-14;附 N1-N2 非阻塞,见下）**。四项复核逐条：
+
+  **(1) 66 项分类矩阵完备性——46+17+2+1 四类证据链与"最终去向"文档要求**：
+
+  全量独立实测（递归 grep PAL 产物 chunks）：
+  - **46 × 0x78**：实测 46 个 `opcode:120` 节点，operands 全部 `[0,0,0]`（零例外）。✅ 验收 §88"unmigrated 为 0"+ §93"0x78 迁移期丢弃+已知 no-op 统计"映射 F2。
+  - **17 × opcode 0 / 目标缺失**：实测 17 个 `opcode:0` 节点（15 个唯一地址，2 个地址各出现 2 次：L_3925 in s009×2、L_17718 in s100×2）。15 个唯一地址 `[3746,3925,7469,7566,14461,15968,15999,17178,17500,17718,19309,19829,20355,21220,23511]` 全部 < 43,503 且目标命令无显式 label。目标命令种类：`end`/`raw[0,0,0]`/`setDialogStyleBottom`（收尾类）。✅ 验收 §88"17 个地址目标均翻译为真实脚本"映射 F1（全地址索引）。
+  - **2 × 0x6D**：s059 `.14` operands `[60,0,11870]`、s172 `.0` operands `[183,0,0]` 精确匹配。✅ 验收 §89"0x6D 四形态"映射 F2。
+  - **1 × 0xA0**：s281 `.82`（83 节点末尾=结局脚本）operands `[0,0,0]` 精确匹配。✅ 验收 §90"s281 结局回标题"映射 F2。
+  - **L_n===index n 不变量**：4,123 显式 label 全量断言零例外（Opus 已独立验证，我确认方法一致）。✅ 根因定位正确：`labelAt` 只登记显式 label（migrate-content.ts:1401-1409 `if (c.label && ...)`），漏掉无 label 但有有效下标的地址。
+  - **"最终去向"文档要求**（验收 §100）：46+17+2+1 四类各有明确处理路径（no-op 丢弃/地址索引翻译/tri-state 映射/quitToTitle），可验收。✅
+
+  **矩阵完备性：零漏项。**
+
+  **(2) 测试矩阵逐条映射**：
+
+  - **全地址索引**：验收 §93 映射 F1。`labelAt` 改为 `allAddressAt[n]` 或等价，为每个有效 n 提供 `L_n→commands[n]`。✅ 可测。
+  - **15 地址逐项**：验收 §93"15 个唯一缺 label 地址"。每个地址目标命令种类（end/raw/样式）可独立断言。✅ 可测。
+  - **0x78 no-op**：验收 §93。迁移期丢弃+报告计数。✅
+  - **0x6D 四形态**（op1-only / op2-only / both-set / both-zero）：验收 §89。**当前 translate-events.test.ts:275-283 只覆盖 op1-only（emit setSceneStage 占位）+ op2-only 落 unmigrated（错误）**。一阶段真值 event-system.test.ts:4587-4624 四形态全覆盖（含 both-zero 双清）。**build 必落：迁移测试升级为四形态，镜像一阶段真值。** ✅ 方向明确。
+  - **0xA0→quitToTitle**：验收 §93。当前 translate-events.ts 无 0xA0 分支（落 unmigrated）。✅ build 补。
+  - **未知可达命令失败**：验收 §91"错误包含源地址/opcode/operands/归属/引用路径"。✅ MigrationGap 结构（§134）支撑。
+  - **静态扫描（三包+产物零 unmigrated / 全仓零 runLegacyOp）**：验收 §94。**实测当前命中点**：content(script.ts:181 类型定义+注释)、reforge(script-runner.ts:620-634 runLegacyOp+case 'unmigrated'+report 分支+dither-transition.ts:244 allowlist+6 test)、editor(CommandForm.tsx/ScriptTree.tsx/command-catalog.ts)。**关键发现：runLegacyOp 当前不处理 0x6D/0x78/0xA0**（docblock 自认"留 batch2"）——49 个残余节点运行时静默 fall-through。**这意味着删除 runLegacyOp 没有现存运行时行为需要保留，删除更安全。** ✅ 静态门禁 grep 口径可执行（命中点即删除清单）。
+
+  **测试矩阵缺口**：
+  - **flowCuts=0 无测试断言**：验收 §95"flowCuts=0"——当前 `grep flowCuts *.test.ts` 零命中（仅 translate-events.ts:58,64,489,1183,1201 读写）。**build 必落：补 flowCuts=0 测试断言。** ⚠ 非阻塞，build 必落。
+  - 0x6D 迁移四形态升级（如上）。⚠ 非阻塞，build 必落。
+
+  **(3) M3/MG2 门禁回归口径**：
+
+  - **M3 43,503 覆盖**：script-library-audit.test.ts:137 `expect(migrated.scriptGraphReport.commands).toBe(43_503)` 已存在。✅
+  - **flowCuts=0**：如上，无断言，build 必落。⚠
+  - **体积门禁不放宽**：script-library-audit.test.ts 既有体积门禁（compact/pretty/commands/closure）。✅
+  - **MG2 双跑零计划**：pal-migration-integration.test.ts:57-117"二次严格空计划"+ :119-131"已建基线回归空计划"已存在（asserts writes=0/deletes=[]/conflicts=[]）。✅
+
+  **(4) R1 归一化的测试可操作性**：
+
+  - R1 = 旧存档归一化规格：`world.onTeleport`（N6 期形态）逐字段映射进新 `sceneScriptOverrides`；未知/异型 fail-loud（援引 W7F save/ops.ts:65-72 先例）；补"禁用态(null)经存档往返仍为 null、不回退静态脚本"专测。
+  - **可操作性**：W7F 的 `validateMapOverride`（reforge/save/ops.ts:64-79）已是同模式先例（数字→throw + 回归测试 ops.test.ts:75-93）。R1 照此实现 `validateSceneScriptOverrides`：旧数字/异型→throw + null 往返专测。✅ 完全可操作。
+  - **null tombstone 往返**：JSON.stringify 保 null（不丢），JSON.parse 回 null。专测 = serialize {onEnter:null} → parse → assert null 不回退静态。✅ 秒级单测。
+
+  **总结**：66 项分类矩阵零漏项（46+17+2+1 全独立实测，L_n===n 不变量零例外）；测试矩阵基本完整，两处 build 必落（flowCuts=0 断言 + 0x6D 四形态升级）；M3/MG2 门禁已有覆盖（43,503+双跑零计划）；R1 归一化可操作（W7F 先例可复制）。**agree**。
+
+  **N1-N2 非阻塞（build 必落）**：
+  - **N1**：补 `flowCuts===0` 测试断言——当前零命中，验收 §95 要求但无测试钉死。
+  - **N2**：0x6D 迁移测试从 op1-only 升级为四形态——镜像一阶段 event-system.test.ts:4587-4624 真值。
+
+- counter / 分歧处理: 无。Opus 无架构 counter;R1-R3 为设计补明,GLM 覆盖复核无 counter,标 N1-N2(flowCuts 断言+0x6D 四形态测试)build 必落。
 - 缺签豁免: N/A
-- build 准入结论: **blocked**
+- build 准入结论: **三签齐（Codex agree + Opus agree + GLM agree），build allowed。** R1-R3 必改 + N1-N2(flowCuts=0 断言+0x6D 迁移四形态升级)纳入 build 范围。
 
 ### 进入 done 前:审查签字
 
@@ -206,7 +252,7 @@ Branch: current
 
 - Codex: 赞成内容层零 `unmigrated`、迁移期 fail-loud；推荐统一 tri-state 场景脚本覆写状态。
 - Opus: 全面同意,统一 sceneScriptOverrides 采纳(R2 钉范围防吞 mapOverride)。**公开修正**:M3 期我把 17 个目标缺失签为"源数据悬空指针"是错误结论(只验 label 存在、未验地址有效),本卡地址索引方案是对该错误的根治;占位 opcode-0 进产物的责任链含我的审计放行。
-- GLM: pending
+- GLM: **agree**。66 项分类矩阵零漏项(46+17+2+1 全独立实测,L_n===n 零例外,15 地址逐一有效);测试矩阵基本完整,两处 build 必落(flowCuts=0 断言缺失+0x6D 迁移四形态升级);M3/MG2 门禁已有覆盖(43,503+双跑零计划);R1 归一化可操作(W7F save/ops 先例可复制)。关键发现:runLegacyOp 当前不处理 0x6D/0x78/0xA0(docblock"留 batch2"),49 残余运行时静默 fall-through——删除更安全无现存行为需保留。N1(flowCuts 断言)+N2(0x6D 四形态)非阻塞。
 - 用户拍板: 用户要求按推荐顺序推进；本卡三签齐前不实现。
 
 ## 额度 / 代班记录(如适用)
@@ -253,6 +299,7 @@ Branch: current
 - 2026-07-14 Codex: 完成现状复核并建立 R2 设计。证据：PAL 产物 66 项递归统计；`all.json` 43,503
   条命令/4,123 显式 label 全量下标断言；15 个唯一缺失地址逐项读取均为有效命令。Next: Opus 设计主审，禁止实现。
 - 2026-07-14 Opus: 设计主审签 **agree + R1-R3 必改 + S1 建议**。独立重验:L_n===下标 n 全量断言零例外;15 个缺失地址逐一有效(0x5/end/样式类收尾点)——**公开修正本人 M3 期"源悬空"错误结论**(只验 label 存在性之误)。0x6D 真值同构/产物双站点复核一致/runLegacyOp 兼容层自认。裁定:统一 sceneScriptOverrides 采纳。R1=旧存档归一化规格+null 往返专测;R2=统一槽不吞 W7F mapOverride;R3=旧节点拒绝文案特判导向重迁。Evidence: 主审立场六点+重验脚本输出。Next: GLM 覆盖复核(66 项分类矩阵/四形态测试/静态扫描口径);三签齐后 Codex 按分期 1-5 build。未改实现文件。
+- 2026-07-14 GLM: 设计复核签 **agree**。四项独立实测：(1)66 项矩阵零漏项——46×0x78(全[0,0,0])+17×opcode0(15唯一地址,全<43503无label,L_n===n零例外)+2×0x6D(s059[60,0,11870]/s172[183,0,0])+1×0xA0(s281结局[0,0,0])，根因 labelAt 只登记显式 label 确认；(2)测试矩阵基本完整,两处 build 必落——flowCuts=0 无断言(当前零命中)+0x6D 迁移仅 op1-only 需升级四形态(一阶段 event-system.test:4587-4624 已有四形态真值)；(3)M3/MG2 门禁——43,503 覆盖断言已有(script-library-audit.test:137)+MG2 双跑零计划已有(pal-migration-integration.test:57-131)；(4)R1 可操作——W7F save/ops.ts:64-79 validateMapOverride 先例可复制+null 往返秒级单测。关键发现:runLegacyOp 不处理 0x6D/0x78/0xA0(docblock"留batch2"),49 残余运行时静默 fall-through,删除更安全。N1-N2 非阻塞。Evidence: 设计签字 GLM 行。Next: Codex 落 R1-R3 + N1-N2;三签齐已 build allowed。未改实现文件。
 
 ## 下一位 Agent 提示词
 
