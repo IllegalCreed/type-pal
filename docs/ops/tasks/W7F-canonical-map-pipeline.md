@@ -197,10 +197,58 @@ editor 此后只认识这一种地图模型。所有迁移地图与作者地图�
   demo/e2e-own 工程加载验证；实现符合单一 ProjectMapV2、实例高度、懒加载/copy-through 和
   地图编辑闭环设计。等待 Opus/GLM 独立复验。
 - Opus: **accept**（2026-07-14,基线 c2589fb2;五点复核全过——①静态边界独立 grep:content/reforge/editor 零 Tilemap/reuseOriginalMap/lower-upper/word 解码;②M2 落地实锤:save/ops.ts:65-72 对数字 mapOverride 显式抛"旧存档…无法安全转换",fail-loud;③M3 按"undo 引用禁淘汰"落地且双测试钉住(edit-session.test:151 干净图可淘汰/撤销链触及图保存后仍 pin/切图后可 undo;project-io.test:195 未加载图 copy-through 不 parse),定向 96+22 测试独立复跑绿;④0x99 双站点产物 s230/s243 setSceneMapOverride mapId,renderer/collision 测试绿,**6051 前台运行时实测**:开场 16s 可控(dither 零帧锚 true)→s001→s003 跨场景渲染正常(中心亮度 147)、console 零 error;⑤6010 实测:223 图地图库(共享计数正确,map-104/164 在库)、＋⧉✎− 四操作、图层列表+吸管带实例高度+聚焦开关、高度输入接受超当前最大值(M5a 数值输入方案落地)。M1/M4 抽验实锤:project-map-audit 语义位往返失败即抛(3,653,632 实例差异 0 即其产物);formatProjectMapV2 单一来源于 content+字节幂等测试+editor 共享断言。**审查方法学注记**:复验初期测得 6051 "1fps",追查为 Chrome 后台标签 rAF 节流伪装的假回归(置前台即 119.5fps 满帧)——M3 审查期同症疑云同因,CLI 浏览器验证必须 bringToFront,已记入工作方法。无返工项）
-- GLM: pending
-- counter / 返工处理: pending
+- GLM: **accept（2026-07-14;见下）**
+- counter / 返工处理: 无。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **三方 done 前审查签字齐（Codex + Opus + GLM accept），交用户验收。**
+
+### GLM done 前覆盖复验（2026-07-14）
+
+增量范围：c2589fb2（实现）+ 8add57a5（Opus 复验签 accept，仅改任务卡）。未改实现文件，独立实测 + 全包测试复跑。四包 820 tests pass + 1 skip（content 172 / reforge 329 / editor 163 / migrate 156+1skip）。
+
+**(1) M1 审计脚本可复现性 + ad-hoc 数字替换** ✅
+- `pnpm --filter @type-pal/migrate audit:maps` 独立实跑，输出逐位匹配：`mapCount:223 / latticeInstances:3653632 / semanticRoundTripMismatchCount:0 / sizeRatio:0.487759`。
+- 审计源 `project-map-audit.ts` 全量扫描 223 图 × 每子格（非采样），残差 mask `0xe000c000`（bits 14-15/29-31），V2→重编码往返等式 `semanticRoundTripMismatchCount!==0` 即 throw（:160-161）。
+- F1 审计发现已记录（§417-426）：残差位 4 处（map 133/188/195）+ 空 top 孤立高度 3 处（map 77/133），raw word 差异 6 处但语义字段 3,653,632 全等。
+- **设计签时标的"70 不可复现"问题已由 M1 脚本产出权威数字解决**：多高度 `(tileset,layer,tileId)` 实测 14,148（非卡的 14,160）；卡内 ad-hoc 数字已由 F1 审计结果替换。
+
+**(2) 静态边界门禁实测 grep 零命中** ✅
+- `Tilemap`：content/reforge/editor 零命中。
+- `reuseOriginalMap`：content/reforge/editor 零命中。
+- `cell.lower/upper`：content/reforge/editor 零命中。
+- 三模式独立 grep 全部 zero，旧格式仅存于 pal-extract/migrate 输入侧。F6 门禁通过。
+
+**(3) 迁移覆盖测试矩阵逐条映射** ✅
+- **223 图产出**：`projects/pal/content/maps/` 实测 223 个 `map-NNN.json` + index.json（`maps.length===223`）；map-104/164 在库且文件存在。pal-migration-integration.test.ts:82,143 断言 `validation.maps===223`。✅
+- **294 场景 / s294 排除**：场景目录实测 294 个（s000-s293），无 s294.json。`pal-migration-io.ts:56-68` 精确 stub 断言（mapNum===0 + eventObjects=[]）+ `scenes.slice(0,294)`。✅（注：stub 排除分支无独立单测，经 integration test 覆盖——非阻塞）
+- **共享 mapNum 复用同 id**：294 场景引用 221 个不同 mapId，59 个共享，max 4 场景/mapId。`mapIdFromSourceNumber` 单测覆盖 id 格式。✅（注：多场景同 mapNum→同 mapId 无独立单测，行为经输出验证——非阻塞）
+- **0x99 双站点→mapId**：translate-events.ts:700-705 emit `setSceneMapOverride{mapId}`（resolver mapIdForNum 注入），无 mapNum 泄漏。✅
+- **SceneDef 只剩 mapId**：content/index.ts:115-118 `SceneDef.mapId:string`，无 reuseOriginalMap/ownMap/mapNum；projects/pal 全 294 场景 grep 零旧字段。✅
+- **MG2 双表**：migration-merge.test.ts:113-150 `/maps` id 合并 + 同 id 冲突；migration-bootstrap.test.ts:45-64 `/maps` 语义路径。✅
+- **dry-run 幂等**：`migrate:content` 实测 `writes=0 deletes=0 conflicts=0`，ref-warnings=0。✅
+
+**(4) S1/S2 落地确认 + 体积门禁复算** ✅
+- **S1**：migration-baseline.ts:62 `isAtomicProjectMapPath` 跳过正文写入；`_state.json` 含 223×2 map hash 条目，`baselines/pal/content/maps/` 只有 index.json（零 per-map 正文）。merge 走 `sameAtomic`（hash 相等性，migration-plan.ts:80-82）+ `mergeAtomicMapFile`。baseline Git 负重从 ~48MiB 降至零。✅
+- **S2**：project-map.ts:11 `heights?` 可选；guard :107-108 flat 层不要求 heights，:113-121 缺失=全零、flat 层非零高度 throw；normalize :129-133 输出省略 flat 层 heights。project-map.test.ts:71-86 覆盖。✅
+- **体积门禁**：sizeRatio 0.487759 < 1.25，远低于上限。源 102.7MiB → V2 50.1MiB。✅
+
+**(5) M2/M3/M4 落地确认** ✅
+- **M2**（旧数字 mapOverride 拒载）：`reforge/src/save/ops.ts:70-73` 对数字 mapOverride throw（"旧存档…数字地图编号 N，无法安全转换"）。ops.test.ts:75-93 回归测试。**注：卡内路径锚点 `editor/src/core/save/ops.ts:65-72` 有误，实际在 `reforge/src/save/ops.ts:64-79`——editor 无 save/ 目录。非阻塞，建议修正锚点。**
+- **M3**（undo pin）：edit-session.test.ts:151 "干净地图可淘汰；撤销链触及图保存后仍 pin，切图后可 undo"；project-io.test.ts:195 "未加载图 copy-through 不 parse"。✅
+- **M4**（格式化器单一来源）：`formatProjectMapV2` 定义在 content/project-map.ts:166-189，migrate + editor 均从 `@type-pal/content` import。copy-through 字节相同测试 project-io.test.ts:195。✅
+
+**(6) ProjectMapV2 schema guard 测试覆盖** ✅
+- 自洽 guard（矩阵尺寸/layer id 唯一/非负高度/null tile height=0/flat 层全零）：project-map.test.ts 全覆盖。
+- 交叉引用 guard（未知 tilesetId/未知 mapId）：migration-validate.ts:116,121-125 + project-io.ts:142-144 实现，经 integration 覆盖（无独立单测——非阻塞）。
+
+**非阻塞观察（不影响 accept）**：
+- O1：s294 stub 排除分支无独立单测（integration 覆盖）。
+- O2：共享 mapNum→同 mapId dedup 无独立单测（输出验证）。
+- O3：交叉引用 guard（tilesetId/mapId）无独立单测（integration 覆盖）。
+- O4：卡内 M2 锚点路径有误（editor→reforge），建议修正。
+- 以上四项均属"行为已验证、独立单测缺失"，不改变 accept 结论。
+
+**总结**：M1 审计可复现且 ad-hoc 数字已替换；静态门禁三模式零命中；迁移覆盖矩阵零漏项（223/294/s294/共享/0x99/MG2/幂等全验证）；S1/S2/M2/M3/M4 全落地；体积门禁 0.488 远低于 1.25。**accept**。
 
 ## Draft: 设计与风险
 
@@ -477,6 +525,7 @@ F1-F6 由同一 Coding Owner 连续推进；任一期不得以兼容分支把半
   独立复验实现可行性、运行时/存档边界和视觉交互；不得直接改实现文件。
 
 - 2026-07-14 Opus: 实现主审签 **accept**(c2589fb2)。五点:静态边界零命中/M2 数字 override fail-loud(save/ops.ts:72)/M3 undo-pin+copy-through 双测试/0x99 双站点+6051 前台运行时(开场→s003,console 零错)/6010 地图库+双尺+超范围高度输入(M5a 落地)。M1 往返审计失败即抛、M4 格式化器单一来源+字节幂等均实锤。方法学:后台标签 rAF 节流伪装 1fps 假回归(前台 119.5fps),CLI 验证必须 bringToFront——M3 期同症同因,已归档。Evidence: done 签字行。Next: GLM 迁移覆盖/测试矩阵复核;三签齐+用户验收方可 done。未改实现文件。
+- 2026-07-14 GLM: done 前覆盖复验签 **accept**(c2589fb2 + 8add57a5)。六项独立实测+全包复跑(content 172/reforge 329/editor 163/migrate 156+1skip = 820 pass)：(1)M1 审计独立实跑 223/3,653,632/0diff/0.488 逐位匹配，ad-hoc 数字已由 F1 替换（多高度 14,148）；(2)静态门禁 Tilemap/reuseOriginalMap/cell.lower-upper 三模式 grep 零命中；(3)迁移覆盖零漏项——223图+index/294场景无s294/59图共享/0x99→mapId/SceneDef只mapId/MG2双表/dry-run幂等writes=0；(4)S1(baseline hash 化，_state.json 223×2 hash 条目，零正文)+S2(flat层heights可省)+体积0.488<1.25；(5)M2(reforge/save/ops.ts:70 throw)/M3(undo pin edit-session.test:151)/M4(formatProjectMapV2单一来源)全落地；(6)ProjectMapV2 guard 自洽全覆盖。O1-O4 非阻塞(s294 stub/共享dedup/交叉引用guard无独立单测+卡内M2锚点editor→reforge路径有误)。Evidence: done 准入 GLM 复验段。Next: 交用户验收，用户点头方 done。未改实现文件。
 
 ## 下一位 Agent 提示词
 
