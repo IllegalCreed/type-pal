@@ -164,11 +164,17 @@ Branch: current
 ### 进入 done 前:审查签字
 
 - Codex: **accept（2026-07-14）**。实现、自测、MG2 幂等、全仓门禁与浏览器逐帧验证通过；实现提交 `76df4665`。
-- Opus: pending
+- Opus: **accept（2026-07-14,实现/视觉主审）**。六项复核全过,无返工项:
+  1. **RNG 呈现栈 = 真分层非截图**:`rng-presentation.ts` 四模式状态机(idle/playing/buffered/dialogue)61 行零冗余;main.ts 合成顺序 World → `drawCinematicLayer`(独立 rngLayerCanvas,:2523)→ fade → UI 对话,Cinematic 是每帧参与合成的独立层。`beginPlayback(fallback)` 连续段保留上一张 RNG 至新首帧;`finishPlayback` 零帧诚实(当前段未收到帧则清旧备份,不冒充末帧);`visibleFrame` 仅 playing/dialogue 暴露。生命周期 reset 三边界齐:场景切换原子提交(:665)/quitToTitle(:1739)/abort·读档(:2168)。
+  2. **6051 独立复验(前台,与 Codex Playwright 不同路径)**:s281 e4800 真实 touch 触发 → 19 组前置世界对话(idle)→ 最终战战斗态显式 `resolveDone('win')`(印证"只在战斗态显式设胜利";selectAction 态外部改 HP 不结算,胜负检查在行动结算点 battle-session.ts:617/625,合理)→ 6 段 RNG 完整链。**8,438 帧 rAF 逐帧采样:worldFlash=0**(playing/dialogue 帧 rngLayerVisible 全 true)、**dlgNoLayer=0**(无对话叠 buffered 帧),转移序列 `playing → dialogue+dlg → dialogue → playing` 六循环清晰,buffered 从未成为可见持续态(同 tick 转移)。末尾 reset→idle→quitToTitle→`?menu` 导航,console 零错误零警告。审计数据经 sessionStorage 跨导航持久化(quitToTitle 销毁 context 的对策)。
+  3. **三态契约**:save/ops.ts 旧 `world.script.onTeleport` 逐字段归一化到 sceneScriptOverrides,ScriptStage[]/ScriptRef/null tombstone 三态校验、异型 fail-loud;W7F mapOverride 独立未被吞(数值拒绝 :65-72 保留)。R1-R3 落地确认。
+  4. **单一模型**:content `Command` 联合零 unmigrated;`grep -rl '"unmigrated"' projects/pal/content/` = 0;`runLegacyOp` 全仓 0 命中,第二解释器删净。
+  5. **门禁未回归(独立重跑)**:migrate dry-run `writes=0 deletes=0 conflicts=0`,门禁数字与 Build 记录逐项一致(compact 1.53x/pretty 0.99x/commands 1.53x/closure 435884B/ref-warnings 0);`reforge check` 334 tests 全绿。
+  6. 定向测试 rng-presentation/rng-player/save-ops 13 passed。
 - GLM: pending
-- counter / 返工处理:
+- counter / 返工处理: 无(Opus 无返工项)。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: blocked(待 GLM 复核)
 
 ## Draft: 设计与风险
 
@@ -321,14 +327,18 @@ Branch: current
   - `/tmp/r2-rng-stack-menu.png`：0xA0 后回标题。
 - 结论: Codex 视觉自验通过；6 次 playing / 6 次 dialogue 一一对应，所有对话帧 `rngLayerVisible=true`，
   段间没有一帧进入 buffered 露出 World Layer。
-- 未完成项: 等 Opus 独立视觉复验。
+- Opus 独立复验(2026-07-14): 通过。方法独立于 Codex(chrome-devtools CDP + rAF 逐帧采样 + sessionStorage
+  跨导航持久化,非 Playwright):s281 全链 8,438 帧,playing/dialogue 帧 `rngLayerVisible` 全 true(worldFlash=0)、
+  对话帧零 buffered 叠加(dlgNoLayer=0),六循环 `playing → dialogue → playing` 转移序列与 Codex 报告一一吻合,
+  quitToTitle 后 `?menu` 控制台零错误。两条独立路径同结论,视觉验证交叉成立。
+- 未完成项: 无。
 
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: Codex 自审通过；Opus / GLM pending。
-- 必须返工项: pending（由审查方填写）。
-- Accept / rework: pending。
+- 审查结论: Codex 自审通过；**Opus 实现/视觉主审 accept(2026-07-14,证据见 done 前签字 Opus 行)**;GLM pending。
+- 必须返工项: 无(Opus)。
+- Accept / rework: Opus **accept**;待 GLM 复核。
 
 ## 用户验收
 
@@ -345,23 +355,30 @@ Branch: current
   不再含第二解释器；MG2 写入后内部二跑与最终外部 dry-run 均零计划。s059/s172/开场/s281 代表路径完成浏览器验证。
   s281 复验时发现并修复一阶段已知 RNG 对话闪屏，改为显式 World/Cinematic/UI 呈现栈；6 段 RNG 逐帧审计
   无世界层泄漏，结局正常回标题。Evidence: Build/视觉记录与实现提交 `76df4665`。Next: Opus 实现+视觉主审，禁止标 done。
+- 2026-07-14 Opus: 实现/视觉主审签 **accept,零返工项**。代码审查:RNG 四模式状态机+独立 rngLayerCanvas 逐帧合成
+  (真分层非截图)、生命周期 reset 三边界(场切/quitToTitle/读档)、save/ops 三态归一化 fail-loud、mapOverride 独立、
+  Command 零 unmigrated、runLegacyOp 全仓 0 命中。独立复验:6051 前台 s281 全链(触发→19 组前置对话→战斗态显式
+  win→6 段 RNG+对话→?menu),**8,438 帧 rAF 采样 worldFlash=0 / dlgNoLayer=0**,buffered 无可见持续态,console 零错;
+  与 Codex Playwright 路径同结论,视觉交叉成立。门禁重跑:migrate dry-run 零计划(门禁数字逐项吻合)、reforge 334
+  tests 全绿、定向 13 tests。战斗备注:selectAction 态外部改敌 HP 不结算属设计(胜负检查在行动结算点
+  battle-session.ts:617/625),非缺陷。Evidence: done 前签字 Opus 行+视觉验证记录。Next: GLM 覆盖复核,齐签后由用户
+  验收标 done;未改任何实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: R2 事件脚本单一模型与 unmigrated 退役,实现/视觉主审(Opus)
+接手任务: R2 事件脚本单一模型与 unmigrated 退役,覆盖/测试矩阵复核(GLM)
 任务卡: docs/ops/tasks/R2-script-single-model.md
-当前状态: review;三方设计 agree 已齐,Codex build/自测完成;done 前 Codex 已签 accept,Opus/GLM pending
-你的角色: Opus,实现架构/代码/视觉主审;先审不改实现,有问题签 counter 并列精确返工项
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡全部,重点看 Build/视觉记录、R1-R3/N1-N2、实现提交 76df4665
-请重点复核:
-1. content 可执行 Command 是否彻底零 unmigrated,MigrationGap 是否只在迁移期且可达缺口 fail-loud;
-2. 43,503 全地址索引与显式 L_n===n 断言,15 地址真实翻译,0x78/0x6D 四形态/0xA0 最终去向;
-3. sceneScriptOverrides 三态在 runtime/save 的缺席继承、binding 覆写、null 禁用是否无 ?? 回退;mapOverride 是否独立;
-4. 旧 opcode 第二解释器及编辑器入口是否删除,旧工程拒绝文案是否明确;
-5. M3 体积/flowCuts=0/MG2 二跑零计划是否未回归;
-6. s281 RNG 架构是否真正为 World Layer -> Cinematic Layer -> UI Layer:播放和末帧保持同路,首帧加载/连续段/切场/读档/退出生命周期合理。请在 6051 独立复验至少一组 RNG+对话,确认不闪大世界。
-已验证: reforge 334 tests;全仓 pnpm check/最终结果见 Build;6 段 RNG 逐帧 dialogueWithoutLayer=[]、bufferedFrames=[];最终 ?menu 零控制台错误
-允许修改: 仅任务卡审查签字/交接日志;若实现有问题先签 counter,不要自行并行改实现文件
-输出要求: 在 done 前 Opus 行签 accept 或 counter+理由,写审查结论/返工项/独立验证命令与证据,提交任务卡;不得标 done(仍需 GLM 复核)
+当前状态: review;done 前 Codex accept + Opus accept(实现/视觉主审,零返工项),GLM pending(最后一签)
+你的角色: GLM,覆盖面与测试矩阵复核;审数据面与测试面,不改实现文件
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡全部(重点 Build 记录、done 前签字 Codex/Opus 两行、实现提交 76df4665)
+请重点复核(数据/测试面,与 Opus 的架构/视觉面互补):
+1. N1-N2 落地:flowCuts=0 是否有真断言(非仅日志);0x6D 迁移测试是否覆盖四形态(both-zero 双清/onEnter-only/onTeleport-only/双 binding);
+2. 66 项旧产物残余归零口径:静态扫描 projects/pal 零 "unmigrated"、零 opcode-0 占位,46×0x78 no-op 丢弃与 34 唯一源站点对账;
+3. R1 旧存档归一化测试矩阵:合法旧档逐字段迁移、null tombstone 往返、异型 fail-loud、新档 sceneScriptOverrides 直通、mapOverride 不被吞——五类是否都有专测;
+4. 测试总量与门禁:content/migrate/reforge/editor 四包测试独立重跑;migrate dry-run 零计划(writes=0 deletes=0 conflicts=0);
+5. RNG 呈现栈测试面:rng-presentation 单测是否覆盖 幂等 finishPlayback/零帧段清备份/enterDialogue 无帧不进/reset 边界(Opus 已浏览器 8,438 帧实测零闪屏,你只需确认单测矩阵完整,浏览器复验可选)。
+已验证(勿重复,可抽查): Opus 已做 6051 s281 全链逐帧审计(worldFlash=0/dlgNoLayer=0/?menu 零错)、migrate dry-run 零计划、reforge 334 tests、静态扫描零命中
+允许修改: 仅任务卡审查签字/交接日志;发现实现问题签 counter 并列精确返工项,不要自行改实现
+输出要求: 在 done 前 GLM 行签 accept 或 counter+理由,写复核证据与命令输出,提交任务卡;三签齐后 done 准入结论改为等用户验收,仍不得标 done(用户拍板)
 ```
