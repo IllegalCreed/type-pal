@@ -29,6 +29,7 @@ import {
 import type { AssetBase, LoadedProject } from '@type-pal/reforge'
 import {
   type CSSProperties,
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -51,8 +52,21 @@ import { saveHandle } from '../core/handle-store.js'
 import { type Opened, openExistingProject, saveProjectAs } from '../core/open-actions.js'
 import { serializeProject, writeProject } from '../core/project-io.js'
 import { ActorMode } from './ActorMode.js'
-import { DataMode, type DataTab } from './DataMode.js'
+import { DataMode } from './DataMode.js'
+import {
+  decodeEditorLocation,
+  defaultEditorLocation,
+  type EditorLocation,
+  type EditorModuleId,
+  editorLinks,
+  editorLocationHref,
+  editorModule,
+  editorSubpage,
+  normalizeEditorLocation,
+  sameEditorLocation,
+} from './editor-navigation.js'
 import { MapMode } from './MapMode.js'
+import { ModuleNav, ModuleSubnav } from './ModuleNav.js'
 import { MusicPicker } from './MusicPicker.js'
 import {
   PanelResizeHandle,
@@ -67,7 +81,9 @@ import { SpriteThumb } from './SpriteThumb.js'
 const SCENE_NODE = '__scene__'
 /** 进场点节点哨兵(与 SceneCanvas 的 ENTRY_HIT_ID 对齐):选中它 → 专属进场点 inspector(坐标+朝向)。 */
 const ENTRY_NODE = '__entry__'
-const RAIL_WIDTH = 52
+const MODULE_NAV_COLLAPSED_WIDTH = 52
+const MODULE_NAV_EXPANDED_WIDTH = 136
+const MODULE_NAV_COMPACT_BREAKPOINT = 860
 const CENTER_MIN_WIDTH = 260
 const OUTLINER_DEFAULT_WIDTH = 194
 const OUTLINER_MIN_WIDTH = 140
@@ -75,13 +91,55 @@ const OUTLINER_MAX_WIDTH = 420
 const INSPECTOR_DEFAULT_WIDTH = 290
 const INSPECTOR_MIN_WIDTH = 220
 const INSPECTOR_MAX_WIDTH = 620
-type Mode = 'place' | 'actor' | 'data' | 'map'
+
+interface StoredEditorNavigation {
+  last?: EditorLocation
+  modules?: Partial<Record<EditorModuleId, EditorLocation>>
+  scroll?: Record<string, { outliner: number; center: number; inspector: number }>
+}
 
 function newEntityId(existing: EntityDef[]): string {
   const ids = new Set(existing.map((e) => e.id))
   let n = 1
   while (ids.has(`entity-${n}`)) n++
   return `entity-${n}`
+}
+
+function editorNavigationKey(projectId: string): string {
+  return `type-pal:editor:navigation:${projectId}`
+}
+
+function readStoredEditorNavigation(projectId: string): StoredEditorNavigation {
+  try {
+    const raw = window.localStorage.getItem(editorNavigationKey(projectId))
+    if (!raw) return {}
+    const parsed = JSON.parse(raw) as StoredEditorNavigation
+    const modules = Object.fromEntries(
+      Object.entries(parsed.modules ?? {}).map(([id, location]) => [
+        id,
+        normalizeEditorLocation(location),
+      ]),
+    ) as Partial<Record<EditorModuleId, EditorLocation>>
+    return {
+      ...(parsed.last ? { last: normalizeEditorLocation(parsed.last) } : {}),
+      modules,
+      scroll: parsed.scroll ?? {},
+    }
+  } catch {
+    return {}
+  }
+}
+
+function initialEditorLocation(stored: StoredEditorNavigation): EditorLocation {
+  const params = new URLSearchParams(window.location.search)
+  if (params.has('module') || params.has('page') || params.has('object')) {
+    return decodeEditorLocation(window.location.search)
+  }
+  return normalizeEditorLocation(stored.last)
+}
+
+function scrollKey(location: EditorLocation): string {
+  return `${location.module}:${location.subpage}`
 }
 
 export function App(props: {
@@ -99,12 +157,109 @@ export function App(props: {
   const getVersion = useMemo(() => () => session.getVersion(), [session])
   useSyncExternalStore(subscribe, getVersion) // 任一变化(含 markSaved / undo)都重渲染
   const state = session.getState()
+  const bodyRef = useRef<HTMLDivElement>(null)
+  const storedNavigationRef = useRef(readStoredEditorNavigation(state.manifest.id))
+  const [location, setLocation] = useState<EditorLocation>(() =>
+    initialEditorLocation(storedNavigationRef.current),
+  )
+  const locationRef = useRef(location)
+  const [moduleLocations, setModuleLocations] = useState<
+    Partial<Record<EditorModuleId, EditorLocation>>
+  >(() => ({ ...storedNavigationRef.current.modules, [location.module]: location }))
+  const moduleLocationsRef = useRef(moduleLocations)
+  const scrollPositionsRef = useRef(storedNavigationRef.current.scroll ?? {})
+  const navigationStorageKey = editorNavigationKey(state.manifest.id)
+
+  const persistNavigation = useCallback(
+    (last: EditorLocation): void => {
+      try {
+        window.localStorage.setItem(
+          navigationStorageKey,
+          JSON.stringify({
+            last,
+            modules: moduleLocationsRef.current,
+            scroll: scrollPositionsRef.current,
+          } satisfies StoredEditorNavigation),
+        )
+      } catch {
+        // 隐私模式或存储禁用时，URL 与当前会话状态仍可工作。
+      }
+    },
+    [navigationStorageKey],
+  )
+
+  const captureScroll = useCallback((current: EditorLocation): void => {
+    const body = bodyRef.current
+    if (!body) return
+    const outliner = body.querySelector<HTMLElement>(':scope > .outliner')
+    const center = body.querySelector<HTMLElement>(':scope > .center, :scope > .data-body')
+    const inspector = body.querySelector<HTMLElement>(':scope > .inspector')
+    scrollPositionsRef.current[scrollKey(current)] = {
+      outliner: outliner?.scrollTop ?? 0,
+      center: center?.scrollTop ?? 0,
+      inspector: inspector?.scrollTop ?? 0,
+    }
+  }, [])
+
+  const applyEditorLocation = useCallback(
+    (input: EditorLocation, historyMode: 'push' | 'replace' | 'none' = 'push'): void => {
+      const next = normalizeEditorLocation(input)
+      const current = locationRef.current
+      const pageChanged = current.module !== next.module || current.subpage !== next.subpage
+      if (pageChanged) captureScroll(current)
+
+      if (!sameEditorLocation(current, next)) {
+        locationRef.current = next
+        setLocation(next)
+        const nextModules = { ...moduleLocationsRef.current, [next.module]: next }
+        moduleLocationsRef.current = nextModules
+        setModuleLocations(nextModules)
+      }
+      persistNavigation(next)
+
+      if (historyMode !== 'none') {
+        const href = editorLocationHref(next, window.location.href)
+        if (historyMode === 'push') window.history.pushState({ editorLocation: next }, '', href)
+        else window.history.replaceState({ editorLocation: next }, '', href)
+      }
+    },
+    [captureScroll, persistNavigation],
+  )
+
+  useEffect(() => {
+    window.history.replaceState(
+      { editorLocation: locationRef.current },
+      '',
+      editorLocationHref(locationRef.current, window.location.href),
+    )
+    persistNavigation(locationRef.current)
+  }, [persistNavigation])
+
+  useEffect(() => {
+    const onPopState = (): void =>
+      applyEditorLocation(decodeEditorLocation(window.location.search), 'none')
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [applyEditorLocation])
+
+  const activeScrollKey = scrollKey(location)
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      const saved = scrollPositionsRef.current[activeScrollKey]
+      const body = bodyRef.current
+      if (!saved || !body) return
+      const outliner = body.querySelector<HTMLElement>(':scope > .outliner')
+      const center = body.querySelector<HTMLElement>(':scope > .center, :scope > .data-body')
+      const inspector = body.querySelector<HTMLElement>(':scope > .inspector')
+      if (outliner) outliner.scrollTop = saved.outliner
+      if (center) center.scrollTop = saved.center
+      if (inspector) inspector.scrollTop = saved.inspector
+    })
+    return () => window.cancelAnimationFrame(frame)
+  }, [activeScrollKey])
+
   const [selected, setSelected] = useState<string>(SCENE_NODE)
   const [tool, setTool] = useState<Tool>('select')
-  const [mode, setMode] = useState<Mode>('place')
-  // 数据页(rail 二级展开驱动,2026-07-05 作者拍板)
-  const [dataTab, setDataTab] = useState<DataTab>('sprite')
-  const [scriptFocus, setScriptFocus] = useState({ id: '', revision: 0 })
   // 画布图层显隐(布置模式:左栏 地板/高物/实体 + 工具栏 网格/禁入格)
   const [canvasLayers, setCanvasLayers] = useState({
     base: true,
@@ -114,7 +269,12 @@ export function App(props: {
     blocked: false,
     ghosts: true, // 显隐透视:隐藏实体半透明(编辑器默认开;游戏内不渲染)
   })
-  const [placeSceneId, setPlaceSceneId] = useState<string>(state.manifest.entryScene)
+  const [placeSceneId, setPlaceSceneId] = useState<string>(() => {
+    const target = location.objectId
+    return target && state.scenes.some((scene) => scene.id === target)
+      ? target
+      : state.manifest.entryScene
+  })
   // 放置 palette:add 工具态右栏选「要放的精灵」(审计断点 #1)
   const [placeSpriteId, setPlaceSpriteId] = useState<string>(state.sprites[0]?.id ?? '')
   const dirHandleRef = useRef<FileSystemDirectoryHandle | null>(props.initialDir ?? null)
@@ -122,6 +282,17 @@ export function App(props: {
   const snapshotRef = useRef<Map<string, string> | null>(null)
   const [saveErr, setSaveErr] = useState('')
   const [exporting, setExporting] = useState(false) // A5 导出 zip 进行中
+
+  useEffect(() => {
+    if (
+      (location.module === 'scene' || location.module === 'map') &&
+      location.subpage === 'workspace' &&
+      location.objectId &&
+      state.scenes.some((candidate) => candidate.id === location.objectId)
+    ) {
+      setPlaceSceneId(location.objectId)
+    }
+  }, [location, state.scenes])
 
   // 布置模式当前编辑场景(可切;默认入口)。切场景重置选中 —— 实体属于场景。
   const scene =
@@ -131,6 +302,13 @@ export function App(props: {
     setPlaceSceneId(id)
     setSelected(SCENE_NODE)
     setTool('select')
+    const current = locationRef.current
+    if (
+      (current.module === 'scene' || current.module === 'map') &&
+      current.subpage === 'workspace'
+    ) {
+      applyEditorLocation({ ...current, objectId: id }, 'replace')
+    }
   }
   // N5 引用跳转:变量页/物品页点引用 → 事件模式定位到 场景+脚本源。
   // 底部脚本抽屉(audit §6 Step2:场景模式内嵌脚本编辑,独立事件模式已退役)
@@ -138,22 +316,17 @@ export function App(props: {
     open: false,
     src: null,
   })
-  const switchMode = (m: Mode): void => {
-    setMode(m)
-  }
   /** 「去编辑脚本」统一入口(检查器按钮/数据模式引用跳转):回场景模式+定位场景+展开抽屉。 */
   const jumpToEvent = (sceneId: string, srcKey: string): void => {
     setPlaceSceneId(sceneId)
-    setMode('place')
+    applyEditorLocation(editorLinks.scene(sceneId))
     // 源列跟随选中 → 跳转须同步选中目标(实体源选实体,场景级源选场景节点)
     setSelected(srcKey.startsWith('__') ? SCENE_NODE : (srcKey.split(':')[0] ?? SCENE_NODE))
     setDrawer({ open: true, src: srcKey })
   }
   const openSharedScript = (id: string): void => {
     if (!state.scriptIndex?.library?.[id]) return
-    setScriptFocus((current) => ({ id, revision: current.revision + 1 }))
-    setDataTab('scripts')
-    setMode('data')
+    applyEditorLocation(editorLinks.sharedScript(id))
   }
   const issues = useMemo(() => validateReferences(state), [state])
   // C0:实体经 actor⊕sprite 解析;玩家精灵 = party[0] → ActorDef.spriteId(与引擎同路径)
@@ -163,8 +336,11 @@ export function App(props: {
   )
   const leaderSpriteId = actorsById[state.manifest.startWorld.party[0] ?? '']?.spriteId
   const [projMenu, setProjMenu] = useState(false)
-  const bodyRef = useRef<HTMLDivElement>(null)
   const [bodyWidth, setBodyWidth] = useState(0)
+  const [moduleNavCollapsed, setModuleNavCollapsed] = useStoredPanelBoolean(
+    'type-pal:editor:module-nav-collapsed',
+    false,
+  )
   const [outlinerWidth, setOutlinerWidth] = useStoredPanelNumber(
     'type-pal:editor:outliner-width',
     OUTLINER_DEFAULT_WIDTH,
@@ -193,6 +369,9 @@ export function App(props: {
   }, [])
 
   const layoutWidth = bodyWidth || 1280
+  const moduleNavForcedCompact = layoutWidth < MODULE_NAV_COMPACT_BREAKPOINT
+  const moduleNavCompact = moduleNavCollapsed || moduleNavForcedCompact
+  const moduleNavWidth = moduleNavCompact ? MODULE_NAV_COLLAPSED_WIDTH : MODULE_NAV_EXPANDED_WIDTH
   const requestedOutlinerWidth = outlinerCollapsed
     ? 0
     : clampPanelSize(outlinerWidth, OUTLINER_MIN_WIDTH, OUTLINER_MAX_WIDTH)
@@ -200,7 +379,7 @@ export function App(props: {
     ? 0
     : clampPanelSize(inspectorWidth, INSPECTOR_MIN_WIDTH, INSPECTOR_MAX_WIDTH)
   const fittedPanels = fitSidePanelWidths({
-    available: layoutWidth - RAIL_WIDTH - CENTER_MIN_WIDTH,
+    available: layoutWidth - moduleNavWidth - CENTER_MIN_WIDTH,
     left: requestedOutlinerWidth,
     right: requestedInspectorWidth,
     leftMin: outlinerCollapsed ? 0 : OUTLINER_MIN_WIDTH,
@@ -212,20 +391,65 @@ export function App(props: {
     OUTLINER_MAX_WIDTH,
     Math.max(
       OUTLINER_MIN_WIDTH,
-      layoutWidth - RAIL_WIDTH - CENTER_MIN_WIDTH - visibleInspectorWidth,
+      layoutWidth - moduleNavWidth - CENTER_MIN_WIDTH - visibleInspectorWidth,
     ),
   )
   const inspectorResizeMax = Math.min(
     INSPECTOR_MAX_WIDTH,
     Math.max(
       INSPECTOR_MIN_WIDTH,
-      layoutWidth - RAIL_WIDTH - CENTER_MIN_WIDTH - visibleOutlinerWidth,
+      layoutWidth - moduleNavWidth - CENTER_MIN_WIDTH - visibleOutlinerWidth,
     ),
   )
   const bodyStyle = {
+    '--module-nav-width': `${moduleNavWidth}px`,
     '--outliner-width': `${visibleOutlinerWidth}px`,
     '--inspector-width': `${visibleInspectorWidth}px`,
   } as CSSProperties
+
+  const activeModule = editorModule(location.module)
+  const activeSubpage = editorSubpage(location)
+  const openEditorModule = (moduleId: EditorModuleId): void => {
+    const remembered = moduleLocations[moduleId] ?? defaultEditorLocation(moduleId)
+    const subpage = editorSubpage(remembered)
+    const next =
+      (subpage.kind === 'scene' || subpage.kind === 'map') && !remembered.objectId
+        ? { ...remembered, objectId: placeSceneId }
+        : remembered
+    applyEditorLocation(next)
+  }
+  const openEditorSubpage = (next: EditorLocation): void => {
+    const subpage = editorSubpage(next)
+    applyEditorLocation(
+      subpage.kind === 'scene' || subpage.kind === 'map'
+        ? { ...next, objectId: placeSceneId }
+        : next,
+    )
+  }
+  const focusCurrentObject = (objectId: string | undefined): void => {
+    const current = {
+      module: locationRef.current.module,
+      subpage: locationRef.current.subpage,
+    }
+    applyEditorLocation({ ...current, ...(objectId ? { objectId } : {}) }, 'replace')
+  }
+  const moduleSubnav = <ModuleSubnav location={location} onNavigate={openEditorSubpage} />
+  const objectTargetMissing = (() => {
+    if (!location.objectId || !activeSubpage.acceptsObject) return false
+    if (activeSubpage.kind === 'scene' || activeSubpage.kind === 'map') {
+      return !state.scenes.some((candidate) => candidate.id === location.objectId)
+    }
+    if (activeSubpage.kind === 'actor') {
+      return !state.actors.some((candidate) => candidate.id === location.objectId)
+    }
+    if (activeSubpage.dataPage === 'sprite') {
+      return !state.sprites.some((candidate) => candidate.id === location.objectId)
+    }
+    if (activeSubpage.dataPage === 'scripts') {
+      return !state.scriptIndex?.library?.[location.objectId]
+    }
+    return false
+  })()
 
   const selEntity = scene?.entities.find((e) => e.id === selected)
 
@@ -451,45 +675,25 @@ export function App(props: {
 
       <div
         ref={bodyRef}
-        className={`body${outlinerCollapsed ? ' outliner-collapsed' : ''}${inspectorCollapsed ? ' inspector-collapsed' : ''}`}
+        className={`body${moduleNavCompact ? ' module-nav-compact' : ''}${outlinerCollapsed ? ' outliner-collapsed' : ''}${inspectorCollapsed ? ' inspector-collapsed' : ''}`}
         style={bodyStyle}
       >
-        <div className="rail">
-          <button
-            type="button"
-            className={`mode${mode === 'place' ? ' active' : ''}`}
-            onClick={() => switchMode('place')}
-          >
-            <span className="ico">📍</span>
-            <span className="lbl">场景</span>
-          </button>
-          <button
-            type="button"
-            className={`mode${mode === 'actor' ? ' active' : ''}`}
-            onClick={() => switchMode('actor')}
-          >
-            <span className="ico">👥</span>
-            <span className="lbl">角色</span>
-          </button>
-          <button
-            type="button"
-            className={`mode${mode === 'map' ? ' active' : ''}`}
-            onClick={() => switchMode('map')}
-          >
-            <span className="ico">🗺️</span>
-            <span className="lbl">地图</span>
-          </button>
-          <button
-            type="button"
-            className={`mode${mode === 'data' ? ' active' : ''}`}
-            onClick={() => switchMode('data')}
-          >
-            <span className="ico">📊</span>
-            <span className="lbl">数据</span>
-          </button>
-        </div>
+        <ModuleNav
+          activeModule={location.module}
+          compact={moduleNavCompact}
+          forcedCompact={moduleNavForcedCompact}
+          onModule={openEditorModule}
+          onToggle={() => setModuleNavCollapsed((value) => !value)}
+        />
 
-        {mode === 'map' ? (
+        {objectTargetMissing ? (
+          <MissingEditorTarget
+            moduleLabel={activeModule.label}
+            objectId={location.objectId!}
+            navigation={moduleSubnav}
+            onClear={() => focusCurrentObject(undefined)}
+          />
+        ) : activeSubpage.kind === 'map' ? (
           <MapMode
             scene={scene}
             session={session}
@@ -497,8 +701,9 @@ export function App(props: {
             ownMaps={state.maps}
             tilesets={state.tilesets ?? []}
             tilesetBlobs={state.tilesetBlobs}
+            navigation={moduleSubnav}
           />
-        ) : mode === 'actor' ? (
+        ) : activeSubpage.kind === 'actor' ? (
           <ActorMode
             actors={state.actors}
             sprites={state.sprites}
@@ -509,8 +714,12 @@ export function App(props: {
             session={session}
             levelUp={state.levelUp}
             startSkills={state.manifest.startWorld.learnedSkills}
+            navigation={moduleSubnav}
+            focusActorId={location.objectId}
+            onActorFocus={(id) => focusCurrentObject(id)}
+            onOpenSprite={(id) => applyEditorLocation(editorLinks.actorSprite(id))}
           />
-        ) : mode === 'data' ? (
+        ) : activeSubpage.kind === 'data' && activeSubpage.dataPage ? (
           <DataMode
             itemList={state.items}
             sprites={state.sprites}
@@ -533,14 +742,17 @@ export function App(props: {
             actors={state.actors}
             skillList={state.skills}
             onJumpToEvent={jumpToEvent}
-            focusScriptId={scriptFocus.id || undefined}
-            focusScriptRevision={scriptFocus.revision}
-            tab={dataTab}
-            onTab={setDataTab}
+            focusScriptId={activeSubpage.dataPage === 'scripts' ? location.objectId : undefined}
+            focusScriptRevision={0}
+            tabBar={moduleSubnav}
+            tab={activeSubpage.dataPage}
+            focusObjectId={location.objectId}
+            onObjectFocus={focusCurrentObject}
           />
         ) : (
           <>
             <div className="outliner">
+              {moduleSubnav}
               <div className="pane-h">
                 <span className="t">场景</span>
                 <span className="spacer" />
@@ -815,6 +1027,7 @@ export function App(props: {
                   session={session}
                   music={state.music ?? []}
                   musicBase={project.assetBase.music}
+                  onOpenMap={() => applyEditorLocation(editorLinks.sceneMap(scene.id))}
                 />
               )}
             </div>
@@ -876,7 +1089,7 @@ export function App(props: {
           </>
         ) : (
           <span className="pill" style={{ color: 'var(--ok)' }}>
-            ✓ 引用完整性 OK
+            ✓ 已检查的引用无问题
           </span>
         )}
         <span className="spacer" />
@@ -885,6 +1098,34 @@ export function App(props: {
         </span>
       </div>
     </div>
+  )
+}
+
+function MissingEditorTarget(props: {
+  moduleLabel: string
+  objectId: string
+  navigation: React.ReactNode
+  onClear: () => void
+}) {
+  return (
+    <>
+      <div className="outliner">
+        {props.navigation}
+        <div className="pane-h">
+          <span className="t">{props.moduleLabel}</span>
+        </div>
+      </div>
+      <div className="center missing-editor-target">
+        <strong>目标不存在</strong>
+        <code>{props.objectId}</code>
+        <button type="button" className="tool" onClick={props.onClear}>
+          打开当前页面
+        </button>
+      </div>
+      <div className="inspector">
+        <div className="insp-empty">引用目标可能已删除或尚未载入。</div>
+      </div>
+    </>
   )
 }
 
@@ -1411,8 +1652,9 @@ function SceneInspector(props: {
   /** 音乐库 + 试听前缀(场景 BGM 选择器)。 */
   music: MusicDef[]
   musicBase: string
+  onOpenMap: () => void
 }) {
-  const { scene, session, music, musicBase } = props
+  const { scene, session, music, musicBase, onOpenMap } = props
   return (
     <>
       <div className="insp-head">
@@ -1423,27 +1665,38 @@ function SceneInspector(props: {
         <h4>场景</h4>
         <div className="field">
           <span className="field-label">地图</span>
-          {isReuseMap(scene.map) ? (
-            <input
-              className="in mono"
-              type="number"
-              title="复用原版地图号(改后画布即重载)"
-              value={reuseMapNum(scene.map)}
-              onChange={(e) =>
-                Number.isFinite(e.target.valueAsNumber) &&
-                session.dispatch(
-                  new UpdateSceneCommand(scene.id, {
-                    map: {
-                      reuseOriginalMap: e.target.valueAsNumber,
-                      ...(mapRoom(scene.map) ? { room: mapRoom(scene.map) } : {}),
-                    },
-                  }),
-                )
-              }
-            />
-          ) : (
-            <span className="mono map-file">{scene.map.ownMap}</span>
-          )}
+          <div className="linked-control">
+            {isReuseMap(scene.map) ? (
+              <input
+                className="in mono"
+                type="number"
+                title="复用原版地图号(改后画布即重载)"
+                value={reuseMapNum(scene.map)}
+                onChange={(e) =>
+                  Number.isFinite(e.target.valueAsNumber) &&
+                  session.dispatch(
+                    new UpdateSceneCommand(scene.id, {
+                      map: {
+                        reuseOriginalMap: e.target.valueAsNumber,
+                        ...(mapRoom(scene.map) ? { room: mapRoom(scene.map) } : {}),
+                      },
+                    }),
+                  )
+                }
+              />
+            ) : (
+              <span className="mono map-file">{scene.map.ownMap}</span>
+            )}
+            <button
+              type="button"
+              className="linked-value-open"
+              title="在地图模块打开"
+              aria-label={`打开场景 ${scene.id} 的地图`}
+              onClick={onOpenMap}
+            >
+              ↗
+            </button>
+          </div>
         </div>
         <div className="field">
           <span className="field-label">音乐</span>

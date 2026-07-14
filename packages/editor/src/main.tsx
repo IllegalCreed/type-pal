@@ -84,6 +84,7 @@ function Root() {
     )
   return (
     <App
+      key={boot.project.manifest.id}
       session={boot.session}
       project={boot.project}
       initialDir={boot.dir}

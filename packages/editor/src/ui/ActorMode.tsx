@@ -15,7 +15,7 @@ import type {
 } from '@type-pal/content'
 import { lookupText } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   SetActorBattleSpriteCommand,
   UpdateActorCommand,
@@ -49,14 +49,36 @@ export function ActorMode(props: {
   levelUp: Record<string, LevelUpSkill[]>
   /** 新档初始技能(manifest.startWorld.learnedSkills —— 战斗技能真实来源;可编辑)。 */
   startSkills: Record<string, string[]>
+  navigation?: React.ReactNode
+  focusActorId?: string
+  onActorFocus?: (id: string) => void
+  onOpenSprite?: (id: string) => void
 }) {
-  const { actors, sprites, items, skills, locale, assetBase, session, levelUp, startSkills } = props
-  const [selId, setSelId] = useState(actors[0]?.id ?? '')
+  const {
+    actors,
+    sprites,
+    items,
+    skills,
+    locale,
+    assetBase,
+    session,
+    levelUp,
+    startSkills,
+    navigation,
+    focusActorId,
+    onActorFocus,
+    onOpenSprite,
+  } = props
+  const [selId, setSelId] = useState(focusActorId ?? actors[0]?.id ?? '')
   const [battleUpload, setBattleUpload] = useState(false) // A4c 战斗形象上传器展开
   const [editingCurve, setEditingCurve] = useState(false) // C6 中区升级曲线编辑器展开
   const spriteById = useMemo(() => new Map(sprites.map((s) => [s.id, s])), [sprites])
-  const actor = actors.find((a) => a.id === selId) ?? actors[0]
+  const actor = actors.find((a) => a.id === selId)
   const sprite = actor ? spriteById.get(actor.spriteId) : undefined
+
+  useEffect(() => {
+    if (focusActorId !== undefined) setSelId(focusActorId)
+  }, [focusActorId])
 
   const nm = (id: string): string => {
     const s = lookupText(id, locale)
@@ -78,6 +100,7 @@ export function ActorMode(props: {
     <>
       {/* 左:角色列表(NPC + 可入队同列) */}
       <div className="outliner">
+        {navigation}
         <div className="pane-h">
           <span className="t">角色</span>
           <span className="spacer" />
@@ -89,7 +112,10 @@ export function ActorMode(props: {
               type="button"
               key={a.id}
               className={`arow${a.id === selId ? ' sel' : ''}`}
-              onClick={() => setSelId(a.id)}
+              onClick={() => {
+                setSelId(a.id)
+                onActorFocus?.(a.id)
+              }}
             >
               <span className="face">{a.battler ? '🧑' : '👤'}</span>
               <span className="nm">
@@ -146,9 +172,18 @@ export function ActorMode(props: {
               </div>
               <div className="field">
                 <span className="field-label">精灵</span>
-                <div className="in pick">
+                <div className="in pick linked-value">
                   <span>{sprite?.label ?? actor.spriteId}</span>
                   <span className="meta">#{sprite?.spriteNum ?? '?'}</span>
+                  <button
+                    type="button"
+                    className="linked-value-open"
+                    title="在资源模块打开精灵"
+                    aria-label={`打开精灵 ${actor.spriteId}`}
+                    onClick={() => onOpenSprite?.(actor.spriteId)}
+                  >
+                    ↗
+                  </button>
                 </div>
               </div>
             </div>

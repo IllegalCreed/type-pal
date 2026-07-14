@@ -90,8 +90,9 @@ export function MapMode(props: {
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]
   /** 上传未保存的 tileset 字节(内存优先)。 */
   tilesetBlobs: Record<string, ArrayBuffer>
+  navigation?: React.ReactNode
 }) {
-  const { scene, session, assetBase, ownMaps, tilesets, tilesetBlobs } = props
+  const { scene, session, assetBase, ownMaps, tilesets, tilesetBlobs, navigation } = props
   const own = !isReuseMap(scene.map)
   const ownPath = isReuseMap(scene.map) ? '' : scene.map.ownMap
   const liveMap: OwnMap | undefined = own ? ownMaps[ownPath] : undefined
@@ -445,6 +446,7 @@ export function MapMode(props: {
   return (
     <>
       <div className="outliner map-outliner">
+        {navigation}
         <div className="pane-h">
           <span className="t">{own ? '图层' : '地图工具'}</span>
           <span className="spacer" />

@@ -1,8 +1,4 @@
-/**
- * 数据模式(RPG Maker 数据库范式)—— 游戏数据表统一入口,标签页组织。
- * 精灵库(座椅/火把/石头 + 角色行走图)/ 技能 / 物品 / 敌人。
- * C1 阶段先落「精灵库」标签(场景 prop 精灵的布局配置);技能/物品/敌人后续。
- */
+/** 八模块导航下的数据型业务页挂载器。页面归属由 editor-navigation 单一注册表决定。 */
 
 import type {
   BattleFieldDef,
@@ -17,7 +13,7 @@ import type {
   SpriteLayout,
 } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
-import { useMemo, useState } from 'react'
+import { type ReactNode, useEffect, useMemo, useState } from 'react'
 import { UpdateSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { buildRefIndex } from '../core/ref-index.js'
@@ -27,6 +23,7 @@ import { CutsceneTab } from './CutsceneTab.js'
 import { EnemyTab } from './EnemyTab.js'
 import { EntryPointTab } from './EntryPointTab.js'
 import { EventLibTab } from './EventLibTab.js'
+import { type DataPageId, editorSubpageForDataPage } from './editor-navigation.js'
 import { ItemTab } from './ItemTab.js'
 import { MusicTab } from './MusicTab.js'
 import { PoisonTab } from './PoisonTab.js'
@@ -38,39 +35,7 @@ import { SpriteUploadWizard } from './SpriteUploadWizard.js'
 import { TilesetTab } from './TilesetTab.js'
 import { VarsTab } from './VarsTab.js'
 
-export type DataTab =
-  | 'sprite'
-  | 'skill'
-  | 'item'
-  | 'enemy'
-  | 'poison'
-  | 'ambience'
-  | 'shop'
-  | 'battlefield'
-  | 'music'
-  | 'tileset'
-  | 'cutscene'
-  | 'entrypoint'
-  | 'vars'
-  | 'events'
-  | 'scripts'
-export const DATA_TABS: { id: DataTab; label: string; icon: string }[] = [
-  { id: 'sprite', label: '精灵库', icon: '🖼' },
-  { id: 'skill', label: '技能', icon: '✨' },
-  { id: 'item', label: '物品', icon: '🎒' },
-  { id: 'enemy', label: '敌人', icon: '👹' },
-  { id: 'poison', label: '毒', icon: '☠️' },
-  { id: 'ambience', label: '氛围', icon: '🌗' },
-  { id: 'shop', label: '商店', icon: '🏪' },
-  { id: 'battlefield', label: '战场', icon: '🏞' },
-  { id: 'music', label: '音乐', icon: '🎵' },
-  { id: 'tileset', label: '瓦片集', icon: '🧱' },
-  { id: 'cutscene', label: '过场', icon: '🎬' },
-  { id: 'entrypoint', label: '入口', icon: '🚪' },
-  { id: 'vars', label: '变量', icon: '🚩' },
-  { id: 'events', label: '指令手册', icon: '📖' },
-  { id: 'scripts', label: '共享脚本', icon: '↪' },
-]
+export type DataTab = DataPageId
 
 const KIND_LABEL: Record<SpriteDef['layout']['kind'], string> = {
   directional: '行走',
@@ -128,9 +93,11 @@ export function DataMode(props: {
   /** N6:从场景调用行跳入指定共享/内部脚本。 */
   focusScriptId?: string
   focusScriptRevision?: number
-  /** 当前数据页 + 切换(左栏垂直页列驱动 —— RPGM 数据库范式,2026-07-05 二改)。 */
+  /** 当前模块的子页导航，由八模块注册表派生。 */
+  tabBar: ReactNode
   tab: DataTab
-  onTab: (t: DataTab) => void
+  focusObjectId?: string
+  onObjectFocus?: (id: string | undefined) => void
 }) {
   const {
     sprites,
@@ -155,31 +122,21 @@ export function DataMode(props: {
     onJumpToEvent,
     focusScriptId,
     focusScriptRevision,
+    tabBar,
     tab,
-    onTab,
+    focusObjectId,
+    onObjectFocus,
   } = props
   // N5:引用反向索引(flag/var/item ← 事件脚本);scenes 变才重算(全量扫描毫秒级)
   const refIndex = useMemo(() => buildRefIndex(scenes), [scenes])
-  // 垂直页列(RPGM 数据库左栏范式;塞 outliner 顶部,每子页统一)
-  const tabBar = (
-    <div className="data-pages">
-      {DATA_TABS.map((t) => (
-        <button
-          type="button"
-          key={t.id}
-          className={`dpage${tab === t.id ? ' sel' : ''}`}
-          onClick={() => onTab(t.id)}
-        >
-          <span className="ico">{t.icon}</span>
-          <span>{t.label}</span>
-        </button>
-      ))}
-    </div>
-  )
   const [filter, setFilter] = useState('')
   const [kindFilter, setKindFilter] = useState<'all' | SpriteDef['layout']['kind']>('all')
-  const [selId, setSelId] = useState(sprites[0]?.id ?? '')
+  const [selId, setSelId] = useState(focusObjectId ?? sprites[0]?.id ?? '')
   const [uploadingSprite, setUploadingSprite] = useState(false)
+
+  useEffect(() => {
+    if (tab === 'sprite' && focusObjectId !== undefined) setSelId(focusObjectId)
+  }, [focusObjectId, tab])
 
   const shown = useMemo(
     () =>
@@ -193,7 +150,7 @@ export function DataMode(props: {
       ),
     [sprites, filter, kindFilter],
   )
-  const sprite = sprites.find((s) => s.id === selId) ?? shown[0]
+  const sprite = sprites.find((s) => s.id === selId)
 
   if (tab === 'enemy') {
     return (
@@ -324,6 +281,7 @@ export function DataMode(props: {
         focusScriptId={focusScriptId}
         focusScriptRevision={focusScriptRevision}
         onJumpToEvent={onJumpToEvent}
+        onSelectedScriptId={onObjectFocus}
       />
     )
   }
@@ -375,7 +333,10 @@ export function DataMode(props: {
                   type="button"
                   key={s.id}
                   className={`arow${s.id === selId ? ' sel' : ''}`}
-                  onClick={() => setSelId(s.id)}
+                  onClick={() => {
+                    setSelId(s.id)
+                    onObjectFocus?.(s.id)
+                  }}
                 >
                   <span className="face">{KIND_ICON[s.layout.kind]}</span>
                   <span className="nm">
@@ -391,7 +352,7 @@ export function DataMode(props: {
           </>
         ) : (
           <div className="insp-empty" style={{ padding: 20 }}>
-            {DATA_TABS.find((t) => t.id === tab)?.label} 编辑器 —— 待做（数据模式后续标签）
+            {editorSubpageForDataPage(tab).label} 编辑器尚未实现
           </div>
         )}
       </div>
@@ -406,7 +367,10 @@ export function DataMode(props: {
               session={session}
               onDone={(id) => {
                 setUploadingSprite(false)
-                if (id) setSelId(id)
+                if (id) {
+                  setSelId(id)
+                  onObjectFocus?.(id)
+                }
               }}
             />
           ) : sprite ? (
@@ -418,12 +382,12 @@ export function DataMode(props: {
             />
           ) : (
             <div className="insp-empty" style={{ padding: 40 }}>
-              无精灵
+              {focusObjectId ? `找不到精灵“${focusObjectId}”` : '无精灵'}
             </div>
           )
         ) : (
           <div className="insp-empty" style={{ padding: 40 }}>
-            此标签编辑器待做。数据模式采 RPG Maker 数据库范式:各类游戏数据表标签页组织。
+            此业务页尚未实现。
           </div>
         )}
       </div>

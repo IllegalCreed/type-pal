@@ -1,6 +1,6 @@
 # ED-2 - 编辑器八个一级模块与稳定深链
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: Editor / R6
 Coding Owner: Codex
@@ -85,7 +85,7 @@ Branch: main
 
 ## 推进签字
 
-签字是阶段门禁。当前仅可审设计，不得修改实现文件。
+签字是阶段门禁。设计三签已齐，Codex 已完成 build 与自验证，当前进入实现审查。
 
 ### 进入 build 前:设计签字
 
@@ -102,7 +102,7 @@ Branch: main
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-07-14）**。八模块注册表、typed URL/历史恢复、失效对象空态、模块偏好持久化和三档响应式布局均已实现并实测；编辑器 150 项测试与全仓 3449 项测试通过，未改 schema/loader/迁移器。
 - Opus: pending
 - GLM: pending
 - counter / 返工处理: pending
@@ -176,15 +176,15 @@ interface EditorLocation {
 ### 主审立场
 
 - Reviewer: Opus（信息架构/深链/状态边界）+ GLM（现有页面覆盖/测试矩阵）
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: 三方设计签字均为 `agree`，无分歧。
+- 必改项: 无。
+- 是否建议进入 build: 是，已完成 build。
 
 ### 三方争议记录(按需)
 
 - Codex: 八模块和单一权威页按 ED-1 共识执行；建议以 typed URL location 作为跨模块唯一跳转协议。
 - Opus: 无分歧;氛围归场景(环境属性)与审计战斗域(毒/状态/战场)的划分自洽,以对象权威编辑页为锚的归属规则可裁决未来争议。
-- GLM: pending
+- GLM: 现有 15 页恰好一次、跨模块跳转矩阵和注册表同源方案均通过，无分歧。
 - 用户拍板: 已要求一级展开和面板可调；具体实现待本卡三签。
 
 ## 额度 / 代班记录(如适用)
@@ -200,19 +200,37 @@ interface EditorLocation {
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: pending
-- 实现摘要: 未开始
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: 三签未齐，禁止实现。
+- 修改文件:
+  - `packages/editor/src/ui/editor-navigation.ts`、`ModuleNav.tsx`、`App.tsx`、`editor.css`：单一八模块注册表、模块/子页导航、typed URL、历史与偏好持久化、响应式布局。
+  - `packages/editor/src/ui/DataMode.tsx`、`ActorMode.tsx`、`MapMode.tsx`、`SharedScriptTab.tsx`：把现有权威页面接入模块导航和对象深链，不复制业务组件。
+  - `packages/editor/src/main.tsx`：切换工程时按工程 id 重建编辑器导航状态。
+  - `packages/editor/src/ui/editor-navigation.test.ts`：模块覆盖、URL 契约和跨模块链接测试。
+  - `docs/phase2/editor/editor-design.md`：八模块 IA 与深链契约定稿。
+- 实现摘要:
+  - 顶层只保留 `scene/map/story/actor/item/battle/asset/project` 八个模块；旧 15 个数据页由同一注册表恰好登记一次，`DataMode` 仅作为内部挂载器。
+  - URL 使用 `module/page/object`，普通跳转写 history，`popstate` 走同一 decoder；合法页面的失效对象显示空态，不回退第 0 项。
+  - 各模块记住最后子页/对象/滚动位置；模块导航折叠偏好持久化，低于 860px 自动折叠并禁用手动展开。
+  - 场景 -> 地图、角色 -> 精灵、共享脚本引用统一使用 `EditorLocation`；底栏改为“已检查的引用无问题”。
+- 运行命令:
+  - `pnpm exec biome check <ED-2 修改的 10 个实现文件>`：通过。
+  - `pnpm --filter @type-pal/editor typecheck`：通过。
+  - `pnpm --filter @type-pal/editor check`：18 个文件、150 项测试全过。
+  - `pnpm check`：全仓 251 个测试文件、3449 项通过、1 项既有跳过；Biome 657 个文件通过。
+  - `git diff --check`：通过。
+- 浏览器 / 手工检查:
+  - `http://localhost:6012/`（`e2e-own`）逐一打开八模块及全部非默认子页，页面均可达且无控制台错误。
+  - 验证 asset/music -> scene 的后退/前进、模块最后子页恢复、导航折叠重载持久化。
+  - 验证失效 sprite 深链显示“目标不存在”且无列表选中；验证场景 -> 地图、角色 -> 精灵均带准确 `objectId`。
+  - 1280px 展开导航；900px 三栏无横向溢出；720px 自动折叠为 52px、左右栏可同时收起，主区无覆盖。
+- 跳过的检查及原因: 无。
 
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner: Codex + User
 - 验证方式: 1280/900/720 浏览器截图 + 交互检查
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: 全部实现级验证待 build。
+- 截图 / 像素检查路径: Codex 浏览器会话（`http://localhost:6012/`）；三档截图已逐张检查，临时二进制证据未写入仓库。
+- 结论: 三档均无模块导航、Outliner、主区和 Inspector 重叠；720px 强制收起生效，按钮/icon/focus/active 状态可辨识。
+- 未完成项: Opus 与 GLM 独立复验签字。
 
 ## Review: 审查与返工
 
@@ -223,23 +241,26 @@ interface EditorLocation {
 
 ## 用户验收
 
-- 用户结论: pending
+- 用户结论: 2026-07-14 用户表示无法代替 Agent 做技术验收，授权 Codex 继续按三贤人系统完成实现、自动验证与交审；这不是产品验收 `accept`，`done` 仍须三方审查签字。
 - 后续任务: W7E 地图库与场景绑定；ED-3 工程引用图。
 
 ## 交接日志
 
 - 2026-07-14 Codex: 按 ED-1 三签结论起草八模块、唯一权威页、typed URL 深链、状态保留和三档视觉验收方案；未改实现。Evidence: 本卡 Draft/验收矩阵。Next: Opus 设计主审。
 - 2026-07-14 Opus: 设计签 **agree,无必改**。注册表同源/typed 深链/空态兜底/真值单一/S1+S3 落实逐项过。Next: GLM 复核(15 页恰好一次映射+跨模块跳转矩阵);三签齐后 build。
+- 2026-07-14 GLM: 设计签 **agree**。确认旧 15 页恰好一次、跨模块跳转矩阵与注册表同源方案可测。Next: Codex build。
+- 2026-07-14 Codex: 完成八模块、typed URL、历史/偏好恢复、对象空态和三档布局；编辑器 150 项、全仓 3449 项测试通过，浏览器逐页/深链/响应式检查通过，自签 `accept`。Next: Opus 实现审查。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: ED-1 done 复核 + W7E-0/ED-2/W7E 三子卡设计复核(GLM 四卡合并)
-四卡: docs/ops/tasks/{ED-1-editor-authoring-closure-audit, W7E-0-blank-scene-map-reference, ED-2-editor-primary-modules, W7E-map-library-scene-binding}.md
-当前状态: ED-1 review(Codex+Opus accept,GLM pending);W7E-0/ED-2 draft(Codex+Opus agree,无必改);W7E draft(Codex+Opus agree,附 M1/M2 必改待 Codex 落卡)
-你的角色: GLM,覆盖/测试矩阵/一致性复核;只审文档,不改实现
-Opus 已过: ED-1 收口忠实(capability 五格逐行对账/R1-R3+S1+S3 定位到子卡条文;唯一余项 S2 已补记 ED-1 后续任务行=ED-3 开卡必带);W7E-0 最小修复+四支测试齐;ED-2 注册表同源+typed 深链+objectId 不偷选第 0 项;W7E schema/升级边界/懒加载/MG2 双表全过,M1=纯 reuse 工程不升 v2 不注入空 index、M2=消费方表补 clone/zip(A5)。
-请你复核: (1)ED-1:S2 补记文本与 GLM 自己首轮抽查结论仍一致,签 done accept/counter;(2)W7E-0:测试矩阵(own/reuse+room/undo-redo/save-reload)对 P0-1 复现路径的覆盖,签 agree/counter;(3)ED-2:15 旧页→八模块映射"恰好一次"可测性、跨模块跳转三例是否足够,签 agree/counter;(4)W7E:M1/M2 落卡后的消费方矩阵终版逐层对照实际代码面(content/reforge/editor core/editor UI/migrate/MG2/docs),给漏项差集;测试节对 D1-D5 分期的映射,签 agree/counter。各卡分别写 GLM 行+日志
-不要做: 不改实现;子卡三签未齐不 build;ED-1 三方未齐不标 done
-输出要求: 四项分别结论、W7E 消费方差集、提交 hash
+接手 ED-2 实现审查。
+任务卡: docs/ops/tasks/ED-2-editor-primary-modules.md
+当前状态: review；Codex build/自测完成并已签 accept，Opus 与 GLM 审查签字 pending。
+你的角色: Claude Opus，做信息架构、状态边界、代码质量与视觉复验；先读 AGENTS.md、docs/phase2/READ-FIRST.md、本卡上下文锚点和 docs/phase2/editor/editor-design.md §5.1/§11。
+实现要点: 八模块与全部子页由 packages/editor/src/ui/editor-navigation.ts 单一注册表派生；URL 为 module/page/object；失效 object 显式空态；15 个旧数据页只挂载一次；场景->地图、角色->精灵、共享脚本使用统一链接；窄屏自动收起。
+已有证据: editor 18 文件/150 项测试全过；根 pnpm check 为 3449 项通过、1 项既有跳过、Biome 657 文件通过；Codex 已在 1280/900/720 验证全部模块/子页、history、持久化、失效深链和三类跨模块跳转，6012 服务可用。
+请重点复核: (1)registry 是否真为导航/解析/测试单源；(2)push/replace/popstate 是否可能循环或偷选对象；(3)模块记忆和工程切换是否串状态；(4)720/900 布局是否覆盖；(5)是否误改 EditSession、Command、保存或 schema 边界。
+输出: 无问题则把本卡 Opus done 前签字改为 accept，并追加交接日志与给 GLM 的下一位提示词后提交；有问题签 counter，列出 file:line、复现和最小返工要求。
+限制: 审查阶段默认不改实现文件；不得在 GLM 也 accept 前标记 done；无需让用户重复执行技术验收。
 ```

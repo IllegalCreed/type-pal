@@ -91,6 +91,7 @@ export function SharedScriptTab(props: {
   focusScriptId?: string
   focusScriptRevision?: number
   onJumpToEvent: (sceneId: string, sourceKey: string) => void
+  onSelectedScriptId?: (id: string | undefined) => void
 }) {
   const {
     tabBar,
@@ -109,6 +110,7 @@ export function SharedScriptTab(props: {
     focusScriptId,
     focusScriptRevision,
     onJumpToEvent,
+    onSelectedScriptId,
   } = props
   const library = scriptIndex?.library ?? EMPTY_LIBRARY
   const authoredIds = useMemo(() => Object.keys(library).sort(), [library])
@@ -123,6 +125,10 @@ export function SharedScriptTab(props: {
   const [diagnosticWarnings, setDiagnosticWarnings] = useState<string[]>([])
   const [testSceneId, setTestSceneId] = useState(scenes[0]?.id ?? '')
   const [testEntityId, setTestEntityId] = useState('')
+  const selectScript = (id: string): void => {
+    setSelectedId(id)
+    onSelectedScriptId?.(id || undefined)
+  }
 
   useEffect(() => {
     if (focusScriptRevision == null) return
@@ -238,7 +244,7 @@ export function SharedScriptTab(props: {
         source?.body ?? [],
       ),
     )
-    setSelectedId(id)
+    selectScript(id)
   }
   const updateMeta = (patch: Partial<SharedScriptMetaV1>): void => {
     if (!meta || !selectedId) return
@@ -278,7 +284,7 @@ export function SharedScriptTab(props: {
               type="button"
               key={id}
               className={`arow${selectedId === id ? ' sel' : ''}`}
-              onClick={() => setSelectedId(id)}
+              onClick={() => selectScript(id)}
             >
               <span className="face shared-script-icon">↪</span>
               <span className="nm">
@@ -417,7 +423,7 @@ export function SharedScriptTab(props: {
                       scriptIndex={scriptIndex}
                       hasImplicitSelf={meta?.self === 'required'}
                       onOpenScript={
-                        selectedTargetId && library[selectedTargetId] ? setSelectedId : undefined
+                        selectedTargetId && library[selectedTargetId] ? selectScript : undefined
                       }
                       onChange={(next) => {
                         const out = updateCommandAt(stages, parsePath(selectedPath), next)
@@ -498,7 +504,7 @@ export function SharedScriptTab(props: {
                     onClick={() => {
                       try {
                         session.dispatch(new DeleteAuthoredScriptCommand(selectedId))
-                        setSelectedId('')
+                        selectScript('')
                       } catch (error) {
                         setMessage(error instanceof Error ? error.message : String(error))
                         openReferences()
@@ -524,7 +530,7 @@ export function SharedScriptTab(props: {
                   disabled={entry.caller.type === 'script' && !library[entry.caller.scriptId]}
                   onClick={() => {
                     if (entry.caller.type === 'script') {
-                      if (library[entry.caller.scriptId]) setSelectedId(entry.caller.scriptId)
+                      if (library[entry.caller.scriptId]) selectScript(entry.caller.scriptId)
                       return
                     }
                     onJumpToEvent(entry.caller.sceneId, entry.caller.sourceKey)
