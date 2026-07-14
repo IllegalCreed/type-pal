@@ -104,10 +104,43 @@ Branch: main
 
 - Codex: **accept（2026-07-14）**。八模块注册表、typed URL/历史恢复、失效对象空态、模块偏好持久化和三档响应式布局均已实现并实测；编辑器 150 项测试与全仓 3449 项测试通过，未改 schema/loader/迁移器。
 - Opus: **accept**（2026-07-14,基线 b8c824d1;五点复核全过——①注册表唯一真源:EDITOR_MODULES 派生导航/URL/测试,15 旧页恰好一次+子页≤5 有专项测试,未登记数据页即抛;②历史语义:popstate 走 'none' 单向恢复不写历史(无循环),sameEditorLocation 守卫,对象点选 replace 防历史膨胀,活体验证战斗→back→场景恢复;③记忆按 `type-pal:editor:navigation:<projectId>` 键控,工程切换 App 重挂载零串扰,URL 优先于存储;④720/900 活体检测零横向溢出、五面板矩形零重叠;失效深链显"目标不存在"且不偷选(objectId 存在性校验后才选中);⑤core/content/schema 零触碰(提交仅 UI+main.tsx 装配行)。editor 150 测试独立复跑绿。无返工项）
-- GLM: pending
-- counter / 返工处理: pending
+- GLM: **accept（2026-07-14;见下）**
+- counter / 返工处理: 无。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **三方 done 前审查签字齐（Codex + Opus + GLM accept），交用户验收。**
+
+### GLM done 前覆盖复验（2026-07-14）
+
+增量范围：b8c824d1（实现）。未改实现文件，只做文档/代码/测试复验。全 editor 18 文件 150 tests 复跑全绿。
+
+**(1) 验收条款逐项对照实现与测试映射** ✅
+- **URL 编解码/非法兜底/objectId 转义/back-forward**：`editor-navigation.ts:199-206` decodeEditorLocation → normalizeEditorLocation；非法 module 回 `scene`（:188-190）、合法 module 非法 page 回本模块默认页（:192-194）；objectId trim 空归一化（:195）。editor-navigation.test.ts:34-58 覆盖合法位置+保留字符 objectId（`shared/user/剧情 #1?`）、非法 module 回退、合法 module 非法 page 回退、空 objectId 归一化四支。
+- **旧 15 页恰好一次**：editor-navigation.ts:14-30 DATA_PAGE_IDS 15 项 = EDITOR_MODULES 注册的 15 个 dataPage，`grep -c dataPage` = 15，`uniq -d` 零重复。editor-navigation.test.ts:24-30 断言 `[...registered].sort() === [...DATA_PAGE_IDS].sort()` + `Set.size === length`。
+- **子页 ≤5 硬门禁**：editor-navigation.test.ts:17-21 逐模块断言 `subpages.length <= 5` + `defaultSubpage 存在`。实测最大 4（battle），无超标。
+- **跨模块跳转三例**：App.tsx `editorLinks.sharedScript`（:329 剧情）、`editorLinks.actorSprite`（:720 角色→资源精灵）、`editorLinks.sceneMap`（:1030 场景→地图）——三例均经 `applyEditorLocation` 走统一导航 API。editor-navigation.test.ts:72-88 断言三个 link 的 EditorLocation 形状。
+- **状态恢复**：App.tsx:204-227 `applyEditorLocation` + :229-243 popstate 走 `'none'` 单向恢复 + :245-259 scroll 恢复。`persistNavigation` 按 projectId 键控 localStorage（Opus 已核零串扰）。
+
+**(2) editor-design §5.1 文档一致性** ✅
+- §5.1 八模块表（editor-design.md:83-92）与 editor-navigation.ts:52-155 `EDITOR_MODULES` 逐行一致：模块 id、label、子页全部对应。
+- §5.1 四条约束（注册表唯一真源/EditorLocation URL/popstate 单向/每页恰好一次 ≤5）与实现完全对应。
+- §10（:137）已标注"数据表模式不再代表可见一级导航"，与 DataMode 退役一致。
+
+**(3) DataMode 退役后的可见入口审计** ✅
+- App.tsx 中"数据"字样仅出现在注释（:319）和无关文案（:1378/1407），无可见一级导航入口。
+- ModuleNav.tsx 从 `EDITOR_MODULES` 派生 8 个按钮，无"数据"项。
+- DataMode.tsx 注释改为"八模块导航下的数据型业务页挂载器"，`DataTab` 类型别名改为 `DataPageId`（从注册表派生），不再自维护 tab 列表。`editorSubpageForDataPage` 未登记页抛错（:177）。
+- 15 页全部可达：每个 dataPage 在 EDITOR_MODULES 中恰好一个 subpage 挂载点。
+
+**(4) 受改文件行为回归抽查** ✅
+- **SharedScriptTab.tsx**：新增 `onSelectedScriptId` 回调 + `selectScript` 包装；`onOpenScript` 从 `setSelectedId` 改为 `selectScript`（内部仍只跳 library 内目标）。App.tsx:327 `openSharedScript` 加 `if (!library[id]) return` 守卫 + 走 `editorLinks.sharedScript`。行为一致，无语义漂移。
+- **ActorMode.tsx**：新增 `focusActorId`/`onActorFocus`/`onOpenSprite` props + useEffect 响应 focusActorId；App.tsx:720 `onOpenSprite` 经 `editorLinks.actorSprite` 跳资源。原有角色编辑逻辑未改。
+- **MapMode.tsx**：仅 4 行改动（接入导航），地图编辑逻辑未触碰。
+- **main.tsx**：1 行（工程切换时重挂载导航状态）。
+
+**(5) core/content/schema 零触碰** ✅
+- b8c824d1 `--name-only` 不含 packages/content/packages/migrate/schema 任何文件。仅 UI + main.tsx + 文档。
+
+**总结**：验收条款逐项对照实现+测试映射无缺口；§5.1 文档与实现一致；DataMode 退役后 15 页全部可达且无"数据"一级入口；受改文件行为回归无漂移；core/schema 零触碰。**accept**。
 
 ## Draft: 设计与风险
 
@@ -252,6 +285,7 @@ interface EditorLocation {
 - 2026-07-14 Codex: 完成八模块、typed URL、历史/偏好恢复、对象空态和三档布局；编辑器 150 项、全仓 3449 项测试通过，浏览器逐页/深链/响应式检查通过，自签 `accept`。Next: Opus 实现审查。
 
 - 2026-07-14 Opus: 实现审查签 **accept**(b8c824d1)。注册表唯一真源(15 页恰好一次/≤5 专项测试)/popstate 单向无循环+对象 replace/记忆 per-projectId 零串扰/720+900 活体零溢出零重叠+失效深链不偷选/core-schema 零触碰;150 测试复跑绿。Evidence: done 签字行。Next: GLM 复核;三签齐可 done。未改实现文件。
+- 2026-07-14 GLM: done 前覆盖复验签 **accept**(b8c824d1)。五项逐条：(1)验收条款逐项对照——URL 编解码/非法兜底/objectId 转义/back-forward 四支测试+15 页恰好一次(Set 断言)+子页≤5 门禁+跨模块跳转三例(editorLinks)+状态恢复(popstate none/scroll/per-projectId)全映射；(2)§5.1 文档八模块表与 EDITOR_MODULES 逐行一致+四条约束对应+§10 退役标注；(3)DataMode 退役审计——App 无"数据"一级入口，ModuleNav 8 按钮从注册表派生，DataMode 注释改为内部挂载器+DataTab=DataPageId，15 页全部可达；(4)受改回归——SharedScriptTab selectScript 包装+library 守卫、ActorMode focusActorId effect+onOpenSprite、MapMode 4 行接入、main.tsx 1 行；(5)core/schema 零触碰。editor 18 文件 150 tests 复跑全绿。Evidence: done 准入 GLM 复验段。Next: 交用户验收，用户点头方 done。未改实现文件。
 
 ## 下一位 Agent 提示词
 
