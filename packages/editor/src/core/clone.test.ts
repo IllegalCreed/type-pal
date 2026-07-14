@@ -54,7 +54,6 @@ describe('cloneFromPal', () => {
     content: { actors: 'content/actors.json', scenes: 'content/scenes/' },
     assets: {
       root: '/extracted/data',
-      maps: 'tilemap',
       tilesets: 'tileset',
       sprites: 'sprite',
       palettes: 'palette',
@@ -139,5 +138,32 @@ describe('cloneFromPal', () => {
     await cloneFromPal(source, dir, () => {})
     expect(written.has('content/scripts/index.json')).toBe(true)
     expect(written.has('content/scripts/chunks/scene/s1.json')).toBe(true)
+  })
+
+  test('地图注册表与零场景引用地图也会完整克隆', async () => {
+    const mapsManifest = {
+      ...manifest,
+      contentVersion: 2,
+      content: { ...manifest.content, maps: 'content/maps/index.json' },
+    }
+    const mapIndex = {
+      version: 1,
+      maps: [{ id: 'unused', name: '未引用地图', path: 'content/maps/unused.json' }],
+    }
+    const source = memSource({
+      ...seedFiles,
+      'manifest.json': mapsManifest,
+      'content/maps/index.json': mapIndex,
+      'content/maps/unused.json': { version: 1, width: 1, height: 1 },
+    })
+    const { dir, written } = recordingDir()
+    await cloneFromPal(source, dir, () => {})
+
+    expect(JSON.parse(written.get('content/maps/index.json') as string)).toEqual(mapIndex)
+    expect(JSON.parse(written.get('content/maps/unused.json') as string)).toMatchObject({
+      version: 1,
+      width: 1,
+      height: 1,
+    })
   })
 })

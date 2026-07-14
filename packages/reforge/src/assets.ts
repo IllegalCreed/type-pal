@@ -1,17 +1,16 @@
 /**
- * 工程资源加载:tilemap / palette / tileset / sprite。
+ * 工程资源加载:ProjectMapV2 / palette / tileset / sprite。
  * base 由调用方注入(来自 manifest.assets.root,如 `projects/<id>/assets`);
- * 子目录用 manifest.assets 的 maps/tilesets/sprites/palettes(见 AssetBase)。
+ * 子目录用 manifest.assets 的 tilesets/sprites/palettes(见 AssetBase)。
  * 解码逻辑复用 @type-pal/shared(parseSpriteChunk + 类型);decompressGzip 端口自 game。
  */
-import { type OwnMap, validateOwnMap } from '@type-pal/content'
-import { type Palette, parseSpriteChunk, type RleFrame, type Tilemap } from '@type-pal/shared'
+import { type ProjectMapV2, validateProjectMapV2 } from '@type-pal/content'
+import { type Palette, parseSpriteChunk, type RleFrame } from '@type-pal/shared'
 import type { FileSource } from './file-source.js'
 
 /** 工程资源根 + 子目录(由 loader 从 manifest.assets 解析,main 注入给 load*)。 */
 export interface AssetBase {
   root: string // 如 `projects/<id>/assets`
-  maps: string // tilemap 子目录(默认 'maps')
   tilesets: string
   sprites: string
   palettes: string
@@ -63,15 +62,9 @@ async function readAssetJson<T>(base: AssetBase, path: string): Promise<T> {
   return fetchJson<T>(path)
 }
 
-export function loadTilemap(base: AssetBase, mapNum: number): Promise<Tilemap> {
-  return readAssetJson<Tilemap>(base, `${base.root}/${base.maps}/${mapNum}.json`)
-}
-
-/**
- * 自有地图(W7D):从工程内 content 路径读 OwnMap v1，并在加载边界完整校验。
- */
-export async function loadOwnMap(base: AssetBase, ownMapPath: string): Promise<OwnMap> {
-  return validateOwnMap(await readAssetJson<unknown>(base, ownMapPath))
+/** 从工程 content 路径读取唯一作者态地图，并在加载边界完整校验。 */
+export async function loadProjectMap(base: AssetBase, mapPath: string): Promise<ProjectMapV2> {
+  return validateProjectMapV2(await readAssetJson<unknown>(base, mapPath))
 }
 
 export function loadPalette(base: AssetBase, palId: number): Promise<Palette> {
@@ -80,9 +73,7 @@ export function loadPalette(base: AssetBase, palId: number): Promise<Palette> {
 
 /**
  * tileset(.rle = gzip GOP chunk)→ 解压 → parseSpriteChunk → 按 tile 下标索引的帧。
- * 路径 = Tilemap.tileset 字段(相对 assets root,如 `tileset/56.rle`);复用与自有地图共用同一解析。
- * ⚠ 不再从 mapNum 反推 —— 地图自描述其 tileset(Phase-2 杜绝下标式身份;复用图 tileset 恰为
- * `tileset/<mapNum>.rle`,故对复用图逐字节等价于旧 loadTileset(mapNum),零行为变化)。
+ * 路径来自 tileset registry 条目，相对 assets root（如 `tileset/56.rle`）。
  */
 export async function loadTilesetByPath(
   base: AssetBase,

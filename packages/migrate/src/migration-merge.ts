@@ -41,9 +41,10 @@ function snapshot(node: Node): VersionedJson {
 
 function arrayMode(file: string, path: string): ArrayMode {
   if (file === 'content/scenes/index.json' && path === '') return 'scene-index'
+  if (file === 'content/maps/index.json' && path === '/maps') return 'id'
   if (
     path === '' &&
-    /content\/(actors|items|sprites|enemies|enemy-teams|music|battle-fields|poisons|shops)\.json$/.test(
+    /content\/(actors|items|sprites|enemies|enemy-teams|music|battle-fields|poisons|shops|tilesets)\.json$/.test(
       file,
     )
   )
@@ -274,6 +275,12 @@ function mergePages(
 }
 
 function mergeNode(base: Node, ours: Node, theirs: Node, path: string, ctx: MergeContext): Node {
+  if (!base.present && isArray(ours) && isArray(theirs)) {
+    const mode = arrayMode(ctx.file, path)
+    const empty = present([]) as Node & { value: MigrationJson[] }
+    if (mode === 'id') return mergeIdentityArray(empty, ours, theirs, path, ctx, false)
+    if (mode === 'scene-index') return mergeIdentityArray(empty, ours, theirs, path, ctx, true)
+  }
   if (isArray(base) && isArray(ours) && isArray(theirs)) {
     const mode = arrayMode(ctx.file, path)
     if (mode === 'id') return mergeIdentityArray(base, ours, theirs, path, ctx, false)

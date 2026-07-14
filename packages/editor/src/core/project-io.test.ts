@@ -1,14 +1,13 @@
 import { type LoadedManifest, normalizeScriptLibrary, type SceneDef } from '@type-pal/content'
-import {
-  assembleProject,
-  buildBlankOwnMap,
-  loadOwnMap,
-  loadProjectFrom,
-  loadSceneDef,
-} from '@type-pal/reforge'
+import { assembleProject, buildBlankProjectMap, loadProjectMap } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
-import { AddSceneCommand } from './commands.js'
-import { diffFiles, serializeProject, toEditorState } from './project-io.js'
+import { DeleteMapAssetCommand } from './commands.js'
+import {
+  diffFiles,
+  serializeProject,
+  serializeProjectWithMapCopies,
+  toEditorState,
+} from './project-io.js'
 
 /**
  * L3 round-trip 钉真值:toEditorState(读入)→ serializeProject(落盘)应还原各 content JSON。
@@ -18,7 +17,7 @@ import { diffFiles, serializeProject, toEditorState } from './project-io.js'
 const manifest: LoadedManifest = {
   id: 'demo',
   name: '鬼界·民居(验证 demo)',
-  contentVersion: 1,
+  contentVersion: 2,
   entryScene: 'guijie-minju',
   content: {
     scenes: 'content/scenes/',
@@ -28,10 +27,11 @@ const manifest: LoadedManifest = {
     locale: 'content/locale.json',
     sprites: 'content/sprites.json',
     battleFields: 'content/battle-fields.json',
+    maps: 'content/maps/index.json',
+    tilesets: 'content/tilesets.json',
   },
   assets: {
     root: 'assets',
-    maps: 'maps',
     tilesets: 'tilesets',
     sprites: 'sprites',
     palettes: 'palettes',
@@ -72,7 +72,7 @@ const actorsJson = [
 const scenesJson = [
   {
     id: 'guijie-minju',
-    map: { reuseOriginalMap: 56, room: { col: 26, row: 34, cols: 22, rows: 25 } },
+    mapId: 'map-056',
     paletteId: 0,
     entry: { pos: { col: 90, row: 14, height: 0 }, facing: 'down' },
     entities: [
@@ -131,6 +131,18 @@ const battleFieldsJson = [
   },
   { id: 22, screenWave: 5, magicEffect: { wind: 0, thunder: 0, water: 3, fire: -3, earth: 0 } },
 ]
+const mapsJson = {
+  version: 1 as const,
+  maps: [{ id: 'map-056', name: '地图 56', path: 'content/maps/map-056.json' }],
+}
+const tilesetsJson = [
+  {
+    id: 'tileset-056',
+    name: '瓦片集 56',
+    category: 'builtin',
+    path: 'tileset/56.rle',
+  },
+]
 const JSONS = {
   actors: actorsJson,
   sceneIds: scenesJson.map((s) => s.id),
@@ -140,6 +152,8 @@ const JSONS = {
   locale: localeJson,
   sprites: spritesJson,
   battleFields: battleFieldsJson,
+  maps: mapsJson,
+  tilesets: tilesetsJson,
 }
 const SCENES = scenesJson as never[]
 
@@ -167,37 +181,37 @@ test('round-trip:toEditorState → serializeProject 还原各 content JSON', () 
   expect(out['manifest.json']).toEqual(manifest)
 })
 
-test('W7D 自有地图 round-trip:ownMaps → serializeProject 产出 content/maps 文件', () => {
+test('ProjectMapV2 round-trip 使用共享确定性格式化器', () => {
+  const map = buildBlankProjectMap(2, 2, 'tileset-056')
   const project = assembleProject(manifest, JSONS)
-  const ownMap = buildBlankOwnMap(2, 2, 'tileset/56.rle')
-  const ownMaps = { 'content/maps/guijie-minju.json': ownMap }
-  const state = toEditorState(project, SCENES, [], ownMaps)
-  expect(state.maps).toEqual(ownMaps) // 键 = ownMap 相对路径,原样入 state
+  const state = toEditorState(project, SCENES, [], { 'map-056': map })
   const out = serializeProject(state)
-  expect(out['content/maps/guijie-minju.json']).toEqual(ownMap) // 键即路径,直接产出为文件
+
+  expect(out['content/maps/index.json']).toEqual(mapsJson)
+  expect(typeof out['content/maps/map-056.json']).toBe('string')
+  expect(JSON.parse(out['content/maps/map-056.json'] as string)).toEqual(map)
 })
 
-test('W7E-0 新场景保存后由正式 loader 重开仍保留自有地图引用', async () => {
-  const ownScene: SceneDef = {
-    ...(scenesJson[0] as SceneDef),
-    map: { ownMap: 'content/maps/guijie-minju.json' },
-  }
-  const project = assembleProject(manifest, { ...JSONS, entryScene: ownScene })
-  const state = toEditorState(project, [ownScene])
-  const changed = new AddSceneCommand('new-room', ownScene.map, ownScene.entry).apply(state)
-  const files = serializeProject(changed)
-  const source = {
-    readText: async (path: string) => JSON.stringify(files[path]),
-    readJson: async <T>(path: string) => files[path] as T,
+test('未加载地图保存时按原文本 copy-through，不解析正文', async () => {
+  const raw =
+    '{"version":2,"width":1,"height":1,"tilesetId":"tileset-056","layers":[],"collision":[]}'
+  const reads: string[] = []
+  const project = assembleProject(manifest, JSONS)
+  const state = toEditorState(project, SCENES)
+  const files = await serializeProjectWithMapCopies(state, {
+    readText: async (path: string) => {
+      reads.push(path)
+      return raw
+    },
+    readJson: async () => {
+      throw new Error('copy-through 不应 parse JSON')
+    },
     readBytes: async () => new ArrayBuffer(0),
     urlFor: async (path: string) => path,
-  }
-
-  const reopened = await loadProjectFrom(source)
-  expect(await loadSceneDef(reopened, 'new-room')).toMatchObject({
-    id: 'new-room',
-    map: { ownMap: 'content/maps/guijie-minju.json' },
   })
+
+  expect(reads).toEqual(['content/maps/map-056.json'])
+  expect(files['content/maps/map-056.json']).toBe(raw)
 })
 
 test('M3 scripts 目录 round-trip:index + chunk 路径与内容原样保留', () => {
@@ -274,18 +288,36 @@ test('N6 保存门禁:作者脚本孤儿 ref fail-loud', () => {
   expect(() => serializeProject(state)).toThrow(/孤儿 ref/)
 })
 
-test('W7D 自有地图 serialize → loadOwnMap 重开闭环', async () => {
-  const project = assembleProject(manifest, JSONS)
+test('ProjectMapV2 serialize → loadProjectMap 重开闭环', async () => {
+  const ownManifest = {
+    ...manifest,
+    contentVersion: 2,
+    content: { ...manifest.content, maps: 'content/maps/index.json' },
+  }
   const rel = 'content/maps/guijie-minju.json'
-  const ownMap = buildBlankOwnMap(2, 2, 'tileset/56.rle')
-  const files = serializeProject(toEditorState(project, SCENES, [], { [rel]: ownMap }))
+  const ownScene = { ...(scenesJson[0] as SceneDef), mapId: 'guijie-minju' }
+  const mapIndex = {
+    version: 1 as const,
+    maps: [{ id: 'guijie-minju', name: '鬼界民居', path: rel }],
+  }
+  const project = assembleProject(ownManifest, {
+    ...JSONS,
+    entryScene: ownScene,
+    maps: mapIndex,
+  })
+  const projectMap = buildBlankProjectMap(2, 2, 'tileset-056')
+  const files = serializeProject(
+    toEditorState(project, [ownScene], [], { 'guijie-minju': projectMap }),
+  )
   const source = {
-    readText: async (path: string) => JSON.stringify(files[path]),
-    readJson: async <T>(path: string) => files[path] as T,
+    readText: async (path: string) =>
+      typeof files[path] === 'string' ? (files[path] as string) : JSON.stringify(files[path]),
+    readJson: async <T>(path: string) =>
+      (typeof files[path] === 'string' ? JSON.parse(files[path] as string) : files[path]) as T,
     readBytes: async () => new ArrayBuffer(0),
     urlFor: async (path: string) => path,
   }
-  expect(await loadOwnMap({ ...project.assetBase, source }, rel)).toEqual(ownMap)
+  expect(await loadProjectMap({ ...project.assetBase, source }, rel)).toEqual(projectMap)
 })
 
 test('toEditorState:by-id Record → 数组(Object.values 保序)', () => {
@@ -339,10 +371,12 @@ test('serializeProject:返回值为纯 JSON 值(可 JSON.stringify,无 undefined
       'content/battle-fields.json',
       'content/items.json',
       'content/locale.json',
+      'content/maps/index.json',
       'content/scenes/index.json',
       'content/scenes/guijie-minju.json',
       'content/skills.json',
       'content/sprites.json',
+      'content/tilesets.json',
       'manifest.json',
     ].sort(),
   )
@@ -433,6 +467,70 @@ describe('diffFiles(增量-diff)', () => {
     const files = { 'a.json': { v: 1 } }
     const snap = new Map([['a.json', `${JSON.stringify({ v: 1 }, null, 2)}\n`]])
     expect(diffFiles(snap, files)).toEqual({ write: [], remove: [] })
+  })
+
+  test('删除未引用地图会改写 index，并把地图 JSON 列入 remove', () => {
+    const ownManifest: LoadedManifest = {
+      ...manifest,
+      contentVersion: 2,
+      content: { ...manifest.content, maps: 'content/maps/index.json' },
+    }
+    const scene: SceneDef = { ...(scenesJson[0] as SceneDef), mapId: 'used' }
+    const mapIndex = {
+      version: 1 as const,
+      maps: [
+        { id: 'used', name: '使用中', path: 'content/maps/used.json' },
+        { id: 'unused', name: '未引用', path: 'content/maps/unused.json' },
+      ],
+    }
+    const project = assembleProject(ownManifest, {
+      ...JSONS,
+      entryScene: scene,
+      maps: mapIndex,
+    })
+    const state = toEditorState(project, [scene], [], {
+      used: buildBlankProjectMap(2, 2, 'used'),
+      unused: buildBlankProjectMap(2, 2, 'unused'),
+    })
+    const before = serializeProject(state)
+    const snapshot = new Map(
+      Object.entries(before).map(([path, value]) => [
+        path,
+        typeof value === 'string' ? value : `${JSON.stringify(value, null, 2)}\n`,
+      ]),
+    )
+    const after = serializeProject(new DeleteMapAssetCommand('unused').apply(state))
+    const diff = diffFiles(snapshot, after)
+    expect(diff.write).toContain('content/maps/index.json')
+    expect(diff.remove).toContain('content/maps/unused.json')
+    expect(diff.remove).not.toContain('content/maps/used.json')
+  })
+
+  test('地图路径与其他工程输出碰撞时 fail-loud，不静默覆盖', () => {
+    const ownManifest: LoadedManifest = {
+      ...manifest,
+      contentVersion: 2,
+      content: { ...manifest.content, maps: 'content/maps/index.json' },
+    }
+    const scene: SceneDef = { ...(scenesJson[0] as SceneDef), mapId: 'bad' }
+    const project = assembleProject(ownManifest, {
+      ...JSONS,
+      entryScene: scene,
+      maps: {
+        version: 1,
+        maps: [
+          {
+            id: 'bad',
+            name: '错误路径',
+            path: 'content/scenes/guijie-minju.json',
+          },
+        ],
+      },
+    })
+    const state = toEditorState(project, [scene], [], {
+      bad: buildBlankProjectMap(2, 2, 'starter'),
+    })
+    expect(() => serializeProject(state)).toThrow('输出路径冲突')
   })
 })
 

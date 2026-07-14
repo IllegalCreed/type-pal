@@ -80,10 +80,10 @@ describe('跨模块唯一链接', () => {
       subpage: 'sprite',
       objectId: 'sprite-li',
     })
-    expect(editorLinks.sceneMap('s001')).toEqual({
+    expect(editorLinks.map('map-home')).toEqual({
       module: 'map',
       subpage: 'workspace',
-      objectId: 's001',
+      objectId: 'map-home',
     })
   })
 })

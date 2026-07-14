@@ -3,7 +3,7 @@ import { validateActors, validateScenes, validateSprites } from './validate.js'
 
 const mkScene = (over: Record<string, unknown> = {}): unknown => ({
   id: 's',
-  map: { reuseOriginalMap: 1, room: { col: 0, row: 0, cols: 1, rows: 1 } },
+  mapId: 'map-001',
   entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
   entities: [],
   ...over,

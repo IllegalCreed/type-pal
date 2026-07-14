@@ -19,41 +19,20 @@ import {
   sliceAtlasGrid,
 } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import {
-  AddTilesetCommand,
-  RemoveTilesetCommand,
-  UpdateTilesetTileHeightCommand,
-} from '../core/commands.js'
+import { AddTilesetCommand, RemoveTilesetCommand } from '../core/commands.js'
 import type { EditorState, EditSession } from '../core/edit-session.js'
 
 /** 瓦片帧网格预览(bake 后贴 canvas;量化预览与条目详情共用)。 */
-function FrameGrid(props: {
-  frames: RleFrame[]
-  palette: Palette
-  cap?: number
-  /** 可选点选(详情页标高度用;量化预览不传 = 纯展示)。 */
-  selectedIdx?: number | null
-  onPick?: (idx: number) => void
-  /** 角标:瓦片高度标注(idx → height;详情页显示)。 */
-  badges?: ReadonlyMap<number, number>
-}) {
-  const { frames, palette, cap = 128, selectedIdx, onPick, badges } = props
+function FrameGrid(props: { frames: RleFrame[]; palette: Palette; cap?: number }) {
+  const { frames, palette, cap = 128 } = props
   const shown = frames.slice(0, cap)
   return (
     <div className="tile-grid">
       {shown.map((f, i) => (
-        <span
-          key={`${i}:${f.width}x${f.height}`}
-          className={`tile-pick${selectedIdx === i ? ' sel' : ''}`}
-        >
-          <button type="button" disabled={!onPick} onClick={() => onPick?.(i)}>
+        <span key={`${i}:${f.width}x${f.height}`} className="tile-pick">
+          <button type="button" disabled>
             <FrameThumb frame={f} palette={palette} idx={i} />
           </button>
-          {badges?.has(i) && (
-            <span className="tile-badge" title="遮挡格高">
-              {badges.get(i)}
-            </span>
-          )}
         </span>
       ))}
       {frames.length > cap && (
@@ -349,7 +328,6 @@ export function TilesetTab(props: {
             blob={tilesetBlobs[selected.path]}
             assetBase={assetBase}
             palette={palette}
-            session={session}
             onRemove={() => {
               session.dispatch(new RemoveTilesetCommand(selected.id))
               setSelectedId(null)
@@ -357,10 +335,7 @@ export function TilesetTab(props: {
           />
         ) : (
           <div className="dscroll">
-            <p className="hint2 pad">
-              左侧选条目看瓦片;「＋ 上传图集」入库新素材。原版地图借用的 tileset 不在此列
-              (它们随复用地图走,不占库位)。
-            </p>
+            <p className="hint2 pad">左侧选择瓦片集，或上传新图集。</p>
             {err && <div className="err">{err}</div>}
           </div>
         )}
@@ -375,17 +350,11 @@ function TilesetDetail(props: {
   blob: ArrayBuffer | undefined
   assetBase: AssetBase
   palette: Palette
-  session: EditSession
   onRemove: () => void
 }) {
-  const { def, blob, assetBase, palette, session, onRemove } = props
+  const { def, blob, assetBase, palette, onRemove } = props
   const [frames, setFrames] = useState<RleFrame[] | null>(null)
-  const [selIdx, setSelIdx] = useState<number | null>(null)
   const [err, setErr] = useState('')
-  const heights = new Map<number, number>()
-  def.tiles?.forEach((m, i) => {
-    if (m.height !== undefined) heights.set(i, m.height)
-  })
   useEffect(() => {
     let alive = true
     void (async () => {
@@ -426,41 +395,8 @@ function TilesetDetail(props: {
           <div className="field">
             <span className="field-label">瓦片</span>
             <span className="mono">{frames.length} 块</span>
-            <span className="hint2">
-              点瓦标遮挡高度,单位=半格8px(一格高家具=2;三格高墙:墙脚2/墙身4/墙顶6;0=纯地面不遮挡;不标=1)
-            </span>
           </div>
-          <FrameGrid
-            frames={frames}
-            palette={palette}
-            selectedIdx={selIdx}
-            onPick={(i) => setSelIdx(i)}
-            badges={heights}
-          />
-          {selIdx !== null && (
-            <div className="field">
-              <span className="field-label">#{selIdx} 高度</span>
-              <input
-                key={`h:${selIdx}:${heights.get(selIdx) ?? ''}`}
-                className="in mono"
-                type="number"
-                min={0}
-                max={15}
-                placeholder="1(缺省)"
-                defaultValue={heights.get(selIdx) ?? ''}
-                onBlur={(e) => {
-                  const raw = e.target.value.trim()
-                  const v =
-                    raw === '' ? undefined : Math.max(0, Math.min(15, Math.floor(Number(raw))))
-                  if (v !== heights.get(selIdx))
-                    session.dispatch(new UpdateTilesetTileHeightCommand(def.id, selIdx, v))
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') e.currentTarget.blur()
-                }}
-              />
-            </div>
-          )}
+          <FrameGrid frames={frames} palette={palette} />
         </>
       ) : err ? (
         <div className="err">{err}</div>

@@ -1,4 +1,10 @@
-import type { CharacterInstance, Facing, GridPos, WorldState } from '@type-pal/content'
+import {
+  type CharacterInstance,
+  type Facing,
+  type GridPos,
+  isMapAssetId,
+  type WorldState,
+} from '@type-pal/content'
 import { SAVE_VERSION, type SaveMeta, type SavePayload, type SlotId, slotKind } from './types.js'
 
 /** 队伍显示快照：名字(已解析,nameOf 注入)+ 等级。now 注入(Date.now())。 */
@@ -51,7 +57,25 @@ export function normalizePayload(p: SavePayload): SavePayload {
     c.hiddenExp ??= {}
     c.luck ??= 0 // 后加字段(fleeRate 装备派生刀):旧档缺 → 0(装备加成仍活派生)
   }
+  validateMapOverride(w.script)
   return p
+}
+
+function validateMapOverride(script: WorldState['script']): void {
+  const mapOverride = (script as { mapOverride?: unknown } | undefined)?.mapOverride
+  if (mapOverride === undefined) return
+  if (typeof mapOverride !== 'object' || mapOverride === null || Array.isArray(mapOverride))
+    throw new Error('存档 world.script.mapOverride 必须是“场景 ID → 稳定地图 ID”对象')
+  for (const [sceneId, mapId] of Object.entries(mapOverride)) {
+    if (typeof mapId === 'number')
+      throw new Error(
+        `旧存档 world.script.mapOverride[${sceneId}] 使用数字地图编号 ${mapId}，无法安全转换为新版稳定地图 ID`,
+      )
+    if (!isMapAssetId(mapId))
+      throw new Error(
+        `存档 world.script.mapOverride[${sceneId}] 不是合法稳定地图 ID：${String(mapId)}`,
+      )
+  }
 }
 
 /** 截当前画面 → 缩到 w×h → PNG Blob(浏览器;离屏 canvas)。source 应为干净游戏帧(无 UI 层)。 */

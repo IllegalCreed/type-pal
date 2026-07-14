@@ -42,6 +42,27 @@ describe('bootstrap report', () => {
     expect(() => applyBootstrapReport(ours, theirs, report)).toThrow('尚未闭合')
   })
 
+  test('map index 的 /maps 使用 id 语义路径', () => {
+    const ours = snapshot({
+      'content/maps/index.json': {
+        version: 1,
+        maps: [{ id: 'ours', name: '作者图', path: 'content/maps/ours.json' }],
+      },
+    })
+    const theirs = generated({
+      'content/maps/index.json': {
+        version: 1,
+        maps: [{ id: 'theirs', name: '迁移图', path: 'content/maps/theirs.json' }],
+      },
+    })
+    const report = createBootstrapReport(ours, theirs)
+    expect(report.differences.map((difference) => difference.path)).toEqual([
+      '/maps/@string:ours',
+      '/maps/@string:theirs',
+      '/maps/$order',
+    ])
+  })
+
   test('精确 decisions 可混合保留 ours 与接受 theirs', () => {
     const ours = snapshot({ 'content/locale.json': { manual: '保留', stale: '旧' } })
     const theirs = generated({ 'content/locale.json': { generated: '新', stale: '新' } })

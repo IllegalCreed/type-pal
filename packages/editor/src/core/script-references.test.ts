@@ -21,12 +21,15 @@ function baseState(): EditorState {
     manifest: {
       id: 'test',
       name: 'test',
-      contentVersion: 1,
+      contentVersion: 2,
       entryScene: 's1',
-      content: { scenes: 'content/scenes/', scripts: 'content/scripts/' },
+      content: {
+        scenes: 'content/scenes/',
+        scripts: 'content/scripts/',
+        maps: 'content/maps/index.json',
+      },
       assets: {
         root: 'assets',
-        maps: 'maps',
         tilesets: 'tilesets',
         sprites: 'sprites',
         palettes: 'palettes',
@@ -36,7 +39,7 @@ function baseState(): EditorState {
     scenes: [
       {
         id: 's1',
-        map: { reuseOriginalMap: 0 },
+        mapId: 'map-s1',
         entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
         entities: [
           {
@@ -56,6 +59,7 @@ function baseState(): EditorState {
     sprites: [],
     startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     maps: {},
+    mapIndex: { version: 1, maps: [] },
     tilesets: [],
     tilesetBlobs: {},
     scriptIndex: createScriptIndex(),

@@ -7,17 +7,9 @@
  * 帧 = idleFrameIndex(SpriteDef.layout, facing)——与引擎同一套数据与公式,零漂移。
  */
 
-import type { ActorDef, SceneDef, SpriteDef } from '@type-pal/content'
-import {
-  gridToPixel,
-  mapRoom,
-  pixelToGrid,
-  resolveEntitySpriteId,
-  isReuseMap as sceneIsReuse,
-  spriteScreenY,
-  tileHeightsOf,
-} from '@type-pal/content'
-import type { AssetBase, OwnMap, SpriteDraw } from '@type-pal/reforge'
+import type { ActorDef, MapIndexV1, SceneDef, SpriteDef } from '@type-pal/content'
+import { gridToPixel, pixelToGrid, resolveEntitySpriteId, spriteScreenY } from '@type-pal/content'
+import type { AssetBase, ProjectMapV2, SpriteDraw } from '@type-pal/reforge'
 import { idleFrameIndex, renderSceneFrame, spriteBlitRect } from '@type-pal/reforge'
 import { useEffect, useRef, useState } from 'react'
 import {
@@ -58,9 +50,10 @@ export function SceneCanvas(props: {
   /** 进场点预览用的玩家精灵(party[0] → ActorDef.spriteId;App 解析)。 */
   leaderSpriteId: string | undefined
   assetBase: AssetBase
-  /** 自有地图实时副本(键 = ownMap 路径);own 场景从此渲染(不落磁盘)。 */
-  ownMaps: Record<string, OwnMap>
-  /** tileset 注册表(W7B;OwnMap.tileset 可为 id)。 */
+  /** 自有地图实时副本(键 = 稳定 map id);own 场景从此渲染(不落磁盘)。 */
+  projectMaps: Record<string, ProjectMapV2>
+  mapIndex: MapIndexV1
+  /** tileset 注册表。 */
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]
   /** 上传未保存的 tileset 字节(内存优先)。 */
   tilesetBlobs: Record<string, ArrayBuffer>
@@ -92,7 +85,8 @@ export function SceneCanvas(props: {
     actorsById,
     leaderSpriteId,
     assetBase,
-    ownMaps,
+    projectMaps,
+    mapIndex,
     tilesets,
     tilesetBlobs,
     selectedId,
@@ -119,7 +113,7 @@ export function SceneCanvas(props: {
   const panDragRef = useRef<{ sx: number; sy: number; panX: number; panY: number } | null>(null)
 
   // 地图像素包围盒(菱形投影 AABB;room 缺省 = 整图)。
-  const mapBox = (map: StageAssets['map']) => mapBoxOf(map, mapRoom(scene.map))
+  const mapBox = (map: StageAssets['map']) => mapBoxOf(map, undefined)
   /** fit 整图到容器:zoom 使整图可见(留 4% 边),pan 居中。 */
   const fitView = (map: StageAssets['map']): void => {
     const b = mapBox(map)
@@ -158,9 +152,10 @@ export function SceneCanvas(props: {
   const { status, err, loadedRef } = useSceneAssets({
     canvasRef,
     assetBase,
-    sceneMap: scene.map,
+    mapId: scene.mapId,
     spriteNums,
-    ownMaps,
+    projectMaps,
+    mapIndex,
     tilesets,
     tilesetBlobs,
     spriteSources,
@@ -176,7 +171,7 @@ export function SceneCanvas(props: {
 
     // M2a:视窗可选 —— 缺省整张图(迁移场景无 room;demo 保留)。整图编辑:room 决定 tile
     // 遍历范围,相机(camera)= 用户平移,worldScale = 用户缩放(renderScene 不夹相机)。
-    const room = mapRoom(scene.map) ?? { col: 0, row: 0, cols: map.width, rows: map.height }
+    const room = { col: 0, row: 0, cols: map.width, rows: map.height }
     const entryDragging = drag && drag.id === ENTRY_HIT_ID
     const entryCell = entryDragging
       ? { col: drag.col, row: drag.row, height: scene.entry.pos.height ?? 0 }
@@ -272,16 +267,10 @@ export function SceneCanvas(props: {
       sprites: draws,
       worldScale: zoom,
       layers: {
-        skipBase: !layers.base,
-        skipCover: !layers.cover,
-        ...(!sceneIsReuse(scene.map)
-          ? {
-              ownTileHeights: tileHeightsOf(
-                tilesets,
-                (map as import('@type-pal/reforge').OwnMap).tileset,
-              ),
-            }
-          : {}),
+        hiddenLayerIds: [
+          ...(!layers.base && map.layers[0] ? [map.layers[0].id] : []),
+          ...(!layers.cover ? map.layers.slice(1).map((layer) => layer.id) : []),
+        ],
       },
     })
 

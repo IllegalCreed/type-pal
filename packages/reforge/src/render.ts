@@ -7,22 +7,14 @@
  *   于是投影靠前者后画、盖住投影靠后者 → 正确遮挡（堆叠高墙的每块小瓦片也对）。
  * 图层只是作画组织，与遮挡无关；遮挡纯看 baseY。等距位偏移端口自 game/draw-tilemap.ts。
  */
-import { isOwnMap, type OwnMap } from '@type-pal/content'
-import type { Palette, RleFrame, Tilemap } from '@type-pal/shared'
-import { ownMapTilesInView } from './own-map.js'
+import type { ProjectMapV2 } from '@type-pal/content'
+import type { Palette, RleFrame } from '@type-pal/shared'
+import { projectMapTilesInView } from './project-map.js'
 
 const TILE_W = 32
 const TILE_H = 16
 const HALF_W = TILE_W / 2 // 16
 const SUBROW = TILE_H / 2 // 8
-
-function tileIdLayer0(d: number): number {
-  return (d & 0xff) | ((d >> 4) & 0x100)
-}
-function tileIdLayer1(d: number): number {
-  const hi = d >>> 16
-  return ((hi & 0xff) | ((hi >> 4) & 0x100)) - 1 // -1 = 无瓦片
-}
 
 /**
  * 索引帧 → RGBA canvas。colorShift ≠ 0 时做原版受击/演出染色
@@ -117,18 +109,19 @@ export interface RenderLayerOpts {
   skipBase?: boolean
   /** 跳过 cover-tiles(高物:墙/家具遮挡片;精灵仍画)。 */
   skipCover?: boolean
-  /** OwnMap 编辑器本地显隐；不写入内容 schema。 */
-  hiddenOwnLayerIds?: readonly string[]
-  /** OwnMap per-tile 遮挡格高(tileId → height;来自 tileset 元数据)。缺省全按 1。
-   *  语义对齐原版:0 = 纯地面不遮挡;h = 深度锚向下延伸 h×8px(单位半格:一格高家具=2)。 */
-  ownTileHeights?: ReadonlyMap<number, number>
+  /** 编辑器本地显隐；不写入内容 schema。 */
+  hiddenLayerIds?: readonly string[]
+  /** 聚焦图层/实例高度；不匹配瓦片变暗但仍可见。 */
+  focusLayerId?: string
+  focusHeight?: number
+  showAll?: boolean
+  dimAlpha?: number
 }
 
 export interface Renderer {
   clear(): void
-  /** 一帧场景：旧 Tilemap 兼容路径或 OwnMap v1 N 层路径。 */
   renderScene(
-    map: Tilemap | OwnMap,
+    map: ProjectMapV2,
     view: CellRect,
     camera: Camera,
     sprites: readonly SpriteDraw[],
@@ -173,11 +166,6 @@ export class Canvas2DRenderer implements Renderer {
     return b
   }
 
-  private blit(id: number, x: number, y: number): void {
-    const img = this.bakedTile(id)
-    if (img) this.ctx.drawImage(img, x, y)
-  }
-
   clear(): void {
     const { canvas } = this.ctx
     this.ctx.fillStyle = '#000'
@@ -185,91 +173,37 @@ export class Canvas2DRenderer implements Renderer {
   }
 
   renderScene(
-    map: Tilemap | OwnMap,
+    map: ProjectMapV2,
     view: CellRect,
     camera: Camera,
     sprites: readonly SpriteDraw[],
     opts?: RenderLayerOpts,
   ): void {
-    if (isOwnMap(map)) {
-      this.renderOwnMap(map, view, camera, sprites, opts)
-      return
-    }
     const ox = -camera.x
     const oy = -camera.y
-    const r0 = Math.max(0, view.row)
-    const r1 = Math.min(map.height, view.row + view.rows)
-    const c0 = Math.max(0, view.col)
-    const c1 = Math.min(map.width, view.col + view.cols)
-
-    // 1) 基底：layer0 全画，再 layer1 全画（present.ts:282-285）;编辑器图层开关可跳过
-    if (!opts?.skipBase)
-      for (let layer = 0; layer <= 1; layer++) {
-        const id = layer === 0 ? tileIdLayer0 : tileIdLayer1
-        for (let r = r0; r < r1; r++) {
-          const row = map.cells[r]
-          if (!row) continue
-          for (let c = c0; c < c1; c++) {
-            const cell = row[c]
-            if (!cell) continue
-            const loId = id(cell.lower)
-            if (loId >= 0) this.blit(loId, c * TILE_W - HALF_W + ox, r * TILE_H - SUBROW + oy)
-            const upId = id(cell.upper)
-            if (upId >= 0) this.blit(upId, c * TILE_W + ox, r * TILE_H + oy)
-          }
-        }
+    const tiles = projectMapTilesInView(map, view, new Set(opts?.hiddenLayerIds ?? []))
+    const tileAlpha = (tile: (typeof tiles)[number]): number => {
+      if (opts?.showAll) return 1
+      const layerMatches = opts?.focusLayerId === undefined || tile.layerId === opts.focusLayerId
+      const heightMatches = opts?.focusHeight === undefined || tile.height === opts.focusHeight
+      return layerMatches && heightMatches ? 1 : (opts?.dimAlpha ?? 0.25)
+    }
+    const drawTile = (image: HTMLCanvasElement, x: number, y: number, alpha: number): void => {
+      if (alpha >= 1) {
+        this.ctx.drawImage(image, x, y)
+        return
       }
-
-    // 2) 精灵 + cover-tile 入深度表
-    // 资产坐标系约定(sdlpal scene.c:301-316,一阶段 present.ts:540-546 已考证):
-    //   blit y = eo.y − height **+ 7**(sLayer×8 在原式中相消,不进 blit);
-    //   排序 key = eo.y + sLayer×8 + 9。
-    // 精灵资产(尤其密道盖板这类须与地图纹理逐像素咬合的贴片)是按这套坐标画的,+7 是
-    // 资产级约定不是引擎怪癖 —— 漏掉则全体精灵高 7px:人物间看不出,贴片对地板错半格
-    // (2026-07-03 用户报,一阶段同坑已修过)。zBias 存 sLayer 源值,排序按 ×8 换算。
-    const entries: DrawEntry[] = []
-    for (const s of sprites) {
-      const img = this.bake(s.frame)
-      const r = spriteBlitRect(s)
-      const bx = Math.round(r.x + ox)
-      const by = Math.round(r.y + oy)
-      const alpha = s.alpha
-      entries.push({
-        baseY: s.worldY + 9 + (s.baseYBias ?? 0) * 8,
-        draw:
-          alpha !== undefined && alpha < 1
-            ? () => {
-                this.ctx.save()
-                this.ctx.globalAlpha = alpha
-                this.ctx.drawImage(img, bx, by)
-                this.ctx.restore()
-              }
-            : () => this.ctx.drawImage(img, bx, by),
-      })
-      if (!opts?.skipCover)
-        this.addCoverTiles(entries, map, s.worldX, s.worldY, s.frame.width, s.frame.height, ox, oy)
+      this.ctx.save()
+      this.ctx.globalAlpha = alpha
+      this.ctx.drawImage(image, x, y)
+      this.ctx.restore()
     }
-
-    // 3) 按 baseY 升序画（同 baseY 稳定）
-    entries.sort((a, b) => a.baseY - b.baseY)
-    for (const e of entries) e.draw()
-  }
-
-  /** OwnMap v1：按数组序铺 N 层；occlude 层再与精灵做 Y 深度重绘。 */
-  private renderOwnMap(
-    map: OwnMap,
-    view: CellRect,
-    camera: Camera,
-    sprites: readonly SpriteDraw[],
-    opts?: RenderLayerOpts,
-  ): void {
-    const ox = -camera.x
-    const oy = -camera.y
-    const tiles = ownMapTilesInView(map, view, new Set(opts?.hiddenOwnLayerIds ?? []))
 
     if (!opts?.skipBase) {
       for (const tile of tiles) {
-        this.blit(tile.tileId, tile.centerX - HALF_W + ox, tile.centerY - SUBROW + oy)
+        const image = this.bakedTile(tile.tileId)
+        if (image)
+          drawTile(image, tile.centerX - HALF_W + ox, tile.centerY - SUBROW + oy, tileAlpha(tile))
       }
     }
 
@@ -295,101 +229,22 @@ export class Canvas2DRenderer implements Renderer {
     }
 
     if (!opts?.skipCover) {
-      const heights = opts?.ownTileHeights
       for (const tile of tiles) {
-        if (!tile.occlude) continue
-        // per-tile 高度(W7 高度补全):缺省 1;0 = 纯地面,即使在 occlude 层也不遮挡(对齐旧
-        // 语义 iTileHeight<=0 不进 cover)。深度锚 = 中心 + 7 + h×SUBROW(旧 baseY 公式同源)。
-        const h = heights?.get(tile.tileId) ?? 1
-        if (h <= 0) continue
+        if (tile.depthMode !== 'height' || tile.height <= 0) continue
         const image = this.bakedTile(tile.tileId)
         if (!image) continue
         const x = tile.centerX - HALF_W + ox
-        const y = tile.centerY - SUBROW + oy
+        const y = tile.centerY + 7 - image.height + oy
+        const alpha = tileAlpha(tile)
         entries.push({
-          baseY: tile.centerY + 7 + h * SUBROW + tile.layerIndex / 1000,
-          draw: () => this.ctx.drawImage(image, x, y),
+          baseY: tile.centerY + 7 + tile.height * SUBROW + tile.layerIndex / 1000,
+          draw: () => drawTile(image, x, y, alpha),
         })
       }
     }
 
     entries.sort((a, b) => a.baseY - b.baseY)
     for (const entry of entries) entry.draw()
-  }
-
-  /** port sdlpal scene.c PAL_CalcCoverTiles：找出会盖住该精灵的高瓦片，作为 cover-tile 入表。 */
-  private addCoverTiles(
-    entries: DrawEntry[],
-    map: Tilemap,
-    spriteWorldX: number,
-    spriteWorldY: number,
-    spriteW: number,
-    spriteH: number,
-    ox: number,
-    oy: number,
-  ): void {
-    const sx = spriteWorldX - Math.floor(spriteW / 2)
-    const sy = spriteWorldY
-    const sh: 0 | 1 = sx % TILE_W !== 0 ? 1 : 0
-    const yStart = Math.trunc((sy - spriteH - 15) / TILE_H)
-    const yEnd = Math.trunc(sy / TILE_H)
-    const xStart = Math.trunc((sx - Math.floor(spriteW / 2)) / TILE_W)
-    const xEnd = Math.trunc((sx + Math.floor(spriteW / 2)) / TILE_W)
-
-    for (let y = yStart; y <= yEnd; y++) {
-      for (let x = xStart; x <= xEnd; x++) {
-        const iStart = x === xStart ? 0 : 3
-        for (let i = iStart; i < 5; i++) {
-          let dx = 0
-          let dy = 0
-          let dh: 0 | 1 = 0
-          switch (i) {
-            case 0:
-              dx = x
-              dy = y
-              dh = sh
-              break
-            case 1:
-              dx = x - 1
-              dy = y
-              dh = sh
-              break
-            case 2:
-              dx = sh ? x : x - 1
-              dy = sh ? y + 1 : y
-              dh = sh ? 0 : 1
-              break
-            case 3:
-              dx = x + 1
-              dy = y
-              dh = sh
-              break
-            default:
-              dx = sh ? x + 1 : x
-              dy = sh ? y + 1 : y
-              dh = sh ? 0 : 1
-              break
-          }
-          if (dy < 0 || dy >= map.height || dx < 0 || dx >= map.width) continue
-          const cell = map.cells[dy]?.[dx]
-          if (!cell) continue
-          const d = dh === 0 ? cell.lower : cell.upper
-          for (let l = 0; l < 2; l++) {
-            const tileId = l === 0 ? tileIdLayer0(d) : tileIdLayer1(d)
-            const iTileHeight = l === 0 ? (d >> 8) & 0xf : (d >>> 24) & 0xf
-            if (tileId < 0) continue
-            if (iTileHeight <= 0) continue
-            if ((dy + iTileHeight) * TILE_H + dh * SUBROW < sy) continue
-            const img = this.bakedTile(tileId)
-            if (!img) continue
-            const baseY = dy * TILE_H + dh * SUBROW + 7 + l + iTileHeight * SUBROW
-            const screenX = dx * TILE_W + dh * HALF_W - HALF_W + ox
-            const screenY = dy * TILE_H + dh * SUBROW + 7 - img.height + oy
-            entries.push({ baseY, draw: () => this.ctx.drawImage(img, screenX, screenY) })
-          }
-        }
-      }
-    }
   }
 
   drawSprite(

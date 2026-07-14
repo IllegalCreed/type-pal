@@ -1,17 +1,18 @@
+import { buildBlankProjectMap } from '@type-pal/reforge'
 import { expect, test, vi } from 'vitest'
-import { EditSession, MoveEntityCommand } from './edit-session.js'
+import { PaintTilesCommand } from './commands.js'
+import { type EditorState, EditSession, MoveEntityCommand } from './edit-session.js'
 
 // 最小 EditorState fixture(字段不全,as 断言 —— 测的是 command/undo 引擎,不是数据形状)。
-function mkState() {
+function mkState(): EditorState {
   return {
     manifest: {} as never,
     scenes: [
       {
         id: 's',
-        map: {} as never,
+        mapId: 'map-s',
         entry: {} as never,
         entities: [{ id: 'e', pos: { col: 1, row: 1, height: 0 }, sprite: 'ghost' }],
-        dialogues: [],
       },
     ],
     actors: [],
@@ -21,7 +22,12 @@ function mkState() {
     locale: {},
     sprites: [],
     startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
-  } as never
+    maps: {},
+    mapIndex: { version: 1, maps: [] },
+    tilesets: [],
+    tilesetBlobs: {},
+    scriptChunks: {},
+  } as EditorState
 }
 const entPos = (s: {
   scenes: { entities: { pos: { col: number; row: number; height: number } }[] }[]
@@ -102,4 +108,70 @@ test('脏标记:undo/redo 也置脏(撤销到原点仍视为有未保存改动)'
   sess.markSaved()
   sess.redo()
   expect(sess.isDirty()).toBe(true)
+})
+
+function withMapIndex(...ids: string[]) {
+  const state = mkState()
+  state.mapIndex = {
+    version: 1,
+    maps: ids.map((id) => ({ id, name: id, path: `content/maps/${id}.json` })),
+  }
+  return state
+}
+
+test('地图按需加载去重；hydrate 不进 undo、也不置脏', async () => {
+  const loadMap = vi.fn(async () => buildBlankProjectMap(2, 2, 'tileset-001'))
+  const sess = new EditSession(withMapIndex('a'), { loadMap })
+
+  const [first, second] = await Promise.all([sess.ensureMapLoaded('a'), sess.ensureMapLoaded('a')])
+
+  expect(first).toBe(second)
+  expect(loadMap).toHaveBeenCalledTimes(1)
+  expect(sess.getMapDocumentStatus('a')).toEqual({ state: 'ready', dirty: false })
+  expect(sess.canUndo()).toBe(false)
+  expect(sess.isDirty()).toBe(false)
+})
+
+test('加载失败可重试，并保留明确错误状态', async () => {
+  let attempts = 0
+  const sess = new EditSession(withMapIndex('a'), {
+    loadMap: async () => {
+      attempts++
+      if (attempts === 1) throw new Error('读取失败')
+      return buildBlankProjectMap(2, 2, 'tileset-001')
+    },
+  })
+
+  await expect(sess.ensureMapLoaded('a')).rejects.toThrow('读取失败')
+  expect(sess.getMapDocumentStatus('a')).toEqual({ state: 'error', message: '读取失败' })
+  await expect(sess.ensureMapLoaded('a')).resolves.toBeDefined()
+  expect(sess.getMapDocumentStatus('a')).toEqual({ state: 'ready', dirty: false })
+})
+
+test('干净地图可被 LRU 淘汰；撤销链触及的地图保存后仍 pin，切图后可 undo', async () => {
+  const clean = new EditSession(withMapIndex('a', 'b'), {
+    maxLoadedMaps: 1,
+    loadMap: async () => buildBlankProjectMap(2, 2, 'tileset-001'),
+  })
+  await clean.ensureMapLoaded('a')
+  await clean.ensureMapLoaded('b')
+  expect(clean.getState().maps.a).toBeUndefined()
+  expect(clean.getState().maps.b).toBeDefined()
+
+  const sess = new EditSession(withMapIndex('a', 'b'), {
+    maxLoadedMaps: 1,
+    loadMap: async () => buildBlankProjectMap(2, 2, 'tileset-001'),
+  })
+  await sess.ensureMapLoaded('a')
+  sess.dispatch(
+    new PaintTilesCommand('a', [{ layerId: 'floor', col: 0, row: 0, tileId: 7, height: 0 }]),
+  )
+  sess.markSaved()
+
+  await sess.ensureMapLoaded('b')
+  expect(sess.getState().maps.a?.layers[0]?.tiles[0]?.[0]).toBe(7)
+  expect(sess.getState().maps.b).toBeDefined()
+
+  sess.undo()
+  expect(sess.getState().maps.a?.layers[0]?.tiles[0]?.[0]).toBeNull()
 })

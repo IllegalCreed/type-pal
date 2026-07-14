@@ -56,4 +56,39 @@ describe('save ops（纯）', () => {
     p.version = SAVE_VERSION + 1
     expect(() => normalizePayload(p)).toThrow(/新于引擎/)
   })
+  test('normalizePayload:新版稳定地图覆写原样保留', () => {
+    const p = buildPayload(
+      makeTestWorld(),
+      { sceneId: 's230', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
+      'pal',
+      2,
+    )
+    p.world.script = {
+      flags: {},
+      vars: {},
+      entityState: {},
+      entityStage: {},
+      mapOverride: { s230: 'map-056' },
+    }
+    expect(normalizePayload(p).world.script?.mapOverride).toEqual({ s230: 'map-056' })
+  })
+  test('normalizePayload:旧数字地图覆写明确拒绝，不猜成稳定地图 ID', () => {
+    const p = buildPayload(
+      makeTestWorld(),
+      { sceneId: 's230', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
+      'pal',
+      1,
+    )
+    p.world.script = {
+      flags: {},
+      vars: {},
+      entityState: {},
+      entityStage: {},
+      mapOverride: { s230: 'map-056' },
+    }
+    ;(p.world.script.mapOverride as unknown as Record<string, unknown>).s230 = 56
+    expect(() => normalizePayload(p)).toThrow(
+      /旧存档 world\.script\.mapOverride\[s230\].*数字地图编号 56/,
+    )
+  })
 })

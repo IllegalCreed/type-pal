@@ -5,7 +5,12 @@
  */
 import type { MusicDef } from '@type-pal/content'
 import type { LoadedProject } from '@type-pal/reforge'
-import { loadAllOwnMaps, loadAllScenes, loadAllScriptChunks, loadProject } from '@type-pal/reforge'
+import {
+  loadAllScenes,
+  loadAllScriptChunks,
+  loadProject,
+  loadProjectMapById,
+} from '@type-pal/reforge'
 import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { EditSession } from './core/edit-session.js'
@@ -38,7 +43,6 @@ function Root() {
     loadProject(PROJECT_ID)
       .then(async (project) => {
         const scenes = await loadAllScenes(project)
-        const ownMaps = await loadAllOwnMaps(project, scenes)
         const scriptChunks = await loadAllScriptChunks(project)
         const musicRel = project.manifest.content.music
         const music: MusicDef[] = musicRel
@@ -48,7 +52,9 @@ function Root() {
           : []
         if (!alive) return
         setBoot({
-          session: new EditSession(toEditorState(project, scenes, music, ownMaps, scriptChunks)),
+          session: new EditSession(toEditorState(project, scenes, music, {}, scriptChunks), {
+            loadMap: (mapId) => loadProjectMapById(project, mapId),
+          }),
           project,
         })
       })
@@ -62,9 +68,9 @@ function Root() {
 
   const onOpened = (o: Opened): void => {
     setBoot({
-      session: new EditSession(
-        toEditorState(o.project, o.scenes, o.music, o.ownMaps, o.scriptChunks),
-      ),
+      session: new EditSession(toEditorState(o.project, o.scenes, o.music, {}, o.scriptChunks), {
+        loadMap: (mapId) => loadProjectMapById(o.project, mapId),
+      }),
       project: o.project,
       dir: o.dir,
     })

@@ -1,5 +1,40 @@
 import { describe, expect, test } from 'vitest'
+import { collectProjectZipEntries } from './export-zip.js'
 import { buildZip, crc32 } from './zip.js'
+
+function projectDir(files: Record<string, string>): FileSystemDirectoryHandle {
+  const tree = new Map<string, string>(Object.entries(files))
+  const make = (prefix: string): FileSystemDirectoryHandle =>
+    ({
+      kind: 'directory',
+      async *entries() {
+        const children = new Map<string, 'file' | 'directory'>()
+        for (const path of tree.keys()) {
+          if (!path.startsWith(prefix)) continue
+          const rest = path.slice(prefix.length)
+          const [name, ...tail] = rest.split('/')
+          if (!name) continue
+          children.set(name, tail.length ? 'directory' : 'file')
+        }
+        for (const [name, kind] of children) {
+          if (kind === 'directory') yield [name, make(`${prefix}${name}/`)]
+          else {
+            const value = tree.get(`${prefix}${name}`) ?? ''
+            yield [
+              name,
+              {
+                kind: 'file',
+                async getFile() {
+                  return new File([value], name)
+                },
+              } as FileSystemFileHandle,
+            ]
+          }
+        }
+      },
+    }) as unknown as FileSystemDirectoryHandle
+  return make('')
+}
 
 /** 解 zip(测试用最小 reader):按中央目录逐条取出并解压,验 roundtrip。 */
 async function readZip(zip: Uint8Array): Promise<Map<string, Uint8Array>> {
@@ -96,6 +131,21 @@ describe('zip 打包器(A5 工程导出)', () => {
 
     expect(JSON.parse(dec.decode(back.get('content/scripts/index.json')))).toEqual(index)
     expect(JSON.parse(dec.decode(back.get('content/scripts/shared/00.json')))).toEqual(chunk)
+  })
+
+  test('工程导出采集保留 map index 与零引用地图', async () => {
+    const entries = await collectProjectZipEntries(
+      projectDir({
+        'manifest.json': '{"id":"maps"}',
+        'content/maps/index.json': '{"version":1,"maps":[{"id":"unused"}]}',
+        'content/maps/unused.json': '{"version":1}',
+      }),
+    )
+    expect(entries.map((entry) => entry.path).sort()).toEqual([
+      'content/maps/index.json',
+      'content/maps/unused.json',
+      'manifest.json',
+    ])
   })
 
   test('不可压小文件择优 STORE(不反涨)', async () => {

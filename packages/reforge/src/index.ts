@@ -15,17 +15,16 @@ export type { Camera, CellRect, Renderer, RenderLayerOpts, SpriteDraw }
 export { bakeFrame, Canvas2DRenderer, spriteBlitRect }
 
 import type { AssetBase, LoadedSprite } from './assets.js'
-// 资产加载(tilemap/palette/tileset/sprite + gzip 解压)
+// 资产加载(ProjectMapV2/palette/tileset/sprite + gzip 解压)
 import {
   compressGzip,
   decompressGzip,
   loadBattleBg,
   loadBattleSprite,
   loadFireSprite,
-  loadOwnMap,
   loadPalette,
+  loadProjectMap,
   loadSprite,
-  loadTilemap,
   loadTilesetByPath,
 } from './assets.js'
 
@@ -36,15 +35,14 @@ export {
   loadBattleBg,
   loadBattleSprite,
   loadFireSprite,
-  loadOwnMap,
   loadPalette,
+  loadProjectMap,
   loadSprite,
-  loadTilemap,
   loadTilesetByPath,
 }
 
 import type { SceneMapAssets } from './scene-map.js'
-// 场景地图分流(W7D:旧 Tilemap 复用图 ⊕ OwnMap v1 自有图;引擎 + 编辑器共用)
+// 场景地图解析(ProjectMapV2 + tileset 注册表;引擎 + 编辑器共用)
 import { loadSceneMap } from './scene-map.js'
 
 export type { SceneMapAssets }
@@ -54,18 +52,25 @@ import type { ContentJsons, LoadedProject, LoadedProjectCore } from './loader.js
 // 工程 loader(manifest + content JSON → LoadedProject)
 import {
   assembleProject,
-  loadAllOwnMaps,
+  loadAllProjectMaps,
   loadAllScenes,
   loadAllScriptChunks,
   loadProject,
   loadProjectFrom,
+  loadProjectMapById,
   loadSceneDef,
 } from './loader.js'
 
-export type { OwnMap, OwnMapLayer, TilesetDef } from '@type-pal/content'
+export type { MapLayerV2, ProjectMapV2, TilesetDef } from '@type-pal/content'
 // 地图/调色板类型转出口(编辑器不直依赖 shared/content)
-export { isOwnMap, resolveTilesetPath, validateOwnMap, validateTilesets } from '@type-pal/content'
-export type { Palette, RleFrame, Tilemap } from '@type-pal/shared'
+export {
+  isProjectMapV2,
+  mapInstanceHeight,
+  resolveTilesetPath,
+  validateProjectMapV2,
+  validateTilesets,
+} from '@type-pal/content'
+export type { Palette, RleFrame } from '@type-pal/shared'
 // RLE 编码/解析转出口(W7B 上传管线;编辑器不直依赖 shared)
 export { encodeSpriteChunk, parseSpriteChunk } from '@type-pal/shared'
 export { tilesFromChunkBytes } from './assets.js'
@@ -74,46 +79,47 @@ export { type FileSource, httpSource } from './file-source.js'
 export { fsaSource } from './fsa-source.js'
 export type {
   LatticePos,
-  OwnMapCollisionEdit,
-  OwnMapTileDraw,
-  OwnMapTileEdit,
-} from './own-map.js'
-// 自有地图(W7D):OwnMap v1 构造/编辑 + 错排 lattice 纯逻辑
+  ProjectMapCollisionEdit,
+  ProjectMapTileDraw,
+  ProjectMapTileEdit,
+} from './project-map.js'
+// 工程地图(ProjectMapV2):构造/编辑 + 错排 lattice 纯逻辑
 export {
-  buildBlankOwnMap,
-  buildOwnMapLayer,
-  floodFillOwnMapTiles,
-  insertOwnMapLayer,
+  buildBlankProjectMap,
+  buildProjectMapLayer,
+  floodFillProjectMapTiles,
+  insertProjectMapLayer,
   isLatticeInside,
   latticeCenter,
   latticeInRect,
-  moveOwnMapLayer,
-  nextOwnMapLayerId,
-  ownMapTilesInView,
-  paintOwnMapCollision,
-  paintOwnMapTiles,
+  moveProjectMapLayer,
+  nextProjectMapLayerId,
+  paintProjectMapCollision,
+  paintProjectMapTiles,
   pixelToLattice,
-  removeOwnMapLayer,
-  resizeOwnMap,
-  updateOwnMapLayer,
-} from './own-map.js'
+  projectMapTilesInView,
+  removeProjectMapLayer,
+  resizeProjectMap,
+  updateProjectMapLayer,
+} from './project-map.js'
 // 上传素材量化 + 图集网格切片(W7B;编码器在 shared rle-encode)
 export { quantizeToRleFrame, sliceAtlasGrid } from './quantize.js'
 export type { ContentJsons, LoadedProject, LoadedProjectCore }
 export {
   assembleProject,
-  loadAllOwnMaps,
+  loadAllProjectMaps,
   loadAllScenes,
   loadAllScriptChunks,
   loadProject,
   loadProjectFrom,
+  loadProjectMapById,
   loadSceneDef,
 }
 
-// 碰撞判定(编辑器画禁入格复用,与游戏同一套 → 不漂移);pixelToTile = W7c 笔刷靶定
-import { buildIsBlocked, isBlockedAt, pixelToTile } from './collision.js'
+// 碰撞判定(编辑器画禁入格复用,与游戏同一套 → 不漂移)
+import { buildIsBlocked, isBlockedAt, sameGrid, sameLatticeCell } from './collision.js'
 
-export { buildIsBlocked, isBlockedAt, pixelToTile }
+export { buildIsBlocked, isBlockedAt, sameGrid, sameLatticeCell }
 
 // 「画一帧场景」(editor 复用同一绘制函数画底图)
 import { bootGame } from './main.js'

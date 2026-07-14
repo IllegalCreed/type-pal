@@ -1,29 +1,35 @@
 import type { ActorDef, EntityDef, SceneDef, ScriptStage, SpriteDef } from '@type-pal/content'
 import { deriveScriptChunk, getScriptBody } from '@type-pal/content'
-import { buildBlankOwnMap, buildOwnMapLayer, paintOwnMapTiles } from '@type-pal/reforge'
+import { buildBlankProjectMap, buildProjectMapLayer, paintProjectMapTiles } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
 import {
   AddAmbienceCommand,
   AddEnemyCommand,
   AddEntityCommand,
-  AddOwnMapLayerCommand,
   AddPoisonCommand,
+  AddProjectMapLayerCommand,
   AddSceneCommand,
   AddSpriteCommand,
   AppendSpriteFramesCommand,
-  CreateOwnMapCommand,
+  BindSceneMapCommand,
+  CreateMapAssetCommand,
+  CreateProjectMapCommand,
   CreateScriptSourceCommand,
   DeleteAuthoredScriptCommand,
   DeleteEnemyCommand,
   DeleteEntityCommand,
+  DeleteMapAssetCommand,
+  DuplicateMapAssetCommand,
+  MapAssetInUseError,
   MoveEntityCommand,
-  MoveOwnMapLayerCommand,
+  MoveProjectMapLayerCommand,
   PaintCollisionCommand,
   PaintTilesCommand,
-  RemoveOwnMapLayerCommand,
+  RemoveProjectMapLayerCommand,
   RemoveSpriteCommand,
+  RenameMapAssetCommand,
   RenameProjectCommand,
-  ResizeOwnMapCommand,
+  ResizeProjectMapCommand,
   SetActorBattleSpriteCommand,
   SetEnemyBattleSpriteCommand,
   UpdateActorCommand,
@@ -34,8 +40,8 @@ import {
   UpdateEntityCommand,
   UpdateLevelUpCommand,
   UpdateMusicNameCommand,
-  UpdateOwnMapLayerCommand,
   UpdatePoisonCommand,
+  UpdateProjectMapLayerCommand,
   UpdateSceneCommand,
   UpdateScriptBodyCommand,
   UpdateScriptCommand,
@@ -54,11 +60,24 @@ const ent = (id: string): EntityDef => ({
 /** 最小 EditorState(字段不全,as 断言 —— 测的是命令不可变 + invert,不是数据形状)。 */
 function st(): EditorState {
   return {
-    manifest: {} as never,
+    manifest: {
+      id: 'test',
+      name: 'Test',
+      contentVersion: 2,
+      entryScene: 's',
+      content: { maps: 'content/maps/index.json' },
+      assets: {
+        root: 'assets',
+        tilesets: 'tilesets',
+        sprites: 'sprites',
+        palettes: 'palettes',
+      },
+      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+    },
     scenes: [
       {
         id: 's',
-        map: {} as never,
+        mapId: 'map-s',
         entry: {} as never,
         entities: [ent('a'), ent('b')],
       },
@@ -72,6 +91,8 @@ function st(): EditorState {
       { id: 'li', spriteNum: 2, label: '李逍遥', layout: { kind: 'directional', framesPerDir: 3 } },
     ],
     startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+    maps: {},
+    mapIndex: { version: 1, maps: [] },
   } as never
 }
 
@@ -206,8 +227,8 @@ describe('布置命令集 · 不可变 + invert', () => {
   test('Add/Update 只动目标场景,旁场景引用不变', () => {
     const s0 = st()
     s0.scenes = [
-      { id: 's', map: {} as never, entry: {} as never, entities: [ent('a')] },
-      { id: 'other', map: {} as never, entry: {} as never, entities: [ent('x')] },
+      { id: 's', mapId: 'map-s', entry: {} as never, entities: [ent('a')] },
+      { id: 'other', mapId: 'map-other', entry: {} as never, entities: [ent('x')] },
     ]
     const s1 = new AddEntityCommand('s', ent('b')).apply(s0)
     expect(s1.scenes[1]).toBe(s0.scenes[1]) // 旁场景同引用(未展开 = 未变)
@@ -235,46 +256,35 @@ describe('布置命令集 · 不可变 + invert', () => {
   })
 })
 
-describe('W7E-0 新场景完整继承地图引用', () => {
-  test('空白工程自有地图经 dispatch/undo/redo 始终保持 ownMap', async () => {
+describe('新场景继承稳定地图引用', () => {
+  test('空白工程自有地图经 dispatch/undo/redo 始终保持 mapId', async () => {
     const files = await buildBlankProject('W7E Test')
     const source = structuredClone(files['content/scenes/start.json']) as SceneDef
     const initial = st()
     initial.scenes = [source]
     const session = new EditSession(initial)
 
-    session.dispatch(new AddSceneCommand('s001', source.map, source.entry))
+    session.dispatch(new AddSceneCommand('s001', source.mapId, source.entry))
     const added = session.getState().scenes.find((scene) => scene.id === 's001')
-    expect(added?.map).toEqual({ ownMap: 'content/maps/start.json' })
-    expect(added?.map).not.toBe(source.map)
-    expect(source.map).toEqual({ ownMap: 'content/maps/start.json' })
+    expect(added?.mapId).toBe('start')
+    expect(source.mapId).toBe('start')
 
     session.undo()
     expect(session.getState().scenes.map((scene) => scene.id)).toEqual(['start'])
-    expect(session.getState().scenes[0]?.map).toEqual({ ownMap: 'content/maps/start.json' })
+    expect(session.getState().scenes[0]?.mapId).toBe('start')
 
     session.redo()
-    expect(session.getState().scenes.find((scene) => scene.id === 's001')?.map).toEqual({
-      ownMap: 'content/maps/start.json',
-    })
+    expect(session.getState().scenes.find((scene) => scene.id === 's001')?.mapId).toBe('start')
   })
 
-  test('原版地图完整保留 mapNum + room，并防御性复制嵌套 room', () => {
-    const sourceMap: SceneDef['map'] = {
-      reuseOriginalMap: 56,
-      room: { col: 26, row: 34, cols: 22, rows: 25 },
-    }
-    const command = new AddSceneCommand('room-copy', sourceMap, {
+  test('显式 mapId 原样写入且可撤销', () => {
+    const command = new AddSceneCommand('map-copy', 'map-056', {
       pos: { col: 90, row: 14, height: 0 },
       facing: 'down',
     })
     const changed = command.apply(st())
-    const added = changed.scenes.find((scene) => scene.id === 'room-copy')
-    expect(added).toBeDefined()
-    if (!added || !('reuseOriginalMap' in added.map)) throw new Error('新场景地图类型错误')
-    expect(added.map).toEqual(sourceMap)
-    expect(added.map).not.toBe(sourceMap)
-    expect(added.map.room).not.toBe('reuseOriginalMap' in sourceMap ? sourceMap.room : undefined)
+    expect(changed.scenes.find((scene) => scene.id === 'map-copy')?.mapId).toBe('map-056')
+    expect(command.invert(changed).scenes.some((scene) => scene.id === 'map-copy')).toBe(false)
   })
 })
 
@@ -915,64 +925,177 @@ describe('CreateScriptSourceCommand(断点 #5:空态创建)', () => {
   })
 })
 
-describe('CreateOwnMapCommand(W7D)', () => {
+describe('CreateProjectMapCommand', () => {
   const stMap = (): EditorState =>
     ({
       ...st(),
       scenes: [
         {
           id: 's',
-          map: { reuseOriginalMap: 20 },
+          mapId: 'map-020',
           entry: { pos: { col: 5, row: 5, height: 0 }, facing: 'down' },
           entities: [],
         },
       ],
       maps: {},
+      mapIndex: { version: 1, maps: [] },
     }) as never
 
-  test('apply:场景转 own + entry 重置 + maps 存图;源不变', () => {
+  test('apply:场景换绑 mapId + entry 重置 + index/maps 存图;源不变', () => {
     const s0 = stMap()
-    const map = buildBlankOwnMap(3, 3, 'tileset/20.rle')
-    const cmd = new CreateOwnMapCommand('s', 'content/maps/s.json', map, {
+    const map = buildBlankProjectMap(3, 3, 'tileset/20.rle')
+    const cmd = new CreateProjectMapCommand('s', 'content/maps/s.json', map, {
       col: 1,
       row: 2,
       height: 0,
     })
     const s1 = cmd.apply(s0)
-    expect(s1.scenes[0]!.map).toEqual({ ownMap: 'content/maps/s.json' })
+    expect(s1.scenes[0]!.mapId).toBe('s')
     expect(s1.scenes[0]!.entry.pos).toEqual({ col: 1, row: 2, height: 0 })
-    expect(s1.maps['content/maps/s.json']).toEqual(map)
+    expect(s1.maps.s).toEqual(map)
+    expect(s1.mapIndex.maps).toEqual([{ id: 's', name: 's', path: 'content/maps/s.json' }])
     // 不可变:源 state 不动
-    expect(s0.scenes[0]!.map).toEqual({ reuseOriginalMap: 20 })
+    expect(s0.scenes[0]!.mapId).toBe('map-020')
     expect(s0.maps).toEqual({})
   })
 
-  test('invert:还原 map/entry + 丢掉 maps 该键', () => {
+  test('invert:还原 mapId/entry + 丢掉 maps 该键', () => {
     const s0 = stMap()
-    const cmd = new CreateOwnMapCommand(
+    const cmd = new CreateProjectMapCommand(
       's',
       'content/maps/s.json',
-      buildBlankOwnMap(3, 3, 'tileset/20.rle'),
+      buildBlankProjectMap(3, 3, 'tileset/20.rle'),
       { col: 1, row: 2, height: 0 },
     )
     const s2 = cmd.invert(cmd.apply(s0))
-    expect(s2.scenes[0]!.map).toEqual({ reuseOriginalMap: 20 })
+    expect(s2.scenes[0]!.mapId).toBe('map-020')
     expect(s2.scenes[0]!.entry.pos).toEqual({ col: 5, row: 5, height: 0 })
-    expect(s2.maps['content/maps/s.json']).toBeUndefined()
+    expect(s2.maps.s).toBeUndefined()
+    expect(s2.mapIndex.maps).toEqual([])
   })
 })
 
-describe('OwnMap v1 绘制与图层命令(W7D)', () => {
+describe('地图资产命令', () => {
+  const map = () => buildBlankProjectMap(3, 3, 't')
+  const catalog = (): EditorState => {
+    const state = st()
+    state.scenes[0] = {
+      id: 's',
+      mapId: 'map-020',
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+      entities: [],
+    }
+    return state
+  }
+
+  test('create:零引用资产仍进入 index/maps，undo 恢复原 manifest', () => {
+    const s0 = catalog()
+    const command = new CreateMapAssetCommand(
+      { id: 'home', name: '民居', path: 'content/maps/home.json' },
+      map(),
+    )
+    const s1 = command.apply(s0)
+    expect(s1.mapIndex.maps).toEqual([{ id: 'home', name: '民居', path: 'content/maps/home.json' }])
+    expect(s1.maps.home).toBeDefined()
+    expect(s1.manifest.contentVersion).toBe(2)
+    expect(s1.manifest.content.maps).toBe('content/maps/index.json')
+    expect(s0.mapIndex.maps).toEqual([])
+    const back = command.invert(s1)
+    expect(back.mapIndex.maps).toEqual([])
+    expect(back.maps.home).toBeUndefined()
+    expect(back.manifest.contentVersion).toBe(2)
+    expect(back.manifest.content.maps).toBe('content/maps/index.json')
+  })
+
+  test('duplicate 深复制内容；rename 只改 name，不动 id/path', () => {
+    const created = new CreateMapAssetCommand(
+      { id: 'home', name: '民居', path: 'content/maps/home.json' },
+      map(),
+    ).apply(catalog())
+    const duplicate = new DuplicateMapAssetCommand('home', {
+      id: 'home-copy',
+      name: '民居副本',
+      path: 'content/maps/home-copy.json',
+    })
+    const copied = duplicate.apply(created)
+    expect(copied.maps['home-copy']).toEqual(copied.maps.home)
+    expect(copied.maps['home-copy']).not.toBe(copied.maps.home)
+    const rename = new RenameMapAssetCommand('home-copy', '改名副本')
+    const renamed = rename.apply(copied)
+    expect(renamed.mapIndex.maps[1]).toEqual({
+      id: 'home-copy',
+      name: '改名副本',
+      path: 'content/maps/home-copy.json',
+    })
+    expect(rename.invert(renamed).mapIndex.maps[1]?.name).toBe('民居副本')
+    expect(duplicate.invert(copied).mapIndex.maps.map((asset) => asset.id)).toEqual(['home'])
+  })
+
+  test('bind 换绑场景且可撤销；两个场景可共享同一图', () => {
+    let state = new CreateMapAssetCommand(
+      { id: 'home', name: '民居', path: 'content/maps/home.json' },
+      map(),
+    ).apply(catalog())
+    state = {
+      ...state,
+      scenes: [
+        state.scenes[0]!,
+        {
+          id: 's2',
+          mapId: 'map-021',
+          entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+          entities: [],
+        },
+      ],
+    }
+    const first = new BindSceneMapCommand('s', 'home')
+    const second = new BindSceneMapCommand('s2', 'home')
+    const bound = second.apply(first.apply(state))
+    expect(bound.scenes.map((scene) => scene.mapId)).toEqual(['home', 'home'])
+    expect(first.invert(second.invert(bound)).scenes.map((scene) => scene.mapId)).toEqual([
+      'map-020',
+      'map-021',
+    ])
+  })
+
+  test('delete 被引用时列出场景并阻止；解除后删除与 undo 保序恢复', () => {
+    let state = catalog()
+    state = new CreateMapAssetCommand(
+      { id: 'home', name: '民居', path: 'content/maps/home.json' },
+      map(),
+    ).apply(state)
+    state = new CreateMapAssetCommand(
+      { id: 'unused', name: '未引用', path: 'content/maps/unused.json' },
+      map(),
+    ).apply(state)
+    const bound = new BindSceneMapCommand('s', 'home').apply(state)
+    expect(() => new DeleteMapAssetCommand('home').apply(bound)).toThrow(MapAssetInUseError)
+    try {
+      new DeleteMapAssetCommand('home').apply(bound)
+    } catch (error) {
+      expect((error as MapAssetInUseError).sceneIds).toEqual(['s'])
+    }
+    const remove = new DeleteMapAssetCommand('unused')
+    const removed = remove.apply(bound)
+    expect(removed.mapIndex.maps.map((asset) => asset.id)).toEqual(['home'])
+    expect(removed.maps.unused).toBeUndefined()
+    const back = remove.invert(removed)
+    expect(back.mapIndex.maps.map((asset) => asset.id)).toEqual(['home', 'unused'])
+    expect(back.maps.unused).toBeDefined()
+  })
+})
+
+describe('ProjectMapV2 绘制与图层命令', () => {
   const rel = 'content/maps/s.json'
   const stPaint = (): EditorState => {
-    return { ...st(), maps: { [rel]: buildBlankOwnMap(3, 3, 't') } } as never
+    return { ...st(), maps: { [rel]: buildBlankProjectMap(3, 3, 't') } } as never
   }
 
   test('画瓦按稳定 layer.id 写入；invert 还原，源 state 不动', () => {
     const s0 = stPaint()
     const cmd = new PaintTilesCommand(rel, [
-      { layerId: 'floor', col: 0, row: 0, tileId: 5 },
-      { layerId: 'floor', col: 1, row: 1, tileId: 900 },
+      { layerId: 'floor', col: 0, row: 0, tileId: 5, height: 0 },
+      { layerId: 'floor', col: 1, row: 1, tileId: 900, height: 0 },
     ])
     const s1 = cmd.apply(s0)
     expect(s1.maps[rel]!.layers[0]?.tiles[0]?.[0]).toBe(5)
@@ -985,21 +1108,42 @@ describe('OwnMap v1 绘制与图层命令(W7D)', () => {
 
   test('同格重复编辑以后者为准；undo 回到 stroke 前', () => {
     const s0 = stPaint()
-    const c1 = new PaintTilesCommand(rel, [{ layerId: 'floor', col: 0, row: 0, tileId: 3 }])
+    const c1 = new PaintTilesCommand(rel, [
+      { layerId: 'floor', col: 0, row: 0, tileId: 3, height: 0 },
+    ])
     const s1 = c1.apply(s0)
     const c2 = new PaintTilesCommand(rel, [
-      { layerId: 'floor', col: 0, row: 0, tileId: 7 },
-      { layerId: 'floor', col: 0, row: 0, tileId: 8 },
+      { layerId: 'floor', col: 0, row: 0, tileId: 7, height: 0 },
+      { layerId: 'floor', col: 0, row: 0, tileId: 8, height: 0 },
     ])
     const s2 = c2.apply(s1)
     expect(s2.maps[rel]!.layers[0]?.tiles[0]?.[0]).toBe(8)
     expect(c2.invert(s2).maps[rel]!.layers[0]?.tiles[0]?.[0]).toBe(3)
   })
 
+  test('实例高度与 tileId 同笔写入；undo 同时恢复两者', () => {
+    const s0 = stPaint()
+    const layer = buildProjectMapLayer(s0.maps[rel]!, 'objects', '物件', 'height')
+    const withLayer = new AddProjectMapLayerCommand(rel, layer).apply(s0)
+    const command = new PaintTilesCommand(rel, [
+      { layerId: 'objects', col: 1, row: 2, tileId: 18, height: 3 },
+    ])
+    const painted = command.apply(withLayer)
+    const objectLayer = painted.maps[rel]!.layers.find((item) => item.id === 'objects')!
+    expect(objectLayer.tiles[2]?.[1]).toBe(18)
+    expect(objectLayer.heights?.[2]?.[1]).toBe(3)
+
+    const restored = command
+      .invert(painted)
+      .maps[rel]!.layers.find((item) => item.id === 'objects')!
+    expect(restored.tiles[2]?.[1]).toBeNull()
+    expect(restored.heights?.[2]?.[1]).toBe(0)
+  })
+
   test('独立碰撞命令与视觉层正交并可撤销', () => {
     const s0 = stPaint()
     const painted = new PaintTilesCommand(rel, [
-      { layerId: 'floor', col: 0, row: 0, tileId: 12 },
+      { layerId: 'floor', col: 0, row: 0, tileId: 12, height: 0 },
     ]).apply(s0)
     const cmd = new PaintCollisionCommand(rel, [{ col: 0, row: 0, value: 1 }])
     const s1 = cmd.apply(painted)
@@ -1012,25 +1156,28 @@ describe('OwnMap v1 绘制与图层命令(W7D)', () => {
 
   test('图层新增、重排、属性更新、删除均 apply/invert', () => {
     const s0 = stPaint()
-    const layer = buildOwnMapLayer(s0.maps[rel]!, 'objects', '物件')
-    const add = new AddOwnMapLayerCommand(rel, layer)
+    const layer = buildProjectMapLayer(s0.maps[rel]!, 'objects', '物件', 'flat')
+    const add = new AddProjectMapLayerCommand(rel, layer)
     const s1 = add.apply(s0)
     expect(s1.maps[rel]!.layers.map((item) => item.id)).toEqual(['floor', 'objects'])
 
-    const move = new MoveOwnMapLayerCommand(rel, 'objects', 0)
+    const move = new MoveProjectMapLayerCommand(rel, 'objects', 0)
     const s2 = move.apply(s1)
     expect(s2.maps[rel]!.layers.map((item) => item.id)).toEqual(['objects', 'floor'])
     expect(move.invert(s2).maps[rel]!.layers.map((item) => item.id)).toEqual(['floor', 'objects'])
 
-    const update = new UpdateOwnMapLayerCommand(rel, 'objects', {
+    const update = new UpdateProjectMapLayerCommand(rel, 'objects', {
       name: '遮挡物',
-      occlude: true,
+      depthMode: 'height',
     })
     const s3 = update.apply(s2)
-    expect(s3.maps[rel]!.layers[0]).toMatchObject({ name: '遮挡物', occlude: true })
-    expect(update.invert(s3).maps[rel]!.layers[0]).toMatchObject({ name: '物件', occlude: false })
+    expect(s3.maps[rel]!.layers[0]).toMatchObject({ name: '遮挡物', depthMode: 'height' })
+    expect(update.invert(s3).maps[rel]!.layers[0]).toMatchObject({
+      name: '物件',
+      depthMode: 'flat',
+    })
 
-    const remove = new RemoveOwnMapLayerCommand(rel, 'objects')
+    const remove = new RemoveProjectMapLayerCommand(rel, 'objects')
     const s4 = remove.apply(s3)
     expect(s4.maps[rel]!.layers.map((item) => item.id)).toEqual(['floor'])
     expect(remove.invert(s4).maps[rel]!.layers.map((item) => item.id)).toEqual(['objects', 'floor'])
@@ -1040,24 +1187,24 @@ describe('OwnMap v1 绘制与图层命令(W7D)', () => {
   test('地图不存在(rel 悬空)→ noop', () => {
     const s0 = stPaint()
     const cmd = new PaintTilesCommand('content/maps/ghost.json', [
-      { layerId: 'floor', col: 0, row: 0, tileId: 5 },
+      { layerId: 'floor', col: 0, row: 0, tileId: 5, height: 0 },
     ])
     expect(cmd.apply(s0)).toBe(s0)
   })
 })
 
-describe('ResizeOwnMapCommand(W7c-4)', () => {
+describe('ResizeProjectMapCommand(W7c-4)', () => {
   const stMap = (): EditorState => {
     const base = st() as EditorState & { maps: Record<string, unknown> }
-    let map = buildBlankOwnMap(3, 3, 't')
-    map = paintOwnMapTiles(map, [{ layerId: 'floor', col: 2, row: 5, tileId: 7 }])
+    let map = buildBlankProjectMap(3, 3, 't')
+    map = paintProjectMapTiles(map, [{ layerId: 'floor', col: 2, row: 5, tileId: 7, height: 0 }])
     base.maps = { 'content/maps/s.json': map }
     return base
   }
 
   test('裁剪后 invert 整图还原(被裁内容精确回来);源不变', () => {
     const s0 = stMap()
-    const cmd = new ResizeOwnMapCommand('content/maps/s.json', 2, 2)
+    const cmd = new ResizeProjectMapCommand('content/maps/s.json', 2, 2)
     const s1 = cmd.apply(s0)
     const m1 = s1.maps['content/maps/s.json']!
     expect(m1.width).toBe(2)
@@ -1072,8 +1219,8 @@ describe('ResizeOwnMapCommand(W7c-4)', () => {
 
   test('尺寸不变 → noop 原引用;redo 稳定', () => {
     const s0 = stMap()
-    expect(new ResizeOwnMapCommand('content/maps/s.json', 3, 3).apply(s0)).toBe(s0)
-    const cmd = new ResizeOwnMapCommand('content/maps/s.json', 4, 4)
+    expect(new ResizeProjectMapCommand('content/maps/s.json', 3, 3).apply(s0)).toBe(s0)
+    const cmd = new ResizeProjectMapCommand('content/maps/s.json', 4, 4)
     const s1 = cmd.apply(s0)
     const s2 = cmd.apply(cmd.invert(s1)) // undo → redo
     expect(s2.maps['content/maps/s.json']!.width).toBe(4)

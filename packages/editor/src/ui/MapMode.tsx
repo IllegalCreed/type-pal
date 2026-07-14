@@ -1,39 +1,43 @@
-/** 地图模式(W7D)：OwnMap v1 的 N 视觉层与独立碰撞层编辑器。 */
-import type { SceneDef } from '@type-pal/content'
-import { isReuseMap, mapRoom, pixelToGrid, reuseMapNum, tileHeightsOf } from '@type-pal/content'
+/** 地图模式：ProjectMapV2 的 N 视觉层、实例高度与独立碰撞层编辑器。 */
+import type { MapIndexV1, SceneDef } from '@type-pal/content'
+import { mapInstanceHeight, nextMapAssetIdentity } from '@type-pal/content'
 import type {
   AssetBase,
   LatticePos,
-  OwnMap,
-  OwnMapCollisionEdit,
-  OwnMapTileEdit,
   Palette,
+  ProjectMapCollisionEdit,
+  ProjectMapTileEdit,
+  ProjectMapV2,
 } from '@type-pal/reforge'
 import {
   bakeFrame,
-  buildBlankOwnMap,
-  buildOwnMapLayer,
-  floodFillOwnMapTiles,
+  buildBlankProjectMap,
+  buildProjectMapLayer,
+  floodFillProjectMapTiles,
   isLatticeInside,
   latticeCenter,
   latticeInRect,
-  nextOwnMapLayerId,
-  paintOwnMapCollision,
-  paintOwnMapTiles,
+  nextProjectMapLayerId,
+  paintProjectMapCollision,
+  paintProjectMapTiles,
   pixelToLattice,
   renderSceneFrame,
 } from '@type-pal/reforge'
-import { memo, useEffect, useRef, useState } from 'react'
+import { memo, useEffect, useMemo, useRef, useState } from 'react'
 import {
-  AddOwnMapLayerCommand,
-  CreateOwnMapCommand,
-  MoveOwnMapLayerCommand,
+  AddProjectMapLayerCommand,
+  CreateMapAssetCommand,
+  DeleteMapAssetCommand,
+  DuplicateMapAssetCommand,
+  MoveProjectMapLayerCommand,
+  mapAssetSceneReferences,
   PaintCollisionCommand,
   PaintTilesCommand,
-  RemoveOwnMapLayerCommand,
-  ResizeOwnMapCommand,
-  SetOwnMapTilesetCommand,
-  UpdateOwnMapLayerCommand,
+  RemoveProjectMapLayerCommand,
+  RenameMapAssetCommand,
+  ResizeProjectMapCommand,
+  SetProjectMapTilesetCommand,
+  UpdateProjectMapLayerCommand,
 } from '../core/commands.js'
 import type { EditorState, EditSession } from '../core/edit-session.js'
 import {
@@ -47,11 +51,11 @@ import {
 const DEFAULT_COLS = 24
 const DEFAULT_ROWS = 24
 
-type MapTool = 'pan' | 'brush' | 'rect' | 'fill' | 'erase' | 'collision'
+type MapTool = 'pan' | 'eyedropper' | 'brush' | 'rect' | 'fill' | 'erase' | 'collision'
 type CollisionPaint = 'set' | 'clear'
 type StrokeEdit =
-  | { kind: 'tile'; edit: OwnMapTileEdit }
-  | { kind: 'collision'; edit: OwnMapCollisionEdit }
+  | { kind: 'tile'; edit: ProjectMapTileEdit }
+  | { kind: 'collision'; edit: ProjectMapCollisionEdit }
 
 const TileThumb = memo(function TileThumb(props: {
   idx: number
@@ -83,19 +87,40 @@ const TileThumb = memo(function TileThumb(props: {
 
 export function MapMode(props: {
   scene: SceneDef
+  scenes: SceneDef[]
   session: EditSession
   assetBase: AssetBase
-  ownMaps: EditorState['maps']
-  /** tileset 注册表(W7B:绑定下拉 + OwnMap.tileset id 解析)。 */
+  projectMaps: EditorState['maps']
+  mapIndex: MapIndexV1
+  selectedMapId?: string
+  onSelectMap: (id: string | undefined) => void
+  onOpenScene: (id: string) => void
+  /** tileset 注册表(W7B:绑定下拉 + ProjectMapV2.tilesetId 解析)。 */
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]
   /** 上传未保存的 tileset 字节(内存优先)。 */
   tilesetBlobs: Record<string, ArrayBuffer>
   navigation?: React.ReactNode
 }) {
-  const { scene, session, assetBase, ownMaps, tilesets, tilesetBlobs, navigation } = props
-  const own = !isReuseMap(scene.map)
-  const ownPath = isReuseMap(scene.map) ? '' : scene.map.ownMap
-  const liveMap: OwnMap | undefined = own ? ownMaps[ownPath] : undefined
+  const {
+    scene,
+    scenes,
+    session,
+    assetBase,
+    projectMaps,
+    mapIndex,
+    selectedMapId,
+    onSelectMap,
+    onOpenScene,
+    tilesets,
+    tilesetBlobs,
+    navigation,
+  } = props
+  const mapId =
+    (selectedMapId && mapIndex.maps.some((asset) => asset.id === selectedMapId)
+      ? selectedMapId
+      : scene.mapId) ?? ''
+  const selectedAsset = mapIndex.maps.find((asset) => asset.id === mapId)
+  const liveMap: ProjectMapV2 | undefined = projectMaps[mapId]
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
   const size = useStageSize(wrapRef, 120)
@@ -108,22 +133,44 @@ export function MapMode(props: {
   const [tool, setTool] = useState<MapTool>('pan')
   const [collisionPaint, setCollisionPaint] = useState<CollisionPaint>('set')
   const [selectedTile, setSelectedTile] = useState(0)
+  const [currentHeight, setCurrentHeight] = useState(0)
+  const [focusEnabled, setFocusEnabled] = useState(true)
   const [activeLayerId, setActiveLayerId] = useState('floor')
+  const [mapQuery, setMapQuery] = useState('')
+  const [pendingDeleteId, setPendingDeleteId] = useState<string>()
   const [hiddenLayerIds, setHiddenLayerIds] = useState<Set<string>>(() => new Set())
+  const mapNameInputRef = useRef<HTMLInputElement>(null)
+  const selectedMapRowRef = useRef<HTMLButtonElement>(null)
   const strokeRef = useRef<Map<string, StrokeEdit>>(new Map())
   const hoverRef = useRef<LatticePos | null>(null)
   const [paintTick, setPaintTick] = useState(0)
   const { status, err, loadedRef } = useSceneAssets({
     canvasRef,
     assetBase,
-    sceneMap: scene.map,
+    mapId,
     spriteNums: [],
-    ownMaps,
+    projectMaps,
+    mapIndex,
     tilesets,
     tilesetBlobs,
   })
-  const activeTool: MapTool = own && liveMap ? tool : 'pan'
+  const activeTool: MapTool = liveMap ? tool : 'pan'
   const activeLayer = liveMap?.layers.find((layer) => layer.id === activeLayerId)
+
+  const maxMapHeight = useMemo(() => {
+    if (!liveMap) return 15
+    let max = 0
+    for (const layer of liveMap.layers)
+      for (const row of layer.heights ?? []) for (const height of row) max = Math.max(max, height)
+    return Math.max(15, max + 1, currentHeight)
+  }, [liveMap, currentHeight])
+
+  const activeLayerIndex = liveMap?.layers.findIndex((layer) => layer.id === activeLayerId) ?? -1
+
+  useEffect(() => {
+    if (!mapId) return
+    void session.ensureMapLoaded(mapId).catch(() => undefined)
+  }, [mapId, session])
 
   useEffect(() => {
     if (!liveMap) return
@@ -132,10 +179,15 @@ export function MapMode(props: {
   }, [liveMap, activeLayerId])
 
   useEffect(() => {
-    void ownPath
+    if (activeLayer?.depthMode === 'flat') setCurrentHeight(0)
+  }, [activeLayer?.depthMode])
+
+  useEffect(() => {
+    void mapId
     setHiddenLayerIds(new Set())
+    setPendingDeleteId(undefined)
     strokeRef.current.clear()
-  }, [ownPath])
+  }, [mapId])
 
   const lastFitMap = useRef<unknown>(null)
   useEffect(() => {
@@ -143,7 +195,7 @@ export function MapMode(props: {
     const loaded = loadedRef.current
     if (!loaded || loaded.map === lastFitMap.current) return
     lastFitMap.current = loaded.map
-    const box = mapBoxOf(loaded.map, mapRoom(scene.map))
+    const box = mapBoxOf(loaded.map, undefined)
     const width = Math.max(1, box.maxX - box.minX)
     const height = Math.max(1, box.maxY - box.minY)
     const zoom = Math.max(0.05, Math.min(size.w / width, size.h / height, 3))
@@ -152,7 +204,7 @@ export function MapMode(props: {
       panX: box.minX - (size.w / zoom - width) / 2,
       panY: box.minY - (size.h / zoom - height) / 2,
     })
-  }, [status, size, scene.map, loadedRef, setView])
+  }, [status, size, loadedRef, setView])
 
   useEffect(() => {
     // size 与 paintTick 是命令式 canvas 的显式重绘触发器。
@@ -168,10 +220,10 @@ export function MapMode(props: {
     const collisionEdits = strokes.flatMap((item) => (item.kind === 'collision' ? [item.edit] : []))
     let map = base
     if (liveMap) {
-      map = paintOwnMapTiles(liveMap, tileEdits)
-      map = paintOwnMapCollision(map, collisionEdits)
+      map = paintProjectMapTiles(liveMap, tileEdits)
+      map = paintProjectMapCollision(map, collisionEdits)
     }
-    const room = mapRoom(scene.map) ?? { col: 0, row: 0, cols: map.width, rows: map.height }
+    const room = { col: 0, row: 0, cols: map.width, rows: map.height }
     const { zoom, panX, panY } = view
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
     renderSceneFrame(ctx, loaded.renderer, {
@@ -181,8 +233,10 @@ export function MapMode(props: {
       sprites: [],
       worldScale: zoom,
       layers: {
-        hiddenOwnLayerIds: [...hiddenLayerIds],
-        ...(liveMap ? { ownTileHeights: tileHeightsOf(tilesets, liveMap.tileset) } : {}),
+        hiddenLayerIds: [...hiddenLayerIds],
+        ...(focusEnabled && activeLayer
+          ? { focusLayerId: activeLayer.id, focusHeight: currentHeight, dimAlpha: 0.22 }
+          : { showAll: true }),
       },
     })
     drawGridBlocked(
@@ -221,13 +275,14 @@ export function MapMode(props: {
     size,
     showGrid,
     showCollision,
-    scene.map,
     liveMap,
     paintTick,
     activeTool,
     collisionPaint,
     hiddenLayerIds,
-    tilesets,
+    focusEnabled,
+    activeLayer,
+    currentHeight,
     loadedRef,
   ])
 
@@ -260,6 +315,7 @@ export function MapMode(props: {
         ...pos,
         layerId: activeLayer.id,
         tileId: activeTool === 'erase' ? null : selectedTile,
+        height: activeTool === 'erase' ? 0 : currentHeight,
       },
     }
   }
@@ -300,12 +356,30 @@ export function MapMode(props: {
   const onDown = (event: React.PointerEvent<HTMLCanvasElement>): void => {
     event.currentTarget.setPointerCapture(event.pointerId)
     if (activeTool !== 'pan' && event.button === 0 && liveMap) {
+      if (activeTool === 'eyedropper') {
+        if (!activeLayer) return
+        const { wx, wy } = toWorld(event)
+        const pos = pixelToLattice(wx, wy)
+        if (!isLatticeInside(liveMap, pos)) return
+        const tileId = activeLayer.tiles[pos.row]?.[pos.col]
+        if (tileId === null || tileId === undefined) return
+        setSelectedTile(tileId)
+        setCurrentHeight(mapInstanceHeight(activeLayer, pos.row, pos.col))
+        setTool('brush')
+        return
+      }
       if (activeTool === 'fill') {
         if (!activeLayer) return
         const { wx, wy } = toWorld(event)
         const start = pixelToLattice(wx, wy)
-        const edits = floodFillOwnMapTiles(liveMap, activeLayer.id, start, selectedTile)
-        if (edits.length > 0) session.dispatch(new PaintTilesCommand(ownPath, edits))
+        const edits = floodFillProjectMapTiles(
+          liveMap,
+          activeLayer.id,
+          start,
+          selectedTile,
+          currentHeight,
+        )
+        if (edits.length > 0) session.dispatch(new PaintTilesCommand(mapId, edits))
         return
       }
       paintingRef.current = true
@@ -362,9 +436,9 @@ export function MapMode(props: {
       strokeRef.current.clear()
       const tileEdits = items.flatMap((item) => (item.kind === 'tile' ? [item.edit] : []))
       const collisionEdits = items.flatMap((item) => (item.kind === 'collision' ? [item.edit] : []))
-      if (tileEdits.length > 0) session.dispatch(new PaintTilesCommand(ownPath, tileEdits))
+      if (tileEdits.length > 0) session.dispatch(new PaintTilesCommand(mapId, tileEdits))
       if (collisionEdits.length > 0)
-        session.dispatch(new PaintCollisionCommand(ownPath, collisionEdits))
+        session.dispatch(new PaintCollisionCommand(mapId, collisionEdits))
     }
     panRef.current = null
     try {
@@ -380,27 +454,54 @@ export function MapMode(props: {
     setPaintTick((tick) => tick + 1)
   }
 
-  const createOwnMap = (): void => {
-    const rel = `content/maps/${scene.id}.json`
-    const borrow = reuseMapNum(scene.map) ?? 1
-    const map = buildBlankOwnMap(DEFAULT_COLS, DEFAULT_ROWS, `tileset/${borrow}.rle`)
-    const center = pixelToGrid(Math.floor(DEFAULT_COLS / 2) * 32, Math.floor(DEFAULT_ROWS / 2) * 16)
-    session.dispatch(
-      new CreateOwnMapCommand(scene.id, rel, map, {
-        col: center.col,
-        row: center.row,
-        height: 0,
-      }),
-    )
+  const createMap = (): void => {
+    const identity = nextMapAssetIdentity(mapIndex, 'map')
+    const tileset = liveMap?.tilesetId ?? tilesets[0]?.id ?? 'tileset-001'
+    const map = buildBlankProjectMap(DEFAULT_COLS, DEFAULT_ROWS, tileset)
+    session.dispatch(new CreateMapAssetCommand({ ...identity, name: '新地图' }, map))
+    onSelectMap(identity.id)
     setActiveLayerId('floor')
     setTool('brush')
   }
 
+  const duplicateMap = (): void => {
+    if (!selectedAsset || !liveMap) return
+    const identity = nextMapAssetIdentity(mapIndex, `${selectedAsset.id}-copy`)
+    session.dispatch(
+      new DuplicateMapAssetCommand(selectedAsset.id, {
+        ...identity,
+        name: `${selectedAsset.name} 副本`,
+      }),
+    )
+    onSelectMap(identity.id)
+  }
+
+  const renameMap = (): void => {
+    if (!selectedAsset) return
+    mapNameInputRef.current?.focus()
+    mapNameInputRef.current?.select()
+  }
+
+  const deleteMap = (): void => {
+    if (!selectedAsset) return
+    const references = mapAssetSceneReferences(scenes, selectedAsset.id)
+    if (references.length) return
+    if (pendingDeleteId !== selectedAsset.id) {
+      setPendingDeleteId(selectedAsset.id)
+      return
+    }
+    const index = mapIndex.maps.findIndex((asset) => asset.id === selectedAsset.id)
+    const nextId = mapIndex.maps[index + 1]?.id ?? mapIndex.maps[index - 1]?.id
+    session.dispatch(new DeleteMapAssetCommand(selectedAsset.id))
+    setPendingDeleteId(undefined)
+    onSelectMap(nextId)
+  }
+
   const addLayer = (): void => {
     if (!liveMap) return
-    const id = nextOwnMapLayerId(liveMap)
-    const layer = buildOwnMapLayer(liveMap, id, `图层 ${liveMap.layers.length + 1}`)
-    session.dispatch(new AddOwnMapLayerCommand(ownPath, layer))
+    const id = nextProjectMapLayerId(liveMap)
+    const layer = buildProjectMapLayer(liveMap, id, `图层 ${liveMap.layers.length + 1}`)
+    session.dispatch(new AddProjectMapLayerCommand(mapId, layer))
     setActiveLayerId(id)
   }
 
@@ -408,7 +509,7 @@ export function MapMode(props: {
     if (!liveMap || !activeLayer || liveMap.layers.length <= 1) return
     const index = liveMap.layers.findIndex((layer) => layer.id === activeLayer.id)
     const next = liveMap.layers[index - 1] ?? liveMap.layers[index + 1]
-    session.dispatch(new RemoveOwnMapLayerCommand(ownPath, activeLayer.id))
+    session.dispatch(new RemoveProjectMapLayerCommand(mapId, activeLayer.id))
     setActiveLayerId(next?.id ?? '')
     setHiddenLayerIds((current) => {
       const copy = new Set(current)
@@ -420,7 +521,7 @@ export function MapMode(props: {
   const moveLayer = (offset: -1 | 1): void => {
     if (!liveMap || !activeLayer) return
     const index = liveMap.layers.findIndex((layer) => layer.id === activeLayer.id)
-    session.dispatch(new MoveOwnMapLayerCommand(ownPath, activeLayer.id, index + offset))
+    session.dispatch(new MoveProjectMapLayerCommand(mapId, activeLayer.id, index + offset))
   }
 
   const toggleLayerVisible = (layerId: string): void => {
@@ -433,24 +534,112 @@ export function MapMode(props: {
   }
 
   const loaded = status === 'ready' ? loadedRef.current : null
+  const normalizedQuery = mapQuery.trim().toLocaleLowerCase()
+  const filteredAssets = mapIndex.maps.filter(
+    (asset) =>
+      !normalizedQuery ||
+      asset.id.toLocaleLowerCase().includes(normalizedQuery) ||
+      asset.name.toLocaleLowerCase().includes(normalizedQuery),
+  )
+
+  useEffect(() => {
+    void selectedMapId
+    void normalizedQuery
+    selectedMapRowRef.current?.scrollIntoView({ block: 'nearest' })
+  }, [selectedMapId, normalizedQuery])
+
+  const selectedReferences = selectedAsset ? mapAssetSceneReferences(scenes, selectedAsset.id) : []
   const cursor = activeTool === 'pan' ? 'grab' : 'crosshair'
   const activeLayerName = activeLayer?.name ?? '未选图层'
-  const toolbarHint = !own
-    ? '复用原版地图(只读)'
+  const toolbarHint = !liveMap
+    ? '地图载入中'
     : activeTool === 'pan'
       ? `${activeLayerName} · 平移`
-      : activeTool === 'collision'
-        ? `${collisionPaint === 'set' ? '标记' : '清除'}碰撞`
-        : `${activeLayerName} · ${activeTool === 'fill' ? '填充' : activeTool === 'rect' ? '矩形' : activeTool === 'erase' ? '擦除' : '笔刷'}`
+      : activeTool === 'eyedropper'
+        ? `${activeLayerName} · 取样瓦片与实例高度`
+        : activeTool === 'collision'
+          ? `${collisionPaint === 'set' ? '标记' : '清除'}碰撞`
+          : `${activeLayerName} · 高度 ${currentHeight} · ${activeTool === 'fill' ? '填充' : activeTool === 'rect' ? '矩形' : activeTool === 'erase' ? '擦除' : '笔刷'}`
 
   return (
     <>
       <div className="outliner map-outliner">
         {navigation}
-        <div className="pane-h">
-          <span className="t">{own ? '图层' : '地图工具'}</span>
+        <div className="pane-h map-assets-head">
+          <span className="t">地图</span>
           <span className="spacer" />
-          {own && liveMap ? (
+          <button type="button" className="mini" onClick={createMap} title="新建地图">
+            ＋
+          </button>
+          <button
+            type="button"
+            className="mini"
+            onClick={duplicateMap}
+            disabled={!selectedAsset || !liveMap}
+            title="复制地图"
+          >
+            ⧉
+          </button>
+          <button
+            type="button"
+            className="mini"
+            onClick={renameMap}
+            disabled={!selectedAsset}
+            title="重命名地图"
+          >
+            ✎
+          </button>
+          <button
+            type="button"
+            className="mini danger"
+            onClick={deleteMap}
+            disabled={!selectedAsset || !liveMap || selectedReferences.length > 0}
+            title={
+              selectedReferences.length > 0
+                ? `仍被 ${selectedReferences.length} 个场景使用，不能删除`
+                : pendingDeleteId === selectedAsset?.id
+                  ? '再次点击确认删除'
+                  : '删除地图'
+            }
+          >
+            {pendingDeleteId === selectedAsset?.id ? '✓' : '−'}
+          </button>
+        </div>
+        <input
+          className="in map-search"
+          value={mapQuery}
+          onChange={(event) => setMapQuery(event.target.value)}
+          placeholder="搜索名称或 ID"
+          aria-label="搜索地图"
+        />
+        <div className="map-asset-list">
+          {filteredAssets.map((asset) => {
+            const references = mapAssetSceneReferences(scenes, asset.id)
+            return (
+              <button
+                type="button"
+                key={asset.id}
+                ref={asset.id === selectedAsset?.id ? selectedMapRowRef : undefined}
+                className={`map-asset-row${asset.id === selectedAsset?.id ? ' sel' : ''}`}
+                onClick={() => onSelectMap(asset.id)}
+                title={`${asset.name} (${asset.id})`}
+              >
+                <span className="map-asset-name">{asset.name}</span>
+                <span className="map-asset-id">{asset.id}</span>
+                <span className="map-asset-uses">{references.length}</span>
+              </button>
+            )
+          })}
+          {filteredAssets.length === 0 ? (
+            <div className="map-list-empty">
+              {mapIndex.maps.length === 0 ? '还没有工程地图' : '没有匹配地图'}
+            </div>
+          ) : null}
+        </div>
+        <div className="pane-h">
+          <span className="t">图层</span>
+          <span className="spacer" />
+          {liveMap ? (
             <>
               <button type="button" className="mini" onClick={addLayer} title="新增图层">
                 ＋
@@ -467,7 +656,7 @@ export function MapMode(props: {
             </>
           ) : null}
         </div>
-        {own && liveMap ? (
+        {liveMap ? (
           <div className="map-layer-list">
             {[...liveMap.layers].reverse().map((layer) => {
               const index = liveMap.layers.findIndex((candidate) => candidate.id === layer.id)
@@ -492,7 +681,9 @@ export function MapMode(props: {
                     title={`${layer.name} (${layer.id})`}
                   >
                     <span>{layer.name}</span>
-                    {layer.occlude ? <span className="layer-badge">遮挡</span> : null}
+                    <span className="layer-badge">
+                      {layer.depthMode === 'height' ? '高度' : '平面'}
+                    </span>
                   </button>
                   {layer.id === activeLayerId ? (
                     <span className="layer-order">
@@ -521,17 +712,17 @@ export function MapMode(props: {
             })}
           </div>
         ) : (
-          <p className="hint2 map-readonly-hint">当前复用原版地图(只读)。</p>
+          <p className="hint2 map-readonly-hint">正在载入可编辑地图…</p>
         )}
         <div className="pane-h map-tiles-head">
           <span className="t">瓦片</span>
-          {own && loaded ? (
+          {liveMap && loaded ? (
             <span className="hint2">
-              {activeLayerName} #{selectedTile}
+              {activeLayerName} #{selectedTile} · H{currentHeight}
             </span>
           ) : null}
         </div>
-        {own && loaded ? (
+        {liveMap && loaded ? (
           <div className="tile-grid">
             {[...loaded.tiles.entries()]
               .sort((a, b) => a[0] - b[0])
@@ -567,9 +758,18 @@ export function MapMode(props: {
           <div className="tool-group">
             <button
               type="button"
+              className={`tool${activeTool === 'eyedropper' ? ' active' : ''}`}
+              onClick={() => setTool('eyedropper')}
+              disabled={!liveMap}
+              title="从当前图层取样瓦片与实例高度"
+            >
+              ◉ 取样
+            </button>
+            <button
+              type="button"
               className={`tool${activeTool === 'brush' ? ' active' : ''}`}
               onClick={() => setTool('brush')}
-              disabled={!own}
+              disabled={!liveMap}
               title="画选中瓦片"
             >
               🖌 笔刷
@@ -578,7 +778,7 @@ export function MapMode(props: {
               type="button"
               className={`tool${activeTool === 'rect' ? ' active' : ''}`}
               onClick={() => setTool('rect')}
-              disabled={!own}
+              disabled={!liveMap}
               title="矩形铺瓦"
             >
               ▭ 矩形
@@ -587,7 +787,7 @@ export function MapMode(props: {
               type="button"
               className={`tool${activeTool === 'fill' ? ' active' : ''}`}
               onClick={() => setTool('fill')}
-              disabled={!own}
+              disabled={!liveMap}
               title="填充连通区域"
             >
               🪣 填充
@@ -596,7 +796,7 @@ export function MapMode(props: {
               type="button"
               className={`tool${activeTool === 'erase' ? ' active' : ''}`}
               onClick={() => setTool('erase')}
-              disabled={!own}
+              disabled={!liveMap}
               title="擦除瓦片"
             >
               ⌫ 擦除
@@ -607,7 +807,7 @@ export function MapMode(props: {
               type="button"
               className={`tool${activeTool === 'collision' ? ' active' : ''}`}
               onClick={() => setTool('collision')}
-              disabled={!own}
+              disabled={!liveMap}
               title="绘制独立碰撞层"
             >
               ⛔ 碰撞
@@ -619,7 +819,7 @@ export function MapMode(props: {
                 setCollisionPaint('set')
                 setTool('collision')
               }}
-              disabled={!own}
+              disabled={!liveMap}
               title="标记阻挡"
             >
               标记
@@ -631,7 +831,7 @@ export function MapMode(props: {
                 setCollisionPaint('clear')
                 setTool('collision')
               }}
-              disabled={!own}
+              disabled={!liveMap}
               title="清除阻挡"
             >
               清除
@@ -662,6 +862,72 @@ export function MapMode(props: {
           <div className="canvas-note">
             {Math.round(view.zoom * 100)}%{status === 'loading' ? ' · 载入中…' : ''}
           </div>
+          {liveMap && activeLayer ? (
+            <fieldset className="map-focus-nav" aria-label="地图图层与高度导航">
+              <button
+                type="button"
+                className={`map-focus-toggle${focusEnabled ? ' active' : ''}`}
+                onClick={() => setFocusEnabled((enabled) => !enabled)}
+                title={focusEnabled ? '关闭聚焦，全部正常显示' : '开启聚焦，其他瓦片变暗'}
+                aria-label={focusEnabled ? '关闭聚焦' : '开启聚焦'}
+              >
+                ◉
+              </button>
+              <label className="map-focus-axis">
+                <span>层</span>
+                <input
+                  type="range"
+                  min={0}
+                  max={Math.max(0, liveMap.layers.length - 1)}
+                  step={1}
+                  value={Math.max(0, activeLayerIndex)}
+                  onChange={(event) => {
+                    const layer = liveMap.layers[Number(event.target.value)]
+                    if (layer) setActiveLayerId(layer.id)
+                  }}
+                  onWheel={(event) => {
+                    event.preventDefault()
+                    const nextIndex = Math.max(
+                      0,
+                      Math.min(
+                        liveMap.layers.length - 1,
+                        activeLayerIndex + (event.deltaY < 0 ? 1 : -1),
+                      ),
+                    )
+                    const layer = liveMap.layers[nextIndex]
+                    if (layer) setActiveLayerId(layer.id)
+                  }}
+                  title={`聚焦图层：${activeLayer.name}`}
+                />
+                <output>{activeLayerIndex + 1}</output>
+              </label>
+              <label className="map-focus-axis">
+                <span>高</span>
+                <input
+                  type="range"
+                  min={0}
+                  max={maxMapHeight}
+                  step={1}
+                  value={currentHeight}
+                  disabled={activeLayer.depthMode === 'flat'}
+                  onChange={(event) => setCurrentHeight(Number(event.target.value))}
+                  onWheel={(event) => {
+                    event.preventDefault()
+                    if (activeLayer.depthMode === 'flat') return
+                    setCurrentHeight((height) =>
+                      Math.max(0, Math.min(maxMapHeight, height + (event.deltaY < 0 ? 1 : -1))),
+                    )
+                  }}
+                  title={
+                    activeLayer.depthMode === 'flat'
+                      ? '平面图层的实例高度固定为 0'
+                      : `聚焦并写入实例高度：${currentHeight}`
+                  }
+                />
+                <output>{currentHeight}</output>
+              </label>
+            </fieldset>
+          ) : null}
           {status === 'error' && (
             <div className="boot">
               <div className="err">地图渲染失败: {err}</div>
@@ -690,8 +956,29 @@ export function MapMode(props: {
       <div className="inspector">
         <div className="section">
           <h4>地图</h4>
-          {own ? (
+          {selectedAsset ? (
             <>
+              <div className="field">
+                <span className="field-label">名称</span>
+                <input
+                  ref={mapNameInputRef}
+                  key={`${selectedAsset?.id}:${selectedAsset?.name}`}
+                  className="in"
+                  defaultValue={selectedAsset?.name ?? ''}
+                  onBlur={(event) => {
+                    const name = event.target.value.trim()
+                    if (selectedAsset && name && name !== selectedAsset.name)
+                      session.dispatch(new RenameMapAssetCommand(selectedAsset.id, name))
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter') event.currentTarget.blur()
+                  }}
+                />
+              </div>
+              <div className="field">
+                <span className="field-label">ID</span>
+                <span className="mono map-file">{selectedAsset?.id ?? mapId}</span>
+              </div>
               <div className="field">
                 <span className="field-label">尺寸</span>
                 {/* 左上锚定裁剪/扩展;失焦或回车提交,一次 = 一步撤销(缩图裁掉的内容 undo 可回) */}
@@ -707,7 +994,7 @@ export function MapMode(props: {
                     onBlur={(event) => {
                       const w = Math.max(1, Math.min(256, Math.floor(event.target.valueAsNumber)))
                       if (liveMap && Number.isFinite(w) && w !== liveMap.width)
-                        session.dispatch(new ResizeOwnMapCommand(ownPath, w, liveMap.height))
+                        session.dispatch(new ResizeProjectMapCommand(mapId, w, liveMap.height))
                     }}
                     onKeyDown={(event) => {
                       if (event.key === 'Enter') event.currentTarget.blur()
@@ -725,7 +1012,7 @@ export function MapMode(props: {
                     onBlur={(event) => {
                       const h = Math.max(1, Math.min(256, Math.floor(event.target.valueAsNumber)))
                       if (liveMap && Number.isFinite(h) && h !== liveMap.height)
-                        session.dispatch(new ResizeOwnMapCommand(ownPath, liveMap.width, h))
+                        session.dispatch(new ResizeProjectMapCommand(mapId, liveMap.width, h))
                     }}
                     onKeyDown={(event) => {
                       if (event.key === 'Enter') event.currentTarget.blur()
@@ -739,21 +1026,22 @@ export function MapMode(props: {
               </div>
               <div className="field">
                 <span className="field-label">文件</span>
-                <span className="mono map-file">{ownPath}</span>
+                <span className="mono map-file">{selectedAsset?.path ?? '(索引缺失)'}</span>
               </div>
               <div className="field">
                 <span className="field-label">瓦片集</span>
                 <select
                   className="in"
                   title="换本图用的瓦片集(库条目;换绑不重映射瓦片索引)"
-                  value={liveMap?.tileset ?? ''}
+                  value={liveMap?.tilesetId ?? ''}
+                  disabled={!liveMap}
                   onChange={(e) => {
                     if (e.target.value && liveMap)
-                      session.dispatch(new SetOwnMapTilesetCommand(ownPath, e.target.value))
+                      session.dispatch(new SetProjectMapTilesetCommand(mapId, e.target.value))
                   }}
                 >
-                  {liveMap && !tilesets.some((t) => t.id === liveMap.tileset) && (
-                    <option value={liveMap.tileset}>原版借用({liveMap.tileset})</option>
+                  {liveMap && !tilesets.some((t) => t.id === liveMap.tilesetId) && (
+                    <option value={liveMap.tilesetId}>缺失条目({liveMap.tilesetId})</option>
                   )}
                   {tilesets.map((t) => (
                     <option key={t.id} value={t.id}>
@@ -775,7 +1063,7 @@ export function MapMode(props: {
                         const name = event.target.value.trim()
                         if (name && name !== activeLayer.name)
                           session.dispatch(
-                            new UpdateOwnMapLayerCommand(ownPath, activeLayer.id, { name }),
+                            new UpdateProjectMapLayerCommand(mapId, activeLayer.id, { name }),
                           )
                       }}
                       onKeyDown={(event) => {
@@ -787,31 +1075,74 @@ export function MapMode(props: {
                     <span className="field-label">ID</span>
                     <span className="mono">{activeLayer.id}</span>
                   </div>
-                  <label className="check-row">
-                    <input
-                      type="checkbox"
-                      checked={activeLayer.occlude}
+                  <div className="field">
+                    <span className="field-label">深度</span>
+                    <select
+                      className="in"
+                      value={activeLayer.depthMode}
                       onChange={(event) =>
                         session.dispatch(
-                          new UpdateOwnMapLayerCommand(ownPath, activeLayer.id, {
-                            occlude: event.target.checked,
+                          new UpdateProjectMapLayerCommand(mapId, activeLayer.id, {
+                            depthMode: event.target.value as 'flat' | 'height',
                           }),
                         )
                       }
+                    >
+                      <option
+                        value="flat"
+                        disabled={
+                          activeLayer.heights?.some((row) => row.some((height) => height !== 0)) ??
+                          false
+                        }
+                      >
+                        平面
+                      </option>
+                      <option value="height">按实例高度参与遮挡</option>
+                    </select>
+                  </div>
+                  <div className="field">
+                    <span className="field-label">笔刷高度</span>
+                    <input
+                      className="in mono"
+                      type="number"
+                      min={0}
+                      max={255}
+                      value={currentHeight}
+                      disabled={activeLayer.depthMode === 'flat'}
+                      onChange={(event) =>
+                        setCurrentHeight(
+                          Math.max(0, Math.min(255, Math.floor(event.target.valueAsNumber || 0))),
+                        )
+                      }
                     />
-                    遮挡角色
-                  </label>
+                  </div>
                 </>
               ) : null}
+              <h4>使用场景</h4>
+              {selectedReferences.length ? (
+                <div className="map-reference-list">
+                  {selectedReferences.map((sceneId) => (
+                    <button
+                      type="button"
+                      key={sceneId}
+                      className="linked-value-open map-reference"
+                      onClick={() => onOpenScene(sceneId)}
+                      title={`打开场景 ${sceneId}`}
+                    >
+                      <span>{sceneId}</span>
+                      <span>↗</span>
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <p className="hint2">尚未绑定场景，保存重开后仍会保留。</p>
+              )}
             </>
           ) : (
             <>
-              <div className="field">
-                <span className="field-label">类型</span>
-                <span className="mono">复用原版 {reuseMapNum(scene.map)}(只读)</span>
-              </div>
-              <button type="button" className="tool" onClick={createOwnMap}>
-                ＋ 新建空白自有地图
+              <p className="hint2">当前场景引用的地图没有索引条目。</p>
+              <button type="button" className="tool" onClick={createMap}>
+                ＋ 新建地图
               </button>
             </>
           )}

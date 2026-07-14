@@ -13,20 +13,25 @@ import type {
   GridPos,
   HostileBehavior,
   Locale,
+  MapAssetDefV1,
   MusicDef,
   SceneDef,
   SpriteDef,
 } from '@type-pal/content'
 import {
   isActorEntity,
-  isReuseMap,
   lookupText,
-  mapRoom,
+  nextMapAssetIdentity,
   resolveEntitySpriteId,
-  reuseMapNum,
   validateReferences,
 } from '@type-pal/content'
-import type { AssetBase, LoadedProject } from '@type-pal/reforge'
+import {
+  type AssetBase,
+  buildBlankProjectMap,
+  type LoadedProject,
+  type ProjectMapV2,
+  type TilesetDef,
+} from '@type-pal/reforge'
 import {
   type CSSProperties,
   useCallback,
@@ -39,7 +44,10 @@ import {
 import {
   AddEntityCommand,
   AddSceneCommand,
+  BindSceneMapCommand,
+  CreateMapAssetCommand,
   DeleteEntityCommand,
+  DuplicateMapAssetCommand,
   MoveEntityCommand,
   RenameProjectCommand,
   SetEntitySpriteCommand,
@@ -50,7 +58,7 @@ import type { EditSession } from '../core/edit-session.js'
 import { exportProjectZip } from '../core/export-zip.js'
 import { saveHandle } from '../core/handle-store.js'
 import { type Opened, openExistingProject, saveProjectAs } from '../core/open-actions.js'
-import { serializeProject, writeProject } from '../core/project-io.js'
+import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.js'
 import { ActorMode } from './ActorMode.js'
 import { DataMode } from './DataMode.js'
 import {
@@ -285,7 +293,7 @@ export function App(props: {
 
   useEffect(() => {
     if (
-      (location.module === 'scene' || location.module === 'map') &&
+      location.module === 'scene' &&
       location.subpage === 'workspace' &&
       location.objectId &&
       state.scenes.some((candidate) => candidate.id === location.objectId)
@@ -303,10 +311,7 @@ export function App(props: {
     setSelected(SCENE_NODE)
     setTool('select')
     const current = locationRef.current
-    if (
-      (current.module === 'scene' || current.module === 'map') &&
-      current.subpage === 'workspace'
-    ) {
+    if (current.module === 'scene' && current.subpage === 'workspace') {
       applyEditorLocation({ ...current, objectId: id }, 'replace')
     }
   }
@@ -409,21 +414,40 @@ export function App(props: {
 
   const activeModule = editorModule(location.module)
   const activeSubpage = editorSubpage(location)
+  const sceneMapId = scene?.mapId
+  const defaultMapId =
+    (location.module === 'map' &&
+    location.objectId &&
+    state.mapIndex.maps.some((asset) => asset.id === location.objectId)
+      ? location.objectId
+      : undefined) ??
+    sceneMapId ??
+    state.mapIndex.maps[0]?.id
+  useEffect(() => {
+    const ids = new Set<string>()
+    if (scene?.mapId) ids.add(scene.mapId)
+    if (location.module === 'map' && location.objectId) ids.add(location.objectId)
+    for (const id of ids) void session.ensureMapLoaded(id).catch(() => undefined)
+  }, [location.module, location.objectId, scene?.mapId, session])
   const openEditorModule = (moduleId: EditorModuleId): void => {
     const remembered = moduleLocations[moduleId] ?? defaultEditorLocation(moduleId)
     const subpage = editorSubpage(remembered)
     const next =
-      (subpage.kind === 'scene' || subpage.kind === 'map') && !remembered.objectId
+      subpage.kind === 'scene'
         ? { ...remembered, objectId: placeSceneId }
-        : remembered
+        : subpage.kind === 'map'
+          ? { ...remembered, ...(defaultMapId ? { objectId: defaultMapId } : {}) }
+          : remembered
     applyEditorLocation(next)
   }
   const openEditorSubpage = (next: EditorLocation): void => {
     const subpage = editorSubpage(next)
     applyEditorLocation(
-      subpage.kind === 'scene' || subpage.kind === 'map'
+      subpage.kind === 'scene'
         ? { ...next, objectId: placeSceneId }
-        : next,
+        : subpage.kind === 'map'
+          ? { ...next, ...(defaultMapId ? { objectId: defaultMapId } : {}) }
+          : next,
     )
   }
   const focusCurrentObject = (objectId: string | undefined): void => {
@@ -436,9 +460,11 @@ export function App(props: {
   const moduleSubnav = <ModuleSubnav location={location} onNavigate={openEditorSubpage} />
   const objectTargetMissing = (() => {
     if (!location.objectId || !activeSubpage.acceptsObject) return false
-    if (activeSubpage.kind === 'scene' || activeSubpage.kind === 'map') {
+    if (activeSubpage.kind === 'scene') {
       return !state.scenes.some((candidate) => candidate.id === location.objectId)
     }
+    if (activeSubpage.kind === 'map')
+      return !state.mapIndex.maps.some((candidate) => candidate.id === location.objectId)
     if (activeSubpage.kind === 'actor') {
       return !state.actors.some((candidate) => candidate.id === location.objectId)
     }
@@ -525,8 +551,10 @@ export function App(props: {
         snapshotRef.current = null // 新目录 → 快照作废,首存全写
         void saveHandle(state.manifest.id, dir.name, dir) // 持久化句柄(P4 打开本地用)
       }
-      snapshotRef.current = await writeProject(dir, serializeProject(session.getState()), {
+      const files = await serializeProjectWithMapCopies(session.getState(), project.source)
+      snapshotRef.current = await writeProject(dir, files, {
         ...(snapshotRef.current ? { prevSnapshot: snapshotRef.current } : {}),
+        removePaths: session.getDeletedMapPaths(),
       })
       session.markSaved()
       setSaveErr('')
@@ -597,10 +625,11 @@ export function App(props: {
                 <button
                   type="button"
                   onClick={() =>
-                    void runProj(() =>
+                    void runProj(async () =>
                       saveProjectAs(
-                        serializeProject(session.getState()),
+                        await serializeProjectWithMapCopies(session.getState(), project.source),
                         dirHandleRef.current ?? undefined,
+                        session.getDeletedMapPaths(),
                       ),
                     )
                   }
@@ -696,9 +725,22 @@ export function App(props: {
         ) : activeSubpage.kind === 'map' ? (
           <MapMode
             scene={scene}
+            scenes={state.scenes}
             session={session}
             assetBase={project.assetBase}
-            ownMaps={state.maps}
+            projectMaps={state.maps}
+            mapIndex={state.mapIndex}
+            selectedMapId={defaultMapId}
+            onSelectMap={(id) =>
+              applyEditorLocation(
+                id ? editorLinks.map(id) : { module: 'map', subpage: 'workspace' },
+                'replace',
+              )
+            }
+            onOpenScene={(id) => {
+              setPlaceSceneId(id)
+              applyEditorLocation(editorLinks.scene(id))
+            }}
             tilesets={state.tilesets ?? []}
             tilesetBlobs={state.tilesetBlobs}
             navigation={moduleSubnav}
@@ -789,7 +831,7 @@ export function App(props: {
                     window.alert(`场景 "${id}" 已存在`)
                     return
                   }
-                  session.dispatch(new AddSceneCommand(id, scene.map, scene.entry))
+                  session.dispatch(new AddSceneCommand(id, scene.mapId, scene.entry))
                   switchPlaceScene(id)
                 }}
               >
@@ -946,7 +988,8 @@ export function App(props: {
                   actorsById={actorsById}
                   leaderSpriteId={leaderSpriteId}
                   assetBase={project.assetBase}
-                  ownMaps={state.maps}
+                  projectMaps={state.maps}
+                  mapIndex={state.mapIndex}
                   tilesets={state.tilesets ?? []}
                   tilesetBlobs={state.tilesetBlobs}
                   selectedId={selEntity ? selected : null}
@@ -979,7 +1022,8 @@ export function App(props: {
                   actorsById={actorsById}
                   leaderSpriteId={leaderSpriteId}
                   assetBase={project.assetBase}
-                  ownMaps={state.maps}
+                  projectMaps={state.maps}
+                  mapIndex={state.mapIndex}
                   tilesets={state.tilesets ?? []}
                   tilesetBlobs={state.tilesetBlobs}
                   session={session}
@@ -1027,7 +1071,10 @@ export function App(props: {
                   session={session}
                   music={state.music ?? []}
                   musicBase={project.assetBase.music}
-                  onOpenMap={() => applyEditorLocation(editorLinks.sceneMap(scene.id))}
+                  maps={state.mapIndex.maps}
+                  projectMaps={state.maps}
+                  tilesets={state.tilesets ?? []}
+                  onOpenMap={(mapId) => applyEditorLocation(editorLinks.map(mapId))}
                 />
               )}
             </div>
@@ -1652,9 +1699,47 @@ function SceneInspector(props: {
   /** 音乐库 + 试听前缀(场景 BGM 选择器)。 */
   music: MusicDef[]
   musicBase: string
-  onOpenMap: () => void
+  maps: MapAssetDefV1[]
+  projectMaps: Record<string, ProjectMapV2>
+  tilesets: readonly TilesetDef[]
+  onOpenMap: (mapId: string) => void
 }) {
-  const { scene, session, music, musicBase, onOpenMap } = props
+  const { scene, session, music, musicBase, maps, projectMaps, tilesets, onOpenMap } = props
+  const mapId = scene.mapId
+  const currentAsset = maps.find((asset) => asset.id === mapId)
+
+  const createAndBind = (): void => {
+    const { id, path } = nextMapAssetIdentity({ version: 1, maps }, scene.id)
+    const tileset = projectMaps[scene.mapId]?.tilesetId ?? tilesets[0]?.id ?? 'starter'
+    session.dispatch(
+      new CreateMapAssetCommand(
+        { id, name: `${scene.id} 地图`, path },
+        buildBlankProjectMap(24, 24, tileset),
+      ),
+    )
+    session.dispatch(new BindSceneMapCommand(scene.id, id))
+    onOpenMap(id)
+  }
+
+  const duplicateAndBind = async (): Promise<void> => {
+    if (!currentAsset) return
+    try {
+      await session.ensureMapLoaded(mapId)
+    } catch (error) {
+      window.alert(error instanceof Error ? error.message : String(error))
+      return
+    }
+    const { id, path } = nextMapAssetIdentity({ version: 1, maps }, `${mapId}-copy`)
+    session.dispatch(
+      new DuplicateMapAssetCommand(mapId, {
+        id,
+        name: `${currentAsset.name} 副本`,
+        path,
+      }),
+    )
+    session.dispatch(new BindSceneMapCommand(scene.id, id))
+    onOpenMap(id)
+  }
   return (
     <>
       <div className="insp-head">
@@ -1666,37 +1751,39 @@ function SceneInspector(props: {
         <div className="field">
           <span className="field-label">地图</span>
           <div className="linked-control">
-            {isReuseMap(scene.map) ? (
-              <input
-                className="in mono"
-                type="number"
-                title="复用原版地图号(改后画布即重载)"
-                value={reuseMapNum(scene.map)}
-                onChange={(e) =>
-                  Number.isFinite(e.target.valueAsNumber) &&
-                  session.dispatch(
-                    new UpdateSceneCommand(scene.id, {
-                      map: {
-                        reuseOriginalMap: e.target.valueAsNumber,
-                        ...(mapRoom(scene.map) ? { room: mapRoom(scene.map) } : {}),
-                      },
-                    }),
-                  )
-                }
-              />
-            ) : (
-              <span className="mono map-file">{scene.map.ownMap}</span>
-            )}
+            <select
+              className="in"
+              value={mapId}
+              onChange={(event) =>
+                event.target.value &&
+                session.dispatch(new BindSceneMapCommand(scene.id, event.target.value))
+              }
+            >
+              {!currentAsset && <option value={mapId}>{mapId} (缺失)</option>}
+              {maps.map((asset) => (
+                <option key={asset.id} value={asset.id}>
+                  {asset.name} ({asset.id})
+                </option>
+              ))}
+            </select>
             <button
               type="button"
               className="linked-value-open"
               title="在地图模块打开"
-              aria-label={`打开场景 ${scene.id} 的地图`}
-              onClick={onOpenMap}
+              aria-label={`打开地图 ${mapId}`}
+              onClick={() => onOpenMap(mapId)}
             >
               ↗
             </button>
           </div>
+        </div>
+        <div className="scene-map-actions">
+          <button type="button" className="tool" onClick={createAndBind}>
+            ＋ 创建并绑定
+          </button>
+          <button type="button" className="tool" onClick={() => void duplicateAndBind()}>
+            ⧉ 复制并绑定
+          </button>
         </div>
         <div className="field">
           <span className="field-label">音乐</span>

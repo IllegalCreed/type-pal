@@ -1,21 +1,17 @@
-import type { OwnMap } from '@type-pal/content'
-import type { Tilemap } from '@type-pal/shared'
+import type { ProjectMapV2 } from '@type-pal/content'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import type { AssetBase } from './assets.js'
 
-// 只测分流逻辑,mock 掉 assets 层的真实 IO(gzip/parseSpriteChunk 在别处/浏览器覆盖)。
 vi.mock('./assets.js', () => ({
-  loadTilemap: vi.fn(),
-  loadOwnMap: vi.fn(),
+  loadProjectMap: vi.fn(),
   loadTilesetByPath: vi.fn(),
 }))
 
-import { loadOwnMap, loadTilemap, loadTilesetByPath } from './assets.js'
+import { loadProjectMap, loadTilesetByPath } from './assets.js'
 import { loadSceneMap } from './scene-map.js'
 
 const base: AssetBase = {
   root: '/proj/data',
-  maps: 'tilemap',
   tilesets: 'tileset',
   sprites: 'sprite',
   palettes: 'palette',
@@ -25,38 +21,50 @@ const base: AssetBase = {
   faces: 'face',
   itemIcons: 'item-icon',
 }
-const fakeMap: Tilemap = { width: 2, height: 2, cells: [], tileset: 'tileset/56.rle' }
-const fakeOwnMap: OwnMap = {
-  version: 1,
+const fakeMap: ProjectMapV2 = {
+  version: 2,
   width: 2,
   height: 2,
-  tileset: 'tileset/56.rle',
-  layers: [{ id: 'floor', name: '地板', occlude: false, tiles: [[], [], [], []] }],
+  tilesetId: 'tileset-056',
+  layers: [
+    {
+      id: 'floor',
+      name: '地板',
+      depthMode: 'height',
+      tiles: [[], [], [], []],
+      heights: [[], [], [], []],
+    },
+  ],
   collision: [[], [], [], []],
 }
+const mapIndex = {
+  version: 1 as const,
+  maps: [{ id: 'home', name: '民居', path: 'content/maps/home.json' }],
+}
+const tilesets = [{ id: 'tileset-056', name: '室内', category: 'indoor', path: 'tileset/56.rle' }]
 const fakeTiles = new Map()
 
 beforeEach(() => {
   vi.clearAllMocks()
+  vi.mocked(loadProjectMap).mockResolvedValue(fakeMap)
   vi.mocked(loadTilesetByPath).mockResolvedValue(fakeTiles)
 })
 
-describe('loadSceneMap 分流(W7a-4)', () => {
-  test('复用原版:按原版号取图,tileset 一律自 map.tileset 字段解析', async () => {
-    vi.mocked(loadTilemap).mockResolvedValue(fakeMap)
-    const r = await loadSceneMap(base, { reuseOriginalMap: 56 })
-    expect(loadTilemap).toHaveBeenCalledWith(base, 56)
-    expect(loadOwnMap).not.toHaveBeenCalled()
-    expect(loadTilesetByPath).toHaveBeenCalledWith(base, 'tileset/56.rle') // 不从 mapNum 反推
-    expect(r).toEqual({ map: fakeMap, tiles: fakeTiles })
+describe('loadSceneMap 唯一地图链', () => {
+  test('稳定 mapId → map index path → ProjectMapV2.tilesetId → tileset registry', async () => {
+    const result = await loadSceneMap(base, 'home', tilesets, mapIndex)
+    expect(loadProjectMap).toHaveBeenCalledWith(base, 'content/maps/home.json')
+    expect(loadTilesetByPath).toHaveBeenCalledWith(base, 'tileset/56.rle')
+    expect(result).toEqual({ map: fakeMap, tiles: fakeTiles })
   })
 
-  test('自有地图:按工程内 content 路径取图,tileset 同样自 map.tileset', async () => {
-    vi.mocked(loadOwnMap).mockResolvedValue(fakeOwnMap)
-    const r = await loadSceneMap(base, { ownMap: 'content/maps/foo.json' })
-    expect(loadOwnMap).toHaveBeenCalledWith(base, 'content/maps/foo.json')
-    expect(loadTilemap).not.toHaveBeenCalled()
-    expect(loadTilesetByPath).toHaveBeenCalledWith(base, 'tileset/56.rle')
-    expect(r).toEqual({ map: fakeOwnMap, tiles: fakeTiles })
+  test('未知 mapId 和未知 tilesetId 都 fail-loud', async () => {
+    await expect(loadSceneMap(base, 'missing', tilesets, mapIndex)).rejects.toThrow(
+      'mapId "missing" 不在 map index',
+    )
+    vi.mocked(loadProjectMap).mockResolvedValue({ ...fakeMap, tilesetId: 'missing' })
+    await expect(loadSceneMap(base, 'home', tilesets, mapIndex)).rejects.toThrow(
+      'tileset "missing" 不在注册表',
+    )
   })
 })

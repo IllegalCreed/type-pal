@@ -27,7 +27,7 @@ export function buildMigrationTransactionChanges(args: {
     changes.push({
       target: `projects/pal/${path}`,
       scope: 'project',
-      content: serializeMigrationJson(value),
+      content: serializeMigrationJson(value, path),
     })
   }
   for (const path of [...plan.deletes].sort()) {

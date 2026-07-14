@@ -68,4 +68,34 @@ describe('migration transaction change list', () => {
     })
     expect(changes.some((item) => item.target.endsWith('/content/keep.json'))).toBe(false)
   })
+
+  test('原子地图工程写正文，baseline 只写 _state hash', () => {
+    const repo = tempRepo()
+    const path = 'content/maps/map-001.json'
+    const map: MigrationJson = {
+      version: 2,
+      width: 1,
+      height: 1,
+      tilesetId: 'tileset-001',
+      layers: [
+        {
+          id: 'floor',
+          name: '地板',
+          depthMode: 'flat',
+          tiles: [[1], [2]],
+        },
+      ],
+      collision: [[0], [0]],
+    }
+    const changes = buildMigrationTransactionChanges({
+      repo,
+      plan: { writes: new Map([[path, map]]), deletes: [] },
+      nextBaseline: snapshot({ [path]: map }),
+    })
+    expect(changes.find((item) => item.target === `projects/pal/${path}`)?.content).toContain(
+      '        [1]',
+    )
+    expect(changes.some((item) => item.target.endsWith(`/baselines/pal/${path}`))).toBe(false)
+    expect(changes.at(-1)?.content).toContain(path)
+  })
 })

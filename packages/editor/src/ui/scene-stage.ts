@@ -8,13 +8,13 @@
  * 即恶果。
  */
 
-import type { SceneDef, SceneMap } from '@type-pal/content'
-import { gridToPixel, isReuseMap, resolveTilesetPath, sceneMapKey } from '@type-pal/content'
+import type { MapIndexV1, SceneDef } from '@type-pal/content'
+import { gridToPixel, mapAssetById, resolveTilesetPath } from '@type-pal/content'
 import type {
   AssetBase,
   LoadedSprite,
-  OwnMap,
   Palette,
+  ProjectMapV2,
   SceneMapAssets,
   TilesetDef,
 } from '@type-pal/reforge'
@@ -64,16 +64,18 @@ export function useStageSize(
   return size
 }
 
-/** 场景资产加载(map/tileset/palette + 指定精灵号)。sceneMap/spriteNums 以 key 串比较防重载。 */
+/** 场景资产加载(map/tileset/palette + 指定精灵号)。 */
 export function useSceneAssets(opts: {
   canvasRef: RefObject<HTMLCanvasElement | null>
   assetBase: AssetBase
-  sceneMap: SceneMap
+  mapId: string
   spriteNums: number[]
-  /** 编辑器实时自有地图(键 = ownMap 路径)。own 场景从此读地图,不落磁盘(创建后未存磁盘上没有)。 */
-  ownMaps?: Record<string, OwnMap>
-  /** tileset 注册表(W7B:OwnMap.tileset 可为注册表 id;缺省 [] = 仅路径直通)。 */
-  tilesets?: readonly TilesetDef[]
+  /** 编辑器实时自有地图(键 = 稳定 map id)。 */
+  projectMaps?: Record<string, ProjectMapV2>
+  /** 稳定 map id → 文件路径；实时副本缺失时用于磁盘回退。 */
+  mapIndex?: MapIndexV1
+  /** tileset 注册表；ProjectMapV2 只保存稳定 tilesetId。 */
+  tilesets: readonly TilesetDef[]
   /** 上传未保存的 tileset 字节(键 = 资产路径);命中则内存解码,不读磁盘。 */
   tilesetBlobs?: Record<string, ArrayBuffer>
   /** A4 自有上传精灵源(num → path/未保存字节);缺省全走原版号约定。 */
@@ -86,9 +88,10 @@ export function useSceneAssets(opts: {
   const {
     canvasRef,
     assetBase,
-    sceneMap,
+    mapId,
     spriteNums,
-    ownMaps,
+    projectMaps,
+    mapIndex,
     tilesets,
     tilesetBlobs,
     spriteSources,
@@ -97,12 +100,17 @@ export function useSceneAssets(opts: {
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
   const [err, setErr] = useState('')
   const spriteNumsKey = spriteNums.join(',')
-  const mapKey = sceneMapKey(sceneMap) // 复用 `r:<号>` / 自有 `o:<路径>`,稳定串防对象身份误触重载
-  // 自有地图:优先读实时 state(编辑中未存);无则 undefined → 落回 loadSceneMap 磁盘读(round-trip)
-  const liveMap = !isReuseMap(sceneMap) ? ownMaps?.[sceneMap.ownMap] : undefined
+  const liveMap = projectMaps?.[mapId]
+  const projectMapPath = mapAssetById(mapIndex ?? { version: 1, maps: [] }, mapId)?.path ?? ''
   // 换绑 tileset 时 mapKey 不变 → 引用单独入依赖(W7B);注册表经 resolveTilesetPath 解析 id/路径
-  const tilesetRef = liveMap?.tileset ?? ''
-  // biome-ignore lint/correctness/useExhaustiveDependencies: sceneMap/spriteNums/liveMap 以 key 串比较(对象/数组身份每渲染变)
+  const tilesetRef = liveMap?.tilesetId ?? ''
+  // 已加载地图的编辑态更新只换 map 引用，不重读 tileset/精灵资产。
+  useEffect(() => {
+    if (!liveMap || !loadedRef.current) return
+    loadedRef.current = { ...loadedRef.current, map: liveMap }
+  }, [liveMap])
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: spriteNums 以稳定 key 比较。
   useEffect(() => {
     const ctx = canvasRef.current?.getContext('2d')
     if (!ctx) return
@@ -111,17 +119,17 @@ export function useSceneAssets(opts: {
     void (async () => {
       try {
         const [{ map, tiles }, palette] = await Promise.all([
-          // 自有地图有实时副本 → 直接用它 + 按其 tileset 取瓦片;否则走 loadSceneMap(复用/磁盘)
+          // 有实时副本 → 直接用它；否则按 mapId 从磁盘懒加载。
           liveMap
             ? (async () => {
-                const path = resolveTilesetPath(liveMap.tileset, tilesets ?? [])
+                const path = resolveTilesetPath(liveMap.tilesetId, tilesets)
                 const mem = tilesetBlobs?.[path] // 上传未保存:内存字节优先(磁盘尚无此文件)
                 const tiles = mem
                   ? await tilesFromChunkBytes(mem)
                   : await loadTilesetByPath(assetBase, path)
                 return { map: liveMap, tiles }
               })()
-            : loadSceneMap(assetBase, sceneMap, tilesets), // 复用原版 ⊕ 自有(磁盘),分流内建
+            : loadSceneMap(assetBase, mapId, tilesets, mapIndex ?? { version: 1, maps: [] }),
           loadPalette(assetBase, 0), // 只留盘 0(W7a-3:调色板概念退役)
         ])
         const entries = await Promise.all(
@@ -162,7 +170,7 @@ export function useSceneAssets(opts: {
     return () => {
       alive = false
     }
-  }, [assetBase, mapKey, spriteNumsKey, canvasRef, tilesetRef])
+  }, [assetBase, mapId, projectMapPath, spriteNumsKey, canvasRef, tilesetRef])
   return { status, err, loadedRef }
 }
 

@@ -110,6 +110,45 @@ describe('mergeManagedFile', () => {
     ])
   })
 
+  test('map index 的 /maps 按稳定 id 合并，不退回整数组原子冲突', () => {
+    const result = mergeManagedFile(
+      'content/maps/index.json',
+      jsonPresent({ version: 1, maps: [] }),
+      jsonPresent({
+        version: 1,
+        maps: [{ id: 'ours', name: '作者图', path: 'content/maps/ours.json' }],
+      }),
+      jsonPresent({
+        version: 1,
+        maps: [{ id: 'theirs', name: '迁移图', path: 'content/maps/theirs.json' }],
+      }),
+    )
+    expect(result.conflicts).toEqual([])
+    expect(result.value.value).toEqual({
+      version: 1,
+      maps: [
+        { id: 'theirs', name: '迁移图', path: 'content/maps/theirs.json' },
+        { id: 'ours', name: '作者图', path: 'content/maps/ours.json' },
+      ],
+    })
+
+    const collision = mergeManagedFile(
+      'content/maps/index.json',
+      jsonPresent({ version: 1, maps: [] }),
+      jsonPresent({
+        version: 1,
+        maps: [{ id: 'same', name: '作者图', path: 'content/maps/ours.json' }],
+      }),
+      jsonPresent({
+        version: 1,
+        maps: [{ id: 'same', name: '迁移图', path: 'content/maps/theirs.json' }],
+      }),
+    )
+    expect(collision.conflicts).toMatchObject([
+      { path: expect.stringContaining('/maps/@string:same'), type: 'add-add' },
+    ])
+  })
+
   test('scene index 双边不同重排冲突', () => {
     const result = mergeManagedFile(
       'content/scenes/index.json',

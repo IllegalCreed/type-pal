@@ -1,5 +1,12 @@
 import { isDeepStrictEqual } from 'node:util'
-import type { MigrationSnapshot } from './migration-baseline.js'
+import {
+  isAtomicProjectMapPath,
+  type MigrationSnapshot,
+  serializeMigrationJson,
+  sha256,
+  snapshotFileHash,
+  snapshotFilePresent,
+} from './migration-baseline.js'
 import type { MergeConflict } from './migration-merge.js'
 import { jsonAbsent, jsonPresent, mergeManagedFile } from './migration-merge.js'
 import type { MigrationFileSet, MigrationJson } from './pal-migration.js'
@@ -31,11 +38,17 @@ export function snapshotOf(
   return {
     files: new Map(fileSet.files),
     managedFiles: new Set(fileSet.managedFiles),
+    hashes: new Map(
+      [...fileSet.files].map(([path, value]) => [
+        path,
+        sha256(serializeMigrationJson(value, path)),
+      ]),
+    ),
   }
 }
 
 function canonicalSnapshot(
-  snapshot: Pick<MigrationSnapshot, 'files' | 'managedFiles'>,
+  snapshot: Pick<MigrationSnapshot, 'files' | 'managedFiles' | 'hashes'>,
 ): MigrationSnapshot {
   const files = canonicalizeMigrationScriptFiles(snapshot.files)
   const managedFiles = new Set(snapshot.managedFiles)
@@ -43,7 +56,81 @@ function canonicalSnapshot(
     if (isMigrationScriptChunkFile(path) && !files.has(path)) managedFiles.delete(path)
   }
   for (const path of files.keys()) managedFiles.add(path)
-  return { files, managedFiles }
+  return {
+    files,
+    managedFiles,
+    ...(snapshot.hashes ? { hashes: new Map(snapshot.hashes) } : {}),
+  }
+}
+
+interface AtomicFileState {
+  present: boolean
+  hash?: string
+  value?: MigrationJson
+}
+
+function atomicFileState(snapshot: MigrationSnapshot, file: string): AtomicFileState {
+  return {
+    present: snapshotFilePresent(snapshot, file),
+    hash: snapshotFileHash(snapshot, file),
+    value: snapshot.files.get(file),
+  }
+}
+
+function sameAtomic(left: AtomicFileState, right: AtomicFileState): boolean {
+  return left.present === right.present && (!left.present || left.hash === right.hash)
+}
+
+function hashVersion(state: AtomicFileState) {
+  return state.present
+    ? ({ present: true, value: { sha256: state.hash ?? 'missing' } } as const)
+    : ({ present: false } as const)
+}
+
+function mergeAtomicMapFile(
+  file: string,
+  base: MigrationSnapshot,
+  ours: MigrationSnapshot,
+  theirs: MigrationSnapshot,
+): {
+  value?: MigrationJson
+  conflict?: MergeConflict
+  oursSameBase: boolean
+  theirsSameBase: boolean
+} {
+  const b = atomicFileState(base, file)
+  const o = atomicFileState(ours, file)
+  const t = atomicFileState(theirs, file)
+  const oursSameBase = sameAtomic(o, b)
+  const theirsSameBase = sameAtomic(t, b)
+  let selected: AtomicFileState | undefined
+  if (oursSameBase) selected = t
+  else if (theirsSameBase || sameAtomic(o, t)) selected = o
+  if (!selected) {
+    const type =
+      !o.present || !t.present
+        ? b.present
+          ? 'delete-modify'
+          : 'add-add'
+        : b.present
+          ? 'value'
+          : 'add-add'
+    return {
+      conflict: {
+        file,
+        path: '/',
+        type,
+        base: hashVersion(b),
+        ours: hashVersion(o),
+        theirs: hashVersion(t),
+      },
+      oursSameBase,
+      theirsSameBase,
+    }
+  }
+  if (selected.present && selected.value === undefined)
+    throw new Error(`原子地图 ${file} 选中版本只有 hash、缺正文`)
+  return { value: selected.value, oursSameBase, theirsSameBase }
 }
 
 /** 首次 bootstrap 已有审批 target 后，只计算当前工程到 target 的真实写删。 */
@@ -84,6 +171,15 @@ export function createMigrationPlan(
   let kept = 0
   let mergedCount = 0
   for (const file of managed) {
+    if (isAtomicProjectMapPath(file)) {
+      const result = mergeAtomicMapFile(file, baseView, oursView, theirsView)
+      if (result.conflict) conflicts.push(result.conflict)
+      else if (result.value !== undefined) target.set(file, result.value)
+      if (result.oursSameBase && !result.theirsSameBase) generated++
+      else if (result.theirsSameBase && !result.oursSameBase) kept++
+      else if (!result.oursSameBase || !result.theirsSameBase) mergedCount++
+      continue
+    }
     const baseHas = baseView.files.has(file)
     const oursHas = oursView.files.has(file)
     const theirsHas = theirsView.files.has(file)
@@ -111,7 +207,11 @@ export function createMigrationPlan(
   const deletes: string[] = []
   if (!conflicts.length) {
     for (const [file, value] of normalized) {
-      if (!ours.files.has(file) || !isDeepStrictEqual(ours.files.get(file), value))
+      if (
+        isAtomicProjectMapPath(file)
+          ? snapshotFileHash(oursView, file) !== sha256(serializeMigrationJson(value, file))
+          : !ours.files.has(file) || !isDeepStrictEqual(ours.files.get(file), value)
+      )
         writes.set(file, value)
     }
     for (const file of physicalManaged)

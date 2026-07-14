@@ -19,7 +19,7 @@
 | 渲染 | **复用 reforge**,不重写 | 投查确认 blitter(含遮挡算法)100% 原样可用;重写=双份维护+必然漂移。 |
 | 交互模型 | **模式化外壳**(中心画布 + 模式切换 + 随模式变的面板) | 成熟做法(RPG Maker/Tiled/Godot);解掉「拖动歧义」——手势归当前模式管。 |
 | 编辑状态 | **command/undo 模型第一天就进** | 最大返工点:后加 undo = 每个模式重写。 |
-| `shared` 依赖 | **接受**(编辑器经 reforge 间接依赖冻结的解码类型) | D18 已登记的债;为它先做资产格式大迁移=过度设计。 |
+| `shared` 依赖 | **仅保留图像解码债**(编辑器经 reforge 间接使用 RleFrame/Palette) | W7F 已切断旧地图类型；剩余资产格式债按 D18 后续处理。 |
 | B0 地基分工 | **GLM 做**(非视觉:补出口/schema/校验/command-undo 核);B1 视觉壳 Claude | 同 A 期分工;core 纯 TS 可 TDD。 |
 | 精灵引用 | **语义注册表 `sprites.json`**(id→spriteNum+label);`EntityDef.sprite` 引用其 id | 保持语义 id(非裸数字)+ 给选择器人读标签 + 修引擎写死 2/16。 |
 | MVP 模式数 | **只「布置」一个模式** | 已够压满五根地基;其余模式往壳里加,不返工。 |
@@ -30,7 +30,7 @@
 editor  (React vite app,新建)
 ├─ 依赖 content   ← schema + grid 数学 + validate(本就设计成 reforge+editor 共享)
 ├─ 依赖 reforge   ← 复用渲染器 / assets 加载 / loader(需先给 reforge 补包出口,见 §3)
-│   └─(经 reforge 间接拉进 shared 的冻结解码类型 RleFrame/Tilemap/Palette —— 接受的 D18 债)
+│   └─(经 reforge 间接拉进 shared 的冻结图像类型 RleFrame/Palette —— 接受的 D18 债)
 └─ src/
    ├─ core/     ← 纯 TS,无 React:编辑会话、command/undo 引擎、跨引用校验、工程 I/O(File System Access)
    ├─ render/   ← 画布视口:包 reforge 的 Canvas2DRenderer + 场景绘制 + 编辑器叠加层(网格/选中框/手柄)
@@ -39,18 +39,18 @@ editor  (React vite app,新建)
    └─ main.tsx
 ```
 
-> **边界**:`core/` 是纯逻辑(可单测、无 React、无 DOM),React 只是它的视图——沿用本仓「纯逻辑与视图分离」惯例(如 reforge 的 state 机)。编辑器**不碰 game/pal-extract**;`shared` 只经 reforge 间接、只用冻结解码类型。
+> **边界**:`core/` 是纯逻辑(可单测、无 React、无 DOM),React 只是它的视图——沿用本仓「纯逻辑与视图分离」惯例(如 reforge 的 state 机)。编辑器**不碰 game/pal-extract**；地图只使用 content 的 `ProjectMapV2`，旧 packed Tilemap 只存在于 migrate 输入侧。
 
 ## 3. 渲染复用(第一根地基)—— 投查结论
 
 reforge 的渲染是纯 blitter,零游戏状态耦合。复用需三步(都不重写逻辑):
 
-1. **给 reforge 补包出口**:`reforge/package.json` 现无 `exports`/`main`,加上 + 建 `src/index.ts` barrel,导出:`Canvas2DRenderer` + 类型(`Camera`/`CellRect`/`SpriteDraw`)、`assets.ts` 的 loaders(`loadTilemap/Tileset/Sprite/Palette` + `AssetBase`/`LoadedSprite`)、`loader.ts` 的 `loadProject/assembleProject/LoadedProject`、`collision.ts` 的 `isBlockedAt`(编辑器画禁入格复用,见 §8)。
+1. **reforge 提供稳定包出口**：导出 `Canvas2DRenderer`、场景绘制类型、ProjectMapV2 地图加载/渲染、tileset/sprite/palette 资产加载、项目 loader 和碰撞查询；editor 不复制引擎逻辑。
 2. **抽「画一帧场景」函数**:把 `main.ts:288-323`(clear → 定相机 → 组 `SpriteDraw[]` → scale+`renderScene`)抽成 `renderSceneFrame(ctx, renderer, {map, room, camera, sprites})`,reforge 自己的 main 也改调它(去重,单一真源)。
 3. **editor 的 vite.config 复制 `serveDir` 中间件**(`/projects`、`/extracted` → 仓库根目录;和 game/reforge 同款,可抽成共享 vite 插件)。
 
 - `content/grid.ts`(`gridToPixel/pixelToGrid/spriteScreenY` + `GridPos`)本就是纯叶子、共享设计,编辑器直接 import 做落点/命中测试。
-- **注意缓存**:`Canvas2DRenderer` 按 palette/tileset 缓存烤图,换调色板/换地图须**重建 renderer 实例**(现无 invalidate API)——编辑器换场景/换调色板时照做。
+- **注意缓存**:`Canvas2DRenderer` 按 palette/tileset 缓存烤图，换视觉资产须重建或失效 renderer；地图正文由 map id 独立懒加载，不与 tileset 路径混作身份。
 
 ## 4. 编辑会话 + 撤销/重做(第二根、也是最大返工点)
 
@@ -96,6 +96,23 @@ interface EditorMode {
 - 普通跳转写入浏览器历史,初始化和归一化使用 replace,`popstate` 经同一 decoder 恢复。非法 module/subpage 回安全默认页;合法页面中的失效 `objectId` 显示明确空态,不得偷选数组第 0 项。
 - 每个模块记忆最后子页、对象和合理的滚动位置;导航展开/折叠与现有分栏尺寸属于本地 UI 偏好。内容数据和选中对象的业务真值仍归 `EditSession`,不写入 localStorage。
 - 每个业务页面只能在一个模块中登记一次,每模块可见子页不超过 5 个。引用处只深链到权威页,不得复制表单形成双真值。
+
+### 5.2 单一新版地图库与场景绑定（W7F，2026-07-14）
+
+- `EditorState.mapIndex` 保存完整 `MapIndexV1`，`state.maps` 以稳定 map id 为键；文件 path 只在
+  序列化和磁盘回退时由 index 解析。
+- 地图模块不再依赖“当前场景地图”才能工作：左栏列出全部地图，支持搜索、新建、深复制、改显示名、
+  删除和按使用场景跳转；零引用地图也能编辑并保存重开。
+- 场景检查器通过 `SceneDef.mapId` 选择已有地图，并提供创建并绑定、复制并绑定和打开地图。不存在
+  “原版复用图”或只读分支；迁移图与作者图是同一种可编辑文档。多场景可共享一图。
+- 创建、复制、改名、绑定、删除均走不可变 Command；删除命令同时维护 index、内存地图和文件 diff，
+  被场景引用时先列出引用并阻止。当前窄反查由 ED-3 的统一 `ProjectReferenceIndex` 接管后删除。
+- 编辑器启动只加载 map index；选择地图时异步 hydrate 正文。干净文档受 LRU 管理，脏文档和仍被
+  undo/redo 栈引用的文档固定驻留；hydrate 不进入撤销历史。
+- 保存、clone 与 ZIP 对未加载地图按原始字节 copy-through，不为输出而全量解析；修改过的地图使用
+  content 公共包的确定性格式化器。运行时同样只按当前 `mapId` 懒加载。
+- 图层列表与图层尺共享一个 currentLayerId；高度尺的值既是聚焦条件，也是下一笔的实例高度。
+  当前层/高度正常显示，其余瓦片变暗；吸管同时读取 tileId 与实例高度，聚焦状态不写入内容文件。
 
 ## 6. 校验层(第四根)—— 编辑器的核心价值
 

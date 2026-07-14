@@ -1,17 +1,25 @@
 import type { LoadedManifest } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { FileSource } from './file-source.js'
-import { assembleProject, loadProjectFrom, loadSceneDef } from './loader.js'
+import {
+  assembleProject,
+  loadAllProjectMaps,
+  loadProjectFrom,
+  loadProjectMapById,
+  loadSceneDef,
+} from './loader.js'
 
 const manifest: LoadedManifest = {
   id: 'demo',
   name: '鬼界·民居(验证 demo)',
-  contentVersion: 1,
+  contentVersion: 2,
   entryScene: 'guijie-minju',
-  content: {},
+  content: {
+    maps: 'content/maps/index.json',
+    tilesets: 'content/tilesets.json',
+  },
   assets: {
     root: 'assets',
-    maps: 'maps',
     tilesets: 'tilesets',
     sprites: 'sprites',
     palettes: 'palettes',
@@ -52,7 +60,7 @@ const actorsJson = [
 const scenesJson = [
   {
     id: 'guijie-minju',
-    map: { reuseOriginalMap: 56, room: { col: 26, row: 34, cols: 22, rows: 25 } },
+    mapId: 'home',
     entry: { pos: { col: 90, row: 14, height: 0 }, facing: 'down' },
     entities: [
       {
@@ -96,6 +104,20 @@ const baseJsons = {
   skills: skillsJson,
   items: itemsJson,
   locale: localeJson,
+  maps: {
+    version: 1 as const,
+    maps: [{ id: 'home', name: '民居', path: 'content/maps/home.json' }],
+  },
+  tilesets: [{ id: 'starter', name: '初始瓦片', category: 'indoor', path: 'tilesets/starter.rle' }],
+}
+
+const projectMapJson = {
+  version: 2 as const,
+  width: 1,
+  height: 1,
+  tilesetId: 'starter',
+  layers: [{ id: 'floor', name: '地板', depthMode: 'flat' as const, tiles: [[0], [1]] }],
+  collision: [[0], [0]],
 }
 
 describe('assembleProject(纯核)', () => {
@@ -190,6 +212,7 @@ describe('loadProjectFrom(经 FileSource)', () => {
     'manifest.json': {
       ...manifest,
       content: {
+        ...manifest.content,
         actors: 'content/actors.json',
         skills: 'content/skills.json',
         items: 'content/items.json',
@@ -200,6 +223,9 @@ describe('loadProjectFrom(经 FileSource)', () => {
     'content/skills.json': skillsJson,
     'content/items.json': itemsJson,
     'content/locale.json': localeJson,
+    'content/maps/index.json': baseJsons.maps,
+    'content/maps/home.json': projectMapJson,
+    'content/tilesets.json': baseJsons.tilesets,
     'content/scenes/index.json': ['guijie-minju'],
     'content/scenes/guijie-minju.json': scenesJson[0],
   }
@@ -216,6 +242,72 @@ describe('loadProjectFrom(经 FileSource)', () => {
     const p = await loadProjectFrom(memSource(files))
     const scene = await loadSceneDef(p, 'guijie-minju')
     expect(scene.id).toBe('guijie-minju')
+  })
+
+  test('按 mapId 解析 index，并可全量载入未被场景引用的地图', async () => {
+    const mapFiles: Record<string, unknown> = {
+      ...files,
+      'content/maps/index.json': {
+        version: 1,
+        maps: [
+          { id: 'home', name: '民居', path: 'content/maps/home.json' },
+          { id: 'unused', name: '未绑定地图', path: 'content/maps/unused.json' },
+        ],
+      },
+      'content/maps/unused.json': {
+        ...projectMapJson,
+        layers: [
+          {
+            id: 'floor',
+            name: '未绑定地图',
+            depthMode: 'flat',
+            tiles: [[null], [null]],
+          },
+        ],
+      },
+    }
+    const p = await loadProjectFrom(memSource(mapFiles))
+    expect(p.entryScene.mapId).toBe('home')
+    expect(p.mapIndex.maps.map((asset) => asset.id)).toEqual(['home', 'unused'])
+    const all = await loadAllProjectMaps(p)
+    expect(all.home).toEqual(projectMapJson)
+    expect(all.unused?.layers[0]?.name).toBe('未绑定地图')
+    await expect(loadProjectMapById(p, 'home')).resolves.toEqual(projectMapJson)
+    await expect(loadProjectMapById(p, 'missing')).rejects.toThrow('mapId "missing"')
+  })
+
+  test('场景引用未知 mapId 时 fail-loud', async () => {
+    const invalidFiles: Record<string, unknown> = {
+      ...files,
+      'content/scenes/guijie-minju.json': {
+        ...scenesJson[0],
+        mapId: 'missing',
+      },
+    }
+    await expect(loadProjectFrom(memSource(invalidFiles))).rejects.toThrow(
+      'mapId "missing" 不在 content/maps/index.json',
+    )
+  })
+
+  test('contentVersion 1 与旧 map 形态都在加载边界拒绝', async () => {
+    const v1Files: Record<string, unknown> = {
+      ...files,
+      'manifest.json': {
+        ...(files['manifest.json'] as LoadedManifest),
+        contentVersion: 1,
+      },
+    }
+    await expect(loadProjectFrom(memSource(v1Files))).rejects.toThrow('仅支持 contentVersion 2')
+
+    const legacySceneFiles: Record<string, unknown> = {
+      ...files,
+      'content/scenes/guijie-minju.json': {
+        ...scenesJson[0],
+        mapId: undefined,
+        legacyMap: 56,
+      },
+    }
+    await expect(loadProjectFrom(memSource(legacySceneFiles))).rejects.toThrow('mapId')
   })
 
   test('scripts 启动只读 index，目标 chunk 到 resolve 时才按需读取', async () => {

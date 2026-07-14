@@ -12,8 +12,8 @@ export interface ProjectMigrationSnapshot extends MigrationSnapshot {
 }
 
 /**
- * 以 base/theirs 为种子，再纳入当前 scene/script index 显式引用的文件。
- * 未被 index 引用的额外 chunk 依然是非托管文件。
+ * 以 base/theirs 为种子，再纳入当前 scene/script/map index 显式引用的文件。
+ * 未被 index 引用的额外文件依然是非托管文件。
  */
 export function discoverProjectManagedFiles(repo: string, seed: ReadonlySet<string>): Set<string> {
   const managed = new Set(seed)
@@ -42,6 +42,16 @@ export function discoverProjectManagedFiles(repo: string, seed: ReadonlySet<stri
       if (typeof meta?.path !== 'string')
         throw new Error('content/scripts/index.json: chunk path 无效')
       managed.add(`content/scripts/${meta.path}`)
+    }
+  }
+  const mapIndex = readOptional('content/maps/index.json') as
+    | { maps?: Array<{ path?: unknown }> }
+    | undefined
+  if (mapIndex?.maps) {
+    if (!Array.isArray(mapIndex.maps)) throw new Error('content/maps/index.json: maps 期望数组')
+    for (const asset of mapIndex.maps) {
+      if (typeof asset?.path !== 'string') throw new Error('content/maps/index.json: map path 无效')
+      managed.add(asset.path)
     }
   }
   return managed

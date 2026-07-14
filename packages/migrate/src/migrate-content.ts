@@ -1177,6 +1177,7 @@ import type {
   ScriptStage,
 } from '@type-pal/content'
 import { pixelToGrid } from '@type-pal/content'
+import { mapIdFromSourceNumber } from './project-map-converter.js'
 
 export interface SourceEventObject {
   id: number
@@ -1525,6 +1526,7 @@ export function mapScenesStatic(
     locale: {} as Record<string, string>,
     report: emptyTranslateReport(),
     spriteIdForNum,
+    mapIdForNum: mapIdFromSourceNumber,
     registry,
   }
   /** 原版 triggerMode → 触发口:1-3 = 按键交互(range=mode),4-8 = 走近自动(range=mode-4)。 */
@@ -1613,7 +1615,21 @@ export function mapScenesStatic(
     }
   }
 
-  let scenes: SceneDef[] = srcScenes.map((sc) => {
+  const migratableScenes = srcScenes.filter((scene) => {
+    if (scene.mapNum !== 0) return true
+    const exactStub =
+      scene.sceneId === 294 &&
+      scene.eventObjects.length === 0 &&
+      scene.onEnterLabel === undefined &&
+      scene.onTeleportLabel === undefined
+    if (!exactStub)
+      throw new Error(
+        `场景 ${scene.sceneId} 的 mapNum=0 但不是精确 s294 空 stub；停止迁移并重新审计`,
+      )
+    return false
+  })
+
+  let scenes: SceneDef[] = migratableScenes.map((sc) => {
     const slug = sceneSlug(sc.sceneId)
     const entities = []
     for (const eo of sc.eventObjects) {
@@ -1689,7 +1705,7 @@ export function mapScenesStatic(
     const onEnterFolded = onEnter?.length ? foldStages(onEnter) : undefined
     return finalizeBattleConfig({
       id: slug,
-      map: { reuseOriginalMap: sc.mapNum },
+      mapId: mapIdFromSourceNumber(sc.mapNum),
       ...(musicId !== undefined ? { musicId } : {}),
       ...(Object.keys(entries).length ? { entries } : {}),
       entry: { pos: firstEntry ?? { ...pixelToGrid(1024, 1024), height: 0 }, facing: 'down' },

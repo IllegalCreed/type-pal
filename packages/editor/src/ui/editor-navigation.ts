@@ -229,10 +229,10 @@ export const editorLinks = {
     subpage: 'workspace',
     objectId: sceneId,
   }),
-  sceneMap: (sceneId: string): EditorLocation => ({
+  map: (mapId: string): EditorLocation => ({
     module: 'map',
     subpage: 'workspace',
-    objectId: sceneId,
+    objectId: mapId,
   }),
   actor: (actorId: string): EditorLocation => ({
     module: 'actor',

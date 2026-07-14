@@ -54,7 +54,7 @@
 ```
 scene = {
   id, name,
-  map: <地图引用，见 §5>,
+  mapId: <稳定地图 id，见 §5>,
   entities: [ <实体：稳定 id、位置、精灵、可选 碰撞 / 交互 / AI…> ],
   cutscenes:[ <脚本 / 演出，见 §6> ],
   triggers: [ <触发器，见 §6> ],
@@ -66,24 +66,25 @@ scene = {
 
 加载只碰这个包 + 它引用的素材。跨场景影响 → 改 L1 世界态 / 世界变量，别的场景下次加载自然反映。
 
-## 5. 地图 Schema（尺寸可变 + 多层 + 碰撞层）
+## 5. 地图 Schema（尺寸可变 + 多层 + 实例高度 + 碰撞层）
 
-> ✅ **OwnMap v1 已落地（2026-07-10，W7D）**：类型与加载校验见
-> `packages/content/src/own-map.ts`；自有地图使用 `version + width/height + layers[] +
-> collision`，旧 `Tilemap.cells.lower/upper + u32 bit` 只留给 `reuseOriginalMap` 兼容路径。
+> ✅ **ProjectMapV2 已落地（2026-07-14，W7F）**：W7D 的 OwnMap v1 与 W7E 的双格式兼容
+> 方案均已被本节取代。旧 packed Tilemap 只允许出现在 pal-extract 和 migrate 的输入侧；
+> content、reforge、editor 只接受 `ProjectMapV2`。
 
 ```jsonc
 {
-  "version": 1,
+  "version": 2,
   "width": 24,
   "height": 24,
-  "tileset": "tileset/20.rle",
+  "tilesetId": "tileset-020",
   "layers": [
     {
       "id": "floor",
       "name": "地板",
-      "occlude": false,
-      "tiles": [/* 2 * height 行 × width 列；tileId | null */]
+      "depthMode": "height",
+      "tiles": [/* 2 * height 行 × width 列；tileId | null */],
+      "heights": [/* 同尺寸；每次放置实例自己的非负整数高度 */]
     }
   ],
   "collision": [/* 同尺寸；0 可通行，非 0 阻挡/预留地形类型 */]
@@ -92,12 +93,37 @@ scene = {
 
 `layers` 数组序就是 z 序，编辑/引用使用稳定 `layer.id`；错排 lattice 行奇偶只负责几何，
 不再暴露旧格式 `h`。角色按逻辑格行走时，该格对应的两个子格碰撞值任一非 0 即阻挡。
-`occlude` 层中的 `null` 是无瓦片，不进入遮挡深度表。
+`depthMode: "height"` 的瓦片实例按自己的高度参与遮挡；`flat` 层高度恒为 0，可省略
+`heights`。任何 `null` 瓦片的高度都必须为 0。
+
+### 5.1 地图资产注册与场景绑定（W7F，2026-07-14）
+
+地图的稳定身份不由文件路径或场景反向推导。`contentVersion: 2` 工程必须通过
+`manifest.content.maps` 指向 `content/maps/index.json`：
+
+```jsonc
+{
+  "version": 1,
+  "maps": [
+    { "id": "home", "name": "家", "path": "content/maps/home.json" }
+  ]
+}
+```
+
+- `MapAssetDefV1.id` 是场景、编辑器和缓存使用的稳定身份；`name` 可改，`path` 只负责存储。
+- `SceneDef.mapId` 直接保存稳定 id，例如 `"home"`；不存在原版复用、自有地图或路径引用分支。
+- 注册表是资产发现真值。没有任何场景引用的地图仍须加载到编辑器、参与保存、克隆和 ZIP 导出。
+- PAL 的 223 张旧地图由 migrate 一次性转换成独立 V2 文件；编辑器和运行时不得在打开时猜格式或
+  临时升级。旧工程必须先经过显式迁移，再进入编辑器。
+- editor/reforge 先读 index，再按 map id 懒加载正文；显示地图列表不得解析全工程地图。
+- 非法/绝对/越界 path、重复 id/path、未知 `mapId`、索引缺文件和输出路径碰撞全部 fail-loud，
+  禁止猜测修复或静默覆盖。
 
 突破原版「2 视觉层」+「定长尺寸」两重天花板，泛化成：
 
 - **尺寸可变（每图自带 width/height）**：原版被 C 定长数组 `Tiles[128][64][2]`（sdlpal map.h:61，提取器 `map.ts:15` 把 64×128 写死成常量）焊成恒定 64×128，小场景也背满 8192 空格。新引擎把尺寸当**每张图自带的数据**，不是全局常量。**两个层次划清**：①每图一个有限矩形网格、尺寸可变 = **现在就做**（渲染 / 碰撞本就按 width/height 跑，近乎白送；小场景所见即所得，大场景突破天花板，编辑器画多大就是多大）；②超大无缝世界 / 分块（chunk）流式加载 = MMO 级，**现在不做、只留口**（别把「一张地图 = 单个有限 cells 网格、坐标单一原点」焊死到将来加不进分块）。
-- **N 个视觉层**：每层带 z 序（画的先后）+ 是否遮挡角色（原版 upper 的语义）。原版 lower/upper = 2 层特例，向下兼容。
+- **N 个视觉层**：每层带 z 序（画的先后）和深度模式；原版两层只是迁移输入中的一个特例。
+- **实例高度**：高度与坐标、图层、这次瓦片放置绑定，不属于瓦片元数据；同一 tileId 可在不同格使用不同高度。
 - **独立碰撞 / 地形层**：不止「能不能走」，每格可带地形类型、移动属性、触发区。把原版藏在 tile 里的障碍 bit 独立出来（呼应你说的「算三层」）。
 - **真立交 / 楼层**：靠「多层 + 每层可行走性 + 角色当前所在层」表达，不再 fake 成两张图。**schema 现在留足表达力；角色跨层行走的引擎实现是 P1 的活。**
 - 字段：宽高尺寸（每图自带，非全局常量）、每层瓦片引用、瓦片集素材引用。
@@ -166,10 +192,10 @@ content/
 
 ## tileset 注册表(W7B,2026-07-10 落地)
 
-`manifest.content.tilesets` → `content/tilesets.json`:数组,条目 `{id, name, category, path, tiles?}`。
+`manifest.content.tilesets` → `content/tilesets.json`:数组,条目 `{id, name, category, path}`。
 - `id` 稳定身份(不含 `/`);`path` = 资产相对路径(`.rle` = gzip GOP 索引帧组,与原版 tileset 同构)。
 - 上传管线:PNG → 网格切片 → **量化贴盘 0**(D25 第 4 条;最近邻,alpha<128 透明)→
   `encodeSpriteChunk` + gzip 落盘 —— 存索引 1B/px,不烘 RGBA(D25 第 2 条),渲染与
   原版同一条「索引帧 + 盘 0 → bake」单路。
-- `OwnMap.tileset` 可为注册表 id 或直接路径(原版借用);`resolveTilesetPath` 判别(id 不含 `/`)。
-- `tiles` 为 per-tile 元数据留字段(height 遮挡格高;将来变体分组/stamp 组合走可选字段扩展)。
+- `ProjectMapV2.tilesetId` 必须引用注册表稳定 id，不允许路径直通。
+- tileset 只描述图像资源，不拥有地图放置实例的高度；禁止恢复 `tileId -> height` 映射。

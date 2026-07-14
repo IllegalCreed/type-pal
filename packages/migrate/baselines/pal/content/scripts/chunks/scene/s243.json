@@ -286,8 +286,8 @@
         "ms": 480
       },
       {
-        "kind": "setMapOverride",
-        "mapNum": 165
+        "kind": "setSceneMapOverride",
+        "mapId": "map-165"
       },
       {
         "kind": "wait",

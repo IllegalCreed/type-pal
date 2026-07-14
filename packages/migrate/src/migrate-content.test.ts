@@ -5,9 +5,7 @@ import { fileURLToPath } from 'node:url'
 import type { ActorDef, Command, SceneDef, ScriptChunkV1, SpriteDef } from '@type-pal/content'
 import {
   buildWorld,
-  mapRoom,
   pixelToGrid,
-  reuseMapNum,
   validateActors,
   validateItems,
   validateLocale,
@@ -445,8 +443,7 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
 
   test('s001:mapNum/实体数/坐标零换算/触发区跳过', () => {
     const s1 = byId.get('s001')!
-    expect(reuseMapNum(s1.map)).toBe(12)
-    expect(mapRoom(s1.map)).toBeUndefined() // 原版无房间概念 → 整图
+    expect(s1.mapId).toBe('map-012')
     // 32 对象 = 13 可见实体 + 19 隐形触发区(M3a 起 zone 实体随触发脚本全迁)
     expect(s1.entities).toHaveLength(32)
     expect(s1.entities.filter((e) => 'zone' in e)).toHaveLength(19)
@@ -640,7 +637,7 @@ describe('M3 写盘白名单', () => {
   test('只替换脚本 stages，保留实体与页面静态字段', () => {
     const disk: SceneDef = {
       id: 's001',
-      map: { reuseOriginalMap: 1 },
+      mapId: 'map-001',
       entry: { pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
       entities: [
         {
@@ -670,7 +667,7 @@ describe('M3 写盘白名单', () => {
     const ref = { chunk: 'scene/s001', id: 'scene/s001/root' }
     const fresh: SceneDef = {
       ...disk,
-      map: { reuseOriginalMap: 99 },
+      mapId: 'map-099',
       entities: [
         {
           id: 'e1',
@@ -687,7 +684,7 @@ describe('M3 写盘白名单', () => {
     }
 
     const merged = mergeSceneScriptBindings(disk, fresh)
-    expect(merged.map).toEqual(disk.map)
+    expect(merged.mapId).toBe(disk.mapId)
     expect(merged.entities[0]!.pos).toEqual(disk.entities[0]!.pos)
     expect(merged.entities[0]!.collide).toBe(true)
     expect(merged.entities[0]!.pages?.[0]?.state).toBe(7)

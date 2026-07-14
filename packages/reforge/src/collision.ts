@@ -1,91 +1,29 @@
-/**
- * 切片 demo 碰撞：照原版判障碍 —— 端口自 game scene-system.ts isWalkable / tilemapIsBlocked。
- * 像素 → (col,row,h) 走 sdlpal「菱形四分法」(scene.c:556-591)，再查该格子行的
- * **障碍位 bit 13 (0x2000)**（sdlpal map.c:298 `Tiles[y][x][h] & 0x2000`）。h=0→lower，h=1→upper。
- * 界外 = 阻挡。注入给 resolveMove 的 isBlocked。
- *
- * ⚠ 旧格式兼容层(D16):pixelToTile + h/lower-upper 是旧引擎「2视觉层+障碍焊进tile bit」
- * 的遗迹。只要 reforge 还读 data/extracted 的旧 Tilemap,本层就得继续用;迁移器把图翻成
- * 「N层+独立碰撞层」新格式后,整个 pixelToTile 连同 h 退役。新代码用 GridPos 入口
- * (isBlockedAt / sameGrid),不要直接调像素接口。
- */
-import { type GridPos, gridToPixel, isOwnMap, type OwnMap } from '@type-pal/content'
-import type { Tilemap } from '@type-pal/shared'
-import { pixelToLattice } from './own-map.js'
+/** ProjectMapV2 独立 collision lattice 的统一判定。 */
+import { type GridPos, gridToPixel, type ProjectMapV2 } from '@type-pal/content'
+import { pixelToLattice } from './project-map.js'
 
-const TILE_W = 32
-const TILE_H = 16
-
-/** 像素 → (col,row,h)，sdlpal 菱形四分法（scene.c:556-591）。
- *  导出:W7c 地图编辑器笔刷靶定同一映射(画的就是本格式;新格式迁移时随本层一起退役)。 */
-export function pixelToTile(x: number, y: number): { col: number; row: number; h: 0 | 1 } {
-  let col = Math.floor(x / TILE_W)
-  let row = Math.floor(y / TILE_H)
-  let h: 0 | 1 = 0
-  const xr = ((x % TILE_W) + TILE_W) % TILE_W // 0..31（处理负数）
-  const yr = ((y % TILE_H) + TILE_H) % TILE_H // 0..15
-  if (xr + yr * 2 >= 16) {
-    if (xr + yr * 2 >= 48) {
-      col++
-      row++
-    } else if (TILE_W - xr + yr * 2 < 16) {
-      col++
-    } else if (TILE_W - xr + yr * 2 < 48) {
-      h = 1
-    } else {
-      row++
-    }
-  }
-  return { col, row, h }
-}
-
-/** isBlocked(worldX, worldY)：菱形映射 → 格 + 子行 → 障碍位 bit 13 (0x2000)。界外阻挡。 */
-export function buildIsBlocked(map: Tilemap | OwnMap): (x: number, y: number) => boolean {
-  if (isOwnMap(map)) {
-    return (x, y) => {
-      const pos = pixelToLattice(x, y)
-      if (pos.col < 0 || pos.col >= map.width || pos.row < 0 || pos.row >= map.height * 2)
-        return true
-      return (map.collision[pos.row]?.[pos.col] ?? 1) !== 0
-    }
-  }
+/** 世界像素坐标落到 lattice 后查独立碰撞值；界外恒阻挡。 */
+export function buildIsBlocked(map: ProjectMapV2): (x: number, y: number) => boolean {
   return (x, y) => {
-    const { col, row, h } = pixelToTile(x, y)
-    if (col < 0 || col >= map.width || row < 0 || row >= map.height) return true
-    const cell = map.cells[row]?.[col]
-    if (!cell) return true
-    const word = h === 0 ? cell.lower : cell.upper
-    return (word & 0x2000) !== 0
+    const pos = pixelToLattice(x, y)
+    if (pos.col < 0 || pos.col >= map.width || pos.row < 0 || pos.row >= map.height * 2) return true
+    return (map.collision[pos.row]?.[pos.col] ?? 1) !== 0
   }
 }
 
-/** 两个世界像素点是否落在同一站立格(col,row,h)。实体碰撞用:玩家目标格 == 实体格 → 挡。 */
-export function sameTile(ax: number, ay: number, bx: number, by: number): boolean {
-  const a = pixelToTile(ax, ay)
-  const b = pixelToTile(bx, by)
-  return a.col === b.col && a.row === b.row && a.h === b.h
+/** 两个世界像素点是否落在同一个错排菱形实例。 */
+export function sameLatticeCell(ax: number, ay: number, bx: number, by: number): boolean {
+  const a = pixelToLattice(ax, ay)
+  const b = pixelToLattice(bx, by)
+  return a.col === b.col && a.row === b.row
 }
 
-// ── GridPos 入口(D16:新代码用这些,内部复用旧像素兼容层,零行为变化) ──────────────
-
-/** GridPos 是否被阻挡:菱形轴格 → 像素 → 复用 buildIsBlocked 旧判定。 */
-export function isBlockedAt(map: Tilemap | OwnMap, pos: GridPos): boolean {
+export function isBlockedAt(map: ProjectMapV2, pos: GridPos): boolean {
   const { x, y } = gridToPixel(pos)
-  if (isOwnMap(map)) {
-    const lattice = pixelToLattice(x, y)
-    const logicalRow = Math.floor(lattice.row / 2)
-    if (lattice.col < 0 || lattice.col >= map.width || logicalRow < 0 || logicalRow >= map.height)
-      return true
-    // W7D 定案：一个逻辑格的两个错排子格任一非 0，整格即阻挡。
-    return (
-      (map.collision[logicalRow * 2]?.[lattice.col] ?? 1) !== 0 ||
-      (map.collision[logicalRow * 2 + 1]?.[lattice.col] ?? 1) !== 0
-    )
-  }
   return buildIsBlocked(map)(x, y)
 }
 
-/** 两个 GridPos 是否在同一站立格(实体碰撞用)。height 不参与(逻辑/碰撞在地面层)。 */
+/** 两个 GridPos 是否在同一站立格。height 不参与逻辑碰撞。 */
 export function sameGrid(a: GridPos, b: GridPos): boolean {
   return a.col === b.col && a.row === b.row
 }

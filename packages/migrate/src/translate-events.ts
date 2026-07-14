@@ -81,6 +81,8 @@ export interface TranslateCtx {
    * 角色本体精灵优先,未注册的补登记 npc-<num>)。缺省 → 0x65 落 unmigrated。
    */
   spriteIdForNum?: (num: number) => string
+  /** 迁移边界内把旧 mapNum 解析为工程稳定 map id。 */
+  mapIdForNum?: (num: number) => string
   /** M3 分片注册表；生产迁移必须提供，缺省仅供旧 inline 单测/手工窄工具。 */
   registry?: ScriptRegistry
 }
@@ -696,9 +698,11 @@ function walkBody(
       } else if (oc === 0x98) {
         push({ kind: 'setFollowers', sprites: [o[0] ?? 0, o[1] ?? 0].filter((x) => x > 0) }) // 0x98 跟随者
       } else if (oc === 0x99) {
-        // 0x99 换底图:op0=0xFFFF 当前场景即时重载;else 目标场景下次进场
-        if ((o[0] ?? 0) === 0xffff) push({ kind: 'setMapOverride', mapNum: o[1] ?? 0 })
-        else push({ kind: 'setMapOverride', scene: sceneSlug((o[0] ?? 1) - 1), mapNum: o[1] ?? 0 })
+        // 0x99 换图:op0=0xFFFF 当前场景即时重载;else 目标场景下次进场
+        const mapNum = o[1] ?? 0
+        const mapId = ctx.mapIdForNum?.(mapNum) ?? `map-${String(mapNum).padStart(3, '0')}`
+        if ((o[0] ?? 0) === 0xffff) push({ kind: 'setSceneMapOverride', mapId })
+        else push({ kind: 'setSceneMapOverride', scene: sceneSlug((o[0] ?? 1) - 1), mapId })
       } else if (oc === 0x8f) {
         push({ kind: 'halveMoney' }) // 0x8F 金钱减半
       } else if (oc === 0x36) {

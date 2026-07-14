@@ -45,9 +45,10 @@ const primitiveIdentity = (value: MigrationJson): string | undefined =>
 
 function arrayMode(file: string, path: string): 'id' | 'primitive-id' | 'pages' | 'atomic' {
   if (file === 'content/scenes/index.json' && path === '') return 'primitive-id'
+  if (file === 'content/maps/index.json' && path === '/maps') return 'id'
   if (
     path === '' &&
-    /content\/(actors|items|sprites|enemies|enemy-teams|music|battle-fields|poisons|shops)\.json$/.test(
+    /content\/(actors|items|sprites|enemies|enemy-teams|music|battle-fields|poisons|shops|tilesets)\.json$/.test(
       file,
     )
   )

@@ -28,8 +28,8 @@ export type ScriptBinding = ScriptStage[] | ScriptRef
 export interface ScriptHost {
   dialog(line: DialogueLine): Promise<void>
   clearDialog(): void
-  /** 0x99 当前场景即时换底图(mapNum 已写入 world.script.mapOverride;host 重载 map 资产,不动实体)。 */
-  reloadMap?(mapNum: number): Promise<void>
+  /** 0x99 当前场景即时换底图(mapId 已写入 world.script.mapOverride;host 重载 map 资产,不动实体)。 */
+  reloadMap?(mapId: string): Promise<void>
   /** 0xA0 游戏通关退出:回标题屏(?menu;未存进度弃,同系统菜单 quit)。 */
   quitToTitle?(): void
   fade(dir: 'in' | 'out', ms: number, color?: 'black' | 'red'): Promise<void>
@@ -488,17 +488,17 @@ export class ScriptRunner {
       case 'setFollowers':
         this.world.followers = cmd.sprites.length ? cmd.sprites : undefined
         return
-      case 'setMapOverride':
+      case 'setSceneMapOverride':
         if (cmd.scene === undefined) {
           const cur = h.query.sceneId?.()
           if (cur) {
             this.world.mapOverride ??= {}
-            this.world.mapOverride[cur] = cmd.mapNum
+            this.world.mapOverride[cur] = cmd.mapId
           }
-          return h.reloadMap?.(cmd.mapNum)
+          return h.reloadMap?.(cmd.mapId)
         }
         this.world.mapOverride ??= {}
-        this.world.mapOverride[cmd.scene] = cmd.mapNum
+        this.world.mapOverride[cmd.scene] = cmd.mapId
         return
       case 'halveMoney': {
         const money = h.query.money()
@@ -711,20 +711,9 @@ export class ScriptRunner {
         return
       }
       case 0x99: {
-        // 换场景底图(script.c:2740):op0=0xFFFF 当前场景 mapNum=op1 即时重载(不动实体);
-        // else 场景 s<op0>(1-based→id)下次进场生效。override 随存档持久
-        const mapNum = b
-        if (a === 0xffff) {
-          const cur = h.query.sceneId?.()
-          if (cur) {
-            this.world.mapOverride ??= {}
-            this.world.mapOverride[cur] = mapNum
-          }
-          await h.reloadMap?.(mapNum)
-        } else {
-          this.world.mapOverride ??= {}
-          this.world.mapOverride[`s${String(a - 1).padStart(3, '0')}`] = mapNum
-        }
+        // 旧数值地图编号只允许出现在迁移输入。迁移器必须把 0x99 翻译为稳定 mapId，
+        // 运行时不再保留第二套数字索引解释器。
+        h.report('op 0x99 未迁移：必须转换为 setSceneMapOverride(mapId)')
         return
       }
       // 0x24(改实体巡逻脚本)/ 0x90(写全局对象 rgwData 槽):各仅 1 站点的低层脚本指针 poke —

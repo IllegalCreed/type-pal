@@ -3,6 +3,7 @@ import {
   type Command,
   getScriptBody,
   type Locale,
+  type MapIndexV1,
   type SceneDef,
   type ScriptChunkV1,
   type ScriptIndexV1,
@@ -13,7 +14,7 @@ import {
 import {
   type AssetBase,
   MemoryScriptResolver,
-  type OwnMap,
+  type ProjectMapV2,
   type TilesetDef,
 } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -84,7 +85,8 @@ export function SharedScriptTab(props: {
   sprites: SpriteDef[]
   actors: ActorDef[]
   assetBase: AssetBase
-  ownMaps: Record<string, OwnMap>
+  projectMaps: Record<string, ProjectMapV2>
+  mapIndex: MapIndexV1
   tilesets: readonly TilesetDef[]
   tilesetBlobs: Record<string, ArrayBuffer>
   projectId: string
@@ -103,7 +105,8 @@ export function SharedScriptTab(props: {
     sprites,
     actors,
     assetBase,
-    ownMaps,
+    projectMaps,
+    mapIndex,
     tilesets,
     tilesetBlobs,
     projectId,
@@ -339,7 +342,8 @@ export function SharedScriptTab(props: {
                 actorsById={actorsById}
                 leaderSpriteId={leaderSpriteId}
                 assetBase={assetBase}
-                ownMaps={ownMaps}
+                projectMaps={projectMaps}
+                mapIndex={mapIndex}
                 tilesets={tilesets}
                 tilesetBlobs={tilesetBlobs}
                 locale={locale}

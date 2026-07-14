@@ -16,24 +16,18 @@ import {
   grantBattleRewards,
   gridToPixel,
   isIdentityTint,
-  isOwnMap,
-  isReuseMap,
   lerpTint,
   lookupText,
-  mapRoom,
   pixelDeltaToGridDelta,
   pixelToGrid,
   resolveAmbienceTint,
   resolveEntitySpriteId,
   type SceneDef,
-  type SceneMap,
   type ScriptStage,
   type SpriteDef,
-  sceneMapKey,
   sellableItems,
   spriteScreenY,
   stageIndexFor,
-  tileHeightsOf,
   type WalkSpeed,
 } from '@type-pal/content'
 import type { Palette, RleFrame } from '@type-pal/shared'
@@ -261,24 +255,23 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       })()
     : new Map<number, HTMLCanvasElement>()
 
-  // ── 场景资产缓存(M2c,设计 §3):map/tileset 按 mapNum LRU(cap16 + protect 当前,
+  // ── 场景资产缓存(M2c,设计 §3):map/tileset 按稳定 mapId LRU(cap16 + protect 当前,
   // 修一阶段按 sceneId 双取坑);palette/sceneDef 小缓存;精灵跨场景累积。──
   const MAP_CACHE_CAP = 16
-  // 键 = sceneMapKey(复用 `r:<号>` / 自有 `o:<路径>`)—— 自有地图无 mapNum,需稳定字符串键(W7a-4)。
+  // 键 = ProjectMapV2 的稳定 mapId。
   const mapCache = new Map<string, SceneMapAssets>()
-  async function getMapAssets(sceneMap: SceneMap): Promise<SceneMapAssets> {
-    const key = sceneMapKey(sceneMap)
-    const hit = mapCache.get(key)
+  async function getMapAssets(mapId: string): Promise<SceneMapAssets> {
+    const hit = mapCache.get(mapId)
     if (hit) {
-      mapCache.delete(key) // LRU touch(Map 插入序 = LRU 序)
-      mapCache.set(key, hit)
+      mapCache.delete(mapId) // LRU touch(Map 插入序 = LRU 序)
+      mapCache.set(mapId, hit)
       return hit
     }
-    const entry = await loadSceneMap(project.assetBase, sceneMap, project.tilesets)
-    mapCache.set(key, entry)
+    const entry = await loadSceneMap(project.assetBase, mapId, project.tilesets, project.mapIndex)
+    mapCache.set(mapId, entry)
     while (mapCache.size > MAP_CACHE_CAP) {
       const oldest = mapCache.keys().next().value
-      if (oldest === undefined || oldest === key) break // protect 当前
+      if (oldest === undefined || oldest === mapId) break // protect 当前
       mapCache.delete(oldest)
     }
     return entry
@@ -333,8 +326,6 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   let palette!: Palette
   let renderer!: Canvas2DRenderer
   let room!: CellRect
-  /** own 图 per-tile 遮挡格高(切场景时按绑定 tileset 元数据算;reuse/无元数据 = undefined)。 */
-  let ownTileHeights: ReadonlyMap<number, number> | undefined
   let viewMinX = 0
   let viewMinY = 0
   let viewMaxX = 0
@@ -548,11 +539,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     spawn?: { entry?: string; pos?: GridPos; facing?: Facing; inheritFacing?: Facing },
   ): Promise<void> {
     const def = await getSceneDef(sceneId)
-    // 0x99 底图覆写:原版图按 override mapNum 换底(麒麟洞岩浆;自有地图不受 override)
-    const ovMap = world.script?.mapOverride?.[sceneId]
-    const mapRef =
-      ovMap !== undefined && isReuseMap(def.map) ? { ...def.map, reuseOriginalMap: ovMap } : def.map
-    const assets = await getMapAssets(mapRef) // 复用原版 ⊕ 自有地图,分流内建于 loadSceneMap
+    // 0x99 底图覆写:按稳定 mapId 换底(麒麟洞岩浆),随存档持久。
+    const mapId = world.script?.mapOverride?.[sceneId] ?? def.mapId
+    const assets = await getMapAssets(mapId)
     const pal = await getPalette(Number(params.get('pal') ?? 0)) // 只留盘 0(W7a-3);?pal= 仅 dev 调试兜底
     const defs = new Map<string, SpriteDef>()
     for (const e of def.entities) {
@@ -595,13 +584,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     scene = def
     map = assets.map
     tiles = assets.tiles
-    ownTileHeights = isOwnMap(assets.map)
-      ? tileHeightsOf(project.tilesets, assets.map.tileset)
-      : undefined
     palette = pal
     renderer = new Canvas2DRenderer(ctx, palette, tiles)
     entitySpriteDefs = defs
-    room = mapRoom(def.map) ?? { col: 0, row: 0, cols: map.width, rows: map.height }
+    room = { col: 0, row: 0, cols: map.width, rows: map.height }
     viewMinX = room.col * TILE_W - TILE_W
     viewMinY = room.row * TILE_H - 40
     viewMaxX = (room.col + room.cols) * TILE_W + TILE_W
@@ -1656,12 +1642,13 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       entityInScene: (id) => scene.entities.some((x) => x.id === id),
       sceneId: () => scene.id,
     },
-    // 0x99 当前场景即时换底图:只换 map 资产(map/tiles/renderer),不动实体/坐标/room
-    reloadMap: async (mapNum) => {
-      const assets = await getMapAssets({ reuseOriginalMap: mapNum })
+    // 0x99 当前场景即时换底图:只换 map 资产(map/tiles/renderer),不动实体/坐标。
+    reloadMap: async (mapId) => {
+      const assets = await getMapAssets(mapId)
       map = assets.map
       tiles = assets.tiles
       renderer = new Canvas2DRenderer(ctx, palette, tiles)
+      room = { col: 0, row: 0, cols: map.width, rows: map.height }
     },
     // 0xA0 游戏通关退出 → 回标题屏(复用系统菜单 quit 的 ?menu 干净重启;未存进度弃)
     quitToTitle: () => {
@@ -2422,7 +2409,6 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         camera: shakeCam,
         sprites,
         worldScale: WORLD_SCALE,
-        layers: ownTileHeights ? { ownTileHeights } : undefined,
       })
       worldWave.apply(ctx, wc, waveAmp, WORLD_SCALE)
     } else {
@@ -2432,7 +2418,6 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         camera: shakeCam,
         sprites,
         worldScale: WORLD_SCALE,
-        layers: ownTileHeights ? { ownTileHeights } : undefined,
       })
     }
     // debug 碰撞叠加层(reforge 自己的 dev 拐杖;非编辑器叠加层)—— 在底图之上、独立变换块。

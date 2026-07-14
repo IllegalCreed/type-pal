@@ -66,7 +66,6 @@ export interface LoadedManifest {
   content: Record<string, string> // content 文件清单(kind → 相对路径)
   assets: {
     root: string
-    maps: string
     tilesets: string
     sprites: string
     palettes: string

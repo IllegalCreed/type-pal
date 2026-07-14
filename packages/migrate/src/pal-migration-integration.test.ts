@@ -5,7 +5,13 @@ import { fileURLToPath } from 'node:url'
 import { isDeepStrictEqual } from 'node:util'
 import type { LoadedManifest } from '@type-pal/content'
 import { afterAll, describe, expect, test } from 'vitest'
-import { loadPalBaseline, type MigrationSnapshot } from './migration-baseline.js'
+import {
+  isAtomicProjectMapPath,
+  loadPalBaseline,
+  type MigrationSnapshot,
+  snapshotFileHash,
+  snapshotFilePresent,
+} from './migration-baseline.js'
 import { applyBootstrapReport, type BootstrapReportV1 } from './migration-bootstrap.js'
 import { createInitialMigrationPlan, createMigrationPlan, snapshotOf } from './migration-plan.js'
 import {
@@ -34,6 +40,11 @@ const tempRoots: string[] = []
 function assertSameSnapshot(expected: MigrationSnapshot, actual: MigrationSnapshot): void {
   const paths = new Set([...expected.managedFiles, ...actual.managedFiles])
   for (const path of paths) {
+    if (isAtomicProjectMapPath(path)) {
+      expect(snapshotFilePresent(actual, path), path).toBe(snapshotFilePresent(expected, path))
+      expect(snapshotFileHash(actual, path), path).toBe(snapshotFileHash(expected, path))
+      continue
+    }
     expect(actual.files.has(path), path).toBe(expected.files.has(path))
     expect(isDeepStrictEqual(actual.files.get(path), expected.files.get(path)), path).toBe(true)
   }
@@ -67,7 +78,8 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
       sources,
       startWorld: manifest.startWorld,
     })
-    expect(validation.scenes).toBe(295)
+    expect(validation.scenes).toBe(294)
+    expect(validation.maps).toBe(223)
     expect(validation.scriptAudit.issues).toEqual([])
 
     const temp = mkdtempSync(resolve(tmpdir(), 'type-pal-mg2-real-'))
@@ -127,7 +139,8 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
       sources,
       startWorld: manifest.startWorld,
     })
-    expect(validation.scenes).toBe(295)
+    expect(validation.scenes).toBe(294)
+    expect(validation.maps).toBe(223)
     expect(validation.scriptAudit.issues).toEqual([])
   }, 60_000)
 })

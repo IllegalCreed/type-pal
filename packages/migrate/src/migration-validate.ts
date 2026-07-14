@@ -12,16 +12,20 @@ import {
   validateActors,
   validateItems,
   validateLocale,
+  validateMapIndex,
+  validateProjectMapV2,
   validateReferences,
   validateScenes,
   validateSkills,
   validateSprites,
+  validateTilesets,
 } from '@type-pal/content'
 import type { MigrationJson, PalMigrationSources } from './pal-migration.js'
 import { assertScriptLibraryAudit, auditScriptLibrary } from './script-library-audit.js'
 
 export interface MigrationValidationReport {
   scenes: number
+  maps: number
   managedFiles: number
   referenceWarnings: number
   scriptAudit: ReturnType<typeof auditScriptLibrary>
@@ -100,6 +104,25 @@ export function validatePalMigrationTarget(args: {
   const items = validateItems(required(files, 'content/items.json'))
   const locale = validateLocale(required(files, 'content/locale.json'))
   const sprites = validateSprites(required(files, 'content/sprites.json'))
+  const mapIndex = validateMapIndex(required(files, 'content/maps/index.json'))
+  const tilesets = validateTilesets(required(files, 'content/tilesets.json'))
+  const tilesetIds = new Set(tilesets.map((tileset) => tileset.id))
+  if (mapIndex.maps.length !== sources.tilemaps.length)
+    throw new Error(`地图索引数量 ${mapIndex.maps.length} != 源图数量 ${sources.tilemaps.length}`)
+  const indexedMapPaths = new Set<string>()
+  for (const asset of mapIndex.maps) {
+    indexedMapPaths.add(asset.path)
+    const map = validateProjectMapV2(required(files, asset.path))
+    if (!tilesetIds.has(map.tilesetId))
+      throw new Error(`${asset.path}: tilesetId "${map.tilesetId}" 不在 tilesets 注册表`)
+  }
+  const orphanMap = [...files.keys()].find(
+    (path) =>
+      /^content\/maps\/[^/]+\.json$/.test(path) &&
+      path !== 'content/maps/index.json' &&
+      !indexedMapPaths.has(path),
+  )
+  if (orphanMap) throw new Error(`合并结果有孤儿地图文件 ${orphanMap}`)
 
   for (const path of [
     'content/enemies.json',
@@ -145,6 +168,8 @@ export function validatePalMigrationTarget(args: {
     battleFields: required(files, 'content/battle-fields.json') as never,
     poisons: required(files, 'content/poisons.json') as never,
     shops: required(files, 'content/shops.json') as never,
+    tilesets,
+    mapIndex,
   })
   const referenceErrors = issues.filter((issue) => issue.severity === 'error')
   if (referenceErrors.length)
@@ -198,6 +223,7 @@ export function validatePalMigrationTarget(args: {
   assertScriptLibraryAudit(scriptAudit)
   return {
     scenes: scenes.length,
+    maps: mapIndex.maps.length,
     managedFiles: managedFiles.size,
     referenceWarnings: issues.length - referenceErrors.length,
     scriptAudit,

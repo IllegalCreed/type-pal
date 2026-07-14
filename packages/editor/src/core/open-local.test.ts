@@ -28,7 +28,7 @@ const fullProject: Record<string, string> = {
   'manifest.json': J({
     id: 'proj',
     name: 'P',
-    contentVersion: 1,
+    contentVersion: 2,
     entryScene: 's1',
     content: {
       actors: 'content/actors.json',
@@ -36,10 +36,11 @@ const fullProject: Record<string, string> = {
       items: 'content/items.json',
       locale: 'content/locale.json',
       scenes: 'content/scenes/',
+      maps: 'content/maps/index.json',
+      tilesets: 'content/tilesets.json',
     },
     assets: {
       root: 'assets/extracted/data',
-      maps: 'tilemap',
       tilesets: 'tileset',
       sprites: 'sprite',
       palettes: 'palette',
@@ -53,10 +54,17 @@ const fullProject: Record<string, string> = {
   'content/scenes/index.json': J(['s1']),
   'content/scenes/s1.json': J({
     id: 's1',
-    map: { reuseOriginalMap: 1 },
+    mapId: 'map-001',
     entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
     entities: [],
   }),
+  'content/maps/index.json': J({
+    version: 1,
+    maps: [{ id: 'map-001', name: '地图 1', path: 'content/maps/map-001.json' }],
+  }),
+  'content/tilesets.json': J([
+    { id: 'tileset-001', name: '瓦片集 1', category: 'builtin', path: 'tileset/1.rle' },
+  ]),
 }
 
 describe('openLocalProject', () => {

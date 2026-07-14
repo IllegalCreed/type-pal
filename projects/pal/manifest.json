@@ -1,7 +1,7 @@
 {
   "id": "pal",
   "name": "仙剑奇侠传·复刻",
-  "contentVersion": 1,
+  "contentVersion": 2,
   "entryScene": "s000",
   "content": {
     "scenes": "content/scenes/",
@@ -18,11 +18,11 @@
     "tilesets": "content/tilesets.json",
     "ambiences": "content/ambiences.json",
     "shops": "content/shops.json",
+    "maps": "content/maps/index.json",
     "scripts": "content/scripts/"
   },
   "assets": {
     "root": "/extracted/data",
-    "maps": "tilemap",
     "tilesets": "tileset",
     "sprites": "sprite",
     "palettes": "palette",

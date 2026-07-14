@@ -8,7 +8,7 @@ const base: ContentBundle = {
   scenes: [
     {
       id: 's',
-      map: { reuseOriginalMap: 1, room: { col: 0, row: 0, cols: 1, rows: 1 } },
+      mapId: 'map-001',
       entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
       entities: [{ id: 'e', pos: { col: 0, row: 0, height: 0 }, sprite: 'ghost' }],
     },
@@ -35,6 +35,10 @@ const base: ContentBundle = {
     },
   ],
   startWorld: { party: ['hero'], money: 0, learnedSkills: {}, inventory: [] },
+  mapIndex: {
+    version: 1,
+    maps: [{ id: 'map-001', name: '测试地图', path: 'content/maps/map-001.json' }],
+  },
 }
 
 test('干净 bundle → 无 issue', () => {

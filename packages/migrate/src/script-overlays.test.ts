@@ -6,7 +6,7 @@ describe('PAL 脚本 overlay', () => {
   test('按语义锚点补李大娘三段移动与退场状态，不依赖命令下标', () => {
     const scene: SceneDef = {
       id: 's001',
-      map: { reuseOriginalMap: 1 },
+      mapId: 'map-001',
       entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
       entities: [],
       onEnter: [

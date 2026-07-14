@@ -118,12 +118,11 @@
 旧引擎 tile 数据把「2 视觉层 + 障碍 bit」焊进一个 word，`cell.lower`/`cell.upper` 二分、碰撞靠 `h∈{0,1}` 二选一查障碍（[collision.ts](../../packages/reforge/src/collision.ts) `pixelToTile`）。这是 **[backlog 议题 4](design-backlog.md) 要淘汰的「仅 2 视觉层」硬编码遗迹**——新地图模型是 **N 视觉层 + 独立碰撞 / 地形层**（[p0 schema §5](foundation/content-schema.md)），障碍单独一层，没有 lower/upper 二分。
 
 - 故 `h` **不进 `GridPos`**（它不是空间轴，是 `pixelToTile` 从像素解出「查哪个通道」的中间量），**也不进新地图 schema**。
-- 它的归宿 = [collision.ts](../../packages/reforge/src/collision.ts) 这个**旧格式兼容层**的内部细节：只要 reforge 还读 `data/extracted` 的旧 `Tilemap`，`pixelToTile` 就得继续用；等迁移器把图翻成「N 层 + 独立碰撞层」新格式，整个 `pixelToTile` 连同 `h` 一起退役。
+- 它只属于第一阶段和迁移输入。W7F 已把原图翻成「N 层 + 实例高度 + 独立碰撞层」，reforge 的旧 `pixelToTile`/Tilemap 兼容层已经退役。
 - 一句话：`h` 是「新引擎还兼容旧地图格式多久」的问题，**不是实体坐标该不该带的问题**。
 
-> ✅ **2026-07-10 W7D 进展**：作者自建地图已切到 OwnMap v1（N 视觉层 + 独立碰撞层），
-> 编辑器新路径不再使用 `word/mask/h/lower/upper`。旧 `pixelToTile` 与位编码读取现在只服务
-> `reuseOriginalMap`；等原版地图迁移器完成后再整体删除该兼容层。
+> ✅ **2026-07-14 W7F 收口**：迁移图与作者图均使用 ProjectMapV2；下游不再使用
+> `word/mask/h/lower/upper`、`reuseOriginalMap` 或 OwnMap 双轨。完整决策见 D26。
 
 ### 物理 1280：UI-HD（近期）vs 世界-HD（远期）—— 两件事分开
 
@@ -356,3 +355,26 @@ D24 原三层里的「剧情点覆写 `overrideSceneBattle` → `world.sceneBatt
 上面「道具图标 → colorType 3 省 ~4×」的直觉(1 vs 4 字节/像素)**没算 DEFLATE + 每文件 PLTE 开销,实测反而更大**。迁移器 baker(`bake-indexed-rgba`)**已把**提取器那份"R=G=B=索引"的臃肿 RGBA 转成**真彩 RGBA**——48×47 少色图标经 PNG DEFLATE 压到 470–1597B(avg ~950B),这一步本身就是那个"~4×"。再转 colorType 3:PLTE/tRNS 固定开销在这么小的图上**压倒** 1 字节/像素的收益。
 
 实测 9 个已烘图标:RGBA 合计 8775B → colorType3 **11923B(+36%,更大)**;外推 234 项 ~222KB RGBA → ~302KB colorType3。**结论:小少色道具图标保持真彩 RGBA(DEFLATE 已最优),不做 colorType 3。** 真正的索引压缩靶子只有**精灵**(量大 + 随场景盘变),而它**早已是 gzip 共享盘索引**(比 colorType 3 更优:盘不进每文件)。→ **D25 补的"道具压缩靶子"作废;无剩余可做的索引压缩项。**
+
+## D26 · 地图只保留 ProjectMapV2，高度属于格子实例（2026-07-14，用户拍板）
+
+**背景**：W7D/W7E 曾让原版 packed Tilemap 与 OwnMap 并行，并把高度错误放进 tileset
+的 per-tile 元数据。用户指出：迁移的职责就是在进入编辑器前完成旧到新转换；编辑器不能同时维护
+两套地图语义，同一瓦片在不同位置也可以有不同高度。
+
+**决定**：
+
+1. 旧 packed Tilemap 只存在于 pal-extract、第一阶段 game 和 migrate 输入侧。migrate 将 223 张
+   PAL 地图全部转成 `ProjectMapV2`；content、reforge、editor 不再接受旧格式或“原版地图只读”支路。
+2. `MapIndexV1` 是地图发现真值，`SceneDef.mapId` 是唯一场景绑定。路径只负责存储，mapNum 只允许
+   在迁移解析过程中短暂出现。
+3. `ProjectMapV2` 支持尺寸可变、N 个视觉层、每个放置实例自己的高度矩阵与独立碰撞矩阵。
+   tileset 只登记图像资源，禁止 `tileId -> height` 映射。
+4. 运行时与编辑器均按 map id 懒加载；编辑器对脏文档和撤销栈引用文档做 pin，未加载文件在
+   保存、clone、ZIP 时原始字节 copy-through。
+5. 地图编辑器用同一 currentLayerId 驱动图层列表与图层尺；高度尺同时控制聚焦与画笔高度，
+   吸管读取 tileId 和实例高度。聚焦视图状态不写内容文件。
+
+**影响**：W7D 的“瓦片固有高度”和 W7E 的“双格式兼容”结论作废；`OwnMap`、`ReuseMap`、
+`reuseOriginalMap`、下游 `Tilemap` 解码与数字 map override 删除。迁移器通过逐实例语义往返、
+确定性格式化、MG2 原子地图合并和连续第二次零计划保护无损性与作者修改。

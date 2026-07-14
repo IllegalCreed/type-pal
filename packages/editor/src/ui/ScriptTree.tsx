@@ -171,8 +171,8 @@ function describe(cmd: Command, locale: Locale, scriptIndex?: ScriptIndexV1): De
         icon: '👥',
         label: cmd.sprites.length ? `编外跟随者 ${cmd.sprites.join('/')}` : '清跟随者',
       }
-    case 'setMapOverride':
-      return { icon: '🗺', label: `换底图 → ${cmd.mapNum}`, detail: cmd.scene ?? '当前场景' }
+    case 'setSceneMapOverride':
+      return { icon: '🗺', label: `换地图 → ${cmd.mapId}`, detail: cmd.scene ?? '当前场景' }
     case 'halveMoney':
       return { icon: '💸', label: '金钱减半' }
     case 'setEntityFacing':

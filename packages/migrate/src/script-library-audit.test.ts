@@ -49,7 +49,7 @@ describe('全库脚本去内联门禁', () => {
     expect(audit.ratios.commands).toBe(1)
   })
 
-  test('295 场景满足三重 10x、ref 完整、chunk/root/驻留上限', () => {
+  test('294 个有效场景满足三重 10x、ref 完整、chunk/root/驻留上限', () => {
     const scenes: SourceScene[] = []
     const events = new Map<number, SourceCmd[]>()
     for (let id = 0; existsSync(pathOf(`data/extracted/data/scene/${id}.json`)); id++) {
@@ -133,7 +133,7 @@ describe('全库脚本去内联门禁', () => {
       extraRoots: globalCommandRoots,
     })
     expect(() => assertScriptLibraryAudit(audit)).not.toThrow()
-    expect(migrated.scenes).toHaveLength(295)
+    expect(migrated.scenes).toHaveLength(294)
     expect(migrated.scriptGraphReport.commands).toBe(43_503)
     expect(migrated.scriptGraphReport.globalRoots).toBeGreaterThan(0)
     expect(migrated.scriptGraphReport.edges.execution).toBeGreaterThan(0)

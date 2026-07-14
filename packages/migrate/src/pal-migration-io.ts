@@ -1,5 +1,6 @@
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import type { Tilemap } from '@type-pal/shared'
 import type { MigrateSources, SourceCmd, SourceScene } from './migrate-content.js'
 import type { PalMigrationSources } from './pal-migration.js'
 
@@ -52,12 +53,41 @@ export function loadPalMigrationSources(repo: string): PalMigrationSources {
     allJson.segments.flatMap((segment) => segment.commands),
   )
 
+  if (scenes.length !== 295) throw new Error(`PAL 场景源期望 295 个，收到 ${scenes.length}`)
+  const stub = scenes[294]
+  if (
+    !stub ||
+    stub.sceneId !== 294 ||
+    stub.mapNum !== 0 ||
+    stub.eventObjects.length !== 0 ||
+    stub.onEnterLabel !== undefined ||
+    stub.onTeleportLabel !== undefined
+  )
+    throw new Error('s294 不再是精确空 stub；停止迁移并重新审计场景全集')
+  if (scenes.slice(0, 294).some((scene) => scene.mapNum <= 0))
+    throw new Error('s000-s293 出现非正 mapNum；停止迁移')
+
+  const tilemapDir = resolve(repo, 'data/extracted/data/tilemap')
+  const tilemaps = readdirSync(tilemapDir)
+    .filter((name) => /^\d+\.json$/.test(name))
+    .sort((a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10))
+    .map((name) => {
+      const text = readFileSync(resolve(tilemapDir, name), 'utf8')
+      return {
+        mapNum: Number.parseInt(name, 10),
+        source: JSON.parse(text) as Tilemap,
+        sourceJsonBytes: Buffer.byteLength(text),
+      }
+    })
+  if (tilemaps.length !== 223) throw new Error(`PAL 地图源期望 223 张，收到 ${tilemaps.length}`)
+
   return {
     migrate,
     allJson,
     allJsonPrettyBytes: Buffer.byteLength(allText),
-    scenes,
+    scenes: scenes.slice(0, 294),
     eventsByScene,
+    tilemaps,
     objectPlayers: readJson(repo, 'data/extracted/data/object-players.json'),
     musicMidi: readJson<{ midi: number[] }>(repo, 'data/extracted/data/music-manifest.json').midi,
     battleFields: readJson(repo, 'data/extracted/data/battle-fields.json'),

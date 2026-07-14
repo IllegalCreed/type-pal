@@ -14,7 +14,6 @@ const manifest = {
   },
   assets: {
     root: '/extracted/data',
-    maps: 'tilemap',
     tilesets: 'tileset',
     sprites: 'sprite',
     palettes: 'palette',
@@ -36,7 +35,6 @@ describe('relativizeManifest', () => {
     expect(a.portraits).toBe('assets/baked/portraits')
     expect(a.faces).toBe('assets/baked/ui/face')
     expect(a.itemIcons).toBe('assets/baked/ui/items')
-    expect(a.maps).toBe('tilemap') // 相对子目录不动
     expect(a.tilesets).toBe('tileset')
   })
   test('不改原对象(深拷)', () => {
@@ -92,6 +90,21 @@ describe('enumerateSeedFiles', () => {
     expect(files.map((f) => f.rel)).toContain('content/scripts/chunks/scene/s1.json')
     expect(files.map((f) => f.rel)).not.toContain('content/scripts/')
   })
+
+  test('map index 登记的零引用地图也进入克隆文件集', () => {
+    const withMaps = {
+      ...manifest,
+      contentVersion: 2,
+      content: { ...manifest.content, maps: 'content/maps/index.json' },
+    }
+    const files = enumerateSeedFiles(withMaps, ['s1'], { files: [] }, { files: [] }, undefined, {
+      version: 1,
+      maps: [{ id: 'unused', name: '未引用', path: 'content/maps/unused.json' }],
+    })
+    expect(files.map((f) => f.rel)).toEqual(
+      expect.arrayContaining(['content/maps/index.json', 'content/maps/unused.json']),
+    )
+  })
 })
 
 describe('buildBlankProject(W-blank:开箱即玩)', () => {
@@ -99,31 +112,41 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
     const files = await buildBlankProject('My Game')
     const m = files['manifest.json'] as {
       id: string
+      contentVersion: number
       entryScene: string
       startWorld: { party: string[] }
       assets: { root: string }
       content: Record<string, string>
     }
     expect(m.id).toBe('my-game')
+    expect(m.contentVersion).toBe(2)
     expect(m.entryScene).toBe('start')
     // 队伍非空(空 party → 引擎 boot 崩);assets 指工程内(不再指原版 extracted)
     expect(m.startWorld.party).toEqual(['hero'])
     expect(m.assets.root).toBe('assets')
     expect(m.content.sprites).toBe('content/sprites.json')
     expect(m.content.tilesets).toBe('content/tilesets.json')
-    // 场景走自有地图(非 reuseOriginalMap:0 占位);entry 落房间中心(方形 12×12 → (12,0))
+    expect(m.content.maps).toBe('content/maps/index.json')
+    // 场景只保存稳定 mapId；entry 落房间中心(方形 12×12 → (12,0))
     const scene = files['content/scenes/start.json'] as {
       id: string
-      map: { ownMap?: string }
+      mapId: string
       entry: { pos: { col: number; row: number } }
     }
-    expect(scene.map.ownMap).toBe('content/maps/start.json')
+    expect(scene.mapId).toBe('start')
     expect(scene.entry.pos).toMatchObject({ col: 12, row: 0 })
     // 主角带 battler(否则不能入队);地图存在
     const actors = files['content/actors.json'] as { id: string; battler?: unknown }[]
     expect(actors[0]?.battler).toBeDefined()
-    const map = files['content/maps/start.json'] as { version: number; width: number }
-    expect(map).toMatchObject({ version: 1, width: 12 })
+    const map = JSON.parse(files['content/maps/start.json'] as string) as {
+      version: number
+      width: number
+    }
+    expect(map).toMatchObject({ version: 2, width: 12 })
+    expect(files['content/maps/index.json']).toEqual({
+      version: 1,
+      maps: [{ id: 'start', name: '起始地图', path: 'content/maps/start.json' }],
+    })
   })
 
   test('占位素材:合成色盘 JSON + 瓦片集/精灵 .rle 二进制(ArrayBuffer)', async () => {

@@ -5,25 +5,31 @@
  * enumerateSeedFiles:汇总克隆要拉的**可复制**文件集(内容表 + 场景 + 全部素材);
  * manifest.json 本身走 relativizeManifest 单独写(不在此列)。
  */
-import type { LoadedManifest, OwnMap, ScriptIndexV1 } from '@type-pal/content'
+import {
+  formatProjectMapV2,
+  type LoadedManifest,
+  type MapIndexV1,
+  type ProjectMapV2,
+  type ScriptIndexV1,
+} from '@type-pal/content'
 import { buildSeedAssets } from './seed-assets.js'
 
 const SEED_W = 12
 const SEED_H = 12
 
 /** 起始地图:12×12 单层草地矩形房(错排 lattice 铺满草棋盘);碰撞全 0,越界自动挡边。 */
-function buildSeedMap(): OwnMap {
+function buildSeedMap(): ProjectMapV2 {
   const rows = SEED_H * 2
   const tiles: (number | null)[][] = Array.from({ length: rows }, (_, b) =>
     Array.from({ length: SEED_W }, (_, k) => ((b + k) % 2 === 0 ? 0 : 1)),
   )
   const collision = Array.from({ length: rows }, () => Array.from({ length: SEED_W }, () => 0))
   return {
-    version: 1,
+    version: 2,
     width: SEED_W,
     height: SEED_H,
-    tileset: 'starter',
-    layers: [{ id: 'floor', name: '地板', occlude: false, tiles }],
+    tilesetId: 'starter',
+    layers: [{ id: 'floor', name: '地板', depthMode: 'flat', tiles }],
     collision,
   }
 }
@@ -68,7 +74,7 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
     'manifest.json': {
       id,
       name: name.trim() || '新工程',
-      contentVersion: 1,
+      contentVersion: 2,
       entryScene: 'start',
       content: {
         actors: 'content/actors.json',
@@ -78,10 +84,10 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
         sprites: 'content/sprites.json',
         tilesets: 'content/tilesets.json',
         scenes: 'content/scenes/',
+        maps: 'content/maps/index.json',
       },
       assets: {
         root: 'assets',
-        maps: 'maps',
         tilesets: 'tilesets',
         sprites: 'sprites',
         palettes: 'palettes',
@@ -129,11 +135,15 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
     'content/scenes/index.json': ['start'],
     'content/scenes/start.json': {
       id: 'start',
-      map: { ownMap: 'content/maps/start.json' },
+      mapId: 'start',
       entry: { pos: { col: entryCol, row: entryRow, height: 0 }, facing: 'down' },
       entities: [],
     },
-    'content/maps/start.json': buildSeedMap(),
+    'content/maps/index.json': {
+      version: 1,
+      maps: [{ id: 'start', name: '起始地图', path: 'content/maps/start.json' }],
+    },
+    'content/maps/start.json': formatProjectMapV2(buildSeedMap()),
     'assets/palettes/0.json': palette,
     'assets/tilesets/starter.rle': tilesetRle,
     'assets/sprites/0.rle': spriteRle,
@@ -170,6 +180,7 @@ export function enumerateSeedFiles(
   assetManifest: FileList,
   bakedManifest: FileList,
   scriptIndex?: ScriptIndexV1,
+  mapIndex?: MapIndexV1,
 ): SeedFile[] {
   const out: SeedFile[] = []
   const json = (rel: string): void => {
@@ -190,6 +201,8 @@ export function enumerateSeedFiles(
     json(`${scriptDir}index.json`)
     for (const meta of Object.values(scriptIndex.chunks)) json(`${scriptDir}${meta.path}`)
   }
+  // map index 本身已由 manifest.content 循环加入；这里补齐其登记的所有地图 JSON。
+  for (const asset of mapIndex?.maps ?? []) json(asset.path)
   // 素材:extracted → assets/extracted/;baked → assets/baked/
   for (const f of assetManifest.files) {
     out.push({

@@ -5,8 +5,8 @@
  * 这是编辑器的核心价值:不让坏数据越积越多。loader 也能用来告警。
  *
  * 系统未落地的字段(poisonId / triggerScript.scriptId / teleport.target)跳过 ——
- * 待对应系统落地后再加(注释标明)。资产号是否有对应文件(reuseOriginalMap/paletteId/
- * icon/spriteNum)不在此校验 —— 那是 loader/资产层的事。
+ * 待对应系统落地后再加(注释标明)。资产号是否有对应文件(icon/spriteNum)
+ * 不在此校验 —— 那是 loader/资产层的事。
  *
  * 见 docs/phase2/editor/editor-design.md §6。
  */
@@ -21,6 +21,7 @@ import type {
   LevelUpSkill,
   LoadedManifest,
   Locale,
+  MapIndexV1,
   MusicDef,
   PoisonDef,
   SceneDef,
@@ -64,6 +65,8 @@ export interface ContentBundle {
   ambiences?: AmbienceDef[]
   /** 店铺表(openShop 货单;可缺省 = 空 → openShop 报店不存在)。 */
   shops?: ShopDef[]
+  /** 工程唯一地图发现真值。 */
+  mapIndex: MapIndexV1
 }
 
 /** 编辑器被编辑的内容工作副本 = ContentBundle + manifest(EditSession 用)。 */
@@ -80,9 +83,16 @@ export function validateReferences(b: ContentBundle): Issue[] {
   const actorsById = Object.fromEntries(b.actors.map((a) => [a.id, a]))
   const spriteIds = new Set(b.sprites.map((s) => s.id))
   const localeKeys = new Set(Object.keys(b.locale))
+  const mapIds = new Set(b.mapIndex.maps.map((asset) => asset.id))
 
   // ── scenes ──────────────────────────────────────────────
   b.scenes.forEach((scene, si) => {
+    if (!mapIds.has(scene.mapId))
+      issues.push({
+        severity: 'error',
+        where: `scenes[${si}].mapId`,
+        message: `地图 "${scene.mapId}" 不在 map index`,
+      })
     scene.entities.forEach((e, ei) => {
       const where = `scenes[${si}].entities[${ei}]`
       if (isActorEntity(e)) {

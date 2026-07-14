@@ -5,7 +5,10 @@
 import { buildZip, type ZipEntry } from './zip.js'
 
 /** 递归收集 FSA 目录全部文件(路径正斜杠,相对工程根)。 */
-async function collectDir(dir: FileSystemDirectoryHandle, prefix = ''): Promise<ZipEntry[]> {
+export async function collectProjectZipEntries(
+  dir: FileSystemDirectoryHandle,
+  prefix = '',
+): Promise<ZipEntry[]> {
   const out: ZipEntry[] = []
   // entries() 是 FSA 标准异步迭代器(TS lib 未收录 → 局部窄化)
   const iter = (
@@ -18,7 +21,12 @@ async function collectDir(dir: FileSystemDirectoryHandle, prefix = ''): Promise<
       const file = await (handle as FileSystemFileHandle).getFile()
       out.push({ path: `${prefix}${name}`, data: new Uint8Array(await file.arrayBuffer()) })
     } else {
-      out.push(...(await collectDir(handle as FileSystemDirectoryHandle, `${prefix}${name}/`)))
+      out.push(
+        ...(await collectProjectZipEntries(
+          handle as FileSystemDirectoryHandle,
+          `${prefix}${name}/`,
+        )),
+      )
     }
   }
   return out
@@ -29,7 +37,7 @@ export async function exportProjectZip(
   dir: FileSystemDirectoryHandle,
   projectId: string,
 ): Promise<number> {
-  const entries = await collectDir(dir)
+  const entries = await collectProjectZipEntries(dir)
   if (entries.length === 0) throw new Error('工程文件夹是空的')
   const zip = await buildZip(entries)
   const url = URL.createObjectURL(new Blob([zip as BlobPart], { type: 'application/zip' }))

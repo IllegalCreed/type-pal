@@ -64,3 +64,18 @@ export function bakeIndexedRgba(
 - 世界 sprite / tiles RGBA 化（RleFrame 版 bake，撤 reforge 运行时 `bakeFrame`）。
 - 内容工程独立目录（数据迁移切片时落地，D-d 路径迁移）。
 - migrate 数据迁移（脚本 / 对话 / 数据表 → content schema，③ 阶段）。
+
+## 7. 地图数据管线现状（W7F，2026-07-14）
+
+本文件前六节记录 UI box 首切片的历史设计。地图已经走完当时尚未落地的数据迁移边界：
+
+- pal-extract 的 packed Tilemap 是迁移输入，不是内容工程资产；migrate 将 223 张源图转换成
+  `content/maps/<map-id>.json` 的 `ProjectMapV2`，并生成 `content/maps/index.json`。
+- 场景与脚本换图指令只保存稳定 map id；content、reforge、editor 不读取旧 word、mapNum 或
+  `reuseOriginalMap`。
+- tileset 图像暂时仍可保持 `.rle` 索引帧资产，但通过 `content/tilesets.json` 的稳定 id 登记；
+  地图不直通资产路径，也不把实例高度放进 tileset 元数据。
+- 迁移输出使用 content 公共包的确定性行紧凑格式化器；单张地图是 MG2 原子合并单元，第二次同源
+  迁移必须零写入、零删除、零冲突。
+
+地图 schema 现行真值见 `../foundation/content-schema.md` §5 和 `../decisions.md` D26。

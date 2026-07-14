@@ -1,6 +1,10 @@
 # 编辑器创作闭环与一级模块审计（2026-07-13）
 
-状态：review。ED-1 三方设计签字已于 2026-07-14 集齐；能力地图真值已同步，实施拆入 W7E-0、ED-2、W7E 子任务。
+状态：历史审计快照。ED-1 三方设计签字已于 2026-07-14 集齐；一级模块由 ED-2 落地。
+
+> **地图结论已更新（2026-07-14）**：W7E 双格式方案已取消，W7F 已用 ProjectMapV2、
+> `SceneDef.mapId` 和 MapIndex 统一迁移图与作者图。下文 OwnMap/reuseOriginalMap 只记录审计当时的
+> 缺陷，不再是现行设计；当前真值见 `content-schema.md` §5 与 W7F 任务卡。
 
 配套任务卡：[`ED-1-editor-authoring-closure-audit.md`](../../ops/tasks/ED-1-editor-authoring-closure-audit.md)
 
@@ -228,6 +232,11 @@ type SceneMap =
 
 引用图应按需或增量构建，不能在每次输入时全量扫描大型 PAL 脚本库。N6 的
 `buildScriptReferenceIndex` 已经给出可复用的按需模式。
+
+W7F 目前以 `mapAssetSceneReferences(scenes, mapId)` 扫描 `scene.mapId`，供地图使用场景与删除阻断使用。
+ED-3 验收必须把该调用改接统一 `ProjectReferenceIndex`，随后删除这个 helper；
+禁止在临时 helper 中继续加入 tileset、sprite、script 等引用域。引用边同时携带
+`block / warn / replace-suggest` 删除策略元数据。
 
 ### 7.2 空态即验收入口
 

@@ -13,8 +13,14 @@
  * 见 docs/phase2/editor/editor-b1-logic-plan.md(契约 + L3)。
  */
 
-import type { MusicDef, SceneDef, ScriptChunkV1 } from '@type-pal/content'
-import type { LoadedProjectCore, OwnMap } from '@type-pal/reforge'
+import {
+  formatProjectMapV2,
+  type MusicDef,
+  type SceneDef,
+  type ScriptChunkV1,
+  validateMapIndex,
+} from '@type-pal/content'
+import type { FileSource, LoadedProjectCore, ProjectMapV2 } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 import { assertScriptProjectValid } from './script-references.js'
 
@@ -27,15 +33,15 @@ export function toEditorState(
   project: LoadedProjectCore,
   scenes: SceneDef[],
   music: MusicDef[] = [], // W5:音乐库(manifest.content.music 声明才有;缺省空)
-  ownMaps: Record<string, OwnMap> = {}, // W7D:自有地图 v1(own 场景引用;pal 无 → {})
+  projectMaps: Record<string, ProjectMapV2> = {}, // 键 = 稳定 map id；缺席 = 尚未按需加载
   scriptChunks: Record<string, ScriptChunkV1> = {},
 ): EditorState {
   return {
     // M2a-2:场景懒加载后 LoadedProject 不再带全量 → 编辑器 loadAllScenes 拉齐后传入
     scenes,
     music,
-    // W7:自有地图工作副本(键 = ownMap 相对路径);渲染读实时态,保存序列化回文件
-    maps: ownMaps,
+    maps: projectMaps,
+    mapIndex: project.mapIndex,
     // W7B:tileset 注册表(loader 已 guard;缺省空)+ 上传字节暂存(载入时空,只存新上传)
     tilesets: project.tilesets ?? [],
     tilesetBlobs: {},
@@ -87,32 +93,67 @@ type ContentKey =
  * 工作副本 → {相对路径: JSON 值} 文件集。按 manifest.content 的路径键映射;
  * 外加 manifest.json(整体)。返回纯 JSON 值(可 JSON.stringify)。
  */
-export function serializeProject(state: EditorState): Record<string, unknown> {
+export function serializeProject(
+  state: EditorState,
+  opts?: { mapCopies?: Readonly<Record<string, string>> },
+): Record<string, unknown> {
   if (state.scriptIndex || Object.keys(state.scriptChunks).length) {
     const diagnostics = assertScriptProjectValid(state)
     if (diagnostics.warnings.length)
       console.warn(`[scripts] 保存前检查警告:\n${diagnostics.warnings.join('\n')}`)
   }
   const files: Record<string, unknown> = {}
+  const fileOwners = new Map<string, string>()
+  const addFile = (rel: string, value: unknown, owner: string): void => {
+    const previous = fileOwners.get(rel)
+    if (previous)
+      throw new Error(`serializeProject: 输出路径冲突 "${rel}"（${previous} / ${owner}）`)
+    fileOwners.set(rel, owner)
+    files[rel] = value
+  }
   const content = state.manifest.content
 
   // M2a-2:scenes 走 per-scene 目录(index.json + <id>.json);其余表域单文件。
   const dir = (content.scenes ?? 'content/scenes/').replace(/\/?$/, '/')
-  files[`${dir}index.json`] = state.scenes.map((s) => s.id)
-  for (const s of state.scenes) files[`${dir}${s.id}.json`] = s
-  // W7 自有地图:键即工程内相对路径,直接产出为文件(own 场景引用即索引,无单独 maps index)。
-  // 场景 revert 回复用 → maps 丢掉该键 → diffFiles 检测 prev 有 next 无 → 落盘删除,不留孤儿。
-  for (const [rel, map] of Object.entries(state.maps)) files[rel] = map
+  addFile(
+    `${dir}index.json`,
+    state.scenes.map((s) => s.id),
+    '场景索引',
+  )
+  for (const s of state.scenes) addFile(`${dir}${s.id}.json`, s, `场景 ${s.id}`)
+  const mapIndex = validateMapIndex(state.mapIndex)
+  const mapIndexRel = content.maps
+  if (mapIndexRel) {
+    if (state.manifest.contentVersion < 2)
+      throw new Error('serializeProject: 声明 map index 的工程 contentVersion 必须 >= 2')
+    addFile(mapIndexRel, mapIndex, '地图索引')
+    const indexedIds = new Set<string>()
+    for (const asset of mapIndex.maps) {
+      if (asset.path === mapIndexRel)
+        throw new Error(`serializeProject: 地图资产 "${asset.id}" 覆盖 map index 文件`)
+      indexedIds.add(asset.id)
+      const map = state.maps[asset.id]
+      if (map) addFile(asset.path, formatProjectMapV2(map), `地图 ${asset.id}`)
+      else {
+        const copy = opts?.mapCopies?.[asset.path]
+        if (copy !== undefined) addFile(asset.path, copy, `地图 ${asset.id} copy-through`)
+      }
+    }
+    const orphanIds = Object.keys(state.maps).filter((id) => !indexedIds.has(id))
+    if (orphanIds.length)
+      throw new Error(`serializeProject: maps 存在未登记资产: ${orphanIds.join(', ')}`)
+  } else throw new Error('serializeProject: 工程缺 manifest.content.maps')
   // W7B 上传 tileset 字节:键即资产相对路径(ArrayBuffer → writeFile 走 Blob,diff 记 bin: 占位)
-  for (const [rel, buf] of Object.entries(state.tilesetBlobs)) files[rel] = buf
+  for (const [rel, buf] of Object.entries(state.tilesetBlobs))
+    addFile(rel, buf, `瓦片集上传 ${rel}`)
   // M3 分片脚本目录:index 只存元数据，chunk 路径严格跟 index，禁止重组时丢文件。
   if (content.scripts && state.scriptIndex) {
     const scriptDir = content.scripts.replace(/\/?$/, '/')
-    files[`${scriptDir}index.json`] = state.scriptIndex
+    addFile(`${scriptDir}index.json`, state.scriptIndex, '脚本索引')
     for (const [id, meta] of Object.entries(state.scriptIndex.chunks)) {
       const chunk = state.scriptChunks[id]
       if (!chunk) throw new Error(`serializeProject: 缺脚本 chunk "${id}"`)
-      files[`${scriptDir}${meta.path}`] = chunk
+      addFile(`${scriptDir}${meta.path}`, chunk, `脚本 chunk ${id}`)
     }
   }
   // 各 content 文件:按 manifest 声明的路径键映射到对应值。
@@ -135,13 +176,30 @@ export function serializeProject(state: EditorState): Record<string, unknown> {
   // 只产出 manifest.content 里**声明了路径**的文件(sprites 缺则不产出 sprites.json)。
   for (const key of Object.keys(byKey) as ContentKey[]) {
     const rel = content[key]
-    if (rel !== undefined) files[rel] = byKey[key]
+    if (rel !== undefined) addFile(rel, byKey[key], `内容表 ${key}`)
   }
 
   // manifest.json:整体还原(state.manifest 自带 startWorld,无需重组)。
-  files['manifest.json'] = state.manifest
+  addFile('manifest.json', state.manifest, '工程清单')
 
   return files
+}
+
+/**
+ * 另存为/打包边界：已加载地图用当前工作副本，未加载地图从源文件按原文本复制。
+ * copy-through 不 JSON.parse，因此不会为了保存把全部地图对象常驻内存。
+ */
+export async function serializeProjectWithMapCopies(
+  state: EditorState,
+  source: FileSource,
+): Promise<Record<string, unknown>> {
+  const mapCopies: Record<string, string> = {}
+  await Promise.all(
+    state.mapIndex.maps.map(async (asset) => {
+      if (!state.maps[asset.id]) mapCopies[asset.path] = await source.readText(asset.path)
+    }),
+  )
+  return serializeProject(state, { mapCopies })
 }
 
 /** 序列化单文件为落盘字符串(与 writeProject 写盘同规格,便于快照比对)。字符串值原样。 */
@@ -190,12 +248,15 @@ export async function writeFile(
 export async function writeProject(
   dir: FileSystemDirectoryHandle,
   files: Record<string, unknown>,
-  opts?: { prevSnapshot?: Map<string, string> },
+  opts?: { prevSnapshot?: Map<string, string>; removePaths?: readonly string[] },
 ): Promise<Map<string, string>> {
   const prev = opts?.prevSnapshot
-  const { write, remove } = prev
+  const { write, remove: diffRemove } = prev
     ? diffFiles(prev, files)
     : { write: Object.keys(files), remove: [] as string[] }
+  const remove = [...new Set([...diffRemove, ...(opts?.removePaths ?? [])])].filter(
+    (rel) => !(rel in files),
+  )
   for (const rel of write) await writeFile(dir, rel, files[rel])
   for (const rel of remove) {
     const segs = rel.split('/')

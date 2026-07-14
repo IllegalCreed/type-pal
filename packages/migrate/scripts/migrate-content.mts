@@ -8,7 +8,13 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { isDeepStrictEqual } from 'node:util'
 import type { LoadedManifest } from '@type-pal/content'
-import { loadPalBaseline, type MigrationSnapshot } from '../src/migration-baseline.js'
+import {
+  isAtomicProjectMapPath,
+  loadPalBaseline,
+  type MigrationSnapshot,
+  snapshotFileHash,
+  snapshotFilePresent,
+} from '../src/migration-baseline.js'
 import {
   applyBootstrapReport,
   type BootstrapReportV1,
@@ -69,6 +75,14 @@ function usage(): void {
 function sameSnapshot(expected: MigrationSnapshot, actual: MigrationSnapshot, label: string): void {
   const managed = new Set([...expected.managedFiles, ...actual.managedFiles])
   for (const path of managed) {
+    if (isAtomicProjectMapPath(path)) {
+      if (
+        snapshotFilePresent(expected, path) !== snapshotFilePresent(actual, path) ||
+        snapshotFileHash(expected, path) !== snapshotFileHash(actual, path)
+      )
+        throw new Error(`${label}不符: ${path}`)
+      continue
+    }
     if (
       expected.files.has(path) !== actual.files.has(path) ||
       !isDeepStrictEqual(expected.files.get(path), actual.files.get(path))

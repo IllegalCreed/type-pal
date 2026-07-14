@@ -1,7 +1,7 @@
 {
   "id": "demo",
   "name": "鬼界·民居(验证 demo)",
-  "contentVersion": 1,
+  "contentVersion": 2,
   "entryScene": "guijie-minju",
   "content": {
     "scenes": "content/scenes/",
@@ -9,11 +9,12 @@
     "skills": "content/skills.json",
     "items": "content/items.json",
     "locale": "content/locale.json",
-    "sprites": "content/sprites.json"
+    "sprites": "content/sprites.json",
+    "maps": "content/maps/index.json",
+    "tilesets": "content/tilesets.json"
   },
   "assets": {
     "root": "assets",
-    "maps": "maps",
     "tilesets": "tilesets",
     "sprites": "sprites",
     "palettes": "palettes"

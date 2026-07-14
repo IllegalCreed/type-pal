@@ -5,17 +5,17 @@
  * 相机跟随玩家(贴游戏观感;编辑自由视角归布置模式)。
  */
 
-import type { ActorDef, Command, Locale, SceneDef, ScriptStage, SpriteDef } from '@type-pal/content'
-import {
-  gridToPixel,
-  lookupText,
-  mapRoom,
-  resolveEntitySpriteId,
-  isReuseMap as sceneIsReuse,
-  spriteScreenY,
-  tileHeightsOf,
+import type {
+  ActorDef,
+  Command,
+  Locale,
+  MapIndexV1,
+  SceneDef,
+  ScriptStage,
+  SpriteDef,
 } from '@type-pal/content'
-import type { AssetBase, OwnMap, SpriteDraw } from '@type-pal/reforge'
+import { gridToPixel, lookupText, resolveEntitySpriteId, spriteScreenY } from '@type-pal/content'
+import type { AssetBase, ProjectMapV2, SpriteDraw } from '@type-pal/reforge'
 import { idleFrameIndex, renderSceneFrame, walkFrameIndex } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef } from 'react'
 import type { Playback } from '../core/playback.js'
@@ -64,9 +64,10 @@ export function PreviewCanvas(props: {
   actorsById: Record<string, ActorDef>
   leaderSpriteId: string | undefined
   assetBase: AssetBase
-  /** 自有地图实时副本(键 = ownMap 路径);own 场景从此渲染(不落磁盘)。 */
-  ownMaps: Record<string, OwnMap>
-  /** tileset 注册表(W7B;OwnMap.tileset 可为 id)。 */
+  /** 自有地图实时副本(键 = 稳定 map id);own 场景从此渲染(不落磁盘)。 */
+  projectMaps: Record<string, ProjectMapV2>
+  mapIndex: MapIndexV1
+  /** tileset 注册表。 */
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]
   /** 上传未保存的 tileset 字节(内存优先)。 */
   tilesetBlobs: Record<string, ArrayBuffer>
@@ -89,7 +90,8 @@ export function PreviewCanvas(props: {
     actorsById,
     leaderSpriteId,
     assetBase,
-    ownMaps,
+    projectMaps,
+    mapIndex,
     tilesets,
     tilesetBlobs,
     locale,
@@ -146,9 +148,10 @@ export function PreviewCanvas(props: {
   const { status, err, loadedRef } = useSceneAssets({
     canvasRef,
     assetBase,
-    sceneMap: scene.map,
+    mapId: scene.mapId,
     spriteNums,
-    ownMaps,
+    projectMaps,
+    mapIndex,
     tilesets,
     tilesetBlobs,
     spriteSources,
@@ -193,7 +196,7 @@ export function PreviewCanvas(props: {
           }
           return gridToPixel({ col: sc / es.length, row: sr / es.length, height: 0 })
         }
-        const room = mapRoom(scene.map) ?? { col: 0, row: 0, cols: map.width, rows: map.height }
+        const room = { col: 0, row: 0, cols: map.width, rows: map.height }
         return gridToPixel({
           col: room.col + room.cols / 2,
           row: room.row + room.rows / 2,
@@ -274,21 +277,13 @@ export function PreviewCanvas(props: {
         x: cam.x - size.w / zoom / 2 + panX,
         y: cam.y - size.h / zoom / 2 + panY,
       }
-      const room = mapRoom(scene.map) ?? { col: 0, row: 0, cols: map.width, rows: map.height }
+      const room = { col: 0, row: 0, cols: map.width, rows: map.height }
       renderSceneFrame(ctx, renderer, {
         map,
         room,
         camera,
         sprites: draws,
         worldScale: zoom,
-        layers: !sceneIsReuse(scene.map)
-          ? {
-              ownTileHeights: tileHeightsOf(
-                tilesets,
-                (map as import('@type-pal/reforge').OwnMap).tileset,
-              ),
-            }
-          : undefined,
       })
       // 网格/禁入叠加(与布置模式同开关同画法;共享层)
       if (layers) drawGridBlocked(ctx, map, room, { zoom, panX: camera.x, panY: camera.y }, layers)

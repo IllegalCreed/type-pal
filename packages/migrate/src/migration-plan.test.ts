@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import type { MigrationSnapshot } from './migration-baseline.js'
-import { createInitialMigrationPlan, createMigrationPlan } from './migration-plan.js'
+import { createInitialMigrationPlan, createMigrationPlan, snapshotOf } from './migration-plan.js'
 import type { MigrationFileSet, MigrationJson } from './pal-migration.js'
 
 const snapshot = (files: Record<string, MigrationJson>): MigrationSnapshot => ({
@@ -12,6 +12,23 @@ const generated = (
 ): Pick<MigrationFileSet, 'files' | 'managedFiles'> => ({
   files: new Map(Object.entries(files)),
   managedFiles: new Set(Object.keys(files)),
+})
+
+const projectMap = (tile: number): MigrationJson => ({
+  version: 2,
+  width: 1,
+  height: 1,
+  tilesetId: 'tileset-001',
+  layers: [
+    {
+      id: 'floor',
+      name: '地板',
+      depthMode: 'height',
+      tiles: [[tile], [tile]],
+      heights: [[0], [0]],
+    },
+  ],
+  collision: [[0], [0]],
 })
 
 describe('createMigrationPlan', () => {
@@ -216,6 +233,50 @@ describe('createMigrationPlan', () => {
     expect(plan.conflicts.length).toBeGreaterThan(0)
     expect(plan.writes.size).toBe(0)
     expect(plan.deletes).toEqual([])
+  })
+
+  test('原子地图 baseline 仅有 hash 时仍按三方规则保作者修改', () => {
+    const path = 'content/maps/map-001.json'
+    const fullBase = snapshotOf(generated({ [path]: projectMap(1) }))
+    const hashOnlyBase: MigrationSnapshot = {
+      files: new Map(),
+      managedFiles: new Set([path]),
+      hashes: fullBase.hashes,
+    }
+    const plan = createMigrationPlan(
+      hashOnlyBase,
+      snapshot({ [path]: projectMap(2) }),
+      generated({ [path]: projectMap(1) }),
+    )
+    expect(plan.conflicts).toEqual([])
+    expect(plan.target.get(path)).toEqual(projectMap(2))
+    expect(plan.writes.size).toBe(0)
+  })
+
+  test('原子地图 ours=base 时接收新迁移，双方变化时报 hash 冲突', () => {
+    const path = 'content/maps/map-001.json'
+    const fullBase = snapshotOf(generated({ [path]: projectMap(1) }))
+    const hashOnlyBase: MigrationSnapshot = {
+      files: new Map(),
+      managedFiles: new Set([path]),
+      hashes: fullBase.hashes,
+    }
+    const update = createMigrationPlan(
+      hashOnlyBase,
+      snapshot({ [path]: projectMap(1) }),
+      generated({ [path]: projectMap(2) }),
+    )
+    expect(update.conflicts).toEqual([])
+    expect(update.writes.get(path)).toEqual(projectMap(2))
+
+    const conflict = createMigrationPlan(
+      hashOnlyBase,
+      snapshot({ [path]: projectMap(2) }),
+      generated({ [path]: projectMap(3) }),
+    )
+    expect(conflict.conflicts).toHaveLength(1)
+    expect(conflict.conflicts[0]?.base.value).toHaveProperty('sha256')
+    expect(conflict.writes.size).toBe(0)
   })
 
   test('首次 bootstrap 只写语义变化并删除 target 明确退役项', () => {

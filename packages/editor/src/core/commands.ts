@@ -21,9 +21,9 @@ import type {
   GridPos,
   ItemData,
   LevelUpSkill,
+  MapAssetDefV1,
   PoisonDef,
   SceneDef,
-  SceneMap,
   Command as ScriptCommand,
   ScriptStage,
   SharedScriptMetaV1,
@@ -34,25 +34,30 @@ import {
   checkCommands,
   createScriptIndex,
   findScriptOwnerChunk,
+  MAP_INDEX_PATH,
+  mapIdStem,
+  mapInstanceHeight,
+  nextMapAssetId,
   normalizeScriptLibrary,
   removeAuthoredScript,
   upsertAuthoredScript,
+  validateMapIndex,
 } from '@type-pal/content'
 import type {
-  OwnMap,
-  OwnMapCollisionEdit,
-  OwnMapLayer,
-  OwnMapTileEdit,
+  MapLayerV2,
+  ProjectMapCollisionEdit,
+  ProjectMapTileEdit,
+  ProjectMapV2,
   TilesetDef,
 } from '@type-pal/reforge'
 import {
-  insertOwnMapLayer,
-  moveOwnMapLayer,
-  paintOwnMapCollision,
-  paintOwnMapTiles,
-  removeOwnMapLayer,
-  resizeOwnMap,
-  updateOwnMapLayer,
+  insertProjectMapLayer,
+  moveProjectMapLayer,
+  paintProjectMapCollision,
+  paintProjectMapTiles,
+  removeProjectMapLayer,
+  resizeProjectMap,
+  updateProjectMapLayer,
 } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 import { findScriptReferences } from './script-references.js'
@@ -295,11 +300,11 @@ export class UpdateEntityCommand implements Command {
   }
 }
 
-/** UpdateScene 的 patch 范围(entry / musicId / entries / map 整替换)。 */
-export type ScenePatch = Partial<Pick<SceneDef, 'entry' | 'musicId' | 'entries' | 'map'>>
+/** UpdateScene 的 patch 范围(entry / musicId / entries / mapId)。 */
+export type ScenePatch = Partial<Pick<SceneDef, 'entry' | 'musicId' | 'entries' | 'mapId'>>
 
 /**
- * 改场景字段(map/entry/musicId)。apply 记下旧值,invert 还原。语义同 UpdateEntityCommand。
+ * 改场景字段(mapId/entry/musicId)。apply 记下旧值,invert 还原。语义同 UpdateEntityCommand。
  * entry 是对象,patch 传整个新 entry(整体替换,非深合并)。
  * musicId 传 undefined = 清成「延续上一曲」(JSON 落盘时 undefined 键自然消失)。
  */
@@ -317,7 +322,6 @@ export class UpdateSceneCommand implements Command {
     this.patch = { ...patch }
     if (this.patch.entry) this.patch.entry = structuredClone(this.patch.entry)
     if (this.patch.entries) this.patch.entries = structuredClone(this.patch.entries)
-    if (this.patch.map) this.patch.map = structuredClone(this.patch.map)
   }
 
   apply(state: EditorState): EditorState {
@@ -336,7 +340,7 @@ export class UpdateSceneCommand implements Command {
     }
     if ('entries' in this.patch)
       old.entries = scene.entries ? structuredClone(scene.entries) : undefined
-    if ('map' in this.patch && this.patch.map) old.map = structuredClone(scene.map)
+    if ('mapId' in this.patch) old.mapId = scene.mapId
     return old
   }
 
@@ -348,51 +352,254 @@ export class UpdateSceneCommand implements Command {
   }
 }
 
-/**
- * 新建自有地图(W7a-5):把场景从「复用原版」切成「自有地图」。
- * 一步做两件事(须原子,故不复用 UpdateSceneCommand):
- *   ① scene.map = { ownMap: <相对路径> } + 进场点重置到图内(原坐标系是原版图,可能越界新图);
- *   ② state.maps[相对路径] = 空白 OwnMap v1(渲染读它,保存序列化成 content/maps/<id>.json)。
- * invert 还原 scene.map/entry 并丢掉 maps 该键(连带磁盘孤儿由 diffFiles 删)。
- */
-export class CreateOwnMapCommand implements Command {
-  readonly label = '新建自有地图'
-  private prevMap: SceneMap | undefined
-  private prevEntry: SceneDef['entry'] | undefined
+function withMapCatalogManifest(state: EditorState): EditorState['manifest'] {
+  if (state.manifest.contentVersion >= 2 && state.manifest.content.maps) return state.manifest
+  return {
+    ...state.manifest,
+    contentVersion: Math.max(2, state.manifest.contentVersion),
+    content: { ...state.manifest.content, maps: MAP_INDEX_PATH },
+  }
+}
+
+function addMapAsset(state: EditorState, def: MapAssetDefV1, map: ProjectMapV2): EditorState {
+  const mapIndex = state.mapIndex ?? { version: 1 as const, maps: [] }
+  if (mapIndex.maps.some((asset) => asset.id === def.id) || state.maps[def.id])
+    throw new Error(`地图 id "${def.id}" 已存在`)
+  const nextIndex = validateMapIndex({ version: 1, maps: [...mapIndex.maps, def] })
+  return {
+    ...state,
+    manifest: withMapCatalogManifest(state),
+    mapIndex: nextIndex,
+    maps: { ...state.maps, [def.id]: structuredClone(map) },
+  }
+}
+
+function removeMapAsset(state: EditorState, id: string): EditorState {
+  const { [id]: _drop, ...maps } = state.maps
+  return {
+    ...state,
+    mapIndex: {
+      version: 1,
+      maps: state.mapIndex.maps.filter((asset) => asset.id !== id),
+    },
+    maps,
+  }
+}
+
+/** 临时窄反查；ED-3 落地统一 ProjectReferenceIndex 后删除。 */
+export function mapAssetSceneReferences(scenes: readonly SceneDef[], mapId: string): string[] {
+  return scenes.filter((scene) => scene.mapId === mapId).map((scene) => scene.id)
+}
+
+export class MapAssetInUseError extends Error {
+  constructor(
+    readonly mapId: string,
+    readonly sceneIds: string[],
+  ) {
+    super(`地图 "${mapId}" 正被场景使用: ${sceneIds.join(', ')}`)
+    this.name = 'MapAssetInUseError'
+  }
+}
+
+/** 独立创建地图资产，不依赖任何场景引用。 */
+export class CreateMapAssetCommand implements Command {
+  readonly label = '新建地图'
+  private readonly def: MapAssetDefV1
+  private readonly map: ProjectMapV2
+  private previousManifest: EditorState['manifest'] | undefined
+  private added = false
+
+  constructor(def: MapAssetDefV1, map: ProjectMapV2) {
+    this.def = structuredClone(def)
+    this.map = structuredClone(map)
+  }
+
+  apply(state: EditorState): EditorState {
+    if (this.previousManifest === undefined) this.previousManifest = state.manifest
+    const next = addMapAsset(state, this.def, this.map)
+    this.added = true
+    return next
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.added || !this.previousManifest) return state
+    return { ...removeMapAsset(state, this.def.id), manifest: this.previousManifest }
+  }
+}
+
+/** 深复制已有地图为新资产；后续编辑互不影响。 */
+export class DuplicateMapAssetCommand implements Command {
+  readonly label = '复制地图'
+  private readonly def: MapAssetDefV1
+  private copiedMap: ProjectMapV2 | undefined
+  private previousManifest: EditorState['manifest'] | undefined
+
+  constructor(
+    private readonly sourceId: string,
+    def: MapAssetDefV1,
+  ) {
+    this.def = structuredClone(def)
+  }
+
+  apply(state: EditorState): EditorState {
+    const source = state.maps[this.sourceId]
+    if (!source) return state
+    if (!this.copiedMap) this.copiedMap = structuredClone(source)
+    if (!this.previousManifest) this.previousManifest = state.manifest
+    return addMapAsset(state, this.def, this.copiedMap)
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.copiedMap || !this.previousManifest) return state
+    return { ...removeMapAsset(state, this.def.id), manifest: this.previousManifest }
+  }
+}
+
+/** 只改显示名；稳定 id/path 永不随改名变化。 */
+export class RenameMapAssetCommand implements Command {
+  readonly label = '重命名地图'
+  private previousName: string | undefined
+
+  constructor(
+    private readonly mapId: string,
+    private readonly name: string,
+  ) {}
+
+  private write(state: EditorState, name: string): EditorState {
+    const index = state.mapIndex.maps.findIndex((asset) => asset.id === this.mapId)
+    if (index < 0) return state
+    const maps = [...state.mapIndex.maps]
+    maps[index] = { ...maps[index]!, name }
+    return { ...state, mapIndex: { version: 1, maps } }
+  }
+
+  apply(state: EditorState): EditorState {
+    const asset = state.mapIndex.maps.find((candidate) => candidate.id === this.mapId)
+    const name = this.name.trim()
+    if (!asset || !name || asset.name === name) return state
+    if (this.previousName === undefined) this.previousName = asset.name
+    return this.write(state, name)
+  }
+
+  invert(state: EditorState): EditorState {
+    return this.previousName === undefined ? state : this.write(state, this.previousName)
+  }
+}
+
+/** 场景换绑到已登记地图；不复制地图内容。 */
+export class BindSceneMapCommand implements Command {
+  readonly label = '绑定场景地图'
+  private previousMapId: string | undefined
 
   constructor(
     private readonly sceneId: string,
-    private readonly ownMapRel: string,
-    private readonly tilemap: OwnMap,
+    private readonly mapId: string,
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    const scene = findScene(state, this.sceneId)
+    if (!scene || !state.mapIndex.maps.some((asset) => asset.id === this.mapId)) return state
+    if (scene.mapId === this.mapId) return state
+    if (this.previousMapId === undefined) this.previousMapId = scene.mapId
+    return withScene(state, this.sceneId, { ...scene, mapId: this.mapId })
+  }
+
+  invert(state: EditorState): EditorState {
+    const scene = findScene(state, this.sceneId)
+    if (!scene || this.previousMapId === undefined) return state
+    return withScene(state, this.sceneId, { ...scene, mapId: this.previousMapId })
+  }
+}
+
+/** 删除未被场景引用的地图资产；index/maps 同一命令原子更新。 */
+export class DeleteMapAssetCommand implements Command {
+  readonly label = '删除地图'
+  private removed: { def: MapAssetDefV1; map: ProjectMapV2; index: number } | undefined
+
+  constructor(private readonly mapId: string) {}
+
+  apply(state: EditorState): EditorState {
+    const references = mapAssetSceneReferences(state.scenes, this.mapId)
+    if (references.length) throw new MapAssetInUseError(this.mapId, references)
+    const index = state.mapIndex.maps.findIndex((asset) => asset.id === this.mapId)
+    const map = state.maps[this.mapId]
+    if (index < 0 || !map) return state
+    if (!this.removed)
+      this.removed = {
+        def: structuredClone(state.mapIndex.maps[index]!),
+        map: structuredClone(map),
+        index,
+      }
+    return removeMapAsset(state, this.mapId)
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.removed) return state
+    const defs = [...state.mapIndex.maps]
+    defs.splice(this.removed.index, 0, this.removed.def)
+    return {
+      ...state,
+      mapIndex: { version: 1, maps: defs },
+      maps: { ...state.maps, [this.mapId]: this.removed.map },
+    }
+  }
+}
+
+/**
+ * 便捷包装：创建资产、绑定场景、重置进场点一次完成。
+ * 新 UI 分别使用 CreateMapAssetCommand / BindSceneMapCommand。
+ */
+export class CreateProjectMapCommand implements Command {
+  readonly label = '新建并绑定地图'
+  private prevMapId: string | undefined
+  private prevEntry: SceneDef['entry'] | undefined
+  private previousManifest: EditorState['manifest'] | undefined
+  private mapId: string | undefined
+
+  constructor(
+    private readonly sceneId: string,
+    private readonly projectMapRel: string,
+    private readonly tilemap: ProjectMapV2,
     private readonly entryPos: GridPos,
   ) {}
 
   apply(state: EditorState): EditorState {
     const scene = findScene(state, this.sceneId)
     if (!scene) return state
-    if (this.prevMap === undefined) {
-      this.prevMap = structuredClone(scene.map)
+    if (this.prevMapId === undefined) {
+      this.prevMapId = scene.mapId
       this.prevEntry = structuredClone(scene.entry)
+      this.previousManifest = state.manifest
+      this.mapId = nextMapAssetId(state.mapIndex, mapIdStem(this.projectMapRel))
     }
+    if (!this.mapId) return state
+    const withAsset = addMapAsset(
+      state,
+      { id: this.mapId, name: this.mapId, path: this.projectMapRel },
+      this.tilemap,
+    )
     const next = withScene(state, this.sceneId, {
       ...scene,
-      map: { ownMap: this.ownMapRel },
+      mapId: this.mapId,
       entry: { ...scene.entry, pos: { ...this.entryPos } },
     })
-    return { ...next, maps: { ...next.maps, [this.ownMapRel]: this.tilemap } }
+    return { ...withAsset, scenes: next.scenes }
   }
 
   invert(state: EditorState): EditorState {
-    if (this.prevMap === undefined) return state
+    if (this.prevMapId === undefined) return state
     const scene = findScene(state, this.sceneId)
     if (!scene) return state
     const next = withScene(state, this.sceneId, {
       ...scene,
-      map: this.prevMap,
+      mapId: this.prevMapId,
       entry: this.prevEntry ?? scene.entry,
     })
-    const { [this.ownMapRel]: _drop, ...restMaps } = next.maps
-    return { ...next, maps: restMaps }
+    if (!this.mapId) return next
+    return {
+      ...removeMapAsset(next, this.mapId),
+      manifest: this.previousManifest ?? next.manifest,
+    }
   }
 }
 
@@ -401,11 +608,11 @@ export class CreateOwnMapCommand implements Command {
  */
 export class PaintTilesCommand implements Command {
   readonly label = '画瓦片'
-  private prev: OwnMapTileEdit[] | undefined
+  private prev: ProjectMapTileEdit[] | undefined
 
   constructor(
     private readonly mapRel: string,
-    private readonly edits: readonly OwnMapTileEdit[],
+    private readonly edits: readonly ProjectMapTileEdit[],
   ) {}
 
   apply(state: EditorState): EditorState {
@@ -419,28 +626,39 @@ export class PaintTilesCommand implements Command {
         if (seen.has(key)) continue
         seen.add(key)
         const tileId = map.layers.find((layer) => layer.id === e.layerId)?.tiles[e.row]?.[e.col]
+        const layer = map.layers.find((candidate) => candidate.id === e.layerId)
         if (tileId === undefined) continue
-        this.prev.push({ ...e, tileId })
+        this.prev.push({
+          ...e,
+          tileId,
+          height: layer ? mapInstanceHeight(layer, e.row, e.col) : 0,
+        })
       }
     }
-    return { ...state, maps: { ...state.maps, [this.mapRel]: paintOwnMapTiles(map, this.edits) } }
+    return {
+      ...state,
+      maps: { ...state.maps, [this.mapRel]: paintProjectMapTiles(map, this.edits) },
+    }
   }
 
   invert(state: EditorState): EditorState {
     const map = state.maps[this.mapRel]
     if (!map || !this.prev) return state
-    return { ...state, maps: { ...state.maps, [this.mapRel]: paintOwnMapTiles(map, this.prev) } }
+    return {
+      ...state,
+      maps: { ...state.maps, [this.mapRel]: paintProjectMapTiles(map, this.prev) },
+    }
   }
 }
 
 /** 独立碰撞层的一笔；非零语义由 schema 保留，当前 UI 写 0/1。 */
 export class PaintCollisionCommand implements Command {
   readonly label = '画碰撞'
-  private prev: OwnMapCollisionEdit[] | undefined
+  private prev: ProjectMapCollisionEdit[] | undefined
 
   constructor(
     private readonly mapRel: string,
-    private readonly edits: readonly OwnMapCollisionEdit[],
+    private readonly edits: readonly ProjectMapCollisionEdit[],
   ) {}
 
   apply(state: EditorState): EditorState {
@@ -459,7 +677,7 @@ export class PaintCollisionCommand implements Command {
     }
     return {
       ...state,
-      maps: { ...state.maps, [this.mapRel]: paintOwnMapCollision(map, this.edits) },
+      maps: { ...state.maps, [this.mapRel]: paintProjectMapCollision(map, this.edits) },
     }
   }
 
@@ -468,19 +686,19 @@ export class PaintCollisionCommand implements Command {
     if (!map || !this.prev) return state
     return {
       ...state,
-      maps: { ...state.maps, [this.mapRel]: paintOwnMapCollision(map, this.prev) },
+      maps: { ...state.maps, [this.mapRel]: paintProjectMapCollision(map, this.prev) },
     }
   }
 }
 
-export class AddOwnMapLayerCommand implements Command {
+export class AddProjectMapLayerCommand implements Command {
   readonly label = '新增地图层'
-  private readonly layer: OwnMapLayer
+  private readonly layer: MapLayerV2
   private insertedIndex: number | undefined
 
   constructor(
     private readonly mapRel: string,
-    layer: OwnMapLayer,
+    layer: MapLayerV2,
     private readonly index?: number,
   ) {
     this.layer = structuredClone(layer)
@@ -491,21 +709,21 @@ export class AddOwnMapLayerCommand implements Command {
     if (!map) return state
     if (this.insertedIndex === undefined)
       this.insertedIndex = Math.max(0, Math.min(this.index ?? map.layers.length, map.layers.length))
-    const next = insertOwnMapLayer(map, this.layer, this.insertedIndex)
+    const next = insertProjectMapLayer(map, this.layer, this.insertedIndex)
     return next === map ? state : { ...state, maps: { ...state.maps, [this.mapRel]: next } }
   }
 
   invert(state: EditorState): EditorState {
     const map = state.maps[this.mapRel]
     if (!map) return state
-    const next = removeOwnMapLayer(map, this.layer.id)
+    const next = removeProjectMapLayer(map, this.layer.id)
     return next === map ? state : { ...state, maps: { ...state.maps, [this.mapRel]: next } }
   }
 }
 
-export class RemoveOwnMapLayerCommand implements Command {
+export class RemoveProjectMapLayerCommand implements Command {
   readonly label = '删除地图层'
-  private removed: OwnMapLayer | undefined
+  private removed: MapLayerV2 | undefined
   private removedIndex: number | undefined
 
   constructor(
@@ -522,19 +740,19 @@ export class RemoveOwnMapLayerCommand implements Command {
       this.removed = structuredClone(map.layers[index])
       this.removedIndex = index
     }
-    const next = removeOwnMapLayer(map, this.layerId)
+    const next = removeProjectMapLayer(map, this.layerId)
     return next === map ? state : { ...state, maps: { ...state.maps, [this.mapRel]: next } }
   }
 
   invert(state: EditorState): EditorState {
     const map = state.maps[this.mapRel]
     if (!map || !this.removed || this.removedIndex === undefined) return state
-    const next = insertOwnMapLayer(map, this.removed, this.removedIndex)
+    const next = insertProjectMapLayer(map, this.removed, this.removedIndex)
     return next === map ? state : { ...state, maps: { ...state.maps, [this.mapRel]: next } }
   }
 }
 
-export class MoveOwnMapLayerCommand implements Command {
+export class MoveProjectMapLayerCommand implements Command {
   readonly label = '重排地图层'
   private fromIndex: number | undefined
 
@@ -549,26 +767,26 @@ export class MoveOwnMapLayerCommand implements Command {
     if (!map) return state
     if (this.fromIndex === undefined)
       this.fromIndex = map.layers.findIndex((l) => l.id === this.layerId)
-    const next = moveOwnMapLayer(map, this.layerId, this.toIndex)
+    const next = moveProjectMapLayer(map, this.layerId, this.toIndex)
     return next === map ? state : { ...state, maps: { ...state.maps, [this.mapRel]: next } }
   }
 
   invert(state: EditorState): EditorState {
     const map = state.maps[this.mapRel]
     if (!map || this.fromIndex === undefined || this.fromIndex < 0) return state
-    const next = moveOwnMapLayer(map, this.layerId, this.fromIndex)
+    const next = moveProjectMapLayer(map, this.layerId, this.fromIndex)
     return next === map ? state : { ...state, maps: { ...state.maps, [this.mapRel]: next } }
   }
 }
 
-export class UpdateOwnMapLayerCommand implements Command {
+export class UpdateProjectMapLayerCommand implements Command {
   readonly label = '修改地图层'
-  private oldPatch: Partial<Pick<OwnMapLayer, 'name' | 'occlude'>> | undefined
+  private oldPatch: Partial<Pick<MapLayerV2, 'name' | 'depthMode'>> | undefined
 
   constructor(
     private readonly mapRel: string,
     private readonly layerId: string,
-    private readonly patch: Partial<Pick<OwnMapLayer, 'name' | 'occlude'>>,
+    private readonly patch: Partial<Pick<MapLayerV2, 'name' | 'depthMode'>>,
   ) {}
 
   apply(state: EditorState): EditorState {
@@ -578,9 +796,9 @@ export class UpdateOwnMapLayerCommand implements Command {
     if (!this.oldPatch) {
       this.oldPatch = {}
       if ('name' in this.patch) this.oldPatch.name = layer.name
-      if ('occlude' in this.patch) this.oldPatch.occlude = layer.occlude
+      if ('depthMode' in this.patch) this.oldPatch.depthMode = layer.depthMode
     }
-    const next = updateOwnMapLayer(map, this.layerId, this.patch)
+    const next = updateProjectMapLayer(map, this.layerId, this.patch)
     return { ...state, maps: { ...state.maps, [this.mapRel]: next } }
   }
 
@@ -589,7 +807,10 @@ export class UpdateOwnMapLayerCommand implements Command {
     if (!map || !this.oldPatch) return state
     return {
       ...state,
-      maps: { ...state.maps, [this.mapRel]: updateOwnMapLayer(map, this.layerId, this.oldPatch) },
+      maps: {
+        ...state.maps,
+        [this.mapRel]: updateProjectMapLayer(map, this.layerId, this.oldPatch),
+      },
     }
   }
 }
@@ -598,9 +819,9 @@ export class UpdateOwnMapLayerCommand implements Command {
  * 改图尺寸(W7c-4):左上锚定裁剪/扩展。裁剪破坏性 → prev 直接留 apply 前的整图引用
  * (不可变数据,零拷贝),invert 整图还原,被裁内容精确回来。
  */
-export class ResizeOwnMapCommand implements Command {
+export class ResizeProjectMapCommand implements Command {
   readonly label = '改图尺寸'
-  private prev: OwnMap | undefined
+  private prev: ProjectMapV2 | undefined
 
   constructor(
     private readonly mapRel: string,
@@ -611,7 +832,7 @@ export class ResizeOwnMapCommand implements Command {
   apply(state: EditorState): EditorState {
     const map = state.maps[this.mapRel]
     if (!map) return state
-    const next = resizeOwnMap(map, this.width, this.height)
+    const next = resizeProjectMap(map, this.width, this.height)
     if (next === map) return state
     if (!this.prev) this.prev = map
     return { ...state, maps: { ...state.maps, [this.mapRel]: next } }
@@ -625,10 +846,10 @@ export class ResizeOwnMapCommand implements Command {
 }
 
 /**
- * 换自有地图绑定的 tileset(W7B):OwnMap.tileset = 注册表 id(或借用路径)。
+ * 换地图绑定的 tileset：ProjectMapV2.tilesetId 只存注册表稳定 id。
  * 换绑不重映射瓦片索引(套件间同位替换是常见玩法;索引超出新集 = 渲染空,可换回)。
  */
-export class SetOwnMapTilesetCommand implements Command {
+export class SetProjectMapTilesetCommand implements Command {
   readonly label = '换瓦片集'
   private prev: string | undefined
 
@@ -639,60 +860,21 @@ export class SetOwnMapTilesetCommand implements Command {
 
   apply(state: EditorState): EditorState {
     const map = state.maps[this.mapRel]
-    if (!map || map.tileset === this.tileset) return state
-    if (this.prev === undefined) this.prev = map.tileset
-    return { ...state, maps: { ...state.maps, [this.mapRel]: { ...map, tileset: this.tileset } } }
+    if (!map || map.tilesetId === this.tileset) return state
+    if (this.prev === undefined) this.prev = map.tilesetId
+    return {
+      ...state,
+      maps: { ...state.maps, [this.mapRel]: { ...map, tilesetId: this.tileset } },
+    }
   }
 
   invert(state: EditorState): EditorState {
     const map = state.maps[this.mapRel]
     if (!map || this.prev === undefined) return state
-    return { ...state, maps: { ...state.maps, [this.mapRel]: { ...map, tileset: this.prev } } }
-  }
-}
-
-/**
- * 标注瓦片遮挡格高(W7 高度补全):tilesets[id].tiles[tileIdx].height。
- * height undefined = 清除标注(渲染回缺省 1);0 = 纯地面不遮挡。单位 = 半格 8px(原版同源):一格高家具 = 2,三格高墙的墙顶 = 6。
- * tiles 稀疏数组按需补齐空对象(下标 = 瓦片索引,与 RLE 帧序同源)。
- */
-export class UpdateTilesetTileHeightCommand implements Command {
-  readonly label = '标瓦片高度'
-  private prev: number | undefined
-  private captured = false
-
-  constructor(
-    private readonly tilesetId: string,
-    private readonly tileIdx: number,
-    private readonly height: number | undefined,
-  ) {}
-
-  private write(state: EditorState, height: number | undefined): EditorState {
-    const list = state.tilesets ?? []
-    const index = list.findIndex((t) => t.id === this.tilesetId)
-    if (index < 0) return state
-    const def = list[index]!
-    const tiles = [...(def.tiles ?? [])]
-    while (tiles.length <= this.tileIdx) tiles.push({})
-    tiles[this.tileIdx] = height === undefined ? {} : { height }
-    const next = [...list]
-    next[index] = { ...def, tiles }
-    return { ...state, tilesets: next }
-  }
-
-  apply(state: EditorState): EditorState {
-    if (!this.captured) {
-      this.prev = (state.tilesets ?? []).find((t) => t.id === this.tilesetId)?.tiles?.[
-        this.tileIdx
-      ]?.height
-      this.captured = true
+    return {
+      ...state,
+      maps: { ...state.maps, [this.mapRel]: { ...map, tilesetId: this.prev } },
     }
-    return this.write(state, this.height)
-  }
-
-  invert(state: EditorState): EditorState {
-    if (!this.captured) return state
-    return this.write(state, this.prev)
   }
 }
 
@@ -1736,10 +1918,10 @@ export class AddSceneCommand implements Command {
   private readonly scene: SceneDef
   private added = false
 
-  constructor(id: string, map: SceneMap, entry: SceneDef['entry']) {
+  constructor(id: string, mapId: string, entry: SceneDef['entry']) {
     this.scene = {
       id,
-      map: structuredClone(map),
+      mapId,
       entry: structuredClone(entry),
       entities: [],
     }

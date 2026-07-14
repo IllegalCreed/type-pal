@@ -13,6 +13,7 @@ import {
   type Facing,
   getScriptBody,
   type Locale,
+  type MapIndexV1,
   type MusicDef,
   type SceneDef,
   type ScriptChunkV1,
@@ -22,7 +23,7 @@ import {
   type ShopDef,
   type SpriteDef,
 } from '@type-pal/content'
-import { type AssetBase, MemoryScriptResolver, type OwnMap } from '@type-pal/reforge'
+import { type AssetBase, MemoryScriptResolver, type ProjectMapV2 } from '@type-pal/reforge'
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react'
 import {
   CreateScriptSourceCommand,
@@ -463,8 +464,9 @@ export function ScriptDrawer(props: {
   actorsById: Record<string, ActorDef>
   leaderSpriteId: string | undefined
   assetBase: AssetBase
-  /** 自有地图实时副本(键 = ownMap 路径);传给大预览渲染 own 场景。 */
-  ownMaps: Record<string, OwnMap>
+  /** 自有地图实时副本(键 = 稳定 map id);传给大预览渲染 own 场景。 */
+  projectMaps: Record<string, ProjectMapV2>
+  mapIndex: MapIndexV1
   /** tileset 注册表(W7B;转发大预览)。 */
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]
   tilesetBlobs: Record<string, ArrayBuffer>
@@ -492,7 +494,8 @@ export function ScriptDrawer(props: {
     actorsById,
     leaderSpriteId,
     assetBase,
-    ownMaps,
+    projectMaps,
+    mapIndex,
     tilesets,
     tilesetBlobs,
     session,
@@ -744,7 +747,8 @@ export function ScriptDrawer(props: {
           actorsById={actorsById}
           leaderSpriteId={leaderSpriteId}
           assetBase={assetBase}
-          ownMaps={ownMaps}
+          projectMaps={projectMaps}
+          mapIndex={mapIndex}
           tilesets={tilesets}
           tilesetBlobs={tilesetBlobs}
           locale={locale}

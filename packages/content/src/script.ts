@@ -79,7 +79,7 @@ export type Command =
   | { kind: 'unequip'; role: number; slot: number | 'all' } // 0x23 卸装(退回背包)
   | { kind: 'toggleDayNight'; ms: number } // 0x80 昼夜切换(op0==0 → 3200ms 否则 800ms)
   | { kind: 'setFollowers'; sprites: number[] } // 0x98 编外跟随者精灵号(空=清)
-  | { kind: 'setMapOverride'; scene?: string; mapNum: number } // 0x99 换底图(scene 缺=当前即时重载)
+  | { kind: 'setSceneMapOverride'; scene?: string; mapId: string } // 0x99 换图(scene 缺=当前即时重载)
   | { kind: 'halveMoney' } // 0x8F 金钱减半(酒剑仙赌局;运行时算 delta)
   // 0x6D:改场景进场剧情到指定段(原版改 wScriptOnEnter 地址;迁移器把目标链追加为该场景
   // onEnter 新段并回填下标 —— 45 站点目标全是新链,不在既有链内)。运行时写 entityStage['s:<scene>']
@@ -231,7 +231,7 @@ export interface WorldScriptState {
   followers?: number[]
   /** 场景底图覆写(原版 0x99 wMapNum 改写:键 = sceneId;0xFFFF 当前场景即时重载,
    *  其余场景下次进场生效;随存档持久 —— 麒麟洞 s230/s243 岩浆变化)。 */
-  mapOverride?: Record<string, number>
+  mapOverride?: Record<string, string>
   /** 场景传送出口覆写(原版 0x6D operand[2] wScriptOnTeleport 运行时改写:键 = sceneId;
    *  随存档持久 —— 赤鬼王血池 s059 打完赤鬼王才装 onTeleport,否则封闭无出口=死锁)。 */
   onTeleport?: Record<string, ScriptStage[] | ScriptRef>

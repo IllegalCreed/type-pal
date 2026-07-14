@@ -341,8 +341,8 @@
         "ms": 1000
       },
       {
-        "kind": "setMapOverride",
-        "mapNum": 164
+        "kind": "setSceneMapOverride",
+        "mapId": "map-164"
       },
       {
         "kind": "playSound",

@@ -274,7 +274,8 @@ export function DataMode(props: {
         sprites={sprites}
         actors={actors}
         assetBase={assetBase}
-        ownMaps={state.maps}
+        projectMaps={state.maps}
+        mapIndex={state.mapIndex}
         tilesets={tilesets}
         tilesetBlobs={tilesetBlobs}
         projectId={manifest.id}

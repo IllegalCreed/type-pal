@@ -7,8 +7,14 @@
  *
  * 纯 TS + 无 React → 重度单测。见 docs/phase2/editor/editor-design.md §4。
  */
-import type { ContentBundle, LoadedManifest, ScriptChunkV1, ScriptIndexV1 } from '@type-pal/content'
-import type { OwnMap } from '@type-pal/reforge'
+import type {
+  ContentBundle,
+  LoadedManifest,
+  MapIndexV1,
+  ScriptChunkV1,
+  ScriptIndexV1,
+} from '@type-pal/content'
+import type { ProjectMapV2 } from '@type-pal/reforge'
 import type { Command } from './commands.js'
 
 export type { Command } from './commands.js'
@@ -19,10 +25,12 @@ export { MoveEntityCommand } from './commands.js'
 export interface EditorState extends ContentBundle {
   manifest: LoadedManifest
   /**
-   * 自有地图(W7D)工作副本:键 = 工程内相对路径(scene.map.ownMap 指向它)→ OwnMap v1。
-   * 编辑器画布渲染读此实时态(非磁盘,创建后未存磁盘上没有);保存序列化成 content/maps/<id>.json。
+   * 自有地图工作副本:键 = map asset 稳定 id。文件路径只从 mapIndex 解析。
+   * 编辑器画布读取此实时态；保存时按 MapAssetDefV1.path 序列化。
    */
-  maps: Record<string, OwnMap>
+  maps: Record<string, ProjectMapV2>
+  /** 地图资产发现真值；包含零场景引用地图。 */
+  mapIndex: MapIndexV1
   /**
    * 上传 tileset 的 .rle 字节暂存(W7B):键 = 资产相对路径(assets/tilesets/<id>.rle)。
    * 保存时并进文件集(ArrayBuffer → FSA Blob);已在磁盘的旧资产不回读,只存新上传。
@@ -33,6 +41,19 @@ export interface EditorState extends ContentBundle {
   scriptChunks: Record<string, ScriptChunkV1>
 }
 
+export type MapDocumentStatus =
+  | { state: 'unloaded' }
+  | { state: 'loading' }
+  | { state: 'ready'; dirty: boolean }
+  | { state: 'error'; message: string }
+
+export interface EditSessionOptions {
+  /** 按稳定 id 读一张 ProjectMapV2；缺省时只能编辑已注入/新建地图。 */
+  loadMap?: (mapId: string) => Promise<ProjectMapV2>
+  /** 仅淘汰从未编辑的干净文档；脏地图和撤销链触及地图永不静默丢弃。 */
+  maxLoadedMaps?: number
+}
+
 /** 编辑会话:不可变工作副本 + undo/redo 栈 + 订阅 + 脏标记。 */
 export class EditSession {
   private state: EditorState
@@ -40,13 +61,25 @@ export class EditSession {
   private future: Command[] = []
   /** 有未保存改动(自上次 markSaved 后 dispatch/undo/redo 过)。保存按钮据此亮 ●。 */
   private dirty = false
+  private readonly dirtyMapIds = new Set<string>()
+  private readonly pinnedMapIds = new Set<string>()
+  private readonly loadMap?: (mapId: string) => Promise<ProjectMapV2>
+  private readonly maxLoadedMaps: number
+  private readonly mapLoads = new Map<string, Promise<ProjectMapV2>>()
+  private readonly mapErrors = new Map<string, string>()
+  private mapLru: string[]
+  private persistedMapPaths: Set<string>
   /** 每次 notify 自增。useSyncExternalStore 的 snapshot 用它 —— 因为 markSaved/undo 等
    *  「非内容态」变化不改 state 引用,单靠 getState 当 snapshot 会漏掉这些变化不重渲染。 */
   private version = 0
   private readonly listeners = new Set<() => void>()
 
-  constructor(initial: EditorState) {
+  constructor(initial: EditorState, options: EditSessionOptions = {}) {
     this.state = initial
+    this.loadMap = options.loadMap
+    this.maxLoadedMaps = Math.max(1, options.maxLoadedMaps ?? 12)
+    this.mapLru = Object.keys(initial.maps)
+    this.persistedMapPaths = new Set(initial.mapIndex.maps.map((asset) => asset.path))
   }
 
   /** 当前状态(返回引用;调用方不得 mutate —— 要改发 Command)。 */
@@ -62,12 +95,16 @@ export class EditSession {
   /** 标记已保存:清脏标记并通知(保存按钮 ● 要刷新成已保存态)。 */
   markSaved(): void {
     this.dirty = false
+    this.dirtyMapIds.clear()
+    this.persistedMapPaths = new Set(this.state.mapIndex.maps.map((asset) => asset.path))
     this.notify()
   }
 
   /** 派发命令:apply → 入 past → 清 future → 置脏 → 通知。 */
   dispatch(cmd: Command): void {
+    const previous = this.state
     this.state = cmd.apply(this.state)
+    this.trackMapChanges(previous, this.state)
     this.past.push(cmd)
     this.future = []
     this.dirty = true
@@ -78,7 +115,9 @@ export class EditSession {
   undo(): void {
     const cmd = this.past.pop()
     if (!cmd) return
+    const previous = this.state
     this.state = cmd.invert(this.state)
+    this.trackMapChanges(previous, this.state)
     this.future.push(cmd)
     this.dirty = true
     this.notify()
@@ -88,7 +127,9 @@ export class EditSession {
   redo(): void {
     const cmd = this.future.pop()
     if (!cmd) return
+    const previous = this.state
     this.state = cmd.apply(this.state)
+    this.trackMapChanges(previous, this.state)
     this.past.push(cmd)
     this.dirty = true
     this.notify()
@@ -105,6 +146,85 @@ export class EditSession {
 
   canRedo(): boolean {
     return this.future.length > 0
+  }
+
+  getMapDocumentStatus(mapId: string): MapDocumentStatus {
+    if (this.state.maps[mapId]) return { state: 'ready', dirty: this.dirtyMapIds.has(mapId) }
+    const error = this.mapErrors.get(mapId)
+    if (error) return { state: 'error', message: error }
+    return this.mapLoads.has(mapId) ? { state: 'loading' } : { state: 'unloaded' }
+  }
+
+  /** 按需 hydrate 不是作者操作：不入 undo、不置脏，并去重并发读。 */
+  async ensureMapLoaded(mapId: string): Promise<ProjectMapV2> {
+    const ready = this.state.maps[mapId]
+    if (ready) {
+      this.touchMap(mapId)
+      return ready
+    }
+    const pending = this.mapLoads.get(mapId)
+    if (pending) return pending
+    if (!this.state.mapIndex.maps.some((asset) => asset.id === mapId))
+      throw new Error(`地图 "${mapId}" 不在 map index`)
+    if (!this.loadMap) throw new Error(`未配置地图加载器，无法打开 "${mapId}"`)
+
+    this.mapErrors.delete(mapId)
+    const promise = this.loadMap(mapId)
+      .then((map) => {
+        if (this.state.mapIndex.maps.some((asset) => asset.id === mapId)) {
+          this.state = { ...this.state, maps: { ...this.state.maps, [mapId]: map } }
+          this.touchMap(mapId)
+          this.evictCleanMaps(mapId)
+        }
+        this.mapLoads.delete(mapId)
+        this.notify()
+        return map
+      })
+      .catch((error: unknown) => {
+        this.mapLoads.delete(mapId)
+        const message = error instanceof Error ? error.message : String(error)
+        this.mapErrors.set(mapId, message)
+        this.notify()
+        throw error
+      })
+    this.mapLoads.set(mapId, promise)
+    this.notify()
+    return promise
+  }
+
+  /** 原目录中曾存在、但当前索引已删除的 map 文件；首次增量保存也能精确删除。 */
+  getDeletedMapPaths(): string[] {
+    const current = new Set(this.state.mapIndex.maps.map((asset) => asset.path))
+    return [...this.persistedMapPaths].filter((path) => !current.has(path))
+  }
+
+  private trackMapChanges(before: EditorState, after: EditorState): void {
+    const ids = new Set([...Object.keys(before.maps), ...Object.keys(after.maps)])
+    for (const id of ids) {
+      if (before.maps[id] === after.maps[id]) continue
+      this.dirtyMapIds.add(id)
+      this.pinnedMapIds.add(id)
+      this.touchMap(id)
+    }
+  }
+
+  private touchMap(mapId: string): void {
+    this.mapLru = [...this.mapLru.filter((id) => id !== mapId), mapId]
+  }
+
+  private evictCleanMaps(protectedId: string): void {
+    let loaded = Object.keys(this.state.maps).length
+    if (loaded <= this.maxLoadedMaps) return
+    const maps = { ...this.state.maps }
+    for (const id of this.mapLru) {
+      if (loaded <= this.maxLoadedMaps) break
+      if (id === protectedId || this.pinnedMapIds.has(id) || this.dirtyMapIds.has(id)) continue
+      if (!maps[id]) continue
+      delete maps[id]
+      loaded--
+    }
+    this.mapLru = this.mapLru.filter((id) => maps[id] !== undefined)
+    this.state = { ...this.state, maps }
   }
 
   /** 订阅状态变化(React 用 useSyncExternalStore);返回退订。 */

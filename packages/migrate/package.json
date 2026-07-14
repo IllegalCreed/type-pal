@@ -7,6 +7,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
     "check": "pnpm typecheck && pnpm test",
+    "audit:maps": "tsx scripts/audit-project-maps.mts",
     "bake": "tsx scripts/bake-assets.mts",
     "migrate:content": "tsx scripts/migrate-content.mts"
   },

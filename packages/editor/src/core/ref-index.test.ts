@@ -5,10 +5,9 @@ import { buildRefIndex } from './ref-index.js'
 /** 最小场景 fixture(只填索引关心的字段)。 */
 function scene(partial: Partial<SceneDef> & { id: string }): SceneDef {
   return {
-    map: { reuseOriginalMap: 0 },
+    mapId: 'map-test',
     entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
     entities: [],
-    dialogues: [],
     ...partial,
   } as SceneDef
 }

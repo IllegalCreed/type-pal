@@ -1,4 +1,4 @@
-import type { EnemyDef, SceneDef } from '@type-pal/content'
+import type { EnemyDef, MapIndexV1, SceneDef, TilesetDef } from '@type-pal/content'
 import type { MigrateSources, SourceCmd, SourceScene } from './migrate-content.js'
 import { mapScenesStatic, migrateAll } from './migrate-content.js'
 import {
@@ -15,6 +15,12 @@ import {
   type SourceObjectPoison,
   type SourceStore,
 } from './pal-derived-content.js'
+import {
+  auditAndConvertSourceMaps,
+  type ProjectMapAuditReport,
+  type SourceMapAuditEntry,
+} from './project-map-audit.js'
+import { mapIdFromSourceNumber, tilesetIdFromSourceNumber } from './project-map-converter.js'
 import { makeGlobalScriptRoots } from './script-graph.js'
 import { assertScriptLibraryAudit, auditScriptLibrary } from './script-library-audit.js'
 import { normalizeScriptLibrary } from './script-library-normalize.js'
@@ -35,6 +41,7 @@ export interface PalMigrationSources {
   allJsonPrettyBytes: number
   scenes: SourceScene[]
   eventsByScene: ReadonlyMap<number, readonly SourceCmd[]>
+  tilemaps: SourceMapAuditEntry[]
   objectPlayers: Array<{ scriptOnFriendDeath: number; scriptOnDying: number }>
   musicMidi: number[]
   battleFields: MigrationJson[]
@@ -54,6 +61,7 @@ export interface MigrationFileSet {
     graph: ReturnType<typeof mapScenesStatic>['scriptGraphReport']
     audit: ReturnType<typeof auditScriptLibrary>
     bossOverlay: { attached: number; clearedEnemies: string[] }
+    maps: ProjectMapAuditReport
   }
 }
 
@@ -75,6 +83,7 @@ function enemyCommandRoots(enemies: readonly EnemyDef[]) {
 
 /** data/extracted 的内存快照 -> 完整纯迁移文件集；严禁接收或读取 projects/pal。 */
 export function buildPalMigration(sources: PalMigrationSources): MigrationFileSet {
+  const convertedMaps = auditAndConvertSourceMaps(sources.tilemaps)
   const migrated = migrateAll(sources.migrate)
   const items = applyPalItemOverlays(migrated.items)
   const skills = {
@@ -141,6 +150,32 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
   put('content/battle-fields.json', structuredClone(sources.battleFields))
   put('content/poisons.json', migratePalPoisons(sources.objectPoisons))
   put('content/shops.json', migratePalShops(sources.stores))
+  const mapIndex: MapIndexV1 = {
+    version: 1,
+    maps: sources.tilemaps.map(({ mapNum }) => ({
+      id: mapIdFromSourceNumber(mapNum),
+      name: `PAL 地图 ${mapNum}`,
+      path: `content/maps/${mapIdFromSourceNumber(mapNum)}.json`,
+    })),
+  }
+  const tilesets: TilesetDef[] = sources.tilemaps.map(({ mapNum, source }) => {
+    const expectedPath = `tileset/${mapNum}.rle`
+    if (source.tileset !== expectedPath)
+      throw new Error(`map ${mapNum}: tileset 路径期望 ${expectedPath}，收到 ${source.tileset}`)
+    return {
+      id: tilesetIdFromSourceNumber(mapNum),
+      name: `PAL 瓦片集 ${mapNum}`,
+      category: 'builtin',
+      path: source.tileset,
+    }
+  })
+  put('content/maps/index.json', mapIndex)
+  for (const { mapNum } of sources.tilemaps) {
+    const map = convertedMaps.maps.get(mapNum)
+    if (!map) throw new Error(`地图转换结果缺 map ${mapNum}`)
+    put(`content/maps/${mapIdFromSourceNumber(mapNum)}.json`, map)
+  }
+  put('content/tilesets.json', tilesets)
   put(
     'content/scenes/index.json',
     sceneOutput.scenes.map((scene) => scene.id),
@@ -173,6 +208,7 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
       graph: sceneOutput.scriptGraphReport,
       audit,
       bossOverlay: { attached: boss.attached, clearedEnemies: boss.clearedEnemies },
+      maps: convertedMaps.report,
     },
   }
 }

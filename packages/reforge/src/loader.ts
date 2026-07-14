@@ -16,8 +16,9 @@ import type {
   LevelUpSkill,
   LoadedManifest,
   Locale,
-  OwnMap,
+  MapIndexV1,
   PoisonDef,
+  ProjectMapV2,
   SceneDef,
   ScriptChunkV1,
   ScriptIndexV1,
@@ -28,17 +29,18 @@ import type {
 } from '@type-pal/content'
 import {
   checkScriptIndex,
-  isReuseMap,
+  mapAssetById,
   validateActors,
   validateItems,
   validateLocale,
-  validateScenes,
+  validateMapIndex,
+  validateScenesForContentVersion,
   validateSkills,
   validateSprites,
   validateTilesets,
 } from '@type-pal/content'
 import type { AssetBase } from './assets.js'
-import { loadOwnMap } from './assets.js'
+import { loadProjectMap } from './assets.js'
 import { type FileSource, httpSource } from './file-source.js'
 import { ScriptChunkStore } from './script-chunk-store.js'
 
@@ -51,6 +53,8 @@ export interface LoadedProjectCore {
   sceneIds: string[]
   /** 入口场景(已载入;其余场景 loadSceneDef 按需)。 */
   entryScene: SceneDef
+  /** 地图库元数据；运行时只加载此索引，不预载地图正文。 */
+  mapIndex: MapIndexV1
   actorsById: Record<string, ActorDef>
   skills: SkillDataMap
   levelUp: Record<string, LevelUpSkill[]>
@@ -73,7 +77,7 @@ export interface LoadedProjectCore {
   ambiences: AmbienceDef[]
   /** 店铺表(openShop 货单;缺 = 空 → openShop 报店不存在)。 */
   shops: ShopDef[]
-  /** tileset 注册表(W7B;缺 manifest 声明 = 空数组,原版借用走路径直通)。 */
+  /** tileset 注册表；地图只按稳定 id 引用。 */
   tilesets: TilesetDef[]
   /** 工程资源根 + 子目录(assets.ts load* 用;来自 manifest.assets)。 */
   assetBase: AssetBase
@@ -112,6 +116,8 @@ export interface ContentJsons {
   shops?: unknown
   /** tileset 注册表(可选,W7B;缺 → 空)。 */
   tilesets?: unknown
+  /** 必需地图索引。 */
+  maps: unknown
   scripts?: unknown
 }
 
@@ -128,10 +134,29 @@ function validateSceneIds(json: unknown): string[] {
   return json as string[]
 }
 
+function normalizeLoadedScene(
+  manifest: LoadedManifest,
+  json: unknown,
+  mapIndex: MapIndexV1,
+): SceneDef {
+  const [input] = validateScenesForContentVersion([json], manifest.contentVersion)
+  if (!input) throw new Error(`工程 "${manifest.id}": 场景为空`)
+  const scene = input
+  if (!mapAssetById(mapIndex, scene.mapId))
+    throw new Error(
+      `场景 "${scene.id}": mapId "${scene.mapId}" 不在 ${manifest.content.maps ?? 'map index'}`,
+    )
+  return scene
+}
+
 /** 纯组装核:manifest + content JSON → guard → LoadedProject。无 IO,可单测。 */
 export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): LoadedProjectCore {
   const sceneIds = validateSceneIds(jsons.sceneIds)
-  const [entryScene] = validateScenes([jsons.entryScene])
+  if (manifest.contentVersion !== 2)
+    throw new Error(`工程 "${manifest.id}": 仅支持 contentVersion 2，请先迁移`)
+  if (!manifest.content.maps) throw new Error(`工程 "${manifest.id}": manifest 缺地图索引路径`)
+  const mapIndex = validateMapIndex(jsons.maps)
+  const entryScene = normalizeLoadedScene(manifest, jsons.entryScene, mapIndex)
   const actors = validateActors(jsons.actors)
   const { skills, levelUp } = validateSkills(jsons.skills)
   const items = validateItems(jsons.items)
@@ -143,7 +168,8 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
   const battleFields = Array.isArray(jsons.battleFields)
     ? (jsons.battleFields as BattleFieldDef[])
     : []
-  const tilesets = jsons.tilesets ? validateTilesets(jsons.tilesets) : []
+  if (!jsons.tilesets) throw new Error(`工程 "${manifest.id}": manifest 缺 tilesets 注册表`)
+  const tilesets = validateTilesets(jsons.tilesets)
   const poisonList = Array.isArray(jsons.poisons) ? (jsons.poisons as PoisonDef[]) : []
   const poisonsById: Record<number, PoisonDef> = {}
   for (const p of poisonList) poisonsById[p.id] = p
@@ -172,6 +198,7 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
     projectRoot: `projects/${manifest.id}`,
     sceneIds,
     entryScene,
+    mapIndex,
     actorsById: indexById(actors),
     skills: indexById(skills),
     levelUp: levelUp as Record<string, LevelUpSkill[]>,
@@ -196,7 +223,6 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
       const root = a.root
       return {
         root,
-        maps: a.maps,
         tilesets: a.tilesets,
         sprites: a.sprites,
         palettes: a.palettes,
@@ -244,6 +270,7 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
     ambiences,
     shops,
     tilesets,
+    mapIndexJson,
     scripts,
   ] = await Promise.all([
     source.readJson(content.actors as string),
@@ -260,6 +287,7 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
     content.ambiences ? source.readJson(content.ambiences) : Promise.resolve(undefined),
     content.shops ? source.readJson(content.shops) : Promise.resolve(undefined),
     content.tilesets ? source.readJson(content.tilesets) : Promise.resolve(undefined),
+    content.maps ? source.readJson(content.maps) : Promise.resolve(undefined),
     scriptDir ? source.readJson(`${scriptDir}index.json`) : Promise.resolve(undefined),
   ])
   const core = assembleProject(manifest, {
@@ -277,6 +305,7 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
     ambiences,
     shops,
     tilesets,
+    maps: mapIndexJson,
     scripts,
   })
   // source 注入 assetBase(P2:素材加载经它;assembleProject 纯核不碰 IO,故在壳注入)
@@ -298,7 +327,7 @@ export async function loadProject(projectId: string): Promise<LoadedProject> {
 /** 按需载单场景(引擎 switchScene / 编辑器切场景用)。 */
 export async function loadSceneDef(project: LoadedProject, sceneId: string): Promise<SceneDef> {
   const json = await project.source.readJson(`${scenesDir(project.manifest)}${sceneId}.json`)
-  const [scene] = validateScenes([json])
+  const scene = normalizeLoadedScene(project.manifest, json, project.mapIndex)
   if (!scene || scene.id !== sceneId)
     throw new Error(`loadSceneDef: 场景文件 id 不符(期望 "${sceneId}",得 "${scene?.id ?? '(空)'}")`)
   return scene
@@ -306,7 +335,9 @@ export async function loadSceneDef(project: LoadedProject, sceneId: string): Pro
 
 /** 编辑器全量路径:按 index 顺序拉全部场景。 */
 export async function loadAllScenes(project: LoadedProject): Promise<SceneDef[]> {
-  return Promise.all(project.sceneIds.map((id) => loadSceneDef(project, id)))
+  const scenes: SceneDef[] = []
+  for (const id of project.sceneIds) scenes.push(await loadSceneDef(project, id))
+  return scenes
 }
 
 /** 编辑器 round-trip 路径：显式读取全部 chunk；游戏运行时绝不调用。 */
@@ -333,20 +364,28 @@ export async function loadAllScriptChunks(
 }
 
 /**
- * 编辑器:载入所有 own 场景引用的自有地图(content/maps/<id>.json)。
- * 键 = scene.map.ownMap(工程内相对路径)→ OwnMap v1,供编辑器实时渲染 + round-trip
- * (own 场景引用即索引,无需单独 maps 索引)。复用原版地图的场景跳过。pal 无 own 场景 → {}。
+ * 显式全量载入 map index 中的所有地图，包括零场景引用资产。
+ * 键 = 稳定 map id；运行时不会调用此函数，仍按场景懒加载。
  */
-export async function loadAllOwnMaps(
+export async function loadAllProjectMaps(
   project: LoadedProject,
-  scenes: SceneDef[],
-): Promise<Record<string, OwnMap>> {
-  const out: Record<string, OwnMap> = {}
+  _scenes: SceneDef[] = [],
+): Promise<Record<string, ProjectMapV2>> {
+  const out: Record<string, ProjectMapV2> = {}
   await Promise.all(
-    scenes.map(async (s) => {
-      if (isReuseMap(s.map)) return
-      out[s.map.ownMap] = await loadOwnMap(project.assetBase, s.map.ownMap)
+    project.mapIndex.maps.map(async (asset) => {
+      out[asset.id] = await loadProjectMap(project.assetBase, asset.path)
     }),
   )
   return out
+}
+
+/** 按稳定 id 懒加载一张地图。 */
+export async function loadProjectMapById(
+  project: LoadedProject,
+  mapId: string,
+): Promise<ProjectMapV2> {
+  const asset = mapAssetById(project.mapIndex, mapId)
+  if (!asset) throw new Error(`loadProjectMapById: mapId "${mapId}" 不在 map index`)
+  return loadProjectMap(project.assetBase, asset.path)
 }

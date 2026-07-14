@@ -1,8 +1,6 @@
 {
   "id": "start",
-  "map": {
-    "ownMap": "content/maps/start.json"
-  },
+  "mapId": "start",
   "entry": {
     "pos": {
       "col": 16,

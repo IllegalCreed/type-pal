@@ -169,7 +169,7 @@ test('legacy 对象族:0x9A 批量状态/0x13 定位/0x6F 条件同步/0x23 卸�
       un(0x7e, [60, 3, 0]), // 实体图层:e59 → 层 3
       un(0x7e, [0xffff, 0xffdf, 0]), // 自指 e50 → 层 int16(−33)
       un(0x98, [82, 83, 0]), // 编外跟随者:精灵 chunk 82/83 直用(s102 书生)
-      un(0x99, [231, 164, 0]), // 换底图:场景 231(1-based)→ s230 override mapNum 164
+      { kind: 'setSceneMapOverride', scene: 's230', mapId: 'map-164' },
       un(0x98, [0, 0, 0]), // 清跟随者
     ],
     [],
@@ -179,7 +179,7 @@ test('legacy 对象族:0x9A 批量状态/0x13 定位/0x6F 条件同步/0x23 卸�
   expect(world.vars['sys:waveProgression']).toBe(-4)
   expect(world.entityLayer).toEqual({ e59: 3, e50: -33 })
   expect(world.followers).toBeUndefined() // 设 82/83 后被清
-  expect(world.mapOverride).toEqual({ s230: 164 })
+  expect(world.mapOverride).toEqual({ s230: 'map-164' })
   expect(calls).toEqual([
     'setEntityState("e4",2)', // 0x9A 宿主重放通知(main 侧整场 applyWorldToScene)
     'setEntityPos("e9",{"col":4,"row":0})',
@@ -190,6 +190,15 @@ test('legacy 对象族:0x9A 批量状态/0x13 定位/0x6F 条件同步/0x23 卸�
     'giveMoney(-25)',
     'playMusic(67)',
   ])
+})
+
+test('旧 0x99 数字地图编号不得在运行时解释', async () => {
+  const calls: string[] = []
+  const world = emptyWorldScriptState()
+  const r = new ScriptRunner(fakeHost(calls), world, new AbortController().signal)
+  await r.run([{ kind: 'unmigrated', opcode: 0x99, operands: [231, 164, 0] }])
+  expect(world.mapOverride).toBeUndefined()
+  expect(calls).toContain('report("op 0x99 未迁移：必须转换为 setSceneMapOverride(mapId)")')
 })
 
 test('顺序执行 + 世界状态写入(flags/vars/entityState 双写)', async () => {

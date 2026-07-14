@@ -2,6 +2,7 @@
 // 只查「数组/对象 + 必需键在 + id 是 string」,不齐就 throw 具体错误。
 // 编辑器产大量手改 JSON 时再上 zod(局部替换这些函数,签名不变)。
 import type { ActorDef, ItemData, SceneDef, SkillData, SpriteDef } from './index.js'
+import { isMapAssetId } from './map-index.js'
 import { checkEntityPages, checkStages } from './script.js'
 
 /** 显式要求的对象键;缺任一 throw。 */
@@ -21,12 +22,14 @@ function assertObject(x: unknown, ctx: string): object {
   return x as object
 }
 
-export function validateScenes(json: unknown): SceneDef[] {
+function validateSceneArray(json: unknown): SceneDef[] {
   const arr = assertArray<SceneDef>(json, 'scenes')
   arr.forEach((s, i) => {
     const o = assertObject(s, `scenes[${i}]`)
-    requireKeys(o, ['id', 'map', 'entry', 'entities'], `scenes[${i}]`)
+    requireKeys(o, ['id', 'mapId', 'entry', 'entities'], `scenes[${i}]`)
     if (typeof (s as { id: unknown }).id !== 'string') throw new Error(`scenes[${i}]: id 非string`)
+    if (!isMapAssetId((s as { mapId: unknown }).mapId))
+      throw new Error(`scenes[${i}].mapId: 期望合法稳定地图 id`)
     // (paletteId 字段已退役 W7a-3:只留盘 0,校验一并去)
     // 实体引用:actor ⊕ sprite 恰一(C0;都有/都无 → 数据错)。
     const ents = (s as { entities: unknown }).entities
@@ -46,6 +49,17 @@ export function validateScenes(json: unknown): SceneDef[] {
       checkStages((o as { onEnter: unknown }).onEnter, `scenes[${i}].onEnter`)
   })
   return arr
+}
+
+export function validateScenes(json: unknown): SceneDef[] {
+  return validateSceneArray(json)
+}
+
+/** 运行时/编辑器只接受 contentVersion 2；旧工程必须先在迁移边界升级。 */
+export function validateScenesForContentVersion(json: unknown, contentVersion: number): SceneDef[] {
+  if (contentVersion !== 2)
+    throw new Error(`scenes: 仅支持 contentVersion 2，收到 ${contentVersion}；请先迁移工程`)
+  return validateSceneArray(json)
 }
 
 /** 角色定义形状校验:id/name/spriteId 必为 string;battler 若在,查三块必需键。 */
