@@ -109,7 +109,7 @@ Branch: current
 ### 进入 build 前:设计签字
 
 - Codex: **agree（2026-07-14）**。当前 66 项已逐类核对；17 个“目标缺失”是地址索引缺陷，必须先修迁移器。
-- Opus: pending
+- Opus: **agree（2026-07-14,附 R1-R3 必改 + S1 建议;含本人 M3 期结论的公开修正）**。独立重验:43,503 全局命令、4,123 显式 label 且 **L_n===下标 n 零例外**(全量断言),15 个唯一缺失地址逐一为有效命令(0x5/end/setDialogStyleBottom 类收尾点,仅无显式 label)——**我 M3 期"源数据悬空指针"结论确证错误**,根因是只验了 label 存在性、未验地址有效性;Codex 的根因定位(labelAt 只登记显式 label)与修法(全地址索引+一致性断言)正确。0x6D 一阶段真值(event-system:4987-5005 both-zero 双清)与 tri-state 契约同构;s059=[60,0,11870]/s172=[183,0,0] 产物复核一致;runLegacyOp 注释自认"运行时兼容层…0x6D/0x78 留 batch2",第二解释器删除有据。统一 sceneScriptOverrides 裁定采纳(优于双散槽:单一归一化路径/单一三态契约/both-zero 一命令双槽);JSON null 作 tombstone 序列化安全,undefined 禁用正确。详见主审立场。
 - GLM: pending
 - counter / 分歧处理: 无；等待 Opus 审架构与 0x6D 状态表达，GLM 审覆盖矩阵与迁移门禁。
 - 缺签豁免: N/A
@@ -187,14 +187,25 @@ Branch: current
 ### 主审立场
 
 - Reviewer: Opus
-- 结论: pending
-- 必改项: 待审 `0x6D` tri-state 存储/旧存档归一化、地址索引边界、删除第二解释器的顺序。
-- 是否建议进入 build: pending
+- 结论: **agree(2026-07-14)**。六点:
+  1. **A 层清洁化** — MigrationGap 诊断与 content schema 分离、可达 gap 写盘前失败、报告四分类(信息/已证 no-op/已解决/阻塞),正确;与铁律 10"不靠运行时兜底冒充迁移完成"一致。
+  2. **B 全地址索引** — 独立验证 L_n===n 全量断言成立(4,123/43,503 零错位),索引修法正确;"只限全局流、场景局部下标不得冒充全局地址"边界清晰;17 个占位翻译后目标全是收尾类命令(0x5/end/样式),体积影响可忽略,入口对话态键控(M3-R2)自然覆盖新注册项。
+  3. **C 0x6D tri-state** — 与一阶段真值同构(0 哨兵 → 干净 null tombstone);**裁定采纳统一 `sceneScriptOverrides`**,优于双散槽:单一存档归一化路径、单一三态契约、both-zero 一条命令置双槽禁用。JSON null 序列化安全;禁 undefined 表清空正确(JSON.stringify 丢 undefined)。
+  4. **D 0x78/0xA0** — 一阶段+sdlpal 双真值已钉,直接。
+  5. **E 删除顺序** — 重生成→静态归零→删 runLegacyOp→加载拒绝,顺序正确;孤立 host API 按调用图分离后删。
+  6. **验证矩阵** — s059(赤鬼王后传送出口)/s172(清空不回退)/s281(结局回标题)三代表 + 开场冒烟,已写明**前台标签**运行(方法学教训已吸收)。
+- 必改项(设计补明,非架构 counter):
+  - **R1 旧存档归一化规格写全**:现存 `world.onTeleport`(N6 期形态)逐字段映射进新 `sceneScriptOverrides`;未知/异型 fail-loud(援引 W7F save/ops.ts:65-72 数字 mapOverride 先例);补"禁用态(null)经存档往返仍为 null、不回退静态脚本"专测。
+  - **R2 统一槽范围钉死**:`sceneScriptOverrides` 只收 onEnter/onTeleport 两个脚本槽,**不吞并 W7F 刚定的 `mapOverride`**(独立契约,避免二次搬迁与存档双改)。
+  - **R3 拒绝旧节点的错误导向**:content 校验层对 `kind==='unmigrated'` 特判错误文案("旧工程产物,请用迁移器重新生成"),editor 与 runtime 共用;默认"未知 kind"报错不足以导向重迁。
+- 建议(非必改):
+  - **S1**:17 个占位修复后,在迁移报告中把这 15 个地址的翻译结果(目标命令种类)列表归档,作为"审计结论也要可复核"的案例记录——含本人 M3 期误判的教训:审 unmigrated 时"目标缺失"类必须验地址有效性,不能只验 label 集合。
+- 是否建议进入 build: **待 Codex 落 R1-R3 + GLM 覆盖复核后 build**。
 
 ### 三方争议记录(按需)
 
 - Codex: 赞成内容层零 `unmigrated`、迁移期 fail-loud；推荐统一 tri-state 场景脚本覆写状态。
-- Opus: pending
+- Opus: 全面同意,统一 sceneScriptOverrides 采纳(R2 钉范围防吞 mapOverride)。**公开修正**:M3 期我把 17 个目标缺失签为"源数据悬空指针"是错误结论(只验 label 存在、未验地址有效),本卡地址索引方案是对该错误的根治;占位 opcode-0 进产物的责任链含我的审计放行。
 - GLM: pending
 - 用户拍板: 用户要求按推荐顺序推进；本卡三签齐前不实现。
 
@@ -241,17 +252,18 @@ Branch: current
 
 - 2026-07-14 Codex: 完成现状复核并建立 R2 设计。证据：PAL 产物 66 项递归统计；`all.json` 43,503
   条命令/4,123 显式 label 全量下标断言；15 个唯一缺失地址逐项读取均为有效命令。Next: Opus 设计主审，禁止实现。
+- 2026-07-14 Opus: 设计主审签 **agree + R1-R3 必改 + S1 建议**。独立重验:L_n===下标 n 全量断言零例外;15 个缺失地址逐一有效(0x5/end/样式类收尾点)——**公开修正本人 M3 期"源悬空"错误结论**(只验 label 存在性之误)。0x6D 真值同构/产物双站点复核一致/runLegacyOp 兼容层自认。裁定:统一 sceneScriptOverrides 采纳。R1=旧存档归一化规格+null 往返专测;R2=统一槽不吞 W7F mapOverride;R3=旧节点拒绝文案特判导向重迁。Evidence: 主审立场六点+重验脚本输出。Next: GLM 覆盖复核(66 项分类矩阵/四形态测试/静态扫描口径);三签齐后 Codex 按分期 1-5 build。未改实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: R2 事件脚本单一模型与 unmigrated 退役的设计主审
+接手任务: R2 事件脚本单一模型与 unmigrated 退役,设计复核(GLM)
 任务卡: docs/ops/tasks/R2-script-single-model.md
-当前状态: draft；Codex 已签 agree，Opus/GLM 未签，build 准入 blocked
-你的角色: Claude Opus，架构与实现可行性主审
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、任务卡全部上下文锚点；重点核对 packages/migrate/src/migrate-content.ts:1401-1409、packages/migrate/src/translate-events.ts:138-161,1161-1188、packages/content/src/script.ts:149-181,215-237、packages/reforge/src/script-runner.ts:620-634、packages/game/src/core/event-system.ts:4987-5005
-已完成: Codex 已确认当前产物 66 项；17 个“目标缺失”实际指向 all.json.commands[n] 有效命令，旧“源悬空”结论错误；已提出地址全索引、迁移期 fail-loud、0x6D tri-state 场景脚本覆写和删除 runLegacyOp 的方案
-请你做: 审核实现可行性、0x6D 继承/覆写/禁用三态及旧存档归一化、全地址索引边界、删除第二解释器顺序、代表剧情验证；在任务卡写主审结论并把 Opus 设计签字改为 agree，或写 counter + 可落地替代方案；提交仅文档改动后交 GLM 覆盖复核
-不要做: 不得修改实现文件，不得开始迁移/重生成，不得把任务转 build
-输出要求: 明确 agree 或 counter、必改项、证据、提交 hash，并给出可直接复制给 GLM 的下一位 Agent 提示词
+当前状态: draft;Codex agree + Opus agree(附 R1-R3 必改/S1 建议,含 Opus 对自身 M3 期"源悬空"结论的公开修正),GLM pending,build blocked
+你的角色: GLM,覆盖矩阵/迁移门禁/测试矩阵复核;只审文档,不改实现
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、任务卡全部(尤其"当前残余基线"66 项分类表与 Opus 主审立场六点)
+Opus 已验: L_n===下标 n 全量断言零例外(4,123 label/43,503 命令);15 个缺失地址逐一为有效命令(0x5/end/样式类);0x6D 一阶段真值同构+s059/s172 产物复核;runLegacyOp 兼容层自认。R1=旧存档归一化规格(援引 W7F save/ops 先例)+null 往返专测;R2=sceneScriptOverrides 只收双脚本槽不吞 mapOverride;R3=旧 unmigrated 节点拒绝文案特判。
+请你复核: (1)66 项分类矩阵完备性——46+17+2+1 四类的证据链与"最终去向"文档要求是否可验收;(2)测试矩阵——全地址索引/15 地址逐项/0x78/0x6D 四形态(op1/op2/双设/both-zero)/0xA0/未知可达失败/静态扫描(三包+产物零 unmigrated/全仓零 runLegacyOp)逐条映射验收,列缺口;(3)M3/MG2 门禁保持(43,503 覆盖/flowCuts=0/体积不放宽/双跑零计划)的回归口径;(4)R1 归一化的测试可操作性。在设计签字 GLM 行签 agree/counter,更新交接日志;三签齐+Codex 落 R1-R3 后按分期 1-5 build
+不要做: 不改实现文件;不开始迁移/重生成;不转 build
+输出要求: 明确 agree/counter、矩阵缺口清单、提交 hash
 ```
